@@ -1,0 +1,52 @@
+//colors
+@PurpleHeart: #603ccc;
+@Selago: #e5defa;
+@White: #ffffff;
+@Gray: #cccccc;
+@LightGray: #eeeeee;
+@Mako: #41434c;
+@DarkGray: #898a93;
+@LightGreyShade: #fafafa;
+@GrayShade: #a0a0a0;
+
+@Black: #000000;
+@Iron: #e4e5e6;
+
+@Alabaster: #f7f7f7;
+
+/**color by character**/
+@Required: #ee485d;
+@Profit: #20ce81;
+
+@DustyGray: #979797;
+@DustyGray2: #9b9b9b;
+@Mercury: #e6e6e6;
+@Pelorous: #33b2c1;
+@Alabaster2: #f8f8f8;
+@DoveGray: #6b6b6b;
+@Amaranth: #ed365e;
+@PersianGreen: #00abaa;
+@Alto: #dcdcdc;
+@carnation : #f14c61;
+@RobinEggBlue: #02d1cb;
+@WildSand: #f4f4f4;
+@TanHide: #f99b58;
+@RoyalBlue: #5c6bdd;
+@LinkWater: #ebedfb;
+@WhiteSmoke: #f3f3f3;
+@Snow: #fbfbfb;
+@HomePageText: #4d4d4e;
+
+// All Colors
+@colors: Mako, White, DoveGray, DustyGray2, Profit, RoyalBlue;
+
+@cmaxi: length(@colors);
+.c-loop (@c) when (@c > 0) {
+  @cl: extract(@colors, @c);
+  .cl-@{cl} {
+    color: @@cl;
+  }
+
+  .c-loop(@c - 1);
+}
+.c-loop(@cmaxi);

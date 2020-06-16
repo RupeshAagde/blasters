@@ -1,0 +1,42 @@
+@font-weight-name: light, regular, dark, darker, bold;
+@font-weight-value: 300, 400, 500, 600, 700;
+
+@size-name: xxxxs, xxxs, xxs, xs, xsp, sm, md, lg, xl, xxl, xxxl, xxxxl;
+@size-value: 10px, 12px, 13px, 14px, 15px, 16px, 18px, 20px, 22px, 24px, 26px,
+  28px;
+@size-tablet-value: 10px, 11px, 12px, 13px, 13px, 14px, 16px, 18px, 20px, 22px,
+  24px, 26px;
+@size-mobile-value : 10px, 11px, 12px, 13px, 13px, 14px, 16px, 16px, 18px, 20px, 22px, 24px;
+@maxi: length(@font-weight-name);
+//Loop starts with max value
+.i-loop (@i) when (@i > 0) {
+  @maxj: length(@size-name);
+
+  .j-loop (@j) when (@j > 0) {
+    @font-wt: extract(@font-weight-name, @i);
+    @font-wtv: extract(@font-weight-value, @i);
+    @sz: extract(@size-name, @j);
+    @szv: extract(@size-value, @j);
+    @sztv: extract(@size-tablet-value, @j);
+    @szmv: extract(@size-mobile-value, @j);
+    .@{font-wt}-@{sz} {
+      font-weight: @font-wtv;
+      font-size: @szv;
+      -webkit-font-smoothing: antialiased;
+      @media @tablet {
+        font-size: @sztv;
+      }
+      @media @mobile {
+        font-size: @szmv;
+      }
+    }
+
+    .j-loop(@j - 1);
+  }
+
+  .j-loop(@maxj);
+
+  .i-loop(@i - 1);
+}
+
+.i-loop(@maxi);

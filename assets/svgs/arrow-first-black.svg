@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <title>arrow-right-black</title>
+  <desc>Created with Sketch.</desc>
+  <g id="arrow-right-black" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" transform="matrix(-1, 0, 0, 1, 25.255308, 0)">
+    <g id="Line-+-Line-Copy-4" transform="translate(12.500000, 12.500000) rotate(90.000000) translate(-12.500000, -12.500000) translate(8.000000, 9.000000)" stroke="#41434C">
+      <path d="M0.236842105,5.70567867 L4.5,1.039012" id="Line"/>
+      <path d="M4.5,5.70567867 L8.76315789,1.039012" id="Line-Copy-4" transform="translate(6.631579, 3.372345) scale(-1, 1) translate(-6.631579, -3.372345) "/>
+      <line style="stroke-linecap: round; stroke: rgb(65, 67, 76);" x1="3.202" y1="3.367" x2="3.282" y2="-5.633" transform="matrix(0, 1, -1, 0, 3.323487, -3.160513)" bx:origin="0.5 0.634943"/>
+    </g>
+  </g>
+</svg>

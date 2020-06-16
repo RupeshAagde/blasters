@@ -1,0 +1,40 @@
+@import './less/media.less';
+@import './less/z-index.less';
+@import './less/color.less';
+
+@BorderRadius: 3px;
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-select-none {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.font-size(@pxValue) {
+  font-size: ~'@{pxValue}px';
+}
+
+.bombshell-scrollbar {
+  /* scrollbar */
+  &::-webkit-scrollbar {
+    width: 5px;
+    background-color: @White;
+  }
+  /* Track */
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+    background-color: @White;
+  }
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2.5px;
+    background-color: @DoveGray;
+  }
+}

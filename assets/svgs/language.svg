@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-Language">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="Language" clip-path="url(#clip-Language)">
+    <g id="Group_7" data-name="Group 7" transform="translate(4.516 5.543)">
+      <path id="Stroke_1" data-name="Stroke 1" d="M6.907.316H0" transform="translate(2.24 8.564)" fill="none" stroke="#41434c" stroke-linecap="round" stroke-linejoin="bevel" stroke-miterlimit="10" stroke-width="1.5"/>
+      <path id="Stroke_2" data-name="Stroke 2" d="M5.206,0,0,11.785" transform="translate(0.483 1.052)" fill="none" stroke="#41434c" stroke-linecap="round" stroke-linejoin="bevel" stroke-miterlimit="10" stroke-width="1.5"/>
+      <path id="Stroke_4" data-name="Stroke 4" d="M0,0,5.206,11.785" transform="translate(5.689 1.052)" fill="none" stroke="#41434c" stroke-linecap="round" stroke-linejoin="bevel" stroke-miterlimit="10" stroke-width="1.5"/>
+      <path id="Fill_5" data-name="Fill 5" d="M5.871.2H4.142a.477.477,0,0,0-.5.451.477.477,0,0,0,.5.452h.369V2.565a1.012,1.012,0,0,1-.615.111.976.976,0,0,1-.48-.193,1.842,1.842,0,0,1-.146-.132L3.2,2.283a1.285,1.285,0,0,0,.4-.916A1.462,1.462,0,0,0,2.057,0,1.463,1.463,0,0,0,.517,1.367a.477.477,0,0,0,.5.451.477.477,0,0,0,.5-.451A.509.509,0,0,1,2.057.9a.51.51,0,0,1,.544.465.51.51,0,0,1-.544.466.458.458,0,0,0-.052,0H1.99c-.025,0-.049,0-.074,0a.477.477,0,0,0-.5.451.477.477,0,0,0,.5.452,1,1,0,0,1,.6.194,1.794,1.794,0,0,1,.167.163.716.716,0,0,1,.153.438.866.866,0,0,1-.92.8.866.866,0,0,1-.92-.8A.477.477,0,0,0,.5,3.08a.477.477,0,0,0-.5.451,1.819,1.819,0,0,0,1.916,1.7A1.827,1.827,0,0,0,3.83,3.578a2.129,2.129,0,0,0,.681-.046V4.977a.5.5,0,0,0,1,0V1.1h.364A.521.521,0,0,0,6.219.972a.421.421,0,0,0,.15-.323A.476.476,0,0,0,5.871.2" transform="translate(8.764 0.457)" fill="#41434c"/>
+    </g>
+  </g>
+</svg>
