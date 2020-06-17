@@ -1,102 +1,81 @@
 <template>
-  <div class="baseview">
-    <partner-header></partner-header>
-    <div class="content">
-      <sidebar></sidebar>
-      <div class="section-content">
-        <no-ssr>
-          <transition name="fade" mode="out-in">
-            <router-view class="view"></router-view>
-          </transition>
-        </no-ssr>
-      </div>
-    </div>
+  <div class="container">
+    <static-header></static-header>
+    <transition name="fade" mode="out-in">
+      <router-view></router-view>
+    </transition>
+    <default-footer />
   </div>
 </template>
 
-<style lang="less" scoped>
-.section-content {
-  width: calc(100% - 250px);
-  min-width: 1000px;
-  background-color: #f8f8f8;
-  margin-left: 250px;
-  position: absolute;
-  border-left: 1px solId #e4e5e6;
-  box-sizing: border-box;
-  transition: all 0.25s ease-in-out;
-  display: flex;
-}
-</style>
-
 <script>
-import NoSSR from 'vue-no-ssr'
-import { isBrowser, isNode } from 'browser-or-node'
-import PartnerHeaderVue from './../components/header/partner.vue'
-import SideBarVue from './../components/partner/sidebar.vue'
-import { FETCH_ORGANIZATION_DETAILS } from '../store/action.type'
-import Vue from 'vue'
-
+import { NitrozenButton, NitrozenInput, flatBtn } from '@gofynd/nitrozen-vue'
+import { mapGetters } from 'vuex'
+import { IS_LOGGED_IN } from '@/store/getters.type'
+import { SIGNOUT_USER, OPEN_LOGIN_MODAL } from '@/store/action.type'
+import StaticHeaderVue from '@/components/header/static.vue'
+import defaultFooter from '@/components/footer/default-footer.vue'
+import inlineSVG from '@/components/common/inline-svg.vue'
 export default {
-  name: 'base-view',
   components: {
-    'partner-header': PartnerHeaderVue,
-    sidebar: SideBarVue,
-    'no-ssr': NoSSR
+    'static-header': StaticHeaderVue,
+    'default-footer': defaultFooter,
+    'nitrozen-button': NitrozenButton,
+    'nitrozen-input': NitrozenInput,
+    'inline-svg': inlineSVG
   },
-  beforeRouteEnter(to, from, next) {
-    if (isNode) {
-      return next()
-    }
-    import('./../entry-client').then((appModule) => {
-      const appStore = appModule.getAppStore()
-
-      const { isLoggedIn } = appStore.state.auth
-      if (isLoggedIn) {
-        const { partnerId } = to.params
-        appStore
-          .dispatch(FETCH_ORGANIZATION_DETAILS, { slug: partnerId })
-          .then(() => {
-            const { organization } = appStore.state.partner
-            next()
-          })
-          .catch(() => {
-            return (window.location.href = '/')
-          })
-      } else {
-        return (window.location.href = '/')
+  directives: {
+    flatBtn
+  },
+  computed: {
+    ...mapGetters({
+      isLoggedIn: IS_LOGGED_IN
+    })
+  },
+  methods: {
+    signOut() {
+      this.$store.dispatch(SIGNOUT_USER)
+    },
+    openLogin() {
+      if (this.isLoggedIn) {
+        return this.$router.push('/manage')
       }
-    })
-  },
-  mounted() {
-    import(
-      /*webpackChunkName:"nitrozen-snackbar" */ '@gofynd/nitrozen-vue/src/components/NSnackbar'
-    ).then((NitrozenSnackbar) => {
-      Vue.use(NitrozenSnackbar.default)
-      Vue.snackbar.register('show', (message) => message, {
-        position: 'top-center',
-        duration: 2000
-      })
-      Vue.snackbar.register('showSuccess', (message) => message, {
-        position: 'top-center',
-        duration: 2000,
-        type: 'success'
-      })
-      Vue.snackbar.register('showError', (message) => message, {
-        position: 'top-center',
-        duration: 2000,
-        type: 'error'
-      })
-      Vue.snackbar.register('showWarning', (message) => message, {
-        position: 'top-center',
-        duration: 2000,
-        type: 'warning'
-      })
-      Vue.snackbar.register('showInfo', (message) => message, {
-        position: 'top-center',
-        duration: 2000,
-        type: 'infor'
-      })
-    })
+      this.$store.dispatch(OPEN_LOGIN_MODAL)
+    }
   }
 }
 </script>
+
+<style lang="less" scoped>
+.container {
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1400px;
+  .child-container {
+    width: 100%;
+  }
+  section.create-partner-account {
+    width: 100%;
+    background-color: #f4f8fb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 0;
+    text-align: center;
+    .email-get-started {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      margin-top: 50px;
+      .nitrozen-form-input {
+        margin-right: 10px;
+        min-width: 300px;
+      }
+    }
+  }
+}
+</style>

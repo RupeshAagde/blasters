@@ -18,7 +18,6 @@ const {
 // entry-server.js
 import { createApp } from './app'
 import { ON_SERVER_DATA } from './store/action.type'
-import { SET_APP_PLATFORM } from './store/mutation.type'
 
 export default (context) => {
   console.log('Routes:', context.url)

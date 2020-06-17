@@ -32,7 +32,7 @@ const AuthService = {
   onUserLoggedIn() {
     if (this.IframeWindow) {
       this.IframeWindow.close()
-      window.location.href = '/organizations'
+      window.location.href = '/manage'
     }
   },
   onUserLoggedOut() {

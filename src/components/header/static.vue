@@ -4,19 +4,7 @@
       <div class="header-container">
         <div class="menu-container">
           <router-link to="/" class="logo">
-            <img src="/public/assets/pngs/logo.png" alt="Fynd Partners" />
-          </router-link>
-
-          <transition name="fade" mode="out-in">
-            <router-link to="/themes" class="menu">
-              Themes
-            </router-link>
-          </transition>
-          <!-- <router-link to="#" class="menu">
-            Plugins
-          </router-link> -->
-          <router-link to="#" class="menu">
-            Mini Apps
+            <img src="/public/assets/pngs/fynd.png" alt="[PROJECT_LOGO]" />
           </router-link>
         </div>
         <div class="group-btns">
@@ -121,7 +109,7 @@ export default {
     },
     openLogin() {
       if (this.isLoggedIn) {
-        return this.$router.push('/organizations')
+        return this.$router.push('/manage')
       }
       this.$store.dispatch(OPEN_LOGIN_MODAL)
     }

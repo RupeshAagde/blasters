@@ -99,7 +99,7 @@ app.get('/public/*', (req, res) => {
 app.get('*', async (req, res) => {
   const context = {
     url: req.url,
-    title: 'Fynd Partners',
+    title: '[PROJECT_NAME]',
     is_ssr: req.query.__ssr === 'true'
   }
 

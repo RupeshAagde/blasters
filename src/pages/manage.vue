@@ -2,12 +2,12 @@
   <div>
     <section class="league-of-experts">
       <div class="left">
-        <h1>Boilerplate code for VueJS Projects</h1>
+        <h1>This screen is shown when user is logged in</h1>
         <p>
-          Contains bare minimum code and file structure to get you started!
+          View router/index.js to know how to add auth gaurd to pages
         </p>
-        <nitrozen-button v-flat-btn :theme="'secondary'" @click="openLogin">
-          Get Started
+        <nitrozen-button v-flat-btn :theme="'secondary'">
+          Dummy Button
         </nitrozen-button>
       </div>
       <div class="right">
@@ -24,9 +24,6 @@ import {
   strokeBtn,
   flatBtn
 } from '@gofynd/nitrozen-vue'
-import { mapGetters } from 'vuex'
-import { IS_LOGGED_IN } from '@/store/getters.type'
-import { OPEN_LOGIN_MODAL } from '@/store/action.type'
 export default {
   components: {
     'nitrozen-button': NitrozenButton,
@@ -36,19 +33,8 @@ export default {
     flatBtn,
     strokeBtn
   },
-  computed: {
-    ...mapGetters({
-      isLoggedIn: IS_LOGGED_IN
-    })
-  },
-  methods: {
-    openLogin() {
-      if (this.isLoggedIn) {
-        return this.$router.push('/manage')
-      }
-      this.$store.dispatch(OPEN_LOGIN_MODAL)
-    }
-  }
+  computed: {},
+  methods: {}
 }
 </script>
 
