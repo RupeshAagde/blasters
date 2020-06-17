@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="icon"
+      href="public/assets/pngs/fynd_icon.png"
+      type="image/gif"
+      sizes="16x16"
+    />
+    <title>{{title}}</title>
+
+    <!--Inject Styles-->
+    {{{ renderStyles() }}}
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="manifest" href="/manifest.json" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"
+    />
+
+    <script
+      src="https://cdn.ravenjs.com/3.26.4/raven.min.js"
+      crossorigin="anonymous"
+    ></script>
+    {{{appEnv}}}
+  </head>
+
+  <body>
+    <!--vue-ssr-outlet-->
+    {{{ renderState() }}} {{{ renderScripts() }}}
+
+    <!--Grimlock Auth JS-->
+    {{{appAuthJs}}}
+  </body>
+</html>

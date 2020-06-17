@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>netbanking</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="netbanking" stroke="#41434C">
+            <g id="Group" transform="translate(3.000000, 4.000000)">
+                <path d="M0.142598684,5.35261243 L17.9182232,5.35261243 L0.142598684,5.35261243 Z M0.0539439621,5.31014162 L9.15465109,0.0815232021 L18.008556,5.28527997 L0.0539439621,5.31014162 Z M0.143437743,15.4878578 L17.9190623,15.4878578 L0.143437743,15.4878578 Z M2.25249988,12.9881873 L15.8100001,12.9881873 L2.25249988,12.9881873 Z" id="Line-Copy-3"></path>
+                <g transform="translate(1.062500, 6.683650)" id="Path">
+                    <path d="M6.18626645,0.492105263 L6.18626645,4.34064414"></path>
+                    <path d="M9.75123355,0.492105263 L9.75123355,4.34064414"></path>
+                    <path d="M2.62129934,0.492105263 L2.62129934,4.34064414"></path>
+                    <path d="M13.3162007,0.492105263 L13.3162007,4.34064414"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
