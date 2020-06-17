@@ -1,6 +1,6 @@
-# Bombshell
+# Boilerplate Code
 
-Partners Panel Front-End
+Boilerplate code for VueJS Projects
 
 ## Technologies
 
