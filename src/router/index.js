@@ -8,10 +8,13 @@ import HomeVue from './../pages/home.vue'
 import ManageVue from './../pages/manage.vue'
 import PageNotFoundVue from './../pages/pagenotfound.vue'
 import { authenticatedUser } from './guards'
+
+import AdministratorRoutes from './administrator'
 export function createRouter() {
   return new Router({
     mode: 'history',
     routes: [
+      ...AdministratorRoutes,
       {
         path: '/',
         component: BaseviewVue,

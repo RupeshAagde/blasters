@@ -9,7 +9,7 @@
         </div>
         <div class="group-btns">
           <nitrozen-button v-stroke-btn :theme="'secondary'" @click="openLogin">
-            {{ isLoggedIn ? 'Manage' : 'Login' }}
+            {{ isLoggedIn ? 'View Dashboard' : 'Login' }}
           </nitrozen-button>
           <nitrozen-button v-flat-btn :theme="'secondary'" @click="signOut()">
             {{ isLoggedIn ? 'Logout' : 'Get Started' }}
@@ -109,7 +109,7 @@ export default {
     },
     openLogin() {
       if (this.isLoggedIn) {
-        return this.$router.push('/manage')
+        return this.$router.push('/administrator')
       }
       this.$store.dispatch(OPEN_LOGIN_MODAL)
     }
