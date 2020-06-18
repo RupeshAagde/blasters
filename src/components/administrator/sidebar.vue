@@ -65,7 +65,7 @@
 
 <script>
 import inlineSvgVue from './../common/inline-svg.vue'
-import { getNavigations } from './../../pages/cloud/navigations'
+import { getNavigations } from './../../pages/administrator/navigations'
 export default {
   name: 'side-menu',
   components: {

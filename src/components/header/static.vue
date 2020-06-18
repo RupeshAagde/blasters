@@ -109,7 +109,7 @@ export default {
     },
     openLogin() {
       if (this.isLoggedIn) {
-        return this.$router.push('/cloud')
+        return this.$router.push('/administrator')
       }
       this.$store.dispatch(OPEN_LOGIN_MODAL)
     }

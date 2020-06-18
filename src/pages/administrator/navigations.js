@@ -3,7 +3,7 @@ export const getNavigations = () => {
     Home: [
       {
         display: 'Home',
-        link: `/cloud/home`,
+        link: `/administrator/home`,
         title: 'Home',
         icon: 'home',
         highlightedIcon: 'home-highlighted'

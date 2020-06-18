@@ -1,6 +1,6 @@
 <template>
   <div class="baseview">
-    <cloud-header></cloud-header>
+    <administrator-header></administrator-header>
     <div class="content">
       <sidebar></sidebar>
       <div class="section-content">
@@ -31,14 +31,14 @@
 <script>
 import NoSSR from 'vue-no-ssr'
 import { isBrowser, isNode } from 'browser-or-node'
-import CloudHeaderVue from './../../components/header/cloud.vue'
-import SideBarVue from './../../components/cloud/sidebar.vue'
+import AdministratorHeaderVue from './../../components/header/administrator.vue'
+import SideBarVue from './../../components/administrator/sidebar.vue'
 import Vue from 'vue'
 
 export default {
   name: 'base-view',
   components: {
-    'cloud-header': CloudHeaderVue,
+    'administrator-header': AdministratorHeaderVue,
     sidebar: SideBarVue,
     'no-ssr': NoSSR
   },

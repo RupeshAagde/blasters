@@ -3,7 +3,7 @@
     <page-empty
       text="Dummy Page"
       buttonText="Dummy Button"
-      @refresh="$router.replace({ path: '/cloud/home' })"
+      @refresh="$router.replace({ path: '/administrator/home' })"
     ></page-empty>
   </div>
 </template>
