@@ -8,10 +8,13 @@ import HomeVue from './../pages/home.vue'
 import ManageVue from './../pages/manage.vue'
 import PageNotFoundVue from './../pages/pagenotfound.vue'
 import { authenticatedUser } from './guards'
+
+import CloudRoutes from './cloud'
 export function createRouter() {
   return new Router({
     mode: 'history',
     routes: [
+      ...CloudRoutes,
       {
         path: '/',
         component: BaseviewVue,
