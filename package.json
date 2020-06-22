@@ -13,7 +13,7 @@
     "build:prod": "rimraf public && npm run tasks && npm run build:clientprod && npm run build:serverprod ",
     "build:clientprod": "webpack --config build/webpack.client.config.js --progress --hide-modules --env=production ",
     "build:serverprod": "webpack --config build/webpack.server.config.js --progress --hide-modules --env=production",
-    "pretty": "./node_modules/.bin/prettier --config ./.prettierrc --write './src/**/*.*'",
+    "pretty": "./node_modules/.bin/prettier --config ./.prettierrc --write",
     "precommit": "lint-staged",
     "test": "jest  --projects  src server --no-cache"
   },
