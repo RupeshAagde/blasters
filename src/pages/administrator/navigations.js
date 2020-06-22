@@ -8,6 +8,15 @@ export const getNavigations = () => {
         icon: 'home',
         highlightedIcon: 'home-highlighted'
       }
+    ],
+    PLANS: [
+      {
+        display: 'Plans',
+        link: `/administrator/plans`,
+        title: 'Plans',
+        icon: 'home',
+        highlightedIcon: 'home-highlighted'
+      }
     ]
   }
 }
