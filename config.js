@@ -30,6 +30,20 @@ const conf = convict({
       env: 'BLITZKRIEG_MAIN_SVC',
       arg: 'BLITZKRIEG_MAIN_SVC'
     },
+    UNICRON_MAIN_URL: {
+      doc: 'Billing service API',
+      format: String,
+      default: '',
+      env: 'UNICRON_MAIN_URL',
+      arg: 'UNICRON_MAIN_URL'
+    },
+    UNICRON_MAIN_SVC: {
+      doc: 'Billing service API private',
+      format: String,
+      default: '',
+      env: 'UNICRON_MAIN_SVC',
+      arg: 'UNICRON_MAIN_SVC'
+    },
     SEARCHLIGHT_MAIN_DOMAIN: {
       doc: 'SEARCHLIGTH URL FOR HELP DATA',
       format: String,

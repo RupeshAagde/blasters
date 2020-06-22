@@ -8,6 +8,7 @@ export PORT=8087
 export PLATFORM_COMMON_MAIN_URL=https://api.fyndx0.de/platform/common/
 export PLATFORM_COMMON_MAIN_SVC=https://api.fyndx0.de/platform/common/
 export BLITZKRIEG_MAIN_URL=https://api.fyndx0.de/platform/theme/
+export UNICRON_MAIN_URL=https://api.fyndx0.de/platform/billing/
 export SEARCHLIGHT_MAIN_DOMAIN=https://platform.fyndx0.de/
 export SEARCHLIGHT_MAIN_SVC=https://platform.fyndx0.de/
 export GRINGOTTS_MAIN_URL=https://api.fyndx0.de/gringotts/

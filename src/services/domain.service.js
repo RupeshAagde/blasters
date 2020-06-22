@@ -19,6 +19,10 @@ const BLITZKRIEG_BASE = isNode
   ? envVars.BROWSER_CONFIG.BLITZKRIEG_MAIN_SVC
   : envVars.BLITZKRIEG_MAIN_URL
 
+const UNICRON_BASE = isNode
+  ? envVars.BROWSER_CONFIG.UNICRON_MAIN_SVC
+  : envVars.UNICRON_MAIN_URL
+
 const URLS = {
   // Organizations
   ORGANIZATION: (id = '') => {
@@ -117,7 +121,7 @@ const URLS = {
   },
   LIST_THEMES: () => {
     return urlJoin(BLITZKRIEG_BASE, '/theme/v2/list')
-  }
+  },
 
   // Slingshot
   // FETCH_EMPLPOYEE_LISTING: () => {
@@ -126,6 +130,11 @@ const URLS = {
   // FETCH_EMPLOYEE_ACCESS_DETAILS: () => {
   //   return urlJoin(PLATFORM_COMMON_BASE, '/v1/application/current/access')
   // }
+
+  // Unicron
+  FETCH_PLANS_LIST: () => {
+    return urlJoin(UNICRON_BASE, 'v1/plan')
+  }
 }
 
 export default URLS
