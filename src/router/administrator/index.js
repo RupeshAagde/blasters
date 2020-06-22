@@ -1,6 +1,7 @@
-import AdministratorBaseViewVue from './../../pages/administrator/baseview.vue'
-import HomeVue from './../../pages/administrator/home.vue'
-import PlansVue from './../../pages/plan-creator/plans-list.vue'
+import AdministratorBaseViewVue from './../../pages/administrator/baseview.vue';
+import HomeVue from './../../pages/administrator/home.vue';
+import PlansListVue from './../../pages/plan-creator/plans-list.vue';
+import ComponentsListVue from './../../pages/plan-creator/component-list.vue';
 
 export default [
   {
@@ -13,8 +14,12 @@ export default [
       },
       {
         path: 'plans',
-        component: PlansVue
+        component: PlansListVue
+      },
+      {
+        path: 'components',
+        component: ComponentsListVue
       }
     ]
   }
-]
+];

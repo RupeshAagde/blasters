@@ -17,6 +17,15 @@ export const getNavigations = () => {
         icon: 'home',
         highlightedIcon: 'home-highlighted'
       }
+    ],
+    COMPONENTS: [
+      {
+        display: 'Plan Components',
+        link: `/administrator/components`,
+        title: 'Plan Components',
+        icon: 'home',
+        highlightedIcon: 'home-highlighted'
+      }
     ]
-  }
-}
+  };
+};

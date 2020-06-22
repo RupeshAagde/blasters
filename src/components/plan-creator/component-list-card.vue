@@ -1,25 +1,27 @@
 <template>
   <div class="bombshell-list-card-container" @click="onClick">
     <div class="card-avatar">
-      <text-avatar :text="plan.name"></text-avatar>
+      <text-avatar :text="component.name"></text-avatar>
     </div>
     <div class="card-content-section">
       <div class="card-content-line-1">
-        {{ plan.name }}
+        {{ component.name }}
       </div>
       <div class="card-content-line-2">
-        <span class="info-highlight"> Amount: {{ plan.amount }} </span>
+        <span class="info-highlight">
+          Group: {{ component.group.toUpperCase() }}
+        </span>
       </div>
       <div class="card-content-line-3">
-        {{ `Created on ${new Date(plan.created_at).toDateString()}` }}
+        {{ `Created on ${new Date(component.created_at).toDateString()}` }}
       </div>
     </div>
     <div class="card-badge-section">
-      <nitrozen-badge v-if="plan.is_visible" state="success"
+      <nitrozen-badge v-if="component.is_visible" state="success"
         >Visible</nitrozen-badge
       >
       <nitrozen-badge v-else state="default">Not Visible</nitrozen-badge>
-      <nitrozen-badge v-if="plan.is_active" state="success"
+      <nitrozen-badge v-if="component.is_active" state="success"
         >Active</nitrozen-badge
       >
       <nitrozen-badge v-else state="default">Inactive</nitrozen-badge>
@@ -44,13 +46,13 @@ import { NitrozenBadge } from '@gofynd/nitrozen-vue';
 import { TextAvatar } from '../common/';
 
 export default {
-  name: 'plan-list-card',
+  name: 'component-list-card',
   components: {
     'nitrozen-badge': NitrozenBadge,
     'text-avatar': TextAvatar
   },
   props: {
-    plan: {
+    component: {
       type: Object
     },
     page_options: {

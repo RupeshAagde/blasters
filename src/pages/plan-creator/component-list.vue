@@ -1,8 +1,8 @@
 <template>
-  <div class="plans-list main-container">
+  <div class="component-list main-container">
     <div class="page-container">
-      <div class="plans-list-container">
-        <div class="plans-filters">
+      <div class="component-list-container">
+        <div class="component-filters">
           <nitrozen-input
             :showSearchIcon="true"
             :placeholder="'Search Name'"
@@ -16,7 +16,7 @@
               :label="'Status'"
               v-model="filter_data.query['is_active']"
               :items="getDropdownValues({ true: 'Active', false: 'Inactive' })"
-              @change="fetchPlans"
+              @change="fetchComponents"
             ></nitrozen-dropdown>
           </div>
         </div>
@@ -25,18 +25,18 @@
           v-else-if="pageError && !loading"
           @tryAgain="onSearch"
         ></page-error>
-        <div v-if="plansList.length" class="plans-card-list">
+        <div v-if="componentList.length" class="component-card-list">
           <list-card
-            v-for="plan in plansList"
-            :key="plan._id"
-            :plan="plan"
-            @click="editplan(plan._id, $event)"
+            v-for="component in componentList"
+            :key="component._id"
+            :component="component"
+            @click="editplan(component._id, $event)"
           ></list-card>
         </div>
-        <page-empty v-else :helpText="'No Plans found'"></page-empty>
+        <page-empty v-else :helpText="'No Components found'"></page-empty>
         <nitrozen-pagination
-          v-if="plansList.length"
-          name="plans"
+          v-if="componentList.length"
+          name="component"
           v-model="filter_data.pagination"
           :pageSizeOptions="perPageValues"
           @change="pageOptionChange"
@@ -47,7 +47,7 @@
 </template>
 
 <style lang="less" scoped>
-.plans-list-container {
+.component-list-container {
   width: 100%;
   word-break: break-all;
   position: relative;
@@ -63,7 +63,7 @@
     position: absolute;
   }
 
-  .plans-filters {
+  .component-filters {
     display: flex;
     .dropdown-filters {
       display: flex;
@@ -85,15 +85,15 @@
   }
 
   .nitrozen-pagination-container,
-  .plans-card-list {
+  .component-card-list {
     margin-top: 24px;
   }
 }
 </style>
 
 <script>
-import BillingPlansService from '@/services/billing.service';
-import listCard from '@/components/plan-creator/plan-list-card.vue';
+import BillingcomponentService from '@/services/billing.service';
+import listCard from '@/components/plan-creator/component-list-card.vue';
 import { debounce } from '@/helper/utils';
 import { getFilterToQuery } from '@/helper/plan-creator-helper';
 import {
@@ -107,7 +107,7 @@ import _ from 'lodash';
 import { PageEmpty, PageError, Shimmer } from '../../components/common/';
 
 export default {
-  name: 'plans-list',
+  name: 'component-list',
   components: {
     'page-empty': PageEmpty,
     'nitrozen-input': NitrozenInput,
@@ -122,13 +122,13 @@ export default {
       type: Number,
       default: 0
     },
-    plans_options: {
+    component_options: {
       type: Object
     }
   },
   data() {
     return {
-      plansList: [],
+      componentList: [],
       loading: false,
       show_schedule_modal: false,
       showSelectModal: false,
@@ -144,6 +144,7 @@ export default {
         }
       },
       perPageValues: [10, 25, 50, 100, 200],
+      current_component_id: '-1',
       searchText: '',
       pageError: false
     };
@@ -164,10 +165,10 @@ export default {
         queryObj.offset / queryObj.limit
       );
     }
-    this.fetchPlans();
+    this.fetchComponents();
   },
   methods: {
-    fetchPlans() {
+    fetchComponents() {
       let query = getFilterToQuery(this.filter_data);
       if (query) {
         this.$router
@@ -177,11 +178,11 @@ export default {
           .catch((err) => {});
       }
       this.loading = true;
-      return BillingPlansService.getPlans(query, '')
+      return BillingcomponentService.getPlanComponents(query, '')
         .then(({ data }) => {
           this.loading = false;
           this.filter_data.pagination.total = data.total;
-          this.plansList = data.docs;
+          this.componentList = data.docs;
         })
         .catch((err) => {
           this.pageError = true;
@@ -189,7 +190,7 @@ export default {
     },
     onSearch() {
       this.filter_data.query.name = this.searchText;
-      this.fetchPlans();
+      this.fetchComponents();
     },
     debounceInput: debounce(function(e) {
       this.onSearch();
@@ -206,19 +207,19 @@ export default {
       });
       return option_map;
     },
-    editPlan(id, event) {
+    editComponent(id, event) {
       this.$router.replace({
-        path: `/plans/edit/${id}`
+        path: `/component/edit/${id}`
       });
     },
-    clonePlan(id, event) {
+    cloneComponent(id, event) {
       this.$router.replace({
-        path: `/plans/edit/${id}/`,
+        path: `/component/edit/${id}/`,
         query: { clone: true }
       });
     },
     pageOptionChange(pageOptions) {
-      this.fetchPlans();
+      this.fetchComponents();
     },
     getDropdownValues(option_dict) {
       option_dict[' '] = 'All';
