@@ -5,8 +5,8 @@
                 :title="
                     jumbotronData
                         ? `${jumbotronData.jumbotronTitle} ${
-                              plansList && plansList.length > 0
-                                  ? '(' + plansList.length + ')'
+                              filter_data
+                                  ? '(' + filter_data.pagination.total + ')'
                                   : ''
                           }`
                         : ''
@@ -34,6 +34,26 @@
                         class="search"
                     />
                     <div class="dropdown-filters">
+                        <nitrozen-dropdown
+                            class="type-filter"
+                            :label="'Country'"
+                            v-model="filter_data.query['country']"
+                            :items="countryList"
+                            @change="fetchPlans"
+                        ></nitrozen-dropdown>
+                        <nitrozen-dropdown
+                            class="type-filter"
+                            :label="'Plan Type'"
+                            v-model="filter_data.query['type']"
+                            :items="
+                                getDropdownValues({
+                                    private: 'Private',
+                                    public: 'Public',
+                                    company_specific: 'Company Specific'
+                                })
+                            "
+                            @change="fetchPlans"
+                        ></nitrozen-dropdown>
                         <nitrozen-dropdown
                             class="archived-filter"
                             :label="'Status'"
@@ -104,9 +124,6 @@
                 padding-left: 10px;
             }
             .type-filter {
-                width: 100px;
-            }
-            .applicable-on-filter {
                 width: 200px;
             }
             .archived-filter {
@@ -142,6 +159,7 @@ import {
     Shimmer,
     Jumbotron
 } from '../../components/common/';
+import LocationService from '../../services/location.service';
 
 export default {
     name: 'plans-list',
@@ -163,6 +181,7 @@ export default {
     data() {
         return {
             plansList: [],
+            countryList: [],
             jumbotronData: {
                 jumbotronTitle: 'Subscription Plans'
             },
@@ -172,12 +191,14 @@ export default {
             filter_data: {
                 query: {
                     name: ' ',
-                    is_active: ' '
+                    type: ' ',
+                    is_active: ' ',
+                    country: ' '
                 },
                 pagination: {
                     limit: 10,
                     current: 1,
-                    total: this.initial_count
+                    total: 0
                 }
             },
             perPageValues: [10, 25, 50, 100, 200],
@@ -202,6 +223,19 @@ export default {
             );
         }
         this.fetchPlans();
+        LocationService.getCountries()
+            .then(({ data }) => {
+                this.countryList = data.map((ctry) => {
+                    return {
+                        text: `${ctry.name} (${ctry.iso2})`,
+                        value: ctry.iso2
+                    };
+                });
+                this.countryList.push({ text: 'All', value: ' ' });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     },
     methods: {
         fetchPlans() {

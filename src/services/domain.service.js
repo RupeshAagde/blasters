@@ -9,7 +9,7 @@ let PLATFORM_COMMON_BASE = isNode
     : envVars.PLATFORM_COMMON_MAIN_URL;
 
 //remove later when done from nginx
-PLATFORM_COMMON_BASE = urlJoin(PLATFORM_COMMON_BASE, '/partner');
+// PLATFORM_COMMON_BASE = urlJoin(PLATFORM_COMMON_BASE, '/partner');
 
 const GRIMLOCK_BASE = isNode
     ? envVars.BROWSER_CONFIG.GRIMLOCK_MAIN_SVC
@@ -94,6 +94,9 @@ const URLS = {
             PLATFORM_COMMON_BASE,
             '/v1/application/current/invite/accept'
         );
+    },
+    LOCATIONS: () => {
+        return urlJoin(PLATFORM_COMMON_BASE, '/locations');
     },
     CURRENT_USER_ACCESS: (orgId) => {
         return urlJoin(

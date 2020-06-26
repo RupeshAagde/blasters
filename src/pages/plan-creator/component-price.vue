@@ -10,7 +10,7 @@
             </div>
         </div>
 
-        <div class="cl-Mako bold-sm top-headers">Bill Recurring Cycle</div>
+        <div class="cl-Mako bold-xs top-headers">Bill Recurring Cycle</div>
 
         <div class="form-row form-compact-items">
             <div class="form-item">
@@ -84,7 +84,7 @@
             </div>
         </div>
 
-        <div class="cl-Mako bold-sm top-headers">Billing Scheme and Tiers</div>
+        <div class="cl-Mako bold-xs top-headers">Billing Scheme and Tiers</div>
 
         <div class="form-row form-compact-items">
             <div class="form-item price-type-dropdown">
