@@ -1,3 +1,4 @@
-import DirtyForm from './dirty-form.vue'
+import DirtyForm from './dirty-form.vue';
+import BaseModal from './base-modal.vue';
 
-export { DirtyForm }
+export { DirtyForm, BaseModal };
