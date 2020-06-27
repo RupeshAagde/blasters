@@ -1,5 +1,5 @@
-'use strict'
-const convict = require('convict')
+'use strict';
+const convict = require('convict');
 
 const conf = convict({
   env: {
@@ -99,6 +99,20 @@ const conf = convict({
       default: '',
       env: 'GRIMLOCKWEB_MAIN_DOMAIN',
       arg: 'grimlockweb_main_domain'
+    },
+    SILVERBOLT_MAIN_SVC: {
+      doc: 'Seller Kube Service',
+      format: String,
+      default: '',
+      env: 'SILVERBOLT_MAIN_SVC',
+      arg: 'silverbolt_main_svc'
+    },
+    SILVERBOLT_MAIN_URL: {
+      doc: 'Seller Kube Service',
+      format: String,
+      default: '',
+      env: 'SILVERBOLT_MAIN_URL',
+      arg: 'silverbolt_main_url'
     }
   },
 
@@ -133,11 +147,11 @@ const conf = convict({
     env: 'NEW_RELIC_LICENSE_KEY',
     arg: 'newrelic_license_key'
   }
-})
+});
 
 // Perform validation
 conf.validate({
   allowed: 'strict'
-})
+});
 
-module.exports = conf
+module.exports = conf;

@@ -19,11 +19,23 @@ const BLITZKRIEG_BASE = isNode
   ? envVars.BROWSER_CONFIG.BLITZKRIEG_MAIN_SVC
   : envVars.BLITZKRIEG_MAIN_URL;
 
+const SILVERBOLT_MAIN_URL = isNode
+  ? envVars.BROWSER_CONFIG.SILVERBOLT_MAIN_URL
+  : envVars.SILVERBOLT_MAIN_URL;
+
 const UNICRON_BASE = isNode
   ? envVars.BROWSER_CONFIG.UNICRON_MAIN_SVC
   : envVars.UNICRON_MAIN_URL;
 
 const URLS = {
+  //company details
+  GET_COMPANY_LIST: () => {
+    return urlJoin(
+      SILVERBOLT_MAIN_URL,
+      '/v1/admin/onboarding/company/verification/'
+    );
+  },
+
   // Organizations
   ORGANIZATION: (id = '') => {
     return urlJoin(PLATFORM_COMMON_BASE, '/v1/organization', id);

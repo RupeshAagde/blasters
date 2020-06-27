@@ -26,6 +26,15 @@ export const getNavigations = () => {
         icon: 'home',
         highlightedIcon: 'home-highlighted'
       }
+    ],
+    COMPANY: [
+      {
+        display: 'Company',
+        link: '/administrator/company-list',
+        title: 'Company',
+        icon: 'home',
+        highlightedIcon: 'home-highlighted'
+      }
     ]
   };
 };
