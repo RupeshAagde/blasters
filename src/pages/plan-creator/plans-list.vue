@@ -37,9 +37,15 @@
                         <nitrozen-dropdown
                             class="type-filter"
                             :label="'Country'"
+                            :searchable="true"
                             v-model="filter_data.query['country']"
-                            :items="countryList"
+                            :items="countries"
                             @change="fetchPlans"
+                            @searchInputChange="
+                                (e) => {
+                                    searchCountry = e && e.text ? e.text : '';
+                                }
+                            "
                         ></nitrozen-dropdown>
                         <nitrozen-dropdown
                             class="type-filter"
@@ -182,6 +188,7 @@ export default {
         return {
             plansList: [],
             countryList: [],
+            searchCountry: '',
             jumbotronData: {
                 jumbotronTitle: 'Subscription Plans'
             },
@@ -225,17 +232,30 @@ export default {
         this.fetchPlans();
         LocationService.getCountries()
             .then(({ data }) => {
-                this.countryList = data.map((ctry) => {
-                    return {
-                        text: `${ctry.name} (${ctry.iso2})`,
-                        value: ctry.iso2
-                    };
-                });
                 this.countryList.push({ text: 'All', value: ' ' });
+                this.countryList.push(
+                    ...data.map((ctry) => {
+                        return {
+                            text: `${ctry.name} (${ctry.iso2})`,
+                            value: ctry.iso2
+                        };
+                    })
+                );
             })
             .catch((err) => {
                 console.log(err);
             });
+    },
+    computed: {
+        countries() {
+            if (this.searchCountry) {
+                const regexSrch = new RegExp(this.searchCountry, 'gi');
+                return this.countryList.filter((it) => {
+                    return regexSrch.test(it.text);
+                });
+            }
+            return this.countryList;
+        }
     },
     methods: {
         fetchPlans() {
