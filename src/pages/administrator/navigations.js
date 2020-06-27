@@ -11,9 +11,27 @@ export const getNavigations = () => {
         ],
         PLANS: [
             {
-                display: 'Subscription Plans',
-                link: `/administrator/subscription-plans`,
-                title: 'Subscription Plans',
+                display: 'Plans',
+                link: `/administrator/plans`,
+                title: 'Plans',
+                icon: 'home',
+                highlightedIcon: 'home-highlighted'
+            }
+        ],
+        COMPONENTS: [
+            {
+                display: 'Plan Components',
+                link: `/administrator/components`,
+                title: 'Plan Components',
+                icon: 'home',
+                highlightedIcon: 'home-highlighted'
+            }
+        ],
+        COMPANY: [
+            {
+                display: 'Company',
+                link: '/administrator/company-list',
+                title: 'Company',
                 icon: 'home',
                 highlightedIcon: 'home-highlighted'
             }
