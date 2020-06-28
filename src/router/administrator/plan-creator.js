@@ -20,5 +20,5 @@ export default [
     {
         path: 'subscription-components/',
         component: ComponentsListVue
-    }
+    } //,
 ];
