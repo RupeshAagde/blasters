@@ -84,18 +84,10 @@
                     :key="component._id"
                     :component="component"
                     :plan_component="planComponentMap[component._id]"
-                    @createprice="isEditPrice = true"
                 >
                 </plan-component>
             </div>
         </div>
-        <price-modal
-            v-if="isEditPrice"
-            :isOpen="isEditPrice"
-            :priceModel="editingPriceModel"
-            @closedialog="isEditPrice = false"
-        >
-        </price-modal>
     </div>
 </template>
 
@@ -117,7 +109,6 @@ import {
     NitrozenCheckBox
 } from '@gofynd/nitrozen-vue';
 import planComponentCard from '../../../components/plan-creator/plan-component-card.vue';
-import priceModal from '../../../components/plan-creator/component-price-modal.vue';
 import BillingService from '../../../services/billing.service';
 
 export default {
@@ -127,8 +118,7 @@ export default {
         'nitrozen-error': NitrozenError,
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-checkbox': NitrozenCheckBox,
-        'plan-component': planComponentCard,
-        'price-modal': priceModal
+        'plan-component': planComponentCard
     },
     props: {
         formData: {
@@ -140,8 +130,6 @@ export default {
     },
     data() {
         return {
-            editingPriceModel: null,
-            isEditPrice: false,
             planComponents: [],
             allComponents: [],
             durationUnits: [

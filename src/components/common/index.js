@@ -5,6 +5,9 @@ import Shimmer from './shimmer.vue';
 import TextAvatar from './text-avatar.vue';
 import Jumbotron from './jumbotron.vue';
 import Loader from './loader.vue';
+import TagsInput from './tags-input.vue';
+import PageHeader from './page-header.vue';
+import BaseCard from './base-card.vue';
 export * from './dialogs';
 
 export {
@@ -14,5 +17,8 @@ export {
     TextAvatar,
     Shimmer,
     Jumbotron,
-    Loader
+    Loader,
+    TagsInput,
+    PageHeader,
+    BaseCard
 };

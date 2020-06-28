@@ -11,6 +11,15 @@
             :isClone="isClone"
         >
         </price-model-page>
+        <div class="footer">
+            <nitrozen-button
+                :theme="'secondary'"
+                v-flatBtn
+                @click="closeDialog"
+            >
+                {{ isEditOnly ? 'Save' : 'Create' }}
+            </nitrozen-button>
+        </div>
     </base-modal>
 </template>
 
@@ -20,7 +29,20 @@
         width: 1100px;
         height: 600px;
         .modal-body {
-            padding: 24px;
+            padding: 0;
+            .price-form {
+                padding: 24px;
+                overflow: auto;
+                height: calc(100% - 70px);
+                .bombshell-scrollbar;
+            }
+            .footer {
+                width: 100%;
+                display: flex;
+                justify-content: flex-end;
+                padding: 15px 24px;
+                box-sizing: border-box;
+            }
         }
     }
 }
@@ -29,12 +51,17 @@
 <script>
 import { BaseModal } from '../common/';
 import PriceModelPage from '../../pages/plan-creator/component-price.vue';
+import { NitrozenButton, flatBtn } from '@gofynd/nitrozen-vue';
 
 export default {
     name: 'price-modal',
     components: {
         'base-modal': BaseModal,
-        'price-model-page': PriceModelPage
+        'price-model-page': PriceModelPage,
+        'nitrozen-button': NitrozenButton
+    },
+    directives: {
+        flatBtn
     },
     props: {
         isOpen: {
@@ -58,7 +85,6 @@ export default {
     },
     methods: {
         closeDialog() {
-            console.log('closed');
             this.$emit('closedialog', null);
         }
     }
