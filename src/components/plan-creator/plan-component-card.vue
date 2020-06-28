@@ -11,9 +11,16 @@
                 <div
                     class="cl-RoyalBlue bold-xs"
                     style="cursor: pointer;display: flex;justify-content: flex-end; flex: 1;"
-                    @click="$emit('createprice', null)"
+                    @click="isCreatePrice = true"
                 >
                     Create Price
+                </div>
+                <div
+                    class="cl-RoyalBlue bold-xs"
+                    style="cursor: pointer;display: flex;justify-content: flex-end; flex: 1;"
+                    @click="isClonePrice = true"
+                >
+                    Clone Price
                 </div>
             </div>
             <div class="prices-box">
@@ -31,6 +38,7 @@
                             class="price-item"
                             v-for="detailField in Object.keys(options)"
                             :key="detailField"
+                            v-show="getPriceModelValue(detailField)"
                         >
                             <div class="cl-DustyGray2 dark-xs">
                                 {{ options[detailField].text }}:
@@ -43,6 +51,14 @@
                 </div>
             </div>
         </div>
+        <price-modal
+            v-if="isCreatePrice || isClonePrice"
+            :isOpen="isCreatePrice || isClonePrice"
+            :baseComponent="component"
+            :priceModel="isClonePrice ? currentPriceModel : null"
+            @closedialog="isClonePrice = isCreatePrice = false"
+        >
+        </price-modal>
     </div>
 </template>
 
@@ -77,13 +93,15 @@
 
 <script>
 import { NitrozenCheckBox, NitrozenDropdown } from '@gofynd/nitrozen-vue';
-import { PLAN_ENUMS } from '../../helper/plan-creator-helper';
+import { PLAN_ENUMS, getProp } from '../../helper/plan-creator-helper';
+import priceModal from '../../components/plan-creator/component-price-modal.vue';
 
 export default {
     name: 'plan-component-card',
     components: {
         'nitrozen-checkbox': NitrozenCheckBox,
-        'nitrozen-dropdown': NitrozenDropdown
+        'nitrozen-dropdown': NitrozenDropdown,
+        'price-modal': priceModal
     },
     props: {
         component: {
@@ -96,6 +114,8 @@ export default {
     data() {
         return {
             enabled: false,
+            isClonePrice: false,
+            isCreatePrice: false,
             currentPriceId: this.getDefaultPriceModel()._id,
             options: PLAN_ENUMS
         };
@@ -127,13 +147,15 @@ export default {
             return this.component.component_prices.find((it) => it.is_default);
         },
         getPriceModelValue(detailField) {
-            let val = this.currentPriceModel[detailField];
+            let fieldPath = this.options[detailField].path || detailField;
+            let val = getProp(this.currentPriceModel, fieldPath);
             if (!val) {
                 return '';
             }
-            console.log(detailField, val);
-            return this.options[detailField].enum.find((it) => it.value === val)
-                .text;
+            let displayVal =
+                this.options[detailField].enum.find((it) => it.value === val) ||
+                {};
+            return displayVal.text || '';
         }
     }
 };

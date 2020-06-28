@@ -1,8 +1,8 @@
 <template>
     <div class="subscription-plan">
         <div class="page-header-position">
-            <!-- <adm-page-header
-                :title="`${isEditOnly ? 'Edit' : 'Create'} subscription-plan`"
+            <page-header
+                :title="`${isEditOnly ? 'Edit' : 'Create'} Subscription Plan`"
                 :contextMenuItems="isEditOnly ? contextMenu : undefined"
                 @backClick="onCancel"
                 @delete="onMenuAction('delete')"
@@ -17,16 +17,11 @@
                         }"
                         @click="
                             () => {
-                                formData.is_active = !formData
-                                    .is_active;
+                                formData.is_active = !formData.is_active;
                                 changeActiveState();
                             }
                         "
-                        >{{
-                            formData.is_active
-                                ? 'Active'
-                                : 'Inactive'
-                        }}</span
+                        >{{ formData.is_active ? 'Active' : 'Inactive' }}</span
                     >
                     <nitrozen-toggle
                         class="pad-right"
@@ -35,14 +30,14 @@
                     ></nitrozen-toggle>
                     <nitrozen-button
                         :theme="'secondary'"
-                        @click="savesubscription-plan"
+                        @click="savePlan"
                         v-flatBtn
                         >{{
                             `${isEditOnly ? 'Save' : 'Create'}`
                         }}</nitrozen-button
                     >
                 </div>
-            </adm-page-header> -->
+            </page-header>
         </div>
         <loader v-if="loading"></loader>
         <div v-else class="main-container">
@@ -66,6 +61,9 @@
 <style lang="less" scoped>
 // @import '../../less/page-ui.less';
 // @import '../../less/page-header.less';
+.page-header-position {
+    margin-bottom: 60px;
+}
 .subscription-plan {
     ::v-deep .button-box {
         display: flex;
@@ -147,7 +145,6 @@
 </style>
 
 <script>
-// import admPageHeader from '@/components/admin/common/layout/adm-page-header.vue';
 import mainSection from './form-sections/main.vue';
 import detailSection from './form-sections/details.vue';
 import BillingService from '../../services/billing.service';
@@ -159,7 +156,7 @@ import {
     flatBtn,
     strokeBtn
 } from '@gofynd/nitrozen-vue';
-import { Loader } from '../../components/common/';
+import { Loader, PageHeader } from '../../components/common/';
 
 import _ from 'lodash';
 import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
@@ -168,7 +165,7 @@ export default {
     name: 'subscription-plan-form',
     components: {
         loader: Loader,
-        // 'adm-page-header': admPageHeader,
+        'page-header': PageHeader,
         'main-section': mainSection,
         'detail-section': detailSection,
         'nitrozen-button': NitrozenButton,
@@ -185,30 +182,27 @@ export default {
         let promises = [];
         let planId = this.$route.params.planId;
         if (planId) {
-            promises.push(BillingService.fetchPlans({}, planId));
+            this.loading = true;
+            BillingService.getPlans({}, planId)
+                .then((response) => {
+                    _.merge(this.formData, response.data);
+                    this.originalData = _.cloneDeep(this.formData);
+                    this.loading = false;
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.loading = false;
+                    this.$snackbar.global.showError(
+                        `Failed to load Subscription Plan${
+                            err && err.message ? ' : ' + err.message : ''
+                        }`
+                    );
+                });
         }
-
-        Promise.all(promises)
-            .then((responses) => {
-                if (responses.length > 0) {
-                    _.merge(this.formData, responses[1].data.docs[0]);
-                }
-                this.originalData = _.cloneDeep(this.formData);
-                this.loading = false;
-            })
-            .catch((err) => {
-                console.log(err);
-                this.loading = false;
-                this.$snackbar.global.showError(
-                    `Failed to load Subscription Plan${
-                        err && err.message ? ' : ' + err.message : ''
-                    }`
-                );
-            });
     },
     data() {
         return {
-            loading: true,
+            loading: false,
             pageOptions: [],
             saveInProgress: false,
             originalData: {},

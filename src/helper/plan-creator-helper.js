@@ -32,6 +32,10 @@ const getFilterToQuery = (filterObj) => {
     return query;
 };
 
+const getProp = (obj, prop) => {
+    return prop.split('.').reduce((o, i) => o[i], obj);
+};
+
 const PLAN_ENUMS = {
     bill_type: {
         text: 'Billing Type',
@@ -66,17 +70,18 @@ const PLAN_ENUMS = {
                 text: 'Fixed',
                 value: 'static'
             },
+            // {
+            //     text: 'Formula Based',
+            //     value: 'formula'
+            // },
             {
-                text: 'Formula Based',
-                value: 'formula'
-            },
-            {
-                text: 'Flexible',
+                text: 'External Purchase',
                 value: 'dynamic'
             }
         ]
     },
     interval: {
+        path: 'recurring.interval',
         enum: [
             {
                 text: 'Days',
@@ -97,19 +102,21 @@ const PLAN_ENUMS = {
         ]
     },
     usage_type: {
+        path: 'recurring.usage_type',
         text: 'Calculate usage on',
         enum: [
             {
-                text: 'Meter Units',
+                text: 'Meter Based',
                 value: 'metered'
             },
             {
-                text: 'Licensed (One time)',
+                text: 'Fixed',
                 value: 'licensed'
             }
         ]
     },
     aggregate_usage: {
+        path: 'recurring.aggregate_usage',
         text: 'Charge usage by',
         enum: [
             {
@@ -145,4 +152,4 @@ const PLAN_ENUMS = {
     }
 };
 
-export { getFilterToQuery, PLAN_ENUMS };
+export { getFilterToQuery, PLAN_ENUMS, getProp };
