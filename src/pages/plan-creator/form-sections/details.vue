@@ -27,76 +27,14 @@
 
         <div class="form-row">
             <div class="form-item">
-                <div>
-                    <span class="nitrozen-label">Tags</span>
-                </div>
-                <div class="input-text tags">
-                    <div class="chips-input">
-                        <nitrozen-chip
-                            class="chip-wrapper"
-                            v-for="(item, index) in tags"
-                            :key="index"
-                        >
-                            {{ item }}
-                            <nitrozen-inline
-                                :icon="'cross'"
-                                class="nitrozen-icon"
-                                v-on:click="removeChip(index)"
-                            ></nitrozen-inline>
-                        </nitrozen-chip>
-                        <input
-                            placeholder="For e.g. order (upto 2 tags)"
-                            ref="chipInput"
-                            type="text"
-                            class="chip-input cl-Mako light-xs"
-                            @keydown.enter="addChip"
-                            @keydown.tab="addChip"
-                            @keydown.space="addChip"
-                            v-model="chipInput"
-                        />
-                    </div>
-                </div>
+                <tags-input v-model="formData.tags"></tags-input>
                 <nitrozen-error>-</nitrozen-error>
             </div>
         </div>
     </div>
 </template>
 
-<style lang="less" scoped>
-input:focus,
-textarea:focus,
-select:focus {
-    outline: none;
-}
-.nitrozen-label {
-    color: #9b9b9b;
-    font-family: Poppins, sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 21px;
-}
-
-.tags {
-    border: 1px solid @Iron;
-    border-radius: 4px;
-    min-height: 72px;
-    padding: 6px;
-    .nitrozen-chip {
-        margin: 5px;
-        height: 30px;
-        padding: 0 9px;
-        font-size: 12px;
-        line-height: 30px;
-    }
-    .chip-input {
-        width: 200px;
-        border: none;
-        font-family: Poppins, sans-serif;
-        font-size: 11px;
-        font-weight: 400;
-    }
-}
-</style>
+<style lang="less" scoped></style>
 
 <script>
 import {
@@ -108,6 +46,8 @@ import {
     NitrozenInline
 } from '@gofynd/nitrozen-vue';
 
+import { TagsInput } from '../../../components/common';
+
 export default {
     name: 'detail-section',
     components: {
@@ -116,7 +56,7 @@ export default {
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-chip': NitrozenChips,
-        'nitrozen-inline': NitrozenInline
+        'tags-input': TagsInput
     },
     props: {
         formData: {

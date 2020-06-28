@@ -13,7 +13,7 @@
                 "
                 :desc="jumbotronData ? jumbotronData.jumbotronBody : ''"
                 btnLabel="Create"
-                @btnClick="createPlan"
+                @btnClick="choosePlanType"
             >
                 <nitrozen-button
                     class="pad-left"
@@ -84,7 +84,7 @@
                         v-for="plan in plansList"
                         :key="plan._id"
                         :plan="plan"
-                        @click="editplan(plan._id, $event)"
+                        @click="editPlan(plan._id, $event)"
                     ></list-card>
                 </div>
                 <page-empty v-else :helpText="'No Plans found'"></page-empty>
@@ -97,6 +97,7 @@
                 ></nitrozen-pagination>
             </div>
         </div>
+        <type-modal :ref="'plan-type-modal'" @close="createPlan"></type-modal>
     </div>
 </template>
 
@@ -148,6 +149,7 @@
 <script>
 import BillingPlansService from '@/services/billing.service';
 import listCard from '@/components/plan-creator/plan-list-card.vue';
+import typeModal from '../../components/plan-creator/plan-type-modal.vue';
 import { debounce } from '@/helper/utils';
 import { getFilterToQuery } from '@/helper/plan-creator-helper';
 import {
@@ -178,7 +180,8 @@ export default {
         'list-card': listCard,
         shimmer: Shimmer,
         jumbotron: Jumbotron,
-        'page-error': PageError
+        'page-error': PageError,
+        'type-modal': typeModal
     },
     directives: {
         flatBtn,
@@ -302,9 +305,18 @@ export default {
             });
             return option_map;
         },
-        createPlan() {
-            this.$router.replace({
-                path: '/administrator/subscription-plans/create'
+        choosePlanType() {
+            this.$refs['plan-type-modal'].open();
+        },
+        createPlan(type) {
+            if (!type) {
+                return;
+            }
+            this.$router.push({
+                path: '/administrator/subscription-plans/create',
+                query: {
+                    plan_type: type
+                }
             });
         },
         editPlan(id, event) {

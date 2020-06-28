@@ -57,6 +57,12 @@
             .flex-center();
             justify-content: space-between;
         }
+        .modal-body {
+            overflow: auto;
+            box-sizing: border-box;
+            padding: 24px;
+            height: calc(100% - 45px);
+        }
         .cross {
             span {
                 cursor: pointer;
