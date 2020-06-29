@@ -2,9 +2,9 @@
   <span v-html="getSVG" class="inline-svg"></span>
 </template>
 <script>
-import __SVG from '@/auto_gen/admin-svgs.js';
+import __SVG from './../../auto_gen/svgs.js';
 export default {
-  name: 'admininlinesvg',
+  name: 'uktinlinesvg',
   props: {
     src: { type: String, required: true }
   },

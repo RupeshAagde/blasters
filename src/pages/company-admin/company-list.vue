@@ -55,7 +55,31 @@
             <div class="card-top">
               <div class="left-container">
                 <div>
-                  <div class="txt-company-heading">{{ product.name }}</div>
+                  <div class="badge-class">
+                    <div class="txt-company-heading hlp-badge">
+                      {{ product.name }}
+                    </div>
+                    <nitrozen-badge
+                      v-if="product.stage == 'verified'"
+                      state="success"
+                      >{{ product.stage }}</nitrozen-badge
+                    >
+                    <nitrozen-badge
+                      v-if="product.stage == 'complete'"
+                      state="warn"
+                      >{{ product.stage }}</nitrozen-badge
+                    >
+                    <nitrozen-badge
+                      v-if="product.stage == 'rejected'"
+                      state="error"
+                      >{{ product.stage }}</nitrozen-badge
+                    >
+                    <nitrozen-badge
+                      v-if="product.stage == 'incomplete'"
+                      state="error"
+                      >{{ product.stage }}</nitrozen-badge
+                    >
+                  </div>
                   <div class="txt-arrange">
                     <div class="txt-description-heading">Created By :</div>
                     <div class="txt-details-by">
@@ -75,21 +99,21 @@
                   theme="secondary"
                   class="export-catalog"
                   v-strokeBtn
-                  @click="companyApprove"
+                  @click="openApproveDialog(product)"
                   >Approve</nitrozen-button
                 >
                 <nitrozen-button
                   theme="secondary"
                   class="export-catalog"
                   v-strokeBtn
-                  @click="companyReject"
+                  @click="openRejectDialog(product)"
                   >Reject</nitrozen-button
                 >
                 <nitrozen-button
                   theme="secondary"
                   class="export-catalog"
                   v-strokeBtn
-                  @click="companyView"
+                  @click="companyView(product)"
                   >View</nitrozen-button
                 >
               </div>
@@ -109,6 +133,76 @@
           ></nitrozen-pagination>
         </div>
       </div>
+      <nitrozen-dialog
+        class="remove_staff_dialog"
+        ref="company_approve_dialog"
+        title="Approve Company"
+      >
+        <template slot="header" v-if="activeCompany">{{
+          activeCompany.name
+        }}</template>
+        <template slot="body"
+          >Are you sure you want to approve this company?</template
+        >
+        <template slot="footer">
+          <div>
+            <nitrozen-button
+              class="mr24"
+              @click="approveCompany"
+              v-flatBtn
+              :theme="'secondary'"
+              >Approve</nitrozen-button
+            >
+            <nitrozen-button
+              @click="closeApproveDialog"
+              v-strokeBtn
+              :theme="'secondary'"
+              >Cancel</nitrozen-button
+            >
+          </div>
+        </template>
+      </nitrozen-dialog>
+      <nitrozen-dialog
+        class="remove_staff_dialog"
+        ref="company_reject_dialog"
+        title="Reject Company"
+      >
+        <template slot="header" v-if="activeCompany">{{
+          activeCompany.name
+        }}</template>
+        <template slot="body" class="desc-dialog">
+          <div>
+            <nitrozen-input
+              class="cust-inp"
+              type="textarea"
+              label="Rejection Reason*"
+              placeholder="Explain rejection reason properly..."
+              v-model="rejection_info.value"
+            ></nitrozen-input>
+            <nitrozen-error v-if="rejection_info.showerror == true">{{
+              rejection_info.errortext
+            }}</nitrozen-error>
+          </div>
+          <div>Are you sure you want to reject this company?</div>
+        </template>
+        <template slot="footer">
+          <div>
+            <nitrozen-button
+              class="mr24"
+              @click="rejectCompany"
+              v-flatBtn
+              :theme="'secondary'"
+              >Reject</nitrozen-button
+            >
+            <nitrozen-button
+              @click="closeRejectDialog"
+              v-strokeBtn
+              :theme="'secondary'"
+              >Cancel</nitrozen-button
+            >
+          </div>
+        </template>
+      </nitrozen-dialog>
     </div>
   </div>
 </template>
@@ -123,6 +217,21 @@
 }
 .second-container {
   margin: 24px 0px;
+}
+::v-deep .nitrozen-dialog-body {
+  margin-bottom: 24px;
+}
+.cust-inp {
+  margin-bottom: 24px;
+}
+.badge-class {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+
+  .hlp-badge {
+    margin-right: 24px;
+  }
 }
 .search-filter-container {
   margin: 24px 0;
@@ -262,7 +371,7 @@
       flex: 1;
       display: flex;
       flex: 1;
-      flex-direction: row-reverse;
+      flex-direction: row;
       position: relative;
       align-items: center;
 
@@ -320,10 +429,14 @@ import fynotfound from '@/components/common/ukt-not-found';
 // import { toListingThumbnail } from '@/helper/image.utils';
 import {
   NitrozenInput,
+  NitrozenError,
   NitrozenButton,
   NitrozenDropdown,
   NitrozenPagination,
-  strokeBtn
+  strokeBtn,
+  flatBtn,
+  NitrozenBadge,
+  NitrozenDialog
 } from '@gofynd/nitrozen-vue';
 
 const PAGINATION = {
@@ -347,13 +460,17 @@ export default {
     'adm-no-content': admnocontent,
     'adm-shimmer': admshimmer,
     'page-error': pageerror,
+    'nitrozen-input': NitrozenInput,
     'nitrozen-pagination': NitrozenPagination,
-    NitrozenInput,
+    'nitrozen-badge': NitrozenBadge,
+    'nitrozen-dialog': NitrozenDialog,
+    'nitrozen-error': NitrozenError,
     NitrozenDropdown,
     NitrozenButton
   },
   directives: {
-    strokeBtn
+    strokeBtn,
+    flatBtn
   },
   computed: {},
   data() {
@@ -363,6 +480,7 @@ export default {
       isInitialLoad: false,
       templatesLoading: false,
       pageError: false,
+      activeCompany: null,
       categories: [],
       categoryValuesList: [],
       filters: [...ROLE_FILTER],
@@ -374,7 +492,13 @@ export default {
       departments: [],
       templates: [],
       selectedDepartment: '',
-      selectedTemplate: {}
+      selectedTemplate: {},
+      resData: null,
+      rejection_info: {
+        showError: false,
+        errortext: 'Please explain rejection reason properly.',
+        value: ''
+      }
     };
   },
   mounted() {
@@ -389,9 +513,14 @@ export default {
       if (name) this.searchText = name;
       if (pageId) this.pageId = pageId;
     },
-    companyApprove() {},
-    companyReject() {},
-    companyView() {},
+    companyView(company) {
+      let companyId = company.uid;
+      if (companyId) {
+        this.$router.push({
+          path: `/administrator/company-details/${companyId}`
+        });
+      }
+    },
     requestQuery() {
       const query = {
         page_no: this.pagination.current,
@@ -410,7 +539,6 @@ export default {
     },
     fetchCompany() {
       this.pageLoading = true;
-      console.log(this.requestQuery(), 'conso');
       return CompanyService.getCompanyList(this.requestQuery())
         .then(({ data }) => {
           this.companyList = data.data;
@@ -449,6 +577,95 @@ export default {
     clearSearchFilter() {
       this.searchText = '';
       this.setRouteQuery({ name: undefined });
+    },
+    openApproveDialog: function(company) {
+      this.activeCompany = company;
+      this.$refs.company_approve_dialog.data = company;
+      this.$refs['company_approve_dialog'].open({
+        width: '500px',
+        showCloseButton: true,
+        dismissible: true
+      });
+    },
+    closeApproveDialog: function() {
+      this.$refs['company_approve_dialog'].close();
+    },
+    openRejectDialog: function(company) {
+      this.activeCompany = company;
+      this.$refs.company_reject_dialog.data = company;
+      this.$refs['company_reject_dialog'].open({
+        width: '500px',
+        showCloseButton: true,
+        dismissible: true
+      });
+    },
+    closeRejectDialog: function() {
+      this.$refs['company_reject_dialog'].close();
+    },
+    approveCompany() {
+      const obj = {
+        uid: this.activeCompany.uid,
+        stage: 'verified'
+      };
+      CompanyService.adminActionCompany(obj)
+        .then((res) => {
+          this.closeApproveDialog();
+          this.fetchCompany();
+          this.resData = JSON.parse(JSON.stringify(this.getFormData()));
+          this.$snackbar.global.showSuccess('Company Approved Successfully', {
+            duration: 2000
+          });
+          setTimeout(() => {
+            this.onCancel();
+          }, 2000);
+        })
+        .catch((err) => {
+          console.error(err.response);
+          this.$snackbar.global.showError(
+            `${err.response.data ? err.response.data.errors.error : ''}`,
+            {
+              duration: 2000
+            }
+          );
+        })
+        .finally(() => {
+          this.inProgress = false;
+        });
+    },
+    rejectCompany() {
+      if (this.rejection_info.value && !this.rejection_info.showError) {
+        const obj = {
+          uid: this.activeCompany.uid,
+          reject_reason: this.rejection_info.value,
+          stage: 'rejected'
+        };
+        CompanyService.adminActionCompany(obj)
+          .then((res) => {
+            this.closeRejectDialog();
+            (this.rejection_info.value = ''), this.fetchCompany();
+            this.resData = JSON.parse(JSON.stringify(this.getFormData()));
+            this.$snackbar.global.showSuccess('Company Rejected Successfully', {
+              duration: 2000
+            });
+            setTimeout(() => {
+              this.onCancel();
+            }, 2000);
+          })
+          .catch((err) => {
+            console.error(err.response);
+            this.$snackbar.global.showError(
+              `${err.response.data ? err.response.data.errors.error : ''}`,
+              {
+                duration: 2000
+              }
+            );
+          })
+          .finally(() => {
+            this.inProgress = false;
+          });
+      } else {
+        this.rejection_info.showError = true;
+      }
     },
     setRouteQuery(query) {
       console.log(query, 'query');

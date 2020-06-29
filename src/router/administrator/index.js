@@ -3,6 +3,7 @@ import HomeVue from './../../pages/administrator/home.vue';
 import PlansListVue from './../../pages/plan-creator/plans-list.vue';
 import ComponentsListVue from './../../pages/plan-creator/component-list.vue';
 import CompanyListVue from './../../pages/company-admin/company-list.vue';
+import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
 
 export default [
   {
@@ -24,6 +25,10 @@ export default [
       {
         path: 'company-list',
         component: CompanyListVue
+      },
+      {
+        path: 'company-details/:companyId',
+        component: CbsDetailVue
       }
     ]
   }

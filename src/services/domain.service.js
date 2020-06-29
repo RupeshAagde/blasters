@@ -35,7 +35,18 @@ const URLS = {
       '/v1/admin/onboarding/company/verification/'
     );
   },
-
+  GET_COMPANY_BRANDS: () => {
+    return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/company/brand/');
+  },
+  GET_CHOICE_TYPES: () => {
+    return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/choices/');
+  },
+  COMPANY_STORES: () => {
+    return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/company/store/');
+  },
+  COMPANY_PROFILE: () => {
+    return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/company/profile');
+  },
   // Organizations
   ORGANIZATION: (id = '') => {
     return urlJoin(PLATFORM_COMMON_BASE, '/v1/organization', id);
