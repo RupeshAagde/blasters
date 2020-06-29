@@ -1,7 +1,7 @@
 <template>
     <div class="loader">
         <!-- <adm-inline-svg :src="'Spinner-1s-100px'"></adm-inline-svg> -->
-        <img src="/public/admin/assets/adm-loader.gif" />
+        <img src="/public/assets/adm-loader.gif" />
     </div>
 </template>
 <script>
