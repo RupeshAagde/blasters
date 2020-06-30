@@ -30,11 +30,10 @@
                 <div class="brand-stage">
                     <nitrozen-badge
                         :state="item.stage == 'verified' ? 'success' : 'warn'"
-                    >
-                        {{
+                        >{{
                             item.stage == 'verified' ? 'verified' : 'unverified'
-                        }}
-                    </nitrozen-badge>
+                        }}</nitrozen-badge
+                    >
                 </div>
             </div>
         </div>
@@ -283,9 +282,7 @@ export default {
                         0,
                         this.showCount
                     );
-                    if (
-                        (this.brandsDataToShow.length < this.brandsData, length)
-                    ) {
+                    if (this.brandsDataToShow.length < this.brandsData.length) {
                         this.viewMore = true;
                     }
                     this.paginationConfig.total = res.data.total_count;
