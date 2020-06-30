@@ -276,7 +276,7 @@ export default {
           this.pageError = false;
           this.brandsData = res.data.data;
           this.brandsDataToShow = this.brandsData.slice(0, this.showCount);
-          if ((this.brandsDataToShow.length < this.brandsData, length)) {
+          if (this.brandsDataToShow.length < this.brandsData.length) {
             this.viewMore = true;
           }
           this.paginationConfig.total = res.data.total_count;

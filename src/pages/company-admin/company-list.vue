@@ -98,6 +98,7 @@
                 <nitrozen-button
                   theme="secondary"
                   class="export-catalog"
+                  v-if="product.stage != 'verified'"
                   v-strokeBtn
                   @click="openApproveDialog(product)"
                   >Approve</nitrozen-button
@@ -105,6 +106,7 @@
                 <nitrozen-button
                   theme="secondary"
                   class="export-catalog"
+                  v-if="product.stage != 'rejected'"
                   v-strokeBtn
                   @click="openRejectDialog(product)"
                   >Reject</nitrozen-button
@@ -179,7 +181,7 @@
               placeholder="Explain rejection reason properly..."
               v-model="rejection_info.value"
             ></nitrozen-input>
-            <nitrozen-error v-if="rejection_info.showerror == true">{{
+            <nitrozen-error class="cust-inp" v-if="rejection_info.showError">{{
               rejection_info.errortext
             }}</nitrozen-error>
           </div>
@@ -591,6 +593,7 @@ export default {
       this.$refs['company_approve_dialog'].close();
     },
     openRejectDialog: function(company) {
+      this.rejection_info.showError = false;
       this.activeCompany = company;
       this.$refs.company_reject_dialog.data = company;
       this.$refs['company_reject_dialog'].open({
@@ -601,6 +604,8 @@ export default {
     },
     closeRejectDialog: function() {
       this.$refs['company_reject_dialog'].close();
+      this.rejection_info.showError = false;
+      this.rejection_info.value = '';
     },
     approveCompany() {
       const obj = {
@@ -633,7 +638,7 @@ export default {
         });
     },
     rejectCompany() {
-      if (this.rejection_info.value && !this.rejection_info.showError) {
+      if (this.rejection_info.value.length > 0) {
         const obj = {
           uid: this.activeCompany.uid,
           reject_reason: this.rejection_info.value,
