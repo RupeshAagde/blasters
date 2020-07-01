@@ -39,11 +39,10 @@
                 <div class="brand-stage">
                     <nitrozen-badge
                         :state="item.stage == 'verified' ? 'success' : 'warn'"
-                    >
-                        {{
+                        >{{
                             item.stage == 'verified' ? 'verified' : 'unverified'
-                        }}
-                    </nitrozen-badge>
+                        }}</nitrozen-badge
+                    >
                 </div>
             </div>
         </div>
@@ -77,9 +76,9 @@
             ref="brand_admin_dialog"
             title="Verify/Unverify Brand"
         >
-            <template slot="header" v-if="activeBrand">{{
-                activeBrand.brand.name
-            }}</template>
+            <template slot="header" v-if="activeBrand">
+                {{ activeBrand.brand.name }}
+            </template>
             <template slot="body" class="desc-dialog" v-if="activeBrand">
                 <div class="brand-images">
                     <div class="brand-logo">
@@ -108,8 +107,9 @@
                     <nitrozen-error
                         class="cust-inp"
                         v-if="rejection_info.showError"
-                        >{{ rejection_info.errortext }}</nitrozen-error
                     >
+                        {{ rejection_info.errortext }}
+                    </nitrozen-error>
                 </div>
                 <div>
                     Are you sure you want to {{ admin_action_text }} this brand?
@@ -421,6 +421,7 @@ export default {
                     this.inProgress = false;
                     this.pageError = false;
                     this.brandsData = res.data.data;
+                    console.log(this.brandsData, 'brand data');
                     this.brandsDataToShow = this.brandsData.slice(
                         0,
                         this.showCount
@@ -492,16 +493,17 @@ export default {
             this.setRouteQuery({ current, limit });
         },
         verifyBrand() {
-            console.log(this.activeBrand, 'verify');
+            console.log(this.companyId, 'companyid');
             const obj = {
-                uid: this.activeBrand.brand.uid,
-                stage: 'verified',
-                brand_tier: this.activeBrand.brand.brand_tier
+                brand: this.activeBrand.brand.uid,
+                stage: 'verified'
             };
+            obj.company = parseInt(this.companyId);
             console.log(obj, 'post payload');
             CompanyService.adminActionBrand(obj)
                 .then((res) => {
                     this.closeAdminDialog();
+                    this.showLess = false;
                     this.getBrands();
                     this.$snackbar.global.showSuccess(
                         'Brand Verified Successfully',
@@ -516,11 +518,7 @@ export default {
                 .catch((err) => {
                     console.error(err.response);
                     this.$snackbar.global.showError(
-                        `${
-                            err.response.data
-                                ? err.response.data.errors.error
-                                : ''
-                        }`,
+                        `${err.response.data ? err.response.data.errors : ''}`,
                         {
                             duration: 2000
                         }
@@ -531,21 +529,22 @@ export default {
                 });
         },
         unverifyBrand() {
+            let temp = this.companyId;
+            temp = parseInt(temp);
+            console.log(temp, 'company iD');
             if (this.rejection_info.value.length > 0) {
-                let temp = this.activeBrand.brand
-                    ? this.activeBrand.brand.brand_tier
-                    : '';
                 const obj = {
-                    uid: this.activeBrand.brand.uid,
+                    brand: this.activeBrand.brand.uid,
                     reject_reason: this.rejection_info.value,
-                    brand_tier: temp,
-                    stage: 'rejected'
+                    stage: 'rejected',
+                    company: temp
                 };
                 CompanyService.adminActionBrand(obj)
                     .then((res) => {
                         this.closeRejectDialog();
                         this.rejection_info.value = '';
-                        this.fetchCompany();
+                        this.showLess = false;
+                        this.getBrands();
                         this.resData = JSON.parse(
                             JSON.stringify(this.getFormData())
                         );
@@ -564,7 +563,7 @@ export default {
                         this.$snackbar.global.showError(
                             `${
                                 err.response.data
-                                    ? err.response.data.errors.error
+                                    ? err.response.data.errors
                                     : ''
                             }`,
                             {
