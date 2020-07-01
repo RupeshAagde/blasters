@@ -39,10 +39,11 @@
                 <div class="brand-stage">
                     <nitrozen-badge
                         :state="item.stage == 'verified' ? 'success' : 'warn'"
-                        >{{
-                            item.stage == 'verified' ? 'verified' : 'unverified'
-                        }}</nitrozen-badge
                     >
+                        {{
+                            item.stage == 'verified' ? 'verified' : 'unverified'
+                        }}
+                    </nitrozen-badge>
                 </div>
             </div>
         </div>
@@ -76,19 +77,25 @@
             ref="brand_admin_dialog"
             title="Verify/Unverify Brand"
         >
-            <template slot="header" v-if="activeBrand">
-                {{ activeBrand.brand.name }}
-            </template>
+            <template slot="header" v-if="activeBrand">{{
+                activeBrand.brand.name
+            }}</template>
             <template slot="body" class="desc-dialog" v-if="activeBrand">
-                <!-- <div style="height=100px; width: 100px" v-if="activeBrand.brand && activeBrand.brand.logo">
-          <img v-if="inBrand.logo" :src="activeBrand.brand.logo" class="brand-img" />
-        </div>
-        <div style="height=108px; width=192px" v-if="activeBrand.brand && activeBrand.brand.banner && activeBrand.brand.banner.landscape">
-          <img v-if="activeBrand.brand.banner.landscape" :src="activeBrand.brand.banner.landscape" />
-        </div>
-        <div style="height=192px; width=108px" v-if="activeBrand.brand && activeBrand.brand.banner && activeBrand.brand.banner.portrait">
-          <img v-if="activeBrand.brand.banner.portrait" :src="activeBrand.brand.banner.portrait" class="brand-img" />
-                </div>-->
+                <div class="brand-images">
+                    <div class="brand-logo">
+                        <label class="n-input-label">Logo</label>
+                        <img :src="activeBrand.brand.logo" />
+                    </div>
+                    <div class="brand-banner-1">
+                        <label class="n-input-label">Landscape</label>
+                        <img :src="activeBrand.brand.banner.landscape" />
+                    </div>
+                    <div class="brand-banner-2">
+                        <label class="n-input-label">Portrait</label>
+                        <img :src="activeBrand.brand.banner.portrait" />
+                    </div>
+                </div>
+
                 <div>
                     <nitrozen-input
                         class="cust-inp"
@@ -101,9 +108,8 @@
                     <nitrozen-error
                         class="cust-inp"
                         v-if="rejection_info.showError"
+                        >{{ rejection_info.errortext }}</nitrozen-error
                     >
-                        {{ rejection_info.errortext }}
-                    </nitrozen-error>
                 </div>
                 <div>
                     Are you sure you want to {{ admin_action_text }} this brand?
@@ -148,6 +154,31 @@
 .cust-inp {
     margin-bottom: 24px;
 }
+.brand-images {
+    // display: flex;
+    // justify-content: space-between;
+    // align-items: center;
+    margin-bottom: 24px;
+    .brand-logo {
+        img {
+            width: 100px;
+            height: 100px;
+        }
+    }
+    .brand-banner-1 {
+        img {
+            width: 100%;
+            height: 150px;
+        }
+    }
+    .brand-banner-2 {
+        img {
+            width: 100%;
+            height: 300px;
+        }
+    }
+}
+
 .page-container {
     .search-box {
         margin: 24px 0px 24px;
@@ -550,8 +581,6 @@ export default {
         },
         openAdminDialog(item) {
             this.activeBrand = item;
-            console.log(this.activeBrand, 'active brand');
-            console.log(item, 'brand');
             if (item.stage == 'verified') {
                 this.show_verify_button = true;
                 this.admin_action_text = 'unverify';
@@ -560,14 +589,9 @@ export default {
                 this.admin_action_text = 'verify';
             }
 
-            this.inBrand = item.brand;
-            // this.inBrand = {
-            //   logo: item.brand.logo ? item.brand.logo : '',
-            //   landscape: item.brand.banner.landscape ? item.brand.banner.landscape : '',
-            //   portrait: item.brand.banner.portrait ? item.brand.banner.portrait : ''
-            // };
             this.$refs['brand_admin_dialog'].open({
-                width: '500px',
+                width: '400px',
+                height: '600px',
                 showCloseButton: true,
                 dismissible: true
             });
