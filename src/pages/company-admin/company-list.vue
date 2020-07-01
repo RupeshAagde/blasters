@@ -140,9 +140,9 @@
         ref="company_approve_dialog"
         title="Approve Company"
       >
-        <template slot="header" v-if="activeCompany">{{
-          activeCompany.name
-        }}</template>
+        <template slot="header" v-if="activeCompany">
+          {{ activeCompany.name }}
+        </template>
         <template slot="body"
           >Are you sure you want to approve this company?</template
         >
@@ -169,9 +169,9 @@
         ref="company_reject_dialog"
         title="Reject Company"
       >
-        <template slot="header" v-if="activeCompany">{{
-          activeCompany.name
-        }}</template>
+        <template slot="header" v-if="activeCompany">
+          {{ activeCompany.name }}
+        </template>
         <template slot="body" class="desc-dialog">
           <div>
             <nitrozen-input
@@ -181,9 +181,9 @@
               placeholder="Explain rejection reason properly..."
               v-model="rejection_info.value"
             ></nitrozen-input>
-            <nitrozen-error class="cust-inp" v-if="rejection_info.showError">{{
-              rejection_info.errortext
-            }}</nitrozen-error>
+            <nitrozen-error class="cust-inp" v-if="rejection_info.showError">
+              {{ rejection_info.errortext }}
+            </nitrozen-error>
           </div>
           <div>Are you sure you want to reject this company?</div>
         </template>
@@ -647,7 +647,8 @@ export default {
         CompanyService.adminActionCompany(obj)
           .then((res) => {
             this.closeRejectDialog();
-            (this.rejection_info.value = ''), this.fetchCompany();
+            this.rejection_info.value = '';
+            this.fetchCompany();
             this.resData = JSON.parse(JSON.stringify(this.getFormData()));
             this.$snackbar.global.showSuccess('Company Rejected Successfully', {
               duration: 2000
