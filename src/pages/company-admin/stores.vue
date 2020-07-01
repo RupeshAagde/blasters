@@ -94,9 +94,8 @@
             }}
           </div>
           <div class="cust-drop">
-            <div>
+            <div class="left-drop">
               <nitrozen-dropdown
-                class="left-drop"
                 label="Order Integration*"
                 placeholder="Choose order integration type"
                 :items="integrationType"
@@ -107,9 +106,8 @@
                 order_choice_error.errortext
               }}</nitrozen-error>
             </div>
-            <div>
+            <div class="right-drop">
               <nitrozen-dropdown
-                class="right-drop"
                 label="Inventory Integration*"
                 placeholder="Choose inventory integration type"
                 :items="integrationType"
@@ -181,7 +179,7 @@
   overflow: visible;
 
   .left-drop {
-    width: 100%;
+    width: 47%;
     margin-right: 12px;
 
     ::v-deep .nitrozen-dropdown-container {
@@ -193,7 +191,7 @@
     }
   }
   .right-drop {
-    width: 99%;
+    width: 49%;
     ::v-deep .nitrozen-dropdown-container {
       width: 100%;
     }
@@ -456,7 +454,6 @@ export default {
           this.inProgress = false;
           this.pageError = false;
           this.storesData = res.data.data;
-          console.log(this.storesData, 'storedata');
           this.paginationConfig.total = res.data.total_count;
         })
         .catch((err) => {

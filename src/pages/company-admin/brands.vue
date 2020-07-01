@@ -39,10 +39,9 @@
         <div class="brand-stage">
           <nitrozen-badge
             :state="item.stage == 'verified' ? 'success' : 'warn'"
-            >{{
-              item.stage == 'verified' ? 'verified' : 'unverified'
-            }}</nitrozen-badge
           >
+            {{ item.stage == 'verified' ? 'verified' : 'unverified' }}
+          </nitrozen-badge>
         </div>
       </div>
     </div>
@@ -76,19 +75,19 @@
       ref="brand_admin_dialog"
       title="Verify/Unverify Brand"
     >
-      <template slot="header" v-if="activeBrand">
-        {{ activeBrand.brand.name }}
-      </template>
-      <template slot="body" class="desc-dialog">
-        <!-- <div style="height=100; width: 100" v-if="activeBrand.brand && activeBrand.brand.logo">
+      <template slot="header" v-if="activeBrand">{{
+        activeBrand.brand.name
+      }}</template>
+      <template slot="body" class="desc-dialog" v-if="activeBrand">
+        <!-- <div style="height=100px; width: 100px" v-if="activeBrand.brand && activeBrand.brand.logo">
           <img v-if="inBrand.logo" :src="activeBrand.brand.logo" class="brand-img" />
         </div>
-        <div style="height=108; width=192" v-if="activeBrand.brand && activeBrand.brand.banner && activeBrand.brand.banner.landscape">
+        <div style="height=108px; width=192px" v-if="activeBrand.brand && activeBrand.brand.banner && activeBrand.brand.banner.landscape">
           <img v-if="activeBrand.brand.banner.landscape" :src="activeBrand.brand.banner.landscape" />
         </div>
-        <div style="height=192; width=108" v-if="activeBrand.brand && activeBrand.brand.banner && activeBrand.brand.banner.portrait">
+        <div style="height=192px; width=108px" v-if="activeBrand.brand && activeBrand.brand.banner && activeBrand.brand.banner.portrait">
           <img v-if="activeBrand.brand.banner.portrait" :src="activeBrand.brand.banner.portrait" class="brand-img" />
-        </div> -->
+        </div>-->
         <div>
           <nitrozen-input
             class="cust-inp"
@@ -98,9 +97,9 @@
             placeholder="Explain rejection reason properly..."
             v-model="rejection_info.value"
           ></nitrozen-input>
-          <nitrozen-error class="cust-inp" v-if="rejection_info.showError">
-            {{ rejection_info.errortext }}
-          </nitrozen-error>
+          <nitrozen-error class="cust-inp" v-if="rejection_info.showError">{{
+            rejection_info.errortext
+          }}</nitrozen-error>
         </div>
         <div>Are you sure you want to {{ admin_action_text }} this brand?</div>
       </template>
@@ -448,11 +447,13 @@ export default {
       this.setRouteQuery({ current, limit });
     },
     verifyBrand() {
+      console.log(this.activeBrand, 'verify');
       const obj = {
         uid: this.activeBrand.brand.uid,
         stage: 'verified',
-        brand_tier: this.inBrand.tier
+        brand_tier: this.activeBrand.brand.brand_tier
       };
+      console.log(obj, 'post payload');
       CompanyService.adminActionBrand(obj)
         .then((res) => {
           this.closeAdminDialog();
@@ -479,10 +480,13 @@ export default {
     },
     unverifyBrand() {
       if (this.rejection_info.value.length > 0) {
+        let temp = this.activeBrand.brand
+          ? this.activeBrand.brand.brand_tier
+          : '';
         const obj = {
           uid: this.activeBrand.brand.uid,
           reject_reason: this.rejection_info.value,
-          brand_tier: this.activeBrand.brand_tier,
+          brand_tier: temp,
           stage: 'rejected'
         };
         CompanyService.adminActionBrand(obj)
@@ -515,6 +519,8 @@ export default {
       }
     },
     openAdminDialog(item) {
+      this.activeBrand = item;
+      console.log(this.activeBrand, 'active brand');
       console.log(item, 'brand');
       if (item.stage == 'verified') {
         this.show_verify_button = true;
@@ -523,7 +529,7 @@ export default {
         this.show_verify_button = false;
         this.admin_action_text = 'verify';
       }
-      this.activeBrand = item;
+
       this.inBrand = item.brand;
       // this.inBrand = {
       //   logo: item.brand.logo ? item.brand.logo : '',
