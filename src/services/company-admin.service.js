@@ -22,6 +22,15 @@ const CompanyService = {
     },
 
     adminActionCompany(body) {
+        let axiosOption = Object.assign(
+            {},
+            { data: body },
+            getCommonHeaderOptions()
+        );
+        return ApiService.post(URLS.GET_COMPANY_LIST(), axiosOption);
+    },
+
+    adminActionBrand(body) {
         console.log(body, 'body');
         let axiosOption = Object.assign(
             {},
@@ -29,9 +38,18 @@ const CompanyService = {
             getCommonHeaderOptions()
         );
         console.log(axiosOption, 'axios');
-        return ApiService.post(URLS.GET_COMPANY_LIST(), axiosOption);
+        return ApiService.post(URLS.BRAND_ADMIN_ACTION(), axiosOption);
     },
-
+    adminActionStore(body) {
+        console.log(body, 'body');
+        let axiosOption = Object.assign(
+            {},
+            { data: body },
+            getCommonHeaderOptions()
+        );
+        console.log(axiosOption, 'axios');
+        return ApiService.post(URLS.STORE_ADMIN_ACTION(), axiosOption);
+    },
     fetchBrands(params = {}) {
         let axiosOption = Object.assign(
             {

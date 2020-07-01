@@ -16,6 +16,13 @@ const conf = convict({
         arg: 'port'
     },
     BROWSER_CONFIG: {
+        FYND_PLATFORM_DOMAIN: {
+            doc: 'Fynd Platform Domain',
+            format: String,
+            default: '',
+            env: 'FYND_PLATFORM_DOMAIN',
+            arg: 'fynd_platform_domain'
+        },
         BLITZKRIEG_MAIN_URL: {
             doc: 'Themes API',
             format: String,

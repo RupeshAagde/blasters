@@ -35,6 +35,18 @@ const URLS = {
             '/v1/admin/onboarding/company/verification/'
         );
     },
+    BRAND_ADMIN_ACTION: () => {
+        return urlJoin(
+            SILVERBOLT_MAIN_URL,
+            '/v1/admin/onboarding/brand/verification/'
+        );
+    },
+    STORE_ADMIN_ACTION: () => {
+        return urlJoin(
+            SILVERBOLT_MAIN_URL,
+            '/v1/admin/onboarding/store/verification/'
+        );
+    },
     GET_COMPANY_BRANDS: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/company/brand/');
     },

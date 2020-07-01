@@ -30,10 +30,11 @@
                 <div class="brand-stage">
                     <nitrozen-badge
                         :state="item.stage == 'verified' ? 'success' : 'warn'"
-                        >{{
-                            item.stage == 'verified' ? 'verified' : 'unverified'
-                        }}</nitrozen-badge
                     >
+                        {{
+                            item.stage == 'verified' ? 'verified' : 'unverified'
+                        }}
+                    </nitrozen-badge>
                 </div>
             </div>
         </div>

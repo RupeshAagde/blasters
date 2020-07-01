@@ -156,9 +156,9 @@
                 ref="company_approve_dialog"
                 title="Approve Company"
             >
-                <template slot="header" v-if="activeCompany">
-                    {{ activeCompany.name }}
-                </template>
+                <template slot="header" v-if="activeCompany">{{
+                    activeCompany.name
+                }}</template>
                 <template slot="body"
                     >Are you sure you want to approve this company?</template
                 >
@@ -185,9 +185,9 @@
                 ref="company_reject_dialog"
                 title="Reject Company"
             >
-                <template slot="header" v-if="activeCompany">
-                    {{ activeCompany.name }}
-                </template>
+                <template slot="header" v-if="activeCompany">{{
+                    activeCompany.name
+                }}</template>
                 <template slot="body" class="desc-dialog">
                     <div>
                         <nitrozen-input
@@ -200,9 +200,8 @@
                         <nitrozen-error
                             class="cust-inp"
                             v-if="rejection_info.showError"
+                            >{{ rejection_info.errortext }}</nitrozen-error
                         >
-                            {{ rejection_info.errortext }}
-                        </nitrozen-error>
                     </div>
                     <div>Are you sure you want to reject this company?</div>
                 </template>

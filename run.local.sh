@@ -5,6 +5,7 @@ export PORT=8087
 
 
 #API's
+export FYND_PLATFORM_DOMAIN=fyndx0.de
 export PLATFORM_COMMON_MAIN_URL=https://api.fyndx0.de/platform/common/
 export PLATFORM_COMMON_MAIN_SVC=https://api.fyndx0.de/platform/common/
 export BLITZKRIEG_MAIN_URL=https://api.fyndx0.de/platform/theme/
