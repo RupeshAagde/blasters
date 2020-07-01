@@ -674,7 +674,8 @@ export default {
                 CompanyService.adminActionCompany(obj)
                     .then((res) => {
                         this.closeRejectDialog();
-                        (this.rejection_info.value = ''), this.fetchCompany();
+                        this.rejection_info.value = '';
+                        this.fetchCompany();
                         this.resData = JSON.parse(
                             JSON.stringify(this.getFormData())
                         );

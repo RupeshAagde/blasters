@@ -3,6 +3,17 @@
         <div class="details">
             <div class="details-header">
                 <label class="bold-xs cl-Mako">Details</label>
+                <div class="img-box">
+                    <a
+                        :href="
+                            `https://platform.${fyndPlatformDomain}/company/${companyId}/profile/edit`
+                        "
+                        target="_blank"
+                        class="menu"
+                    >
+                        <img :src="'/public/assets/svgs/edit.svg'" />
+                    </a>
+                </div>
             </div>
             <div v-if="inProgress" class="shimmer"></div>
             <div class="details-body" v-if="!inProgress">
@@ -77,6 +88,17 @@
         <div class="documents">
             <div class="documents-header">
                 <label class="bold-xs cl-Mako">Legal Documents</label>
+                <div class="img-box">
+                    <a
+                        :href="
+                            `https://platform.${fyndPlatformDomain}/company/${companyId}/profile/edit-documents`
+                        "
+                        target="_blank"
+                        class="menu"
+                    >
+                        <img :src="'/public/assets/svgs/edit.svg'" />
+                    </a>
+                </div>
             </div>
             <div v-if="inProgress" class="shimmer"></div>
             <div class="documents-body" v-if="!inProgress">
@@ -173,6 +195,10 @@
 import path from 'path';
 import CompanyService from '@/services/company-admin.service';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
+
+import root from 'window-or-global';
+const env = root.env || {};
+
 export default {
     name: 'adm-company-details',
     components: {
@@ -185,6 +211,11 @@ export default {
             profileDetails: {},
             companyId: this.$route.params.companyId
         };
+    },
+    computed: {
+        fyndPlatformDomain(type) {
+            return env.FYND_PLATFORM_DOMAIN;
+        }
     },
     mounted() {
         this.getProfileDetails();
