@@ -32,10 +32,9 @@
           <div class="cust-badge">
             <nitrozen-badge
               :state="item.stage == 'verified' ? 'success' : 'warn'"
-              >{{
-                item.stage == 'verified' ? 'verified' : 'unverified'
-              }}</nitrozen-badge
             >
+              {{ item.stage == 'verified' ? 'verified' : 'unverified' }}
+            </nitrozen-badge>
             <div class="img-box" @click="editStore($event, item)">
               <img class="pic-col" :src="'/public/assets/svgs/edit.svg'" />
             </div>
@@ -83,9 +82,9 @@
       ref="store_admin_dialog"
       title="Verify/Unverify Store"
     >
-      <template slot="header" v-if="activeStore">
-        {{ activeStore.name }}
-      </template>
+      <template slot="header" v-if="activeStore">{{
+        activeStore.name
+      }}</template>
       <template slot="body" class="desc-dialog">
         <div>
           <div class="cust-inp" v-if="activeStore && activeStore.address">
@@ -102,9 +101,9 @@
                 v-model="order_choice"
                 @change="changeDropDown"
               ></nitrozen-dropdown>
-              <nitrozen-error v-if="order_choice_error.showerror">{{
-                order_choice_error.errortext
-              }}</nitrozen-error>
+              <nitrozen-error v-if="order_choice_error.showerror">
+                {{ order_choice_error.errortext }}
+              </nitrozen-error>
             </div>
             <div class="right-drop">
               <nitrozen-dropdown
@@ -114,9 +113,9 @@
                 v-model="inventory_choice"
                 @change="changeDropDown"
               ></nitrozen-dropdown>
-              <nitrozen-error v-if="inventory_choice_error.showerror">{{
-                inventory_choice_error.errortext
-              }}</nitrozen-error>
+              <nitrozen-error v-if="inventory_choice_error.showerror">
+                {{ inventory_choice_error.errortext }}
+              </nitrozen-error>
             </div>
           </div>
           <nitrozen-input
@@ -127,9 +126,9 @@
             v-if="!show_verify_button"
             v-model="rejection_info.value"
           ></nitrozen-input>
-          <nitrozen-error class="cust-inp" v-if="rejection_info.showError">
-            {{ rejection_info.errortext }}
-          </nitrozen-error>
+          <nitrozen-error class="cust-inp" v-if="rejection_info.showError">{{
+            rejection_info.errortext
+          }}</nitrozen-error>
         </div>
         <div class="cust-inp">
           Are you sure you want to {{ admin_action_text }} this store?
@@ -272,6 +271,10 @@
       padding: 24px;
       margin-bottom: 24px;
       cursor: pointer;
+
+      &:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
       .store-header {
         display: flex;
         justify-content: space-between;

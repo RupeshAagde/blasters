@@ -38,7 +38,7 @@ const URLS = {
   BRAND_ADMIN_ACTION: () => {
     return urlJoin(
       SILVERBOLT_MAIN_URL,
-      '/v1/admin/onboarding/brand/verification/'
+      '/v1/admin/onboarding/company/brand/verification/'
     );
   },
   STORE_ADMIN_ACTION: () => {
