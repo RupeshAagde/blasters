@@ -624,14 +624,15 @@ export default {
             this.onCancel();
           }, 2000);
         })
-        .catch((err) => {
-          console.error(err.response);
+        .catch((error) => {
+          console.error(error);
           this.$snackbar.global.showError(
-            `${err.response.data ? err.response.data.errors.error : ''}`,
+            `${error.response.data ? error.response.data.errors.error : ''}`,
             {
               duration: 2000
             }
           );
+          this.closeApproveDialog();
         })
         .finally(() => {
           this.inProgress = false;
@@ -648,6 +649,7 @@ export default {
           .then((res) => {
             this.closeRejectDialog();
             this.rejection_info.value = '';
+            this.rejection_info.showError = false;
             this.fetchCompany();
             this.resData = JSON.parse(JSON.stringify(this.getFormData()));
             this.$snackbar.global.showSuccess('Company Rejected Successfully', {
@@ -657,14 +659,15 @@ export default {
               this.onCancel();
             }, 2000);
           })
-          .catch((err) => {
-            console.error(err.response);
+          .catch((error) => {
+            console.error(error);
             this.$snackbar.global.showError(
-              `${err.response.data ? err.response.data.errors.error : ''}`,
+              `${error.response.data ? error.response.data.errors.error : ''}`,
               {
                 duration: 2000
               }
             );
+            this.closeRejectDialog();
           })
           .finally(() => {
             this.inProgress = false;

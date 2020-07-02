@@ -413,7 +413,6 @@ export default {
           this.inProgress = false;
           this.pageError = false;
           this.brandsData = res.data.data;
-          console.log(this.brandsData, 'brand data');
           this.brandsDataToShow = this.brandsData.slice(0, this.showCount);
           if (this.brandsDataToShow.length < this.brandsData.length) {
             this.viewMore = true;
@@ -498,10 +497,10 @@ export default {
             this.onCancel();
           }, 2000);
         })
-        .catch((err) => {
-          console.error(err.response);
+        .catch((error) => {
+          console.error(error);
           this.$snackbar.global.showError(
-            `${err.response.data ? err.response.data.errors : ''}`,
+            `${error.response.data ? error.response.data.errors.error : ''}`,
             {
               duration: 2000
             }
@@ -526,6 +525,7 @@ export default {
           .then((res) => {
             this.closeRejectDialog();
             this.rejection_info.value = '';
+            this.rejection_info.showError = false;
             this.showLess = false;
             this.getBrands();
             this.resData = JSON.parse(JSON.stringify(this.getFormData()));
@@ -536,14 +536,15 @@ export default {
               this.onCancel();
             }, 2000);
           })
-          .catch((err) => {
-            console.error(err.response);
+          .catch((error) => {
+            console.error(error);
             this.$snackbar.global.showError(
-              `${err.response.data ? err.response.data.errors : ''}`,
+              `${error.response.data ? error.response.data.errors : ''}`,
               {
                 duration: 2000
               }
             );
+            this.closeAdminDialog();
           })
           .finally(() => {
             this.inProgress = false;
