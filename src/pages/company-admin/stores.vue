@@ -34,12 +34,13 @@
                             :state="
                                 item.stage == 'verified' ? 'success' : 'warn'
                             "
-                            >{{
+                        >
+                            {{
                                 item.stage == 'verified'
                                     ? 'verified'
                                     : 'unverified'
-                            }}</nitrozen-badge
-                        >
+                            }}
+                        </nitrozen-badge>
                         <div class="img-box" @click="editStore($event, item)">
                             <img
                                 class="pic-col"
@@ -98,9 +99,9 @@
             ref="store_admin_dialog"
             title="Verify/Unverify Store"
         >
-            <template slot="header" v-if="activeStore">
-                {{ activeStore.name }}
-            </template>
+            <template slot="header" v-if="activeStore">{{
+                activeStore.name
+            }}</template>
             <template slot="body" class="desc-dialog">
                 <div>
                     <div
@@ -120,12 +121,9 @@
                                 v-model="order_choice"
                                 @change="changeDropDown"
                             ></nitrozen-dropdown>
-                            <nitrozen-error
-                                v-if="order_choice_error.showerror"
-                                >{{
-                                    order_choice_error.errortext
-                                }}</nitrozen-error
-                            >
+                            <nitrozen-error v-if="order_choice_error.showerror">
+                                {{ order_choice_error.errortext }}
+                            </nitrozen-error>
                         </div>
                         <div class="right-drop">
                             <nitrozen-dropdown
@@ -137,10 +135,9 @@
                             ></nitrozen-dropdown>
                             <nitrozen-error
                                 v-if="inventory_choice_error.showerror"
-                                >{{
-                                    inventory_choice_error.errortext
-                                }}</nitrozen-error
                             >
+                                {{ inventory_choice_error.errortext }}
+                            </nitrozen-error>
                         </div>
                     </div>
                     <nitrozen-input
@@ -154,9 +151,8 @@
                     <nitrozen-error
                         class="cust-inp"
                         v-if="rejection_info.showError"
+                        >{{ rejection_info.errortext }}</nitrozen-error
                     >
-                        {{ rejection_info.errortext }}
-                    </nitrozen-error>
                 </div>
                 <div class="cust-inp">
                     Are you sure you want to {{ admin_action_text }} this store?
@@ -602,18 +598,20 @@ export default {
                             this.onCancel();
                         }, 2000);
                     })
-                    .catch((err) => {
-                        console.error(err.response);
+                    .catch((error) => {
+                        console.error(error);
+                        console.log(error.response, 'error');
                         this.$snackbar.global.showError(
                             `${
-                                err.response.data
-                                    ? err.response.data.errors.error
+                                error.response.data
+                                    ? JSON.stringify(error.response.data.errors)
                                     : ''
                             }`,
                             {
                                 duration: 2000
                             }
                         );
+                        this.closeAdminDialog();
                     })
                     .finally(() => {
                         this.inProgress = false;
@@ -652,6 +650,7 @@ export default {
                     .then((res) => {
                         this.closeAdminDialog();
                         this.rejection_info.value = '';
+                        this.rejection_info.showError = false;
                         this.getStores();
                         this.$snackbar.global.showSuccess(
                             'Store Rejected Successfully',
@@ -663,18 +662,19 @@ export default {
                             this.onCancel();
                         }, 2000);
                     })
-                    .catch((err) => {
-                        console.error(err.response);
+                    .catch((error) => {
+                        console.error(error);
                         this.$snackbar.global.showError(
                             `${
-                                err.response.data
-                                    ? err.response.data.errors.error
+                                error.response.data
+                                    ? JSON.stringify(error.response.data.errors)
                                     : ''
                             }`,
                             {
                                 duration: 2000
                             }
                         );
+                        this.closeAdminDialog();
                     })
                     .finally(() => {
                         this.inProgress = false;
@@ -717,13 +717,11 @@ export default {
                     });
                 }
             } else {
-                if (this.activeStore) {
-                    this.$refs['store_admin_dialog'].open({
-                        width: '600px',
-                        showCloseButton: true,
-                        dismissible: true
-                    });
-                }
+                this.$refs['store_admin_dialog'].open({
+                    width: '600px',
+                    showCloseButton: true,
+                    dismissible: true
+                });
             }
         },
         changeDropDown() {
