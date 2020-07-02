@@ -505,6 +505,7 @@ export default {
               duration: 2000
             }
           );
+          this.closeAdminDialog();
         })
         .finally(() => {
           this.inProgress = false;
