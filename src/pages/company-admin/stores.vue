@@ -183,7 +183,7 @@
                         @click="rejectStore"
                         v-flatBtn
                         :theme="'secondary'"
-                        >Reject</nitrozen-button
+                        >Disable</nitrozen-button
                     >
                     <nitrozen-button
                         @click="closeAdminDialog"
@@ -682,7 +682,7 @@ export default {
                         this.rejection_info.showError = false;
                         this.getStores();
                         this.$snackbar.global.showSuccess(
-                            'Store Rejected Successfully',
+                            'Store Disabled Successfully',
                             {
                                 duration: 2000
                             }
@@ -730,7 +730,7 @@ export default {
             this.order_choice = null;
             this.inventory_choice = null;
             if (item.stage && item.stage == 'verified') {
-                this.admin_action_text = 'reject';
+                this.admin_action_text = 'disable';
                 this.show_verify_button = false;
             } else {
                 this.admin_action_text = 'verify';
