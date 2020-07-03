@@ -104,7 +104,7 @@
                                 <nitrozen-badge
                                     v-if="product.stage == 'complete'"
                                     state="warn"
-                                    >{{ product.stage }}</nitrozen-badge
+                                    >Verification Pending</nitrozen-badge
                                 >
                                 <nitrozen-badge
                                     v-if="product.stage == 'rejected'"

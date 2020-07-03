@@ -34,12 +34,13 @@
                             :state="
                                 item.stage == 'verified' ? 'success' : 'warn'
                             "
-                            >{{
+                        >
+                            {{
                                 item.stage == 'verified'
                                     ? 'verified'
                                     : 'unverified'
-                            }}</nitrozen-badge
-                        >
+                            }}
+                        </nitrozen-badge>
                         <div class="img-box" @click="editStore($event, item)">
                             <adm-inline-svg
                                 class="verified-icon left-space-s"
@@ -97,13 +98,16 @@
         <nitrozen-dialog
             class="remove_staff_dialog"
             ref="store_admin_dialog"
-            title="Verify/Unverify Store"
+            :title="activeStore.name"
         >
-            <template slot="header" v-if="activeStore">
-                {{ activeStore.name }}
-            </template>
+            <!-- <template slot="header" v-if="activeStore">
+        {{
+        activeStore.name
+        }}
+            </template>-->
             <template slot="body" class="desc-dialog">
                 <div>
+                    <label class="cust-label">Address</label>
                     <div
                         class="cust-inp"
                         v-if="activeStore && activeStore.address"
@@ -114,7 +118,7 @@
                     </div>
                     <div class="cust-drop">
                         <div class="left-drop">
-                            <label class="cust-label">Order Integration</label>
+                            <label class="cust-label">Order Integration*</label>
                             <nitrozen-dropdown
                                 label="Order Integration*"
                                 placeholder="Choose order integration type"
@@ -122,16 +126,13 @@
                                 v-model="order_choice"
                                 @change="changeDropDown"
                             ></nitrozen-dropdown>
-                            <nitrozen-error
-                                v-if="order_choice_error.showerror"
-                                >{{
-                                    order_choice_error.errortext
-                                }}</nitrozen-error
-                            >
+                            <nitrozen-error v-if="order_choice_error.showerror">
+                                {{ order_choice_error.errortext }}
+                            </nitrozen-error>
                         </div>
                         <div class="right-drop">
                             <label class="cust-label"
-                                >Inventory Integration</label
+                                >Inventory Integration*</label
                             >
                             <nitrozen-dropdown
                                 label="Inventory Integration*"
@@ -142,28 +143,26 @@
                             ></nitrozen-dropdown>
                             <nitrozen-error
                                 v-if="inventory_choice_error.showerror"
-                                >{{
-                                    inventory_choice_error.errortext
-                                }}</nitrozen-error
                             >
+                                {{ inventory_choice_error.errortext }}
+                            </nitrozen-error>
                         </div>
                     </div>
                     <nitrozen-input
-                        class="cust-inp"
+                        class="cust-margin"
                         type="textarea"
-                        label="Rejection Reason*"
-                        placeholder="Explain rejection reason properly..."
+                        label="Reason*"
+                        placeholder="Explain reason properly..."
                         v-if="!show_verify_button"
                         v-model="rejection_info.value"
                     ></nitrozen-input>
                     <nitrozen-error
-                        class="cust-inp"
+                        class="cust-margin"
                         v-if="rejection_info.showError"
+                        >{{ rejection_info.errortext }}</nitrozen-error
                     >
-                        {{ rejection_info.errortext }}
-                    </nitrozen-error>
                 </div>
-                <div class="cust-inp">
+                <div class="cust-sent">
                     Are you sure you want to {{ admin_action_text }} this store?
                 </div>
             </template>
@@ -203,6 +202,13 @@
 .cust-inp {
     margin-bottom: 24px;
 }
+.cust-margin {
+    margin-bottom: 6px;
+}
+.cust-sent {
+    margin-top: 18px;
+    margin-bottom: 24px;
+}
 .cust-label {
     color: #9b9b9b;
     font-family: Poppins, sans-serif;
@@ -213,7 +219,7 @@
 .cust-drop {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
     margin-bottom: 24px;
     overflow: visible;
 
@@ -451,7 +457,7 @@ export default {
             activeStore: {},
             rejection_info: {
                 showError: false,
-                errortext: 'Please explain rejection reason properly.',
+                errortext: 'Please explain reason properly.',
                 value: ''
             },
             admin_action_text: '',
@@ -541,7 +547,6 @@ export default {
                         });
                     } else if (params.choice_type == 'integration_type') {
                         this.integrationType = res.data.data;
-                        console.log(res, 'res');
                         this.integrationType.map((ele) => {
                             ele.text = ele.value;
                             ele.value = ele.key;
@@ -629,7 +634,6 @@ export default {
                     })
                     .catch((error) => {
                         console.error(error);
-                        console.log(error.response, 'error');
                         this.$snackbar.global.showError(
                             `${
                                 error.response.data
@@ -712,21 +716,18 @@ export default {
                 if (this.rejection_info.showError == false) {
                     this.rejection_info.showError = true;
                 }
-                if (
-                    this.order_choice_error.showerror == false &&
-                    !this.order_choice
-                ) {
+                if (!this.order_choice) {
                     this.order_choice_error.showerror = true;
                 }
-                if (
-                    this.inventory_choice_error.showerror == false &&
-                    !this.inventory_choice
-                ) {
+                if (!this.inventory_choice) {
                     this.inventory_choice_error.showerror = true;
                 }
             }
         },
         openAdminDialog(item) {
+            this.rejection_info.showError = false;
+            this.order_choice_error.showerror = false;
+            this.inventory_choice_error.showerror = false;
             this.order_choice = null;
             this.inventory_choice = null;
             if (item.stage && item.stage == 'verified') {
@@ -737,13 +738,13 @@ export default {
                 this.show_verify_button = true;
             }
             this.activeStore = { ...item };
-            console.log(this.activeStore, 'active store');
             this.getChoiceType({ choice_type: 'integration_type' });
+
             if (item.stage && item.stage != 'verified') {
                 if (this.activeStore) {
                     this.$refs['store_admin_dialog'].open({
                         width: '600px',
-                        height: '400px',
+                        height: '480px',
                         showCloseButton: true,
                         dismissible: true
                     });

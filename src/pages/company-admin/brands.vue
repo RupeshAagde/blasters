@@ -39,11 +39,10 @@
                 <div class="brand-stage">
                     <nitrozen-badge
                         :state="item.stage == 'verified' ? 'success' : 'warn'"
-                    >
-                        {{
+                        >{{
                             item.stage == 'verified' ? 'verified' : 'unverified'
-                        }}
-                    </nitrozen-badge>
+                        }}</nitrozen-badge
+                    >
                 </div>
             </div>
         </div>
@@ -75,14 +74,20 @@
         <nitrozen-dialog
             class="remove_staff_dialog"
             ref="brand_admin_dialog"
-            title="Verify/Unverify Brand"
+            :title="
+                activeBrand && activeBrand.brand
+                    ? activeBrand.brand.name
+                    : 'Company Details'
+            "
         >
-            <template slot="header" v-if="activeBrand">{{
-                activeBrand.brand.name
-            }}</template>
+            <!-- <template slot="header" v-if="activeBrand">{{ activeBrand.brand.name }}</template> -->
             <template slot="body" class="desc-dialog" v-if="activeBrand">
-                <label class="n-input-label">Description</label>
-                <div class="cust-inp">{{ activeBrand.brand.description }}</div>
+                <div v-if="activeBrand.brand.description">
+                    <label class="n-input-label">Description</label>
+                    <div class="cust-inp">
+                        {{ activeBrand.brand.description }}
+                    </div>
+                </div>
                 <div class="brand-images">
                     <div class="brand-logo">
                         <label class="n-input-label">Logo</label>
@@ -100,20 +105,21 @@
 
                 <div>
                     <nitrozen-input
-                        class="cust-inp"
+                        class="cust-margin"
                         v-if="show_verify_button"
                         type="textarea"
-                        label="Rejection Reason*"
-                        placeholder="Explain rejection reason properly..."
+                        label="Reason*"
+                        placeholder="Explain reason properly..."
                         v-model="rejection_info.value"
                     ></nitrozen-input>
                     <nitrozen-error
-                        class="cust-inp"
+                        class="cust-margin"
                         v-if="rejection_info.showError"
-                        >{{ rejection_info.errortext }}</nitrozen-error
                     >
+                        {{ rejection_info.errortext }}
+                    </nitrozen-error>
                 </div>
-                <div>
+                <div class="text-margin">
                     Are you sure you want to {{ admin_action_text }} this brand?
                 </div>
             </template>
@@ -153,6 +159,13 @@
 ::v-deep .nitrozen-dialog-body {
     margin-bottom: 24px;
 }
+.cust-margin {
+    margin-bottom: 6px;
+}
+.text-margin {
+    margin-top: 18px;
+    margin-bottom: 24px;
+}
 .cust-inp {
     margin-bottom: 24px;
 }
@@ -168,15 +181,18 @@
         }
     }
     .brand-banner-1 {
+        margin: 0 auto;
         img {
-            width: 100%;
-            height: 150px;
+            margin-left: 50px;
+            width: 80%;
+            height: 250px;
         }
     }
     .brand-banner-2 {
         img {
-            width: 100%;
-            height: 300px;
+            margin-left: 50px;
+            width: 80%;
+            height: 400px;
         }
     }
 }
@@ -379,7 +395,7 @@ export default {
             inBrand: null,
             rejection_info: {
                 showError: false,
-                errortext: 'Please explain rejection reason properly.',
+                errortext: 'Please explain reason properly.',
                 value: ''
             },
             admin_action_text: '',
@@ -603,7 +619,7 @@ export default {
             }
 
             this.$refs['brand_admin_dialog'].open({
-                width: '400px',
+                width: '600px',
                 height: '600px',
                 showCloseButton: true,
                 dismissible: true
@@ -612,6 +628,11 @@ export default {
         closeAdminDialog() {
             this.$refs['brand_admin_dialog'].close();
         },
+        // getImage(src, str){
+        //   let temp = '/' + str + '/';
+        //   console.log(src, 'src', str ,'str', temp, 'temp');
+        //   return src.replace('/original/', temp);
+        // },
         setRouteQuery(query) {
             if (query.search || query.stage) {
                 // clear pagination if search or filter applied

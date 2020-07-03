@@ -83,7 +83,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div
                     class="detail-row"
                     v-if="
@@ -97,25 +96,6 @@
                             {{ profileDetails.addresses[0].address1 }}
                         </div>
                     </div>
-                </div>
-                <div class="bottom-buttons">
-                    <nitrozen-button
-                        class="mr24"
-                        v-if="profileDetails.stage != 'verified'"
-                        @click="openApproveDialog()"
-                        v-flatBtn
-                        :theme="'secondary'"
-                        >Approve</nitrozen-button
-                    >
-                    <!-- v-if="product.stage != 'rejected'" -->
-                    <nitrozen-button
-                        theme="secondary"
-                        class="export-catalog"
-                        v-if="profileDetails.stage != 'rejected'"
-                        v-strokeBtn
-                        @click="openRejectDialog()"
-                        >Reject</nitrozen-button
-                    >
                 </div>
             </div>
         </div>
@@ -140,29 +120,52 @@
             </div>
             <div v-if="inProgress" class="shimmer"></div>
             <div class="documents-body" v-if="!inProgress">
-                <div v-if="profileDetails.documents.length > 0">
-                    <div
-                        class="document-row"
-                        v-for="(item, index) in profileDetails.documents"
-                        :key="'docs' + index"
-                    >
-                        <div class="document-type dark-xs cl-DustyGray2">
-                            {{ item.type }}
+                <div v-if="profileDetails.documents" class="cust-inp">
+                    <div v-if="profileDetails.documents.length > 0">
+                        <div
+                            class="document-row"
+                            v-for="(item, index) in profileDetails.documents"
+                            :key="'docs' + index"
+                        >
+                            <div class="document-type dark-xs cl-DustyGray2">
+                                {{ item.type }}
+                            </div>
+                            <div class="document-value">{{ item.value }}</div>
                         </div>
-                        <div class="document-value">{{ item.value }}</div>
                     </div>
+                    <div v-else>Company have no documents</div>
                 </div>
-                <div v-else>Company have no documents</div>
+            </div>
+            <div class="bottom-buttons">
+                <nitrozen-button
+                    class="mr24"
+                    v-if="profileDetails.stage != 'verified'"
+                    @click="openApproveDialog()"
+                    v-flatBtn
+                    :theme="'secondary'"
+                    >Approve</nitrozen-button
+                >
+                <!-- v-if="product.stage != 'rejected'" -->
+                <nitrozen-button
+                    theme="secondary"
+                    class="export-catalog"
+                    v-if="profileDetails.stage != 'rejected'"
+                    v-strokeBtn
+                    @click="openRejectDialog()"
+                    >Reject</nitrozen-button
+                >
             </div>
         </div>
         <nitrozen-dialog
             class="remove_staff_dialog"
             ref="company_approve_dialog"
-            title="Approve Company"
+            :title="profileDetails.name"
         >
-            <template slot="header" v-if="profileDetails">
-                {{ profileDetails.name }}
-            </template>
+            <!-- <template slot="header" v-if="profileDetails"> -->
+            <!-- {{
+        profileDetails.name
+        }}
+            </template>-->
             <template slot="body" class="cust-dialog-body"
                 >Are you sure you want to approve this company?</template
             >
@@ -189,26 +192,27 @@
             ref="company_reject_dialog"
             title="Reject Company"
         >
-            <template slot="header" v-if="profileDetails">
-                {{ profileDetails.name }}
-            </template>
+            <template slot="header" v-if="profileDetails">{{
+                profileDetails.name
+            }}</template>
             <template slot="body" class="desc-dialog">
                 <div>
                     <nitrozen-input
-                        class="cust-inp"
+                        class="cust-margin"
                         type="textarea"
-                        label="Rejection Reason*"
-                        placeholder="Explain rejection reason properly..."
+                        label="Reason*"
+                        placeholder="Explain reason properly..."
                         v-model="rejection_info.value"
                     ></nitrozen-input>
                     <nitrozen-error
-                        class="cust-inp"
+                        class="cust-margin"
                         v-if="rejection_info.showError"
+                        >{{ rejection_info.errortext }}</nitrozen-error
                     >
-                        {{ rejection_info.errortext }}
-                    </nitrozen-error>
                 </div>
-                <div>Are you sure you want to reject this company?</div>
+                <div class="text-margin">
+                    Are you sure you want to reject this company?
+                </div>
             </template>
             <template slot="footer">
                 <div>
@@ -233,12 +237,19 @@
 
 <style lang="less" scoped>
 .bottom-buttons {
-    align-self: end;
-    justify-content: flex-end;
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 12px;
 }
 .cust-inp {
     margin-bottom: 24px;
+}
+.cust-margin {
+    margin-bottom: 6px;
+}
+.text-margin {
+    margin-bottom: 24px;
+    margin-top: 18px;
 }
 ::v-deep .nitrozen-dialog-body {
     margin-bottom: 24px;
@@ -300,7 +311,7 @@
         margin-top: 4px;
         .document-row {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
             line-height: 2.5;
             .document-type {
@@ -309,6 +320,7 @@
             .document-value {
                 color: @Mako;
                 font-weight: 500;
+                margin-left: 24px;
             }
         }
     }
@@ -360,7 +372,7 @@ export default {
             showLess: false,
             rejection_info: {
                 showError: false,
-                errortext: 'Please explain rejection reason properly.',
+                errortext: 'Please explain reason properly.',
                 value: ''
             }
         };
