@@ -541,7 +541,7 @@ export default {
             this.rejection_info.showError = false;
             this.showLess = false;
             this.getBrands();
-            this.$snackbar.global.showSuccess('Brand Unverified Successfully', {
+            this.$snackbar.global.showSuccess('Brand Disabled Successfully', {
               duration: 2000
             });
             setTimeout(() => {
@@ -569,7 +569,7 @@ export default {
       this.activeBrand = item;
       if (item.stage == 'verified') {
         this.show_verify_button = true;
-        this.admin_action_text = 'unverify';
+        this.admin_action_text = 'disable';
       } else {
         this.show_verify_button = false;
         this.admin_action_text = 'verify';

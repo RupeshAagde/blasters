@@ -227,7 +227,6 @@
         display: flex;
         justify-content: flex-start;
         text-align: center;
-        margin-bottom: 12px;
       }
 
       .txt-company-heading {
@@ -236,7 +235,7 @@
         font-size: 16px;
         -webkit-font-smoothing: antialiased;
         line-height: 22px;
-        margin-bottom: 12px;
+        margin-bottom: 6px;
       }
       .txt-description-heading {
         color: #9b9b9b;
