@@ -82,10 +82,8 @@
                   state="success"
                   >{{ product.stage }}</nitrozen-badge
                 >
-                <nitrozen-badge
-                  v-if="product.stage == 'complete'"
-                  state="warn"
-                  >{{ product.stage }}</nitrozen-badge
+                <nitrozen-badge v-if="product.stage == 'complete'" state="warn"
+                  >Verification Pending</nitrozen-badge
                 >
                 <nitrozen-badge
                   v-if="product.stage == 'rejected'"
