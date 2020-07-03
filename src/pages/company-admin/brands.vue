@@ -39,9 +39,10 @@
         <div class="brand-stage">
           <nitrozen-badge
             :state="item.stage == 'verified' ? 'success' : 'warn'"
+            >{{
+              item.stage == 'verified' ? 'verified' : 'unverified'
+            }}</nitrozen-badge
           >
-            {{ item.stage == 'verified' ? 'verified' : 'unverified' }}
-          </nitrozen-badge>
         </div>
       </div>
     </div>
@@ -75,10 +76,12 @@
       ref="brand_admin_dialog"
       title="Verify/Unverify Brand"
     >
-      <template slot="header" v-if="activeBrand">{{
-        activeBrand.brand.name
-      }}</template>
+      <template slot="header" v-if="activeBrand">
+        {{ activeBrand.brand.name }}
+      </template>
       <template slot="body" class="desc-dialog" v-if="activeBrand">
+        <label class="n-input-label">Description</label>
+        <div class="cust-inp">{{ activeBrand.brand.description }}</div>
         <div class="brand-images">
           <div class="brand-logo">
             <label class="n-input-label">Logo</label>
@@ -103,9 +106,9 @@
             placeholder="Explain rejection reason properly..."
             v-model="rejection_info.value"
           ></nitrozen-input>
-          <nitrozen-error class="cust-inp" v-if="rejection_info.showError">{{
-            rejection_info.errortext
-          }}</nitrozen-error>
+          <nitrozen-error class="cust-inp" v-if="rejection_info.showError">
+            {{ rejection_info.errortext }}
+          </nitrozen-error>
         </div>
         <div>Are you sure you want to {{ admin_action_text }} this brand?</div>
       </template>
@@ -125,7 +128,7 @@
             @click="unverifyBrand"
             v-flatBtn
             :theme="'secondary'"
-            >Unverify</nitrozen-button
+            >Disable</nitrozen-button
           >
           <nitrozen-button
             @click="closeAdminDialog"
@@ -243,9 +246,6 @@
     .brands-div {
       margin-right: 24px;
       margin-top: 12px;
-      // &:hover {
-      //     box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.1);
-      // }
       .brand-img-div {
         background-color: @Alabaster2;
         height: 80px;
@@ -254,6 +254,9 @@
         .brand-img {
           width: 100%;
           height: 100%;
+        }
+        &:hover {
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
       }
       .brand-name {
@@ -276,6 +279,14 @@
         overflow: hidden;
         text-overflow: ellipsis;
         width: 80px;
+
+        &:hover {
+          font-size: 12px;
+          background-color: white;
+          opacity: none;
+          font-weight: bold;
+          color: #5a6bdd;
+        }
       }
       .brand-stage {
         margin: 12px 0;
@@ -413,6 +424,7 @@ export default {
           this.inProgress = false;
           this.pageError = false;
           this.brandsData = res.data.data;
+          console.log(this.brandsData, 'brand');
           this.brandsDataToShow = this.brandsData.slice(0, this.showCount);
           if (this.brandsDataToShow.length < this.brandsData.length) {
             this.viewMore = true;
@@ -529,7 +541,6 @@ export default {
             this.rejection_info.showError = false;
             this.showLess = false;
             this.getBrands();
-            this.resData = JSON.parse(JSON.stringify(this.getFormData()));
             this.$snackbar.global.showSuccess('Brand Unverified Successfully', {
               duration: 2000
             });

@@ -1,12 +1,7 @@
 <template>
   <div class="main-container">
     <div class="jumbotron-container">
-      <adm-jumbotron
-        :title="'Company'"
-        :desc="
-          'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum'
-        "
-      ></adm-jumbotron>
+      <adm-jumbotron :title="'Company'" :desc="''"></adm-jumbotron>
     </div>
     <div class="second-container">
       <div
@@ -52,33 +47,20 @@
             :key="index"
             class="container"
           >
-            <div class="card-top">
+            <div class="card-top" @click="companyView(product)">
               <div class="left-container">
                 <div>
-                  <div class="badge-class">
-                    <div class="txt-company-heading hlp-badge">
-                      {{ product.name }}
+                  <div class="card-content-line-1 txt-company-heading">
+                    {{ product.name }}
+                  </div>
+
+                  <div class="txt-arrange">
+                    <div class="txt-description-heading">
+                      Business Country :
                     </div>
-                    <nitrozen-badge
-                      v-if="product.stage == 'verified'"
-                      state="success"
-                      >{{ product.stage }}</nitrozen-badge
-                    >
-                    <nitrozen-badge
-                      v-if="product.stage == 'complete'"
-                      state="warn"
-                      >{{ product.stage }}</nitrozen-badge
-                    >
-                    <nitrozen-badge
-                      v-if="product.stage == 'rejected'"
-                      state="error"
-                      >{{ product.stage }}</nitrozen-badge
-                    >
-                    <nitrozen-badge
-                      v-if="product.stage == 'incomplete'"
-                      state="error"
-                      >{{ product.stage }}</nitrozen-badge
-                    >
+                    <div class="txt-country">
+                      {{ product.business_country_info.country }}
+                    </div>
                   </div>
                   <div class="txt-arrange">
                     <div class="txt-description-heading">Created By :</div>
@@ -94,29 +76,26 @@
                   </div>
                 </div>
               </div>
-              <div class="right-container">
-                <nitrozen-button
-                  theme="secondary"
-                  class="export-catalog"
-                  v-if="product.stage != 'verified'"
-                  v-strokeBtn
-                  @click="openApproveDialog(product)"
-                  >Approve</nitrozen-button
+              <div class="card-badge-section">
+                <nitrozen-badge
+                  v-if="product.stage == 'verified'"
+                  state="success"
+                  >{{ product.stage }}</nitrozen-badge
                 >
-                <nitrozen-button
-                  theme="secondary"
-                  class="export-catalog"
-                  v-if="product.stage != 'rejected'"
-                  v-strokeBtn
-                  @click="openRejectDialog(product)"
-                  >Reject</nitrozen-button
+                <nitrozen-badge
+                  v-if="product.stage == 'complete'"
+                  state="warn"
+                  >{{ product.stage }}</nitrozen-badge
                 >
-                <nitrozen-button
-                  theme="secondary"
-                  class="export-catalog"
-                  v-strokeBtn
-                  @click="companyView(product)"
-                  >View</nitrozen-button
+                <nitrozen-badge
+                  v-if="product.stage == 'rejected'"
+                  state="error"
+                  >{{ product.stage }}</nitrozen-badge
+                >
+                <nitrozen-badge
+                  v-if="product.stage == 'incomplete'"
+                  state="error"
+                  >{{ product.stage }}</nitrozen-badge
                 >
               </div>
             </div>
@@ -135,76 +114,6 @@
           ></nitrozen-pagination>
         </div>
       </div>
-      <nitrozen-dialog
-        class="remove_staff_dialog"
-        ref="company_approve_dialog"
-        title="Approve Company"
-      >
-        <template slot="header" v-if="activeCompany">
-          {{ activeCompany.name }}
-        </template>
-        <template slot="body"
-          >Are you sure you want to approve this company?</template
-        >
-        <template slot="footer">
-          <div>
-            <nitrozen-button
-              class="mr24"
-              @click="approveCompany"
-              v-flatBtn
-              :theme="'secondary'"
-              >Approve</nitrozen-button
-            >
-            <nitrozen-button
-              @click="closeApproveDialog"
-              v-strokeBtn
-              :theme="'secondary'"
-              >Cancel</nitrozen-button
-            >
-          </div>
-        </template>
-      </nitrozen-dialog>
-      <nitrozen-dialog
-        class="remove_staff_dialog"
-        ref="company_reject_dialog"
-        title="Reject Company"
-      >
-        <template slot="header" v-if="activeCompany">
-          {{ activeCompany.name }}
-        </template>
-        <template slot="body" class="desc-dialog">
-          <div>
-            <nitrozen-input
-              class="cust-inp"
-              type="textarea"
-              label="Rejection Reason*"
-              placeholder="Explain rejection reason properly..."
-              v-model="rejection_info.value"
-            ></nitrozen-input>
-            <nitrozen-error class="cust-inp" v-if="rejection_info.showError">
-              {{ rejection_info.errortext }}
-            </nitrozen-error>
-          </div>
-          <div>Are you sure you want to reject this company?</div>
-        </template>
-        <template slot="footer">
-          <div>
-            <nitrozen-button
-              class="mr24"
-              @click="rejectCompany"
-              v-flatBtn
-              :theme="'secondary'"
-              >Reject</nitrozen-button
-            >
-            <nitrozen-button
-              @click="closeRejectDialog"
-              v-strokeBtn
-              :theme="'secondary'"
-              >Cancel</nitrozen-button
-            >
-          </div>
-        </template>
-      </nitrozen-dialog>
     </div>
   </div>
 </template>
@@ -220,9 +129,7 @@
 .second-container {
   margin: 24px 0px;
 }
-::v-deep .nitrozen-dialog-body {
-  margin-bottom: 24px;
-}
+
 .cust-inp {
   margin-bottom: 24px;
 }
@@ -307,8 +214,9 @@
   }
   .card-top {
     display: flex;
-    height: 60px;
+    height: auto;
     margin-top: 24px;
+    margin-bottom: 12px;
     .left-container {
       display: flex;
       flex: 2;
@@ -323,27 +231,35 @@
       }
 
       .txt-company-heading {
-        font-weight: bold;
-        font-size: 16px;
         color: #5c6bdd;
+        font-weight: 600;
+        font-size: 16px;
+        -webkit-font-smoothing: antialiased;
+        line-height: 22px;
         margin-bottom: 12px;
       }
       .txt-description-heading {
-        font-weight: bold;
-        color: #41434c;
-        font-size: 14px;
-        margin-right: 24px;
+        color: #9b9b9b;
+        line-height: 22px;
+        font-size: 12px;
       }
       .txt-details-by {
-        margin-left: 4px;
-        font-size: 14px;
-        color: #41434c;
-        font-weight: 300;
+        color: #9b9b9b;
+        line-height: 22px;
+        font-size: 12px;
+        margin-left: 60px;
+      }
+      .txt-country {
+        margin-left: 24px;
+        color: #9b9b9b;
+        line-height: 22px;
+        font-size: 12px;
       }
       .txt-details-on {
-        font-size: 14px;
-        color: #41434c;
-        font-weight: 300;
+        color: #9b9b9b;
+        line-height: 22px;
+        font-size: 12px;
+        margin-left: 57px;
       }
 
       .card-avatar {
@@ -579,102 +495,6 @@ export default {
     clearSearchFilter() {
       this.searchText = '';
       this.setRouteQuery({ name: undefined });
-    },
-    openApproveDialog: function(company) {
-      this.activeCompany = company;
-      this.$refs.company_approve_dialog.data = company;
-      this.$refs['company_approve_dialog'].open({
-        width: '500px',
-        showCloseButton: true,
-        dismissible: true
-      });
-    },
-    closeApproveDialog: function() {
-      this.$refs['company_approve_dialog'].close();
-    },
-    openRejectDialog: function(company) {
-      this.rejection_info.showError = false;
-      this.activeCompany = company;
-      this.$refs.company_reject_dialog.data = company;
-      this.$refs['company_reject_dialog'].open({
-        width: '500px',
-        showCloseButton: true,
-        dismissible: true
-      });
-    },
-    closeRejectDialog: function() {
-      this.$refs['company_reject_dialog'].close();
-      this.rejection_info.showError = false;
-      this.rejection_info.value = '';
-    },
-    approveCompany() {
-      const obj = {
-        uid: this.activeCompany.uid,
-        stage: 'verified'
-      };
-      CompanyService.adminActionCompany(obj)
-        .then((res) => {
-          this.closeApproveDialog();
-          this.fetchCompany();
-          this.resData = JSON.parse(JSON.stringify(this.getFormData()));
-          this.$snackbar.global.showSuccess('Company Approved Successfully', {
-            duration: 2000
-          });
-          setTimeout(() => {
-            this.onCancel();
-          }, 2000);
-        })
-        .catch((error) => {
-          console.error(error);
-          this.$snackbar.global.showError(
-            `${error.response.data ? error.response.data.errors.error : ''}`,
-            {
-              duration: 2000
-            }
-          );
-          this.closeApproveDialog();
-        })
-        .finally(() => {
-          this.inProgress = false;
-        });
-    },
-    rejectCompany() {
-      if (this.rejection_info.value.length > 0) {
-        const obj = {
-          uid: this.activeCompany.uid,
-          reject_reason: this.rejection_info.value,
-          stage: 'rejected'
-        };
-        CompanyService.adminActionCompany(obj)
-          .then((res) => {
-            this.closeRejectDialog();
-            this.rejection_info.value = '';
-            this.rejection_info.showError = false;
-            this.fetchCompany();
-            this.resData = JSON.parse(JSON.stringify(this.getFormData()));
-            this.$snackbar.global.showSuccess('Company Rejected Successfully', {
-              duration: 2000
-            });
-            setTimeout(() => {
-              this.onCancel();
-            }, 2000);
-          })
-          .catch((error) => {
-            console.error(error);
-            this.$snackbar.global.showError(
-              `${error.response.data ? error.response.data.errors.error : ''}`,
-              {
-                duration: 2000
-              }
-            );
-            this.closeRejectDialog();
-          })
-          .finally(() => {
-            this.inProgress = false;
-          });
-      } else {
-        this.rejection_info.showError = true;
-      }
     },
     setRouteQuery(query) {
       console.log(query, 'query');

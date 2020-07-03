@@ -32,12 +32,15 @@
           <div class="cust-badge">
             <nitrozen-badge
               :state="item.stage == 'verified' ? 'success' : 'warn'"
-              >{{
-                item.stage == 'verified' ? 'verified' : 'unverified'
-              }}</nitrozen-badge
             >
+              {{ item.stage == 'verified' ? 'verified' : 'unverified' }}
+            </nitrozen-badge>
             <div class="img-box" @click="editStore($event, item)">
-              <img class="pic-col" :src="'/public/assets/svgs/edit.svg'" />
+              <adm-inline-svg
+                class="verified-icon left-space-s"
+                :src="'edit'"
+                title="Edit"
+              ></adm-inline-svg>
             </div>
           </div>
         </div>
@@ -83,9 +86,9 @@
       ref="store_admin_dialog"
       title="Verify/Unverify Store"
     >
-      <template slot="header" v-if="activeStore">
-        {{ activeStore.name }}
-      </template>
+      <template slot="header" v-if="activeStore">{{
+        activeStore.name
+      }}</template>
       <template slot="body" class="desc-dialog">
         <div>
           <div class="cust-inp" v-if="activeStore && activeStore.address">
@@ -95,6 +98,7 @@
           </div>
           <div class="cust-drop">
             <div class="left-drop">
+              <label class="cust-label">Order Integration</label>
               <nitrozen-dropdown
                 label="Order Integration*"
                 placeholder="Choose order integration type"
@@ -102,11 +106,12 @@
                 v-model="order_choice"
                 @change="changeDropDown"
               ></nitrozen-dropdown>
-              <nitrozen-error v-if="order_choice_error.showerror">{{
-                order_choice_error.errortext
-              }}</nitrozen-error>
+              <nitrozen-error v-if="order_choice_error.showerror">
+                {{ order_choice_error.errortext }}
+              </nitrozen-error>
             </div>
             <div class="right-drop">
+              <label class="cust-label">Inventory Integration</label>
               <nitrozen-dropdown
                 label="Inventory Integration*"
                 placeholder="Choose inventory integration type"
@@ -114,9 +119,9 @@
                 v-model="inventory_choice"
                 @change="changeDropDown"
               ></nitrozen-dropdown>
-              <nitrozen-error v-if="inventory_choice_error.showerror">{{
-                inventory_choice_error.errortext
-              }}</nitrozen-error>
+              <nitrozen-error v-if="inventory_choice_error.showerror">
+                {{ inventory_choice_error.errortext }}
+              </nitrozen-error>
             </div>
           </div>
           <nitrozen-input
@@ -127,9 +132,9 @@
             v-if="!show_verify_button"
             v-model="rejection_info.value"
           ></nitrozen-input>
-          <nitrozen-error class="cust-inp" v-if="rejection_info.showError">
-            {{ rejection_info.errortext }}
-          </nitrozen-error>
+          <nitrozen-error class="cust-inp" v-if="rejection_info.showError">{{
+            rejection_info.errortext
+          }}</nitrozen-error>
         </div>
         <div class="cust-inp">
           Are you sure you want to {{ admin_action_text }} this store?
@@ -171,6 +176,13 @@
 .cust-inp {
   margin-bottom: 24px;
 }
+.cust-label {
+  color: #9b9b9b;
+  font-family: Poppins, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 21px;
+}
 .cust-drop {
   display: flex;
   justify-content: space-between;
@@ -181,6 +193,9 @@
   .left-drop {
     width: 47%;
     margin-right: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 
     ::v-deep .nitrozen-dropdown-container {
       width: 100%;
@@ -192,6 +207,11 @@
   }
   .right-drop {
     width: 49%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-left: 12px;
+
     ::v-deep .nitrozen-dropdown-container {
       width: 100%;
     }
@@ -319,6 +339,9 @@
 
   .img-box {
     margin-left: 12px;
+    ::v-deep svg {
+      color: #5c6bdd;
+    }
   }
 
   .pic-col {
@@ -335,6 +358,7 @@ import admshimmer from '@/components/common/shimmer';
 import admnocontent from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import { getRoute } from '@/helper/get-route';
+import admInlineSVG from '@/components/common/adm-inline-svg';
 
 import {
   NitrozenButton,
@@ -364,7 +388,8 @@ export default {
     'nitrozen-badge': NitrozenBadge,
     'nitrozen-input': NitrozenInput,
     'nitrozen-dialog': NitrozenDialog,
-    'nitrozen-error': NitrozenError
+    'nitrozen-error': NitrozenError,
+    'adm-inline-svg': admInlineSVG
   },
   directives: {
     flatBtn,
@@ -661,6 +686,8 @@ export default {
       }
     },
     openAdminDialog(item) {
+      this.order_choice = null;
+      this.inventory_choice = null;
       if (item.stage && item.stage == 'verified') {
         this.admin_action_text = 'reject';
         this.show_verify_button = false;
@@ -669,8 +696,9 @@ export default {
         this.show_verify_button = true;
       }
       this.activeStore = { ...item };
+      console.log(this.activeStore, 'active store');
       this.getChoiceType({ choice_type: 'integration_type' });
-      if (item.stage && item.stage == 'rejected') {
+      if (item.stage && item.stage != 'verified') {
         if (this.activeStore) {
           this.$refs['store_admin_dialog'].open({
             width: '600px',
