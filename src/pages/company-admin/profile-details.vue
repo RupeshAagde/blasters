@@ -128,7 +128,17 @@
                             :key="'docs' + index"
                         >
                             <div class="document-type dark-xs cl-DustyGray2">
-                                {{ item.type }}
+                                <div>{{ item.type }}</div>
+                                <div
+                                    class="cust-view"
+                                    @click="openDocDialog(item)"
+                                >
+                                    <adm-inline-svg
+                                        class="cust-icon"
+                                        :src="'eye-open'"
+                                        title="View"
+                                    ></adm-inline-svg>
+                                </div>
                             </div>
                             <div class="document-value">{{ item.value }}</div>
                         </div>
@@ -192,9 +202,9 @@
             ref="company_reject_dialog"
             title="Reject Company"
         >
-            <template slot="header" v-if="profileDetails">{{
-                profileDetails.name
-            }}</template>
+            <template slot="header" v-if="profileDetails">
+                {{ profileDetails.name }}
+            </template>
             <template slot="body" class="desc-dialog">
                 <div>
                     <nitrozen-input
@@ -207,8 +217,9 @@
                     <nitrozen-error
                         class="cust-margin"
                         v-if="rejection_info.showError"
-                        >{{ rejection_info.errortext }}</nitrozen-error
                     >
+                        {{ rejection_info.errortext }}
+                    </nitrozen-error>
                 </div>
                 <div class="text-margin">
                     Are you sure you want to reject this company?
@@ -232,6 +243,38 @@
                 </div>
             </template>
         </nitrozen-dialog>
+        <nitrozen-dialog
+            ref="company_document_dialog"
+            :title="
+                activeDoc && activeDoc.type
+                    ? activeDoc.type
+                    : 'Company Document'
+            "
+        >
+            <template slot="body" v-if="activeDoc">
+                <div>
+                    <div class="label">
+                        <label class="doc-text">Legal Name</label>
+                        <div>{{ activeDoc.legal_name }}</div>
+                    </div>
+                    <div class="label">
+                        <label class="doc-text">Document Number</label>
+                        <div>{{ activeDoc.value }}</div>
+                    </div>
+                    <div v-if="activeDoc.url" class="preview">
+                        <img
+                            v-if="!validatePdf(activeDoc.url)"
+                            :src="activeDoc.url"
+                        />
+                        <iframe
+                            v-if="validatePdf(activeDoc.url)"
+                            :src="activeDoc.url"
+                            frameborder="0"
+                        ></iframe>
+                    </div>
+                </div>
+            </template>
+        </nitrozen-dialog>
     </div>
 </template>
 
@@ -240,6 +283,12 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 12px;
+}
+.cust-icon {
+    ::v-deep svg {
+        width: 20px;
+        height: 12px;
+    }
 }
 .cust-inp {
     margin-bottom: 24px;
@@ -250,6 +299,19 @@
 .text-margin {
     margin-bottom: 24px;
     margin-top: 18px;
+}
+::v-deep .label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    .doc-text {
+        font-family: Poppins;
+        color: #9b9b9b;
+        font-size: 14px;
+        line-height: 20px;
+        margin-right: 24px;
+        font-weight: 500;
+    }
 }
 ::v-deep .nitrozen-dialog-body {
     margin-bottom: 24px;
@@ -291,6 +353,21 @@
         }
     }
 }
+.preview {
+    // margin-left: 24px;
+    width: 450px;
+    cursor: pointer;
+    border: 1px dotted @RoyalBlue;
+    img {
+        width: 100%;
+        height: 350px;
+    }
+    iframe {
+        width: 100%;
+        height: 350px;
+    }
+}
+
 .documents {
     position: absolute;
     width: calc(100% + 24px);
@@ -311,16 +388,22 @@
         margin-top: 4px;
         .document-row {
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
             line-height: 2.5;
             .document-type {
                 text-transform: uppercase;
+                display: flex;
+                align-items: center;
             }
             .document-value {
                 color: @Mako;
                 font-weight: 500;
                 margin-left: 24px;
+            }
+            .cust-view {
+                margin-left: 12px;
+                cursor: pointer;
             }
         }
     }
@@ -338,6 +421,7 @@ import path from 'path';
 import CompanyService from '@/services/company-admin.service';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
 import admInlineSVG from '@/components/common/adm-inline-svg';
+import uktInlineSVG from '@/components/common/ukt-inline-svg';
 import {
     strokeBtn,
     flatBtn,
@@ -352,6 +436,7 @@ const env = root.env || {};
 export default {
     name: 'adm-company-details',
     components: {
+        'ukt-inline-svg': uktInlineSVG,
         'nitrozen-button': NitrozenButton,
         'adm-inline-svg': admInlineSVG,
         'nitrozen-dialog': NitrozenDialog,
@@ -374,7 +459,8 @@ export default {
                 showError: false,
                 errortext: 'Please explain reason properly.',
                 value: ''
-            }
+            },
+            activeDoc: null
         };
     },
     computed: {
@@ -397,6 +483,7 @@ export default {
                     this.inProgress = false;
                     this.pageError = false;
                     this.profileDetails = res.data.data;
+                    console.log(this.profileDetails, 'details');
                     this.profileDetails.reduced_business_info = this.profileDetails.business_info;
                     if (
                         this.profileDetails.business_info &&
@@ -414,6 +501,9 @@ export default {
                     this.inProgress = false;
                     console.error(err);
                 });
+        },
+        viewDocuments() {
+            console.log('view document');
         },
         openApproveDialog: function() {
             this.$refs['company_approve_dialog'].open({
@@ -529,6 +619,26 @@ export default {
                     this.business_info_cutoff
                 );
             }
+        },
+
+        openDocDialog(item) {
+            this.activeDoc = item;
+            console.log(this.activeDoc, 'activeDoc');
+            this.$refs['company_document_dialog'].open({
+                width: '500px',
+                showCloseButton: true,
+                dismissible: true
+            });
+        },
+        closeDocDialog() {
+            this.$refs['company_document_dialog'].close();
+        },
+        validateUrl(url) {
+            return url.match(/\.(jpeg|jpg|png|pdf)$/) != null;
+        },
+        validatePdf(url) {
+            console.log(url, 'url');
+            return url.match(/\.(pdf)$/) != null;
         },
 
         edit: function(params) {
