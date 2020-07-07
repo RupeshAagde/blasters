@@ -109,7 +109,11 @@
             >
               <div class="document-type dark-xs cl-DustyGray2">
                 <div>{{ item.type }}</div>
-                <div class="cust-view" @click="openDocDialog(item)">
+                <div
+                  v-if="item.url"
+                  class="cust-view"
+                  @click="openDocDialog(item)"
+                >
                   <adm-inline-svg
                     class="cust-icon"
                     :src="'eye-open'"
@@ -120,7 +124,7 @@
               <div class="document-value">{{ item.value }}</div>
             </div>
           </div>
-          <div v-else>Company have no documents</div>
+          <div class="no-doc" v-else>Company have no documents</div>
         </div>
       </div>
       <div class="bottom-buttons">
@@ -179,9 +183,9 @@
       ref="company_reject_dialog"
       title="Reject Company"
     >
-      <template slot="header" v-if="profileDetails">{{
-        profileDetails.name
-      }}</template>
+      <template slot="header" v-if="profileDetails">
+        {{ profileDetails.name }}
+      </template>
       <template slot="body" class="desc-dialog">
         <div>
           <nitrozen-input
@@ -266,6 +270,16 @@
 .text-margin {
   margin-bottom: 24px;
   margin-top: 18px;
+}
+.no-doc {
+  font-family: Poppins;
+  color: #9b9b9b;
+  font-size: 14px;
+  line-height: 20px;
+  margin-right: 24px;
+  font-weight: bold;
+  margin: 24px 0px;
+  text-align: center;
 }
 ::v-deep .label {
   display: flex;
