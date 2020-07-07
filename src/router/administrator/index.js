@@ -9,6 +9,7 @@ export default [
   {
     path: '/administrator/',
     component: AdministratorBaseViewVue,
+    redirect: '/administrator/home',
     children: [
       {
         path: 'home',

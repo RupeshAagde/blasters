@@ -39,9 +39,10 @@
         <div class="brand-stage">
           <nitrozen-badge
             :state="item.stage == 'verified' ? 'success' : 'warn'"
+            >{{
+              item.stage == 'verified' ? 'verified' : 'unverified'
+            }}</nitrozen-badge
           >
-            {{ item.stage == 'verified' ? 'verified' : 'unverified' }}
-          </nitrozen-badge>
         </div>
       </div>
     </div>
@@ -109,9 +110,9 @@
             placeholder="Explain reason properly..."
             v-model="rejection_info.value"
           ></nitrozen-input>
-          <nitrozen-error class="cust-margin" v-if="rejection_info.showError">{{
-            rejection_info.errortext
-          }}</nitrozen-error>
+          <nitrozen-error class="cust-margin" v-if="rejection_info.showError">
+            {{ rejection_info.errortext }}
+          </nitrozen-error>
         </div>
         <div class="text-margin">
           Are you sure you want to {{ admin_action_text }} this brand?
@@ -439,7 +440,6 @@ export default {
           this.inProgress = false;
           this.pageError = false;
           this.brandsData = res.data.data;
-          console.log(this.brandsData, 'brand');
           this.brandsDataToShow = this.brandsData.slice(0, this.showCount);
           if (this.brandsDataToShow.length < this.brandsData.length) {
             this.viewMore = true;
