@@ -218,8 +218,9 @@
                     <nitrozen-error
                         class="cust-margin"
                         v-if="rejection_info.showError"
-                        >{{ rejection_info.errortext }}</nitrozen-error
                     >
+                        {{ rejection_info.errortext }}
+                    </nitrozen-error>
                 </div>
                 <div class="text-margin">
                     Are you sure you want to reject this company?
