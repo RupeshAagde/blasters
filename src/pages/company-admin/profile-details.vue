@@ -130,7 +130,7 @@
                             <div class="document-type dark-xs cl-DustyGray2">
                                 <div>{{ item.type }}</div>
                                 <div
-                                    v-if="profileDetails.documents.url"
+                                    v-if="item.url"
                                     class="cust-view"
                                     @click="openDocDialog(item)"
                                 >
