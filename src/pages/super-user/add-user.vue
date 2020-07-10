@@ -66,12 +66,18 @@
                                     user.phoneNumbers &&
                                         user.phoneNumbers.length > 0
                                 "
-                                >+{{ user.phoneNumbers[0].countryCode }}&nbsp;{{
-                                    user.phoneNumbers[0].phone
-                                }}</span
                             >
+                                +{{ user.phoneNumbers[0].countryCode }}&nbsp;{{
+                                    user.phoneNumbers[0].phone
+                                }}
+                            </span>
                             <adm-inline-svg
-                                v-if="user.phoneNumbers[0].verified || false"
+                                v-if="
+                                    user.phoneNumber &&
+                                    user.phoneNumber.length > 0
+                                        ? user.phoneNumbers[0].verified
+                                        : false
+                                "
                                 class="inline-svg verified-icon left-space-s"
                                 :src="'check-circle'"
                                 title="Verified"
@@ -82,7 +88,11 @@
                                 >{{ user.emails[0].email }}</span
                             >
                             <adm-inline-svg
-                                v-if="user.emails[0].verified || false"
+                                v-if="
+                                    user.emails && user.emails.length > 0
+                                        ? user.emails[0].verified
+                                        : false
+                                "
                                 class="verified-icon left-space-s"
                                 :src="'check-circle'"
                                 title="Verified"
@@ -113,9 +123,7 @@
             <template slot="body" class="desc-dialog" v-if="activeUser">
                 <div class="text-margin">
                     Are you sure you want to add
-                    {{ activeUser.first_name }}&nbsp;{{
-                        activeUser.last_name
-                    }}
+                    {{ activeUser.first_name }}&nbsp;{{ activeUser.last_name }}
                     as Super User?
                 </div>
             </template>
