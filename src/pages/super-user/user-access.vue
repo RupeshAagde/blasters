@@ -171,7 +171,7 @@
 }
 .custom-header {
     ::v-deep .n-flat-button-secondary {
-        margin-top: 110px;
+        margin-top: 110px !important;
     }
 }
 .main-container {
