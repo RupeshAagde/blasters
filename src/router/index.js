@@ -12,31 +12,31 @@ import { authenticatedUser } from './guards';
 
 import AdministratorRoutes from './administrator';
 export function createRouter() {
-  return new Router({
-    mode: 'history',
-    routes: [
-      ...AdministratorRoutes,
-      {
-        path: '/',
-        component: BaseviewVue,
-        children: [
-          {
-            path: '',
-            component: HomeVue
-          },
+    return new Router({
+        mode: 'history',
+        routes: [
+            ...AdministratorRoutes,
+            {
+                path: '/',
+                component: BaseviewVue,
+                children: [
+                    {
+                        path: '',
+                        component: HomeVue
+                    },
 
-          {
-            path: '/manage',
-            beforeEnter: authenticatedUser,
-            component: ManageVue
-          }
+                    {
+                        path: '/manage',
+                        beforeEnter: authenticatedUser,
+                        component: ManageVue
+                    }
+                ]
+            },
+
+            {
+                path: '*',
+                component: PageNotFoundVue
+            }
         ]
-      },
-
-      {
-        path: '*',
-        component: PageNotFoundVue
-      }
-    ]
-  });
+    });
 }

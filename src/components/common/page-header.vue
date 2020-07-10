@@ -1,7 +1,7 @@
 <template>
     <div class="page-header">
         <div class="page-nav">
-            <adm-inline-svg
+            <inline-svg
                 class="page-nav-back-text"
                 :src="'arrow-nitrozen'"
                 @click.stop.native="backClick"
@@ -16,41 +16,43 @@
                     v-for="(item, index) in contextMenuItems"
                     @click="$emit(item.action)"
                     :key="index"
-                    >{{ item.text }}</nitrozen-menu-item
                 >
+                    {{ item.text }}
+                </nitrozen-menu-item>
                 <nitrozen-menu-item
                     v-if="showContextMenuItemMeta"
                     @click="openMetaDialog('contextItemMeta')"
-                    >Meta</nitrozen-menu-item
                 >
+                    Meta
+                </nitrozen-menu-item>
                 <!-- <nitrozen-menu-item
                     v-if="showContextMenuItemMeta"
                     @click="openMetaDialog('contextItemCustomJson')"
                     >JSON</nitrozen-menu-item
-        >-->
-                <nitrozen-menu-item @click="$root.$emit('openHelp')"
-                    >Help</nitrozen-menu-item
-                >
+                > -->
+                <nitrozen-menu-item @click="$root.$emit('openHelp')">
+                    Help
+                </nitrozen-menu-item>
             </nitrozen-menu>
         </div>
-        <adm-meta-dialog
+        <!-- <adm-meta-dialog
             v-if="showContextMenuItemMeta"
             ref="contextItemMeta"
             :meta="meta"
             :customJson="customJson"
             @save="save('saveMeta', $event)"
-        ></adm-meta-dialog>
+        ></adm-meta-dialog> -->
         <!-- <adm-custom-json-dialog
             ref="contextItemCustomJson"
             :customJson="customJson"
             @save="save('saveCustomJson', $event)"
-    ></adm-custom-json-dialog>-->
+        ></adm-custom-json-dialog> -->
     </div>
 </template>
 <script>
-import adminlinesvg from '@/components/common/adm-inline-svg.vue';
-import admMetaDialog from '@/components/common/adm-meta-dialog';
-import admCustomJsonDialog from '@/components/common/adm-custom-json-dialog';
+import inlinesvg from './inline-svg.vue';
+// import admMetaDialog from '@/components/admin/common/adm-meta-dialog';
+// import admCustomJsonDialog from '@/components/admin/common/adm-custom-json-dialog';
 
 import {
     NitrozenMenu,
@@ -62,12 +64,12 @@ import {
 export default {
     name: 'adm-page-header',
     components: {
-        'adm-meta-dialog': admMetaDialog,
+        //'adm-meta-dialog': admMetaDialog,
         'nitrozen-button': NitrozenButton,
-        'adm-inline-svg': adminlinesvg,
+        'inline-svg': inlinesvg,
         'nitrozen-menu': NitrozenMenu,
-        'nitrozen-menu-item': NitrozenMenuItem,
-        'adm-custom-json-dialog': admCustomJsonDialog
+        'nitrozen-menu-item': NitrozenMenuItem
+        //'adm-custom-json-dialog': admCustomJsonDialog
     },
     props: {
         title: {
@@ -124,7 +126,8 @@ export default {
     background-color: #fff;
     display: flex;
     flex-direction: column;
-    height: 58.5px; //113px;
+    height: 58.5px; //113px
+    margin-bottom: 60px;
     position: fixed;
     width: calc(100% - 250px);
     z-index: @header;

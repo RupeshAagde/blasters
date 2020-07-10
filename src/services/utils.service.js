@@ -7,19 +7,19 @@ const env = root.env || {};
 let headers = {};
 
 export const getCommonHeaderOptions = () => {
-  let defaultHeader = isBrowser ? {} : {};
-  return {
-    headers: {
-      'Content-Type': 'application/json',
-      'x-currency-code': 'INR',
-      ...defaultHeader,
-      ...headers
-    }
-  };
+    let defaultHeader = isBrowser ? {} : {};
+    return {
+        headers: {
+            'Content-Type': 'application/json',
+            'x-currency-code': 'INR',
+            ...defaultHeader,
+            ...headers
+        }
+    };
 };
 
 export const setAuthTokenHeader = (token) => {
-  headers[env.AUTH_HEADER_NAME] = token;
+    headers[env.AUTH_HEADER_NAME] = token;
 };
 // "_id": "5c987cf426c22b21a4420e3e",
 // "domain": {

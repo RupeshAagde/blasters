@@ -5,17 +5,20 @@
             <p v-if="desc" class="jumbotron-description">
                 {{ desc }}
             </p>
-            <nitrozen-button
-                v-if="btnLabel"
-                :theme="'secondary'"
-                v-flatBtn
-                @click="btnClick"
-            >
-                {{ btnLabel }}
-            </nitrozen-button>
+            <div>
+                <nitrozen-button
+                    v-if="btnLabel"
+                    :theme="'secondary'"
+                    v-flatBtn
+                    @click="btnClick"
+                >
+                    {{ btnLabel }}
+                </nitrozen-button>
+                <slot />
+            </div>
         </div>
         <div class="jumbotron-image">
-            <img :src="`/public/assets/admin/pngs/${illustration}.png`" />
+            <img :src="`/public/pngs/${illustration}.png`" />
         </div>
     </div>
 </template>
@@ -25,7 +28,7 @@ import { NitrozenButton, flatBtn } from '@gofynd/nitrozen-vue';
 import * as _ from 'lodash';
 
 export default {
-    name: 'adm-jumbotron',
+    name: 'jumbotron',
     components: {
         'nitrozen-button': NitrozenButton
     },
@@ -94,7 +97,7 @@ export default {
     .jumbotron-image {
         flex: 0.35;
         img {
-            height: 221px;
+            // height: 221px;
             width: 404px;
             float: right;
             // height: 175px;
