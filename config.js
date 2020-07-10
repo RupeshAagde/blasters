@@ -120,6 +120,20 @@ const conf = convict({
             default: '',
             env: 'SILVERBOLT_MAIN_URL',
             arg: 'silverbolt_main_url'
+        },
+        SKYWARP_MAIN_SVC: {
+            doc: 'Skywrap Kube Service',
+            format: String,
+            default: '',
+            env: 'SKYWARP_MAIN_SVC',
+            arg: 'skywarp_main_svc'
+        },
+        SKYWARP_MAIN_URL: {
+            doc: 'Skywrap Kube Service',
+            format: String,
+            default: '',
+            env: 'SKYWARP_MAIN_URL',
+            arg: 'skywarp_main_url'
         }
     },
 

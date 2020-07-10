@@ -18,6 +18,8 @@ export GRIMLOCK_MAIN_SVC=https://api.fyndx0.de/auth/
 export GRIMLOCKWEB_MAIN_DOMAIN=https://auth.fyndx0.de/
 export SILVERBOLT_MAIN_SVC=https://api.fyndx0.de/seller/
 export SILVERBOLT_MAIN_URL=https://api.fyndx0.de/seller/
+export SKYWARP_MAIN_URL=https://api.fyndx0.de/platform/authorization/
+export SKYWARP_MAIN_SVC=https://api.fyndx0.de/platform/authorization/
 
 
 #ENV's

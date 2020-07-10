@@ -23,6 +23,10 @@ const SILVERBOLT_MAIN_URL = isNode
     ? envVars.BROWSER_CONFIG.SILVERBOLT_MAIN_URL
     : envVars.SILVERBOLT_MAIN_URL;
 
+const SKYWARP_MAIN_URL = isNode
+    ? envVars.BROWSER_CONFIG.SKYWARP_MAIN_URL
+    : envVars.SKYWARP_MAIN_URL;
+
 const UNICRON_BASE = isNode
     ? envVars.BROWSER_CONFIG.UNICRON_MAIN_SVC
     : envVars.UNICRON_MAIN_URL;
@@ -97,6 +101,18 @@ const URLS = {
             PLATFORM_COMMON_BASE,
             '/v1/application/current/staff/profile'
         );
+    },
+
+    //SKYWRAP
+    LIST_USERS: () => {
+        return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff');
+    },
+
+    DELETE_USERS: (uid) => {
+        return urlJoin(SKYWARP_MAIN_URL, `/v1/admin/staff/${uid}`);
+    },
+    ADD_USERS: (uid) => {
+        return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff/');
     },
 
     // GrimLock

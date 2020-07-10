@@ -3,6 +3,8 @@ import HomeVue from './../../pages/administrator/home.vue';
 import PlanCreator from './plan-creator';
 import CompanyListVue from './../../pages/company-admin/company-list.vue';
 import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
+import UserManagementVue from './../../pages/super-user/user-access.vue';
+import AddSuperUserVue from './../../pages/super-user/add-user.vue';
 
 export default [
     {
@@ -22,6 +24,14 @@ export default [
             {
                 path: 'company-details/:companyId',
                 component: CbsDetailVue
+            },
+            {
+                path: 'user-management',
+                component: UserManagementVue
+            },
+            {
+                path: 'add-user',
+                component: AddSuperUserVue
             }
         ]
     }

@@ -26,6 +26,15 @@ export const getNavigations = () => {
                 icon: 'home',
                 highlightedIcon: 'home-highlighted'
             }
+        ],
+        USER_MANAGEMENT: [
+            {
+                display: 'User Management',
+                link: '/administrator/user-management',
+                title: 'User Management',
+                icon: 'home',
+                highlightedIcon: 'home-highlighted'
+            }
         ]
     };
 };
