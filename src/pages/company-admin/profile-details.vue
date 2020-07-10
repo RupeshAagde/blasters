@@ -494,7 +494,6 @@ export default {
                     this.inProgress = false;
                     this.pageError = false;
                     this.profileDetails = res.data.data;
-                    console.log(this.profileDetails, 'details');
                     this.profileDetails.reduced_business_info = this.profileDetails.business_info;
                     if (
                         this.profileDetails.business_info &&
@@ -634,7 +633,6 @@ export default {
 
         openDocDialog(item) {
             this.activeDoc = item;
-            console.log(this.activeDoc, 'activeDoc');
             this.$refs['company_document_dialog'].open({
                 width: '500px',
                 showCloseButton: true,
@@ -648,7 +646,6 @@ export default {
             return url.match(/\.(jpeg|jpg|png|pdf)$/) != null;
         },
         validatePdf(url) {
-            console.log(url, 'url');
             return url.match(/\.(pdf)$/) != null;
         },
 

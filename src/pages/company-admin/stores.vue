@@ -546,7 +546,6 @@ export default {
                         });
                     } else if (params.choice_type == 'integration_type') {
                         this.integrationType = res.data.data;
-                        console.log(res, 'res');
                         this.order_choice = res.data.data[0]['key'];
                         this.inventory_choice = res.data.data[0]['key'];
                         this.integrationType.map((ele) => {
@@ -738,7 +737,6 @@ export default {
                 this.show_verify_button = true;
             }
             this.activeStore = { ...item };
-            console.log(this.activeStore, 'active store');
             this.getChoiceType({ choice_type: 'integration_type' });
             if (item.integration_type) {
                 this.order_choice = item.integration_type.order;
