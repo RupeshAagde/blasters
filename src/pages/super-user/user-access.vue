@@ -1,6 +1,6 @@
 <template>
     <div class="main-container">
-        <div>
+        <div class="custom-header">
             <adm-jumbotron
                 :title="'User Management'"
                 btnLabel="Add User"
@@ -76,15 +76,17 @@
                                         user.phone_numbers &&
                                             user.phone_numbers.length > 0
                                     "
-                                    >+{{
-                                        user.phone_numbers[0].countryCode
-                                    }}&nbsp;{{
-                                        user.phone_numbers[0].phone
-                                    }}</span
                                 >
+                                    +{{
+                                        user.phone_numbers[0].countryCode
+                                    }}&nbsp;{{ user.phone_numbers[0].phone }}
+                                </span>
                                 <adm-inline-svg
                                     v-if="
-                                        user.phone_numbers[0].verified || false
+                                        user.phone_numbers &&
+                                        user.phone_numbers.length > 0
+                                            ? user.phone_numbers[0].verified
+                                            : false
                                     "
                                     class="inline-svg verified-icon left-space-s"
                                     :src="'check-circle'"
@@ -96,7 +98,11 @@
                                     >{{ user.emails[0].email }}</span
                                 >
                                 <adm-inline-svg
-                                    v-if="user.emails[0].verified || false"
+                                    v-if="
+                                        user.emails && user.emails.length > 0
+                                            ? user.emails[0].verified
+                                            : false
+                                    "
                                     class="verified-icon left-space-s"
                                     :src="'check-circle'"
                                     title="Verified"
@@ -162,6 +168,11 @@
 .input-shimmer {
     height: 60px;
     width: 400px;
+}
+.custom-header {
+    ::v-deep .n-flat-button-secondary {
+        margin-top: 110px;
+    }
 }
 .main-container {
     width: 100%;
@@ -406,7 +417,6 @@ export default {
             return UserService.getUserList(this.requestQuery())
                 .then(({ data }) => {
                     this.userList = data.docs;
-                    console.log(this.userList, 'USER');
                     // this.pagination.current = this.pagination.current + 1;=
                     this.pagination.total = data.total;
                     this.pageLoading = false;
