@@ -472,10 +472,8 @@ export default {
     },
     paginationChange(filter, action) {
       const { current, limit } = filter;
-      console.log(current, 'current', limit, 'limit');
       this.pagination.current = current;
       this.pagination = Object.assign({}, this.pagination, filter);
-      console.log(this.pagination, 'pagination');
       // let pageQuery = { pageId: current, limit };
       // this.setRouteQuery(pageQuery);
 
@@ -494,7 +492,6 @@ export default {
       this.setRouteQuery({ name: undefined });
     },
     setRouteQuery(query) {
-      console.log(query, 'query');
       if (query.name || query.stage !== 'all') {
         // clear pagination if search or filter applied
         this.pagination = { ...PAGINATION };

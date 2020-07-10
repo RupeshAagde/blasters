@@ -505,13 +505,11 @@ export default {
       this.setRouteQuery({ current, limit });
     },
     verifyBrand() {
-      console.log(this.companyId, 'companyid');
       const obj = {
         brand: this.activeBrand.brand.uid,
         stage: 'verified'
       };
       obj.company = parseInt(this.companyId);
-      console.log(obj, 'post payload');
       CompanyService.adminActionBrand(obj)
         .then((res) => {
           this.closeAdminDialog();
@@ -541,7 +539,6 @@ export default {
     unverifyBrand() {
       let temp = this.companyId;
       temp = parseInt(temp);
-      console.log(temp, 'company iD');
       if (this.rejection_info.value.length > 0) {
         const obj = {
           brand: this.activeBrand.brand.uid,

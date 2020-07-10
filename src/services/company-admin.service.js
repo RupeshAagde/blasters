@@ -31,23 +31,19 @@ const CompanyService = {
   },
 
   adminActionBrand(body) {
-    console.log(body, 'body');
     let axiosOption = Object.assign(
       {},
       { data: body },
       getCommonHeaderOptions()
     );
-    console.log(axiosOption, 'axios');
     return ApiService.post(URLS.BRAND_ADMIN_ACTION(), axiosOption);
   },
   adminActionStore(body) {
-    console.log(body, 'body');
     let axiosOption = Object.assign(
       {},
       { data: body },
       getCommonHeaderOptions()
     );
-    console.log(axiosOption, 'axios');
     return ApiService.post(URLS.STORE_ADMIN_ACTION(), axiosOption);
   },
   fetchBrands(params = {}) {
