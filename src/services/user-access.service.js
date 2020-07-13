@@ -29,7 +29,6 @@ const UserService = {
             { params },
             getCommonHeaderOptions()
         );
-        console.log(axiosOptions, 'axios');
         return ApiService.get(URLS.SEARCH_USER(), axiosOptions);
     }
 };
