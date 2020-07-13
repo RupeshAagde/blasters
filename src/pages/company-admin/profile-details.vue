@@ -93,7 +93,11 @@
                     <div class="row-1 row-full">
                         <label class="dark-xs cl-DustyGray2">Address</label>
                         <div class="company-detail">
-                            {{ profileDetails.addresses[0].address1 }}
+                            {{ profileDetails.addresses[0].address1 }},&nbsp;{{
+                                profileDetails.addresses[0].city
+                            }},&nbsp;{{
+                                profileDetails.addresses[0].state
+                            }},&nbsp;{{ profileDetails.addresses[0].pincode }}
                         </div>
                     </div>
                 </div>
@@ -203,9 +207,9 @@
             ref="company_reject_dialog"
             title="Reject Company"
         >
-            <template slot="header" v-if="profileDetails">{{
-                profileDetails.name
-            }}</template>
+            <template slot="header" v-if="profileDetails">
+                {{ profileDetails.name }}
+            </template>
             <template slot="body" class="desc-dialog">
                 <div>
                     <nitrozen-input
@@ -218,9 +222,8 @@
                     <nitrozen-error
                         class="cust-margin"
                         v-if="rejection_info.showError"
+                        >{{ rejection_info.errortext }}</nitrozen-error
                     >
-                        {{ rejection_info.errortext }}
-                    </nitrozen-error>
                 </div>
                 <div class="text-margin">
                     Are you sure you want to reject this company?
