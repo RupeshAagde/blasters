@@ -16,7 +16,7 @@ export default [
                 path: 'home',
                 component: HomeVue
             },
-            ...PlanCreator,
+            //...PlanCreatorRoutes
             {
                 path: 'company-list',
                 component: CompanyListVue
