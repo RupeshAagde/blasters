@@ -13,7 +13,7 @@
     "build:prod": "rimraf public && npm run tasks && npm run build:clientprod && npm run build:serverprod ",
     "build:clientprod": "webpack --config build/webpack.client.config.js --progress --hide-modules --env=production ",
     "build:serverprod": "webpack --config build/webpack.server.config.js --progress --hide-modules --env=production",
-    "pretty": "./node_modules/.bin/prettier --config ./.prettierrc --write './src/**/*.*'",
+    "pretty": "./node_modules/.bin/prettier --config ./.prettierrc --write",
     "precommit": "lint-staged",
     "test": "jest  --projects  src server --no-cache"
   },
@@ -40,7 +40,7 @@
   "author": "jalak vora",
   "license": "ISC",
   "dependencies": {
-    "@gofynd/nitrozen-vue": "github:gofynd/nitrozen-vue#0.0.7",
+    "@gofynd/nitrozen-vue": "github:gofynd/nitrozen-vue#0.0.12",
     "@sentry/node": "^5.15.5",
     "ajv": "^6.12.2",
     "axios": "0.19.2",
@@ -72,6 +72,7 @@
     "url-join": "4.0.0",
     "url-parse": "1.4.7",
     "v-click-outside": "2.1.3",
+    "v-jsoneditor": "^1.2.3",
     "vue": "2.6.11",
     "vue-carousel-3d": "^0.2.0",
     "vue-form-wizard": "0.8.4",
