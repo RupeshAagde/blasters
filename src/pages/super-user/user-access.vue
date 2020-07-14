@@ -20,16 +20,16 @@
                     v-if="pageLoading && isInitialLoad && !pageError"
                     class="input-shimmer shimmer"
                 ></div>
-                <template v-else>
-                    <nitrozen-input
+                <!-- <template v-else> -->
+                <!-- <nitrozen-input
                         :showSearchIcon="true"
                         class="search"
                         type="search"
                         placeholder="Search by name, email, or number..."
                         v-model="searchText"
                         @input="debounceInput({ search: searchText })"
-                    ></nitrozen-input>
-                    <!-- <div class="filter">
+                    ></nitrozen-input> -->
+                <!-- <div class="filter">
                         <label class="label">Filter</label>
                         <nitrozen-dropdown
                             class="filter-dropdown"
@@ -38,7 +38,7 @@
                             @change="fetchCompany()"
                         ></nitrozen-dropdown>
                     </div>-->
-                </template>
+                <!-- </template> -->
             </div>
             <div class="product-list">
                 <adm-shimmer
@@ -397,8 +397,7 @@ export default {
     methods: {
         titleCase,
         populateFromURL() {
-            const { search, pageId } = this.$route.query;
-            if (search) this.searchText = search;
+            const { pageId } = this.$route.query;
             if (pageId) this.pageId = pageId;
         },
         addUser() {
@@ -430,14 +429,15 @@ export default {
         debounceInput: debounce(function(e) {
             if (this.searchText.length === 0) {
                 this.clearSearchFilter();
-            } else {
-                this.setRouteQuery({ name: this.searchText });
             }
-            this.fetchCompany();
+            // else {
+            //     this.setRouteQuery({ name: this.searchText });
+            // }
+            // this.fetchCompany();
         }, 200),
         clearSearchFilter() {
             this.searchText = '';
-            this.setRouteQuery({ search: undefined });
+            // this.setRouteQuery({ search: undefined });
         },
         getUserProfile(user) {
             let profilePic = '/public/assets/admin/pngs/default-profile.png';
