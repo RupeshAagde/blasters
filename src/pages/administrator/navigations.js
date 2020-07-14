@@ -29,7 +29,7 @@ export const getNavigations = () => {
         ],
         USER_MANAGEMENT: [
             {
-                display: 'User Management',
+                display: 'User Access Admin',
                 link: '/administrator/user-management',
                 title: 'User Management',
                 icon: 'home',

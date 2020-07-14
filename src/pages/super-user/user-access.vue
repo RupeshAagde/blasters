@@ -2,7 +2,7 @@
     <div class="main-container">
         <div class="custom-header">
             <adm-jumbotron
-                :title="'User Management'"
+                :title="'User Access Admin'"
                 btnLabel="Add User"
                 illustration="team"
                 @btnClick="addUser"

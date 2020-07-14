@@ -16,6 +16,7 @@
                         type="text"
                         placeholder="Search by email, or number . . ."
                         v-model="searchText"
+                        v-on:keyup.enter="searchUser"
                     ></nitrozen-input>
                 </div>
                 <div>
