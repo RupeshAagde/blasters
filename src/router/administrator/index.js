@@ -10,8 +10,8 @@ export default [
             {
                 path: 'home',
                 component: HomeVue
-            },
-            ...PlanCreatorRoutes
+            }
+            //...PlanCreatorRoutes
         ]
     }
 ];
