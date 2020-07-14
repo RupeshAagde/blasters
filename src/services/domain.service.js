@@ -32,6 +32,10 @@ const UNICRON_BASE = isNode
     : envVars.UNICRON_MAIN_URL;
 
 const URLS = {
+    // validate user
+    VALIDATE_USER: () => {
+        return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff/current/access');
+    },
     //company details
     GET_COMPANY_LIST: () => {
         return urlJoin(
