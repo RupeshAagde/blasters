@@ -19,11 +19,54 @@ const BLITZKRIEG_BASE = isNode
     ? envVars.BROWSER_CONFIG.BLITZKRIEG_MAIN_SVC
     : envVars.BLITZKRIEG_MAIN_URL;
 
+const SILVERBOLT_MAIN_URL = isNode
+    ? envVars.BROWSER_CONFIG.SILVERBOLT_MAIN_URL
+    : envVars.SILVERBOLT_MAIN_URL;
+
+const SKYWARP_MAIN_URL = isNode
+    ? envVars.BROWSER_CONFIG.SKYWARP_MAIN_URL
+    : envVars.SKYWARP_MAIN_URL;
+
 const UNICRON_BASE = isNode
     ? envVars.BROWSER_CONFIG.UNICRON_MAIN_SVC
     : envVars.UNICRON_MAIN_URL;
 
 const URLS = {
+    // validate user
+    VALIDATE_USER: () => {
+        return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff/current/access');
+    },
+    //company details
+    GET_COMPANY_LIST: () => {
+        return urlJoin(
+            SILVERBOLT_MAIN_URL,
+            '/v1/admin/onboarding/company/verification/'
+        );
+    },
+    BRAND_ADMIN_ACTION: () => {
+        return urlJoin(
+            SILVERBOLT_MAIN_URL,
+            '/v1/admin/onboarding/company/brand/verification/'
+        );
+    },
+    STORE_ADMIN_ACTION: () => {
+        return urlJoin(
+            SILVERBOLT_MAIN_URL,
+            '/v1/admin/onboarding/store/verification/'
+        );
+    },
+    GET_COMPANY_BRANDS: () => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/company/brand/');
+    },
+    GET_CHOICE_TYPES: () => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/choices/');
+    },
+    COMPANY_STORES: () => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/company/store/');
+    },
+    COMPANY_PROFILE: () => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/company/profile');
+    },
     // Organizations
     ORGANIZATION: (id = '') => {
         return urlJoin(PLATFORM_COMMON_BASE, '/v1/organization', id);
@@ -62,6 +105,18 @@ const URLS = {
             PLATFORM_COMMON_BASE,
             '/v1/application/current/staff/profile'
         );
+    },
+
+    //SKYWRAP
+    LIST_USERS: () => {
+        return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff');
+    },
+
+    DELETE_USERS: (uid) => {
+        return urlJoin(SKYWARP_MAIN_URL, `/v1/admin/staff/${uid}`);
+    },
+    ADD_USERS: (uid) => {
+        return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff/');
     },
 
     // GrimLock

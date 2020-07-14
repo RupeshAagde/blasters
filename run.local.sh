@@ -5,6 +5,7 @@ export PORT=8087
 
 
 #API's
+export FYND_PLATFORM_DOMAIN=fyndx0.de
 export PLATFORM_COMMON_MAIN_URL=https://api.fyndx0.de/platform/common/
 export PLATFORM_COMMON_MAIN_SVC=https://api.fyndx0.de/platform/common/
 export BLITZKRIEG_MAIN_URL=https://api.fyndx0.de/platform/theme/
@@ -15,6 +16,11 @@ export GRINGOTTS_MAIN_URL=https://api.fyndx0.de/gringotts/
 export GRIMLOCK_MAIN_URL=https://api.fyndx0.de/auth/
 export GRIMLOCK_MAIN_SVC=https://api.fyndx0.de/auth/
 export GRIMLOCKWEB_MAIN_DOMAIN=https://auth.fyndx0.de/
+export SILVERBOLT_MAIN_SVC=https://api.fyndx0.de/seller/
+export SILVERBOLT_MAIN_URL=https://api.fyndx0.de/seller/
+export SKYWARP_MAIN_URL=https://api.fyndx0.de/platform/authorization/
+export SKYWARP_MAIN_SVC=https://api.fyndx0.de/platform/authorization/
+
 
 #ENV's
 export SENTRY_DSN=''

@@ -17,6 +17,24 @@ export const getNavigations = () => {
             //     icon: 'home',
             //     highlightedIcon: 'home-highlighted'
             // }
+        ],
+        COMPANY: [
+            {
+                display: 'Company',
+                link: '/administrator/company-list',
+                title: 'Company',
+                icon: 'home',
+                highlightedIcon: 'home-highlighted'
+            }
+        ],
+        USER_MANAGEMENT: [
+            {
+                display: 'User Access Admin',
+                link: '/administrator/user-management',
+                title: 'User Management',
+                icon: 'home',
+                highlightedIcon: 'home-highlighted'
+            }
         ]
     };
 };

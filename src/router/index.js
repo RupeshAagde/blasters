@@ -7,6 +7,7 @@ import BaseviewVue from './../pages/baseview.vue';
 import HomeVue from './../pages/home.vue';
 import ManageVue from './../pages/manage.vue';
 import PageNotFoundVue from './../pages/pagenotfound.vue';
+import {} from './../pages/company-admin/company-list.vue';
 import { authenticatedUser } from './guards';
 
 import AdministratorRoutes from './administrator';
