@@ -57,12 +57,20 @@
                             <div class="left-container">
                                 <div>
                                     <div
+                                        v-if="product.name"
                                         class="card-content-line-1 txt-company-heading"
                                     >
                                         {{ product.name }}
                                     </div>
 
-                                    <div class="txt-arrange">
+                                    <div
+                                        class="txt-arrange"
+                                        v-if="
+                                            product.business_country_info &&
+                                                product.business_country_info
+                                                    .country
+                                        "
+                                    >
                                         <div class="txt-description-heading">
                                             Business Country :
                                         </div>
@@ -73,15 +81,27 @@
                                             }}
                                         </div>
                                     </div>
-                                    <div class="txt-arrange">
-                                        <div class="txt-description-heading">
+                                    <div
+                                        class="txt-arrange"
+                                        v-if="product.created_by"
+                                    >
+                                        <div
+                                            class="txt-description-heading"
+                                            v-if="
+                                                product.created_by &&
+                                                    product.created_by.username
+                                            "
+                                        >
                                             Created By :
                                         </div>
                                         <div class="txt-details-by">
                                             {{ product.created_by.username }}
                                         </div>
                                     </div>
-                                    <div class="txt-arrange">
+                                    <div
+                                        class="txt-arrange"
+                                        v-if="product.created_on"
+                                    >
                                         <div class="txt-description-heading">
                                             Created On :
                                         </div>
