@@ -95,7 +95,7 @@
                         class="left-space"
                         :theme="'secondary'"
                         v-strokeBtn
-                        v-if="item.stage == 'verified'"
+                        v-if="item.stage != 'verified'"
                         @click="openAdminDialog(item)"
                         >Disable</nitrozen-button
                     >
