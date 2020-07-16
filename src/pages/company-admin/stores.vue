@@ -640,9 +640,7 @@ export default {
                                 duration: 2000
                             }
                         );
-                        setTimeout(() => {
-                            this.onCancel();
-                        }, 2000);
+                        setTimeout(() => {}, 2000);
                     })
                     .catch((error) => {
                         console.error(error);
@@ -767,6 +765,7 @@ export default {
             } else {
                 this.$refs['store_admin_dialog'].open({
                     width: '600px',
+                    height: '480px',
                     showCloseButton: true,
                     dismissible: true
                 });
