@@ -671,7 +671,11 @@ export default {
                         this.$snackbar.global.showError(
                             `${
                                 error.response.data
-                                    ? JSON.stringify(error.response.data.errors)
+                                    ? error.response.data.errors.company
+                                        ? error.response.data.errors.company
+                                        : JSON.stringify(
+                                              error.response.data.error
+                                          )
                                     : ''
                             }`,
                             {
