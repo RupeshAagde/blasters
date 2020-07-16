@@ -95,7 +95,7 @@
                         class="left-space"
                         :theme="'secondary'"
                         v-strokeBtn
-                        v-if="item.stage == 'verified'"
+                        v-if="item.stage != 'verified'"
                         @click="openAdminDialog(item)"
                         >Disable</nitrozen-button
                     >
@@ -399,6 +399,7 @@
 
     .img-box {
         margin-left: 12px;
+        cursor: pointer;
         ::v-deep svg {
             color: #5c6bdd;
         }
