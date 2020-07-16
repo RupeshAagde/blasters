@@ -178,6 +178,14 @@
                     <nitrozen-button
                         v-if="!show_verify_button"
                         class="mr24"
+                        @click="editIntegration"
+                        v-flatBtn
+                        :theme="'secondary'"
+                        >Edit</nitrozen-button
+                    >
+                    <nitrozen-button
+                        v-if="!show_verify_button"
+                        class="mr24"
                         @click="rejectStore"
                         v-flatBtn
                         :theme="'secondary'"
@@ -546,8 +554,8 @@ export default {
                         });
                     } else if (params.choice_type == 'integration_type') {
                         this.integrationType = res.data.data;
-                        this.order_choice = res.data.data[0]['key'];
-                        this.inventory_choice = res.data.data[0]['key'];
+                        // this.order_choice = res.data.data[0]['key'];
+                        // this.inventory_choice = res.data.data[0]['key'];
                         this.integrationType.map((ele) => {
                             ele.text = ele.value;
                             ele.value = ele.key;
@@ -591,6 +599,9 @@ export default {
             };
             this.getStores();
             // this.setRouteQuery({ current, limit });
+        },
+        editIntegration() {
+            this.show_verify_button = true;
         },
         setRouteQuery(query) {
             if (query.search || query.stage) {
@@ -739,6 +750,7 @@ export default {
             this.activeStore = { ...item };
             this.getChoiceType({ choice_type: 'integration_type' });
             if (item.integration_type) {
+                console.log(item, 'item');
                 this.order_choice = item.integration_type.order;
                 this.inventory_choice = item.integration_type.inventory;
             }
