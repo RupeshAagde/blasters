@@ -399,6 +399,7 @@
 
     .img-box {
         margin-left: 12px;
+        cursor: pointer;
         ::v-deep svg {
             color: #5c6bdd;
         }
