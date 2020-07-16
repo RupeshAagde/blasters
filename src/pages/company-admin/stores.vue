@@ -25,7 +25,6 @@
                 v-for="(item, index) in storesData"
                 :key="index"
                 :title="item.name"
-                @click="openAdminDialog(item)"
             >
                 <div class="store-header">
                     <div class="store-name">{{ item.name }}</div>
@@ -34,12 +33,13 @@
                             :state="
                                 item.stage == 'verified' ? 'success' : 'warn'
                             "
-                            >{{
+                        >
+                            {{
                                 item.stage == 'verified'
                                     ? 'verified'
                                     : 'unverified'
-                            }}</nitrozen-badge
-                        >
+                            }}
+                        </nitrozen-badge>
                         <div class="img-box" @click="editStore($event, item)">
                             <adm-inline-svg
                                 class="verified-icon left-space-s"
@@ -75,6 +75,30 @@
                             {{ item.address.country }}
                         </div>
                     </div>
+                </div>
+                <div class="bottom-card-button">
+                    <nitrozen-button
+                        :theme="'secondary'"
+                        v-flatBtn
+                        v-if="item.stage != 'verified'"
+                        @click="openAdminDialog(item)"
+                        >Verify</nitrozen-button
+                    >
+                    <nitrozen-button
+                        :theme="'secondary'"
+                        v-flatBtn
+                        v-if="item.stage == 'verified'"
+                        @click="editIntegration(item)"
+                        >Edit Integration</nitrozen-button
+                    >
+                    <nitrozen-button
+                        class="left-space"
+                        :theme="'secondary'"
+                        v-strokeBtn
+                        v-if="item.stage == 'verified'"
+                        @click="openAdminDialog(item)"
+                        >Disable</nitrozen-button
+                    >
                 </div>
             </div>
         </div>
@@ -120,12 +144,9 @@
                                 v-model="order_choice"
                                 @change="changeDropDown"
                             ></nitrozen-dropdown>
-                            <nitrozen-error
-                                v-if="order_choice_error.showerror"
-                                >{{
-                                    order_choice_error.errortext
-                                }}</nitrozen-error
-                            >
+                            <nitrozen-error v-if="order_choice_error.showerror">
+                                {{ order_choice_error.errortext }}
+                            </nitrozen-error>
                         </div>
                         <div class="right-drop">
                             <label class="cust-label"
@@ -140,10 +161,9 @@
                             ></nitrozen-dropdown>
                             <nitrozen-error
                                 v-if="inventory_choice_error.showerror"
-                                >{{
-                                    inventory_choice_error.errortext
-                                }}</nitrozen-error
                             >
+                                {{ inventory_choice_error.errortext }}
+                            </nitrozen-error>
                         </div>
                     </div>
                     <nitrozen-input
@@ -157,9 +177,8 @@
                     <nitrozen-error
                         class="cust-margin"
                         v-if="rejection_info.showError"
+                        >{{ rejection_info.errortext }}</nitrozen-error
                     >
-                        {{ rejection_info.errortext }}
-                    </nitrozen-error>
                 </div>
                 <div class="cust-sent">
                     Are you sure you want to {{ admin_action_text }} this store?
@@ -173,7 +192,9 @@
                         @click="verifyStore"
                         v-flatBtn
                         :theme="'secondary'"
-                        >Verify</nitrozen-button
+                        >{{
+                            editIntegration ? 'Update' : 'Verify'
+                        }}</nitrozen-button
                     >
                     <nitrozen-button
                         v-if="!show_verify_button"
@@ -201,12 +222,20 @@
 .cust-inp {
     margin-bottom: 24px;
 }
+.bottom-card-button {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+}
 .cust-margin {
     margin-bottom: 6px;
 }
 .cust-sent {
     margin-top: 18px;
     margin-bottom: 24px;
+}
+.left-space {
+    margin-left: 24px;
 }
 .cust-label {
     color: #9b9b9b;
@@ -323,7 +352,6 @@
             background-color: @White;
             padding: 24px;
             margin-bottom: 24px;
-            cursor: pointer;
 
             &:hover {
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -454,6 +482,7 @@ export default {
             inventory_choice: null,
             companyId: this.$route.params.companyId,
             activeStore: {},
+            button_txt: 'Verify',
             rejection_info: {
                 showError: false,
                 errortext: 'Please explain reason properly.',
@@ -461,6 +490,7 @@ export default {
             },
             admin_action_text: '',
             show_verify_button: true,
+            enableEditIntegration: false,
             order_choice_error: {
                 showerror: false,
                 errortext: 'Please select order integration type.'
@@ -546,8 +576,8 @@ export default {
                         });
                     } else if (params.choice_type == 'integration_type') {
                         this.integrationType = res.data.data;
-                        this.order_choice = res.data.data[0]['key'];
-                        this.inventory_choice = res.data.data[0]['key'];
+                        // this.order_choice = res.data.data[0]['key'];
+                        // this.inventory_choice = res.data.data[0]['key'];
                         this.integrationType.map((ele) => {
                             ele.text = ele.value;
                             ele.value = ele.key;
@@ -592,6 +622,10 @@ export default {
             this.getStores();
             // this.setRouteQuery({ current, limit });
         },
+        editIntegration(item) {
+            this.enableEditIntegration = true;
+            this.openAdminDialog(item);
+        },
         setRouteQuery(query) {
             if (query.search || query.stage) {
                 // clear pagination if search or filter applied
@@ -629,9 +663,7 @@ export default {
                                 duration: 2000
                             }
                         );
-                        setTimeout(() => {
-                            this.onCancel();
-                        }, 2000);
+                        setTimeout(() => {}, 2000);
                     })
                     .catch((error) => {
                         console.error(error);
@@ -724,6 +756,7 @@ export default {
             }
         },
         openAdminDialog(item) {
+            this.activeStore = { ...item };
             this.rejection_info.showError = false;
             this.order_choice_error.showerror = false;
             this.inventory_choice_error.showerror = false;
@@ -736,7 +769,11 @@ export default {
                 this.admin_action_text = 'verify';
                 this.show_verify_button = true;
             }
-            this.activeStore = { ...item };
+            if (this.enableEditIntegration) {
+                this.show_verify_button = true;
+                this.admin_action_text = 'update integration of';
+            }
+
             this.getChoiceType({ choice_type: 'integration_type' });
             if (item.integration_type) {
                 this.order_choice = item.integration_type.order;
@@ -755,6 +792,7 @@ export default {
             } else {
                 this.$refs['store_admin_dialog'].open({
                     width: '600px',
+                    height: '480px',
                     showCloseButton: true,
                     dismissible: true
                 });
@@ -769,6 +807,7 @@ export default {
             }
         },
         closeAdminDialog() {
+            this.enableEditIntegration = false;
             this.$refs['store_admin_dialog'].close();
         },
         editStore(event, item) {
