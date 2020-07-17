@@ -56,6 +56,12 @@
                             <adm-company-details></adm-company-details>
                         </div>
                     </div>
+                    <!-- Application List Section -->
+                    <div class="page-container common-container">
+                        <div class="left-container">
+                            <adm-application-list></adm-application-list>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -116,6 +122,7 @@
 <script>
 import admbrands from './brands.vue';
 import admstores from './stores.vue';
+import admapplication from './application-list.vue';
 import admpageheader from '@/components/common/adm-page-header';
 import admcompanydetails from './profile-details.vue';
 import CompanyService from '@/services/company-admin.service';
@@ -127,6 +134,7 @@ export default {
     components: {
         'adm-brands': admbrands,
         'adm-page-header': admpageheader,
+        'adm-application-list': admapplication,
         'adm-stores': admstores,
         'adm-company-details': admcompanydetails,
         'adm-shimmer': admshimmer,

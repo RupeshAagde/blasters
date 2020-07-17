@@ -23,6 +23,20 @@ const conf = convict({
             env: 'FYND_PLATFORM_DOMAIN',
             arg: 'fynd_platform_domain'
         },
+        SLINGSHOT_MAIN_URL: {
+            doc: 'Slingshot Public URL',
+            format: String,
+            default: '',
+            env: 'SLINGSHOT_MAIN_URL',
+            arg: 'slingshot_main_url'
+        },
+        SLINGSHOT_MAIN_SVC: {
+            doc: 'Slingshot Kube Service',
+            format: String,
+            default: '',
+            env: 'SLINGSHOT_MAIN_SVC',
+            arg: 'slingshot_main_svc'
+        },
         BLITZKRIEG_MAIN_URL: {
             doc: 'Themes API',
             format: String,

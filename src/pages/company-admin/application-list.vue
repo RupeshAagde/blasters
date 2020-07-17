@@ -1,0 +1,379 @@
+<template>
+    <div class="applications">
+        <div class="text-heading">
+            <label>Sales Channels ({{ totalApp }})</label>
+        </div>
+        <div class="search-div">
+            <div class="box-search">
+                <nitrozen-input
+                    placeholder="Search Channels by name . . ."
+                    @input="searchChannels"
+                    v-model="searchText"
+                    :showSearchIcon="true"
+                    type="search"
+                ></nitrozen-input>
+            </div>
+            <div class="box-drop">
+                <label class="label">Filter</label>
+                <nitrozen-dropdown
+                    class="filter-dropdown"
+                    :items="filters"
+                    v-model="selectedFilter"
+                    @change="searchChannels"
+                ></nitrozen-dropdown>
+            </div>
+        </div>
+        <div v-if="inProgress" class="shimmer"></div>
+        <div
+            v-if="!inProgress && applicationList && applicationList.length > 0"
+        >
+            <div
+                class="container"
+                v-for="(item, index) in applicationList"
+                :key="index"
+                :title="item.name"
+            >
+                <div class="line-1">
+                    <div class="cust-head">
+                        <a
+                            :href="
+                                `https://platform.${fyndPlatformDomain}/company/${companyId}/application/${item.id}`
+                            "
+                            target="_blank"
+                            >{{ item.name }}</a
+                        >
+                    </div>
+                    <div class="cust-badge">
+                        <a
+                            :href="`https://${item.domain.name}`"
+                            target="_blank"
+                        >
+                            <adm-inline-svg
+                                class="cust-space"
+                                :src="'eye-open'"
+                                title="View"
+                            ></adm-inline-svg>
+                        </a>
+                        <nitrozen-badge
+                            :state="item.is_active ? 'success' : 'warn'"
+                            >{{
+                                item.is_active ? 'Active' : 'Inactive'
+                            }}</nitrozen-badge
+                        >
+                    </div>
+                </div>
+                <div class="line-2" v-if="item.token">
+                    <div class="cust-head">Token</div>
+                    <div>{{ item.token }}</div>
+                </div>
+                <div class="line-2" v-if="item.id">
+                    <div class="cust-head">Application ID</div>
+                    <div>{{ item.id }}</div>
+                </div>
+                <div class="line-4">
+                    <nitrozen-button
+                        :theme="'secondary'"
+                        v-strokeBtn
+                        @click="openAdminDialog(item)"
+                        >Delete</nitrozen-button
+                    >
+                </div>
+            </div>
+        </div>
+        <adm-no-content
+            v-if="!inProgress && !applicationList.length"
+            :text="'No channel found'"
+        ></adm-no-content>
+        <nitrozen-dialog
+            ref="channel_dialog"
+            :title="activeChannel ? activeChannel.name : 'Sales Channel'"
+        >
+            <template slot="body" class="desc-dialog">
+                <div class="text-margin">
+                    Are you sure you want to disable this channel?
+                </div>
+            </template>
+            <template slot="footer">
+                <div>
+                    <nitrozen-button class="mr24" v-flatBtn :theme="'secondary'"
+                        >Disable</nitrozen-button
+                    >
+                    <nitrozen-button
+                        @click="closeAdminDialog"
+                        v-strokeBtn
+                        :theme="'secondary'"
+                        >Cancel</nitrozen-button
+                    >
+                </div>
+            </template>
+        </nitrozen-dialog>
+    </div>
+</template>
+<style lang="less" scoped>
+@import './../less/page-header.less';
+@import './../less/page-ui.less';
+.shimmer {
+    display: block;
+    width: 100%;
+    height: 120px;
+    margin-bottom: 24px;
+}
+::v-deep .page-error {
+    img {
+        width: 200px !important;
+        height: 150px !important;
+    }
+}
+.cust-space {
+    margin-right: 12px;
+    ::v-deep svg {
+        width: 20px !important;
+        height: 12px !important;
+    }
+    cursor: pointer;
+}
+.text-margin {
+    margin: 12px 0 24px 0;
+}
+.cust-head {
+    font-size: 14px;
+    color: #9b9b9b;
+    font-weight: 100;
+}
+.applications {
+    .text-heading {
+        font-size: 18px;
+        color: #41434c;
+        font-weight: bold;
+        // margin-bottom: 6px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+    }
+    .search-div {
+        width: 100%;
+        margin-bottom: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+
+        .label {
+            color: #9b9b9b;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .box-search {
+            width: 65%;
+        }
+
+        .box-drop {
+            width: 33%;
+        }
+    }
+    .container {
+        box-sizing: border-box;
+        border: 1px solid @Iron;
+        border-radius: 4px;
+        background-color: @White;
+        // padding: 24px 12px 24px 12px;
+        padding: 12px;
+        margin-bottom: 24px;
+
+        &:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .line-1 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            // padding-bottom: 12px;
+
+            .cust-head {
+                text-overflow: ellipsis;
+                width: 160px;
+                overflow: hidden;
+                font-size: 14px;
+                color: #5c6bdd;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .cust-badge {
+                margin-left: 6px;
+                display: flex;
+                align-items: center;
+            }
+        }
+        .line-2 {
+            margin: 12px 0;
+            display: flex;
+            font-size: 14px;
+            color: #41434c;
+            font-weight: 200;
+            justify-content: space-between;
+        }
+        .line-4 {
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+}
+</style>
+<script>
+import CompanyService from '@/services/company-admin.service';
+import admInlineSVG from '@/components/common/adm-inline-svg';
+import uktInlineSVG from '@/components/common/ukt-inline-svg';
+import admshimmer from '@/components/common/shimmer';
+import admnocontent from '@/components/common/page-empty';
+import pageerror from '@/components/common/page-error';
+import {
+    NitrozenInput,
+    NitrozenError,
+    NitrozenButton,
+    NitrozenDropdown,
+    NitrozenDialog,
+    NitrozenBadge,
+    flatBtn,
+    strokeBtn
+} from '@gofynd/nitrozen-vue';
+
+import root from 'window-or-global';
+const env = root.env || {};
+
+const ROLE_FILTER = [
+    { value: 'all', text: 'All' },
+    { value: 'active', text: 'Active' },
+    { value: 'inactive', text: 'Inactive' }
+];
+
+export default {
+    name: 'application-list',
+    components: {
+        'ukt-inline-svg': uktInlineSVG,
+        'adm-inline-svg': admInlineSVG,
+        'nitrozen-button': NitrozenButton,
+        'nitrozen-dropdown': NitrozenDropdown,
+        'nitrozen-badge': NitrozenBadge,
+        'nitrozen-input': NitrozenInput,
+        'nitrozen-dialog': NitrozenDialog,
+        'nitrozen-error': NitrozenError,
+        'adm-shimmer': admshimmer,
+        'adm-no-content': admnocontent,
+        'page-error': pageerror
+    },
+    directives: {
+        strokeBtn,
+        flatBtn
+    },
+    computed: {
+        fyndPlatformDomain(type) {
+            return env.FYND_PLATFORM_DOMAIN;
+        }
+    },
+    data() {
+        return {
+            inProgress: false,
+            pageError: false,
+            totalApp: null,
+            searchText: '',
+            filters: [...ROLE_FILTER],
+            selectedFilter: 'all',
+            companyId: this.$route.params.companyId,
+            mainList: [],
+            applicationList: [],
+            activeChannel: null
+        };
+    },
+    mounted() {
+        this.fetchApplication();
+    },
+    methods: {
+        fetchApplication() {
+            let params = {
+                company_id: this.companyId,
+                page: 1,
+                limit: 100
+            };
+            this.inProgress = true;
+            CompanyService.fetchApplication(this.companyId, params)
+                .then((res) => {
+                    this.inProgress = false;
+                    this.pageError = false;
+                    this.totalApp = res.data.total;
+                    this.mainList = res.data.docs;
+                    this.applicationList = res.data.docs;
+                })
+                .catch((err) => {
+                    this.inProgress = false;
+                    console.error(err);
+                });
+        },
+        searchChannels() {
+            if (this.mainList && this.mainList.length > 0) {
+                if (this.selectedFilter == 'all') {
+                    if (this.searchText != '') {
+                        this.applicationList = this.mainList.filter(
+                            (element) => {
+                                return element.name
+                                    .toLowerCase()
+                                    .includes(this.searchText.toLowerCase());
+                            }
+                        );
+                    } else {
+                        this.applicationList = this.mainList;
+                    }
+                } else if (this.selectedFilter == 'active') {
+                    let tempList = this.mainList.filter((element) => {
+                        return element.is_active == true;
+                    });
+                    if (
+                        this.searchText != '' &&
+                        tempList &&
+                        tempList.length > 0
+                    ) {
+                        this.applicationList = tempList.filter((element) => {
+                            return element.name
+                                .toLowerCase()
+                                .includes(this.searchText.toLowerCase());
+                        });
+                    } else {
+                        this.applicationList = tempList;
+                    }
+                } else if (this.selectedFilter == 'inactive') {
+                    let tempList = this.mainList.filter((element) => {
+                        return element.is_active == false;
+                    });
+                    if (
+                        this.searchText != '' &&
+                        tempList &&
+                        tempList.length > 0
+                    ) {
+                        this.applicationList = tempList.filter((element) => {
+                            return element.name
+                                .toLowerCase()
+                                .includes(this.searchText.toLowerCase());
+                        });
+                    } else {
+                        this.applicationList = tempList;
+                    }
+                }
+            }
+        },
+        openAdminDialog(item) {
+            this.activeChannel = item;
+
+            this.$refs['channel_dialog'].open({
+                width: '500px',
+                showCloseButton: true,
+                dismissible: true
+            });
+        },
+        closeAdminDialog() {
+            this.$refs['channel_dialog'].close();
+        }
+    }
+};
+</script>

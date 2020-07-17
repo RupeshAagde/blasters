@@ -31,7 +31,16 @@ const UNICRON_BASE = isNode
     ? envVars.BROWSER_CONFIG.UNICRON_MAIN_SVC
     : envVars.UNICRON_MAIN_URL;
 
+const SLINGSHOT_MAIN_URL = isNode
+    ? envVars.BROWSER_CONFIG.SLINGSHOT_MAIN_URL
+    : envVars.SLINGSHOT_MAIN_URL;
+
 const URLS = {
+    // fetch applications
+    FETCH_APPLICATIONS: (uid) => {
+        return urlJoin(SLINGSHOT_MAIN_URL, `/company/${uid}/applications`);
+    },
+
     // validate user
     VALIDATE_USER: () => {
         return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff/current/access');

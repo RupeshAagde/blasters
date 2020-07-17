@@ -20,6 +20,9 @@ export SILVERBOLT_MAIN_SVC=https://api.fyndx0.de/seller/
 export SILVERBOLT_MAIN_URL=https://api.fyndx0.de/seller/
 export SKYWARP_MAIN_URL=https://api.fyndx0.de/platform/authorization/
 export SKYWARP_MAIN_SVC=https://api.fyndx0.de/platform/authorization/
+export SLINGSHOT_MAIN_URL=https://api.fyndx0.de/slingshot/
+export SLINGSHOT_MAIN_SVC=https://api.fyndx0.de/slingshot/
+
 
 
 #ENV's
