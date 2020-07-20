@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="jumbotron-image">
-            <img :src="`/public/pngs/${illustration}.png`" />
+            <img :src="`/public/assets/admin/pngs/${illustration}.png`" />
         </div>
     </div>
 </template>

@@ -31,6 +31,14 @@ const UNICRON_BASE = isNode
     ? envVars.BROWSER_CONFIG.UNICRON_MAIN_SVC
     : envVars.UNICRON_MAIN_URL;
 
+const INTERNAL_SETTINGS = isNode
+    ? envVars.BROWSER_CONFIG.ULTRAMAGNUS_MAIN_SVC
+    : envVars.ULTRAMAGNUS_MAIN_URL;
+
+const PLATFORM_ASSETS_BASE = isNode
+    ? envVars.BROWSER_CONFIG.GRINDOR_MAIN_URL
+    : envVars.GRINDOR_MAIN_URL;
+
 const SLINGSHOT_MAIN_URL = isNode
     ? envVars.BROWSER_CONFIG.SLINGSHOT_MAIN_URL
     : envVars.SLINGSHOT_MAIN_URL;
@@ -221,6 +229,43 @@ const URLS = {
     },
     FETCH_COMPONENT_WITH_PRICES: () => {
         return urlJoin(UNICRON_BASE, 'v1/component-prices');
+    },
+
+    // Ultra Magnus
+    PLATFORM_BASIC_DETAILS: () => {
+        return urlJoin(INTERNAL_SETTINGS, 'v1/basic-details');
+    },
+
+    //Grindor
+    GRINDOR_EXPLORER: (namespace) => {
+        return urlJoin(
+            PLATFORM_ASSETS_BASE,
+            'v1/asset/explorer/namespaces/',
+            namespace
+        );
+    },
+    GRINDOR_UPLOAD_START: (namespace) => {
+        return urlJoin(
+            PLATFORM_ASSETS_BASE,
+            'v1/asset/uploads/start/',
+            namespace
+        );
+    },
+    GRINDOR_UPLOAD_COMPLETE: (namespace) => {
+        return urlJoin(
+            PLATFORM_ASSETS_BASE,
+            'v1/asset/uploads/complete/',
+            namespace
+        );
+    },
+    GRINDOR_COPY_FILE: () => {
+        return urlJoin(
+            PLATFORM_ASSETS_BASE,
+            'v1/asset/uploads/bulk/copy-files?sync=true'
+        );
+    },
+    GRINDOR_PROXY: () => {
+        return urlJoin(PLATFORM_ASSETS_BASE, 'v1/proxy/fetch');
     }
 };
 

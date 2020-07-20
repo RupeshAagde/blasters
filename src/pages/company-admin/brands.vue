@@ -68,10 +68,10 @@
             >
         </div>
         <page-error v-if="pageError" @tryAgain="getBrands"></page-error>
-        <adm-no-content
+        <page-empty
             v-if="!pageError && !inProgress && !brandsData.length"
             :helperText="'No Brands Found'"
-        ></adm-no-content>
+        ></page-empty>
         <nitrozen-dialog
             class="remove_staff_dialog"
             ref="brand_admin_dialog"
@@ -330,9 +330,9 @@
 
 <script>
 import CompanyService from '@/services/company-admin.service';
-import loader from '@/components/common/adm-loader';
-import admshimmer from '@/components/common/shimmer';
-import admnocontent from '@/components/common/page-empty';
+import loader from '@/components/common/loader';
+import Shimmer from '@/components/common/shimmer';
+import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import dateFormat from 'dateformat';
 import { getRoute } from '@/helper/get-route';
@@ -355,8 +355,8 @@ import {
 export default {
     name: 'adm-company-brands',
     components: {
-        'adm-shimmer': admshimmer,
-        'adm-no-content': admnocontent,
+        Shimmer,
+        PageEmpty,
         'page-error': pageerror,
         loader,
         'nitrozen-button': NitrozenButton,

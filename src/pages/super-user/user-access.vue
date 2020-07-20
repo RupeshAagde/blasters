@@ -1,12 +1,12 @@
 <template>
     <div class="main-container">
         <div class="custom-header">
-            <adm-jumbotron
-                :title="'User Access Admin'"
+            <jumbotron
+                :title="'Admin Users'"
                 btnLabel="Add User"
                 illustration="team"
                 @btnClick="addUser"
-            ></adm-jumbotron>
+            ></jumbotron>
         </div>
         <div class="second-container">
             <div
@@ -41,10 +41,7 @@
                 <!-- </template> -->
             </div>
             <div class="product-list">
-                <adm-shimmer
-                    v-if="pageLoading && !pageError"
-                    :count="4"
-                ></adm-shimmer>
+                <shimmer v-if="pageLoading && !pageError" :count="4"></shimmer>
                 <page-error
                     v-else-if="pageError && !pageLoading"
                     @tryAgain="fetchUsers"
@@ -119,13 +116,10 @@
                         </div>
                     </div>
                 </div>
-                <adm-no-content
-                    v-else
-                    :helperText="'No user found'"
-                ></adm-no-content>
+                <page-empty v-else :helperText="'No user found'"></page-empty>
                 <div class="pagination" v-if="userList && userList.length > 0">
                     <nitrozen-pagination
-                        name="Users"
+                        name="Super Admins"
                         v-model="pagination"
                         @change="paginationChange"
                         :pageSizeOptions="[5, 10, 20, 50]"
@@ -333,10 +327,10 @@
 
 <script>
 import UserService from '@/services/user-access.service';
-import admjumbotron from '@/components/common/adm-jumbotron';
+import Jumbotron from '@/components/common/jumbotron';
 import { titleCase, debounce } from '@/helper/utils';
-import admshimmer from '@/components/common/shimmer';
-import admnocontent from '@/components/common/page-empty';
+import Shimmer from '@/components/common/shimmer';
+import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import fynotfound from '@/components/common/ukt-not-found';
 import admInlineSVG from '@/components/common/adm-inline-svg';
@@ -361,9 +355,8 @@ const PAGINATION = {
 export default {
     name: 'user-management',
     components: {
-        'adm-jumbotron': admjumbotron,
-        'adm-no-content': admnocontent,
-        'adm-shimmer': admshimmer,
+        PageEmpty,
+        Shimmer,
         'adm-inline-svg': admInlineSVG,
         'page-error': pageerror,
         'nitrozen-input': NitrozenInput,
@@ -372,7 +365,8 @@ export default {
         'nitrozen-dialog': NitrozenDialog,
         'nitrozen-error': NitrozenError,
         NitrozenDropdown,
-        NitrozenButton
+        NitrozenButton,
+        Jumbotron
     },
     directives: {
         strokeBtn,

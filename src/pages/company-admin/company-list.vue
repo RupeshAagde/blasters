@@ -1,7 +1,7 @@
 <template>
     <div class="main-container">
         <div class="jumbotron-container">
-            <adm-jumbotron :title="'Company'" :desc="''"></adm-jumbotron>
+            <jumbotron :title="'Company'" :desc="''"></jumbotron>
         </div>
         <div class="second-container">
             <div
@@ -38,10 +38,7 @@
                 </template>
             </div>
             <div class="product-list">
-                <adm-shimmer
-                    v-if="pageLoading && !pageError"
-                    :count="4"
-                ></adm-shimmer>
+                <shimmer v-if="pageLoading && !pageError" :count="4"></shimmer>
                 <page-error
                     v-else-if="pageError && !pageLoading"
                     @tryAgain="fetchCompany"
@@ -140,10 +137,10 @@
                         </div>
                     </div>
                 </div>
-                <adm-no-content
+                <page-empty
                     v-else
                     :helperText="'No company found'"
-                ></adm-no-content>
+                ></page-empty>
                 <div class="pagination" v-if="companyList.length > 0">
                     <nitrozen-pagination
                         name="Companies"
@@ -375,11 +372,10 @@
 <script>
 import path from 'path';
 import CompanyService from '@/services/company-admin.service';
-import admjumbotron from '@/components/common/adm-jumbotron';
+import Jumbotron from '@/components/common/jumbotron';
 import { titleCase, debounce } from '@/helper/utils';
-// import loader from '@/components/common/adm-loader';
-import admshimmer from '@/components/common/shimmer';
-import admnocontent from '@/components/common/page-empty';
+import Shimmer from '@/components/common/shimmer';
+import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import fynotfound from '@/components/common/ukt-not-found';
 // import { toListingThumbnail } from '@/helper/image.utils';
@@ -412,9 +408,9 @@ const ROLE_FILTER = [
 export default {
     name: 'adm-company-list',
     components: {
-        'adm-jumbotron': admjumbotron,
-        'adm-no-content': admnocontent,
-        'adm-shimmer': admshimmer,
+        Jumbotron,
+        PageEmpty,
+        Shimmer,
         'page-error': pageerror,
         'nitrozen-input': NitrozenInput,
         'nitrozen-pagination': NitrozenPagination,

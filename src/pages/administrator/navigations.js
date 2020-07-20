@@ -29,11 +29,20 @@ export const getNavigations = () => {
         ],
         USER_MANAGEMENT: [
             {
-                display: 'User Access Admin',
+                display: 'Admin User Access',
                 link: '/administrator/user-management',
                 title: 'User Management',
-                icon: 'home',
-                highlightedIcon: 'home-highlighted'
+                icon: 'team',
+                highlightedIcon: 'team-highlighted'
+            }
+        ],
+        SETTINGS: [
+            {
+                display: 'Settings',
+                link: '/administrator/settings',
+                title: 'Settings',
+                icon: 'settings',
+                highlightedIcon: 'settings-highlighted'
             }
         ]
     };

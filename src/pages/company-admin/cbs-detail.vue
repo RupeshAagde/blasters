@@ -3,7 +3,7 @@
         <div v-if="inProgress" class="shimmer"></div>
         <div v-if="!inProgress" class="cust-panel">
             <div class="top-container" v-if="profileDetails">
-                <adm-page-header
+                <page-header
                     :title="profileDetails.name"
                     @backClick="redirectToListing"
                 >
@@ -29,7 +29,7 @@
                             >{{ profileDetails.stage }}</nitrozen-badge
                         >
                     </div>
-                </adm-page-header>
+                </page-header>
             </div>
         </div>
         <div class="main-container profile-container">
@@ -126,7 +126,7 @@ import admapplication from './application-list.vue';
 import admpageheader from '@/components/common/adm-page-header';
 import admcompanydetails from './profile-details.vue';
 import CompanyService from '@/services/company-admin.service';
-import admshimmer from '@/components/common/shimmer';
+import Shimmer from '@/components/common/shimmer';
 import { NitrozenBadge } from '@gofynd/nitrozen-vue';
 
 export default {
@@ -137,7 +137,7 @@ export default {
         'adm-application-list': admapplication,
         'adm-stores': admstores,
         'adm-company-details': admcompanydetails,
-        'adm-shimmer': admshimmer,
+        Shimmer,
         'nitrozen-badge': NitrozenBadge
     },
     computed: {},
