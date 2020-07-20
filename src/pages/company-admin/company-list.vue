@@ -1,7 +1,7 @@
 <template>
     <div class="main-container">
         <div class="jumbotron-container">
-            <adm-jumbotron :title="'Company'" :desc="''"></adm-jumbotron>
+            <jumbotron :title="'Company'" :desc="''"></jumbotron>
         </div>
         <div class="second-container">
             <div
@@ -38,10 +38,7 @@
                 </template>
             </div>
             <div class="product-list">
-                <adm-shimmer
-                    v-if="pageLoading && !pageError"
-                    :count="4"
-                ></adm-shimmer>
+                <shimmer v-if="pageLoading && !pageError" :count="4"></shimmer>
                 <page-error
                     v-else-if="pageError && !pageLoading"
                     @tryAgain="fetchCompany"
@@ -57,12 +54,20 @@
                             <div class="left-container">
                                 <div>
                                     <div
+                                        v-if="product.name"
                                         class="card-content-line-1 txt-company-heading"
                                     >
                                         {{ product.name }}
                                     </div>
 
-                                    <div class="txt-arrange">
+                                    <div
+                                        class="txt-arrange"
+                                        v-if="
+                                            product.business_country_info &&
+                                                product.business_country_info
+                                                    .country
+                                        "
+                                    >
                                         <div class="txt-description-heading">
                                             Business Country :
                                         </div>
@@ -73,15 +78,27 @@
                                             }}
                                         </div>
                                     </div>
-                                    <div class="txt-arrange">
-                                        <div class="txt-description-heading">
+                                    <div
+                                        class="txt-arrange"
+                                        v-if="product.created_by"
+                                    >
+                                        <div
+                                            class="txt-description-heading"
+                                            v-if="
+                                                product.created_by &&
+                                                    product.created_by.username
+                                            "
+                                        >
                                             Created By :
                                         </div>
                                         <div class="txt-details-by">
                                             {{ product.created_by.username }}
                                         </div>
                                     </div>
-                                    <div class="txt-arrange">
+                                    <div
+                                        class="txt-arrange"
+                                        v-if="product.created_on"
+                                    >
                                         <div class="txt-description-heading">
                                             Created On :
                                         </div>
@@ -120,10 +137,10 @@
                         </div>
                     </div>
                 </div>
-                <adm-no-content
+                <page-empty
                     v-else
                     :helperText="'No company found'"
-                ></adm-no-content>
+                ></page-empty>
                 <div class="pagination" v-if="companyList.length > 0">
                     <nitrozen-pagination
                         name="Companies"
@@ -355,11 +372,10 @@
 <script>
 import path from 'path';
 import CompanyService from '@/services/company-admin.service';
-import admjumbotron from '@/components/common/adm-jumbotron';
+import Jumbotron from '@/components/common/jumbotron';
 import { titleCase, debounce } from '@/helper/utils';
-// import loader from '@/components/common/adm-loader';
-import admshimmer from '@/components/common/shimmer';
-import admnocontent from '@/components/common/page-empty';
+import Shimmer from '@/components/common/shimmer';
+import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import fynotfound from '@/components/common/ukt-not-found';
 // import { toListingThumbnail } from '@/helper/image.utils';
@@ -392,9 +408,9 @@ const ROLE_FILTER = [
 export default {
     name: 'adm-company-list',
     components: {
-        'adm-jumbotron': admjumbotron,
-        'adm-no-content': admnocontent,
-        'adm-shimmer': admshimmer,
+        Jumbotron,
+        PageEmpty,
+        Shimmer,
         'page-error': pageerror,
         'nitrozen-input': NitrozenInput,
         'nitrozen-pagination': NitrozenPagination,

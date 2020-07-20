@@ -27,7 +27,7 @@ import _ from 'lodash';
 import { NitrozenDialog } from '@gofynd/nitrozen-vue';
 
 export default {
-    name: 'adm-custom-json-dialog',
+    name: 'custom-json-dialog',
     components: {
         VJsoneditor,
         'nitrozen-dialog': NitrozenDialog

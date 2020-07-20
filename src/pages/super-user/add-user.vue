@@ -1,10 +1,10 @@
 <template>
     <div>
         <div>
-            <adm-page-header
+            <page-header
                 :title="'Add Super User'"
                 @backClick="redirectToListing"
-            ></adm-page-header>
+            ></page-header>
         </div>
         <div class="main-container">
             <div class="search-heading">Search User</div>
@@ -279,8 +279,8 @@
 </style>
 <script>
 import UserService from '@/services/user-access.service';
-import admpageheader from '@/components/common/adm-page-header';
-import admshimmer from '@/components/common/shimmer';
+import PageHeader from '@/components/common/layout/page-header';
+import Shimmer from '@/components/common/shimmer';
 import admInlineSVG from '@/components/common/adm-inline-svg';
 import {
     NitrozenInput,
@@ -295,8 +295,8 @@ import {
 export default {
     name: 'add-super-user',
     components: {
-        'adm-page-header': admpageheader,
-        'adm-shimmer': admshimmer,
+        PageHeader,
+        Shimmer,
         'adm-inline-svg': admInlineSVG,
         'nitrozen-input': NitrozenInput,
         'nitrozen-badge': NitrozenBadge,

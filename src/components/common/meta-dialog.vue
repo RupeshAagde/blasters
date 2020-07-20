@@ -95,7 +95,7 @@ import {
     strokeBtn
 } from '@gofynd/nitrozen-vue';
 export default {
-    name: 'adm-meta-dialog',
+    name: 'meta-dialog',
     components: {
         'ukt-inline-svg': uktinlinesvg,
         'nitrozen-button': NitrozenButton,
