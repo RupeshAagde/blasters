@@ -1,12 +1,12 @@
 <template>
     <div class="main-container">
         <div class="custom-header">
-            <adm-jumbotron
+            <jumbotron
                 :title="'Admin Users'"
                 btnLabel="Add User"
                 illustration="team"
                 @btnClick="addUser"
-            ></adm-jumbotron>
+            ></jumbotron>
         </div>
         <div class="second-container">
             <div
@@ -41,10 +41,7 @@
                 <!-- </template> -->
             </div>
             <div class="product-list">
-                <adm-shimmer
-                    v-if="pageLoading && !pageError"
-                    :count="4"
-                ></adm-shimmer>
+                <shimmer v-if="pageLoading && !pageError" :count="4"></shimmer>
                 <page-error
                     v-else-if="pageError && !pageLoading"
                     @tryAgain="fetchUsers"
@@ -330,9 +327,9 @@
 
 <script>
 import UserService from '@/services/user-access.service';
-import admjumbotron from '@/components/common/adm-jumbotron';
+import Jumbotron from '@/components/common/jumbotron';
 import { titleCase, debounce } from '@/helper/utils';
-import admshimmer from '@/components/common/shimmer';
+import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import fynotfound from '@/components/common/ukt-not-found';
@@ -359,7 +356,7 @@ export default {
     name: 'user-management',
     components: {
         PageEmpty,
-        'adm-shimmer': admshimmer,
+        Shimmer,
         'adm-inline-svg': admInlineSVG,
         'page-error': pageerror,
         'nitrozen-input': NitrozenInput,
@@ -368,7 +365,8 @@ export default {
         'nitrozen-dialog': NitrozenDialog,
         'nitrozen-error': NitrozenError,
         NitrozenDropdown,
-        NitrozenButton
+        NitrozenButton,
+        Jumbotron
     },
     directives: {
         strokeBtn,

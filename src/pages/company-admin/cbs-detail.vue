@@ -119,7 +119,7 @@ import admstores from './stores.vue';
 import PageHeader from '@/components/common/layout/page-header';
 import admcompanydetails from './profile-details.vue';
 import CompanyService from '@/services/company-admin.service';
-import admshimmer from '@/components/common/shimmer';
+import Shimmer from '@/components/common/shimmer';
 import { NitrozenBadge } from '@gofynd/nitrozen-vue';
 
 export default {
@@ -129,7 +129,7 @@ export default {
         PageHeader,
         'adm-stores': admstores,
         'adm-company-details': admcompanydetails,
-        'adm-shimmer': admshimmer,
+        Shimmer,
         'nitrozen-badge': NitrozenBadge
     },
     computed: {},

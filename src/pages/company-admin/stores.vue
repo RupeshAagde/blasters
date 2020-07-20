@@ -415,7 +415,7 @@
 import CompanyService from '@/services/company-admin.service';
 import loader from '@/components/common/loader';
 import dateFormat from 'dateformat';
-import admshimmer from '@/components/common/shimmer';
+import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import { getRoute } from '@/helper/get-route';
@@ -439,7 +439,7 @@ const env = root.env || {};
 export default {
     name: 'adm-company-stores',
     components: {
-        'adm-shimmer': admshimmer,
+        Shimmer,
         PageEmpty,
         'page-error': pageerror,
         loader,

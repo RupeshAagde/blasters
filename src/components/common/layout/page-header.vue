@@ -33,24 +33,24 @@
                 >
             </nitrozen-menu>
         </div>
-        <adm-meta-dialog
+        <meta-dialog
             v-if="showContextMenuItemMeta"
             ref="contextItemMeta"
             :meta="meta"
             :customJson="customJson"
             @save="save('saveMeta', $event)"
-        ></adm-meta-dialog>
-        <!-- <adm-custom-json-dialog
+        ></meta-dialog>
+        <!-- <custom-json-dialog
             ref="contextItemCustomJson"
             :customJson="customJson"
             @save="save('saveCustomJson', $event)"
-    ></adm-custom-json-dialog>-->
+    ></custom-json-dialog>-->
     </div>
 </template>
 <script>
 import InlineSvg from '@/components/common/inline-svg.vue';
-import admMetaDialog from '@/components/common/adm-meta-dialog';
-import admCustomJsonDialog from '@/components/common/adm-custom-json-dialog';
+import MetaDialog from '@/components/common/meta-dialog';
+import CustomJsonDialog from '@/components/common/custom-json-dialog';
 
 import {
     NitrozenMenu,
@@ -62,12 +62,12 @@ import {
 export default {
     name: 'page-header',
     components: {
-        'adm-meta-dialog': admMetaDialog,
+        MetaDialog,
         NitrozenButton,
         InlineSvg,
         NitrozenMenu,
         NitrozenMenuItem,
-        'adm-custom-json-dialog': admCustomJsonDialog
+        CustomJsonDialog
     },
     props: {
         title: {
