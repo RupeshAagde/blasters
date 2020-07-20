@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import Jumbotron from '@/components/common/adm-jumbotron';
+import Jumbotron from '@/components/common/jumbotron';
 import { titleCase, debounce } from '@/helper/utils';
 import InlineSvg from '@/components/common/inline-svg';
 import {

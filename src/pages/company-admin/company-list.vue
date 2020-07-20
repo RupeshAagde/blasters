@@ -1,7 +1,7 @@
 <template>
     <div class="main-container">
         <div class="jumbotron-container">
-            <adm-jumbotron :title="'Company'" :desc="''"></adm-jumbotron>
+            <jumbotron :title="'Company'" :desc="''"></jumbotron>
         </div>
         <div class="second-container">
             <div
@@ -38,10 +38,7 @@
                 </template>
             </div>
             <div class="product-list">
-                <adm-shimmer
-                    v-if="pageLoading && !pageError"
-                    :count="4"
-                ></adm-shimmer>
+                <shimmer v-if="pageLoading && !pageError" :count="4"></shimmer>
                 <page-error
                     v-else-if="pageError && !pageLoading"
                     @tryAgain="fetchCompany"
@@ -375,9 +372,9 @@
 <script>
 import path from 'path';
 import CompanyService from '@/services/company-admin.service';
-import admjumbotron from '@/components/common/adm-jumbotron';
+import Jumbotron from '@/components/common/jumbotron';
 import { titleCase, debounce } from '@/helper/utils';
-import admshimmer from '@/components/common/shimmer';
+import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import fynotfound from '@/components/common/ukt-not-found';
@@ -411,9 +408,9 @@ const ROLE_FILTER = [
 export default {
     name: 'adm-company-list',
     components: {
-        'adm-jumbotron': admjumbotron,
+        Jumbotron,
         PageEmpty,
-        'adm-shimmer': admshimmer,
+        Shimmer,
         'page-error': pageerror,
         'nitrozen-input': NitrozenInput,
         'nitrozen-pagination': NitrozenPagination,

@@ -331,7 +331,7 @@
 <script>
 import CompanyService from '@/services/company-admin.service';
 import loader from '@/components/common/loader';
-import admshimmer from '@/components/common/shimmer';
+import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import dateFormat from 'dateformat';
@@ -355,7 +355,7 @@ import {
 export default {
     name: 'adm-company-brands',
     components: {
-        'adm-shimmer': admshimmer,
+        Shimmer,
         PageEmpty,
         'page-error': pageerror,
         loader,

@@ -280,7 +280,7 @@
 <script>
 import UserService from '@/services/user-access.service';
 import PageHeader from '@/components/common/layout/page-header';
-import admshimmer from '@/components/common/shimmer';
+import Shimmer from '@/components/common/shimmer';
 import admInlineSVG from '@/components/common/adm-inline-svg';
 import {
     NitrozenInput,
@@ -296,7 +296,7 @@ export default {
     name: 'add-super-user',
     components: {
         PageHeader,
-        'adm-shimmer': admshimmer,
+        Shimmer,
         'adm-inline-svg': admInlineSVG,
         'nitrozen-input': NitrozenInput,
         'nitrozen-badge': NitrozenBadge,
