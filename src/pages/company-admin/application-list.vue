@@ -56,10 +56,9 @@
                         </a>
                         <nitrozen-badge
                             :state="item.is_active ? 'success' : 'warn'"
-                            >{{
-                                item.is_active ? 'Active' : 'Inactive'
-                            }}</nitrozen-badge
                         >
+                            {{ item.is_active ? 'Unarchived' : 'Archived' }}
+                        </nitrozen-badge>
                     </div>
                 </div>
                 <div class="line-2" v-if="item.token">
@@ -73,9 +72,17 @@
                 <div class="line-4">
                     <nitrozen-button
                         :theme="'secondary'"
+                        v-if="item.is_active"
                         v-strokeBtn
                         @click="openAdminDialog(item)"
-                        >Delete</nitrozen-button
+                        >Archive</nitrozen-button
+                    >
+                    <nitrozen-button
+                        :theme="'secondary'"
+                        v-if="!item.is_active"
+                        v-strokeBtn
+                        @click="openAdminDialog(item)"
+                        >Unarchive</nitrozen-button
                     >
                 </div>
             </div>
@@ -90,13 +97,27 @@
         >
             <template slot="body" class="desc-dialog">
                 <div class="text-margin">
-                    Are you sure you want to disable this channel?
+                    Are you sure you want to {{ archiveText }} this sale
+                    channel?
                 </div>
             </template>
             <template slot="footer">
-                <div>
-                    <nitrozen-button class="mr24" v-flatBtn :theme="'secondary'"
-                        >Disable</nitrozen-button
+                <div v-if="activeChannel">
+                    <nitrozen-button
+                        v-if="activeChannel.is_active"
+                        class="mr24"
+                        v-flatBtn
+                        :theme="'secondary'"
+                        @click="archiveChannel"
+                        >Archive</nitrozen-button
+                    >
+                    <nitrozen-button
+                        v-if="!activeChannel.is_active"
+                        class="mr24"
+                        v-flatBtn
+                        :theme="'secondary'"
+                        @click="unarchiveChannel"
+                        >Unarchive</nitrozen-button
                     >
                     <nitrozen-button
                         @click="closeAdminDialog"
@@ -245,8 +266,8 @@ const env = root.env || {};
 
 const ROLE_FILTER = [
     { value: 'all', text: 'All' },
-    { value: 'active', text: 'Active' },
-    { value: 'inactive', text: 'Inactive' }
+    { value: 'inactive', text: 'Archived' },
+    { value: 'active', text: 'Unarchived' }
 ];
 
 export default {
@@ -281,6 +302,7 @@ export default {
             searchText: '',
             filters: [...ROLE_FILTER],
             selectedFilter: 'all',
+            archiveText: '',
             companyId: this.$route.params.companyId,
             mainList: [],
             applicationList: [],
@@ -362,8 +384,91 @@ export default {
                 }
             }
         },
+        archiveChannel() {
+            if (this.activeChannel) {
+                let params = {
+                    is_active: false
+                };
+
+                this.inProgress = true;
+                CompanyService.adminActionApplication(
+                    this.companyId,
+                    this.activeChannel.id,
+                    params
+                )
+                    .then((res) => {
+                        this.inProgress = false;
+                        this.closeAdminDialog();
+                        this.fetchApplication();
+                        this.$snackbar.global.showSuccess(
+                            'Application archived successfully',
+                            {
+                                duration: 2000
+                            }
+                        );
+                        setTimeout(() => {}, 2000);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        console.log(error, 'error');
+                        this.$snackbar.global.showError(
+                            `${error.response.data.message}`,
+                            {
+                                duration: 2000
+                            }
+                        );
+                        this.closeAdminDialog();
+                        this.fetchApplication();
+                    });
+            }
+        },
+        unarchiveChannel() {
+            if (this.activeChannel) {
+                let params = {
+                    is_active: true
+                };
+
+                this.inProgress = true;
+                CompanyService.adminActionApplication(
+                    this.companyId,
+                    this.activeChannel.id,
+                    params
+                )
+                    .then((res) => {
+                        this.inProgress = false;
+                        this.closeAdminDialog();
+                        this.fetchApplication();
+                        this.$snackbar.global.showSuccess(
+                            'Application unarchived successfully',
+                            {
+                                duration: 2000
+                            }
+                        );
+                        setTimeout(() => {}, 2000);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        // console.log(error, 'error');
+                        this.$snackbar.global.showError(
+                            `${error.response.data.message}`,
+                            {
+                                duration: 2000
+                            }
+                        );
+                        this.closeAdminDialog();
+                        this.fetchApplication();
+                    });
+            }
+        },
         openAdminDialog(item) {
             this.activeChannel = item;
+            console.log(this.activeChannel, 'active channel');
+            if (item && item.is_active) {
+                this.archiveText = 'Archive';
+            }
+            if (item && !item.is_active) {
+                this.archiveText = 'Unarchive';
+            }
 
             this.$refs['channel_dialog'].open({
                 width: '500px',

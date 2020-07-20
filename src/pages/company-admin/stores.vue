@@ -8,11 +8,27 @@
         <div class="search-store">
             <nitrozen-input
                 placeholder="Search Stores"
+                class="search"
                 @input="searchStores"
                 v-model="searchText"
                 :showSearchIcon="true"
                 type="search"
             ></nitrozen-input>
+            <div class="filter-dropdown">
+                <nitrozen-dropdown
+                    :items="choiceType"
+                    class="stage-dropdown"
+                    v-model="selectedChoice"
+                    :label="'Stage'"
+                    @change="changeStage"
+                ></nitrozen-dropdown>
+                <nitrozen-dropdown
+                    :items="storeType"
+                    v-model="selectedStoreType"
+                    :label="'Type'"
+                    @change="changeStore"
+                ></nitrozen-dropdown>
+            </div>
         </div>
         <div v-if="inProgress" class="shimmer"></div>
 
@@ -144,9 +160,12 @@
                                 v-model="order_choice"
                                 @change="changeDropDown"
                             ></nitrozen-dropdown>
-                            <nitrozen-error v-if="order_choice_error.showerror">
-                                {{ order_choice_error.errortext }}
-                            </nitrozen-error>
+                            <nitrozen-error
+                                v-if="order_choice_error.showerror"
+                                >{{
+                                    order_choice_error.errortext
+                                }}</nitrozen-error
+                            >
                         </div>
                         <div class="right-drop">
                             <label class="cust-label"
@@ -161,9 +180,10 @@
                             ></nitrozen-dropdown>
                             <nitrozen-error
                                 v-if="inventory_choice_error.showerror"
+                                >{{
+                                    inventory_choice_error.errortext
+                                }}</nitrozen-error
                             >
-                                {{ inventory_choice_error.errortext }}
-                            </nitrozen-error>
                         </div>
                     </div>
                     <nitrozen-input
@@ -192,10 +212,9 @@
                         @click="verifyStore"
                         v-flatBtn
                         :theme="'secondary'"
-                        >{{
-                            editIntegration ? 'Update' : 'Verify'
-                        }}</nitrozen-button
                     >
+                        {{ editIntegration ? 'Update' : 'Verify' }}
+                    </nitrozen-button>
                     <nitrozen-button
                         v-if="!show_verify_button"
                         class="mr24"
@@ -341,8 +360,20 @@
         }
     }
     .search-store {
-        width: 400px;
+        // width: 400px;
+        display: flex;
+        justify-content: space-between;
         margin-bottom: 24px;
+        .search {
+            width: 100%;
+            margin-right: 12px;
+        }
+        .filter-dropdown {
+            display: flex;
+            .stage-dropdown {
+                margin-right: 12px;
+            }
+        }
     }
     .stores-body {
         .stores-div {
@@ -475,9 +506,11 @@ export default {
             selectedChoice: '',
             selectedStoreType: '',
             searchText: '',
-            storesData: [],
+            selectedChoice: '',
+            selectedStoreType: '',
             choiceType: [],
             storeType: [],
+            storesData: [],
             integrationType: [],
             order_choice: null,
             inventory_choice: null,
@@ -520,7 +553,9 @@ export default {
                     this.$route.query.limit || this.paginationConfig.limit,
                 page_no:
                     this.$route.query.current || this.paginationConfig.current,
-                name: this.searchText
+                name: this.searchText,
+                stage: this.selectedChoice,
+                store_type: this.selectedStoreType
             };
             if (this.$route.query.stage) {
                 this.selectedChoice = this.$route.query.stage;
@@ -547,6 +582,13 @@ export default {
                 .then((res) => {
                     this.inProgress = false;
                     this.pageError = false;
+                    res.data.data.map((ele) => {
+                        this.storeType.map((type) => {
+                            if (ele.store_type == type.key) {
+                                ele.store_type_display = type.text;
+                            }
+                        });
+                    });
                     this.storesData = res.data.data;
                     this.paginationConfig.total = res.data.total_count;
                 })
@@ -608,6 +650,9 @@ export default {
                 stage: this.selectedChoice
             };
             this.getStores(params);
+        },
+        changeStore: function() {
+            this.getStores();
         },
         paginationChange(e) {
             this.paginationConfig = e;

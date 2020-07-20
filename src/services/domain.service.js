@@ -41,6 +41,14 @@ const URLS = {
         return urlJoin(SLINGSHOT_MAIN_URL, `/company/${uid}/applications`);
     },
 
+    //archive unarchive sales channel
+    ACTION_APPLICATIONS: (uid, appId) => {
+        return urlJoin(
+            SLINGSHOT_MAIN_URL,
+            `/company/${uid}/applications/${appId}`
+        );
+    },
+
     // validate user
     VALIDATE_USER: () => {
         return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff/current/access');
