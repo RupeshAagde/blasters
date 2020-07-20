@@ -169,7 +169,7 @@
                     <!-- v-if="product.stage != 'rejected'" -->
                     <nitrozen-button
                         theme="secondary"
-                        class="export-catalog"
+                        class="cust-left-space"
                         v-if="profileDetails.stage != 'rejected'"
                         v-strokeBtn
                         @click="openRejectDialog()"
@@ -292,8 +292,11 @@
 <style lang="less" scoped>
 .bottom-buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-spart;
     margin-bottom: 24px;
+}
+.cust-left-space {
+    margin-left: 12px;
 }
 .cust-icon {
     ::v-deep svg {

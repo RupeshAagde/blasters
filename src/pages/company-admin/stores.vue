@@ -254,7 +254,7 @@
     margin-bottom: 24px;
 }
 .left-space {
-    margin-left: 24px;
+    margin-left: 12px;
 }
 .cust-label {
     color: #9b9b9b;

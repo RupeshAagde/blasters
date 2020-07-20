@@ -56,9 +56,10 @@
                         </a>
                         <nitrozen-badge
                             :state="item.is_active ? 'success' : 'warn'"
+                            >{{
+                                item.is_active ? 'Unarchived' : 'Archived'
+                            }}</nitrozen-badge
                         >
-                            {{ item.is_active ? 'Unarchived' : 'Archived' }}
-                        </nitrozen-badge>
                     </div>
                 </div>
                 <div class="line-2" v-if="item.token">
@@ -91,6 +92,14 @@
             v-if="!inProgress && !applicationList.length"
             :text="'No channel found'"
         ></adm-no-content>
+        <div class="pagination" v-if="applicationList.length > 0">
+            <nitrozen-pagination
+                name="Sales Channel"
+                v-model="pagination"
+                @change="paginationChange"
+                :pageSizeOptions="[5, 10, 20, 50]"
+            ></nitrozen-pagination>
+        </div>
         <nitrozen-dialog
             ref="channel_dialog"
             :title="activeChannel ? activeChannel.name : 'Sales Channel'"
@@ -138,6 +147,13 @@
     width: 100%;
     height: 120px;
     margin-bottom: 24px;
+}
+::v-deep .nitrozen-pagination {
+    font-size: 11px !important;
+
+    ::v-deep .nitrozen-pagination__select {
+        margin-right: -24px !important;
+    }
 }
 ::v-deep .page-error {
     img {
@@ -257,12 +273,19 @@ import {
     NitrozenDropdown,
     NitrozenDialog,
     NitrozenBadge,
+    NitrozenPagination,
     flatBtn,
     strokeBtn
 } from '@gofynd/nitrozen-vue';
 
 import root from 'window-or-global';
 const env = root.env || {};
+
+const PAGINATION = {
+    limit: 10,
+    total: 0,
+    current: 1
+};
 
 const ROLE_FILTER = [
     { value: 'all', text: 'All' },
@@ -281,6 +304,7 @@ export default {
         'nitrozen-input': NitrozenInput,
         'nitrozen-dialog': NitrozenDialog,
         'nitrozen-error': NitrozenError,
+        'nitrozen-pagination': NitrozenPagination,
         'adm-shimmer': admshimmer,
         'adm-no-content': admnocontent,
         'page-error': pageerror
@@ -306,24 +330,38 @@ export default {
             companyId: this.$route.params.companyId,
             mainList: [],
             applicationList: [],
-            activeChannel: null
+            activeChannel: null,
+            pagination: { ...PAGINATION },
+            pageId: ''
         };
     },
     mounted() {
         this.fetchApplication();
     },
     methods: {
-        fetchApplication() {
-            let params = {
-                company_id: this.companyId,
-                page: 1,
-                limit: 100
+        requestQuery() {
+            const query = {
+                page: this.pagination.current,
+                limit: this.pagination.limit
             };
+
+            // if (this.searchText) {
+            //     query.name = this.searchText;
+            // }
+
+            // if (this.selectedFilter !== 'all') {
+            //     query.stage = [this.selectedFilter];
+            // }
+
+            return query;
+        },
+        fetchApplication() {
             this.inProgress = true;
-            CompanyService.fetchApplication(this.companyId, params)
+            CompanyService.fetchApplication(this.companyId, this.requestQuery())
                 .then((res) => {
                     this.inProgress = false;
                     this.pageError = false;
+                    this.pagination.total = res.data.total;
                     this.totalApp = res.data.total;
                     this.mainList = res.data.docs;
                     this.applicationList = res.data.docs;
@@ -332,6 +370,15 @@ export default {
                     this.inProgress = false;
                     console.error(err);
                 });
+        },
+        paginationChange(filter, action) {
+            const { current, limit } = filter;
+            this.pagination.current = current;
+            this.pagination = Object.assign({}, this.pagination, filter);
+            // let pageQuery = { pageId: current, limit };
+            // this.setRouteQuery(pageQuery);
+
+            this.fetchApplication();
         },
         searchChannels() {
             if (this.mainList && this.mainList.length > 0) {
