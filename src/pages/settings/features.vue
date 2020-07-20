@@ -15,7 +15,11 @@
         </page-header>
         <div class="main-container">
             <loader v-if="pageLoading"></loader>
-            <section>
+            <page-error
+                v-else-if="pageError && !pageLoading"
+                @tryAgain="fetchSettings"
+            ></page-error>
+            <section v-show="!pageLoading && !pageError">
                 <div class="input-column" v-if="basicSettings">
                     <div
                         class="feature-item"
