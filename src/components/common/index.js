@@ -6,8 +6,10 @@ import TextAvatar from './text-avatar.vue';
 import Jumbotron from './jumbotron.vue';
 import Loader from './loader.vue';
 import TagsInput from './tags-input.vue';
-import PageHeader from './page-header.vue';
+import PageHeader from './layout/page-header.vue';
 import BaseCard from './base-card.vue';
+import ImageUploaderTile from './image-uploader/index.vue';
+
 export * from './dialogs';
 
 export {
@@ -20,5 +22,6 @@ export {
     Loader,
     TagsInput,
     PageHeader,
-    BaseCard
+    BaseCard,
+    ImageUploaderTile
 };

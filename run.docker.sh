@@ -2,10 +2,10 @@ set -x
 
 docker build . -t bombshell
 docker rm bombshell
-docker run --net=host -p 8087:8087 --name=bombshell \
+docker run --net=host -p 8086:8086 --name=bombshell \
 -e NODE_ENV=development \
 -e ENV=development \
--e PORT=8087 \
+-e PORT=8086 \
 -e CDN_URL='' \
 -e BLITZKRIEG_MAIN_URL=https://api.fynd.com/platform/theme \
 -e UNICRON_MAIN_URL=https://api.fyndx0.de/platform/billing/ \

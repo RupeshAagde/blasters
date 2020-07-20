@@ -114,10 +114,10 @@
             ></nitrozen-pagination>
         </div>
         <page-error v-if="pageError" @tryAgain="getStores"></page-error>
-        <adm-no-content
+        <page-empty
             v-if="!pageError && !inProgress && !storesData.length"
             :helperText="'No Stores Found'"
-        ></adm-no-content>
+        ></page-empty>
         <nitrozen-dialog
             class="remove_staff_dialog"
             ref="store_admin_dialog"
@@ -413,10 +413,10 @@
 
 <script>
 import CompanyService from '@/services/company-admin.service';
-import loader from '@/components/common/adm-loader';
+import loader from '@/components/common/loader';
 import dateFormat from 'dateformat';
 import admshimmer from '@/components/common/shimmer';
-import admnocontent from '@/components/common/page-empty';
+import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import { getRoute } from '@/helper/get-route';
 import admInlineSVG from '@/components/common/adm-inline-svg';
@@ -440,7 +440,7 @@ export default {
     name: 'adm-company-stores',
     components: {
         'adm-shimmer': admshimmer,
-        'adm-no-content': admnocontent,
+        PageEmpty,
         'page-error': pageerror,
         loader,
         'nitrozen-button': NitrozenButton,
