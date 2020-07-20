@@ -34,7 +34,7 @@
                 padding: 24px;
                 overflow: auto;
                 height: calc(100% - 70px);
-                .bombshell-scrollbar;
+                .blaster-scrollbar;
             }
             .footer {
                 width: 100%;

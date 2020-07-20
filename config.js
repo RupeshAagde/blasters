@@ -11,7 +11,7 @@ const conf = convict({
     PORT: {
         doc: 'The port to bind',
         format: 'port',
-        default: 8087,
+        default: 8086,
         env: 'PORT',
         arg: 'port'
     },
@@ -37,19 +37,19 @@ const conf = convict({
             env: 'BLITZKRIEG_MAIN_SVC',
             arg: 'BLITZKRIEG_MAIN_SVC'
         },
-        UNICRON_MAIN_URL: {
-            doc: 'Billing service API',
+        ULTRAMAGNUS_MAIN_URL: {
+            doc: 'Internal Settings API',
             format: String,
             default: '',
-            env: 'UNICRON_MAIN_URL',
-            arg: 'UNICRON_MAIN_URL'
+            env: 'ULTRAMAGNUS_MAIN_URL',
+            arg: 'ULTRAMAGNUS_MAIN_URL'
         },
-        UNICRON_MAIN_SVC: {
-            doc: 'Billing service API private',
+        ULTRAMAGNUS_MAIN_SVC: {
+            doc: 'Internal Settings API private',
             format: String,
             default: '',
-            env: 'UNICRON_MAIN_SVC',
-            arg: 'UNICRON_MAIN_SVC'
+            env: 'ULTRAMAGNUS_MAIN_SVC',
+            arg: 'ULTRAMAGNUS_MAIN_SVC'
         },
         SEARCHLIGHT_MAIN_DOMAIN: {
             doc: 'SEARCHLIGTH URL FOR HELP DATA',
@@ -78,6 +78,20 @@ const conf = convict({
             default: '',
             env: 'PLATFORM_COMMON_MAIN_SVC',
             arg: 'platform_common_main_svc'
+        },
+        GRINDOR_MAIN_URL: {
+            doc: 'Grindor file upload service URL',
+            format: String,
+            default: '',
+            env: 'GRINDOR_MAIN_URL',
+            arg: 'GRINDOR_MAIN_URL'
+        },
+        GRINDOR_MAIN_SVC: {
+            doc: 'Grindor file upload service',
+            format: String,
+            default: '',
+            env: 'GRINDOR_MAIN_SVC',
+            arg: 'GRINDOR_MAIN_SVC'
         },
         GRINGOTTS_MAIN_URL: {
             doc: 'Gringgotts Public URL',
@@ -134,6 +148,20 @@ const conf = convict({
             default: '',
             env: 'SKYWARP_MAIN_URL',
             arg: 'skywarp_main_url'
+        },
+        UNICRON_MAIN_URL: {
+            doc: 'Billing service API',
+            format: String,
+            default: '',
+            env: 'UNICRON_MAIN_URL',
+            arg: 'UNICRON_MAIN_URL'
+        },
+        UNICRON_MAIN_SVC: {
+            doc: 'Billing service API private',
+            format: String,
+            default: '',
+            env: 'UNICRON_MAIN_SVC',
+            arg: 'UNICRON_MAIN_SVC'
         }
     },
 

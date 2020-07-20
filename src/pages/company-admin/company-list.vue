@@ -140,10 +140,10 @@
                         </div>
                     </div>
                 </div>
-                <adm-no-content
+                <page-empty
                     v-else
                     :helperText="'No company found'"
-                ></adm-no-content>
+                ></page-empty>
                 <div class="pagination" v-if="companyList.length > 0">
                     <nitrozen-pagination
                         name="Companies"
@@ -377,9 +377,8 @@ import path from 'path';
 import CompanyService from '@/services/company-admin.service';
 import admjumbotron from '@/components/common/adm-jumbotron';
 import { titleCase, debounce } from '@/helper/utils';
-// import loader from '@/components/common/adm-loader';
 import admshimmer from '@/components/common/shimmer';
-import admnocontent from '@/components/common/page-empty';
+import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import fynotfound from '@/components/common/ukt-not-found';
 // import { toListingThumbnail } from '@/helper/image.utils';
@@ -413,7 +412,7 @@ export default {
     name: 'adm-company-list',
     components: {
         'adm-jumbotron': admjumbotron,
-        'adm-no-content': admnocontent,
+        PageEmpty,
         'adm-shimmer': admshimmer,
         'page-error': pageerror,
         'nitrozen-input': NitrozenInput,
