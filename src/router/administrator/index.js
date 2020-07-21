@@ -15,13 +15,13 @@ export default [
     {
         path: '/administrator/',
         component: AdministratorBaseViewVue,
-        redirect: '/administrator/home',
+        redirect: '/administrator/company-list',
         children: [
-            {
-                name: 'home',
-                path: 'home',
-                component: HomeVue
-            },
+            // {
+            //     name: 'home',
+            //     path: 'home',
+            //     component: HomeVue
+            // },
             //...PlanCreatorRoutes
             {
                 name: 'company-list',
