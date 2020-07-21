@@ -36,6 +36,15 @@ export const getNavigations = () => {
                 highlightedIcon: 'team-highlighted'
             }
         ],
+        TICKETS: [
+            {
+                display: 'Support Center',
+                link: '/administrator/support',
+                title: 'Support Center',
+                icon: 'home',
+                highlightedIcon: 'home-highlighted'
+            }
+        ],
         SETTINGS: [
             {
                 display: 'Settings',
