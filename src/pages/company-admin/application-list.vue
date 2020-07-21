@@ -19,7 +19,7 @@
                     class="filter-dropdown"
                     :items="filters"
                     v-model="selectedFilter"
-                    @change="searchChannels"
+                    @change="fetchApplication"
                 ></nitrozen-dropdown>
             </div>
         </div>
@@ -56,10 +56,9 @@
                         </a>
                         <nitrozen-badge
                             :state="item.is_active ? 'success' : 'warn'"
-                            >{{
-                                item.is_active ? 'Unarchived' : 'Archived'
-                            }}</nitrozen-badge
                         >
+                            {{ item.is_active ? 'Unarchived' : 'Archived' }}
+                        </nitrozen-badge>
                     </div>
                 </div>
                 <div class="line-2" v-if="item.token">
@@ -70,7 +69,7 @@
                     <div class="cust-head">Application ID</div>
                     <div>{{ item.id }}</div>
                 </div>
-                <div class="line-4">
+                <div class="line-4" v-if="!item.internal">
                     <nitrozen-button
                         :theme="'secondary'"
                         v-if="item.is_active"
@@ -150,10 +149,9 @@
 }
 ::v-deep .nitrozen-pagination {
     font-size: 11px !important;
-
-    ::v-deep .nitrozen-pagination__select {
-        margin-right: -24px !important;
-    }
+}
+::v-deep .nitrozen-pagination__select {
+    margin-right: -24px !important;
 }
 ::v-deep .page-error {
     img {
@@ -340,7 +338,7 @@ export default {
     },
     methods: {
         requestQuery() {
-            const query = {
+            const temp = {
                 page: this.pagination.current,
                 limit: this.pagination.limit
             };
@@ -349,11 +347,16 @@ export default {
             //     query.name = this.searchText;
             // }
 
-            // if (this.selectedFilter !== 'all') {
-            //     query.stage = [this.selectedFilter];
-            // }
+            if (this.selectedFilter !== 'all') {
+                if (this.selectedFilter == 'active') {
+                    temp.query = JSON.stringify({ is_active: true });
+                }
+                if (this.selectedFilter == 'inactive') {
+                    temp.query = JSON.stringify({ is_active: false });
+                }
+            }
 
-            return query;
+            return temp;
         },
         fetchApplication() {
             this.inProgress = true;
@@ -366,9 +369,9 @@ export default {
                     this.mainList = res.data.docs;
                     this.applicationList = res.data.docs;
                 })
-                .catch((err) => {
+                .catch((error) => {
                     this.inProgress = false;
-                    console.error(err);
+                    console.error(error);
                 });
         },
         paginationChange(filter, action) {
@@ -382,52 +385,14 @@ export default {
         },
         searchChannels() {
             if (this.mainList && this.mainList.length > 0) {
-                if (this.selectedFilter == 'all') {
-                    if (this.searchText != '') {
-                        this.applicationList = this.mainList.filter(
-                            (element) => {
-                                return element.name
-                                    .toLowerCase()
-                                    .includes(this.searchText.toLowerCase());
-                            }
-                        );
-                    } else {
-                        this.applicationList = this.mainList;
-                    }
-                } else if (this.selectedFilter == 'active') {
-                    let tempList = this.mainList.filter((element) => {
-                        return element.is_active == true;
+                if (this.searchText != '') {
+                    this.applicationList = this.mainList.filter((element) => {
+                        return element.name
+                            .toLowerCase()
+                            .includes(this.searchText.toLowerCase());
                     });
-                    if (
-                        this.searchText != '' &&
-                        tempList &&
-                        tempList.length > 0
-                    ) {
-                        this.applicationList = tempList.filter((element) => {
-                            return element.name
-                                .toLowerCase()
-                                .includes(this.searchText.toLowerCase());
-                        });
-                    } else {
-                        this.applicationList = tempList;
-                    }
-                } else if (this.selectedFilter == 'inactive') {
-                    let tempList = this.mainList.filter((element) => {
-                        return element.is_active == false;
-                    });
-                    if (
-                        this.searchText != '' &&
-                        tempList &&
-                        tempList.length > 0
-                    ) {
-                        this.applicationList = tempList.filter((element) => {
-                            return element.name
-                                .toLowerCase()
-                                .includes(this.searchText.toLowerCase());
-                        });
-                    } else {
-                        this.applicationList = tempList;
-                    }
+                } else {
+                    this.applicationList = this.mainList;
                 }
             }
         },

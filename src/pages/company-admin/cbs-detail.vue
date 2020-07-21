@@ -123,7 +123,7 @@
 import admbrands from './brands.vue';
 import admstores from './stores.vue';
 import admapplication from './application-list.vue';
-import admpageheader from '@/components/common/adm-page-header';
+import PageHeader from '@/components/common/layout/page-header';
 import admcompanydetails from './profile-details.vue';
 import CompanyService from '@/services/company-admin.service';
 import Shimmer from '@/components/common/shimmer';
@@ -133,11 +133,11 @@ export default {
     name: 'adm-company-profile',
     components: {
         'adm-brands': admbrands,
-        'adm-page-header': admpageheader,
         'adm-application-list': admapplication,
         'adm-stores': admstores,
         'adm-company-details': admcompanydetails,
         Shimmer,
+        PageHeader,
         'nitrozen-badge': NitrozenBadge
     },
     computed: {},

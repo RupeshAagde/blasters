@@ -65,7 +65,33 @@
                         </div>
                     </div>
                 </div>
-                <div class="store-address">{{ item.address.address1 }}</div>
+                <div class="store-address-detail">
+                    <div class="store-city" v-if="item.code">
+                        <label class="n-input-label">Code</label>
+                        <div class="store-address-name">
+                            {{ item.code }}
+                        </div>
+                    </div>
+                    <div class="store-pincode" v-if="item.store_type_display">
+                        <label class="n-input-label">Type</label>
+                        <div class="store-address-name">
+                            {{ item.store_type_display }}
+                        </div>
+                    </div>
+                </div>
+                <div class="store-address-detail">
+                    <div class="store-city" v-if="item.address.address1">
+                        <label class="n-input-label">Address</label>
+                        <div class="store-address-name">
+                            {{ item.address.address1 }}
+                            {{
+                                item.address.address2
+                                    ? item.address.address2
+                                    : ''
+                            }}
+                        </div>
+                    </div>
+                </div>
                 <div class="store-address-detail">
                     <div class="store-city" v-if="item.address.city">
                         <label class="n-input-label">City</label>
