@@ -5,6 +5,8 @@ import CompanyListVue from './../../pages/company-admin/company-list.vue';
 import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
 import UserManagementVue from './../../pages/super-user/user-access.vue';
 import AddSuperUserVue from './../../pages/super-user/add-user.vue';
+import Tickets from './../../pages/tickets/index.vue';
+import CreateTicket from './../../pages/tickets/create-ticket.vue';
 import SettingsVue from './../../pages/settings';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details';
 import FeaturesSettingsVue from './../../pages/settings/features';
@@ -35,6 +37,16 @@ export default [
                 name: 'user-management',
                 path: 'user-management',
                 component: UserManagementVue
+            },
+            {
+                name: 'support',
+                path: 'support',
+                component: Tickets
+            },
+            {
+                name: 'support-edit',
+                path: 'support/ticket/edit/:ticket_id',
+                component: CreateTicket
             },
             {
                 name: 'add-user',
