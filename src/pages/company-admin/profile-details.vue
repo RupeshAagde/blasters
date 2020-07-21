@@ -101,73 +101,81 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="documents">
-            <div class="documents-header">
-                <label class="bold-xs cl-Mako">Legal Documents</label>
-                <div class="img-box">
-                    <a
-                        :href="
-                            `https://platform.${fyndPlatformDomain}/company/${companyId}/profile/edit-documents`
-                        "
-                        target="_blank"
-                        class="menu"
-                    >
-                        <adm-inline-svg
-                            class="verified-icon left-space-s"
-                            :src="'edit'"
-                            title="Edit"
-                        ></adm-inline-svg>
-                    </a>
-                </div>
-            </div>
-            <div v-if="inProgress" class="shimmer"></div>
-            <div class="documents-body" v-if="!inProgress">
-                <div v-if="profileDetails.documents" class="cust-inp">
-                    <div v-if="profileDetails.documents.length > 0">
-                        <div
-                            class="document-row"
-                            v-for="(item, index) in profileDetails.documents"
-                            :key="'docs' + index"
+
+            <div class="documents">
+                <div class="documents-header">
+                    <label class="bold-xs cl-Mako">Legal Documents</label>
+                    <div class="img-box">
+                        <a
+                            :href="
+                                `https://platform.${fyndPlatformDomain}/company/${companyId}/profile/edit-documents`
+                            "
+                            target="_blank"
+                            class="menu"
                         >
-                            <div class="document-type dark-xs cl-DustyGray2">
-                                <div>{{ item.type }}</div>
+                            <adm-inline-svg
+                                class="verified-icon left-space-s"
+                                :src="'edit'"
+                                title="Edit"
+                            ></adm-inline-svg>
+                        </a>
+                    </div>
+                </div>
+                <div v-if="inProgress" class="shimmer"></div>
+                <div class="documents-body" v-if="!inProgress">
+                    <div v-if="profileDetails.documents" class="cust-inp">
+                        <div v-if="profileDetails.documents.length > 0">
+                            <div
+                                class="document-row"
+                                v-for="(item,
+                                index) in profileDetails.documents"
+                                :key="'docs' + index"
+                            >
                                 <div
-                                    v-if="item.url"
-                                    class="cust-view"
-                                    @click="openDocDialog(item)"
+                                    class="document-type dark-xs cl-DustyGray2"
                                 >
-                                    <adm-inline-svg
-                                        class="cust-icon"
-                                        :src="'eye-open'"
-                                        title="View"
-                                    ></adm-inline-svg>
+                                    <div>{{ item.type }}</div>
+                                    <div
+                                        v-if="item.url"
+                                        class="cust-view"
+                                        @click="openDocDialog(item)"
+                                    >
+                                        <adm-inline-svg
+                                            class="cust-icon"
+                                            :src="'eye-open'"
+                                            title="View"
+                                        ></adm-inline-svg>
+                                    </div>
+                                </div>
+                                <div class="document-value">
+                                    {{ item.value }}
                                 </div>
                             </div>
-                            <div class="document-value">{{ item.value }}</div>
+                        </div>
+                        <div class="no-doc" v-else>
+                            Company have no documents
                         </div>
                     </div>
-                    <div class="no-doc" v-else>Company have no documents</div>
                 </div>
-            </div>
-            <div class="bottom-buttons">
-                <nitrozen-button
-                    class="mr24"
-                    v-if="profileDetails.stage != 'verified'"
-                    @click="openApproveDialog()"
-                    v-flatBtn
-                    :theme="'secondary'"
-                    >Approve</nitrozen-button
-                >
-                <!-- v-if="product.stage != 'rejected'" -->
-                <nitrozen-button
-                    theme="secondary"
-                    class="export-catalog"
-                    v-if="profileDetails.stage != 'rejected'"
-                    v-strokeBtn
-                    @click="openRejectDialog()"
-                    >Reject</nitrozen-button
-                >
+                <div class="bottom-buttons">
+                    <nitrozen-button
+                        class="mr24"
+                        v-if="profileDetails.stage != 'verified'"
+                        @click="openApproveDialog()"
+                        v-flatBtn
+                        :theme="'secondary'"
+                        >Approve</nitrozen-button
+                    >
+                    <!-- v-if="product.stage != 'rejected'" -->
+                    <nitrozen-button
+                        theme="secondary"
+                        class="cust-left-space"
+                        v-if="profileDetails.stage != 'rejected'"
+                        v-strokeBtn
+                        @click="openRejectDialog()"
+                        >Reject</nitrozen-button
+                    >
+                </div>
             </div>
         </div>
         <nitrozen-dialog
@@ -206,9 +214,9 @@
             ref="company_reject_dialog"
             title="Reject Company"
         >
-            <template slot="header" v-if="profileDetails">{{
-                profileDetails.name
-            }}</template>
+            <template slot="header" v-if="profileDetails">
+                {{ profileDetails.name }}
+            </template>
             <template slot="body" class="desc-dialog">
                 <div>
                     <nitrozen-input
@@ -284,8 +292,11 @@
 <style lang="less" scoped>
 .bottom-buttons {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 12px;
+    justify-content: flex-spart;
+    margin-bottom: 24px;
+}
+.cust-left-space {
+    margin-left: 12px;
 }
 .cust-icon {
     ::v-deep svg {
@@ -382,13 +393,7 @@
 }
 
 .documents {
-    position: absolute;
-    width: calc(100% + 24px);
-    background: @White;
-    padding: 12px;
     margin-top: 24px;
-    margin-left: -24px;
-    border-radius: 3px;
     .documents-header {
         display: flex;
         justify-content: space-between;

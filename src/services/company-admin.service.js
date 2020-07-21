@@ -6,6 +6,25 @@ import { getCommonHeaderOptions } from './utils.service';
 import { Object, console } from 'window-or-global';
 
 const CompanyService = {
+    fetchApplication(uid, params) {
+        const axiosOption = Object.assign(
+            { params: params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.FETCH_APPLICATIONS(uid), axiosOption);
+    },
+
+    adminActionApplication(uid, appId, params) {
+        const axiosOption = Object.assign(
+            { data: params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.put(
+            URLS.ACTION_APPLICATIONS(uid, appId),
+            axiosOption
+        );
+    },
+
     getCompanyList(params) {
         const axiosOptions = Object.assign(
             {},

@@ -39,7 +39,24 @@ const PLATFORM_ASSETS_BASE = isNode
     ? envVars.BROWSER_CONFIG.GRINDOR_MAIN_URL
     : envVars.GRINDOR_MAIN_URL;
 
+const SLINGSHOT_MAIN_URL = isNode
+    ? envVars.BROWSER_CONFIG.SLINGSHOT_MAIN_URL
+    : envVars.SLINGSHOT_MAIN_URL;
+
 const URLS = {
+    // fetch applications
+    FETCH_APPLICATIONS: (uid) => {
+        return urlJoin(SLINGSHOT_MAIN_URL, `/company/${uid}/applications`);
+    },
+
+    //archive unarchive sales channel
+    ACTION_APPLICATIONS: (uid, appId) => {
+        return urlJoin(
+            SLINGSHOT_MAIN_URL,
+            `/company/${uid}/applications/${appId}`
+        );
+    },
+
     // validate user
     VALIDATE_USER: () => {
         return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff/current/access');
