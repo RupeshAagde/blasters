@@ -23,6 +23,20 @@ const conf = convict({
             env: 'FYND_PLATFORM_DOMAIN',
             arg: 'fynd_platform_domain'
         },
+        SLINGSHOT_MAIN_URL: {
+            doc: 'Slingshot Public URL',
+            format: String,
+            default: '',
+            env: 'SLINGSHOT_MAIN_URL',
+            arg: 'slingshot_main_url'
+        },
+        SLINGSHOT_MAIN_SVC: {
+            doc: 'Slingshot Kube Service',
+            format: String,
+            default: '',
+            env: 'SLINGSHOT_MAIN_SVC',
+            arg: 'slingshot_main_svc'
+        },
         BLITZKRIEG_MAIN_URL: {
             doc: 'Themes API',
             format: String,
@@ -50,6 +64,20 @@ const conf = convict({
             default: '',
             env: 'ULTRAMAGNUS_MAIN_SVC',
             arg: 'ULTRAMAGNUS_MAIN_SVC'
+        },
+        HIGHBROW_MAIN_URL: {
+            doc: 'Platform Custom Main Public URL to hit',
+            format: String,
+            default: '',
+            env: 'HIGHBROW_MAIN_URL',
+            arg: 'highbrow_main_url'
+        },
+        HIGHBROW_MAIN_SVC: {
+            doc: 'Platform Custom Main Public URL to hit',
+            format: String,
+            default: '',
+            env: 'HIGHBROW_MAIN_SVC',
+            arg: 'highbrow_main_svc'
         },
         SEARCHLIGHT_MAIN_DOMAIN: {
             doc: 'SEARCHLIGTH URL FOR HELP DATA',

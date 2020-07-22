@@ -31,6 +31,10 @@ const UNICRON_BASE = isNode
     ? envVars.BROWSER_CONFIG.UNICRON_MAIN_SVC
     : envVars.UNICRON_MAIN_URL;
 
+const PLATFORM_LEADS_BASE = isNode
+    ? envVars.BROWSER_CONFIG.HIGHBROW_MAIN_SVC
+    : envVars.HIGHBROW_MAIN_URL;
+
 const INTERNAL_SETTINGS = isNode
     ? envVars.BROWSER_CONFIG.ULTRAMAGNUS_MAIN_SVC
     : envVars.ULTRAMAGNUS_MAIN_URL;
@@ -39,7 +43,24 @@ const PLATFORM_ASSETS_BASE = isNode
     ? envVars.BROWSER_CONFIG.GRINDOR_MAIN_URL
     : envVars.GRINDOR_MAIN_URL;
 
+const SLINGSHOT_MAIN_URL = isNode
+    ? envVars.BROWSER_CONFIG.SLINGSHOT_MAIN_URL
+    : envVars.SLINGSHOT_MAIN_URL;
+
 const URLS = {
+    // fetch applications
+    FETCH_APPLICATIONS: (uid) => {
+        return urlJoin(SLINGSHOT_MAIN_URL, `/company/${uid}/applications`);
+    },
+
+    //archive unarchive sales channel
+    ACTION_APPLICATIONS: (uid, appId) => {
+        return urlJoin(
+            SLINGSHOT_MAIN_URL,
+            `/company/${uid}/applications/${appId}`
+        );
+    },
+
     // validate user
     VALIDATE_USER: () => {
         return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff/current/access');
@@ -215,6 +236,34 @@ const URLS = {
     },
     FETCH_COMPONENT_WITH_PRICES: () => {
         return urlJoin(UNICRON_BASE, 'v1/component-prices');
+    },
+
+    //#########Tickets########
+    FETCH_TICKETS: () => {
+        return urlJoin(PLATFORM_LEADS_BASE, `admin/v1/ticket`);
+    },
+
+    CREATE_VIDEO_ROOM: () => {
+        return urlJoin(PLATFORM_LEADS_BASE, `video/v1/room`);
+    },
+
+    GET_VIDEO_ROOM_TOKEN: (unique_name) => {
+        return urlJoin(
+            PLATFORM_LEADS_BASE,
+            `video/v1/room/${unique_name}/token`
+        );
+    },
+
+    FETCH_TICKET: (ticket_id) => {
+        return urlJoin(PLATFORM_LEADS_BASE, `admin/v1/ticket/${ticket_id}`);
+    },
+
+    FETCH_TICKETS_OPTIONS: (company_id = '') => {
+        return urlJoin(PLATFORM_LEADS_BASE, `admin/v1/ticket/options`);
+    },
+
+    FETCH_PRODUCT_INFO: (slug) => {
+        return urlJoin(PLATFORM_CONTENT_BASE, `v1/products/${slug}`);
     },
 
     // Ultra Magnus
