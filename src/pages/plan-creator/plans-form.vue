@@ -105,9 +105,6 @@
                 display: flex;
                 padding: 8px 0;
                 margin: 0;
-                label > span {
-                    margin-bottom: 2px;
-                }
                 .form-item {
                     width: 100%;
                     .custom-checkbox {

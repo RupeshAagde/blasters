@@ -1,6 +1,6 @@
 <template>
     <div class="feature-component">
-        <!-- <div class="form-row form-compact-items" v-if="formData">
+        <div class="form-row form-compact-items" v-if="formData">
             <div class="form-item">
                 <nitrozen-input
                     :label="'Display Text *'"
@@ -12,19 +12,24 @@
         </div>
         <div class="form-row form-compact-items" v-if="config">
             <div class="form-item">
-                <nitrozen-input
-                    :label="config.limit.display_text"
-                    v-model="formData.feature_config.limit"
-                    :type="config.limit.type"
+                <nitrozen-checkbox
+                    v-model="formData.feature_config.enabled"
+                    :type="config.enabled.type"
                 >
-                </nitrozen-input>
+                    {{ config.enabled.display }}
+                </nitrozen-checkbox>
                 <nitrozen-error>-</nitrozen-error>
             </div>
-        </div> -->
+        </div>
     </div>
 </template>
 
 <script>
+import {
+    NitrozenInput,
+    NitrozenCheckBox,
+    NitrozenError
+} from '@gofynd/nitrozen-vue';
 export default {
     name: 'pos-inventory-integration',
     props: {
@@ -34,6 +39,11 @@ export default {
         formData: {
             type: Object
         }
+    },
+    components: {
+        'nitrozen-checkbox': NitrozenCheckBox,
+        'nitrozen-error': NitrozenError,
+        'nitrozen-input': NitrozenInput
     }
 };
 </script>

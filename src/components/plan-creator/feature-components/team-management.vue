@@ -3,7 +3,7 @@
         <div class="form-row form-compact-items" v-if="formData">
             <div class="form-item">
                 <nitrozen-input
-                    :label="'Display Text *'"
+                    :label="'Display Feature Text'"
                     v-model="formData.display_text"
                 >
                 </nitrozen-input>
@@ -13,7 +13,7 @@
         <div class="form-row form-compact-items" v-if="config && config.limit">
             <div class="form-item">
                 <nitrozen-input
-                    :label="config.limit.display_text"
+                    :label="config.limit.display"
                     v-model="formData.feature_config.limit"
                     :type="config.limit.type"
                 >

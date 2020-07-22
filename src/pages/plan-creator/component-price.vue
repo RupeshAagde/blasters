@@ -22,6 +22,7 @@
             <div class="form-row form-compact-items">
                 <div class="form-item">
                     <nitrozen-dropdown
+                        :tooltip="'tooltip'"
                         :label="'Pricing Model *'"
                         :items="pricing_values"
                         :value="pricing_type"
@@ -149,18 +150,25 @@
                 class="form-row form-compact-items"
             >
                 <div class="form-item price-type-dropdown">
-                    <nitrozen-dropdown
-                        :label="options.usage_type.text"
-                        :items="options.usage_type.enum"
-                        v-model="formData.recurring.usage_type"
+                    <nitrozen-checkbox
+                        :value="formData.recurring.usage_type === 'metered'"
+                        @input="
+                            (value) => {
+                                formData.recurring.usage_type = value
+                                    ? 'metered'
+                                    : 'licensed';
+                            }
+                        "
                     >
-                    </nitrozen-dropdown>
+                        {{ 'Usage is metered' }}
+                    </nitrozen-checkbox>
                 </div>
-                <div
-                    v-if="formData.recurring.usage_type !== 'licensed'"
-                    style="width:200px;"
-                    class="form-item"
-                >
+            </div>
+            <div
+                v-if="formData.recurring.usage_type !== 'licensed'"
+                class="form-row"
+            >
+                <div style="width:200px;" class="form-item">
                     <nitrozen-dropdown
                         :label="options.aggregate_usage.text"
                         :items="options.aggregate_usage.enum"
@@ -229,9 +237,6 @@
         display: flex;
         padding: 8px 0;
         margin: 0;
-        label > span {
-            margin-bottom: 2px;
-        }
         .form-item {
             width: 100%;
             .custom-checkbox {
@@ -269,7 +274,8 @@ import {
     NitrozenInput,
     NitrozenDropdown,
     NitrozenCheckBox,
-    NitrozenError
+    NitrozenError,
+    NitrozenToolTip
 } from '@gofynd/nitrozen-vue';
 import _ from 'lodash';
 import { PLAN_ENUMS } from '../../helper/plan-creator-helper';
@@ -300,6 +306,7 @@ export default {
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-error': NitrozenError,
+        'nitrozen-tooltip': NitrozenToolTip,
         'tags-input': TagsInput,
         TeamManagement,
         Products,
@@ -373,12 +380,16 @@ export default {
             return {
                 standard: {
                     display: 'Standard Pricing',
+                    tooltip:
+                        'Select standard pricing if you charge the same price for each unit.',
                     config: {
                         billing_scheme: 'per_unit'
                     }
                 },
                 graduated: {
                     display: 'Graduated Pricing',
+                    tooltip:
+                        'Select graduated pricing if you use pricing tiers that may result in a different price for some units in an order. For example, you might charge ₹10.00 per unit for the first 100 units and then ₹5.00 per unit for the next 50.',
                     config: {
                         bill_type: 'recurring',
                         billing_scheme: 'tiered',
@@ -387,6 +398,8 @@ export default {
                 },
                 volume: {
                     display: 'Volume pricing',
+                    tooltip:
+                        'Select volume pricing if you charge the same price for each unit based on the total number of units sold. For example, you might charge ₹10.00 per unit for 50 units, and ₹7.00 per unit for 100 units.',
                     config: {
                         bill_type: 'recurring',
                         billing_scheme: 'tiered',
