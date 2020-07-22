@@ -32,7 +32,7 @@ import {
 } from '@gofynd/nitrozen-vue';
 
 export default {
-    name: "'catalogue-export-marketplace",
+    name: 'catalogue-export-marketplace',
     props: {
         config: {
             type: Object
