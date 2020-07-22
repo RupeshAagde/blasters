@@ -1,5 +1,29 @@
 <template>
     <div class="page-container">
+        <div class="cl-Mako bold-md top-headers">Details</div>
+        <div class="form-row">
+            <div class="form-item">
+                <nitrozen-input
+                    :label="'Name *'"
+                    v-model="formData.plan.name"
+                ></nitrozen-input>
+                <nitrozen-error v-bind:class="{ visible: errors['name'] }">{{
+                    errors['name'] || '-'
+                }}</nitrozen-error>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-item">
+                <nitrozen-input
+                    :label="'Description'"
+                    v-model="formData.plan.description"
+                ></nitrozen-input>
+                <nitrozen-error v-bind:class="{ visible: errors['desc'] }">{{
+                    errors['desc'] || '-'
+                }}</nitrozen-error>
+            </div>
+        </div>
         <div class="cl-Mako bold-md top-headers">Settings</div>
         <div class="form-row form-compact-items">
             <div class="form-item">
@@ -9,37 +33,11 @@
                     :showSuffix="true"
                     :suffix="'₹'"
                     :label="'Amount *'"
-                    v-model="formData.amount"
+                    v-model="formData.plan.amount"
                 ></nitrozen-input>
                 <nitrozen-error v-bind:class="{ visible: errors['amount'] }">{{
                     errors['amount'] || '-'
                 }}</nitrozen-error>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-item">
-                <nitrozen-checkbox v-model="formData.is_trial_plan"
-                    >Trial Plan
-                </nitrozen-checkbox>
-                <nitrozen-error v-if="!formData.is_trial_plan"
-                    >-</nitrozen-error
-                >
-            </div>
-        </div>
-
-        <div v-if="formData.is_trial_plan" class="form-row form-compact-items">
-            <div class="form-item">
-                <nitrozen-input
-                    :type="'number'"
-                    :allowNegative="false"
-                    :label="'Trial Days *'"
-                    v-model="formData.trial_period"
-                ></nitrozen-input>
-                <nitrozen-error
-                    v-bind:class="{ visible: errors['trial_period'] }"
-                    >{{ errors['trial_period'] || '-' }}</nitrozen-error
-                >
             </div>
         </div>
 
@@ -49,14 +47,14 @@
                     :type="'number'"
                     :allowNegative="false"
                     :label="'Recurring Time*'"
-                    v-model="formData.recurring.interval_count"
+                    v-model="formData.plan.recurring.interval_count"
                     :showSuffix="true"
                     :custom="true"
                 >
                     <nitrozen-dropdown
                         class="filter-dropdown"
                         :items="durationUnits"
-                        v-model="formData.recurring.interval"
+                        v-model="formData.plan.recurring.interval"
                     ></nitrozen-dropdown>
                 </nitrozen-input>
                 <nitrozen-error
@@ -66,9 +64,32 @@
             </div>
         </div>
 
+        <div style="align-items: center;" class="form-row form-compact-items">
+            <div class="form-item">
+                <nitrozen-checkbox v-model="formData.plan.is_trial_plan"
+                    >Trial Plan
+                </nitrozen-checkbox>
+                <nitrozen-error v-if="!formData.plan.is_trial_plan"
+                    >-</nitrozen-error
+                >
+            </div>
+            <div v-if="formData.plan.is_trial_plan" class="form-item">
+                <nitrozen-input
+                    :type="'number'"
+                    :allowNegative="false"
+                    :label="'Trial Days *'"
+                    v-model="formData.plan.trial_period"
+                ></nitrozen-input>
+                <nitrozen-error
+                    v-bind:class="{ visible: errors['trial_period'] }"
+                    >{{ errors['trial_period'] || '-' }}</nitrozen-error
+                >
+            </div>
+        </div>
+
         <div class="form-row">
             <div class="form-item">
-                <nitrozen-checkbox v-model="formData.is_visible"
+                <nitrozen-checkbox v-model="formData.plan.is_visible"
                     >Visible
                 </nitrozen-checkbox>
                 <nitrozen-error>-</nitrozen-error>
@@ -80,10 +101,11 @@
             <div class="form-item">
                 <plan-component
                     class="plan-component"
+                    v-show="planComponentMap[component._id]"
                     v-for="component in allComponents"
                     :key="component._id"
                     :component="component"
-                    :plan_component="planComponentMap[component._id]"
+                    :price_component="planComponentMap[component._id]"
                 >
                 </plan-component>
             </div>
@@ -150,18 +172,12 @@ export default {
     },
     mounted() {
         let pArr = [];
-        pArr.push(BillingService.getComponentWithPrices({ limit: 100 }));
-
-        if (this.formData._id) {
-            pArr.push(BillingService.getPlanComponents({ limit: 100 }));
-        }
+        pArr.push(BillingService.getComponents({ limit: 100 }));
 
         Promise.all(pArr)
             .then((resArr) => {
-                this.allComponents = [...resArr[0].data];
-                if (resArr.length > 2) {
-                    this.planComponents = [...resArr[2].data.docs];
-                }
+                this.planComponents = [...this.formData.components];
+                this.allComponents = [...resArr[0].data.docs];
             })
             .catch((err) => {
                 console.log(err);

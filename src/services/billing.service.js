@@ -17,7 +17,10 @@ const BillingService = {
                 }
             }
         );
-        return ApiService.get(URLS.FETCH_PLANS_LIST(planId), axiosOptions);
+        if (planId) {
+            return ApiService.get(URLS.FETCH_SINGLE_PLAN(planId), axiosOptions);
+        }
+        return ApiService.get(URLS.FETCH_PLANS_LIST(), axiosOptions);
     },
 
     getComponents(params) {

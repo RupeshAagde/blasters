@@ -198,8 +198,11 @@ const URLS = {
     // }
 
     // Unicron
-    FETCH_PLANS_LIST: (planId = '') => {
-        return urlJoin(UNICRON_BASE, `v1/plan/${planId}`);
+    FETCH_PLANS_LIST: () => {
+        return urlJoin(UNICRON_BASE, `v1/plan`);
+    },
+    FETCH_SINGLE_PLAN: (planId) => {
+        return urlJoin(UNICRON_BASE, `v1/plan-editor/${planId}`);
     },
     FETCH_SUBSCRIPTION_COMPONENTS: () => {
         return urlJoin(UNICRON_BASE, 'v1/component');

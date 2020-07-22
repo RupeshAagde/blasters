@@ -1,38 +1,41 @@
 <template>
     <div class="component-container">
         <div class="comp-details">
-            <div style="display: flex; width:100%;">
-                <nitrozen-checkbox v-model="enabled" @change="enableForPlan">
-                    <div class="cl-Mako bold-xs">{{ component.name }}</div>
-                    <div class="cl-Mako regular-xxs">
-                        {{ component.description }}
-                    </div>
-                </nitrozen-checkbox>
+            <div
+                style="display: flex; width:100%;line-height: 21px; align-items: center;"
+            >
+                <div class="cl-Mako bold-xs">{{ component.name }}</div>
                 <div
                     class="cl-RoyalBlue bold-xs"
-                    style="cursor: pointer;display: flex;justify-content: flex-end; flex: 1;"
-                    @click="isCreatePrice = true"
+                    style="display: flex;justify-content: flex-end; flex: 1;"
                 >
-                    Create Price
-                </div>
-                <div
-                    class="cl-RoyalBlue bold-xs"
-                    style="cursor: pointer;display: flex;justify-content: flex-end; flex: 1;"
-                    @click="isClonePrice = true"
-                >
-                    Clone Price
+                    <span
+                        class="bold-xs clickable-label"
+                        :class="{
+                            'cl-DustyGray2': !currentPriceModel.is_active,
+                            'cl-RoyalBlue': currentPriceModel.is_active
+                        }"
+                        @click="
+                            currentPriceModel.is_active = !currentPriceModel.is_active
+                        "
+                        >{{
+                            currentPriceModel.is_active ? 'Active' : 'Inactive'
+                        }}</span
+                    >
+                    <nitrozen-toggle
+                        class="pad-right"
+                        v-model="currentPriceModel.is_active"
+                    ></nitrozen-toggle>
                 </div>
             </div>
             <div class="prices-box">
-                <div class="form-row">
-                    <nitrozen-dropdown
-                        :label="'Price Model'"
-                        :items="priceOptions"
-                        v-model="currentPriceId"
-                    >
-                    </nitrozen-dropdown>
-                </div>
-                <div class="form-row">
+                <price-model-page
+                    v-if="currentPriceModel"
+                    :baseComponent="component"
+                    :priceModel="currentPriceModel"
+                >
+                </price-model-page>
+                <div v-else class="form-row">
                     <div class="price-model-table">
                         <div
                             class="price-item"
@@ -51,14 +54,6 @@
                 </div>
             </div>
         </div>
-        <price-modal
-            v-if="isCreatePrice || isClonePrice"
-            :isOpen="isCreatePrice || isClonePrice"
-            :baseComponent="component"
-            :priceModel="isClonePrice ? currentPriceModel : null"
-            @closedialog="isClonePrice = isCreatePrice = false"
-        >
-        </price-modal>
     </div>
 </template>
 
@@ -92,61 +87,50 @@
 </style>
 
 <script>
-import { NitrozenCheckBox, NitrozenDropdown } from '@gofynd/nitrozen-vue';
+import {
+    NitrozenCheckBox,
+    NitrozenDropdown,
+    NitrozenToggleBtn
+} from '@gofynd/nitrozen-vue';
 import { PLAN_ENUMS, getProp } from '../../helper/plan-creator-helper';
-import priceModal from '../../components/plan-creator/component-price-modal.vue';
+import PriceModelPage from '../../pages/plan-creator/component-price.vue';
 
 export default {
     name: 'plan-component-card',
     components: {
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-dropdown': NitrozenDropdown,
-        'price-modal': priceModal
+        'nitrozen-toggle': NitrozenToggleBtn,
+        'price-model-page': PriceModelPage
     },
     props: {
         component: {
             type: Object
         },
-        plan_component: {
+        price_component: {
             type: Object
         }
     },
     data() {
         return {
             enabled: false,
-            isClonePrice: false,
-            isCreatePrice: false,
-            currentPriceId: this.getDefaultPriceModel()._id,
+            editMode: true,
             options: PLAN_ENUMS
         };
     },
     computed: {
-        priceOptions() {
-            return this.component.component_prices.map((item) => {
-                return {
-                    text: item.display_text,
-                    value: item._id
-                };
-            });
-        },
-        priceModelMap() {
-            return this.component.component_prices.reduce((map, priceModel) => {
-                map[priceModel._id] = priceModel;
-                return map;
-            }, {});
-        },
         currentPriceModel() {
-            return this.priceModelMap[this.currentPriceId];
+            return this.price_component.component_price;
         }
     },
     methods: {
         enableForPlan() {
             this.$emit('enable', this.enabled);
         },
-        getDefaultPriceModel() {
-            return this.component.component_prices.find((it) => it.is_default);
-        },
         getPriceModelValue(detailField) {
+            if (this.currentPriceModel.processing_type !== 'revenue') {
+                return null;
+            }
             let fieldPath = this.options[detailField].path || detailField;
             let val = getProp(this.currentPriceModel, fieldPath);
             if (!val) {

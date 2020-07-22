@@ -1,205 +1,207 @@
 <template>
     <div class="price-form">
-        <div class="form-row form-compact-items">
-            <div class="form-item">
-                <nitrozen-input
-                    :label="'Component Display Name *'"
-                    v-model="formData.display_text"
-                >
-                </nitrozen-input>
-                <nitrozen-error>-</nitrozen-error>
-            </div>
-        </div>
-
-        <div class="form-row form-compact-items">
-            <div class="form-item">
-                <nitrozen-dropdown
-                    style="width:150px;"
-                    :label="'Price currency'"
-                    :items="currentCurrency"
-                    v-model="formData.currency"
-                    :searchable="true"
-                    @searchInputChange="
-                        (e) => (this.searchCurrency = e && e.text ? e.text : '')
-                    "
-                ></nitrozen-dropdown>
-            </div>
-        </div>
-
-        <div class="cl-Mako bold-xs top-headers">Billing Scheme</div>
-
-        <div class="form-row form-compact-items">
-            <div class="form-item price-type-dropdown">
-                <nitrozen-dropdown
-                    :label="options.billing_scheme.text"
-                    :items="options.billing_scheme.enum"
-                    v-model="formData.billing_scheme"
-                >
-                </nitrozen-dropdown>
-            </div>
-
-            <div
-                v-if="formData.billing_scheme === 'per_unit'"
-                class="form-item price-type-dropdown"
-            >
-                <nitrozen-dropdown
-                    :label="`${options.price_type.text} *`"
-                    :items="options.price_type.enum"
-                    v-model="formData.price_type"
-                >
-                </nitrozen-dropdown>
-            </div>
-        </div>
-
-        <div v-if="isOneTimeBill" class="form-row form-compact-items">
-            <div class="form-item">
-                <nitrozen-input
-                    :type="'number'"
-                    :allowNegative="false"
-                    :showSuffix="true"
-                    :suffix="'₹'"
-                    :label="'Flat Price *'"
-                    v-model="formData.unit_amount"
-                >
-                </nitrozen-input>
-            </div>
-        </div>
-
-        <div v-if="isTiered" class="form-row form-compact-items">
-            <div class="form-item price-type-dropdown">
-                <nitrozen-dropdown
-                    :label="options.tiers_mode.text"
-                    :items="options.tiers_mode.enum"
-                    v-model="formData.tiers_mode"
-                >
-                </nitrozen-dropdown>
-            </div>
-        </div>
-
-        <div v-if="isTiered" class="form-row">
-            <div class="form-item">
-                <nitrozen-input
-                    :type="'number'"
-                    :allowNegative="false"
-                    :label="'Tier Usage Upto*'"
-                >
-                </nitrozen-input>
-            </div>
-            <div class="form-item">
-                <nitrozen-input
-                    :type="'number'"
-                    :allowNegative="false"
-                    :showSuffix="true"
-                    :suffix="'₹'"
-                    :label="'Tier Changes*'"
-                >
-                </nitrozen-input>
-            </div>
-            <div class="form-item">
-                <nitrozen-input
-                    :type="'number'"
-                    :allowNegative="false"
-                    :showSuffix="true"
-                    :suffix="'₹'"
-                    :label="'Flat Fees*'"
-                >
-                </nitrozen-input>
-            </div>
-        </div>
-
-        <div v-if="isTiered" class="form-row">
-            <div class="form-item right-align">
-                <div class="text-btn cl-RoyalBlue bold-xs">
-                    Add Tier
+        <div v-if="formData.processing_type === 'display'">
+            <div class="form-row form-compact-items">
+                <div class="form-item">
+                    <nitrozen-input
+                        :label="'Display Feature Text *'"
+                        v-model="formData.display_text"
+                    >
+                    </nitrozen-input>
                 </div>
             </div>
         </div>
-
-        <div class="cl-Mako bold-xs top-headers">Bill Cycle</div>
-
-        <div class="form-row form-compact-items">
-            <div class="form-item">
-                <nitrozen-dropdown
-                    :items="options.bill_type.enum"
-                    v-model="formData.bill_type"
-                >
-                </nitrozen-dropdown>
-            </div>
+        <div v-else-if="formData.processing_type === 'feature_config'">
+            <component
+                :is="baseComponent.slug"
+                :formData="formData"
+                :config="baseComponent.component_price_config.feature_config"
+            ></component>
         </div>
-
-        <div v-if="isRecurring" class="form-row form-compact-items">
-            <div class="form-item">
-                <nitrozen-input
-                    :type="'number'"
-                    :allowNegative="false"
-                    :showSuffix="true"
-                    :custom="true"
-                    :label="'Recurring Time *'"
-                    v-model="formData.recurring.interval_count"
-                >
+        <div v-else>
+            <div class="form-row form-compact-items">
+                <div class="form-item">
                     <nitrozen-dropdown
-                        :label="options.interval.text"
-                        :items="options.interval.enum"
-                        v-model="formData.recurring.interval"
+                        :label="'Pricing Model *'"
+                        :items="pricing_values"
+                        :value="pricing_type"
+                        @change="changeType"
                     >
                     </nitrozen-dropdown>
-                </nitrozen-input>
+                </div>
             </div>
-        </div>
 
-        <div v-if="isRecurring" class="form-row form-compact-items">
-            <div class="form-item price-type-dropdown">
-                <nitrozen-dropdown
-                    :label="options.usage_type.text"
-                    :items="options.usage_type.enum"
-                    v-model="formData.recurring.usage_type"
+            <div class="form-row form-compact-items">
+                <div
+                    v-if="formData.billing_scheme === 'per_unit'"
+                    class="form-item price-type-dropdown"
                 >
-                </nitrozen-dropdown>
+                    <nitrozen-dropdown
+                        style="width: 170px;"
+                        :label="`${options.price_type.text} *`"
+                        :items="options.price_type.enum"
+                        v-model="formData.price_type"
+                    >
+                    </nitrozen-dropdown>
+                </div>
             </div>
-            <div style="width:200px;" class="form-item">
-                <nitrozen-dropdown
-                    :label="options.aggregate_usage.text"
-                    :items="options.aggregate_usage.enum"
-                    v-model="formData.recurring.aggregate_usage"
+
+            <div v-if="isOneTimeBill" class="form-row form-compact-items">
+                <div class="form-item">
+                    <nitrozen-input
+                        :type="'number'"
+                        :allowNegative="false"
+                        :showSuffix="true"
+                        :custom="true"
+                        :label="'Price Amount*'"
+                        v-model="formData.unit_amount"
+                    >
+                        <nitrozen-dropdown
+                            style="width:110px;"
+                            :items="currentCurrency"
+                            v-model="formData.currency"
+                            :searchable="true"
+                            @searchInputChange="
+                                (e) =>
+                                    (this.searchCurrency =
+                                        e && e.text ? e.text : '')
+                            "
+                        ></nitrozen-dropdown>
+                    </nitrozen-input>
+                </div>
+            </div>
+
+            <div v-if="isTiered" class="form-row">
+                <div class="form-item">
+                    <nitrozen-input
+                        :type="'number'"
+                        :allowNegative="false"
+                        :label="'Tier Usage Upto*'"
+                    >
+                    </nitrozen-input>
+                </div>
+                <div class="form-item">
+                    <nitrozen-input
+                        :type="'number'"
+                        :allowNegative="false"
+                        :showSuffix="true"
+                        :suffix="'₹'"
+                        :label="'Tier Charges*'"
+                    >
+                    </nitrozen-input>
+                </div>
+                <div class="form-item">
+                    <nitrozen-input
+                        :type="'number'"
+                        :allowNegative="false"
+                        :showSuffix="true"
+                        :suffix="'₹'"
+                        :label="'Flat Fees*'"
+                    >
+                    </nitrozen-input>
+                </div>
+            </div>
+
+            <div v-if="isTiered" class="form-row">
+                <div class="form-item right-align">
+                    <div class="text-btn cl-RoyalBlue bold-xs">
+                        Add Tier
+                    </div>
+                </div>
+            </div>
+
+            <div class="cl-Mako bold-xs top-headers">Bill Period</div>
+
+            <div
+                style="align-items: flex-end;"
+                class="form-row form-compact-items"
+            >
+                <div class="form-item">
+                    <nitrozen-dropdown
+                        :label="'Type'"
+                        :items="options.bill_type.enum"
+                        v-model="formData.bill_type"
+                    >
+                    </nitrozen-dropdown>
+                </div>
+                <div v-if="isRecurring" class="form-item">
+                    <nitrozen-input
+                        style="width: 200px;"
+                        :type="'number'"
+                        :allowNegative="false"
+                        :showSuffix="true"
+                        :custom="true"
+                        :label="'Recurring Time *'"
+                        v-model="formData.recurring.interval_count"
+                    >
+                        <nitrozen-dropdown
+                            :label="options.interval.text"
+                            :items="options.interval.enum"
+                            v-model="formData.recurring.interval"
+                        >
+                        </nitrozen-dropdown>
+                    </nitrozen-input>
+                </div>
+            </div>
+
+            <div
+                v-if="isRecurring && this.formData.price_type !== 'dynamic'"
+                class="form-row form-compact-items"
+            >
+                <div class="form-item price-type-dropdown">
+                    <nitrozen-dropdown
+                        :label="options.usage_type.text"
+                        :items="options.usage_type.enum"
+                        v-model="formData.recurring.usage_type"
+                    >
+                    </nitrozen-dropdown>
+                </div>
+                <div
+                    v-if="formData.recurring.usage_type !== 'licensed'"
+                    style="width:200px;"
+                    class="form-item"
                 >
-                </nitrozen-dropdown>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-item">
-                <nitrozen-input
-                    :type="'number'"
-                    :allowNegative="false"
-                    :label="'Divide Usage'"
-                    v-model="formData.transform_quantity.divide_by"
-                >
-                </nitrozen-input>
+                    <nitrozen-dropdown
+                        :label="options.aggregate_usage.text"
+                        :items="options.aggregate_usage.enum"
+                        v-model="formData.recurring.aggregate_usage"
+                    >
+                    </nitrozen-dropdown>
+                </div>
             </div>
 
-            <div class="form-item">
-                <nitrozen-dropdown
-                    :label="'Round Units'"
-                    :items="[
-                        { text: 'Up', value: 'up' },
-                        { text: 'Down', value: 'down' }
-                    ]"
-                    v-model="formData.transform_quantity.round"
-                >
-                </nitrozen-dropdown>
-            </div>
-        </div>
+            <div class="form-row" v-if="this.formData.price_type !== 'dynamic'">
+                <div class="form-item">
+                    <nitrozen-input
+                        :type="'number'"
+                        :allowNegative="false"
+                        :label="'Divide Usage'"
+                        v-model="formData.transform_quantity.divide_by"
+                    >
+                    </nitrozen-input>
+                </div>
 
-        <div class="form-row">
-            <div class="form-item">
-                <nitrozen-input :label="'Comment'" v-model="formData.comment">
-                </nitrozen-input>
+                <div class="form-item">
+                    <nitrozen-dropdown
+                        :label="'Round Units'"
+                        :items="[
+                            { text: 'Up', value: 'up' },
+                            { text: 'Down', value: 'down' }
+                        ]"
+                        v-model="formData.transform_quantity.round"
+                    >
+                    </nitrozen-dropdown>
+                </div>
             </div>
-        </div>
 
-        <div class="form-row">
-            <div class="form-item">
-                <tags-input v-model="formData.tags"> </tags-input>
+            <div class="form-row form-compact-items">
+                <div class="form-item">
+                    <nitrozen-input
+                        :label="'Display Feature Text *'"
+                        v-model="formData.display_text"
+                    >
+                    </nitrozen-input>
+                </div>
             </div>
         </div>
     </div>
@@ -217,10 +219,6 @@
 
     .text-btn {
         cursor: pointer;
-    }
-    .top-headers {
-        line-height: 27px;
-        margin-bottom: 12px;
     }
 
     .custom-label {
@@ -277,15 +275,47 @@ import _ from 'lodash';
 import { PLAN_ENUMS } from '../../helper/plan-creator-helper';
 import { CURRENCIES } from '../../helper/currency.util';
 import { TagsInput } from '../../components/common/';
+import {
+    TeamManagement,
+    Products,
+    Customers,
+    MarketplaceIntegration,
+    Support,
+    AnalyticsRawEventQuery,
+    AnalyticsRawEventExport,
+    MobileApp,
+    Sla,
+    AnalyticsCampaignSource,
+    SellingLocations,
+    SaleWebsites,
+    CustomPaymentGatwaySetup,
+    PosInventoryIntegration,
+    CatalogueExportMarketplace
+} from '../../components/plan-creator/feature-components';
 
 export default {
-    name: 'component-price-form',
+    name: 'component-price',
     components: {
         'nitrozen-input': NitrozenInput,
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-error': NitrozenError,
-        'tags-input': TagsInput
+        'tags-input': TagsInput,
+        TeamManagement,
+        Products,
+        Customers,
+        MarketplaceIntegration,
+        Support,
+        AnalyticsRawEventQuery,
+        AnalyticsRawEventExport,
+        MobileApp,
+        Sla,
+        AnalyticsCampaignSource,
+        SellingLocations,
+        SaleWebsites,
+        CustomPaymentGatwaySetup,
+        PosInventoryIntegration,
+        CatalogueExportMarketplace
     },
     props: {
         baseComponent: {
@@ -296,9 +326,6 @@ export default {
             default: function() {
                 return {};
             }
-        },
-        isClone: {
-            type: Boolean
         }
     },
     data() {
@@ -316,7 +343,7 @@ export default {
     computed: {
         isOneTimeBill() {
             return (
-                this.formData.bill_type === 'one_time' &&
+                !this.isTiered &&
                 this.formData.price_type === 'static' &&
                 !this.isTiered
             );
@@ -341,6 +368,58 @@ export default {
                     value: cur.code
                 };
             });
+        },
+        pricing_map() {
+            return {
+                standard: {
+                    display: 'Standard Pricing',
+                    config: {
+                        billing_scheme: 'per_unit'
+                    }
+                },
+                graduated: {
+                    display: 'Graduated Pricing',
+                    config: {
+                        bill_type: 'recurring',
+                        billing_scheme: 'tiered',
+                        tiers_mode: 'graduated'
+                    }
+                },
+                volume: {
+                    display: 'Volume pricing',
+                    config: {
+                        bill_type: 'recurring',
+                        billing_scheme: 'tiered',
+                        tiers_mode: 'volume'
+                    }
+                },
+                package: {
+                    display: 'Package Pricing',
+                    config: {
+                        billing_scheme: 'per_unit'
+                    }
+                }
+            };
+        },
+        pricing_values() {
+            return Object.keys(this.pricing_map).map((val) => {
+                return {
+                    value: val,
+                    text: this.pricing_map[val].display
+                };
+            });
+        },
+        pricing_type() {
+            if (this.formData.billing_scheme === 'tiered') {
+                if (this.formData.bill_type === 'recurring') {
+                    if (this.formData.tiers_mode === 'volume') {
+                        return 'volume';
+                    } else {
+                        return 'graduated';
+                    }
+                }
+            }
+            return 'standard';
         }
     },
     methods: {
@@ -369,6 +448,9 @@ export default {
                 tiers: [],
                 tiers_mode: 'volume'
             };
+        },
+        changeType(type) {
+            _.merge(this.formData, this.pricing_map[type].config);
         }
     }
 };
