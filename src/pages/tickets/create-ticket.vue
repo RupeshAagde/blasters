@@ -68,6 +68,7 @@
             box-sizing: border-box;
             flex-direction: column;
             border: 1px solid @WhiteSmoke;
+            margin: 0px;
 
             .top-headers {
                 line-height: 27px;
@@ -284,6 +285,8 @@ export default {
                         this.ticket.createdAt = ticket.createdAt;
                         this.ticket.history = ticket.history;
                         this.ticket.time_slot = ticket.time_slot;
+                        this.ticket.created_on = ticket.created_on;
+                        this.ticket.context = ticket.context;
                     }
 
                     res = responses[1];
@@ -378,6 +381,7 @@ export default {
                 }
             );
 
+            this.ticket.context = undefined;
             if (this.ticketID) {
                 SupportService.updateTicket(this.ticketID, this.ticket)
                     .then((res) => {
