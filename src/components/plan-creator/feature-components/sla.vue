@@ -3,26 +3,29 @@
         <div class="form-row form-compact-items" v-if="formData">
             <div class="form-item">
                 <nitrozen-input
-                    :label="'Display Text *'"
+                    :label="'Feature Text *'"
                     v-model="formData.display_text"
                 >
                 </nitrozen-input>
-                <nitrozen-error>-</nitrozen-error>
             </div>
         </div>
+        <!-- <div class="form-row form-compact-items" v-if="config">
+            <div class="form-item">
+                <nitrozen-checkbox
+                    v-model="formData.is_active"
+                >
+                    Enabled
+                </nitrozen-checkbox>
+            </div>
+        </div> -->
         <div class="form-row form-compact-items" v-if="config">
             <div class="form-item">
                 <nitrozen-dropdown
-                    :label="config.type.display"
+                    :label="'Support time'"
                     v-model="formData.feature_config.type"
-                    :items="
-                        config.type.enum.map((item) => {
-                            return { value: item, text: item };
-                        })
-                    "
+                    :items="support_types"
                 >
                 </nitrozen-dropdown>
-                <nitrozen-error>-</nitrozen-error>
             </div>
         </div>
     </div>
@@ -32,7 +35,8 @@
 import {
     NitrozenInput,
     NitrozenError,
-    NitrozenDropdown
+    NitrozenDropdown,
+    NitrozenCheckBox
 } from '@gofynd/nitrozen-vue';
 export default {
     name: 'sla',
@@ -44,10 +48,33 @@ export default {
             type: Object
         }
     },
+    data() {
+        return {
+            support_types: [
+                {
+                    value: 'level0',
+                    text: '24Hr'
+                },
+                {
+                    value: 'level1',
+                    text: '12Hr'
+                },
+                {
+                    value: 'level2',
+                    text: '8Hr'
+                },
+                {
+                    value: 'level3',
+                    text: '4Hr'
+                }
+            ]
+        };
+    },
     components: {
         'nitrozen-input': NitrozenInput,
         'nitrozen-error': NitrozenError,
-        'nitrozen-dropdown': NitrozenDropdown
+        'nitrozen-dropdown': NitrozenDropdown,
+        'nitrozen-checkbox': NitrozenCheckBox
     }
 };
 </script>

@@ -41,49 +41,19 @@ const BillingService = {
         );
     },
 
-    getComponentPrices(params) {
+    createPlan(payload) {
         const axiosOptions = Object.assign(
             {},
-            { params: params },
             // getCommonHeaderOptions()
             {
                 headers: {
                     'Content-Type': 'application/json',
                     'x-currency-code': 'INR'
-                }
+                },
+                data: payload
             }
         );
-        return ApiService.get(URLS.FETCH_COMPONENT_PRICES(), axiosOptions);
-    },
-
-    getComponentWithPrices(params) {
-        const axiosOptions = Object.assign(
-            {},
-            { params: params },
-            // getCommonHeaderOptions()
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-currency-code': 'INR'
-                }
-            }
-        );
-        return ApiService.get(URLS.FETCH_COMPONENT_WITH_PRICES(), axiosOptions);
-    },
-
-    getPlanComponents(params) {
-        const axiosOptions = Object.assign(
-            {},
-            { params: params },
-            // getCommonHeaderOptions()
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-currency-code': 'INR'
-                }
-            }
-        );
-        return ApiService.get(URLS.FETCH_PLAN_COMPONENTS(), axiosOptions);
+        return ApiService.post(URLS.FETCH_PLANS_LIST(), axiosOptions);
     }
 };
 

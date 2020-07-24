@@ -4,10 +4,9 @@
             <div class="form-row form-compact-items">
                 <div class="form-item">
                     <nitrozen-input
-                        :label="'Display Feature Text *'"
+                        :label="'Feature Text *'"
                         v-model="formData.display_text"
-                    >
-                    </nitrozen-input>
+                    ></nitrozen-input>
                 </div>
             </div>
         </div>
@@ -22,19 +21,25 @@
             <div class="form-row form-compact-items">
                 <div class="form-item">
                     <nitrozen-dropdown
-                        :tooltip="'tooltip'"
+                        :tooltip="pricing_map[formData.price_ui_type].tooltip"
                         :label="'Pricing Model *'"
                         :items="pricing_values"
-                        :value="pricing_type"
-                        @change="changeType"
-                    >
-                    </nitrozen-dropdown>
+                        v-model="formData.price_ui_type"
+                        @input="changeType"
+                    ></nitrozen-dropdown>
                 </div>
             </div>
-
+            <!-- <div class="form-row">
+                <div class="form-item">
+                    <nitrozen-checkbox v-model="formData.is_active">Enabled</nitrozen-checkbox>
+                </div>
+            </div> -->
             <div class="form-row form-compact-items">
                 <div
-                    v-if="formData.billing_scheme === 'per_unit'"
+                    v-if="
+                        formData.billing_scheme === 'per_unit' &&
+                            formData.price_type !== 'dynamic'
+                    "
                     class="form-item price-type-dropdown"
                 >
                     <nitrozen-dropdown
@@ -42,14 +47,14 @@
                         :label="`${options.price_type.text} *`"
                         :items="options.price_type.enum"
                         v-model="formData.price_type"
-                    >
-                    </nitrozen-dropdown>
+                    ></nitrozen-dropdown>
                 </div>
             </div>
 
             <div v-if="isOneTimeBill" class="form-row form-compact-items">
                 <div class="form-item">
                     <nitrozen-input
+                        style="width: 300px;"
                         :type="'number'"
                         :allowNegative="false"
                         :showSuffix="true"
@@ -58,7 +63,7 @@
                         v-model="formData.unit_amount"
                     >
                         <nitrozen-dropdown
-                            style="width:110px;"
+                            style="width:140px;"
                             :items="currentCurrency"
                             v-model="formData.currency"
                             :searchable="true"
@@ -78,8 +83,7 @@
                         :type="'number'"
                         :allowNegative="false"
                         :label="'Tier Usage Upto*'"
-                    >
-                    </nitrozen-input>
+                    ></nitrozen-input>
                 </div>
                 <div class="form-item">
                     <nitrozen-input
@@ -88,8 +92,7 @@
                         :showSuffix="true"
                         :suffix="'₹'"
                         :label="'Tier Charges*'"
-                    >
-                    </nitrozen-input>
+                    ></nitrozen-input>
                 </div>
                 <div class="form-item">
                     <nitrozen-input
@@ -98,20 +101,15 @@
                         :showSuffix="true"
                         :suffix="'₹'"
                         :label="'Flat Fees*'"
-                    >
-                    </nitrozen-input>
+                    ></nitrozen-input>
                 </div>
             </div>
 
             <div v-if="isTiered" class="form-row">
                 <div class="form-item right-align">
-                    <div class="text-btn cl-RoyalBlue bold-xs">
-                        Add Tier
-                    </div>
+                    <div class="text-btn cl-RoyalBlue bold-xs">Add Tier</div>
                 </div>
             </div>
-
-            <div class="cl-Mako bold-xs top-headers">Bill Period</div>
 
             <div
                 style="align-items: flex-end;"
@@ -119,11 +117,10 @@
             >
                 <div class="form-item">
                     <nitrozen-dropdown
-                        :label="'Type'"
+                        :label="'Bill Period'"
                         :items="options.bill_type.enum"
                         v-model="formData.bill_type"
-                    >
-                    </nitrozen-dropdown>
+                    ></nitrozen-dropdown>
                 </div>
                 <div v-if="isRecurring" class="form-item">
                     <nitrozen-input
@@ -139,14 +136,13 @@
                             :label="options.interval.text"
                             :items="options.interval.enum"
                             v-model="formData.recurring.interval"
-                        >
-                        </nitrozen-dropdown>
+                        ></nitrozen-dropdown>
                     </nitrozen-input>
                 </div>
             </div>
 
             <div
-                v-if="isRecurring && this.formData.price_type !== 'dynamic'"
+                v-if="isRecurring && formData.price_type !== 'dynamic'"
                 class="form-row form-compact-items"
             >
                 <div class="form-item price-type-dropdown">
@@ -159,9 +155,8 @@
                                     : 'licensed';
                             }
                         "
+                        >{{ 'Usage is metered' }}</nitrozen-checkbox
                     >
-                        {{ 'Usage is metered' }}
-                    </nitrozen-checkbox>
                 </div>
             </div>
             <div
@@ -173,20 +168,29 @@
                         :label="options.aggregate_usage.text"
                         :items="options.aggregate_usage.enum"
                         v-model="formData.recurring.aggregate_usage"
-                    >
-                    </nitrozen-dropdown>
+                    ></nitrozen-dropdown>
                 </div>
             </div>
 
-            <div class="form-row" v-if="this.formData.price_type !== 'dynamic'">
+            <div class="form-row">
+                <div class="form-item">
+                    <nitrozen-checkbox v-model="show_advanced"
+                        >Advance Settings</nitrozen-checkbox
+                    >
+                </div>
+            </div>
+
+            <div
+                class="form-row"
+                v-if="formData.price_type !== 'dynamic' && show_advanced"
+            >
                 <div class="form-item">
                     <nitrozen-input
                         :type="'number'"
                         :allowNegative="false"
                         :label="'Divide Usage'"
                         v-model="formData.transform_quantity.divide_by"
-                    >
-                    </nitrozen-input>
+                    ></nitrozen-input>
                 </div>
 
                 <div class="form-item">
@@ -197,18 +201,16 @@
                             { text: 'Down', value: 'down' }
                         ]"
                         v-model="formData.transform_quantity.round"
-                    >
-                    </nitrozen-dropdown>
+                    ></nitrozen-dropdown>
                 </div>
             </div>
 
             <div class="form-row form-compact-items">
                 <div class="form-item">
                     <nitrozen-input
-                        :label="'Display Feature Text *'"
+                        :label="'Feature Text *'"
                         v-model="formData.display_text"
-                    >
-                    </nitrozen-input>
+                    ></nitrozen-input>
                 </div>
             </div>
         </div>
@@ -299,6 +301,8 @@ import {
     CatalogueExportMarketplace
 } from '../../components/plan-creator/feature-components';
 
+import toggleSwitch from '../../components/plan-creator/toggle-switch.vue';
+
 export default {
     name: 'component-price',
     components: {
@@ -308,13 +312,14 @@ export default {
         'nitrozen-error': NitrozenError,
         'nitrozen-tooltip': NitrozenToolTip,
         'tags-input': TagsInput,
+        'toggle-switch': toggleSwitch,
         TeamManagement,
         Products,
         Customers,
         MarketplaceIntegration,
         Support,
-        AnalyticsRawEventQuery,
-        AnalyticsRawEventExport,
+        'analytics-raw-events-query': AnalyticsRawEventQuery,
+        'analytics-raw-events-export': AnalyticsRawEventExport,
         MobileApp,
         Sla,
         AnalyticsCampaignSource,
@@ -338,13 +343,18 @@ export default {
     data() {
         return {
             searchCurrency: '',
-            formData: this.getDefaultData(),
-            options: PLAN_ENUMS
+            formData: {},
+            options: PLAN_ENUMS,
+            show_advanced: false
         };
     },
-    mounted() {
+    created() {
         if (this.priceModel) {
-            _.merge(this.formData, this.priceModel);
+            this.formData = this.priceModel;
+            if (this.formData.transform_quantity) {
+                this.show_advanced =
+                    this.formData.transform_quantity.divide_by > 1;
+            }
         }
     },
     computed: {
@@ -383,7 +393,18 @@ export default {
                     tooltip:
                         'Select standard pricing if you charge the same price for each unit.',
                     config: {
-                        billing_scheme: 'per_unit'
+                        billing_scheme: 'per_unit',
+                        price_type: 'static'
+                    }
+                },
+                external: {
+                    display: 'External Pricing',
+                    tooltip:
+                        'Select external pricing if you charge the same price as per external service.',
+                    config: {
+                        billing_scheme: 'per_unit',
+                        price_type: 'dynamic',
+                        bill_type: 'one_time'
                     }
                 },
                 graduated: {
@@ -436,31 +457,8 @@ export default {
         }
     },
     methods: {
-        getDefaultData() {
-            return {
-                recurring: {
-                    aggregate_usage: 'sum',
-                    usage_type: 'licensed',
-                    interval: 'month',
-                    interval_count: 1
-                },
-                transform_quantity: {
-                    divide_by: 1,
-                    round: 'up'
-                },
-                display_text: this.baseComponent.name || '',
-                is_default: true,
-                is_active: true,
-                unit_amount: 0,
-                price_type: 'static',
-                bill_type: 'one_time',
-                billing_scheme: 'per_unit',
-                tags: [],
-                currency: 'INR',
-                component_id: this.baseComponent._id || '',
-                tiers: [],
-                tiers_mode: 'volume'
-            };
+        hideAdvance(value) {
+            if (value) this.formData.transform_quantity.divide_by = 1;
         },
         changeType(type) {
             _.merge(this.formData, this.pricing_map[type].config);

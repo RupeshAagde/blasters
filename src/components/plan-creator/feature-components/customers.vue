@@ -9,6 +9,15 @@
                 </nitrozen-input>
             </div>
         </div>
+        <!-- <div class="form-row form-compact-items" v-if="config">
+            <div class="form-item">
+                <nitrozen-checkbox
+                    v-model="formData.is_active"
+                >
+                    Enabled
+                </nitrozen-checkbox>
+            </div>
+        </div> -->
         <div class="form-row form-compact-items" v-if="config">
             <div class="form-item">
                 <nitrozen-input
@@ -23,7 +32,11 @@
 </template>
 
 <script>
-import { NitrozenInput, NitrozenError } from '@gofynd/nitrozen-vue';
+import {
+    NitrozenInput,
+    NitrozenError,
+    NitrozenCheckBox
+} from '@gofynd/nitrozen-vue';
 
 export default {
     name: 'customers',
@@ -37,7 +50,8 @@ export default {
     },
     components: {
         'nitrozen-input': NitrozenInput,
-        'nitrozen-error': NitrozenError
+        'nitrozen-error': NitrozenError,
+        'nitrozen-checkbox': NitrozenCheckBox
     }
 };
 </script>

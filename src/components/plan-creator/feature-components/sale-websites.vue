@@ -3,13 +3,21 @@
         <div class="form-row form-compact-items" v-if="formData">
             <div class="form-item">
                 <nitrozen-input
-                    :label="'Display Text *'"
+                    :label="'Feature Text *'"
                     v-model="formData.display_text"
                 >
                 </nitrozen-input>
-                <nitrozen-error>-</nitrozen-error>
             </div>
         </div>
+        <!-- <div class="form-row form-compact-items" v-if="config">
+            <div class="form-item">
+                <nitrozen-checkbox
+                    v-model="formData.is_active"
+                >
+                    Enabled
+                </nitrozen-checkbox>
+            </div>
+        </div> -->
         <div class="form-row form-compact-items" v-if="config">
             <div class="form-item">
                 <nitrozen-input
@@ -18,7 +26,6 @@
                     :type="config.hard_limit.type"
                 >
                 </nitrozen-input>
-                <nitrozen-error>-</nitrozen-error>
             </div>
             <div class="form-item">
                 <nitrozen-input
@@ -27,14 +34,17 @@
                     :type="config.soft_limit.type"
                 >
                 </nitrozen-input>
-                <nitrozen-error>-</nitrozen-error>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { NitrozenInput, NitrozenError } from '@gofynd/nitrozen-vue';
+import {
+    NitrozenInput,
+    NitrozenError,
+    NitrozenCheckBox
+} from '@gofynd/nitrozen-vue';
 export default {
     name: 'sale-websites',
     props: {
@@ -47,7 +57,8 @@ export default {
     },
     components: {
         'nitrozen-input': NitrozenInput,
-        'nitrozen-error': NitrozenError
+        'nitrozen-error': NitrozenError,
+        'nitrozen-checkbox': NitrozenCheckBox
     }
 };
 </script>

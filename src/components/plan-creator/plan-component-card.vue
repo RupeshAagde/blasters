@@ -5,28 +5,11 @@
                 style="display: flex; width:100%;line-height: 21px; align-items: center;"
             >
                 <div class="cl-Mako bold-xs">{{ component.name }}</div>
-                <div
-                    class="cl-RoyalBlue bold-xs"
-                    style="display: flex;justify-content: flex-end; flex: 1;"
-                >
-                    <span
-                        class="bold-xs clickable-label"
-                        :class="{
-                            'cl-DustyGray2': !currentPriceModel.is_active,
-                            'cl-RoyalBlue': currentPriceModel.is_active
-                        }"
-                        @click="
-                            currentPriceModel.is_active = !currentPriceModel.is_active
-                        "
-                        >{{
-                            currentPriceModel.is_active ? 'Active' : 'Inactive'
-                        }}</span
-                    >
-                    <nitrozen-toggle
-                        class="pad-right"
-                        v-model="currentPriceModel.is_active"
-                    ></nitrozen-toggle>
-                </div>
+                <toggle-switch
+                    v-if="currentPriceModel.processing_type !== 'display'"
+                    v-model="currentPriceModel.is_active"
+                    @input="updateFeature"
+                ></toggle-switch>
             </div>
             <div class="prices-box">
                 <price-model-page
@@ -35,23 +18,6 @@
                     :priceModel="currentPriceModel"
                 >
                 </price-model-page>
-                <div v-else class="form-row">
-                    <div class="price-model-table">
-                        <div
-                            class="price-item"
-                            v-for="detailField in Object.keys(options)"
-                            :key="detailField"
-                            v-show="getPriceModelValue(detailField)"
-                        >
-                            <div class="cl-DustyGray2 dark-xs">
-                                {{ options[detailField].text }}:
-                            </div>
-                            <div class="cl-Mako dark-xs">
-                                {{ getPriceModelValue(detailField) }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -66,8 +32,6 @@
     border: 1px solid @Iron;
 
     .prices-box {
-        padding-left: 30px;
-
         .price-model-table {
             display: flex;
             overflow: hidden;
@@ -94,6 +58,7 @@ import {
 } from '@gofynd/nitrozen-vue';
 import { PLAN_ENUMS, getProp } from '../../helper/plan-creator-helper';
 import PriceModelPage from '../../pages/plan-creator/component-price.vue';
+import toggleSwitch from '../../components/plan-creator/toggle-switch.vue';
 
 export default {
     name: 'plan-component-card',
@@ -101,7 +66,8 @@ export default {
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-toggle': NitrozenToggleBtn,
-        'price-model-page': PriceModelPage
+        'price-model-page': PriceModelPage,
+        'toggle-switch': toggleSwitch
     },
     props: {
         component: {
@@ -126,6 +92,14 @@ export default {
     methods: {
         enableForPlan() {
             this.$emit('enable', this.enabled);
+        },
+        updateFeature(value) {
+            if (
+                currentPriceModel.processing_type === 'feature_config' &&
+                currentPriceModel.feature_config.hasOwnProperty('enabled')
+            ) {
+                currentPriceModel.feature_config.enabled = value;
+            }
         },
         getPriceModelValue(detailField) {
             if (this.currentPriceModel.processing_type !== 'revenue') {

@@ -16,8 +16,10 @@
         <div class="form-row">
             <div class="form-item">
                 <nitrozen-input
+                    class="desc"
                     :label="'Description'"
                     v-model="formData.plan.description"
+                    :type="'textarea'"
                 ></nitrozen-input>
                 <nitrozen-error v-bind:class="{ visible: errors['desc'] }">{{
                     errors['desc'] || '-'
@@ -87,17 +89,17 @@
             </div>
         </div>
 
-        <div class="form-row">
+        <div v-if="formData.plan.type === 'public'" class="form-row">
             <div class="form-item">
                 <nitrozen-checkbox v-model="formData.plan.is_visible"
-                    >Visible
+                    >Visible to all
                 </nitrozen-checkbox>
                 <nitrozen-error>-</nitrozen-error>
             </div>
         </div>
 
         <div class="cl-Mako bold-md top-headers">Plan Components</div>
-        <div class="form-row">
+        <div class="form-row" v-if="this.formData.components.length">
             <div class="form-item">
                 <plan-component
                     class="plan-component"
@@ -120,6 +122,11 @@
 .plan-component {
     + .plan-component {
         margin-top: 12px;
+    }
+}
+.desc {
+    textarea {
+        resize: none;
     }
 }
 </style>
@@ -148,12 +155,14 @@ export default {
         },
         errors: {
             type: Object
+        },
+        allComponents: {
+            type: Array,
+            default: []
         }
     },
     data() {
         return {
-            planComponents: [],
-            allComponents: [],
             durationUnits: [
                 {
                     text: 'Days',
@@ -170,22 +179,10 @@ export default {
             ]
         };
     },
-    mounted() {
-        let pArr = [];
-        pArr.push(BillingService.getComponents({ limit: 100 }));
-
-        Promise.all(pArr)
-            .then((resArr) => {
-                this.planComponents = [...this.formData.components];
-                this.allComponents = [...resArr[0].data.docs];
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    },
+    mounted() {},
     computed: {
         planComponentMap() {
-            return this.planComponents.reduce((map, item) => {
+            return this.formData.components.reduce((map, item) => {
                 map[item.component_id] = item;
                 return map;
             }, {});
