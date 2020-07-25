@@ -10,6 +10,7 @@ import CreateTicket from './../../pages/tickets/create-ticket.vue';
 import SettingsVue from './../../pages/settings';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details';
 import FeaturesSettingsVue from './../../pages/settings/features';
+import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 
 export default [
     {
@@ -52,6 +53,16 @@ export default [
                 name: 'add-user',
                 path: 'add-user',
                 component: AddSuperUserVue
+            },
+            {
+                name: 'add-dri',
+                path: 'company-details/:companyId/add-dri',
+                component: AddEditDri
+            },
+            {
+                name: 'edit-dri',
+                path: 'company-details/:companyId/edit-dri/:uid',
+                component: AddEditDri
             },
             // Settings
             {

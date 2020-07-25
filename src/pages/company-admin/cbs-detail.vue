@@ -47,6 +47,11 @@
                             <adm-stores></adm-stores>
                         </div>
                     </div>
+                    <div class="page-container common-container">
+                        <div class="left-container">
+                            <list-dri></list-dri>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Profile Section -->
@@ -123,6 +128,7 @@
 import admbrands from './brands.vue';
 import admstores from './stores.vue';
 import admapplication from './application-list.vue';
+import listdri from './list-dri.vue';
 import PageHeader from '@/components/common/layout/page-header';
 import admcompanydetails from './profile-details.vue';
 import CompanyService from '@/services/company-admin.service';
@@ -136,6 +142,7 @@ export default {
         'adm-application-list': admapplication,
         'adm-stores': admstores,
         'adm-company-details': admcompanydetails,
+        'list-dri': listdri,
         Shimmer,
         PageHeader,
         'nitrozen-badge': NitrozenBadge
