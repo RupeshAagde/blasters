@@ -35,7 +35,7 @@
                     >{{ selectedDesignation.errortext }}</nitrozen-error
                 >
                 <div class="row-2">
-                    <div class="cust-label">Add Tags*</div>
+                    <div class="cust-label">Add Tags</div>
                     <div
                         class="input-text tags"
                         @click="$refs.searchText.focus()"
@@ -61,9 +61,9 @@
                         />
                     </div>
                 </div>
-                <nitrozen-error class="bottom-space" v-if="tagMeta.showError">{{
-                    tagMeta.errortext
-                }}</nitrozen-error>
+                <nitrozen-error class="bottom-space" v-if="tagMeta.showError">
+                    {{ tagMeta.errortext }}
+                </nitrozen-error>
                 <div class="cust-label" v-if="!isAdded">Assign Contact*</div>
                 <div class="cust-label" v-if="isAdded">Assigned Contact*</div>
                 <div class="row-3" v-if="!isAdded">
@@ -165,14 +165,14 @@
                         </div>
                         <div class="cust-button">
                             <nitrozen-button
-                                @click="addUser(user)"
+                                @click="openAddDialog(user)"
                                 v-if="!isAdded"
                                 v-strokeBtn
                                 :theme="'secondary'"
                                 >Add</nitrozen-button
                             >
                             <nitrozen-button
-                                @click="removeUser(user)"
+                                @click="openRemoveDialog(user)"
                                 v-if="isAdded"
                                 v-strokeBtn
                                 :theme="'secondary'"
@@ -215,11 +215,76 @@
                 </div>
             </div>
         </div>
+        <nitrozen-dialog
+            ref="user_add_dialog"
+            :title="
+                activeUser
+                    ? `${activeUser.firstName} ${activeUser.lastName}`
+                    : 'Company DRI'
+            "
+        >
+            <template slot="body" class="desc-dialog">
+                <div class="cust-sent">
+                    Are you sure you want to add this user?
+                </div>
+            </template>
+            <template slot="footer">
+                <div v-if="activeUser">
+                    <nitrozen-button
+                        class="mr24"
+                        @click="addUser(activeUser)"
+                        v-flatBtn
+                        :theme="'secondary'"
+                        >Add</nitrozen-button
+                    >
+                    <nitrozen-button
+                        @click="closeAddDialog"
+                        v-strokeBtn
+                        :theme="'secondary'"
+                        >Cancel</nitrozen-button
+                    >
+                </div>
+            </template>
+        </nitrozen-dialog>
+        <nitrozen-dialog
+            ref="user_remove_dialog"
+            :title="
+                activeUser
+                    ? `${activeUser.firstName} ${activeUser.lastName}`
+                    : 'Company DRI'
+            "
+        >
+            <template slot="body" class="desc-dialog">
+                <div class="cust-sent">
+                    Are you sure you want to remove this user?
+                </div>
+            </template>
+            <template slot="footer">
+                <div v-if="activeUser">
+                    <nitrozen-button
+                        class="mr24"
+                        @click="removeUser(activeUser)"
+                        v-flatBtn
+                        :theme="'secondary'"
+                        >Remove</nitrozen-button
+                    >
+                    <nitrozen-button
+                        @click="closeRemoveDialog"
+                        v-strokeBtn
+                        :theme="'secondary'"
+                        >Cancel</nitrozen-button
+                    >
+                </div>
+            </template>
+        </nitrozen-dialog>
     </div>
 </template>
 <style lang="less" scoped>
 @import './../less/page-header.less';
 @import './../less/page-ui.less';
+.cust-sent {
+    margin-bottom: 24px;
+}
 .bottom-space {
     margin-top: -12px;
     margin-bottom: 24px;
@@ -477,6 +542,7 @@ import {
     NitrozenCheckBox,
     NitrozenInline,
     NitrozenChips,
+    NitrozenDialog,
     flatBtn,
     strokeBtn
 } from '@gofynd/nitrozen-vue';
@@ -489,6 +555,7 @@ export default {
         'page-error': pageerror,
         loader,
         PageHeader,
+        'nitrozen-dialog': NitrozenDialog,
         'nitrozen-button': NitrozenButton,
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-badge': NitrozenBadge,
@@ -523,6 +590,7 @@ export default {
             userList: [],
             newUserList: [],
             isAdded: false,
+            status: 'active',
             selectedUser: '',
             registeredUserList: [],
             current: 1,
@@ -574,6 +642,9 @@ export default {
                     (this.selectedUser = this.userData.contact
                         ? this.userData.contact
                         : '');
+                this.status = this.userData.status
+                    ? this.userData.status
+                    : 'active';
                 this.getContactInfo();
             }
         },
@@ -775,11 +846,13 @@ export default {
         },
         addUser(user) {
             if (user) {
+                this.closeAddDialog();
                 this.selectedUser = user._id;
                 this.isAdded = true;
             }
         },
         removeUser() {
+            this.closeRemoveDialog();
             this.userList = [];
             this.selectedUser = '';
             this.isAdded = false;
@@ -789,9 +862,35 @@ export default {
                 this.selectedDesignation.showError = false;
             }
         },
+        openAddDialog(item) {
+            this.activeUser = item;
+
+            this.$refs['user_add_dialog'].open({
+                width: '600px',
+                showCloseButton: true,
+                dismissible: true
+            });
+        },
+        closeAddDialog() {
+            this.$refs['user_add_dialog'].close();
+        },
+        openRemoveDialog(item) {
+            this.activeUser = item;
+
+            this.$refs['user_remove_dialog'].open({
+                width: '600px',
+                showCloseButton: true,
+                dismissible: true
+            });
+        },
+        closeRemoveDialog() {
+            this.$refs['user_remove_dialog'].close();
+        },
         save() {
             const postData = {
-                company_id: this.companyId
+                company_id: this.companyId,
+                status: this.status,
+                tags: this.searchTextArray
             };
             if (this.update && this.userId) {
                 postData.uid = this.userId;
@@ -800,11 +899,6 @@ export default {
                 postData.responsibilities = this.selectedDesignation.value;
             } else {
                 this.selectedDesignation.showError = true;
-            }
-            if (this.searchTextArray.length > 0) {
-                postData.tags = this.searchTextArray;
-            } else {
-                this.tagMeta.showError = true;
             }
             if (this.selectedUser != '') {
                 postData.contact = this.selectedUser;

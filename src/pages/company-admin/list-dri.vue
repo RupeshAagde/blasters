@@ -1,20 +1,18 @@
 <template>
     <div class="stores">
         <div class="stores-header">
-            <label class="bold-xs cl-Mako"
-                >DRI ({{ paginationConfig.total }})</label
-            >
+            <label class="bold-xs cl-Mako">DRI ({{ pagination.total }})</label>
             <nitrozen-button :theme="'secondary'" @click="openAdd"
                 >+ Add new</nitrozen-button
             >
         </div>
         <div class="search-store">
             <nitrozen-input
+                :showSearchIcon="true"
                 placeholder="Search user"
                 class="search"
-                @input="debounceInput()"
+                @input="searchUsers()"
                 v-model="searchText"
-                :showSearchIcon="true"
                 type="search"
             ></nitrozen-input>
             <!-- <div class="filter-dropdown">
@@ -53,22 +51,6 @@
                         {{ item.contact_details.lastName }}
                     </div>
                     <div
-                        v-if="item.responsibilities_display_name"
-                        class="card-content-line-2"
-                    >
-                        <div
-                            v-for="(element,
-                            i) in item.responsibilities_display_name"
-                            :key="i"
-                        >
-                            <nitrozen-badge
-                                class="right-space"
-                                :state="'success'"
-                                >{{ element }}</nitrozen-badge
-                            >
-                        </div>
-                    </div>
-                    <div
                         class="card-content-line-2"
                         v-if="item.contact_details"
                     >
@@ -77,13 +59,12 @@
                                 item.contact_details.phoneNumbers &&
                                     item.contact_details.phoneNumbers.length > 0
                             "
-                            >+{{
+                        >
+                            +{{
                                 item.contact_details.phoneNumbers[0]
                                     .countryCode
-                            }}-{{
-                                item.contact_details.phoneNumbers[0].phone
-                            }}</span
-                        >
+                            }}-{{ item.contact_details.phoneNumbers[0].phone }}
+                        </span>
                         <adm-inline-svg
                             v-if="
                                 item.contact_details.phoneNumbers &&
@@ -117,15 +98,38 @@
                         ></adm-inline-svg>
                     </div>
                     <div
+                        v-if="item.responsibilities_display_name"
+                        class="card-content-line-3"
+                    >
+                        <div class="head-badge">Responsibilities</div>
+                        <div
+                            v-for="(element,
+                            i) in item.responsibilities_display_name"
+                            :key="i"
+                        >
+                            <nitrozen-badge
+                                class="right-space cust-badge"
+                                :state="'success'"
+                                >{{ element }}</nitrozen-badge
+                            >
+                        </div>
+                    </div>
+                    <div
                         class="card-content-line-4"
                         v-if="item.tags && item.tags.length > 0"
                     >
+                        <div class="head-badge">Tags</div>
                         <span
                             v-for="(tag, i) in item.tags"
                             :key="i"
                             class="right-space-md"
-                            >{{ tag }}</span
                         >
+                            <nitrozen-badge
+                                class="right-space cust-badge"
+                                :state="'info'"
+                                >{{ tag }}</nitrozen-badge
+                            >
+                        </span>
                     </div>
                 </div>
                 <div class="cust-button">
@@ -136,25 +140,22 @@
                             title="Edit"
                         ></adm-inline-svg>
                     </span>
-                    <span @click="openAdminDialog(item)">
+                    <!-- <span @click="openAdminDialog(item)">
                         <adm-inline-svg
                             class="delete-icon left-space inline-svg"
                             :src="'delete'"
                             title="Remove"
                         ></adm-inline-svg>
-                    </span>
+                    </span>-->
                 </div>
             </div>
         </div>
-        <div
-            class="pagination-div"
-            v-if="paginationConfig.limit < paginationConfig.total"
-        >
+        <div class="pagination-div" v-if="driList.length > 0">
             <nitrozen-pagination
-                name="Stores"
-                v-model="paginationConfig"
+                name="Users"
+                v-model="pagination"
                 @change="paginationChange"
-                :pageSizeOptions="[5, 10, 20, 50]"
+                :pageSizeOptions="[1, 5, 10, 20, 50]"
             ></nitrozen-pagination>
         </div>
         <page-error v-if="pageError" @tryAgain="fetchDri"></page-error>
@@ -182,9 +183,8 @@
                         @click="removeUser()"
                         v-flatBtn
                         :theme="'secondary'"
+                        >Remove</nitrozen-button
                     >
-                        Remove
-                    </nitrozen-button>
                     <nitrozen-button
                         @click="closeAdminDialog"
                         v-strokeBtn
@@ -307,7 +307,7 @@
         margin-right: 24px;
         width: 60px;
         height: 60px;
-        align-self: center;
+        // align-self: center;
         border-radius: 50%;
         border: 1px solid #e4e5e6;
         img {
@@ -323,7 +323,7 @@
         flex: 1;
         flex-direction: column;
         justify-content: center;
-        width: 72%;
+        // width: 72%;
 
         .full-name {
             font-weight: 600;
@@ -335,16 +335,33 @@
 
         .card-content-line-2 {
             color: #9b9b9b;
+            margin: 6px 0;
             line-height: 22px;
             font-size: 12px;
             display: flex;
         }
+        .card-content-line-3 {
+            line-height: 22px;
+            font-size: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 6px;
+        }
         .card-content-line-4 {
-            color: #5c6bdd;
             font-size: 12px;
             font-weight: 500;
             line-height: 22px;
             display: flex;
+            flex-wrap: wrap;
+        }
+        .head-badge {
+            display: flex;
+            width: 100%;
+            color: #9b9b9b;
+            margin-bottom: 3px;
+        }
+        .cust-badge {
+            margin-bottom: 6px;
         }
 
         .verified-icon {
@@ -435,12 +452,13 @@ export default {
             isInitialLoad: true,
             activeUser: null,
             searchText: '',
-            paginationConfig: {
-                current: 1,
+            pagination: {
+                limit: 10,
                 total: 0,
-                limit: 10
+                current: 1
             },
-            driList: []
+            driList: [],
+            mainList: []
         };
     },
     mounted() {
@@ -449,8 +467,8 @@ export default {
     methods: {
         requestQuery() {
             let query = {
-                page_no: this.paginationConfig.current,
-                page_size: this.paginationConfig.limit,
+                page_no: this.pagination.current,
+                page_size: this.pagination.limit,
                 company_id: this.companyId
             };
             return query;
@@ -461,7 +479,8 @@ export default {
             CompanyService.fetchDri(this.requestQuery())
                 .then((res) => {
                     this.inProgress = false;
-                    this.paginationConfig.total = res.data.total_count;
+                    this.pagination.total = res.data.total_count;
+                    this.mainList = res.data.data;
                     this.driList = res.data.data;
                 })
                 .catch((error) => {
@@ -470,18 +489,32 @@ export default {
                     this.pageError = true;
                 });
         },
-        debounceInput: debounce(function(e) {
-            if (this.searchText.length === 0) {
-                this.clearSearchFilter();
+        searchUsers() {
+            if (this.mainList && this.mainList.length > 0) {
+                if (this.searchText != '') {
+                    this.driList = this.mainList.filter((element) => {
+                        return (
+                            element.contact_details.firstName
+                                .toLowerCase()
+                                .includes(this.searchText.toLowerCase()) ||
+                            element.contact_details.lastName
+                                .toLowerCase()
+                                .includes(this.searchText.toLowerCase())
+                        );
+                    });
+                } else {
+                    this.driList = this.mainList;
+                }
             }
-            this.fetchDri();
-        }, 100),
-        clearSearchFilter() {
-            this.searchText = '';
         },
-        paginationChange(e) {
-            this.paginationConfig = e;
-            this.setPage(this.paginationConfig);
+        paginationChange(filter, action) {
+            const { current, limit } = filter;
+            this.pagination.current = current;
+            this.pagination = Object.assign({}, this.pagination, filter);
+            // let pageQuery = { pageId: current, limit };
+            // this.setRouteQuery(pageQuery);
+
+            this.fetchDri();
         },
         setPage(filter) {
             const { current, limit } = filter;
