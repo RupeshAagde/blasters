@@ -39,6 +39,7 @@
                 :key="index"
                 :title="item.firstName"
             >
+                <!-- <div>{{item.status == 'active' ? isActive = true : isActive = false}}</div> -->
                 <div class="card-avatar">
                     <img
                         :src="'/public/assets/admin/pngs/default-profile.png'"
@@ -140,13 +141,12 @@
                             title="Edit"
                         ></adm-inline-svg>
                     </span>
-                    <!-- <span @click="openAdminDialog(item)">
-                        <adm-inline-svg
-                            class="delete-icon left-space inline-svg"
-                            :src="'delete'"
-                            title="Remove"
-                        ></adm-inline-svg>
-                    </span>-->
+                    <span class="space-top">
+                        <nitrozen-toggle-btn
+                            v-model="item.isActive"
+                            @change="togChange(item)"
+                        ></nitrozen-toggle-btn>
+                    </span>
                 </div>
             </div>
         </div>
@@ -163,40 +163,15 @@
             v-if="!pageError && !inProgress && !driList.length"
             :helperText="'No User Found'"
         ></page-empty>
-        <nitrozen-dialog
-            ref="user_admin_dialog"
-            :title="
-                activeUser
-                    ? `${activeUser.contact_details.firstName} ${activeUser.contact_details.lastName}`
-                    : 'Company DRI'
-            "
-        >
-            <template slot="body" class="desc-dialog">
-                <div class="cust-sent">
-                    Are you sure you want to remove this user?
-                </div>
-            </template>
-            <template slot="footer">
-                <div>
-                    <nitrozen-button
-                        class="mr24"
-                        @click="removeUser()"
-                        v-flatBtn
-                        :theme="'secondary'"
-                        >Remove</nitrozen-button
-                    >
-                    <nitrozen-button
-                        @click="closeAdminDialog"
-                        v-strokeBtn
-                        :theme="'secondary'"
-                        >Cancel</nitrozen-button
-                    >
-                </div>
-            </template>
-        </nitrozen-dialog>
     </div>
 </template>
 <style lang="less" scoped>
+.space-top {
+    margin-top: 6px;
+}
+.cust-sent {
+    margin-bottom: 24px;
+}
 .delete-icon {
     display: inline;
     ::v-deep svg {
@@ -241,6 +216,7 @@
         display: flex;
         justify-content: space-between;
         margin-bottom: 24px;
+        width: 400px;
         .search {
             width: 100%;
             margin-right: 12px;
@@ -411,6 +387,7 @@ import {
     NitrozenBadge,
     NitrozenInput,
     NitrozenError,
+    NitrozenToggleBtn,
     flatBtn,
     strokeBtn
 } from '@gofynd/nitrozen-vue';
@@ -430,6 +407,7 @@ export default {
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-badge': NitrozenBadge,
         'nitrozen-input': NitrozenInput,
+        'nitrozen-toggle-btn': NitrozenToggleBtn,
         'nitrozen-dialog': NitrozenDialog,
         'nitrozen-error': NitrozenError,
         'adm-inline-svg': admInlineSVG
@@ -437,11 +415,6 @@ export default {
     directives: {
         flatBtn,
         strokeBtn
-    },
-    computed: {
-        fyndPlatformDomain(type) {
-            return env.FYND_PLATFORM_DOMAIN;
-        }
     },
     data() {
         return {
@@ -451,6 +424,10 @@ export default {
             pageLoading: false,
             isInitialLoad: true,
             activeUser: null,
+            isActive: false,
+            dataFinal: '',
+            statusText: '',
+            showText: '',
             searchText: '',
             pagination: {
                 limit: 10,
@@ -481,7 +458,27 @@ export default {
                     this.inProgress = false;
                     this.pagination.total = res.data.total_count;
                     this.mainList = res.data.data;
+                    this.mainList.forEach((element) => {
+                        if (element.status) {
+                            if (element.status == 'active') {
+                                element.isActive = true;
+                            }
+                            if (element.status == 'inactive') {
+                                element.isActive = false;
+                            }
+                        }
+                    });
                     this.driList = res.data.data;
+                    this.driList.forEach((element) => {
+                        if (element.status) {
+                            if (element.status == 'active') {
+                                element.isActive = true;
+                            }
+                            if (element.status == 'inactive') {
+                                element.isActive = false;
+                            }
+                        }
+                    });
                 })
                 .catch((error) => {
                     console.error(error);
@@ -537,17 +534,23 @@ export default {
                 });
             }
         },
-        openAdminDialog(item) {
-            this.activeUser = item;
-
-            this.$refs['user_admin_dialog'].open({
-                width: '600px',
-                showCloseButton: true,
-                dismissible: true
-            });
-        },
-        closeAdminDialog() {
-            this.$refs['user_admin_dialog'].close();
+        togChange(item) {
+            if (item) {
+                if (item.isActive) {
+                    this.showText = 'Activate';
+                    this.isActive = true;
+                    this.dataFinal = 'active';
+                    this.activeUser = item;
+                    this.removeUser();
+                }
+                if (!item.isActive) {
+                    this.showText = 'Disable';
+                    this.isActive = false;
+                    this.dataFinal = 'inactive';
+                    this.activeUser = item;
+                    this.removeUser();
+                }
+            }
         },
         removeUser() {
             if (this.activeUser) {
@@ -562,12 +565,18 @@ export default {
                         : [],
                     uid: this.activeUser.uid ? this.activeUser.uid : ''
                 };
+                if (this.dataFinal) {
+                    postData.status = this.dataFinal;
+                }
                 this.inProgress = true;
                 CompanyService.createDri(postData)
                     .then((res) => {
                         this.inProgress = false;
+                        this.closeAdminDialog();
                         this.$snackbar.global.showSuccess(
-                            'DRI removed successfully',
+                            this.isActive
+                                ? 'DRI activated successfully'
+                                : 'DRI disabled successfully',
                             {
                                 duration: 2000
                             }
@@ -577,10 +586,12 @@ export default {
                     })
                     .catch((error) => {
                         this.inProgress = false;
+                        this.closeAdminDialog();
                         console.error(error);
                         this.$snackbar.global.showError(
                             `${error.response.data.message}`
                         );
+                        this.fetchDri();
                     });
             }
         }
