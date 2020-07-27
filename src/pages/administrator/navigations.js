@@ -9,15 +9,6 @@ export const getNavigations = () => {
         //         highlightedIcon: 'home-highlighted'
         //     }
         // ],
-        PLANS: [
-            // {
-            //     display: 'Subscription Plans',
-            //     link: `/administrator/subscription-plans`,
-            //     title: 'Subscription Plans',
-            //     icon: 'home',
-            //     highlightedIcon: 'home-highlighted'
-            // }
-        ],
         COMPANY: [
             {
                 display: 'Company',
@@ -26,6 +17,15 @@ export const getNavigations = () => {
                 icon: 'home',
                 highlightedIcon: 'home-highlighted'
             }
+        ],
+        PLANS: [
+            // {
+            //     display: 'Subscription Plans',
+            //     link: `/administrator/subscription-plans`,
+            //     title: 'Subscription Plans',
+            //     icon: 'home',
+            //     highlightedIcon: 'home-highlighted'
+            // }
         ],
         USER_MANAGEMENT: [
             {
