@@ -20,9 +20,9 @@
                 <div class="row-1">
                     <div class="filter-dropdown">
                         <nitrozen-dropdown
-                            label="Select Designations*"
+                            label="Responsibilities*"
                             multiple="true"
-                            placeholder="Choose designations"
+                            placeholder="Choose responsibilities . . ."
                             :items="designationList"
                             v-model="selectedDesignation.value"
                             @change="checkDesignation"
