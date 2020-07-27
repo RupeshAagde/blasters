@@ -14,7 +14,6 @@
             </page-header>
         </div>
         <loader v-if="!pageError && pageLoading"></loader>
-        <!-- <loader v-if="inProgress" class="loading"></loader> -->
         <div class="main-container" v-if="!pageLoading && !pageError">
             <div class="page-container">
                 <div class="row-1">
