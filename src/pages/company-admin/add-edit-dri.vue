@@ -264,6 +264,10 @@
 <style lang="less" scoped>
 @import './../less/page-header.less';
 @import './../less/page-ui.less';
+::v-deep .loader {
+    display: flex;
+    justify-content: center;
+}
 .cust-sent {
     margin-bottom: 24px;
 }
