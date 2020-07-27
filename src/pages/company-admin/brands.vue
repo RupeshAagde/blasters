@@ -253,9 +253,12 @@
         }
     }
     .brands-body {
-        display: flex;
-        flex-wrap: wrap;
-        margin-bottom: 24px;
+        // display: flex;
+        // flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: 20% 20% 20% 20% 20%;
+        grid-row-gap: 24px;
+        margin-bottom: 12px;
         // overflow-y: scroll;
         -ms-overflow-style: none;
         &::-webkit-scrollbar {
@@ -265,8 +268,9 @@
             opacity: 0.5;
         }
         .brands-div {
-            margin-right: 24px;
-            margin-top: 12px;
+            // margin-right: 24px;
+            margin: auto;
+            // margin-top: 12px;
             .brand-img-div {
                 background-color: @Alabaster2;
                 height: 80px;
@@ -283,6 +287,7 @@
             .brand-name {
                 text-align: center;
                 margin: 12px 0;
+                line-height: 16px;
                 color: @Mako;
                 font-size: 12px;
                 white-space: nowrap;
@@ -310,14 +315,14 @@
                 }
             }
             .brand-stage {
-                margin: 12px 0;
+                // margin: 12px 0;
                 text-align: center;
             }
         }
     }
     .view-more {
         text-align: right;
-        margin-bottom: 12px;
+        margin: 12px 0;
     }
 }
 .shimmer {

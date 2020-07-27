@@ -3,9 +3,57 @@
 import URLS from './domain.service';
 import ApiService from './api.service';
 import { getCommonHeaderOptions } from './utils.service';
-import { Object, console } from 'window-or-global';
+import { Object, console, URL } from 'window-or-global';
 
 const CompanyService = {
+    createDri(body) {
+        const axiosOption = Object.assign(
+            {},
+            { data: body },
+            getCommonHeaderOptions()
+        );
+
+        return ApiService.post(URLS.FETCH_DRI(), axiosOption);
+    },
+    removeDri(body) {
+        const axiosOption = Object.assign(
+            {},
+            { data: body },
+            getCommonHeaderOptions()
+        );
+
+        return ApiService.del(URLS.FETCH_DRI(), axiosOption);
+    },
+    editDri(params) {
+        const axiosOption = Object.assign(
+            { params: params },
+            getCommonHeaderOptions()
+        );
+
+        return ApiService.get(URLS.FETCH_DRI(), axiosOption);
+    },
+    fetchDesignation(params) {
+        const axiosOption = Object.assign(
+            { params: params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.GET_CHOICE_TYPES(), axiosOption);
+    },
+    searchDri(params) {
+        const axiosOption = Object.assign(
+            { params: params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.SEARCH_DRI(), axiosOption);
+    },
+    fetchDri(params) {
+        const axiosOption = Object.assign(
+            { params: params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.FETCH_DRI(), axiosOption);
+    },
+
     fetchApplication(uid, params) {
         const axiosOption = Object.assign(
             { params: params },
