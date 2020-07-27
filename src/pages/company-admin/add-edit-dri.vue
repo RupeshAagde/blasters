@@ -35,7 +35,7 @@
                     >{{ selectedDesignation.errortext }}</nitrozen-error
                 >
                 <div class="row-2">
-                    <div class="cust-label">Add Tags</div>
+                    <div class="cust-label">Tags</div>
                     <div
                         class="input-text tags"
                         @click="$refs.searchText.focus()"
@@ -135,35 +135,15 @@
                                         user.phoneNumbers[0].countryCode
                                     }}&nbsp;{{ user.phoneNumbers[0].phone }}
                                 </span>
-                                <adm-inline-svg
-                                    v-if="
-                                        user.phoneNumber &&
-                                        user.phoneNumber.length > 0
-                                            ? user.phoneNumbers[0].verified
-                                            : false
-                                    "
-                                    class="inline-svg verified-icon left-space-s"
-                                    :src="'check-circle'"
-                                    title="Verified"
-                                ></adm-inline-svg>
+                                <span class="seperator left-space-md">|</span>
                                 <span
                                     v-if="user.emails && user.emails.length > 0"
                                     class="left-space-md"
                                     >{{ user.emails[0].email }}</span
                                 >
-                                <adm-inline-svg
-                                    v-if="
-                                        user.emails && user.emails.length > 0
-                                            ? user.emails[0].verified
-                                            : false
-                                    "
-                                    class="verified-icon left-space-s"
-                                    :src="'check-circle'"
-                                    title="Verified"
-                                ></adm-inline-svg>
                             </div>
                         </div>
-                        <div class="cust-button">
+                        <div class="cust-button" v-if="!update">
                             <nitrozen-button
                                 @click="openAddDialog(user)"
                                 v-if="!isAdded"
@@ -190,8 +170,10 @@
                     v-if="userMeta.showError"
                     >{{ userMeta.errortext }}</nitrozen-error
                 >
-                <div class="cust-label" v-if="isAdded">Search Contact</div>
-                <div class="row-3" v-if="isAdded">
+                <div class="cust-label" v-if="isAdded && !update">
+                    Search Contact
+                </div>
+                <div class="row-3" v-if="isAdded && !update">
                     <div class="box-search">
                         <nitrozen-input
                             :showSearchIcon="true"
@@ -399,6 +381,7 @@
         .separator {
             width: 12px;
             text-align: center;
+            color: #9b9b9b;
         }
     }
 }

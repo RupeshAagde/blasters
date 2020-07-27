@@ -53,19 +53,39 @@
                             {{ item.contact_details.lastName }}
                         </div>
                         <div class="cust-button">
-                            <span class="space-top">
-                                <label>{{
-                                    item.isActive ? 'Enabled' : 'Disabled'
-                                }}</label>
-                                <nitrozen-toggle-btn
-                                    v-model="item.isActive"
-                                    @change="togChange(item)"
-                                    :title="
-                                        item.isActive
-                                            ? 'Disable User'
-                                            : 'Enable User'
-                                    "
-                                ></nitrozen-toggle-btn>
+                            <span
+                                v-if="item.isActive"
+                                class="space-top-enabled"
+                            >
+                                <label>
+                                    <span>Enabled</span>
+                                    <nitrozen-toggle-btn
+                                        v-model="item.isActive"
+                                        @change="togChange(item)"
+                                        :title="
+                                            item.isActive
+                                                ? 'Disable User'
+                                                : 'Enable User'
+                                        "
+                                    ></nitrozen-toggle-btn>
+                                </label>
+                            </span>
+                            <span
+                                v-if="!item.isActive"
+                                class="space-top-disable"
+                            >
+                                <label>
+                                    <span>Disabled</span>
+                                    <nitrozen-toggle-btn
+                                        v-model="item.isActive"
+                                        @change="togChange(item)"
+                                        :title="
+                                            item.isActive
+                                                ? 'Disable User'
+                                                : 'Enable User'
+                                        "
+                                    ></nitrozen-toggle-btn>
+                                </label>
                             </span>
                             <span
                                 @click="openEdit(item.uid)"
@@ -157,12 +177,28 @@
     </div>
 </template>
 <style lang="less" scoped>
-.space-top {
+.space-top-disable {
     display: flex;
     justify-content: flex-start;
 
     label {
         color: #9b9b9b;
+        cursor: pointer;
+        display: flex;
+        justify-content: flex-start;
+        font-size: 14px;
+        font-weight: 600;
+    }
+}
+.space-top-enabled {
+    display: flex;
+    justify-content: flex-start;
+
+    label {
+        color: #5c6bdd;
+        cursor: pointer;
+        display: flex;
+        justify-content: flex-start;
         font-size: 14px;
         font-weight: 600;
     }
