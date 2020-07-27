@@ -47,9 +47,37 @@
                     />
                 </div>
                 <div class="card-content-section">
-                    <div class="full-name" v-if="item.contact_details">
-                        {{ item.contact_details.firstName }}
-                        {{ item.contact_details.lastName }}
+                    <div class="cust-align">
+                        <div class="full-name" v-if="item.contact_details">
+                            {{ item.contact_details.firstName }}
+                            {{ item.contact_details.lastName }}
+                        </div>
+                        <div class="cust-button">
+                            <span class="space-top">
+                                <label>{{
+                                    item.isActive ? 'Enabled' : 'Disabled'
+                                }}</label>
+                                <nitrozen-toggle-btn
+                                    v-model="item.isActive"
+                                    @change="togChange(item)"
+                                    :title="
+                                        item.isActive
+                                            ? 'Disable User'
+                                            : 'Enable User'
+                                    "
+                                ></nitrozen-toggle-btn>
+                            </span>
+                            <span
+                                @click="openEdit(item.uid)"
+                                class="cust-cursor"
+                            >
+                                <adm-inline-svg
+                                    class="left-space-s inline-svg"
+                                    :src="'edit'"
+                                    title="Edit"
+                                ></adm-inline-svg>
+                            </span>
+                        </div>
                     </div>
                     <div
                         class="card-content-line-2"
@@ -66,18 +94,7 @@
                                     .countryCode
                             }}-{{ item.contact_details.phoneNumbers[0].phone }}
                         </span>
-                        <adm-inline-svg
-                            v-if="
-                                item.contact_details.phoneNumbers &&
-                                item.contact_details.phoneNumbers.length > 0
-                                    ? item.contact_details.phoneNumbers[0]
-                                          .verified
-                                    : false
-                            "
-                            class="inline-svg verified-icon left-space-s"
-                            :src="'check-circle'"
-                            title="Verified"
-                        ></adm-inline-svg>
+                        <span class="left-space seperator">|</span>
                         <span
                             class="left-space"
                             v-if="
@@ -86,17 +103,6 @@
                             "
                             >{{ item.contact_details.emails[0].email }}</span
                         >
-                        <adm-inline-svg
-                            v-if="
-                                item.contact_details.emails &&
-                                item.contact_details.emails.length > 0
-                                    ? item.contact_details.emails[0].verified
-                                    : false
-                            "
-                            class="inline-svg verified-icon left-space-s"
-                            :src="'check-circle'"
-                            title="Verified"
-                        ></adm-inline-svg>
                     </div>
                     <div
                         v-if="item.responsibilities_display_name"
@@ -133,21 +139,6 @@
                         </span>
                     </div>
                 </div>
-                <div class="cust-button">
-                    <span @click="openEdit(item.uid)" class="cust-cursor">
-                        <adm-inline-svg
-                            class="left-space-s inline-svg"
-                            :src="'edit'"
-                            title="Edit"
-                        ></adm-inline-svg>
-                    </span>
-                    <span class="space-top">
-                        <nitrozen-toggle-btn
-                            v-model="item.isActive"
-                            @change="togChange(item)"
-                        ></nitrozen-toggle-btn>
-                    </span>
-                </div>
             </div>
         </div>
         <div class="pagination-div" v-if="driList.length > 0">
@@ -167,7 +158,14 @@
 </template>
 <style lang="less" scoped>
 .space-top {
-    margin-top: 6px;
+    display: flex;
+    justify-content: flex-start;
+
+    label {
+        color: #9b9b9b;
+        font-size: 14px;
+        font-weight: 600;
+    }
 }
 .cust-sent {
     margin-bottom: 24px;
@@ -184,6 +182,11 @@
 }
 .cust-cursor {
     cursor: pointer;
+    margin-top: -6px;
+}
+.cust-align {
+    display: flex;
+    justify-content: space-between;
 }
 .left-space {
     margin-left: 6px;
@@ -360,6 +363,8 @@
         .separator {
             width: 12px;
             text-align: center;
+            color: #9b9b9b;
+            line-height: 22px;
         }
     }
     .cust-button {
@@ -572,7 +577,6 @@ export default {
                 CompanyService.createDri(postData)
                     .then((res) => {
                         this.inProgress = false;
-                        this.closeAdminDialog();
                         this.$snackbar.global.showSuccess(
                             this.isActive
                                 ? 'DRI activated successfully'
@@ -586,7 +590,6 @@ export default {
                     })
                     .catch((error) => {
                         this.inProgress = false;
-                        this.closeAdminDialog();
                         console.error(error);
                         this.$snackbar.global.showError(
                             `${error.response.data.message}`
