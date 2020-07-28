@@ -501,10 +501,10 @@ export default {
                     this.mainList = res.data.data;
                     this.mainList.forEach((element) => {
                         if (element.status) {
-                            if (element.status == 'active') {
+                            if (element.status) {
                                 element.isActive = true;
                             }
-                            if (element.status == 'inactive') {
+                            if (element.status) {
                                 element.isActive = false;
                             }
                         }
@@ -512,10 +512,10 @@ export default {
                     this.driList = res.data.data;
                     this.driList.forEach((element) => {
                         if (element.status) {
-                            if (element.status == 'active') {
+                            if (element.status) {
                                 element.isActive = true;
                             }
-                            if (element.status == 'inactive') {
+                            if (element.status) {
                                 element.isActive = false;
                             }
                         }
@@ -580,14 +580,14 @@ export default {
                 if (item.isActive) {
                     this.showText = 'Activate';
                     this.isActive = true;
-                    this.dataFinal = 'active';
+                    this.dataFinal = true;
                     this.activeUser = item;
                     this.removeUser();
                 }
                 if (!item.isActive) {
                     this.showText = 'Disable';
                     this.isActive = false;
-                    this.dataFinal = 'inactive';
+                    this.dataFinal = false;
                     this.activeUser = item;
                     this.removeUser();
                 }

@@ -576,7 +576,7 @@ export default {
             userList: [],
             newUserList: [],
             isAdded: false,
-            status: 'active',
+            status: true,
             selectedUser: '',
             registeredUserList: [],
             current: 1,
@@ -630,7 +630,7 @@ export default {
                         : '');
                 this.status = this.userData.status
                     ? this.userData.status
-                    : 'active';
+                    : true;
                 this.getContactInfo();
             }
         },
@@ -909,6 +909,7 @@ export default {
                         });
                     })
                     .catch((error) => {
+                        console.log(error.response.data, 'errors');
                         this.pageLoading = false;
                         console.error(error);
                         this.$snackbar.global.showError(
