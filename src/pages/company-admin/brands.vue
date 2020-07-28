@@ -101,7 +101,7 @@
                         </nitrozen-badge>
                     </span>
                 </div>
-                <div @click="closeAdminDialog">
+                <div @click="closeAdminDialog" class="cust-pointer">
                     <adm-inline-svg
                         :src="'cross-black'"
                         title="Close"
@@ -195,6 +195,10 @@
 <style lang="less" scoped>
 @import './../less/page-header.less';
 @import './../less/page-ui.less';
+
+.cust-pointer {
+    cursor: pointer;
+}
 .left-space {
     margin-left: 12px;
 }
