@@ -75,19 +75,63 @@
         <nitrozen-dialog
             class="remove_staff_dialog"
             ref="brand_admin_dialog"
-            :title="
-                activeBrand && activeBrand.brand
-                    ? activeBrand.brand.name
-                    : 'Company Details'
-            "
+            title="success"
+            @close="closeAdminDialog"
         >
-            <!-- <template slot="header" v-if="activeBrand">{{ activeBrand.brand.name }}</template> -->
+            <template slot="header" v-if="activeBrand" class="cust-header">
+                <div>
+                    <span>{{
+                        activeBrand.brand
+                            ? activeBrand.brand.name
+                            : 'Company Brand'
+                    }}</span>
+                    <span class="brand-stage left-space">
+                        <nitrozen-badge
+                            :state="
+                                activeBrand.stage == 'verified'
+                                    ? 'success'
+                                    : 'warn'
+                            "
+                        >
+                            {{
+                                activeBrand.stage == 'verified'
+                                    ? 'verified'
+                                    : 'unverified'
+                            }}
+                        </nitrozen-badge>
+                    </span>
+                </div>
+                <div @click="closeAdminDialog">
+                    <adm-inline-svg
+                        :src="'cross-black'"
+                        title="Close"
+                    ></adm-inline-svg>
+                </div>
+            </template>
             <template slot="body" class="desc-dialog" v-if="activeBrand">
                 <div v-if="activeBrand.brand.description">
                     <label class="n-input-label">Description</label>
                     <div class="cust-inp">
                         {{ activeBrand.brand.description }}
                     </div>
+                </div>
+                <div class="text-margin">
+                    Are you sure you want to {{ admin_action_text }} this brand?
+                </div>
+                <div>
+                    <nitrozen-input
+                        class="cust-margin"
+                        v-if="show_verify_button"
+                        type="textarea"
+                        label="Reason*"
+                        placeholder="Explain reason properly..."
+                        v-model="rejection_info.value"
+                    ></nitrozen-input>
+                    <nitrozen-error
+                        class="cust-margin"
+                        v-if="rejection_info.showError"
+                        >{{ rejection_info.errortext }}</nitrozen-error
+                    >
                 </div>
                 <div class="brand-images">
                     <div class="brand-logo">
@@ -117,25 +161,6 @@
                             "
                         />
                     </div>
-                </div>
-
-                <div>
-                    <nitrozen-input
-                        class="cust-margin"
-                        v-if="show_verify_button"
-                        type="textarea"
-                        label="Reason*"
-                        placeholder="Explain reason properly..."
-                        v-model="rejection_info.value"
-                    ></nitrozen-input>
-                    <nitrozen-error
-                        class="cust-margin"
-                        v-if="rejection_info.showError"
-                        >{{ rejection_info.errortext }}</nitrozen-error
-                    >
-                </div>
-                <div class="text-margin">
-                    Are you sure you want to {{ admin_action_text }} this brand?
                 </div>
             </template>
             <template slot="footer">
@@ -170,7 +195,13 @@
 <style lang="less" scoped>
 @import './../less/page-header.less';
 @import './../less/page-ui.less';
-
+.left-space {
+    margin-left: 12px;
+}
+.cust-header {
+    display: flex;
+    justify-content: space-between;
+}
 ::v-deep .nitrozen-dialog-body {
     margin-bottom: 24px;
 }
@@ -178,7 +209,7 @@
     margin-bottom: 6px;
 }
 .text-margin {
-    margin-top: 18px;
+    // margin-top: 18px;
     margin-bottom: 24px;
 }
 .cust-inp {
@@ -200,14 +231,14 @@
         img {
             // margin-left: 50px;
             width: 100%;
-            height: 250px;
+            max-height: 250px;
         }
     }
     .brand-banner-2 {
         img {
             // margin-left: 50px;
             width: 100%;
-            height: 400px;
+            max-height: 400px;
         }
     }
 }
@@ -356,6 +387,7 @@ import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import dateFormat from 'dateformat';
 import { getRoute } from '@/helper/get-route';
+import admInlineSVG from '@/components/common/adm-inline-svg';
 
 import root from 'window-or-global';
 const env = root.env || {};
@@ -378,6 +410,7 @@ export default {
         Shimmer,
         PageEmpty,
         'page-error': pageerror,
+        'adm-inline-svg': admInlineSVG,
         loader,
         'nitrozen-button': NitrozenButton,
         'nitrozen-pagination': NitrozenPagination,
