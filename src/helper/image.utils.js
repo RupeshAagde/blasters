@@ -1,8 +1,21 @@
-const IMAGE_SIZES = ['270x0', '540x0', '720x0'];
 export const ORIGINAL = 'ORIGINAL';
+
+const IMAGE_SOURCE_TYPES = {
+    HUFFER: 'huffer',
+    CLOUDINARY: 'cloudinary'
+};
+
+const IMAGE_SIZES = ['270x0', '540x0', '720x0'];
 
 const IMAGE_TYPE_MAPPING = {
     [ORIGINAL]: 'original'
+};
+
+const HUFFER_IMAGE_SIZES = ['original'];
+
+const HUFFER_TYPES = {
+    width: 'w',
+    height: 'h'
 };
 
 const CLOUDINARY_TYPES = {
@@ -46,16 +59,51 @@ export function getImageURL(type, originalUrl) {
     return retURL;
 }
 
-export function getCloudinaryURL(imageURL, options) {
-    let arrImageURL = imageURL.split('/');
-    let cdOptions = Object.assign(
-        {},
-        { cloud_name: arrImageURL[3], secure: true },
-        options
-    );
+export function getImageTransformedURL(imageURL, options) {
+    if (imageURL) {
+        let baseImageType = getBaseImageSourceType(imageURL);
+        switch (baseImageType) {
+            case IMAGE_SOURCE_TYPES.HUFFER: {
+                return generateHufferUrl(imageURL, options);
+            }
+            case IMAGE_SOURCE_TYPES.CLOUDINARY: {
+                let arrImageURL = imageURL.split('/');
+                let cdOptions = Object.assign(
+                    {},
+                    { cloud_name: arrImageURL[3], secure: true },
+                    options
+                );
 
-    return generateCloudinaryUrl(imageURL, cdOptions);
+                return generateCloudinaryUrl(imageURL, cdOptions);
+            }
+        }
+    }
+    return imageURL;
 }
+
+const getBaseImageSourceType = (imageURL) => {
+    let hostName = new URL(imageURL).hostname;
+    if (hostName === 'res.cloudinary.com') {
+        return IMAGE_SOURCE_TYPES.CLOUDINARY;
+    }
+    return IMAGE_SOURCE_TYPES.HUFFER;
+};
+
+export const generateHufferUrl = (imageURL, options = {}) => {
+    let changeStr = '';
+    for (let key in options) {
+        changeStr += `${HUFFER_TYPES[key]}:${options[key]},`;
+    }
+    //transformed struct. for resize only currently
+    changeStr = 'resize-' + changeStr;
+
+    let retUrl = imageURL;
+    for (let i = 0; i < HUFFER_IMAGE_SIZES.length; i++) {
+        let regexExp = new RegExp(HUFFER_IMAGE_SIZES[i], 'g');
+        retUrl = imageURL.replace(regexExp, changeStr);
+    }
+    return retUrl;
+};
 
 const generateCloudinaryUrl = (imageURL, options = {}) => {
     if (!options.cloud_name) return '';
@@ -82,7 +130,16 @@ const generateCloudinaryUrl = (imageURL, options = {}) => {
 
     return url;
 };
+export function getCloudinaryURL(imageURL, options) {
+    let arrImageURL = imageURL.split('/');
+    let cdOptions = Object.assign(
+        {},
+        { cloud_name: arrImageURL[3], secure: true },
+        options
+    );
 
+    return generateCloudinaryUrl(imageURL, cdOptions);
+}
 export const toListingThumbnail = (imageURL) => {
     // return imageURL.replace('original', '60x60')
     return imageURL;

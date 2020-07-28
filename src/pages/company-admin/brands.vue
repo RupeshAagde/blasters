@@ -21,7 +21,7 @@
                 <div class="brand-img-div" @click="openAdminDialog(item)">
                     <img
                         v-if="item.brand.logo"
-                        :src="item.brand.logo"
+                        :src="item.brand.logo | imagetransform({ width: 130 })"
                         class="brand-img"
                     />
                 </div>
@@ -92,15 +92,30 @@
                 <div class="brand-images">
                     <div class="brand-logo">
                         <label class="n-input-label">Logo</label>
-                        <img :src="activeBrand.brand.logo" />
+                        <img
+                            :src="
+                                activeBrand.brand.logo
+                                    | imagetransform({ width: 130 })
+                            "
+                        />
                     </div>
                     <div class="brand-banner-1">
                         <label class="n-input-label">Landscape</label>
-                        <img :src="activeBrand.brand.banner.landscape" />
+                        <img
+                            :src="
+                                activeBrand.brand.banner.landscape
+                                    | imagetransform({ width: 270 })
+                            "
+                        />
                     </div>
                     <div class="brand-banner-2">
                         <label class="n-input-label">Portrait</label>
-                        <img :src="activeBrand.brand.banner.portrait" />
+                        <img
+                            :src="
+                                activeBrand.brand.banner.portrait
+                                    | imagetransform({ width: 360 })
+                            "
+                        />
                     </div>
                 </div>
 
@@ -183,15 +198,15 @@
     .brand-banner-1 {
         margin: 0 auto;
         img {
-            margin-left: 50px;
-            width: 80%;
+            // margin-left: 50px;
+            width: 100%;
             height: 250px;
         }
     }
     .brand-banner-2 {
         img {
-            margin-left: 50px;
-            width: 80%;
+            // margin-left: 50px;
+            width: 100%;
             height: 400px;
         }
     }
