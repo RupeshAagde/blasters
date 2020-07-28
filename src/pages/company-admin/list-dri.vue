@@ -573,7 +573,6 @@ export default {
         },
         togChange(item) {
             if (item) {
-                console.log(item, 'item');
                 if (item.status) {
                     this.showText = 'Activate';
                     this.isActive = true;
@@ -605,7 +604,6 @@ export default {
                 };
                 postData.status = this.dataFinal;
                 this.inProgress = true;
-                console.log(postData, 'postdata');
                 CompanyService.createDri(postData)
                     .then((res) => {
                         this.inProgress = false;
