@@ -53,14 +53,11 @@
                             {{ item.contact_details.lastName }}
                         </div>
                         <div class="cust-button">
-                            <span
-                                v-if="item.isActive"
-                                class="space-top-enabled"
-                            >
+                            <span v-if="item.status" class="space-top-enabled">
                                 <label>
                                     <span>Enabled</span>
                                     <nitrozen-toggle-btn
-                                        v-model="item.isActive"
+                                        v-model="item.status"
                                         @change="togChange(item)"
                                         :title="
                                             item.isActive
@@ -70,14 +67,11 @@
                                     ></nitrozen-toggle-btn>
                                 </label>
                             </span>
-                            <span
-                                v-if="!item.isActive"
-                                class="space-top-disable"
-                            >
+                            <span v-if="!item.status" class="space-top-disable">
                                 <label>
                                     <span>Disabled</span>
                                     <nitrozen-toggle-btn
-                                        v-model="item.isActive"
+                                        v-model="item.status"
                                         @change="togChange(item)"
                                         :title="
                                             item.isActive
@@ -499,27 +493,29 @@ export default {
                     this.inProgress = false;
                     this.pagination.total = res.data.total_count;
                     this.mainList = res.data.data;
-                    this.mainList.forEach((element) => {
-                        if (element.status) {
-                            if (element.status) {
-                                element.isActive = true;
-                            }
-                            if (element.status) {
-                                element.isActive = false;
-                            }
-                        }
-                    });
+                    // this.mainList.forEach((element) => {
+                    //     console.log(element.status, 'sfsafsd');
+                    //     if (element.status) {
+                    //         if (element.status) {
+                    //             element.isActive = true;
+                    //         }
+                    //         if (!element.status) {
+                    //             element.isActive = false;
+                    //         }
+                    //     }
+                    // });
                     this.driList = res.data.data;
-                    this.driList.forEach((element) => {
-                        if (element.status) {
-                            if (element.status) {
-                                element.isActive = true;
-                            }
-                            if (element.status) {
-                                element.isActive = false;
-                            }
-                        }
-                    });
+                    // this.driList.forEach((element) => {
+                    //     if (element.status) {
+                    //         if (element.status) {
+                    //             element.isActive = true;
+                    //         }
+                    //         if (!element.status) {
+                    //             element.isActive = false;
+                    //         }
+                    //     }
+                    // });
+                    // console.log(this.driList, 'drilist');
                 })
                 .catch((error) => {
                     console.error(error);
@@ -577,14 +573,15 @@ export default {
         },
         togChange(item) {
             if (item) {
-                if (item.isActive) {
+                console.log(item, 'item');
+                if (item.status) {
                     this.showText = 'Activate';
                     this.isActive = true;
                     this.dataFinal = true;
                     this.activeUser = item;
                     this.removeUser();
                 }
-                if (!item.isActive) {
+                if (!item.status) {
                     this.showText = 'Disable';
                     this.isActive = false;
                     this.dataFinal = false;
@@ -606,10 +603,9 @@ export default {
                         : [],
                     uid: this.activeUser.uid ? this.activeUser.uid : ''
                 };
-                if (this.dataFinal) {
-                    postData.status = this.dataFinal;
-                }
+                postData.status = this.dataFinal;
                 this.inProgress = true;
+                console.log(postData, 'postdata');
                 CompanyService.createDri(postData)
                     .then((res) => {
                         this.inProgress = false;
