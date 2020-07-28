@@ -909,7 +909,6 @@ export default {
                         });
                     })
                     .catch((error) => {
-                        console.log(error.response.data, 'errors');
                         this.pageLoading = false;
                         console.error(error);
                         this.$snackbar.global.showError(
