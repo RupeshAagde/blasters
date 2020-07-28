@@ -15,21 +15,6 @@
                 v-model="searchText"
                 type="search"
             ></nitrozen-input>
-            <!-- <div class="filter-dropdown">
-                <nitrozen-dropdown
-                    :items="choiceType"
-                    class="stage-dropdown"
-                    v-model="selectedChoice"
-                    :label="'Stage'"
-                    @change="changeStage"
-                ></nitrozen-dropdown>
-                <nitrozen-dropdown
-                    :items="storeType"
-                    v-model="selectedStoreType"
-                    :label="'Type'"
-                    @change="changeStore"
-                ></nitrozen-dropdown>
-            </div>-->
         </div>
         <shimmer v-if="inProgress && !pageError" :count="4"></shimmer>
         <div v-else-if="!inProgress && driList && driList.length">
@@ -39,7 +24,6 @@
                 :key="index"
                 :title="item.firstName"
             >
-                <!-- <div>{{item.status == 'active' ? isActive = true : isActive = false}}</div> -->
                 <div class="card-avatar">
                     <img
                         :src="'/public/assets/admin/pngs/default-profile.png'"
@@ -493,29 +477,7 @@ export default {
                     this.inProgress = false;
                     this.pagination.total = res.data.total_count;
                     this.mainList = res.data.data;
-                    // this.mainList.forEach((element) => {
-                    //     console.log(element.status, 'sfsafsd');
-                    //     if (element.status) {
-                    //         if (element.status) {
-                    //             element.isActive = true;
-                    //         }
-                    //         if (!element.status) {
-                    //             element.isActive = false;
-                    //         }
-                    //     }
-                    // });
                     this.driList = res.data.data;
-                    // this.driList.forEach((element) => {
-                    //     if (element.status) {
-                    //         if (element.status) {
-                    //             element.isActive = true;
-                    //         }
-                    //         if (!element.status) {
-                    //             element.isActive = false;
-                    //         }
-                    //     }
-                    // });
-                    // console.log(this.driList, 'drilist');
                 })
                 .catch((error) => {
                     console.error(error);
@@ -545,9 +507,6 @@ export default {
             const { current, limit } = filter;
             this.pagination.current = current;
             this.pagination = Object.assign({}, this.pagination, filter);
-            // let pageQuery = { pageId: current, limit };
-            // this.setRouteQuery(pageQuery);
-
             this.fetchDri();
         },
         setPage(filter) {
