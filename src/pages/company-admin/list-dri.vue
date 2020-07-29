@@ -15,21 +15,6 @@
                 v-model="searchText"
                 type="search"
             ></nitrozen-input>
-            <!-- <div class="filter-dropdown">
-                <nitrozen-dropdown
-                    :items="choiceType"
-                    class="stage-dropdown"
-                    v-model="selectedChoice"
-                    :label="'Stage'"
-                    @change="changeStage"
-                ></nitrozen-dropdown>
-                <nitrozen-dropdown
-                    :items="storeType"
-                    v-model="selectedStoreType"
-                    :label="'Type'"
-                    @change="changeStore"
-                ></nitrozen-dropdown>
-            </div>-->
         </div>
         <shimmer v-if="inProgress && !pageError" :count="4"></shimmer>
         <div v-else-if="!inProgress && driList && driList.length">
@@ -39,7 +24,6 @@
                 :key="index"
                 :title="item.firstName"
             >
-                <!-- <div>{{item.status == 'active' ? isActive = true : isActive = false}}</div> -->
                 <div class="card-avatar">
                     <img
                         :src="'/public/assets/admin/pngs/default-profile.png'"
@@ -53,14 +37,11 @@
                             {{ item.contact_details.lastName }}
                         </div>
                         <div class="cust-button">
-                            <span
-                                v-if="item.isActive"
-                                class="space-top-enabled"
-                            >
+                            <span v-if="item.status" class="space-top-enabled">
                                 <label>
                                     <span>Enabled</span>
                                     <nitrozen-toggle-btn
-                                        v-model="item.isActive"
+                                        v-model="item.status"
                                         @change="togChange(item)"
                                         :title="
                                             item.isActive
@@ -70,14 +51,11 @@
                                     ></nitrozen-toggle-btn>
                                 </label>
                             </span>
-                            <span
-                                v-if="!item.isActive"
-                                class="space-top-disable"
-                            >
+                            <span v-if="!item.status" class="space-top-disable">
                                 <label>
                                     <span>Disabled</span>
                                     <nitrozen-toggle-btn
-                                        v-model="item.isActive"
+                                        v-model="item.status"
                                         @change="togChange(item)"
                                         :title="
                                             item.isActive
@@ -499,27 +477,7 @@ export default {
                     this.inProgress = false;
                     this.pagination.total = res.data.total_count;
                     this.mainList = res.data.data;
-                    this.mainList.forEach((element) => {
-                        if (element.status) {
-                            if (element.status) {
-                                element.isActive = true;
-                            }
-                            if (element.status) {
-                                element.isActive = false;
-                            }
-                        }
-                    });
                     this.driList = res.data.data;
-                    this.driList.forEach((element) => {
-                        if (element.status) {
-                            if (element.status) {
-                                element.isActive = true;
-                            }
-                            if (element.status) {
-                                element.isActive = false;
-                            }
-                        }
-                    });
                 })
                 .catch((error) => {
                     console.error(error);
@@ -549,9 +507,6 @@ export default {
             const { current, limit } = filter;
             this.pagination.current = current;
             this.pagination = Object.assign({}, this.pagination, filter);
-            // let pageQuery = { pageId: current, limit };
-            // this.setRouteQuery(pageQuery);
-
             this.fetchDri();
         },
         setPage(filter) {
@@ -577,14 +532,14 @@ export default {
         },
         togChange(item) {
             if (item) {
-                if (item.isActive) {
+                if (item.status) {
                     this.showText = 'Activate';
                     this.isActive = true;
                     this.dataFinal = true;
                     this.activeUser = item;
                     this.removeUser();
                 }
-                if (!item.isActive) {
+                if (!item.status) {
                     this.showText = 'Disable';
                     this.isActive = false;
                     this.dataFinal = false;
@@ -606,9 +561,7 @@ export default {
                         : [],
                     uid: this.activeUser.uid ? this.activeUser.uid : ''
                 };
-                if (this.dataFinal) {
-                    postData.status = this.dataFinal;
-                }
+                postData.status = this.dataFinal;
                 this.inProgress = true;
                 CompanyService.createDri(postData)
                     .then((res) => {
