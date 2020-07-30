@@ -6,7 +6,15 @@
             >
         </div>
         <div v-if="inProgress" class="shimmer"></div>
-
+        <div
+            class="unverified-brand"
+            v-if="metricsData && metricsData.brand.pending"
+        >
+            {{ metricsData.brand.pending }} brand{{
+                metricsData.brand.pending > 1 ? 's are' : ' is'
+            }}
+            unverified.
+        </div>
         <div
             class="brands-body"
             v-if="!inProgress && brandsData && brandsData.length"
@@ -80,11 +88,13 @@
         >
             <template slot="header" v-if="activeBrand" class="cust-header">
                 <div>
-                    <span>{{
-                        activeBrand.brand
-                            ? activeBrand.brand.name
-                            : 'Company Brand'
-                    }}</span>
+                    <span>
+                        {{
+                            activeBrand.brand
+                                ? activeBrand.brand.name
+                                : 'Company Brand'
+                        }}
+                    </span>
                     <span class="brand-stage left-space">
                         <nitrozen-badge
                             :state="
@@ -302,6 +312,15 @@
             font-size: 18px;
         }
     }
+    .unverified-brand {
+        background-color: #fffaf0;
+        color: #f5a300;
+        border: 1px solid #f5a300;
+        // opacity: 0.9;
+        border-radius: 3px;
+        padding: 12px;
+        margin-bottom: 12px;
+    }
     .brands-body {
         // display: flex;
         // flex-wrap: wrap;
@@ -392,6 +411,8 @@ import pageerror from '@/components/common/page-error';
 import dateFormat from 'dateformat';
 import { getRoute } from '@/helper/get-route';
 import admInlineSVG from '@/components/common/adm-inline-svg';
+import { GET_METRICS } from '@/store/getters.type';
+import { mapGetters } from 'vuex';
 
 import root from 'window-or-global';
 const env = root.env || {};
@@ -466,6 +487,9 @@ export default {
         }
     },
     computed: {
+        ...mapGetters({
+            metricsData: GET_METRICS
+        }),
         fyndPlatformDomain(type) {
             return env.FYND_PLATFORM_DOMAIN;
         }

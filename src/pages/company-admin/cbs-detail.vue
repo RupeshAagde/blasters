@@ -6,6 +6,8 @@
                 <page-header
                     :title="profileDetails.name"
                     @backClick="redirectToListing"
+                    :contextMenuItems="contextMenuItems"
+                    @edit="openPlatform"
                 >
                     <div class="top-badge">
                         <nitrozen-badge
@@ -134,6 +136,10 @@ import admcompanydetails from './profile-details.vue';
 import CompanyService from '@/services/company-admin.service';
 import Shimmer from '@/components/common/shimmer';
 import { NitrozenBadge } from '@gofynd/nitrozen-vue';
+import { FETCH_METRICS } from '@/store/action.type';
+
+import root from 'window-or-global';
+const env = root.env || {};
 
 export default {
     name: 'adm-company-profile',
@@ -152,13 +158,31 @@ export default {
         return {
             companyId: this.$route.params.companyId,
             profileDetails: {},
-            inProgress: false
+            inProgress: false,
+            contextMenuItems: [
+                {
+                    text: 'View Company',
+                    action: 'edit'
+                }
+            ]
         };
     },
     mounted() {
         this.getProfileDetails();
+        this.fetchMetricsApi();
+    },
+    computed: {
+        fyndPlatformDomain(type) {
+            return env.FYND_PLATFORM_DOMAIN;
+        }
     },
     methods: {
+        fetchMetricsApi: function() {
+            let params = {
+                company: this.companyId
+            };
+            this.$store.dispatch(FETCH_METRICS, params);
+        },
         getProfileDetails: function() {
             let params = {
                 uid: this.companyId
@@ -177,6 +201,12 @@ export default {
         },
         redirectToListing() {
             this.$router.push({ path: '/administrator/company-list' });
+        },
+        openPlatform() {
+            event.stopPropagation();
+            window.open(
+                `https://platform.${this.fyndPlatformDomain}/company/${this.companyId}/profile/`
+            );
         }
     }
 };

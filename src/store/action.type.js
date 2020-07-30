@@ -9,3 +9,6 @@ export const SIGNOUT_USER = 'SIGNOUT_USER';
 export const OPEN_LOGIN_MODAL = 'OPEN_LOGIN_MODAL';
 export const OPEN_REGISTER_MODAL = 'OPEN_REGISTER_MODAL';
 export const VALIDATE_USER = 'VALIDATE_USER';
+
+//company-metrics
+export const FETCH_METRICS = 'FETCH_METRICS';
