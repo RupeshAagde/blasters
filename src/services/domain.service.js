@@ -48,6 +48,19 @@ const SLINGSHOT_MAIN_URL = isNode
     : envVars.SLINGSHOT_MAIN_URL;
 
 const URLS = {
+    //search dri
+    SEARCH_DRI: () => {
+        return urlJoin(GRIMLOCK_BASE, '/user-info/search/');
+    },
+
+    //fetch dri
+    FETCH_DRI: (uid) => {
+        return urlJoin(
+            SILVERBOLT_MAIN_URL,
+            '/v1/onboarding/company-brand-dri/'
+        );
+    },
+
     // fetch applications
     FETCH_APPLICATIONS: (uid) => {
         return urlJoin(SLINGSHOT_MAIN_URL, `/company/${uid}/applications`);

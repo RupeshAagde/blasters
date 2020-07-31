@@ -27,6 +27,15 @@ export const getNavigations = () => {
                 highlightedIcon: 'home-highlighted'
             }
         ],
+        PLANS: [
+            // {
+            //     display: 'Subscription Plans',
+            //     link: `/administrator/subscription-plans`,
+            //     title: 'Subscription Plans',
+            //     icon: 'home',
+            //     highlightedIcon: 'home-highlighted'
+            // }
+        ],
         USER_MANAGEMENT: [
             {
                 display: 'Admin User Access',

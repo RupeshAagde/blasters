@@ -2,139 +2,143 @@
 @import './../../node_modules/@gofynd/nitrozen-vue/dist/nitrozen.css';
 
 html {
-  height: 100%;
-  width: 100%;
+    height: 100%;
+    width: 100%;
+}
+.nitrozen-search-icon {
+    top: 13px; // totally workaround
+    left: 12px;
 }
 
 body {
-  margin: 0;
-  background-color: #f8f8f8;
-  width: 100%;
-  height: 100%;
+    margin: 0;
+    background-color: #f8f8f8;
+    width: 100%;
+    height: 100%;
 }
 body,
 button,
 input,
 textarea,
 select {
-  font-family: Poppins;
+    font-family: Poppins;
 }
 ::placeholder {
-  font-family: Poppins;
+    font-family: Poppins;
 }
 a {
-  text-decoration: none;
-  color: inherit;
+    text-decoration: none;
+    color: inherit;
 }
 
 .view {
-  width: 100%;
+    width: 100%;
 }
 
 .page-container {
-  display: flex;
-  flex-wrap: wrap;
-  width: calc(100% - 96px);
-  padding: 24px;
-  margin: 24px;
-  background-color: @White;
-  border-radius: @BorderRadius;
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(100% - 96px);
+    padding: 24px;
+    margin: 24px;
+    background-color: @White;
+    border-radius: @BorderRadius;
 }
 
 // disable user select on buttons and select
 button,
 select,
 .btn {
-  .user-select-none();
+    .user-select-none();
 }
 
 /*
 * Shimmer
 */
 .shimmer {
-  background: @Alabaster2;
-  background-image: linear-gradient(
-    to right,
-    @Alabaster2 0%,
-    #e7e8ee 20%,
-    @Alabaster2 40%,
-    @Alabaster2 100%
-  );
-  background-repeat: no-repeat;
-  display: inline-block;
-  position: relative;
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: infinite;
-  animation-name: placeholderShimmer;
-  animation-timing-function: linear;
+    background: @Alabaster2;
+    background-image: linear-gradient(
+        to right,
+        @Alabaster2 0%,
+        #e7e8ee 20%,
+        @Alabaster2 40%,
+        @Alabaster2 100%
+    );
+    background-repeat: no-repeat;
+    display: inline-block;
+    position: relative;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeholderShimmer;
+    animation-timing-function: linear;
 }
 
 @keyframes placeholderShimmer {
-  0% {
-    background-position: -1200px 0;
-  }
+    0% {
+        background-position: -1200px 0;
+    }
 
-  100% {
-    background-position: 1200px 0;
-  }
+    100% {
+        background-position: 1200px 0;
+    }
 }
 
 .modal-enter-active {
-  transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .modal-enter,
 .modal-leave-to {
-  transform: translateX(10px);
-  opacity: 0;
+    transform: translateX(10px);
+    opacity: 0;
 }
 
 .slide-fade-enter-active {
-  transition: all 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .slide-fade-enter,
 .slide-fade-leave-to {
-  transform: translateX(10px);
-  opacity: 0;
+    transform: translateX(10px);
+    opacity: 0;
 }
 
 // Animate menu list
 .menu-list-enter-active,
 .menu-list-leave-active {
-  transition: all 0.3s;
+    transition: all 0.3s;
 }
 
 .menu-list-enter,
 .menu-list-leave-active {
-  opacity: 0;
+    opacity: 0;
 }
 
 .menu-list-enter {
-  transform: translate(0px, -30px);
+    transform: translate(0px, -30px);
 }
 
 .menu-list-leave-active {
-  transform: translate(0px, -30px);
+    transform: translate(0px, -30px);
 }
 
 .ukt-title {
-  font-weight: bold;
-  color: @Mako;
-  .font-size(@font-xs);
+    font-weight: bold;
+    color: @Mako;
+    .font-size(@font-xs);
 }
 
 .ukt-links {
-  color: @LinkColor;
-  font-weight: bold;
-  cursor: pointer;
-  text-decoration: none;
-  .font-size(@font-sm);
+    color: @LinkColor;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    .font-size(@font-sm);
 }
 
 .currency-symbol {
-  font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 /*
@@ -142,77 +146,77 @@ select,
 */
 
 h1.content-header {
-  font-size: 36px;
-  line-height: 55px;
-  font-weight: bold;
-  font-family: Poppins;
-  color: @Mako;
+    font-size: 36px;
+    line-height: 55px;
+    font-weight: bold;
+    font-family: Poppins;
+    color: @Mako;
 }
 p.content-desc {
-  max-width: 720px;
-  font-size: 14px;
-  line-height: 21px;
-  color: @HomePageText;
-  font-family: Poppins;
-  margin-top: 26px;
+    max-width: 720px;
+    font-size: 14px;
+    line-height: 21px;
+    color: @HomePageText;
+    font-family: Poppins;
+    margin-top: 26px;
 }
 
 /*
     This class needs to use in listing pages
 */
 .bombshell-list-card-container {
-  background: @White;
-  margin: 16px 0px;
-  border: 1px solid @Iron;
-  padding: 24px;
-  border-radius: @BorderRadius;
-  display: flex;
-  height: 70px;
-  overflow: auto;
-  max-height: 70px;
-  cursor: pointer;
-  transition: box-shadow 0.3s;
-
-  &:hover {
-    box-shadow: 0 9px 13px 0 rgba(221, 221, 221, 0.5);
-  }
-
-  .card-avatar {
-    margin-right: 24px;
-    width: 60px;
-    height: 60px;
-    align-self: center;
-    border-radius: 50%;
-  }
-  .card-content-section {
+    background: @White;
+    margin: 16px 0px;
+    border: 1px solid @Iron;
+    padding: 24px;
+    border-radius: @BorderRadius;
     display: flex;
-    flex: 1;
-    flex-direction: column;
-    justify-content: center;
-    .card-content-line-1 {
-      color: @Mako;
-      font-weight: 600;
-      font-size: 16px;
-      -webkit-font-smoothing: antialiased;
-      line-height: 22px;
+    height: 70px;
+    overflow: auto;
+    max-height: 70px;
+    cursor: pointer;
+    transition: box-shadow 0.3s;
+
+    &:hover {
+        box-shadow: 0 9px 13px 0 rgba(221, 221, 221, 0.5);
     }
-    .card-content-line-2 {
-      color: @DustyGray2;
-      line-height: 22px;
-      font-size: 12px;
+
+    .card-avatar {
+        margin-right: 24px;
+        width: 60px;
+        height: 60px;
+        align-self: center;
+        border-radius: 50%;
     }
-    .card-content-line-3 {
-      color: @DustyGray2;
-      line-height: 22px;
-      font-size: 12px;
+    .card-content-section {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        justify-content: center;
+        .card-content-line-1 {
+            color: @Mako;
+            font-weight: 600;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            line-height: 22px;
+        }
+        .card-content-line-2 {
+            color: @DustyGray2;
+            line-height: 22px;
+            font-size: 12px;
+        }
+        .card-content-line-3 {
+            color: @DustyGray2;
+            line-height: 22px;
+            font-size: 12px;
+        }
     }
-  }
-  .card-badge-section {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    .nitrozen-badge {
-      margin: 0 0 0 8px;
+    .card-badge-section {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .nitrozen-badge {
+            margin: 0 0 0 8px;
+        }
     }
-  }
 }

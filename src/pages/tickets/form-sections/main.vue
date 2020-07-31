@@ -82,6 +82,15 @@
                                         :src="'call'"
                                     ></adm-inline-svg>
                                 </div> -->
+                                <div v-if="companyInfo">
+                                    <a
+                                        :href="
+                                            '/administrator/company-details/' +
+                                                companyInfo.uid
+                                        "
+                                        >{{ companyInfo.name }}</a
+                                    >
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -91,7 +100,8 @@
                         {{
                             createdBy() +
                                 ' created this on ' +
-                                readableDate(new Date(ticket.createdAt))
+                                readableDate(new Date(ticket.createdAt)) +
+                                createdOn()
                         }}
                     </div>
                     <div
@@ -207,7 +217,8 @@ import moment from 'moment';
 // import ClickToCallDialog from '@/components/common/tools/click-to-call-dialog.vue';
 import admInlineSvg from '@/components/common/adm-inline-svg';
 
-import SupportService from './../../../services/support.service';
+import SupportService from '@/services/support.service';
+import CompanyService from '@/services/company-admin.service';
 
 // import Video from 'twilio-video';
 
@@ -234,6 +245,7 @@ export default {
         return {
             title: '',
             description: '',
+            companyInfo: undefined,
             toolBars: {
                 subfield: true,
                 bold: true,
@@ -268,6 +280,7 @@ export default {
     mounted() {
         this.title = this.ticket.content.title;
         this.description = this.ticket.content.description;
+        this.getProfileDetails();
     },
     methods: {
         somethingChanged() {
@@ -355,6 +368,19 @@ export default {
             }
 
             return undefined;
+        },
+        getProfileDetails: function() {
+            let params = {
+                uid: this.ticket.context.company_id
+            };
+            CompanyService.fetchCompanyProfile(params)
+                .then((res) => {
+                    debugger;
+                    this.companyInfo = res.data.data;
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
         },
         eventDetail(event) {
             let history =
@@ -473,6 +499,21 @@ export default {
         $clickToCallDialogClosed(reason) {
             if (reason == 'success') {
                 console.log(reason);
+            }
+        },
+        createdOn() {
+            if (this.ticket.created_on) {
+                if (this.ticket.created_on.platform == 'ios') {
+                    return ' on ' + 'iPhone';
+                } else if (this.ticket.created_on.platform == 'android') {
+                    return ' on ' + 'Android';
+                } else if (this.ticket.created_on.platform == 'web') {
+                    return ' on ' + this.ticket.created_on.meta.browser.name;
+                } else {
+                    return '';
+                }
+            } else {
+                return '';
             }
         },
         makeAVideoCall() {

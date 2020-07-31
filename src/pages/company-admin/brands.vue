@@ -21,7 +21,7 @@
                 <div class="brand-img-div" @click="openAdminDialog(item)">
                     <img
                         v-if="item.brand.logo"
-                        :src="item.brand.logo"
+                        :src="item.brand.logo | imagetransform({ width: 130 })"
                         class="brand-img"
                     />
                 </div>
@@ -75,13 +75,39 @@
         <nitrozen-dialog
             class="remove_staff_dialog"
             ref="brand_admin_dialog"
-            :title="
-                activeBrand && activeBrand.brand
-                    ? activeBrand.brand.name
-                    : 'Company Details'
-            "
+            title="success"
+            @close="closeAdminDialog"
         >
-            <!-- <template slot="header" v-if="activeBrand">{{ activeBrand.brand.name }}</template> -->
+            <template slot="header" v-if="activeBrand" class="cust-header">
+                <div>
+                    <span>{{
+                        activeBrand.brand
+                            ? activeBrand.brand.name
+                            : 'Company Brand'
+                    }}</span>
+                    <span class="brand-stage left-space">
+                        <nitrozen-badge
+                            :state="
+                                activeBrand.stage == 'verified'
+                                    ? 'success'
+                                    : 'warn'
+                            "
+                        >
+                            {{
+                                activeBrand.stage == 'verified'
+                                    ? 'verified'
+                                    : 'unverified'
+                            }}
+                        </nitrozen-badge>
+                    </span>
+                </div>
+                <div @click="closeAdminDialog" class="cust-pointer">
+                    <adm-inline-svg
+                        :src="'cross-black'"
+                        title="Close"
+                    ></adm-inline-svg>
+                </div>
+            </template>
             <template slot="body" class="desc-dialog" v-if="activeBrand">
                 <div v-if="activeBrand.brand.description">
                     <label class="n-input-label">Description</label>
@@ -89,21 +115,9 @@
                         {{ activeBrand.brand.description }}
                     </div>
                 </div>
-                <div class="brand-images">
-                    <div class="brand-logo">
-                        <label class="n-input-label">Logo</label>
-                        <img :src="activeBrand.brand.logo" />
-                    </div>
-                    <div class="brand-banner-1">
-                        <label class="n-input-label">Landscape</label>
-                        <img :src="activeBrand.brand.banner.landscape" />
-                    </div>
-                    <div class="brand-banner-2">
-                        <label class="n-input-label">Portrait</label>
-                        <img :src="activeBrand.brand.banner.portrait" />
-                    </div>
+                <div class="text-margin">
+                    Are you sure you want to {{ admin_action_text }} this brand?
                 </div>
-
                 <div>
                     <nitrozen-input
                         class="cust-margin"
@@ -119,8 +133,34 @@
                         >{{ rejection_info.errortext }}</nitrozen-error
                     >
                 </div>
-                <div class="text-margin">
-                    Are you sure you want to {{ admin_action_text }} this brand?
+                <div class="brand-images">
+                    <div class="brand-logo">
+                        <label class="n-input-label">Logo</label>
+                        <img
+                            :src="
+                                activeBrand.brand.logo
+                                    | imagetransform({ width: 130 })
+                            "
+                        />
+                    </div>
+                    <div class="brand-banner-1">
+                        <label class="n-input-label">Landscape</label>
+                        <img
+                            :src="
+                                activeBrand.brand.banner.landscape
+                                    | imagetransform({ width: 270 })
+                            "
+                        />
+                    </div>
+                    <div class="brand-banner-2">
+                        <label class="n-input-label">Portrait</label>
+                        <img
+                            :src="
+                                activeBrand.brand.banner.portrait
+                                    | imagetransform({ width: 360 })
+                            "
+                        />
+                    </div>
                 </div>
             </template>
             <template slot="footer">
@@ -156,6 +196,16 @@
 @import './../less/page-header.less';
 @import './../less/page-ui.less';
 
+.cust-pointer {
+    cursor: pointer;
+}
+.left-space {
+    margin-left: 12px;
+}
+.cust-header {
+    display: flex;
+    justify-content: space-between;
+}
 ::v-deep .nitrozen-dialog-body {
     margin-bottom: 24px;
 }
@@ -163,7 +213,7 @@
     margin-bottom: 6px;
 }
 .text-margin {
-    margin-top: 18px;
+    // margin-top: 18px;
     margin-bottom: 24px;
 }
 .cust-inp {
@@ -183,16 +233,16 @@
     .brand-banner-1 {
         margin: 0 auto;
         img {
-            margin-left: 50px;
-            width: 80%;
-            height: 250px;
+            // margin-left: 50px;
+            width: 100%;
+            max-height: 250px;
         }
     }
     .brand-banner-2 {
         img {
-            margin-left: 50px;
-            width: 80%;
-            height: 400px;
+            // margin-left: 50px;
+            width: 100%;
+            max-height: 400px;
         }
     }
 }
@@ -253,9 +303,12 @@
         }
     }
     .brands-body {
-        display: flex;
-        flex-wrap: wrap;
-        margin-bottom: 24px;
+        // display: flex;
+        // flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: 20% 20% 20% 20% 20%;
+        grid-row-gap: 24px;
+        margin-bottom: 12px;
         // overflow-y: scroll;
         -ms-overflow-style: none;
         &::-webkit-scrollbar {
@@ -265,8 +318,9 @@
             opacity: 0.5;
         }
         .brands-div {
-            margin-right: 24px;
-            margin-top: 12px;
+            // margin-right: 24px;
+            margin: auto;
+            // margin-top: 12px;
             .brand-img-div {
                 background-color: @Alabaster2;
                 height: 80px;
@@ -283,6 +337,7 @@
             .brand-name {
                 text-align: center;
                 margin: 12px 0;
+                line-height: 16px;
                 color: @Mako;
                 font-size: 12px;
                 white-space: nowrap;
@@ -310,14 +365,14 @@
                 }
             }
             .brand-stage {
-                margin: 12px 0;
+                // margin: 12px 0;
                 text-align: center;
             }
         }
     }
     .view-more {
         text-align: right;
-        margin-bottom: 12px;
+        margin: 12px 0;
     }
 }
 .shimmer {
@@ -336,6 +391,7 @@ import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import dateFormat from 'dateformat';
 import { getRoute } from '@/helper/get-route';
+import admInlineSVG from '@/components/common/adm-inline-svg';
 
 import root from 'window-or-global';
 const env = root.env || {};
@@ -358,6 +414,7 @@ export default {
         Shimmer,
         PageEmpty,
         'page-error': pageerror,
+        'adm-inline-svg': admInlineSVG,
         loader,
         'nitrozen-button': NitrozenButton,
         'nitrozen-pagination': NitrozenPagination,
