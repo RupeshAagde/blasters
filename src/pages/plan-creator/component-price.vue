@@ -34,7 +34,7 @@
                     <nitrozen-checkbox v-model="formData.is_active">Enabled</nitrozen-checkbox>
                 </div>
             </div> -->
-            <div class="form-row form-compact-items">
+            <!-- <div class="form-row form-compact-items">
                 <div
                     v-if="
                         formData.billing_scheme === 'per_unit' &&
@@ -49,7 +49,7 @@
                         v-model="formData.price_type"
                     ></nitrozen-dropdown>
                 </div>
-            </div>
+            </div> -->
 
             <div v-if="isOneTimeBill" class="form-row form-compact-items">
                 <div class="form-item">
@@ -79,39 +79,19 @@
 
             <div v-if="isTiered" class="form-row">
                 <div class="form-item">
-                    <nitrozen-input
-                        :type="'number'"
-                        :allowNegative="false"
-                        :label="'Tier Usage Upto*'"
-                    ></nitrozen-input>
-                </div>
-                <div class="form-item">
-                    <nitrozen-input
-                        :type="'number'"
-                        :allowNegative="false"
-                        :showSuffix="true"
-                        :suffix="'₹'"
-                        :label="'Tier Charges*'"
-                    ></nitrozen-input>
-                </div>
-                <div class="form-item">
-                    <nitrozen-input
-                        :type="'number'"
-                        :allowNegative="false"
-                        :showSuffix="true"
-                        :suffix="'₹'"
-                        :label="'Flat Fees*'"
-                    ></nitrozen-input>
-                </div>
-            </div>
-
-            <div v-if="isTiered" class="form-row">
-                <div class="form-item right-align">
-                    <div class="text-btn cl-RoyalBlue bold-xs">Add Tier</div>
+                    <tier-table
+                        :formData="formData"
+                        :currency="currency_map[formData.currency].symbol"
+                        v-model="formData.tiers"
+                        :graduated="formData.tiers_mode === 'graduated'"
+                        :currencies="currencies"
+                    >
+                    </tier-table>
                 </div>
             </div>
 
             <div
+                v-if="formData.price_type !== 'dynamic'"
                 style="align-items: flex-end;"
                 class="form-row form-compact-items"
             >
@@ -225,6 +205,7 @@
     .right-align {
         display: flex;
         justify-content: flex-end;
+        align-items: center;
     }
 
     .text-btn {
@@ -302,6 +283,7 @@ import {
 } from '../../components/plan-creator/feature-components';
 
 import toggleSwitch from '../../components/plan-creator/toggle-switch.vue';
+import tierTable from '../../components/plan-creator/tier-table.vue';
 
 export default {
     name: 'component-price',
@@ -313,6 +295,7 @@ export default {
         'nitrozen-tooltip': NitrozenToolTip,
         'tags-input': TagsInput,
         'toggle-switch': toggleSwitch,
+        'tier-table': tierTable,
         TeamManagement,
         Products,
         Customers,
@@ -434,6 +417,12 @@ export default {
                     }
                 }
             };
+        },
+        currency_map() {
+            return CURRENCIES.reduce((map, item) => {
+                map[item.code] = item;
+                return map;
+            }, {});
         },
         pricing_values() {
             return Object.keys(this.pricing_map).map((val) => {

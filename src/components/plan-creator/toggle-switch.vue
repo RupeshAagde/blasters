@@ -23,9 +23,6 @@
     justify-content: flex-end;
     flex: 1;
 }
-.clickable-label {
-    cursor: pointer;
-}
 </style>
 
 <script>

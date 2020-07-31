@@ -54,6 +54,20 @@ const BillingService = {
             }
         );
         return ApiService.post(URLS.FETCH_PLANS_LIST(), axiosOptions);
+    },
+
+    getDaytraderComponents() {
+        const axiosOptions = Object.assign(
+            {},
+            // getCommonHeaderOptions()
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-currency-code': 'INR'
+                }
+            }
+        );
+        return ApiService.get(URLS.FETCH_DAYTRADER_COMPONENT(), axiosOptions);
     }
 };
 

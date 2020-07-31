@@ -237,6 +237,9 @@ const URLS = {
     FETCH_COMPONENT_WITH_PRICES: () => {
         return urlJoin(UNICRON_BASE, 'v1/component-prices');
     },
+    FETCH_DAYTRADER_COMPONENT: () => {
+        return urlJoin(UNICRON_BASE, 'v1/daytrader-component');
+    },
 
     //#########Tickets########
     FETCH_TICKETS: () => {

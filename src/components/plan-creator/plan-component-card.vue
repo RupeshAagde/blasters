@@ -6,10 +6,21 @@
             >
                 <div class="cl-Mako bold-xs">{{ component.name }}</div>
                 <toggle-switch
-                    v-if="currentPriceModel.processing_type !== 'display'"
+                    v-if="
+                        currentPriceModel &&
+                            currentPriceModel.processing_type !== 'display'
+                    "
                     v-model="currentPriceModel.is_active"
                     @input="updateFeature"
                 ></toggle-switch>
+                <div class="align-right" v-else-if="daytrader">
+                    <span
+                        class="bold-xs clickable-label cl-RoyalBlue"
+                        @click="editDayTraderRule"
+                    >
+                        Edit Rule
+                    </span>
+                </div>
             </div>
             <div class="prices-box">
                 <price-model-page
@@ -18,8 +29,27 @@
                     :priceModel="currentPriceModel"
                 >
                 </price-model-page>
+                <div v-else-if="daytrader" class="form-row"></div>
             </div>
         </div>
+        <nitrozen-dialog
+            v-if="component && daytrader"
+            ref="daytrader_rule_edit"
+            :title="`Edit ${component.name} Rule`"
+        >
+            <template slot="body">
+                <daytrader-component class="plan-component" :config="component">
+                </daytrader-component>
+            </template>
+            <template slot="footer">
+                <nitrozen-button
+                    class="pad-right"
+                    v-flatBtn
+                    :theme="'secondary'"
+                    >Update</nitrozen-button
+                >
+            </template>
+        </nitrozen-dialog>
     </div>
 </template>
 
@@ -30,6 +60,12 @@
     border-radius: @BorderRadius;
     width: 100%;
     border: 1px solid @Iron;
+
+    .align-right {
+        justify-content: flex-end;
+        flex: 1;
+        display: flex;
+    }
 
     .prices-box {
         .price-model-table {
@@ -54,11 +90,16 @@
 import {
     NitrozenCheckBox,
     NitrozenDropdown,
-    NitrozenToggleBtn
+    NitrozenToggleBtn,
+    NitrozenDialog,
+    NitrozenButton,
+    flatBtn,
+    strokeBtn
 } from '@gofynd/nitrozen-vue';
 import { PLAN_ENUMS, getProp } from '../../helper/plan-creator-helper';
 import PriceModelPage from '../../pages/plan-creator/component-price.vue';
 import toggleSwitch from '../../components/plan-creator/toggle-switch.vue';
+import daytraderComponent from '../../components/plan-creator/daytrader-component.vue';
 
 export default {
     name: 'plan-component-card',
@@ -66,8 +107,11 @@ export default {
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-toggle': NitrozenToggleBtn,
+        'nitrozen-button': NitrozenButton,
         'price-model-page': PriceModelPage,
-        'toggle-switch': toggleSwitch
+        'nitrozen-dialog': NitrozenDialog,
+        'toggle-switch': toggleSwitch,
+        'daytrader-component': daytraderComponent
     },
     props: {
         component: {
@@ -75,7 +119,15 @@ export default {
         },
         price_component: {
             type: Object
+        },
+        daytrader: {
+            type: Boolean,
+            default: false
         }
+    },
+    directives: {
+        flatBtn,
+        strokeBtn
     },
     data() {
         return {
@@ -86,7 +138,9 @@ export default {
     },
     computed: {
         currentPriceModel() {
-            return this.price_component.component_price;
+            return this.price_component
+                ? this.price_component.component_price
+                : null;
         }
     },
     methods: {
@@ -114,6 +168,17 @@ export default {
                 this.options[detailField].enum.find((it) => it.value === val) ||
                 {};
             return displayVal.text || '';
+        },
+        editDayTraderRule() {
+            this.$refs['daytrader_rule_edit'].open({
+                width: '850px',
+                height: 'calc(100% - 100px)',
+                dismissible: true,
+                showCloseButton: true,
+                positiveButtonLabel: false,
+                negativeButtonLabel: false,
+                neutralButtonLabel: false
+            });
         }
     }
 };

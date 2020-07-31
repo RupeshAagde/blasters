@@ -90,6 +90,10 @@
         margin-right: 16px;
     }
 
+    ::v-deep .clickable-label {
+        cursor: pointer;
+    }
+
     .schedule-btn {
         width: 24px;
         height: 24px;
@@ -224,12 +228,26 @@ export default {
             .catch((err) => {
                 console.log(err);
             });
+
+        BillingService.getDaytraderComponents()
+            .then(({ data }) => {
+                this.daytraderComponents = data.docs;
+                if (!planId) {
+                    this.formData.dayTraderComponents = data.docs.map((doc) => {
+                        return this.getCreateDayTraderCompData(doc);
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     },
     data() {
         return {
             loading: false,
             pageOptions: [],
             allComponents: [],
+            daytraderComponents: [],
             saveInProgress: false,
             originalData: {},
             formData: this.getCreateData(),
@@ -296,6 +314,7 @@ export default {
                     product_suite_id: '5f0daf12ca17ac00352ced62'
                 },
                 components: [],
+                dayTraderComponents: [],
                 hasActiveSubscription: false
             };
         },
@@ -381,6 +400,32 @@ export default {
                     }
                 };
             }
+        },
+        getCreateDayTraderCompData(dtCompConfig) {
+            let dtCompData = {
+                data: {
+                    slug_fields: ['channel'],
+                    slug_values: {
+                        channel: {}
+                    },
+                    rule_start_date: null,
+                    rule_end_date: null,
+                    settle_cycle_period: {
+                        mall: 0,
+                        warehouse: 0,
+                        high_street: 0
+                    },
+                    settlement_type: '',
+                    transactional_components: {
+                        is_tp: false,
+                        defaults: {},
+                        conditional: {},
+                        transaction_component: {}
+                    }
+                }
+            };
+            _.merge(dtCompData, dtCompConfig);
+            return dtCompData;
         },
         isFormDirty() {
             if (this.saveInProgress) {
