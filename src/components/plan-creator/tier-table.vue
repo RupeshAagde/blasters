@@ -46,6 +46,7 @@
                 <div class="tb-cell">
                     <nitrozen-input
                         v-if="value.length - 1 > index"
+                        :type="'number'"
                         v-model="tier.up_to"
                         :allowNegative="false"
                     ></nitrozen-input>

@@ -526,7 +526,7 @@ export default {
                             );
                         });
                 } else {
-                    BillingService.updatePlan(this.formData, this.planId)
+                    BillingService.createPlan(this.formData)
                         .then(({ data }) => {
                             this.$snackbar.global.showSuccess(
                                 'Updated successfully'
