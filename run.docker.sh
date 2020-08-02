@@ -32,6 +32,8 @@ docker run --net=host -p 8086:8086 --name=bombshell \
 -e AVIS_MAIN_URL=https://api.fynd.com/avis/ \
 -e SLINGSHOT_MAIN_URL=https://api.fynd.com/slingshot/ \
 -e SLINGSHOT_MAIN_SVC=https://api.fynd.com/slingshot/ \
+-e DAYTRADER_MAIN_URL=https://api.fynd.com/daytrader/ \
+-e DAYTRADER_MAIN_SVC=https://api.fynd.com/daytrader/ \
 -e GRINGOTTS_MAIN_URL=https://api.fynd.com/gringotts/ \
 -e GRIMLOCK_MAIN_URL=https://api.fynd.com/auth/ \
 -e GRIMLOCK_MAIN_SVC=https://api.fynd.com/auth/ \

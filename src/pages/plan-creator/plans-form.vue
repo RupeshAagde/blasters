@@ -22,10 +22,9 @@
                                 changeActiveState();
                             }
                         "
-                        >{{
-                            formData.plan.is_active ? 'Active' : 'Inactive'
-                        }}</span
                     >
+                        {{ formData.plan.is_active ? 'Active' : 'Inactive' }}
+                    </span>
                     <nitrozen-toggle
                         class="pad-right"
                         v-model="formData.plan.is_active"
@@ -36,16 +35,16 @@
                         :theme="'secondary'"
                         @click="previewPlan"
                         v-strokeBtn
+                        >Preview</nitrozen-button
                     >
-                        Preview
-                    </nitrozen-button>
                     <nitrozen-button
                         :theme="'secondary'"
                         @click="savePlan"
                         v-flatBtn
+                        >{{
+                            `${isEditOnly ? 'Save' : 'Create'}`
+                        }}</nitrozen-button
                     >
-                        {{ `${isEditOnly ? 'Save' : 'Create'}` }}
-                    </nitrozen-button>
                 </div>
             </page-header>
         </div>
@@ -56,7 +55,8 @@
                     class="subscription-plan-section main-section"
                     :formData="formData"
                     :errors="errors"
-                    :pageOptions="pageOptions"
+                    :dtOptions="daytraderConfigMap"
+                    :dtComponents="dtComponents"
                     :allComponents="allComponents"
                 />
                 <!-- <detail-section
@@ -176,6 +176,7 @@ import { Loader, PageHeader } from '../../components/common/';
 
 import _ from 'lodash';
 import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
+const channels = ['uniket', 'fynd', 'ecomm', 'marketplace', 'fynd_store'];
 
 export default {
     name: 'subscription-plan-form',
@@ -229,9 +230,30 @@ export default {
                 console.log(err);
             });
 
+        let pArr = [];
+        channels.forEach((channel) => {
+            let payload = {
+                data: { table_name: 'settlement_rule', channels: [channel] }
+            };
+            pArr.push(BillingService.getDaytraderConfig(payload));
+        });
+        Promise.all(pArr)
+            .then((resArr) => {
+                resArr.forEach(({ data }, index) => {
+                    this.$set(
+                        this.daytraderConfigMap,
+                        channels[index],
+                        data.data
+                    );
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
         BillingService.getDaytraderComponents()
             .then(({ data }) => {
-                this.daytraderComponents = data.docs;
+                this.dtComponents = data.docs;
                 if (!planId) {
                     this.formData.dayTraderComponents = data.docs.map((doc) => {
                         return this.getCreateDayTraderCompData(doc);
@@ -247,7 +269,8 @@ export default {
             loading: false,
             pageOptions: [],
             allComponents: [],
-            daytraderComponents: [],
+            dtComponents: [],
+            daytraderConfigMap: {},
             saveInProgress: false,
             originalData: {},
             formData: this.getCreateData(),
@@ -313,6 +336,7 @@ export default {
                     amount: 0,
                     product_suite_id: '5f0daf12ca17ac00352ced62'
                 },
+                product_suite_id: '5f0daf12ca17ac00352ced62',
                 components: [],
                 dayTraderComponents: [],
                 hasActiveSubscription: false
@@ -403,28 +427,40 @@ export default {
         },
         getCreateDayTraderCompData(dtCompConfig) {
             let dtCompData = {
-                data: {
-                    slug_fields: ['channel'],
-                    slug_values: {
-                        channel: {}
-                    },
-                    rule_start_date: null,
-                    rule_end_date: null,
-                    settle_cycle_period: {
-                        mall: 0,
-                        warehouse: 0,
-                        high_street: 0
-                    },
-                    settlement_type: '',
-                    transactional_components: {
-                        is_tp: false,
-                        defaults: {},
-                        conditional: {},
-                        transaction_component: {}
+                component_id: dtCompConfig._id,
+                shallow_rules: [
+                    {
+                        auto_verify: true,
+                        is_active: true,
+                        component_id: dtCompConfig._id,
+                        data: {
+                            channels: [],
+                            rule: {
+                                slug_values: {
+                                    channel: {}
+                                },
+                                transactional_components: {
+                                    is_tp: false,
+                                    defaults: {
+                                        commission: 0,
+                                        rto_comm_reversal: 0,
+                                        return_comm_reversal: 0
+                                    },
+                                    source_components: [],
+                                    transaction_component: {}
+                                },
+                                settle_cycle_period: {
+                                    mall: 0,
+                                    warehouse: 0,
+                                    high_street: 0
+                                },
+                                settlement_type: 'weekly'
+                            }
+                        }
                     }
-                }
+                ]
             };
-            _.merge(dtCompData, dtCompConfig);
+            _.merge(dtCompData.shallow_rules[0], dtCompConfig);
             return dtCompData;
         },
         isFormDirty() {
@@ -461,14 +497,17 @@ export default {
             this.saveInProgress = true;
             if (this.validateData()) {
                 if (!this.isEditOnly) {
-                    // console.log(JSON.parse(JSON.stringify(this.formData)));
-                    // return;
+                    this.formData.components.forEach((comp) => {
+                        delete comp.component_price.free_tier;
+                    });
                     BillingService.createPlan(this.formData)
                         .then(({ data }) => {
-                            this.$snackbar.global.showSuccess(data.message);
+                            this.$snackbar.global.showSuccess(
+                                'Created successfully'
+                            );
 
                             this.$router.push({
-                                path: `administrator/subscription-plans/edit/${data.data._id}/`,
+                                path: `administrator/subscription-plans/`,
                                 query: {}
                             });
 
@@ -489,7 +528,9 @@ export default {
                 } else {
                     BillingService.updatePlan(this.formData, this.planId)
                         .then(({ data }) => {
-                            this.$snackbar.global.showSuccess(data.message);
+                            this.$snackbar.global.showSuccess(
+                                'Updated successfully'
+                            );
                             this.saveInProgress = false;
                         })
                         .catch((err) => {

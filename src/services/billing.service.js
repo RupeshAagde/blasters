@@ -53,7 +53,22 @@ const BillingService = {
                 data: payload
             }
         );
-        return ApiService.post(URLS.FETCH_PLANS_LIST(), axiosOptions);
+        return ApiService.post(URLS.FETCH_SINGLE_PLAN(''), axiosOptions);
+    },
+
+    updatePlan(payload, planId) {
+        const axiosOptions = Object.assign(
+            {},
+            // getCommonHeaderOptions()
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-currency-code': 'INR'
+                },
+                data: payload
+            }
+        );
+        return ApiService.put(URLS.FETCH_PLANS_LIST(planId), axiosOptions);
     },
 
     getDaytraderComponents() {
@@ -68,6 +83,21 @@ const BillingService = {
             }
         );
         return ApiService.get(URLS.FETCH_DAYTRADER_COMPONENT(), axiosOptions);
+    },
+
+    getDaytraderConfig(payload) {
+        const axiosOptions = Object.assign(
+            {},
+            // getCommonHeaderOptions()
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-currency-code': 'INR'
+                },
+                data: payload
+            }
+        );
+        return ApiService.post(URLS.FETCH_DAYTRADER_CONFIG(), axiosOptions);
     }
 };
 

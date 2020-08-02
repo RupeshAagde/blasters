@@ -1,7 +1,7 @@
 # server
 export NODE_ENV=development
 export ENV=development
-export PORT=8086
+export PORT=8087
 
 
 #API's
@@ -27,6 +27,8 @@ export HIGHBROW_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/platform/lead/
 export HIGHBROW_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/platform/lead/
 export SLINGSHOT_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/slingshot/
 export SLINGSHOT_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/slingshot/
+export DAYTRADER_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/daytrader/
+export DAYTRADER_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/daytrader/
 
 #ENV's
 export SENTRY_DSN=''

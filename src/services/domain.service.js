@@ -31,6 +31,10 @@ const UNICRON_BASE = isNode
     ? envVars.BROWSER_CONFIG.UNICRON_MAIN_SVC
     : envVars.UNICRON_MAIN_URL;
 
+const DAYTRADER_BASE = isNode
+    ? envVars.BROWSER_CONFIG.DAYTRADER_MAIN_SVC
+    : envVars.DAYTRADER_MAIN_URL;
+
 const PLATFORM_LEADS_BASE = isNode
     ? envVars.BROWSER_CONFIG.HIGHBROW_MAIN_SVC
     : envVars.HIGHBROW_MAIN_URL;
@@ -231,9 +235,9 @@ const URLS = {
     //   return urlJoin(PLATFORM_COMMON_BASE, '/v1/application/current/access')
     // }
 
-    // Unicron
-    FETCH_PLANS_LIST: () => {
-        return urlJoin(UNICRON_BASE, `v1/plan`);
+    // Unicron/Daytrader - Plan creator
+    FETCH_PLANS_LIST: (planId = '') => {
+        return urlJoin(UNICRON_BASE, `v1/plan/${planId}`);
     },
     FETCH_SINGLE_PLAN: (planId) => {
         return urlJoin(UNICRON_BASE, `v1/plan-editor/${planId}`);
@@ -252,6 +256,9 @@ const URLS = {
     },
     FETCH_DAYTRADER_COMPONENT: () => {
         return urlJoin(UNICRON_BASE, 'v1/daytrader-component');
+    },
+    FETCH_DAYTRADER_CONFIG: () => {
+        return urlJoin(DAYTRADER_BASE, 'api/v1/get-output-fields_v2');
     },
 
     //#########Tickets########

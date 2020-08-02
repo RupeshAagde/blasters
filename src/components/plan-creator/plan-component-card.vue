@@ -36,9 +36,18 @@
             v-if="component && daytrader"
             ref="daytrader_rule_edit"
             :title="`Edit ${component.name} Rule`"
+            @close="
+                $refs['daytrader'].resetData(price_component.shallow_rules[0])
+            "
         >
             <template slot="body">
-                <daytrader-component class="plan-component" :config="component">
+                <daytrader-component
+                    v-if="dtOptions"
+                    :options="dtOptions"
+                    :ref="'daytrader'"
+                    class="plan-component"
+                    :config="price_component.shallow_rules[0]"
+                >
                 </daytrader-component>
             </template>
             <template slot="footer">
@@ -46,6 +55,7 @@
                     class="pad-right"
                     v-flatBtn
                     :theme="'secondary'"
+                    @click="updateDaytraderData"
                     >Update</nitrozen-button
                 >
             </template>
@@ -123,6 +133,9 @@ export default {
         daytrader: {
             type: Boolean,
             default: false
+        },
+        dtOptions: {
+            type: Object
         }
     },
     directives: {
@@ -132,7 +145,6 @@ export default {
     data() {
         return {
             enabled: false,
-            editMode: true,
             options: PLAN_ENUMS
         };
     },
@@ -179,6 +191,13 @@ export default {
                 negativeButtonLabel: false,
                 neutralButtonLabel: false
             });
+        },
+        updateDaytraderData() {
+            _.merge(
+                this.price_component.shallow_rules[0],
+                this.$refs['daytrader'].formData
+            );
+            this.$refs['daytrader_rule_edit'].close();
         }
     }
 };
