@@ -75,10 +75,10 @@
                 </div>
                 <div class="tb-cell remove-clm">
                     <span
-                        :class="{ hidden: index === 0 }"
+                        :class="{ hidden: index < 2 }"
                         @click="removeTier(index)"
                     >
-                        <inline-svg src="delete"></inline-svg>
+                        <inline-svg src="cross-black"></inline-svg>
                     </span>
                 </div>
             </div>
@@ -170,6 +170,7 @@ export default {
         };
     },
     mounted() {
+        this.addTier();
         this.addTier();
     },
     unmounted() {
