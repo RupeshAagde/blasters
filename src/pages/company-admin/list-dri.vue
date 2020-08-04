@@ -277,7 +277,7 @@
     display: flex;
     overflow: visible;
     padding: 24px;
-    border-radius: 3px;
+    border-radius: 4px;
     margin-bottom: 16px;
     transition: box-shadow 0.3s;
     &:hover {

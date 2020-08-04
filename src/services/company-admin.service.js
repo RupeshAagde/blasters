@@ -6,6 +6,21 @@ import { getCommonHeaderOptions } from './utils.service';
 import { Object, console, URL } from 'window-or-global';
 
 const CompanyService = {
+    fetchMetrics(params = {}) {
+        let axiosOption = Object.assign({
+            params
+        });
+        return ApiService.get(URLS.FETCH_METRICS(), axiosOption);
+    },
+    searchUser(params) {
+        const axiosOption = Object.assign(
+            {
+                params: params
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.SEARCH_DRI(), axiosOption);
+    },
     createDri(body) {
         const axiosOption = Object.assign(
             {},

@@ -12,6 +12,7 @@
 import { NitrozenButton, NitrozenInput, flatBtn } from '@gofynd/nitrozen-vue';
 import { mapGetters } from 'vuex';
 import { IS_LOGGED_IN, IS_VALID_USER } from '@/store/getters.type';
+
 import {
     SIGNOUT_USER,
     OPEN_LOGIN_MODAL,
