@@ -145,6 +145,14 @@
                                         v-if="cond_data[user_input]"
                                         :items="conditional_types"
                                         :value="cond_data[user_input]['on']"
+                                        @input="
+                                            (value) =>
+                                                updateComponent(
+                                                    value,
+                                                    user_input,
+                                                    'conditional_value'
+                                                )
+                                        "
                                     ></nitrozen-dropdown>
                                 </div>
                             </div>
@@ -313,7 +321,6 @@ export default {
         },
         updateComponent(value, key, type) {
             let obj = null;
-            console.log('abc');
             if (type === 'transaction') {
                 obj = this.tran_comp;
                 if (value) {
@@ -324,6 +331,9 @@ export default {
                 }
             } else if (type === 'conditional') {
                 obj = this.cond_data;
+            } else if (type === 'conditional_value') {
+                obj = this.cond_data[key];
+                key = 'on';
             } else {
                 obj = this.default_data;
             }
