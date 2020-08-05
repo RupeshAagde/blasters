@@ -194,9 +194,12 @@
                                 v-model="order_choice"
                                 @change="changeDropDown"
                             ></nitrozen-dropdown>
-                            <nitrozen-error v-if="order_choice_error.showerror">
-                                {{ order_choice_error.errortext }}
-                            </nitrozen-error>
+                            <nitrozen-error
+                                v-if="order_choice_error.showerror"
+                                >{{
+                                    order_choice_error.errortext
+                                }}</nitrozen-error
+                            >
                         </div>
                         <div class="right-drop">
                             <label class="cust-label"
@@ -211,9 +214,10 @@
                             ></nitrozen-dropdown>
                             <nitrozen-error
                                 v-if="inventory_choice_error.showerror"
+                                >{{
+                                    inventory_choice_error.errortext
+                                }}</nitrozen-error
                             >
-                                {{ inventory_choice_error.errortext }}
-                            </nitrozen-error>
                         </div>
                     </div>
                     <nitrozen-input
@@ -242,10 +246,9 @@
                         @click="verifyStore"
                         v-flatBtn
                         :theme="'secondary'"
-                        >{{
-                            editIntegration ? 'Update' : 'Verify'
-                        }}</nitrozen-button
                     >
+                        {{ editIntegration ? 'Update' : 'Verify' }}
+                    </nitrozen-button>
                     <nitrozen-button
                         v-if="!show_verify_button"
                         class="mr24"
@@ -494,6 +497,7 @@ import { getRoute } from '@/helper/get-route';
 import admInlineSVG from '@/components/common/adm-inline-svg';
 import { GET_METRICS } from '@/store/getters.type';
 import { mapGetters } from 'vuex';
+import { debounce } from '@/helper/utils';
 
 import {
     NitrozenButton,
@@ -678,17 +682,15 @@ export default {
                     console.log(err, 'error');
                 });
         },
-        searchStores: function() {
+        searchStores: debounce(function() {
             let vm = this;
             let params = {
                 page_no: 1,
                 page_size: this.paginationConfig.limit,
                 name: this.searchText
             };
-            _.debounce(function() {
-                vm.getStores(params);
-            }, 1000)();
-        },
+            this.getStores(params);
+        }, 1000),
         changeStage: function() {
             let params = {
                 page_no: 1,

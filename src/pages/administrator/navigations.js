@@ -18,6 +18,15 @@ export const getNavigations = () => {
                 highlightedIcon: 'home-highlighted'
             }
         ],
+        CATALOG: [
+            {
+                display: 'Department',
+                link: '/administrator/catalog/department',
+                title: 'Department',
+                icon: 'home',
+                highlightedIcon: 'home-highlighted'
+            }
+        ],
         PLANS: [
             // {
             //     display: 'Subscription Plans',

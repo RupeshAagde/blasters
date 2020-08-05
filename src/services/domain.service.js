@@ -48,6 +48,10 @@ const SLINGSHOT_MAIN_URL = isNode
     : envVars.SLINGSHOT_MAIN_URL;
 
 const URLS = {
+    //fetchDeparment
+    FETCH_DEPARTMENT: () => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/department');
+    },
     //Company Metrics
     FETCH_METRICS: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/company/metrics');

@@ -11,6 +11,8 @@ import SettingsVue from './../../pages/settings';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details';
 import FeaturesSettingsVue from './../../pages/settings/features';
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
+import ListDepartment from './../../pages/catalogue/list-department.vue';
+import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
 
 export default [
     {
@@ -63,6 +65,22 @@ export default [
                 name: 'edit-dri',
                 path: 'company-details/:companyId/edit-dri/:uid',
                 component: AddEditDri
+            },
+            //Catalog
+            {
+                name: 'department',
+                path: 'catalog/department',
+                component: ListDepartment
+            },
+            {
+                name: 'create-department',
+                path: 'catalog/create-department',
+                component: CreateUpdateDepartment
+            },
+            {
+                name: 'edit-department',
+                path: 'catalog/edit-department/:deptId',
+                component: CreateUpdateDepartment
             },
             // Settings
             {
