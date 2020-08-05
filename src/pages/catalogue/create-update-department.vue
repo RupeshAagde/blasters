@@ -4,12 +4,14 @@
             <page-header :title="headerText" @backClick="redirectToListing">
                 <div class="page-slot">
                     <div class="left-space-txb">
-                        <nitrozen-badge v-if="is_active" state="success"
-                            >Active</nitrozen-badge
-                        >
-                        <nitrozen-badge v-if="!is_active" state="warn"
-                            >Disabled</nitrozen-badge
-                        >
+                        <div v-if="update">
+                            <nitrozen-badge v-if="is_active" state="success"
+                                >Active</nitrozen-badge
+                            >
+                            <nitrozen-badge v-if="!is_active" state="warn"
+                                >Disabled</nitrozen-badge
+                            >
+                        </div>
                     </div>
                     <div class="button-box">
                         <label
