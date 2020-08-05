@@ -56,36 +56,47 @@
                         </div>
                         <div
                             class="card-content-line-2"
-                            v-if="item.created_by && item.created_by.username"
+                            v-if="
+                                item.created_by &&
+                                    item.created_by.username &&
+                                    item.created_on
+                            "
                         >
                             <span>Created By :</span>
-                            <span class="left-space-co">{{
-                                item.created_by.username
-                            }}</span>
-                        </div>
-                        <div class="card-content-line-2" v-if="item.created_on">
-                            <span>Created On :</span>
-                            <span class="left-space-co">{{
-                                new Date(item.created_on).toLocaleString()
-                            }}</span>
+                            <span class="left-space-co">
+                                <user-info-tooltip
+                                    :userId="item.created_by.user_id"
+                                ></user-info-tooltip>
+                            </span>
+                            <span v-if="item.created_on" class="meta-space"
+                                >On</span
+                            >
+                            <span v-if="item.created_on">
+                                {{ new Date(item.created_on).toLocaleString() }}
+                            </span>
                         </div>
                         <div
                             class="card-content-line-2"
-                            v-if="item.modified_by && item.modified_by.username"
+                            v-if="
+                                item.modified_by &&
+                                    item.modified_by.username &&
+                                    item.modified_on
+                            "
                         >
                             <span>Modified By :</span>
-                            <span class="left-space-mo">{{
-                                item.modified_by.username
-                            }}</span>
-                        </div>
-                        <div
-                            class="card-content-line-2"
-                            v-if="item.modified_on"
-                        >
-                            <span>Modified On :</span>
-                            <span class="left-space-mo">{{
-                                new Date(item.modified_on).toLocaleString()
-                            }}</span>
+                            <span class="left-space-mo">
+                                <user-info-tooltip
+                                    :userId="item.modified_by.user_id"
+                                ></user-info-tooltip>
+                            </span>
+                            <span class="meta-space" v-if="item.modified_on"
+                                >On</span
+                            >
+                            <span v-if="item.modified_on">
+                                {{
+                                    new Date(item.modified_on).toLocaleString()
+                                }}
+                            </span>
                         </div>
                     </div>
                     <div class="cust-button">
@@ -114,11 +125,16 @@
     </div>
 </template>
 <style lang="less" scoped>
+.meta-space {
+    margin: 0 6px;
+}
 .left-space-co {
-    margin-left: 24px;
+    margin-left: 16px;
+    color: #5c6bdd;
 }
 .left-space-mo {
-    margin-left: 22px;
+    margin-left: 14px;
+    color: #5c6bdd;
 }
 .label {
     color: #9b9b9b;
@@ -159,15 +175,12 @@
 .cust-button {
     display: flex;
     justify-content: flex-end;
-    // align-items: center;
 }
 .container {
     border: 1px solid #e4e5e6;
     border-radius: 4px;
-    // height: 70px;
     display: flex;
     overflow: visible;
-    // max-height: 70px;
     padding: 24px;
     border-radius: 3px;
     margin-bottom: 16px;
@@ -207,7 +220,7 @@
             font-weight: 600;
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
-            line-height: 22px;
+            line-height: 24px;
             color: #5c6bdd;
         }
 
@@ -246,6 +259,7 @@ import { debounce } from '@/helper/utils';
 import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import PageError from '@/components/common/page-error';
+import userInfoTooltip from '@/components/common/feedback/userInfo-tooltip.vue';
 import {
     NitrozenInput,
     NitrozenDropdown,
@@ -267,6 +281,7 @@ export default {
         NitrozenDropdown,
         NitrozenPagination,
         NitrozenBadge,
+        userInfoTooltip,
         Shimmer,
         PageEmpty,
         PageError

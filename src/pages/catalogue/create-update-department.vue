@@ -2,13 +2,39 @@
     <div>
         <div>
             <page-header :title="headerText" @backClick="redirectToListing">
-                <div class="button-box">
-                    <nitrozen-button
-                        :theme="'secondary'"
-                        @click="save"
-                        v-flatBtn
-                        >Save</nitrozen-button
-                    >
+                <div class="page-slot">
+                    <div class="left-space-txb">
+                        <nitrozen-badge v-if="is_active" state="success"
+                            >Active</nitrozen-badge
+                        >
+                        <nitrozen-badge v-if="!is_active" state="warn"
+                            >Disabled</nitrozen-badge
+                        >
+                    </div>
+                    <div class="button-box">
+                        <label
+                            :class="is_active ? 'active-dept' : 'disabled-dept'"
+                        >
+                            <span>{{ is_active ? 'Active' : 'Disabled' }}</span>
+                            <nitrozen-toggle-btn
+                                v-model="is_active"
+                                :title="
+                                    is_active
+                                        ? 'Disable department'
+                                        : 'Enable department'
+                                "
+                            ></nitrozen-toggle-btn>
+                        </label>
+                        <span>
+                            <nitrozen-button
+                                class="left-space-txb"
+                                :theme="'secondary'"
+                                @click="save"
+                                v-flatBtn
+                                >Save</nitrozen-button
+                            >
+                        </span>
+                    </div>
                 </div>
             </page-header>
         </div>
@@ -17,6 +43,11 @@
             class="cust-loader"
             v-if="pageLoading"
         />
+        <page-error
+            class="cust-error"
+            v-else-if="pageError && !pageLoading"
+            @tryAgain="updateData"
+        ></page-error>
         <div v-else class="main-container">
             <div class="row-1">
                 <div class="input-box">
@@ -24,20 +55,19 @@
                         label="Name *"
                         v-model="name.value"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="name.showerror">{{
-                        name.errortext
-                    }}</nitrozen-error>
+                    <nitrozen-error v-if="name.showerror">
+                        {{ name.errortext }}
+                    </nitrozen-error>
                 </div>
                 <div class="input-box left-space-txb">
                     <nitrozen-input
-                        disabled="update"
                         label="Slug *"
                         pattern="[a-z0-9]+(?:--?[a-z0-9]+)*"
                         v-model="slug.value"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="slug.showerror">{{
-                        slug.errortext
-                    }}</nitrozen-error>
+                    <nitrozen-error v-if="slug.showerror">
+                        {{ slug.errortext }}
+                    </nitrozen-error>
                     <nitrozen-error
                         v-else-if="
                             slug.value &&
@@ -56,24 +86,9 @@
                     v-model="priority.value"
                     type="number"
                 ></nitrozen-input>
-                <nitrozen-error v-if="priority.showerror">{{
-                    priority.errortext
-                }}</nitrozen-error>
-            </div>
-            <div>
-                <div class="n-input-label">Logo *</div>
-                <image-uploader-tile
-                    label="Logo *"
-                    aspectRatio="1:1"
-                    @delete="logo.value = ''"
-                    @save="logo.value = $event"
-                    v-model="logo.value"
-                    :fileName="logo.value"
-                    namespace="platform-free-logo"
-                ></image-uploader-tile>
-                <nitrozen-error v-if="logo.showerror">{{
-                    logo.errortext
-                }}</nitrozen-error>
+                <nitrozen-error v-if="priority.showerror">
+                    {{ priority.errortext }}
+                </nitrozen-error>
             </div>
             <div class="row-3">
                 <div class="n-input-label">Synonyms *</div>
@@ -98,19 +113,63 @@
                         v-model="synonymText"
                     />
                 </div>
-                <nitrozen-error class="bottom-space" v-if="synonym.showerror">{{
-                    synonym.errortext
-                }}</nitrozen-error>
+            </div>
+            <div>
+                <div class="n-input-label">Logo *</div>
+                <image-uploader-tile
+                    label="Logo *"
+                    aspectRatio="1:1"
+                    @delete="logo.value = ''"
+                    @save="logo.value = $event"
+                    v-model="logo.value"
+                    :fileName="logo.value"
+                    namespace="platform-free-logo"
+                ></image-uploader-tile>
+                <nitrozen-error v-if="logo.showerror">
+                    {{ logo.errortext }}
+                </nitrozen-error>
             </div>
         </div>
     </div>
 </template>
 <style lang="less" scoped>
+::v-deep .page-slot {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center;
+}
+.button-box {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    .active-dept {
+        color: #5c6bdd;
+        cursor: pointer;
+        display: flex;
+        justify-content: flex-start;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .disabled-dept {
+        color: #9b9b9b;
+        cursor: pointer;
+        display: flex;
+        justify-content: flex-start;
+        font-size: 14px;
+        font-weight: 600;
+    }
+}
+.cust-error {
+    margin-top: 60px;
+}
 .cust-loader {
     display: flex;
     align-items: center;
     margin: 120px auto 0 auto;
     justify-content: center;
+    height: 100px;
 }
 .left-space-txb {
     margin-left: 12px;
@@ -147,12 +206,12 @@
         align-items: baseline;
 
         .input-box {
-            width: 50%;
+            width: 49.5%;
         }
     }
     .row-3 {
         width: 100%;
-        margin: 24px 0 0 0;
+        margin: 24px 0 24px 0;
         .input-text {
             border: 1px solid #eee;
             padding: 12px;
@@ -182,12 +241,15 @@ import loader from '@/components/common/loader';
 import Shimmer from '@/components/common/shimmer';
 import { ImageUploaderTile } from '@/components/common/';
 import { convertToSlug } from '@/helper/utils';
+import PageError from '@/components/common/page-error';
 import {
     NitrozenInput,
     NitrozenError,
     NitrozenButton,
     NitrozenChips,
     NitrozenInline,
+    NitrozenBadge,
+    NitrozenToggleBtn,
     flatBtn,
     strokeBtn
 } from '@gofynd/nitrozen-vue';
@@ -198,10 +260,13 @@ export default {
         'nitrozen-chips': NitrozenChips,
         loader,
         PageHeader,
+        PageError,
         Shimmer,
         NitrozenInput,
+        NitrozenBadge,
         NitrozenError,
         ImageUploaderTile,
+        NitrozenToggleBtn,
         NitrozenButton,
         NitrozenInline
     },
@@ -227,6 +292,7 @@ export default {
             data: [],
             is_active: true,
             pageLoading: false,
+            pageError: false,
             saveText: 'Department saved successfully',
             headerText: 'Create Department',
             synonymText: '',
@@ -263,40 +329,44 @@ export default {
                 let params = {
                     uid: this.uid
                 };
-                CatalogService.fetchDepartment(params).then((res) => {
-                    this.data = res.data.data;
-                    this.name.value = this.data[0].name
-                        ? this.data[0].name
-                        : '';
-                    this.slug.value = this.data[0].slug
-                        ? this.data[0].slug
-                        : '';
-                    this.priority.value = this.data[0].priority_order
-                        ? this.data[0].priority_order
-                        : '';
-                    this.logo.value = this.data[0].logo
-                        ? this.data[0].logo
-                        : '';
-                    this.synonym.value = this.data[0].synonyms
-                        ? this.data[0].synonyms
-                        : [];
-                    this.is_active = this.data[0].is_active
-                        ? this.data[0].is_active
-                        : true;
-                    this.pageLoading = false;
-                });
+                CatalogService.fetchDepartment(params)
+                    .then((res) => {
+                        this.data = res.data.data;
+                        this.is_active = this.data[0].is_active;
+                        this.name.value = this.data[0].name
+                            ? this.data[0].name
+                            : '';
+                        this.slug.value = this.data[0].slug
+                            ? this.data[0].slug
+                            : '';
+                        this.priority.value = this.data[0].priority_order
+                            ? this.data[0].priority_order
+                            : '';
+                        this.logo.value = this.data[0].logo
+                            ? this.data[0].logo
+                            : '';
+                        this.synonym.value = this.data[0].synonyms
+                            ? this.data[0].synonyms
+                            : [];
+                        this.pageLoading = false;
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        this.pageLoading = false;
+                        this.pageError = true;
+                    });
             }
         },
         attachNameWatcher() {
-            if (!this.update) {
-                this.$watch(
-                    'name',
-                    function handler(val) {
-                        this.slug.value = convertToSlug(this.name.value.trim());
-                    },
-                    { deep: true }
-                );
-            }
+            // if (!this.update) {
+            this.$watch(
+                'name',
+                function handler(val) {
+                    this.slug.value = convertToSlug(this.name.value.trim());
+                },
+                { deep: true }
+            );
+            // }
         },
         removeSearchInput(index) {
             this.synonym.value.splice(index, 1);
@@ -337,7 +407,8 @@ export default {
         },
         save() {
             let postdata = {
-                is_active: this.is_active
+                is_active: this.is_active,
+                synonyms: []
             };
             if (this.update && this.uid) postdata.uid = this.uid;
             if (this.name.value !== '') {
