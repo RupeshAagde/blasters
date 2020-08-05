@@ -15,14 +15,6 @@
                 btnLabel="Create"
                 @btnClick="choosePlanType"
             >
-                <nitrozen-button
-                    class="pad-left"
-                    :theme="'secondary'"
-                    v-strokeBtn
-                    @click="viewComponents"
-                >
-                    View Components
-                </nitrozen-button>
             </jumbotron>
             <div class="plans-list-container">
                 <div class="plans-filters">
@@ -280,11 +272,6 @@ export default {
                 .catch((err) => {
                     this.pageError = true;
                 });
-        },
-        viewComponents() {
-            this.$router.push({
-                path: `/administrator/subscription-components`
-            });
         },
         onSearch() {
             this.filter_data.query.name = this.searchText;
