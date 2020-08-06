@@ -1,6 +1,6 @@
 <template>
     <div class="feature-component">
-        <div class="form-row form-compact-items" v-if="formData">
+        <div class="form-row form-compact-items no-pad" v-if="formData">
             <div class="form-item">
                 <nitrozen-input
                     :label="'Feature Text *'"

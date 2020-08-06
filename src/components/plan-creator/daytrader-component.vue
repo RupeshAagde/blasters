@@ -210,9 +210,6 @@
                 border-radius: @BorderRadius;
                 padding: 8px 12px;
                 box-sizing: border-box;
-                .form-row.no-pad {
-                    padding-bottom: 0;
-                }
                 + .rule-row-cont {
                     margin: 12px 0;
                 }

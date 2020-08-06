@@ -1,7 +1,7 @@
 <template>
     <div class="price-form">
         <div v-if="formData.processing_type === 'display'">
-            <div class="form-row form-compact-items">
+            <div class="form-row form-compact-items no-pad">
                 <div class="form-item">
                     <nitrozen-input
                         :label="'Feature Text *'"
@@ -35,11 +35,6 @@
                     ></nitrozen-dropdown>
                 </div>
             </div>
-            <!-- <div class="form-row">
-                <div class="form-item">
-                    <nitrozen-checkbox v-model="formData.is_active">Enabled</nitrozen-checkbox>
-                </div>
-            </div> -->
             <!-- <div class="form-row form-compact-items">
                 <div
                     v-if="
@@ -191,7 +186,7 @@
                 </div>
             </div>
 
-            <div class="form-row form-compact-items">
+            <div class="form-row form-compact-items no-pad">
                 <div class="form-item">
                     <nitrozen-input
                         :label="'Feature Text *'"

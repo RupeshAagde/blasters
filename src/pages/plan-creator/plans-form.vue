@@ -133,6 +133,9 @@
                     margin-left: 20px;
                 }
 
+                .form-row.no-pad {
+                    padding-bottom: 0;
+                }
                 &.form-compact-items {
                     flex-wrap: wrap;
                     .form-item {
