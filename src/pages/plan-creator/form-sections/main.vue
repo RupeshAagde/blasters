@@ -109,6 +109,29 @@
                 <nitrozen-error>-</nitrozen-error>
             </div>
         </div>
+        <div
+            v-else-if="formData.plan.type === 'company-specific'"
+            class="form-row"
+        >
+            <div class="form-item">
+                <nitrozen-dropdown
+                    :label="'Company*'"
+                    :searchable="true"
+                    @searchInputChange="companySearch"
+                    v-model="formData.plan.company"
+                    :items="
+                        companies.map((item) => {
+                            return {
+                                text: item.name,
+                                value: item.uid
+                            };
+                        })
+                    "
+                >
+                </nitrozen-dropdown>
+            </div>
+            <div class="form-item"></div>
+        </div>
 
         <div
             class="form-row"
@@ -205,7 +228,9 @@ import {
 } from '@gofynd/nitrozen-vue';
 import planComponentCard from '../../../components/plan-creator/plan-component-card.vue';
 import BillingService from '../../../services/billing.service';
+import CompanyService from '../../../services/company-admin.service';
 import { CURRENCIES } from '../../../helper/currency.util';
+import { debounce } from '@/helper/utils';
 
 export default {
     name: 'main-section',
@@ -235,6 +260,8 @@ export default {
     data() {
         return {
             errors: {},
+            companies: [],
+            searchCompany: '',
             durationUnits: [
                 {
                     text: 'Days',
@@ -251,7 +278,9 @@ export default {
             ]
         };
     },
-    mounted() {},
+    mounted() {
+        this.fetchCompany();
+    },
     computed: {
         planComponentMap() {
             return this.formData.components.reduce((map, item) => {
@@ -312,6 +341,29 @@ export default {
         },
         clearErrors() {
             this.errors = {};
+        },
+        companySearch(e) {
+            _.debounce((text) => {
+                this.fetchCompany(text);
+            }, 600)(e.text);
+        },
+        fetchCompany(searchCompany) {
+            const query = {
+                page_no: 0,
+                page_size: 10
+            };
+
+            if (searchCompany) {
+                query.name = searchCompany;
+            }
+            return CompanyService.getCompanyList(query)
+                .then(({ data }) => {
+                    this.companies = data.data;
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError('Failed to load companies');
+                    console.log(err);
+                });
         }
     }
 };
