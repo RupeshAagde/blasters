@@ -52,9 +52,9 @@
         <div v-else class="main-container">
             <div class="subscription-plan-form-container">
                 <main-section
+                    :ref="'main'"
                     class="subscription-plan-section main-section"
                     :formData="formData"
-                    :errors="errors"
                     :dtOptions="daytraderConfigMap"
                     :dtComponents="dtComponents"
                     :allComponents="allComponents"
@@ -142,7 +142,6 @@
             }
             .nitrozen-error-visible {
                 visibility: hidden;
-                margin-bottom: 7px;
             }
             .nitrozen-error-visible.visible {
                 visibility: visible;
@@ -460,7 +459,7 @@ export default {
                     }
                 ]
             };
-            _.merge(dtCompData.shallow_rules[0], dtCompConfig);
+            _.merge(dtCompData.shallow_rules[0], dtCompConfig.data.rule);
             return dtCompData;
         },
         isFormDirty() {
@@ -495,59 +494,66 @@ export default {
         },
         savePlan() {
             this.saveInProgress = true;
+            console.log(this.formData);
             if (this.validateData()) {
                 if (!this.isEditOnly) {
                     this.formData.components.forEach((comp) => {
-                        delete comp.component_price.free_tier;
+                        if (
+                            comp.component_price.free_tier &&
+                            !comp.component_price.free_tier.type
+                        ) {
+                            delete comp.component_price.free_tier;
+                        }
                     });
-                    BillingService.createPlan(this.formData)
-                        .then(({ data }) => {
-                            this.$snackbar.global.showSuccess(
-                                'Created successfully'
-                            );
+                    // BillingService.createPlan(this.formData)
+                    //     .then(({ data }) => {
+                    //         this.$snackbar.global.showSuccess(
+                    //             'Created successfully'
+                    //         );
 
-                            this.$router.push({
-                                path: `administrator/subscription-plans/`,
-                                query: {}
-                            });
+                    //         this.$router.push({
+                    //             path: `administrator/subscription-plans/`,
+                    //             query: {}
+                    //         });
 
-                            this.originalData = _.cloneDeep(data.data);
-                            this.formData = data.data;
-                            this.saveInProgress = false;
-                        })
-                        .catch((err) => {
-                            this.saveInProgress = false;
-                            this.$snackbar.global.showError(
-                                `Failed to create subscription-plan${
-                                    err && err.message
-                                        ? ' : ' + err.message
-                                        : ''
-                                }`
-                            );
-                        });
+                    //         this.originalData = _.cloneDeep(data.data);
+                    //         this.formData = data.data;
+                    //         this.saveInProgress = false;
+                    //     })
+                    //     .catch((err) => {
+                    //         this.saveInProgress = false;
+                    //         this.$snackbar.global.showError(
+                    //             `Failed to create subscription-plan${
+                    //                 err && err.message
+                    //                     ? ' : ' + err.message
+                    //                     : ''
+                    //             }`
+                    //         );
+                    //     });
                 } else {
-                    BillingService.createPlan(this.formData)
-                        .then(({ data }) => {
-                            this.$snackbar.global.showSuccess(
-                                'Updated successfully'
-                            );
-                            this.saveInProgress = false;
-                        })
-                        .catch((err) => {
-                            this.saveInProgress = false;
-                            this.$snackbar.global.showError(
-                                `Failed to update Subscription Plan${
-                                    err && err.message
-                                        ? ' : ' + err.message
-                                        : ''
-                                }`
-                            );
-                        });
+                    // BillingService.createPlan(this.formData)
+                    //     .then(({ data }) => {
+                    //         this.$snackbar.global.showSuccess(
+                    //             'Updated successfully'
+                    //         );
+                    //         this.saveInProgress = false;
+                    //     })
+                    //     .catch((err) => {
+                    //         this.saveInProgress = false;
+                    //         this.$snackbar.global.showError(
+                    //             `Failed to update Subscription Plan${
+                    //                 err && err.message
+                    //                     ? ' : ' + err.message
+                    //                     : ''
+                    //             }`
+                    //         );
+                    //     });
                 }
             } else {
                 this.$snackbar.global.showError(
                     'Invalid data entered. Please enter valid data.'
                 );
+                this.saveInProgress = false;
             }
         },
         changeActiveState() {
@@ -580,17 +586,10 @@ export default {
         },
 
         validateData() {
-            this.clearErrors();
-            let isValid = true;
             if (!this.formData.plan.name) {
                 this.errors['name'] = 'Required Field';
-                isValid = false;
             }
-            return isValid;
-        },
-
-        clearErrors() {
-            this.errors = {};
+            return this.$refs['main'].validateData();
         },
 
         onMenuAction(action) {

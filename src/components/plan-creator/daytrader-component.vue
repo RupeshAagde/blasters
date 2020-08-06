@@ -68,7 +68,7 @@
                     :key="opt_obj.id"
                 >
                     <nitrozen-radio
-                        :name="`${comp_key}_main_${config._id}`"
+                        :name="`${comp_key}_main_${config.component_id}`"
                         :radioValue="opt_obj.id"
                         v-model="tran_comp[comp_key]"
                     >
@@ -156,7 +156,7 @@
                                     ></nitrozen-dropdown>
                                 </div>
                             </div>
-                            <div class="form-row form-compact-items">
+                            <div class="form-row form-compact-items no-pad">
                                 <div class="form-item">
                                     <nitrozen-input
                                         v-if="
@@ -177,6 +177,11 @@
                                             '10 if shipment_value > 500 else 50'
                                         "
                                     ></nitrozen-input>
+                                    <nitrozen-error
+                                        :class="{ visible: errors[user_input] }"
+                                    >
+                                        {{ errors[user_input] || '-' }}
+                                    </nitrozen-error>
                                 </div>
                             </div>
                         </div>
@@ -205,6 +210,9 @@
                 border-radius: @BorderRadius;
                 padding: 8px 12px;
                 box-sizing: border-box;
+                .form-row.no-pad {
+                    padding-bottom: 0;
+                }
                 + .rule-row-cont {
                     margin: 12px 0;
                 }
@@ -220,7 +228,8 @@ import {
     NitrozenRadio,
     NitrozenDropdown,
     NitrozenCheckBox,
-    NitrozenTooltip
+    NitrozenTooltip,
+    NitrozenError
 } from '@gofynd/nitrozen-vue';
 
 import _ from 'lodash';
@@ -237,16 +246,18 @@ export default {
     },
     components: {
         'nitrozen-radio': NitrozenRadio,
+        'nitrozen-error': NitrozenError,
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-input': NitrozenInput,
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-tooltip': NitrozenTooltip
     },
     created() {
-        _.merge(this.formData, { data: this.config.data.rule });
+        _.merge(this.formData, { data: this.config });
     },
     data() {
         return {
+            errors: {},
             input_types: [
                 {
                     text: 'Fixed',
@@ -333,7 +344,7 @@ export default {
                 obj = this.cond_data;
             } else if (type === 'conditional_value') {
                 obj = this.cond_data[key];
-                key = 'on';
+                key = 'condition';
             } else {
                 obj = this.default_data;
             }
@@ -342,6 +353,38 @@ export default {
             } else {
                 this.$delete(obj, key);
             }
+        },
+        validateData() {
+            let is_valid = true;
+            this.errors = {};
+            for (let key of Object.keys(this.tran_comp)) {
+                for (let user_input of this.options[key].find(
+                    (opt) => opt.id === this.tran_comp[key]
+                ).user_input_fields) {
+                    if (this.default_data[user_input] !== undefined) {
+                        if (
+                            this.default_data[user_input] < 1 ||
+                            this.default_data[user_input] > 1000
+                        ) {
+                            this.errors[user_input] =
+                                'Value must be between 1 to 1000';
+                            is_valid = false;
+                        }
+                    } else if (this.cond_data[user_input] !== undefined) {
+                        if (
+                            !this.cond_data[user_input]['condition'] ||
+                            !this.cond_data[user_input]['on']
+                        ) {
+                            this.errors[user_input] = 'Required';
+                            is_valid = false;
+                        }
+                    } else {
+                        this.errors[user_input] = 'Required';
+                        is_valid = false;
+                    }
+                }
+            }
+            return is_valid;
         }
     }
 };

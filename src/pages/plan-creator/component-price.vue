@@ -7,11 +7,17 @@
                         :label="'Feature Text *'"
                         v-model="formData.display_text"
                     ></nitrozen-input>
+                    <nitrozen-error
+                        v-bind:class="{ visible: errors['display_text'] }"
+                    >
+                        {{ errors['display_text'] || '-' }}
+                    </nitrozen-error>
                 </div>
             </div>
         </div>
         <div v-else-if="formData.processing_type === 'feature_config'">
             <component
+                :ref="'component'"
                 :is="baseComponent.slug"
                 :formData="formData"
                 :config="baseComponent.component_price_config.feature_config"
@@ -191,6 +197,11 @@
                         :label="'Feature Text *'"
                         v-model="formData.display_text"
                     ></nitrozen-input>
+                    <nitrozen-error
+                        v-bind:class="{ visible: errors['display_text'] }"
+                    >
+                        {{ errors['display_text'] || '-' }}
+                    </nitrozen-error>
                 </div>
             </div>
         </div>
@@ -244,7 +255,6 @@
     }
     .nitrozen-error-visible {
         visibility: hidden;
-        margin-bottom: 7px;
     }
     .nitrozen-error-visible.visible {
         visibility: visible;
@@ -327,6 +337,7 @@ export default {
         return {
             searchCurrency: '',
             formData: {},
+            errors: {},
             options: PLAN_ENUMS,
             show_advanced: false
         };
@@ -409,13 +420,13 @@ export default {
                         billing_scheme: 'tiered',
                         tiers_mode: 'volume'
                     }
-                },
-                package: {
-                    display: 'Package Pricing',
-                    config: {
-                        billing_scheme: 'per_unit'
-                    }
                 }
+                // package: {
+                //     display: 'Package Pricing',
+                //     config: {
+                //         billing_scheme: 'per_unit'
+                //     }
+                // }
             };
         },
         currency_map() {
@@ -451,6 +462,23 @@ export default {
         },
         changeType(type) {
             _.merge(this.formData, this.pricing_map[type].config);
+        },
+        validateData() {
+            let is_valid = true;
+            this.clearErrors();
+            if (!this.priceModel.is_active) {
+                return is_valid;
+            }
+            if (!this.formData.display_text) {
+                this.errors['display_text'] = 'Required field';
+            }
+            if (this.$refs['component']) {
+                is_valid = this.$refs['component'].validateData() && is_valid;
+            }
+            return is_valid;
+        },
+        clearErrors() {
+            this.errors = {};
         }
     }
 };

@@ -7,6 +7,11 @@
                     v-model="formData.display_text"
                 >
                 </nitrozen-input>
+                <nitrozen-error
+                    v-bind:class="{ visible: errors['display_text'] }"
+                >
+                    {{ errors['display_text'] || '-' }}
+                </nitrozen-error>
             </div>
         </div>
         <!-- <div class="form-row form-compact-items" v-if="config">
@@ -67,7 +72,8 @@ export default {
                     value: 'level3',
                     text: '4Hr'
                 }
-            ]
+            ],
+            errors: {}
         };
     },
     components: {
@@ -75,6 +81,19 @@ export default {
         'nitrozen-error': NitrozenError,
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-checkbox': NitrozenCheckBox
+    },
+    methods: {
+        validateData() {
+            let is_valid = true;
+            this.clearErrors();
+            if (!this.formData.display_text) {
+                this.errors['display_text'] = 'Required field';
+            }
+            return is_valid;
+        },
+        clearErrors() {
+            this.errors = {};
+        }
     }
 };
 </script>

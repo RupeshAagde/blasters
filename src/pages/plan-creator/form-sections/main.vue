@@ -125,6 +125,7 @@
                 <plan-component
                     class="plan-component"
                     v-show="planComponentMap[component._id]"
+                    :ref="`comp_${component._id}`"
                     v-for="component in getComponents('display')"
                     :key="component._id"
                     :component="component"
@@ -137,6 +138,7 @@
                 <plan-component
                     class="plan-component"
                     v-show="planComponentMap[component._id]"
+                    :ref="`comp_${component._id}`"
                     v-for="component in getComponents('feature_config')"
                     :key="component._id"
                     :component="component"
@@ -149,6 +151,7 @@
                 <plan-component
                     class="plan-component"
                     v-show="planComponentMap[component._id]"
+                    :ref="`comp_${component._id}`"
                     v-for="component in getComponents('revenue')"
                     :key="component._id"
                     :component="component"
@@ -162,6 +165,7 @@
                     class="plan-component"
                     v-show="dTComponentMap[component._id]"
                     v-for="component in dtComponents"
+                    :ref="`dt_comp_${component._id}`"
                     :key="component._id"
                     :component="component"
                     :dtOptions="dtOptions[component.data.channels[0]]"
@@ -216,9 +220,6 @@ export default {
         formData: {
             type: Object
         },
-        errors: {
-            type: Object
-        },
         allComponents: {
             type: Array,
             default: []
@@ -233,6 +234,7 @@ export default {
     },
     data() {
         return {
+            errors: {},
             durationUnits: [
                 {
                     text: 'Days',
@@ -284,6 +286,32 @@ export default {
             return this.allComponents.filter((comp) => {
                 return comp.component_price_config.type === type;
             });
+        },
+        validateData() {
+            let isValid = true;
+            this.clearErrors();
+            if (!this.formData.plan.name) {
+                this.errors['name'] = 'Required Field';
+                isValid = false;
+            }
+            if (!this.formData.plan.amount.toString().length) {
+                this.errors['amount'] = 'Required Field';
+                isValid = false;
+            }
+            if (!this.formData.plan.currency.toString().length) {
+                this.errors['amount'] = 'Currency is required';
+                isValid = false;
+            }
+            for (let component_key of Object.keys(this.$refs)) {
+                if (this.$refs[component_key][0].validateData) {
+                    isValid =
+                        this.$refs[component_key][0].validateData() && isValid;
+                }
+            }
+            return isValid;
+        },
+        clearErrors() {
+            this.errors = {};
         }
     }
 };

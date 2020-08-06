@@ -24,6 +24,7 @@
             </div>
             <div class="prices-box">
                 <price-model-page
+                    :ref="'price-model'"
                     v-if="currentPriceModel"
                     :baseComponent="component"
                     :priceModel="currentPriceModel"
@@ -161,10 +162,10 @@ export default {
         },
         updateFeature(value) {
             if (
-                currentPriceModel.processing_type === 'feature_config' &&
-                currentPriceModel.feature_config.hasOwnProperty('enabled')
+                this.currentPriceModel.processing_type === 'feature_config' &&
+                this.currentPriceModel.feature_config.hasOwnProperty('enabled')
             ) {
-                currentPriceModel.feature_config.enabled = value;
+                this.currentPriceModel.feature_config.enabled = value;
             }
         },
         getPriceModelValue(detailField) {
@@ -191,13 +192,29 @@ export default {
                 negativeButtonLabel: false,
                 neutralButtonLabel: false
             });
+            _.merge(
+                this.$refs['daytrader'].formData,
+                this.price_component.shallow_rules[0]
+            );
         },
         updateDaytraderData() {
+            if (!this.$refs['daytrader'].validateData()) {
+                this.$snackbar.global.showError(
+                    'Invalid data entered. Please enter valid data.'
+                );
+                return;
+            }
             _.merge(
                 this.price_component.shallow_rules[0],
                 this.$refs['daytrader'].formData
             );
             this.$refs['daytrader_rule_edit'].close();
+        },
+        validateData() {
+            if (this.$refs['price-model']) {
+                return this.$refs['price-model'].validateData();
+            }
+            return true;
         }
     }
 };
