@@ -136,6 +136,7 @@
                 .form-row.no-pad {
                     padding-bottom: 0;
                 }
+
                 &.form-compact-items {
                     flex-wrap: wrap;
                     .form-item {
@@ -327,11 +328,11 @@ export default {
                     tagLines: [],
                     currency: 'INR',
                     is_active: true,
-                    is_visible: this.planType === 'public',
+                    is_visible: this.$route.query.plan_type === 'public',
                     trial_period: 0,
                     addons: [],
                     tags: [],
-                    type: this.planType,
+                    type: this.$route.query.plan_type,
                     country: 'IN',
                     name: '',
                     description: '',
