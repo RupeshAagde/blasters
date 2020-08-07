@@ -26,7 +26,7 @@
                         class="search"
                     />
                     <div class="dropdown-filters">
-                        <nitrozen-dropdown
+                        <!-- <nitrozen-dropdown
                             class="type-filter"
                             :label="'Country'"
                             :searchable="true"
@@ -38,7 +38,7 @@
                                     searchCountry = e && e.text ? e.text : '';
                                 }
                             "
-                        ></nitrozen-dropdown>
+                        ></nitrozen-dropdown> -->
                         <nitrozen-dropdown
                             class="type-filter"
                             :label="'Plan Type'"

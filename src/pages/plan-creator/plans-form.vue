@@ -7,8 +7,14 @@
                 @backClick="onCancel"
                 @delete="onMenuAction('delete')"
                 @clone="onMenuAction('clone')"
+                @subscribe="onMenuAction('subscribe')"
             >
                 <div class="button-box">
+                    <span
+                        class="plan-type-badge bold-xs"
+                        :title="`${mapPlanType[formData.plan.type]} plan`"
+                        >{{ mapPlanType[formData.plan.type] }}</span
+                    >
                     <span
                         class="bold-xs clickable-label"
                         :class="{
@@ -38,6 +44,14 @@
                         >Preview</nitrozen-button
                     >
                     <nitrozen-button
+                        :disabled="formData.hasActiveSubscription"
+                        :title="
+                            `${
+                                formData.hasActiveSubscription
+                                    ? 'Plan has active subscriptions'
+                                    : ''
+                            }`
+                        "
                         :theme="'secondary'"
                         @click="savePlan"
                         v-flatBtn
@@ -72,6 +86,38 @@
             :plans="[previewData]"
             @closeSubscribePlanModal="showPreview = false"
         ></preview-modal>
+        <nitrozen-dialog
+            class="subscribe-modal"
+            :ref="'subscribe-modal'"
+            :title="'Select Company'"
+        >
+            <template slot="body">
+                <nitrozen-dropdown
+                    style="margin-bottom: 24px"
+                    :label="'Company*'"
+                    :searchable="true"
+                    @searchInputChange="companySearch"
+                    v-model="selectedCompany"
+                    :items="
+                        companies.map((item) => {
+                            return {
+                                text: item.name,
+                                value: item.uid
+                            };
+                        })
+                    "
+                ></nitrozen-dropdown>
+            </template>
+            <template slot="footer">
+                <nitrozen-button
+                    class="pad-right"
+                    :theme="'secondary'"
+                    @click="subscribePlan"
+                    v-strokeBtn
+                    >Subscribe</nitrozen-button
+                >
+            </template>
+        </nitrozen-dialog>
     </div>
 </template>
 
@@ -81,10 +127,29 @@
 .page-header-position {
     margin-bottom: 60px;
 }
+.subscribe-modal {
+    ::v-deep .nitrozen-dialog-body {
+        overflow: inherit;
+    }
+}
 .subscription-plan {
     ::v-deep .button-box {
         display: flex;
         align-items: center;
+        width: 100%;
+        justify-content: flex-end;
+        position: relative;
+
+        .plan-type-badge {
+            display: flex;
+            cursor: default;
+            padding: 5px;
+            position: absolute;
+            left: 10px;
+            background-color: @RoyalBlue;
+            color: @White;
+            border-radius: @BorderRadius;
+        }
     }
     ::v-deep .pad-right {
         margin-right: 16px;
@@ -133,7 +198,7 @@
                     margin-left: 20px;
                 }
 
-                .form-row.no-pad {
+                &.no-pad {
                     padding-bottom: 0;
                 }
 
@@ -166,12 +231,15 @@
 import mainSection from './form-sections/main.vue';
 import detailSection from './form-sections/details.vue';
 import BillingService from '../../services/billing.service';
+import CompanyService from '../../services/company-admin.service';
 import previewModal from '../../components/plan-creator/preview-plan-modal.vue';
 import {
     NitrozenButton,
     NitrozenMenu,
     NitrozenMenuItem,
     NitrozenToggleBtn,
+    NitrozenDialog,
+    NitrozenDropdown,
     flatBtn,
     strokeBtn
 } from '@gofynd/nitrozen-vue';
@@ -180,6 +248,8 @@ import { Loader, PageHeader } from '../../components/common/';
 import _ from 'lodash';
 import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
 const channels = ['uniket', 'fynd', 'ecomm', 'marketplace', 'fynd_store'];
+import root from 'window-or-global';
+const config = root.env || {};
 
 export default {
     name: 'subscription-plan-form',
@@ -192,6 +262,8 @@ export default {
         'nitrozen-menu': NitrozenMenu,
         'nitrozen-menu-item': NitrozenMenuItem,
         'nitrozen-toggle': NitrozenToggleBtn,
+        'nitrozen-dialog': NitrozenDialog,
+        'nitrozen-dropdown': NitrozenDropdown,
         'preview-modal': previewModal
     },
     directives: {
@@ -200,14 +272,13 @@ export default {
     },
     mixins: [dirtyCheckMixin],
     created() {
-        let promises = [];
         let planId = this.$route.params.planId;
+        let planPromise = Promise.resolve();
         if (planId) {
             this.loading = true;
-            BillingService.getPlans({}, planId)
+            planPromise = BillingService.getPlans({}, planId)
                 .then((response) => {
                     _.merge(this.formData, response.data);
-                    this.originalData = _.cloneDeep(this.formData);
                     this.loading = false;
                 })
                 .catch((err) => {
@@ -220,7 +291,7 @@ export default {
                     );
                 });
         }
-        BillingService.getComponents({ limit: 100 })
+        let compPromise = BillingService.getComponents({ limit: 100 })
             .then(({ data }) => {
                 this.allComponents = data.docs;
                 if (!planId) {
@@ -240,7 +311,7 @@ export default {
             };
             pArr.push(BillingService.getDaytraderConfig(payload));
         });
-        Promise.all(pArr)
+        let dtCompPromise = Promise.all(pArr)
             .then((resArr) => {
                 resArr.forEach(({ data }, index) => {
                     this.$set(
@@ -254,7 +325,7 @@ export default {
                 console.log(err);
             });
 
-        BillingService.getDaytraderComponents()
+        let dtPlanCompPromise = BillingService.getDaytraderComponents()
             .then(({ data }) => {
                 this.dtComponents = data.docs;
                 if (!planId) {
@@ -266,6 +337,18 @@ export default {
             .catch((err) => {
                 console.log(err);
             });
+        this.fetchCompany();
+
+        Promise.all([
+            planPromise,
+            compPromise,
+            dtCompPromise,
+            dtPlanCompPromise
+        ])
+            .then(() => {
+                this.originalData = _.cloneDeep(this.formData);
+            })
+            .catch((err) => console.log(err));
     },
     data() {
         return {
@@ -273,12 +356,19 @@ export default {
             pageOptions: [],
             allComponents: [],
             dtComponents: [],
+            companies: [],
+            selectedCompany: -1,
             daytraderConfigMap: {},
             saveInProgress: false,
             originalData: {},
             formData: this.getCreateData(),
             previewData: null,
             showPreview: false,
+            mapPlanType: {
+                private: 'Private',
+                public: 'Public',
+                'company-specific': 'Company Specific'
+            },
             contextMenu: [
                 {
                     text: 'Clone',
@@ -287,6 +377,10 @@ export default {
                 {
                     text: 'Delete',
                     action: 'delete'
+                },
+                {
+                    text: 'Subscribe',
+                    action: 'subscribe'
                 }
             ],
             errors: {
@@ -313,9 +407,18 @@ export default {
         },
         isEditOnly() {
             return this.editMode && !this.isClone;
+        },
+        customPlanLink() {
+            return `https://platform.${config.FYND_PLATFORM_DOMAIN}/company/${this.selectedCompany}/billing/custom-plan/${this.planId}`;
         }
     },
     methods: {
+        subscribePlan() {
+            let a = document.createElement('a');
+            a.target = '_blank';
+            a.href = this.customPlanLink;
+            a.click();
+        },
         getCreateData() {
             return {
                 plan: {
@@ -333,6 +436,7 @@ export default {
                     addons: [],
                     tags: [],
                     type: this.$route.query.plan_type,
+                    company: -1,
                     country: 'IN',
                     name: '',
                     description: '',
@@ -498,7 +602,6 @@ export default {
         },
         savePlan() {
             this.saveInProgress = true;
-            console.log(this.formData);
             if (this.validateData()) {
                 if (!this.isEditOnly) {
                     this.formData.components.forEach((comp) => {
@@ -509,49 +612,49 @@ export default {
                             delete comp.component_price.free_tier;
                         }
                     });
-                    // BillingService.createPlan(this.formData)
-                    //     .then(({ data }) => {
-                    //         this.$snackbar.global.showSuccess(
-                    //             'Created successfully'
-                    //         );
+                    BillingService.createPlan(this.formData)
+                        .then(({ data }) => {
+                            this.$snackbar.global.showSuccess(
+                                'Created successfully'
+                            );
 
-                    //         this.$router.push({
-                    //             path: `administrator/subscription-plans/`,
-                    //             query: {}
-                    //         });
+                            this.$router.push({
+                                path: `administrator/subscription-plans/`,
+                                query: {}
+                            });
 
-                    //         this.originalData = _.cloneDeep(data.data);
-                    //         this.formData = data.data;
-                    //         this.saveInProgress = false;
-                    //     })
-                    //     .catch((err) => {
-                    //         this.saveInProgress = false;
-                    //         this.$snackbar.global.showError(
-                    //             `Failed to create subscription-plan${
-                    //                 err && err.message
-                    //                     ? ' : ' + err.message
-                    //                     : ''
-                    //             }`
-                    //         );
-                    //     });
+                            this.originalData = _.cloneDeep(data.data);
+                            this.formData = data.data;
+                            this.saveInProgress = false;
+                        })
+                        .catch((err) => {
+                            this.saveInProgress = false;
+                            this.$snackbar.global.showError(
+                                `Failed to create subscription-plan${
+                                    err && err.message
+                                        ? ' : ' + err.message
+                                        : ''
+                                }`
+                            );
+                        });
                 } else {
-                    // BillingService.createPlan(this.formData)
-                    //     .then(({ data }) => {
-                    //         this.$snackbar.global.showSuccess(
-                    //             'Updated successfully'
-                    //         );
-                    //         this.saveInProgress = false;
-                    //     })
-                    //     .catch((err) => {
-                    //         this.saveInProgress = false;
-                    //         this.$snackbar.global.showError(
-                    //             `Failed to update Subscription Plan${
-                    //                 err && err.message
-                    //                     ? ' : ' + err.message
-                    //                     : ''
-                    //             }`
-                    //         );
-                    //     });
+                    BillingService.createPlan(this.formData)
+                        .then(({ data }) => {
+                            this.$snackbar.global.showSuccess(
+                                'Updated successfully'
+                            );
+                            this.saveInProgress = false;
+                        })
+                        .catch((err) => {
+                            this.saveInProgress = false;
+                            this.$snackbar.global.showError(
+                                `Failed to update Subscription Plan${
+                                    err && err.message
+                                        ? ' : ' + err.message
+                                        : ''
+                                }`
+                            );
+                        });
                 }
             } else {
                 this.$snackbar.global.showError(
@@ -623,12 +726,47 @@ export default {
                             'Failed to delete Subscription Plan'
                         );
                     });
+            } else if (action == 'subscribe') {
+                this.$refs['subscribe-modal'].open({
+                    width: '550px',
+                    dismissible: true,
+                    showCloseButton: true,
+                    positiveButtonLabel: false,
+                    negativeButtonLabel: false,
+                    neutralButtonLabel: false
+                });
             }
         },
         onCancel() {
             this.$router.push({
                 path: `/administrator/subscription-plans`
             });
+        },
+        companySearch(e) {
+            _.debounce((text) => {
+                this.fetchCompany(text);
+            }, 600)(e.text);
+        },
+        fetchCompany(searchCompany) {
+            const query = {
+                page_no: 0,
+                page_size: 10
+            };
+
+            if (searchCompany) {
+                query.name = searchCompany;
+            }
+            return CompanyService.getCompanyList(query)
+                .then(({ data }) => {
+                    this.companies = data.data;
+                    if (this.selectedCompany === -1) {
+                        this.selectedCompany = this.companies[0].uid;
+                    }
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError('Failed to load companies');
+                    console.log(err);
+                });
         }
     }
 };

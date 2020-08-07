@@ -3,7 +3,7 @@
         <div class="form-row form-compact-items no-pad" v-if="formData">
             <div class="form-item">
                 <nitrozen-input
-                    :label="'Display Feature Text'"
+                    :label="'Feature Text *'"
                     v-model="formData.display_text"
                 >
                 </nitrozen-input>

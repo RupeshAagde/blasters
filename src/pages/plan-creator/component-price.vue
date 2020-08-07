@@ -52,7 +52,10 @@
                 </div>
             </div> -->
 
-            <div v-if="isOneTimeBill" class="form-row form-compact-items">
+            <div
+                v-if="isOneTimeBill"
+                class="form-row form-compact-items no-pad"
+            >
                 <div class="form-item">
                     <nitrozen-input
                         style="width: 300px;"
@@ -75,6 +78,10 @@
                             "
                         ></nitrozen-dropdown>
                     </nitrozen-input>
+                    <nitrozen-error
+                        :class="{ visible: errors['comp-amount'] }"
+                        >{{ errors['comp-amount'] || '-' }}</nitrozen-error
+                    >
                 </div>
             </div>
 
@@ -88,13 +95,17 @@
                         :currencies="currencies"
                     >
                     </tier-table>
+                    <nitrozen-error
+                        :class="{ visible: errors['tier-amount'] }"
+                        >{{ errors['tier-amount'] || '-' }}</nitrozen-error
+                    >
                 </div>
             </div>
 
             <div
                 v-if="formData.price_type !== 'dynamic'"
                 style="align-items: flex-end;"
-                class="form-row form-compact-items"
+                class="form-row form-compact-items no-pad"
             >
                 <div class="form-item">
                     <nitrozen-dropdown
@@ -102,6 +113,7 @@
                         :items="options.bill_type.enum"
                         v-model="formData.bill_type"
                     ></nitrozen-dropdown>
+                    <nitrozen-error>-</nitrozen-error>
                 </div>
                 <div v-if="isRecurring" class="form-item">
                     <nitrozen-input
@@ -119,6 +131,10 @@
                             v-model="formData.recurring.interval"
                         ></nitrozen-dropdown>
                     </nitrozen-input>
+                    <nitrozen-error
+                        :class="{ visible: errors['comp-recurring'] }"
+                        >{{ errors['comp-recurring'] || '-' }}</nitrozen-error
+                    >
                 </div>
             </div>
 
@@ -172,6 +188,9 @@
                         :label="'Divide Usage'"
                         v-model="formData.transform_quantity.divide_by"
                     ></nitrozen-input>
+                    <nitrozen-error :class="{ visible: errors['divide-by'] }">{{
+                        errors['divide-by'] || '-'
+                    }}</nitrozen-error>
                 </div>
 
                 <div class="form-item">
@@ -348,11 +367,7 @@ export default {
     },
     computed: {
         isOneTimeBill() {
-            return (
-                !this.isTiered &&
-                this.formData.price_type === 'static' &&
-                !this.isTiered
-            );
+            return !this.isTiered && this.formData.price_type === 'static';
         },
         isRecurring() {
             return this.formData.bill_type === 'recurring';
@@ -466,9 +481,42 @@ export default {
             }
             if (!this.formData.display_text) {
                 this.errors['display_text'] = 'Required field';
+                is_valid = false;
             }
             if (this.$refs['component']) {
                 is_valid = this.$refs['component'].validateData() && is_valid;
+            } else if (this.formData.processing_type === 'revenue') {
+                if (this.formData.unit_price < 0) {
+                    this.errors['comp-amount'] = 'Invalid Value';
+                    is_valid = false;
+                } else if (this.isTiered) {
+                    this.formData.tiers.forEach((tier, index) => {
+                        if (tier.unit_price < 0) {
+                            this.errors['tier-amount'] =
+                                'Price cannot be negative for tier ' +
+                                (index + 1);
+                            is_valid = false;
+                        } else if (tier.flat_amount < 0) {
+                            this.errors['tier-amount'] =
+                                'Fees cannot be negative for tier ' +
+                                (index + 1);
+                            is_valid = false;
+                        }
+                    });
+                }
+
+                if (
+                    this.isRecurring &&
+                    this.formData.recurring.interval_count < 1
+                ) {
+                    this.errors['comp-recurring'] = 'Cannot be less than 1';
+                    is_valid = false;
+                }
+
+                if (this.formData.transform_quantity.divide_by < 1) {
+                    this.errors['divide-by'] = 'Cannot be less than 1';
+                    is_valid = false;
+                }
             }
             return is_valid;
         },

@@ -72,8 +72,8 @@
                     ></nitrozen-dropdown>
                 </nitrozen-input>
                 <nitrozen-error
-                    v-bind:class="{ visible: errors['trial_period'] }"
-                    >{{ errors['trial_period'] || '-' }}</nitrozen-error
+                    v-bind:class="{ visible: errors['recurr_period'] }"
+                    >{{ errors['recurr_period'] || '-' }}</nitrozen-error
                 >
             </div>
         </div>
@@ -101,12 +101,11 @@
             </div>
         </div>
 
-        <div v-if="formData.plan.type === 'public'" class="form-row">
+        <div v-if="formData.plan.type === 'public'" class="form-row no-pad">
             <div class="form-item">
                 <nitrozen-checkbox v-model="formData.plan.is_visible"
                     >Visible to all
                 </nitrozen-checkbox>
-                <nitrozen-error>-</nitrozen-error>
             </div>
         </div>
         <div
@@ -308,6 +307,12 @@ export default {
                     value: cur.code
                 };
             });
+        },
+        recurring_type() {
+            return this.formData.plan.recurring.interval;
+        },
+        recurring_time() {
+            return this.formData.plan.recurring.interval_count;
         }
     },
     methods: {
@@ -326,9 +331,23 @@ export default {
             if (!this.formData.plan.amount.toString().length) {
                 this.errors['amount'] = 'Required Field';
                 isValid = false;
+            } else if (this.formData.plan.amount < 0) {
+                this.errors['amount'] = 'Invalid amount';
+                isValid = false;
             }
             if (!this.formData.plan.currency.toString().length) {
                 this.errors['amount'] = 'Currency is required';
+                isValid = false;
+            }
+            if (this.recurring_time < 1) {
+                this.errors['recurr_period'] = 'Cannot be less than 1';
+                isValid = false;
+            }
+            if (
+                this.formData.plan.is_trial_plan &&
+                this.formData.plan.trial_period < 1
+            ) {
+                this.errors['trial_period'] = 'Cannot be less than 1';
                 isValid = false;
             }
             for (let component_key of Object.keys(this.$refs)) {
@@ -359,6 +378,9 @@ export default {
             return CompanyService.getCompanyList(query)
                 .then(({ data }) => {
                     this.companies = data.data;
+                    if (this.formData.plan.company === -1) {
+                        this.formData.plan.company = this.companies[0].uid;
+                    }
                 })
                 .catch((err) => {
                     this.$snackbar.global.showError('Failed to load companies');
