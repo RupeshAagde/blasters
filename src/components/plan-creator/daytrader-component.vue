@@ -32,6 +32,25 @@
             </div>
         </div>
 
+        <div class="form-row form-compact-items">
+            <div class="form-item">
+                <nitrozen-dropdown
+                    :label="'Settlement Type'"
+                    :items="[
+                        {
+                            value: 'weekly',
+                            text: 'Weekly'
+                        },
+                        {
+                            value: 'monthly',
+                            text: 'Monthly'
+                        }
+                    ]"
+                    v-model="formData.data.settlement_type"
+                ></nitrozen-dropdown>
+            </div>
+        </div>
+
         <div class="form-row">
             <div class="bold-sm top-headers">
                 Select a Formula/Condition
