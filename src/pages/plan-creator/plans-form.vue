@@ -176,6 +176,9 @@
             .top-headers {
                 line-height: 27px;
                 margin-top: 12px;
+                &:first-child {
+                    margin-top: 0;
+                }
             }
 
             .custom-label {
@@ -440,10 +443,9 @@ export default {
                     country: 'IN',
                     name: '',
                     description: '',
-                    amount: 0,
-                    product_suite_id: '5f0daf12ca17ac00352ced62'
+                    amount: 0
                 },
-                product_suite_id: '5f0daf12ca17ac00352ced62',
+                product_suite: 'fynd-platform',
                 components: [],
                 dayTraderComponents: [],
                 hasActiveSubscription: false

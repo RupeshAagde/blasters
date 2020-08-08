@@ -27,9 +27,10 @@
             </div>
         </div>
         <div class="cl-Mako bold-md top-headers">Settings</div>
-        <div class="form-row form-compact-items">
+        <div class="form-row form-compact-items no-pad">
             <div class="form-item">
                 <nitrozen-input
+                    style="width:300px;"
                     :type="'number'"
                     :allowNegative="false"
                     :showSuffix="true"
@@ -38,14 +39,13 @@
                     v-model="formData.plan.amount"
                 >
                     <nitrozen-dropdown
+                        :placeholder="'Search Currency'"
                         style="width:140px;"
                         :items="currentCurrency"
                         v-model="formData.plan.currency"
                         :searchable="true"
                         @searchInputChange="
-                            (e) =>
-                                (this.searchCurrency =
-                                    e && e.text ? e.text : '')
+                            (e) => (this.searchCurrency = e.text)
                         "
                     ></nitrozen-dropdown>
                 </nitrozen-input>
@@ -53,11 +53,10 @@
                     errors['amount'] || '-'
                 }}</nitrozen-error>
             </div>
-        </div>
 
-        <div class="form-row form-compact-items">
             <div class="form-item">
                 <nitrozen-input
+                    style="width:300px;"
                     :type="'number'"
                     :allowNegative="false"
                     :label="'Recurring Time*'"
@@ -78,7 +77,24 @@
             </div>
         </div>
 
-        <div style="align-items: center;" class="form-row form-compact-items">
+        <div class="regular-xxs form-row no-pad">
+            <div class="form-item">
+                <div>
+                    <span class="cl-DustyGray2">Preview :</span>&nbsp;&nbsp;
+                    {{
+                        `${currencyAmount} every ${
+                            recurring_time > 1 ? recurring_time : ''
+                        } ${recurring_type}`
+                    }}
+                </div>
+                <nitrozen-error>-</nitrozen-error>
+            </div>
+        </div>
+
+        <div
+            style="align-items: center;"
+            class="form-row form-compact-items no-pad"
+        >
             <div class="form-item">
                 <nitrozen-checkbox v-model="formData.plan.is_trial_plan"
                     >Trial Plan
@@ -110,7 +126,7 @@
         </div>
         <div
             v-else-if="formData.plan.type === 'company-specific'"
-            class="form-row"
+            class="form-row no-pad"
         >
             <div class="form-item">
                 <nitrozen-dropdown
@@ -201,8 +217,8 @@
 
 <style lang="less" scoped>
 .comp-top-headers {
-    margin-top: 48px;
-    margin-bottom: 6px;
+    margin-top: 40px;
+    margin-bottom: 9px;
 }
 .filter-dropdown {
     min-width: 100px;
@@ -261,6 +277,7 @@ export default {
             errors: {},
             companies: [],
             searchCompany: '',
+            searchCurrency: '',
             durationUnits: [
                 {
                     text: 'Days',
@@ -299,6 +316,12 @@ export default {
             }
             const regex = new RegExp(this.searchCurrency, 'gi');
             return this.currencies.filter((it) => regex.test(it.text));
+        },
+        currencyAmount() {
+            return Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: this.formData.plan.currency
+            }).format(this.formData.plan.amount);
         },
         currencies() {
             return CURRENCIES.map((cur) => {
