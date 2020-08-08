@@ -125,7 +125,7 @@
                     @save="logo.value = $event"
                     v-model="logo.value"
                     :fileName="logo.value"
-                    namespace="platform-free-logo"
+                    namespace="department-square-logo"
                 ></image-uploader-tile>
                 <nitrozen-error v-if="logo.showerror">
                     {{ logo.errortext }}

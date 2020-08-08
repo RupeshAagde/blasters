@@ -13,6 +13,8 @@ import FeaturesSettingsVue from './../../pages/settings/features';
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
+import ListVariants from './../../pages/catalogue/list-variants.vue';
+import CreateUpdateVariant from './../../pages/catalogue/create-update-variant.vue';
 
 export default [
     {
@@ -81,6 +83,21 @@ export default [
                 name: 'edit-department',
                 path: 'catalog/edit-department/:deptId',
                 component: CreateUpdateDepartment
+            },
+            {
+                name: 'variants',
+                path: 'catalog/variants',
+                component: ListVariants
+            },
+            {
+                name: 'create-variant',
+                path: 'catalog/create-variant',
+                component: CreateUpdateVariant
+            },
+            {
+                name: 'edit-variant',
+                path: 'catalog/edit-variant/:uid',
+                component: CreateUpdateVariant
             },
             // Settings
             {

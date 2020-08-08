@@ -25,6 +25,13 @@ export const getNavigations = () => {
                 title: 'Department',
                 icon: 'home',
                 highlightedIcon: 'home-highlighted'
+            },
+            {
+                display: 'Variants',
+                link: '/administrator/catalog/variants',
+                title: 'Variants',
+                icon: 'home',
+                highlightedIcon: 'home-highlighted'
             }
         ],
         PLANS: [

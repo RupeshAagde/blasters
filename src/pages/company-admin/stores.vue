@@ -14,7 +14,6 @@
             }}
             unverified.
         </div>
-
         <div class="search-store">
             <nitrozen-input
                 placeholder="Search Stores"
