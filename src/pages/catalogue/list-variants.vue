@@ -253,7 +253,7 @@ export default {
             pagination: {
                 total: 0,
                 current: 1,
-                limit: 10
+                limit: 50
             }
         };
     },
