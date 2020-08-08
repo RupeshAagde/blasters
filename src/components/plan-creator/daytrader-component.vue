@@ -360,7 +360,7 @@ export default {
                 obj = this.cond_data;
             } else if (type === 'conditional_value') {
                 obj = this.cond_data[key];
-                key = 'condition';
+                key = 'on';
             } else {
                 obj = this.default_data;
             }
