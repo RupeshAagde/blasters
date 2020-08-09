@@ -2,15 +2,7 @@
     <div class="plans-list main-container">
         <div class="page-container">
             <jumbotron
-                :title="
-                    jumbotronData
-                        ? `${jumbotronData.jumbotronTitle} ${
-                              filter_data
-                                  ? '(' + filter_data.pagination.total + ')'
-                                  : ''
-                          }`
-                        : ''
-                "
+                :title="jumbotronData ? `${jumbotronData.jumbotronTitle}` : ''"
                 :desc="jumbotronData ? jumbotronData.jumbotronBody : ''"
                 btnLabel="Create"
                 @btnClick="choosePlanType"

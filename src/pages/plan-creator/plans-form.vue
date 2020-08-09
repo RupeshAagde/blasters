@@ -90,6 +90,7 @@
             class="subscribe-modal"
             :ref="'subscribe-modal'"
             :title="'Select Company'"
+            @close="() => (copyDisplay = 'COPY LINK')"
         >
             <template slot="body">
                 <nitrozen-dropdown
@@ -98,6 +99,7 @@
                     :searchable="true"
                     @searchInputChange="companySearch"
                     v-model="selectedCompany"
+                    @input="() => (copyDisplay = 'COPY LINK')"
                     :items="
                         companies.map((item) => {
                             return {
@@ -109,13 +111,15 @@
                 ></nitrozen-dropdown>
             </template>
             <template slot="footer">
-                <nitrozen-button
-                    class="pad-right"
-                    :theme="'secondary'"
-                    @click="subscribePlan"
-                    v-strokeBtn
-                    >Subscribe</nitrozen-button
-                >
+                <input
+                    class="share-links"
+                    ref="share-text"
+                    readonly
+                    tabindex="-1"
+                    :value="customPlanLink"
+                    type="text"
+                />
+                <div class="ukt-links" @click="copyText">{{ copyDisplay }}</div>
             </template>
         </nitrozen-dialog>
     </div>
@@ -157,6 +161,19 @@
 
     ::v-deep .clickable-label {
         cursor: pointer;
+    }
+
+    .share-links {
+        flex: 1;
+        border: 1px solid #a9a9a9;
+        + .ukt-links {
+            color: @Mako;
+            border: 1px solid #a9a9a9;
+            align-items: center;
+            border-left: 0;
+            display: inline-flex;
+            padding: 5px;
+        }
     }
 
     .schedule-btn {
@@ -372,14 +389,11 @@ export default {
                 public: 'Public',
                 'company-specific': 'Company Specific'
             },
+            copyDisplay: 'COPY LINK',
             contextMenu: [
                 {
                     text: 'Clone',
                     action: 'clone'
-                },
-                {
-                    text: 'Delete',
-                    action: 'delete'
                 },
                 {
                     text: 'Subscribe',
@@ -416,11 +430,13 @@ export default {
         }
     },
     methods: {
-        subscribePlan() {
-            let a = document.createElement('a');
-            a.target = '_blank';
-            a.href = this.customPlanLink;
-            a.click();
+        copyText() {
+            var copyText = this.$refs['share-text'];
+            if (copyText) {
+                copyText.select();
+                document.execCommand('copy');
+                this.copyDisplay = 'LINK COPIED';
+            }
         },
         getCreateData() {
             return {
