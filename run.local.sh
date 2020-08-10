@@ -5,7 +5,7 @@ export PORT=8086
 
 
 #API's
-export FYND_PLATFORM_DOMAIN=fyndx1.de
+export FYND_PLATFORM_DOMAIN=fyndx0.de
 export BLITZKRIEG_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/platform/theme/
 export GRINDOR_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/common/assets/
 export GRINGOTTS_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/gringotts/
