@@ -52,6 +52,11 @@ const SLINGSHOT_MAIN_URL = isNode
     : envVars.SLINGSHOT_MAIN_URL;
 
 const URLS = {
+    //Company Metrics
+    FETCH_METRICS: () => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/company/metrics');
+    },
+
     //search dri
     SEARCH_DRI: () => {
         return urlJoin(GRIMLOCK_BASE, '/user-info/search/');

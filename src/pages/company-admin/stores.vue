@@ -5,6 +5,16 @@
                 >Selling Locations ({{ paginationConfig.total }})</label
             >
         </div>
+        <div
+            class="unverified-store"
+            v-if="metricsData && metricsData.store.pending"
+        >
+            {{ metricsData.store.pending }} location{{
+                metricsData.store.pending > 1 ? 's are' : ' is'
+            }}
+            unverified.
+        </div>
+
         <div class="search-store">
             <nitrozen-input
                 placeholder="Search Stores"
@@ -68,9 +78,7 @@
                 <div class="store-address-detail">
                     <div class="store-city" v-if="item.code">
                         <label class="n-input-label">Code</label>
-                        <div class="store-address-name">
-                            {{ item.code }}
-                        </div>
+                        <div class="store-address-name">{{ item.code }}</div>
                     </div>
                     <div class="store-pincode" v-if="item.store_type_display">
                         <label class="n-input-label">Type</label>
@@ -186,12 +194,9 @@
                                 v-model="order_choice"
                                 @change="changeDropDown"
                             ></nitrozen-dropdown>
-                            <nitrozen-error
-                                v-if="order_choice_error.showerror"
-                                >{{
-                                    order_choice_error.errortext
-                                }}</nitrozen-error
-                            >
+                            <nitrozen-error v-if="order_choice_error.showerror">
+                                {{ order_choice_error.errortext }}
+                            </nitrozen-error>
                         </div>
                         <div class="right-drop">
                             <label class="cust-label"
@@ -206,10 +211,9 @@
                             ></nitrozen-dropdown>
                             <nitrozen-error
                                 v-if="inventory_choice_error.showerror"
-                                >{{
-                                    inventory_choice_error.errortext
-                                }}</nitrozen-error
                             >
+                                {{ inventory_choice_error.errortext }}
+                            </nitrozen-error>
                         </div>
                     </div>
                     <nitrozen-input
@@ -238,9 +242,10 @@
                         @click="verifyStore"
                         v-flatBtn
                         :theme="'secondary'"
+                        >{{
+                            editIntegration ? 'Update' : 'Verify'
+                        }}</nitrozen-button
                     >
-                        {{ editIntegration ? 'Update' : 'Verify' }}
-                    </nitrozen-button>
                     <nitrozen-button
                         v-if="!show_verify_button"
                         class="mr24"
@@ -385,6 +390,15 @@
             font-size: 18px;
         }
     }
+    .unverified-store {
+        background-color: #fffaf0;
+        color: #f5a300;
+        border: 1px solid #f5a300;
+        // opacity: 0.9;
+        border-radius: 3px;
+        padding: 12px;
+        margin-bottom: 12px;
+    }
     .search-store {
         // width: 400px;
         display: flex;
@@ -436,6 +450,7 @@
                     color: @Mako;
                     font-size: 14px;
                     margin-top: 12px;
+                    line-height: 20px;
                 }
             }
         }
@@ -477,6 +492,8 @@ import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import { getRoute } from '@/helper/get-route';
 import admInlineSVG from '@/components/common/adm-inline-svg';
+import { GET_METRICS } from '@/store/getters.type';
+import { mapGetters } from 'vuex';
 
 import {
     NitrozenButton,
@@ -516,7 +533,10 @@ export default {
     computed: {
         fyndPlatformDomain(type) {
             return env.FYND_PLATFORM_DOMAIN;
-        }
+        },
+        ...mapGetters({
+            metricsData: GET_METRICS
+        })
     },
     data() {
         return {
@@ -634,7 +654,8 @@ export default {
                     if (params.choice_type == 'stage') {
                         this.choiceType = res.data.data;
                         this.choiceType.map((ele) => {
-                            ele.text = ele.value;
+                            ele.text =
+                                ele.value == 'Complete' ? 'Pending' : ele.value;
                             ele.value = ele.key;
                         });
                     } else if (params.choice_type == 'store_type') {

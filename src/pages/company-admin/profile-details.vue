@@ -100,6 +100,46 @@
                         </div>
                     </div>
                 </div>
+                <div class="detail-row">
+                    <div
+                        class="row-1"
+                        v-if="
+                            profileDetails.created_by &&
+                                profileDetails.created_by.user_id
+                        "
+                    >
+                        <label class="n-input-label label-size"
+                            >Created By</label
+                        >
+                        <div class="company-detail">
+                            <!-- {{ createdBy.name }} -->
+                            <user-info-tooltip
+                                :userId="profileDetails.created_by.user_id"
+                                dateType="created"
+                                :date="profileDetails.created_on"
+                            ></user-info-tooltip>
+                        </div>
+                    </div>
+                    <div
+                        class="row-1"
+                        v-if="
+                            profileDetails.modified_by &&
+                                profileDetails.modified_by.user_id
+                        "
+                    >
+                        <label class="n-input-label label-size"
+                            >Last Modified by</label
+                        >
+                        <div class="company-detail">
+                            <user-info-tooltip
+                                :userId="profileDetails.modified_by.user_id"
+                                position="left"
+                                dateType="modified"
+                                :date="profileDetails.modified_on"
+                            ></user-info-tooltip>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="documents">
@@ -214,9 +254,9 @@
             ref="company_reject_dialog"
             title="Reject Company"
         >
-            <template slot="header" v-if="profileDetails">
-                {{ profileDetails.name }}
-            </template>
+            <template slot="header" v-if="profileDetails">{{
+                profileDetails.name
+            }}</template>
             <template slot="body" class="desc-dialog">
                 <div>
                     <nitrozen-input
@@ -355,8 +395,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 12px;
             .row-1 {
                 flex: 0.5;
+                .label-size {
+                    font-size: 14px;
+                }
                 .company-detail {
                     color: @Mako;
                     margin: 12px 0;
@@ -437,6 +481,7 @@
 <script>
 import path from 'path';
 import CompanyService from '@/services/company-admin.service';
+import userInfoTooltip from '@/components/common/feedback/userInfo-tooltip.vue';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
 import admInlineSVG from '@/components/common/adm-inline-svg';
 import uktInlineSVG from '@/components/common/ukt-inline-svg';
@@ -454,6 +499,7 @@ const env = root.env || {};
 export default {
     name: 'adm-company-details',
     components: {
+        'user-info-tooltip': userInfoTooltip,
         'ukt-inline-svg': uktInlineSVG,
         'nitrozen-button': NitrozenButton,
         'adm-inline-svg': admInlineSVG,
