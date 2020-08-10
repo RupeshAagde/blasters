@@ -1,0 +1,701 @@
+<template>
+    <div class="panel">
+        <div class="header-position">
+            <page-header :title="pageTitle" @backClick="redirectToListing">
+                <div class="button-box">
+                    <nitrozen-button
+                        class="pad-left"
+                        :theme="'secondary'"
+                        v-flatBtn
+                        @click="saveForm"
+                        >Save</nitrozen-button
+                    >
+                </div>
+            </page-header>
+        </div>
+        <loader v-if="pageLoading"></loader>
+        <div class="page-container" v-if="!pageLoading">
+            <!-- Details -->
+            <div class="form-container">
+                <div class="cl-Mako bold-md">Details</div>
+                <!-- Name -->
+                <div class="mt-sm">
+                    <nitrozen-input
+                        label="Name"
+                        :required="true"
+                        placeholder="For eg. Material Type, Color, etc"
+                        v-model="template.name"
+                        @input="updateSlug()"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="errors.name">{{
+                        errors.name
+                    }}</nitrozen-error>
+                </div>
+                <!-- Slug -->
+                <div class="mt-sm">
+                    <nitrozen-input
+                        label="Slug"
+                        :disabled="editMode"
+                        :required="true"
+                        placeholder="For eg. material-type"
+                        v-model="template.slug"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="errors.slug">{{
+                        errors.slug
+                    }}</nitrozen-error>
+                </div>
+                <!-- Description -->
+                <div class="mt-sm">
+                    <nitrozen-input
+                        label="Description"
+                        type="textarea"
+                        placeholder="For eg. material-type"
+                        v-model="template.description"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="errors.slug">{{
+                        errors.slug
+                    }}</nitrozen-error>
+                </div>
+                <!-- Department -->
+                <div class="mt-sm">
+                    <nitrozen-dropdown
+                        label="Departments"
+                        :items="departmentsList"
+                        v-model="template.departments"
+                        :required="true"
+                        :multiple="true"
+                        :searchable="true"
+                        @change="fetchAttributes"
+                        @searchInputChange="setDepartmentsList"
+                    ></nitrozen-dropdown>
+                    <nitrozen-error v-if="errors.departments">
+                        {{ errors.departments }}
+                    </nitrozen-error>
+                </div>
+                <!-- Categories -->
+                <div class="mt-sm">
+                    <nitrozen-dropdown
+                        label="Categories"
+                        placeholder="Choose Categories"
+                        :items="departmentsList"
+                        v-model="template.departments"
+                        :required="true"
+                        :multiple="true"
+                        :searchable="true"
+                        @searchInputChange="setDepartmentsList"
+                    ></nitrozen-dropdown>
+                    <nitrozen-error v-if="errors.departments">
+                        {{ errors.departments }}
+                    </nitrozen-error>
+                </div>
+
+                <!-- Logo -->
+                <form-input
+                    class="mt-sm"
+                    label="Logo"
+                    :required="true"
+                    :custom="true"
+                >
+                    <image-uploader
+                        label="Logo"
+                        aspectRatio="1:1"
+                        :minimumResolution="{
+                            width: 80,
+                            height: 80
+                        }"
+                        :maximumResolution="{
+                            width: 2000,
+                            height: 2000
+                        }"
+                        :recommendedResolution="{
+                            width: 200,
+                            height: 200
+                        }"
+                        v-model="template.logo"
+                        @delete="template.logo = ''"
+                        @save="template.logo = $event"
+                        :fileName="template.name"
+                        namespace="products-template-logo"
+                    ></image-uploader>
+                </form-input>
+                <!-- Banner -->
+                <form-input
+                    class="mt-sm"
+                    label="Banner"
+                    :required="true"
+                    :custom="true"
+                >
+                    <image-uploader
+                        label="Banner"
+                        aspectRatio="27:20"
+                        :minimumResolution="{
+                            width: 540,
+                            height: 400
+                        }"
+                        :maximumResolution="{
+                            width: 1242,
+                            height: 920
+                        }"
+                        :recommendedResolution="{
+                            width: 1242,
+                            height: 920
+                        }"
+                        v-model="template.banner"
+                        @delete="template.banner = ''"
+                        @save="template.banner = $event"
+                        :fileName="template.name"
+                        namespace="products-template-banner"
+                    ></image-uploader>
+                </form-input>
+                <loader v-if="inProgress" class="loading"></loader>
+            </div>
+            <!-- ############################################# -->
+            <!-- Settings -->
+            <div class="settings-container">
+                <div class="cl-Mako bold-md">Attributes</div>
+                <div class="inline mt-md">
+                    <!-- Selected -->
+                    <div class="attribute-container mr-md">
+                        <div class="header">Selected</div>
+                        <draggable
+                            class="list"
+                            v-model="attrSelectedList"
+                            handle=".reorder"
+                            @start="drag = true"
+                            @end="drag = false"
+                        >
+                            <div
+                                class="item space-between"
+                                v-for="(attr, index) of attrSelectedList"
+                                :key="index"
+                            >
+                                <div class="inline v-center">
+                                    <inline-svg
+                                        class="reorder mr-md"
+                                        src="reorder"
+                                    ></inline-svg>
+
+                                    {{ index + 1 }}. &nbsp;
+                                    {{ attr.name }}
+                                    <span
+                                        v-if="attr.invalid"
+                                        class="invalid"
+                                        title="This attribute is not available for this department. Remove or create it to make it visible on Product detail pages."
+                                    >
+                                        &nbsp;&nbsp;*invalid*
+                                    </span>
+                                </div>
+                                <inline-svg
+                                    title="Remove Attribute"
+                                    class="cross-icon pointer"
+                                    src="plus-black"
+                                    @click.stop.native="
+                                        template.attributes.splice(index, 1)
+                                    "
+                                ></inline-svg>
+                            </div>
+                            <div class="msg" v-if="!attrSelectedList.length">
+                                Select attributes from 'Unselected' list by
+                                clicking the plus (+) icon
+                            </div>
+                        </draggable>
+                    </div>
+                    <!-- Unselected -->
+                    <div class="attribute-container">
+                        <div class="header">Unselected</div>
+                        <nitrozen-input
+                            type="search"
+                            placeholder="Search"
+                            :showSearchIcon="true"
+                            v-model="unselectedSearchTxt"
+                        ></nitrozen-input>
+                        <div class="list">
+                            <div
+                                class="item space-between"
+                                v-for="(attr, index) of attrUnselectedList"
+                                :key="index"
+                            >
+                                {{ attr.name }}
+
+                                <inline-svg
+                                    title="Add Attribute"
+                                    class="pointer"
+                                    src="plus-black"
+                                    @click.stop.native="
+                                        template.attributes.push(attr.slug)
+                                    "
+                                ></inline-svg>
+                            </div>
+                            <div
+                                class="msg"
+                                v-if="isEmpty(template.departments)"
+                            >
+                                Please select departments to list their
+                                attributes
+                            </div>
+                            <div class="msg" v-else-if="!attributes.length">
+                                No attributes available for the selected
+                                departments. Create new attributes to use them
+                                in this template
+                            </div>
+                            <div
+                                class="msg"
+                                v-else-if="
+                                    unselectedSearchTxt &&
+                                        !attrUnselectedList.length
+                                "
+                            >
+                                Not found
+                            </div>
+                            <div
+                                class="msg"
+                                v-else-if="!attrUnselectedList.length"
+                            >
+                                All attributes selected
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<style lang="less" scoped>
+.header-position {
+    height: 58.5px;
+}
+.page-container {
+    flex-direction: row-reverse;
+    width: auto;
+    padding: 0;
+    background-color: @Alabaster2;
+    .form-container {
+        width: 320px;
+        margin-left: 24px;
+        padding: 24px;
+        border: 1px solid @WhiteSmoke;
+        border-radius: 8px;
+        background-color: @White;
+    }
+    .settings-container {
+        display: block;
+        flex: 1;
+        padding: 24px;
+        border: 1px solid @WhiteSmoke;
+        border-radius: 8px;
+        background-color: @White;
+    }
+}
+.attribute-container {
+    border: 1px solid @Iron;
+    border-radius: 4px;
+    width: 50%;
+    .header {
+        height: 24px;
+        display: flex;
+        padding: 12px;
+        align-items: center;
+        justify-content: center;
+        background: @WhiteSmoke;
+        color: @Mako;
+        font-weight: 600;
+    }
+    .list {
+        height: 400px;
+        overflow-y: auto;
+        .blaster-scrollbar;
+        .item {
+            border-bottom: 1px solid @Iron;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            color: @Mako;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .msg {
+            font-size: 12px;
+            font-weight: 400;
+            color: @DustyGray2;
+            text-align: center;
+            line-height: 18px;
+            padding: 24px 12px;
+        }
+        .invalid {
+            color: @Required;
+        }
+    }
+}
+
+.pointer {
+    cursor: pointer;
+}
+.cross-icon {
+    ::v-deep svg {
+        -ms-transform: rotate(20deg); /* IE 9 */
+        transform: rotate(45deg);
+        width: 28px;
+        height: 28px;
+    }
+}
+.reorder {
+    cursor: -webkit-grabbing;
+}
+
+.space-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.input {
+    &.w-sm {
+        width: 200px;
+    }
+    &.w-md {
+        width: 300px;
+    }
+    &.w-xxl {
+        max-width: 800px;
+    }
+}
+
+.mt-sm {
+    margin-top: 12px;
+}
+.mt-md {
+    margin-top: 24px;
+}
+
+.mr-xxxs {
+    margin-right: 4px;
+}
+.mr-sm {
+    margin-right: 12px;
+}
+.mr-md {
+    margin-right: 24px;
+}
+
+.lh-md {
+    line-height: 22px;
+}
+
+.inline {
+    display: flex;
+    &.v-center {
+        align-items: center;
+    }
+
+    &.apart {
+        justify-content: space-between;
+    }
+    .inline-left {
+        width: 50%;
+    }
+    .inline-right {
+        flex: 1;
+        margin-left: 24px;
+    }
+}
+
+.toggle {
+    display: flex;
+    align-items: center;
+    .text {
+        font-size: 12px;
+        font-weight: 700;
+        color: @RoyalBlue;
+        cursor: pointer;
+        &.disabled {
+            color: @DustyGray2;
+        }
+    }
+}
+</style>
+
+<script>
+import TagsInput from '@/components/common/tags-input.vue';
+import PageHeader from '@/components/common/layout/page-header.vue';
+import { compactDeepObject } from '../../../helper/utils';
+import ImageUploader from '@/components/common/image-uploader/index';
+import CompanyService from '@/services/company-admin.service';
+import Loader from '@/components/common/loader.vue';
+import FormInput from '@/components/common/form-input';
+import InlineSvg from '@/components/common/ukt-inline-svg';
+import Draggable from 'vuedraggable';
+import slugify from 'slugify';
+// import { dirtyCheckMixin } from '@/mixins/form.mixin';
+import {
+    NitrozenInput,
+    NitrozenButton,
+    NitrozenError,
+    NitrozenChips,
+    NitrozenInline,
+    NitrozenToggleBtn,
+    NitrozenDropdown,
+    NitrozenTooltip,
+    NitrozenBadge,
+    flatBtn,
+    strokeBtn
+} from '@gofynd/nitrozen-vue';
+
+import root from 'window-or-global';
+import _ from 'lodash';
+import path from 'path';
+
+export default {
+    name: 'TemplateUpdate',
+    components: {
+        PageHeader,
+        TagsInput,
+        FormInput,
+        ImageUploader,
+        Loader,
+        InlineSvg,
+        Draggable,
+
+        NitrozenInput,
+        NitrozenError,
+        NitrozenInline,
+        NitrozenButton,
+        NitrozenToggleBtn,
+        NitrozenDropdown,
+        NitrozenTooltip,
+        NitrozenBadge
+    },
+    directives: {
+        flatBtn,
+        strokeBtn
+    },
+    computed: {},
+    // mixins: [dirtyCheckMixin],
+    data: function() {
+        return {
+            showModal: false,
+            tags: [],
+            status: false,
+            slug: this.$route.params.slug || '',
+            editMode: !!this.$route.params.slug,
+
+            pageLoading: false,
+            pageError: false,
+            inProgress: false,
+            formSaved: false,
+
+            attrType: 'str',
+            template: { attributes: [] },
+            attributes: [],
+            departments: [],
+            units: [],
+            errors: {},
+            unselectedSearchTxt: '',
+
+            departmentsList: [],
+            unitsList: []
+        };
+    },
+    mounted() {
+        this.init();
+    },
+    computed: {
+        pageTitle() {
+            if (!this.editMode) {
+                return 'Add Template';
+            }
+            if (_.isEmpty(this.template)) {
+                return 'Edit Template';
+            }
+            return `Edit ${this.template.name}`;
+        },
+        attrSelectedList() {
+            const list = [];
+            this.template.attributes.forEach((attr) => {
+                const a = this.attributes.find((a) => a.slug === attr);
+                if (a) {
+                    list.push(a);
+                } else {
+                    // no attribute found with that slug for the selected departments
+                    list.push({
+                        name: attr,
+                        slug: attr,
+                        invalid: true
+                    });
+                }
+            });
+            return list;
+        },
+        attrUnselectedList() {
+            const list = [];
+            const search = this.unselectedSearchTxt.toLowerCase();
+            this.attributes.forEach((attr) => {
+                if (
+                    !this.template.attributes.includes(attr.slug) &&
+                    (attr.slug.includes(search) || attr.name.includes(search))
+                ) {
+                    list.push(attr);
+                }
+            });
+            return list;
+        }
+    },
+    methods: {
+        isEmpty: _.isEmpty,
+        init() {
+            const pArr = [this.fetchDepartments()];
+            if (this.editMode) {
+                pArr.push(this.fetchProductTemplate());
+            }
+
+            this.pageLoading = true;
+            Promise.all(pArr)
+                .then(() => {
+                    this.fetchAttributes();
+                })
+                .then(() => {
+                    this.pageLoading = false;
+                    this.setDepartmentsList();
+                })
+                .catch((err) => {
+                    this.pageLoading = false;
+                    this.pageError = true;
+                });
+        },
+        getInitialValue() {
+            return {
+                showerror: false,
+                value: '',
+                errortext: '-'
+            };
+        },
+        fetchProductTemplate() {
+            return new Promise((resolve, reject) => {
+                CompanyService.fetchProductTemplate(this.slug)
+                    .then(({ data }) => {
+                        this.template = _.first(data.data);
+
+                        return resolve();
+                    })
+                    .catch((err) => {
+                        return reject(err);
+                    });
+            });
+        },
+        fetchDepartments() {
+            return new Promise((resolve, reject) => {
+                CompanyService.fetchDepartments()
+                    .then(({ data }) => {
+                        this.departments = data.data;
+                        return resolve();
+                    })
+                    .catch((err) => {
+                        return reject(err);
+                    });
+            });
+        },
+        fetchAttributes() {
+            if (_.isEmpty(this.template.departments)) {
+                this.attributes = [];
+                return;
+            }
+            const params = {
+                limit: 999999,
+                department: this.template.departments
+            };
+            return CompanyService.fetchAttributes(params)
+                .then(({ data }) => {
+                    this.attributes = data.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        setDepartmentsList(e = {}) {
+            this.departmentsList = [];
+            this.departments.forEach((d) => {
+                if (
+                    !e ||
+                    !e.text ||
+                    d.name.toLowerCase().includes(e.text.toLowerCase())
+                ) {
+                    this.departmentsList.push({
+                        text: d.name,
+                        value: d.slug
+                    });
+                }
+            });
+        },
+        updateSlug() {
+            if (this.editMode) return;
+            this.template.slug = slugify(this.template.name, {
+                lower: true,
+                strict: true
+            });
+        },
+        getFormData() {
+            try {
+                return this.template;
+            } catch (err) {
+                console.log(err);
+                throw err;
+            }
+        },
+        saveForm() {
+            try {
+                if (!this.validateForm()) {
+                    this.$snackbar.global.showError(
+                        'Form validation failed. Please correct the form according to the error messages displayed in red'
+                    );
+                    return;
+                }
+                const formData = this.getFormData();
+                this.inProgress = true;
+                CompanyService.updateProductTemplate(formData)
+                    .then((res) => {
+                        this.inProgress = false;
+                        this.$snackbar.global.showSuccess(
+                            'Template updated successfully'
+                        );
+                        this.offer = res.data;
+                        this.formSaved = true;
+                        this.redirectToListing();
+                    })
+                    .catch((err) => {
+                        this.inProgress = false;
+                        this.$snackbar.global.showError(
+                            `Failed to update${
+                                err && err.message ? ' : ' + err.message : ''
+                            }`
+                        );
+                    });
+            } catch (err) {
+                console.log(err);
+            }
+        },
+        redirectToListing() {
+            this.$goBack('/administrator/product/templates');
+        },
+        validateForm() {
+            let formValid = true;
+            return formValid;
+        },
+        copyTextToClipboard(text) {
+            copyToClipboard(text);
+            this.$snackbar.global.showInfo('Copied to clipboard');
+        },
+        isFormDirty() {
+            if (this.formSaved) {
+                return false;
+            }
+
+            let dirtyForm = { ...this.offer, ...this.getFormData() };
+            if (dirtyForm.banner_image.secure_url === '') {
+                delete dirtyForm.banner_image.secure_url;
+            }
+
+            return !_.isEqual(this.offer, dirtyForm);
+        }
+    }
+};
+</script>

@@ -217,3 +217,19 @@ export const titleCase = (str) => {
     }
     return str.join(' ');
 };
+
+export const compactDeepObject = (obj = {}) => {
+    _.map(obj, (prop, key) => {
+        if (_.isArray(prop)) {
+            if (_.isEmpty(_.compact(prop))) {
+                delete obj[key];
+            }
+        } else {
+            let compactProp = _.pickBy(prop, _.identity);
+            if (_.isEmpty(compactProp)) {
+                delete obj[key];
+            }
+        }
+    });
+    return obj;
+};

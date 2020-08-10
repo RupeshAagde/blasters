@@ -160,6 +160,38 @@ const CompanyService = {
     fetchCompanyProfile(params) {
         let axiosOption = Object.assign({ params });
         return ApiService.get(URLS.COMPANY_PROFILE(), axiosOption);
+    },
+    // List product attributes master
+    fetchAttributes(params) {
+        let axiosOption = Object.assign({ params });
+        return ApiService.get(URLS.ATTRIBUTES_MASTER(), axiosOption);
+    },
+
+    fetchAttribute(slug) {
+        return ApiService.get(URLS.ATTRIBUTES_MASTER(slug), {});
+    },
+    updateAttribute(data) {
+        let axiosOption = Object.assign({}, { data }, getCommonHeaderOptions());
+        return ApiService.put(URLS.ATTRIBUTES_MASTER(), axiosOption);
+    },
+
+    fetchProductTemplates(params) {
+        let axiosOption = Object.assign({ params });
+        return ApiService.get(URLS.PRODUCT_TEMPLATES(), axiosOption);
+    },
+    fetchProductTemplate(slug) {
+        return ApiService.get(URLS.PRODUCT_TEMPLATES(slug), {});
+    },
+    updateProductTemplate(data) {
+        let axiosOption = Object.assign({}, { data }, getCommonHeaderOptions());
+        return ApiService.put(URLS.PRODUCT_TEMPLATES(), axiosOption);
+    },
+
+    fetchDepartments() {
+        return ApiService.get(URLS.DEPARTMENTS(), {});
+    },
+    fetchUnits() {
+        return ApiService.get(URLS.UNITS(), {});
     }
 };
 export default CompanyService;

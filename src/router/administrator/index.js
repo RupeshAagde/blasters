@@ -11,6 +11,11 @@ import SettingsVue from './../../pages/settings';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details';
 import FeaturesSettingsVue from './../../pages/settings/features';
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
+import Product from './../../pages/product/index';
+import ProductAttributesList from './../../pages/product/attributes/list';
+import ProductAttributesEdit from './../../pages/product/attributes/edit';
+import ProductTemplatesList from './../../pages/product/templates/list';
+import ProductTemplatesEdit from './../../pages/product/templates/edit';
 
 export default [
     {
@@ -63,6 +68,42 @@ export default [
                 name: 'edit-dri',
                 path: 'company-details/:companyId/edit-dri/:uid',
                 component: AddEditDri
+            },
+            // Product
+            {
+                name: 'product',
+                path: 'product',
+                component: Product
+            },
+            {
+                name: 'attributes',
+                path: 'product/attributes',
+                component: ProductAttributesList
+            },
+            {
+                name: 'attributes-add',
+                path: 'product/attributes/add',
+                component: ProductAttributesEdit
+            },
+            {
+                name: 'attributes-edit',
+                path: 'product/attributes/:slug',
+                component: ProductAttributesEdit
+            },
+            {
+                name: 'templates',
+                path: 'product/templates',
+                component: ProductTemplatesList
+            },
+            {
+                name: 'templates-add',
+                path: 'product/templates/add',
+                component: ProductTemplatesEdit
+            },
+            {
+                name: 'templates-edit',
+                path: 'product/templates/:slug',
+                component: ProductTemplatesEdit
             },
             // Settings
             {

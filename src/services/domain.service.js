@@ -114,6 +114,18 @@ const URLS = {
     COMPANY_PROFILE: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/company/profile');
     },
+    ATTRIBUTES_MASTER: (slug = '') => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/attribute-master', slug);
+    },
+    PRODUCT_TEMPLATES: (slug = '') => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/product-templates', slug);
+    },
+    DEPARTMENTS: () => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/department');
+    },
+    UNITS: () => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/units');
+    },
     // Organizations
     ORGANIZATION: (id = '') => {
         return urlJoin(PLATFORM_COMMON_BASE, '/v1/organization', id);
