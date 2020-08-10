@@ -45,6 +45,7 @@
             class="cust-loader"
             v-if="pageLoading"
         />
+        <!-- <loader v-if="isLoading"></loader> -->
         <div class="main-container" v-else>
             <div class="row-1">
                 <div class="input-box">
@@ -53,9 +54,9 @@
                         placeholder="e.g. Electronics"
                         v-model="display.value"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="display.showerror">{{
-                        display.errortext
-                    }}</nitrozen-error>
+                    <nitrozen-error v-if="display.showerror">
+                        {{ display.errortext }}
+                    </nitrozen-error>
                 </div>
                 <div class="input-box left-space-txb">
                     <nitrozen-dropdown
@@ -65,25 +66,26 @@
                         placeholder="Choose Display type"
                         v-model="displayType.selectedtype"
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="displayType.showerror">{{
-                        displayType.errortext
-                    }}</nitrozen-error>
+                    <nitrozen-error v-if="displayType.showerror">
+                        {{ displayType.errortext }}
+                    </nitrozen-error>
                 </div>
             </div>
             <div class="row-1">
                 <div class="input-box">
                     <nitrozen-dropdown
-                        label="Department *"
+                        :label="'Department *'"
                         class="filter-dropdown"
-                        multiple="true"
+                        :multiple="true"
                         :items="department.value"
                         placeholder="Choose departments"
                         v-model="department.selectedtype"
+                        @scroll="scrollDepartment"
                         @change="getAttribute"
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="department.showerror">{{
-                        department.errortext
-                    }}</nitrozen-error>
+                    <nitrozen-error v-if="department.showerror">
+                        {{ department.errortext }}
+                    </nitrozen-error>
                 </div>
                 <div class="input-box left-space-txb">
                     <nitrozen-dropdown
@@ -93,9 +95,9 @@
                         placeholder="Choose key"
                         v-model="deptkey.selectedtype"
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="deptkey.showerror">{{
-                        deptkey.errortext
-                    }}</nitrozen-error>
+                    <nitrozen-error v-if="deptkey.showerror">
+                        {{ deptkey.errortext }}
+                    </nitrozen-error>
                 </div>
             </div>
             <div class="input-box">
@@ -106,9 +108,9 @@
                     placeholder="Enter priority ( e.g.  0 ,  1 ,  2)"
                     type="number"
                 ></nitrozen-input>
-                <nitrozen-error v-if="priority.showerror">{{
-                    priority.errortext
-                }}</nitrozen-error>
+                <nitrozen-error v-if="priority.showerror">
+                    {{ priority.errortext }}
+                </nitrozen-error>
             </div>
         </div>
     </div>
@@ -215,6 +217,7 @@
 <script>
 import CatalogService from '@/services/catalog.service';
 import loader from '@/components/common/loader';
+import { debounce } from '@/helper/utils';
 import Shimmer from '@/components/common/shimmer';
 import PageHeader from '@/components/common/layout/page-header';
 import PageError from '@/components/common/page-error';
@@ -258,9 +261,16 @@ export default {
             saveText: 'Variant created successfully',
             data: [],
             is_active: true,
+            searchText: '',
             update: false,
+            isLoading: false,
             pageLoading: false,
             pageError: false,
+            pagination: {
+                total: 0,
+                current: 1,
+                limit: 10
+            },
             display: {
                 value: '',
                 showerror: false,
@@ -324,14 +334,23 @@ export default {
                     console.error(error);
                 });
         },
-        getDepartment() {
+        getQueryParams() {
             let params = {
-                page_no: 1,
-                page_size: 1000
+                page_no: this.pagination.current,
+                page_size: this.pagination.limit
             };
-            CatalogService.fetchDepartment(params)
+            if (this.searchText != '') {
+                params.search = this.searchText;
+            }
+            return params;
+        },
+        getDepartment() {
+            CatalogService.fetchDepartment(this.getQueryParams())
                 .then((res) => {
-                    this.department.value = res.data.data;
+                    this.department.value = this.department.value.concat(
+                        res.data.data
+                    );
+                    this.pagination.total = res.data.total_count;
                     this.department.value.map((element) => {
                         element.text = element.name;
                         element.value = element.slug;
@@ -341,13 +360,32 @@ export default {
                     console.log(error);
                 });
         },
+        searchDepartment: debounce(function(e) {
+            if (e && e.text) {
+                this.searchText = e.text;
+            }
+            this.getDepartment();
+        }, 700),
+        scrollDepartment(event) {
+            const scrollDown = (event.scrollTop / event.scrollHeight) * 100;
+            if (
+                this.pagination.current * this.pagination.limit <
+                    this.pagination.total &&
+                event.scrollHeight - event.scrollTop <= 200
+                // diff between scroll top and scroll end should be more than 200
+            ) {
+                this.pagination.current = this.pagination.current + 1;
+                this.getDepartment();
+            }
+            // Scroll Pending
+        },
         getAttribute() {
             let params = {
                 page_no: 1,
                 page_size: 100000,
                 department: this.department.selectedtype
             };
-            this.pageLoading = true;
+            this.isLoading = true;
             CatalogService.fetchAttributes(params)
                 .then((res) => {
                     this.deptkey.value = res.data.data;
@@ -355,7 +393,7 @@ export default {
                         element.text = element.name;
                         element.value = element.slug;
                     });
-                    this.pageLoading = false;
+                    this.isLoading = false;
                 })
                 .catch((error) => {
                     console.log(error);
@@ -374,6 +412,7 @@ export default {
                         this.display.value = this.data[0].display;
                         this.displayType.selectedtype = this.data[0].display_type;
                         this.department.selectedtype = this.data[0].departments;
+                        console.log(this.department.selectedtype, 'dept');
                         this.getAttribute();
                         this.deptkey.selectedtype = this.data[0].key;
                         this.priority.value = this.data[0].priority;

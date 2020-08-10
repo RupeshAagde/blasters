@@ -378,7 +378,7 @@ export default {
                 let uid = this.activeUser.uid;
                 let params = {
                     user: this.activeUser._id,
-                    title: 'Super Duper Admin',
+                    title: 'Super Admin',
                     meta: {}
                 };
                 return UserService.addUser(params)

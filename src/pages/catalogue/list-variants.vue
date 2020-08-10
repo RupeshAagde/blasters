@@ -33,7 +33,7 @@
         <div>
             <shimmer v-if="isLoading && !pageError" :count="4"></shimmer>
             <page-error
-                v-else-if="pageError && !pageLoading"
+                v-else-if="pageError && !isLoading"
                 @tryAgain="getVariants"
             ></page-error>
             <div v-else-if="variantList && variantList.length">
