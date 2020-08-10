@@ -169,7 +169,7 @@
                 </div>
             </div>
 
-            <div class="form-row">
+            <div class="form-row" v-if="formData.price_ui_type !== 'external'">
                 <div class="form-item">
                     <nitrozen-checkbox v-model="show_advanced"
                         >Advance Settings</nitrozen-checkbox
@@ -398,7 +398,17 @@ export default {
                         'Select standard pricing if you charge the same price for each unit.',
                     config: {
                         billing_scheme: 'per_unit',
-                        price_type: 'static'
+                        price_type: 'static',
+                        bill_type: 'one_time',
+                        recurring: {
+                            usage_type: 'licensed',
+                            aggregate_usage: 'sum',
+                            interval_count: 1,
+                            interval: 'month'
+                        },
+                        transform_quantity: {
+                            divide_by: 1
+                        }
                     }
                 },
                 external: {
@@ -408,7 +418,16 @@ export default {
                     config: {
                         billing_scheme: 'per_unit',
                         price_type: 'dynamic',
-                        bill_type: 'one_time'
+                        bill_type: 'one_time',
+                        recurring: {
+                            usage_type: 'licensed',
+                            aggregate_usage: 'sum',
+                            interval_count: 1,
+                            interval: 'month'
+                        },
+                        transform_quantity: {
+                            divide_by: 1
+                        }
                     }
                 },
                 graduated: {
@@ -417,8 +436,12 @@ export default {
                         'Select graduated pricing if you use pricing tiers that may result in a different price for some units in an order. For example, you might charge ₹10.00 per unit for the first 100 units and then ₹5.00 per unit for the next 50.',
                     config: {
                         bill_type: 'recurring',
+                        price_type: 'static',
                         billing_scheme: 'tiered',
-                        tiers_mode: 'graduated'
+                        tiers_mode: 'graduated',
+                        transform_quantity: {
+                            divide_by: 1
+                        }
                     }
                 },
                 volume: {
@@ -427,8 +450,12 @@ export default {
                         'Select volume pricing if you charge the same price for each unit based on the total number of units sold. For example, you might charge ₹10.00 per unit for 50 units, and ₹7.00 per unit for 100 units.',
                     config: {
                         bill_type: 'recurring',
+                        price_type: 'static',
                         billing_scheme: 'tiered',
-                        tiers_mode: 'volume'
+                        tiers_mode: 'volume',
+                        transform_quantity: {
+                            divide_by: 1
+                        }
                     }
                 }
                 // package: {
@@ -472,6 +499,9 @@ export default {
         },
         changeType(type) {
             _.merge(this.formData, this.pricing_map[type].config);
+            if (type === 'external') {
+                this.show_advanced = false;
+            }
         },
         validateData() {
             let is_valid = true;
@@ -491,7 +521,12 @@ export default {
                     is_valid = false;
                 } else if (this.isTiered) {
                     this.formData.tiers.forEach((tier, index) => {
-                        if (tier.unit_price < 0) {
+                        if (tier.up_to < 0) {
+                            this.errors['tier-amount'] =
+                                'Usage upto cannot be negative for tier ' +
+                                (index + 1);
+                            is_valid = false;
+                        } else if (tier.unit_amount < 0) {
                             this.errors['tier-amount'] =
                                 'Price cannot be negative for tier ' +
                                 (index + 1);
