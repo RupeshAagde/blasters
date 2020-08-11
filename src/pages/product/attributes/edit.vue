@@ -112,10 +112,7 @@
                             tooltipText="Make this attribute a mandatory property of Product. Empty value will not be allowed for this attribute."
                         ></nitrozen-tooltip>
                     </div>
-                    <nitrozen-toggle-btn
-                        :value="attribute.schema.mandatory"
-                        @change="() => {}"
-                    >
+                    <nitrozen-toggle-btn v-model="attribute.schema.mandatory">
                     </nitrozen-toggle-btn>
                 </div>
                 <!-- Show to user -->
@@ -129,12 +126,11 @@
                         ></nitrozen-tooltip>
                     </div>
                     <nitrozen-toggle-btn
-                        :value="attribute.enabled_for_end_consumer"
-                        @change="() => {}"
+                        v-model="attribute.enabled_for_end_consumer"
                     >
                     </nitrozen-toggle-btn>
                 </div>
-                <!-- Add as filter -->
+                <!-- filter toggle -->
                 <div class="mt-md inline apart">
                     <div class="inline">
                         <div class="cl-Mako dark-xxxs mr-xxxs">
@@ -144,10 +140,20 @@
                             tooltipText="Allow this attribute to be used as a filter property for Product filtering"
                         ></nitrozen-tooltip>
                     </div>
-                    <nitrozen-toggle-btn
-                        :value="attribute.filters.indexing"
-                        @change="() => {}"
-                    >
+                    <nitrozen-toggle-btn v-model="attribute.filters.indexing">
+                    </nitrozen-toggle-btn>
+                </div>
+                <!-- Variant toggle -->
+                <div class="mt-md inline apart">
+                    <div class="inline">
+                        <div class="cl-Mako dark-xxxs mr-xxxs">
+                            Variant Permissable
+                        </div>
+                        <nitrozen-tooltip
+                            tooltipText="Allow this attribute to be used as a product variants grouping property"
+                        ></nitrozen-tooltip>
+                    </div>
+                    <nitrozen-toggle-btn v-model="attribute.variant">
                     </nitrozen-toggle-btn>
                 </div>
                 <loader v-if="inProgress" class="loading"></loader>
@@ -408,20 +414,8 @@ const PROPERTY_TYPES = [
         value: 'float'
     },
     {
-        text: 'Yes or No',
-        value: 'boolean'
-    },
-    {
-        text: 'List',
-        value: 'list'
-    },
-    {
         text: 'HTML',
         value: 'html'
-    },
-    {
-        text: 'Details',
-        value: 'details'
     }
 ];
 
@@ -605,7 +599,7 @@ export default {
                 if (this.attrType === 'str') {
                     attribute.details.displayType = 'text';
                     attribute.schema.type = 'str';
-                } else if (['html', 'details'].includes(this.attrType)) {
+                } else if (this.attrType === 'html') {
                     attribute.details.displayType = this.attrType;
                     attribute.schema.type = 'str';
                 } else {

@@ -23,7 +23,7 @@
                     v-strokeBtn
                     @click="() => {}"
                 >
-                    Sort
+                    Filter
                 </nitrozen-button>
             </jumbotron>
         </div>

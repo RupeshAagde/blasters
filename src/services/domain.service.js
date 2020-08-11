@@ -120,8 +120,11 @@ const URLS = {
     PRODUCT_TEMPLATES: (slug = '') => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/product-templates', slug);
     },
-    DEPARTMENTS: () => {
+    DEPARTMENT: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/department');
+    },
+    CATEGORY: () => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/category');
     },
     UNITS: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/units');

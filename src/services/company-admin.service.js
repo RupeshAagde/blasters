@@ -188,10 +188,14 @@ const CompanyService = {
     },
 
     fetchDepartments() {
-        return ApiService.get(URLS.DEPARTMENTS(), {});
+        return ApiService.get(URLS.DEPARTMENT(), {});
     },
     fetchUnits() {
         return ApiService.get(URLS.UNITS(), {});
+    },
+    fetchCategories(params) {
+        let axiosOption = Object.assign({ params });
+        return ApiService.get(URLS.CATEGORY(), axiosOption);
     }
 };
 export default CompanyService;

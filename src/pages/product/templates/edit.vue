@@ -3,6 +3,17 @@
         <div class="header-position">
             <page-header :title="pageTitle" @backClick="redirectToListing">
                 <div class="button-box">
+                    <div
+                        class="pointer cl-RoyalBlue bold-xxxs"
+                        :class="{ 'cl-DustyGray2': !template.active }"
+                        @click="template.active = !template.active"
+                    >
+                        {{ template.active ? 'Active' : 'Inactive' }}
+                    </div>
+                    <nitrozen-toggle-btn
+                        class="mr-sm"
+                        v-model="template.active"
+                    ></nitrozen-toggle-btn>
                     <nitrozen-button
                         class="pad-left"
                         :theme="'secondary'"
@@ -55,38 +66,6 @@
                     <nitrozen-error v-if="errors.slug">{{
                         errors.slug
                     }}</nitrozen-error>
-                </div>
-                <!-- Department -->
-                <div class="mt-sm">
-                    <nitrozen-dropdown
-                        label="Departments"
-                        :items="departmentsList"
-                        v-model="template.departments"
-                        :required="true"
-                        :multiple="true"
-                        :searchable="true"
-                        @change="fetchAttributes"
-                        @searchInputChange="setDepartmentsList"
-                    ></nitrozen-dropdown>
-                    <nitrozen-error v-if="errors.departments">
-                        {{ errors.departments }}
-                    </nitrozen-error>
-                </div>
-                <!-- Categories -->
-                <div class="mt-sm">
-                    <nitrozen-dropdown
-                        label="Categories"
-                        placeholder="Choose Categories"
-                        :items="departmentsList"
-                        v-model="template.departments"
-                        :required="true"
-                        :multiple="true"
-                        :searchable="true"
-                        @searchInputChange="setDepartmentsList"
-                    ></nitrozen-dropdown>
-                    <nitrozen-error v-if="errors.departments">
-                        {{ errors.departments }}
-                    </nitrozen-error>
                 </div>
 
                 <!-- Logo -->
@@ -152,109 +131,132 @@
             <!-- ############################################# -->
             <!-- Settings -->
             <div class="settings-container">
-                <div class="cl-Mako bold-md">Attributes</div>
-                <div class="inline mt-md">
-                    <!-- Selected -->
-                    <div class="attribute-container mr-md">
-                        <div class="header">Selected</div>
-                        <draggable
-                            class="list"
-                            v-model="attrSelectedList"
-                            handle=".reorder"
-                            @start="drag = true"
-                            @end="drag = false"
+                <div class="cl-Mako bold-md">Attributes Selection</div>
+                <!-- Department -->
+                <div class="mt-md">
+                    <nitrozen-dropdown
+                        class="input w-l"
+                        label="Departments"
+                        :items="departmentsList"
+                        v-model="template.departments"
+                        :required="true"
+                        :multiple="true"
+                        :searchable="true"
+                        @change="fetchAttributes"
+                        @searchInputChange="setDepartmentsList"
+                    ></nitrozen-dropdown>
+                    <nitrozen-error v-if="errors.departments">
+                        {{ errors.departments }}
+                    </nitrozen-error>
+                    <div class="chip-wrapper inline">
+                        <div
+                            v-for="(department, index) of template.departments"
+                            :key="index"
                         >
-                            <div
-                                class="item space-between"
-                                v-for="(attr, index) of attrSelectedList"
-                                :key="index"
-                            >
-                                <div class="inline v-center">
-                                    <inline-svg
-                                        class="reorder mr-md"
-                                        src="reorder"
-                                    ></inline-svg>
-
-                                    {{ index + 1 }}. &nbsp;
-                                    {{ attr.name }}
-                                    <span
-                                        v-if="attr.invalid"
-                                        class="invalid"
-                                        title="This attribute is not available for this department. Remove or create it to make it visible on Product detail pages."
-                                    >
-                                        &nbsp;&nbsp;*invalid*
-                                    </span>
-                                </div>
-                                <inline-svg
-                                    title="Remove Attribute"
-                                    class="cross-icon pointer"
-                                    src="plus-black"
-                                    @click.stop.native="
-                                        template.attributes.splice(index, 1)
+                            <nitrozen-chips class="chip">
+                                {{ getDepartmentName(department) }}
+                                <nitrozen-inline
+                                    icon="cross"
+                                    class="nitrozen-icon"
+                                    @click="
+                                        template.departments.splice(index, 1)
                                     "
-                                ></inline-svg>
-                            </div>
-                            <div class="msg" v-if="!attrSelectedList.length">
-                                Select attributes from 'Unselected' list by
-                                clicking the plus (+) icon
-                            </div>
-                        </draggable>
-                    </div>
-                    <!-- Unselected -->
-                    <div class="attribute-container">
-                        <div class="header">Unselected</div>
-                        <nitrozen-input
-                            type="search"
-                            placeholder="Search"
-                            :showSearchIcon="true"
-                            v-model="unselectedSearchTxt"
-                        ></nitrozen-input>
-                        <div class="list">
-                            <div
-                                class="item space-between"
-                                v-for="(attr, index) of attrUnselectedList"
-                                :key="index"
-                            >
-                                {{ attr.name }}
-
-                                <inline-svg
-                                    title="Add Attribute"
-                                    class="pointer"
-                                    src="plus-black"
-                                    @click.stop.native="
-                                        template.attributes.push(attr.slug)
-                                    "
-                                ></inline-svg>
-                            </div>
-                            <div
-                                class="msg"
-                                v-if="isEmpty(template.departments)"
-                            >
-                                Please select departments to list their
-                                attributes
-                            </div>
-                            <div class="msg" v-else-if="!attributes.length">
-                                No attributes available for the selected
-                                departments. Create new attributes to use them
-                                in this template
-                            </div>
-                            <div
-                                class="msg"
-                                v-else-if="
-                                    unselectedSearchTxt &&
-                                        !attrUnselectedList.length
-                                "
-                            >
-                                Not found
-                            </div>
-                            <div
-                                class="msg"
-                                v-else-if="!attrUnselectedList.length"
-                            >
-                                All attributes selected
-                            </div>
+                                ></nitrozen-inline>
+                            </nitrozen-chips>
                         </div>
                     </div>
+                </div>
+                <!-- Categories -->
+                <div class="mt-md">
+                    <nitrozen-dropdown
+                        class="input w-l"
+                        label="Categories"
+                        :items="categoriesList"
+                        v-model="template.categories"
+                        :required="true"
+                        :multiple="true"
+                        :searchable="true"
+                        @searchInputChange="setCategoriesList"
+                    ></nitrozen-dropdown>
+                    <nitrozen-error v-if="errors.departments">
+                        {{ errors.departments }}
+                    </nitrozen-error>
+                    <div class="chip-wrapper inline">
+                        <div
+                            v-for="(category, index) of template.categories"
+                            :key="index"
+                        >
+                            <nitrozen-chips class="chip">
+                                {{ getCategoryName(category) }}
+                                <nitrozen-inline
+                                    icon="cross"
+                                    class="nitrozen-icon"
+                                    @click="
+                                        template.categories.splice(index, 1)
+                                    "
+                                ></nitrozen-inline>
+                            </nitrozen-chips>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-md">
+                    <nitrozen-dropdown
+                        class="input w-l"
+                        label="Attributes"
+                        :items="attributesList"
+                        v-model="template.attributes"
+                        :required="true"
+                        :multiple="true"
+                        :searchable="true"
+                        @searchInputChange="setAttributesList"
+                    ></nitrozen-dropdown>
+                </div>
+
+                <!-- Selected -->
+                <div class="attribute-container">
+                    <draggable
+                        class="list"
+                        v-model="template.attributes"
+                        handle=".reorder"
+                        @start="drag = true"
+                        @end="drag = false"
+                    >
+                        <div
+                            class="item space-between"
+                            v-for="(attr, index) of attrSelectedList"
+                            :key="index"
+                        >
+                            <div class="inline v-center">
+                                <inline-svg
+                                    class="reorder mr-md"
+                                    src="reorder"
+                                ></inline-svg>
+
+                                {{ index + 1 }}. &nbsp;
+                                {{ attr.name }}
+                                <span
+                                    v-if="attr.invalid"
+                                    class="invalid"
+                                    title="This attribute is not available for this department. Remove or create it to make it visible on Product detail pages."
+                                >
+                                    &nbsp;&nbsp;*invalid*
+                                </span>
+                            </div>
+                            <inline-svg
+                                title="Remove Attribute"
+                                class="cross-icon pointer"
+                                src="plus-black"
+                                @click.stop.native="
+                                    template.attributes.splice(index, 1)
+                                "
+                            ></inline-svg>
+                        </div>
+                        <div class="msg" v-if="!attrSelectedList.length">
+                            Select attributes from 'Unselected' list by clicking
+                            the plus (+) icon
+                        </div>
+                    </draggable>
                 </div>
             </div>
         </div>
@@ -265,6 +267,10 @@
 .header-position {
     height: 58.5px;
 }
+.button-box {
+    display: flex;
+    align-items: center;
+}
 .page-container {
     flex-direction: row-reverse;
     width: auto;
@@ -272,6 +278,7 @@
     background-color: @Alabaster2;
     .form-container {
         width: 320px;
+        height: fit-content;
         margin-left: 24px;
         padding: 24px;
         border: 1px solid @WhiteSmoke;
@@ -287,26 +294,23 @@
         background-color: @White;
     }
 }
-.attribute-container {
-    border: 1px solid @Iron;
-    border-radius: 4px;
-    width: 50%;
-    .header {
-        height: 24px;
-        display: flex;
-        padding: 12px;
-        align-items: center;
-        justify-content: center;
-        background: @WhiteSmoke;
-        color: @Mako;
-        font-weight: 600;
+.chip-wrapper {
+    flex-wrap: wrap;
+    height: fit-content;
+    max-height: 200px;
+    overflow-y: auto;
+    .blaster-scrollbar;
+    .chip {
+        margin: 8px 8px 0 0;
     }
+}
+.attribute-container {
     .list {
-        height: 400px;
-        overflow-y: auto;
-        .blaster-scrollbar;
         .item {
-            border-bottom: 1px solid @Iron;
+            max-width: 600px;
+            border: 1px solid @Iron;
+            border-radius: 4px;
+            margin-top: 12px;
             height: 24px;
             display: flex;
             align-items: center;
@@ -341,7 +345,7 @@
     }
 }
 .reorder {
-    cursor: -webkit-grabbing;
+    cursor: -webkit-grab;
 }
 
 .space-between {
@@ -355,6 +359,9 @@
     }
     &.w-md {
         width: 300px;
+    }
+    &.w-l {
+        width: 400px;
     }
     &.w-xxl {
         max-width: 800px;
@@ -398,6 +405,13 @@
         flex: 1;
         margin-left: 24px;
     }
+}
+
+.btn-txt {
+    color: @RoyalBlue;
+    font-size: 14px;
+    font-weight: 500;
+    .pointer;
 }
 
 .toggle {
@@ -459,6 +473,7 @@ export default {
         NitrozenInput,
         NitrozenError,
         NitrozenInline,
+        NitrozenChips,
         NitrozenButton,
         NitrozenToggleBtn,
         NitrozenDropdown,
@@ -473,9 +488,6 @@ export default {
     // mixins: [dirtyCheckMixin],
     data: function() {
         return {
-            showModal: false,
-            tags: [],
-            status: false,
             slug: this.$route.params.slug || '',
             editMode: !!this.$route.params.slug,
 
@@ -484,15 +496,27 @@ export default {
             inProgress: false,
             formSaved: false,
 
+            chipDisplayCount: 20,
+            showAllDepartments: false,
+            showAllCategories: false,
+
             attrType: 'str',
-            template: { attributes: [] },
+            template: {
+                active: false,
+                departments: [],
+                categories: [],
+                attributes: []
+            },
             attributes: [],
             departments: [],
+            categories: [],
             units: [],
             errors: {},
             unselectedSearchTxt: '',
 
             departmentsList: [],
+            categoriesList: [],
+            attributesList: [],
             unitsList: []
         };
     },
@@ -526,18 +550,15 @@ export default {
             });
             return list;
         },
-        attrUnselectedList() {
-            const list = [];
-            const search = this.unselectedSearchTxt.toLowerCase();
-            this.attributes.forEach((attr) => {
-                if (
-                    !this.template.attributes.includes(attr.slug) &&
-                    (attr.slug.includes(search) || attr.name.includes(search))
-                ) {
-                    list.push(attr);
+        selectedDeptIds() {
+            if (_.isEmpty(this.departments)) return [];
+            const uids = [];
+            this.departments.forEach((dept) => {
+                if (this.template.departments.includes(dept.slug)) {
+                    uids.push(dept.uid);
                 }
             });
-            return list;
+            return uids;
         }
     },
     methods: {
@@ -551,11 +572,16 @@ export default {
             this.pageLoading = true;
             Promise.all(pArr)
                 .then(() => {
-                    this.fetchAttributes();
+                    return Promise.all([
+                        this.fetchAttributes(),
+                        this.fetchCategories()
+                    ]);
                 })
                 .then(() => {
                     this.pageLoading = false;
                     this.setDepartmentsList();
+                    this.setCategoriesList();
+                    this.setAttributesList();
                 })
                 .catch((err) => {
                     this.pageLoading = false;
@@ -594,6 +620,25 @@ export default {
                     });
             });
         },
+        fetchCategories() {
+            if (!this.selectedDeptIds.length) return;
+
+            const params = {
+                page_size: 999999,
+                page_no: 1,
+                dept_id: this.selectedDeptIds
+            };
+            return new Promise((resolve, reject) => {
+                CompanyService.fetchCategories(params)
+                    .then(({ data }) => {
+                        this.categories = data.data;
+                        return resolve();
+                    })
+                    .catch((err) => {
+                        return reject(err);
+                    });
+            });
+        },
         fetchAttributes() {
             if (_.isEmpty(this.template.departments)) {
                 this.attributes = [];
@@ -615,7 +660,6 @@ export default {
             this.departmentsList = [];
             this.departments.forEach((d) => {
                 if (
-                    !e ||
                     !e.text ||
                     d.name.toLowerCase().includes(e.text.toLowerCase())
                 ) {
@@ -625,6 +669,44 @@ export default {
                     });
                 }
             });
+        },
+        setCategoriesList(e = {}) {
+            this.categoriesList = [];
+            this.categories.forEach((c) => {
+                if (
+                    !e.text ||
+                    c.name.toLowerCase().includes(e.text.toLowerCase())
+                ) {
+                    this.categoriesList.push({
+                        text: c.name,
+                        value: c.slug_key
+                    });
+                }
+            });
+        },
+        setAttributesList(e = {}) {
+            this.attributesList = [];
+            this.attributes.forEach((a) => {
+                if (
+                    !e.text ||
+                    a.name.toLowerCase().includes(e.text.toLowerCase())
+                ) {
+                    this.attributesList.push({
+                        text: a.name,
+                        value: a.slug
+                    });
+                }
+            });
+        },
+        getDepartmentName(slug) {
+            const department = this.departments.find((d) => d.slug === slug);
+            if (department) return department.name;
+            return slug;
+        },
+        getCategoryName(slug) {
+            const category = this.categories.find((c) => c.slug_key === slug);
+            if (category) return category.name;
+            return slug;
         },
         updateSlug() {
             if (this.editMode) return;
