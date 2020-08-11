@@ -21,14 +21,14 @@ export const getNavigations = () => {
         CATALOG: [
             {
                 display: 'Department',
-                link: '/administrator/catalog/department',
+                link: '/administrator/product/department',
                 title: 'Department',
                 icon: 'home',
                 highlightedIcon: 'home-highlighted'
             },
             {
                 display: 'Variants',
-                link: '/administrator/catalog/variants',
+                link: '/administrator/product/variants',
                 title: 'Variants',
                 icon: 'home',
                 highlightedIcon: 'home-highlighted'

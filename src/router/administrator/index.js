@@ -71,32 +71,32 @@ export default [
             //Catalog
             {
                 name: 'department',
-                path: 'catalog/department',
+                path: 'product/department',
                 component: ListDepartment
             },
             {
                 name: 'create-department',
-                path: 'catalog/create-department',
+                path: 'product/create-department',
                 component: CreateUpdateDepartment
             },
             {
                 name: 'edit-department',
-                path: 'catalog/edit-department/:deptId',
+                path: 'product/edit-department/:deptId',
                 component: CreateUpdateDepartment
             },
             {
                 name: 'variants',
-                path: 'catalog/variants',
+                path: 'product/variants',
                 component: ListVariants
             },
             {
                 name: 'create-variant',
-                path: 'catalog/create-variant',
+                path: 'product/create-variant',
                 component: CreateUpdateVariant
             },
             {
                 name: 'edit-variant',
-                path: 'catalog/edit-variant/:uid',
+                path: 'product/edit-variant/:uid',
                 component: CreateUpdateVariant
             },
             // Settings

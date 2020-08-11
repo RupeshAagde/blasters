@@ -324,13 +324,13 @@ export default {
         },
         createVariant() {
             this.$router.push({
-                path: '/administrator/catalog/create-variant'
+                path: '/administrator/product/create-variant'
             });
         },
         editVariant(item) {
             if (item) {
                 this.$router.push({
-                    path: `/administrator/catalog/edit-variant/${item.uid}`
+                    path: `/administrator/product/edit-variant/${item.uid}`
                 });
             }
         }

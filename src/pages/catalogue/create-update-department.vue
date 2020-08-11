@@ -405,7 +405,7 @@ export default {
             }
         },
         redirectToListing() {
-            this.$router.push({ path: '/administrator/catalog/department' });
+            this.$router.push({ path: '/administrator/product/department' });
         },
         save() {
             let postdata = {
@@ -460,7 +460,7 @@ export default {
                         });
                         setTimeout(() => {}, 2000);
                         this.$router.push({
-                            path: '/administrator/catalog/department'
+                            path: '/administrator/product/department'
                         });
                     })
                     .catch((error) => {

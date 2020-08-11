@@ -356,13 +356,13 @@ export default {
         },
         createDepartment() {
             this.$router.push({
-                path: '/administrator/catalog/create-department'
+                path: '/administrator/product/create-department'
             });
         },
         editDepartment(item) {
             if (item && item.uid) {
                 this.$router.push({
-                    path: `/administrator/catalog/edit-department/${item.uid}`
+                    path: `/administrator/product/edit-department/${item.uid}`
                 });
             }
         }
