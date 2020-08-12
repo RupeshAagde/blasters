@@ -22,11 +22,7 @@
                             'cl-RoyalBlue': formData.plan.is_active
                         }"
                         @click="
-                            () => {
-                                formData.plan.is_active = !formData.plan
-                                    .is_active;
-                                changeActiveState();
-                            }
+                            formData.plan.is_active = !formData.plan.is_active
                         "
                     >
                         {{ formData.plan.is_active ? 'Active' : 'Inactive' }}
@@ -34,7 +30,6 @@
                     <nitrozen-toggle
                         class="pad-right"
                         v-model="formData.plan.is_active"
-                        @change="changeActiveState"
                     ></nitrozen-toggle>
                     <nitrozen-button
                         class="pad-right"
@@ -564,6 +559,8 @@ export default {
                                 slug_values: {
                                     channel: {}
                                 },
+                                rule_end_date: null,
+                                rule_start_date: null,
                                 transactional_components: {
                                     is_tp: false,
                                     defaults: {
@@ -585,7 +582,7 @@ export default {
                     }
                 ]
             };
-            _.merge(dtCompData.shallow_rules[0], dtCompConfig.data.rule);
+            _.merge(dtCompData.shallow_rules[0].data, dtCompConfig.data);
             return dtCompData;
         },
         isFormDirty() {
@@ -680,34 +677,6 @@ export default {
                 );
                 this.saveInProgress = false;
             }
-        },
-        changeActiveState() {
-            const publishState = this.formData._schedule.published
-                ? 'Active'
-                : 'Inactive';
-            if (!this.isEditOnly) {
-                return;
-            }
-            BillingService.patchPlan(
-                { published: this.formData._schedule.published },
-                this.planId
-            )
-                .then(({ data }) => {
-                    this.$snackbar.global.showSuccess(data.message);
-                    // update original data as changes are saved on server
-                    this.originalData._schedule.published = this.formData._schedule.published;
-                })
-                .catch((err) => {
-                    this.$snackbar.global.showError(
-                        `Failed to ${
-                            this.formData._schedule.published
-                                ? 'publish'
-                                : 'unpublish'
-                        } subscription-plan:${
-                            err && err.message ? ' : ' + err.message : ''
-                        }`
-                    );
-                });
         },
 
         validateData() {
