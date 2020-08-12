@@ -6,7 +6,7 @@
         <div class="search-div">
             <div class="box-search">
                 <nitrozen-input
-                    placeholder="Search Channels by name . . ."
+                    placeholder="Search Channels by name or domain . . ."
                     @input="searchChannels"
                     v-model="searchText"
                     :showSearchIcon="true"
@@ -56,9 +56,10 @@
                         </a>
                         <nitrozen-badge
                             :state="item.is_active ? 'success' : 'warn'"
+                            >{{
+                                item.is_active ? 'Unarchived' : 'Archived'
+                            }}</nitrozen-badge
                         >
-                            {{ item.is_active ? 'Unarchived' : 'Archived' }}
-                        </nitrozen-badge>
                     </div>
                 </div>
                 <div class="line-2" v-if="item.token">
@@ -67,7 +68,17 @@
                 </div>
                 <div class="line-2" v-if="item.id">
                     <div class="cust-head">Application ID</div>
-                    <div>{{ item.id }}</div>
+                    <div class="cust-app">{{ item.id }}</div>
+                </div>
+                <div class="line-2" v-if="item.domain">
+                    <div class="cust-head" v-if="item.domain.name">Domain</div>
+                    <div v-if="item.domain.name" class="cust-domain">
+                        <a
+                            :href="`https://${item.domain.name}`"
+                            target="_blank"
+                            >{{ item.domain.name }}</a
+                        >
+                    </div>
                 </div>
                 <div class="line-4" v-if="!item.internal">
                     <nitrozen-button
@@ -228,6 +239,7 @@
 
             .cust-head {
                 text-overflow: ellipsis;
+                white-space: nowrap;
                 width: 160px;
                 overflow: hidden;
                 font-size: 14px;
@@ -249,6 +261,23 @@
             color: #41434c;
             font-weight: 200;
             justify-content: space-between;
+
+            .cust-app {
+                text-overflow: ellipsis;
+                max-width: 200px;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+
+            .cust-domain {
+                text-overflow: ellipsis;
+                max-width: 200px;
+                white-space: nowrap;
+                overflow: hidden;
+                color: #5c6bdd;
+                font-weight: bold;
+                cursor: pointer;
+            }
         }
         .line-4 {
             display: flex;
@@ -387,9 +416,14 @@ export default {
             if (this.mainList && this.mainList.length > 0) {
                 if (this.searchText != '') {
                     this.applicationList = this.mainList.filter((element) => {
-                        return element.name
-                            .toLowerCase()
-                            .includes(this.searchText.toLowerCase());
+                        return (
+                            element.name
+                                .toLowerCase()
+                                .includes(this.searchText.toLowerCase()) ||
+                            element.domain.name
+                                .toLowerCase()
+                                .includes(this.searchText.toLowerCase())
+                        );
                     });
                 } else {
                     this.applicationList = this.mainList;
@@ -474,7 +508,6 @@ export default {
         },
         openAdminDialog(item) {
             this.activeChannel = item;
-            console.log(this.activeChannel, 'active channel');
             if (item && item.is_active) {
                 this.archiveText = 'Archive';
             }
