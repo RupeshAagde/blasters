@@ -170,6 +170,10 @@ const CompanyService = {
     fetchAttribute(slug) {
         return ApiService.get(URLS.ATTRIBUTES_MASTER(slug), {});
     },
+    createAttribute(data) {
+        let axiosOption = Object.assign({}, { data }, getCommonHeaderOptions());
+        return ApiService.post(URLS.ATTRIBUTES_MASTER(), axiosOption);
+    },
     updateAttribute(data) {
         let axiosOption = Object.assign({}, { data }, getCommonHeaderOptions());
         return ApiService.put(URLS.ATTRIBUTES_MASTER(), axiosOption);
@@ -181,6 +185,10 @@ const CompanyService = {
     },
     fetchProductTemplate(slug) {
         return ApiService.get(URLS.PRODUCT_TEMPLATES(slug), {});
+    },
+    createProductTemplate(slug, data) {
+        let axiosOption = Object.assign({}, { data }, getCommonHeaderOptions());
+        return ApiService.post(URLS.PRODUCT_TEMPLATES(slug), axiosOption);
     },
     updateProductTemplate(slug, data) {
         let axiosOption = Object.assign({}, { data }, getCommonHeaderOptions());

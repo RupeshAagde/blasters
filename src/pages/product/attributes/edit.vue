@@ -136,7 +136,7 @@
                             tooltipText="Allow this attribute to be used as a product variants grouping property"
                         ></nitrozen-tooltip>
                     </div>
-                    <nitrozen-toggle-btn v-model="attribute.variant">
+                    <nitrozen-toggle-btn v-model="attribute.variant_enabled">
                     </nitrozen-toggle-btn>
                 </div>
                 <loader v-if="inProgress" class="loading"></loader>
@@ -405,12 +405,12 @@
 <script>
 import TagsInput from '@/components/common/tags-input';
 import PageHeader from '@/components/common/layout/page-header';
-import { compactDeepObject } from '../../../helper/utils';
 import ImageUploader from '@/components/common/image-uploader/index';
 import CompanyService from '@/services/company-admin.service';
 import Loader from '@/components/common/loader';
 import FormInput from '@/components/common/form-input';
 import slugify from 'slugify';
+import { compactDeepObject } from '@/helper/utils';
 // import { dirtyCheckMixin } from '@/mixins/form.mixin';
 import {
     NitrozenInput,
@@ -512,9 +512,10 @@ export default {
 
             attrType: 'str',
             attribute: {
-                schema: { enum: [], range: {} },
+                schema: { enum: [], range: {}, format: '', multi: false },
                 details: {},
-                filters: {}
+                filters: {},
+                meta: { enriched: false, mandatory_details: { l3_keys: [] } }
             },
             departments: [],
             units: [],
@@ -615,27 +616,7 @@ export default {
             attribute.schema.range = attribute.schema.range || {};
             return attribute;
         },
-        getFormData() {
-            try {
-                const attribute = {
-                    ...this.attribute
-                };
-                if (this.attrType === 'str') {
-                    attribute.details.displayType = 'text';
-                    attribute.schema.type = 'str';
-                } else if (this.attrType === 'html') {
-                    attribute.details.displayType = this.attrType;
-                    attribute.schema.type = 'str';
-                } else {
-                    attribute.details.displayType = 'text';
-                    attribute.schema.type = this.attrType;
-                }
-                return attribute;
-            } catch (err) {
-                console.log(err);
-                throw err;
-            }
-        },
+
         setDepartmentsList(e = {}) {
             this.departmentsList = [];
             this.departments.forEach((d) => {
@@ -691,6 +672,27 @@ export default {
             if (department) return department.name;
             return slug;
         },
+        getFormData() {
+            try {
+                const attribute = {
+                    ...this.attribute
+                };
+                if (this.attrType === 'str') {
+                    attribute.details.displayType = 'text';
+                    attribute.schema.type = 'str';
+                } else if (this.attrType === 'html') {
+                    attribute.details.displayType = this.attrType;
+                    attribute.schema.type = 'str';
+                } else {
+                    attribute.details.displayType = 'text';
+                    attribute.schema.type = this.attrType;
+                }
+                return attribute;
+            } catch (err) {
+                console.log(err);
+                throw err;
+            }
+        },
         saveForm() {
             try {
                 if (!this.validateForm()) {
@@ -700,12 +702,18 @@ export default {
                     return;
                 }
                 const formData = this.getFormData();
+
+                let upsertFunc = CompanyService.updateAttribute;
+                if (!this.editMode) {
+                    upsertFunc = CompanyService.createAttribute;
+                }
+
                 this.inProgress = true;
-                CompanyService.updateAttribute(formData)
+                upsertFunc(formData)
                     .then((res) => {
                         this.inProgress = false;
                         this.$snackbar.global.showSuccess(
-                            'Attribute updated successfully'
+                            'Attribute saved successfully'
                         );
                         this.offer = res.data;
                         this.formSaved = true;
@@ -714,7 +722,7 @@ export default {
                     .catch((err) => {
                         this.inProgress = false;
                         this.$snackbar.global.showError(
-                            `Failed to update${
+                            `Failed to save${
                                 err && err.message ? ' : ' + err.message : ''
                             }`
                         );

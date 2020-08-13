@@ -4,6 +4,7 @@
             <page-header :title="title" @backClick="redirectToListing">
             </page-header>
         </div>
+        <loader v-if="inProgress" class="loading"></loader>
         <loader v-if="pageLoading" class="loading"></loader>
         <div class="page-container" v-if="!pageLoading">
             <!-- Groups -->
@@ -29,7 +30,7 @@
                     </div>
                     <div class="attribute-container mt-md">
                         <draggable
-                            class="list h-xl"
+                            class="list group"
                             v-model="groupSequence"
                             handle=".reorder"
                             @start="drag = true"
@@ -123,6 +124,7 @@
                             errors.slug
                         }}</nitrozen-error>
                     </div>
+                    <!-- publiccly displayed toggle -->
                     <div class="inline mt-md">
                         <div
                             class="toggle-display-txt pointer cl-RoyalBlue bold-xxxs"
@@ -143,6 +145,20 @@
                             :value="groupDetails[entity].display"
                             @change="toggleGroupDisplay(groupDetails.slug)"
                         ></nitrozen-toggle-btn>
+                    </div>
+                    <div class="inline mt-md">
+                        <nitrozen-input
+                            class="mr-sm"
+                            type="number"
+                            placeholder="To move group; enter position number"
+                            v-model="positionNumber"
+                        ></nitrozen-input>
+                        <nitrozen-button
+                            :theme="'secondary'"
+                            v-strokeBtn
+                            @click="moveGroup"
+                            >Move</nitrozen-button
+                        >
                     </div>
                     <!-- Attributes -->
                     <div class="mt-md inline v-center">
@@ -167,7 +183,7 @@
                     <!-- Attribute ordering list -->
                     <div class="attribute-container mt-sm">
                         <draggable
-                            class="list h-md"
+                            class="list attribute"
                             v-model="groupDetails[entity].attributes"
                             handle=".reorder"
                             @start="drag = true"
@@ -218,7 +234,6 @@
                 </div>
             </div>
         </div>
-        <!-- <loader v-if="inProgress" /> -->
     </div>
 </template>
 
@@ -261,11 +276,11 @@
         overflow-y: auto;
         padding-right: 24px;
         .blaster-scrollbar;
-        &.h-md {
-            max-height: 400px;
+        &.group {
+            max-height: calc(100vh - 284px);
         }
-        &.h-xl {
-            max-height: 500px;
+        &.attribute {
+            height: calc(100vh - 606px);
         }
 
         .item {
@@ -403,7 +418,6 @@
 <script>
 import TagsInput from '@/components/common/tags-input';
 import PageHeader from '@/components/common/layout/page-header';
-import { compactDeepObject } from '../../../helper/utils';
 import ImageUploader from '@/components/common/image-uploader/index';
 import CompanyService from '@/services/company-admin.service';
 import Loader from '@/components/common/loader';
@@ -411,6 +425,7 @@ import FormInput from '@/components/common/form-input';
 import InlineSvg from '@/components/common/ukt-inline-svg';
 import Draggable from 'vuedraggable';
 import slugify from 'slugify';
+import { moveArrayItem } from '../../../helper/utils';
 // import { dirtyCheckMixin } from '@/mixins/form.mixin';
 import root from 'window-or-global';
 import _ from 'lodash';
@@ -474,6 +489,7 @@ export default {
 
             groups: [],
             selectedGroupSlug: '',
+            positionNumber: null,
             groupSequence: [],
             groupDetails: { ...EMPTY_GROUP_DETAILS },
             departments: [],
@@ -702,12 +718,28 @@ export default {
                 strict: true
             });
         },
+        moveGroup() {
+            if (
+                this.positionNumber < 1 ||
+                this.positionNumber > this.groupSequence.length
+            ) {
+                this.$snackbar.global.showError(
+                    `Invalid position entered. Number should be from 1 to ${this.groupSequence.length}`
+                );
+                this.positionNumber = null;
+                return;
+            }
+
+            const oldIndex = this.groupSequence.indexOf(this.groupDetails.slug);
+            this.groupSequence = moveArrayItem(
+                this.groupSequence,
+                oldIndex,
+                this.positionNumber - 1
+            );
+            this.positionNumber = null;
+        },
         getFormData() {
             try {
-                if (!this.groupDetails[this.entity].priority) {
-                    this.groupDetails[this.entity].priority =
-                        this.groupSequence.length + 1;
-                }
                 return {
                     ...this.groupDetails,
                     type: this.entity

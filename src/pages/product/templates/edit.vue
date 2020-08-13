@@ -753,12 +753,18 @@ export default {
                     return;
                 }
                 const formData = this.getFormData();
+
+                let upsertFunc = CompanyService.updateProductTemplate;
+                if (!this.editMode) {
+                    upsertFunc = CompanyService.createProductTemplate;
+                }
+
                 this.inProgress = true;
-                CompanyService.updateProductTemplate(this.slug, formData)
+                upsertFunc(this.slug, formData)
                     .then((res) => {
                         this.inProgress = false;
                         this.$snackbar.global.showSuccess(
-                            'Template updated successfully'
+                            'Template saved successfully'
                         );
                         this.offer = res.data;
                         this.formSaved = true;
@@ -767,7 +773,7 @@ export default {
                     .catch((err) => {
                         this.inProgress = false;
                         this.$snackbar.global.showError(
-                            `Failed to update${
+                            `Failed to save${
                                 err && err.message ? ' : ' + err.message : ''
                             }`
                         );

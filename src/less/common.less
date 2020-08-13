@@ -45,6 +45,36 @@ a {
     border-radius: @BorderRadius;
 }
 
+.loader {
+    .flex-center();
+    padding: 15px 0px;
+    margin: auto;
+
+    span {
+        .flex-center();
+    }
+}
+
+/*
+* Loader center of screen with gray background
+*/
+.loading {
+    position: fixed;
+    height: calc(100% - 56px);
+    width: calc(100% - 250px);
+    left: 250px;
+    top: 65px;
+    z-index: @loader;
+    background: hsla(0, 0%, 83%, 0.3);
+
+    span {
+        top: 50%;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
 // disable user select on buttons and select
 button,
 select,
