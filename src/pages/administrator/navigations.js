@@ -1,34 +1,34 @@
 export const getNavigations = () => {
-    return {
+    return [
         // Home:{
         //         display: 'Home',
         //         link: `/administrator/home`,
         //         title: 'Home',
         //         icon: 'home',
         //         highlightedIcon: 'home-highlighted'
-        //         child: []
+        //         children: []
         // },
-        COMPANY: {
+        {
             display: 'Company',
             link: '/administrator/company-list',
-            title: 'Company',
+            title: 'company',
             icon: 'home',
             highlightedIcon: 'home-highlighted',
             active: false,
-            child: []
+            children: []
         },
-        PRODUCT: {
+        {
             display: 'Product',
             link: '/administrator/product/department',
-            title: 'Department',
+            title: 'product',
             icon: 'home',
             highlightedIcon: 'home-highlighted',
             active: false,
-            child: [
+            children: [
                 {
                     display: 'Department',
                     link: '/administrator/product/department',
-                    title: 'Department',
+                    title: 'product-department',
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
@@ -36,48 +36,39 @@ export const getNavigations = () => {
                 {
                     display: 'Variants',
                     link: '/administrator/product/variants',
-                    title: 'Variants',
+                    title: 'product-variants',
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
                 }
             ]
         },
-        // PLANS: [
-        // {
-        //     display: 'Subscription Plans',
-        //     link: `/administrator/subscription-plans`,
-        //     title: 'Subscription Plans',
-        //     icon: 'home',
-        //     highlightedIcon: 'home-highlighted'
-        // }
-        // ],
-        USER_MANAGEMENT: {
+        {
             display: 'Admin User Access',
             link: '/administrator/user-management',
-            title: 'User Management',
+            title: 'user',
             icon: 'team',
             highlightedIcon: 'team-highlighted',
             active: false,
-            child: []
+            children: []
         },
-        TICKETS: {
+        {
             display: 'Support Center',
             link: '/administrator/support',
-            title: 'Support Center',
+            title: 'support',
             icon: 'home',
             highlightedIcon: 'home-highlighted',
             active: false,
-            child: []
+            children: []
         },
-        SETTINGS: {
+        {
             display: 'Settings',
             link: '/administrator/settings',
-            title: 'Settings',
+            title: 'settings',
             icon: 'settings',
             highlightedIcon: 'settings-highlighted',
             active: false,
-            child: []
+            children: []
         }
-    };
+    ];
 };

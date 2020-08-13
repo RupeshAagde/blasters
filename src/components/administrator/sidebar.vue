@@ -1,30 +1,49 @@
 <template>
-    <div>
-        <template v-for="(navs, type) in getNavItems">
-            <div v-if="navs.child && navs.child.length == 0" :key="type">
-                <div class="bold-sm cl-Mako menu-item">
-                    <router-link :to="navs.link">
-                        <inline-svg :src="navs.icon" class="icon"></inline-svg>
+    <div class="menu-block">
+        <div
+            class="bold-sm cl-Mako menu-item"
+            v-for="(item, index) in getNavItems"
+            :key="index"
+        >
+            <router-link
+                :to="item.link"
+                :class="
+                    currentPath.includes(item.title)
+                        ? 'router-link-exact-active'
+                        : ''
+                "
+            >
+                <inline-svg :src="item.icon" class="icon"></inline-svg>
+                <span class="title regular-xs cl-Mako">{{ item.display }}</span>
+                <inline-svg
+                    src="arrow-dropdown-black"
+                    class="dropdown-icon"
+                    :class="{
+                        'rotate-arrow': currentPath.includes(item.title)
+                    }"
+                    v-if="item.children.length > 0"
+                ></inline-svg>
+            </router-link>
+            <div
+                class="sub-menu"
+                :class="{
+                    'toggle-dropdown':
+                        item.children && currentPath.includes(item.title)
+                }"
+            >
+                <div
+                    class="bold-sm cl-Mako submenu-item menu-item"
+                    v-for="(submenu, index) in item.children"
+                    :key="index"
+                >
+                    <router-link :to="submenu.link">
                         <span class="title regular-xs cl-Mako">{{
-                            navs.display
+                            submenu.display
                         }}</span>
                     </router-link>
                 </div>
             </div>
-            <div v-if="navs.child && navs.child.length > 0" :key="'key' + type">
-                <!-- <div class="bold-sm cl-Mako parent-ele" @click="checkOpen(navs)" :class="open ? 'router-link-exact-active' : ''"> 
-                    <inline-svg :src="navs.icon" class="icon"></inline-svg>
-                    <span class="title regular-xs cl-Mako">{{ navs.display }}</span>
-                    <span
-                        class="filter"
-                        v-bind:class="{'filter-arrow-down': !open, 'filter-arrow-up': open}"
-                    >
-                        <inline-svg :src="'arrow-dropdown-black'"></inline-svg>
-                    </span>
-                </div> -->
-                <dropdown :list="navs" />
-            </div>
-        </template>
+        </div>
     </div>
 </template>
 
@@ -41,7 +60,7 @@
     margin-left: auto;
 }
 .menu-block {
-    position: relative;
+    position: fixed;
     height: calc(100% - 60px);
     background-color: #ffffff;
     width: 250px;
@@ -65,24 +84,35 @@
         .title {
             padding-left: 5px;
         }
+        .dropdown-icon {
+            display: inline-block;
+            margin-left: auto;
+            padding: 0 10px;
+            transition: all 0.5s ease;
+        }
     }
 }
-.parent-ele {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    padding: 10px 0px 10px 10px;
-    .icon {
-        margin-right: 16px;
-        max-height: 24px;
-        max-width: 24px;
-    }
-    .title {
-        padding-left: 5px;
+.submenu-item {
+    a {
+        padding: 16px 0;
+        padding-left: 51px;
     }
 }
-
+.rotate-arrow {
+    transform: rotate(180deg);
+}
+.sub-menu {
+    max-height: 0;
+    opacity: 0;
+    transition: all 0.5s ease-out;
+    transition-delay: 0.1s;
+    position: relative;
+    overflow: hidden;
+}
+.toggle-dropdown {
+    opacity: 1;
+    max-height: 360px;
+}
 .router-link-exact-active {
     background-color: rgba(92, 107, 221, 0.12);
     .title {
@@ -94,23 +124,19 @@
 <script>
 import inlineSvgVue from './../common/inline-svg.vue';
 import { getNavigations } from './../../pages/administrator/navigations';
-import dropdown from './dropdown.vue';
 export default {
-    name: 'side-menu',
+    name: 'sidebar',
     components: {
-        'inline-svg': inlineSvgVue,
-        dropdown
+        'inline-svg': inlineSvgVue
     },
     props: {},
     computed: {
         getNavItems() {
             return getNavigations(this.$route);
+        },
+        currentPath() {
+            return this.$route.path;
         }
-    },
-    data() {
-        return {
-            open: false
-        };
     },
     methods: {
         beforeEnter: function(el) {
@@ -127,9 +153,6 @@ export default {
         },
         toggle: function() {
             this.$emit('click');
-        },
-        checkOpen(item) {
-            this.open = !open;
         }
     }
 };

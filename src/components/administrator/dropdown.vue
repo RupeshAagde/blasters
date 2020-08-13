@@ -25,9 +25,9 @@
             >
                 <router-link :to="item.link">
                     <!-- <inline-svg :src="item.icon" class="icon"></inline-svg> -->
-                    <span class="title regular-xs cl-Mako">{{
-                        item.display
-                    }}</span>
+                    <span class="title regular-xs cl-Mako">
+                        {{ item.display }}
+                    </span>
                 </router-link>
             </div>
         </div>
@@ -98,7 +98,7 @@
 
 <script>
 import inlineSvgVue from './../common/inline-svg.vue';
-// import { getNavigations } from './../../pages/administrator/navigations';
+import { getNavigations } from './../../pages/administrator/navigations';
 export default {
     name: 'dropdown',
     components: {
@@ -106,10 +106,45 @@ export default {
     },
     data() {
         return {
-            open: false
+            open: false,
+            navigation: {}
         };
     },
-    props: ['list'],
+    computed: {
+        // getMenu: {
+        //     get: function() {
+        //         return getNavigations();
+        //     },
+        //     set:function(value){
+        //     }
+        // },
+        // getList() {
+        //     return this.list;
+        // },
+        // // active: {
+        // //     get: function() {
+        // //         return this.list.active;
+        // //     },
+        // //     set: function(value) {
+        // //         this.list.active = value;
+        // //     }
+        // },
+        // getLast: {
+        //     get: function(){
+        //         return this.lastTab;
+        //     },
+        //     set: function(value){
+        //         this.lastTab = value;
+        //     }
+        // }
+    },
+    mounted() {
+        this.navigation = getNavigations();
+    },
+    props: {
+        list: {},
+        active: Boolean
+    },
     methods: {
         beforeEnter: function(el) {
             el.style.height = '0';
@@ -127,8 +162,34 @@ export default {
             this.$emit('click');
         },
         checkOpen() {
-            this.open = !this.open;
+            if (this.active) this.open = !this.open;
+            this.$emit('opened');
         }
+        // if (this.lastTab != this.list.title) {
+        //     this.active = true;
+        //     this.open = this.active;
+        //     console.log(this.list.title, 'list');
+        // console.log(this.lastTab, 'lasttab');
+        // for(var key in this.navigation){
+        //     if(key != this.lastTab){
+        // var obj = this.navigation[key];
+        // obj.active = true;
+        // console.log(obj , 'obj');
+        // console.log(key, 'key');
+        // }
+        // }
+        // if (this.getMenu.hasOwnProperty(this.lastTab))
+        //     console.log(this.getMenu[this.lastTab]),
+        //         'safsdfsdfsfsdggfsgsgf';
+        // }
+        // else {
+        //     if (this.navigation.hasOwnProperty(this.lastTab)) {
+        //         this.open = false;
+        //         this.navigation[this.lastTab].active = false;
+        //     }
+        // }
+        // this.getLast = this.list.title;
+        // console.log(this.getLast, 'lasttab');
     }
 };
 </script>
