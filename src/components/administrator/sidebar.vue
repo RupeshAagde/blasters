@@ -99,8 +99,7 @@
 }
 .submenu-item {
     a {
-        padding: 16px 0;
-        padding-left: 51px;
+        padding: 12px 0 12px 51px;
     }
 }
 .rotate-arrow {
