@@ -41,8 +41,8 @@ export const getNavigations = () => {
                 display: 'Product',
                 link: '/administrator/product',
                 title: 'Product',
-                icon: 'team',
-                highlightedIcon: 'team-highlighted'
+                icon: 'productsv2',
+                highlightedIcon: 'productsv2-highlighted'
             }
         ],
         TICKETS: [

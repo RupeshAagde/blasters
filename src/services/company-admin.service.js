@@ -182,9 +182,9 @@ const CompanyService = {
     fetchProductTemplate(slug) {
         return ApiService.get(URLS.PRODUCT_TEMPLATES(slug), {});
     },
-    updateProductTemplate(data) {
+    updateProductTemplate(slug, data) {
         let axiosOption = Object.assign({}, { data }, getCommonHeaderOptions());
-        return ApiService.put(URLS.PRODUCT_TEMPLATES(), axiosOption);
+        return ApiService.put(URLS.PRODUCT_TEMPLATES(slug), axiosOption);
     },
 
     fetchDepartments() {
@@ -196,6 +196,44 @@ const CompanyService = {
     fetchCategories(params) {
         let axiosOption = Object.assign({ params });
         return ApiService.get(URLS.CATEGORY(), axiosOption);
+    },
+    fetchGroups(params) {
+        let axiosOption = Object.assign({ params });
+        return ApiService.get(URLS.ATTRIBUTE_GROUPS(), axiosOption);
+    },
+    fetchGroupDetails(slug, params) {
+        let axiosOption = Object.assign({ params });
+        return ApiService.get(URLS.ATTRIBUTE_GROUPS(slug), axiosOption);
+    },
+    createAttributeGroup(data) {
+        let axiosOption = Object.assign({ data });
+        return ApiService.post(URLS.ATTRIBUTE_GROUPS(), axiosOption);
+    },
+    updateAttributeGroup(data) {
+        let axiosOption = Object.assign({ data });
+        return ApiService.put(URLS.ATTRIBUTE_GROUPS(), axiosOption);
+    },
+    fetchShuffleAttributeGroups(entity) {
+        return ApiService.get(URLS.ATTRIBUTE_GROUPS_SHUFFLE(entity), {});
+    },
+    shuffleAttributeGroups(entity, data) {
+        let axiosOption = Object.assign({ data });
+        return ApiService.post(
+            URLS.ATTRIBUTE_GROUPS_SHUFFLE(entity),
+            axiosOption
+        );
+    },
+    fetchShuffleAttributes(entity) {
+        return ApiService.get(URLS.ATTRIBUTE_SHUFFLE(entity), {});
+    },
+    shuffleAttribute(entity, data) {
+        let axiosOption = Object.assign({ data });
+        return ApiService.post(URLS.ATTRIBUTE_SHUFFLE(entity), axiosOption);
+    },
+    productTemplateDownload(slug) {
+        return `${URLS.PRODUCT_TEMPLATE_DOWNLOAD(
+            slug
+        )}?company_id=1&set=false&type=excel`;
     }
 };
 export default CompanyService;

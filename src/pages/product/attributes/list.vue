@@ -13,17 +13,9 @@
                     theme="secondary"
                     class="ml-sm"
                     v-strokeBtn
-                    @click="() => {}"
+                    @click="$openGroupDialog"
                 >
-                    Group
-                </nitrozen-button>
-                <nitrozen-button
-                    theme="secondary"
-                    class="ml-sm"
-                    v-strokeBtn
-                    @click="() => {}"
-                >
-                    Filter
+                    Group & Sequence
                 </nitrozen-button>
             </jumbotron>
         </div>
@@ -77,71 +69,68 @@
                         class="container"
                         @click="redirectEdit(attribute.slug)"
                     >
-                        <div class="card-top">
-                            <div class="left-container">
-                                <div class="card-avatar banner-image">
-                                    <img
-                                        :src="
-                                            attribute.logo ||
-                                                '/public/admin/assets/pngs/default_icon_listing.png'
-                                        "
-                                    />
-                                </div>
-                                <div class="card-details">
-                                    <div
-                                        class="card-content-line-1 txt-company-heading"
-                                    >
-                                        {{ attribute.name }}
-                                    </div>
-                                    <div class="txt-arrange">
-                                        <div class="txt-description-heading">
-                                            {{ getLine2Txt(attribute) }}
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="txt-arrange"
-                                        v-if="attribute.created_by"
-                                    >
-                                        <div
-                                            class="txt-description-heading"
-                                            v-if="
-                                                attribute.created_by &&
-                                                    attribute.created_by
-                                                        .username
-                                            "
-                                        >
-                                            Created By
-                                            {{ attribute.created_by.username }}
-                                            on
-                                            {{
-                                                new Date(
-                                                    attribute.created_on
-                                                ).toLocaleString()
-                                            }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-badge-section">
-                                <nitrozen-badge
-                                    v-if="attribute.schema.mandatory"
-                                    state="error"
-                                    >REQUIRED</nitrozen-badge
-                                >
-                                <nitrozen-badge
-                                    v-if="attribute.enabled_for_end_consumer"
-                                    state="info"
-                                    >PUBLICLY VISIBLE</nitrozen-badge
-                                >
-                                <nitrozen-badge
-                                    v-if="
-                                        attribute.filters &&
-                                            attribute.filters.indexing
+                        <div class="left-container">
+                            <div class="card-avatar banner-image">
+                                <img
+                                    :src="
+                                        attribute.logo ||
+                                            '/public/admin/assets/pngs/default_icon_listing.png'
                                     "
-                                    state="info"
-                                    >FILTER PERMISSABLE</nitrozen-badge
-                                >
+                                />
                             </div>
+                            <div class="card-details">
+                                <div
+                                    class="card-content-line-1 txt-company-heading"
+                                >
+                                    {{ attribute.name }}
+                                </div>
+                                <div class="txt-arrange">
+                                    <div class="txt-description-heading">
+                                        {{ getLine2Txt(attribute) }}
+                                    </div>
+                                </div>
+                                <div
+                                    class="txt-arrange"
+                                    v-if="attribute.created_by"
+                                >
+                                    <div
+                                        class="txt-description-heading"
+                                        v-if="
+                                            attribute.created_by &&
+                                                attribute.created_by.username
+                                        "
+                                    >
+                                        Created By
+                                        {{ attribute.created_by.username }}
+                                        on
+                                        {{
+                                            new Date(
+                                                attribute.created_on
+                                            ).toLocaleString()
+                                        }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-badge-section">
+                            <nitrozen-badge
+                                v-if="attribute.schema.mandatory"
+                                state="error"
+                                >REQUIRED</nitrozen-badge
+                            >
+                            <nitrozen-badge
+                                v-if="attribute.enabled_for_end_consumer"
+                                state="info"
+                                >PUBLICLY DISPLAYED</nitrozen-badge
+                            >
+                            <nitrozen-badge
+                                v-if="
+                                    attribute.filters &&
+                                        attribute.filters.indexing
+                                "
+                                state="info"
+                                >FILTER PERMISSABLE</nitrozen-badge
+                            >
                         </div>
                     </div>
                 </div>
@@ -159,6 +148,11 @@
                 </div>
             </div>
         </div>
+        <!-- bulk-import-selection-dialog -->
+        <group-and-order-dialog
+            ref="groupAndOrderDialog"
+            @close="$closeGroupDialog"
+        ></group-and-order-dialog>
     </div>
 </template>
 
@@ -210,6 +204,8 @@
     padding: 0px 24px;
     border-radius: 3px;
     margin-bottom: 16px;
+    display: flex;
+    align-items: center;
     transition: box-shadow 0.3s;
     &:hover {
         box-shadow: 0px 9px 13px 0px rgba(221, 221, 221, 0.5);
@@ -224,67 +220,63 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    .card-top {
+
+    .left-container {
         display: flex;
-        height: auto;
-        margin-top: 24px;
-        margin-bottom: 12px;
-        .left-container {
+        align-items: center;
+        flex: 2;
+        position: relative;
+        width: calc(100% - 60px);
+
+        .txt-arrange {
             display: flex;
-            flex: 2;
-            position: relative;
-            width: calc(100% - 60px);
-
-            .txt-arrange {
-                display: flex;
-                justify-content: flex-start;
-                text-align: center;
-            }
-
-            .txt-company-heading {
-                color: #5c6bdd;
-                font-weight: 600;
-                font-size: 16px;
-                -webkit-font-smoothing: antialiased;
-                line-height: 22px;
-                margin-bottom: 6px;
-            }
-            .txt-description-heading {
-                color: #9b9b9b;
-                line-height: 22px;
-                font-size: 12px;
-            }
-
-            .card-avatar {
-                min-height: 60px;
-                min-width: 60px;
-                max-height: 60px;
-                max-width: 60px;
-                display: flex;
-                align-items: center;
-                img {
-                    width: 100%;
-                    height: 60px;
-                    object-fit: cover;
-                    border-radius: 50%;
-                }
-            }
-            .card-details {
-                padding: 0px 24px;
-                line-height: 24px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                width: calc(100% - 100px);
-            }
+            justify-content: flex-start;
+            text-align: center;
         }
-        .card-badge-section {
+
+        .txt-company-heading {
+            color: #5c6bdd;
+            font-weight: 600;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            line-height: 22px;
+            margin-bottom: 6px;
+        }
+        .txt-description-heading {
+            color: #9b9b9b;
+            line-height: 22px;
+            font-size: 12px;
+        }
+
+        .card-avatar {
+            min-height: 60px;
+            min-width: 60px;
+            max-height: 60px;
+            max-width: 60px;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
-            .nitrozen-badge {
-                margin: 0 0 0 8px;
+            img {
+                width: 100%;
+                height: 60px;
+                object-fit: cover;
+                border-radius: 50%;
             }
+        }
+        .card-details {
+            padding: 0px 24px;
+            line-height: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: calc(100% - 100px);
+        }
+    }
+    .card-badge-section {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .nitrozen-badge {
+            margin: 0 0 0 8px;
         }
     }
 }
@@ -299,8 +291,9 @@ import Jumbotron from '@/components/common/jumbotron';
 import { titleCase, debounce } from '@/helper/utils';
 import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
-import pageerror from '@/components/common/page-error';
+import PageError from '@/components/common/page-error';
 import fynotfound from '@/components/common/ukt-not-found';
+import GroupAndOrderDialog from './group-and-order-dialog';
 // import { toListingThumbnail } from '@/helper/image.utils';
 import {
     NitrozenInput,
@@ -336,12 +329,14 @@ export default {
         Jumbotron,
         PageEmpty,
         Shimmer,
-        'page-error': pageerror,
-        'nitrozen-input': NitrozenInput,
-        'nitrozen-pagination': NitrozenPagination,
-        'nitrozen-badge': NitrozenBadge,
-        'nitrozen-dialog': NitrozenDialog,
-        'nitrozen-error': NitrozenError,
+        PageError,
+        GroupAndOrderDialog,
+
+        NitrozenInput,
+        NitrozenPagination,
+        NitrozenBadge,
+        NitrozenDialog,
+        NitrozenError,
         NitrozenDropdown,
         NitrozenButton
     },
@@ -456,13 +451,7 @@ export default {
                 }
             });
         },
-        redirectEdit(slug = '') {
-            let url = '/administrator/product/attributes/add';
-            if (slug) {
-                url = `/administrator/product/attributes/${slug}`;
-            }
-            this.$router.push({ path: url });
-        },
+
         getErrorImage() {
             return '/public/admin/assets/pngs/default_icon_listing.png';
         },
@@ -515,6 +504,23 @@ export default {
                     ...this.$route.query,
                     ...query
                 }
+            });
+        },
+        $openGroupDialog() {
+            this.$refs.groupAndOrderDialog.open();
+        },
+        redirectEdit(slug = '') {
+            let url = path.join(this.$route.path, 'create');
+            if (slug) {
+                url = path.join(this.$route.path, 'edit', slug);
+            }
+            this.$router.push({ path: url });
+        },
+        $closeGroupDialog(entity) {
+            let action = 'group';
+            if (entity === 'filter') action = 'sequence';
+            this.$router.push({
+                path: path.join(this.$route.path, action, entity)
             });
         }
     }

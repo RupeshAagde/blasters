@@ -8,7 +8,7 @@
                         :class="{ 'cl-DustyGray2': !template.active }"
                         @click="template.active = !template.active"
                     >
-                        {{ template.active ? 'Active' : 'Inactive' }}
+                        {{ template.active ? 'Enabled' : 'Disabled' }}
                     </div>
                     <nitrozen-toggle-btn
                         class="mr-sm"
@@ -142,7 +142,7 @@
                         :required="true"
                         :multiple="true"
                         :searchable="true"
-                        @change="fetchAttributes"
+                        @change="fetchCategories(), fetchAttributes()"
                         @searchInputChange="setDepartmentsList"
                     ></nitrozen-dropdown>
                     <nitrozen-error v-if="errors.departments">
@@ -200,9 +200,10 @@
                     </div>
                 </div>
 
-                <div class="mt-md">
+                <!-- Attributes -->
+                <div class="mt-md inline v-center">
                     <nitrozen-dropdown
-                        class="input w-l"
+                        class="input w-l mr-md"
                         label="Attributes"
                         :items="attributesList"
                         v-model="template.attributes"
@@ -211,10 +212,30 @@
                         :searchable="true"
                         @searchInputChange="setAttributesList"
                     ></nitrozen-dropdown>
+                    <a
+                        class="txt-btn mt-md"
+                        href="/administrator/product/attributes/add"
+                        target="_blank"
+                        title="Go to 'Create Attribute' page"
+                        >Create Attribute</a
+                    >
                 </div>
 
-                <!-- Selected -->
+                <!-- Attribute ordering list -->
                 <div class="attribute-container">
+                    <div class="input w-xl cl-DustyGray2 regular-xxxs mt-sm">
+                        <span class="cl-Mako dark-xxxs">Note:</span>
+                        Re-odering of attributes below comes in effect only on
+                        Product onboarding. It does not affect the ordering of
+                        attributes on Product details page. To re-order for
+                        Product details page, visit
+                        <a
+                            class="cl-RoyalBlue dark-xxxs"
+                            href="/administrator/product"
+                            target="_blank"
+                            >Group and Order</a
+                        >
+                    </div>
                     <draggable
                         class="list"
                         v-model="template.attributes"
@@ -235,26 +256,30 @@
 
                                 {{ index + 1 }}. &nbsp;
                                 {{ attr.name }}
-                                <span
-                                    v-if="attr.invalid"
-                                    class="invalid"
-                                    title="This attribute is not available for this department. Remove or create it to make it visible on Product detail pages."
-                                >
-                                    &nbsp;&nbsp;*invalid*
-                                </span>
                             </div>
-                            <inline-svg
-                                title="Remove Attribute"
-                                class="cross-icon pointer"
-                                src="plus-black"
-                                @click.stop.native="
-                                    template.attributes.splice(index, 1)
-                                "
-                            ></inline-svg>
-                        </div>
-                        <div class="msg" v-if="!attrSelectedList.length">
-                            Select attributes from 'Unselected' list by clicking
-                            the plus (+) icon
+                            <div class="inline v-center">
+                                <nitrozen-badge
+                                    class="mr-sm"
+                                    v-if="attr.invalid"
+                                    state="warn"
+                                    title="This attribute is not available for this department. Remove or create it to make it visible on Product detail pages."
+                                    >INVALID</nitrozen-badge
+                                >
+                                <nitrozen-badge
+                                    class="mr-sm"
+                                    v-if="attr.schema.mandatory"
+                                    state="error"
+                                    >REQUIRED</nitrozen-badge
+                                >
+                                <inline-svg
+                                    title="Remove Attribute"
+                                    class="cross-icon pointer"
+                                    src="plus-black"
+                                    @click.stop.native="
+                                        template.attributes.splice(index, 1)
+                                    "
+                                ></inline-svg>
+                            </div>
                         </div>
                     </draggable>
                 </div>
@@ -306,11 +331,16 @@
 }
 .attribute-container {
     .list {
+        height: 500px;
+        overflow-y: auto;
+        margin-top: 24px;
+        padding-right: 24px;
+        .blaster-scrollbar;
         .item {
             max-width: 600px;
             border: 1px solid @Iron;
             border-radius: 4px;
-            margin-top: 12px;
+            margin-bottom: 12px;
             height: 24px;
             display: flex;
             align-items: center;
@@ -363,6 +393,9 @@
     &.w-l {
         width: 400px;
     }
+    &.w-xl {
+        max-width: 600px;
+    }
     &.w-xxl {
         max-width: 800px;
     }
@@ -407,10 +440,10 @@
     }
 }
 
-.btn-txt {
+.txt-btn {
     color: @RoyalBlue;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 600;
     .pointer;
 }
 
@@ -496,10 +529,6 @@ export default {
             inProgress: false,
             formSaved: false,
 
-            chipDisplayCount: 20,
-            showAllDepartments: false,
-            showAllCategories: false,
-
             attrType: 'str',
             template: {
                 active: false,
@@ -544,7 +573,8 @@ export default {
                     list.push({
                         name: attr,
                         slug: attr,
-                        invalid: true
+                        invalid: true,
+                        schema: {}
                     });
                 }
             });
@@ -564,13 +594,8 @@ export default {
     methods: {
         isEmpty: _.isEmpty,
         init() {
-            const pArr = [this.fetchDepartments()];
-            if (this.editMode) {
-                pArr.push(this.fetchProductTemplate());
-            }
-
             this.pageLoading = true;
-            Promise.all(pArr)
+            Promise.all([this.fetchProductTemplate(), this.fetchDepartments()])
                 .then(() => {
                     return Promise.all([
                         this.fetchAttributes(),
@@ -579,23 +604,16 @@ export default {
                 })
                 .then(() => {
                     this.pageLoading = false;
-                    this.setDepartmentsList();
-                    this.setCategoriesList();
-                    this.setAttributesList();
                 })
                 .catch((err) => {
                     this.pageLoading = false;
                     this.pageError = true;
                 });
         },
-        getInitialValue() {
-            return {
-                showerror: false,
-                value: '',
-                errortext: '-'
-            };
-        },
         fetchProductTemplate() {
+            if (!this.editMode) {
+                return;
+            }
             return new Promise((resolve, reject) => {
                 CompanyService.fetchProductTemplate(this.slug)
                     .then(({ data }) => {
@@ -613,6 +631,7 @@ export default {
                 CompanyService.fetchDepartments()
                     .then(({ data }) => {
                         this.departments = data.data;
+                        this.setDepartmentsList();
                         return resolve();
                     })
                     .catch((err) => {
@@ -632,6 +651,7 @@ export default {
                 CompanyService.fetchCategories(params)
                     .then(({ data }) => {
                         this.categories = data.data;
+                        this.setCategoriesList();
                         return resolve();
                     })
                     .catch((err) => {
@@ -651,6 +671,7 @@ export default {
             return CompanyService.fetchAttributes(params)
                 .then(({ data }) => {
                     this.attributes = data.data;
+                    this.setAttributesList();
                 })
                 .catch((err) => {
                     console.log(err);
@@ -733,7 +754,7 @@ export default {
                 }
                 const formData = this.getFormData();
                 this.inProgress = true;
-                CompanyService.updateProductTemplate(formData)
+                CompanyService.updateProductTemplate(this.slug, formData)
                     .then((res) => {
                         this.inProgress = false;
                         this.$snackbar.global.showSuccess(

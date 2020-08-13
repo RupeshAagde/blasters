@@ -12,10 +12,12 @@ import BasicDetailSettingsVue from './../../pages/settings/basic-details';
 import FeaturesSettingsVue from './../../pages/settings/features';
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import Product from './../../pages/product/index';
-import ProductAttributesList from './../../pages/product/attributes/list';
-import ProductAttributesEdit from './../../pages/product/attributes/edit';
-import ProductTemplatesList from './../../pages/product/templates/list';
-import ProductTemplatesEdit from './../../pages/product/templates/edit';
+import ProductAttributesList from '@/pages/product/attributes/list';
+import ProductAttributesEdit from '@/pages/product/attributes/edit';
+import ProductAttributesGroup from '@/pages/product/attributes/group';
+import ProductAttributesSequence from '@/pages/product/attributes/sequence';
+import ProductTemplatesList from '@/pages/product/templates/list';
+import ProductTemplatesEdit from '@/pages/product/templates/edit';
 
 export default [
     {
@@ -69,35 +71,50 @@ export default [
                 path: 'company-details/:companyId/edit-dri/:uid',
                 component: AddEditDri
             },
+
             // Product
             {
                 name: 'product',
                 path: 'product',
                 component: Product
             },
+            // attributes
             {
                 name: 'attributes',
                 path: 'product/attributes',
                 component: ProductAttributesList
             },
             {
-                name: 'attributes-add',
-                path: 'product/attributes/add',
+                name: 'attributes-create',
+                path: 'product/attributes/create',
                 component: ProductAttributesEdit
             },
             {
                 name: 'attributes-edit',
-                path: 'product/attributes/:slug',
+                path: 'product/attributes/edit/:slug',
                 component: ProductAttributesEdit
             },
+            // group-and-reorder
+            {
+                name: 'attributes-group',
+                path: 'product/attributes/group/:entity',
+                component: ProductAttributesGroup
+            },
+            {
+                name: 'attributes-reorder',
+                path: 'product/attributes/sequence/:entity',
+                component: ProductAttributesSequence
+            },
+
+            // templates
             {
                 name: 'templates',
                 path: 'product/templates',
                 component: ProductTemplatesList
             },
             {
-                name: 'templates-add',
-                path: 'product/templates/add',
+                name: 'templates-create',
+                path: 'product/templates/create',
                 component: ProductTemplatesEdit
             },
             {

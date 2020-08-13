@@ -56,23 +56,6 @@
                         errors.slug
                     }}</nitrozen-error>
                 </div>
-                <!-- Departments -->
-                <div class="mt-sm">
-                    <nitrozen-dropdown
-                        label="Departments"
-                        placeholder="Choose Departments"
-                        :items="departmentsList"
-                        v-model="attribute.departments"
-                        :required="true"
-                        :multiple="true"
-                        :searchable="true"
-                        @searchInputChange="setDepartmentsList"
-                    ></nitrozen-dropdown>
-                    <nitrozen-error v-if="errors.departments">
-                        {{ errors.departments }}
-                    </nitrozen-error>
-                </div>
-
                 <!-- logo Image -->
                 <form-input
                     class="mt-sm"
@@ -119,7 +102,7 @@
                 <div class="mt-md inline apart">
                     <div class="inline">
                         <div class="cl-Mako dark-xxxs mr-xxxs">
-                            Publicly Visible
+                            Publicly Displayed
                         </div>
                         <nitrozen-tooltip
                             tooltipText="Display this attribute on Product details page"
@@ -162,6 +145,39 @@
             <!-- Value Settings -->
             <div class="settings-container">
                 <div class="cl-Mako bold-md">Value Settings</div>
+                <!-- Department -->
+                <div class="mt-md">
+                    <nitrozen-dropdown
+                        class="input w-l"
+                        label="Departments"
+                        :items="departmentsList"
+                        v-model="attribute.departments"
+                        :required="true"
+                        :multiple="true"
+                        :searchable="true"
+                        @searchInputChange="setDepartmentsList"
+                    ></nitrozen-dropdown>
+                    <nitrozen-error v-if="errors.departments">
+                        {{ errors.departments }}
+                    </nitrozen-error>
+                    <div class="chip-wrapper inline">
+                        <div
+                            v-for="(department, index) of attribute.departments"
+                            :key="index"
+                        >
+                            <nitrozen-chips class="chip">
+                                {{ getDepartmentName(department) }}
+                                <nitrozen-inline
+                                    icon="cross"
+                                    class="nitrozen-icon"
+                                    @click="
+                                        attribute.departments.splice(index, 1)
+                                    "
+                                ></nitrozen-inline>
+                            </nitrozen-chips>
+                        </div>
+                    </div>
+                </div>
                 <div class="inline">
                     <!-- type -->
                     <div class="input w-md mt-sm mr-md">
@@ -309,12 +325,26 @@
     }
 }
 
+.chip-wrapper {
+    flex-wrap: wrap;
+    height: fit-content;
+    max-height: 200px;
+    overflow-y: auto;
+    .blaster-scrollbar;
+    .chip {
+        margin: 8px 8px 0 0;
+    }
+}
+
 .input {
     &.w-sm {
         width: 200px;
     }
     &.w-md {
         width: 300px;
+    }
+    &.w-l {
+        width: 400px;
     }
     &.w-xxl {
         max-width: 800px;
@@ -451,6 +481,7 @@ export default {
         NitrozenError,
         NitrozenInline,
         NitrozenButton,
+        NitrozenChips,
         NitrozenToggleBtn,
         NitrozenDropdown,
         NitrozenTooltip,
@@ -499,7 +530,7 @@ export default {
     computed: {
         pageTitle() {
             if (!this.editMode) {
-                return 'Add Atttribute';
+                return 'Create Atttribute';
             }
             if (_.isEmpty(this.attribute)) {
                 return 'Edit Attribute';
@@ -532,13 +563,6 @@ export default {
                     this.pageLoading = false;
                     this.pageError = true;
                 });
-        },
-        getInitialValue() {
-            return {
-                showerror: false,
-                value: '',
-                errortext: '-'
-            };
         },
         fetchAttribute() {
             return new Promise((resolve, reject) => {
@@ -661,6 +685,11 @@ export default {
                 lower: true,
                 strict: true
             });
+        },
+        getDepartmentName(slug) {
+            const department = this.departments.find((d) => d.slug === slug);
+            if (department) return department.name;
+            return slug;
         },
         saveForm() {
             try {

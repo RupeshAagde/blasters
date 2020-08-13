@@ -69,18 +69,18 @@ const GENERAL_MENUS = [
     {
         title: 'Attributes',
         link: 'product/attributes',
-        icon: 'settings',
+        icon: 'categoryv2',
         permissions: [],
         active: false,
-        desc: 'Manage Product attributes'
+        desc: 'Manage Product Attributes'
     },
     {
         title: 'Templates',
         link: 'product/templates',
-        icon: 'settings',
+        icon: 'details',
         permissions: [],
         active: false,
-        desc: 'Manage Product templates'
+        desc: 'Manage Product Templates'
     }
 ];
 export default {
@@ -146,6 +146,7 @@ export default {
                 cursor: pointer;
                 margin: 24px 24px 0 0;
                 min-height: 84px;
+                transition: box-shadow 0.3s;
                 &:hover {
                     box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.1);
                 }

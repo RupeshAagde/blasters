@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Details</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Setting" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-1070.000000, -362.000000)" id="Rectangle-223-Copy-12">
+            <g transform="translate(1040.000000, 330.000000)">
+                <g id="Details" transform="translate(30.000000, 32.000000)">
+                    <rect id="Rectangle" fill-opacity="0.01" fill="#FFFFFF" x="0" y="0" width="40" height="40"></rect>
+                    <g id="Group-9" transform="translate(9.000000, 5.000000)" stroke="#9B9B9B" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <path d="M20.625,29.375 L1.875,29.375 C1.185,29.375 0.625,28.815 0.625,28.125 L0.625,6.875 L6.875,0.625 L20.625,0.625 C21.315,0.625 21.875,1.185 21.875,1.875 L21.875,28.125 C21.875,28.815 21.315,29.375 20.625,29.375 Z" id="Stroke-1"></path>
+                        <path d="M6.875,0.625 L6.875,5.625 C6.875,6.315 6.315,6.875 5.625,6.875 L0.625,6.875 L6.875,0.625 Z" id="Stroke-3"></path>
+                        <line x1="6.875" y1="15.625" x2="16.875" y2="15.625" id="Stroke-5"></line>
+                        <line x1="6.875" y1="21.875" x2="16.875" y2="21.875" id="Stroke-7"></line>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

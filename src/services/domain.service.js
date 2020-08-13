@@ -120,6 +120,33 @@ const URLS = {
     PRODUCT_TEMPLATES: (slug = '') => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/product-templates', slug);
     },
+    PRODUCT_TEMPLATE_DOWNLOAD: (slug = '') => {
+        return urlJoin(
+            SILVERBOLT_MAIN_URL,
+            '/v1/product-templates',
+            slug,
+            'download'
+        );
+    },
+    ATTRIBUTE_GROUPS: (slug = '') => {
+        return urlJoin(
+            SILVERBOLT_MAIN_URL,
+            '/v1/attribute-master/groups',
+            slug
+        );
+    },
+    ATTRIBUTE_SHUFFLE: (entity) => {
+        return urlJoin(
+            SILVERBOLT_MAIN_URL,
+            `/v1/attribute-master/${entity}/shuffle`
+        );
+    },
+    ATTRIBUTE_GROUPS_SHUFFLE: (entity) => {
+        return urlJoin(
+            SILVERBOLT_MAIN_URL,
+            `/v1/attribute-master/groups/${entity}/shuffle`
+        );
+    },
     DEPARTMENT: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/department');
     },
