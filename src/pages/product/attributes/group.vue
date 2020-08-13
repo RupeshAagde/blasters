@@ -17,12 +17,14 @@
                                 class="mr-sm"
                                 :theme="'secondary'"
                                 v-strokeBtn
+                                title="Create Attributes Group"
                                 @click="unselectGroup"
                                 >Create</nitrozen-button
                             >
                             <nitrozen-button
                                 :theme="'secondary'"
                                 v-flatBtn
+                                title="Save Attributes Group Sequence"
                                 @click="shuffleAttributeGroups"
                                 >Save</nitrozen-button
                             >
@@ -61,7 +63,7 @@
                             <div
                                 class="border-top pad-sm mt-sm cl-DustyGray2 darker-xxs"
                             >
-                                Publicly Hidden Groups
+                                Hidden Groups
                             </div>
 
                             <div class="list mt-sm">
@@ -83,20 +85,44 @@
                     </div>
                 </div>
             </div>
-
+            <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& -->
+            <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& -->
             <div class="section right">
                 <!-- Settings Pane -->
                 <div class="pane">
                     <div class="inline apart">
                         <div class="cl-Mako bold-md">
-                            {{ groupDetails.name || 'New Group' }}
+                            {{ groupDetails._new ? 'New Group' : 'Settings' }}
                         </div>
-                        <nitrozen-button
-                            :theme="'secondary'"
-                            v-flatBtn
-                            @click="saveForm"
-                            >Save</nitrozen-button
-                        >
+                        <div class="inline v-center">
+                            <!-- displayed toggle -->
+                            <div
+                                class="toggle-display-txt pointer cl-RoyalBlue bold-xxxs"
+                                :class="{
+                                    'cl-DustyGray2': !groupDetails[entity]
+                                        .display
+                                }"
+                                @click="toggleGroupDisplay(groupDetails.slug)"
+                            >
+                                {{
+                                    groupDetails[entity].display
+                                        ? 'Displayed'
+                                        : 'Hidden'
+                                }}
+                            </div>
+                            <nitrozen-toggle-btn
+                                class="mr-sm"
+                                :value="groupDetails[entity].display"
+                                @change="toggleGroupDisplay(groupDetails.slug)"
+                            ></nitrozen-toggle-btn>
+                            <nitrozen-button
+                                :theme="'secondary'"
+                                v-flatBtn
+                                title="Save Attribute Group Settings"
+                                @click="saveForm"
+                                >Save</nitrozen-button
+                            >
+                        </div>
                     </div>
                     <!-- Name -->
                     <div class="mt-sm">
@@ -124,29 +150,8 @@
                             errors.slug
                         }}</nitrozen-error>
                     </div>
-                    <!-- publiccly displayed toggle -->
-                    <div class="inline mt-md">
-                        <div
-                            class="toggle-display-txt pointer cl-RoyalBlue bold-xxxs"
-                            :class="{
-                                'cl-DustyGray2': !groupDetails[entity].display
-                            }"
-                            @click="toggleGroupDisplay(groupDetails.slug)"
-                        >
-                            Publicly
-                            {{
-                                groupDetails[entity].display
-                                    ? 'Displayed'
-                                    : 'Hidden'
-                            }}
-                        </div>
-                        <nitrozen-toggle-btn
-                            class="mr-sm"
-                            :value="groupDetails[entity].display"
-                            @change="toggleGroupDisplay(groupDetails.slug)"
-                        ></nitrozen-toggle-btn>
-                    </div>
-                    <div class="inline mt-md">
+                    <!-- MOVE -->
+                    <div class="inline mt-md" v-if="!groupDetails._new">
                         <nitrozen-input
                             class="mr-sm"
                             type="number"
@@ -180,7 +185,7 @@
                             >Create Attribute</a
                         >
                     </div>
-                    <!-- Attribute ordering list -->
+                    <!-- Attribute sequence list -->
                     <div class="attribute-container mt-sm">
                         <draggable
                             class="list attribute"
@@ -280,7 +285,7 @@
             max-height: calc(100vh - 284px);
         }
         &.attribute {
-            height: calc(100vh - 606px);
+            height: calc(100vh - 568px);
         }
 
         .item {
@@ -314,7 +319,7 @@
 }
 
 .toggle-display-txt {
-    width: 120px;
+    width: 60px;
 }
 
 .pointer {
@@ -639,13 +644,11 @@ export default {
                 .then(({ data }) => {
                     this.departments = data.data;
                     this.$snackbar.global.showSuccess(
-                        'Successfully saved Group ordering'
+                        'Successfully saved Group sequence'
                     );
                 })
                 .catch((err) => {
-                    this.$snackbar.global.showError(
-                        'Failed to save Group ordering'
-                    );
+                    this.$snackbar.global.showError('Failed to save');
                 });
         },
         getGroupName(slug) {

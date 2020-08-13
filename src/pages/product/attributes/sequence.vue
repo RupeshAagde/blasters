@@ -104,7 +104,7 @@
             max-height: 400px;
         }
         &.h-xl {
-            max-height: 600px;
+            max-height: calc(100vh - 263px);
         }
 
         .item {
