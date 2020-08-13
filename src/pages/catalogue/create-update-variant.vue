@@ -269,7 +269,7 @@ export default {
             pagination: {
                 total: 0,
                 current: 1,
-                limit: 10
+                limit: 100
             },
             display: {
                 value: '',
@@ -412,7 +412,6 @@ export default {
                         this.display.value = this.data[0].display;
                         this.displayType.selectedtype = this.data[0].display_type;
                         this.department.selectedtype = this.data[0].departments;
-                        console.log(this.department.selectedtype, 'dept');
                         this.getAttribute();
                         this.deptkey.selectedtype = this.data[0].key;
                         this.priority.value = this.data[0].priority;
