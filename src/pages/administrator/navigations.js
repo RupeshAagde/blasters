@@ -23,7 +23,7 @@ export const getNavigations = () => {
             display: 'Product',
             link: '/administrator/product/department',
             title: 'product',
-            icon: 'products',
+            icon: 'product',
             highlightedIcon: 'home-highlighted',
             active: false,
             children: [
