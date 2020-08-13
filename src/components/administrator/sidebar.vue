@@ -85,6 +85,11 @@
             margin-right: 16px;
             max-height: 24px;
             max-width: 24px;
+
+            svg {
+                height: 24px;
+                width: 24px;
+            }
         }
         .title {
             padding-left: 5px;
