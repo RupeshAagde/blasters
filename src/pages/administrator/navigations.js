@@ -1,3 +1,5 @@
+/* title should be same as the url trailing word or a part of it */
+
 export const getNavigations = () => {
     return [
         // Home:{
@@ -28,7 +30,7 @@ export const getNavigations = () => {
                 {
                     display: 'Department',
                     link: '/administrator/product/department',
-                    title: 'product-department',
+                    title: 'department',
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
@@ -36,7 +38,7 @@ export const getNavigations = () => {
                 {
                     display: 'Variants',
                     link: '/administrator/product/variants',
-                    title: 'product-variants',
+                    title: 'variants',
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false

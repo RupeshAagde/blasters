@@ -8,9 +8,7 @@
             <router-link
                 :to="item.link"
                 :class="
-                    currentPath.includes(item.title)
-                        ? 'router-link-exact-active'
-                        : ''
+                    currentPath.includes(item.title) ? 'link-exact-active' : ''
                 "
             >
                 <inline-svg :src="item.icon" class="icon"></inline-svg>
@@ -36,7 +34,14 @@
                     v-for="(submenu, index) in item.children"
                     :key="index"
                 >
-                    <router-link :to="submenu.link">
+                    <router-link
+                        :to="submenu.link"
+                        :class="
+                            currentPath.includes(submenu.title)
+                                ? 'link-active'
+                                : ''
+                        "
+                    >
                         <span class="title regular-xs cl-Mako">{{
                             submenu.display
                         }}</span>
@@ -104,7 +109,7 @@
 .sub-menu {
     max-height: 0;
     opacity: 0;
-    transition: all 0.5s ease-out;
+    transition: all 0.3s ease-out;
     transition-delay: 0.1s;
     position: relative;
     overflow: hidden;
@@ -113,8 +118,14 @@
     opacity: 1;
     max-height: 360px;
 }
-.router-link-exact-active {
+.link-exact-active {
     background-color: rgba(92, 107, 221, 0.12);
+    .title {
+        color: #5c6bdd;
+    }
+}
+.link-active {
+    background-color: #ffffff;
     .title {
         color: #5c6bdd;
     }
