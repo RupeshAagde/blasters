@@ -57,8 +57,8 @@ export const getNavigations = () => {
         {
             display: 'Support Center',
             link: '/administrator/support',
-            title: 'support-icon',
-            icon: 'customer-support',
+            title: 'support',
+            icon: 'support-icon',
             highlightedIcon: 'home-highlighted',
             active: false,
             children: []

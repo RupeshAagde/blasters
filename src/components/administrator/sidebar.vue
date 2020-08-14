@@ -83,13 +83,8 @@
         padding: 10px 0px 10px 10px;
         .icon {
             margin-right: 16px;
-            max-height: 24px;
-            max-width: 24px;
-
-            svg {
-                height: 24px;
-                width: 24px;
-            }
+            height: 24px;
+            width: 24px;
         }
         .title {
             padding-left: 5px;
@@ -104,7 +99,7 @@
 }
 .submenu-item {
     a {
-        padding: 12px 0 12px 51px;
+        padding: 10px 0 10px 50px;
     }
 }
 .rotate-arrow {
@@ -125,6 +120,9 @@
 .link-exact-active {
     background-color: rgba(92, 107, 221, 0.12);
     .title {
+        color: #5c6bdd;
+    }
+    .icon {
         color: #5c6bdd;
     }
 }
