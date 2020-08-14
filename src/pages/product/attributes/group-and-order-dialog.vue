@@ -48,7 +48,7 @@ import InlineSvg from '@/components/common/inline-svg.vue';
 const MENUS = [
     {
         title: 'Detail',
-        action: 'detail',
+        action: 'details',
         icon: 'details',
         permissions: ['catalogue'],
         active: false,
@@ -56,7 +56,7 @@ const MENUS = [
     },
     {
         title: 'Compare',
-        action: 'compare',
+        action: 'comparisons',
         icon: 'compare',
         permissions: ['catalogue'],
         active: false,
@@ -64,7 +64,7 @@ const MENUS = [
     },
     {
         title: 'Filter',
-        action: 'filter',
+        action: 'filters',
         icon: 'filterv2',
         permissions: ['catalogue'],
         active: false,

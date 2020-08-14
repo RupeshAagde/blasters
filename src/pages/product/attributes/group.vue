@@ -127,6 +127,7 @@
                     <!-- Name -->
                     <div class="mt-sm">
                         <nitrozen-input
+                            class="input w-l"
                             label="Name"
                             :required="true"
                             placeholder="For eg. Material Type, Color, etc"
@@ -140,6 +141,7 @@
                     <!-- Slug -->
                     <div class="mt-sm">
                         <nitrozen-input
+                            class="input w-l"
                             label="Slug"
                             :disabled="!groupDetails._new"
                             :required="true"
@@ -151,22 +153,19 @@
                         }}</nitrozen-error>
                     </div>
                     <!-- MOVE -->
-                    <div class="inline mt-md" v-if="!groupDetails._new">
+                    <div class="inline mt-sm" v-if="!groupDetails._new">
                         <nitrozen-input
-                            class="mr-sm"
+                            class="input w-sm mr-sm"
                             type="number"
-                            placeholder="To move group; enter position number"
+                            placeholder="Enter new position number"
                             v-model="positionNumber"
                         ></nitrozen-input>
-                        <nitrozen-button
-                            :theme="'secondary'"
-                            v-strokeBtn
-                            @click="moveGroup"
-                            >Move</nitrozen-button
+                        <nitrozen-button :theme="'secondary'" @click="moveGroup"
+                            >Move to Position</nitrozen-button
                         >
                     </div>
                     <!-- Attributes -->
-                    <div class="mt-md inline v-center">
+                    <div class="mt-sm inline v-center">
                         <nitrozen-dropdown
                             class="input w-l mr-md"
                             label="Attributes"
@@ -282,10 +281,10 @@
         padding-right: 24px;
         .blaster-scrollbar;
         &.group {
-            max-height: calc(100vh - 284px);
+            max-height: calc(100vh - 285px);
         }
         &.attribute {
-            height: calc(100vh - 568px);
+            height: calc(100vh - 545px);
         }
 
         .item {
@@ -482,10 +481,7 @@ export default {
     // mixins: [dirtyCheckMixin],
     data: function() {
         return {
-            entity:
-                this.$route.params.entity === 'compare'
-                    ? 'comparisons'
-                    : 'details',
+            entity: this.$route.params.entity,
 
             pageLoading: false,
             inProgress: false,
@@ -559,6 +555,7 @@ export default {
                 .then(() => {
                     this.pageLoading = false;
                     this.setDepartmentsList();
+                    this.selectGroup(this.$route.params.slug);
                 })
                 .catch((err) => {
                     this.pageLoading = false;
@@ -584,7 +581,6 @@ export default {
             return CompanyService.fetchShuffleAttributeGroups(this.entity)
                 .then(({ data }) => {
                     this.groupSequence = data.data.sequence;
-                    this.selectGroup();
                 })
                 .catch((err) => {
                     console.log(err);
@@ -661,9 +657,13 @@ export default {
 
             if (!slug) {
                 this.selectedGroupSlug = _.first(this.groupSequence);
+                slug = this.selectedGroupSlug;
             } else {
                 this.selectedGroupSlug = slug;
             }
+            this.$router.replace({
+                path: `/administrator/product/attributes/group/${this.entity}/${slug}`
+            });
             this.fetchGroupDetails();
         },
         unselectGroup() {
@@ -772,7 +772,7 @@ export default {
                     .then((res) => {
                         this.inProgress = false;
                         this.$snackbar.global.showSuccess(
-                            'Group updated successfully'
+                            'Group saved successfully'
                         );
                         this.offer = res.data;
                         this.formSaved = true;
@@ -781,7 +781,7 @@ export default {
                     .catch((err) => {
                         this.inProgress = false;
                         this.$snackbar.global.showError(
-                            `Failed to update${
+                            `Failed to save${
                                 err && err.message ? ' : ' + err.message : ''
                             }`
                         );

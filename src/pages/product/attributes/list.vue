@@ -518,7 +518,7 @@ export default {
         },
         $closeGroupDialog(entity) {
             let action = 'group';
-            if (entity === 'filter') action = 'sequence';
+            if (entity === 'filters') action = 'sequence';
             this.$router.push({
                 path: path.join(this.$route.path, action, entity)
             });

@@ -225,15 +225,15 @@
                 <div class="attribute-container">
                     <div class="input w-xl cl-DustyGray2 regular-xxxs mt-sm">
                         <span class="cl-Mako dark-xxxs">Note:</span>
-                        Re-odering of attributes below comes in effect only on
-                        Product onboarding. It does not affect the ordering of
-                        attributes on Product details page. To re-order for
-                        Product details page, visit
+                        Sequencing of attributes below comes in effect only on
+                        Product create/edit page. It does not affect the
+                        sequencing of attributes on Product details page. To
+                        Sequence for Product details page, visit
                         <a
                             class="cl-RoyalBlue dark-xxxs"
-                            href="/administrator/product"
+                            href="/administrator/product/attributes/group/detail"
                             target="_blank"
-                            >Group and Order</a
+                            >Group & Sequence</a
                         >
                     </div>
                     <draggable

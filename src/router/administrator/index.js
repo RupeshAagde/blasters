@@ -94,14 +94,19 @@ export default [
                 path: 'product/attributes/edit/:slug',
                 component: ProductAttributesEdit
             },
-            // group-and-reorder
+            // group-and-sequence
             {
                 name: 'attributes-group',
                 path: 'product/attributes/group/:entity',
                 component: ProductAttributesGroup
             },
             {
-                name: 'attributes-reorder',
+                name: 'attributes-group-settings',
+                path: 'product/attributes/group/:entity/:slug',
+                component: ProductAttributesGroup
+            },
+            {
+                name: 'attributes-sequence',
                 path: 'product/attributes/sequence/:entity',
                 component: ProductAttributesSequence
             },
