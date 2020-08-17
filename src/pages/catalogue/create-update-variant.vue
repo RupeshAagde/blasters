@@ -54,9 +54,9 @@
                         placeholder="e.g. Electronics"
                         v-model="display.value"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="display.showerror">
-                        {{ display.errortext }}
-                    </nitrozen-error>
+                    <nitrozen-error v-if="display.showerror">{{
+                        display.errortext
+                    }}</nitrozen-error>
                 </div>
                 <div class="input-box left-space-txb">
                     <nitrozen-dropdown
@@ -66,9 +66,9 @@
                         placeholder="Choose Display type"
                         v-model="displayType.selectedtype"
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="displayType.showerror">
-                        {{ displayType.errortext }}
-                    </nitrozen-error>
+                    <nitrozen-error v-if="displayType.showerror">{{
+                        displayType.errortext
+                    }}</nitrozen-error>
                 </div>
             </div>
             <div class="row-1">
@@ -80,24 +80,25 @@
                         :items="department.value"
                         placeholder="Choose departments"
                         v-model="department.selectedtype"
-                        @scroll="scrollDepartment"
                         @change="getAttribute"
+                        @searchInputChange="setDepartmentsList"
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="department.showerror">
-                        {{ department.errortext }}
-                    </nitrozen-error>
+                    <nitrozen-error v-if="department.showerror">{{
+                        department.errortext
+                    }}</nitrozen-error>
                 </div>
                 <div class="input-box left-space-txb">
                     <nitrozen-dropdown
-                        label="Key *"
+                        label="Attributes Key *"
                         class="filter-dropdown"
+                        :disabled="!department.selectedtype.length"
                         :items="deptkey.value"
-                        placeholder="Choose key"
+                        placeholder="Choose Attributes key"
                         v-model="deptkey.selectedtype"
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="deptkey.showerror">
-                        {{ deptkey.errortext }}
-                    </nitrozen-error>
+                    <nitrozen-error v-if="deptkey.showerror">{{
+                        deptkey.errortext
+                    }}</nitrozen-error>
                 </div>
             </div>
             <div class="input-box">
@@ -108,9 +109,9 @@
                     placeholder="Enter priority ( e.g.  0 ,  1 ,  2)"
                     type="number"
                 ></nitrozen-input>
-                <nitrozen-error v-if="priority.showerror">
-                    {{ priority.errortext }}
-                </nitrozen-error>
+                <nitrozen-error v-if="priority.showerror">{{
+                    priority.errortext
+                }}</nitrozen-error>
             </div>
         </div>
     </div>
@@ -299,7 +300,8 @@ export default {
                 value: '',
                 showerror: false,
                 errortext: 'Priority is required, Please enter priority'
-            }
+            },
+            departments: []
         };
     },
     mounted() {
@@ -334,23 +336,22 @@ export default {
                     console.error(error);
                 });
         },
-        getQueryParams() {
-            let params = {
-                page_no: this.pagination.current,
-                page_size: this.pagination.limit
-            };
-            if (this.searchText != '') {
-                params.search = this.searchText;
-            }
-            return params;
-        },
+        // getQueryParams() {
+        //     let params = {
+        //         page_no: this.pagination.current,
+        //         page_size: this.pagination.limit
+        //     };
+        //     if (this.searchText != '') {
+        //         params.search = this.searchText;
+        //     }
+        //     return params;
+        // },
         getDepartment() {
-            CatalogService.fetchDepartment(this.getQueryParams())
+            CatalogService.fetchDepartment()
                 .then((res) => {
-                    this.department.value = this.department.value.concat(
-                        res.data.data
-                    );
-                    this.pagination.total = res.data.total_count;
+                    this.department.value = res.data.data;
+                    // this.pagination.total = res.data.total_count;
+                    this.departments = res.data.data;
                     this.department.value.map((element) => {
                         element.text = element.name;
                         element.value = element.slug;
@@ -378,6 +379,21 @@ export default {
                 this.getDepartment();
             }
             // Scroll Pending
+        },
+        setDepartmentsList(e = {}) {
+            this.department.selectedtype = [];
+            this.departments.forEach((d) => {
+                if (
+                    !e ||
+                    !e.text ||
+                    d.name.toLowerCase().includes(e.text.toLowerCase())
+                ) {
+                    this.department.value.push({
+                        text: d.name,
+                        value: d.slug
+                    });
+                }
+            });
         },
         getAttribute() {
             let params = {
