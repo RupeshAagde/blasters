@@ -25,7 +25,8 @@
                         :required="true"
                         placeholder="For eg. Material Type, Color, etc"
                         v-model="attribute.name"
-                        @input="updateSlug()"
+                        @input="updateSlug($event), checkRequired('name')"
+                        @blur="checkRequired('name')"
                     ></nitrozen-input>
                     <nitrozen-error v-if="errors.name">{{
                         errors.name
@@ -39,6 +40,8 @@
                         :required="true"
                         placeholder="For eg. material-type"
                         v-model="attribute.slug"
+                        @input="updateSlug($event), checkRequired('slug')"
+                        @blur="checkRequired('slug')"
                     ></nitrozen-input>
                     <nitrozen-error v-if="errors.slug">{{
                         errors.slug
@@ -52,9 +55,6 @@
                         placeholder="For eg. material-type"
                         v-model="attribute.description"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="errors.slug">{{
-                        errors.slug
-                    }}</nitrozen-error>
                 </div>
                 <!-- logo Image -->
                 <form-input
@@ -81,10 +81,14 @@
                         v-model="attribute.logo"
                         @delete="attribute.logo = ''"
                         @save="attribute.logo = $event"
+                        @input="checkRequired('logo')"
                         :fileName="attribute.name"
                         namespace="products-attribute-logo"
                     ></image-uploader>
                 </form-input>
+                <nitrozen-error v-if="errors.logo">{{
+                    errors.logo
+                }}</nitrozen-error>
                 <!-- Required -->
                 <div class="mt-md inline apart">
                     <div class="inline">
@@ -155,6 +159,8 @@
                         :required="true"
                         :multiple="true"
                         :searchable="true"
+                        @change="checkRequired('departments')"
+                        @blur="checkRequired('departments')"
                         @searchInputChange="setDepartmentsList"
                     ></nitrozen-dropdown>
                     <nitrozen-error v-if="errors.departments">
@@ -190,9 +196,6 @@
                             :multi="true"
                             @change="() => {}"
                         ></nitrozen-dropdown>
-                        <nitrozen-error v-if="errors.departments">
-                            {{ errors.departments }}
-                        </nitrozen-error>
                     </div>
                     <!-- Multiple values toggle -->
                     <div
@@ -514,7 +517,7 @@ export default {
             attribute: {
                 schema: { enum: [], range: {}, format: '', multi: false },
                 details: {},
-                filters: {},
+                filters: { indexing: false },
                 meta: { enriched: false, mandatory_details: { l3_keys: [] } }
             },
             departments: [],
@@ -660,12 +663,16 @@ export default {
                 });
             });
         },
-        updateSlug() {
+        updateSlug(str) {
             if (this.editMode) return;
-            this.attribute.slug = slugify(this.attribute.name, {
-                lower: true,
-                strict: true
-            });
+            this.$set(
+                this.attribute,
+                'slug',
+                slugify(str, {
+                    lower: true,
+                    strict: true
+                })
+            );
         },
         getDepartmentName(slug) {
             const department = this.departments.find((d) => d.slug === slug);
@@ -734,8 +741,25 @@ export default {
         redirectToListing() {
             this.$goBack('/administrator/product/attributes');
         },
+        checkRequired(prop) {
+            let isValid = true;
+            this.$set(this.errors, prop, '');
+
+            if (!this.attribute[prop] || _.isEmpty(this.attribute[prop])) {
+                isValid = false;
+                this.errors[prop] = 'field is required';
+            }
+
+            return isValid;
+        },
         validateForm() {
             let formValid = true;
+
+            formValid = this.checkRequired('name') && formValid;
+            formValid = this.checkRequired('slug') && formValid;
+            formValid = this.checkRequired('logo') && formValid;
+            formValid = this.checkRequired('departments') && formValid;
+
             return formValid;
         },
         copyTextToClipboard(text) {

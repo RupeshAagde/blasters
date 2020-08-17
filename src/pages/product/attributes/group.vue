@@ -132,7 +132,8 @@
                             :required="true"
                             placeholder="For eg. Material Type, Color, etc"
                             v-model="groupDetails.name"
-                            @input="updateSlug()"
+                            @input="updateSlug($event), checkRequired('name')"
+                            @blur="checkRequired('name')"
                         ></nitrozen-input>
                         <nitrozen-error v-if="errors.name">{{
                             errors.name
@@ -147,6 +148,8 @@
                             :required="true"
                             placeholder="For eg. material-type"
                             v-model="groupDetails.slug"
+                            @input="updateSlug($event), checkRequired('slug')"
+                            @blur="checkRequired('slug')"
                         ></nitrozen-input>
                         <nitrozen-error v-if="errors.slug">{{
                             errors.slug
@@ -174,6 +177,8 @@
                             :required="true"
                             :multiple="true"
                             :searchable="true"
+                            @change="checkRequired('attributes')"
+                            @blur="checkRequired('attributes')"
                             @searchInputChange="setAttributesList"
                         ></nitrozen-dropdown>
                         <a
@@ -184,6 +189,9 @@
                             >Create Attribute</a
                         >
                     </div>
+                    <nitrozen-error v-if="errors.attributes">{{
+                        errors.attributes
+                    }}</nitrozen-error>
                     <!-- Attribute sequence list -->
                     <div class="attribute-container mt-sm">
                         <draggable
@@ -714,13 +722,19 @@ export default {
                 }
             });
         },
-        updateSlug() {
+        updateSlug(str) {
             if (!this.groupDetails._new) return;
-            this.groupDetails.slug = slugify(this.groupDetails.name, {
-                lower: true,
-                strict: true
-            });
+
+            this.$set(
+                this.groupDetails,
+                'slug',
+                slugify(str, {
+                    lower: true,
+                    strict: true
+                })
+            );
         },
+
         moveGroup() {
             if (
                 this.positionNumber < 1 ||
@@ -790,12 +804,35 @@ export default {
                 console.log(err);
             }
         },
-        redirectToListing() {
-            this.$goBack('/administrator/product/attributes');
+        checkRequired(prop) {
+            let isValid = true;
+            this.$set(this.errors, prop, '');
+
+            let val;
+            if (prop === 'attributes') {
+                val = this.groupDetails[this.entity][prop];
+            } else {
+                val = this.groupDetails[prop];
+            }
+
+            if (!val || _.isEmpty(val)) {
+                isValid = false;
+                this.errors[prop] = 'field is required';
+            }
+
+            return isValid;
         },
         validateForm() {
             let formValid = true;
+
+            formValid = this.checkRequired('name') && formValid;
+            formValid = this.checkRequired('slug') && formValid;
+            formValid = this.checkRequired('attributes') && formValid;
+
             return formValid;
+        },
+        redirectToListing() {
+            this.$goBack('/administrator/product/attributes');
         },
         copyTextToClipboard(text) {
             copyToClipboard(text);

@@ -36,7 +36,8 @@
                         :required="true"
                         placeholder="For eg. Material Type, Color, etc"
                         v-model="template.name"
-                        @input="updateSlug()"
+                        @input="updateSlug($event), checkRequired('name')"
+                        @blur="checkRequired('name')"
                     ></nitrozen-input>
                     <nitrozen-error v-if="errors.name">{{
                         errors.name
@@ -50,6 +51,8 @@
                         :required="true"
                         placeholder="For eg. material-type"
                         v-model="template.slug"
+                        @input="updateSlug($event), checkRequired('slug')"
+                        @blur="checkRequired('slug')"
                     ></nitrozen-input>
                     <nitrozen-error v-if="errors.slug">{{
                         errors.slug
@@ -63,9 +66,6 @@
                         placeholder="For eg. material-type"
                         v-model="template.description"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="errors.slug">{{
-                        errors.slug
-                    }}</nitrozen-error>
                 </div>
 
                 <!-- Logo -->
@@ -93,10 +93,14 @@
                         v-model="template.logo"
                         @delete="template.logo = ''"
                         @save="template.logo = $event"
+                        @input="checkRequired('logo')"
                         :fileName="template.name"
                         namespace="products-template-logo"
                     ></image-uploader>
                 </form-input>
+                <nitrozen-error v-if="errors.logo">{{
+                    errors.logo
+                }}</nitrozen-error>
                 <!-- Banner -->
                 <form-input
                     class="mt-sm"
@@ -122,10 +126,14 @@
                         v-model="template.banner"
                         @delete="template.banner = ''"
                         @save="template.banner = $event"
+                        @input="checkRequired('banner')"
                         :fileName="template.name"
                         namespace="products-template-banner"
                     ></image-uploader>
                 </form-input>
+                <nitrozen-error v-if="errors.banner">{{
+                    errors.banner
+                }}</nitrozen-error>
                 <loader v-if="inProgress" class="loading"></loader>
             </div>
             <!-- ############################################# -->
@@ -142,7 +150,12 @@
                         :required="true"
                         :multiple="true"
                         :searchable="true"
-                        @change="fetchCategories(), fetchAttributes()"
+                        @change="
+                            fetchCategories(),
+                                fetchAttributes(),
+                                checkRequired('departments')
+                        "
+                        @blur="checkRequired('departments')"
                         @searchInputChange="setDepartmentsList"
                     ></nitrozen-dropdown>
                     <nitrozen-error v-if="errors.departments">
@@ -176,10 +189,12 @@
                         :required="true"
                         :multiple="true"
                         :searchable="true"
+                        @change="checkRequired('categories')"
+                        @blur="checkRequired('categories')"
                         @searchInputChange="setCategoriesList"
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="errors.departments">
-                        {{ errors.departments }}
+                    <nitrozen-error v-if="errors.categories">
+                        {{ errors.categories }}
                     </nitrozen-error>
                     <div class="chip-wrapper inline">
                         <div
@@ -210,6 +225,8 @@
                         :required="true"
                         :multiple="true"
                         :searchable="true"
+                        @change="checkRequired('attributes')"
+                        @blur="checkRequired('attributes')"
                         @searchInputChange="setAttributesList"
                     ></nitrozen-dropdown>
                     <a
@@ -220,6 +237,9 @@
                         >Create Attribute</a
                     >
                 </div>
+                <nitrozen-error v-if="errors.categories">
+                    {{ errors.categories }}
+                </nitrozen-error>
 
                 <!-- Attribute ordering list -->
                 <div class="attribute-container">
@@ -729,12 +749,16 @@ export default {
             if (category) return category.name;
             return slug;
         },
-        updateSlug() {
+        updateSlug(str) {
             if (this.editMode) return;
-            this.template.slug = slugify(this.template.name, {
-                lower: true,
-                strict: true
-            });
+            this.$set(
+                this.template,
+                'slug',
+                slugify(str, {
+                    lower: true,
+                    strict: true
+                })
+            );
         },
         getFormData() {
             try {
@@ -782,12 +806,32 @@ export default {
                 console.log(err);
             }
         },
-        redirectToListing() {
-            this.$goBack('/administrator/product/templates');
+        checkRequired(prop) {
+            let isValid = true;
+            this.$set(this.errors, prop, '');
+
+            if (!this.template[prop] || _.isEmpty(this.template[prop])) {
+                isValid = false;
+                this.errors[prop] = 'field is required';
+            }
+
+            return isValid;
         },
         validateForm() {
             let formValid = true;
+
+            formValid = this.checkRequired('name') && formValid;
+            formValid = this.checkRequired('slug') && formValid;
+            formValid = this.checkRequired('logo') && formValid;
+            formValid = this.checkRequired('banner') && formValid;
+            formValid = this.checkRequired('departments') && formValid;
+            formValid = this.checkRequired('categories') && formValid;
+            formValid = this.checkRequired('attributes') && formValid;
+
             return formValid;
+        },
+        redirectToListing() {
+            this.$goBack('/administrator/product/templates');
         },
         copyTextToClipboard(text) {
             copyToClipboard(text);
