@@ -54,9 +54,9 @@
                         placeholder="e.g. Electronics"
                         v-model="display.value"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="display.showerror">{{
-                        display.errortext
-                    }}</nitrozen-error>
+                    <nitrozen-error v-if="display.showerror">
+                        {{ display.errortext }}
+                    </nitrozen-error>
                 </div>
                 <div class="input-box left-space-txb">
                     <nitrozen-dropdown
@@ -66,57 +66,106 @@
                         placeholder="Choose Display type"
                         v-model="displayType.selectedtype"
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="displayType.showerror">{{
-                        displayType.errortext
-                    }}</nitrozen-error>
+                    <nitrozen-error v-if="displayType.showerror">
+                        {{ displayType.errortext }}
+                    </nitrozen-error>
                 </div>
             </div>
-            <div class="row-1">
+            <div class="dept-box">
                 <div class="input-box">
                     <nitrozen-dropdown
-                        :label="'Department *'"
+                        :label="'Department'"
                         class="filter-dropdown"
                         :multiple="true"
+                        :searchable="true"
+                        :required="true"
                         :items="department.value"
                         placeholder="Choose departments"
                         v-model="department.selectedtype"
                         @change="getAttribute"
                         @searchInputChange="setDepartmentsList"
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="department.showerror">{{
-                        department.errortext
-                    }}</nitrozen-error>
+                    <nitrozen-error v-if="department.showerror">
+                        {{ department.errortext }}
+                    </nitrozen-error>
                 </div>
-                <div class="input-box left-space-txb">
-                    <nitrozen-dropdown
-                        label="Attributes Key *"
-                        class="filter-dropdown"
-                        :disabled="!department.selectedtype.length"
-                        :items="deptkey.value"
-                        placeholder="Choose Attributes key"
-                        v-model="deptkey.selectedtype"
-                    ></nitrozen-dropdown>
-                    <nitrozen-error v-if="deptkey.showerror">{{
-                        deptkey.errortext
-                    }}</nitrozen-error>
+                <div :class="department.showerror ? 'cust-mt' : 'dcb'">
+                    <a
+                        class="txt-btn"
+                        href="/administrator/product/create-department"
+                        target="_blank"
+                        title="Go to 'Create Department' page"
+                        >Create Department</a
+                    >
                 </div>
             </div>
-            <div class="input-box">
-                <nitrozen-input
-                    class="input-box"
-                    label="Priority *"
-                    v-model="priority.value"
-                    placeholder="Enter priority ( e.g.  0 ,  1 ,  2)"
-                    type="number"
-                ></nitrozen-input>
-                <nitrozen-error v-if="priority.showerror">{{
-                    priority.errortext
-                }}</nitrozen-error>
+            <div class="chip-wrapper inline">
+                <div
+                    v-for="(item, index) of department.selectedtype"
+                    :key="index"
+                >
+                    <nitrozen-chips class="chip">
+                        {{ item }}
+                        <nitrozen-inline
+                            icon="cross"
+                            class="nitrozen-icon"
+                            @click="department.selectedtype.splice(index, 1)"
+                        ></nitrozen-inline>
+                    </nitrozen-chips>
+                </div>
+            </div>
+            <div class="row-2">
+                <nitrozen-dropdown
+                    label="Attributes Key *"
+                    class="filter-dropdown"
+                    :disabled="!department.selectedtype.length"
+                    :items="deptkey.value"
+                    placeholder="Choose Attributes key"
+                    v-model="deptkey.selectedtype"
+                ></nitrozen-dropdown>
+                <nitrozen-error v-if="deptkey.showerror">
+                    {{ deptkey.errortext }}
+                </nitrozen-error>
             </div>
         </div>
     </div>
 </template>
 <style lang="less" scoped>
+.txt-btn {
+    color: @RoyalBlue;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.mt-md {
+    margin-top: 24px;
+}
+.chip-wrapper {
+    flex-wrap: wrap;
+    height: fit-content;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: -12px;
+    margin-bottom: 20px;
+    .blaster-scrollbar;
+    .chip {
+        margin: 8px 8px 0 0;
+    }
+}
+.inline {
+    display: flex;
+
+    &.apart {
+        justify-content: space-between;
+    }
+    .inline-left {
+        width: 50%;
+    }
+    .inline-right {
+        flex: 1;
+        margin-left: 24px;
+    }
+}
 .left-space-txb {
     margin-left: 12px;
 }
@@ -179,15 +228,33 @@
             width: 50%;
         }
     }
+    .dept-box {
+        width: 100%;
+        margin: 0 0 20px 0;
+        display: flex;
+        justify-content: space-between;
+        // align-items: center;
+
+        .input-box {
+            width: 85%;
+        }
+        .dcb {
+            align-self: center;
+            margin-top: 16px;
+        }
+        .cust-mt {
+            align-self: center;
+        }
+    }
     .row-2 {
         width: 100%;
-        margin: 0 0 24px 0;
+        margin: 0 0 20px 0;
         display: flex;
         flex-direction: column;
         align-items: baseline;
 
         .input-box {
-            width: 49.5%;
+            width: 90%;
         }
     }
     .row-3 {
@@ -297,11 +364,11 @@ export default {
                 errortext: 'Key is required, please choose a key'
             },
             priority: {
-                value: '',
+                value: 1,
                 showerror: false,
                 errortext: 'Priority is required, Please enter priority'
             },
-            departments: []
+            departmentList: []
         };
     },
     mounted() {
@@ -312,14 +379,26 @@ export default {
             this.headerText = 'Update Variant';
             this.saveText = 'Variant updated successfully';
             this.getDisplayType();
-            this.getDepartment();
+            this.init();
             this.updateData();
         } else {
             this.getDisplayType();
-            this.getDepartment();
+            this.init();
         }
     },
     methods: {
+        init() {
+            const pArr = [this.getDepartment()];
+            if (this.update) pArr.push(this.updateData());
+
+            Promise.all(pArr)
+                .then(() => {
+                    this.setDepartmentsList();
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
         getDisplayType() {
             let params = {
                 choice_type: 'variants'
@@ -336,30 +415,17 @@ export default {
                     console.error(error);
                 });
         },
-        // getQueryParams() {
-        //     let params = {
-        //         page_no: this.pagination.current,
-        //         page_size: this.pagination.limit
-        //     };
-        //     if (this.searchText != '') {
-        //         params.search = this.searchText;
-        //     }
-        //     return params;
-        // },
         getDepartment() {
-            CatalogService.fetchDepartment()
-                .then((res) => {
-                    this.department.value = res.data.data;
-                    // this.pagination.total = res.data.total_count;
-                    this.departments = res.data.data;
-                    this.department.value.map((element) => {
-                        element.text = element.name;
-                        element.value = element.slug;
+            return new Promise((resolve, reject) => {
+                CatalogService.fetchDepartment()
+                    .then(({ data }) => {
+                        this.departmentList = data.data;
+                        return resolve();
+                    })
+                    .catch((err) => {
+                        return reject(err);
                     });
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+            });
         },
         searchDepartment: debounce(function(e) {
             if (e && e.text) {
@@ -367,22 +433,9 @@ export default {
             }
             this.getDepartment();
         }, 700),
-        scrollDepartment(event) {
-            const scrollDown = (event.scrollTop / event.scrollHeight) * 100;
-            if (
-                this.pagination.current * this.pagination.limit <
-                    this.pagination.total &&
-                event.scrollHeight - event.scrollTop <= 200
-                // diff between scroll top and scroll end should be more than 200
-            ) {
-                this.pagination.current = this.pagination.current + 1;
-                this.getDepartment();
-            }
-            // Scroll Pending
-        },
         setDepartmentsList(e = {}) {
-            this.department.selectedtype = [];
-            this.departments.forEach((d) => {
+            this.department.value = [];
+            this.departmentList.forEach((d) => {
                 if (
                     !e ||
                     !e.text ||
@@ -445,7 +498,8 @@ export default {
         },
         save() {
             let postData = {
-                is_active: this.is_active
+                is_active: this.is_active,
+                priority: this.priority.value
             };
             if (this.uid && this.update) postData.uid = this.uid;
             if (this.display.value != '') {
@@ -476,12 +530,12 @@ export default {
                 this.deptkey.showerror = true;
             }
 
-            if (this.priority.value >= '0') {
-                this.priority.showerror = false;
-                postData.priority = this.priority.value;
-            } else {
-                this.priority.showerror = true;
-            }
+            // if (this.priority.value >= '0') {
+            //     this.priority.showerror = false;
+            //     postData.priority = this.priority.value;
+            // } else {
+            //     this.priority.showerror = true;
+            // }
 
             if (
                 !this.display.showerror &&
