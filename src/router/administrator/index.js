@@ -75,13 +75,13 @@ export default [
                 component: ListDepartment
             },
             {
-                name: 'create-department',
-                path: 'product/create-department',
+                name: 'create',
+                path: 'product/department/create',
                 component: CreateUpdateDepartment
             },
             {
                 name: 'edit-department',
-                path: 'product/edit-department/:deptId',
+                path: 'product/department/edit/:deptId',
                 component: CreateUpdateDepartment
             },
             {
@@ -91,12 +91,12 @@ export default [
             },
             {
                 name: 'create-variant',
-                path: 'product/create-variant',
+                path: 'product/variants/create',
                 component: CreateUpdateVariant
             },
             {
                 name: 'edit-variant',
-                path: 'product/edit-variant/:uid',
+                path: 'product/variants/edit/:uid',
                 component: CreateUpdateVariant
             },
             // Settings

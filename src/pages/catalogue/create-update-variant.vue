@@ -92,7 +92,7 @@
                 <div :class="department.showerror ? 'cust-mt' : 'dcb'">
                     <a
                         class="txt-btn"
-                        href="/administrator/product/create-department"
+                        href="/administrator/product/department/create"
                         target="_blank"
                         title="Go to 'Create Department' page"
                         >Create Department</a
