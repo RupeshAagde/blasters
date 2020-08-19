@@ -54,9 +54,9 @@
                         placeholder="e.g. Electronics"
                         v-model="display.value"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="display.showerror">
-                        {{ display.errortext }}
-                    </nitrozen-error>
+                    <nitrozen-error v-if="display.showerror">{{
+                        display.errortext
+                    }}</nitrozen-error>
                 </div>
                 <div class="input-box left-space-txb">
                     <nitrozen-dropdown
@@ -66,9 +66,9 @@
                         placeholder="Choose Display type"
                         v-model="displayType.selectedtype"
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="displayType.showerror">
-                        {{ displayType.errortext }}
-                    </nitrozen-error>
+                    <nitrozen-error v-if="displayType.showerror">{{
+                        displayType.errortext
+                    }}</nitrozen-error>
                 </div>
             </div>
             <div class="dept-box">
@@ -85,11 +85,12 @@
                         @change="getAttribute"
                         @searchInputChange="setDepartmentsList"
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="department.showerror">
-                        {{ department.errortext }}
-                    </nitrozen-error>
+                    <nitrozen-error v-if="department.showerror">{{
+                        department.errortext
+                    }}</nitrozen-error>
                 </div>
                 <div :class="department.showerror ? 'cust-mt' : 'dcb'">
+                    <span>Or</span>
                     <a
                         class="txt-btn"
                         href="/administrator/product/department/create"
@@ -123,9 +124,9 @@
                     placeholder="Choose Attributes key"
                     v-model="deptkey.selectedtype"
                 ></nitrozen-dropdown>
-                <nitrozen-error v-if="deptkey.showerror">
-                    {{ deptkey.errortext }}
-                </nitrozen-error>
+                <nitrozen-error v-if="deptkey.showerror">{{
+                    deptkey.errortext
+                }}</nitrozen-error>
             </div>
         </div>
     </div>

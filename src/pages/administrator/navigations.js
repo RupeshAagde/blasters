@@ -20,6 +20,15 @@ export const getNavigations = () => {
             children: []
         },
         {
+            display: 'Admin User Access',
+            link: '/administrator/user-management',
+            title: 'user',
+            icon: 'team',
+            highlightedIcon: 'team-highlighted',
+            active: false,
+            children: []
+        },
+        {
             display: 'Product',
             link: '/administrator/product/department',
             title: 'product',
@@ -44,15 +53,6 @@ export const getNavigations = () => {
                     active: false
                 }
             ]
-        },
-        {
-            display: 'Admin User Access',
-            link: '/administrator/user-management',
-            title: 'user',
-            icon: 'team',
-            highlightedIcon: 'team-highlighted',
-            active: false,
-            children: []
         },
         {
             display: 'Support Center',
