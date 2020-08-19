@@ -14,11 +14,13 @@ import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
 import ListVariants from './../../pages/catalogue/list-variants.vue';
+import { authenticatedUser } from './../guards';
 import CreateUpdateVariant from './../../pages/catalogue/create-update-variant.vue';
 
 export default [
     {
         path: '/administrator/',
+        beforeEnter: authenticatedUser,
         component: AdministratorBaseViewVue,
         redirect: '/administrator/company-list',
         children: [
