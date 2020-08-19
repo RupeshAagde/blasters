@@ -265,6 +265,18 @@ const URLS = {
     FETCH_DAYTRADER_CONFIG: () => {
         return urlJoin(DAYTRADER_BASE, 'api/v1/get-output-fields_v2');
     },
+    FETCH_DAYTRADER_FILTERS: () => {
+        return urlJoin(DAYTRADER_BASE, 'api/v1/get-data');
+    },
+    CURRENT_PLAN_DETAILS: () => {
+        return urlJoin(UNICRON_BASE, 'v1/subscription/current');
+    },
+    SUBSCRIPTION_DAYTRADER_RULES: (subscriptionId) => {
+        return urlJoin(
+            UNICRON_BASE,
+            `v1/daytrader-rule/subscription/${subscriptionId}`
+        );
+    },
 
     //#########Tickets########
     FETCH_TICKETS: () => {

@@ -9,13 +9,7 @@ const BillingService = {
         const axiosOptions = Object.assign(
             {},
             { params: params },
-            // getCommonHeaderOptions()
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-currency-code': 'INR'
-                }
-            }
+            getCommonHeaderOptions()
         );
         if (planId) {
             return ApiService.get(URLS.FETCH_SINGLE_PLAN(planId), axiosOptions);
@@ -27,13 +21,7 @@ const BillingService = {
         const axiosOptions = Object.assign(
             {},
             { params: params },
-            // getCommonHeaderOptions()
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-currency-code': 'INR'
-                }
-            }
+            getCommonHeaderOptions()
         );
         return ApiService.get(
             URLS.FETCH_SUBSCRIPTION_COMPONENTS(),
@@ -42,62 +30,65 @@ const BillingService = {
     },
 
     createPlan(payload) {
-        const axiosOptions = Object.assign(
-            {},
-            // getCommonHeaderOptions()
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-currency-code': 'INR'
-                },
-                data: payload
-            }
-        );
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
+            data: payload
+        });
         return ApiService.post(URLS.FETCH_SINGLE_PLAN(''), axiosOptions);
     },
 
     updatePlan(payload, planId) {
-        const axiosOptions = Object.assign(
-            {},
-            // getCommonHeaderOptions()
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-currency-code': 'INR'
-                },
-                data: payload
-            }
-        );
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
+            data: payload
+        });
         return ApiService.put(URLS.FETCH_PLANS_LIST(planId), axiosOptions);
     },
 
     getDaytraderComponents() {
-        const axiosOptions = Object.assign(
-            {},
-            // getCommonHeaderOptions()
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-currency-code': 'INR'
-                }
-            }
-        );
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {});
         return ApiService.get(URLS.FETCH_DAYTRADER_COMPONENT(), axiosOptions);
     },
 
     getDaytraderConfig(payload) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
+            data: payload
+        });
+        return ApiService.post(URLS.FETCH_DAYTRADER_CONFIG(), axiosOptions);
+    },
+    getSubscriptionDaytraderRules(params, subcriptionId) {
         const axiosOptions = Object.assign(
             {},
-            // getCommonHeaderOptions()
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-currency-code': 'INR'
-                },
-                data: payload
-            }
+            { params: params },
+            getCommonHeaderOptions()
         );
-        return ApiService.post(URLS.FETCH_DAYTRADER_CONFIG(), axiosOptions);
+        return ApiService.get(
+            URLS.SUBSCRIPTION_DAYTRADER_RULES(subcriptionId),
+            axiosOptions
+        );
+    },
+    addSubscriptionDaytraderRule(subcriptionId, payload) {
+        const axiosOptions = Object.assign(
+            {},
+            { data: payload },
+            getCommonHeaderOptions()
+        );
+        return ApiService.post(
+            URLS.SUBSCRIPTION_DAYTRADER_RULES(subcriptionId),
+            axiosOptions
+        );
+    },
+    getDaytraderFilters(payload) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
+            data: payload
+        });
+        return ApiService.post(URLS.FETCH_DAYTRADER_FILTERS(), axiosOptions);
+    },
+    getCurrentPlanDetails(params) {
+        const axiosOptions = Object.assign(
+            {},
+            { params: params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.CURRENT_PLAN_DETAILS(), axiosOptions);
     }
 };
 

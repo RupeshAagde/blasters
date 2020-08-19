@@ -554,30 +554,27 @@ export default {
                         is_active: true,
                         component_id: dtCompConfig._id,
                         data: {
-                            channels: [],
-                            rule: {
-                                slug_values: {
-                                    channel: {}
+                            slug_values: {
+                                channel: {}
+                            },
+                            rule_end_date: null,
+                            rule_start_date: null,
+                            transactional_components: {
+                                is_tp: false,
+                                defaults: {
+                                    commission: 0,
+                                    rto_comm_reversal: 0,
+                                    return_comm_reversal: 0
                                 },
-                                rule_end_date: null,
-                                rule_start_date: null,
-                                transactional_components: {
-                                    is_tp: false,
-                                    defaults: {
-                                        commission: 0,
-                                        rto_comm_reversal: 0,
-                                        return_comm_reversal: 0
-                                    },
-                                    source_components: [],
-                                    transaction_component: {}
-                                },
-                                settle_cycle_period: {
-                                    mall: 0,
-                                    warehouse: 0,
-                                    high_street: 0
-                                },
-                                settlement_type: 'weekly'
-                            }
+                                source_components: [],
+                                transaction_component: {}
+                            },
+                            settle_cycle_period: {
+                                mall: 0,
+                                warehouse: 0,
+                                high_street: 0
+                            },
+                            settlement_type: 'weekly'
                         }
                     }
                 ]

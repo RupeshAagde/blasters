@@ -142,6 +142,7 @@
                             };
                         })
                     "
+                    @input="fetchBrands()"
                 >
                 </nitrozen-dropdown>
             </div>
@@ -206,8 +207,11 @@
                     :ref="`dt_comp_${component._id}`"
                     :key="component._id"
                     :component="component"
-                    :dtOptions="dtOptions[component.data.channels[0]]"
+                    :dtOptions="
+                        dtOptions[component.data.slug_values.channel.id]
+                    "
                     :price_component="dTComponentMap[component._id]"
+                    :cbs_opts="cbs_opts"
                     :daytrader="true"
                 ></plan-component>
             </div>
@@ -276,6 +280,8 @@ export default {
         return {
             errors: {},
             companies: [],
+            brands: [],
+            locations: [],
             searchCompany: '',
             searchCurrency: '',
             durationUnits: [
@@ -295,7 +301,12 @@ export default {
         };
     },
     mounted() {
-        this.fetchCompany();
+        if (this.formData.plan.type === 'company-specific') {
+            this.fetchCompany().then(() => {
+                this.fetchBrands();
+            });
+        }
+        this.getDaytraderFilters();
     },
     computed: {
         planComponentMap() {
@@ -336,6 +347,19 @@ export default {
         },
         recurring_time() {
             return this.formData.plan.recurring.interval_count;
+        },
+        cbs_opts() {
+            let opts = {
+                brands: this.brands,
+                locations: this.locations
+            };
+            if (this.formData.plan.company) {
+                opts['companies'] = {
+                    value: this.formData.plan.company,
+                    text: ''
+                };
+            }
+            return opts;
         }
     },
     methods: {
@@ -388,6 +412,46 @@ export default {
             _.debounce((text) => {
                 this.fetchCompany(text);
             }, 600)(e.text);
+        },
+        fetchBrands() {
+            return CompanyService.fetchBrands({
+                page_size: 1000,
+                page_no: 1,
+                company: this.formData.plan.company,
+                stage: 'verified'
+            })
+                .then(({ data }) => {
+                    this.brands = data.data.map((item) => {
+                        return {
+                            text: item.brand.name,
+                            value: item.brand.uid
+                        };
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        getDaytraderFilters() {
+            BillingService.getDaytraderFilters({
+                data: {
+                    table_name: 'config_fields_values',
+                    filters: {
+                        config_field: 'location_type'
+                    }
+                }
+            })
+                .then(({ data }) => {
+                    this.locations = data.data.map((item) => {
+                        return {
+                            value: item.name,
+                            text: item.display_name
+                        };
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
         fetchCompany(searchCompany) {
             const query = {

@@ -34,7 +34,16 @@
                 </page-header>
             </div>
         </div>
-        <div class="main-container profile-container">
+        <nitrozen-tab
+            :activeIndex="activeTabIndex"
+            class="custom-tab"
+            :tabItem="['Details', 'Subscriptions']"
+            @tab-change="(obj) => (activeTabIndex = obj.index)"
+        ></nitrozen-tab>
+        <div
+            v-show="activeTabIndex === 0"
+            class="main-container profile-container"
+        >
             <div class="full-width">
                 <div class="feature-container">
                     <!-- Brands Section -->
@@ -72,6 +81,20 @@
                 </div>
             </div>
         </div>
+        <div
+            v-show="activeTabIndex === 1"
+            class="main-container subscribe-container"
+        >
+            <div class="full-width">
+                <plan-details
+                    :company_id="this.$route.params.companyId"
+                    :company_data="{
+                        name: this.profileDetails.name,
+                        uid: this.profileDetails.uid
+                    }"
+                ></plan-details>
+            </div>
+        </div>
     </div>
 </template>
 <style lang="less" scoped>
@@ -95,13 +118,26 @@
     position: relative;
 }
 .cust-panel {
-    margin-bottom: 84px;
+    margin-bottom: 60px;
 }
 .profile-container {
     margin-right: 0;
 }
+
+.custom-tab {
+    ::v-deep .nitrozen-tab-item {
+        padding-top: 15px;
+        &:first-child {
+            margin-left: 10px;
+        }
+    }
+}
+
 .main-container {
     // margin-right: 0;
+    .subscribe-container {
+        margin: 0;
+    }
     .full-width {
         width: 100%;
         display: flex;
@@ -130,12 +166,13 @@
 import admbrands from './brands.vue';
 import admstores from './stores.vue';
 import admapplication from './application-list.vue';
+import planDetails from './plan-details.vue';
 import listdri from './list-dri.vue';
 import PageHeader from '@/components/common/layout/page-header';
 import admcompanydetails from './profile-details.vue';
 import CompanyService from '@/services/company-admin.service';
 import Shimmer from '@/components/common/shimmer';
-import { NitrozenBadge } from '@gofynd/nitrozen-vue';
+import { NitrozenBadge, NitrozenTab } from '@gofynd/nitrozen-vue';
 import { FETCH_METRICS } from '@/store/action.type';
 
 import root from 'window-or-global';
@@ -148,14 +185,17 @@ export default {
         'adm-application-list': admapplication,
         'adm-stores': admstores,
         'adm-company-details': admcompanydetails,
+        'plan-details': planDetails,
         'list-dri': listdri,
         Shimmer,
         PageHeader,
+        'nitrozen-tab': NitrozenTab,
         'nitrozen-badge': NitrozenBadge
     },
     computed: {},
     data() {
         return {
+            activeTabIndex: 0,
             companyId: this.$route.params.companyId,
             profileDetails: {},
             inProgress: false,

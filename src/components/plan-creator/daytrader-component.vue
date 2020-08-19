@@ -1,5 +1,24 @@
 <template>
-    <div class="comp-container">
+    <div class="comp-container" v-if="config && options">
+        <div class="form-row">
+            <div class="form-item">
+                <nitrozen-input
+                    :label="'Rule Name*'"
+                    v-model="formData.name"
+                ></nitrozen-input>
+                <nitrozen-error :class="{ visible: errors['name'] }">
+                    {{ errors['name'] || '-' }}
+                </nitrozen-error>
+            </div>
+            <div class="form-item"></div>
+        </div>
+        <div class="form-row form-compact-items">
+            <div class="form-item">
+                <nitrozen-checkbox v-model="auto_verify"
+                    >Auto Verify Rule</nitrozen-checkbox
+                >
+            </div>
+        </div>
         <div class="form-row">
             <div class="bold-sm top-headers">
                 Change Settlement Status
@@ -9,7 +28,7 @@
             <div class="form-item">
                 <nitrozen-input
                     :label="'High Street'"
-                    v-model="formData.data.settle_cycle_period.high_street"
+                    v-model="formData.settle_cycle_period.high_street"
                     :type="'number'"
                 >
                 </nitrozen-input>
@@ -17,7 +36,7 @@
             <div class="form-item">
                 <nitrozen-input
                     :label="'Mall'"
-                    v-model="formData.data.settle_cycle_period.mall"
+                    v-model="formData.settle_cycle_period.mall"
                     :type="'number'"
                 >
                 </nitrozen-input>
@@ -25,7 +44,7 @@
             <div class="form-item">
                 <nitrozen-input
                     :label="'Warehouse'"
-                    v-model="formData.data.settle_cycle_period.warehouse"
+                    v-model="formData.settle_cycle_period.warehouse"
                     :type="'number'"
                 >
                 </nitrozen-input>
@@ -46,7 +65,50 @@
                             text: 'Monthly'
                         }
                     ]"
-                    v-model="formData.data.settlement_type"
+                    v-model="formData.settlement_type"
+                ></nitrozen-dropdown>
+            </div>
+            <div class="form-item">
+                <date-picker
+                    :label="'Date From and To'"
+                    :useNitrozenTheme="true"
+                    :range="true"
+                    :date_format="'dd/mm/yyyy'"
+                    :value="date_range"
+                    @input="
+                        (dates) => {
+                            formData.rule_start_date = dates[0];
+                            formData.rule_end_date = dates[1];
+                        }
+                    "
+                ></date-picker>
+            </div>
+        </div>
+
+        <div
+            class="form-row"
+            v-if="cbs_opts.locations.length || cbs_opts.brands.length"
+        >
+            <div class="form-item">
+                <nitrozen-dropdown
+                    v-if="cbs_opts.locations.length"
+                    :label="'Locations'"
+                    :items="cbs_opts.locations"
+                    :multiple="true"
+                    :value="
+                        formData.slug_values.location.map((item) => item.id)
+                    "
+                    @input="updateLocations"
+                ></nitrozen-dropdown>
+            </div>
+            <div class="form-item">
+                <nitrozen-dropdown
+                    v-if="cbs_opts.brands.length"
+                    :label="'Brands'"
+                    :items="cbs_opts.brands"
+                    :multiple="true"
+                    :value="formData.slug_values.brand.map((item) => item.id)"
+                    @input="updateBrands"
                 ></nitrozen-dropdown>
             </div>
         </div>
@@ -248,6 +310,8 @@ import {
     NitrozenError
 } from '@gofynd/nitrozen-vue';
 
+import { DatePicker } from '../common/';
+
 import _ from 'lodash';
 
 export default {
@@ -258,6 +322,9 @@ export default {
         },
         options: {
             type: Object
+        },
+        cbs_opts: {
+            type: Object
         }
     },
     components: {
@@ -266,14 +333,16 @@ export default {
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-input': NitrozenInput,
         'nitrozen-checkbox': NitrozenCheckBox,
-        'nitrozen-tooltip': NitrozenTooltip
+        'nitrozen-tooltip': NitrozenTooltip,
+        'date-picker': DatePicker
     },
-    created() {
-        _.merge(this.formData, { data: this.config });
+    mounted() {
+        _.merge(this.formData, this.config);
     },
     data() {
         return {
             errors: {},
+            auto_verify: false,
             input_types: [
                 {
                     text: 'Fixed',
@@ -299,32 +368,34 @@ export default {
                 }
             ],
             formData: {
-                data: {
-                    slug_fields: ['channel'],
-                    slug_values: {
-                        channel: {}
-                    },
-                    rule_start_date: null,
-                    rule_end_date: null,
-                    settle_cycle_period: {
-                        mall: 0,
-                        warehouse: 0,
-                        high_street: 0
-                    },
-                    settlement_type: '',
-                    transactional_components: {
-                        is_tp: false,
-                        defaults: {},
-                        conditional: {},
-                        transaction_component: {}
-                    }
+                name: '',
+                slug_fields: ['channel'],
+                slug_values: {
+                    channel: {},
+                    company: [],
+                    brand: [],
+                    location: []
+                },
+                rule_start_date: null,
+                rule_end_date: null,
+                settle_cycle_period: {
+                    mall: 0,
+                    warehouse: 0,
+                    high_street: 0
+                },
+                settlement_type: '',
+                transactional_components: {
+                    is_tp: false,
+                    defaults: {},
+                    conditional: {},
+                    transaction_component: {}
                 }
             }
         };
     },
     computed: {
         main_config() {
-            return this.formData.data.transactional_components;
+            return this.formData.transactional_components;
         },
         tran_comp() {
             return this.main_config.transaction_component;
@@ -334,9 +405,57 @@ export default {
         },
         default_data() {
             return this.main_config.defaults;
+        },
+        date_range() {
+            return [this.formData.rule_start_date, this.formData.rule_end_date];
         }
     },
     methods: {
+        validData() {
+            let data = _.cloneDeep(this.formData);
+            for (let key of Object.keys(data.slug_values)) {
+                if (!data.slug_fields.includes(key)) {
+                    delete data.slug_values[key];
+                }
+            }
+            return data;
+        },
+        updateBrands(selected_value) {
+            if (selected_value.length) {
+                if (!this.formData.slug_fields.includes('brand')) {
+                    this.formData.slug_fields.push('brand');
+                }
+            } else {
+                let index = this.formData.slug_fields.indexOf('brand');
+                this.formData.slug_fields.splice(index, 1);
+            }
+            this.formData.slug_values.brand.length = 0;
+            this.formData.slug_values.brand.push(
+                ...this.cbs_opts.brands
+                    .filter((item) => selected_value.includes(item.value))
+                    .map((item) => {
+                        return { id: item.value, name: item.text };
+                    })
+            );
+        },
+        updateLocations(selected_value) {
+            if (selected_value.length) {
+                if (!this.formData.slug_fields.includes('location')) {
+                    this.formData.slug_fields.push('location');
+                }
+            } else {
+                let index = this.formData.slug_fields.indexOf('location');
+                this.formData.slug_fields.splice(index, 1);
+            }
+            this.formData.slug_values.location.length = 0;
+            this.formData.slug_values.location.push(
+                ...this.cbs_opts.locations
+                    .filter((item) => selected_value.includes(item.value))
+                    .map((item) => {
+                        return { id: item.value, name: item.text };
+                    })
+            );
+        },
         getCamelCase(str) {
             return str
                 .split('_')
@@ -373,6 +492,10 @@ export default {
         validateData() {
             let is_valid = true;
             this.errors = {};
+            if (!this.formData.name) {
+                this.errors['name'] = 'Required field';
+                is_valid = false;
+            }
             for (let key of Object.keys(this.tran_comp)) {
                 for (let user_input of this.options[key].find(
                     (opt) => opt.id === this.tran_comp[key]

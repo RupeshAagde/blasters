@@ -18,7 +18,7 @@
                         class="bold-xs clickable-label cl-RoyalBlue"
                         @click="editDayTraderRule"
                     >
-                        Edit Rule
+                        Add Rule
                     </span>
                 </div>
             </div>
@@ -30,7 +30,28 @@
                     :priceModel="currentPriceModel"
                 >
                 </price-model-page>
-                <div v-else-if="daytrader" class="form-row"></div>
+                <div v-else-if="daytrader">
+                    <div
+                        v-for="(rule, index) in price_component.shallow_rules"
+                        :key="index"
+                        class="form-row"
+                    >
+                        <div class="form-item">
+                            {{ rule.data.name || 'Default Rule' }}
+                        </div>
+                        <div
+                            class="bold-xs clickable-label cl-RoyalBlue"
+                            @click="
+                                () => {
+                                    edit_rule_idx = index;
+                                    editDayTraderRule();
+                                }
+                            "
+                        >
+                            Edit
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <nitrozen-dialog
@@ -38,7 +59,8 @@
             ref="daytrader_rule_edit"
             :title="`Edit ${component.name} Rule`"
             @close="
-                $refs['daytrader'].resetData(price_component.shallow_rules[0])
+                $refs['daytrader'].resetData(component.data);
+                edit_rule_idx = -1;
             "
         >
             <template slot="body">
@@ -47,7 +69,8 @@
                     :options="dtOptions"
                     :ref="'daytrader'"
                     class="plan-component"
-                    :config="price_component.shallow_rules[0]"
+                    :config="price_component.shallow_rules[0].data"
+                    :cbs_opts="cbs_opts"
                 >
                 </daytrader-component>
             </template>
@@ -137,6 +160,9 @@ export default {
         },
         dtOptions: {
             type: Object
+        },
+        cbs_opts: {
+            type: Object
         }
     },
     directives: {
@@ -146,7 +172,8 @@ export default {
     data() {
         return {
             enabled: false,
-            options: PLAN_ENUMS
+            options: PLAN_ENUMS,
+            edit_rule_idx: -1
         };
     },
     computed: {
@@ -154,6 +181,11 @@ export default {
             return this.price_component
                 ? this.price_component.component_price
                 : null;
+        },
+        dtRules() {
+            return this.price_component.shallow_rules
+                ? this.price_component.shallow_rules
+                : [];
         }
     },
     methods: {
@@ -192,10 +224,14 @@ export default {
                 negativeButtonLabel: false,
                 neutralButtonLabel: false
             });
-            _.merge(
-                this.$refs['daytrader'].formData,
-                this.price_component.shallow_rules[0]
-            );
+            if (this.edit_rule_idx > -1 && this.dtRules[this.edit_rule_idx]) {
+                _.merge(
+                    this.$refs['daytrader'].formData,
+                    this.dtRules[this.edit_rule_idx].data
+                );
+            } else {
+                _.merge(this.$refs['daytrader'].formData, this.component.data);
+            }
         },
         updateDaytraderData() {
             if (!this.$refs['daytrader'].validateData()) {
@@ -204,10 +240,29 @@ export default {
                 );
                 return;
             }
-            _.merge(
-                this.price_component.shallow_rules[0],
-                this.$refs['daytrader'].formData
-            );
+            if (this.edit_rule_idx > -1 && this.dtRules[this.edit_rule_idx]) {
+                _.merge(
+                    this.dtRules[this.edit_rule_idx].data,
+                    this.$refs['daytrader'].formData
+                );
+            } else {
+                let newIdx = this.dtRules.length;
+                this.dtRules.push(
+                    _.cloneDeep(
+                        _.pick(this.dtRules[0], [
+                            'data',
+                            'auto_verify',
+                            'plan_id',
+                            'is_active',
+                            'component_id'
+                        ])
+                    )
+                );
+                _.merge(
+                    this.dtRules[newIdx].data,
+                    this.$refs['daytrader'].formData
+                );
+            }
             this.$refs['daytrader_rule_edit'].close();
         },
         validateData() {

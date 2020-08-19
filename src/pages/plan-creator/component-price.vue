@@ -223,6 +223,11 @@
 </template>
 
 <style lang="less" scoped>
+::v-deep .nitrozen-dialog {
+    .nitrozen-dialog-body {
+        overflow: unset;
+    }
+}
 ::v-deep.price-form {
     box-sizing: border-box;
     flex-direction: column;
