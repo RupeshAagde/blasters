@@ -5,7 +5,6 @@
                 >Brands ({{ paginationConfig.total }})</label
             >
         </div>
-        <div v-if="inProgress" class="shimmer"></div>
         <div
             class="unverified-brand"
             v-if="metricsData && metricsData.brand.pending"
@@ -15,6 +14,7 @@
             }}
             unverified.
         </div>
+        <div v-if="inProgress" class="shimmer"></div>
         <div
             class="brands-body"
             v-if="!inProgress && brandsData && brandsData.length"
