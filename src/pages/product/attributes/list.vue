@@ -97,34 +97,38 @@
                                         {{ getLine2Txt(attribute) }}
                                     </div>
                                 </div>
-                                <div class="cb-box" v-if="attribute.created_by">
+                                <div
+                                    class="cb-box"
+                                    v-if="attribute.modified_by"
+                                >
                                     <div
                                         class="cb-box"
                                         v-if="
-                                            attribute.created_by &&
-                                                attribute.created_by.username
+                                            attribute.modified_by &&
+                                                attribute.modified_by.username
                                         "
                                     >
-                                        <span>Created By :</span>
+                                        <span>Modified By :</span>
                                         <span class="cb-lm">
                                             <user-info-tooltip
                                                 :userId="
-                                                    attribute.created_by.user_id
+                                                    attribute.modified_by
+                                                        .user_id
                                                 "
                                             ></user-info-tooltip>
                                         </span>
                                         <span
                                             class="cb-lm"
-                                            v-if="attribute.created_on"
+                                            v-if="attribute.modified_on"
                                             >On</span
                                         >
                                         <span
                                             class="cb-lm"
-                                            v-if="attribute.created_on"
+                                            v-if="attribute.modified_on"
                                         >
                                             {{
                                                 new Date(
-                                                    attribute.created_on
+                                                    attribute.modified_on
                                                 ).toLocaleString()
                                             }}
                                         </span>
