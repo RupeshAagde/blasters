@@ -806,7 +806,6 @@ export default {
                     return;
                 }
                 const formData = this.getFormData();
-                console.log(formData, 'formData');
                 this.inProgress = true;
 
                 let upsertFunc = CompanyService.updateAttributeGroup;

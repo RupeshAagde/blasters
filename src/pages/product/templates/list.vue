@@ -90,25 +90,37 @@
                                         {{ template.attributes.length }}
                                     </div>
                                 </div>
-                                <div
-                                    class="txt-arrange"
-                                    v-if="template.modified_by"
-                                >
+                                <div class="cb-box" v-if="template.modified_by">
                                     <div
-                                        class="txt-description-heading"
+                                        class="cb-box"
                                         v-if="
                                             template.modified_by &&
                                                 template.modified_by.username
                                         "
                                     >
-                                        Modified By
-                                        {{ template.modified_by.username }}
-                                        on
-                                        {{
-                                            new Date(
-                                                template.modified_on
-                                            ).toLocaleString()
-                                        }}
+                                        <span>Modified By :</span>
+                                        <span class="cb-lm">
+                                            <user-info-tooltip
+                                                :userId="
+                                                    template.modified_by.user_id
+                                                "
+                                            ></user-info-tooltip>
+                                        </span>
+                                        <span
+                                            class="cb-lm"
+                                            v-if="template.modified_on"
+                                            >On</span
+                                        >
+                                        <span
+                                            class="cb-lm"
+                                            v-if="template.modified_on"
+                                        >
+                                            {{
+                                                new Date(
+                                                    template.modified_on
+                                                ).toLocaleString()
+                                            }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -164,6 +176,9 @@
 </template>
 
 <style lang="less" scoped>
+.cb-lm {
+    margin-left: 6px;
+}
 .main-container {
     width: 100%;
     background-color: white;
@@ -254,6 +269,12 @@
             line-height: 22px;
             font-size: 12px;
         }
+        .cb-box {
+            color: #9b9b9b;
+            line-height: 22px;
+            font-size: 12px;
+            display: flex;
+        }
 
         .card-avatar {
             min-height: 60px;
@@ -301,6 +322,7 @@ import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import fynotfound from '@/components/common/ukt-not-found';
 import InlineSvg from '@/components/common/ukt-inline-svg';
+import userInfoTooltip from '@/components/common/feedback/userInfo-tooltip.vue';
 // import { toListingThumbnail } from '@/helper/image.utils';
 import {
     NitrozenInput,
@@ -336,6 +358,7 @@ export default {
         Jumbotron,
         PageEmpty,
         Shimmer,
+        userInfoTooltip,
         'page-error': pageerror,
         'nitrozen-input': NitrozenInput,
         'nitrozen-pagination': NitrozenPagination,
