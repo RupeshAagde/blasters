@@ -39,9 +39,9 @@
                         @input="updateSlug($event), checkRequired('name')"
                         @blur="checkRequired('name')"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="errors.name">{{
-                        errors.name
-                    }}</nitrozen-error>
+                    <nitrozen-error v-if="errors.name">
+                        {{ errors.name }}
+                    </nitrozen-error>
                 </div>
                 <!-- Slug -->
                 <div class="mt-sm">
@@ -54,9 +54,9 @@
                         @input="updateSlug($event), checkRequired('slug')"
                         @blur="checkRequired('slug')"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="errors.slug">{{
-                        errors.slug
-                    }}</nitrozen-error>
+                    <nitrozen-error v-if="errors.slug">
+                        {{ errors.slug }}
+                    </nitrozen-error>
                 </div>
                 <!-- Description -->
                 <div class="mt-sm">
@@ -75,7 +75,7 @@
                     :required="true"
                     :custom="true"
                 >
-                    <image-uploader
+                    <image-uploader-tile
                         label="Logo"
                         aspectRatio="1:1"
                         :minimumResolution="{
@@ -87,8 +87,8 @@
                             height: 2000
                         }"
                         :recommendedResolution="{
-                            width: 200,
-                            height: 200
+                            width: 196,
+                            height: 196
                         }"
                         v-model="template.logo"
                         @delete="template.logo = ''"
@@ -96,13 +96,13 @@
                         @input="checkRequired('logo')"
                         :fileName="template.name"
                         namespace="products-template-logo"
-                    ></image-uploader>
+                    ></image-uploader-tile>
                 </form-input>
-                <nitrozen-error v-if="errors.logo">{{
-                    errors.logo
-                }}</nitrozen-error>
+                <nitrozen-error v-if="errors.logo">
+                    {{ errors.logo }}
+                </nitrozen-error>
                 <!-- Banner -->
-                <form-input
+                <!-- <form-input
                     class="mt-sm"
                     label="Banner"
                     :required="true"
@@ -133,7 +133,7 @@
                 </form-input>
                 <nitrozen-error v-if="errors.banner">{{
                     errors.banner
-                }}</nitrozen-error>
+                }}</nitrozen-error>-->
                 <loader v-if="inProgress" class="loading"></loader>
             </div>
             <!-- ############################################# -->
@@ -158,9 +158,9 @@
                         @blur="checkRequired('departments')"
                         @searchInputChange="setDepartmentsList"
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="errors.departments">
-                        {{ errors.departments }}
-                    </nitrozen-error>
+                    <nitrozen-error v-if="errors.departments">{{
+                        errors.departments
+                    }}</nitrozen-error>
                     <div class="chip-wrapper inline">
                         <div
                             v-for="(department, index) of template.departments"
@@ -193,9 +193,9 @@
                         @blur="checkRequired('categories')"
                         @searchInputChange="setCategoriesList"
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="errors.categories">
-                        {{ errors.categories }}
-                    </nitrozen-error>
+                    <nitrozen-error v-if="errors.categories">{{
+                        errors.categories
+                    }}</nitrozen-error>
                     <div class="chip-wrapper inline">
                         <div
                             v-for="(category, index) of template.categories"
@@ -231,15 +231,15 @@
                     ></nitrozen-dropdown>
                     <a
                         class="txt-btn mt-md"
-                        href="/administrator/product/attributes/add"
+                        href="/administrator/product/attributes/create"
                         target="_blank"
                         title="Go to 'Create Attribute' page"
                         >Create Attribute</a
                     >
                 </div>
-                <nitrozen-error v-if="errors.categories">
-                    {{ errors.categories }}
-                </nitrozen-error>
+                <nitrozen-error v-if="errors.categories">{{
+                    errors.categories
+                }}</nitrozen-error>
 
                 <!-- Attribute ordering list -->
                 <div class="attribute-container">
@@ -273,7 +273,6 @@
                                     class="reorder mr-md"
                                     src="reorder"
                                 ></inline-svg>
-
                                 {{ index + 1 }}. &nbsp;
                                 {{ attr.name }}
                             </div>
@@ -487,6 +486,7 @@ import TagsInput from '@/components/common/tags-input.vue';
 import PageHeader from '@/components/common/layout/page-header.vue';
 import { compactDeepObject } from '../../../helper/utils';
 import ImageUploader from '@/components/common/image-uploader/index';
+import { ImageUploaderTile } from '@/components/common/';
 import CompanyService from '@/services/company-admin.service';
 import Loader from '@/components/common/loader.vue';
 import FormInput from '@/components/common/form-input';
@@ -518,6 +518,7 @@ export default {
         PageHeader,
         TagsInput,
         FormInput,
+        ImageUploaderTile,
         ImageUploader,
         Loader,
         InlineSvg,
@@ -796,11 +797,30 @@ export default {
                     })
                     .catch((err) => {
                         this.inProgress = false;
-                        this.$snackbar.global.showError(
-                            `Failed to save${
-                                err && err.message ? ' : ' + err.message : ''
-                            }`
-                        );
+                        // this.$snackbar.global.showError(
+                        //     `Failed to save${
+                        //         err && err.message ? ' : ' + err.message : ''
+                        //     }`
+                        // );
+                        if (err.response.data.errors) {
+                            Object.values(err.response.data.errors).forEach(
+                                (ele) => {
+                                    this.$snackbar.global.showError(
+                                        `Failed to save : ${ele}`
+                                    );
+                                }
+                            );
+                        } else {
+                            this.$snackbar.global.showError(
+                                `Failed to save${
+                                    err && err.response.data.message
+                                        ? ' : ' + err.response.data.message
+                                        : err && err.message
+                                        ? ' : ' + err.message
+                                        : ''
+                                }`
+                            );
+                        }
                     });
             } catch (err) {
                 console.log(err);
@@ -823,7 +843,7 @@ export default {
             formValid = this.checkRequired('name') && formValid;
             formValid = this.checkRequired('slug') && formValid;
             formValid = this.checkRequired('logo') && formValid;
-            formValid = this.checkRequired('banner') && formValid;
+            // formValid = this.checkRequired('banner') && formValid;
             formValid = this.checkRequired('departments') && formValid;
             formValid = this.checkRequired('categories') && formValid;
             formValid = this.checkRequired('attributes') && formValid;

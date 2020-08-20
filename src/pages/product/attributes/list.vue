@@ -14,16 +14,15 @@
                     class="ml-sm"
                     v-strokeBtn
                     @click="$openGroupDialog"
+                    >Group & Sequence</nitrozen-button
                 >
-                    Group & Sequence
-                </nitrozen-button>
             </jumbotron>
         </div>
         <div class="second-container">
             <div
                 class="search-box"
                 v-if="
-                    pageLoading || (searchText !== '' || attributes.length > 0)
+                    !pageLoading || (searchText !== '' || attributes.length > 0)
                 "
             >
                 <div v-if="isInitialLoad" class="input-shimmer shimmer"></div>
@@ -34,7 +33,16 @@
                         type="search"
                         placeholder="Search by name"
                         v-model="searchText"
-                        @input="debounceInput({ search: searchText })"
+                        @input="
+                            (selectedDepartment != '' &&
+                                attributes.length > 0) ||
+                            (selectedDepartment == '' &&
+                                attributes.length > 0) ||
+                            searchText == '' ||
+                            (selectedDepartment == '' && attributes.length > 0)
+                                ? debounceInput({ search: searchText })
+                                : ''
+                        "
                     ></nitrozen-input>
                     <div class="filter">
                         <label class="label">Filter</label>
@@ -74,7 +82,7 @@
                                 <img
                                     :src="
                                         attribute.logo ||
-                                            '/public/admin/assets/pngs/default_icon_listing.png'
+                                            '/public/assets/pngs/default_icon_listing.png'
                                     "
                                 />
                             </div>
@@ -89,25 +97,37 @@
                                         {{ getLine2Txt(attribute) }}
                                     </div>
                                 </div>
-                                <div
-                                    class="txt-arrange"
-                                    v-if="attribute.created_by"
-                                >
+                                <div class="cb-box" v-if="attribute.created_by">
                                     <div
-                                        class="txt-description-heading"
+                                        class="cb-box"
                                         v-if="
                                             attribute.created_by &&
                                                 attribute.created_by.username
                                         "
                                     >
-                                        Created By
-                                        {{ attribute.created_by.username }}
-                                        on
-                                        {{
-                                            new Date(
-                                                attribute.created_on
-                                            ).toLocaleString()
-                                        }}
+                                        <span>Created By :</span>
+                                        <span class="cb-lm">
+                                            <user-info-tooltip
+                                                :userId="
+                                                    attribute.created_by.user_id
+                                                "
+                                            ></user-info-tooltip>
+                                        </span>
+                                        <span
+                                            class="cb-lm"
+                                            v-if="attribute.created_on"
+                                            >On</span
+                                        >
+                                        <span
+                                            class="cb-lm"
+                                            v-if="attribute.created_on"
+                                        >
+                                            {{
+                                                new Date(
+                                                    attribute.created_on
+                                                ).toLocaleString()
+                                            }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -157,6 +177,9 @@
 </template>
 
 <style lang="less" scoped>
+.cb-lm {
+    margin-left: 6px;
+}
 .main-container {
     width: 100%;
     background-color: white;
@@ -247,6 +270,12 @@
             line-height: 22px;
             font-size: 12px;
         }
+        .cb-box {
+            color: #9b9b9b;
+            line-height: 22px;
+            font-size: 12px;
+            display: flex;
+        }
 
         .card-avatar {
             min-height: 60px;
@@ -294,6 +323,7 @@ import PageEmpty from '@/components/common/page-empty';
 import PageError from '@/components/common/page-error';
 import fynotfound from '@/components/common/ukt-not-found';
 import GroupAndOrderDialog from './group-and-order-dialog';
+import userInfoTooltip from '@/components/common/feedback/userInfo-tooltip.vue';
 // import { toListingThumbnail } from '@/helper/image.utils';
 import {
     NitrozenInput,
@@ -330,6 +360,7 @@ export default {
         PageEmpty,
         Shimmer,
         PageError,
+        userInfoTooltip,
         GroupAndOrderDialog,
 
         NitrozenInput,

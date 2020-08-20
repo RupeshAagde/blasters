@@ -1,8 +1,10 @@
 <template>
     <div class="panel">
         <div class="header-position">
-            <page-header :title="title" @backClick="redirectToListing">
-            </page-header>
+            <page-header
+                :title="title"
+                @backClick="redirectToListing"
+            ></page-header>
         </div>
         <loader v-if="inProgress" class="loading"></loader>
         <loader v-if="pageLoading" class="loading"></loader>
@@ -52,14 +54,13 @@
                                         class="reorder mr-md"
                                         src="reorder"
                                     ></inline-svg>
-
                                     {{ index + 1 }}. &nbsp;
                                     {{ getGroupName(slug) }}
                                 </div>
                             </div>
                         </draggable>
                         <!-- Hidden groups -->
-                        <div v-if="hiddenGroups.length">
+                        <div v-if="hiddenList.length">
                             <div
                                 class="border-top pad-sm mt-sm cl-DustyGray2 darker-xxs"
                             >
@@ -68,16 +69,19 @@
 
                             <div class="list mt-sm">
                                 <div
-                                    v-for="(slug, index) of hiddenGroups"
+                                    v-for="(slug, index) of hiddenList"
                                     :key="index"
-                                    class="item space-between pointer"
+                                    class="item space-between pointer inline v-center"
                                     :class="{
                                         active: selectedGroupSlug === slug
                                     }"
                                     @click="selectGroup(slug)"
                                 >
-                                    <div class="inline v-center">
-                                        {{ getGroupName(slug) }}
+                                    <div>{{ getGroupName(slug) }}</div>
+                                    <div>
+                                        <nitrozen-badge state="warn"
+                                            >DISABLED</nitrozen-badge
+                                        >
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +116,7 @@
                             </div>
                             <nitrozen-toggle-btn
                                 class="mr-sm"
-                                :value="groupDetails[entity].display"
+                                v-model="groupDetails[entity].display"
                                 @change="toggleGroupDisplay(groupDetails.slug)"
                             ></nitrozen-toggle-btn>
                             <nitrozen-button
@@ -135,9 +139,9 @@
                             @input="updateSlug($event), checkRequired('name')"
                             @blur="checkRequired('name')"
                         ></nitrozen-input>
-                        <nitrozen-error v-if="errors.name">{{
-                            errors.name
-                        }}</nitrozen-error>
+                        <nitrozen-error v-if="errors.name">
+                            {{ errors.name }}
+                        </nitrozen-error>
                     </div>
                     <!-- Slug -->
                     <div class="mt-sm">
@@ -151,9 +155,9 @@
                             @input="updateSlug($event), checkRequired('slug')"
                             @blur="checkRequired('slug')"
                         ></nitrozen-input>
-                        <nitrozen-error v-if="errors.slug">{{
-                            errors.slug
-                        }}</nitrozen-error>
+                        <nitrozen-error v-if="errors.slug">
+                            {{ errors.slug }}
+                        </nitrozen-error>
                     </div>
                     <!-- MOVE -->
                     <div class="inline mt-sm" v-if="!groupDetails._new">
@@ -183,15 +187,15 @@
                         ></nitrozen-dropdown>
                         <a
                             class="txt-btn mt-md"
-                            href="/administrator/product/attributes/add"
+                            href="/administrator/product/attributes/create"
                             target="_blank"
                             title="Go to 'Create Attribute' page"
                             >Create Attribute</a
                         >
                     </div>
-                    <nitrozen-error v-if="errors.attributes">{{
-                        errors.attributes
-                    }}</nitrozen-error>
+                    <nitrozen-error v-if="errors.attributes">
+                        {{ errors.attributes }}
+                    </nitrozen-error>
                     <!-- Attribute sequence list -->
                     <div class="attribute-container mt-sm">
                         <draggable
@@ -211,7 +215,6 @@
                                         class="reorder mr-md"
                                         src="reorder"
                                     ></inline-svg>
-
                                     {{ index + 1 }}. &nbsp;
                                     {{ attr.name }}
                                 </div>
@@ -302,6 +305,7 @@
             margin-bottom: 12px;
             height: 24px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
             padding: 12px;
             color: @Mako;
@@ -387,6 +391,10 @@
     .inline-right {
         flex: 1;
         margin-left: 24px;
+    }
+    .h-spbtw {
+        justify-content: space-between;
+        align-items: center;
     }
 }
 .border-top {
@@ -485,7 +493,6 @@ export default {
         flatBtn,
         strokeBtn
     },
-    computed: {},
     // mixins: [dirtyCheckMixin],
     data: function() {
         return {
@@ -497,6 +504,7 @@ export default {
             formSaved: false,
 
             groups: [],
+            hiddenList: [],
             selectedGroupSlug: '',
             positionNumber: null,
             groupSequence: [],
@@ -520,35 +528,37 @@ export default {
         },
         attrSelectedList() {
             const list = [];
-            this.groupDetails[this.entity].attributes.forEach((attr) => {
-                const a = this.attributes.find((a) => a.slug === attr);
-                if (a) {
-                    list.push(a);
-                } else {
-                    // no attribute found with that slug for the selected departments
-                    list.push({
-                        name: attr,
-                        slug: attr,
-                        invalid: true,
-                        schema: {}
-                    });
-                }
-            });
-            return list;
-        },
-        hiddenGroups() {
-            const list = [];
-            this.groups.forEach((g) => {
-                if (
-                    g.type === this.entity &&
-                    // !g[this.entity].display &&
-                    !this.groupSequence.includes(g.slug)
-                ) {
-                    list.push(g.slug);
-                }
-            });
-            return list;
+            if (this.groupDetails[this.entity].attributes) {
+                this.groupDetails[this.entity].attributes.forEach((attr) => {
+                    const a = this.attributes.find((a) => a.slug === attr);
+                    if (a) {
+                        list.push(a);
+                    } else {
+                        // no attribute found with that slug for the selected departments
+                        list.push({
+                            name: attr,
+                            slug: attr,
+                            invalid: true,
+                            schema: {}
+                        });
+                    }
+                });
+                return list;
+            }
         }
+        // hiddenGroups() {
+        //     const list = [];
+        //     this.groups.forEach((g) => {
+        //         if (
+        //             g.type === this.entity &&
+        //             // !g[this.entity].display &&
+        //             !this.groupSequence.includes(g.slug)
+        //         ) {
+        //             list.push(g.slug);
+        //         }
+        //     });
+        //     return list;
+        // }
     },
     methods: {
         isEmpty: _.isEmpty,
@@ -562,6 +572,7 @@ export default {
             ])
                 .then(() => {
                     this.pageLoading = false;
+                    this.fetchHidden();
                     this.setDepartmentsList();
                     this.selectGroup(this.$route.params.slug);
                 })
@@ -569,6 +580,17 @@ export default {
                     this.pageLoading = false;
                     this.pageError = true;
                 });
+        },
+        fetchHidden() {
+            this.hiddenList = [];
+            this.groups.forEach((g) => {
+                if (
+                    g.type === this.entity &&
+                    !this.groupSequence.includes(g.slug)
+                ) {
+                    this.hiddenList.push(g.slug);
+                }
+            });
         },
         fetchGroups() {
             const params = {
@@ -681,18 +703,17 @@ export default {
             this.groupDetails = { ...EMPTY_GROUP_DETAILS, _new: true };
         },
         toggleGroupDisplay(slug) {
-            this.$set(
-                this.groupDetails[this.entity],
-                'display',
-                !this.groupDetails[this.entity].display
-            );
-
-            if (this.groupDetails[this.entity].display) {
-                this.groupSequence.push(slug);
-            } else {
-                const index = this.groupSequence.indexOf(slug);
-                this.groupSequence.splice(index, 1);
-            }
+            // this.$set(
+            //     this.groupDetails[this.entity],
+            //     'display',
+            //     !this.groupDetails[this.entity].display
+            // );
+            // if (this.groupDetails[this.entity].display) {
+            //     this.groupSequence.push(slug);
+            // } else {
+            //     const index = this.groupSequence.indexOf(slug);
+            //     this.groupSequence.splice(index, 1);
+            // }
         },
         setAttributesList(e = {}) {
             this.attributesList = [];
@@ -750,12 +771,20 @@ export default {
             }
 
             const oldIndex = this.groupSequence.indexOf(this.groupDetails.slug);
-            this.groupSequence = moveArrayItem(
-                this.groupSequence,
-                oldIndex,
-                this.positionNumber - 1
-            );
-            this.positionNumber = null;
+            if (oldIndex < 1 || oldIndex > this.groupSequence.length) {
+                this.$snackbar.global.showError(
+                    `This is group is hidden, please enable the toggle button above to Activate this group for shuffling.`
+                );
+                this.positionNumber = null;
+                return;
+            } else {
+                this.groupSequence = moveArrayItem(
+                    this.groupSequence,
+                    oldIndex,
+                    this.positionNumber - 1
+                );
+                this.positionNumber = null;
+            }
         },
         getFormData() {
             try {
@@ -777,6 +806,7 @@ export default {
                     return;
                 }
                 const formData = this.getFormData();
+                console.log(formData, 'formData');
                 this.inProgress = true;
 
                 let upsertFunc = CompanyService.updateAttributeGroup;
@@ -793,14 +823,34 @@ export default {
                         this.offer = res.data;
                         this.formSaved = true;
                         this.init();
+                        // const redirectPath = `/administrator/product/attributes/group/${this.entity}`;
+                        // if (this.$route.path !== redirectPath)
+                        //     this.$router.replace({
+                        //         path: redirectPath
+                        //     });
                     })
                     .catch((err) => {
                         this.inProgress = false;
-                        this.$snackbar.global.showError(
-                            `Failed to save${
-                                err && err.message ? ' : ' + err.message : ''
-                            }`
-                        );
+                        console.error(err);
+                        if (err.response.data.errors) {
+                            Object.values(err.response.data.errors).forEach(
+                                (ele) => {
+                                    this.$snackbar.global.showError(
+                                        `Failed to save : ${ele}`
+                                    );
+                                }
+                            );
+                        } else {
+                            this.$snackbar.global.showError(
+                                `Failed to save${
+                                    err && err.response.data.message
+                                        ? ' : ' + err.response.data.message
+                                        : err && err.message
+                                        ? ' : ' + err.message
+                                        : ''
+                                }`
+                            );
+                        }
                     });
             } catch (err) {
                 console.log(err);

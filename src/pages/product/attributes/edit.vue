@@ -57,13 +57,8 @@
                     ></nitrozen-input>
                 </div>
                 <!-- logo Image -->
-                <form-input
-                    class="mt-sm"
-                    label="Logo"
-                    :required="true"
-                    :custom="true"
-                >
-                    <image-uploader
+                <form-input class="mt-sm" label="Logo" :custom="true">
+                    <image-uploader-tile
                         label="Logo"
                         aspectRatio="1:1"
                         :minimumResolution="{
@@ -78,13 +73,12 @@
                             width: 196,
                             height: 196
                         }"
-                        v-model="attribute.logo"
-                        @delete="attribute.logo = ''"
-                        @save="attribute.logo = $event"
-                        @input="checkRequired('logo')"
+                        v-model="logo"
+                        @delete="logo = ''"
+                        @save="logo = $event"
                         :fileName="attribute.name"
                         namespace="products-attribute-logo"
-                    ></image-uploader>
+                    ></image-uploader-tile>
                 </form-input>
                 <nitrozen-error v-if="errors.logo">{{
                     errors.logo
@@ -106,7 +100,7 @@
                 <div class="mt-md inline apart">
                     <div class="inline">
                         <div class="cl-Mako dark-xxxs mr-xxxs">
-                            Publicly Displayed
+                            Public
                         </div>
                         <nitrozen-tooltip
                             tooltipText="Display this attribute on Product details page"
@@ -121,7 +115,7 @@
                 <div class="mt-md inline apart">
                     <div class="inline">
                         <div class="cl-Mako dark-xxxs mr-xxxs">
-                            Filter Permissable
+                            Filter
                         </div>
                         <nitrozen-tooltip
                             tooltipText="Allow this attribute to be used as a filter property for Product filtering"
@@ -223,7 +217,7 @@
                             </div>
                             <nitrozen-toggle-btn
                                 class="mt-sm"
-                                :value="attribute.schema.multi"
+                                v-model="attribute.schema.multi"
                                 @change="() => {}"
                             >
                             </nitrozen-toggle-btn>
@@ -410,6 +404,7 @@ import TagsInput from '@/components/common/tags-input';
 import PageHeader from '@/components/common/layout/page-header';
 import ImageUploader from '@/components/common/image-uploader/index';
 import CompanyService from '@/services/company-admin.service';
+import { ImageUploaderTile } from '@/components/common/';
 import Loader from '@/components/common/loader';
 import FormInput from '@/components/common/form-input';
 import slugify from 'slugify';
@@ -478,6 +473,7 @@ export default {
         TagsInput,
         FormInput,
         ImageUploader,
+        ImageUploaderTile,
         Loader,
 
         NitrozenInput,
@@ -505,6 +501,7 @@ export default {
             editMode: !!this.$route.params.slug,
             propertyTypes: [...PROPERTY_TYPES],
             formattingList: [...FORMATTING_LIST],
+            logo: '',
             numberTypesList: ['int', 'float'],
             multiAllowedList: ['str', 'int', 'float', 'list'],
 
@@ -573,6 +570,9 @@ export default {
                 CompanyService.fetchAttribute(this.slug)
                     .then(({ data }) => {
                         this.attribute = this.sanitizeAttribute(data.data);
+                        this.logo = this.attribute.logo
+                            ? this.attribute.logo
+                            : '';
 
                         return resolve();
                     })
@@ -709,6 +709,11 @@ export default {
                     return;
                 }
                 const formData = this.getFormData();
+                if (this.logo != '') {
+                    formData.logo = this.logo;
+                } else {
+                    delete formData.logo;
+                }
 
                 let upsertFunc = CompanyService.updateAttribute;
                 if (!this.editMode) {
@@ -757,7 +762,7 @@ export default {
 
             formValid = this.checkRequired('name') && formValid;
             formValid = this.checkRequired('slug') && formValid;
-            formValid = this.checkRequired('logo') && formValid;
+            // formValid = this.checkRequired('logo') && formValid;
             formValid = this.checkRequired('departments') && formValid;
 
             return formValid;

@@ -66,7 +66,7 @@
                                 <img
                                     :src="
                                         template.logo ||
-                                            '/public/admin/assets/pngs/default_icon_listing.png'
+                                            '/public/assets/pngs/default_icon_listing.png'
                                     "
                                 />
                             </div>
