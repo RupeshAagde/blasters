@@ -18,10 +18,12 @@ import ProductAttributesGroup from '@/pages/product/attributes/group';
 import ProductAttributesSequence from '@/pages/product/attributes/sequence';
 import ProductTemplatesList from '@/pages/product/templates/list';
 import ProductTemplatesEdit from '@/pages/product/templates/edit';
+import { authenticatedUser } from './../guards';
 
 export default [
     {
         path: '/administrator/',
+        beforeEnter: authenticatedUser,
         component: AdministratorBaseViewVue,
         redirect: '/administrator/company-list',
         children: [

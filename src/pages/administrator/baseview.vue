@@ -2,7 +2,7 @@
     <div class="baseview">
         <administrator-header></administrator-header>
         <div class="content">
-            <sidebar></sidebar>
+            <sidebar class="menu-block"></sidebar>
             <div class="section-content">
                 <no-ssr>
                     <transition name="fade" mode="out-in">
@@ -15,6 +15,21 @@
 </template>
 
 <style lang="less" scoped>
+.menu-block {
+    position: fixed;
+    height: calc(100% - 60px);
+    background-color: #ffffff;
+    width: 250px;
+    left: 0px;
+    overflow: auto;
+    transition: all 0.25s ease-in-out;
+    box-shadow: 1px 1px 1px 1px #eeeeee;
+}
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 .section-content {
     width: calc(100% - 250px);
     min-width: 1000px;

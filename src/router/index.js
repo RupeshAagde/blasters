@@ -9,6 +9,7 @@ import ManageVue from './../pages/manage.vue';
 import PageNotFoundVue from './../pages/pagenotfound.vue';
 import {} from './../pages/company-admin/company-list.vue';
 import { authenticatedUser } from './guards';
+import AdministratorBaseViewVue from './../pages/administrator/baseview.vue';
 
 import AdministratorRoutes from './administrator';
 export function createRouter() {
@@ -23,12 +24,6 @@ export function createRouter() {
                     {
                         path: '',
                         component: HomeVue
-                    },
-
-                    {
-                        path: '/manage',
-                        beforeEnter: authenticatedUser,
-                        component: ManageVue
                     }
                 ]
             },
