@@ -295,7 +295,7 @@
             max-height: calc(100vh - 285px);
         }
         &.attribute {
-            height: calc(100vh - 370px);
+            height: calc(100vh - 285px);
         }
 
         .item {
