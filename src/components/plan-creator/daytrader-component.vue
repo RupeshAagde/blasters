@@ -1,6 +1,6 @@
 <template>
     <div class="comp-container" v-if="config && options">
-        <div class="form-row">
+        <div class="form-row no-pad">
             <div class="form-item">
                 <nitrozen-input
                     :label="'Rule Name*'"
@@ -12,19 +12,41 @@
             </div>
             <div class="form-item"></div>
         </div>
-        <div class="form-row form-compact-items">
+        <div
+            class="form-row"
+            v-if="cbs_opts.locations.length || cbs_opts.brands.length"
+        >
             <div class="form-item">
-                <nitrozen-checkbox v-model="auto_verify"
-                    >Auto Verify Rule</nitrozen-checkbox
-                >
+                <nitrozen-dropdown
+                    v-if="cbs_opts.locations.length"
+                    :label="'Locations'"
+                    :items="cbs_opts.locations"
+                    :multiple="true"
+                    :value="
+                        formData.slug_values.location.map((item) => item.id)
+                    "
+                    @input="updateLocations"
+                ></nitrozen-dropdown>
+                <nitrozen-error>-</nitrozen-error>
+            </div>
+            <div class="form-item">
+                <nitrozen-dropdown
+                    v-if="cbs_opts.brands.length"
+                    :label="'Brands'"
+                    :items="cbs_opts.brands"
+                    :multiple="true"
+                    :value="formData.slug_values.brand.map((item) => item.id)"
+                    @input="updateBrands"
+                ></nitrozen-dropdown>
             </div>
         </div>
-        <div class="form-row">
+
+        <div class="form-row no-pad">
             <div class="bold-sm top-headers">
                 Change Settlement Status
             </div>
         </div>
-        <div class="form-row">
+        <div class="form-row no-pad">
             <div class="form-item">
                 <nitrozen-input
                     :label="'High Street'"
@@ -51,7 +73,7 @@
             </div>
         </div>
 
-        <div class="form-row form-compact-items">
+        <div class="form-row form-compact-items no-pad">
             <div class="form-item">
                 <nitrozen-dropdown
                     :label="'Settlement Type'"
@@ -67,8 +89,9 @@
                     ]"
                     v-model="formData.settlement_type"
                 ></nitrozen-dropdown>
+                <nitrozen-error>-</nitrozen-error>
             </div>
-            <div class="form-item">
+            <div class="form-item" v-if="!plan_type_rule">
                 <date-picker
                     :label="'Date From and To'"
                     :useNitrozenTheme="true"
@@ -85,35 +108,7 @@
             </div>
         </div>
 
-        <div
-            class="form-row"
-            v-if="cbs_opts.locations.length || cbs_opts.brands.length"
-        >
-            <div class="form-item">
-                <nitrozen-dropdown
-                    v-if="cbs_opts.locations.length"
-                    :label="'Locations'"
-                    :items="cbs_opts.locations"
-                    :multiple="true"
-                    :value="
-                        formData.slug_values.location.map((item) => item.id)
-                    "
-                    @input="updateLocations"
-                ></nitrozen-dropdown>
-            </div>
-            <div class="form-item">
-                <nitrozen-dropdown
-                    v-if="cbs_opts.brands.length"
-                    :label="'Brands'"
-                    :items="cbs_opts.brands"
-                    :multiple="true"
-                    :value="formData.slug_values.brand.map((item) => item.id)"
-                    @input="updateBrands"
-                ></nitrozen-dropdown>
-            </div>
-        </div>
-
-        <div class="form-row">
+        <div class="form-row no-pad">
             <div class="bold-sm top-headers">
                 Select a Formula/Condition
             </div>
@@ -320,6 +315,10 @@ export default {
         config: {
             type: Object
         },
+        plan_type_rule: {
+            type: Boolean,
+            default: true
+        },
         options: {
             type: Object
         },
@@ -338,6 +337,7 @@ export default {
     },
     mounted() {
         _.merge(this.formData, this.config);
+        this.auto_verify = this.verified;
     },
     data() {
         return {
@@ -408,6 +408,11 @@ export default {
         },
         date_range() {
             return [this.formData.rule_start_date, this.formData.rule_end_date];
+        }
+    },
+    watch: {
+        config() {
+            _.merge(this.formData, this.config);
         }
     },
     methods: {

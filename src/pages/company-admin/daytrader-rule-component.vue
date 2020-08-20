@@ -48,6 +48,11 @@
                 <daytrader-component
                     v-if="dtOptions && component && show_rule_editor"
                     :options="dtOptions"
+                    :verified="
+                        edit_rule_idx > -1
+                            ? rules[edit_rule_idx].auto_verify
+                            : false
+                    "
                     :ref="'daytrader'"
                     class="plan-component"
                     :config="
@@ -151,8 +156,6 @@ export default {
                 });
         },
         editDayTraderRule() {
-            this.show_rule_editor = false;
-            this.show_rule_editor = true;
             this.$refs['daytrader_rule_edit'].open({
                 width: '850px',
                 height: 'calc(100% - 100px)',
@@ -201,16 +204,20 @@ export default {
                 this.rules[newIdx]['rule_type'] = 'override_rule';
             }
             payload.data = this.$refs['daytrader'].validData();
+            payload.auto_verify = this.$refs['daytrader'].auto_verify;
             this.$refs['daytrader_rule_edit'].close();
             this.edit_rule_idx = -1;
             console.log(payload);
-            // BillingService.addSubscriptionDaytraderRule(this.subscriptionId, payload)
-            // .then(({data})=>{
-
-            // })
-            // .catch(err=>{
-            //     console.log(err);
-            // })
+            BillingService.addSubscriptionDaytraderRule(
+                this.subscriptionId,
+                payload
+            )
+                .then(({ data }) => {
+                    this.$snackbar.global.showSuccess(`Rule Added Succssfully`);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
     }
 };

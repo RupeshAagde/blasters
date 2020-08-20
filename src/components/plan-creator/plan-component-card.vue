@@ -2,6 +2,7 @@
     <div class="component-container">
         <div class="comp-details">
             <div
+                v-if="!daytrader"
                 style="display: flex; width:100%;line-height: 21px; align-items: center;"
             >
                 <div class="cl-Mako bold-xs">{{ component.name }}</div>
@@ -13,14 +14,6 @@
                     v-model="currentPriceModel.is_active"
                     @input="updateFeature"
                 ></toggle-switch>
-                <div class="align-right" v-else-if="daytrader">
-                    <span
-                        class="bold-xs clickable-label cl-RoyalBlue"
-                        @click="editDayTraderRule"
-                    >
-                        Add Rule
-                    </span>
-                </div>
             </div>
             <div class="prices-box">
                 <price-model-page
@@ -34,13 +27,10 @@
                     <div
                         v-for="(rule, index) in price_component.shallow_rules"
                         :key="index"
-                        class="form-row"
+                        class="form-row form-compact-items"
                     >
-                        <div class="form-item">
-                            {{ rule.data.name || 'Default Rule' }}
-                        </div>
                         <div
-                            class="bold-xs clickable-label cl-RoyalBlue"
+                            class="form-item"
                             @click="
                                 () => {
                                     edit_rule_idx = index;
@@ -48,7 +38,9 @@
                                 }
                             "
                         >
-                            Edit
+                            <div class="bold-xs clickable-label cl-RoyalBlue">
+                                {{ rule.data.name || 'Default Rule' }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -57,7 +49,11 @@
         <nitrozen-dialog
             v-if="component && daytrader"
             ref="daytrader_rule_edit"
-            :title="`Edit ${component.name} Rule`"
+            :title="
+                `${edit_rule_idx > -1 ? 'Edit' : 'Create'} ${
+                    component.name
+                } Rule`
+            "
             @close="
                 $refs['daytrader'].resetData(component.data);
                 edit_rule_idx = -1;
@@ -80,7 +76,9 @@
                     v-flatBtn
                     :theme="'secondary'"
                     @click="updateDaytraderData"
-                    >Update</nitrozen-button
+                    >{{
+                        edit_rule_idx > -1 ? 'Update' : 'Add'
+                    }}</nitrozen-button
                 >
             </template>
         </nitrozen-dialog>
@@ -94,12 +92,6 @@
     border-radius: @BorderRadius;
     width: 100%;
     border: 1px solid @Iron;
-
-    .align-right {
-        justify-content: flex-end;
-        flex: 1;
-        display: flex;
-    }
 
     .prices-box {
         .price-model-table {

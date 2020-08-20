@@ -197,23 +197,36 @@
                     :price_component="planComponentMap[component._id]"
                 >
                 </plan-component>
-                <div class="cl-Mako bold-md comp-top-headers">
-                    Daytrader Components
+                <div v-for="component in dtComponents" :key="component._id">
+                    <div
+                        class="comp-top-headers"
+                        style="display: flex; width:100%;line-height: 21px; align-items: flex-end;"
+                    >
+                        <div class="cl-Mako bold-md">
+                            {{ component.name }} Rules
+                        </div>
+                        <div class="align-right">
+                            <span
+                                class="bold-xs clickable-label cl-RoyalBlue"
+                                @click="addNewRule(component)"
+                            >
+                                Add Rule
+                            </span>
+                        </div>
+                    </div>
+                    <plan-component
+                        class="plan-component"
+                        v-show="dTComponentMap[component._id]"
+                        :ref="`dt_comp_${component._id}`"
+                        :component="component"
+                        :dtOptions="
+                            dtOptions[component.data.slug_values.channel.id]
+                        "
+                        :price_component="dTComponentMap[component._id]"
+                        :cbs_opts="cbs_opts"
+                        :daytrader="true"
+                    ></plan-component>
                 </div>
-                <plan-component
-                    class="plan-component"
-                    v-show="dTComponentMap[component._id]"
-                    v-for="component in dtComponents"
-                    :ref="`dt_comp_${component._id}`"
-                    :key="component._id"
-                    :component="component"
-                    :dtOptions="
-                        dtOptions[component.data.slug_values.channel.id]
-                    "
-                    :price_component="dTComponentMap[component._id]"
-                    :cbs_opts="cbs_opts"
-                    :daytrader="true"
-                ></plan-component>
             </div>
         </div>
     </div>
@@ -224,6 +237,13 @@
     margin-top: 40px;
     margin-bottom: 9px;
 }
+
+::v-deep .align-right {
+    justify-content: flex-end;
+    flex: 1;
+    display: flex;
+}
+
 .filter-dropdown {
     min-width: 100px;
 }
@@ -452,6 +472,10 @@ export default {
                 .catch((err) => {
                     console.log(err);
                 });
+        },
+        addNewRule(component) {
+            let dtId = `dt_comp_${component._id}`;
+            this.$refs[dtId][0].editDayTraderRule();
         },
         fetchCompany(searchCompany) {
             const query = {
