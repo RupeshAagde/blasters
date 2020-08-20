@@ -28,12 +28,12 @@
                         @input="updateSlug($event), checkRequired('name')"
                         @blur="checkRequired('name')"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="errors.name">{{
-                        errors.name
-                    }}</nitrozen-error>
+                    <nitrozen-error v-if="errors.name">
+                        {{ errors.name }}
+                    </nitrozen-error>
                 </div>
                 <!-- Slug -->
-                <div class="mt-sm">
+                <!-- <div class="mt-sm">
                     <nitrozen-input
                         label="Slug"
                         :disabled="editMode"
@@ -46,7 +46,7 @@
                     <nitrozen-error v-if="errors.slug">{{
                         errors.slug
                     }}</nitrozen-error>
-                </div>
+                </div>-->
                 <!-- Description -->
                 <div class="mt-sm">
                     <nitrozen-input
@@ -80,49 +80,44 @@
                         namespace="products-attribute-logo"
                     ></image-uploader-tile>
                 </form-input>
-                <nitrozen-error v-if="errors.logo">{{
-                    errors.logo
-                }}</nitrozen-error>
+                <nitrozen-error v-if="errors.logo">
+                    {{ errors.logo }}
+                </nitrozen-error>
                 <!-- Required -->
                 <div class="mt-md inline apart">
                     <div class="inline">
-                        <div class="cl-Mako dark-xxxs mr-xxxs">
-                            Required
-                        </div>
+                        <div class="cl-Mako dark-xxxs mr-xxxs">Required</div>
                         <nitrozen-tooltip
                             tooltipText="Make this attribute a mandatory property of Product. Empty value will not be allowed for this attribute."
                         ></nitrozen-tooltip>
                     </div>
-                    <nitrozen-toggle-btn v-model="attribute.schema.mandatory">
-                    </nitrozen-toggle-btn>
+                    <nitrozen-toggle-btn
+                        v-model="attribute.schema.mandatory"
+                    ></nitrozen-toggle-btn>
                 </div>
                 <!-- Show to user -->
                 <div class="mt-md inline apart">
                     <div class="inline">
-                        <div class="cl-Mako dark-xxxs mr-xxxs">
-                            Public
-                        </div>
+                        <div class="cl-Mako dark-xxxs mr-xxxs">Public</div>
                         <nitrozen-tooltip
                             tooltipText="Display this attribute on Product details page"
                         ></nitrozen-tooltip>
                     </div>
                     <nitrozen-toggle-btn
                         v-model="attribute.enabled_for_end_consumer"
-                    >
-                    </nitrozen-toggle-btn>
+                    ></nitrozen-toggle-btn>
                 </div>
                 <!-- filter toggle -->
                 <div class="mt-md inline apart">
                     <div class="inline">
-                        <div class="cl-Mako dark-xxxs mr-xxxs">
-                            Filter
-                        </div>
+                        <div class="cl-Mako dark-xxxs mr-xxxs">Filter</div>
                         <nitrozen-tooltip
                             tooltipText="Allow this attribute to be used as a filter property for Product filtering"
                         ></nitrozen-tooltip>
                     </div>
-                    <nitrozen-toggle-btn v-model="attribute.filters.indexing">
-                    </nitrozen-toggle-btn>
+                    <nitrozen-toggle-btn
+                        v-model="attribute.filters.indexing"
+                    ></nitrozen-toggle-btn>
                 </div>
                 <!-- Variant toggle -->
                 <div class="mt-md inline apart">
@@ -134,8 +129,9 @@
                             tooltipText="Allow this attribute to be used as a product variants grouping property"
                         ></nitrozen-tooltip>
                     </div>
-                    <nitrozen-toggle-btn v-model="attribute.variant_enabled">
-                    </nitrozen-toggle-btn>
+                    <nitrozen-toggle-btn
+                        v-model="attribute.variant_enabled"
+                    ></nitrozen-toggle-btn>
                 </div>
                 <loader v-if="inProgress" class="loading"></loader>
             </div>
@@ -157,9 +153,9 @@
                         @blur="checkRequired('departments')"
                         @searchInputChange="setDepartmentsList"
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="errors.departments">
-                        {{ errors.departments }}
-                    </nitrozen-error>
+                    <nitrozen-error v-if="errors.departments">{{
+                        errors.departments
+                    }}</nitrozen-error>
                     <div class="chip-wrapper inline">
                         <div
                             v-for="(department, index) of attribute.departments"
@@ -200,12 +196,13 @@
                             class="mt-md"
                             v-if="editMode"
                             state="info"
-                            >{{
+                        >
+                            {{
                                 attribute.schema.multi
                                     ? 'MULTIPLE VALUE'
                                     : 'SINGLE VALUE'
-                            }}</nitrozen-badge
-                        >
+                            }}
+                        </nitrozen-badge>
                         <div v-else>
                             <div class="inline lh-md">
                                 <div class="cl-DustyGray2 dark-xxxs mr-xxxs">
@@ -219,8 +216,7 @@
                                 class="mt-sm"
                                 v-model="attribute.schema.multi"
                                 @change="() => {}"
-                            >
-                            </nitrozen-toggle-btn>
+                            ></nitrozen-toggle-btn>
                         </div>
                     </div>
                 </div>
@@ -247,9 +243,9 @@
                             tooltipText="Minimum acceptable value of attribute"
                             v-model="attribute.schema.range.min"
                         ></nitrozen-input>
-                        <nitrozen-error v-if="errors.rangeMin">{{
-                            errors.rangeMin
-                        }}</nitrozen-error>
+                        <nitrozen-error v-if="errors.rangeMin">
+                            {{ errors.rangeMin }}
+                        </nitrozen-error>
                     </div>
                     <!-- Max -->
                     <div class="input w-sm">
@@ -261,9 +257,9 @@
                             tooltipText="Maximum acceptable value of attribute"
                             v-model="attribute.schema.range.max"
                         ></nitrozen-input>
-                        <nitrozen-error v-if="errors.rangeMax">{{
-                            errors.rangeMax
-                        }}</nitrozen-error>
+                        <nitrozen-error v-if="errors.rangeMax">
+                            {{ errors.rangeMax }}
+                        </nitrozen-error>
                     </div>
                 </div>
                 <!-- Formatting -->
@@ -733,11 +729,26 @@ export default {
                     })
                     .catch((err) => {
                         this.inProgress = false;
-                        this.$snackbar.global.showError(
-                            `Failed to save${
-                                err && err.message ? ' : ' + err.message : ''
-                            }`
-                        );
+
+                        if (err.response.data.errors) {
+                            Object.values(err.response.data.errors).forEach(
+                                (ele) => {
+                                    this.$snackbar.global.showError(
+                                        `Failed to save : ${ele}`
+                                    );
+                                }
+                            );
+                        } else {
+                            this.$snackbar.global.showError(
+                                `Failed to save${
+                                    err && err.response.data.message
+                                        ? ' : ' + err.response.data.message
+                                        : err && err.message
+                                        ? ' : ' + err.message
+                                        : ''
+                                }`
+                            );
+                        }
                     });
             } catch (err) {
                 console.log(err);

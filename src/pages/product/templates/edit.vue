@@ -5,14 +5,14 @@
                 <div class="button-box">
                     <div
                         class="pointer cl-RoyalBlue bold-xxxs"
-                        :class="{ 'cl-DustyGray2': !template.active }"
-                        @click="template.active = !template.active"
+                        :class="{ 'cl-DustyGray2': !template.is_active }"
+                        @click="template.is_active = !template.is_active"
                     >
-                        {{ template.active ? 'Enabled' : 'Disabled' }}
+                        {{ template.is_active ? 'Enabled' : 'Disabled' }}
                     </div>
                     <nitrozen-toggle-btn
                         class="mr-sm"
-                        v-model="template.active"
+                        v-model="template.is_active"
                     ></nitrozen-toggle-btn>
                     <nitrozen-button
                         class="pad-left"
@@ -44,7 +44,7 @@
                     </nitrozen-error>
                 </div>
                 <!-- Slug -->
-                <div class="mt-sm">
+                <!-- <div class="mt-sm">
                     <nitrozen-input
                         label="Slug"
                         :disabled="editMode"
@@ -57,7 +57,7 @@
                     <nitrozen-error v-if="errors.slug">
                         {{ errors.slug }}
                     </nitrozen-error>
-                </div>
+                </div> -->
                 <!-- Description -->
                 <div class="mt-sm">
                     <nitrozen-input
@@ -101,39 +101,6 @@
                 <nitrozen-error v-if="errors.logo">
                     {{ errors.logo }}
                 </nitrozen-error>
-                <!-- Banner -->
-                <!-- <form-input
-                    class="mt-sm"
-                    label="Banner"
-                    :required="true"
-                    :custom="true"
-                >
-                    <image-uploader
-                        label="Banner"
-                        aspectRatio="27:20"
-                        :minimumResolution="{
-                            width: 540,
-                            height: 400
-                        }"
-                        :maximumResolution="{
-                            width: 1242,
-                            height: 920
-                        }"
-                        :recommendedResolution="{
-                            width: 1242,
-                            height: 920
-                        }"
-                        v-model="template.banner"
-                        @delete="template.banner = ''"
-                        @save="template.banner = $event"
-                        @input="checkRequired('banner')"
-                        :fileName="template.name"
-                        namespace="products-template-banner"
-                    ></image-uploader>
-                </form-input>
-                <nitrozen-error v-if="errors.banner">{{
-                    errors.banner
-                }}</nitrozen-error>-->
                 <loader v-if="inProgress" class="loading"></loader>
             </div>
             <!-- ############################################# -->
@@ -797,11 +764,7 @@ export default {
                     })
                     .catch((err) => {
                         this.inProgress = false;
-                        // this.$snackbar.global.showError(
-                        //     `Failed to save${
-                        //         err && err.message ? ' : ' + err.message : ''
-                        //     }`
-                        // );
+
                         if (err.response.data.errors) {
                             Object.values(err.response.data.errors).forEach(
                                 (ele) => {

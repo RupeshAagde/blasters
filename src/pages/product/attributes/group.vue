@@ -144,7 +144,7 @@
                         </nitrozen-error>
                     </div>
                     <!-- Slug -->
-                    <div class="mt-sm">
+                    <!-- <div class="mt-sm">
                         <nitrozen-input
                             class="input w-l"
                             label="Slug"
@@ -158,7 +158,7 @@
                         <nitrozen-error v-if="errors.slug">
                             {{ errors.slug }}
                         </nitrozen-error>
-                    </div>
+                    </div> -->
                     <!-- MOVE -->
                     <div class="inline mt-sm" v-if="!groupDetails._new">
                         <nitrozen-input
@@ -295,7 +295,7 @@
             max-height: calc(100vh - 285px);
         }
         &.attribute {
-            height: calc(100vh - 545px);
+            height: calc(100vh - 370px);
         }
 
         .item {
@@ -546,19 +546,6 @@ export default {
                 return list;
             }
         }
-        // hiddenGroups() {
-        //     const list = [];
-        //     this.groups.forEach((g) => {
-        //         if (
-        //             g.type === this.entity &&
-        //             // !g[this.entity].display &&
-        //             !this.groupSequence.includes(g.slug)
-        //         ) {
-        //             list.push(g.slug);
-        //         }
-        //     });
-        //     return list;
-        // }
     },
     methods: {
         isEmpty: _.isEmpty,
@@ -701,6 +688,7 @@ export default {
         unselectGroup() {
             this.selectedGroupSlug = '';
             this.groupDetails = { ...EMPTY_GROUP_DETAILS, _new: true };
+            this.groupDetails[this.entity].attributes = [];
         },
         toggleGroupDisplay(slug) {
             // this.$set(
@@ -822,11 +810,6 @@ export default {
                         this.offer = res.data;
                         this.formSaved = true;
                         this.init();
-                        // const redirectPath = `/administrator/product/attributes/group/${this.entity}`;
-                        // if (this.$route.path !== redirectPath)
-                        //     this.$router.replace({
-                        //         path: redirectPath
-                        //     });
                     })
                     .catch((err) => {
                         this.inProgress = false;
