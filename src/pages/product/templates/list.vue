@@ -8,14 +8,13 @@
                 "
                 btnLabel="Create"
                 @btnClick="redirectEdit"
-            >
-            </jumbotron>
+            ></jumbotron>
         </div>
         <div class="second-container">
             <div
                 class="search-box"
                 v-if="
-                    pageLoading || (searchText !== '' || templates.length > 0)
+                    !pageLoading || (searchText !== '' || templates.length > 0)
                 "
             >
                 <div v-if="isInitialLoad" class="input-shimmer shimmer"></div>
@@ -26,7 +25,16 @@
                         type="search"
                         placeholder="Search by name"
                         v-model="searchText"
-                        @input="debounceInput({ search: searchText })"
+                        @input="
+                            (selectedDepartment != '' &&
+                                templates.length > 0) ||
+                            (selectedDepartment == '' &&
+                                templates.length > 0) ||
+                            searchText == '' ||
+                            (selectedDepartment == '' && templates.length > 0)
+                                ? debounceInput({ search: searchText })
+                                : ''
+                        "
                     ></nitrozen-input>
                     <div class="filter">
                         <label class="label">Filter</label>
@@ -134,7 +142,7 @@
                                     "
                                     state="info"
                                     >FILTER PERMISSABLE</nitrozen-badge
-                                > -->
+                            >-->
                         </div>
                     </div>
                 </div>
