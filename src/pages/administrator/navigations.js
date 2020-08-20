@@ -36,6 +36,15 @@ export const getNavigations = () => {
                 highlightedIcon: 'team-highlighted'
             }
         ],
+        PRODUCTS: [
+            {
+                display: 'Product',
+                link: '/administrator/product',
+                title: 'Product',
+                icon: 'productsv2',
+                highlightedIcon: 'productsv2-highlighted'
+            }
+        ],
         TICKETS: [
             {
                 display: 'Support Center',
