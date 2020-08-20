@@ -3,7 +3,7 @@
 import URLS from './domain.service';
 import ApiService from './api.service';
 import { getCommonHeaderOptions } from './utils.service';
-import { Object, console, URL } from 'window-or-global';
+import { Object } from 'window-or-global';
 
 const CompanyService = {
     fetchMetrics(params = {}) {
@@ -160,6 +160,88 @@ const CompanyService = {
     fetchCompanyProfile(params) {
         let axiosOption = Object.assign({ params });
         return ApiService.get(URLS.COMPANY_PROFILE(), axiosOption);
+    },
+    // List product attributes master
+    fetchAttributes(params) {
+        let axiosOption = Object.assign({ params });
+        return ApiService.get(URLS.ATTRIBUTES_MASTER(), axiosOption);
+    },
+
+    fetchAttribute(slug) {
+        return ApiService.get(URLS.ATTRIBUTES_MASTER(slug), {});
+    },
+    createAttribute(data) {
+        let axiosOption = Object.assign({}, { data }, getCommonHeaderOptions());
+        return ApiService.post(URLS.ATTRIBUTES_MASTER(), axiosOption);
+    },
+    updateAttribute(data) {
+        let axiosOption = Object.assign({}, { data }, getCommonHeaderOptions());
+        return ApiService.put(URLS.ATTRIBUTES_MASTER(), axiosOption);
+    },
+
+    fetchProductTemplates(params) {
+        let axiosOption = Object.assign({ params });
+        return ApiService.get(URLS.PRODUCT_TEMPLATES(), axiosOption);
+    },
+    fetchProductTemplate(slug) {
+        return ApiService.get(URLS.PRODUCT_TEMPLATES(slug), {});
+    },
+    createProductTemplate(slug, data) {
+        let axiosOption = Object.assign({}, { data }, getCommonHeaderOptions());
+        return ApiService.post(URLS.PRODUCT_TEMPLATES(slug), axiosOption);
+    },
+    updateProductTemplate(slug, data) {
+        let axiosOption = Object.assign({}, { data }, getCommonHeaderOptions());
+        return ApiService.put(URLS.PRODUCT_TEMPLATES(slug), axiosOption);
+    },
+
+    fetchDepartments() {
+        return ApiService.get(URLS.DEPARTMENT(), {});
+    },
+    fetchUnits() {
+        return ApiService.get(URLS.UNITS(), {});
+    },
+    fetchCategories(params) {
+        let axiosOption = Object.assign({ params });
+        return ApiService.get(URLS.CATEGORY(), axiosOption);
+    },
+    fetchGroups(params) {
+        let axiosOption = Object.assign({ params });
+        return ApiService.get(URLS.ATTRIBUTE_GROUPS(), axiosOption);
+    },
+    fetchGroupDetails(slug, params) {
+        let axiosOption = Object.assign({ params });
+        return ApiService.get(URLS.ATTRIBUTE_GROUPS(slug), axiosOption);
+    },
+    createAttributeGroup(data) {
+        let axiosOption = Object.assign({ data });
+        return ApiService.post(URLS.ATTRIBUTE_GROUPS(), axiosOption);
+    },
+    updateAttributeGroup(data) {
+        let axiosOption = Object.assign({ data });
+        return ApiService.put(URLS.ATTRIBUTE_GROUPS(), axiosOption);
+    },
+    fetchShuffleAttributeGroups(entity) {
+        return ApiService.get(URLS.ATTRIBUTE_GROUPS_SHUFFLE(entity), {});
+    },
+    shuffleAttributeGroups(entity, data) {
+        let axiosOption = Object.assign({ data });
+        return ApiService.post(
+            URLS.ATTRIBUTE_GROUPS_SHUFFLE(entity),
+            axiosOption
+        );
+    },
+    fetchShuffleAttributes(entity) {
+        return ApiService.get(URLS.ATTRIBUTE_SHUFFLE(entity), {});
+    },
+    shuffleAttribute(entity, data) {
+        let axiosOption = Object.assign({ data });
+        return ApiService.post(URLS.ATTRIBUTE_SHUFFLE(entity), axiosOption);
+    },
+    productTemplateDownload(slug) {
+        return `${URLS.PRODUCT_TEMPLATE_DOWNLOAD(
+            slug
+        )}?company_id=1&set=false&type=excel`;
     }
 };
 export default CompanyService;

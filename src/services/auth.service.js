@@ -49,7 +49,7 @@ const AuthService = {
     onUserLoggedIn() {
         if (this.IframeWindow) {
             this.IframeWindow.close();
-            window.location.href = '/manage';
+            window.location.href = '';
         }
     },
     onUserLoggedOut() {
