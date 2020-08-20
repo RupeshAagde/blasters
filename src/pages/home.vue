@@ -48,7 +48,7 @@ export default {
     methods: {
         openLogin() {
             if (this.isLoggedIn) {
-                return this.$router.push('/manage');
+                return this.$router.push('');
             }
             this.$store.dispatch(OPEN_LOGIN_MODAL);
         }

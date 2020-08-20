@@ -23,6 +23,13 @@ router.onReady(() => {
     preLoadAsyncData(matchedComponents);
 });
 
+router.beforeResolve((to, from, next) => {
+    /* must call `next` */
+
+    Vue.prototype.$goBack = goBack;
+    next();
+});
+
 /**
  * Fetch Async data of matched component for reload
  * @param {*} matchedComponents
@@ -102,6 +109,15 @@ function addRouteHooks() {
             })
             .catch(next);
     });
+}
+
+function goBack(path) {
+    let firstPage = 2;
+    if (window && window.history.length <= firstPage && path) {
+        router.push({ path });
+    } else {
+        window && window.history && history.back();
+    }
 }
 
 export const getAppStore = () => {
