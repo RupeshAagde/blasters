@@ -669,9 +669,11 @@ export default {
             } else {
                 this.selectedGroupSlug = slug;
             }
-            this.$router.replace({
-                path: `/administrator/product/attributes/group/${this.entity}/${slug}`
-            });
+            const redirectPath = `/administrator/product/attributes/group/${this.entity}/${slug}`;
+            if (this.$route.path !== redirectPath)
+                this.$router.replace({
+                    path: redirectPath
+                });
             this.fetchGroupDetails();
         },
         unselectGroup() {

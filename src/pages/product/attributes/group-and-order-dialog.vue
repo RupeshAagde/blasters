@@ -101,7 +101,10 @@ export default {
         },
         close(entity) {
             this.$refs.grpDialog.close(entity);
-            this.$emit('close', entity);
+            // this is because the dialog is getting close and nitrozen dialog backdrop not finding the ref for the same
+            setTimeout(() => {
+                this.$emit('close', entity);
+            }, 0);
         }
     }
 };
