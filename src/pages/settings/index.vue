@@ -4,7 +4,7 @@
             <div class="jumbotron-container">
                 <jumbotron
                     :title="'Settings'"
-                    :desc="'Manage your platform configuration'"
+                    :desc="'Add or edit configurations'"
                 ></jumbotron>
             </div>
             <section>
@@ -30,9 +30,9 @@
                                 </span>
                                 <span class="settings-content">
                                     <div>
-                                        <span class="bold-xs cl-Mako">
-                                            {{ menu.title }}
-                                        </span>
+                                        <span class="bold-xs cl-Mako">{{
+                                            menu.title
+                                        }}</span>
                                     </div>
                                     <div class="settings-detail">
                                         <span class="cl-Mako">

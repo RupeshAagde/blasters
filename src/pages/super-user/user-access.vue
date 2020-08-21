@@ -2,8 +2,9 @@
     <div class="main-container">
         <div class="custom-header">
             <jumbotron
-                :title="'Admin Users'"
+                :title="'User Management'"
                 btnLabel="Add User"
+                :desc="'Manage user roles and permissions'"
                 illustration="team"
                 @btnClick="addUser"
             ></jumbotron>
@@ -162,11 +163,6 @@
 .input-shimmer {
     height: 60px;
     width: 400px;
-}
-.custom-header {
-    ::v-deep .n-flat-button-secondary {
-        margin-top: 110px !important;
-    }
 }
 .main-container {
     width: 100%;

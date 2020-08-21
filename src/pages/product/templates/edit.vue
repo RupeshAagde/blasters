@@ -211,7 +211,7 @@
                 <!-- Attribute ordering list -->
                 <div class="attribute-container">
                     <div class="input w-xl cl-DustyGray2 regular-xxxs mt-sm">
-                        <span class="cl-Mako dark-xxxs">Note:</span>
+                        <span class="cl-Mako dark-xxxs clh-desc">Note:</span>
                         Sequencing of attributes below comes in effect only on
                         Product create/edit page. It does not affect the
                         sequencing of attributes on Product details page. To
@@ -275,6 +275,9 @@
 </template>
 
 <style lang="less" scoped>
+.clh-desc {
+    line-height: 20px;
+}
 .header-position {
     height: 58.5px;
 }

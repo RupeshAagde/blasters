@@ -2,17 +2,23 @@
     <div>
         <section class="league-of-experts">
             <div class="left">
-                <h1>Administrator</h1>
+                <h1>Fynd Platform Admin</h1>
+                <p class="desc-heading">
+                    Internal Visibility and Control to help businesses sell
+                    smoothly with Fynd Platform
+                </p>
                 <p>
-                    Manage the functionality of Fynd Platform as a Super Admin!
+                    Manage company settings and product information, ensure the
+                    right level of access, and oversee platform configurations
+                    for a smooth selling experience. Also, solve problems and
+                    take actions on open tickets all from within the Fynd Admin.
                 </p>
                 <nitrozen-button
                     v-flat-btn
                     :theme="'secondary'"
                     @click="openLogin"
+                    >Get Started</nitrozen-button
                 >
-                    Get Started
-                </nitrozen-button>
             </div>
             <div class="right">
                 <img src="/public/assets/pngs/home/league-of-experts.png" />
@@ -48,7 +54,7 @@ export default {
     methods: {
         openLogin() {
             if (this.isLoggedIn) {
-                return this.$router.push('');
+                return this.$router.push('/administrator');
             }
             this.$store.dispatch(OPEN_LOGIN_MODAL);
         }
@@ -57,6 +63,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.desc-heading {
+    font-weight: bold;
+    // margin-bottom: 24px;
+}
 section {
     width: 100%;
     max-width: 1400px;
@@ -84,7 +94,7 @@ section.league-of-experts {
             font-family: Montserrat;
         }
         p {
-            max-width: 350px;
+            max-width: 500px;
             font-size: 14px;
             line-height: 21px;
             font-family: Poppins;
