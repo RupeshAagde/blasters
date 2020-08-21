@@ -3,7 +3,7 @@
         <header class="header">
             <router-link to="/">
                 <img
-                    src="/public/assets/pngs/logo.png"
+                    src="/public/assets/pngs/admin.png"
                     alt="Fynd Administrator"
                 />
             </router-link>
@@ -29,7 +29,7 @@
     box-shadow: 0 1px 0px 0 rgba(0, 0, 0, 0.1);
     img {
         margin: 0px 30px;
-        height: 35px;
+        height: 55px;
     }
 }
 </style>

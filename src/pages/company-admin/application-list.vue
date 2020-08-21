@@ -6,7 +6,7 @@
         <div class="search-div">
             <div class="box-search">
                 <nitrozen-input
-                    placeholder="Search Channels by name or domain . . ."
+                    placeholder="Search by name or domain . . ."
                     @input="searchChannels"
                     v-model="searchText"
                     :showSearchIcon="true"
@@ -242,6 +242,7 @@
                 white-space: nowrap;
                 width: 160px;
                 overflow: hidden;
+                line-height: 20px;
                 font-size: 14px;
                 color: #5c6bdd;
                 font-weight: bold;
@@ -258,6 +259,7 @@
             margin: 12px 0;
             display: flex;
             font-size: 14px;
+            line-height: 20px;
             color: #41434c;
             font-weight: 200;
             justify-content: space-between;

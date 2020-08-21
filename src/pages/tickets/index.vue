@@ -4,7 +4,7 @@
             <div style="width: 100%">
                 <jumbotron
                     :title="'Support Center'"
-                    :desc="'Solve your seller\'s tickets here'"
+                    :desc="'View and solve open tickets logged in by the users'"
                 ></jumbotron>
                 <ticket-list style="margin-top: 16px"> </ticket-list>
             </div>

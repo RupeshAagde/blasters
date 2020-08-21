@@ -5,7 +5,7 @@
                 <div class="menu-container">
                     <router-link to="/" class="logo">
                         <img
-                            src="/public/assets/pngs/fynd.png"
+                            src="/public/assets/pngs/admin.png"
                             alt="[PROJECT_LOGO]"
                         />
                     </router-link>
@@ -17,14 +17,14 @@
                         :theme="'secondary'"
                         @click="openLogin"
                     >
-                        {{ isLoggedIn ? 'View Dashboard' : 'Login' }}
+                        {{ isLoggedIn ? 'Manage' : 'Login' }}
                     </nitrozen-button>
                     <nitrozen-button
                         v-flat-btn
                         :theme="'secondary'"
                         @click="signOut()"
                     >
-                        {{ isLoggedIn ? 'Logout' : 'Get Started' }}
+                        {{ isLoggedIn ? 'Logout' : 'Login' }}
                     </nitrozen-button>
                 </div>
             </div>
@@ -58,6 +58,10 @@
                 align-items: center;
                 .logo {
                     margin-right: 40px;
+                    img {
+                        width: 144px;
+                        height: 65px;
+                    }
                 }
                 .menu {
                     color: @HomePageText;

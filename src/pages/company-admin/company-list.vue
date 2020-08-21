@@ -1,7 +1,12 @@
 <template>
     <div class="main-container">
         <div class="jumbotron-container">
-            <jumbotron :title="'Company'" :desc="''"></jumbotron>
+            <jumbotron
+                :title="'Company'"
+                :desc="
+                    'Access the company information, its brands and selling locations. Manage active integrations and sales channels.'
+                "
+            ></jumbotron>
         </div>
         <div class="second-container">
             <div
