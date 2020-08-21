@@ -1,9 +1,11 @@
 <template>
     <div class="main-container">
-        <div class="custom-header">
+        <div>
             <jumbotron
                 :title="'Department'"
-                :desc="''"
+                :desc="
+                    'Manage or create departments to categorize products according to their type'
+                "
                 btnLabel="Create Department"
                 @btnClick="createDepartment"
             ></jumbotron>

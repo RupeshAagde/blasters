@@ -1,9 +1,11 @@
 <template>
     <div class="main-container">
-        <div class="custom-header">
+        <div>
             <jumbotron
                 :title="'Variants'"
-                :desc="''"
+                :desc="
+                    'Manage or create new variants for products that have more than one option, such as image, size or color.'
+                "
                 btnLabel="Create Variant"
                 @btnClick="createVariant"
             ></jumbotron>
