@@ -30,14 +30,30 @@ export const getNavigations = () => {
         },
         {
             display: 'Product',
-            link: '/administrator/product/department',
+            link: '/administrator/product/attributes',
             title: 'product',
             icon: 'productsv2',
             highlightedIcon: 'home-highlighted',
             active: false,
             children: [
                 {
-                    display: 'Department',
+                    display: 'Attributes',
+                    link: '/administrator/product/attributes',
+                    title: 'attributes',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Templates',
+                    link: '/administrator/product/templates',
+                    title: 'templates',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Departments',
                     link: '/administrator/product/department',
                     title: 'department',
                     icon: 'home',

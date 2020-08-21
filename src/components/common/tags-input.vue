@@ -1,7 +1,10 @@
 <template>
     <div>
-        <div>
+        <div class="label-container">
             <span class="nitrozen-label n-input-label">{{ label }}</span>
+            <span class="nitrozen-label"
+                >{{ tags.length }}/{{ maxTags }} Values</span
+            >
         </div>
         <div class="input-text tags" @click="focusTextbox">
             <div class="chips-input">
@@ -18,7 +21,7 @@
                     ></nitrozen-inline>
                 </nitrozen-chip>
                 <input
-                    :placeholder="placeHolder"
+                    :placeholder="tags.length ? '' : placeholder"
                     ref="chipInput"
                     type="text"
                     class="chip-input cl-Mako light-xs"
@@ -35,6 +38,10 @@ input:focus,
 textarea:focus,
 select:focus {
     outline: none;
+}
+.label-container {
+    display: flex;
+    justify-content: space-between;
 }
 .nitrozen-label {
     color: #9b9b9b;
@@ -81,6 +88,10 @@ export default {
         maxTags: {
             type: Number,
             default: 2
+        },
+        placeholder: {
+            type: String,
+            default: 'For e.g. order'
         }
     },
     components: {
@@ -93,13 +104,7 @@ export default {
             chipInput: ''
         };
     },
-    computed: {
-        placeHolder() {
-            return !this.tags.length
-                ? 'For e.g. order (upto ' + this.maxTags + ' tags)'
-                : '';
-        }
-    },
+    computed: {},
     methods: {
         handleKeyDown(evt) {
             if (

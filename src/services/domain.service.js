@@ -126,6 +126,48 @@ const URLS = {
     COMPANY_PROFILE: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/company/profile');
     },
+    ATTRIBUTES_MASTER: (slug = '') => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/attribute-master', slug);
+    },
+    PRODUCT_TEMPLATES: (slug = '') => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/product-templates', slug);
+    },
+    PRODUCT_TEMPLATE_DOWNLOAD: (slug = '') => {
+        return urlJoin(
+            SILVERBOLT_MAIN_URL,
+            '/v1/product-templates',
+            slug,
+            'download'
+        );
+    },
+    ATTRIBUTE_GROUPS: (slug = '') => {
+        return urlJoin(
+            SILVERBOLT_MAIN_URL,
+            '/v1/attribute-master/groups',
+            slug
+        );
+    },
+    ATTRIBUTE_SHUFFLE: (entity) => {
+        return urlJoin(
+            SILVERBOLT_MAIN_URL,
+            `/v1/attribute-master/${entity}/shuffle`
+        );
+    },
+    ATTRIBUTE_GROUPS_SHUFFLE: (entity) => {
+        return urlJoin(
+            SILVERBOLT_MAIN_URL,
+            `/v1/attribute-master/groups/${entity}/shuffle`
+        );
+    },
+    DEPARTMENT: () => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/department');
+    },
+    CATEGORY: () => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/category');
+    },
+    UNITS: () => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/units');
+    },
     // Organizations
     ORGANIZATION: (id = '') => {
         return urlJoin(PLATFORM_COMMON_BASE, '/v1/organization', id);

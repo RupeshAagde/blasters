@@ -16,6 +16,13 @@ import CreateUpdateDepartment from './../../pages/catalogue/create-update-depart
 import ListVariants from './../../pages/catalogue/list-variants.vue';
 import { authenticatedUser } from './../guards';
 import CreateUpdateVariant from './../../pages/catalogue/create-update-variant.vue';
+import Product from './../../pages/product/index';
+import ProductAttributesList from '@/pages/product/attributes/list';
+import ProductAttributesEdit from '@/pages/product/attributes/edit';
+import ProductAttributesGroup from '@/pages/product/attributes/group';
+import ProductAttributesSequence from '@/pages/product/attributes/sequence';
+import ProductTemplatesList from '@/pages/product/templates/list';
+import ProductTemplatesEdit from '@/pages/product/templates/edit';
 
 export default [
     {
@@ -100,6 +107,61 @@ export default [
                 name: 'edit-variant',
                 path: 'product/variants/edit/:uid',
                 component: CreateUpdateVariant
+            },
+            // Product
+            {
+                name: 'product',
+                path: 'product',
+                component: Product
+            },
+            // attributes
+            {
+                name: 'attributes',
+                path: 'product/attributes',
+                component: ProductAttributesList
+            },
+            {
+                name: 'attributes-create',
+                path: 'product/attributes/create',
+                component: ProductAttributesEdit
+            },
+            {
+                name: 'attributes-edit',
+                path: 'product/attributes/edit/:slug',
+                component: ProductAttributesEdit
+            },
+            // group-and-sequence
+            {
+                name: 'attributes-group',
+                path: 'product/attributes/group/:entity',
+                component: ProductAttributesGroup
+            },
+            {
+                name: 'attributes-group-settings',
+                path: 'product/attributes/group/:entity/:slug',
+                component: ProductAttributesGroup
+            },
+            {
+                name: 'attributes-sequence',
+                path: 'product/attributes/sequence/:entity',
+                component: ProductAttributesSequence
+            },
+
+            // templates
+            {
+                name: 'templates',
+                path: 'product/templates',
+                component: ProductTemplatesList
+            },
+            {
+                name: 'templates-create',
+                path: 'product/templates/create',
+                component: ProductTemplatesEdit
+            },
+            {
+                name: 'templates-edit',
+                path: 'product/templates/:slug',
+                component: ProductTemplatesEdit
             },
             // Settings
             {
