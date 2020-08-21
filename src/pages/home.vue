@@ -5,7 +5,7 @@
                 <h1>Fynd Platform Admin</h1>
                 <p class="desc-heading">
                     Internal Visibility and Control to help businesses sell
-                    smoothly with Fynd
+                    smoothly with Fynd Platform
                 </p>
                 <p>
                     Manage company settings and product information, ensure the
