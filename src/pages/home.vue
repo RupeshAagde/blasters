@@ -3,15 +3,16 @@
         <section class="league-of-experts">
             <div class="left">
                 <h1>Fynd Platform Admin</h1>
-                <p class="desc-heading cst-mh1">
+                <p class="cst-mh1">
                     Internal Visibility and Control to help businesses sell
-                    smoothly with Fynd Platform
+                    smoothly with Fynd Platform.
                 </p>
                 <p class="cst-margin">
                     Manage company settings and product information, ensure the
                     right level of access, and oversee platform configurations
                     for a smooth selling experience. Also, solve problems and
-                    take actions on open tickets all from within the Fynd Admin.
+                    take actions on open tickets all from within the Fynd
+                    Platform.
                 </p>
                 <nitrozen-button
                     v-flat-btn

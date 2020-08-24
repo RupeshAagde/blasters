@@ -35,7 +35,7 @@
 <style lang="less" scoped>
 .stheader {
     position: fixed;
-    height: 100px;
+    height: 64px;
     top: 0px;
     width: 100%;
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
@@ -59,8 +59,8 @@
                 .logo {
                     margin-right: 40px;
                     img {
-                        width: 144px;
-                        height: 65px;
+                        width: 134px;
+                        height: 55px;
                     }
                 }
                 .menu {
