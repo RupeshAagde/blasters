@@ -91,7 +91,7 @@ section.league-of-experts {
             font-size: 60px;
             line-height: 83px;
             font-weight: bold;
-            font-family: Montserrat;
+            font-family: Poppins;
         }
         p {
             max-width: 500px;

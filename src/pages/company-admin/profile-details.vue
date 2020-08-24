@@ -19,6 +19,22 @@
                     </a>
                 </div>
             </div>
+            <div
+                class="unverified-warning"
+                v-if="
+                    profileDetails &&
+                        profileDetails.warnings &&
+                        Object.keys(profileDetails.warnings).length
+                "
+            >
+                <div
+                    v-for="(value, key, index) in profileDetails.warnings"
+                    :key="key + index"
+                    class="warning-text"
+                >
+                    {{ value }}
+                </div>
+            </div>
             <div v-if="inProgress" class="shimmer"></div>
             <div class="details-body" v-if="!inProgress">
                 <div class="detail-row">
@@ -161,6 +177,12 @@
                         </a>
                     </div>
                 </div>
+                <div
+                    class="unverified-warning cst-mb"
+                    v-if="documentUnverified"
+                >
+                    <div class="warning-text">Documents are unverified</div>
+                </div>
                 <div v-if="inProgress" class="shimmer"></div>
                 <div class="documents-body" v-if="!inProgress">
                     <div v-if="profileDetails.documents" class="cust-inp">
@@ -254,9 +276,9 @@
             ref="company_reject_dialog"
             title="Reject Company"
         >
-            <template slot="header" v-if="profileDetails">{{
-                profileDetails.name
-            }}</template>
+            <template slot="header" v-if="profileDetails">
+                {{ profileDetails.name }}
+            </template>
             <template slot="body" class="desc-dialog">
                 <div>
                     <nitrozen-input
@@ -330,6 +352,21 @@
 </template>
 
 <style lang="less" scoped>
+.cst-mb {
+    margin-top: 20px;
+}
+.unverified-warning {
+    background-color: #fffaf0;
+    color: #f5a300;
+    border: 1px solid #f5a300;
+    // opacity: 0.9;
+    border-radius: 3px;
+    padding: 12px;
+    margin-bottom: 12px;
+    .warning-text {
+        line-height: 20px;
+    }
+}
 .bottom-buttons {
     display: flex;
     justify-content: flex-spart;
@@ -485,6 +522,7 @@ import userInfoTooltip from '@/components/common/feedback/userInfo-tooltip.vue';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
 import admInlineSVG from '@/components/common/adm-inline-svg';
 import uktInlineSVG from '@/components/common/ukt-inline-svg';
+import { GET_METRICS } from '@/store/getters.type';
 import {
     strokeBtn,
     flatBtn,
@@ -524,7 +562,8 @@ export default {
                 errortext: 'Please explain reason properly.',
                 value: ''
             },
-            activeDoc: null
+            activeDoc: null,
+            documentUnverified: false
         };
     },
     computed: {
@@ -547,6 +586,12 @@ export default {
                     this.inProgress = false;
                     this.pageError = false;
                     this.profileDetails = res.data.data;
+                    this.documentUnverified = this.profileDetails.documents.some(
+                        (doc) => {
+                            return !doc.verified;
+                        }
+                    );
+
                     this.profileDetails.reduced_business_info = this.profileDetails.business_info;
                     if (
                         this.profileDetails.business_info &&
