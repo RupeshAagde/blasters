@@ -3,11 +3,11 @@
         <section class="league-of-experts">
             <div class="left">
                 <h1>Fynd Platform Admin</h1>
-                <p class="desc-heading">
+                <p class="desc-heading cst-mh1">
                     Internal Visibility and Control to help businesses sell
                     smoothly with Fynd Platform
                 </p>
-                <p>
+                <p class="cst-margin">
                     Manage company settings and product information, ensure the
                     right level of access, and oversee platform configurations
                     for a smooth selling experience. Also, solve problems and
@@ -78,7 +78,13 @@ section:first-child {
 section:nth-child(2n + 1) {
     background-color: #f4f8fb;
 }
-
+.cst-margin {
+    margin: 22px 0 45px 0;
+    max-width: 500px;
+    font-size: 14px;
+    line-height: 21px;
+    font-family: Poppins;
+}
 section.league-of-experts {
     margin-top: 100px;
     padding: 80px 0;
@@ -91,14 +97,14 @@ section.league-of-experts {
             font-size: 60px;
             line-height: 83px;
             font-weight: bold;
-            font-family: Montserrat;
+            font-family: Poppins;
         }
-        p {
+        .cst-mh1 {
             max-width: 500px;
             font-size: 14px;
             line-height: 21px;
             font-family: Poppins;
-            margin: 45px 0;
+            margin: 45px 0 22px 0;
         }
     }
     .right {
