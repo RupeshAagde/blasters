@@ -87,8 +87,8 @@ section:nth-child(2n + 1) {
     font-family: Poppins;
 }
 section.league-of-experts {
-    margin-top: 100px;
-    padding: 80px 0;
+    margin-top: 64px;
+    padding: 70px 0;
     display: flex;
     .left {
         width: 58%;
