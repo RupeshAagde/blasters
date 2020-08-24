@@ -375,7 +375,6 @@ export default {
             };
             CompanyService.fetchCompanyProfile(params)
                 .then((res) => {
-                    debugger;
                     this.companyInfo = res.data.data;
                 })
                 .catch((err) => {
