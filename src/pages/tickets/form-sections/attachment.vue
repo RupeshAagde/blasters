@@ -32,6 +32,48 @@
                     {{ attachment.display || attachment.value }}
                 </div>
             </a>
+            <a
+                v-else-if="attachment.type == 'shipment'"
+                class="shipment"
+                :href="urlToOpen"
+                target="_blank"
+            >
+                <div
+                    class="side-image"
+                    v-if="
+                        attachment.details &&
+                            attachment.details.shipments &&
+                            attachment.details.shipments.length &&
+                            attachment.details.shipments[0].bags &&
+                            attachment.details.shipments[0].bags.length &&
+                            attachment.details.shipments[0].bags[0].item
+                                .image &&
+                            attachment.details.shipments[0].bags[0].item.image
+                                .length
+                    "
+                >
+                    <img
+                        :src="
+                            attachment.details.shipments[0].bags[0].item
+                                .image[0]
+                        "
+                    />
+                </div>
+                <div v-if="attachment.details" class="card-content-section">
+                    <div class="card-content-line-1">
+                        {{ attachment.details.id }}
+                    </div>
+                    <div class="card-content-line-2">
+                        {{ attachment.details.shipments[0].id }}
+                    </div>
+                    <div class="card-content-line-2">
+                        {{ shipmentSubTitle }}
+                    </div>
+                </div>
+                <div v-else>
+                    {{ attachment.display + ': ' + attachment.value }}
+                </div>
+            </a>
         </div>
         <div class="cross-container">
             <nitrozen-inline
@@ -67,13 +109,12 @@
     display: flex;
     flex-direction: row;
     background: #ffffff;
-    margin: 4px 0px;
+    margin-bottom: 10px;
     border: 1px solid #e4e5e6;
     border-radius: 3px;
     height: auto;
     overflow: auto;
     max-height: 100px;
-    cursor: pointer;
     transition: box-shadow 0.3s;
     justify-content: space-between;
 }
@@ -86,6 +127,52 @@
     padding: 12px;
     padding: 8px;
     width: 95%;
+    cursor: pointer;
+
+    .side-image {
+        display: flex;
+        align-items: center;
+        margin-right: 8px;
+        img {
+            min-height: 80px;
+            max-height: 80px;
+            min-width: 60px;
+            max-width: 60px;
+            border-radius: 4px;
+        }
+    }
+    .card-content-section {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 4px;
+        .card-content-line-1 {
+            color: @Mako;
+            font-weight: 600;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            line-height: 22px;
+        }
+        .card-content-line-2 {
+            color: @DustyGray2;
+            line-height: 22px;
+            font-size: 12px;
+        }
+        .card-content-line-3 {
+            color: @DustyGray2;
+            line-height: 22px;
+            font-size: 12px;
+        }
+    }
+}
+
+.shipment {
+    display: flex;
+    padding: 12px;
+    padding: 8px;
+    width: 95%;
+    cursor: pointer;
 
     .side-image {
         display: flex;
@@ -128,6 +215,7 @@
 .image {
     display: flex;
     padding: 8px;
+    cursor: pointer;
 
     .side-image {
         display: flex;
@@ -176,8 +264,10 @@ import {
     NitrozenInline
 } from '@gofynd/nitrozen-vue';
 
-// import { getAppInfo } from '@/services/utils.service';
+import { getRoute } from '@/helper/get-route';
+import { getAppInfo } from '@/services/utils.service';
 // import { getPrimaryDomain } from '@/helper/domains.util';
+import path from 'path';
 
 export default {
     name: 'attachment',
@@ -201,10 +291,39 @@ export default {
         };
     },
     computed: {
+        shipmentSubTitle() {
+            // const shipmentBags = this.attachment.details.shipments[0].bags
+            // let itemsCount = shipmentBags.items.length;
+            // let piecesCount = 0;
+            // if (shipmentBags) {
+            //     for (let i = 0; i < shipmentBags.items.length; i++) {
+            //         piecesCount += shipmentBags.items[i].total_detail
+            //             .pieces;
+            //     }
+            // }
+            // return itemsCount + ' items | ' + piecesCount + ' Pieces';
+            if (this.attachment.details.shipments[0].bags.length == 0) {
+                return 'No Pieces';
+            } else if (this.attachment.details.shipments[0].bags.length == 1) {
+                return '1 Piece';
+            }
+            return this.attachment.details.shipments[0].bags.length + ' Pieces';
+        },
         urlToOpen() {
-            // return `https://${getPrimaryDomain(getAppInfo().domains)}/product/${
-            //     this.attachment.value
-            // }`;
+            if (this.attachment.type == 'product') {
+                // return `https://${getPrimaryDomain(
+                //     getAppInfo().domains
+                // )}/product/${this.attachment.value}`;
+            } else if (
+                this.attachment.type == 'shipment' &&
+                this.attachment.details &&
+                this.attachment.details.id
+            ) {
+                // return path.join(
+                //     this.$basePath,
+                //     `/order/${this.attachment.details.id}/shipments`
+                // );
+            }
         }
     },
     mounted() {

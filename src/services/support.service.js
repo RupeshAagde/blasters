@@ -47,6 +47,11 @@ const SupportService = {
         return ApiService.get(URLS.FETCH_DRIs(company_id), {
             params: params
         });
+    },
+    fetchShipmentInfo(id, company_id) {
+        return ApiService.get(URLS.FETCH_SHIPMENT_INFO(id, company_id), {
+            params: {}
+        });
     }
     // Product Info
     // fetchProductInfo(slug) {
