@@ -9,10 +9,10 @@
                     />
                 </div>
                 <div class="desc">
-                    Fynd Platform Admin Console is where internal users can
-                    manage Company, Product, Platform configurations and take
+                    Fynd Platform Admin is where internal users can manage
+                    Company, Product, Platform configurations and take
                     day-to-day actions to help businesses sell smoothly with
-                    Fynd.
+                    Fynd Platform.
                 </div>
             </div>
         </section>
