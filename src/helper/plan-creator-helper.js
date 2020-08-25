@@ -90,15 +90,16 @@ const PLAN_ENUMS = {
             {
                 text: 'Weeks',
                 value: 'week'
-            },
-            {
-                text: 'Months',
-                value: 'month'
-            },
-            {
-                text: 'Years',
-                value: 'year'
             }
+            // ,
+            // {
+            //     text: 'Months',
+            //     value: 'month'
+            // },
+            // {
+            //     text: 'Years',
+            //     value: 'year'
+            // }
         ]
     },
     usage_type: {

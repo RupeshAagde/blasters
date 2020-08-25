@@ -4,6 +4,7 @@
         <div class="form-row">
             <div class="form-item">
                 <nitrozen-input
+                    :disabled="disabled"
                     :label="'Name *'"
                     v-model="formData.plan.name"
                 ></nitrozen-input>
@@ -16,6 +17,7 @@
         <div class="form-row">
             <div class="form-item">
                 <nitrozen-input
+                    :disabled="disabled"
                     class="desc"
                     :label="'Description'"
                     v-model="formData.plan.description"
@@ -30,6 +32,7 @@
         <div class="form-row form-compact-items no-pad">
             <div class="form-item">
                 <nitrozen-input
+                    :disabled="disabled"
                     style="width:300px;"
                     :type="'number'"
                     :allowNegative="false"
@@ -39,6 +42,7 @@
                     v-model="formData.plan.amount"
                 >
                     <nitrozen-dropdown
+                        :disabled="disabled"
                         :placeholder="'Search Currency'"
                         style="width:140px;"
                         :items="currentCurrency"
@@ -56,6 +60,7 @@
 
             <div class="form-item">
                 <nitrozen-input
+                    :disabled="disabled"
                     style="width:300px;"
                     :type="'number'"
                     :allowNegative="false"
@@ -65,6 +70,7 @@
                     :custom="true"
                 >
                     <nitrozen-dropdown
+                        :disabled="disabled"
                         class="filter-dropdown"
                         :items="durationUnits"
                         v-model="formData.plan.recurring.interval"
@@ -96,7 +102,10 @@
             class="form-row form-compact-items no-pad"
         >
             <div class="form-item">
-                <nitrozen-checkbox v-model="formData.plan.is_trial_plan"
+                <nitrozen-checkbox
+                    :disabled="disabled"
+                    :class="{ 'disabled-ctrl': disabled }"
+                    v-model="formData.plan.is_trial_plan"
                     >Trial Plan
                 </nitrozen-checkbox>
                 <nitrozen-error v-if="!formData.plan.is_trial_plan"
@@ -105,6 +114,7 @@
             </div>
             <div v-if="formData.plan.is_trial_plan" class="form-item">
                 <nitrozen-input
+                    :disabled="disabled"
                     :type="'number'"
                     :allowNegative="false"
                     :label="'Trial Days *'"
@@ -119,8 +129,12 @@
 
         <div v-if="formData.plan.type === 'public'" class="form-row no-pad">
             <div class="form-item">
-                <nitrozen-checkbox v-model="formData.plan.is_visible"
-                    >Visible to all
+                <nitrozen-checkbox
+                    :disabled="disabled"
+                    :class="{ 'disabled-ctrl': disabled }"
+                    v-model="formData.plan.is_visible"
+                >
+                    Visible to all
                 </nitrozen-checkbox>
             </div>
         </div>
@@ -130,6 +144,7 @@
         >
             <div class="form-item">
                 <nitrozen-dropdown
+                    :disabled="disabled"
                     :label="'Company*'"
                     :searchable="true"
                     @searchInputChange="companySearch"
@@ -169,10 +184,11 @@
                     :key="component._id"
                     :component="component"
                     :price_component="planComponentMap[component._id]"
+                    :disabled="formData.hasActiveSubscription"
                 >
                 </plan-component>
                 <div class="cl-Mako bold-md comp-top-headers">
-                    Feature Components
+                    Feature Restrictions
                 </div>
                 <plan-component
                     class="plan-component"
@@ -182,6 +198,7 @@
                     :key="component._id"
                     :component="component"
                     :price_component="planComponentMap[component._id]"
+                    :disabled="disabled"
                 >
                 </plan-component>
                 <div class="cl-Mako bold-md comp-top-headers">
@@ -195,6 +212,7 @@
                     :key="component._id"
                     :component="component"
                     :price_component="planComponentMap[component._id]"
+                    :disabled="disabled"
                 >
                 </plan-component>
                 <div v-for="component in dtComponents" :key="component._id">
@@ -207,6 +225,7 @@
                         </div>
                         <div class="align-right">
                             <span
+                                :class="{ 'disabled-ctrl': disabled }"
                                 class="bold-xs clickable-label cl-RoyalBlue"
                                 @click="addNewRule(component)"
                             >
@@ -215,6 +234,7 @@
                         </div>
                     </div>
                     <plan-component
+                        :disabled="disabled"
                         class="plan-component"
                         v-show="dTComponentMap[component._id]"
                         :ref="`dt_comp_${component._id}`"
@@ -368,16 +388,21 @@ export default {
         recurring_time() {
             return this.formData.plan.recurring.interval_count;
         },
+        disabled() {
+            return this.formData.hasActiveSubscription;
+        },
         cbs_opts() {
             let opts = {
                 brands: this.brands,
                 locations: this.locations
             };
             if (this.formData.plan.company) {
-                opts['companies'] = {
-                    value: this.formData.plan.company,
-                    text: ''
-                };
+                opts['companies'] = [
+                    {
+                        value: this.formData.plan.company,
+                        text: ''
+                    }
+                ];
             }
             return opts;
         }

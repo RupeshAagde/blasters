@@ -5,6 +5,7 @@
                 <div class="cl-Mako bold-md">{{ component.name }} Rules</div>
                 <div class="align-right">
                     <span
+                        :class="{ 'disabled-ctrl': disabled }"
                         class="bold-xs clickable-label cl-RoyalBlue"
                         @click="editDayTraderRule"
                         >Add Rule</span
@@ -108,6 +109,10 @@ export default {
         },
         subscriptionId: {
             type: String
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         }
     },
     components: {
@@ -129,7 +134,8 @@ export default {
                 current: 1
             },
             edit_rule_idx: -1,
-            show_rule_editor: true
+            show_rule_editor: true,
+            clone_rule: false
         };
     },
     created() {
@@ -142,6 +148,7 @@ export default {
                     component_id: this.component._id
                 }),
                 limit: this.pagination.limit,
+                adding,
                 page: this.pagination.current - 1
             };
             BillingService.getSubscriptionDaytraderRules(
@@ -188,8 +195,15 @@ export default {
                 return;
             }
             let payload = null;
-            if (this.edit_rule_idx > -1 && this.rules[this.edit_rule_idx]) {
-                payload = this.rules[this.edit_rule_idx].data;
+            if (this.clone_rule) {
+                payload = this.rules[this.edit_rule_idx];
+                payload['subscription_id'] = this.subscriptionId;
+                payload['rule_type'] = 'override_rule';
+            } else if (
+                this.edit_rule_idx > -1 &&
+                this.rules[this.edit_rule_idx]
+            ) {
+                payload = this.rules[this.edit_rule_idx];
             } else {
                 payload = _.cloneDeep(
                     _.pick(this.rules[0], [
@@ -200,8 +214,8 @@ export default {
                         'component_id'
                     ])
                 );
-                this.rules[newIdx]['subscription_id'] = this.subscriptionId;
-                this.rules[newIdx]['rule_type'] = 'override_rule';
+                payload['subscription_id'] = this.subscriptionId;
+                payload['rule_type'] = 'override_rule';
             }
             payload.data = this.$refs['daytrader'].validData();
             payload.auto_verify = this.$refs['daytrader'].auto_verify;
@@ -213,9 +227,10 @@ export default {
                 payload
             )
                 .then(({ data }) => {
-                    this.$snackbar.global.showSuccess(`Rule Added Succssfully`);
+                    this.$snackbar.global.showSuccess(`Rule added succssfully`);
                 })
                 .catch((err) => {
+                    this.$snackbar.global.showError(`Rule adding failed`);
                     console.log(err);
                 });
         }

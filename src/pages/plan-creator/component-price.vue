@@ -1,9 +1,10 @@
 <template>
     <div class="price-form">
         <div v-if="formData.processing_type === 'display'">
-            <div class="form-row form-compact-items no-pad">
+            <div style="max-width: 700px;" class="form-row no-pad">
                 <div class="form-item">
                     <nitrozen-input
+                        :disabled="disabled"
                         :label="'Feature Text *'"
                         v-model="formData.display_text"
                     ></nitrozen-input>
@@ -17,6 +18,7 @@
         </div>
         <div v-else-if="formData.processing_type === 'feature_config'">
             <component
+                :disabled="disabled"
                 :ref="'component'"
                 :is="baseComponent.slug"
                 :formData="formData"
@@ -27,6 +29,7 @@
             <div class="form-row form-compact-items">
                 <div class="form-item">
                     <nitrozen-dropdown
+                        :disabled="disabled"
                         :tooltip="pricing_map[formData.price_ui_type].tooltip"
                         :label="'Pricing Model *'"
                         :items="pricing_values"
@@ -58,6 +61,7 @@
             >
                 <div class="form-item">
                     <nitrozen-input
+                        :disabled="disabled"
                         style="width: 300px;"
                         :type="'number'"
                         :allowNegative="false"
@@ -67,6 +71,7 @@
                         v-model="formData.unit_amount"
                     >
                         <nitrozen-dropdown
+                            :disabled="disabled"
                             style="width:140px;"
                             :items="currentCurrency"
                             v-model="formData.currency"
@@ -88,6 +93,7 @@
             <div v-if="isTiered" class="form-row">
                 <div class="form-item">
                     <tier-table
+                        :disabled="disabled"
                         :formData="formData"
                         :currency="currency_map[formData.currency].symbol"
                         v-model="formData.tiers"
@@ -109,6 +115,7 @@
             >
                 <div class="form-item">
                     <nitrozen-dropdown
+                        :disabled="disabled"
                         :label="'Bill Period'"
                         :items="options.bill_type.enum"
                         v-model="formData.bill_type"
@@ -117,6 +124,7 @@
                 </div>
                 <div v-if="isRecurring" class="form-item">
                     <nitrozen-input
+                        :disabled="disabled"
                         style="width: 200px;"
                         :type="'number'"
                         :allowNegative="false"
@@ -126,6 +134,7 @@
                         v-model="formData.recurring.interval_count"
                     >
                         <nitrozen-dropdown
+                            :disabled="disabled"
                             :label="options.interval.text"
                             :items="options.interval.enum"
                             v-model="formData.recurring.interval"
@@ -144,6 +153,8 @@
             >
                 <div class="form-item price-type-dropdown">
                     <nitrozen-checkbox
+                        :disabled="disabled"
+                        :class="{ 'disabled-ctrl': disabled }"
                         :value="formData.recurring.usage_type === 'metered'"
                         @input="
                             (value) => {
@@ -162,6 +173,7 @@
             >
                 <div style="width:200px;" class="form-item">
                     <nitrozen-dropdown
+                        :disabled="disabled"
                         :label="options.aggregate_usage.text"
                         :items="options.aggregate_usage.enum"
                         v-model="formData.recurring.aggregate_usage"
@@ -171,9 +183,13 @@
 
             <div class="form-row" v-if="formData.price_ui_type !== 'external'">
                 <div class="form-item">
-                    <nitrozen-checkbox v-model="show_advanced"
-                        >Advance Settings</nitrozen-checkbox
+                    <nitrozen-checkbox
+                        :class="{ 'disabled-ctrl': disabled }"
+                        v-model="show_advanced"
+                        :disabled="disabled"
                     >
+                        Advance Settings
+                    </nitrozen-checkbox>
                 </div>
             </div>
 
@@ -183,6 +199,7 @@
             >
                 <div class="form-item">
                     <nitrozen-input
+                        :disabled="disabled"
                         :type="'number'"
                         :allowNegative="false"
                         :label="'Divide Usage'"
@@ -195,6 +212,7 @@
 
                 <div class="form-item">
                     <nitrozen-dropdown
+                        :disabled="disabled"
                         :label="'Round Units'"
                         :items="[
                             { text: 'Up', value: 'up' },
@@ -205,9 +223,52 @@
                 </div>
             </div>
 
-            <div class="form-row form-compact-items no-pad">
+            <div
+                style="max-width: 300px;"
+                class="form-row form-compact-items no-pad"
+            >
                 <div class="form-item">
                     <nitrozen-input
+                        :disabled="disabled"
+                        :label="'Free Usage'"
+                        :type="'number'"
+                        v-model="formData.free_tier.value"
+                        :showSuffix="true"
+                        :custom="true"
+                    >
+                        <nitrozen-dropdown
+                            :disabled="disabled"
+                            style="width: 110px;"
+                            :label="'   '"
+                            v-model="formData.free_tier.type"
+                            :items="[
+                                {
+                                    text: 'Hours',
+                                    value: 'TIME_BASED'
+                                },
+                                {
+                                    text: 'Units',
+                                    value: 'QUANITY_BASED'
+                                },
+                                {
+                                    text: 'Balance',
+                                    value: 'BALANCE_BASED'
+                                }
+                            ]"
+                        ></nitrozen-dropdown>
+                    </nitrozen-input>
+                    <nitrozen-error
+                        v-bind:class="{ visible: errors['free_usage'] }"
+                    >
+                        {{ errors['free_usage'] || '-' }}
+                    </nitrozen-error>
+                </div>
+            </div>
+
+            <div style="max-width: 700px;" class="form-row no-pad">
+                <div class="form-item">
+                    <nitrozen-input
+                        :disabled="disabled"
                         :label="'Feature Text *'"
                         v-model="formData.display_text"
                     ></nitrozen-input>
@@ -350,6 +411,10 @@ export default {
             default: function() {
                 return {};
             }
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -543,6 +608,11 @@ export default {
                             is_valid = false;
                         }
                     });
+                }
+
+                if (this.formData.free_tier.value < 0) {
+                    this.errors['Free usage cannot be less than 0'];
+                    is_valid = false;
                 }
 
                 if (

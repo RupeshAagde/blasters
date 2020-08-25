@@ -1,8 +1,9 @@
 <template>
     <div class="feature-component">
-        <div class="form-row form-compact-items no-pad" v-if="formData">
+        <div style="max-width: 700px;" class="form-row no-pad" v-if="formData">
             <div class="form-item">
                 <nitrozen-input
+                    :disabled="disabled"
                     :label="'Feature Text *'"
                     v-model="formData.display_text"
                 >
@@ -25,12 +26,18 @@
         </div> -->
         <div class="form-row form-compact-items" v-if="config">
             <div class="form-item">
-                <nitrozen-checkbox v-model="formData.feature_config.email">
+                <nitrozen-checkbox
+                    v-model="formData.feature_config.email"
+                    :disabled="disabled"
+                >
                     {{ config.email.display }}
                 </nitrozen-checkbox>
             </div>
             <div class="form-item">
-                <nitrozen-checkbox v-model="formData.feature_config.call">
+                <nitrozen-checkbox
+                    v-model="formData.feature_config.call"
+                    :disabled="disabled"
+                >
                     {{ config.call.display }}
                 </nitrozen-checkbox>
             </div>
@@ -52,6 +59,9 @@ export default {
         },
         formData: {
             type: Object
+        },
+        disabled: {
+            type: Boolean
         }
     },
     components: {

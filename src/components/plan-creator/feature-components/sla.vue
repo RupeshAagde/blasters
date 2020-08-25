@@ -1,8 +1,9 @@
 <template>
     <div class="feature-component">
-        <div class="form-row form-compact-items no-pad" v-if="formData">
+        <div style="max-width: 700px;" class="form-row no-pad" v-if="formData">
             <div class="form-item">
                 <nitrozen-input
+                    :disabled="disabled"
                     :label="'Feature Text *'"
                     v-model="formData.display_text"
                 >
@@ -26,6 +27,7 @@
         <div class="form-row form-compact-items" v-if="config">
             <div class="form-item">
                 <nitrozen-dropdown
+                    :disabled="disabled"
                     :label="'Support time'"
                     v-model="formData.feature_config.type"
                     :items="support_types"
@@ -51,6 +53,9 @@ export default {
         },
         formData: {
             type: Object
+        },
+        disabled: {
+            type: Boolean
         }
     },
     data() {

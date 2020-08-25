@@ -1,8 +1,9 @@
 <template>
     <div class="feature-component">
-        <div class="form-row form-compact-items no-pad" v-if="formData">
+        <div style="max-width: 700px;" class="form-row no-pad" v-if="formData">
             <div class="form-item">
                 <nitrozen-input
+                    :disabled="disabled"
                     :label="'Feature Text *'"
                     v-model="formData.display_text"
                 >
@@ -26,6 +27,7 @@
         <div class="form-row form-compact-items" v-if="config">
             <div class="form-item">
                 <nitrozen-input
+                    :disabled="disabled"
                     :label="config.hard_limit.display"
                     v-model="formData.feature_config.hard_limit"
                     :type="config.hard_limit.type"
@@ -34,6 +36,7 @@
             </div>
             <div class="form-item">
                 <nitrozen-input
+                    :disabled="disabled"
                     :label="config.soft_limit.display"
                     v-model="formData.feature_config.soft_limit"
                     :type="config.soft_limit.type"
@@ -58,6 +61,9 @@ export default {
         },
         formData: {
             type: Object
+        },
+        disabled: {
+            type: Boolean
         }
     },
     components: {

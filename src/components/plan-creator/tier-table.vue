@@ -49,6 +49,7 @@
                         :type="'number'"
                         v-model="tier.up_to"
                         :allowNegative="false"
+                        :disabled="disabled"
                     ></nitrozen-input>
                     <nitrozen-input
                         v-else
@@ -63,6 +64,7 @@
                         :allowNegative="false"
                         :showPrefix="true"
                         :prefix="currency"
+                        :disabled="disabled"
                     ></nitrozen-input>
                 </div>
                 <div class="tb-cell">
@@ -72,11 +74,15 @@
                         :allowNegative="false"
                         :showPrefix="true"
                         :prefix="currency"
+                        :disabled="disabled"
                     ></nitrozen-input>
                 </div>
                 <div class="tb-cell remove-clm">
                     <span
-                        :class="{ hidden: index < 2 }"
+                        :class="{
+                            hidden: index < 2,
+                            'disabled-ctrl': disabled
+                        }"
                         @click="removeTier(index)"
                     >
                         <inline-svg src="cross-black"></inline-svg>
@@ -171,8 +177,12 @@ export default {
         };
     },
     mounted() {
-        this.addTier();
-        this.addTier();
+        if (this.value.length === 0) {
+            this.addTier();
+        }
+        if (this.value.length === 1) {
+            this.addTier();
+        }
     },
     unmounted() {
         this.value.length = 0;

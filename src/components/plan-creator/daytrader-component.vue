@@ -3,6 +3,7 @@
         <div class="form-row no-pad">
             <div class="form-item">
                 <nitrozen-input
+                    :disabled="disabled"
                     :label="'Rule Name*'"
                     v-model="formData.name"
                 ></nitrozen-input>
@@ -18,6 +19,7 @@
         >
             <div class="form-item">
                 <nitrozen-dropdown
+                    :disabled="disabled"
                     v-if="cbs_opts.locations.length"
                     :label="'Locations'"
                     :items="cbs_opts.locations"
@@ -31,6 +33,7 @@
             </div>
             <div class="form-item">
                 <nitrozen-dropdown
+                    :disabled="disabled"
                     v-if="cbs_opts.brands.length"
                     :label="'Brands'"
                     :items="cbs_opts.brands"
@@ -49,6 +52,7 @@
         <div class="form-row no-pad">
             <div class="form-item">
                 <nitrozen-input
+                    :disabled="disabled"
                     :label="'High Street'"
                     v-model="formData.settle_cycle_period.high_street"
                     :type="'number'"
@@ -57,6 +61,7 @@
             </div>
             <div class="form-item">
                 <nitrozen-input
+                    :disabled="disabled"
                     :label="'Mall'"
                     v-model="formData.settle_cycle_period.mall"
                     :type="'number'"
@@ -65,6 +70,7 @@
             </div>
             <div class="form-item">
                 <nitrozen-input
+                    :disabled="disabled"
                     :label="'Warehouse'"
                     v-model="formData.settle_cycle_period.warehouse"
                     :type="'number'"
@@ -76,6 +82,7 @@
         <div class="form-row form-compact-items no-pad">
             <div class="form-item">
                 <nitrozen-dropdown
+                    :disabled="disabled"
                     :label="'Settlement Type'"
                     :items="[
                         {
@@ -93,6 +100,7 @@
             </div>
             <div class="form-item" v-if="!plan_type_rule">
                 <date-picker
+                    :disabled="disabled"
                     :label="'Date From and To'"
                     :useNitrozenTheme="true"
                     :range="true"
@@ -121,6 +129,7 @@
             <div class="form-item">
                 <div class="form-row">
                     <nitrozen-checkbox
+                        :disabled="disabled"
                         :value="tran_comp[comp_key] !== undefined"
                         @input="
                             (value) => {
@@ -132,9 +141,11 @@
                             }
                         "
                     >
-                        <span class="bold-xs">{{
-                            getCamelCase(comp_key)
-                        }}</span>
+                        <span
+                            class="bold-xs"
+                            :class="{ 'disabled-ctrl': disabled }"
+                            >{{ getCamelCase(comp_key) }}</span
+                        >
                     </nitrozen-checkbox>
                 </div>
                 <div
@@ -144,7 +155,8 @@
                     :key="opt_obj.id"
                 >
                     <nitrozen-radio
-                        :name="`${comp_key}_main_${config.component_id}`"
+                        :disabled="disabled"
+                        :name="`${comp_key}_main_${component_id}`"
                         :radioValue="opt_obj.id"
                         v-model="tran_comp[comp_key]"
                     >
@@ -175,13 +187,16 @@
                     >
                         <div class="form-item">
                             <div class="form-row">
-                                <span class="bold-xs">{{
-                                    getCamelCase(user_input)
-                                }}</span>
+                                <span
+                                    class="bold-xs"
+                                    :class="{ 'disabled-ctrl': disabled }"
+                                    >{{ getCamelCase(user_input) }}</span
+                                >
                             </div>
                             <div class="form-row">
                                 <div class="form-item">
                                     <nitrozen-dropdown
+                                        :disabled="disabled"
                                         :label="'   '"
                                         :items="input_types"
                                         :value="
@@ -216,6 +231,7 @@
                                 </div>
                                 <div class="form-item">
                                     <nitrozen-dropdown
+                                        :disabled="disabled"
                                         class="no-label"
                                         :label="'Condition Applicable On'"
                                         v-if="cond_data[user_input]"
@@ -235,6 +251,7 @@
                             <div class="form-row form-compact-items no-pad">
                                 <div class="form-item">
                                     <nitrozen-input
+                                        :disabled="disabled"
                                         v-if="
                                             default_data[user_input] !==
                                                 undefined
@@ -244,6 +261,7 @@
                                         v-model="default_data[user_input]"
                                     ></nitrozen-input>
                                     <nitrozen-input
+                                        :disabled="disabled"
                                         v-else-if="cond_data[user_input]"
                                         :label="'Value'"
                                         v-model="
@@ -324,6 +342,13 @@ export default {
         },
         cbs_opts: {
             type: Object
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+        component_id: {
+            type: String
         }
     },
     components: {

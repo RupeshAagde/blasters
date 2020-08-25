@@ -1,5 +1,5 @@
 <template>
-    <div class="component-container">
+    <div :class="{ 'component-container': !daytrader }">
         <div class="comp-details">
             <div
                 v-if="!daytrader"
@@ -21,25 +21,40 @@
                     v-if="currentPriceModel"
                     :baseComponent="component"
                     :priceModel="currentPriceModel"
+                    :disabled="disabled"
                 >
                 </price-model-page>
                 <div v-else-if="daytrader">
                     <div
                         v-for="(rule, index) in price_component.shallow_rules"
                         :key="index"
-                        class="form-row form-compact-items"
+                        class="component-container daytrader-rule"
                     >
-                        <div
-                            class="form-item"
-                            @click="
-                                () => {
-                                    edit_rule_idx = index;
-                                    editDayTraderRule();
-                                }
-                            "
-                        >
-                            <div class="bold-xs clickable-label cl-RoyalBlue">
-                                {{ rule.data.name || 'Default Rule' }}
+                        <div class="rule-name bold-xs cl-Mako">
+                            {{ rule.data.name || 'Default Rule' }}
+                        </div>
+                        <div class="rule-actions">
+                            <div
+                                class="clickable-label pad-right"
+                                @click="
+                                    () => {
+                                        edit_rule_idx = index;
+                                        editDayTraderRule();
+                                    }
+                                "
+                            >
+                                <inline-svg :src="'edit'"></inline-svg>
+                            </div>
+                            <div
+                                class="clickable-label"
+                                @click="
+                                    () => {
+                                        edit_rule_idx = index;
+                                        editDayTraderRule(true);
+                                    }
+                                "
+                            >
+                                <inline-svg :src="'copy'"></inline-svg>
                             </div>
                         </div>
                     </div>
@@ -62,11 +77,13 @@
             <template slot="body">
                 <daytrader-component
                     v-if="dtOptions"
+                    :disabled="disabled"
                     :options="dtOptions"
                     :ref="'daytrader'"
                     class="plan-component"
                     :config="price_component.shallow_rules[0].data"
                     :cbs_opts="cbs_opts"
+                    :component_id="price_component.component_id"
                 >
                 </daytrader-component>
             </template>
@@ -86,6 +103,19 @@
 </template>
 
 <style lang="less" scoped>
+.daytrader-rule {
+    display: flex;
+    align-items: center;
+    + .daytrader-rule {
+        margin-top: 12px;
+    }
+    .rule-name {
+        flex: 1;
+    }
+    .rule-actions {
+        display: flex;
+    }
+}
 .component-container {
     padding: 12px;
     box-sizing: border-box;
@@ -126,6 +156,7 @@ import { PLAN_ENUMS, getProp } from '../../helper/plan-creator-helper';
 import PriceModelPage from '../../pages/plan-creator/component-price.vue';
 import toggleSwitch from '../../components/plan-creator/toggle-switch.vue';
 import daytraderComponent from '../../components/plan-creator/daytrader-component.vue';
+import { InlineSvg } from '../common/';
 
 export default {
     name: 'plan-component-card',
@@ -137,7 +168,8 @@ export default {
         'price-model-page': PriceModelPage,
         'nitrozen-dialog': NitrozenDialog,
         'toggle-switch': toggleSwitch,
-        'daytrader-component': daytraderComponent
+        'daytrader-component': daytraderComponent,
+        'inline-svg': InlineSvg
     },
     props: {
         component: {
@@ -155,6 +187,10 @@ export default {
         },
         cbs_opts: {
             type: Object
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         }
     },
     directives: {
@@ -206,7 +242,7 @@ export default {
                 {};
             return displayVal.text || '';
         },
-        editDayTraderRule() {
+        editDayTraderRule(clone) {
             this.$refs['daytrader_rule_edit'].open({
                 width: '850px',
                 height: 'calc(100% - 100px)',
@@ -224,6 +260,9 @@ export default {
             } else {
                 _.merge(this.$refs['daytrader'].formData, this.component.data);
             }
+            if (clone) {
+                this.edit_rule_idx = -1;
+            }
         },
         updateDaytraderData() {
             if (!this.$refs['daytrader'].validateData()) {
@@ -237,6 +276,13 @@ export default {
                     this.dtRules[this.edit_rule_idx].data,
                     this.$refs['daytrader'].formData
                 );
+                this.dtRules[this.edit_rule_idx].rule_type = 'plan_rule';
+                this.dtRules[this.edit_rule_idx].data.slug_fields.push(
+                    'company'
+                );
+                this.dtRules[this.edit_rule_idx].data.slug_values[
+                    'company'
+                ] = this.cbs_opts['companies'];
             } else {
                 let newIdx = this.dtRules.length;
                 this.dtRules.push(
@@ -254,6 +300,11 @@ export default {
                     this.dtRules[newIdx].data,
                     this.$refs['daytrader'].formData
                 );
+                this.dtRules[newIdx].rule_type = 'plan_rule';
+                this.dtRules[newIdx].data.slug_fields.push('company');
+                this.dtRules[newIdx].data.slug_values[
+                    'company'
+                ] = this.cbs_opts['companies'];
             }
             this.$refs['daytrader_rule_edit'].close();
         },

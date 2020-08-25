@@ -11,6 +11,7 @@
             >
                 <div class="button-box">
                     <span
+                        v-if="mapPlanType[formData.plan.type]"
                         class="plan-type-badge bold-xs"
                         :title="`${mapPlanType[formData.plan.type]} plan`"
                         >{{ mapPlanType[formData.plan.type] }}</span
@@ -57,7 +58,10 @@
                 </div>
             </page-header>
         </div>
-        <loader v-if="loading"></loader>
+        <loader
+            v-if="loading"
+            style="display: flex; justify-content:center;"
+        ></loader>
         <div v-else class="main-container">
             <div class="subscription-plan-form-container">
                 <main-section
@@ -123,6 +127,9 @@
 <style lang="less" scoped>
 // @import '../../less/page-ui.less';
 // @import '../../less/page-header.less';
+::v-deep .disabled-ctrl {
+    opacity: 0.5;
+}
 .page-header-position {
     margin-bottom: 60px;
 }

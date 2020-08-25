@@ -1,8 +1,9 @@
 <template>
     <div class="feature-component">
-        <div class="form-row form-compact-items no-pad" v-if="formData">
+        <div style="max-width: 700px;" class="form-row no-pad" v-if="formData">
             <div class="form-item">
                 <nitrozen-input
+                    :disabled="disabled"
                     :label="'Feature Text *'"
                     v-model="formData.display_text"
                 >
@@ -38,6 +39,9 @@ export default {
         },
         formData: {
             type: Object
+        },
+        disabled: {
+            type: Boolean
         }
     },
     components: {
