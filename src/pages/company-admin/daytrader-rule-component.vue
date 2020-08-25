@@ -62,6 +62,17 @@
                             : component.data
                     "
                     :cbs_opts="cbs_opts"
+                    :component_id="component._id"
+                    :plan_type_rule="
+                        edit_rule_idx > -1
+                            ? rules[edit_rule_idx].rule_type === 'plan_type'
+                            : false
+                    "
+                    :disabled="
+                        edit_rule_idx > -1
+                            ? rules[edit_rule_idx].auto_verify
+                            : false
+                    "
                 ></daytrader-component>
             </template>
             <template slot="footer">
@@ -148,7 +159,6 @@ export default {
                     component_id: this.component._id
                 }),
                 limit: this.pagination.limit,
-                adding,
                 page: this.pagination.current - 1
             };
             BillingService.getSubscriptionDaytraderRules(
@@ -230,7 +240,7 @@ export default {
                     this.$snackbar.global.showSuccess(`Rule added succssfully`);
                 })
                 .catch((err) => {
-                    this.$snackbar.global.showError(`Rule adding failed`);
+                    this.$snackbar.global.showError(`Failed to add rule`);
                     console.log(err);
                 });
         }

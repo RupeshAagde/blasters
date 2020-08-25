@@ -102,7 +102,7 @@
                     :items="
                         companies.map((item) => {
                             return {
-                                text: item.name,
+                                text: `${item.name} (${item.uid})`,
                                 value: item.uid
                             };
                         })

@@ -148,6 +148,10 @@
         display: flex;
     }
 }
+
+::v-deep .disabled-ctrl {
+    opacity: 0.5;
+}
 </style>
 
 <script>

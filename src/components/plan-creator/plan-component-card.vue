@@ -89,6 +89,7 @@
             </template>
             <template slot="footer">
                 <nitrozen-button
+                    :disabled="disabled"
                     class="pad-right"
                     v-flatBtn
                     :theme="'secondary'"

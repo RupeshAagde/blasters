@@ -36,10 +36,12 @@
                     :disabled="disabled"
                     v-if="cbs_opts.brands.length"
                     :label="'Brands'"
-                    :items="cbs_opts.brands"
+                    :items="brands"
                     :multiple="true"
+                    :searchable="true"
                     :value="formData.slug_values.brand.map((item) => item.id)"
                     @input="updateBrands"
+                    @searchInputChange="searchBrands"
                 ></nitrozen-dropdown>
             </div>
         </div>
@@ -367,6 +369,7 @@ export default {
     data() {
         return {
             errors: {},
+            searchBrand: '',
             auto_verify: false,
             input_types: [
                 {
@@ -433,6 +436,14 @@ export default {
         },
         date_range() {
             return [this.formData.rule_start_date, this.formData.rule_end_date];
+        },
+        brands() {
+            let regexBrand = new RegExp(this.searchBrand, 'gi');
+            return this.searchBrand
+                ? this.cbs_opts.brands.filter((brand) =>
+                      regexBrand.test(brand.text)
+                  )
+                : this.cbs_opts.brands;
         }
     },
     watch: {
@@ -441,6 +452,9 @@ export default {
         }
     },
     methods: {
+        searchBrands(evt) {
+            this.searchBrand = evt.text;
+        },
         validData() {
             let data = _.cloneDeep(this.formData);
             for (let key of Object.keys(data.slug_values)) {
