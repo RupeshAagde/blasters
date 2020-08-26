@@ -557,6 +557,7 @@ export default {
                 component_id: dtCompConfig._id,
                 shallow_rules: [
                     {
+                        name: 'Default Rule',
                         auto_verify: true,
                         is_active: true,
                         component_id: dtCompConfig._id,

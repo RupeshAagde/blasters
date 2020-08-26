@@ -256,12 +256,23 @@ export default {
             if (this.edit_rule_idx > -1 && this.dtRules[this.edit_rule_idx]) {
                 _.merge(
                     this.$refs['daytrader'].formData,
-                    this.dtRules[this.edit_rule_idx].data
+                    this.dtRules[this.edit_rule_idx].data,
+                    {
+                        name:
+                            this.dtRules[this.edit_rule_idx].data.name ||
+                            'Default Rule'
+                    }
                 );
             } else {
                 _.merge(this.$refs['daytrader'].formData, this.component.data);
             }
             if (clone) {
+                let ruleName =
+                    this.dtRules[this.edit_rule_idx].data.name ||
+                    'Default Rule';
+                _.merge(this.$refs['daytrader'].formData, {
+                    name: `Clone of ${ruleName}`
+                });
                 this.edit_rule_idx = -1;
             }
         },
