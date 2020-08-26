@@ -1,5 +1,19 @@
 <template>
     <div class="comp-container" v-if="config && options">
+        <div class="form-row" v-if="verified || disabled">
+            <span
+                v-if="verified"
+                style="font-style: italic; color: #ee485d;"
+                class="cl-Required regular-xxxs"
+                >Verified Rule cannot be updated*</span
+            >
+            <span
+                v-else
+                style="font-style: italic; color: #ee485d;"
+                class="cl-Required regular-xxxs"
+                >Rule of subscribed plan cannot be updated*</span
+            >
+        </div>
         <div class="form-row no-pad">
             <div class="form-item">
                 <nitrozen-input
@@ -352,6 +366,9 @@ export default {
         },
         component_id: {
             type: String
+        },
+        verified: {
+            type: Boolean
         }
     },
     components: {
@@ -365,7 +382,6 @@ export default {
     },
     mounted() {
         _.merge(this.formData, this.config);
-        this.auto_verify = this.verified;
     },
     data() {
         return {
