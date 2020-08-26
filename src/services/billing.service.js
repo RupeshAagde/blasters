@@ -88,7 +88,14 @@ const BillingService = {
             { params: params },
             getCommonHeaderOptions()
         );
-        return ApiService.get(URLS.CURRENT_PLAN_DETAILS(), axiosOptions);
+        return ApiService.get(
+            URLS.CURRENT_SUBSCRIPTION_DETAILS(),
+            axiosOptions
+        );
+    },
+    getPlanDetail(planId) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.PLAN_DETAILS(planId), axiosOptions);
     }
 };
 

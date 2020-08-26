@@ -3,7 +3,10 @@
         <div class="page-container common-container">
             <div class="header">
                 <div class="title cl-Mako bold-md">Current Subscription</div>
-                <nitrozen-button theme="secondary"
+                <nitrozen-button
+                    v-if="active_plan.is_enabled"
+                    theme="secondary"
+                    @click="openPlanDetailsModal"
                     >View details</nitrozen-button
                 >
             </div>
@@ -60,6 +63,34 @@
             >
             </daytrader-component>
         </div>
+        <nitrozen-dialog
+            id="view-plan-details"
+            ref="view_plan_details"
+            title="Plan details"
+        >
+            <template slot="body" name="body">
+                <div class="plan-info" v-if="plan_details">
+                    <div class="plan-bolder">
+                        Plan name: {{ plan_details.name }}
+                    </div>
+                    <div class="plan-thin">
+                        Pricing:
+                        {{ amountFormat(plan_details) }}
+                        /
+                        {{
+                            recurringText(
+                                plan_details.recurring.interval_count,
+                                plan_details.recurring.interval
+                            )
+                        }}
+                    </div>
+                </div>
+                <plan-rows :plan="plan_details"></plan-rows>
+            </template>
+            <template slot="footer" name="footer"
+                ><div></div
+            ></template>
+        </nitrozen-dialog>
     </div>
 </template>
 
@@ -81,6 +112,13 @@
     &:first-child {
         margin-top: 0;
     }
+}
+
+.plan-info {
+    padding: 14px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    line-height: 24px;
 }
 
 ::v-deep .custom-label {
@@ -168,6 +206,7 @@ import CompanyService from '../../services/company-admin.service';
 import moment from 'moment';
 import { NitrozenButton, NitrozenDialog, flatBtn } from '@gofynd/nitrozen-vue';
 import daytraderComponent from './daytrader-rule-component.vue';
+import planRows from '../../components/plan-creator/plan-rows.vue';
 
 const channels = ['uniket', 'fynd', 'ecomm', 'marketplace', 'fynd_store'];
 
@@ -181,7 +220,8 @@ export default {
     components: {
         'nitrozen-button': NitrozenButton,
         'nitrozen-dialog': NitrozenDialog,
-        'daytrader-component': daytraderComponent
+        'daytrader-component': daytraderComponent,
+        'plan-rows': planRows
     },
     data() {
         return {
@@ -195,7 +235,8 @@ export default {
             },
             edit_rule_idx: -1,
             locations: [],
-            brands: []
+            brands: [],
+            plan_details: null
         };
     },
     props: {
@@ -257,8 +298,23 @@ export default {
         BillingService.getCurrentPlanDetails(params)
             .then(({ data }) => {
                 this.active_plan = data;
+                if (this.plan_data && this.plan_data._id) {
+                    BillingService.getPlanDetail(this.plan_data._id)
+                        .then(({ data }) => {
+                            this.plan_details = data;
+                        })
+                        .catch((err) => {
+                            this.$snackbar.global.showError(
+                                'Failed to load plan details'
+                            );
+                            console.log(err);
+                        });
+                }
             })
             .catch((err) => {
+                this.$snackbar.global.showError(
+                    'Failed to load current subscription details'
+                );
                 console.log(err);
             });
 
@@ -288,10 +344,19 @@ export default {
             .catch((err) => {
                 console.log(err);
             });
+
         this.fetchBrands();
         this.getDaytraderFilters();
     },
     methods: {
+        openPlanDetailsModal() {
+            this.$refs['view_plan_details'].open({
+                width: '750px',
+                height: '675px',
+                showCloseButton: true,
+                dismissible: true
+            });
+        },
         getDateString: function(value) {
             return moment(value).format('MMMM Do YYYY');
         },

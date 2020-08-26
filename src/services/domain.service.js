@@ -268,7 +268,7 @@ const URLS = {
     FETCH_DAYTRADER_FILTERS: () => {
         return urlJoin(DAYTRADER_BASE, 'api/v1/get-data');
     },
-    CURRENT_PLAN_DETAILS: () => {
+    CURRENT_SUBSCRIPTION_DETAILS: () => {
         return urlJoin(UNICRON_BASE, 'v1/subscription/current');
     },
     SUBSCRIPTION_DAYTRADER_RULES: (subscriptionId) => {
@@ -276,6 +276,9 @@ const URLS = {
             UNICRON_BASE,
             `v1/daytrader-rule/subscription/${subscriptionId}`
         );
+    },
+    PLAN_DETAILS: (planId) => {
+        return urlJoin(UNICRON_BASE, `v1/plan/details/${planId}`);
     },
 
     //#########Tickets########

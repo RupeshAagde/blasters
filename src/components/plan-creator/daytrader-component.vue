@@ -102,11 +102,12 @@
             </div>
             <div class="form-item" v-if="!plan_type_rule">
                 <date-picker
+                    style="width: 300px;"
                     :disabled="disabled"
                     :label="'Date From and To'"
                     :useNitrozenTheme="true"
                     :range="true"
-                    :date_format="'dd/mm/yyyy'"
+                    :date_format="'DD/MM/YYYY'"
                     :value="date_range"
                     @input="
                         (dates) => {
