@@ -14,7 +14,15 @@
             >
                 <div style="color: black;" class="darker-xsp">
                     Current active plan:
-                    {{ active_plan.subscription.plan_data.name }}
+                    <span
+                        class="cl-RoyalBlue clickable-label"
+                        @click="
+                            $router.push({
+                                path: `/administrator/subscription-plans/edit/${active_plan.subscription.plan_data._id}`
+                            })
+                        "
+                        >{{ active_plan.subscription.plan_data.name }}</span
+                    >
                 </div>
                 <div>
                     Pricing:
