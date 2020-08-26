@@ -79,6 +79,20 @@ const conf = convict({
             env: 'HIGHBROW_MAIN_SVC',
             arg: 'highbrow_main_svc'
         },
+        APEFACE_MAIN_URL: {
+            doc: 'Platform Orders URL',
+            format: String,
+            default: '',
+            env: 'APEFACE_MAIN_URL',
+            arg: 'apeface_main_url'
+        },
+        APEFACE_MAIN_SVC: {
+            doc: 'Platform Orders Service',
+            format: String,
+            default: '',
+            env: 'APEFACE_MAIN_SVC',
+            arg: 'apeface_main_svc'
+        },
         SEARCHLIGHT_MAIN_DOMAIN: {
             doc: 'SEARCHLIGTH URL FOR HELP DATA',
             format: String,

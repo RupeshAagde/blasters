@@ -217,3 +217,36 @@ export const titleCase = (str) => {
     }
     return str.join(' ');
 };
+
+export const compactDeepObject = (obj = {}) => {
+    _.map(obj, (prop, key) => {
+        if (_.isArray(prop)) {
+            if (_.isEmpty(_.compact(prop))) {
+                delete obj[key];
+            }
+        } else {
+            let compactProp = _.pickBy(prop, _.identity);
+            if (_.isEmpty(compactProp)) {
+                delete obj[key];
+            }
+        }
+    });
+    return obj;
+};
+
+export const moveArrayItem = (arr, oldIndex, newIndex) => {
+    while (oldIndex < 0) {
+        oldIndex += arr.length;
+    }
+    while (newIndex < 0) {
+        newIndex += arr.length;
+    }
+    if (newIndex >= arr.length) {
+        let k = newIndex - arr.length;
+        while (k-- + 1) {
+            arr.push(undefined);
+        }
+    }
+    arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
+    return arr;
+};

@@ -132,6 +132,7 @@
         .search {
             flex: 1;
             max-width: 400px;
+            margin-top: 22px;
         }
         .dropdown-filters {
             display: flex;

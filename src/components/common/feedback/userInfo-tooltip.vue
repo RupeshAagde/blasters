@@ -50,7 +50,7 @@
                                 <inline-svg src="copy"></inline-svg>
                             </div>
                         </div>
-                        <div v-if="userInfo.gender">
+                        <div v-if="userInfo.gender" class="cust-ga">
                             <span class="dark-xxs cl-Mako gender"
                                 >Gender: &nbsp;</span
                             >
@@ -88,6 +88,10 @@
 @import './../../../pages/less/page-header.less';
 @import './../../../pages/less/page-ui.less';
 @import './../../../pages/less/form.less';
+.cust-ga {
+    display: flex;
+    justify-content: flex-start;
+}
 .reviewer {
     color: @DustyGray2;
     line-height: 16px;
@@ -103,6 +107,7 @@
 .userInfo {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
 }
 .copy {
     padding: 2px 0px 7px 8px;

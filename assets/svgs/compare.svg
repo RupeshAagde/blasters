@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Compare</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Setting" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-1070.000000, -234.000000)" id="Rectangle-223-Copy-12">
+            <g transform="translate(1040.000000, 202.000000)">
+                <g id="Compare" transform="translate(30.000000, 32.000000)">
+                    <rect id="Rectangle-Copy-12" fill-opacity="0.01" fill="#FFFFFF" x="0" y="0" width="40" height="40"></rect>
+                    <g id="Group-41" transform="translate(5.000000, 6.000000)" stroke="#9B9B9B" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <g id="Group-7" transform="translate(21.435060, 20.981061) rotate(-180.000000) translate(-21.435060, -20.981061) translate(13.035060, 12.981061)">
+                            <line x1="10.189899" y1="0.646464646" x2="16.8046711" y2="7.75734464" id="Stroke-1"></line>
+                            <line x1="10.189899" y1="15.3858586" x2="16.8046711" y2="8.27497859" id="Stroke-3"></line>
+                            <line x1="0.601362462" y1="8.01616162" x2="15.6128728" y2="8.01616162" id="Stroke-5"></line>
+                        </g>
+                        <g id="Group-7" transform="translate(8.397093, 8.648256) rotate(-270.000000) translate(-8.397093, -8.648256) translate(-0.002907, 0.648256)">
+                            <line x1="0.701589539" y1="6.56014692" x2="8.41882364" y2="0.0957105621" id="Stroke-1"></line>
+                            <line x1="16.697831" y1="6.56014692" x2="8.98059692" y2="0.0957105621" id="Stroke-3"></line>
+                            <line x1="8.69971028" y1="15.9853076" x2="8.69971028" y2="1.43985308" id="Stroke-5"></line>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

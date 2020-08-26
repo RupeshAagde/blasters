@@ -6,7 +6,7 @@
         <div class="search-div">
             <div class="box-search">
                 <nitrozen-input
-                    placeholder="Search Channels by name or domain . . ."
+                    placeholder="Search by name or domain . . ."
                     @input="searchChannels"
                     v-model="searchText"
                     :showSearchIcon="true"
@@ -64,15 +64,31 @@
                 </div>
                 <div class="line-2" v-if="item.token">
                     <div class="cust-head">Token</div>
-                    <div>{{ item.token }}</div>
+                    <div
+                        class="cust-pointer"
+                        :title="`${item.token} (Click to copy)`"
+                        @click="copy(item.token)"
+                    >
+                        {{ item.token }}
+                    </div>
                 </div>
                 <div class="line-2" v-if="item.id">
                     <div class="cust-head">Application ID</div>
-                    <div class="cust-app">{{ item.id }}</div>
+                    <div
+                        class="cust-app cust-pointer"
+                        :title="`${item.id} (Click to copy)`"
+                        @click="copy(item.id)"
+                    >
+                        {{ item.id }}
+                    </div>
                 </div>
                 <div class="line-2" v-if="item.domain">
                     <div class="cust-head" v-if="item.domain.name">Domain</div>
-                    <div v-if="item.domain.name" class="cust-domain">
+                    <div
+                        v-if="item.domain.name"
+                        class="cust-domain"
+                        :title="item.domain.name"
+                    >
                         <a
                             :href="`https://${item.domain.name}`"
                             target="_blank"
@@ -158,6 +174,9 @@
     height: 120px;
     margin-bottom: 24px;
 }
+.cust-pointer {
+    cursor: pointer;
+}
 ::v-deep .nitrozen-pagination {
     font-size: 11px !important;
 }
@@ -242,6 +261,7 @@
                 white-space: nowrap;
                 width: 160px;
                 overflow: hidden;
+                line-height: 20px;
                 font-size: 14px;
                 color: #5c6bdd;
                 font-weight: bold;
@@ -258,6 +278,7 @@
             margin: 12px 0;
             display: flex;
             font-size: 14px;
+            line-height: 20px;
             color: #41434c;
             font-weight: 200;
             justify-content: space-between;
@@ -292,6 +313,7 @@ import admInlineSVG from '@/components/common/adm-inline-svg';
 import uktInlineSVG from '@/components/common/ukt-inline-svg';
 import admshimmer from '@/components/common/shimmer';
 import admnocontent from '@/components/common/page-empty';
+import { copyToClipboard } from '@/helper/utils.js';
 import pageerror from '@/components/common/page-error';
 import {
     NitrozenInput,
@@ -366,6 +388,14 @@ export default {
         this.fetchApplication();
     },
     methods: {
+        copy(text) {
+            copyToClipboard(text);
+            if (text) {
+                this.$snackbar.global.showInfo('Copied to clipboard');
+            } else {
+                this.$snackbar.global.showError('Failed to Copy');
+            }
+        },
         requestQuery() {
             const temp = {
                 page: this.pagination.current,
