@@ -29,7 +29,7 @@
                         placeholder="Search by name, email, or number..."
                         v-model="searchText"
                         @input="debounceInput({ search: searchText })"
-                    ></nitrozen-input> -->
+                ></nitrozen-input>-->
                 <!-- <div class="filter">
                         <label class="label">Filter</label>
                         <nitrozen-dropdown
@@ -38,7 +38,7 @@
                             v-model="selectedFilter"
                             @change="fetchCompany()"
                         ></nitrozen-dropdown>
-                    </div>-->
+                </div>-->
                 <!-- </template> -->
             </div>
             <div class="product-list">
@@ -53,6 +53,7 @@
                         v-for="(user, index) in userList"
                         :key="index"
                         class="container"
+                        @click="editUserPermissions(user)"
                     >
                         <div class="card-avatar">
                             <img
@@ -154,6 +155,15 @@
                         >Cancel</nitrozen-button
                     >
                 </div>
+            </template>
+        </nitrozen-dialog>
+
+        <nitrozen-dialog
+            ref="edit_permissions_dialog"
+            :title="`Edit ${activeUser ? getFullName() : ''} permissions`"
+        >
+            <template slot="body">
+                <user-permissions v-if="activeUser"></user-permissions>
             </template>
         </nitrozen-dialog>
     </div>
@@ -342,6 +352,8 @@ import {
     NitrozenDialog
 } from '@gofynd/nitrozen-vue';
 
+import userPermissions from './user-permissions.vue';
+
 const PAGINATION = {
     limit: 10,
     total: 0,
@@ -362,7 +374,8 @@ export default {
         'nitrozen-error': NitrozenError,
         NitrozenDropdown,
         NitrozenButton,
-        Jumbotron
+        Jumbotron,
+        'user-permissions': userPermissions
     },
     directives: {
         strokeBtn,
@@ -493,6 +506,17 @@ export default {
         },
         closeRemoveDialog() {
             this.$refs['user_remove_dialog'].close();
+        },
+        editUserPermissions(user) {
+            this.activeUser = user;
+            this.$refs['edit_permissions_dialog'].open({
+                width: '800px',
+                height: '600px',
+                showCloseButton: true,
+                dismissible: true,
+                positiveButtonLabel: 'Update',
+                neutralButtonLabel: 'Cancel'
+            });
         }
     }
 };

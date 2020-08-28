@@ -87,6 +87,9 @@ const URLS = {
     VALIDATE_USER: () => {
         return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff/current/access');
     },
+    ADMIN_PERMISSIONS: () => {
+        return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/permissions');
+    },
     //company details
     GET_COMPANY_LIST: () => {
         return urlJoin(

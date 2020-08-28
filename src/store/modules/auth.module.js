@@ -7,22 +7,30 @@ import {
     OPEN_LOGIN_MODAL,
     SIGNOUT_USER,
     OPEN_REGISTER_MODAL,
-    VALIDATE_USER
+    VALIDATE_USER,
+    FETCH_ADMIN_PERMISSIONS
 } from '../action.type';
 import {
     SET_USER_DATA,
     SET_USER_LOGGED_IN,
     SET_USER_LOGGED_OUT,
-    SET_USER_VALID
+    SET_USER_VALID,
+    SET_ADMIN_PERMISSIONS
 } from '../mutation.type';
-import { IS_LOGGED_IN, GET_USER_INFO, IS_VALID_USER } from '../getters.type';
+import {
+    IS_LOGGED_IN,
+    GET_USER_INFO,
+    IS_VALID_USER,
+    ADMIN_PERMISSIONS
+} from '../getters.type';
 
 const getDefaultState = () => {
     return {
         isLoggedIn: false,
         userData: {},
         userFetched: false,
-        isValidUser: false
+        isValidUser: false,
+        adminPermissions: null
     };
 };
 
@@ -37,6 +45,9 @@ const getters = {
     },
     [IS_VALID_USER](state) {
         return state.isValidUser;
+    },
+    [ADMIN_PERMISSIONS](state) {
+        return state.adminPermissions;
     }
 };
 
@@ -58,6 +69,9 @@ const mutations = {
     },
     [SET_USER_VALID](state, { data }) {
         state.isValidUser = data.data.staff;
+    },
+    [SET_ADMIN_PERMISSIONS](state, { data }) {
+        state.adminPermissions = data.data.adminPermissions;
     }
 };
 
@@ -97,6 +111,11 @@ const actions = {
     [SIGNOUT_USER]({ commit }) {
         AuthService.signOutUser().then((res) => {
             //on action of user signout
+        });
+    },
+    [FETCH_ADMIN_PERMISSIONS]({ commit }) {
+        AuthService.adminPermissions().then((res) => {
+            commit(SET_ADMIN_PERMISSIONS, res);
         });
     }
 };

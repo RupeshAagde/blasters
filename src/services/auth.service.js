@@ -2,6 +2,7 @@ import { LocalStorageService } from './localstorage.service';
 import { isBrowser, isNode } from 'browser-or-node';
 import URLS from './domain.service';
 import ApiService from './api.service';
+import { getCommonHeaderOptions } from '../services/utils.service';
 
 let IframeWindow = null;
 const AuthService = {
@@ -38,6 +39,10 @@ const AuthService = {
             }
         );
         return ApiService.get(URLS.VALIDATE_USER(), axiosOptions);
+    },
+    adminPermissions() {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.ADMIN_PERMISSIONS(), axiosOptions);
     },
     openLoginScreen() {
         this.IframeWindow = window.grimlock.openLoginDialog();
