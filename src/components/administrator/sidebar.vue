@@ -137,6 +137,8 @@
 <script>
 import inlineSvgVue from './../common/inline-svg.vue';
 import { getNavigations } from './../../pages/administrator/navigations';
+import { mapGetters } from 'vuex';
+import { GET_USER_PERMISSIONS } from '../../store/getters.type';
 export default {
     name: 'sidebar',
     components: {
@@ -145,11 +147,19 @@ export default {
     props: {},
     computed: {
         getNavItems() {
-            return getNavigations(this.$route);
+            let permissions = this.userPermissions
+                ? this.userPermissions.permissions
+                : [];
+            return getNavigations(this.$route).filter((navItem) =>
+                permissions.includes(navItem.permission)
+            );
         },
         currentPath() {
             return this.$route.path;
-        }
+        },
+        ...mapGetters({
+            userPermissions: GET_USER_PERMISSIONS
+        })
     },
     methods: {
         beforeEnter: function(el) {

@@ -16,13 +16,15 @@ import {
     SET_USER_LOGGED_IN,
     SET_USER_LOGGED_OUT,
     SET_USER_VALID,
-    SET_ADMIN_PERMISSIONS
+    SET_ADMIN_PERMISSIONS,
+    SET_USER_PERMISSIONS
 } from '../mutation.type';
 import {
     IS_LOGGED_IN,
     GET_USER_INFO,
     IS_VALID_USER,
-    ADMIN_PERMISSIONS
+    ADMIN_PERMISSIONS,
+    GET_USER_PERMISSIONS
 } from '../getters.type';
 
 const getDefaultState = () => {
@@ -31,6 +33,7 @@ const getDefaultState = () => {
         userData: {},
         userFetched: false,
         isValidUser: false,
+        userPermissions: null,
         adminPermissions: null
     };
 };
@@ -46,6 +49,9 @@ const getters = {
     },
     [IS_VALID_USER](state) {
         return state.isValidUser;
+    },
+    [GET_USER_PERMISSIONS](state) {
+        return state.userPermissions;
     },
     [ADMIN_PERMISSIONS](state) {
         return state.adminPermissions;
@@ -67,9 +73,13 @@ const mutations = {
         state.isLoggedIn = false;
         state.isValidUser = false;
         state.userData = {};
+        state.userPermissions = null;
     },
     [SET_USER_VALID](state, { data }) {
         state.isValidUser = data.data.staff;
+    },
+    [SET_USER_PERMISSIONS](state, { data }) {
+        state.userPermissions = data.data;
     },
     [SET_ADMIN_PERMISSIONS](state, { data }) {
         state.adminPermissions = data.data;
@@ -89,6 +99,7 @@ const actions = {
     [VALIDATE_USER]({ commit }) {
         return AuthService.validateUser().then((data) => {
             commit(SET_USER_VALID, { data });
+            commit(SET_USER_PERMISSIONS, { data });
             return data;
         });
     },
