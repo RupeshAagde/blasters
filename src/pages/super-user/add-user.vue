@@ -365,10 +365,7 @@ export default {
             return this.activeUser.firstName + ' ' + this.activeUser.lastName;
         },
         addUser(clickBtn, userData) {
-            if (clickBtn === 'Cancel') {
-                return;
-            }
-            if (userData) {
+            if (clickBtn === 'Add' && userData) {
                 userData = {
                     title: 'Super Admin',
                     meta: {},
