@@ -1,54 +1,61 @@
 <template>
-    <div>
+    <div v-if="aclPermissions">
         <nitrozen-dropdown
             style="width:300px;"
             :label="'Select Role'"
             :items="
-                aclData.roles.map((role) => {
+                aclPermissions.roles.map((role) => {
                     return {
                         text: role.title,
                         value: role.key
                     };
                 })
             "
-            v-model="user_data.roles[0]"
+            v-model="userData.roles[0]"
         ></nitrozen-dropdown>
         <div class="title-label cl-DustyGray2 dark-xxs">Permissions</div>
         <permissions
-            :permissionData="this.aclData"
-            :currentRole="user_data.roles[0]"
+            :permissionData="aclPermissions"
+            :currentRole="userData.roles[0]"
             :currentPermissions="userPermissions"
             :group="''"
-            @permission-data="(value) => (this.user_data.permissions = value)"
+            @permission-data="(value) => (this.userData.permissions = value)"
         ></permissions>
-        <div class="title-label cl-DustyGray2 dark-xxs">Company Access</div>
+        <div class="title-label cl-DustyGray2 dark-xxs">
+            Company Access
+            <nitrozen-tooltip
+                :tooltipText="
+                    'Allow user access for all companies or specific or none on Fynd Platform'
+                "
+            ></nitrozen-tooltip>
+        </div>
         <div style="display: flex;">
             <nitrozen-radio
                 class="radio-btn"
                 :radioValue="'true'"
                 :name="'company_selection'"
-                :value="user_data.access.all.toString()"
-                @input="(value) => (user_data.access.all = value === 'true')"
+                :value="userData.access.all.toString()"
+                @input="(value) => (userData.access.all = value === 'true')"
                 >All</nitrozen-radio
             >
             <nitrozen-radio
                 class="radio-btn"
                 :radioValue="'false'"
                 :name="'company_selection'"
-                :value="user_data.access.all.toString()"
-                @input="(value) => (user_data.access.all = value === 'true')"
+                :value="userData.access.all.toString()"
+                @input="(value) => (userData.access.all = value === 'true')"
                 >Specific Companies</nitrozen-radio
             >
         </div>
         <nitrozen-dropdown
-            v-show="!user_data.access.all"
+            v-show="!userData.access.all"
             class="title-label"
             :searchable="true"
             :multiple="true"
             :placeholder="'Search company'"
             style="width: 300px;"
             @searchInputChange="companySearch"
-            :value="user_data.access.company"
+            :value="userData.access.company"
             :items="
                 companies.map((item) => {
                     return {
@@ -72,6 +79,9 @@
                 ></nitrozen-inline>
             </nitrozen-chips>
         </div>
+        <div v-else-if="!userData.access.all" class="title-label dark-xxs">
+            No company selected
+        </div>
     </div>
 </template>
 
@@ -94,7 +104,8 @@ import {
     NitrozenDropdown,
     NitrozenRadio,
     NitrozenChips,
-    NitrozenInline
+    NitrozenInline,
+    NitrozenTooltip
 } from '@gofynd/nitrozen-vue';
 import AuthService from '../../services/auth.service';
 import CompanyService from '../../services/company-admin.service';
@@ -102,29 +113,14 @@ import { ADMIN_PERMISSIONS } from '../../store/getters.type';
 import { FETCH_ADMIN_PERMISSIONS } from '../../store/action.type';
 import { mapGetters } from 'vuex';
 import { Permissions } from '../../components/common/';
+import _ from 'lodash';
 
 export default {
     name: 'user-permissions',
     props: {
         user_data: {
             type: Object,
-            default: function() {
-                return {
-                    meta: {},
-                    permissions: [
-                        'company',
-                        'plans',
-                        'admin-access',
-                        'support',
-                        'settings'
-                    ],
-                    roles: ['admin'],
-                    access: {
-                        all: true,
-                        company: []
-                    }
-                };
-            }
+            required: true
         }
     },
     components: {
@@ -132,62 +128,14 @@ export default {
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-chips': NitrozenChips,
         'nitrozen-radio': NitrozenRadio,
-        'nitrozen-inline': NitrozenInline
+        'nitrozen-inline': NitrozenInline,
+        'nitrozen-tooltip': NitrozenTooltip
     },
     data() {
         return {
             companies: [],
             selectedCompany: [],
-            aclData: {
-                permissions: [
-                    {
-                        title: 'Company',
-                        key: 'company',
-                        description:
-                            'Get access to verify the brands and selling locations of the company.'
-                    },
-                    {
-                        title: 'Subscription Plans',
-                        key: 'plans',
-                        description:
-                            'Access to creating new plan and editing existing plans'
-                    },
-                    {
-                        title: 'Admin User Access',
-                        key: 'admin-access',
-                        description: 'Allow to add or edit Admin user access'
-                    },
-                    {
-                        title: 'Support Center',
-                        key: 'support',
-                        description: 'See and resolve assigned tickets'
-                    },
-                    {
-                        title: 'Settings',
-                        key: 'settings',
-                        description:
-                            'Change settings to configure and customize platform'
-                    }
-                ],
-                roles: [
-                    {
-                        title: 'Full Access',
-                        key: 'admin',
-                        permissions: [
-                            'company',
-                            'plans',
-                            'admin-access',
-                            'support',
-                            'settings'
-                        ]
-                    },
-                    {
-                        title: 'Custom',
-                        key: 'custom',
-                        permissions: []
-                    }
-                ]
-            }
+            userData: null
         };
     },
     created() {
@@ -195,10 +143,11 @@ export default {
             this.$store.dispatch(FETCH_ADMIN_PERMISSIONS);
         }
         this.fetchCompany();
+        this.userData = _.cloneDeep(this.user_data);
     },
     computed: {
         userPermissions() {
-            return this.user_data.permissions;
+            return this.userData.permissions;
         },
         ...mapGetters({
             aclPermissions: ADMIN_PERMISSIONS
@@ -207,11 +156,11 @@ export default {
     methods: {
         removeChip(index) {
             this.selectedCompany.splice(index, 1);
-            this.user_data.access.company.splice(index, 1);
+            this.userData.access.company.splice(index, 1);
         },
         updateSelectedCompany(value) {
-            let selectedCompany = this.user_data.access.company;
-            this.user_data.access.company = value;
+            let selectedCompany = this.userData.access.company;
+            this.userData.access.company = value;
             for (let companyId of selectedCompany) {
                 let itemIndex = value.findIndex((uid) => uid === companyId);
                 if (itemIndex < 0) {

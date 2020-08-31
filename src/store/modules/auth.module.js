@@ -1,4 +1,5 @@
 import AuthService from './../../services/auth.service';
+import UserAccessService from './../../services/user-access.service';
 import {
     UPDATE_USER_DATA,
     FETCH_USER_DATA,
@@ -71,7 +72,7 @@ const mutations = {
         state.isValidUser = data.data.staff;
     },
     [SET_ADMIN_PERMISSIONS](state, { data }) {
-        state.adminPermissions = data.data.adminPermissions;
+        state.adminPermissions = data.data;
     }
 };
 
@@ -114,8 +115,8 @@ const actions = {
         });
     },
     [FETCH_ADMIN_PERMISSIONS]({ commit }) {
-        AuthService.adminPermissions().then((res) => {
-            commit(SET_ADMIN_PERMISSIONS, res);
+        UserAccessService.adminPermissions().then((data) => {
+            commit(SET_ADMIN_PERMISSIONS, { data });
         });
     }
 };

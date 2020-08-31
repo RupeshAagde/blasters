@@ -52,7 +52,7 @@
                     <div
                         v-for="(user, index) in userList"
                         :key="index"
-                        class="container"
+                        class="container pointer"
                         @click="editUserPermissions(user)"
                     >
                         <div class="card-avatar">
@@ -110,7 +110,7 @@
                         </div>
                         <div class="cust-button">
                             <nitrozen-button
-                                @click="openRemoveDialog(user)"
+                                @click="openRemoveDialog(user, $event)"
                                 v-strokeBtn
                                 :theme="'secondary'"
                                 >Remove</nitrozen-button
@@ -157,15 +157,14 @@
                 </div>
             </template>
         </nitrozen-dialog>
-
-        <nitrozen-dialog
-            ref="edit_permissions_dialog"
-            :title="`Edit ${activeUser ? getFullName() : ''} permissions`"
+        <edit-permissions
+            ref="edit-permission"
+            v-if="activeUser"
+            :edit_mode="true"
+            :active_user="activeUser"
+            @close="closePermissions"
         >
-            <template slot="body">
-                <user-permissions v-if="activeUser"></user-permissions>
-            </template>
-        </nitrozen-dialog>
+        </edit-permissions>
     </div>
 </template>
 
@@ -209,6 +208,9 @@
             margin-right: 24px;
         }
     }
+}
+.pointer {
+    cursor: pointer;
 }
 .search-box {
     margin: 24px 0;
@@ -352,7 +354,7 @@ import {
     NitrozenDialog
 } from '@gofynd/nitrozen-vue';
 
-import userPermissions from './user-permissions.vue';
+import editPermissionsModal from './edit-permission-modal.vue';
 
 const PAGINATION = {
     limit: 10,
@@ -375,7 +377,7 @@ export default {
         NitrozenDropdown,
         NitrozenButton,
         Jumbotron,
-        'user-permissions': userPermissions
+        'edit-permissions': editPermissionsModal
     },
     directives: {
         strokeBtn,
@@ -496,7 +498,8 @@ export default {
                     });
             }
         },
-        openRemoveDialog(user) {
+        openRemoveDialog(user, evt) {
+            evt.stopPropagation();
             this.activeUser = user;
             this.$refs['user_remove_dialog'].open({
                 width: '500px',
@@ -509,14 +512,27 @@ export default {
         },
         editUserPermissions(user) {
             this.activeUser = user;
-            this.$refs['edit_permissions_dialog'].open({
-                width: '800px',
-                height: '600px',
-                showCloseButton: true,
-                dismissible: true,
-                positiveButtonLabel: 'Update',
-                neutralButtonLabel: 'Cancel'
+            this.$nextTick(() => {
+                this.$refs['edit-permission'].open();
             });
+        },
+        closePermissions(clickedBtn, userData) {
+            if (clickedBtn === 'Update') {
+                UserService.updateUser(this.activeUser._id, userData)
+                    .then(() => {
+                        this.fetchUsers();
+                        this.$snackbar.global.showSuccess(
+                            'Successfully update user data'
+                        );
+                    })
+                    .catch((err) => {
+                        this.$snackbar.global.showError(
+                            'Failed to update user data'
+                        );
+                        console.log(err);
+                    });
+            }
+            this.activeUser = null;
         }
     }
 };

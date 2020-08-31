@@ -40,10 +40,6 @@ const AuthService = {
         );
         return ApiService.get(URLS.VALIDATE_USER(), axiosOptions);
     },
-    adminPermissions() {
-        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
-        return ApiService.get(URLS.ADMIN_PERMISSIONS(), axiosOptions);
-    },
     openLoginScreen() {
         this.IframeWindow = window.grimlock.openLoginDialog();
         return;

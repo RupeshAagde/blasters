@@ -20,9 +20,19 @@ const UserService = {
         );
         return ApiService.post(URLS.ADD_USERS(), axiosOptions);
     },
+    adminPermissions() {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.ADMIN_PERMISSIONS(), axiosOptions);
+    },
     deleteUser(uid) {
         const axiosOptions = Object.assign(getCommonHeaderOptions());
         return ApiService.del(URLS.DELETE_USERS(uid), axiosOptions);
+    },
+    updateUser(id, payload) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
+            data: payload
+        });
+        return ApiService.put(URLS.DELETE_USERS(id), axiosOptions);
     },
     searchGrimlockUser(params) {
         const axiosOptions = Object.assign(
