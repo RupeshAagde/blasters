@@ -14,7 +14,7 @@ export function authenticatedUser(to, from, next) {
             })
             .then((data) => {
                 if (data.isLoggedIn) {
-                    if (to.fullPath !== '/') {
+                    if (to.fullPath !== '/administrator') {
                         next();
                         return;
                     }
