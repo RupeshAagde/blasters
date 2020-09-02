@@ -25,7 +25,6 @@ export default [
         path: '/administrator/',
         beforeEnter: authenticatedUser,
         component: AdministratorBaseViewVue,
-        redirect: '/administrator/company-list',
         children: [
             // {
             //     name: 'home',

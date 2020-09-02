@@ -1,5 +1,6 @@
 import { isBrowser, isNode } from 'browser-or-node';
 import { FETCH_USER_DATA, VALIDATE_USER } from '../../store/action.type';
+import { getNavigations } from '../../pages/administrator/navigations';
 
 export function authenticatedUser(to, from, next) {
     if (isNode) {
@@ -13,8 +14,36 @@ export function authenticatedUser(to, from, next) {
             })
             .then((data) => {
                 if (data.isLoggedIn) {
-                    next();
-                    return;
+                    if (to.fullPath !== '/') {
+                        next();
+                        return;
+                    }
+                    let userPermissions = appStore.state.auth.userPermissions;
+                    let promise = Promise.resolve(userPermissions);
+                    if (!userPermissions) {
+                        promise = appStore.dispatch(VALIDATE_USER);
+                    }
+                    return promise
+                        .then(() => {
+                            const currentPermissions =
+                                appStore.state.auth.userPermissions.permissions;
+                            let firstRoute = getNavigations().find((navItem) =>
+                                currentPermissions.includes(navItem.permission)
+                            );
+                            let redirectLink = firstRoute
+                                ? firstRoute.link
+                                : '/';
+                            // to avoid infinite loop
+                            if (to.fullPath !== redirectLink) {
+                                next(redirectLink);
+                            } else {
+                                next();
+                            }
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            next('/');
+                        });
                 }
                 next('/');
             })

@@ -355,6 +355,9 @@ import {
 } from '@gofynd/nitrozen-vue';
 
 import editPermissionsModal from './edit-permission-modal.vue';
+import { VALIDATE_USER } from '../../store/action.type';
+import { GET_USER_PERMISSIONS } from '../../store/getters.type';
+import { mapGetters } from 'vuex';
 
 const PAGINATION = {
     limit: 10,
@@ -394,6 +397,11 @@ export default {
             isInitialLoad: false,
             activeUser: null
         };
+    },
+    computed: {
+        ...mapGetters({
+            currentUserPermission: GET_USER_PERMISSIONS
+        })
     },
     mounted() {
         this.pageLoading = true;
@@ -480,6 +488,10 @@ export default {
                                 duration: 2000
                             }
                         );
+                        if (this.currentUserPermission.user === uid) {
+                            this.$store.dispatch(VALIDATE_USER);
+                            this.$router.push({ path: '/' });
+                        }
                     })
                     .catch((error) => {
                         console.error(error);
@@ -518,12 +530,16 @@ export default {
         },
         closePermissions(clickedBtn, userData) {
             if (clickedBtn === 'Update') {
+                let userId = this.activeUser._id;
                 UserService.updateUser(this.activeUser._id, userData)
                     .then(() => {
                         this.fetchUsers();
                         this.$snackbar.global.showSuccess(
                             'Successfully update user data'
                         );
+                        if (this.currentUserPermission.user === userId) {
+                            this.$store.dispatch(VALIDATE_USER);
+                        }
                     })
                     .catch((err) => {
                         this.$snackbar.global.showError(

@@ -59,7 +59,9 @@ export default {
         },
         getFullName() {
             return (
-                this.active_user.first_name + ' ' + this.active_user.last_name
+                (this.active_user.first_name || this.active_user.firstName) +
+                ' ' +
+                (this.active_user.last_name || this.active_user.lastName)
             );
         }
     }
