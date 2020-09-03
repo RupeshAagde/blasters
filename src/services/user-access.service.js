@@ -6,12 +6,12 @@ import { getCommonHeaderOptions } from './utils.service';
 import { Object, console } from 'window-or-global';
 
 const UserService = {
-    getUserList(params) {
+    getUserList(params, userId) {
         const axiosOptions = Object.assign(
             { params },
             getCommonHeaderOptions()
         );
-        return ApiService.get(URLS.LIST_USERS(), axiosOptions);
+        return ApiService.get(URLS.LIST_USERS(userId), axiosOptions);
     },
     addUser(params) {
         const axiosOptions = Object.assign(

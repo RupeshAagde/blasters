@@ -13,6 +13,7 @@
                 <user-permissions
                     ref="permissions"
                     :user_data="active_user"
+                    :selected_company="userCompanyData"
                 ></user-permissions>
             </template>
         </nitrozen-dialog>
@@ -23,7 +24,7 @@
 
 <script>
 import { NitrozenDialog } from '@gofynd/nitrozen-vue';
-
+import UserService from '@/services/user-access.service';
 import userPermissions from './user-permissions.vue';
 
 export default {
@@ -37,6 +38,11 @@ export default {
             type: Boolean,
             default: false
         }
+    },
+    data() {
+        return {
+            userCompanyData: []
+        };
     },
     components: {
         'user-permissions': userPermissions,
@@ -53,6 +59,18 @@ export default {
                 negativeButtonLabel: 'Cancel',
                 neutralButtonLabel: false
             });
+            if (this.edit_mode) {
+                UserService.getUserList({}, this.active_user._id)
+                    .then(({ data }) => {
+                        this.userCompanyData = data.companies;
+                    })
+                    .catch((err) => {
+                        this.$snackbar.global.showError(
+                            'Failed to fetch company details'
+                        );
+                        console.log(err);
+                    });
+            }
         },
         close(clickBtn) {
             this.$emit('close', clickBtn, this.$refs['permissions'].userData);

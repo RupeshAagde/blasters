@@ -35,7 +35,14 @@
                 :radioValue="'true'"
                 :name="'company_selection'"
                 :value="userData.access.all.toString()"
-                @input="(value) => (userData.access.all = value === 'true')"
+                @input="
+                    (value) => {
+                        userData.access.all = value === 'true';
+                        if (userData.access.all) {
+                            userData.access.company = [];
+                        }
+                    }
+                "
                 >All</nitrozen-radio
             >
             <nitrozen-radio
@@ -66,7 +73,10 @@
             "
             @input="updateSelectedCompany"
         ></nitrozen-dropdown>
-        <div class="title-label" v-if="selectedCompany.length">
+        <div
+            class="title-label"
+            v-if="!userData.access.all && selectedCompany.length"
+        >
             <nitrozen-chips
                 style="margin-bottom: 8px;"
                 v-for="(company, index) in selectedCompany"
@@ -121,6 +131,9 @@ export default {
         user_data: {
             type: Object,
             required: true
+        },
+        selected_company: {
+            type: Array
         }
     },
     components: {
@@ -152,6 +165,11 @@ export default {
         ...mapGetters({
             aclPermissions: ADMIN_PERMISSIONS
         })
+    },
+    watch: {
+        selected_company() {
+            this.selectedCompany = [...this.selected_company];
+        }
     },
     methods: {
         removeChip(index) {
