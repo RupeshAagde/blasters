@@ -12,7 +12,10 @@
                 </div>
                 <div class="group-btns">
                     <nitrozen-button
-                        v-if="isValidUser"
+                        v-if="
+                            isValidUser &&
+                                currentUserPermissions.permissions.length
+                        "
                         v-stroke-btn
                         :theme="'secondary'"
                         @click="openLogin"
@@ -100,7 +103,11 @@ import {
 } from '@gofynd/nitrozen-vue';
 import { SIGNOUT_USER, OPEN_LOGIN_MODAL } from '../../store/action.type';
 import { mapGetters } from 'vuex';
-import { IS_LOGGED_IN, IS_VALID_USER } from '../../store/getters.type';
+import {
+    IS_LOGGED_IN,
+    IS_VALID_USER,
+    GET_USER_PERMISSIONS
+} from '../../store/getters.type';
 export default {
     name: 'static-header',
     components: {
@@ -113,7 +120,8 @@ export default {
     computed: {
         ...mapGetters({
             isLoggedIn: IS_LOGGED_IN,
-            isValidUser: IS_VALID_USER
+            isValidUser: IS_VALID_USER,
+            currentUserPermissions: GET_USER_PERMISSIONS
         })
     },
     methods: {
