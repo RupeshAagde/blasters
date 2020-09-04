@@ -86,37 +86,40 @@
                                     <div
                                         class="txt-arrange"
                                         v-if="
-                                            product.created_by &&
-                                                product.created_on
+                                            product.modified_by &&
+                                                product.modified_on
                                         "
                                     >
                                         <div
                                             class="txt-description-heading"
                                             v-if="
-                                                product.created_by &&
-                                                    product.created_by.username
+                                                product.modified_by &&
+                                                    product.modified_by.user_id
                                             "
                                         >
-                                            Created By :
+                                            Modified By :
                                         </div>
                                         <div class="txt-details-by">
                                             <user-info-tooltip
                                                 :userId="
-                                                    product.created_by.user_id
+                                                    userObj[
+                                                        product.modified_by
+                                                            .user_id
+                                                    ]
                                                 "
                                             ></user-info-tooltip>
                                             <span
                                                 class="txt-clm"
-                                                v-if="product.created_on"
+                                                v-if="product.modified_on"
                                                 >On</span
                                             >
                                             <span
                                                 class="txt-clm"
-                                                v-if="product.created_on"
+                                                v-if="product.modified_on"
                                             >
                                                 {{
                                                     new Date(
-                                                        product.created_on
+                                                        product.modified_on
                                                     ).toLocaleString()
                                                 }}
                                             </span>
@@ -404,7 +407,13 @@
 import path from 'path';
 import CompanyService from '@/services/company-admin.service';
 import Jumbotron from '@/components/common/jumbotron';
-import { titleCase, debounce } from '@/helper/utils';
+import {
+    titleCase,
+    debounce,
+    generateArrItem,
+    filterDuplicateObject,
+    fetchUserMetaObjects
+} from '@/helper/utils';
 import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
@@ -477,6 +486,8 @@ export default {
             departments: [],
             templates: [],
             selectedDepartment: '',
+            tempList: [],
+            userObj: {},
             selectedTemplate: {},
             resData: null,
             rejection_info: {
@@ -526,10 +537,32 @@ export default {
             this.pageLoading = true;
             return CompanyService.getCompanyList(this.requestQuery())
                 .then(({ data }) => {
-                    this.companyList = data.data;
-                    // this.pagination.current = this.pagination.current + 1;=
-                    this.pagination.total = data.total_count;
-                    this.pageLoading = false;
+                    this.tempList = generateArrItem(data.data, 'modified_by');
+                    this.tempList = filterDuplicateObject(this.tempList);
+                    fetchUserMetaObjects(this.tempList)
+                        .then((res) => {
+                            res.map((element) => {
+                                if (!this.userObj[element.uid]) {
+                                    this.userObj[element.uid] = element;
+                                }
+                            });
+                            this.companyList = data.data;
+                            this.pagination.total = data.total_count;
+                            this.pageLoading = false;
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                    // Promise.all([this.fetchUserMeta(this.tempList)])
+                    //     .then(() => {
+                    //         this.companyList = data.data;
+                    //         // this.pagination.current = this.pagination.current + 1;=
+                    //         this.pagination.total = data.total_count;
+                    //         this.pageLoading = false;
+                    //     })
+                    //     .catch((err) => {
+                    //         return reject(err);
+                    //     });
                 })
                 .catch((err) => {
                     this.pageLoading = false;

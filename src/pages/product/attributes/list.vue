@@ -112,8 +112,10 @@
                                         <span class="cb-lm">
                                             <user-info-tooltip
                                                 :userId="
-                                                    attribute.modified_by
-                                                        .user_id
+                                                    userObj[
+                                                        attribute.modified_by
+                                                            .user_id
+                                                    ]
                                                 "
                                             ></user-info-tooltip>
                                         </span>
@@ -321,7 +323,13 @@
 import path from 'path';
 import CompanyService from '@/services/company-admin.service';
 import Jumbotron from '@/components/common/jumbotron';
-import { titleCase, debounce } from '@/helper/utils';
+import {
+    titleCase,
+    debounce,
+    generateArrItem,
+    filterDuplicateObject,
+    fetchUserMetaObjects
+} from '@/helper/utils';
 import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import PageError from '@/components/common/page-error';
@@ -393,7 +401,9 @@ export default {
 
             departmentsList: [],
             departments: [],
-            selectedDepartment: ''
+            selectedDepartment: '',
+            tempList: [],
+            userObj: {}
         };
     },
     mounted() {
@@ -443,10 +453,23 @@ export default {
             this.pageLoading = true;
             return CompanyService.fetchAttributes(this.requestQuery())
                 .then(({ data }) => {
-                    this.attributes = data.data;
+                    this.tempList = generateArrItem(data.data, 'modified_by');
+                    this.tempList = filterDuplicateObject(this.tempList);
+                    fetchUserMetaObjects(this.tempList)
+                        .then((res) => {
+                            res.map((element) => {
+                                if (!this.userObj[element.uid]) {
+                                    this.userObj[element.uid] = element;
+                                }
+                            });
+                            this.attributes = data.data;
 
-                    this.pagination.total = data.page.total_count;
-                    this.pageLoading = false;
+                            this.pagination.total = data.page.total_count;
+                            this.pageLoading = false;
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
                 })
                 .catch((err) => {
                     this.pageLoading = false;

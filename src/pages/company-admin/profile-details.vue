@@ -518,7 +518,7 @@
 <script>
 import path from 'path';
 import CompanyService from '@/services/company-admin.service';
-import userInfoTooltip from '@/components/common/feedback/userInfo-tooltip.vue';
+import userInfoTooltip from '@/components/common/feedback/profile-info.vue';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
 import admInlineSVG from '@/components/common/adm-inline-svg';
 import uktInlineSVG from '@/components/common/ukt-inline-svg';

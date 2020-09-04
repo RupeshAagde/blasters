@@ -1,4 +1,6 @@
 import { isBrowser, isNode } from 'browser-or-node';
+import CompanyService from '@/services/company-admin.service';
+import { console } from 'window-or-global';
 export const debounce = (func, wait, immediate) => {
     var timeout;
 
@@ -249,4 +251,51 @@ export const moveArrayItem = (arr, oldIndex, newIndex) => {
     }
     arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
     return arr;
+};
+
+export const generateArrItem = (arr, filterKey) => {
+    const tempArr = [];
+    if (arr.length > 1) {
+        arr.forEach((element) => {
+            if (element[filterKey]) {
+                tempArr.push(element[filterKey]);
+            }
+        });
+    } else {
+        if (arr[filterKey]) {
+            tempArr.push(arr[filterKey]);
+        }
+    }
+    return tempArr;
+};
+
+export const filterDuplicateObject = (arr) => {
+    const filteredArr = arr.reduce((acc, current) => {
+        const x = acc.find((item) => item.user_id === current.user_id);
+        if (!x) {
+            return acc.concat([current]);
+        } else {
+            return acc;
+        }
+    }, []);
+    return filteredArr;
+};
+
+export const fetchUserMetaObjects = (arr) => {
+    var tempArr = [];
+    arr.forEach((element) => {
+        tempArr.push(element.user_id);
+    });
+    const params = {
+        query: tempArr
+    };
+    return new Promise((resolve, reject) => {
+        CompanyService.searchUser(params)
+            .then(({ data }) => {
+                return resolve(data);
+            })
+            .catch((err) => {
+                return reject(err);
+            });
+    });
 };
