@@ -26,7 +26,7 @@
                     :showSearchIcon="true"
                     class="search"
                     type="search"
-                    placeholder="Search email, or number"
+                    placeholder="Search email or number"
                     v-model="searchText"
                     @input="debounceInput({ search: searchText })"
                 ></nitrozen-input>
