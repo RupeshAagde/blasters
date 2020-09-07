@@ -57,9 +57,9 @@
                         label="Name *"
                         v-model="name.value"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="name.showerror">
-                        {{ name.errortext }}
-                    </nitrozen-error>
+                    <nitrozen-error v-if="name.showerror">{{
+                        name.errortext
+                    }}</nitrozen-error>
                 </div>
                 <div class="input-box left-space-txb">
                     <nitrozen-input
@@ -67,9 +67,9 @@
                         pattern="[a-z0-9]+(?:--?[a-z0-9]+)*"
                         v-model="slug.value"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="slug.showerror">
-                        {{ slug.errortext }}
-                    </nitrozen-error>
+                    <nitrozen-error v-if="slug.showerror">{{
+                        slug.errortext
+                    }}</nitrozen-error>
                     <nitrozen-error
                         v-else-if="
                             slug.value &&
@@ -88,9 +88,24 @@
                     v-model="priority.value"
                     type="number"
                 ></nitrozen-input>
-                <nitrozen-error v-if="priority.showerror">
-                    {{ priority.errortext }}
-                </nitrozen-error>
+                <nitrozen-error v-if="priority.showerror">{{
+                    priority.errortext
+                }}</nitrozen-error>
+            </div>
+            <div>
+                <div class="n-input-label">Logo *</div>
+                <image-uploader-tile
+                    label="Logo *"
+                    aspectRatio="1:1"
+                    @delete="logo.value = ''"
+                    @save="logo.value = $event"
+                    v-model="logo.value"
+                    :fileName="logo.value"
+                    namespace="department-square-logo"
+                ></image-uploader-tile>
+                <nitrozen-error v-if="logo.showerror">{{
+                    logo.errortext
+                }}</nitrozen-error>
             </div>
             <div class="row-3">
                 <div class="n-input-label">Synonyms *</div>
@@ -115,21 +130,6 @@
                         v-model="synonymText"
                     />
                 </div>
-            </div>
-            <div>
-                <div class="n-input-label">Logo *</div>
-                <image-uploader-tile
-                    label="Logo *"
-                    aspectRatio="1:1"
-                    @delete="logo.value = ''"
-                    @save="logo.value = $event"
-                    v-model="logo.value"
-                    :fileName="logo.value"
-                    namespace="department-square-logo"
-                ></image-uploader-tile>
-                <nitrozen-error v-if="logo.showerror">
-                    {{ logo.errortext }}
-                </nitrozen-error>
             </div>
         </div>
     </div>

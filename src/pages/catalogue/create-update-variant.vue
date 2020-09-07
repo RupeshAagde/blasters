@@ -90,7 +90,6 @@
                     }}</nitrozen-error>
                 </div>
                 <div :class="department.showerror ? 'cust-mt' : 'dcb'">
-                    <span>Or</span>
                     <a
                         class="txt-btn"
                         href="/administrator/product/department/create"
@@ -117,11 +116,11 @@
             </div>
             <div class="row-2">
                 <nitrozen-dropdown
-                    label="Attributes Key *"
+                    label="Attribute *"
                     class="filter-dropdown"
                     :disabled="!department.selectedtype.length"
                     :items="deptkey.value"
-                    placeholder="Choose Attributes key"
+                    placeholder="Choose Attribute"
                     v-model="deptkey.selectedtype"
                 ></nitrozen-dropdown>
                 <nitrozen-error v-if="deptkey.showerror">{{
@@ -233,11 +232,12 @@
         width: 100%;
         margin: 0 0 20px 0;
         display: flex;
-        justify-content: space-between;
+        // justify-content: space-between;
         // align-items: center;
 
         .input-box {
-            width: 85%;
+            width: 50%;
+            margin-right: 20px;
         }
         .dcb {
             align-self: center;
@@ -248,7 +248,7 @@
         }
     }
     .row-2 {
-        width: 100%;
+        width: 50%;
         margin: 0 0 20px 0;
         display: flex;
         flex-direction: column;
