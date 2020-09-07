@@ -2,8 +2,9 @@
     <div class="main-container">
         <div class="custom-header">
             <jumbotron
-                :title="'Admin Users'"
+                :title="'User Management'"
                 btnLabel="Add User"
+                :desc="'Manage user roles and permissions'"
                 illustration="team"
                 @btnClick="addUser"
             ></jumbotron>
@@ -28,7 +29,7 @@
                         placeholder="Search by name, email, or number..."
                         v-model="searchText"
                         @input="debounceInput({ search: searchText })"
-                    ></nitrozen-input> -->
+                ></nitrozen-input>-->
                 <!-- <div class="filter">
                         <label class="label">Filter</label>
                         <nitrozen-dropdown
@@ -37,7 +38,7 @@
                             v-model="selectedFilter"
                             @change="fetchCompany()"
                         ></nitrozen-dropdown>
-                    </div>-->
+                </div>-->
                 <!-- </template> -->
             </div>
             <div class="product-list">
@@ -51,7 +52,8 @@
                     <div
                         v-for="(user, index) in userList"
                         :key="index"
-                        class="container"
+                        class="container pointer"
+                        @click="editUserPermissions(user)"
                     >
                         <div class="card-avatar">
                             <img
@@ -108,7 +110,7 @@
                         </div>
                         <div class="cust-button">
                             <nitrozen-button
-                                @click="openRemoveDialog(user)"
+                                @click="openRemoveDialog(user, $event)"
                                 v-strokeBtn
                                 :theme="'secondary'"
                                 >Remove</nitrozen-button
@@ -155,6 +157,14 @@
                 </div>
             </template>
         </nitrozen-dialog>
+        <edit-permissions
+            ref="edit-permission"
+            v-if="activeUser"
+            :edit_mode="true"
+            :active_user="activeUser"
+            @close="closePermissions"
+        >
+        </edit-permissions>
     </div>
 </template>
 
@@ -162,11 +172,6 @@
 .input-shimmer {
     height: 60px;
     width: 400px;
-}
-.custom-header {
-    ::v-deep .n-flat-button-secondary {
-        margin-top: 110px !important;
-    }
 }
 .main-container {
     width: 100%;
@@ -203,6 +208,9 @@
             margin-right: 24px;
         }
     }
+}
+.pointer {
+    cursor: pointer;
 }
 .search-box {
     margin: 24px 0;
@@ -346,6 +354,11 @@ import {
     NitrozenDialog
 } from '@gofynd/nitrozen-vue';
 
+import editPermissionsModal from './edit-permission-modal.vue';
+import { VALIDATE_USER } from '../../store/action.type';
+import { GET_USER_PERMISSIONS } from '../../store/getters.type';
+import { mapGetters } from 'vuex';
+
 const PAGINATION = {
     limit: 10,
     total: 0,
@@ -366,7 +379,8 @@ export default {
         'nitrozen-error': NitrozenError,
         NitrozenDropdown,
         NitrozenButton,
-        Jumbotron
+        Jumbotron,
+        'edit-permissions': editPermissionsModal
     },
     directives: {
         strokeBtn,
@@ -383,6 +397,11 @@ export default {
             isInitialLoad: false,
             activeUser: null
         };
+    },
+    computed: {
+        ...mapGetters({
+            currentUserPermission: GET_USER_PERMISSIONS
+        })
     },
     mounted() {
         this.pageLoading = true;
@@ -469,6 +488,10 @@ export default {
                                 duration: 2000
                             }
                         );
+                        if (this.currentUserPermission.user === uid) {
+                            this.$store.dispatch(VALIDATE_USER);
+                            this.$router.push({ path: '/' });
+                        }
                     })
                     .catch((error) => {
                         console.error(error);
@@ -487,7 +510,8 @@ export default {
                     });
             }
         },
-        openRemoveDialog(user) {
+        openRemoveDialog(user, evt) {
+            evt.stopPropagation();
             this.activeUser = user;
             this.$refs['user_remove_dialog'].open({
                 width: '500px',
@@ -497,6 +521,34 @@ export default {
         },
         closeRemoveDialog() {
             this.$refs['user_remove_dialog'].close();
+        },
+        editUserPermissions(user) {
+            this.activeUser = user;
+            this.$nextTick(() => {
+                this.$refs['edit-permission'].open();
+            });
+        },
+        closePermissions(clickedBtn, userData) {
+            if (clickedBtn === 'Update') {
+                let userId = this.activeUser._id;
+                UserService.updateUser(this.activeUser._id, userData)
+                    .then(() => {
+                        this.fetchUsers();
+                        this.$snackbar.global.showSuccess(
+                            'Successfully update user data'
+                        );
+                        if (this.currentUserPermission.user === userId) {
+                            this.$store.dispatch(VALIDATE_USER);
+                        }
+                    })
+                    .catch((err) => {
+                        this.$snackbar.global.showError(
+                            'Failed to update user data'
+                        );
+                        console.log(err);
+                    });
+            }
+            this.activeUser = null;
         }
     }
 };

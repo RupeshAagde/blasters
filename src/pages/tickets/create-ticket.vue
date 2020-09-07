@@ -225,7 +225,7 @@ export default {
             this.ticket.tags = option.tags;
             this.ticket.content.attachments = option.attachments;
             this.ticket.assigned_to = {
-                id: option.assigned_to
+                agent_id: option.assigned_to
             };
         },
         requestQuery() {
@@ -316,6 +316,8 @@ export default {
                 })
                 .finally(() => {
                     let promises = [];
+                    this.ticket.content.attachments =
+                        this.ticket.content.attachments || [];
                     this.ticket.content.attachments.forEach((attachment) => {
                         if (attachment.type == 'product') {
                             promises.push(
@@ -323,7 +325,17 @@ export default {
                                     attachment.value
                                 )
                             );
-                        } // Handle collection n brand too
+                        }
+
+                        if (attachment.type == 'shipment') {
+                            promises.push(
+                                SupportService.fetchShipmentInfo(
+                                    attachment.value,
+                                    this.ticket.context.company_id
+                                )
+                            );
+                        }
+                        // Handle collection n brand too
                     });
 
                     Promise.all(promises)
@@ -334,6 +346,12 @@ export default {
                                     if (attachment.type == 'product') {
                                         attachment.details =
                                             responses[index].data;
+                                        index = index + 1;
+                                    }
+
+                                    if (attachment.type == 'shipment') {
+                                        attachment.details =
+                                            responses[index].data.orders[0];
                                         index = index + 1;
                                     }
                                 }

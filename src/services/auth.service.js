@@ -2,6 +2,7 @@ import { LocalStorageService } from './localstorage.service';
 import { isBrowser, isNode } from 'browser-or-node';
 import URLS from './domain.service';
 import ApiService from './api.service';
+import { getCommonHeaderOptions } from '../services/utils.service';
 
 let IframeWindow = null;
 const AuthService = {

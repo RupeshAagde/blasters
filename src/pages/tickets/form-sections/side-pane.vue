@@ -135,16 +135,18 @@
                 namespace="support-ticket-file"
             ></mirage-image-uploader> -->
             <div
-                v-if="!isPlatformTicket"
+                v-if="ticket.context.company_id"
                 class="add-attachment mt-sm"
                 @click="openAddAttachmentDialogue()"
+                :shouldShowProduct="false"
                 style="padding-left:8px"
             >
-                <span> + Add Product Attachment</span>
+                <span> + Add Attachments</span>
             </div>
         </div>
         <add-attachment-dialog
             ref="addAttachment"
+            :company_id="ticket.context.company_id"
             @close="$openAddAttachmentDialogueClosed"
         >
         </add-attachment-dialog>
@@ -316,8 +318,8 @@ export default {
         this.attachments = this.ticket.content.attachments;
         this.tags = this.ticket.tags || [];
 
-        if (this.ticket.assigned_to && this.ticket.assigned_to.id) {
-            this.agentID = this.ticket.assigned_to.id;
+        if (this.ticket.assigned_to && this.ticket.assigned_to.agent_id) {
+            this.agentID = this.ticket.assigned_to.agent_id;
         }
     },
     methods: {

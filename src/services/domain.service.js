@@ -35,6 +35,10 @@ const PLATFORM_LEADS_BASE = isNode
     ? envVars.BROWSER_CONFIG.HIGHBROW_MAIN_SVC
     : envVars.HIGHBROW_MAIN_URL;
 
+const PLATFORM_ORDERS_BASE = isNode
+    ? envVars.BROWSER_CONFIG.APEFACE_MAIN_SVC
+    : envVars.APEFACE_MAIN_URL;
+
 const INTERNAL_SETTINGS = isNode
     ? envVars.BROWSER_CONFIG.ULTRAMAGNUS_MAIN_SVC
     : envVars.ULTRAMAGNUS_MAIN_URL;
@@ -94,6 +98,9 @@ const URLS = {
     // validate user
     VALIDATE_USER: () => {
         return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff/current/access');
+    },
+    ADMIN_PERMISSIONS: () => {
+        return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/permissions');
     },
     //company details
     GET_COMPANY_LIST: () => {
@@ -209,8 +216,8 @@ const URLS = {
     },
 
     //SKYWRAP
-    LIST_USERS: () => {
-        return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff');
+    LIST_USERS: (userId = '') => {
+        return urlJoin(SKYWARP_MAIN_URL, `/v1/admin/staff/${userId}`);
     },
 
     DELETE_USERS: (uid) => {
@@ -329,6 +336,13 @@ const URLS = {
 
     FETCH_TICKETS_OPTIONS: (company_id = '') => {
         return urlJoin(PLATFORM_LEADS_BASE, `admin/v1/ticket/options`);
+    },
+
+    FETCH_SHIPMENT_INFO: (slug, company_id) => {
+        return urlJoin(
+            PLATFORM_ORDERS_BASE,
+            `/v1/seller/${company_id}?q=${slug}`
+        );
     },
 
     FETCH_PRODUCT_INFO: (slug) => {

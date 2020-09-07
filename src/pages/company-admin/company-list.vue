@@ -1,7 +1,12 @@
 <template>
     <div class="main-container">
         <div class="jumbotron-container">
-            <jumbotron :title="'Company'" :desc="''"></jumbotron>
+            <jumbotron
+                :title="'Company'"
+                :desc="
+                    'Access the company information, its brands and selling locations. Manage active integrations and sales channels.'
+                "
+            ></jumbotron>
         </div>
         <div class="second-container">
             <div
@@ -80,7 +85,10 @@
                                     </div>
                                     <div
                                         class="txt-arrange"
-                                        v-if="product.created_by"
+                                        v-if="
+                                            product.created_by &&
+                                                product.created_on
+                                        "
                                     >
                                         <div
                                             class="txt-description-heading"
@@ -92,10 +100,29 @@
                                             Created By :
                                         </div>
                                         <div class="txt-details-by">
-                                            {{ product.created_by.username }}
+                                            <user-info-tooltip
+                                                :userId="
+                                                    product.created_by.user_id
+                                                "
+                                            ></user-info-tooltip>
+                                            <span
+                                                class="txt-clm"
+                                                v-if="product.created_on"
+                                                >On</span
+                                            >
+                                            <span
+                                                class="txt-clm"
+                                                v-if="product.created_on"
+                                            >
+                                                {{
+                                                    new Date(
+                                                        product.created_on
+                                                    ).toLocaleString()
+                                                }}
+                                            </span>
                                         </div>
                                     </div>
-                                    <div
+                                    <!-- <div
                                         class="txt-arrange"
                                         v-if="product.created_on"
                                     >
@@ -109,7 +136,7 @@
                                                 ).toLocaleString()
                                             }}
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
                             <div class="card-badge-section">
@@ -155,6 +182,9 @@
 </template>
 
 <style lang="less" scoped>
+.txt-clm {
+    margin-left: 6px;
+}
 .main-container {
     width: 100%;
     background-color: white;
@@ -283,6 +313,7 @@
                 line-height: 22px;
                 font-size: 12px;
                 margin-left: 60px;
+                display: flex;
             }
             .txt-country {
                 margin-left: 24px;
@@ -378,6 +409,7 @@ import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import fynotfound from '@/components/common/ukt-not-found';
+import userInfoTooltip from '@/components/common/feedback/userInfo-tooltip.vue';
 // import { toListingThumbnail } from '@/helper/image.utils';
 import {
     NitrozenInput,
@@ -411,6 +443,7 @@ export default {
         Jumbotron,
         PageEmpty,
         Shimmer,
+        userInfoTooltip,
         'page-error': pageerror,
         'nitrozen-input': NitrozenInput,
         'nitrozen-pagination': NitrozenPagination,

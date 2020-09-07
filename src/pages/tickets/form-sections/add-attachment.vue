@@ -59,7 +59,14 @@ export default {
         'nitrozen-error': NitrozenError,
         'nitrozen-dropdown': NitrozenDropdown
     },
-    props: {},
+    props: {
+        shouldShowProduct: {
+            type: Boolean
+        },
+        company_id: {
+            type: String
+        }
+    },
     directives: {
         flatBtn,
         strokeBtn
@@ -72,8 +79,8 @@ export default {
             title: 'Add Attachment',
             types: [
                 {
-                    text: 'Product',
-                    value: 'product'
+                    text: 'Shipment',
+                    value: 'shipment'
                 }
             ],
             attachment: {
@@ -83,7 +90,16 @@ export default {
             isLoadingDetails: false
         };
     },
-    mounted() {},
+    mounted() {
+        if (this.shouldShowProduct) {
+            this.types.push({
+                text: 'Product',
+                value: 'product'
+            });
+        }
+
+        this.attachment.type = this.types[0].value;
+    },
     methods: {
         open(data) {
             this.$refs.addAttachmentNitrozenDialog.open({
@@ -96,23 +112,42 @@ export default {
             this.$emit('close', reason);
         },
         addAttachment() {
-            if (this.value == '') {
+            if (!this.attachment.value || this.attachment.value == '') {
                 return;
             }
 
             this.isLoadingDetails = true;
-            SupportService.fetchProductInfo(this.attachment.value)
-                .then((res) => {
-                    this.attachment.details = res.data;
-                    this.attachment.display = res.data.name;
-                    this.close(this.attachment);
-                })
-                .catch((error) => {
-                    //
-                })
-                .finally(() => {
-                    this.isLoadingDetails = false;
-                });
+
+            if (this.attachment.type == 'product') {
+                SupportService.fetchProductInfo(this.attachment.value)
+                    .then((res) => {
+                        this.attachment.details = res.data;
+                        this.attachment.display = res.data.name;
+                        this.close(this.attachment);
+                    })
+                    .catch((error) => {
+                        //
+                    })
+                    .finally(() => {
+                        this.isLoadingDetails = false;
+                    });
+            } else if (this.attachment.type == 'shipment') {
+                SupportService.fetchShipmentInfo(
+                    this.attachment.value,
+                    this.company_id
+                )
+                    .then((res) => {
+                        this.attachment.details = res.data.orders[0];
+                        this.attachment.display = 'Shipment';
+                        this.close(this.attachment);
+                    })
+                    .catch((error) => {
+                        //
+                    })
+                    .finally(() => {
+                        this.isLoadingDetails = false;
+                    });
+            }
         }
     }
 };

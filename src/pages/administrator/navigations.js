@@ -17,6 +17,7 @@ export const getNavigations = () => {
             icon: 'home',
             highlightedIcon: 'home-highlighted',
             active: false,
+            permission: 'company',
             children: []
         },
         {
@@ -26,6 +27,7 @@ export const getNavigations = () => {
             icon: 'team',
             highlightedIcon: 'team-highlighted',
             active: false,
+            permission: 'admin-access',
             children: []
         },
         {
@@ -35,6 +37,7 @@ export const getNavigations = () => {
             icon: 'productsv2',
             highlightedIcon: 'home-highlighted',
             active: false,
+            permission: 'product',
             children: [
                 {
                     display: 'Attributes',
@@ -77,6 +80,7 @@ export const getNavigations = () => {
             icon: 'support-icon',
             highlightedIcon: 'home-highlighted',
             active: false,
+            permission: 'support',
             children: []
         },
         {
@@ -86,6 +90,7 @@ export const getNavigations = () => {
             icon: 'settings',
             highlightedIcon: 'settings-highlighted',
             active: false,
+            permission: 'settings',
             children: []
         }
     ];
