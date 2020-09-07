@@ -537,7 +537,7 @@ export default {
             this.pageLoading = true;
             return CompanyService.getCompanyList(this.requestQuery())
                 .then(({ data }) => {
-                    this.tempList = generateArrItem(data.data, 'modified_by');
+                    this.tempList = generateArrItem(data.data);
                     this.tempList = filterDuplicateObject(this.tempList);
                     fetchUserMetaObjects(this.tempList)
                         .then((res) => {

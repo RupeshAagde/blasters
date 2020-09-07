@@ -257,15 +257,19 @@ export const generateArrItem = (arr, filterKey) => {
     const tempArr = [];
     if (arr.length > 1) {
         arr.forEach((element) => {
-            if (element[filterKey]) {
-                tempArr.push(element[filterKey]);
+            if (element.hasOwnProperty('modified_by')) {
+                tempArr.push(element['modified_by']);
+            }
+            if (element.hasOwnProperty('created_by')) {
+                tempArr.push(element['created_by']);
             }
         });
-    } else {
-        if (arr[filterKey]) {
-            tempArr.push(arr[filterKey]);
-        }
     }
+    // else {
+    //     if (arr[filterKey]) {
+    //         tempArr.push(arr[filterKey]);
+    //     }
+    // }
     return tempArr;
 };
 

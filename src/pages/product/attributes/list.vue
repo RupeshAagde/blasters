@@ -451,31 +451,33 @@ export default {
         },
         fetchAttributes() {
             this.pageLoading = true;
-            return CompanyService.fetchAttributes(this.requestQuery())
-                .then(({ data }) => {
-                    this.tempList = generateArrItem(data.data, 'modified_by');
-                    this.tempList = filterDuplicateObject(this.tempList);
-                    fetchUserMetaObjects(this.tempList)
-                        .then((res) => {
-                            res.map((element) => {
-                                if (!this.userObj[element.uid]) {
-                                    this.userObj[element.uid] = element;
-                                }
+            return new Promise((resolve, reject) => {
+                CompanyService.fetchAttributes(this.requestQuery())
+                    .then((res) => {
+                        this.tempList = generateArrItem(res.data.data);
+                        this.tempList = filterDuplicateObject(this.tempList);
+                        fetchUserMetaObjects(this.tempList)
+                            .then((response) => {
+                                response.map((element) => {
+                                    if (!this.userObj[element.uid]) {
+                                        this.userObj[element.uid] = element;
+                                    }
+                                });
+                                this.attributes = res.data.data;
+                                this.pagination.total =
+                                    res.data.page.total_count;
+                                this.pageLoading = false;
+                            })
+                            .catch((err) => {
+                                console.log(err);
                             });
-                            this.attributes = data.data;
-
-                            this.pagination.total = data.page.total_count;
-                            this.pageLoading = false;
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
-                })
-                .catch((err) => {
-                    this.pageLoading = false;
-                    this.pageError = true;
-                    console.log(err);
-                });
+                    })
+                    .catch((err) => {
+                        this.pageLoading = false;
+                        this.pageError = true;
+                        console.log(err);
+                    });
+            });
         },
         fetchDepartments() {
             return new Promise((resolve, reject) => {

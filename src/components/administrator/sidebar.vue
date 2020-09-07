@@ -49,10 +49,6 @@
                 </div>
             </div>
         </div>
-        <div class="foot-desc">
-            <span>#MadeInIndia © 2020</span>
-            <span>Shopsense Retail Technologies</span>
-        </div>
     </div>
 </template>
 

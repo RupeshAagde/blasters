@@ -446,31 +446,33 @@ export default {
         },
         fetchProductTemplates() {
             this.pageLoading = true;
-            return CompanyService.fetchProductTemplates(this.requestQuery())
-                .then(({ data }) => {
-                    this.tempList = generateArrItem(data.data, 'modified_by');
-                    this.tempList = filterDuplicateObject(this.tempList);
-                    fetchUserMetaObjects(this.tempList)
-                        .then((res) => {
-                            res.map((element) => {
-                                if (!this.userObj[element.uid]) {
-                                    this.userObj[element.uid] = element;
-                                }
-                            });
-                            this.templates = data.data;
+            return new Promise((resolve, reject) => {
+                CompanyService.fetchProductTemplates(this.requestQuery())
+                    .then(({ data }) => {
+                        this.tempList = generateArrItem(data.data);
+                        this.tempList = filterDuplicateObject(this.tempList);
+                        fetchUserMetaObjects(this.tempList)
+                            .then((res) => {
+                                res.map((element) => {
+                                    if (!this.userObj[element.uid]) {
+                                        this.userObj[element.uid] = element;
+                                    }
+                                });
+                                this.templates = data.data;
 
-                            this.pagination.total = data.page.total_count;
-                            this.pageLoading = false;
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
-                })
-                .catch((err) => {
-                    this.pageLoading = false;
-                    this.pageError = true;
-                    console.log(err);
-                });
+                                this.pagination.total = data.page.total_count;
+                                this.pageLoading = false;
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
+                    })
+                    .catch((err) => {
+                        this.pageLoading = false;
+                        this.pageError = true;
+                        console.log(err);
+                    });
+            });
         },
         fetchDepartments() {
             return new Promise((resolve, reject) => {
