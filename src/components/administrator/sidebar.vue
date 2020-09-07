@@ -42,9 +42,9 @@
                                 : ''
                         "
                     >
-                        <span class="title regular-xs cl-Mako">{{
-                            submenu.display
-                        }}</span>
+                        <span class="title regular-xs cl-Mako">
+                            {{ submenu.display }}
+                        </span>
                     </router-link>
                 </div>
             </div>
@@ -73,6 +73,15 @@
     overflow: auto;
     transition: all 0.25s ease-in-out;
     box-shadow: 1px 1px 1px 1px #eeeeee;
+    display: flex;
+    flex-direction: column;
+
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 .menu-item {
     cursor: pointer;
