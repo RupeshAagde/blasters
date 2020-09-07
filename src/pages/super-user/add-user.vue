@@ -262,6 +262,7 @@ import UserService from '@/services/user-access.service';
 import PageHeader from '@/components/common/layout/page-header';
 import Shimmer from '@/components/common/shimmer';
 import admInlineSVG from '@/components/common/adm-inline-svg';
+import { validatePhone, validateEmail } from '../../helper/utils';
 import {
     NitrozenInput,
     NitrozenButton,
@@ -327,21 +328,6 @@ export default {
         getErrorImage(user) {
             let image = '/public/assets/admin/pngs/default-profile.png';
             this.$set(user, 'profile_pic', image);
-        },
-
-        validatePhone(text) {
-            let check = Number(text);
-            if (!isNaN(check)) {
-                let regex = new RegExp('^[6-9][0-9]{9}$');
-                if (regex.test(this.searchText)) {
-                    return true;
-                }
-            }
-            return false;
-        },
-        validateEmail(text) {
-            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(String(text).toLowerCase());
         },
         requestQuery() {
             const query = {
@@ -437,8 +423,8 @@ export default {
         },
         searchUser() {
             if (this.searchText && this.searchText != '') {
-                let validPhone = this.validatePhone(this.searchText);
-                let validEmail = this.validateEmail(this.searchText);
+                let validPhone = validatePhone(this.searchText);
+                let validEmail = validateEmail(this.searchText);
                 if (validPhone) {
                     let params = {
                         query: this.searchText

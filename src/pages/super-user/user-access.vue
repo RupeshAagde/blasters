@@ -22,14 +22,14 @@
                     class="input-shimmer shimmer"
                 ></div>
                 <!-- <template v-else> -->
-                <!-- <nitrozen-input
-                        :showSearchIcon="true"
-                        class="search"
-                        type="search"
-                        placeholder="Search by name, email, or number..."
-                        v-model="searchText"
-                        @input="debounceInput({ search: searchText })"
-                ></nitrozen-input>-->
+                <nitrozen-input
+                    :showSearchIcon="true"
+                    class="search"
+                    type="search"
+                    placeholder="Search email or number"
+                    v-model="searchText"
+                    @input="debounceInput({ search: searchText })"
+                ></nitrozen-input>
                 <!-- <div class="filter">
                         <label class="label">Filter</label>
                         <nitrozen-dropdown
@@ -118,7 +118,7 @@
                         </div>
                     </div>
                 </div>
-                <page-empty v-else :helperText="'No user found'"></page-empty>
+                <page-empty v-else :text="'No User Found'"></page-empty>
                 <div class="pagination" v-if="userList && userList.length > 0">
                     <nitrozen-pagination
                         name="Super Admins"
@@ -336,7 +336,12 @@
 <script>
 import UserService from '@/services/user-access.service';
 import Jumbotron from '@/components/common/jumbotron';
-import { titleCase, debounce } from '@/helper/utils';
+import {
+    titleCase,
+    debounce,
+    validateEmail,
+    validatePhone
+} from '@/helper/utils';
 import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
@@ -393,6 +398,7 @@ export default {
             pagination: { ...PAGINATION },
             pageId: '',
             userList: null,
+            userId: '',
             searchText: '',
             isInitialLoad: false,
             activeUser: null
@@ -421,6 +427,11 @@ export default {
                 page: this.pagination.current,
                 limit: this.pagination.limit
             };
+            if (this.userId) {
+                query['query'] = JSON.stringify({
+                    user: this.userId
+                });
+            }
 
             return query;
         },
@@ -440,13 +451,41 @@ export default {
                 });
         },
         debounceInput: debounce(function(e) {
-            if (this.searchText.length === 0) {
-                this.clearSearchFilter();
+            let searchUserId = '';
+            if (
+                validateEmail(this.searchText) ||
+                validatePhone(this.searchText)
+            ) {
+                UserService.searchGrimlockUser({
+                    query: this.searchText
+                })
+                    .then(({ data }) => {
+                        searchUserId = data[0] ? data[0]._id : null;
+                        if (!data[0]) {
+                            this.userId = null;
+                            this.pagination.total = 0;
+                            this.userList = [];
+                        }
+                    })
+                    .catch((err) => {
+                        this.$snackbar.global.showError(
+                            'Failed to search user'
+                        );
+                        console.log(err);
+                    })
+                    .finally(() => {
+                        if (this.userId !== searchUserId) {
+                            this.userId = searchUserId;
+                            this.fetchUsers();
+                        }
+                    });
+            } else {
+                searchUserId = '';
+                if (this.userId !== searchUserId) {
+                    this.userId = searchUserId;
+                    this.fetchUsers();
+                }
             }
-            // else {
-            //     this.setRouteQuery({ name: this.searchText });
-            // }
-            // this.fetchCompany();
         }, 200),
         clearSearchFilter() {
             this.searchText = '';
