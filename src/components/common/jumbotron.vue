@@ -1,12 +1,10 @@
 <template>
     <div class="jumbotron-container">
         <div class="txt-box">
-            <h1 class="jumbotron-title">{{ title }}</h1>
-            <nitrozen-tooltip
-                class="cst-space-left"
-                v-if="desc"
-                :tooltipText="desc"
-            ></nitrozen-tooltip>
+            <div class="jumbotron-title">{{ title }}</div>
+            <nitrozen-tooltip v-if="desc" class="cst-space-left">
+                <div class="custom-tooltip-txt">{{ desc }}</div>
+            </nitrozen-tooltip>
         </div>
         <div>
             <nitrozen-button
@@ -69,6 +67,14 @@ export default {
 .cst-space-left {
     margin-left: 10px;
 }
+.custom-tooltip-txt {
+    line-height: 20px;
+    font-family: Poppins;
+    font-size: 12px;
+    text-align: left;
+    min-width: 200px;
+    padding: 6px 12px;
+}
 .txt-box {
     display: flex;
     align-items: center;
@@ -88,7 +94,7 @@ export default {
     // padding: 11.25px 0;
     color: @Mako;
     font-weight: bold;
-    font-size: 28px;
+    font-size: 24px;
     line-height: 40px;
     text-align: left;
 }
@@ -99,14 +105,8 @@ export default {
 }
 ::v-deep .nitrozen-tooltip {
     svg {
-        height: 15px;
-        width: 15px;
+        height: 20px;
+        width: 20px;
     }
-}
-::v-deep .nitrozen-tooltiptext {
-    line-height: 14px;
-    font-family: Poppins;
-    font-size: 10px;
-    // text-align: left !important;
 }
 </style>
