@@ -59,10 +59,12 @@
                                     :userId="item.created_by.user_id"
                                 ></user-info-tooltip>
                             </span>
-                            <!-- <span v-if="item.created_on" class="meta-space">On</span>
-                            <span
-                                v-if="item.created_on"
-                            >{{ new Date(item.created_on).toLocaleString() }}</span> -->
+                            <span v-if="item.created_on" class="meta-space"
+                                >On</span
+                            >
+                            <span v-if="item.created_on">{{
+                                new Date(item.created_on).toLocaleString()
+                            }}</span>
                         </div>
                         <div
                             class="card-content-line-2"
@@ -74,12 +76,14 @@
                                     :userId="item.modified_by.user_id"
                                 ></user-info-tooltip>
                             </span>
-                            <!-- <span class="meta-space" v-if="item.modified_on">On</span>
+                            <span class="meta-space" v-if="item.modified_on"
+                                >On</span
+                            >
                             <span v-if="item.modified_on">
                                 {{
-                                new Date(item.modified_on).toLocaleString()
+                                    new Date(item.modified_on).toLocaleString()
                                 }}
-                            </span> -->
+                            </span>
                         </div>
                     </div>
                     <div class="cust-button">
