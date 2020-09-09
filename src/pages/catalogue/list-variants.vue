@@ -56,7 +56,7 @@
                             <span>Created By :</span>
                             <span class="left-space-co">
                                 <user-info-tooltip
-                                    :userId="item.created_by.user_id"
+                                    :userId="userObj[item.created_by.user_id]"
                                 ></user-info-tooltip>
                             </span>
                             <span v-if="item.created_on" class="meta-space"
@@ -73,7 +73,7 @@
                             <span>Modified By :</span>
                             <span class="left-space-mo">
                                 <user-info-tooltip
-                                    :userId="item.modified_by.user_id"
+                                    :userId="userObj[item.modified_by.user_id]"
                                 ></user-info-tooltip>
                             </span>
                             <span class="meta-space" v-if="item.modified_on"
@@ -230,7 +230,12 @@
 <script>
 import CatalogService from '@/services/catalog.service';
 import Jumbotron from '@/components/common/jumbotron';
-import { debounce } from '@/helper/utils';
+import {
+    debounce,
+    generateArrItem,
+    filterDuplicateObject,
+    fetchUserMetaObjects
+} from '@/helper/utils';
 import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import PageError from '@/components/common/page-error';
@@ -274,7 +279,9 @@ export default {
                 total: 0,
                 current: 1,
                 limit: 50
-            }
+            },
+            tempList: [],
+            userObj: {}
         };
     },
     mounted() {
@@ -292,10 +299,24 @@ export default {
             this.isLoading = true;
             CatalogService.fetchVariants(this.getQueryParams())
                 .then((res) => {
-                    this.pagination.total = res.data.page.total_item_count;
-                    this.mainList = res.data.data;
-                    this.variantList = res.data.data;
-                    this.isLoading = false;
+                    this.tempList = generateArrItem(res.data.data);
+                    this.tempList = filterDuplicateObject(this.tempList);
+                    fetchUserMetaObjects(this.tempList)
+                        .then((response) => {
+                            response.map((element) => {
+                                if (!this.userObj[element.uid]) {
+                                    this.userObj[element.uid] = element;
+                                }
+                            });
+                            this.pagination.total =
+                                res.data.page.total_item_count;
+                            this.mainList = res.data.data;
+                            this.variantList = res.data.data;
+                            this.isLoading = false;
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
                 })
                 .catch((error) => {
                     console.error(error);
