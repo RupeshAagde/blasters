@@ -56,12 +56,18 @@
                     <div class="cust-badge">
                         <nitrozen-badge
                             :state="
-                                item.stage == 'verified' ? 'success' : 'warn'
+                                item.stage == 'verified'
+                                    ? 'success'
+                                    : item.stage == 'rejected'
+                                    ? 'error'
+                                    : 'warn'
                             "
                         >
                             {{
                                 item.stage == 'verified'
                                     ? 'verified'
+                                    : item.stage == 'rejected'
+                                    ? 'rejected'
                                     : 'unverified'
                             }}
                         </nitrozen-badge>
@@ -196,12 +202,9 @@
                                 v-model="order_choice"
                                 @change="changeDropDown"
                             ></nitrozen-dropdown>
-                            <nitrozen-error
-                                v-if="order_choice_error.showerror"
-                                >{{
-                                    order_choice_error.errortext
-                                }}</nitrozen-error
-                            >
+                            <nitrozen-error v-if="order_choice_error.showerror">
+                                {{ order_choice_error.errortext }}
+                            </nitrozen-error>
                         </div>
                         <div class="right-drop">
                             <label class="cust-label"
@@ -216,10 +219,9 @@
                             ></nitrozen-dropdown>
                             <nitrozen-error
                                 v-if="inventory_choice_error.showerror"
-                                >{{
-                                    inventory_choice_error.errortext
-                                }}</nitrozen-error
                             >
+                                {{ inventory_choice_error.errortext }}
+                            </nitrozen-error>
                         </div>
                     </div>
                     <nitrozen-input
@@ -248,9 +250,10 @@
                         @click="verifyStore"
                         v-flatBtn
                         :theme="'secondary'"
+                        >{{
+                            editIntegration ? 'Update' : 'Verify'
+                        }}</nitrozen-button
                     >
-                        {{ editIntegration ? 'Update' : 'Verify' }}
-                    </nitrozen-button>
                     <nitrozen-button
                         v-if="!show_verify_button"
                         class="mr24"
