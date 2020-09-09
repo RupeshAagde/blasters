@@ -258,18 +258,17 @@ export const generateArrItem = (arr, filterKey) => {
     if (arr.length > 1) {
         arr.forEach((element) => {
             if (element.hasOwnProperty('modified_by')) {
-                tempArr.push(element['modified_by']);
+                if (element['modified_by'] !== null) {
+                    tempArr.push(element['modified_by']);
+                }
             }
             if (element.hasOwnProperty('created_by')) {
-                tempArr.push(element['created_by']);
+                if (element['created_by'] !== null) {
+                    tempArr.push(element['created_by']);
+                }
             }
         });
     }
-    // else {
-    //     if (arr[filterKey]) {
-    //         tempArr.push(arr[filterKey]);
-    //     }
-    // }
     return tempArr;
 };
 
@@ -288,7 +287,9 @@ export const filterDuplicateObject = (arr) => {
 export const fetchUserMetaObjects = (arr) => {
     var tempArr = [];
     arr.forEach((element) => {
-        tempArr.push(element.user_id);
+        if (element.user_id !== null) {
+            tempArr.push(element.user_id);
+        }
     });
     const params = {
         query: tempArr
