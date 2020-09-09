@@ -27,6 +27,7 @@ export const getNavigations = () => {
             icon: 'home',
             highlightedIcon: 'home-highlighted',
             active: false,
+            permission: 'plans',
             children: []
         },
         {
