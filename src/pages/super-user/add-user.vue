@@ -116,32 +116,12 @@
                 </div>
             </div>
         </div>
-        <nitrozen-dialog
-            class="remove_staff_dialog"
-            ref="add_user_dialog"
-            :title="activeUser ? getFullName() : 'User'"
-        >
-            <template slot="body" class="desc-dialog" v-if="activeUser">
-                <div class="text-margin">
-                    Are you sure you want to add
-                    {{ activeUser.first_name }}&nbsp;{{ activeUser.last_name }}
-                    as Super User?
-                </div>
-            </template>
-            <template slot="footer">
-                <nitrozen-button @click="addUser" v-flatBtn :theme="'secondary'"
-                    >Add</nitrozen-button
-                >
-                <div class="left-marg">
-                    <nitrozen-button
-                        @click="closeAddDialog"
-                        v-strokeBtn
-                        :theme="'secondary'"
-                        >Cancel</nitrozen-button
-                    >
-                </div>
-            </template>
-        </nitrozen-dialog>
+        <edit-permissions
+            ref="edit-permission"
+            v-if="activeUser"
+            :active_user="activeUser"
+            @close="addUser"
+        ></edit-permissions>
     </div>
 </template>
 <style lang="less" scoped>
@@ -282,6 +262,7 @@ import UserService from '@/services/user-access.service';
 import PageHeader from '@/components/common/layout/page-header';
 import Shimmer from '@/components/common/shimmer';
 import admInlineSVG from '@/components/common/adm-inline-svg';
+import { validatePhone, validateEmail } from '../../helper/utils';
 import {
     NitrozenInput,
     NitrozenButton,
@@ -291,6 +272,8 @@ import {
     NitrozenBadge,
     NitrozenDialog
 } from '@gofynd/nitrozen-vue';
+
+import editPermissions from './edit-permission-modal.vue';
 
 export default {
     name: 'add-super-user',
@@ -302,7 +285,8 @@ export default {
         'nitrozen-badge': NitrozenBadge,
         'nitrozen-dialog': NitrozenDialog,
         NitrozenButton,
-        NitrozenDropdown
+        NitrozenDropdown,
+        'edit-permissions': editPermissions
     },
     data() {
         return {
@@ -314,6 +298,14 @@ export default {
             registeredUserList: [],
             current: 1,
             activeUser: null,
+            userPermissions: {
+                permissions: [],
+                roles: ['custom'],
+                access: {
+                    all: true,
+                    company: []
+                }
+            },
             limit: 1000,
             exist: false,
             pageLoading: false,
@@ -337,21 +329,6 @@ export default {
             let image = '/public/assets/admin/pngs/default-profile.png';
             this.$set(user, 'profile_pic', image);
         },
-
-        validatePhone(text) {
-            let check = Number(text);
-            if (!isNaN(check)) {
-                let regex = new RegExp('^[6-9][0-9]{9}$');
-                if (regex.test(this.searchText)) {
-                    return true;
-                }
-            }
-            return false;
-        },
-        validateEmail(text) {
-            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(String(text).toLowerCase());
-        },
         requestQuery() {
             const query = {
                 page: this.current,
@@ -373,17 +350,18 @@ export default {
         getFullName() {
             return this.activeUser.firstName + ' ' + this.activeUser.lastName;
         },
-        addUser() {
-            if (this.activeUser) {
-                let uid = this.activeUser.uid;
-                let params = {
-                    user: this.activeUser._id,
+        addUser(clickBtn, userData) {
+            if (clickBtn === 'Add' && userData) {
+                userData = {
                     title: 'Super Admin',
-                    meta: {}
+                    meta: {},
+                    user: userData._id,
+                    permissions: userData.permissions,
+                    roles: userData.roles,
+                    access: userData.access
                 };
-                return UserService.addUser(params)
+                return UserService.addUser(userData)
                     .then((res) => {
-                        this.closeAddDialog();
                         this.$snackbar.global.showSuccess(
                             'User Added Successfully as Super User',
                             {
@@ -402,16 +380,13 @@ export default {
                                 duration: 2000
                             }
                         );
-                        this.closeAddDialog();
                     });
             }
         },
         openAddDialog(user) {
-            this.activeUser = user;
-            this.$refs['add_user_dialog'].open({
-                width: '500px',
-                showCloseButton: true,
-                dismissible: true
+            this.activeUser = _.merge(user, this.userPermissions);
+            this.$nextTick(() => {
+                this.$refs['edit-permission'].open();
             });
         },
         closeAddDialog() {
@@ -448,8 +423,8 @@ export default {
         },
         searchUser() {
             if (this.searchText && this.searchText != '') {
-                let validPhone = this.validatePhone(this.searchText);
-                let validEmail = this.validateEmail(this.searchText);
+                let validPhone = validatePhone(this.searchText);
+                let validEmail = validateEmail(this.searchText);
                 if (validPhone) {
                     let params = {
                         query: this.searchText

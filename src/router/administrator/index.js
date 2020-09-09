@@ -18,14 +18,13 @@ import ProductAttributesGroup from '@/pages/product/attributes/group';
 import ProductAttributesSequence from '@/pages/product/attributes/sequence';
 import ProductTemplatesList from '@/pages/product/templates/list';
 import ProductTemplatesEdit from '@/pages/product/templates/edit';
-import { authenticatedUser } from './../guards';
+import { authenticatedUser, checkUserPermission } from './../guards';
 
 export default [
     {
         path: '/administrator/',
         beforeEnter: authenticatedUser,
         component: AdministratorBaseViewVue,
-        redirect: '/administrator/company-list',
         children: [
             // {
             //     name: 'home',
@@ -36,114 +35,199 @@ export default [
             {
                 name: 'company-list',
                 path: 'company-list',
-                component: CompanyListVue
+                component: CompanyListVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['company']);
+                }
             },
             {
                 name: 'company-details',
                 path: 'company-details/:companyId',
-                component: CbsDetailVue
+                component: CbsDetailVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company'],
+                        'companyId'
+                    );
+                }
             },
             {
                 name: 'user-management',
                 path: 'user-management',
-                component: UserManagementVue
+                component: UserManagementVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, [
+                        'admin-access'
+                    ]);
+                }
             },
             {
                 name: 'support',
                 path: 'support',
-                component: Tickets
+                component: Tickets,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
             },
             {
                 name: 'support-edit',
                 path: 'support/ticket/edit/:ticket_id',
-                component: CreateTicket
+                component: CreateTicket,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
             },
             {
                 name: 'add-user',
                 path: 'add-user',
-                component: AddSuperUserVue
+                component: AddSuperUserVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, [
+                        'admin-access'
+                    ]);
+                }
             },
             {
                 name: 'add-dri',
                 path: 'company-details/:companyId/add-dri',
-                component: AddEditDri
+                component: AddEditDri,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company'],
+                        'companyId'
+                    );
+                }
             },
             {
                 name: 'edit-dri',
                 path: 'company-details/:companyId/edit-dri/:uid',
-                component: AddEditDri
+                component: AddEditDri,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company'],
+                        'companyId'
+                    );
+                }
             },
 
             // Product
             {
                 name: 'product',
                 path: 'product',
-                component: Product
+                component: Product,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
+                }
             },
             // attributes
             {
                 name: 'attributes',
                 path: 'product/attributes',
-                component: ProductAttributesList
+                component: ProductAttributesList,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
+                }
             },
             {
                 name: 'attributes-create',
                 path: 'product/attributes/create',
-                component: ProductAttributesEdit
+                component: ProductAttributesEdit,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
+                }
             },
             {
                 name: 'attributes-edit',
                 path: 'product/attributes/edit/:slug',
-                component: ProductAttributesEdit
+                component: ProductAttributesEdit,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
+                }
             },
             // group-and-sequence
             {
                 name: 'attributes-group',
                 path: 'product/attributes/group/:entity',
-                component: ProductAttributesGroup
+                component: ProductAttributesGroup,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
+                }
             },
             {
                 name: 'attributes-group-settings',
                 path: 'product/attributes/group/:entity/:slug',
-                component: ProductAttributesGroup
+                component: ProductAttributesGroup,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
+                }
             },
             {
                 name: 'attributes-sequence',
                 path: 'product/attributes/sequence/:entity',
-                component: ProductAttributesSequence
+                component: ProductAttributesSequence,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
+                }
             },
 
             // templates
             {
                 name: 'templates',
                 path: 'product/templates',
-                component: ProductTemplatesList
+                component: ProductTemplatesList,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
+                }
             },
             {
                 name: 'templates-create',
                 path: 'product/templates/create',
-                component: ProductTemplatesEdit
+                component: ProductTemplatesEdit,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
+                }
             },
             {
                 name: 'templates-edit',
                 path: 'product/templates/:slug',
-                component: ProductTemplatesEdit
+                component: ProductTemplatesEdit,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
+                }
             },
             // Settings
             {
                 name: 'settings',
                 path: 'settings',
-                component: SettingsVue
+                component: SettingsVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
             },
             {
                 name: 'basic-details-setting',
                 path: 'settings/basic',
-                component: BasicDetailSettingsVue
+                component: BasicDetailSettingsVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
             },
             {
                 name: 'features-setting',
                 path: 'settings/features',
-                component: FeaturesSettingsVue
+                component: FeaturesSettingsVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
             }
         ]
     }

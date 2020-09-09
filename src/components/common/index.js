@@ -10,6 +10,7 @@ import PageHeader from './layout/page-header.vue';
 import BaseCard from './base-card.vue';
 import DatePicker from './date-picker.vue';
 import ImageUploaderTile from './image-uploader/index.vue';
+import Permissions from './permissions.vue';
 
 export * from './dialogs';
 
@@ -24,6 +25,7 @@ export {
     TagsInput,
     PageHeader,
     BaseCard,
+    ImageUploaderTile,
     DatePicker,
-    ImageUploaderTile
+    Permissions
 };
