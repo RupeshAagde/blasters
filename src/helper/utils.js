@@ -303,3 +303,18 @@ export const fetchUserMetaObjects = (arr) => {
             });
     });
 };
+export const validatePhone = (text) => {
+    let check = Number(text);
+    if (!isNaN(check)) {
+        let regex = new RegExp('^[6-9][0-9]{9}$');
+        if (regex.test(text)) {
+            return true;
+        }
+    }
+    return false;
+};
+
+export const validateEmail = (text) => {
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(text).toLowerCase());
+};
