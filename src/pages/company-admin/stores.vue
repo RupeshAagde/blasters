@@ -145,7 +145,7 @@
                         :theme="'secondary'"
                         v-strokeBtn
                         v-if="item.stage != 'verified'"
-                        @click="openAdminDialog(item)"
+                        @click="openAdminDialog(item, true)"
                         >Disable</nitrozen-button
                     >
                 </div>
@@ -718,7 +718,7 @@ export default {
         },
         editIntegration(item) {
             this.enableEditIntegration = true;
-            this.openAdminDialog(item);
+            this.openAdminDialog(item, false, false);
         },
         setRouteQuery(query) {
             if (query.search || query.stage) {
@@ -853,14 +853,15 @@ export default {
                 }
             }
         },
-        openAdminDialog(item) {
+        openAdminDialog(item, isDisable = false, isReset = true) {
             this.activeStore = { ...item };
             this.rejection_info.showError = false;
             this.order_choice_error.showerror = false;
             this.inventory_choice_error.showerror = false;
             this.order_choice = null;
             this.inventory_choice = null;
-            if (item.stage && item.stage == 'verified') {
+            this.enableEditIntegration = !isReset;
+            if (item.stage && isDisable) {
                 this.admin_action_text = 'disable';
                 this.show_verify_button = false;
             } else {
@@ -877,17 +878,7 @@ export default {
                 this.order_choice = item.integration_type.order;
                 this.inventory_choice = item.integration_type.inventory;
             }
-
-            if (item.stage && item.stage != 'verified') {
-                if (this.activeStore) {
-                    this.$refs['store_admin_dialog'].open({
-                        width: '600px',
-                        height: '480px',
-                        showCloseButton: true,
-                        dismissible: true
-                    });
-                }
-            } else {
+            if (item.stage && this.activeStore) {
                 this.$refs['store_admin_dialog'].open({
                     width: '600px',
                     height: '480px',
@@ -895,6 +886,24 @@ export default {
                     dismissible: true
                 });
             }
+            // if (item.stage && item.stage != 'verified') {
+            //     if (this.activeStore) {
+            //         this.$refs['store_admin_dialog'].open({
+            //             width: '600px',
+            //             height: '480px',
+            //             showCloseButton: true,
+            //             dismissible: true
+            //         });
+            //     }
+            // }
+            // else {
+            //     this.$refs['store_admin_dialog'].open({
+            //         width: '600px',
+            //         height: '480px',
+            //         showCloseButton: true,
+            //         dismissible: true
+            //     });
+            // }
         },
         changeDropDown() {
             if (this.order_choice) {
