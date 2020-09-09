@@ -58,11 +58,7 @@
                         </div>
                         <div
                             class="card-content-line-2"
-                            v-if="
-                                item.created_by &&
-                                    item.created_by.username &&
-                                    item.created_on
-                            "
+                            v-if="item.created_by && item.created_on"
                         >
                             <span>Created By :</span>
                             <span class="left-space-co">
@@ -73,17 +69,13 @@
                             <span v-if="item.created_on" class="meta-space"
                                 >On</span
                             >
-                            <span v-if="item.created_on">
-                                {{ new Date(item.created_on).toLocaleString() }}
-                            </span>
+                            <span v-if="item.created_on">{{
+                                new Date(item.created_on).toLocaleString()
+                            }}</span>
                         </div>
                         <div
                             class="card-content-line-2"
-                            v-if="
-                                item.modified_by &&
-                                    item.modified_by.username &&
-                                    item.modified_on
-                            "
+                            v-if="item.modified_by && item.modified_on"
                         >
                             <span>Modified By :</span>
                             <span class="left-space-mo">
