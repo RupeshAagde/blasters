@@ -11,6 +11,10 @@ import SettingsVue from './../../pages/settings';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details';
 import FeaturesSettingsVue from './../../pages/settings/features';
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
+import ListDepartment from './../../pages/catalogue/list-department.vue';
+import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
+import ListVariants from './../../pages/catalogue/list-variants.vue';
+import CreateUpdateVariant from './../../pages/catalogue/create-update-variant.vue';
 import Product from './../../pages/product/index';
 import ProductAttributesList from '@/pages/product/attributes/list';
 import ProductAttributesEdit from '@/pages/product/attributes/edit';
@@ -118,7 +122,37 @@ export default [
                     );
                 }
             },
-
+            //Catalog
+            {
+                name: 'department',
+                path: 'product/department',
+                component: ListDepartment
+            },
+            {
+                name: 'create',
+                path: 'product/department/create',
+                component: CreateUpdateDepartment
+            },
+            {
+                name: 'edit-department',
+                path: 'product/department/edit/:deptId',
+                component: CreateUpdateDepartment
+            },
+            {
+                name: 'variants',
+                path: 'product/variants',
+                component: ListVariants
+            },
+            {
+                name: 'create-variant',
+                path: 'product/variants/create',
+                component: CreateUpdateVariant
+            },
+            {
+                name: 'edit-variant',
+                path: 'product/variants/edit/:uid',
+                component: CreateUpdateVariant
+            },
             // Product
             {
                 name: 'product',

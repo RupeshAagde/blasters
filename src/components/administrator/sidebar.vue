@@ -85,7 +85,6 @@
     overflow: auto;
     transition: all 0.25s ease-in-out;
     box-shadow: 1px 1px 1px 1px #eeeeee;
-    // z-index: 16;
     display: flex;
     flex-direction: column;
 
