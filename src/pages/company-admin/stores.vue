@@ -129,14 +129,14 @@
                     <nitrozen-button
                         :theme="'secondary'"
                         v-flatBtn
-                        v-if="item.stage != 'verified'"
+                        v-if="item.stage !== 'verified'"
                         @click="openAdminDialog(item)"
                         >Verify</nitrozen-button
                     >
                     <nitrozen-button
                         :theme="'secondary'"
                         v-flatBtn
-                        v-if="item.stage == 'verified'"
+                        v-if="item.stage === 'verified'"
                         @click="editIntegration(item)"
                         >Edit Integration</nitrozen-button
                     >
@@ -144,7 +144,10 @@
                         class="left-space"
                         :theme="'secondary'"
                         v-strokeBtn
-                        v-if="item.stage != 'verified'"
+                        v-if="
+                            item.stage !== 'rejected' &&
+                                item.stage !== 'verified'
+                        "
                         @click="openAdminDialog(item, true)"
                         >Disable</nitrozen-button
                     >
@@ -823,6 +826,7 @@ export default {
                             }
                         );
                         setTimeout(() => {}, 2000);
+                        this.show_verify_button = true;
                     })
                     .catch((error) => {
                         console.error(error);
