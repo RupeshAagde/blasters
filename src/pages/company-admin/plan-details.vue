@@ -58,7 +58,9 @@
             <daytrader-component
                 :subscriptionId="subscription_id"
                 :component="component"
-                :dtOptions="dtConfigMap[component.data.slug_values.channel.id]"
+                :dtOptions="
+                    dtConfigMap[component.data.slug_values.channel[0].id]
+                "
                 :cbs_opts="cbs_opts"
             >
             </daytrader-component>
@@ -261,7 +263,7 @@ export default {
         },
         edit_channel() {
             return this.edit_base_component.data
-                ? this.edit_base_component.data.slug_values.channel.id
+                ? this.edit_base_component.data.slug_values.channel[0].id
                 : '';
         },
         edit_rule() {

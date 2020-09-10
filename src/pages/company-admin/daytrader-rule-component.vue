@@ -231,7 +231,6 @@ export default {
             payload.auto_verify = this.$refs['daytrader'].auto_verify;
             this.$refs['daytrader_rule_edit'].close();
             this.edit_rule_idx = -1;
-            console.log(payload);
             BillingService.addSubscriptionDaytraderRule(
                 this.subscriptionId,
                 payload
