@@ -64,6 +64,22 @@ export const getNavigations = () => {
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
+                },
+                {
+                    display: 'Departments',
+                    link: '/administrator/product/department',
+                    title: 'department',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Variants',
+                    link: '/administrator/product/variants',
+                    title: 'variants',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
                 }
             ]
         },

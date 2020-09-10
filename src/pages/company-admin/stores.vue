@@ -56,12 +56,18 @@
                     <div class="cust-badge">
                         <nitrozen-badge
                             :state="
-                                item.stage == 'verified' ? 'success' : 'warn'
+                                item.stage == 'verified'
+                                    ? 'success'
+                                    : item.stage == 'rejected'
+                                    ? 'error'
+                                    : 'warn'
                             "
                         >
                             {{
                                 item.stage == 'verified'
                                     ? 'verified'
+                                    : item.stage == 'rejected'
+                                    ? 'rejected'
                                     : 'unverified'
                             }}
                         </nitrozen-badge>
@@ -129,14 +135,14 @@
                     <nitrozen-button
                         :theme="'secondary'"
                         v-flatBtn
-                        v-if="item.stage != 'verified'"
+                        v-if="item.stage !== 'verified'"
                         @click="openAdminDialog(item)"
                         >Verify</nitrozen-button
                     >
                     <nitrozen-button
                         :theme="'secondary'"
                         v-flatBtn
-                        v-if="item.stage == 'verified'"
+                        v-if="item.stage === 'verified'"
                         @click="editIntegration(item)"
                         >Edit Integration</nitrozen-button
                     >
@@ -144,8 +150,11 @@
                         class="left-space"
                         :theme="'secondary'"
                         v-strokeBtn
-                        v-if="item.stage != 'verified'"
-                        @click="openAdminDialog(item)"
+                        v-if="
+                            item.stage !== 'rejected' &&
+                                item.stage !== 'verified'
+                        "
+                        @click="openAdminDialog(item, true)"
                         >Disable</nitrozen-button
                     >
                 </div>
@@ -193,12 +202,9 @@
                                 v-model="order_choice"
                                 @change="changeDropDown"
                             ></nitrozen-dropdown>
-                            <nitrozen-error
-                                v-if="order_choice_error.showerror"
-                                >{{
-                                    order_choice_error.errortext
-                                }}</nitrozen-error
-                            >
+                            <nitrozen-error v-if="order_choice_error.showerror">
+                                {{ order_choice_error.errortext }}
+                            </nitrozen-error>
                         </div>
                         <div class="right-drop">
                             <label class="cust-label"
@@ -213,10 +219,9 @@
                             ></nitrozen-dropdown>
                             <nitrozen-error
                                 v-if="inventory_choice_error.showerror"
-                                >{{
-                                    inventory_choice_error.errortext
-                                }}</nitrozen-error
                             >
+                                {{ inventory_choice_error.errortext }}
+                            </nitrozen-error>
                         </div>
                     </div>
                     <nitrozen-input
@@ -245,9 +250,10 @@
                         @click="verifyStore"
                         v-flatBtn
                         :theme="'secondary'"
+                        >{{
+                            editIntegration ? 'Update' : 'Verify'
+                        }}</nitrozen-button
                     >
-                        {{ editIntegration ? 'Update' : 'Verify' }}
-                    </nitrozen-button>
                     <nitrozen-button
                         v-if="!show_verify_button"
                         class="mr24"
@@ -718,7 +724,7 @@ export default {
         },
         editIntegration(item) {
             this.enableEditIntegration = true;
-            this.openAdminDialog(item);
+            this.openAdminDialog(item, false, false);
         },
         setRouteQuery(query) {
             if (query.search || query.stage) {
@@ -823,6 +829,7 @@ export default {
                             }
                         );
                         setTimeout(() => {}, 2000);
+                        this.show_verify_button = true;
                     })
                     .catch((error) => {
                         console.error(error);
@@ -853,14 +860,15 @@ export default {
                 }
             }
         },
-        openAdminDialog(item) {
+        openAdminDialog(item, isDisable = false, isReset = true) {
             this.activeStore = { ...item };
             this.rejection_info.showError = false;
             this.order_choice_error.showerror = false;
             this.inventory_choice_error.showerror = false;
             this.order_choice = null;
             this.inventory_choice = null;
-            if (item.stage && item.stage == 'verified') {
+            this.enableEditIntegration = !isReset;
+            if (item.stage && isDisable) {
                 this.admin_action_text = 'disable';
                 this.show_verify_button = false;
             } else {
@@ -877,17 +885,7 @@ export default {
                 this.order_choice = item.integration_type.order;
                 this.inventory_choice = item.integration_type.inventory;
             }
-
-            if (item.stage && item.stage != 'verified') {
-                if (this.activeStore) {
-                    this.$refs['store_admin_dialog'].open({
-                        width: '600px',
-                        height: '480px',
-                        showCloseButton: true,
-                        dismissible: true
-                    });
-                }
-            } else {
+            if (item.stage && this.activeStore) {
                 this.$refs['store_admin_dialog'].open({
                     width: '600px',
                     height: '480px',
@@ -895,6 +893,24 @@ export default {
                     dismissible: true
                 });
             }
+            // if (item.stage && item.stage != 'verified') {
+            //     if (this.activeStore) {
+            //         this.$refs['store_admin_dialog'].open({
+            //             width: '600px',
+            //             height: '480px',
+            //             showCloseButton: true,
+            //             dismissible: true
+            //         });
+            //     }
+            // }
+            // else {
+            //     this.$refs['store_admin_dialog'].open({
+            //         width: '600px',
+            //         height: '480px',
+            //         showCloseButton: true,
+            //         dismissible: true
+            //     });
+            // }
         },
         changeDropDown() {
             if (this.order_choice) {

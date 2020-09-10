@@ -102,7 +102,10 @@
                                         <span class="cb-lm">
                                             <user-info-tooltip
                                                 :userId="
-                                                    template.modified_by.user_id
+                                                    userObj[
+                                                        template.modified_by
+                                                            .user_id
+                                                    ]
                                                 "
                                             ></user-info-tooltip>
                                         </span>
@@ -316,7 +319,13 @@
 import path from 'path';
 import CompanyService from '@/services/company-admin.service';
 import Jumbotron from '@/components/common/jumbotron';
-import { titleCase, debounce } from '@/helper/utils';
+import {
+    titleCase,
+    debounce,
+    generateArrItem,
+    filterDuplicateObject,
+    fetchUserMetaObjects
+} from '@/helper/utils';
 import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
@@ -387,7 +396,9 @@ export default {
 
             departmentsList: [],
             departments: [],
-            selectedDepartment: ''
+            selectedDepartment: '',
+            tempList: [],
+            userObj: {}
         };
     },
     mounted() {
@@ -435,18 +446,33 @@ export default {
         },
         fetchProductTemplates() {
             this.pageLoading = true;
-            return CompanyService.fetchProductTemplates(this.requestQuery())
-                .then(({ data }) => {
-                    this.templates = data.data;
+            return new Promise((resolve, reject) => {
+                CompanyService.fetchProductTemplates(this.requestQuery())
+                    .then(({ data }) => {
+                        this.tempList = generateArrItem(data.data);
+                        this.tempList = filterDuplicateObject(this.tempList);
+                        fetchUserMetaObjects(this.tempList)
+                            .then((res) => {
+                                res.map((element) => {
+                                    if (!this.userObj[element.uid]) {
+                                        this.userObj[element.uid] = element;
+                                    }
+                                });
+                                this.templates = data.data;
 
-                    this.pagination.total = data.page.total_count;
-                    this.pageLoading = false;
-                })
-                .catch((err) => {
-                    this.pageLoading = false;
-                    this.pageError = true;
-                    console.log(err);
-                });
+                                this.pagination.total = data.page.total_count;
+                                this.pageLoading = false;
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
+                    })
+                    .catch((err) => {
+                        this.pageLoading = false;
+                        this.pageError = true;
+                        console.log(err);
+                    });
+            });
         },
         fetchDepartments() {
             return new Promise((resolve, reject) => {

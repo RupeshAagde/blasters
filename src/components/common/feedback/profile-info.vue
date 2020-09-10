@@ -234,10 +234,7 @@ export default {
         showDate: '',
         showPrepo: '',
         // userObj: '',
-        userId: {
-            type: Object,
-            default: () => ({})
-        },
+        userId: '',
         position: {
             type: String,
             default: 'right'
@@ -253,7 +250,7 @@ export default {
         };
     },
     mounted() {
-        if (Object.keys(this.userId).length) {
+        if (this.userId) {
             this.getUserInfo(this.userId);
             // this.userHover = true;
         }
@@ -275,51 +272,33 @@ export default {
         getUserInfo(userId, userType) {
             if (this.userInfo || this.userHover || !userId) return;
             this.userHover = true;
-            if (userId) {
-                this.userInfo = {
-                    email: this.getEmail(userId),
-                    phone: this.getPhone(userId),
-                    name: `${userId.firstName} ${userId.lastName}`,
-                    gender: userId.gender,
-                    userId
-                };
-                if (this.dateType) {
-                    let dateString = new Date(this.date).toDateString();
-                    this.userInfo.date = dateString
-                        .split(' ')
-                        .splice(1)
-                        .join(' ');
-                }
-            } else {
-                this.userError = true;
-            }
             // console.log(`userhove In: ${this.userHover}`);
             // if (this.reviewerInfo.userId === userId) return;
-            // CompanyService.searchUser({ query: userId })
-            //     .then((res) => {
-            //         if (res.data.length) {
-            //             this.userInfo = {
-            //                 email: this.getEmail(res.data[0]),
-            //                 phone: this.getPhone(res.data[0]),
-            //                 name: `${res.data[0].firstName} ${res.data[0].lastName}`,
-            //                 gender: res.data[0].gender,
-            //                 userId
-            //             };
-            //             if (this.dateType) {
-            //                 let dateString = new Date(this.date).toDateString();
-            //                 this.userInfo.date = dateString
-            //                     .split(' ')
-            //                     .splice(1)
-            //                     .join(' ');
-            //             }
-            //         } else {
-            //             this.userError = true;
-            //         }
-            //     })
-            //     .catch((err) => {
-            //         this.userError = true;
-            //         console.log(err);
-            //     });
+            CompanyService.searchUser({ query: userId })
+                .then((res) => {
+                    if (res.data.length) {
+                        this.userInfo = {
+                            email: this.getEmail(res.data[0]),
+                            phone: this.getPhone(res.data[0]),
+                            name: `${res.data[0].firstName} ${res.data[0].lastName}`,
+                            gender: res.data[0].gender,
+                            userId
+                        };
+                        if (this.dateType) {
+                            let dateString = new Date(this.date).toDateString();
+                            this.userInfo.date = dateString
+                                .split(' ')
+                                .splice(1)
+                                .join(' ');
+                        }
+                    } else {
+                        this.userError = true;
+                    }
+                })
+                .catch((err) => {
+                    this.userError = true;
+                    console.log(err);
+                });
         },
         getEmail: function(userObj) {
             if (

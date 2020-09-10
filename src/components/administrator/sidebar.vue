@@ -42,9 +42,9 @@
                                 : ''
                         "
                     >
-                        <span class="title regular-xs cl-Mako">{{
-                            submenu.display
-                        }}</span>
+                        <span class="title regular-xs cl-Mako">
+                            {{ submenu.display }}
+                        </span>
                     </router-link>
                 </div>
             </div>
@@ -53,6 +53,18 @@
 </template>
 
 <style lang="less" scoped>
+.foot-desc {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    line-height: 20px;
+    min-height: 100px;
+    padding: 24px;
+    font-size: 12px;
+    color: #41434c;
+}
 .filter {
     position: absolute;
     right: 20px;
@@ -73,6 +85,15 @@
     overflow: auto;
     transition: all 0.25s ease-in-out;
     box-shadow: 1px 1px 1px 1px #eeeeee;
+    display: flex;
+    flex-direction: column;
+
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 .menu-item {
     cursor: pointer;
@@ -130,6 +151,24 @@
     background-color: #ffffff;
     .title {
         color: #5c6bdd;
+    }
+}
+.blaster-scrollbar {
+    /* scrollbar */
+    &::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+        background-color: @White;
+    }
+    /* Track */
+    &::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+        background-color: @White;
+    }
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        border-radius: 2.5px;
+        background-color: @DoveGray;
     }
 }
 </style>
