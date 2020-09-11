@@ -626,7 +626,8 @@ export default {
         },
         fetchAttributes() {
             const params = {
-                limit: 999999
+                limit: 999999,
+                ca: true
             };
             return CompanyService.fetchAttributes(params)
                 .then(({ data }) => {
