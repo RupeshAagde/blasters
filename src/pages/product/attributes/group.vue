@@ -606,7 +606,8 @@ export default {
         fetchGroupDetails() {
             this.inProgress = true;
             const params = {
-                type: this.entity
+                type: this.entity,
+                ca: true
             };
             return CompanyService.fetchGroupDetails(
                 this.selectedGroupSlug,
