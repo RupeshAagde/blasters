@@ -3,11 +3,20 @@
         <div class="page-header-position">
             <page-header
                 :title="`${isEditOnly ? 'Edit' : 'Create'} Subscription Plan`"
-                :contextMenuItems="isEditOnly ? contextMenu : undefined"
+                :contextMenuItems="
+                    isEditOnly
+                        ? contextMenu.filter(({ action }) =>
+                              !formData.hasActiveSubscription
+                                  ? action != 'agreement'
+                                  : true
+                          )
+                        : undefined
+                "
                 @backClick="onCancel"
                 @delete="onMenuAction('delete')"
                 @clone="onMenuAction('clone')"
                 @subscribe="onMenuAction('subscribe')"
+                @agreement="onMenuAction('agreement')"
             >
                 <div class="button-box">
                     <span
@@ -37,7 +46,7 @@
                         :theme="'secondary'"
                         @click="previewPlan"
                         v-strokeBtn
-                        >Preview</nitrozen-button
+                        >Preview Plan</nitrozen-button
                     >
                     <nitrozen-button
                         :disabled="formData.hasActiveSubscription"
@@ -49,7 +58,7 @@
                             }`
                         "
                         :theme="'secondary'"
-                        @click="savePlan"
+                        @click="previewAgreement"
                         v-flatBtn
                         >{{
                             `${isEditOnly ? 'Save' : 'Create'}`
@@ -119,6 +128,41 @@
                     type="text"
                 />
                 <div class="ukt-links" @click="copyText">{{ copyDisplay }}</div>
+            </template>
+        </nitrozen-dialog>
+
+        <nitrozen-dialog
+            :ref="'agreement-modal'"
+            :title="'Plan Subscription Agreement Sample'"
+            @close="() => (agreementUrl = '')"
+        >
+            <template slot="body">
+                <iframe
+                    style="width: 100%; height: 100%;"
+                    :src="pdfUrl"
+                    name="agreementIframe"
+                    id="agreementIframe"
+                ></iframe>
+            </template>
+            <template slot="footer">
+                <nitrozen-button
+                    :theme="'secondary'"
+                    @click="
+                        () => {
+                            if (formData.hasActiveSubscription) {
+                                $refs['agreement-modal'].close();
+                            } else {
+                                savePlan();
+                            }
+                        }
+                    "
+                    v-flatBtn
+                    >{{
+                        formData.hasActiveSubscription
+                            ? 'Close'
+                            : 'Confirm & Save'
+                    }}</nitrozen-button
+                >
             </template>
         </nitrozen-dialog>
     </div>
@@ -383,6 +427,7 @@ export default {
             daytraderConfigMap: {},
             saveInProgress: false,
             originalData: {},
+            agreementUrl: '',
             formData: this.getCreateData(),
             previewData: null,
             showPreview: false,
@@ -400,6 +445,10 @@ export default {
                 {
                     text: 'Subscribe',
                     action: 'subscribe'
+                },
+                {
+                    text: 'View Agreement',
+                    action: 'agreement'
                 }
             ],
             errors: {
@@ -429,6 +478,9 @@ export default {
         },
         customPlanLink() {
             return `https://platform.${config.FYND_PLATFORM_DOMAIN}/company/${this.selectedCompany}/billing/custom-plan/${this.planId}`;
+        },
+        pdfUrl() {
+            return `${config.UNICRON_MAIN_URL}/v1/plan-pdf/generate-pdf`;
         }
     },
     methods: {
@@ -620,6 +672,44 @@ export default {
             });
             this.showPreview = true;
         },
+        previewAgreement() {
+            if (!this.validateData()) {
+                this.$snackbar.global.showError(
+                    'Invalid data entered. Please enter valid data.'
+                );
+            }
+            BillingService.getPlanPdf('')
+                .then(({ data }) => {
+                    //this.agreementUrl = data;
+                    this.$nextTick(() => {
+                        // var f = document.createElement("form");
+                        // f.setAttribute('method',"post");
+                        // f.setAttribute('target','agreementIframe');
+                        // document.body.appendChild(f);
+                        // f.submit();
+                        // f.parentElement.removeChild(f);
+                        // f.onsubmit = ()=>{
+                        //     return this.agreementUrl;
+                        // };
+                        this.$refs['agreement-modal'].open({
+                            width: 'calc(90% - 20px)',
+                            height: 'calc(100% - 20px)',
+                            dismissible: true,
+                            showCloseButton: true,
+                            positiveButtonLabel: false,
+                            negativeButtonLabel: false,
+                            neutralButtonLabel: false
+                        });
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.$snackbar.global.showError(
+                        'Failed to generate Agreement PDF'
+                    );
+                });
+        },
+
         savePlan() {
             this.saveInProgress = true;
             if (this.validateData()) {
@@ -646,6 +736,7 @@ export default {
                             this.originalData = _.cloneDeep(data.data);
                             this.formData = data.data;
                             this.saveInProgress = false;
+                            this.$refs['agreement-modal'].close();
                         })
                         .catch((err) => {
                             this.saveInProgress = false;
@@ -664,6 +755,7 @@ export default {
                                 'Updated successfully'
                             );
                             this.saveInProgress = false;
+                            this.$refs['agreement-modal'].close();
                         })
                         .catch((err) => {
                             this.saveInProgress = false;
@@ -727,6 +819,8 @@ export default {
                     negativeButtonLabel: false,
                     neutralButtonLabel: false
                 });
+            } else if (action == 'agreement') {
+                this.previewAgreement();
             }
         },
         onCancel() {

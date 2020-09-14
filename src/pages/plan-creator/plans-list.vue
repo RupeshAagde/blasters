@@ -2,6 +2,7 @@
     <div class="plans-list main-container">
         <div class="page-container">
             <jumbotron
+                style="width: 100%"
                 :title="jumbotronData ? `${jumbotronData.jumbotronTitle}` : ''"
                 :desc="jumbotronData ? jumbotronData.jumbotronBody : ''"
                 btnLabel="Create"

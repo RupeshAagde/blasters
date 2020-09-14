@@ -341,6 +341,9 @@ const URLS = {
     PLAN_DETAILS: (planId) => {
         return urlJoin(UNICRON_BASE, `v1/plan/details/${planId}`);
     },
+    AGREEMENT_PDF: (planId) => {
+        return urlJoin(UNICRON_BASE, `v1/plan-pdf/generate-pdf/${planId}`);
+    },
 
     //#########Tickets########
     FETCH_TICKETS: () => {
