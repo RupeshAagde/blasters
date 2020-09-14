@@ -606,7 +606,8 @@ export default {
         fetchGroupDetails() {
             this.inProgress = true;
             const params = {
-                type: this.entity
+                type: this.entity,
+                ca: true
             };
             return CompanyService.fetchGroupDetails(
                 this.selectedGroupSlug,
@@ -626,7 +627,8 @@ export default {
         },
         fetchAttributes() {
             const params = {
-                limit: 999999
+                limit: 999999,
+                ca: true
             };
             return CompanyService.fetchAttributes(params)
                 .then(({ data }) => {
