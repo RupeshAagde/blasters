@@ -139,7 +139,6 @@
             <template slot="body">
                 <iframe
                     style="width: 100%; height: 100%;"
-                    :src="pdfUrl"
                     name="agreementIframe"
                     id="agreementIframe"
                 ></iframe>
@@ -480,7 +479,7 @@ export default {
             return `https://platform.${config.FYND_PLATFORM_DOMAIN}/company/${this.selectedCompany}/billing/custom-plan/${this.planId}`;
         },
         pdfUrl() {
-            return `${config.UNICRON_MAIN_URL}/v1/plan-pdf/generate-pdf`;
+            return `${config.UNICRON_MAIN_URL}v1/plan-pdf/generate-pdf`;
         }
     },
     methods: {
@@ -678,36 +677,35 @@ export default {
                     'Invalid data entered. Please enter valid data.'
                 );
             }
-            BillingService.getPlanPdf('')
-                .then(({ data }) => {
-                    //this.agreementUrl = data;
-                    this.$nextTick(() => {
-                        // var f = document.createElement("form");
-                        // f.setAttribute('method',"post");
-                        // f.setAttribute('target','agreementIframe');
-                        // document.body.appendChild(f);
-                        // f.submit();
-                        // f.parentElement.removeChild(f);
-                        // f.onsubmit = ()=>{
-                        //     return this.agreementUrl;
-                        // };
-                        this.$refs['agreement-modal'].open({
-                            width: 'calc(90% - 20px)',
-                            height: 'calc(100% - 20px)',
-                            dismissible: true,
-                            showCloseButton: true,
-                            positiveButtonLabel: false,
-                            negativeButtonLabel: false,
-                            neutralButtonLabel: false
-                        });
+            try {
+                var f = document.createElement('form');
+                f.setAttribute('method', 'post');
+                f.setAttribute('action', this.pdfUrl);
+                f.setAttribute('target', 'agreementIframe');
+                var input = document.createElement('input');
+                input.setAttribute('name', 'plan_data');
+                input.setAttribute('value', JSON.stringify(this.formData));
+                f.appendChild(input);
+                document.body.appendChild(f);
+                f.submit();
+                f.parentElement.removeChild(f);
+                this.$nextTick(() => {
+                    this.$refs['agreement-modal'].open({
+                        width: 'calc(90% - 20px)',
+                        height: 'calc(100% - 20px)',
+                        dismissible: true,
+                        showCloseButton: true,
+                        positiveButtonLabel: false,
+                        negativeButtonLabel: false,
+                        neutralButtonLabel: false
                     });
-                })
-                .catch((err) => {
-                    console.log(err);
-                    this.$snackbar.global.showError(
-                        'Failed to generate Agreement PDF'
-                    );
                 });
+            } catch (err) {
+                console.log(err);
+                this.$snackbar.global.showError(
+                    'Failed to generate Agreement PDF'
+                );
+            }
         },
 
         savePlan() {
