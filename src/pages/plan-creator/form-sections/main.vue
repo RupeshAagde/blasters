@@ -240,7 +240,7 @@
                         :ref="`dt_comp_${component._id}`"
                         :component="component"
                         :dtOptions="
-                            dtOptions[component.data.slug_values.channel.id]
+                            dtOptions[component.data.slug_values.channel[0].id]
                         "
                         :price_component="dTComponentMap[component._id]"
                         :cbs_opts="cbs_opts"
