@@ -677,6 +677,7 @@ export default {
                 this.$snackbar.global.showError(
                     'Invalid data entered. Please enter valid data.'
                 );
+                return;
             }
             try {
                 var f = document.createElement('form');
