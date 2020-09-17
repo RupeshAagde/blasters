@@ -664,9 +664,6 @@ export default {
             }, {});
             this.previewData = _.cloneDeep(this.formData.plan);
             this.previewData.components = this.allComponents.map((comp) => {
-                comp.display_text = compMap[comp._id].is_active
-                    ? compMap[comp._id].display_text
-                    : 'No';
                 comp.enabled = compMap[comp._id].is_active;
                 return comp;
             });

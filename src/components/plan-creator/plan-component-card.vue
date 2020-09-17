@@ -228,6 +228,11 @@ export default {
             ) {
                 this.currentPriceModel.feature_config.enabled = value;
             }
+            if (!value) {
+                this.currentPriceModel.display_text = 'No';
+            } else {
+                this.currentPriceModel.display_text = '';
+            }
         },
         getPriceModelValue(detailField) {
             if (this.currentPriceModel.processing_type !== 'revenue') {
