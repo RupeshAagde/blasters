@@ -315,6 +315,7 @@ import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
 const channels = ['uniket', 'fynd', 'ecomm', 'marketplace', 'fynd_store'];
 import root from 'window-or-global';
 const config = root.env || {};
+import URLS from '../../services/domain.service';
 
 export default {
     name: 'subscription-plan-form',
@@ -479,7 +480,7 @@ export default {
             return `https://platform.${config.FYND_PLATFORM_DOMAIN}/company/${this.selectedCompany}/billing/custom-plan/${this.planId}`;
         },
         pdfUrl() {
-            return `${config.UNICRON_MAIN_URL}v1/plan-pdf/generate-pdf`;
+            return URLS.AGREEMENT_PDF();
         }
     },
     methods: {

@@ -96,10 +96,6 @@ const BillingService = {
     getPlanDetail(planId) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.PLAN_DETAILS(planId), axiosOptions);
-    },
-    getPlanPdf(planId) {
-        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
-        return ApiService.get(URLS.AGREEMENT_PDF(planId), axiosOptions);
     }
 };
 
