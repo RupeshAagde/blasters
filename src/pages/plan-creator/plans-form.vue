@@ -729,7 +729,7 @@ export default {
                             );
 
                             this.$router.push({
-                                path: `administrator/subscription-plans/`,
+                                path: `/administrator/subscription-plans/`,
                                 query: {}
                             });
 
