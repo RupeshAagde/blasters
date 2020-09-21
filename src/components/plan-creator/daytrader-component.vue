@@ -57,6 +57,17 @@
                     @input="updateBrands"
                     @searchInputChange="searchBrands"
                 ></nitrozen-dropdown>
+                <nitrozen-chips
+                    style="margin-top: 8px;"
+                    v-for="(brand, index) in formData.slug_values.brand || []"
+                    :key="index"
+                    >{{ brand.name }}
+                    <nitrozen-inline
+                        :icon="'cross'"
+                        class="nitrozen-icon"
+                        v-on:click="removeBrand(index)"
+                    ></nitrozen-inline>
+                </nitrozen-chips>
             </div>
         </div>
 
@@ -337,7 +348,9 @@ import {
     NitrozenDropdown,
     NitrozenCheckBox,
     NitrozenTooltip,
-    NitrozenError
+    NitrozenError,
+    NitrozenChips,
+    NitrozenInline
 } from '@gofynd/nitrozen-vue';
 
 import { DatePicker } from '../common/';
@@ -378,6 +391,8 @@ export default {
         'nitrozen-input': NitrozenInput,
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-tooltip': NitrozenTooltip,
+        'nitrozen-chips': NitrozenChips,
+        'nitrozen-inline': NitrozenInline,
         'date-picker': DatePicker
     },
     mounted() {
@@ -498,6 +513,9 @@ export default {
                         return { id: item.value, name: item.text };
                     })
             );
+        },
+        removeBrand(index) {
+            this.formData.slug_values.brand.splice(index, 1);
         },
         updateLocations(selected_value) {
             if (selected_value.length) {

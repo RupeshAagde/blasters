@@ -85,6 +85,26 @@
                     class="pad-right"
                     v-flatBtn
                     :theme="'secondary'"
+                    @click="
+                        () => {
+                            $refs['daytrader'].auto_verify = true;
+                            updateDaytraderData();
+                        }
+                    "
+                    >{{
+                        edit_rule_idx > -1 ? 'Update & Verfiy' : 'Add & Verify'
+                    }}</nitrozen-button
+                >
+                <nitrozen-button
+                    style="margin-left: 12px;"
+                    :disabled="
+                        edit_rule_idx > -1
+                            ? rules[edit_rule_idx].auto_verify
+                            : false
+                    "
+                    class="pad-right"
+                    v-strokeBtn
+                    :theme="'secondary'"
                     @click="updateDaytraderData"
                     >{{
                         edit_rule_idx > -1 ? 'Update' : 'Add'
@@ -101,7 +121,8 @@ import {
     NitrozenButton,
     NitrozenDialog,
     NitrozenPagination,
-    flatBtn
+    flatBtn,
+    strokeBtn
 } from '@gofynd/nitrozen-vue';
 import daytraderComponent from '../../components/plan-creator/daytrader-component.vue';
 import daytraderRuleCard from '../../components/plan-creator/subscription-rule-card.vue';
@@ -134,7 +155,8 @@ export default {
         'rule-card': daytraderRuleCard
     },
     directives: {
-        flatBtn
+        flatBtn,
+        strokeBtn
     },
     data() {
         return {
@@ -237,6 +259,7 @@ export default {
             )
                 .then(({ data }) => {
                     this.$snackbar.global.showSuccess(`Rule added succssfully`);
+                    this.fetchRules();
                 })
                 .catch((err) => {
                     this.$snackbar.global.showError(`Failed to add rule`);
