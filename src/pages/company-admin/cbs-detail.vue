@@ -87,7 +87,7 @@
         >
             <div class="full-width">
                 <plan-details
-                    v-if="profileDetails"
+                    v-if="profileDetails.uid"
                     :company_id="this.$route.params.companyId"
                     :company_data="{
                         name: this.profileDetails.name,
