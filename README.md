@@ -1,6 +1,6 @@
-# Boilerplate Code
+# Blaster
 
-Boilerplate code for VueJS Projects
+Adminstrator panel code base
 
 ## Technologies
 
