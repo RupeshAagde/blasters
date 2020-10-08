@@ -769,12 +769,11 @@ export default {
                         console.error(error);
                         this.$snackbar.global.showError(
                             `${
-                                error.response.data
-                                    ? error.response.data.errors.company
-                                        ? error.response.data.errors.company
-                                        : JSON.stringify(
-                                              error.response.data.error
-                                          )
+                                error.response.data &&
+                                error.response.data.errors
+                                    ? error.response.data.errors.error
+                                        ? error.response.data.errors.error
+                                        : error.response.data.errors.company
                                     : ''
                             }`,
                             {
