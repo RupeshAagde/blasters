@@ -107,7 +107,7 @@
                     <div class="inline">
                         <div class="cl-Mako dark-xxxs mr-xxxs">Physical</div>
                         <nitrozen-tooltip
-                            tooltipText="(Better tooltip needed) Make this template Physical Product."
+                            tooltipText="Enable it for physical products or disable it for non-physical/digital products."
                         ></nitrozen-tooltip>
                     </div>
 
