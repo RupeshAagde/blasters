@@ -101,6 +101,22 @@
                 <nitrozen-error v-if="errors.logo">
                     {{ errors.logo }}
                 </nitrozen-error>
+
+                <!-- Physical -->
+                <div class="mt-md inline apart">
+                    <div class="inline">
+                        <div class="cl-Mako dark-xxxs mr-xxxs">Physical</div>
+                        <nitrozen-tooltip
+                            tooltipText="Enable it for physical products or disable it for non-physical/digital products."
+                        ></nitrozen-tooltip>
+                    </div>
+
+                    <nitrozen-toggle-btn
+                        title="Physical"
+                        v-model="template.is_physical"
+                    ></nitrozen-toggle-btn>
+                </div>
+
                 <loader v-if="inProgress" class="loading"></loader>
             </div>
             <!-- ############################################# -->
@@ -525,7 +541,8 @@ export default {
                 active: false,
                 departments: [],
                 categories: [],
-                attributes: []
+                attributes: [],
+                is_physical: true
             },
             attributes: [],
             departments: [],
