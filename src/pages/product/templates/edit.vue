@@ -114,6 +114,9 @@
                     <nitrozen-toggle-btn
                         title="Physical"
                         v-model="template.is_physical"
+                        :class="{
+                            'disable-btn': editMode
+                        }"
                     ></nitrozen-toggle-btn>
                 </div>
 
@@ -464,6 +467,12 @@
             color: @DustyGray2;
         }
     }
+}
+
+.disable-btn {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 </style>
 
