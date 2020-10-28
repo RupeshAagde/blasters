@@ -48,6 +48,14 @@ export const getNavigations = () => {
                     active: false
                 },
                 {
+                    display: 'Category',
+                    link: '/administrator/product/category',
+                    title: 'variants',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
                     display: 'Templates',
                     link: '/administrator/product/templates',
                     title: 'templates',

@@ -242,6 +242,10 @@ const CompanyService = {
         return `${URLS.PRODUCT_TEMPLATE_DOWNLOAD(
             slug
         )}?company_id=1&set=false&type=excel`;
+    },
+    // Categories
+    fetchCategory_v2(entity, data) {
+        return ApiService.get(URLS.CATEGORY_v2(entity), {});
     }
 };
 export default CompanyService;
