@@ -67,11 +67,12 @@
                         <nitrozen-dropdown
                             class="input w-l"
                             label="Level"
-                            :items="levelList"
+                            :items="levelList.levels"
                             v-model="level.value"
                             :required="true"
                             :multiple="false"
                             :searchable="false"
+                            @change="levelChange"
                         ></nitrozen-dropdown>
                         <nitrozen-error v-if="level.showerror">{{
                             level.errortext
@@ -89,6 +90,7 @@
                         :required="true"
                         :multiple="true"
                         :searchable="true"
+                        @change="updateMapping"
                         @searchInputChange="setDepartmentList"
                     ></nitrozen-dropdown>
                     <nitrozen-error v-if="errors.departments">{{
@@ -97,11 +99,11 @@
                     <div class="chip-wrapper inline">
                         <div
                             v-for="(department,
-                            index) of selectedDepartments.value"
+                            index) of selectedDepartments.mapping"
                             :key="index"
                         >
                             <nitrozen-chips class="chip">
-                                {{ department }}
+                                {{ department.text }}
                                 <nitrozen-inline
                                     icon="cross"
                                     class="nitrozen-icon"
@@ -195,20 +197,17 @@
                 ></nitrozen-dropdown>
             </div>
             <div v-if="level.value === '3'">
-                <div
-                    class="row-1"
-                    v-for="(department, i) in selectedDepartments.value"
-                >
+                <div class="row-1" v-for="(item, i) in hierarchy">
                     <nitrozen-input
                         label="Department"
-                        value="department.text"
+                        v-model="item.department"
                         disabled
                     ></nitrozen-input>
                     <nitrozen-dropdown
                         class="input w-l"
                         label="L1"
-                        :items="departmentsList"
-                        v-model="selectedDepartments"
+                        :items="levelList.one"
+                        v-model="hierarchy[i]['l1']"
                         :required="true"
                         :multiple="false"
                         :searchable="true"
@@ -216,8 +215,8 @@
                     <nitrozen-dropdown
                         class="input w-l"
                         label="L2"
-                        :items="departmentsList"
-                        v-model="selectedDepartments"
+                        :items="levelList.two"
+                        v-model="hierarchy[i]['l2']"
                         :required="true"
                         :multiple="false"
                         :searchable="true"
@@ -408,15 +407,19 @@ export default {
             saveText: 'Department saved successfully',
             headerText: 'Create Department',
             synonymText: '',
-            levelList: [
-                { text: 1, value: '1' },
-                { text: 2, value: '2' },
-                { text: 3, value: '3' }
-            ],
             name: {
                 value: '',
                 showerror: false,
                 errortext: 'Name is required, Please enter name'
+            },
+            levelList: {
+                levels: [
+                    { text: 1, value: '1' },
+                    { text: 2, value: '2' },
+                    { text: 3, value: '3' }
+                ],
+                one: [],
+                two: []
             },
             level: {
                 value: '',
@@ -431,7 +434,8 @@ export default {
             selectedDepartments: {
                 value: [],
                 showerror: false,
-                errortext: 'Department is required, Please select a department'
+                errortext: 'Department is required, Please select a department',
+                mapping: []
             },
             synonym: {
                 value: [],
@@ -484,7 +488,29 @@ export default {
                 }
             });
         },
+        updateMapping(list) {
+            console.log('update received---', list);
+            this.updateHierarchy(list);
+            // this.initDepartment(a);
+        },
+        updateHierarchy(list) {
+            if (list.length > this.hierarchy.length) {
+                //added
+                this.hierarchy.push({
+                    department: list[list.length - 1],
+                    l1: '',
+                    l2: ''
+                });
+            } else {
+                const indexToRemove = this.hierarchy.findIndex(
+                    (item) => !list.includes(item.department)
+                );
+                this.hierarchy.splice(indexToRemove, 1);
+            }
+            console.log('hierarchy after update ---', this.hierarchy);
+        },
         initDepartment(received) {
+            console.log('update received---', received);
             const value = [];
             this.departments.forEach((d) => {
                 if (received.includes(d.uid)) {
@@ -509,7 +535,7 @@ export default {
             this.selectedDepartments.value = data.department
                 ? this.initDepartment(data.department)
                 : [];
-            console.log('selectedDepartments', this.selectedDepartments);
+            console.log('recieved hierarchy', this.hierarchy);
         },
         searchDepartment(e) {
             console.log('search text---', e);
@@ -535,6 +561,38 @@ export default {
                 }
             }
         },
+        levelChange(e) {
+            if (e == 3) {
+                console.log('levelChange', e);
+                const params = {
+                    level: 1,
+                    level: 2
+                };
+                CompanyService.fetchCategory_v2(params)
+                    .then(({ data }) => {
+                        console.log('*******************', data);
+                        if (data && data.data && data.data.length) {
+                            data.data.forEach((item) => {
+                                if (item.level === 1) {
+                                    this.levelList.one.push({
+                                        text: item.name,
+                                        value: item.id
+                                    });
+                                } else {
+                                    this.levelList.two.push({
+                                        text: item.name,
+                                        value: item.id
+                                    });
+                                }
+                            });
+                        }
+                        console.log('*******************', this.levelList);
+                    })
+                    .catch(() => {
+                        this.pageError = true;
+                    });
+            }
+        },
         addSearchText(event) {
             if (this.synonymText) {
                 if (
@@ -554,8 +612,7 @@ export default {
         },
         save() {
             let postdata = {
-                is_active: this.is_active,
-                synonyms: []
+                active: this.is_active
             };
             if (this.update && this.uid) postdata.uid = this.uid;
             if (this.name.value !== '') {
