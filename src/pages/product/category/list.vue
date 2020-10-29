@@ -373,9 +373,10 @@ export default {
             });
         },
         editDepartment(item) {
-            if (item && item.uid) {
+            console.log('item---', item);
+            if (item && item.id) {
                 this.$router.push({
-                    path: `/administrator/product/category/edit/${item.uid}`
+                    path: `/administrator/product/category/edit/${item.id}`
                 });
             }
         }

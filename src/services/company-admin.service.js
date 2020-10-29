@@ -244,8 +244,16 @@ const CompanyService = {
         )}?company_id=1&set=false&type=excel`;
     },
     // Categories
-    fetchCategory_v2(entity, data) {
-        return ApiService.get(URLS.CATEGORY_v2(entity), {});
+    fetchCategory_v2(params) {
+        console.log('poarams---------', params);
+        const { id, ...rest } = params;
+        let axiosOption = Object.assign(
+            {
+                params: rest
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.CATEGORY_v2(id), axiosOption);
     }
 };
 export default CompanyService;

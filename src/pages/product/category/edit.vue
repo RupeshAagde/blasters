@@ -68,13 +68,13 @@
                             class="input w-l"
                             label="Level"
                             :items="levelList"
-                            v-model="data.level"
+                            v-model="level.value"
                             :required="true"
                             :multiple="false"
                             :searchable="false"
                         ></nitrozen-dropdown>
-                        <nitrozen-error v-if="errors.level">{{
-                            errors.departments
+                        <nitrozen-error v-if="level.showerror">{{
+                            level.errortext
                         }}</nitrozen-error>
                     </div>
                 </div>
@@ -85,17 +85,33 @@
                         class="input w-l"
                         label="Departments"
                         :items="departmentsList"
-                        v-model="selectedDepartments"
+                        v-model="selectedDepartments.value"
                         :required="true"
                         :multiple="true"
                         :searchable="true"
-                        @change="checkRequired('departments')"
-                        @blur="checkRequired('departments')"
-                        @searchInputChange="setDepartmentsList"
+                        @searchInputChange="setDepartmentList"
                     ></nitrozen-dropdown>
                     <nitrozen-error v-if="errors.departments">{{
                         errors.departments
                     }}</nitrozen-error>
+                    <div class="chip-wrapper inline">
+                        <div
+                            v-for="(department,
+                            index) of selectedDepartments.value"
+                            :key="index"
+                        >
+                            <nitrozen-chips class="chip">
+                                {{ department }}
+                                <nitrozen-inline
+                                    icon="cross"
+                                    class="nitrozen-icon"
+                                    @click="
+                                        attribute.departments.splice(index, 1)
+                                    "
+                                ></nitrozen-inline>
+                            </nitrozen-chips>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row-3">
@@ -170,24 +186,18 @@
             <div class="row-2">
                 <nitrozen-dropdown
                     class="input w-l"
-                    label="Departments"
-                    :items="departmentsList"
-                    v-model="selectedDepartments"
+                    label="Tryouts"
+                    :items="tryoutList"
+                    v-model="tryouts"
                     :required="true"
                     :multiple="true"
-                    :searchable="true"
-                    @change="checkRequired('departments')"
-                    @blur="checkRequired('departments')"
-                    @searchInputChange="setDepartmentsList"
+                    :searchable="false"
                 ></nitrozen-dropdown>
-                <nitrozen-error v-if="errors.departments">{{
-                    errors.departments
-                }}</nitrozen-error>
             </div>
-            <div v-if="data.level === 'l3'">
+            <div v-if="level.value === '3'">
                 <div
                     class="row-1"
-                    v-for="(department, i) in selectedDepartments"
+                    v-for="(department, i) in selectedDepartments.value"
                 >
                     <nitrozen-input
                         label="Department"
@@ -365,13 +375,11 @@ export default {
     mounted() {
         if (this.$route.params.id) {
             this.pageLoading = true;
-            this.uid = this.$route.params.deptId;
+            this.uid = this.$route.params.id;
             this.update = true;
             this.headerText = 'Update Category';
             this.saveText = 'Category updated successfully';
-            this.updateData();
         }
-        this.attachNameWatcher();
         this.init();
     },
     data() {
@@ -386,34 +394,44 @@ export default {
                 level: ''
             },
             departmentsList: [],
-            selectedDepartments: [],
+            hierarchy: [],
+            departments: [],
+            tryoutList: [
+                { text: 'Eyebrow', value: 'Eyebrow' },
+                { text: 'Lipstic', value: 'Lipstic' },
+                { text: 'Eyeliner', value: 'Eyeliner' },
+                { text: 'Blush', value: 'Blush' }
+            ],
+            tryouts: [],
+            landscape: '',
+            banner: '',
             saveText: 'Department saved successfully',
             headerText: 'Create Department',
             synonymText: '',
             levelList: [
-                { text: 1, value: 'l1' },
-                { text: 2, value: 'l2' },
-                { text: 3, value: 'l3' }
+                { text: 1, value: '1' },
+                { text: 2, value: '2' },
+                { text: 3, value: '3' }
             ],
             name: {
                 value: '',
                 showerror: false,
                 errortext: 'Name is required, Please enter name'
             },
-            slug: {
+            level: {
                 value: '',
                 showerror: false,
-                errortext: 'Slug is required, Please enter slug'
-            },
-            priority: {
-                value: '',
-                showerror: false,
-                errortext: 'Priority is required, Please enter priority'
+                errortext: 'Level is required, Please select a level'
             },
             logo: {
                 value: '',
                 showerror: false,
                 errortext: 'Logo is required, Please upload a logo'
+            },
+            selectedDepartments: {
+                value: [],
+                showerror: false,
+                errortext: 'Department is required, Please select a department'
             },
             synonym: {
                 value: [],
@@ -424,64 +442,78 @@ export default {
     },
     methods: {
         async init() {
-            Promise.all([CompanyService.fetchDepartments()]).then((data) => {
-                const departmentsData = data[0].data.data;
-                console.log('departmentsData', data);
-                if (departmentsData && departmentsData.length) {
-                    this.setDepartmentList(departmentsData);
+            const promiseArray = [CompanyService.fetchDepartments()];
+            if (this.uid) {
+                promiseArray.push(
+                    CompanyService.fetchCategory_v2({ id: this.uid })
+                );
+            }
+            Promise.all([promiseArray])
+                .then((data) => {
+                    this.pageLoading = false;
+                    data[0][0].then((res) => {
+                        if (res.data.data.length) {
+                            console.log('departmentsData', res);
+                            this.departments = res.data.data;
+                            this.setDepartmentList();
+                            data[0][1].then((res) =>
+                                this.updateData(res.data.data[0])
+                            );
+                        }
+                    });
+                })
+                .catch((error) => {
+                    this.pageLoading = false;
+                    this.$snackbar.global.showError(
+                        `${error.response.data.errors.error}`
+                    );
+                });
+        },
+        setDepartmentList(e) {
+            this.departmentsList = [];
+            this.departments.forEach(({ name, uid }) => {
+                if (
+                    !e ||
+                    !e.text ||
+                    name.toLowerCase().includes(e.text.toLowerCase())
+                ) {
+                    this.departmentsList.push({
+                        text: name,
+                        value: uid
+                    });
                 }
             });
         },
-        setDepartmentList(data) {
-            this.departmentsList = data.map(({ name, uid }) => ({
-                text: name,
-                value: uid
-            }));
-            console.log('department list---', this.departmentsList);
+        initDepartment(received) {
+            const value = [];
+            this.departments.forEach((d) => {
+                if (received.includes(d.uid)) {
+                    value.push(d.uid);
+                }
+            });
+            return value;
         },
-        updateData() {
-            if (this.uid) {
-                let params = {
-                    uid: this.uid
-                };
-                CatalogService.fetchDepartment(params)
-                    .then((res) => {
-                        this.data = res.data.data;
-                        this.is_active = this.data[0].is_active;
-                        this.name.value = this.data[0].name
-                            ? this.data[0].name
-                            : '';
-                        this.slug.value = this.data[0].slug
-                            ? this.data[0].slug
-                            : '';
-                        this.priority.value = this.data[0].priority_order
-                            ? this.data[0].priority_order
-                            : '';
-                        this.logo.value = this.data[0].logo
-                            ? this.data[0].logo
-                            : '';
-                        this.synonym.value = this.data[0].synonyms
-                            ? this.data[0].synonyms
-                            : [];
-                        this.pageLoading = false;
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                        this.pageLoading = false;
-                        this.pageError = true;
-                    });
-            }
+        updateData(data = {}) {
+            this.is_active = data.active ? data.active : true;
+            this.level.value = data.level ? data.level : '';
+            this.name.value = data.name ? data.name : '';
+            this.logo.value =
+                data.media && data.media.logo ? data.media.logo : '';
+            this.landscape =
+                data.media && data.media.landscape ? data.media.landscape : '';
+            this.banner =
+                data.media && data.media.potrait ? data.media.potrait : '';
+            this.synonym.value = data.synonyms ? data.synonyms : [];
+            this.tryouts = data.tryouts ? data.tryouts : [];
+            this.hierarchy = data.hierarchy ? data.hierarchy : [];
+            this.selectedDepartments.value = data.department
+                ? this.initDepartment(data.department)
+                : [];
+            console.log('selectedDepartments', this.selectedDepartments);
         },
-        attachNameWatcher() {
-            // if (!this.update) {
-            this.$watch(
-                'name',
-                function handler(val) {
-                    this.slug.value = convertToSlug(this.name.value.trim());
-                },
-                { deep: true }
-            );
-            // }
+        searchDepartment(e) {
+            console.log('search text---', e);
+            this.setDepartmentList(this.departmentsList, e);
         },
         removeSearchInput(index) {
             this.synonym.value.splice(index, 1);
@@ -518,7 +550,7 @@ export default {
             }
         },
         redirectToListing() {
-            this.$router.push({ path: '/administrator/product/department' });
+            this.$router.push({ path: '/administrator/product/category' });
         },
         save() {
             let postdata = {

@@ -285,7 +285,7 @@ export default [
             },
             {
                 name: 'category-edit',
-                path: 'product/category/:id',
+                path: 'product/category/edit/:id',
                 component: CategoryEdit,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['product']);
