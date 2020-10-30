@@ -254,6 +254,19 @@ const CompanyService = {
             getCommonHeaderOptions()
         );
         return ApiService.get(URLS.CATEGORY_v2(id), axiosOption);
+    },
+    updateCategory_v2(params) {
+        const { id, ...rest } = params;
+        let axiosOption = Object.assign(
+            {
+                data: rest
+            },
+            getCommonHeaderOptions()
+        );
+        if (id) {
+            return ApiService.put(URLS.CATEGORY_v2(id), axiosOption);
+        }
+        return ApiService.post(URLS.CATEGORY_v2(), axiosOption);
     }
 };
 export default CompanyService;

@@ -490,6 +490,7 @@ export default {
         },
         updateMapping(list) {
             console.log('update received---', list);
+            this.initDepartment(list);
             this.updateHierarchy(list);
             // this.initDepartment(a);
         },
@@ -511,10 +512,15 @@ export default {
         },
         initDepartment(received) {
             console.log('update received---', received);
+            this.selectedDepartments.mapping = [];
             const value = [];
             this.departments.forEach((d) => {
                 if (received.includes(d.uid)) {
                     value.push(d.uid);
+                    this.selectedDepartments.mapping.push({
+                        text: d.name,
+                        value: d.uid
+                    });
                 }
             });
             return value;
@@ -614,7 +620,7 @@ export default {
             let postdata = {
                 active: this.is_active
             };
-            if (this.update && this.uid) postdata.uid = this.uid;
+            if (this.update && this.uid) postdata.id = this.uid;
             if (this.name.value !== '') {
                 this.name.showerror = false;
                 postdata.name = this.name.value;
@@ -622,40 +628,28 @@ export default {
                 this.name.showerror = true;
             }
 
-            if (this.slug.value !== '') {
-                this.slug.showerror = false;
-                postdata.slug = this.slug.value;
-            } else {
-                this.slug.showerror = true;
+            postdata['tryouts'] = this.tryouts ? this.tryouts : [];
+            postdata['media'] = {};
+            postdata['media'].logo = this.logo.value;
+            postdata['media'].landscape = this.landscape;
+            postdata['media'].potrait = this.banner;
+            postdata['level'] = this.level.value;
+            postdata['department'] = this.selectedDepartments.value;
+            if (this.level === 3) {
+                postdata['hierarchy'] = this.hierarchy;
             }
-
-            if (this.priority.value > '-1') {
-                this.priority.showerror = false;
-                postdata.priority_order = this.priority.value;
-            } else {
-                this.priority.showerror = true;
-            }
-
-            if (this.logo.value) {
-                this.logo.showerror = false;
-                postdata.logo = this.logo.value;
-            } else {
-                this.logo.showerror = true;
-            }
-
-            if (this.synonym.value.length > 0) {
-                postdata.synonyms = this.synonym.value;
-            }
+            postdata['synonyms'] = [];
 
             if (
                 !this.name.showerror &&
-                !this.slug.showerror &&
-                !this.priority.showerror &&
-                !this.logo.showerror
+                !this.logo.showerror &&
+                !this.level.showerror &&
+                !this.selectedDepartments.showerror
             ) {
                 this.pageLoading = true;
-                CatalogService.saveDepartment(postdata)
+                CompanyService.updateCategory_v2(postdata)
                     .then((res) => {
+                        console.log('save response-------', res);
                         this.pageLoading = false;
                         this.$snackbar.global.showSuccess(`${this.saveText}`, {
                             duration: 2000
