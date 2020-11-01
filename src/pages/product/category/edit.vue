@@ -82,20 +82,22 @@
             </div>
             <div class="row-2">
                 <div>
-                    <nitrozen-dropdown
-                        class="input w-l"
-                        label="Departments"
-                        :items="departmentsList"
-                        v-model="selectedDepartments.value"
-                        :required="true"
-                        :multiple="true"
-                        :searchable="true"
-                        @change="updateMapping"
-                        @searchInputChange="setDepartmentList"
-                    ></nitrozen-dropdown>
-                    <nitrozen-error v-if="errors.departments">{{
-                        errors.departments
-                    }}</nitrozen-error>
+                    <div class="dept-input">
+                        <nitrozen-dropdown
+                            class="input w-l"
+                            label="Departments"
+                            :items="departmentsList"
+                            v-model="selectedDepartments.value"
+                            :required="true"
+                            :multiple="true"
+                            :searchable="true"
+                            @change="updateMapping"
+                            @searchInputChange="setDepartmentList"
+                        ></nitrozen-dropdown>
+                        <nitrozen-error v-if="errors.departments">{{
+                            errors.departments
+                        }}</nitrozen-error>
+                    </div>
                     <div class="chip-wrapper inline">
                         <div
                             v-for="(department,
@@ -140,87 +142,97 @@
                     />
                 </div>
             </div>
-            <div>
-                <div class="n-input-label">Category Logo</div>
-                <image-uploader-tile
-                    label="Logo"
-                    aspectRatio="1:1"
-                    @delete="logo.value = ''"
-                    @save="logo.value = $event"
-                    v-model="logo.value"
-                    :fileName="logo.value"
-                    namespace="department-square-logo"
-                ></image-uploader-tile>
-                <nitrozen-error v-if="logo.showerror">{{
-                    logo.errortext
-                }}</nitrozen-error>
+            <div class="logo-container">
+                <div>
+                    <div class="n-input-label">Category Logo</div>
+                    <image-uploader-tile
+                        label="Logo"
+                        aspectRatio="1:1"
+                        @delete="logo.value = ''"
+                        @save="logo.value = $event"
+                        v-model="logo.value"
+                        :fileName="logo.value"
+                        namespace="department-square-logo"
+                    ></image-uploader-tile>
+                    <nitrozen-error v-if="logo.showerror">{{
+                        logo.errortext
+                    }}</nitrozen-error>
+                </div>
+                <div>
+                    <div class="n-input-label">Category Banner</div>
+                    <image-uploader-tile
+                        label="Logo"
+                        aspectRatio="1:1"
+                        @delete="banner = ''"
+                        @save="banner = $event"
+                        v-model="banner"
+                        :fileName="banner"
+                        namespace="department-square-logo"
+                    ></image-uploader-tile>
+                    <nitrozen-error v-if="logo.showerror">{{
+                        logo.errortext
+                    }}</nitrozen-error>
+                </div>
+                <div>
+                    <div class="n-input-label">Category Landscape</div>
+                    <image-uploader-tile
+                        label="Logo"
+                        aspectRatio="1:1"
+                        @delete="landscape = ''"
+                        @save="landscape = $event"
+                        v-model="landscape"
+                        :fileName="landscape"
+                        namespace="department-square-logo"
+                    ></image-uploader-tile>
+                    <nitrozen-error v-if="logo.showerror">{{
+                        logo.errortext
+                    }}</nitrozen-error>
+                </div>
             </div>
-            <div>
-                <div class="n-input-label">Category Banner</div>
-                <image-uploader-tile
-                    label="Logo"
-                    aspectRatio="1:1"
-                    @delete="logo.value = ''"
-                    @save="logo.value = $event"
-                    v-model="logo.value"
-                    :fileName="logo.value"
-                    namespace="department-square-logo"
-                ></image-uploader-tile>
-                <nitrozen-error v-if="logo.showerror">{{
-                    logo.errortext
-                }}</nitrozen-error>
-            </div>
-            <div>
-                <div class="n-input-label">Category Landscape</div>
-                <image-uploader-tile
-                    label="Logo"
-                    aspectRatio="1:1"
-                    @delete="logo.value = ''"
-                    @save="logo.value = $event"
-                    v-model="logo.value"
-                    :fileName="logo.value"
-                    namespace="department-square-logo"
-                ></image-uploader-tile>
-                <nitrozen-error v-if="logo.showerror">{{
-                    logo.errortext
-                }}</nitrozen-error>
-            </div>
-            <div class="row-2">
-                <nitrozen-dropdown
-                    class="input w-l"
-                    label="Tryouts"
-                    :items="tryoutList"
-                    v-model="tryouts"
-                    :required="true"
-                    :multiple="true"
-                    :searchable="false"
-                ></nitrozen-dropdown>
-            </div>
-            <div v-if="level.value === '3'">
+            <div v-if="level.value === '3' || level.value === 3">
+                <div class="row-2">
+                    <nitrozen-dropdown
+                        class="dept-input w-l"
+                        label="Tryouts"
+                        :items="tryoutList"
+                        v-model="tryouts"
+                        :required="true"
+                        :multiple="true"
+                        :searchable="false"
+                    ></nitrozen-dropdown>
+                </div>
                 <div class="row-1" v-for="(item, i) in hierarchy">
-                    <nitrozen-input
-                        label="Department"
-                        v-model="item.department"
-                        disabled
-                    ></nitrozen-input>
-                    <nitrozen-dropdown
-                        class="input w-l"
-                        label="L1"
-                        :items="levelList.one"
-                        v-model="hierarchy[i]['l1']"
-                        :required="true"
-                        :multiple="false"
-                        :searchable="true"
-                    ></nitrozen-dropdown>
-                    <nitrozen-dropdown
-                        class="input w-l"
-                        label="L2"
-                        :items="levelList.two"
-                        v-model="hierarchy[i]['l2']"
-                        :required="true"
-                        :multiple="false"
-                        :searchable="true"
-                    ></nitrozen-dropdown>
+                    <div class="subscription-container">
+                        <div class="col-one child">
+                            <nitrozen-input
+                                label="Department"
+                                :value="getDepartmentName(item.department)"
+                                disabled
+                            ></nitrozen-input>
+                        </div>
+                        <div class="col-two child">
+                            <nitrozen-dropdown
+                                class="input w-l"
+                                label="L1"
+                                :items="levelList.one"
+                                v-model="hierarchy[i]['l1']"
+                                :required="true"
+                                :multiple="false"
+                                :searchable="true"
+                            ></nitrozen-dropdown>
+                        </div>
+                        <div class="col-three child">
+                            <nitrozen-dropdown
+                                class="input w-l"
+                                label="L2"
+                                :items="levelList.two"
+                                v-model="hierarchy[i]['l2']"
+                                :required="true"
+                                :multiple="false"
+                                :searchable="true"
+                            ></nitrozen-dropdown>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -274,6 +286,16 @@
     margin-bottom: 6px;
     font-weight: 500;
 }
+.inline {
+    display: flex;
+}
+.chip-wrapper {
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+.logo-container {
+    margin-bottom: 24px;
+}
 .main-container {
     background-color: #fff;
     border-radius: 4px;
@@ -292,12 +314,14 @@
             width: 50%;
         }
     }
+    .dept-input {
+        width: 30%;
+    }
     .row-2 {
         width: 100%;
         margin: 0 0 24px 0;
         display: flex;
         flex-direction: column;
-        align-items: baseline;
 
         .input-box {
             width: 49.5%;
@@ -325,6 +349,21 @@
                 }
             }
         }
+    }
+}
+.subscription-container {
+    position: relative;
+    border: 1px solid #dadada;
+    border-radius: 5px;
+    padding: 24px;
+    margin-bottom: 12px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    .child {
+        width: 30%;
+        max-width: 30%;
     }
 }
 </style>
@@ -414,9 +453,9 @@ export default {
             },
             levelList: {
                 levels: [
-                    { text: 1, value: '1' },
-                    { text: 2, value: '2' },
-                    { text: 3, value: '3' }
+                    { text: 'Level 1', value: 1 },
+                    { text: 'Level 2', value: 2 },
+                    { text: 'Level 3', value: 3 }
                 ],
                 one: [],
                 two: []
@@ -457,7 +496,6 @@ export default {
                     this.pageLoading = false;
                     data[0][0].then((res) => {
                         if (res.data.data.length) {
-                            console.log('departmentsData', res);
                             this.departments = res.data.data;
                             this.setDepartmentList();
                             data[0][1].then((res) =>
@@ -526,7 +564,7 @@ export default {
             return value;
         },
         updateData(data = {}) {
-            this.is_active = data.active ? data.active : true;
+            this.is_active = data.active;
             this.level.value = data.level ? data.level : '';
             this.name.value = data.name ? data.name : '';
             this.logo.value =
@@ -541,7 +579,7 @@ export default {
             this.selectedDepartments.value = data.department
                 ? this.initDepartment(data.department)
                 : [];
-            console.log('recieved hierarchy', this.hierarchy);
+            console.log('recieved level', this.hierarchy);
         },
         searchDepartment(e) {
             console.log('search text---', e);
@@ -567,12 +605,17 @@ export default {
                 }
             }
         },
+        getDepartmentName(id) {
+            const found = this.departments.find(
+                (item) => item.uid === parseInt(id)
+            );
+            return found && found.name;
+        },
         levelChange(e) {
             if (e == 3) {
                 console.log('levelChange', e);
                 const params = {
-                    level: 1,
-                    level: 2
+                    level: [1, 2]
                 };
                 CompanyService.fetchCategory_v2(params)
                     .then(({ data }) => {
@@ -635,7 +678,7 @@ export default {
             postdata['media'].potrait = this.banner;
             postdata['level'] = this.level.value;
             postdata['department'] = this.selectedDepartments.value;
-            if (this.level === 3) {
+            if (this.level.value === 3) {
                 postdata['hierarchy'] = this.hierarchy;
             }
             postdata['synonyms'] = [];
@@ -656,7 +699,7 @@ export default {
                         });
                         setTimeout(() => {}, 2000);
                         this.$router.push({
-                            path: '/administrator/product/department'
+                            path: '/administrator/product/category'
                         });
                     })
                     .catch((error) => {

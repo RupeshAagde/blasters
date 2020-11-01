@@ -18,23 +18,34 @@
                 type="search"
                 placeholder="Search by name..."
                 v-model="searchText"
-                @input="searchDepartment"
+                @input="searchCategory"
             ></nitrozen-input>
             <div class="filter">
-                <label class="label">Status</label>
-                <nitrozen-dropdown
-                    class="filter-dropdown"
-                    :items="filter"
-                    v-model="selectedFilter"
-                    @change="getDepartment"
-                ></nitrozen-dropdown>
+                <div class="filter-item">
+                    <label class="label">Level</label>
+                    <nitrozen-dropdown
+                        class="filter-dropdown"
+                        :items="levelFilter"
+                        v-model="selectedFilter.level"
+                        @change="getCategory"
+                    ></nitrozen-dropdown>
+                </div>
+                <div class="filter-item">
+                    <label class="label">Status</label>
+                    <nitrozen-dropdown
+                        class="filter-dropdown"
+                        :items="filter"
+                        v-model="selectedFilter.status"
+                        @change="getCategory"
+                    ></nitrozen-dropdown>
+                </div>
             </div>
         </div>
         <div>
             <shimmer v-if="isLoading && !pageError" :count="4"></shimmer>
             <page-error
                 v-else-if="pageError && !isLoading"
-                @tryAgain="getDepartment"
+                @tryAgain="getCategory"
             ></page-error>
             <div v-else-if="categoryList && categoryList.length">
                 <div
@@ -92,10 +103,15 @@
                         </div>
                     </div>
                     <div class="cust-button">
-                        <nitrozen-badge v-if="item.is_active" state="success"
+                        <nitrozen-badge v-if="item.level" state="info">{{
+                            'Level ' + item.level
+                        }}</nitrozen-badge>
+                    </div>
+                    <div class="cust-button">
+                        <nitrozen-badge v-if="item.active" state="success"
                             >Active</nitrozen-badge
                         >
-                        <nitrozen-badge v-if="!item.is_active" state="warn"
+                        <nitrozen-badge v-if="!item.active" state="warn"
                             >Disabled</nitrozen-badge
                         >
                     </div>
@@ -156,6 +172,11 @@
             display: flex;
             justify-content: flex-start;
             align-items: center;
+            .filter-item {
+                display: flex;
+                align-items: center;
+                margin-left: 15px;
+            }
 
             .filter-dropdown {
                 margin-left: 24px;
@@ -167,6 +188,7 @@
 .cust-button {
     display: flex;
     justify-content: flex-end;
+    margin-left: 8px;
 }
 .container {
     border: 1px solid #e4e5e6;
@@ -271,6 +293,13 @@ const FILTER = [
     { value: 'false', text: 'Disabled' }
 ];
 
+const LEVELS = [
+    { value: 'all', text: 'All' },
+    { value: '1', text: 'Level 1' },
+    { value: '2', text: 'Level 2' },
+    { value: '3', text: 'Level 3' }
+];
+
 export default {
     name: 'list-deparment',
     components: {
@@ -296,7 +325,11 @@ export default {
                 limit: 10
             },
             filter: FILTER,
-            selectedFilter: 'all',
+            levelFilter: LEVELS,
+            selectedFilter: {
+                status: 'all',
+                level: 'all'
+            },
             tempList: [],
             userObj: {}
         };
@@ -311,9 +344,11 @@ export default {
                 page_size: this.pagination.limit
             };
 
-            if (this.searchText) params.search = this.searchText;
-            if (this.selectedFilter != 'all')
-                params.is_active = this.selectedFilter;
+            if (this.searchText) params.q = this.searchText;
+            if (this.selectedFilter.status != 'all')
+                params.active = this.selectedFilter.status;
+            if (this.selectedFilter.level != 'all')
+                params.level = this.selectedFilter.level;
 
             return params;
         },
@@ -345,8 +380,8 @@ export default {
                     console.error(error);
                 });
         },
-        searchDepartment: debounce(function() {
-            this.getDepartment();
+        searchCategory: debounce(function() {
+            this.getCategory();
         }, 1000),
         paginationChange(filter, action) {
             const { current, limit } = filter;
@@ -359,9 +394,11 @@ export default {
             this.getDepartment();
         },
         getDepartmentImage(item) {
+            const { media } = item;
+            console.log('category----', item);
             let defaultPic =
                 '/public/assets/pngs/product_image_placeholder.png';
-            return item.logo || defaultPic;
+            return media.logo || defaultPic;
         },
         getErrorImage(item) {
             let image = '/public/assets/pngs/product_image_placeholder.png';
