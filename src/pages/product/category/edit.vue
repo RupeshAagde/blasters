@@ -539,13 +539,11 @@ export default {
             });
         },
         updateMapping(list) {
-            console.log('update received---', list);
             this.initDepartment(list);
             this.updateHierarchy(list);
-            // this.initDepartment(a);
         },
-        updateHierarchy(list) {
-            if (list.length > this.hierarchy.length) {
+        updateHierarchy(list, append = false) {
+            if (list.length > this.hierarchy.length || append) {
                 //added
                 this.hierarchy.push({
                     department: list[list.length - 1],
@@ -561,7 +559,6 @@ export default {
             console.log('hierarchy after update ---', this.hierarchy);
         },
         initDepartment(received) {
-            console.log('update received---', received);
             this.selectedDepartments.mapping = [];
             const value = [];
             this.departments.forEach((d) => {
@@ -634,7 +631,6 @@ export default {
                 };
                 CompanyService.fetchCategory_v2(params)
                     .then(({ data }) => {
-                        console.log('*******************', data);
                         if (data && data.data && data.data.length) {
                             data.data.forEach((item) => {
                                 if (item.level === 1) {
@@ -650,11 +646,13 @@ export default {
                                 }
                             });
                         }
-                        console.log('*******************', this.levelList);
                     })
                     .catch(() => {
                         this.pageError = true;
                     });
+                this.selectedDepartments.forEach((item) =>
+                    this.updateHierarchy([item])
+                );
             }
         },
         addSearchText(event) {
@@ -707,7 +705,6 @@ export default {
                 this.pageLoading = true;
                 CompanyService.updateCategory_v2(postdata)
                     .then((res) => {
-                        console.log('save response-------', res);
                         this.pageLoading = false;
                         this.$snackbar.global.showSuccess(`${this.saveText}`, {
                             duration: 2000

@@ -27,7 +27,7 @@
                         class="filter-dropdown"
                         :items="levelFilter"
                         v-model="selectedFilter.level"
-                        @change="getCategory"
+                        @change="getCategory(true)"
                     ></nitrozen-dropdown>
                 </div>
                 <div class="filter-item">
@@ -36,7 +36,7 @@
                         class="filter-dropdown"
                         :items="filter"
                         v-model="selectedFilter.status"
-                        @change="getCategory"
+                        @change="getCategory(true)"
                     ></nitrozen-dropdown>
                 </div>
             </div>
@@ -52,11 +52,11 @@
                     v-for="(item, index) in categoryList"
                     :key="index"
                     class="container"
-                    @click="editDepartment(item)"
+                    @click="editCategory(item)"
                 >
                     <div class="card-avatar">
                         <img
-                            :src="getDepartmentImage(item)"
+                            :src="getCategoryImage(item)"
                             @error="getErrorImage(item)"
                             alt="Logo"
                         />
@@ -352,9 +352,12 @@ export default {
 
             return params;
         },
-        getCategory() {
+        getCategory(resetPage = false) {
             this.isLoading = true;
             this.pageError = false;
+            if (resetPage) {
+                this.pagination.current = 1;
+            }
             CompanyService.fetchCategory_v2(this.getQueryParam())
                 .then((res) => {
                     this.tempList = generateArrItem(res.data.data);
@@ -381,7 +384,7 @@ export default {
                 });
         },
         searchCategory: debounce(function() {
-            this.getCategory();
+            this.getCategory(true);
         }, 1000),
         paginationChange(filter, action) {
             const { current, limit } = filter;
@@ -391,9 +394,9 @@ export default {
             // let pageQuery = { pageId: current, limit };
             // this.setRouteQuery(pageQuery);
 
-            this.getDepartment();
+            this.getCategory();
         },
-        getDepartmentImage(item) {
+        getCategoryImage(item) {
             const { media } = item;
             console.log('category----', item);
             let defaultPic =
@@ -409,8 +412,7 @@ export default {
                 path: '/administrator/product/category/create'
             });
         },
-        editDepartment(item) {
-            console.log('item---', item);
+        editCategory(item) {
             if (item && item.id) {
                 this.$router.push({
                     path: `/administrator/product/category/edit/${item.id}`
