@@ -216,7 +216,7 @@
                                 class="input w-l"
                                 label="L1"
                                 :items="levelList.one"
-                                v-model="hierarchy[i]['l1']"
+                                v-model="item['l1']"
                                 :required="true"
                                 :multiple="false"
                                 :searchable="true"
@@ -227,7 +227,7 @@
                                 class="input w-l"
                                 label="L2"
                                 :items="levelList.two"
-                                v-model="hierarchy[i]['l2']"
+                                v-model="item['l2']"
                                 :required="true"
                                 :multiple="false"
                                 :searchable="true"
@@ -432,9 +432,9 @@ export default {
             data: {
                 level: ''
             },
-            departmentsList: [],
+            departmentsList: [], // department dropdown list list data
             hierarchy: [],
-            departments: [],
+            departments: [], //  department dropdown list intitial data
             tryoutList: [
                 { text: 'Eyebrow', value: 'Eyebrow' },
                 { text: 'Lipstic', value: 'Lipstic' },
@@ -472,6 +472,7 @@ export default {
                 errortext: 'Logo is required, Please upload a logo'
             },
             selectedDepartments: {
+                //departments selected
                 value: [],
                 showerror: false,
                 errortext: 'Department is required, Please select a department',
@@ -492,25 +493,29 @@ export default {
                     CompanyService.fetchCategory_v2({ id: this.uid })
                 );
             }
-            Promise.all([promiseArray])
-                .then((data) => {
-                    this.pageLoading = false;
-                    data[0][0].then((res) => {
-                        if (res.data.data.length) {
-                            this.departments = res.data.data;
-                            this.setDepartmentList();
-                            data[0][1].then((res) =>
-                                this.updateData(res.data.data[0])
+            this.levelChange(3)
+                .then(() =>
+                    Promise.all([promiseArray])
+                        .then((data) => {
+                            this.pageLoading = false;
+                            data[0][0].then((res) => {
+                                if (res.data.data.length) {
+                                    this.departments = res.data.data;
+                                    this.setDepartmentList();
+                                    data[0][1].then((res) =>
+                                        this.updateData(res.data.data[0])
+                                    );
+                                }
+                            });
+                        })
+                        .catch((error) => {
+                            this.pageLoading = false;
+                            this.$snackbar.global.showError(
+                                `${error.response.data.errors.error}`
                             );
-                        }
-                    });
-                })
-                .catch((error) => {
-                    this.pageLoading = false;
-                    this.$snackbar.global.showError(
-                        `${error.response.data.errors.error}`
-                    );
-                });
+                        })
+                )
+                .catch(() => (this.pageError = true));
         },
         removeItem(index, department) {
             const { value } = department;
@@ -556,7 +561,6 @@ export default {
                 );
                 this.hierarchy.splice(indexToRemove, 1);
             }
-            console.log('hierarchy after update ---', this.hierarchy);
         },
         initDepartment(received) {
             this.selectedDepartments.mapping = [];
@@ -588,10 +592,6 @@ export default {
             this.selectedDepartments.value = data.department
                 ? this.initDepartment(data.department)
                 : [];
-            if (data['level'] === 3) {
-                this.levelChange(3);
-            }
-            console.log('recieved level', this.hierarchy);
         },
         searchDepartment(e) {
             console.log('search text---', e);
@@ -625,34 +625,50 @@ export default {
         },
         levelChange(e) {
             if (e == 3) {
+                if (
+                    this.selectedDepartments.value &&
+                    this.selectedDepartments.value.length
+                ) {
+                    this.hierarchy = [];
+                    this.selectedDepartments.value.forEach((item) =>
+                        this.updateHierarchy([item], true)
+                    );
+                }
                 console.log('levelChange', e);
                 const params = {
                     level: [1, 2]
                 };
-                CompanyService.fetchCategory_v2(params)
-                    .then(({ data }) => {
-                        if (data && data.data && data.data.length) {
-                            data.data.forEach((item) => {
-                                if (item.level === 1) {
-                                    this.levelList.one.push({
-                                        text: item.name,
-                                        value: item.id
-                                    });
-                                } else {
-                                    this.levelList.two.push({
-                                        text: item.name,
-                                        value: item.id
-                                    });
-                                }
-                            });
-                        }
-                    })
-                    .catch(() => {
-                        this.pageError = true;
-                    });
-                this.selectedDepartments.forEach((item) =>
-                    this.updateHierarchy([item])
-                );
+                this.levelList.one = [];
+                this.levelList.two = [];
+                return new Promise((resolve, reject) => {
+                    return CompanyService.fetchCategory_v2(params)
+                        .then(({ data }) => {
+                            if (data && data.data && data.data.length) {
+                                data.data.forEach((item) => {
+                                    if (item.level === 1) {
+                                        this.levelList.one.push({
+                                            text: item.name,
+                                            value: item.id
+                                        });
+                                    } else {
+                                        this.levelList.two.push({
+                                            text: item.name,
+                                            value: item.id
+                                        });
+                                    }
+                                });
+                            }
+                            resolve('success');
+                        })
+                        .catch((err) => {
+                            this.pageError = true;
+                            reject(err);
+                        });
+                    console.log(
+                        'this.selectedDepartments.value',
+                        this.selectedDepartments.value
+                    );
+                });
             }
         },
         addSearchText(event) {
