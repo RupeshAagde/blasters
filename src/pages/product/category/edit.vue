@@ -109,9 +109,7 @@
                                 <nitrozen-inline
                                     icon="cross"
                                     class="nitrozen-icon"
-                                    @click="
-                                        attribute.departments.splice(index, 1)
-                                    "
+                                    @click="removeItem(index, department)"
                                 ></nitrozen-inline>
                             </nitrozen-chips>
                         </div>
@@ -200,6 +198,9 @@
                         :multiple="true"
                         :searchable="false"
                     ></nitrozen-dropdown>
+                </div>
+                <div class="n-input-label" v-if="hierarchy.length > 0">
+                    Category Mapping
                 </div>
                 <div class="row-1" v-for="(item, i) in hierarchy">
                     <div class="subscription-container">
@@ -511,6 +512,17 @@ export default {
                     );
                 });
         },
+        removeItem(index, department) {
+            const { value } = department;
+            this.selectedDepartments.value.splice(
+                this.selectedDepartments.value.findIndex(
+                    (item) => item === value
+                ),
+                1
+            );
+            this.selectedDepartments.mapping.splice(index, 1);
+            this.updateHierarchy(this.selectedDepartments.value);
+        },
         setDepartmentList(e) {
             this.departmentsList = [];
             this.departments.forEach(({ name, uid }) => {
@@ -579,6 +591,9 @@ export default {
             this.selectedDepartments.value = data.department
                 ? this.initDepartment(data.department)
                 : [];
+            if (data['level'] === 3) {
+                this.levelChange(3);
+            }
             console.log('recieved level', this.hierarchy);
         },
         searchDepartment(e) {
