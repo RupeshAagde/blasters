@@ -41,7 +41,7 @@
     "author": "jalak vora",
     "license": "ISC",
     "dependencies": {
-        "@gofynd/nitrozen-vue": "0.0.18",
+        "@gofynd/nitrozen-vue": "0.0.23",
         "@sentry/node": "^5.27.3",
         "ajv": "^6.12.6",
         "axios": "0.21.0",
