@@ -94,8 +94,8 @@
                             @change="updateMapping"
                             @searchInputChange="setDepartmentList"
                         ></nitrozen-dropdown>
-                        <nitrozen-error v-if="errors.departments">{{
-                            errors.departments
+                        <nitrozen-error v-if="selectedDepartments.showerror">{{
+                            selectedDepartments.errortext
                         }}</nitrozen-error>
                     </div>
                     <div class="chip-wrapper inline">
@@ -705,8 +705,21 @@ export default {
             postdata['media'].logo = this.logo.value;
             postdata['media'].landscape = this.landscape;
             postdata['media'].potrait = this.banner;
-            postdata['level'] = this.level.value;
-            postdata['department'] = this.selectedDepartments.value;
+            if (this.level.value !== '') {
+                this.level.showerror = false;
+                postdata['level'] = this.level.value;
+            } else {
+                this.level.showerror = true;
+            }
+            if (
+                this.selectedDepartments.value &&
+                this.selectedDepartments.value.length !== 0
+            ) {
+                this.selectedDepartments.showerror = false;
+                postdata['department'] = this.selectedDepartments.value;
+            } else {
+                this.selectedDepartments.showerror = true;
+            }
             if (this.level.value === 3) {
                 postdata['hierarchy'] = this.hierarchy;
             }
