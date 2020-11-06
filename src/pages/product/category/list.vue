@@ -413,9 +413,9 @@ export default {
             });
         },
         editCategory(item) {
-            if (item && item.id) {
+            if (item && item.uid) {
                 this.$router.push({
-                    path: `/administrator/product/category/edit/${item.id}`
+                    path: `/administrator/product/category/edit/${item.uid}`
                 });
             }
         }

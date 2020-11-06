@@ -490,7 +490,7 @@ export default {
             const promiseArray = [CompanyService.fetchDepartments()];
             if (this.uid) {
                 promiseArray.push(
-                    CompanyService.fetchCategory_v2({ id: this.uid })
+                    CompanyService.fetchCategory_v2({ uid: this.uid })
                 );
             }
             this.levelChange(3)
@@ -648,12 +648,12 @@ export default {
                                     if (item.level === 1) {
                                         this.levelList.one.push({
                                             text: item.name,
-                                            value: item.id
+                                            value: item.uid
                                         });
                                     } else {
                                         this.levelList.two.push({
                                             text: item.name,
-                                            value: item.id
+                                            value: item.uid
                                         });
                                     }
                                 });
