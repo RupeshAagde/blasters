@@ -138,11 +138,6 @@ export default {
                             '/original/',
                             `/resize-h:90,w:0/`
                         );
-                    } else if (url.hostname == 'res.cloudinary.com') {
-                        i.thumbnail_url = i.secure_url.replace(
-                            '/upload/',
-                            `/upload/c_thumb,h_90/`
-                        );
                     }
                 } catch (err) {
                     return i;

@@ -64,11 +64,6 @@
             />
         </div>
         <!-- </div> -->
-        <!-- <div v-if="value && fileDomain === 'video'">
-            <div class="video-preview">
-                <video-player :options="videoOptions" />
-            </div>
-        </div>-->
         <div v-else class="container">
             <div class="upload-image">
                 <img src="/public/assets/admin/pngs/upload.png" />
@@ -179,19 +174,6 @@ export default {
             imageURL: '',
             dimensions: { x: 0, y: 0 },
             hdns: GrindorService.hdns,
-            videoOptions: {
-                autoplay: false,
-                controls: true,
-                width: 360,
-                height: 270,
-                sources: [
-                    {
-                        src:
-                            'https://res.cloudinary.com/dwzm9bysq/video/upload/v1587625799/ark/production/order/video_file/null/5dda683944ef371d6c106480/product_VID-20200415-WA0001.mp4',
-                        type: 'video/mp4'
-                    }
-                ]
-            }
         };
     },
     computed: {

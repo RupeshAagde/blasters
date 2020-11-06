@@ -12,7 +12,6 @@ const {
     BROWSER_CONFIG,
     SENTRY_DSN,
     SENTRY_ENVIRONMENT,
-    CLOUDINARY_CLOUD_NAME
 } = envVars;
 
 // entry-server.js
@@ -127,7 +126,6 @@ const getAppEnv = () => {
     let strEnvs = '';
     if (envVars) {
         const commonEnvs = {
-            CLOUDINARY_CLOUD_NAME: CLOUDINARY_CLOUD_NAME,
             SENTRY_DSN: SENTRY_DSN,
             SENTRY_ENVIRONMENT: SENTRY_ENVIRONMENT,
             INVITE: {

@@ -1,5 +1,5 @@
 const config = require('./../config')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge');
 const nodeExternals = require('webpack-node-externals')
 const baseConfig = require('./webpack.base.config')
 const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
@@ -30,7 +30,9 @@ module.exports = merge(baseConfig, {
     // do not externalize dependencies that need to be processed by webpack.
     // you can add more file types here e.g. raw *.vue files
     // you should also whitelist deps that modifies `global` (e.g. polyfills)
-    whitelist: /\.less$/
+
+    // whitelist: /\.less$/
+    allowlist: /\.less$/
   }),
 
   // This is the plugin that turns the entire output of the server build
