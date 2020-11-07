@@ -81,7 +81,7 @@
                 </div>
             </div>
             <div class="row-2">
-                <div>
+                <div class="dept">
                     <div class="dept-input">
                         <nitrozen-dropdown
                             class="input w-l"
@@ -115,9 +115,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="dept">
+                    <nitrozen-input
+                        label="Priority*"
+                        v-model="priority.value"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="priority.showerror">{{
+                        priority.errortext
+                    }}</nitrozen-error>
+                </div>
             </div>
             <div class="row-3">
-                <div class="n-input-label">Add Synonyms *</div>
+                <div class="n-input-label">Add Synonyms</div>
                 <div class="input-text tags" @click="$refs.synonymText.focus()">
                     <nitrozen-chips
                         v-for="(item, index) in synonym.value"
@@ -157,40 +166,34 @@
                     }}</nitrozen-error>
                 </div>
                 <div>
-                    <div class="n-input-label">Category Banner</div>
+                    <div class="n-input-label">Category Potrait</div>
                     <image-uploader-tile
                         label="Logo"
-                        aspectRatio="1:1"
+                        aspectRatio="13:20"
                         @delete="banner = ''"
                         @save="banner = $event"
                         v-model="banner"
                         :fileName="banner"
                         namespace="department-square-logo"
                     ></image-uploader-tile>
-                    <nitrozen-error v-if="logo.showerror">{{
-                        logo.errortext
-                    }}</nitrozen-error>
                 </div>
                 <div>
                     <div class="n-input-label">Category Landscape</div>
                     <image-uploader-tile
                         label="Logo"
-                        aspectRatio="1:1"
+                        aspectRatio="27:20"
                         @delete="landscape = ''"
                         @save="landscape = $event"
                         v-model="landscape"
                         :fileName="landscape"
                         namespace="department-square-logo"
                     ></image-uploader-tile>
-                    <nitrozen-error v-if="logo.showerror">{{
-                        logo.errortext
-                    }}</nitrozen-error>
                 </div>
             </div>
             <div v-if="level.value === '3' || level.value === 3">
                 <div class="row-2">
                     <nitrozen-dropdown
-                        class="dept-input w-l"
+                        class="tryouts w-l"
                         label="Tryouts"
                         :items="tryoutList"
                         v-model="tryouts"
@@ -316,13 +319,20 @@
         }
     }
     .dept-input {
+        width: 60%;
+    }
+    .tryouts {
         width: 30%;
+    }
+    .dept {
+        width: 49.5%;
     }
     .row-2 {
         width: 100%;
         margin: 0 0 24px 0;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-between;
 
         .input-box {
             width: 49.5%;
@@ -447,6 +457,11 @@ export default {
             saveText: 'Department saved successfully',
             headerText: 'Create Department',
             synonymText: '',
+            priority: {
+                value: '',
+                showerror: false,
+                errortext: 'Priority is required, Please enter a priority'
+            },
             name: {
                 value: '',
                 showerror: false,
@@ -490,7 +505,7 @@ export default {
             const promiseArray = [CompanyService.fetchDepartments()];
             if (this.uid) {
                 promiseArray.push(
-                    CompanyService.fetchCategory_v2({ uid: this.uid })
+                    CompanyService.fetchCategory_v2({ id: this.uid })
                 );
             }
             this.levelChange(3)
@@ -587,6 +602,7 @@ export default {
             this.banner =
                 data.media && data.media.potrait ? data.media.potrait : '';
             this.synonym.value = data.synonyms ? data.synonyms : [];
+            this.priority.value = data.priority ? data.priority : '';
             this.tryouts = data.tryouts ? data.tryouts : [];
             this.hierarchy = data.hierarchy ? data.hierarchy : [];
             this.selectedDepartments.value = data.department
@@ -705,6 +721,18 @@ export default {
             postdata['media'].logo = this.logo.value;
             postdata['media'].landscape = this.landscape;
             postdata['media'].potrait = this.banner;
+            if (this.priority.value !== '') {
+                this.priority.showerror = false;
+                postdata['priority'] = this.priority.value;
+            } else {
+                this.priority.showerror = true;
+            }
+            if (this.logo.value !== '') {
+                this.logo.showerror = false;
+                postdata['logo'] = this.logo.value;
+            } else {
+                this.logo.showerror = true;
+            }
             if (this.level.value !== '') {
                 this.level.showerror = false;
                 postdata['level'] = this.level.value;

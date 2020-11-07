@@ -245,7 +245,6 @@ const CompanyService = {
     },
     // Categories
     fetchCategory_v2(params) {
-        console.log('poarams---------', params);
         const { id, ...rest } = params;
         let axiosOption = Object.assign(
             {
