@@ -123,7 +123,7 @@
                 v-if="categoryList && categoryList.length > 0"
             >
                 <nitrozen-pagination
-                    name="Department"
+                    name="Category"
                     v-model="pagination"
                     @change="paginationChange"
                     :pageSizeOptions="[5, 10, 20, 50]"

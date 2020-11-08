@@ -224,6 +224,10 @@
                                 :multiple="false"
                                 :searchable="true"
                             ></nitrozen-dropdown>
+                            <nitrozen-error v-if="item.showerrorl1"
+                                >Level 1 required. Please select a
+                                value</nitrozen-error
+                            >
                         </div>
                         <div class="col-three child">
                             <nitrozen-dropdown
@@ -235,6 +239,10 @@
                                 :multiple="false"
                                 :searchable="true"
                             ></nitrozen-dropdown>
+                            <nitrozen-error v-if="item.showerrorl2"
+                                >Level 2 required. Please select a
+                                value</nitrozen-error
+                            >
                         </div>
                     </div>
                 </div>
@@ -486,6 +494,7 @@ export default {
                 showerror: false,
                 errortext: 'Logo is required, Please upload a logo'
             },
+            initialSelectedDepartments: [],
             selectedDepartments: {
                 //departments selected
                 value: [],
@@ -568,7 +577,9 @@ export default {
                 this.hierarchy.push({
                     department: list[list.length - 1],
                     l1: '',
-                    l2: ''
+                    l2: '',
+                    showerrorl1: false,
+                    showerrorl2: false
                 });
             } else {
                 const indexToRemove = this.hierarchy.findIndex(
@@ -606,6 +617,9 @@ export default {
             this.tryouts = data.tryouts ? data.tryouts : [];
             this.hierarchy = data.hierarchy ? data.hierarchy : [];
             this.selectedDepartments.value = data.department
+                ? this.initDepartment(data.department)
+                : [];
+            this.initialSelectedDepartments = data.department
                 ? this.initDepartment(data.department)
                 : [];
         },
@@ -717,6 +731,7 @@ export default {
             }
 
             postdata['tryouts'] = this.tryouts ? this.tryouts : [];
+            postdata['synonyms'] = this.synonym.value ? this.synonym.value : [];
             postdata['media'] = {};
             postdata['media'].logo = this.logo.value;
             postdata['media'].landscape = this.landscape;
@@ -748,16 +763,41 @@ export default {
             } else {
                 this.selectedDepartments.showerror = true;
             }
+            let hierarchyError = false;
             if (this.level.value === 3) {
                 postdata['hierarchy'] = this.hierarchy;
+                this.hierarchy &&
+                    this.hierarchy.length &&
+                    this.hierarchy.forEach((item, index) => {
+                        if (item['l1'] === '') {
+                            hierarchyError = true;
+                            item['showerrorl1'] = true;
+                        } else {
+                            item['showerrorl1'] = false;
+                        }
+                        if (item['l2'] === '') {
+                            hierarchyError = true;
+                            item['showerrorl2'] = true;
+                        } else {
+                            item['showerrorl2'] = false;
+                        }
+                        if (
+                            index === this.hierarchy.length - 1 &&
+                            !hierarchyError === true
+                        ) {
+                            console.log('index---', index);
+                            hierarchyError = false;
+                        }
+                    });
             }
-            postdata['synonyms'] = [];
 
             if (
                 !this.name.showerror &&
                 !this.logo.showerror &&
                 !this.level.showerror &&
-                !this.selectedDepartments.showerror
+                !this.selectedDepartments.showerror &&
+                !this.priority.showerror &&
+                !hierarchyError
             ) {
                 this.pageLoading = true;
                 CompanyService.updateCategory_v2(postdata)
@@ -771,13 +811,22 @@ export default {
                             path: '/administrator/product/category'
                         });
                     })
-                    .catch((error) => {
+                    .catch((err) => {
                         this.pageLoading = false;
-                        console.error(error);
+                        console.error(err.response);
                         this.$snackbar.global.showError(
-                            `${error.response.data.errors.error}`
+                            err &&
+                                err.response &&
+                                err.response.data &&
+                                err.response.data.message
+                                ? err.response.data.message
+                                : err
                         );
                     });
+            } else {
+                this.$snackbar.global.showError(
+                    `Please fill in the required values`
+                );
             }
         }
     }
