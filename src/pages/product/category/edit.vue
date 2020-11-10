@@ -22,8 +22,8 @@
                                 v-model="is_active"
                                 :title="
                                     is_active
-                                        ? 'Disable department'
-                                        : 'Enable department'
+                                        ? 'Disable Category'
+                                        : 'Enable Category'
                                 "
                             ></nitrozen-toggle-btn>
                         </label>
@@ -119,6 +119,7 @@
                     <nitrozen-input
                         label="Priority*"
                         v-model="priority.value"
+                        type="number"
                     ></nitrozen-input>
                     <nitrozen-error v-if="priority.showerror">{{
                         priority.errortext
@@ -151,7 +152,7 @@
             </div>
             <div class="logo-container">
                 <div>
-                    <div class="n-input-label">Category Logo</div>
+                    <div class="n-input-label">Category Logo*</div>
                     <image-uploader-tile
                         label="Logo"
                         aspectRatio="1:1"
@@ -159,7 +160,7 @@
                         @save="logo.value = $event"
                         v-model="logo.value"
                         :fileName="logo.value"
-                        namespace="department-square-logo"
+                        namespace="category-square-logo"
                     ></image-uploader-tile>
                     <nitrozen-error v-if="logo.showerror">{{
                         logo.errortext
@@ -168,25 +169,25 @@
                 <div>
                     <div class="n-input-label">Category Potrait</div>
                     <image-uploader-tile
-                        label="Logo"
+                        label="Potrait Image"
                         aspectRatio="13:20"
                         @delete="banner = ''"
                         @save="banner = $event"
                         v-model="banner"
                         :fileName="banner"
-                        namespace="department-square-logo"
+                        namespace="category-portrait-banner"
                     ></image-uploader-tile>
                 </div>
                 <div>
                     <div class="n-input-label">Category Landscape</div>
                     <image-uploader-tile
-                        label="Logo"
+                        label="Landscape Image"
                         aspectRatio="27:20"
                         @delete="landscape = ''"
                         @save="landscape = $event"
                         v-model="landscape"
                         :fileName="landscape"
-                        namespace="department-square-logo"
+                        namespace="category-landscape-banner"
                     ></image-uploader-tile>
                 </div>
             </div>
@@ -194,13 +195,69 @@
                 <div class="row-2">
                     <nitrozen-dropdown
                         class="tryouts w-l"
+                        label="Marketplaces"
+                        :items="marketplaces.list"
+                        v-model="marketplaces.value"
+                        :required="false"
+                        :multiple="false"
+                        :searchable="false"
+                        @change="updateMarketplaces"
+                    ></nitrozen-dropdown>
+                    <nitrozen-dropdown
+                        class="tryouts w-l"
                         label="Tryouts"
                         :items="tryoutList"
                         v-model="tryouts"
-                        :required="true"
+                        :required="false"
                         :multiple="true"
                         :searchable="false"
                     ></nitrozen-dropdown>
+                </div>
+                <div>
+                    <div
+                        v-if="marketplaces.value.length"
+                        class="extra-params-saperator"
+                    ></div>
+                    <div
+                        class="extra-params"
+                        v-if="marketplaces.value.length"
+                        :key="`extra-param-${i}`"
+                    >
+                        <!-- KEY -->
+                        <div class="input">
+                            <nitrozen-input
+                                label="Key"
+                                type="number"
+                                placeholder="Enter key"
+                                v-model="
+                                    marketplaces.subvalues['google'][
+                                        'catalog_id'
+                                    ]
+                                "
+                                @keyup="change"
+                            ></nitrozen-input>
+                            <!--     <nitrozen-error v-if="ep.key.showerror">
+                    {{ ep.key.errortext }}
+                </nitrozen-error> -->
+                        </div>
+                        <!-- VALUE -->
+                        <div class="input">
+                            <nitrozen-input
+                                label="Value"
+                                placeholder="Enter value"
+                                v-model="
+                                    marketplaces.subvalues['google']['name']
+                                "
+                                @keyup="change"
+                            ></nitrozen-input>
+                            <!--  <nitrozen-error v-if="ep.value.showerror">
+                    {{ ep.value.errortext }}
+                </nitrozen-error> -->
+                        </div>
+                        <div class="delete" @click="deleteMarketplace">
+                            <adm-inline-svg src="delete"></adm-inline-svg>
+                        </div>
+                    </div>
                 </div>
                 <div class="n-input-label" v-if="hierarchy.length > 0">
                     Category Mapping
@@ -217,7 +274,7 @@
                         <div class="col-two child">
                             <nitrozen-dropdown
                                 class="input w-l"
-                                label="L1"
+                                label="Level 1"
                                 :items="levelList.one"
                                 v-model="item['l1']"
                                 :required="true"
@@ -232,7 +289,7 @@
                         <div class="col-three child">
                             <nitrozen-dropdown
                                 class="input w-l"
-                                label="L2"
+                                label="Level 2"
                                 :items="levelList.two"
                                 v-model="item['l2']"
                                 :required="true"
@@ -308,6 +365,26 @@
 .logo-container {
     margin-bottom: 24px;
 }
+.extra-params-saperator {
+    width: 49.5%;
+    border-top: 1px dashed #e4e5e6;
+    height: 1px;
+    margin: 12px 0;
+}
+.extra-params {
+    margin-bottom: 24px;
+    width: 49.5%;
+    display: flex;
+    justify-content: space-between;
+    .nitrozen-form-input {
+        margin-right: 12px;
+    }
+    .delete {
+        cursor: pointer;
+        padding-top: 18px;
+        align-self: center;
+    }
+}
 .main-container {
     background-color: #fff;
     border-radius: 4px;
@@ -330,7 +407,7 @@
         width: 60%;
     }
     .tryouts {
-        width: 30%;
+        width: 49.5%;
     }
     .dept {
         width: 49.5%;
@@ -392,6 +469,7 @@ import CatalogService from '@/services/catalog.service';
 import PageHeader from '@/components/common/layout/page-header';
 import loader from '@/components/common/loader';
 import Shimmer from '@/components/common/shimmer';
+import adminlinesvg from '@/components/common/adm-inline-svg.vue';
 import { ImageUploaderTile } from '@/components/common/';
 import { convertToSlug } from '@/helper/utils';
 import PageError from '@/components/common/page-error';
@@ -423,7 +501,8 @@ export default {
         NitrozenToggleBtn,
         NitrozenButton,
         NitrozenDropdown,
-        NitrozenInline
+        NitrozenInline,
+        'adm-inline-svg': adminlinesvg
     },
     directives: {
         flatBtn,
@@ -462,8 +541,8 @@ export default {
             tryouts: [],
             landscape: '',
             banner: '',
-            saveText: 'Department saved successfully',
-            headerText: 'Create Department',
+            saveText: 'Category saved successfully',
+            headerText: 'Create Category',
             synonymText: '',
             priority: {
                 value: '',
@@ -493,6 +572,18 @@ export default {
                 value: '',
                 showerror: false,
                 errortext: 'Logo is required, Please upload a logo'
+            },
+            marketplaces: {
+                subvalues: {
+                    google: { catalog_id: '', name: '' }
+                },
+                list: [
+                    {
+                        text: 'Google',
+                        value: 'google'
+                    }
+                ],
+                value: []
             },
             initialSelectedDepartments: [],
             selectedDepartments: {
@@ -551,6 +642,11 @@ export default {
             );
             this.selectedDepartments.mapping.splice(index, 1);
             this.updateHierarchy(this.selectedDepartments.value);
+        },
+        deleteMarketplace(e) {
+            this.marketplaces.subvalues['google']['catalog_id'] = '';
+            this.marketplaces.subvalues['google']['name'] = '';
+            this.marketplaces.value = [];
         },
         setDepartmentList(e) {
             this.departmentsList = [];
@@ -622,6 +718,18 @@ export default {
             this.initialSelectedDepartments = data.department
                 ? this.initDepartment(data.department)
                 : [];
+            if (
+                data.marketplaces &&
+                data.marketplaces.google &&
+                data.merketplaces.google.key &&
+                data.marketplaces.google.value
+            ) {
+                this.marketplaces.value = ['google'];
+                this.marketplaces.subvalues['google']['catalog_id'] =
+                    data.marketplaces['google']['catalog_id'] || '';
+                this.marketplaces.subvalues['google']['name'] =
+                    data.marketplaces['google']['name'] || '';
+            }
         },
         searchDepartment(e) {
             console.log('search text---', e);
@@ -736,6 +844,9 @@ export default {
             postdata['media'].logo = this.logo.value;
             postdata['media'].landscape = this.landscape;
             postdata['media'].potrait = this.banner;
+            if (this.marketplaces.value && this.marketplaces.value.length) {
+                data['marketplaces'] = this.marketplaces.subvalues;
+            }
             if (this.priority.value !== '') {
                 this.priority.showerror = false;
                 postdata['priority'] = this.priority.value;
