@@ -833,9 +833,6 @@ export default {
             postdata['tryouts'] = this.tryouts ? this.tryouts : [];
             postdata['synonyms'] = this.synonym.value ? this.synonym.value : [];
             postdata['media'] = {};
-            postdata['media'].logo = this.logo.value;
-            postdata['media'].landscape = this.landscape;
-            postdata['media'].potrait = this.banner;
 
             if (this.priority.value !== '') {
                 this.priority.showerror = false;
@@ -845,9 +842,15 @@ export default {
             }
             if (this.logo.value !== '') {
                 this.logo.showerror = false;
-                postdata['logo'] = this.logo.value;
+                postdata['media'].logo  = this.logo.value;
             } else {
                 this.logo.showerror = true;
+            }
+            if (this.banner !== '') {
+                postdata['media'].potrait  = this.banner;
+            }
+            if (this.landscape !== '') {
+                postdata['media'].landscape  = this.landscape;
             }
             if (this.level.value !== '') {
                 this.level.showerror = false;
