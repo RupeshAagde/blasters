@@ -201,7 +201,6 @@
                         :required="false"
                         :multiple="false"
                         :searchable="false"
-                        @change="updateMarketplaces"
                     ></nitrozen-dropdown>
                     <nitrozen-dropdown
                         class="tryouts w-l"
@@ -218,11 +217,7 @@
                         v-if="marketplaces.value.length"
                         class="extra-params-saperator"
                     ></div>
-                    <div
-                        class="extra-params"
-                        v-if="marketplaces.value.length"
-                        :key="`extra-param-${i}`"
-                    >
+                    <div class="extra-params" v-if="marketplaces.value.length">
                         <!-- KEY -->
                         <div class="input">
                             <nitrozen-input
@@ -234,7 +229,6 @@
                                         'catalog_id'
                                     ]
                                 "
-                                @keyup="change"
                             ></nitrozen-input>
                             <!--     <nitrozen-error v-if="ep.key.showerror">
                     {{ ep.key.errortext }}
@@ -248,7 +242,6 @@
                                 v-model="
                                     marketplaces.subvalues['google']['name']
                                 "
-                                @keyup="change"
                             ></nitrozen-input>
                             <!--  <nitrozen-error v-if="ep.value.showerror">
                     {{ ep.value.errortext }}
@@ -378,6 +371,9 @@
     justify-content: space-between;
     .nitrozen-form-input {
         margin-right: 12px;
+    }
+    .input {
+        width: 50%;
     }
     .delete {
         cursor: pointer;
@@ -710,29 +706,30 @@ export default {
                 data.media && data.media.potrait ? data.media.potrait : '';
             this.synonym.value = data.synonyms ? data.synonyms : [];
             this.priority.value = data.priority ? data.priority : '';
-            this.tryouts = data.tryouts ? data.tryouts : [];
-            this.hierarchy = data.hierarchy ? data.hierarchy : [];
+            if (this.level.value && this.level.value === 3) {
+                this.tryouts = data.tryouts ? data.tryouts : [];
+                this.hierarchy = data.hierarchy ? data.hierarchy : [];
+                if (
+                    data.marketplaces &&
+                    data.marketplaces.google &&
+                    data.marketplaces.google.catalog_id &&
+                    data.marketplaces.google.name
+                ) {
+                    this.marketplaces.value = ['google'];
+                    this.marketplaces.subvalues['google']['catalog_id'] =
+                        data.marketplaces['google']['catalog_id'] || '';
+                    this.marketplaces.subvalues['google']['name'] =
+                        data.marketplaces['google']['name'] || '';
+                }
+            }
             this.selectedDepartments.value = data.department
                 ? this.initDepartment(data.department)
                 : [];
             this.initialSelectedDepartments = data.department
                 ? this.initDepartment(data.department)
                 : [];
-            if (
-                data.marketplaces &&
-                data.marketplaces.google &&
-                data.merketplaces.google.key &&
-                data.marketplaces.google.value
-            ) {
-                this.marketplaces.value = ['google'];
-                this.marketplaces.subvalues['google']['catalog_id'] =
-                    data.marketplaces['google']['catalog_id'] || '';
-                this.marketplaces.subvalues['google']['name'] =
-                    data.marketplaces['google']['name'] || '';
-            }
         },
         searchDepartment(e) {
-            console.log('search text---', e);
             this.setDepartmentList(this.departmentsList, e);
         },
         removeSearchInput(index) {
@@ -772,7 +769,6 @@ export default {
                         this.updateHierarchy([item], true)
                     );
                 }
-                console.log('levelChange', e);
                 const params = {
                     level: [1, 2]
                 };
@@ -802,10 +798,6 @@ export default {
                             this.pageError = true;
                             reject(err);
                         });
-                    console.log(
-                        'this.selectedDepartments.value',
-                        this.selectedDepartments.value
-                    );
                 });
             }
         },
@@ -844,9 +836,7 @@ export default {
             postdata['media'].logo = this.logo.value;
             postdata['media'].landscape = this.landscape;
             postdata['media'].potrait = this.banner;
-            if (this.marketplaces.value && this.marketplaces.value.length) {
-                data['marketplaces'] = this.marketplaces.subvalues;
-            }
+
             if (this.priority.value !== '') {
                 this.priority.showerror = false;
                 postdata['priority'] = this.priority.value;
@@ -876,6 +866,11 @@ export default {
             }
             let hierarchyError = false;
             if (this.level.value === 3) {
+                if (this.marketplaces.value && this.marketplaces.value.length) {
+                    postdata['marketplaces'] = this.marketplaces.subvalues;
+                } else {
+                    postdata['marketplaces'] = {};
+                }
                 postdata['hierarchy'] = this.hierarchy;
                 this.hierarchy &&
                     this.hierarchy.length &&
@@ -896,7 +891,6 @@ export default {
                             index === this.hierarchy.length - 1 &&
                             !hierarchyError === true
                         ) {
-                            console.log('index---', index);
                             hierarchyError = false;
                         }
                     });
@@ -924,7 +918,6 @@ export default {
                     })
                     .catch((err) => {
                         this.pageLoading = false;
-                        console.error(err.response);
                         this.$snackbar.global.showError(
                             err &&
                                 err.response &&
