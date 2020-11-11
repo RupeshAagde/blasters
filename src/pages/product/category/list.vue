@@ -108,10 +108,10 @@
                         }}</nitrozen-badge>
                     </div>
                     <div class="cust-button">
-                        <nitrozen-badge v-if="item.active" state="success"
+                        <nitrozen-badge v-if="item.is_active" state="success"
                             >Active</nitrozen-badge
                         >
-                        <nitrozen-badge v-if="!item.active" state="warn"
+                        <nitrozen-badge v-if="!item.is_active" state="warn"
                             >Disabled</nitrozen-badge
                         >
                     </div>
@@ -346,7 +346,7 @@ export default {
 
             if (this.searchText) params.q = this.searchText;
             if (this.selectedFilter.status != 'all')
-                params.active = this.selectedFilter.status;
+                params.is_active = this.selectedFilter.status;
             if (this.selectedFilter.level != 'all')
                 params.level = this.selectedFilter.level;
 
