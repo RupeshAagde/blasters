@@ -695,7 +695,7 @@ export default {
             return value;
         },
         updateData(data = {}) {
-            this.is_active = data.active;
+            this.is_active = data.is_active;
             this.level.value = data.level ? data.level : '';
             this.name.value = data.name ? data.name : '';
             this.logo.value =
@@ -722,11 +722,11 @@ export default {
                         data.marketplaces['google']['name'] || '';
                 }
             }
-            this.selectedDepartments.value = data.department
-                ? this.initDepartment(data.department)
+            this.selectedDepartments.value = data.departments
+                ? this.initDepartment(data.departments)
                 : [];
-            this.initialSelectedDepartments = data.department
-                ? this.initDepartment(data.department)
+            this.initialSelectedDepartments = data.departments
+                ? this.initDepartment(data.departments)
                 : [];
         },
         searchDepartment(e) {
@@ -820,7 +820,7 @@ export default {
         },
         save() {
             let postdata = {
-                active: this.is_active
+                is_active: this.is_active
             };
             if (this.update && this.uid) postdata.id = this.uid;
             if (this.name.value !== '') {
@@ -842,15 +842,15 @@ export default {
             }
             if (this.logo.value !== '') {
                 this.logo.showerror = false;
-                postdata['media'].logo  = this.logo.value;
+                postdata['media'].logo = this.logo.value;
             } else {
                 this.logo.showerror = true;
             }
             if (this.banner !== '') {
-                postdata['media'].potrait  = this.banner;
+                postdata['media'].potrait = this.banner;
             }
             if (this.landscape !== '') {
-                postdata['media'].landscape  = this.landscape;
+                postdata['media'].landscape = this.landscape;
             }
             if (this.level.value !== '') {
                 this.level.showerror = false;
@@ -863,7 +863,7 @@ export default {
                 this.selectedDepartments.value.length !== 0
             ) {
                 this.selectedDepartments.showerror = false;
-                postdata['department'] = this.selectedDepartments.value;
+                postdata['departments'] = this.selectedDepartments.value;
             } else {
                 this.selectedDepartments.showerror = true;
             }
