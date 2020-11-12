@@ -117,7 +117,7 @@
                     </div>
                 </div>
             </div>
-            <page-empty v-else :text="'No department found'"></page-empty>
+            <page-empty v-else :text="'No category found'"></page-empty>
             <div
                 class="pagination"
                 v-if="categoryList && categoryList.length > 0"
