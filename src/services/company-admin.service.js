@@ -245,14 +245,14 @@ const CompanyService = {
     },
     // Categories
     fetchCategory_v2(params) {
-        const { id, ...rest } = params;
+        const { uid, ...rest } = params;
         let axiosOption = Object.assign(
             {
                 params: rest
             },
             getCommonHeaderOptions()
         );
-        return ApiService.get(URLS.CATEGORY_v2(id), axiosOption);
+        return ApiService.get(URLS.CATEGORY_v2(uid), axiosOption);
     },
     updateCategory_v2(params) {
         const { id, ...rest } = params;

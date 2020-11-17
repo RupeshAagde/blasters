@@ -273,6 +273,7 @@
                                 :required="true"
                                 :multiple="false"
                                 :searchable="true"
+                                @searchInputChange="(e) => searchLevel(e, 1)"
                             ></nitrozen-dropdown>
                             <nitrozen-error v-if="item.showerrorl1"
                                 >Level 1 required. Please select a
@@ -288,6 +289,7 @@
                                 :required="true"
                                 :multiple="false"
                                 :searchable="true"
+                                @searchInputChange="(e) => searchLevel(e, 2)"
                             ></nitrozen-dropdown>
                             <nitrozen-error v-if="item.showerrorl2"
                                 >Level 2 required. Please select a
@@ -601,20 +603,27 @@ export default {
             const promiseArray = [CompanyService.fetchDepartments()];
             if (this.uid) {
                 promiseArray.push(
-                    CompanyService.fetchCategory_v2({ id: this.uid })
+                    CompanyService.fetchCategory_v2({ uid: this.uid })
                 );
             }
-            this.levelChange(3)
-                .then(() =>
+            // this.levelChange(3)
+            //     .then(() =>
                     Promise.all([promiseArray])
                         .then((data) => {
                             this.pageLoading = false;
                             data[0][0].then((res) => {
-                                if (res.data.data.length) {
+                                if (res && res.data && res.data.data && res.data.data.length) {
                                     this.departments = res.data.data;
                                     this.setDepartmentList();
-                                    data[0][1].then((res) =>
-                                        this.updateData(res.data.data[0])
+                                    data[0][1].then((res) =>{
+                                        if(res && res.data && res.data.data && res.data.data.length){
+                                            // const { hierarchy } = res.data.data[0];
+                                            this.levelChange(3, res.data.data[0].hierarchy)
+                                            .then(() => {
+                                                this.updateData(res.data.data[0])
+                                            })
+                                            .catch(() => (this.pageError = true))
+                                        }}
                                     );
                                 }
                             });
@@ -625,8 +634,8 @@ export default {
                                 `${error.response.data.errors.error}`
                             );
                         })
-                )
-                .catch(() => (this.pageError = true));
+                // )
+                // .catch(() => (this.pageError = true));
         },
         removeItem(index, department) {
             const { value } = department;
@@ -758,7 +767,51 @@ export default {
             );
             return found && found.name;
         },
-        levelChange(e) {
+        searchLevel(e, level){
+            const params = {}
+            params['level'] = [level]
+            params['q'] = e.text
+            if(this.hierarchy){
+                    const ids = [];
+                    this.hierarchy.forEach((item) => {
+                        if(level === 1){
+                            ids.push(item.l1)
+                        }
+                        else{
+                            ids.push(item.l2)
+                        }
+                    })
+                    params['id'] = ids;
+                }
+            CompanyService.fetchCategory_v2(params)
+            .then(({data}) => {
+                if( data && data.data && data.data.length) {
+                    if( level === 1){
+                        this.levelList.one = [];
+                        data.data.forEach((item) => {
+                            this.levelList.one.push({
+                                text: item.name,
+                                value: item.uid
+                            })
+                        })
+                    }
+                    else{
+                        this.levelList.two = [];
+                        data.data.forEach((item) => {
+                            this.levelList.two.push({
+                                text: item.name,
+                                value: item.uid
+                            })
+                        })
+                    }
+                }
+            })
+            .catch((err) => {
+                            this.pageError = true;
+            });
+
+        },
+        levelChange(e, hierarchy = null) {
             if (e == 3) {
                 if (
                     this.selectedDepartments.value &&
@@ -772,6 +825,14 @@ export default {
                 const params = {
                     level: [1, 2]
                 };
+                if(hierarchy){
+                    const ids = [];
+                    hierarchy.forEach((item) => {
+                        ids.push(item.l1)
+                        ids.push(item.l2)
+                    })
+                    params['id'] = ids;
+                }
                 this.levelList.one = [];
                 this.levelList.two = [];
                 return new Promise((resolve, reject) => {
