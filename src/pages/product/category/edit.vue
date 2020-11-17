@@ -50,12 +50,13 @@
             v-else-if="pageError && !pageLoading"
             @tryAgain="updateData"
         ></page-error>
-        <div v-else class="main-container">
+        <div v-if="!pageLoading" class="main-container">
             <div class="row-1">
                 <div class="input-box">
                     <nitrozen-input
                         label="Category Name*"
                         v-model="name.value"
+                        disabled="isEdit === true"
                     ></nitrozen-input>
                     <nitrozen-error v-if="name.showerror">{{
                         name.errortext
@@ -67,6 +68,7 @@
                         <nitrozen-dropdown
                             class="input w-l"
                             label="Level"
+                            disabled="isEdit === true"
                             :items="levelList.levels"
                             v-model="level.value"
                             :required="true"
@@ -192,16 +194,7 @@
                 </div>
             </div>
             <div v-if="level.value === '3' || level.value === 3">
-                <div class="row-2">
-                    <nitrozen-dropdown
-                        class="tryouts w-l"
-                        label="Marketplaces"
-                        :items="marketplaces.list"
-                        v-model="marketplaces.value"
-                        :required="false"
-                        :multiple="false"
-                        :searchable="false"
-                    ></nitrozen-dropdown>
+                <div class="row-3">
                     <nitrozen-dropdown
                         class="tryouts w-l"
                         label="Tryouts"
@@ -212,13 +205,22 @@
                         :searchable="false"
                     ></nitrozen-dropdown>
                 </div>
+                <div class="row-3">
+                    <nitrozen-dropdown
+                        class="tryouts w-l"
+                        label="Marketplaces"
+                        :items="marketplaces.list"
+                        v-model="marketplaces.value"
+                        :required="false"
+                        :multiple="false"
+                        :searchable="false"
+                    ></nitrozen-dropdown>
+                </div>
                 <div>
-                    <div
-                        v-if="marketplaces.value.length"
-                        class="extra-params-saperator"
-                    ></div>
                     <div class="extra-params" v-if="marketplaces.value.length">
+                        <div class="box-title">{{marketplaces.list[0]['text']}}</div>
                         <!-- KEY -->
+                        <div class="input-box">
                         <div class="input">
                             <nitrozen-input
                                 label="Key"
@@ -230,9 +232,6 @@
                                     ]
                                 "
                             ></nitrozen-input>
-                            <!--     <nitrozen-error v-if="ep.key.showerror">
-                    {{ ep.key.errortext }}
-                </nitrozen-error> -->
                         </div>
                         <!-- VALUE -->
                         <div class="input">
@@ -243,12 +242,10 @@
                                     marketplaces.subvalues['google']['name']
                                 "
                             ></nitrozen-input>
-                            <!--  <nitrozen-error v-if="ep.value.showerror">
-                    {{ ep.value.errortext }}
-                </nitrozen-error> -->
                         </div>
                         <div class="delete" @click="deleteMarketplace">
                             <adm-inline-svg src="delete"></adm-inline-svg>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -268,12 +265,13 @@
                             <nitrozen-dropdown
                                 class="input w-l"
                                 label="Level 1"
-                                :items="levelList.one"
+                                :items="getItems(item.department, 'one')"
                                 v-model="item['l1']"
                                 :required="true"
                                 :multiple="false"
                                 :searchable="true"
-                                @searchInputChange="(e) => searchLevel(e, 1)"
+                                :ref="'level1'+ item.department"
+                                @searchInputChange="(e) => searchLevel(e, 1, item.department)"
                             ></nitrozen-dropdown>
                             <nitrozen-error v-if="item.showerrorl1"
                                 >Level 1 required. Please select a
@@ -284,12 +282,13 @@
                             <nitrozen-dropdown
                                 class="input w-l"
                                 label="Level 2"
-                                :items="levelList.two"
+                                :items="getItems(item.department, 'two')"
                                 v-model="item['l2']"
                                 :required="true"
                                 :multiple="false"
                                 :searchable="true"
-                                @searchInputChange="(e) => searchLevel(e, 2)"
+                                :ref="'level2'+ item.department"
+                                @searchInputChange="(e) =>  searchLevel(e, 2, item.department)"
                             ></nitrozen-dropdown>
                             <nitrozen-error v-if="item.showerrorl2"
                                 >Level 2 required. Please select a
@@ -367,10 +366,23 @@
     margin: 12px 0;
 }
 .extra-params {
+    border: 1px solid #dadada;
+    border-radius: 5px;
+    padding: 24px;
+    flex-direction: column;
     margin-bottom: 24px;
-    width: 49.5%;
+    width: 45%;
     display: flex;
     justify-content: space-between;
+    .box-title{
+        color: #9b9b9b;
+        font-size: 14px;
+        margin-bottom: 5px;
+
+    }
+    .input-box{
+        display:flex;
+    }
     .nitrozen-form-input {
         margin-right: 12px;
     }
@@ -513,6 +525,7 @@ export default {
             this.update = true;
             this.headerText = 'Update Category';
             this.saveText = 'Category updated successfully';
+            this.isEdit = this.$route.params.id ? true : false;
         }
         this.init();
     },
@@ -523,6 +536,7 @@ export default {
             is_active: true,
             pageLoading: false,
             pageError: false,
+            isEdit: false,
             errors: {},
             data: {
                 level: ''
@@ -598,6 +612,7 @@ export default {
             }
         };
     },
+
     methods: {
         async init() {
             const promiseArray = [CompanyService.fetchDepartments()];
@@ -610,19 +625,14 @@ export default {
             //     .then(() =>
                     Promise.all([promiseArray])
                         .then((data) => {
-                            this.pageLoading = false;
-                            data[0][0].then((res) => {
+                            data[0][0] && data[0][0].then((res) => {
                                 if (res && res.data && res.data.data && res.data.data.length) {
                                     this.departments = res.data.data;
                                     this.setDepartmentList();
-                                    data[0][1].then((res) =>{
+                                    data[0][1] && data[0][1].then((res) =>{
                                         if(res && res.data && res.data.data && res.data.data.length){
-                                            // const { hierarchy } = res.data.data[0];
-                                            this.levelChange(3, res.data.data[0].hierarchy)
-                                            .then(() => {
-                                                this.updateData(res.data.data[0])
-                                            })
-                                            .catch(() => (this.pageError = true))
+                                            this.levelChange(3, res.data.data[0].departments, true)
+                                            this.updateData(res.data.data[0])
                                         }}
                                     );
                                 }
@@ -636,6 +646,14 @@ export default {
                         })
                 // )
                 // .catch(() => (this.pageError = true));
+        },
+        getItems(department, level){
+        if(this.levelList[department] && this.levelList[department][level]){
+            return this.levelList[department][level];
+        }
+        else{
+            return []
+         }
         },
         removeItem(index, department) {
             const { value } = department;
@@ -669,12 +687,14 @@ export default {
             });
         },
         updateMapping(list) {
+            // this.levelChange(2, )
             this.initDepartment(list);
             this.updateHierarchy(list);
         },
         updateHierarchy(list, append = false) {
             if (list.length > this.hierarchy.length || append) {
                 //added
+                const lastElem = list[list.length-1]
                 this.hierarchy.push({
                     department: list[list.length - 1],
                     l1: '',
@@ -682,6 +702,7 @@ export default {
                     showerrorl1: false,
                     showerrorl2: false
                 });
+                this.levelChange(-1, [lastElem])
             } else {
                 const indexToRemove = this.hierarchy.findIndex(
                     (item) => !list.includes(item.department)
@@ -718,6 +739,9 @@ export default {
             if (this.level.value && this.level.value === 3) {
                 this.tryouts = data.tryouts ? data.tryouts : [];
                 this.hierarchy = data.hierarchy ? data.hierarchy : [];
+                if(this.hierarchy){
+                    this.hierarchy.unshift( {}); //added to remove after data is populated
+                }
                 if (
                     data.marketplaces &&
                     data.marketplaces.google &&
@@ -767,38 +791,33 @@ export default {
             );
             return found && found.name;
         },
-        searchLevel(e, level){
+        searchLevel(e, level, department){
             const params = {}
             params['level'] = [level]
-            params['q'] = e.text
-            if(this.hierarchy){
-                    const ids = [];
-                    this.hierarchy.forEach((item) => {
-                        if(level === 1){
-                            ids.push(item.l1)
-                        }
-                        else{
-                            ids.push(item.l2)
-                        }
-                    })
-                    params['id'] = ids;
-                }
+            if( e && e.text){
+                params['q'] = e.text
+            }
+            if(department){
+                params['department'] = department
+            }
+            params['page_size'] = 200
             CompanyService.fetchCategory_v2(params)
             .then(({data}) => {
                 if( data && data.data && data.data.length) {
+                    // return data.data.map((item) => ({'text': item.name, 'value': item.uid}))
                     if( level === 1){
-                        this.levelList.one = [];
+                        this.levelList[department].one = [];
                         data.data.forEach((item) => {
-                            this.levelList.one.push({
+                            this.levelList[department].one.push({
                                 text: item.name,
                                 value: item.uid
                             })
                         })
                     }
                     else{
-                        this.levelList.two = [];
+                        this.levelList[department].two = [];
                         data.data.forEach((item) => {
-                            this.levelList.two.push({
+                            this.levelList[department].two.push({
                                 text: item.name,
                                 value: item.uid
                             })
@@ -811,9 +830,9 @@ export default {
             });
 
         },
-        levelChange(e, hierarchy = null) {
+        async levelChange(e, departments = [], initial= false) {
             if (e == 3) {
-                if (
+                if ( // when level changes from L2 to L3 and departments are already selected
                     this.selectedDepartments.value &&
                     this.selectedDepartments.value.length
                 ) {
@@ -821,46 +840,46 @@ export default {
                     this.selectedDepartments.value.forEach((item) =>
                         this.updateHierarchy([item], true)
                     );
-                }
+                }}
                 const params = {
                     level: [1, 2]
                 };
-                if(hierarchy){
-                    const ids = [];
-                    hierarchy.forEach((item) => {
-                        ids.push(item.l1)
-                        ids.push(item.l2)
-                    })
-                    params['id'] = ids;
-                }
-                this.levelList.one = [];
-                this.levelList.two = [];
-                return new Promise((resolve, reject) => {
-                    return CompanyService.fetchCategory_v2(params)
+                params['page_size'] = 500
+                departments.forEach((dept, index) =>{
+                params['department'] = dept
+                this.$set(this.levelList, dept, {})
+                this.$set(this.levelList[dept], 'one', [])
+                this.$set(this.levelList[dept], 'two', [])
+                // return new Promise((resolve, reject) => {
+                    CompanyService.fetchCategory_v2(params)
                         .then(({ data }) => {
                             if (data && data.data && data.data.length) {
                                 data.data.forEach((item) => {
                                     if (item.level === 1) {
-                                        this.levelList.one.push({
+                                        this.levelList[dept].one.push({
                                             text: item.name,
                                             value: item.uid
                                         });
                                     } else {
-                                        this.levelList.two.push({
+                                        this.levelList[dept].two.push({
                                             text: item.name,
                                             value: item.uid
                                         });
                                     }
                                 });
                             }
-                            resolve('success');
+                            if(index === departments.length-1 && initial){
+                                this.hierarchy.splice(0,1) 
+                            }
+
                         })
                         .catch((err) => {
+                            this.pageLoading = false;
+
                             this.pageError = true;
-                            reject(err);
                         });
-                });
-            }
+            });
+            this.pageLoading = false;
         },
         addSearchText(event) {
             if (this.synonymText) {
