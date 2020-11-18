@@ -1029,6 +1029,8 @@ export default {
                 !this.level.showerror &&
                 !this.selectedDepartments.showerror &&
                 !this.priority.showerror &&
+                !this.miscErrors.portrait.showerror &&
+                !this.miscErrors.landscape.showerror &&
                 !hierarchyError
             ) {
                 this.pageLoading = true;
