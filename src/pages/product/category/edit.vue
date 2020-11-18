@@ -15,6 +15,7 @@
                     </div>
                     <div class="button-box">
                         <label
+                            v-if="toggleState"
                             :class="is_active ? 'active-dept' : 'disabled-dept'"
                         >
                             <span>{{ is_active ? 'Active' : 'Disabled' }}</span>
@@ -122,6 +123,7 @@
                         label="Priority*"
                         v-model="priority.value"
                         type="number"
+                        hint=""
                     ></nitrozen-input>
                     <nitrozen-error v-if="priority.showerror">{{
                         priority.errortext
@@ -547,6 +549,7 @@ export default {
             pageError: false,
             isEdit: false,
             errors: {},
+            toggleState: true,
             data: {
                 level: ''
             },
@@ -555,7 +558,7 @@ export default {
             departments: [], //  department dropdown list intitial data
             tryoutList: [
                 { text: 'Eyebrow', value: 'Eyebrow' },
-                { text: 'Lipstic', value: 'Lipstic' },
+                { text: 'Lipstick', value: 'Lipstick' },
                 { text: 'Eyeliner', value: 'Eyeliner' },
                 { text: 'Blush', value: 'Blush' }
             ],
@@ -773,6 +776,7 @@ export default {
                 data.media && data.media.potrait ? data.media.potrait : '';
             this.synonym.value = data.synonyms ? data.synonyms : [];
             this.priority.value = data.priority ? data.priority : '';
+            this.toggleState = this.isEdit && data.is_active ? false :true;
             if (this.level.value && this.level.value === 3) {
                 this.tryouts = data.tryouts ? data.tryouts : [];
                 this.hierarchy = data.hierarchy ? data.hierarchy : [];
@@ -936,6 +940,17 @@ export default {
         redirectToListing() {
             this.$router.push({ path: '/administrator/product/category' });
         },
+        validate(){
+            let isInvalid = true;
+            let message = "Invalid Value";
+            if(this.priority.value !== '' && this.priority.value >=1){
+                isInvalid = false;
+            }   
+            isInvalid && this.$snackbar.global.showError(
+                    `Invalid Priority. Value should be greater than 0`
+            );
+            return isInvalid;
+        },
         save() {
             let postdata = {
                 is_active: this.is_active
@@ -1031,7 +1046,8 @@ export default {
                 !this.priority.showerror &&
                 !this.miscErrors.portrait.showerror &&
                 !this.miscErrors.landscape.showerror &&
-                !hierarchyError
+                !hierarchyError &&
+                !this.validate()
             ) {
                 this.pageLoading = true;
                 CompanyService.updateCategory_v2(postdata)
