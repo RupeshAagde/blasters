@@ -57,7 +57,6 @@
                     <nitrozen-input
                         label="Category Name*"
                         v-model="name.value"
-                        :disabled="isEdit"
                     ></nitrozen-input>
                     <nitrozen-error v-if="name.showerror">{{
                         name.errortext
@@ -226,34 +225,36 @@
                 </div>
                 <div>
                     <div class="extra-params" v-if="marketplaces.value.length">
-                        <div class="box-title">{{marketplaces.list[0]['text']}}</div>
+                        <div class="box-title">
+                            {{ marketplaces.list[0]['text'] }}
+                        </div>
                         <!-- KEY -->
                         <div class="input-box">
-                        <div class="input">
-                            <nitrozen-input
-                                label="Key"
-                                type="number"
-                                placeholder="Enter key"
-                                v-model="
-                                    marketplaces.subvalues['google'][
-                                        'catalog_id'
-                                    ]
-                                "
-                            ></nitrozen-input>
-                        </div>
-                        <!-- VALUE -->
-                        <div class="input">
-                            <nitrozen-input
-                                label="Value"
-                                placeholder="Enter value"
-                                v-model="
-                                    marketplaces.subvalues['google']['name']
-                                "
-                            ></nitrozen-input>
-                        </div>
-                        <div class="delete" @click="deleteMarketplace">
-                            <adm-inline-svg src="delete"></adm-inline-svg>
-                        </div>
+                            <div class="input">
+                                <nitrozen-input
+                                    label="Key"
+                                    type="number"
+                                    placeholder="Enter key"
+                                    v-model="
+                                        marketplaces.subvalues['google'][
+                                            'catalog_id'
+                                        ]
+                                    "
+                                ></nitrozen-input>
+                            </div>
+                            <!-- VALUE -->
+                            <div class="input">
+                                <nitrozen-input
+                                    label="Value"
+                                    placeholder="Enter value"
+                                    v-model="
+                                        marketplaces.subvalues['google']['name']
+                                    "
+                                ></nitrozen-input>
+                            </div>
+                            <div class="delete" @click="deleteMarketplace">
+                                <adm-inline-svg src="delete"></adm-inline-svg>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -278,8 +279,10 @@
                                 :required="true"
                                 :multiple="false"
                                 :searchable="true"
-                                :ref="'level1'+ item.department"
-                                @searchInputChange="(e) => searchLevel(e, 1, item.department)"
+                                :ref="'level1' + item.department"
+                                @searchInputChange="
+                                    (e) => searchLevel(e, 1, item.department)
+                                "
                             ></nitrozen-dropdown>
                             <nitrozen-error v-if="item.showerrorl1"
                                 >Level 1 required. Please select a
@@ -295,8 +298,10 @@
                                 :required="true"
                                 :multiple="false"
                                 :searchable="true"
-                                :ref="'level2'+ item.department"
-                                @searchInputChange="(e) =>  searchLevel(e, 2, item.department)"
+                                :ref="'level2' + item.department"
+                                @searchInputChange="
+                                    (e) => searchLevel(e, 2, item.department)
+                                "
                             ></nitrozen-dropdown>
                             <nitrozen-error v-if="item.showerrorl2"
                                 >Level 2 required. Please select a
@@ -366,7 +371,7 @@
 }
 .logo-container {
     margin-bottom: 24px;
-    .row{
+    .row {
         margin-bottom: 10px;
     }
 }
@@ -385,14 +390,13 @@
     width: 45%;
     display: flex;
     justify-content: space-between;
-    .box-title{
+    .box-title {
         color: #9b9b9b;
         font-size: 14px;
         margin-bottom: 5px;
-
     }
-    .input-box{
-        display:flex;
+    .input-box {
+        display: flex;
     }
     .nitrozen-form-input {
         margin-right: 12px;
@@ -568,11 +572,13 @@ export default {
             miscErrors: {
                 landscape: {
                     showerror: false,
-                    errortext: 'Landscape Image is required, Please upload an image'
+                    errortext:
+                        'Landscape Image is required, Please upload an image'
                 },
                 portrait: {
                     showerror: false,
-                    errortext: 'Portrait Image is required, Please upload an image'
+                    errortext:
+                        'Portrait Image is required, Please upload an image'
                 }
             },
             saveText: 'Category saved successfully',
@@ -646,40 +652,61 @@ export default {
             }
             // this.levelChange(3)
             //     .then(() =>
-                    Promise.all([promiseArray])
-                        .then((data) => {
-                            data[0][0] && data[0][0].then((res) => {
-                                if (res && res.data && res.data.data && res.data.data.length) {
-                                    this.departments = res.data.data;
-                                    this.setDepartmentList();
-                                    data[0][1] && data[0][1].then((res) =>{
-                                        if(res && res.data && res.data.data && res.data.data.length){
-                                            this.levelChange(3, res.data.data[0].departments, true)
-                                            this.updateData(res.data.data[0])
-                                        }}
-                                    );
-                                }
-                            });
-                        })
-                        .catch((error) => {
-                            this.pageLoading = false;
-                            this.$snackbar.global.showError(
-                                `${error.response.data.errors.error}`
-                            );
-                        })
-                // )
-                // .catch(() => (this.pageError = true));
+            Promise.all([promiseArray])
+                .then((data) => {
+                    data[0][0] &&
+                        data[0][0].then((res) => {
+                            if (
+                                res &&
+                                res.data &&
+                                res.data.data &&
+                                res.data.data.length
+                            ) {
+                                this.departments = res.data.data;
+                                this.setDepartmentList();
+                                data[0][1] &&
+                                    data[0][1].then((res) => {
+                                        if (
+                                            res &&
+                                            res.data &&
+                                            res.data.data &&
+                                            res.data.data.length
+                                        ) {
+                                            this.levelChange(
+                                                3,
+                                                res.data.data[0].departments,
+                                                true
+                                            );
+                                            this.updateData(res.data.data[0]);
+                                        }
+                                    });
+                            }
+                        });
+                })
+                .catch((error) => {
+                    this.pageLoading = false;
+                    this.$snackbar.global.showError(
+                        `${error.response.data.errors.error}`
+                    );
+                });
+            // )
+            // .catch(() => (this.pageError = true));
         },
-        getItems(department, level){
-        if(this.levelList[department] && this.levelList[department][level]){
-            return this.levelList[department][level];
-        }
-        else{
-            return []
-         }
+        getItems(department, level) {
+            if (
+                this.levelList[department] &&
+                this.levelList[department][level]
+            ) {
+                return this.levelList[department][level];
+            } else {
+                return [];
+            }
         },
         removeItem(index, department) {
-            if(this.isEdit && this.initialSelectedDepartments.includes(department.value)){
+            if (
+                this.isEdit &&
+                this.initialSelectedDepartments.includes(department.value)
+            ) {
                 return this.$snackbar.global.showError(
                     `Invalid Operation. Cannot delete department`
                 );
@@ -715,15 +742,22 @@ export default {
             });
         },
         updateMapping(list) {
-            if(this.isEdit && list.length < this.selectedDepartments.mapping.length && 
-                this.initialSelectedDepartments.some((item) => !list.includes(item))){
+            if (
+                this.isEdit &&
+                list.length < this.selectedDepartments.mapping.length &&
+                this.initialSelectedDepartments.some(
+                    (item) => !list.includes(item)
+                )
+            ) {
                 this.$snackbar.global.showError(
                     `Invalid Operation. Cannot delete department`
                 );
-                this.$set(this.selectedDepartments, 'value', [])
-                this.selectedDepartments.previousValue.forEach((value, index) => {
-                    this.$set(this.selectedDepartments.value, index, value)
-                })
+                this.$set(this.selectedDepartments, 'value', []);
+                this.selectedDepartments.previousValue.forEach(
+                    (value, index) => {
+                        this.$set(this.selectedDepartments.value, index, value);
+                    }
+                );
                 return;
             }
             this.initDepartment(list);
@@ -732,7 +766,7 @@ export default {
         updateHierarchy(list, append = false) {
             if (list.length > this.hierarchy.length || append) {
                 //added
-                const lastElem = list[list.length-1]
+                const lastElem = list[list.length - 1];
                 this.hierarchy.push({
                     department: list[list.length - 1],
                     l1: '',
@@ -740,15 +774,14 @@ export default {
                     showerrorl1: false,
                     showerrorl2: false
                 });
-                this.levelChange(-1, [lastElem])
-
+                this.levelChange(-1, [lastElem]);
             } else {
                 const indexToRemove = this.hierarchy.findIndex(
                     (item) => !list.includes(item.department)
                 );
                 this.hierarchy.splice(indexToRemove, 1);
             }
-            this.$set(this.selectedDepartments, 'previousValue', list)
+            this.$set(this.selectedDepartments, 'previousValue', list);
         },
         initDepartment(received) {
             this.selectedDepartments.mapping = [];
@@ -776,12 +809,12 @@ export default {
                 data.media && data.media.potrait ? data.media.potrait : '';
             this.synonym.value = data.synonyms ? data.synonyms : [];
             this.priority.value = data.priority ? data.priority : '';
-            this.toggleState = this.isEdit && data.is_active ? false :true;
+            this.toggleState = this.isEdit && data.is_active ? false : true;
             if (this.level.value && this.level.value === 3) {
                 this.tryouts = data.tryouts ? data.tryouts : [];
                 this.hierarchy = data.hierarchy ? data.hierarchy : [];
-                if(this.hierarchy){
-                    this.hierarchy.unshift( {}); //added to remove after data is populated
+                if (this.hierarchy) {
+                    this.hierarchy.unshift({}); //added to remove after data is populated
                 }
                 if (
                     data.marketplaces &&
@@ -833,48 +866,47 @@ export default {
             );
             return found && found.name;
         },
-        searchLevel(e, level, department){
-            const params = {}
-            params['level'] = [level]
-            if( e && e.text){
-                params['q'] = e.text
+        searchLevel(e, level, department) {
+            const params = {};
+            params['level'] = [level];
+            if (e && e.text) {
+                params['q'] = e.text;
             }
-            if(department){
-                params['department'] = department
+            if (department) {
+                params['department'] = department;
             }
-            params['page_size'] = 200
+            params['page_size'] = 200;
             CompanyService.fetchCategory_v2(params)
-            .then(({data}) => {
-                if( data && data.data && data.data.length) {
-                    // return data.data.map((item) => ({'text': item.name, 'value': item.uid}))
-                    if( level === 1){
-                        this.levelList[department].one = [];
-                        data.data.forEach((item) => {
-                            this.levelList[department].one.push({
-                                text: item.name,
-                                value: item.uid
-                            })
-                        })
+                .then(({ data }) => {
+                    if (data && data.data && data.data.length) {
+                        // return data.data.map((item) => ({'text': item.name, 'value': item.uid}))
+                        if (level === 1) {
+                            this.levelList[department].one = [];
+                            data.data.forEach((item) => {
+                                this.levelList[department].one.push({
+                                    text: item.name,
+                                    value: item.uid
+                                });
+                            });
+                        } else {
+                            this.levelList[department].two = [];
+                            data.data.forEach((item) => {
+                                this.levelList[department].two.push({
+                                    text: item.name,
+                                    value: item.uid
+                                });
+                            });
+                        }
                     }
-                    else{
-                        this.levelList[department].two = [];
-                        data.data.forEach((item) => {
-                            this.levelList[department].two.push({
-                                text: item.name,
-                                value: item.uid
-                            })
-                        })
-                    }
-                }
-            })
-            .catch((err) => {
-                            this.pageError = true;
-            });
-
+                })
+                .catch((err) => {
+                    this.pageError = true;
+                });
         },
-        async levelChange(e, departments = [], initial= false) {
+        async levelChange(e, departments = [], initial = false) {
             if (e == 3) {
-                if ( // when level changes from L2 to L3 and departments are already selected
+                if (
+                    // when level changes from L2 to L3 and departments are already selected
                     this.selectedDepartments.value &&
                     this.selectedDepartments.value.length
                 ) {
@@ -882,44 +914,44 @@ export default {
                     this.selectedDepartments.value.forEach((item) =>
                         this.updateHierarchy([item], true)
                     );
-                }}
-                const params = {
-                    level: [1, 2]
-                };
-                params['page_size'] = 500
-                departments.forEach((dept, index) =>{
-                params['department'] = dept
-                this.$set(this.levelList, dept, {})
-                this.$set(this.levelList[dept], 'one', [])
-                this.$set(this.levelList[dept], 'two', [])
+                }
+            }
+            const params = {
+                level: [1, 2]
+            };
+            params['page_size'] = 500;
+            departments.forEach((dept, index) => {
+                params['department'] = dept;
+                this.$set(this.levelList, dept, {});
+                this.$set(this.levelList[dept], 'one', []);
+                this.$set(this.levelList[dept], 'two', []);
                 // return new Promise((resolve, reject) => {
-                    CompanyService.fetchCategory_v2(params)
-                        .then(({ data }) => {
-                            if (data && data.data && data.data.length) {
-                                data.data.forEach((item) => {
-                                    if (item.level === 1) {
-                                        this.levelList[dept].one.push({
-                                            text: item.name,
-                                            value: item.uid
-                                        });
-                                    } else {
-                                        this.levelList[dept].two.push({
-                                            text: item.name,
-                                            value: item.uid
-                                        });
-                                    }
-                                });
-                            }
-                            if(index === departments.length-1 && initial){
-                                this.hierarchy.splice(0,1) 
-                            }
+                CompanyService.fetchCategory_v2(params)
+                    .then(({ data }) => {
+                        if (data && data.data && data.data.length) {
+                            data.data.forEach((item) => {
+                                if (item.level === 1) {
+                                    this.levelList[dept].one.push({
+                                        text: item.name,
+                                        value: item.uid
+                                    });
+                                } else {
+                                    this.levelList[dept].two.push({
+                                        text: item.name,
+                                        value: item.uid
+                                    });
+                                }
+                            });
+                        }
+                        if (index === departments.length - 1 && initial) {
+                            this.hierarchy.splice(0, 1);
+                        }
+                    })
+                    .catch((err) => {
+                        this.pageLoading = false;
 
-                        })
-                        .catch((err) => {
-                            this.pageLoading = false;
-
-                            this.pageError = true;
-                        });
+                        this.pageError = true;
+                    });
             });
             this.pageLoading = false;
         },
@@ -940,15 +972,16 @@ export default {
         redirectToListing() {
             this.$router.push({ path: '/administrator/product/category' });
         },
-        validate(){
+        validate() {
             let isInvalid = true;
-            let message = "Invalid Value";
-            if(this.priority.value !== '' && this.priority.value >=1){
+            let message = 'Invalid Value';
+            if (this.priority.value !== '' && this.priority.value >= 1) {
                 isInvalid = false;
-            }   
-            isInvalid && this.$snackbar.global.showError(
+            }
+            isInvalid &&
+                this.$snackbar.global.showError(
                     `Invalid Priority. Value should be greater than 0`
-            );
+                );
             return isInvalid;
         },
         save() {
@@ -982,13 +1015,13 @@ export default {
             if (this.banner !== '') {
                 this.miscErrors.portrait.showerror = false;
                 postdata['media'].potrait = this.banner;
-            }else {
+            } else {
                 this.miscErrors.portrait.showerror = true;
             }
             if (this.landscape !== '') {
                 this.miscErrors.landscape.showerror = false;
                 postdata['media'].landscape = this.landscape;
-            }else {
+            } else {
                 this.miscErrors.landscape.showerror = true;
             }
             if (this.level.value !== '') {
