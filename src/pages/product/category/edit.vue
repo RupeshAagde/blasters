@@ -56,7 +56,7 @@
                     <nitrozen-input
                         label="Category Name*"
                         v-model="name.value"
-                        disabled="isEdit === true"
+                        :disabled="isEdit"
                     ></nitrozen-input>
                     <nitrozen-error v-if="name.showerror">{{
                         name.errortext
@@ -68,7 +68,7 @@
                         <nitrozen-dropdown
                             class="input w-l"
                             label="Level"
-                            disabled="isEdit === true"
+                            :disabled="isEdit"
                             :items="levelList.levels"
                             v-model="level.value"
                             :required="true"
