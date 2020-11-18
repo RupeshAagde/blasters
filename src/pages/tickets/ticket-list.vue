@@ -4,7 +4,7 @@
             <nitrozen-input
                 :value="
                     filter_data.query.title.trim() ||
-                        filter_data.query.code.trim()
+                    filter_data.query.code.trim()
                 "
                 :showSearchIcon="true"
                 class="search"
@@ -83,15 +83,15 @@
                         <nitrozen-badge
                             v-if="
                                 ticket.assigned_to != null &&
-                                    ticket.assigned_to.source != null &&
-                                    ticket.assigned_to.source
+                                ticket.assigned_to.source != null &&
+                                ticket.assigned_to.source
                             "
                             state="default"
                         >
                             {{
                                 ticket.assigned_to.source.firstName +
-                                    ' ' +
-                                    ticket.assigned_to.source.lastName
+                                ' ' +
+                                ticket.assigned_to.source.lastName
                             }}</nitrozen-badge
                         >
                         <nitrozen-badge state="default">{{
@@ -204,7 +204,12 @@ export default {
         return {
             query_string: '',
             initial_data: [],
-            companies: [],
+            companies: [
+                {
+                    text: 'All',
+                    value: 'All',
+                }
+            ],
             selectedCompany: 'All',
             defaultStatus: 'All',
             defaultCategory: 'All',
@@ -233,9 +238,6 @@ export default {
             isFirstTime: true,
             searchText: ''
         };
-    },
-    beforeMount() {
-        //
     },
     mounted() {
         this.loadCompanies();
@@ -273,7 +275,11 @@ export default {
                 params['category'] = this.defaultCategory;
             }
 
-            return SupportService.fetchTickets(this.selectedCompany, params)
+            if (this.selectedCompany != 'All' && this.selectedCompany != '') {
+                params['company_id'] = this.selectedCompany;
+            }
+
+            return SupportService.fetchTickets(params)
                 .then((res) => {
                     this.initial_data = res.data.docs;
                     this.filter_data.pagination.total = res.data.total;
@@ -354,26 +360,23 @@ export default {
             CompanyService.getCompanyList(this.requestQuery())
                 .then((res) => {
                     if (refresh) {
-                        this.companies = [];
+                        this.companies = [
+                            {
+                                text: 'All',
+                                value: 'All',
+                            }
+                        ];
                     }
 
                     this.companies.push(
-                        ...[
-                            // {
-                            //     text: 'All',
-                            //     value: 'All'
-                            // },
-                            ...res.data.data.map((v) => {
-                                return {
-                                    text: v.name,
-                                    value: v.uid
-                                };
-                            })
-                        ]
+                        ...res.data.data.map((v) => {
+                            return {
+                                text: v.name,
+                                value: v.uid
+                            };
+                        })
                     );
-                    if (this.isFirstTime) {
-                        this.selectedCompany = this.companies[0].value;
-                    }
+
                     this.pagination.total = res.data.total_count;
                     this.pagination.current = this.pagination.current + 1;
                     this.pagination.next_page = res.data.next_page;
