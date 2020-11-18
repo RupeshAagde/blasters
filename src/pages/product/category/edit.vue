@@ -153,7 +153,7 @@
                 </div>
             </div>
             <div class="logo-container">
-                <div>
+                <div class="row">
                     <div class="n-input-label">Category Logo*</div>
                     <image-uploader-tile
                         label="Logo"
@@ -168,10 +168,10 @@
                         logo.errortext
                     }}</nitrozen-error>
                 </div>
-                <div>
-                    <div class="n-input-label">Category Potrait</div>
+                <div class="row">
+                    <div class="n-input-label">Category Portrait*</div>
                     <image-uploader-tile
-                        label="Potrait Image"
+                        label="Portrait Image"
                         aspectRatio="13:20"
                         @delete="banner = ''"
                         @save="banner = $event"
@@ -179,9 +179,12 @@
                         :fileName="banner"
                         namespace="category-portrait-banner"
                     ></image-uploader-tile>
+                    <nitrozen-error v-if="miscErrors.portrait.showerror">{{
+                        miscErrors.portrait.errortext
+                    }}</nitrozen-error>
                 </div>
                 <div>
-                    <div class="n-input-label">Category Landscape</div>
+                    <div class="n-input-label">Category Landscape*</div>
                     <image-uploader-tile
                         label="Landscape Image"
                         aspectRatio="27:20"
@@ -191,6 +194,9 @@
                         :fileName="landscape"
                         namespace="category-landscape-banner"
                     ></image-uploader-tile>
+                    <nitrozen-error v-if="miscErrors.landscape.showerror">{{
+                        miscErrors.landscape.errortext
+                    }}</nitrozen-error>
                 </div>
             </div>
             <div v-if="level.value === '3' || level.value === 3">
@@ -358,6 +364,9 @@
 }
 .logo-container {
     margin-bottom: 24px;
+    .row{
+        margin-bottom: 10px;
+    }
 }
 .extra-params-saperator {
     width: 49.5%;
@@ -553,6 +562,16 @@ export default {
             tryouts: [],
             landscape: '',
             banner: '',
+            miscErrors: {
+                landscape: {
+                    showerror: false,
+                    errortext: 'Landscape Image is required, Please upload an image'
+                },
+                portrait: {
+                    showerror: false,
+                    errortext: 'Portrait Image is required, Please upload an image'
+                }
+            },
             saveText: 'Category saved successfully',
             headerText: 'Create Category',
             synonymText: '',
@@ -603,7 +622,8 @@ export default {
                 value: [],
                 showerror: false,
                 errortext: 'Department is required, Please select a department',
-                mapping: []
+                mapping: [],
+                previousValue: []
             },
             synonym: {
                 value: [],
@@ -656,6 +676,11 @@ export default {
          }
         },
         removeItem(index, department) {
+            if(this.isEdit && this.initialSelectedDepartments.includes(department.value)){
+                return this.$snackbar.global.showError(
+                    `Invalid Operation. Cannot delete department`
+                );
+            }
             const { value } = department;
             this.selectedDepartments.value.splice(
                 this.selectedDepartments.value.findIndex(
@@ -687,7 +712,17 @@ export default {
             });
         },
         updateMapping(list) {
-            // this.levelChange(2, )
+            if(this.isEdit && list.length < this.selectedDepartments.mapping.length && 
+                this.initialSelectedDepartments.some((item) => !list.includes(item))){
+                this.$snackbar.global.showError(
+                    `Invalid Operation. Cannot delete department`
+                );
+                this.$set(this.selectedDepartments, 'value', [])
+                this.selectedDepartments.previousValue.forEach((value, index) => {
+                    this.$set(this.selectedDepartments.value, index, value)
+                })
+                return;
+            }
             this.initDepartment(list);
             this.updateHierarchy(list);
         },
@@ -703,12 +738,14 @@ export default {
                     showerrorl2: false
                 });
                 this.levelChange(-1, [lastElem])
+
             } else {
                 const indexToRemove = this.hierarchy.findIndex(
                     (item) => !list.includes(item.department)
                 );
                 this.hierarchy.splice(indexToRemove, 1);
             }
+            this.$set(this.selectedDepartments, 'previousValue', list)
         },
         initDepartment(received) {
             this.selectedDepartments.mapping = [];
@@ -758,6 +795,7 @@ export default {
             this.selectedDepartments.value = data.departments
                 ? this.initDepartment(data.departments)
                 : [];
+            this.selectedDepartments.previousValue = this.selectedDepartments.value;
             this.initialSelectedDepartments = data.departments
                 ? this.initDepartment(data.departments)
                 : [];
@@ -927,10 +965,16 @@ export default {
                 this.logo.showerror = true;
             }
             if (this.banner !== '') {
+                this.miscErrors.portrait.showerror = false;
                 postdata['media'].potrait = this.banner;
+            }else {
+                this.miscErrors.portrait.showerror = true;
             }
             if (this.landscape !== '') {
+                this.miscErrors.landscape.showerror = false;
                 postdata['media'].landscape = this.landscape;
+            }else {
+                this.miscErrors.landscape.showerror = true;
             }
             if (this.level.value !== '') {
                 this.level.showerror = false;
