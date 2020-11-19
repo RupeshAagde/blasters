@@ -15,7 +15,6 @@
                     </div>
                     <div class="button-box">
                         <label
-                            v-if="toggleState"
                             :class="is_active ? 'active-dept' : 'disabled-dept'"
                         >
                             <span>{{ is_active ? 'Active' : 'Disabled' }}</span>
@@ -553,7 +552,6 @@ export default {
             pageError: false,
             isEdit: false,
             errors: {},
-            toggleState: true,
             data: {
                 level: ''
             },
@@ -805,7 +803,6 @@ export default {
                 data.media && data.media.potrait ? data.media.potrait : '';
             this.synonym.value = data.synonyms ? data.synonyms : [];
             this.priority.value = data.priority ? data.priority : '';
-            this.toggleState = this.isEdit && data.is_active ? false : true;
             if (this.level.value && this.level.value === 3) {
                 this.tryouts = data.tryouts ? data.tryouts : [];
                 this.hierarchy = data.hierarchy ? data.hierarchy : [];
