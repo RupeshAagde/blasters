@@ -259,7 +259,7 @@
                     </div>
                 </div>
                 <div class="n-input-label" v-if="hierarchy.length > 0">
-                    Category Mapping
+                    Hierarchy
                 </div>
                 <div class="row-1" v-for="(item, i) in hierarchy">
                     <div class="subscription-container">

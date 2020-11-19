@@ -50,7 +50,7 @@ export const getNavigations = () => {
                 {
                     display: 'Category',
                     link: '/administrator/product/category',
-                    title: 'variants',
+                    title: 'category',
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
