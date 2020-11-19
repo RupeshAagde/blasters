@@ -512,7 +512,7 @@ import {
 } from '@gofynd/nitrozen-vue';
 
 export default {
-    name: 'create-update-department',
+    name: 'create-update-category',
     components: {
         'nitrozen-chips': NitrozenChips,
         loader,
@@ -572,13 +572,11 @@ export default {
             miscErrors: {
                 landscape: {
                     showerror: false,
-                    errortext:
-                        'Landscape Image is required, Please upload an image'
+                    errortext: 'Landscape Image is required'
                 },
                 portrait: {
                     showerror: false,
-                    errortext:
-                        'Portrait Image is required, Please upload an image'
+                    errortext: 'Portrait Image is required'
                 }
             },
             saveText: 'Category saved successfully',
@@ -587,12 +585,12 @@ export default {
             priority: {
                 value: '',
                 showerror: false,
-                errortext: 'Priority is required, Please enter a priority'
+                errortext: 'Priority is required'
             },
             name: {
                 value: '',
                 showerror: false,
-                errortext: 'Name is required, Please enter name'
+                errortext: 'Name is required'
             },
             levelList: {
                 levels: [
@@ -606,12 +604,12 @@ export default {
             level: {
                 value: '',
                 showerror: false,
-                errortext: 'Level is required, Please select a level'
+                errortext: 'Level is required'
             },
             logo: {
                 value: '',
                 showerror: false,
-                errortext: 'Logo is required, Please upload a logo'
+                errortext: 'Logo is required'
             },
             marketplaces: {
                 subvalues: {
@@ -630,14 +628,12 @@ export default {
                 //departments selected
                 value: [],
                 showerror: false,
-                errortext: 'Department is required, Please select a department',
+                errortext: 'Department is required',
                 mapping: [],
                 previousValue: []
             },
             synonym: {
-                value: [],
-                showerror: false,
-                errortext: 'Synonyms are required, Please enter synonym'
+                value: []
             }
         };
     },
@@ -708,7 +704,7 @@ export default {
                 this.initialSelectedDepartments.includes(department.value)
             ) {
                 return this.$snackbar.global.showError(
-                    `Invalid Operation. Cannot delete department`
+                    `Invalid Operation. Cannot unselect the existing department`
                 );
             }
             const { value } = department;
