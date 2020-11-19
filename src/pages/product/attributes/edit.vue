@@ -32,6 +32,22 @@
                         {{ errors.name }}
                     </nitrozen-error>
                 </div>
+                <!-- Slug -->
+                <!-- <div class="mt-sm">
+                    <nitrozen-input
+                        label="Slug"
+                        :disabled="editMode"
+                        :required="true"
+                        placeholder="For eg. material-type"
+                        v-model="attribute.slug"
+                        @input="updateSlug($event), checkRequired('slug')"
+                        @blur="checkRequired('slug')"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="errors.slug">{{
+                        errors.slug
+                    }}</nitrozen-error>
+                </div>-->
+                <!-- Description -->
                 <div class="mt-sm">
                     <nitrozen-input
                         label="Description"
