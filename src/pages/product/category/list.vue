@@ -380,7 +380,6 @@ export default {
                 .catch((error) => {
                     this.isLoading = false;
                     this.pageError = true;
-                    console.error(error);
                 });
         },
         searchCategory: debounce(function() {
@@ -398,7 +397,6 @@ export default {
         },
         getCategoryImage(item) {
             const { media } = item;
-            console.log('category----', item);
             let defaultPic =
                 '/public/assets/pngs/product_image_placeholder.png';
             return media.logo || defaultPic;
