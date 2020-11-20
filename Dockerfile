@@ -1,4 +1,4 @@
-FROM node:10.14-alpine as buildimage
+FROM node:12.19-alpine as buildimage
 
 RUN apk add --no-cache --virtual .build-deps \
         python2-dev \
@@ -37,7 +37,7 @@ RUN rm -rf ./node_modules \
 && rm -rf .git \
 && apk del .build-deps
 
-FROM node:10.14-alpine
+FROM node:12.19-alpine
 
 COPY --from=buildimage /srv/bombshell /srv/bombshell
 WORKDIR /srv/bombshell

@@ -37,7 +37,7 @@ export default {
     computed: {},
     methods: {
         open() {
-            this.$router.push('/administrator');
+            this.$router.push({ name: 'company-list' });
         }
     }
 };

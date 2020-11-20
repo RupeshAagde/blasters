@@ -134,7 +134,7 @@ export default {
         },
         openLogin() {
             if (this.isLoggedIn) {
-                return this.$router.push('/administrator');
+                return this.$router.push({ name: 'company-list' });
             }
             this.$store.dispatch(OPEN_LOGIN_MODAL);
         }

@@ -53,9 +53,6 @@ docker run --net=host -p 8086:8086 --name=bombshell \
 -e SENTRY_ENVIRONMENT=development \
 -e NEW_RELIC_APP_NAME=bombshell \
 -e NEW_RELIC_LICENSE_KEY='' \
--e CLOUDINARY_CLOUD_NAME=dwzm9bysq \
--e CLOUDINARY_API_KEY=195473416834119 \
--e CLOUDINARY_API_SECRET=Y4poyTXWTRkp5wKik8IAHbmb-U0 \
 -e BEEFREE_CLIENT_ID=dcce640f-abc1-4c0c-8398-84488e8c4cd7 \
 -e BEEFREE_CLIENT_SECRET=0A8vfzg4DI2jB6aRiydrWprtio6lAeCCesjC4iaflrk75vGWkV5 \
  bombshell:latest
