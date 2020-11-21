@@ -50,7 +50,7 @@
             v-else-if="pageError && !pageLoading"
             @tryAgain="updateData"
         ></page-error>
-        <div v-if="!pageLoading" class="main-container">
+        <div v-if="!pageLoading && !pageError" class="main-container">
             <div class="row-1">
                 <div class="input-box">
                     <nitrozen-input
@@ -284,8 +284,7 @@
                                 "
                             ></nitrozen-dropdown>
                             <nitrozen-error v-if="item.showerrorl1"
-                                >Level 1 required. Please select a
-                                value</nitrozen-error
+                                >Level 1 required</nitrozen-error
                             >
                         </div>
                         <div class="col-three child">
@@ -303,8 +302,7 @@
                                 "
                             ></nitrozen-dropdown>
                             <nitrozen-error v-if="item.showerrorl2"
-                                >Level 2 required. Please select a
-                                value</nitrozen-error
+                                >Level 2 required</nitrozen-error
                             >
                         </div>
                     </div>
@@ -639,52 +637,28 @@ export default {
     methods: {
         async init() {
             const promiseArray = [CompanyService.fetchDepartments()];
-            if (this.uid) {
+            if (this.isEdit) {
                 promiseArray.push(
                     CompanyService.fetchCategory_v2({ uid: this.uid })
                 );
             }
-            // this.levelChange(3)
-            //     .then(() =>
-            Promise.all([promiseArray])
-                .then((data) => {
-                    data[0][0] &&
-                        data[0][0].then((res) => {
-                            if (
-                                res &&
-                                res.data &&
-                                res.data.data &&
-                                res.data.data.length
-                            ) {
-                                this.departments = res.data.data;
-                                this.setDepartmentList();
-                                data[0][1] &&
-                                    data[0][1].then((res) => {
-                                        if (
-                                            res &&
-                                            res.data &&
-                                            res.data.data &&
-                                            res.data.data.length
-                                        ) {
-                                            this.levelChange(
-                                                3,
-                                                res.data.data[0].departments,
-                                                true
-                                            );
-                                            this.updateData(res.data.data[0]);
-                                        }
-                                    });
-                            }
-                        });
-                })
-                .catch((error) => {
-                    this.pageLoading = false;
-                    this.$snackbar.global.showError(
-                        `${error.response.data.errors.error}`
-                    );
-                });
-            // )
-            // .catch(() => (this.pageError = true));
+            try{
+            const promiseResult = await Promise.all(promiseArray);
+            if(promiseResult[0].data.data.length){
+                this.departments = promiseResult[0].data.data;
+                this.setDepartmentList();
+            }
+            if(this.isEdit && promiseResult[1].data && promiseResult[1].data.data[0]){
+                const categoryData = promiseResult[1].data.data[0];
+                await this.levelChange(3, categoryData.departments, true);
+                this.updateData(categoryData)
+            }
+            }
+            catch(error){
+                console.log(error)
+                this.pageError = true
+            }
+            this.pageLoading = false;
         },
         getItems(department, level) {
             if (
@@ -806,9 +780,6 @@ export default {
             if (this.level.value && this.level.value === 3) {
                 this.tryouts = data.tryouts ? data.tryouts : [];
                 this.hierarchy = data.hierarchy ? data.hierarchy : [];
-                if (this.hierarchy) {
-                    this.hierarchy.unshift({}); //added to remove after data is populated
-                }
                 if (
                     data.marketplaces &&
                     data.marketplaces.google &&
@@ -913,21 +884,25 @@ export default {
                 level: [1, 2]
             };
             params['page_size'] = 500;
+            const promiseArray = []
             departments.forEach((dept, index) => {
                 params['department'] = dept;
+                promiseArray.push(CompanyService.fetchCategory_v2(params))
+            });
+            try{
+            const promiseresult = await Promise.all(promiseArray)
+            departments.forEach((dept,index) => {
                 this.$set(this.levelList, dept, {});
                 this.$set(this.levelList[dept], 'one', []);
                 this.$set(this.levelList[dept], 'two', []);
-                // return new Promise((resolve, reject) => {
-                CompanyService.fetchCategory_v2(params)
-                    .then(({ data }) => {
-                        if (data && data.data && data.data.length) {
-                            data.data.forEach((item) => {
+                if(promiseresult && promiseresult[index] && promiseresult[index].data &&
+                    promiseresult[index].data.data){
+                    promiseresult[index].data.data.forEach((item, index) => {
                                 if (item.level === 1) {
                                     this.levelList[dept].one.push({
                                         text: item.name,
                                         value: item.uid
-                                    });
+                                    }); 
                                 } else {
                                     this.levelList[dept].two.push({
                                         text: item.name,
@@ -935,17 +910,16 @@ export default {
                                     });
                                 }
                             });
-                        }
-                        if (index === departments.length - 1 && initial) {
-                            this.hierarchy.splice(0, 1);
-                        }
-                    })
-                    .catch((err) => {
-                        this.pageLoading = false;
-
-                        this.pageError = true;
-                    });
-            });
+                }
+                else{
+                    pageError = true;
+                }
+            })
+            }
+            catch(error){
+                console.log(error);
+                this.pageError = true;
+            }
             this.pageLoading = false;
         },
         addSearchText(event) {
@@ -1100,7 +1074,7 @@ export default {
                     });
             } else {
                 this.$snackbar.global.showError(
-                    `Please fill in the required values`
+                    `Fill in the required fields`
                 );
             }
         }
