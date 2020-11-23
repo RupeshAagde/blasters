@@ -774,7 +774,7 @@ export default {
             this.landscape =
                 data.media && data.media.landscape ? data.media.landscape : '';
             this.banner =
-                data.media && data.media.potrait ? data.media.potrait : '';
+                data.media && data.media.portrait ? data.media.portrait : '';
             this.synonym.value = data.synonyms ? data.synonyms : [];
             this.priority.value = data.priority ? data.priority : '';
             if (this.level.value && this.level.value === 3) {
@@ -981,7 +981,7 @@ export default {
             }
             if (this.banner !== '') {
                 this.miscErrors.portrait.showerror = false;
-                postdata['media'].potrait = this.banner;
+                postdata['media'].portrait = this.banner;
             } else {
                 this.miscErrors.portrait.showerror = true;
             }
