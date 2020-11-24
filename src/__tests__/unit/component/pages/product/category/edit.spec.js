@@ -31,5 +31,9 @@ describe('Mounted Category', () => {
 	it('should render to a snapshot', () => {
 		expect(wrapper.element).toMatchSnapshot()
 	  })
+	  it('div expect', () => {
+		const div = wrapper.find('div')
+        expect(div.exists()).toBe(true)
+	})
   }
 )

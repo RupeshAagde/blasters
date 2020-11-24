@@ -1,30 +1,24 @@
 import {mount} from "@vue/test-utils";
 import * as sinon from "sinon";
 import { console, Promise } from "window-or-global";
-import EditCategory from "../../../../../../pages/product/category/list.vue";
-import URLS from  "../../../../../../services/company-admin.service"
+import EditCategory from "../../../../../../pages/product/templates/list.vue";
+// import URLS from  "../../../../../../services/company-admin.service"
 
 
-describe('EditCategory', () => {
-it('has data', () => {
-	expect(typeof EditCategory.data).toBe('function');
-})
-})
+// const stub_fetchCategory_v2 = sinon.stub(URLS,"fetchCategory_v2");
 
-const stubMethod = sinon.stub(URLS,"fetchCategory_v2");
-
-describe('Mounted Category List', () => {
+describe('Mounted Templates List', () => {
     let wrapper;
     beforeAll(() => {
-        console.log("**********************",stubMethod)
-        stubMethod.callsFake(() => Promise.resolve([{}]))
+        // stub_fetchCategory_v2.callsFake(() => Promise.resolve([{}]))
         wrapper = mount(EditCategory,{
             propsData: {
             },
 			mocks:{
                 $route: {
-                    params: {}
-				}
+                    params: {},
+                    query: {}
+                },
 			}
 		}
         );
@@ -41,6 +35,7 @@ describe('Mounted Category List', () => {
 	// })
 	it('should render to a snapshot', () => {
 		expect(wrapper.element).toMatchSnapshot()
-	  })
+      })
+    
   }
 )
