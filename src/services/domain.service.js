@@ -4,6 +4,10 @@ import root from 'window-or-global';
 
 const envVars = root.env || {};
 
+if(root.process.env && root.process.env.NODE_ENV == 'test'){
+    envVars['BROWSER_CONFIG'] = root.process.env;
+}
+
 let PLATFORM_COMMON_BASE = isNode
     ? envVars.BROWSER_CONFIG.PLATFORM_COMMON_MAIN_URL
     : envVars.PLATFORM_COMMON_MAIN_URL;
