@@ -1,17 +1,17 @@
 import {mount, shallowMount} from "@vue/test-utils";
 import sinon from "sinon";
-import EditAttributes from "../../../../../../pages/product/attributes/sequence.vue";
+import SequenceComponent from "../../../../../../pages/product/attributes/sequence.vue";
 import URLS from  "../../../../../../services/company-admin.service"
 
 
 const stubFetchShuffleAttributes = sinon.stub(URLS,"fetchShuffleAttributes");
 
-describe('Mounted Attributes Attribute Sequence', () => {
+describe('Mounted Attributes Sequence', () => {
 	let wrapper;
 	beforeAll(() => {
         stubFetchShuffleAttributes.callsFake(() => Promise.resolve([{}]))
 
-		wrapper = shallowMount(EditAttributes,{
+		wrapper = mount(SequenceComponent,{
 			propsData: {
 			},
 			mocks:{
@@ -26,7 +26,7 @@ describe('Mounted Attributes Attribute Sequence', () => {
 	  expect(wrapper.vm).toBeTruthy()
 	})
 	it('has data', () => {
-		expect(typeof EditAttributes.data).toBe('function');
+		expect(typeof SequenceComponent.data).toBe('function');
 	})
 	it('should render to a snapshot', () => {
 		expect(wrapper.element).toMatchSnapshot()

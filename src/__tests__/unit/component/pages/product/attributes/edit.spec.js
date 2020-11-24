@@ -4,7 +4,7 @@ import EditAttributes from "../../../../../../pages/product/attributes/edit.vue"
 describe('Mounted Attributes Edit', () => {
 	let wrapper;
 	beforeAll(() => {
-		wrapper = shallowMount(EditAttributes,{
+		wrapper = mount(EditAttributes,{
 			propsData: {
 			},
 			mocks:{

@@ -1,10 +1,10 @@
 import {mount, shallowMount} from "@vue/test-utils";
-import EditAttributes from "../../../../../../pages/product/attributes/group-and-order-dialog.vue";
+import Attributes from "../../../../../../pages/product/attributes/group-and-order-dialog.vue";
 
 describe('Mounted Attributes Group Nd order Dialog', () => {
 	let wrapper;
 	beforeAll(() => {
-		wrapper = shallowMount(EditAttributes,{
+		wrapper = mount(Attributes,{
 			propsData: {
 			},
 			mocks:{
@@ -19,7 +19,7 @@ describe('Mounted Attributes Group Nd order Dialog', () => {
 	  expect(wrapper.vm).toBeTruthy()
 	})
 	it('has data', () => {
-		expect(typeof EditAttributes.data).toBe('function');
+		expect(typeof Attributes.data).toBe('function');
 	})
 	it('should render to a snapshot', () => {
 		expect(wrapper.element).toMatchSnapshot()

@@ -1,14 +1,11 @@
 import {mount} from "@vue/test-utils";
-import * as sinon from "sinon";
-import { console, Promise } from "window-or-global";
-import EditCategory from "../../../../../../pages/product/attributes/list.vue";
-import URLS from  "../../../../../../services/company-admin.service";
+import AttributeComponent from "../../../../../../pages/product/attributes/list.vue";
 
 
 describe('Mounted Category List', () => {
     let wrapper;
     beforeAll(() => {
-        wrapper = mount(EditCategory,{
+        wrapper = mount(AttributeComponent,{
             propsData: {
             },
 			mocks:{
@@ -21,7 +18,7 @@ describe('Mounted Category List', () => {
         );
     })
     it('has data', () => {
-        expect(typeof EditCategory.data).toBe('function');
+        expect(typeof AttributeComponent.data).toBe('function');
     })
     
 	test('is a Vue instance', () => {

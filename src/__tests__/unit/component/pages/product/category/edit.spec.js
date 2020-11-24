@@ -11,7 +11,7 @@ it('has data', () => {
 describe('Mounted Category', () => {
 	let wrapper;
 	beforeAll(() => {
-		wrapper = shallowMount(EditCategory,{
+		wrapper = mount(EditCategory,{
 			propsData: {
 			},
 			mocks:{
@@ -23,7 +23,7 @@ describe('Mounted Category', () => {
 		);
 	})
 	test('is a Vue instance', () => {
-	  expect(wrapper.vm).toBeTruthy()
+	  expect(wrapper.exists()).toBeTruthy()
 	})
 	// it('has a button', () => {
 	// 	expect(wrapper.find('image-uploader-tile')).toBe(true)

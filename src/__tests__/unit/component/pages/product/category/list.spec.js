@@ -1,6 +1,5 @@
 import {mount} from "@vue/test-utils";
 import * as sinon from "sinon";
-import { console, Promise } from "window-or-global";
 import EditCategory from "../../../../../../pages/product/category/list.vue";
 import URLS from  "../../../../../../services/company-admin.service"
 

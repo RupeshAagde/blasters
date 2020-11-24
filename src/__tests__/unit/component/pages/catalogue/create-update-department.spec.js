@@ -1,10 +1,10 @@
 import {mount, shallowMount} from "@vue/test-utils";
-import TemplateComponent from "../../../../../../pages/product/templates/edit.vue";
+import DeptComponent from "../../../../../pages/catalogue/create-update-department.vue";
 
-describe('Mounted Templates', () => {
+describe('Mounted Department Create/Update', () => {
 	let wrapper;
 	beforeAll(() => {
-		wrapper = mount(TemplateComponent,{
+		wrapper = mount(DeptComponent,{
 			propsData: {
 			},
 			mocks:{
@@ -16,12 +16,15 @@ describe('Mounted Templates', () => {
 		);
 	})
 	test('is a Vue instance', () => {
-	  expect(wrapper.exists()).toBeTruthy()
+	  expect(wrapper.vm).toBeTruthy()
+	})
+	it('has data', () => {
+		expect(typeof DeptComponent.data).toBe('function');
 	})
 	it('should render to a snapshot', () => {
 		expect(wrapper.element).toMatchSnapshot()
 	  })
-	  it('div expect', () => {
+	it('div expect', () => {
 		const div = wrapper.find('div')
         expect(div.exists()).toBe(true)
 	})
