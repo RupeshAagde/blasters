@@ -4,7 +4,7 @@ import root from 'window-or-global';
 
 const envVars = root.env || {};
 
-if(root.process.env && root.process.env.NODE_ENV == 'test'){
+if(root.process && root.process.env && root.process.env.NODE_ENV == 'test'){
     envVars['BROWSER_CONFIG'] = root.process.env;
 }
 

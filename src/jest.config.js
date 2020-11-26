@@ -11,9 +11,11 @@ setupFiles: ['./jest.init.js'],
   collectCoverage: true,
   collectCoverageFrom: ['./**/*.{js,vue}', '!**/node_modules/**'],
   transformIgnorePatterns: [
-    "/node_modules/"
+    "/node_modules/",
   ],
   moduleNameMapper: {
     "^@[/](.+)": "<rootDir>/$1",
 },
+  modulePathIgnorePatterns: ["mocks.js"]
+
 }

@@ -1,39 +1,88 @@
-import {mount} from "@vue/test-utils";
-import * as sinon from "sinon";
+import {mount, createLocalVue} from "@vue/test-utils";
+import MockAdapter from 'axios-mock-adapter';
+import VueRouter from 'vue-router';
+import axios from 'axios';
+
 import EditCategory from "../../../../../../pages/product/category/list.vue";
-import URLS from  "../../../../../../services/company-admin.service"
+import URLS from  "../../../../../../services/domain.service.js"
+import mocks from "./mocks";
 
+const mock = new MockAdapter(axios);
+let localVue = createLocalVue()
+localVue.use(VueRouter)
 
-const stub_fetchCategory_v2 = sinon.stub(URLS,"fetchCategory_v2");
+describe('List Category Page', () => {
+    beforeEach(() => {
+        localVue = createLocalVue();
+        localVue.use(VueRouter);
+        mock.reset();
+    });
+    it('list - exists wrapper and div', async() => {
+    const router = new VueRouter({routes: [
+        { path: '/administrator/product/category', component: EditCategory }
+    ]})
+    router.push('/administrator/product/category');
+    mock.onGet(URLS.CATEGORY_v2()).reply(200, {data:mocks.categoryList});
+    mock.onGet("/auth/user-info/search/").reply(200, {});
 
-describe('Mounted Category List', () => {
-    let wrapper;
-    beforeAll(() => {
-        stub_fetchCategory_v2.callsFake(() => Promise.resolve([{}]))
-        wrapper = mount(EditCategory,{
-            propsData: {
-            },
-			mocks:{
-                $route: {
-                    params: {}
-				}
-			}
-		}
-        );
+    const wrapper = mount(EditCategory, {
+        localVue,
+        router,
     })
-    it('has data', () => {
-        expect(typeof EditCategory.data).toBe('function');
+    // await wrapper.vm.$nextTick();
+    await new Promise(resolve => setTimeout(resolve, 10));
+    expect(wrapper.exists()).toBeTruthy();
+    const div = wrapper.find('div');
+    expect(div.exists()).toBe(true);
+    expect(wrapper.element).toMatchSnapshot()
+
+    });
+    it('list - pagination verify', async() => {
+    const router = new VueRouter({routes: [
+        { path: '/administrator/product/category', component: EditCategory }
+    ]})
+    router.push('/administrator/product/category');
+    mock.onGet(URLS.CATEGORY_v2()).reply(200, {data:mocks.categoryList});
+    mock.onGet("/auth/user-info/search/").reply(200, {});
+
+    const wrapper = mount(EditCategory, {
+        localVue,
+        router,
     })
-    
-	test('is a Vue instance', () => {
-	  expect(wrapper.vm).toBeTruthy()
-	})
-	// it('has a button', () => {
-	// 	expect(wrapper.find('image-uploader-tile')).toBe(true)
-	// })
-	it('should render to a snapshot', () => {
-		expect(wrapper.element).toMatchSnapshot()
-      })
-    
-  }
-)
+    wrapper.vm.getCategory(true);
+    expect(wrapper.vm.pagination.current).toBe(1)
+
+    });
+    it('list - functions verify', async() => {
+    const router = new VueRouter({routes: [
+        { path: '/administrator/product/category', component: EditCategory }
+    ]})
+    router.push('/administrator/product/category');
+    mock.onGet(URLS.CATEGORY_v2()).reply(200, {data:mocks.categoryList});
+    mock.onGet("/auth/user-info/search/").reply(200, {});
+
+    const wrapper = mount(EditCategory, {
+        localVue,
+        router,
+    })
+    wrapper.vm.editCategory({uid: 1});
+    expect(wrapper.vm.$route.fullPath).toBe("/administrator/product/category/edit/1")
+    wrapper.vm.createDepartment();
+    expect(wrapper.vm.$route.fullPath).toBe("/administrator/product/category/create")
+    });
+    it('list - default image verify', async() => {
+    const router = new VueRouter({routes: [
+        { path: '/administrator/product/category', component: EditCategory }
+    ]})
+    router.push('/administrator/product/category');
+    mock.onGet(URLS.CATEGORY_v2()).reply(200, {data:mocks.categoryList});
+    mock.onGet("/auth/user-info/search/").reply(200, {});
+
+    const wrapper = mount(EditCategory, {
+        localVue,
+        router,
+    })
+    await new Promise(resolve => setTimeout(resolve, 10));
+    expect(wrapper.vm.getCategoryImage({media:{}})).toBe("/public/assets/pngs/product_image_placeholder.png");
+});
+})
