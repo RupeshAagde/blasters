@@ -16,7 +16,15 @@ describe('Mounted Templates', () => {
 	beforeEach(() => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
-        mock.reset();
+		mock.reset();
+		mock.onGet(URLS.SEARCH_DRI()).reply(200, [
+            {"_id":"5f2ba5a8ffb60e372568eaaf","gender":"female","accountType":"user","active":true,"phoneNumbers":[
+                {"active":true,"primary":true,"verified":true,"countryCode":91,"phone":"9768080981"}],
+                "firstName":"Mithali","lastName":"Kamble","emails":[{"active":true,"primary":true,
+                "verified":true,"email":"mithalikamble@gofynd.com"},{"active":true,"primary":false,"verified":true,
+                "email":"mithalikamble@fynd.com"},{"active":true,"primary":false,"verified":true,
+                "email":"mithalikamble@uniket.store"}],"createdAt":"2020-08-06T06:39:36.189Z",
+                "updatedAt":"2020-10-23T10:59:13.521Z","uid":"68"}]);
 	});
 	it('List - is a Vue instance', async () => {
 	const router = new VueRouter({routes: [

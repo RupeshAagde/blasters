@@ -593,6 +593,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchUnits()
                     .then(({ data }) => {
+                        cosnole.log("units data---", data)
                         this.units = data.data;
                         return resolve();
                     })

@@ -39,6 +39,6 @@ export SENTRY_ENVIRONMENT=test
 
 export NEW_RELIC_APP_NAME=blaster
 export NEW_RELIC_LICENSE_KEY=''
-npm run test -- -u src/__tests__/unit/component/pages/product/attributes/edit.spec.js 
-# npm run test -- -u 
-# npm run test -- -u src/__tests__/unit/component/pages/catalogue/create-update-variant.spec.js
+# npm run test -- -u src/__tests__/unit/component/pages/company-admin/add-edit-dri.spec.js 
+npm run test -- -u 
+# npm run test -- -u src/__tests__/unit/component/pages/catalogue/list-variants.spec.js
