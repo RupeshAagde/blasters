@@ -18,7 +18,7 @@ describe('Create/Edit Attribute Page', () => {
 		localVue.use(VueRouter);
 		mock.reset();
 	});
-	it('success',async () => {
+	it('success', async () => {
 		const router = new VueRouter({
 			routes: [
 				{ path: '/administrator/product/attributes/sequence/filters', component: SequenceComponent }]
@@ -35,14 +35,14 @@ describe('Create/Edit Attribute Page', () => {
 		wrapper.vm.shuffleAttributes();
 		expect(wrapper.vm.pageError).toBe(false);
 	});
-	it('error response ',async () => {
+	it('error response ', async () => {
 		const router = new VueRouter({
 			routes: [
 				{ path: '/administrator/product/attributes/sequence/filters', component: SequenceComponent }]
 		})
 		router.push('/administrator/product/attributes/sequence/filters');
-		mock.onGet(URLS.ATTRIBUTE_SHUFFLE('filters')).reply(500, {data: "error"});
-		mock.onGet(URLS.FETCH_ATTRIBUTE()).reply(500, {data: "error"});
+		mock.onGet(URLS.ATTRIBUTE_SHUFFLE('filters')).reply(500, { data: "error" });
+		mock.onGet(URLS.FETCH_ATTRIBUTE()).reply(500, { data: "error" });
 		const wrapper = mount(SequenceComponent, {
 			localVue,
 			router

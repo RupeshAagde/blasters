@@ -56,7 +56,7 @@ export default {
         },
         "modified_on": "2020-11-21T11:37:02.248000Z",
         "id": "5fabab90a18a1284b97ff974"
-    },{
+    }, {
         "uid": 1,
         "departments": [
             2,
@@ -209,7 +209,7 @@ export default {
         "modified_on": "2020-08-06T14:10:05.883000Z",
         "unit": "",
         "id": "5ed5059644a2e509bab5a1e9"
-    },{
+    }, {
         "raw_key": "raw_occasion",
         "synonyms": {
             "Business Casual": [

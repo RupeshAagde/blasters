@@ -1,6 +1,6 @@
-import {mount, shallowMount, config, createLocalVue} from "@vue/test-utils";
+import { mount, shallowMount, config, createLocalVue } from "@vue/test-utils";
 import EditCategory from "../../../../../../pages/product/category/edit.vue";
-import URLS from  "../../../../../../services/domain.service.js"
+import URLS from "../../../../../../services/domain.service.js"
 
 import mocks from "./mocks";
 import axios from 'axios';
@@ -19,40 +19,46 @@ describe('Create/Edit Category Page', () => {
         mock.reset();
     });
     it('should render to a snapshot', () => {
-        const router = new VueRouter({routes: [
-            { path: '/administrator/product/category/create', component: EditCategory }
-        ]})
+        const router = new VueRouter({
+            routes: [
+                { path: '/administrator/product/category/create', component: EditCategory }
+            ]
+        })
         router.push('/administrator/product/category/create');
         const wrapper = mount(EditCategory, {
             localVue,
             router
         })
-		expect(wrapper.element).toMatchSnapshot();
-	});
-    it('create - has departments data', async() => {
-        const router = new VueRouter({routes: [
-            { path: '/administrator/product/category/create', component: EditCategory }
-        ]})
-		router.push('/administrator/product/category/create');
-		mock.onGet(URLS.DEPARTMENT()).reply(200, {data:mocks.departments});
+        expect(wrapper.element).toMatchSnapshot();
+    });
+    it('create - has departments data', async () => {
+        const router = new VueRouter({
+            routes: [
+                { path: '/administrator/product/category/create', component: EditCategory }
+            ]
+        })
+        router.push('/administrator/product/category/create');
+        mock.onGet(URLS.DEPARTMENT()).reply(200, { data: mocks.departments });
         const wrapper = mount(EditCategory, {
             localVue,
             router,
-		})
-		// await wrapper.vm.$nextTick();
-		await new Promise(resolve => setTimeout(resolve, 10));
-		expect(wrapper.vm.getDepartmentName(1)).toBe('Electronics')
-		expect(wrapper.vm.departments.length).toBe(1)
+        })
+        // await wrapper.vm.$nextTick();
+        await new Promise(resolve => setTimeout(resolve, 10));
+        expect(wrapper.vm.getDepartmentName(1)).toBe('Electronics')
+        expect(wrapper.vm.departments.length).toBe(1)
         expect(wrapper.exists()).toBeTruthy();
-		const div = wrapper.find('div');
+        const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
     });
-    it('create - ', async() => {
-        const router = new VueRouter({routes: [
-            { path: '/administrator/product/category/create', component: EditCategory }
-        ]})
-		router.push('/administrator/product/category/create');
-		mock.onGet(URLS.DEPARTMENT()).reply(200, {data:mocks.departments});
+    it('create - ', async () => {
+        const router = new VueRouter({
+            routes: [
+                { path: '/administrator/product/category/create', component: EditCategory }
+            ]
+        })
+        router.push('/administrator/product/category/create');
+        mock.onGet(URLS.DEPARTMENT()).reply(200, { data: mocks.departments });
         const wrapper = mount(EditCategory, {
             localVue,
             router,
@@ -61,15 +67,17 @@ describe('Create/Edit Category Page', () => {
         wrapper.vm.save()
         expect(wrapper.vm.name.showerror).toBe(true)
     })
-	it('edit - should render to a snapshot', async () => {
-        const router = new VueRouter({routes: [
-            { path: '/administrator/product/category/edit/:id', component: EditCategory }
-        ]})
-		router.push('/administrator/product/category/edit/1');
-		mock.onGet(URLS.DEPARTMENT()).reply(200, {data:mocks.departments});
-        mock.onGet(URLS.CATEGORY_v2()+"/1").reply(200, {data:[mocks.categoryList[0]]});
-        mock.onGet(URLS.CATEGORY_v2+"?level=1&level=2&page_size=500&department=1").reply(
-            200, {data: [mocks.categoryList[1],mocks.categoryList[2]]})
+    it('edit - should render to a snapshot', async () => {
+        const router = new VueRouter({
+            routes: [
+                { path: '/administrator/product/category/edit/:id', component: EditCategory }
+            ]
+        })
+        router.push('/administrator/product/category/edit/1');
+        mock.onGet(URLS.DEPARTMENT()).reply(200, { data: mocks.departments });
+        mock.onGet(URLS.CATEGORY_v2() + "/1").reply(200, { data: [mocks.categoryList[0]] });
+        mock.onGet(URLS.CATEGORY_v2 + "?level=1&level=2&page_size=500&department=1").reply(
+            200, { data: [mocks.categoryList[1], mocks.categoryList[2]] })
         const wrapper = mount(EditCategory, {
             localVue,
             router
@@ -81,14 +89,16 @@ describe('Create/Edit Category Page', () => {
         expect(wrapper.vm.isEdit).toBe(true);
     });
     it('edit - verify functions', async () => {
-        const router = new VueRouter({routes: [
-            { path: '/administrator/product/category/edit/:id', component: EditCategory }
-        ]})
-		router.push('/administrator/product/category/edit/1');
-		mock.onGet(URLS.DEPARTMENT()).reply(200, {data:mocks.departments});
-        mock.onGet(URLS.CATEGORY_v2()+"/1").reply(200, {data:[mocks.categoryList[0]]});
-        mock.onGet(URLS.CATEGORY_v2+"?level=1&level=2&page_size=500&department=1").reply(
-            200, {data: [mocks.categoryList[1],mocks.categoryList[2]]})
+        const router = new VueRouter({
+            routes: [
+                { path: '/administrator/product/category/edit/:id', component: EditCategory }
+            ]
+        })
+        router.push('/administrator/product/category/edit/1');
+        mock.onGet(URLS.DEPARTMENT()).reply(200, { data: mocks.departments });
+        mock.onGet(URLS.CATEGORY_v2() + "/1").reply(200, { data: [mocks.categoryList[0]] });
+        mock.onGet(URLS.CATEGORY_v2 + "?level=1&level=2&page_size=500&department=1").reply(
+            200, { data: [mocks.categoryList[1], mocks.categoryList[2]] })
         const wrapper = mount(EditCategory, {
             localVue,
             router
@@ -96,35 +106,37 @@ describe('Create/Edit Category Page', () => {
         await new Promise(resolve => setTimeout(resolve, 10));
         const wrapperInstance = wrapper.vm;
         wrapperInstance.save();
-        expect(wrapperInstance.getItems(1,2)).toEqual([]);
-        wrapperInstance.$set(wrapperInstance.marketplaces.subvalues.google,'catalog_id', 12);
-        wrapperInstance.$set(wrapperInstance.marketplaces.subvalues.google,'name', 'testName');
+        expect(wrapperInstance.getItems(1, 2)).toEqual([]);
+        wrapperInstance.$set(wrapperInstance.marketplaces.subvalues.google, 'catalog_id', 12);
+        wrapperInstance.$set(wrapperInstance.marketplaces.subvalues.google, 'name', 'testName');
         wrapperInstance.deleteMarketplace();
         expect(wrapperInstance.marketplaces.subvalues.google.name).toBe('')
         wrapperInstance.redirectToListing();
         wrapperInstance.searchDepartment();
         expect(wrapperInstance.$route.fullPath).toBe("/administrator/product/category")
         wrapperInstance.$set(wrapperInstance.synonym.value, 0, "test");
-		wrapperInstance.removeSearchInput(0)
-		expect(wrapperInstance.synonym.value).toEqual([])
-		wrapperInstance.$set(wrapperInstance, 'synonymText', "text1,text2");
-		wrapperInstance.addSearchText()
+        wrapperInstance.removeSearchInput(0)
+        expect(wrapperInstance.synonym.value).toEqual([])
+        wrapperInstance.$set(wrapperInstance, 'synonymText', "text1,text2");
+        wrapperInstance.addSearchText()
         expect(wrapperInstance.synonym.value).toEqual(["text1", "text2"])
-        wrapperInstance.removeItem(0,{value: wrapper.vm.selectedDepartments[0] })
+        wrapperInstance.removeItem(0, { value: wrapper.vm.selectedDepartments[0] })
         expect(wrapperInstance.selectedDepartments.value.length).toBe(0)
         wrapperInstance.updateMapping([])
         expect(wrapperInstance.selectedDepartments).toBeTruthy();
 
     });
     it('edit - no category data', async () => {
-        const router = new VueRouter({routes: [
-            { path: '/administrator/product/category/edit/:id', component: EditCategory }
-        ]})
-		router.push('/administrator/product/category/edit/1');
-		mock.onGet(URLS.DEPARTMENT()).reply(200, {data:mocks.departments});
-        mock.onGet(URLS.CATEGORY_v2()+"/1").reply(200, {data:[{}]});
-        mock.onGet(URLS.CATEGORY_v2+"?level=1&level=2&page_size=500&department=1").reply(
-            200, {data: [mocks.categoryList[1],mocks.categoryList[2]]})
+        const router = new VueRouter({
+            routes: [
+                { path: '/administrator/product/category/edit/:id', component: EditCategory }
+            ]
+        })
+        router.push('/administrator/product/category/edit/1');
+        mock.onGet(URLS.DEPARTMENT()).reply(200, { data: mocks.departments });
+        mock.onGet(URLS.CATEGORY_v2() + "/1").reply(200, { data: [{}] });
+        mock.onGet(URLS.CATEGORY_v2 + "?level=1&level=2&page_size=500&department=1").reply(
+            200, { data: [mocks.categoryList[1], mocks.categoryList[2]] })
         const wrapper = mount(EditCategory, {
             localVue,
             router

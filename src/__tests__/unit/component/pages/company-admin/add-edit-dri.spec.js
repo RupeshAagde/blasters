@@ -1,33 +1,33 @@
-import {mount, shallowMount} from "@vue/test-utils";
+import { mount, shallowMount } from "@vue/test-utils";
 import CompanyComponent from "../../../../../pages/company-admin/add-edit-dri.vue";
-import URLS from  "../../../../../services/domain.service.js"
+import URLS from "../../../../../services/domain.service.js"
 
 describe('Mounted Attributes Group Nd order Dialog', () => {
 	let wrapper;
 	beforeAll(() => {
-		wrapper = mount(CompanyComponent,{
+		wrapper = mount(CompanyComponent, {
 			propsData: {
 			},
-			mocks:{
+			mocks: {
 				$route: {
-					params: {}
+					params: {}  //TODO: Change mock query params to VUE ROUTER mock
 				}
 			}
 		}
 		);
 	})
 	test('is a Vue instance', () => {
-	  expect(wrapper.vm).toBeTruthy()
+		expect(wrapper.vm).toBeTruthy()
 	})
 	it('has data', () => {
 		expect(typeof CompanyComponent.data).toBe('function');
 	})
 	it('should render to a snapshot', () => {
 		expect(wrapper.element).toMatchSnapshot()
-	  })
+	})
 	it('div expect', () => {
 		const div = wrapper.find('div')
-        expect(div.exists()).toBe(true)
+		expect(div.exists()).toBe(true)
 	})
-  }
+}
 )

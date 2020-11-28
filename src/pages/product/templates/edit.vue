@@ -656,7 +656,7 @@ export default {
                     });
             });
         },
-        async fetchCategories() {
+        fetchCategories() {
             if (!this.selectedDeptIds.length) return;
 
             const params = {

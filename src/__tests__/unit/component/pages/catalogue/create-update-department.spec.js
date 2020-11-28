@@ -1,6 +1,6 @@
-import {mount, shallowMount, createLocalVue} from "@vue/test-utils";
+import { mount, shallowMount, createLocalVue } from "@vue/test-utils";
 import DeptComponent from "../../../../../pages/catalogue/create-update-department.vue";
-import URLS from  "../../../../../services/domain.service.js"
+import URLS from "../../../../../services/domain.service.js"
 
 import VueRouter from 'vue-router';
 import axios from 'axios';
@@ -13,18 +13,20 @@ describe('Mounted Templates', () => {
 	const mock = new MockAdapter(axios);
 
 	beforeEach(() => {
-        localVue = createLocalVue();
-        localVue.use(VueRouter);
-        mock.reset();
+		localVue = createLocalVue();
+		localVue.use(VueRouter);
+		mock.reset();
 	})
 	test('Edit - empty department', async () => {
-		const router = new VueRouter({routes: [
-			{ path: '/administrator/product/department/edit/:deptId', component: DeptComponent }
-		]})
+		const router = new VueRouter({
+			routes: [
+				{ path: '/administrator/product/department/edit/:deptId', component: DeptComponent }
+			]
+		})
 		router.push('/administrator/product/department/edit/1');
-		mock.onGet(URLS.DEPARTMENT()).reply(200, {data:[{}]});
-	
-		wrapper = mount(DeptComponent,{
+		mock.onGet(URLS.DEPARTMENT()).reply(200, { data: [{}] });
+
+		wrapper = mount(DeptComponent, {
 			localVue,
 			router
 		}
@@ -36,28 +38,32 @@ describe('Mounted Templates', () => {
 		expect(div.exists()).toBe(true)
 	})
 	test('Edit - error response', async () => {
-		const router = new VueRouter({routes: [
-			{ path: '/administrator/product/department/edit/:deptId', component: DeptComponent }
-		]})
+		const router = new VueRouter({
+			routes: [
+				{ path: '/administrator/product/department/edit/:deptId', component: DeptComponent }
+			]
+		})
 		router.push('/administrator/product/department/edit/1');
-		mock.onGet(URLS.DEPARTMENT()).reply(500, {error:"error"});
-	
-		wrapper = mount(DeptComponent,{
+		mock.onGet(URLS.DEPARTMENT()).reply(500, { error: "error" });
+
+		wrapper = mount(DeptComponent, {
 			localVue,
 			router
 		}
 		);
 		await new Promise(resolve => setTimeout(resolve, 10));
 		expect(wrapper.vm.pageError).toBe(true)
-		})
+	})
 	it('Edit - verify functions', async () => {
-		const router = new VueRouter({routes: [
-			{ path: '/administrator/product/department/edit/:deptId', component: DeptComponent }
-		]})
+		const router = new VueRouter({
+			routes: [
+				{ path: '/administrator/product/department/edit/:deptId', component: DeptComponent }
+			]
+		})
 		router.push('/administrator/product/department/edit/1');
-		mock.onGet(URLS.DEPARTMENT()).reply(200, {data:mocks.departments});
-	
-		wrapper = mount(DeptComponent,{
+		mock.onGet(URLS.DEPARTMENT()).reply(200, { data: mocks.departments });
+
+		wrapper = mount(DeptComponent, {
 			localVue,
 			router
 		}
@@ -75,5 +81,5 @@ describe('Mounted Templates', () => {
 		expect(wrapper.vm.synonym.value).toEqual(["text1", "text2"])
 		wrapper.vm.addSearchText()
 	})
-		
+
 })

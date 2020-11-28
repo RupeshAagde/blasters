@@ -348,7 +348,6 @@ import {
     strokeBtn,
     flatBtn
 } from '@gofynd/nitrozen-vue';
-import { log } from 'console';
 
 const PAGINATION = {
     limit: 10,

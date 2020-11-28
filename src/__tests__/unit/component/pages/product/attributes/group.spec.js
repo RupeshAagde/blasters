@@ -30,7 +30,7 @@ describe.skip('Create/Edit Category Page', () => {
     //   200,mocks.attributeResponse
     // );
     // mock.onGet(URLS.ATTRIBUTE_GROUPS("phone-hardware-storage"), {params: {type:'details', ca:true}}).reply(200, mocks.attributeGroupResponse);
-    
+
     // mock.onGet(URLS.ATTRIBUTE_GROUPS_SHUFFLE("phone-hardware-storage")).reply(200, mocks.attributeShuffleGroupResponse);
 
     // // mock.onGet().reply(500);
