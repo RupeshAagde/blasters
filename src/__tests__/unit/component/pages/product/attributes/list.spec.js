@@ -46,7 +46,6 @@ describe('List Attributes Page', () => {
             200, mocks.attributeResponse
         );
         mock.onGet(URLS.UNITS()).reply(200, { data: mocks.unitsResponse });
-        mock.onGet("/auth/user-info/search/").reply(200, {}).onAny().reply(200, {});
         const wrapper = mount(AttributeComponent, {
             localVue,
             router,
@@ -67,7 +66,6 @@ describe('List Attributes Page', () => {
             200, mocks.attributeResponse
         );
         mock.onGet(URLS.UNITS()).reply(200, { data: mocks.unitsResponse });
-        mock.onGet("/auth/user-info/search/").reply(200, {}).onAny().reply(200, {});
         const wrapper = mount(AttributeComponent, {
             localVue,
             router,
@@ -98,7 +96,6 @@ describe('List Attributes Page', () => {
             200, mocks.attributeResponse
         );
         mock.onGet(URLS.UNITS()).reply(200, { data: mocks.unitsResponse });
-        mock.onGet("/auth/user-info/search/").reply(200, {}).onAny().reply(200, {});
         const wrapper = mount(AttributeComponent, {
             localVue,
             router,
