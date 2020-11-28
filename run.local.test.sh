@@ -1,4 +1,3 @@
-server
 export NODE_ENV=test
 export ENV=test
 export PORT=8087
