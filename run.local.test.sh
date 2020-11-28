@@ -2,8 +2,6 @@ export NODE_ENV=test
 export ENV=test
 export PORT=8087
 
-export GRINGOTTS_MAIN_URL='https://api.xyz.com/gringotts/'
-
 #API's
 export FYND_PLATFORM_DOMAIN=xyz.com
 export BLITZKRIEG_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/platform/theme/
