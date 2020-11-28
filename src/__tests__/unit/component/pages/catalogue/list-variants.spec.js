@@ -12,7 +12,7 @@ const mock = new MockAdapter(axios);
 let localVue = createLocalVue()
 localVue.use(VueRouter)
 
-describe('List Department', () => {
+describe('Mounted List Variant Componant', () => {
     beforeEach(() => {
         localVue = createLocalVue();
         localVue.use(VueRouter);

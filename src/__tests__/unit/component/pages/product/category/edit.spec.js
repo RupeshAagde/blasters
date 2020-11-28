@@ -12,7 +12,7 @@ const mock = new MockAdapter(axios);
 let localVue = createLocalVue()
 localVue.use(VueRouter)
 
-describe('Create/Edit Category Page', () => {
+describe('Mounted Create/Edit Category Page', () => {
     beforeEach(() => {
         localVue = createLocalVue();
         localVue.use(VueRouter);

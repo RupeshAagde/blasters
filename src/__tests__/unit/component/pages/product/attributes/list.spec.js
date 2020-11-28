@@ -12,7 +12,7 @@ const mock = new MockAdapter(axios);
 let localVue = createLocalVue()
 localVue.use(VueRouter)
 
-describe('List Attributes Page', () => {
+describe('Mounted List Attributes Page', () => {
     beforeEach(() => {
         localVue = createLocalVue();
         localVue.use(VueRouter);

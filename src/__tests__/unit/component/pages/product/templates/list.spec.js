@@ -8,7 +8,7 @@ import URLS from "../../../../../../services/domain.service.js"
 import mocks from "./mocks";
 import { console } from "window-or-global";
 
-describe('Mounted Templates', () => {
+describe('Mounted Templates List', () => {
 	let wrapper;
 	let localVue;
 	const mock = new MockAdapter(axios);

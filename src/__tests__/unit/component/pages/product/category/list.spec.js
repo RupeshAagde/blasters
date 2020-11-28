@@ -11,7 +11,7 @@ const mock = new MockAdapter(axios);
 let localVue = createLocalVue()
 localVue.use(VueRouter)
 
-describe('List Category Page', () => {
+describe('Mounted List Category Page', () => {
     beforeEach(() => {
         localVue = createLocalVue();
         localVue.use(VueRouter);

@@ -2,7 +2,7 @@ import { mount, shallowMount } from "@vue/test-utils";
 import BrandComponent from "../../../../../pages/company-admin/brands.vue";
 import URLS from "../../../../../services/domain.service.js"
 
-describe('Mounted Attributes Group Nd order Dialog', () => {
+describe('Mounted Brands Component', () => {
 	let wrapper;
 	beforeAll(() => {
 		wrapper = shallowMount(BrandComponent, {

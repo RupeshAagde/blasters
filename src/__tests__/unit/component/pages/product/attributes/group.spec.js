@@ -11,7 +11,7 @@ const mock = new MockAdapter(axios);
 let localVue = createLocalVue()
 localVue.use(VueRouter)
 
-describe.skip('Create/Edit Category Page', () => {
+describe.skip('Create/Edit Groups', () => {
   beforeEach(() => {
     localVue = createLocalVue();
     localVue.use(VueRouter);

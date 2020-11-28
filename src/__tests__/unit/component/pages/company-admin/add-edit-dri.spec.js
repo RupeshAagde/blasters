@@ -2,7 +2,7 @@ import { mount, shallowMount } from "@vue/test-utils";
 import CompanyComponent from "../../../../../pages/company-admin/add-edit-dri.vue";
 import URLS from "../../../../../services/domain.service.js"
 
-describe('Mounted Attributes Group Nd order Dialog', () => {
+describe('Mounted Company Edit Component', () => {
 	let wrapper;
 	beforeAll(() => {
 		wrapper = mount(CompanyComponent, {

@@ -7,7 +7,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import mocks from "./mocks";
 
-describe('Mounted Templates', () => {
+describe('Mounted Department', () => {
 	let wrapper;
 	let localVue;
 	const mock = new MockAdapter(axios);
