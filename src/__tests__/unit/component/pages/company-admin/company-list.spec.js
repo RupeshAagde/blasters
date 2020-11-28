@@ -7,7 +7,6 @@ import VueRouter from 'vue-router';
 import axios from 'axios';
 
 import mocks from "./mocks";
-import { expectation } from "sinon";
 
 const mock = new MockAdapter(axios);
 let localVue = createLocalVue()
