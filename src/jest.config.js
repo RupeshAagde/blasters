@@ -15,7 +15,9 @@ setupFiles: ['./jest.init.js'],
   ],
   moduleNameMapper: {
     "^@[/](.+)": "<rootDir>/$1",
-},
-  modulePathIgnorePatterns: ["mocks.js"]
-
+  },
+  modulePathIgnorePatterns: ["mocks.js", 'less',
+  'mixins',
+  'router',
+  'pipes'],
 }
