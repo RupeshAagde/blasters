@@ -58,7 +58,6 @@
                         <div class="card-avatar">
                             <img
                                 :src="getUserProfile(user)"
-                                @error="getErrorImage(user)"
                                 alt="profile"
                             />
                         </div>
@@ -337,7 +336,6 @@
 import UserService from '@/services/user-access.service';
 import Jumbotron from '@/components/common/jumbotron';
 import {
-    titleCase,
     debounce,
     validateEmail,
     validatePhone
@@ -396,7 +394,6 @@ export default {
             pageLoading: false,
             pageError: false,
             pagination: { ...PAGINATION },
-            pageId: '',
             userList: null,
             userId: '',
             searchText: '',
@@ -414,11 +411,6 @@ export default {
         this.fetchUsers();
     },
     methods: {
-        titleCase,
-        populateFromURL() {
-            const { pageId } = this.$route.query;
-            if (pageId) this.pageId = pageId;
-        },
         addUser() {
             this.$router.push({ path: '/administrator/add-user' });
         },
@@ -440,7 +432,6 @@ export default {
             return UserService.getUserList(this.requestQuery())
                 .then(({ data }) => {
                     this.userList = data.docs;
-                    // this.pagination.current = this.pagination.current + 1;=
                     this.pagination.total = data.total;
                     this.pageLoading = false;
                 })
@@ -494,10 +485,6 @@ export default {
         getUserProfile(user) {
             let profilePic = '/public/assets/admin/pngs/default-profile.png';
             return user.profile_pic || profilePic;
-        },
-        getErrorImage(user) {
-            let image = '/public/assets/admin/pngs/default-profile.png';
-            this.$set(user, 'profile_pic', image);
         },
         getFullName() {
             return this.activeUser.first_name + ' ' + this.activeUser.last_name;

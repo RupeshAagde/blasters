@@ -50,7 +50,6 @@
                     <div class="card-avatar">
                         <img
                             :src="getUserProfile(user)"
-                            @error="getErrorImage(user)"
                             alt="profile"
                         />
                     </div>
@@ -324,10 +323,6 @@ export default {
         getUserProfile(user) {
             let profilePic = '/public/assets/admin/pngs/default-profile.png';
             return user.profile_pic || profilePic;
-        },
-        getErrorImage(user) {
-            let image = '/public/assets/admin/pngs/default-profile.png';
-            this.$set(user, 'profile_pic', image);
         },
         requestQuery() {
             const query = {
