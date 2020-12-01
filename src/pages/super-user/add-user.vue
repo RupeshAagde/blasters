@@ -273,6 +273,7 @@ import {
 } from '@gofynd/nitrozen-vue';
 
 import editPermissions from './edit-permission-modal.vue';
+import _ from 'lodash';
 
 export default {
     name: 'add-super-user',
@@ -383,9 +384,6 @@ export default {
             this.$nextTick(() => {
                 this.$refs['edit-permission'].open();
             });
-        },
-        closeAddDialog() {
-            this.$refs['add_user_dialog'].close();
         },
         checkExist() {
             if (this.userList && this.userList.length > 0) {
