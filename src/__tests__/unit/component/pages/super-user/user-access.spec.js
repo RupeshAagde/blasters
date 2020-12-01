@@ -8,7 +8,7 @@ import MockAdapter from 'axios-mock-adapter';
 import { access_res, acl_res, company_list_res, user_list_res } from "./mocks";
 import { Promise } from "window-or-global";
 
-describe('Administrator Users', () => {
+describe('Administrator Users Listing', () => {
 	let wrapper;
 	let localVue;
 	const mock = new MockAdapter(axios);
@@ -195,6 +195,7 @@ describe('Administrator Users', () => {
 
 		mock.onGet(URLS.SEARCH_USER()).reply(500, []);
 		wrapper.vm.$set(wrapper.vm.$data, 'searchText', 'abc@gmail.com');
+		wrapper.vm.debounceInput();
 		await new Promise(resolve => setTimeout(resolve, 300));
 		expect(wrapper.vm.userId).toBe('');
 	});

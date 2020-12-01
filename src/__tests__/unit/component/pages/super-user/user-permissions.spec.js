@@ -7,7 +7,7 @@ import MockAdapter from 'axios-mock-adapter';
 import { access_res, acl_res, company_list_res, user_list_res } from './mocks';
 import { Promise } from 'window-or-global';
 
-describe('Administrator Users', () => {
+describe('User Permission Component', () => {
     let wrapper;
     let localVue;
     const mock = new MockAdapter(axios);
