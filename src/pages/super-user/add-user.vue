@@ -50,7 +50,6 @@
                     <div class="card-avatar">
                         <img
                             :src="getUserProfile(user)"
-                            @error="getErrorImage(user)"
                             alt="profile"
                         />
                     </div>
@@ -274,6 +273,7 @@ import {
 } from '@gofynd/nitrozen-vue';
 
 import editPermissions from './edit-permission-modal.vue';
+import _ from 'lodash';
 
 export default {
     name: 'add-super-user',
@@ -324,10 +324,6 @@ export default {
         getUserProfile(user) {
             let profilePic = '/public/assets/admin/pngs/default-profile.png';
             return user.profile_pic || profilePic;
-        },
-        getErrorImage(user) {
-            let image = '/public/assets/admin/pngs/default-profile.png';
-            this.$set(user, 'profile_pic', image);
         },
         requestQuery() {
             const query = {
@@ -388,9 +384,6 @@ export default {
             this.$nextTick(() => {
                 this.$refs['edit-permission'].open();
             });
-        },
-        closeAddDialog() {
-            this.$refs['add_user_dialog'].close();
         },
         checkExist() {
             if (this.userList && this.userList.length > 0) {
