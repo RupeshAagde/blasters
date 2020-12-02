@@ -59,7 +59,7 @@
                             <img
                                 :src="getUserProfile(user)"
                                 alt="profile"
-                                @error="(user)=>{this.$set(user, 'profile_pic', default_img)}"
+                                @error="$set(user, 'profile_pic', default_img)"
                             />
                         </div>
                         <div class="card-content-section">
