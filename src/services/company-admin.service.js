@@ -242,6 +242,30 @@ const CompanyService = {
         return `${URLS.PRODUCT_TEMPLATE_DOWNLOAD(
             slug
         )}?company_id=1&set=false&type=excel`;
+    },
+    // Categories
+    fetchCategory_v2(params) {
+        const { uid, ...rest } = params;
+        let axiosOption = Object.assign(
+            {
+                params: rest
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.CATEGORY_v2(uid), axiosOption);
+    },
+    updateCategory_v2(params) {
+        const { id, ...rest } = params;
+        let axiosOption = Object.assign(
+            {
+                data: rest
+            },
+            getCommonHeaderOptions()
+        );
+        if (id) {
+            return ApiService.put(URLS.CATEGORY_v2(id), axiosOption);
+        }
+        return ApiService.post(URLS.CATEGORY_v2(), axiosOption);
     }
 };
 export default CompanyService;

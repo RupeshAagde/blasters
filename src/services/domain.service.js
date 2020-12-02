@@ -172,6 +172,9 @@ const URLS = {
     CATEGORY: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/category');
     },
+    CATEGORY_v2: (id = '') => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v2/category', id);
+    },
     UNITS: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/units');
     },
