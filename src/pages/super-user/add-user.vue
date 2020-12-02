@@ -51,6 +51,7 @@
                         <img
                             :src="getUserProfile(user)"
                             alt="profile"
+                            @error="(user)=>{this.$set(user, 'profile_pic', default_img)}"
                         />
                     </div>
                     <div class="card-content-section">
@@ -275,6 +276,8 @@ import {
 import editPermissions from './edit-permission-modal.vue';
 import _ from 'lodash';
 
+const DEFAULT_IMG = '/public/assets/admin/pngs/default-profile.png';
+
 export default {
     name: 'add-super-user',
     components: {
@@ -317,12 +320,17 @@ export default {
         strokeBtn,
         flatBtn
     },
+    computed: {
+        default_img() {
+            return DEFAULT_IMG;
+        }
+    },
     methods: {
         redirectToListing() {
             this.$router.push({ path: '/administrator/user-management' });
         },
         getUserProfile(user) {
-            let profilePic = '/public/assets/admin/pngs/default-profile.png';
+            let profilePic = DEFAULT_IMG;
             return user.profile_pic || profilePic;
         },
         requestQuery() {

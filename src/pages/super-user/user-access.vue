@@ -59,6 +59,7 @@
                             <img
                                 :src="getUserProfile(user)"
                                 alt="profile"
+                                @error="(user)=>{this.$set(user, 'profile_pic', default_img)}"
                             />
                         </div>
                         <div class="card-content-section">
@@ -368,6 +369,8 @@ const PAGINATION = {
     current: 1
 };
 
+const DEFAULT_IMAGE = '/public/assets/admin/pngs/default-profile.png';
+
 export default {
     name: 'user-management',
     components: {
@@ -404,7 +407,10 @@ export default {
     computed: {
         ...mapGetters({
             currentUserPermission: GET_USER_PERMISSIONS
-        })
+        }),
+        default_img() {
+            return DEFAULT_IMAGE;
+        }
     },
     mounted() {
         this.pageLoading = true;
@@ -483,7 +489,7 @@ export default {
             // this.setRouteQuery({ search: undefined });
         },
         getUserProfile(user) {
-            let profilePic = '/public/assets/admin/pngs/default-profile.png';
+            let profilePic = DEFAULT_IMAGE;
             return user.profile_pic || profilePic;
         },
         getFullName() {
