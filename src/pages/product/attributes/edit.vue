@@ -557,6 +557,7 @@ export default {
                     this.setUnitsList();
                 })
                 .catch((err) => {
+                    console.log("error",err)
                     this.pageLoading = false;
                     this.pageError = true;
                 });
