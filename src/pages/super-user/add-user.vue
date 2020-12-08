@@ -124,6 +124,7 @@
         ></edit-permissions>
     </div>
 </template>
+
 <style lang="less" scoped>
 .custom-space-ud {
     margin: 24px 0;
