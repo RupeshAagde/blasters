@@ -58,8 +58,8 @@
                         <div class="card-avatar">
                             <img
                                 :src="getUserProfile(user)"
-                                @error="getErrorImage(user)"
                                 alt="profile"
+                                @error="$set(user, 'profile_pic', default_img)"
                             />
                         </div>
                         <div class="card-content-section">
@@ -337,7 +337,6 @@
 import UserService from '@/services/user-access.service';
 import Jumbotron from '@/components/common/jumbotron';
 import {
-    titleCase,
     debounce,
     validateEmail,
     validatePhone
@@ -370,6 +369,8 @@ const PAGINATION = {
     current: 1
 };
 
+const DEFAULT_IMAGE = '/public/assets/admin/pngs/default-profile.png';
+
 export default {
     name: 'user-management',
     components: {
@@ -396,7 +397,6 @@ export default {
             pageLoading: false,
             pageError: false,
             pagination: { ...PAGINATION },
-            pageId: '',
             userList: null,
             userId: '',
             searchText: '',
@@ -407,18 +407,16 @@ export default {
     computed: {
         ...mapGetters({
             currentUserPermission: GET_USER_PERMISSIONS
-        })
+        }),
+        default_img() {
+            return DEFAULT_IMAGE;
+        }
     },
     mounted() {
         this.pageLoading = true;
         this.fetchUsers();
     },
     methods: {
-        titleCase,
-        populateFromURL() {
-            const { pageId } = this.$route.query;
-            if (pageId) this.pageId = pageId;
-        },
         addUser() {
             this.$router.push({ path: '/administrator/add-user' });
         },
@@ -440,7 +438,6 @@ export default {
             return UserService.getUserList(this.requestQuery())
                 .then(({ data }) => {
                     this.userList = data.docs;
-                    // this.pagination.current = this.pagination.current + 1;=
                     this.pagination.total = data.total;
                     this.pageLoading = false;
                 })
@@ -492,12 +489,8 @@ export default {
             // this.setRouteQuery({ search: undefined });
         },
         getUserProfile(user) {
-            let profilePic = '/public/assets/admin/pngs/default-profile.png';
+            let profilePic = DEFAULT_IMAGE;
             return user.profile_pic || profilePic;
-        },
-        getErrorImage(user) {
-            let image = '/public/assets/admin/pngs/default-profile.png';
-            this.$set(user, 'profile_pic', image);
         },
         getFullName() {
             return this.activeUser.first_name + ' ' + this.activeUser.last_name;
