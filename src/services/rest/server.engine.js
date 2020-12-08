@@ -22,8 +22,8 @@ const getHeaders = (headers) => {
   return {
     'Content-Type': 'application/json',
     'x-currency-code': 'INR',
-    'x-application-id': config.application._id, //'5c6cee5c1a02cd19864f26f5',
-    'x-application-token': config.application.token, //'a4944690-34d5-11e9-9346-cb5a6b9cbf73'
+    'x-application-id': config && config.application && config.application._id, //'5c6cee5c1a02cd19864f26f5',
+    'x-application-token': config && config.application && config.application.token, //'a4944690-34d5-11e9-9346-cb5a6b9cbf73'
     ...headers
   }
 }

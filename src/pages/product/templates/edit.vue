@@ -794,7 +794,7 @@ export default {
                     .catch((err) => {
                         this.inProgress = false;
 
-                        if (err.response.data.errors) {
+                        if (err && err.response && err.response.data && err.response.data.errors) {
                             Object.values(err.response.data.errors).forEach(
                                 (ele) => {
                                     this.$snackbar.global.showError(
@@ -805,7 +805,7 @@ export default {
                         } else {
                             this.$snackbar.global.showError(
                                 `Failed to save${
-                                    err && err.response.data.message
+                                    err && err.response && err.response.data.message
                                         ? ' : ' + err.response.data.message
                                         : err && err.message
                                         ? ' : ' + err.message

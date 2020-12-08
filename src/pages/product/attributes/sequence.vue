@@ -364,18 +364,18 @@ export default {
         redirectToListing() {
             this.$goBack('/administrator/product/attributes');
         },
-        isFormDirty() {
-            if (this.formSaved) {
-                return false;
-            }
+        // isFormDirty() {
+        //     if (this.formSaved) {
+        //         return false;
+        //     }
 
-            let dirtyForm = { ...this.offer, ...this.getFormData() };
-            if (dirtyForm.banner_image.secure_url === '') {
-                delete dirtyForm.banner_image.secure_url;
-            }
+        //     let dirtyForm = { ...this.offer, ...this.getFormData() };
+        //     if (dirtyForm.banner_image.secure_url === '') {
+        //         delete dirtyForm.banner_image.secure_url;
+        //     }
 
-            return !_.isEqual(this.offer, dirtyForm);
-        }
+        //     return !_.isEqual(this.offer, dirtyForm);
+        // }
     }
 };
 </script>

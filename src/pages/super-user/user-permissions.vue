@@ -182,6 +182,7 @@ export default {
             for (let companyId of selectedCompany) {
                 let itemIndex = value.findIndex((uid) => uid === companyId);
                 if (itemIndex < 0) {
+                    let index = selectedCompany.indexOf(companyId);
                     this.selectedCompany.splice(index, 1);
                 }
             }

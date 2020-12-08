@@ -1,2 +1,3 @@
-export GRINGOTTS_MAIN_URL='https://api.xyz.com/gringotts/'
-npm run test
+source ci-test.sh
+
+npm run test -- -u --detectOpenHandles
