@@ -69,9 +69,9 @@
                         #{{ ticket.ticket_id }}
                         {{ ticket.content.title }}
                     </div>
-                    <div class="card-content-line-2">
+                    <!-- <div class="card-content-line-2">
                         {{ ticket.content.description }}
-                    </div>
+                    </div> -->
                     <div class="card-content-line-3">
                         Created by {{ ticket.created_by.user.firstName }}
                         {{ ticket.created_by.user.lastName }}
