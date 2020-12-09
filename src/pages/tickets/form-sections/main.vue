@@ -11,14 +11,11 @@
                     @change="somethingChanged"
                     :disabled="true"
                 ></nitrozen-input>
-                <nitrozen-input
-                    label="Description"
-                    placeholder="Enter description for the ticket"
-                    style="width: 100%; margin-top: 8px; min-height: 110px;"
-                    type="textarea"
-                    v-model="description"
-                    :disabled="true"
-                />
+                <div class="n-input-label-ticket">Description</div>
+                <html-content
+                    class="description"
+                    :content="description"
+                ></html-content>
                 <div v-if="ticket.created_by" class="width: auto">
                     <div class="n-input-label-ticket">Created By</div>
                     <div
@@ -149,6 +146,16 @@
     margin-bottom: 0px;
 }
 
+.description {
+    padding: 12px;
+    border-radius: 3px;
+    background-color: #f9f9f9;
+    color: #a4a5a8;
+    line-height: 1.2;
+    font-size: 14px;
+    border: 1px solid #f6f6f6;;
+}
+
 .history-label {
     color: #9b9b9b;
     font-family: Poppins, sans-serif;
@@ -216,7 +223,7 @@ import { getRoute } from '@/helper/get-route';
 import moment from 'moment';
 // import ClickToCallDialog from '@/components/common/tools/click-to-call-dialog.vue';
 import admInlineSvg from '@/components/common/adm-inline-svg';
-
+import HtmlContent from '@/components/common/html-content';
 import SupportService from '@/services/support.service';
 import CompanyService from '@/services/company-admin.service';
 
@@ -227,7 +234,8 @@ export default {
     components: {
         'nitrozen-input': NitrozenInput,
         'nitrozen-error': NitrozenError,
-        'adm-inline-svg': admInlineSvg
+        'adm-inline-svg': admInlineSvg,
+        'html-content': HtmlContent
         // 'click-to-call-dialog': ClickToCallDialog
     },
     props: {
