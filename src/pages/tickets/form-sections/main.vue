@@ -353,7 +353,12 @@ export default {
             return subtitle;
         },
         readableDate(date) {
-            return moment(date).format('MMM Do, h:mm a');
+            var isSameYear = moment(date).isSame(moment(), 'year');
+            if (isSameYear) {
+                return moment(date).format('MMM Do, h:mm a');
+            } else {
+                return moment(date).format('MMM Do y, h:mm a');
+            }
         },
         contactEmail() {
             const ticket = this.ticket;
