@@ -228,17 +228,17 @@ const URLS = {
         return urlJoin(PLATFORM_LEADS_BASE, `admin/v1/ticket`);
     },
 
-    FETCH_HISTORY: (company_id = '', ticket_id) => {
+    FETCH_HISTORY: (ticket_id) => {
         return urlJoin(
             PLATFORM_LEADS_BASE,
-            `admin/v1/${company_id}/ticket/${ticket_id}/history`
+            `admin/v1/ticket/${ticket_id}/history`
         );
     },
 
-    ADD_COMMENT: (company_id = '', ticket_id) => {
+    ADD_COMMENT: (ticket_id) => {
         return urlJoin(
             PLATFORM_LEADS_BASE,
-            `admin/v1/${company_id}/ticket/${ticket_id}/comment`
+            `admin/v1/ticket/${ticket_id}/comment`
         );
     },
 

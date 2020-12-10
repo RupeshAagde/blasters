@@ -75,9 +75,6 @@ export default {
     props: {
         allComments: {
             type: Array
-        },
-        companyID :{
-            type: String
         }
     },
     computed: {
@@ -133,7 +130,6 @@ export default {
             };
             this.loading = true;
             SupportService.addComment(
-                this.companyID,
                 this.$route.params.ticket_id,
                 dataToSend
             )

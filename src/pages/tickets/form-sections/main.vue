@@ -123,7 +123,7 @@
                         </template>
                     </div>
                     <br/>
-                    <comments v-if="isEditOnly" :allComments="this.allComments" :companyID="this.ticket.context.company_id"/>
+                    <comments v-if="isEditOnly" :allComments="this.allComments"/>
                 </div>
             </div>
         </div>
@@ -304,8 +304,9 @@ export default {
     mounted() {
         this.title = this.ticket.content.title;
         this.description = this.ticket.content.description;
+        this.ticket.history = this.ticket.history || [];
+        this.allComments = this.ticket.history.filter( event => event.type.includes("comment"));
         this.getProfileDetails();
-        this.fetchTicketHistory();
     },
     methods: {
         somethingChanged() {
@@ -405,21 +406,6 @@ export default {
                 .catch((err) => {
                     console.error(err);
                 });
-        },
-        fetchTicketHistory: function() {
-            if(this.isEditOnly) {
-                SupportService.fetchHistory(
-                    this.ticket.context.company_id,
-                    this.$route.params.ticket_id
-                )
-                .then(res => {
-                    this.ticket.history = res.data;
-                    this.allComments = this.ticket.history.filter( event => event.type.includes("comment"));
-                })
-                .catch((err) => {
-                    console.error(err);
-                });
-            }
         },
         ratingDetail(event) {
             let creator = 'User';
