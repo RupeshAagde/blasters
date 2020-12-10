@@ -21,6 +21,13 @@ const SupportService = {
         let axiosOption = {};
         return ApiService.post(URLS.CREATE_VIDEO_ROOM(), axiosOption);
     },
+    fetchHistory(ticketID) {
+        return ApiService.get(URLS.FETCH_HISTORY(ticketID), {});
+    },
+    addComment(ticketID, comment) {
+        let axiosOption = { data: comment };
+        return ApiService.post(URLS.ADD_COMMENT(ticketID), axiosOption);
+    },
     getTokenForVideoRoom(uniqueName) {
         let axiosOption = {};
         return ApiService.get(

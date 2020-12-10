@@ -106,10 +106,24 @@
                         v-for="(event, index) in ticket.history"
                         v-bind:key="index"
                     >
-                        <div v-if="eventDetail(event)">
-                            {{ eventDetail(event) }}
-                        </div>
+                        <template v-if="event.type == 'diff'">
+                            <div v-if="diffDetail(event)">
+                                {{ diffDetail(event) }}
+                            </div>
+                        </template>
+                        <template v-else-if="event.type == 'log'">
+                            <div v-if="logDetail(event)">
+                                {{ logDetail(event) }}
+                            </div>
+                        </template>
+                        <template v-else-if="event.type == 'rating'">
+                            <div v-if="ratingDetail(event)">
+                                {{ ratingDetail(event) }}
+                            </div>
+                        </template>
                     </div>
+                    <br/>
+                    <comments v-if="isEditOnly" :allComments="this.allComments"/>
                 </div>
             </div>
         </div>
@@ -226,7 +240,7 @@ import admInlineSvg from '@/components/common/adm-inline-svg';
 import HtmlContent from '@/components/common/html-content';
 import SupportService from '@/services/support.service';
 import CompanyService from '@/services/company-admin.service';
-
+import comments from './comments.vue'
 // import Video from 'twilio-video';
 
 export default {
@@ -235,7 +249,8 @@ export default {
         'nitrozen-input': NitrozenInput,
         'nitrozen-error': NitrozenError,
         'adm-inline-svg': admInlineSvg,
-        'html-content': HtmlContent
+        'html-content': HtmlContent,
+        comments
         // 'click-to-call-dialog': ClickToCallDialog
     },
     props: {
@@ -253,6 +268,7 @@ export default {
         return {
             title: '',
             description: '',
+            allComments: [],
             companyInfo: undefined,
             toolBars: {
                 subfield: true,
@@ -288,6 +304,8 @@ export default {
     mounted() {
         this.title = this.ticket.content.title;
         this.description = this.ticket.content.description;
+        this.ticket.history = this.ticket.history || [];
+        this.allComments = this.ticket.history.filter( event => event.type.includes("comment"));
         this.getProfileDetails();
     },
     methods: {
@@ -335,7 +353,12 @@ export default {
             return subtitle;
         },
         readableDate(date) {
-            return moment(date).format('MMM Do, h:mm a');
+            var isSameYear = moment(date).isSame(moment(), 'year');
+            if (isSameYear) {
+                return moment(date).format('MMM Do, h:mm a');
+            } else {
+                return moment(date).format('MMM Do y, h:mm a');
+            }
         },
         contactEmail() {
             const ticket = this.ticket;
@@ -389,21 +412,54 @@ export default {
                     console.error(err);
                 });
         },
-        eventDetail(event) {
+        ratingDetail(event) {
+            let creator = 'User';
+            let final = '';
+            if (event.created_by) {
+                creator =
+                    event.created_by.firstName +
+                    ' ' +
+                    event.created_by.lastName +
+                    ' ';
+            }
+
+            final = final + creator + ' rated Video Call: ';
+
+            event.value.ratings = event.value.ratings || event.value.rating;
+            for (let index = 0; index < event.value.ratings.length; index++) {
+                const element = event.value.ratings[index];
+                final = final + " " + element.title + " as " + element.rating
+                if (event.value.ratings.length == 1) {
+                    //
+                } else if (index == event.value.ratings.length - 2) {
+                    final = final + " and"
+                } else {
+                    final = final + ","
+                }
+            }
+
+            final =
+                final + ' at ' + this.readableDate(new Date(event.createdAt));
+            return final;
+        },
+        diffDetail(event) {
             let history =
-                event.user.firstName + ' ' + event.user.lastName + ' ';
-            const date = ' on ' + this.readableDate(new Date(event.createdAt));
+                event.created_by.firstName +
+                ' ' +
+                event.created_by.lastName +
+                ' ';
+            const date = ' at ' + this.readableDate(new Date(event.createdAt));
             let additions = 0;
 
             if (
-                event.diff.assigned_to &&
-                event.diff.assigned_to.id &&
-                event.diff.assigned_to.id.length == 2
+                event.value.assigned_to &&
+                event.value.assigned_to.id &&
+                event.value.assigned_to.id.length == 2
             ) {
-                const key = event.diff.assigned_to.id[1];
+                const key = event.value.assigned_to.id[1];
                 let value = undefined;
 
-                this.staff.forEach((element) => {
+                this.staff.forEach(element => {
                     if (element.value == key) {
                         value = element.text;
                     }
@@ -414,13 +470,13 @@ export default {
                     history = history + 'assigned this to ' + value;
                 }
             } else if (
-                event.diff.assigned_to &&
-                event.diff.assigned_to.length == 2
+                event.value.assigned_to &&
+                event.value.assigned_to.length == 2
             ) {
-                const key = event.diff.assigned_to[1].id;
+                const key = event.value.assigned_to[1].id;
                 let value = undefined;
 
-                this.staff.forEach((element) => {
+                this.staff.forEach(element => {
                     if (element.value == key) {
                         value = element.text;
                     }
@@ -432,11 +488,11 @@ export default {
                 }
             }
 
-            if (event.diff.status && event.diff.status.length == 2) {
-                const key = event.diff.status[1];
+            if (event.value.status && event.value.status.length == 2) {
+                const key = event.value.status[1];
                 let value = undefined;
 
-                this.filters.statuses.forEach((element) => {
+                this.filters.statuses.forEach(element => {
                     if (element.key == key) {
                         value = element.display;
                     }
@@ -452,11 +508,11 @@ export default {
                 }
             }
 
-            if (event.diff.priority && event.diff.priority.length == 2) {
-                const key = event.diff.priority[1];
+            if (event.value.priority && event.value.priority.length == 2) {
+                const key = event.value.priority[1];
                 let value = undefined;
 
-                this.filters.priorities.forEach((element) => {
+                this.filters.priorities.forEach(element => {
                     if (element.key == key) {
                         value = element.display;
                     }
@@ -472,11 +528,11 @@ export default {
                 }
             }
 
-            if (event.diff.category && event.diff.category.length == 2) {
-                const key = event.diff.category[1];
+            if (event.value.category && event.value.category.length == 2) {
+                const key = event.value.category[1];
                 let value = undefined;
 
-                this.filters.categories.forEach((element) => {
+                this.filters.categories.forEach(element => {
                     if (element.key == key) {
                         value = element.display;
                     }
@@ -493,9 +549,53 @@ export default {
                 }
             }
 
+            if (event.value.content && event.value.content.description) {
+                if (additions > 0) {
+                    history = history + ', also changed the description';
+                } else {
+                    history = history + 'changed the description';
+                }
+                additions = additions + 1;
+            }
+
+            if (
+                event.value.content &&
+                event.value.content.title &&
+                event.value.content.title.length == 2
+            ) {
+                if (additions > 0) {
+                    history =
+                        history +
+                        ', also changed the title to "' +
+                        event.value.content.title[1] +
+                        '"';
+                } else {
+                    history =
+                        history +
+                        'changed the title to "' +
+                        event.value.content.title[1] +
+                        '"';
+                }
+                additions = additions + 1;
+            }
+
             if (additions == 0) {
                 return undefined;
             }
+
+            history = history + date;
+            return history;
+        },
+        logDetail(event) {
+            let history =
+                event.created_by.firstName +
+                ' ' +
+                event.created_by.lastName +
+                ' ';
+            const date = ' at ' + this.readableDate(new Date(event.createdAt));
+            let additions = 0;
+
+            history = history + event.value.log;
 
             history = history + date;
             return history;
