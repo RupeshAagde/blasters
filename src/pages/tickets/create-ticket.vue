@@ -462,16 +462,17 @@ export default {
             );
         },
         onCancel() {
-            const route = getRoute(this.$route);
-            if (route.includes('application')) {
-                this.$router.push({
-                    path: `${getRoute(this.$route)}/tickets`
-                });
-            } else {
-                this.$router.push({
-                    path: `${getRoute(this.$route)}/administrator/support`
-                });
-            }
+            // const route = getRoute(this.$route);
+            // if (route.includes('application')) {
+            //     this.$router.push({
+            //         path: `${getRoute(this.$route)}/tickets`
+            //     });
+            // } else {
+            //     this.$router.push({
+            //         path: `${getRoute(this.$route)}/administrator/support`
+            //     });
+            // }
+            this.$router.back();
         }
     }
 };
