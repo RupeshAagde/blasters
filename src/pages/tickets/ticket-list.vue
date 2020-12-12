@@ -14,6 +14,7 @@
             />
             <div class="dropdown-filters">
                 <nitrozen-dropdown
+                    ref="company-dropdown"
                     :searchable="true"
                     class="archived-filter"
                     style="width: 215px"
@@ -459,6 +460,7 @@ export default {
                                 };
                             })
                         );
+                        this.$refs['company-dropdown'].selectItem(1, this.companies[1]);
                     } else {
                         this.companies.push(
                             ...res.data.data.map((v) => {
