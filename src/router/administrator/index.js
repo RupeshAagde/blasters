@@ -81,7 +81,7 @@ export default [
             },
             {
                 name: 'support-edit',
-                path: 'support/ticket/edit/:ticket_id',
+                path: 'support/ticket/:ticket_id/edit',
                 component: CreateTicket,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['support']);

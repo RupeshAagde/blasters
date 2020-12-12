@@ -399,7 +399,7 @@ export default {
             this.$router.push({
                 path: `${getRoute(
                     this.$route
-                )}/administrator/support/ticket/edit/${ticket._id}`
+                )}/administrator/support/ticket/${ticket._id}/edit`
             });
         },
         readableDate(date) {
