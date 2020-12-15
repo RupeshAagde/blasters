@@ -4,6 +4,10 @@ import root from 'window-or-global';
 
 const envVars = root.env || {};
 
+if(root && root.process && root.process.env && root.process.env.NODE_ENV == 'test'){
+    envVars['BROWSER_CONFIG'] = root.process.env;
+}
+
 let PLATFORM_COMMON_BASE = isNode
     ? envVars.BROWSER_CONFIG.PLATFORM_COMMON_MAIN_URL
     : envVars.PLATFORM_COMMON_MAIN_URL;
@@ -176,47 +180,11 @@ const URLS = {
     CATEGORY: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/category');
     },
+    CATEGORY_v2: (id = '') => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v2/category', id);
+    },
     UNITS: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/units');
-    },
-    // Organizations
-    ORGANIZATION: (id = '') => {
-        return urlJoin(PLATFORM_COMMON_BASE, '/v1/organization', id);
-    },
-    ORGANIZATION_FORM: () => {
-        return urlJoin(
-            PLATFORM_COMMON_BASE,
-            '/v1/organization/form/partner-organization-form'
-        );
-    },
-    //TEAM<->Staff<->INVITE
-    STAFF: (partnerId) => {
-        return urlJoin(
-            PLATFORM_COMMON_BASE,
-            'v1/organization/',
-            partnerId,
-            '/team-member'
-        );
-    },
-    STAFF_DETAILS: (partnerId, staffId) => {
-        return urlJoin(
-            PLATFORM_COMMON_BASE,
-            '/v1/organization/',
-            partnerId,
-            'team-member',
-            staffId
-        );
-    },
-    // Staff
-    ACL: () => {
-        return urlJoin(PLATFORM_COMMON_BASE, '/v1/organization/team/acl');
-    },
-    // Staff profile
-    STAFF_PROFILE: () => {
-        return urlJoin(
-            PLATFORM_COMMON_BASE,
-            '/v1/application/current/staff/profile'
-        );
     },
 
     //SKYWRAP
@@ -237,69 +205,10 @@ const URLS = {
     SEARCH_USER: () => {
         return urlJoin(GRIMLOCK_BASE, '/user-info/search');
     },
-    // Invite
-    INVITE_USER: () => {
-        return urlJoin(GRIMLOCK_BASE, '/v2/invite/send');
-    },
-    VERIFY_INVITE: () => {
-        return urlJoin(GRIMLOCK_BASE, '/v2/invite/verify');
-    },
-    // Invite
-    REINVITE_USER: () => {
-        return urlJoin(GRIMLOCK_BASE, '/v2/invite/resend');
-    },
-    //Invite Link
-    INVITE_LINK: () => {
-        return urlJoin(GRIMLOCK_BASE, '/v2/invite/link');
-    },
-    //List Invites
-    INVITES: () => {
-        return urlJoin(GRIMLOCK_BASE, '/v2/invite');
-    },
-    ACCEPT_INVITE: () => {
-        return urlJoin(
-            PLATFORM_COMMON_BASE,
-            '/v1/application/current/invite/accept'
-        );
-    },
+    
     LOCATIONS: () => {
         return urlJoin(PLATFORM_COMMON_BASE, '/locations');
     },
-    CURRENT_USER_ACCESS: (orgId) => {
-        return urlJoin(
-            PLATFORM_COMMON_BASE,
-            '/v1/organization/',
-            orgId,
-            '/team-member/current/access'
-        );
-    },
-
-    // Application
-    APPLICATION: (orgId, appId = '') => {
-        return urlJoin(
-            PLATFORM_COMMON_BASE,
-            '/v1/organization/',
-            orgId,
-            '/application',
-            appId
-        );
-    },
-
-    // Themes
-    THEMES: () => {
-        return urlJoin(BLITZKRIEG_BASE, '/theme/v2');
-    },
-    LIST_THEMES: () => {
-        return urlJoin(BLITZKRIEG_BASE, '/theme/v2/list');
-    },
-
-    // Slingshot
-    // FETCH_EMPLPOYEE_LISTING: () => {
-    //   return urlJoin(PLATFORM_COMMON_BASE, '/v1/application/current/staff')
-    // },
-    // FETCH_EMPLOYEE_ACCESS_DETAILS: () => {
-    //   return urlJoin(PLATFORM_COMMON_BASE, '/v1/application/current/access')
-    // }
 
     // Unicron/Daytrader - Plan creator
     FETCH_PLANS_LIST: (planId = '') => {
@@ -348,6 +257,20 @@ const URLS = {
     //#########Tickets########
     FETCH_TICKETS: () => {
         return urlJoin(PLATFORM_LEADS_BASE, `admin/v1/ticket`);
+    },
+
+    FETCH_HISTORY: (ticket_id) => {
+        return urlJoin(
+            PLATFORM_LEADS_BASE,
+            `admin/v1/ticket/${ticket_id}/history`
+        );
+    },
+
+    ADD_COMMENT: (ticket_id) => {
+        return urlJoin(
+            PLATFORM_LEADS_BASE,
+            `admin/v1/ticket/${ticket_id}/comment`
+        );
     },
 
     CREATE_VIDEO_ROOM: () => {

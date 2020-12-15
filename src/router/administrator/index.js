@@ -22,6 +22,9 @@ import ProductAttributesGroup from '@/pages/product/attributes/group';
 import ProductAttributesSequence from '@/pages/product/attributes/sequence';
 import ProductTemplatesList from '@/pages/product/templates/list';
 import ProductTemplatesEdit from '@/pages/product/templates/edit';
+import CategoryList from '@/pages/product/category/list';
+import CategoryEdit from '@/pages/product/category/edit';
+
 import { authenticatedUser, checkUserPermission } from './../guards';
 
 export default [
@@ -261,6 +264,31 @@ export default [
                 component: FeaturesSettingsVue,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            // Category
+            {
+                name: 'category',
+                path: 'product/category',
+                component: CategoryList,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
+                }
+            },
+            {
+                name: 'category-create',
+                path: 'product/category/create',
+                component: CategoryEdit,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
+                }
+            },
+            {
+                name: 'category-edit',
+                path: 'product/category/edit/:id',
+                component: CategoryEdit,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
                 }
             }
         ]

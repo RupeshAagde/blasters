@@ -662,10 +662,11 @@ export default {
             const params = {
                 page_size: 999999,
                 page_no: 1,
-                dept_id: this.selectedDeptIds
+                department: this.selectedDeptIds,
+                level: 3
             };
             return new Promise((resolve, reject) => {
-                CompanyService.fetchCategories(params)
+                CompanyService.fetchCategory_v2(params)
                     .then(({ data }) => {
                         this.categories = data.data;
                         this.setCategoriesList();
@@ -717,7 +718,7 @@ export default {
                 ) {
                     this.categoriesList.push({
                         text: c.name,
-                        value: c.slug_key
+                        value: c.slug
                     });
                 }
             });
@@ -794,7 +795,7 @@ export default {
                     .catch((err) => {
                         this.inProgress = false;
 
-                        if (err.response.data.errors) {
+                        if (err && err.response && err.response.data && err.response.data.errors) {
                             Object.values(err.response.data.errors).forEach(
                                 (ele) => {
                                     this.$snackbar.global.showError(
@@ -805,7 +806,7 @@ export default {
                         } else {
                             this.$snackbar.global.showError(
                                 `Failed to save${
-                                    err && err.response.data.message
+                                    err && err.response && err.response.data.message
                                         ? ' : ' + err.response.data.message
                                         : err && err.message
                                         ? ' : ' + err.message
