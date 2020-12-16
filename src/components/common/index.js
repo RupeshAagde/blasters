@@ -10,6 +10,7 @@ import PageHeader from './layout/page-header.vue';
 import BaseCard from './base-card.vue';
 import ImageUploaderTile from './image-uploader/index.vue';
 import Permissions from './permissions.vue';
+import MetaBox from './meta-box.vue';
 
 export * from './dialogs';
 
@@ -25,5 +26,6 @@ export {
     PageHeader,
     BaseCard,
     ImageUploaderTile,
-    Permissions
+    Permissions,
+    MetaBox
 };

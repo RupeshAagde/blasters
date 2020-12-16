@@ -307,6 +307,23 @@ const URLS = {
     },
     GRINDOR_PROXY: () => {
         return urlJoin(PLATFORM_ASSETS_BASE, 'v1/proxy/fetch');
+    },
+
+    // integration list
+    INTEGRATIONS_LIST: () => {
+        return urlJoin(PLATFORM_COMMON_BASE,'integration');
+    },
+    INTEGRATION_BY_ID: (id = '') => {
+        return urlJoin(PLATFORM_COMMON_BASE,'integration', id);
+    },
+    SAVE_INTEGRATION: (id = '') => {
+        return urlJoin(PLATFORM_COMMON_BASE,'integration', id);
+    },
+    ADD_INTEGRATION: () => {
+        return urlJoin(PLATFORM_COMMON_BASE,'integration');
+    },
+    FETCH_COMPANY_LIST: () => {
+        return urlJoin(SILVERBOLT_MAIN_URL, 'v1/onboarding/company/info-view');
     }
 };
 
