@@ -5,7 +5,7 @@
                 <jumbotron
                     :title="'Integrations'"
                     btnLabel="Add Integration"
-                    :desc="'Manage user roles and permissions'"
+                    :desc="'Manage integrations'"
                     @btnClick="addIntegration"
                 ></jumbotron>
             </div>

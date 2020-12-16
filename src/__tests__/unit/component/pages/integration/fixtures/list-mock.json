@@ -75,7 +75,7 @@
             "descriptionHTML": "",
             "constants": "{}",
             "companies": [],
-            "support": [],
+            "support": ["inventory", "order"],
             "_id": "5e5608bf4265cf7198d1e58f",
             "name": "x0-2",
             "meta": [

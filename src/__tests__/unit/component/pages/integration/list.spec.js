@@ -14,7 +14,7 @@ let localVue = createLocalVue()
 localVue.use(VueRouter)
 let wrapper, router
 
-describe('Mounted List Attributes Page', () => {
+describe('Mounted List Integration Page', () => {
     beforeEach(async () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
@@ -45,4 +45,13 @@ describe('Mounted List Attributes Page', () => {
         await new Promise(resolve => setTimeout(resolve, 10));
         expect(wrapper.vm.integrationsList.length).toBe(10);
     })
+    it('add integartion', async () => {
+        wrapper.vm.addIntegration()
+        expect(router.currentRoute.path).toBe(`/administrator/integration/create`);
+    })
+    it('edit integartion', async () => {
+        wrapper.vm.editIntegration({_id:'5e5608bf4265cf7198d1e58f'})
+        expect(router.currentRoute.path).toBe(`/administrator/integration/edit/5e5608bf4265cf7198d1e58f`);
+    })
+
 })

@@ -259,7 +259,7 @@
                 </div>
             </div>
         </div>
-
+        <loader v-if="inProgress" class="loading"></loader>
         <nitrozen-dialog ref="previewSchema" title="Preview">
             <template slot="body">
                 <div v-if="Object.keys(activeSchema).length">
@@ -275,76 +275,6 @@
         </nitrozen-dialog>
     </div>
 </template>
-
-<style lang="less" scoped>
-@import './../less/page-header.less';
-@import './../less/page-ui.less';
-.integration {
-    ::v-deep .button-box {
-        display: flex;
-        align-items: center;
-    }
-    ::v-deep .pad-right {
-        margin-right: 16px;
-    }
-    .clickable-label {
-        cursor: pointer;
-    }
-}
-.main-container {
-    .page-container {
-        margin: 0;
-        width: auto;
-        display: block;
-    }
-    .schmea-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .mb-24 {
-        margin-bottom: 24px;
-    }
-    .mb-12 {
-        margin-bottom: 12px;
-    }
-    .form-body {
-        margin-top: 12px;
-    }
-    .selection-div {
-        display: flex;
-        .selection-checkbox {
-            margin-left: 24px;
-        }
-    }
-    .right-container {
-        flex: 0 calc(40% - 0px);
-        .token {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            .token-input{
-                width: 90%;
-            }
-        }
-        .tags {
-            .tag-row {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                margin-bottom: 12px;
-            }
-        }
-    }
-    .left-container {
-        flex: 0 calc(60% - 24px);
-        margin-right: 24px;
-    }
-}
-.pointer {
-    cursor: pointer;
-}
-</style>
 
 <script>
 import { getRoute } from '@/helper/get-route';
@@ -407,6 +337,7 @@ export default {
         return {
             pageLoading: false,
             pageError: false,
+            inProgress: false,
             icon: this.getInitialValue(''),
             description: this.getInitialValue(''),
             name: this.getInitialValue(''),
@@ -461,7 +392,6 @@ export default {
                     obj
                 )
                     .then(({ data }) => {
-                        console.log(data);
                         this.inProgress = false;
                         this.$snackbar.global.showSuccess(
                             `Successfully Updated`,
@@ -469,6 +399,11 @@ export default {
                                 duration: 2000
                             }
                         );
+                        setTimeout(() => {
+                            this.$router.push({
+                                path: `/administrator/integrations/list`
+                            });
+                        }, 200);
                     })
                     .catch((err) => {
                         this.inProgress = false;
@@ -486,6 +421,11 @@ export default {
                                 duration: 2000
                             }
                         );
+                        setTimeout(() => {
+                            this.$router.push({
+                                path: `/administrator/integrations/list`
+                            });
+                        }, 200);
                     })
                     .catch((err) => {
                         this.inProgress = false;
@@ -695,3 +635,73 @@ export default {
     }
 };
 </script>
+
+<style lang="less" scoped>
+@import './../less/page-header.less';
+@import './../less/page-ui.less';
+.integration {
+    ::v-deep .button-box {
+        display: flex;
+        align-items: center;
+    }
+    ::v-deep .pad-right {
+        margin-right: 16px;
+    }
+    .clickable-label {
+        cursor: pointer;
+    }
+}
+.main-container {
+    .page-container {
+        margin: 0;
+        width: auto;
+        display: block;
+    }
+    .schmea-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .mb-24 {
+        margin-bottom: 24px;
+    }
+    .mb-12 {
+        margin-bottom: 12px;
+    }
+    .form-body {
+        margin-top: 12px;
+    }
+    .selection-div {
+        display: flex;
+        .selection-checkbox {
+            margin-left: 24px;
+        }
+    }
+    .right-container {
+        flex: 0 calc(40% - 0px);
+        .token {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .token-input {
+                width: 90%;
+            }
+        }
+        .tags {
+            .tag-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 12px;
+            }
+        }
+    }
+    .left-container {
+        flex: 0 calc(60% - 24px);
+        margin-right: 24px;
+    }
+}
+.pointer {
+    cursor: pointer;
+}
+</style>
