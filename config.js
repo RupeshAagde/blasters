@@ -208,14 +208,14 @@ const conf = convict({
         DAYTRADER_MAIN_URL: {
             doc: 'Daytrader Public URL',
             format: String,
-            default: '',
+            default: 'https://api.fyndx0.de/daytrader/', // TODO: remove
             env: 'DAYTRADER_MAIN_URL',
             arg: 'daytrader_main_url'
         },
         DAYTRADER_MAIN_SVC: {
             doc: 'Daytrader Kube Service',
             format: String,
-            default: '',
+            default: 'https://api.fyndx0.de/daytrader/', // TODO: remove
             env: 'DAYTRADER_MAIN_SVC',
             arg: 'daytrader_main_svc'
         }
