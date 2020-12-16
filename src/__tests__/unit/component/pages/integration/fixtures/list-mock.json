@@ -1,0 +1,536 @@
+{
+    "docs": [
+        {
+            "validators": {
+                "company": { "browserScript": "" },
+                "store": { "browserScript": "" },
+                "inventory": { "browserScript": "" },
+                "order": { "browserScript": "" }
+            },
+            "description": "awesome integration",
+            "descriptionHTML": "",
+            "constants": "{}",
+            "companies": [],
+            "support": [],
+            "_id": "5e56089f4265cf2846d1e58c",
+            "name": "x0-1",
+            "meta": [
+                {
+                    "public": true,
+                    "_id": "5e56089f4265cf81e1d1e58e",
+                    "name": "wow",
+                    "value": "1"
+                },
+                {
+                    "public": false,
+                    "_id": "5e56089f4265cf6e49d1e58d",
+                    "name": "nice",
+                    "value": "dd"
+                }
+            ],
+            "icon": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1582696589/addsale/platform/integrations/icon/jihgcoibfmdttgiukwg0.png",
+            "owner": "5e55fe074bda3c392ed9eab2",
+            "createdAt": "2020-02-26T05:56:47.214Z",
+            "updatedAt": "2020-02-26T05:56:47.214Z",
+            "token": "fKoHRW5H",
+            "secret": "d1E85CTmf",
+            "__v": 0
+        },
+        {
+            "validators": {
+                "company": {
+                    "browserScript": "",
+                    "jsonSchema": {
+                        "type": "object",
+                        "required": ["article_identifier"],
+                        "properties": {
+                            "article_identifier": {
+                                "title": "Article Identifier",
+                                "type": "string",
+                                "enum": ["ean", "upc", "alu", "sku_code"],
+                                "description": "Please select the correct SKU identifier that you use to provide inventory to Fynd."
+                            }
+                        }
+                    }
+                },
+                "store": {
+                    "browserScript": "",
+                    "jsonSchema": {
+                        "type": "object",
+                        "required": ["article_identifier"],
+                        "properties": {
+                            "article_identifier": {
+                                "title": "Article Identifier",
+                                "type": "string",
+                                "enum": ["ean", "upc", "alu", "sku_code"],
+                                "description": "Please select the correct SKU identifier that you use to provide inventory to Fynd."
+                            }
+                        }
+                    }
+                },
+                "inventory": { "browserScript": "" },
+                "order": { "browserScript": "" }
+            },
+            "description": "jabardast",
+            "descriptionHTML": "",
+            "constants": "{}",
+            "companies": [],
+            "support": [],
+            "_id": "5e5608bf4265cf7198d1e58f",
+            "name": "x0-2",
+            "meta": [
+                {
+                    "public": false,
+                    "_id": "5e5608bf4265cf813fd1e590",
+                    "name": "wow",
+                    "value": "1"
+                }
+            ],
+            "icon": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1582696633/addsale/platform/integrations/icon/cstvvkgjgip1ja56gq4x.png",
+            "owner": "5e55fe074bda3c392ed9eab2",
+            "createdAt": "2020-02-26T05:57:19.875Z",
+            "updatedAt": "2020-04-03T18:46:25.686Z",
+            "token": "3h3_mnzp",
+            "secret": "dgGHrIlFG",
+            "__v": 1
+        },
+        {
+            "validators": {
+                "company": { "browserScript": "" },
+                "store": {
+                    "browserScript": "",
+                    "jsonSchema": {
+                        "type": "object",
+                        "required": [],
+                        "properties": {
+                            "alohomora_user_id": {
+                                "type": "string",
+                                "title": "alohomora_user_id",
+                                "description": "Enter above store token. Incase you don't have it, Please save and edit again."
+                            }
+                        }
+                    }
+                },
+                "inventory": { "browserScript": "" },
+                "order": { "browserScript": "" }
+            },
+            "description": "Unicommerce is cloud-based inventory management and omnichannel & multichannel order management system.",
+            "descriptionHTML": "",
+            "constants": "{}",
+            "companies": [],
+            "support": [],
+            "_id": "5e85c4464cfd4994088cb939",
+            "name": "Unicommerce",
+            "meta": [],
+            "icon": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1585824836/addsale/platform/integrations/icon/ky5pgxxlqvjvqerqx1po.png",
+            "owner": "5e60e43dcd08cf01069eb23e",
+            "createdAt": "2020-04-02T10:53:58.434Z",
+            "updatedAt": "2020-04-06T08:53:50.805Z",
+            "token": "W2hhVp-6X",
+            "secret": "URa2jDUy7w",
+            "__v": 0
+        },
+        {
+            "validators": {
+                "company": { "browserScript": "" },
+                "store": {
+                    "browserScript": "",
+                    "jsonSchema": {
+                        "type": "object",
+                        "required": [],
+                        "properties": {
+                            "alohomora_user_id": {
+                                "type": "string",
+                                "title": "alohomora_user_id",
+                                "description": "Enter above store token. Incase you don't have it, Please save and edit again."
+                            }
+                        }
+                    }
+                },
+                "inventory": { "browserScript": "" },
+                "order": { "browserScript": "" }
+            },
+            "description": "Vinculum is a global software company enabling Omnichannel retailing.",
+            "descriptionHTML": "",
+            "constants": "{}",
+            "companies": [],
+            "support": [],
+            "_id": "5e9717f121956687eb95f232",
+            "name": "Vinculum",
+            "meta": [],
+            "icon": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1586960331/addsale/platform/integrations/icon/qimmvnx5ki9bjxoertnr.png",
+            "owner": "5e60e43dcd08cf01069eb23e",
+            "createdAt": "2020-04-15T14:19:29.725Z",
+            "updatedAt": "2020-04-15T14:19:29.725Z",
+            "token": "DrWhkSfy3",
+            "secret": "2Oyg5TAfhv",
+            "__v": 0
+        },
+        {
+            "validators": {
+                "company": { "browserScript": "" },
+                "store": { "browserScript": "" },
+                "inventory": { "browserScript": "" },
+                "order": { "browserScript": "" }
+            },
+            "description": "JioMart POS",
+            "descriptionHTML": "",
+            "constants": "{}",
+            "companies": [],
+            "support": [],
+            "_id": "5ea2ee174d80007929d76068",
+            "name": "JioMart POS",
+            "meta": [],
+            "icon": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587736083/addsale/platform/integrations/icon/wpompohtcvo9dgucswqr.jpg",
+            "owner": "5e5f5faccd08cf0a61990b28",
+            "createdAt": "2020-04-24T13:48:07.590Z",
+            "updatedAt": "2020-04-24T13:48:07.590Z",
+            "token": "dLFaCLsZZ",
+            "secret": "D891k8aiM3",
+            "__v": 0
+        },
+        {
+            "validators": {
+                "company": {
+                    "browserScript": "",
+                    "jsonSchema": {
+                        "type": "object",
+                        "required": ["article_identifier"],
+                        "properties": {
+                            "article_identifier": {
+                                "title": "Article Identifier",
+                                "type": "string",
+                                "enum": ["ean", "upc", "alu", "sku_code"],
+                                "description": "Please select the correct SKU identifier that you use to provide inventory to Fynd."
+                            }
+                        }
+                    }
+                },
+                "store": {
+                    "browserScript": "",
+                    "jsonSchema": {
+                        "type": "object",
+                        "required": ["article_identifier"],
+                        "properties": {
+                            "article_identifier": {
+                                "title": "Article Identifier",
+                                "type": "string",
+                                "enum": ["ean", "upc", "alu", "sku_code"],
+                                "description": "Please select the correct SKU identifier that you use to provide inventory to Fynd."
+                            }
+                        }
+                    }
+                },
+                "inventory": { "browserScript": "" },
+                "order": { "browserScript": "" }
+            },
+            "description": "sarasuole",
+            "descriptionHTML": "",
+            "constants": "{}",
+            "companies": [],
+            "support": [],
+            "_id": "5eb4dd0530d829282f776818",
+            "name": "sarasuole",
+            "meta": [],
+            "icon": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1588911195/addsale/platform/integrations/icon/i0jyzmxcvin24gofioie.png",
+            "owner": "5e5c9343119df88c08676840",
+            "createdAt": "2020-05-08T04:13:51.027Z",
+            "updatedAt": "2020-05-08T06:26:39.760Z",
+            "token": "Zt-ZY9_de",
+            "secret": "Fbh-EC__Rj",
+            "__v": 0
+        },
+        {
+            "validators": {
+                "company": {
+                    "browserScript": "",
+                    "jsonSchema": {
+                        "type": "object",
+                        "required": ["article_identifier"],
+                        "properties": {
+                            "article_identifier": {
+                                "title": "Article Identifier",
+                                "type": "string",
+                                "enum": ["ean", "upc", "alu", "sku_code"],
+                                "description": "Please select the correct SKU identifier that you use to provide inventory to Fynd."
+                            }
+                        }
+                    }
+                },
+                "store": {
+                    "browserScript": "",
+                    "jsonSchema": {
+                        "type": "object",
+                        "required": ["article_identifier"],
+                        "properties": {
+                            "article_identifier": {
+                                "title": "Article Identifier",
+                                "type": "string",
+                                "enum": ["ean", "upc", "alu", "sku_code"],
+                                "description": "Please select the correct SKU identifier that you use to provide inventory to Fynd."
+                            }
+                        }
+                    }
+                },
+                "inventory": { "browserScript": "" },
+                "order": { "browserScript": "" }
+            },
+            "description": "ethos",
+            "descriptionHTML": "",
+            "constants": "{}",
+            "companies": [],
+            "support": [],
+            "_id": "5eb8fea64798da3f46f6f02a",
+            "name": "ethos",
+            "meta": [],
+            "icon": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1589182116/addsale/platform/integrations/icon/l48klhpopo444qrmaf5q.png",
+            "owner": "5e5c9343119df88c08676840",
+            "createdAt": "2020-05-11T07:25:39.025Z",
+            "updatedAt": "2020-05-11T07:28:57.936Z",
+            "token": "j9y_W8-hq",
+            "secret": "aBKZNGwdUw",
+            "__v": 0
+        },
+        {
+            "validators": {
+                "company": {
+                    "browserScript": "",
+                    "jsonSchema": {
+                        "type": "object",
+                        "required": [
+                            "ip_address",
+                            "icode",
+                            "gds_entity_id",
+                            "auth_key"
+                        ],
+                        "properties": {
+                            "gds_entity_id": {
+                                "type": "string",
+                                "title": "GDS Entity ID",
+                                "minLength": 3,
+                                "maxLength": 10,
+                                "pattern": "^[a-zA-Z0-9]+$",
+                                "description": "GDS Entity ID is a unique identifier provided by Ginesys to you."
+                            },
+                            "ip_address": {
+                                "type": "string",
+                                "title": "IP Address",
+                                "pattern": "(\\d{1,3}\\.){3}\\d{1,3}",
+                                "description": "Enter IP address provided by Ginesys for your POS server"
+                            },
+                            "auth_key": {
+                                "title": "Auth Key",
+                                "type": "string",
+                                "maxLength": 500,
+                                "description": "Provide authentication token provided by Ginesys to you."
+                            },
+                            "icode": {
+                                "title": "ICODE",
+                                "type": "string",
+                                "enum": ["ean", "upc", "alu", "sku_code"],
+                                "description": "Please select the correct SKU identifier that you use to provide inventory to Fynd."
+                            }
+                        }
+                    }
+                },
+                "store": {
+                    "browserScript": "",
+                    "jsonSchema": {
+                        "type": "object",
+                        "properties": {
+                            "location_id": {
+                                "type": "string",
+                                "title": "Location ID",
+                                "description": "Provide site code as per POS/SAP."
+                            },
+                            "ip_address": {
+                                "type": "string",
+                                "title": "IP Address",
+                                "pattern": "(\\d{1,3}\\.){3}\\d{1,3}",
+                                "description": "Enter IP address provided by Ginesys for your POS server"
+                            }
+                        }
+                    }
+                },
+                "inventory": { "browserScript": "" },
+                "order": { "browserScript": "" }
+            },
+            "description": "Sap Integration west ELM brands",
+            "descriptionHTML": "",
+            "constants": "{}",
+            "companies": [],
+            "support": [],
+            "_id": "5ec376ce848a005189acb312",
+            "name": "SAP RBL Integration",
+            "meta": [
+                {
+                    "public": true,
+                    "_id": "5ee3e246129be17ce0b59ef4",
+                    "name": "price_level",
+                    "value": "store"
+                }
+            ],
+            "icon": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1589868232/addsale/platform/integrations/icon/z3kj9p8nidx4zzmdutdu.svg",
+            "owner": "5e60e43dcd08cf01069eb23e",
+            "createdAt": "2020-05-19T06:03:58.757Z",
+            "updatedAt": "2020-06-15T12:00:42.598Z",
+            "token": "qk60vXqk-",
+            "secret": "Gp0dYInpUV",
+            "__v": 13
+        },
+        {
+            "validators": {
+                "company": {
+                    "browserScript": "",
+                    "jsonSchema": {
+                        "type": "object",
+                        "required": [
+                            "ip_address",
+                            "auth_key",
+                            "icode",
+                            "gds_entity_id",
+                            "location_id"
+                        ],
+                        "properties": {
+                            "gds_entity_id": {
+                                "type": "string",
+                                "title": "GDS Entity ID",
+                                "minLength": 3,
+                                "maxLength": 10,
+                                "pattern": "^[a-zA-Z0-9]+$",
+                                "description": "GDS Entity ID is a unique identifier provided by Ginesys to you."
+                            },
+                            "ip_address": {
+                                "type": "string",
+                                "title": "IP Address",
+                                "description": "Enter IP address provided by Ginesys for your POS server"
+                            },
+                            "auth_key": {
+                                "title": "Auth Key",
+                                "type": "string",
+                                "maxLength": 500,
+                                "description": "Provide authentication token provided by Ginesys to you."
+                            },
+                            "location_id": {
+                                "type": "string",
+                                "title": "Location ID",
+                                "description": "Provide site code as per POS/SAP."
+                            },
+                            "icode": {
+                                "title": "ICODE",
+                                "type": "string",
+                                "enum": ["ean", "upc", "alu", "sku_code"],
+                                "description": "Please select the correct SKU identifier that you use to provide inventory to Fynd."
+                            }
+                        }
+                    }
+                },
+                "store": {
+                    "browserScript": "",
+                    "jsonSchema": {
+                        "type": "object",
+                        "required": [
+                            "ip_address",
+                            "auth_key",
+                            "gds_entity_id",
+                            "location_id"
+                        ],
+                        "properties": {
+                            "gds_entity_id": {
+                                "type": "string",
+                                "title": "GDS Entity ID",
+                                "minLength": 3,
+                                "maxLength": 10,
+                                "pattern": "^[a-zA-Z0-9]+$",
+                                "description": "GDS Entity ID is a unique identifier provided by Ginesys to you."
+                            },
+                            "ip_address": {
+                                "type": "string",
+                                "title": "IP Address",
+                                "description": "Enter IP address provided by Ginesys for your POS server"
+                            },
+                            "auth_key": {
+                                "title": "Auth Key",
+                                "type": "string",
+                                "maxLength": 500,
+                                "description": "Provide authentication token provided by Ginesys to you."
+                            },
+                            "location_id": {
+                                "type": "string",
+                                "title": "Location ID",
+                                "description": "Provide site code as per POS/SAP."
+                            },
+                            "icode": {
+                                "title": "ICODE",
+                                "type": "string",
+                                "enum": ["ean", "upc", "alu", "sku_code"],
+                                "description": "Please select the correct SKU identifier that you use to provide inventory to Fynd."
+                            }
+                        }
+                    }
+                },
+                "inventory": { "browserScript": "" },
+                "order": { "browserScript": "" }
+            },
+            "description": "Ginesys POS Integration",
+            "descriptionHTML": "",
+            "constants": "{}",
+            "companies": [],
+            "support": [],
+            "_id": "5ed1f16dc411419b0a769b7d",
+            "name": "Ginesys",
+            "meta": [
+                {
+                    "public": false,
+                    "_id": "5ed1f16dc411411697769b7f",
+                    "name": "version",
+                    "value": "1.0"
+                },
+                {
+                    "public": true,
+                    "_id": "5ed1f16dc411418602769b7e",
+                    "name": "price_level",
+                    "value": "company"
+                }
+            ],
+            "icon": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1590817095/addsale/platform/integrations/icon/jmddru5qxphh9mwgv5dk.png",
+            "owner": "5e5c9343119df88c08676840",
+            "createdAt": "2020-05-30T05:38:49.861Z",
+            "updatedAt": "2020-12-16T08:12:32.770Z",
+            "token": "6Nnv8h_pj",
+            "secret": "iRaKbWDB4u",
+            "__v": 9,
+            "company": [],
+            "permissions": []
+        },
+        {
+            "validators": {
+                "company": { "browserScript": "" },
+                "store": {
+                    "browserScript": "function check() {\n    return true;\n}"
+                },
+                "inventory": { "browserScript": "" },
+                "order": { "browserScript": "" }
+            },
+            "description": "",
+            "descriptionHTML": "",
+            "constants": "{\"ping\":\"pong4\"}",
+            "companies": [],
+            "support": [],
+            "_id": "5ee6f07704e4515dd86b5564",
+            "name": "Test",
+            "meta": [],
+            "icon": "https://media.licdn.com/dms/image/C4E0BAQGnvFvxR9L9EA/company-logo_400_400/0?e=1565827200&v=beta&t=71USSMYkqrc2J0gUDhrZqXznYESOhGmRFb5yXjkFTVw",
+            "owner": "5e5f5faccd08cf0a61990b28",
+            "token": "NKof0JQw0",
+            "secret": "ffHsb3D-Ke",
+            "createdAt": "2019-05-14T08:02:35.324Z",
+            "updatedAt": "2019-05-14T08:02:35.324Z",
+            "__v": 0
+        }
+    ],
+    "total": 17,
+    "limit": 10,
+    "page": 1,
+    "pages": 2
+}
