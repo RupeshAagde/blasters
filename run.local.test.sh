@@ -38,4 +38,3 @@ export NEW_RELIC_APP_NAME=blaster
 export NEW_RELIC_LICENSE_KEY=''
 
 npm run test -- -u
-node tools/coverage_output.js
