@@ -4,7 +4,7 @@
             <nitrozen-input
                 :value="
                     filter_data.query.title.trim() ||
-                        filter_data.query.code.trim()
+                    filter_data.query.code.trim()
                 "
                 :showSearchIcon="true"
                 class="search"
@@ -65,17 +65,25 @@
                 @click="onTicketSelection(ticket)"
             >
                 <div class="card-content-section">
+                    <div class="card-content-line-2">
+                        Request #{{ ticket.ticket_id }} |
+                        {{ readableDate(new Date(ticket.createdAt)) }}
+                    </div>
                     <div class="card-content-line-1">
-                        #{{ ticket.ticket_id }}
                         {{ ticket.content.title }}
                     </div>
-                    <div class="card-content-line-2">
-                        {{ ticket.content.description }}
-                    </div>
                     <div class="card-content-line-3">
-                        Created by {{ ticket.created_by.user.firstName }}
-                        {{ ticket.created_by.user.lastName }}
-                        {{ ` on ${readableDate(new Date(ticket.createdAt))}` }}
+                        {{ ticketSubtitle(ticket) }}
+                    </div>
+                    <div class="card-content-line-3"
+                        v-if="ticket.assigned_to && ticket.assigned_to.firstName"
+                    >
+                        {{
+                            'Assigned to ' +
+                            ticket.assigned_to.firstName +
+                            ' ' +
+                            ticket.assigned_to.lastName
+                        }}
                     </div>
                 </div>
                 <div class="card-badge-section right-container">
@@ -83,15 +91,15 @@
                         <nitrozen-badge
                             v-if="
                                 ticket.assigned_to != null &&
-                                    ticket.assigned_to.source != null &&
-                                    ticket.assigned_to.source
+                                ticket.assigned_to.source != null &&
+                                ticket.assigned_to.source
                             "
                             state="default"
                         >
                             {{
                                 ticket.assigned_to.source.firstName +
-                                    ' ' +
-                                    ticket.assigned_to.source.lastName
+                                ' ' +
+                                ticket.assigned_to.source.lastName
                             }}</nitrozen-badge
                         >
                         <nitrozen-badge state="default">{{
@@ -204,7 +212,12 @@ export default {
         return {
             query_string: '',
             initial_data: [],
-            companies: [],
+            companies: [
+                {
+                    text: 'All',
+                    value: 'All',
+                }
+            ],
             selectedCompany: 'All',
             defaultStatus: 'All',
             defaultCategory: 'All',
@@ -233,9 +246,6 @@ export default {
             isFirstTime: true,
             searchText: ''
         };
-    },
-    beforeMount() {
-        //
     },
     mounted() {
         this.loadCompanies();
@@ -273,7 +283,11 @@ export default {
                 params['category'] = this.defaultCategory;
             }
 
-            return SupportService.fetchTickets(this.selectedCompany, params)
+            if (this.selectedCompany != 'All' && this.selectedCompany != '') {
+                params['company_id'] = this.selectedCompany;
+            }
+
+            return SupportService.fetchTickets(params)
                 .then((res) => {
                     this.initial_data = res.data.docs;
                     this.filter_data.pagination.total = res.data.total;
@@ -335,6 +349,24 @@ export default {
         readableDate(date) {
             return moment(date).format('MMM Do YYYY, h:mm a');
         },
+        ticketSubtitle(ticket) {
+            let subtitle = 'Created by ';
+
+            if (ticket.created_by && ticket.created_by.user) {
+                const username =
+                    ticket.created_by.user.firstName +
+                    ' ' +
+                    ticket.created_by.user.lastName;
+                subtitle = subtitle + username;
+            } else if (ticket.created_by && ticket.created_by.details) {
+                subtitle =
+                    subtitle + ticket.created_by.details.name || 'Anonymous';
+            } else {
+                subtitle = subtitle + 'Anonymous';
+            }
+
+            return subtitle;
+        },
         requestQuery() {
             const query = {
                 page_no: this.pagination.current,
@@ -354,26 +386,23 @@ export default {
             CompanyService.getCompanyList(this.requestQuery())
                 .then((res) => {
                     if (refresh) {
-                        this.companies = [];
+                        this.companies = [
+                            {
+                                text: 'All',
+                                value: 'All',
+                            }
+                        ];
                     }
 
                     this.companies.push(
-                        ...[
-                            // {
-                            //     text: 'All',
-                            //     value: 'All'
-                            // },
-                            ...res.data.data.map((v) => {
-                                return {
-                                    text: v.name,
-                                    value: v.uid
-                                };
-                            })
-                        ]
+                        ...res.data.data.map((v) => {
+                            return {
+                                text: v.name,
+                                value: v.uid
+                            };
+                        })
                     );
-                    if (this.isFirstTime) {
-                        this.selectedCompany = this.companies[0].value;
-                    }
+
                     this.pagination.total = res.data.total_count;
                     this.pagination.current = this.pagination.current + 1;
                     this.pagination.next_page = res.data.next_page;

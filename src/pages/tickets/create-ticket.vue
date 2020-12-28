@@ -244,6 +244,7 @@ export default {
 
             if (this.ticketID) {
                 promises.push(SupportService.getTicket(this.ticketID));
+                promises.push(SupportService.fetchHistory(this.ticketID));
             }
 
             promises.push(UserService.getUserList(this.requestQuery()));
@@ -287,11 +288,14 @@ export default {
                         this.ticket.time_slot = ticket.time_slot;
                         this.ticket.created_on = ticket.created_on;
                         this.ticket.context = ticket.context;
+
+                        res = responses[2];
+                        this.ticket.history = res.data.docs;
                     }
 
                     res = responses[1];
                     if (this.ticketID) {
-                        res = responses[2];
+                        res = responses[3];
                     }
 
                     const array = [];
