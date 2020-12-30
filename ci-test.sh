@@ -4,3 +4,5 @@ ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
 npm install --only=dev
 
 source run.local.test.sh
+
+node tools/coverage_output.js
