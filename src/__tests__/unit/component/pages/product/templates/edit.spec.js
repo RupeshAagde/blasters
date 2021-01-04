@@ -5,6 +5,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import URLS from "../../../../../../services/domain.service.js"
 import mocks from "./mocks";
+import flushPromises from "flush-promises";
 
 describe('Mounted Templates', () => {
 	let wrapper;
@@ -16,6 +17,9 @@ describe('Mounted Templates', () => {
 		localVue.use(VueRouter);
 		mock.reset();
 	});
+	afterEach(() => {
+		await flushPromises();
+	})
 	test('Edit - is a Vue instance', async () => {
 		const router = new VueRouter({
 			routes: [
@@ -37,8 +41,6 @@ describe('Mounted Templates', () => {
 		await new Promise(resolve => setTimeout(resolve, 10));
 		expect(wrapper.exists()).toBeTruthy()
 		expect(wrapper.element).toMatchSnapshot()
-		const div = wrapper.find('div')
-		expect(div.exists()).toBe(true)
 	})
 	test('Edit - validate methods edit template', async () => {
 		const router = new VueRouter({
@@ -59,7 +61,8 @@ describe('Mounted Templates', () => {
 		}
 		);
 		await new Promise(resolve => setTimeout(resolve, 10));
-		wrapper.vm.saveForm();
+		const saveButton = wrapper.findComponent({ ref: 'save-button'});
+		saveButton.$vm.emit('click')
 		expect(wrapper.vm.inProgress).toBe(true)
 		console.log("wrapper.vm.template", wrapper.vm.template.banner)
 		wrapper.vm.$set(wrapper.vm.template, 'banner_image', {})
@@ -85,8 +88,6 @@ describe('Mounted Templates', () => {
 		await new Promise(resolve => setTimeout(resolve, 10));
 		expect(wrapper.exists()).toBeTruthy()
 		expect(wrapper.element).toMatchSnapshot()
-		const div = wrapper.find('div')
-		expect(div.exists()).toBe(true)
 	})
 
 })
