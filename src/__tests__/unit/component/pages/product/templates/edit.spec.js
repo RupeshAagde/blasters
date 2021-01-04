@@ -17,7 +17,7 @@ describe('Mounted Templates', () => {
 		localVue.use(VueRouter);
 		mock.reset();
 	});
-	afterEach(() => {
+	afterEach(async () => {
 		await flushPromises();
 	})
 	test('Edit - is a Vue instance', async () => {
@@ -62,7 +62,7 @@ describe('Mounted Templates', () => {
 		);
 		await new Promise(resolve => setTimeout(resolve, 10));
 		const saveButton = wrapper.findComponent({ ref: 'save-button'});
-		saveButton.$vm.emit('click')
+		saveButton.vm.$emit('click');
 		expect(wrapper.vm.inProgress).toBe(true)
 		console.log("wrapper.vm.template", wrapper.vm.template.banner)
 		wrapper.vm.$set(wrapper.vm.template, 'banner_image', {})
