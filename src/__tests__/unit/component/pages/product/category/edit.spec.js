@@ -6,6 +6,8 @@ import mocks from "./mocks";
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import VueRouter from 'vue-router';
+import flushPromises from "flush-promises";
+
 
 const mock = new MockAdapter(axios);
 
@@ -17,6 +19,9 @@ describe('Mounted Create/Edit Category Page', () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
         mock.reset();
+    });
+    afterEach(async () => {
+        await flushPromises();
     });
     it('should render to a snapshot', () => {
         const router = new VueRouter({
@@ -64,7 +69,9 @@ describe('Mounted Create/Edit Category Page', () => {
             router,
         })
         await new Promise(resolve => setTimeout(resolve, 10));
-        wrapper.vm.save()
+        const saveComponent = wrapper.findComponent({ ref: 'save'});
+        saveComponent.vm.$emit('click')
+        // wrapper.vm.save()
         expect(wrapper.vm.name.showerror).toBe(true)
     })
     it('edit - should render to a snapshot', async () => {
@@ -83,7 +90,9 @@ describe('Mounted Create/Edit Category Page', () => {
             router
         })
         await new Promise(resolve => setTimeout(resolve, 10));
-        wrapper.vm.save();
+        const saveComponent = wrapper.findComponent({ ref: 'save'});
+        saveComponent.vm.$emit('click')
+        // wrapper.vm.save();
         expect(wrapper.vm.name.showerror).toBe(false)
         expect(wrapper.exists()).toBeTruthy();
         expect(wrapper.vm.isEdit).toBe(true);
@@ -105,7 +114,9 @@ describe('Mounted Create/Edit Category Page', () => {
         })
         await new Promise(resolve => setTimeout(resolve, 10));
         const wrapperInstance = wrapper.vm;
-        wrapperInstance.save();
+        const saveComponent = wrapper.findComponent({ ref: 'save'});
+        saveComponent.vm.$emit('click')
+        // wrapperInstance.save();
         expect(wrapperInstance.getItems(1, 2)).toEqual([]);
         wrapperInstance.$set(wrapperInstance.marketplaces.subvalues.google, 'catalog_id', 12);
         wrapperInstance.$set(wrapperInstance.marketplaces.subvalues.google, 'name', 'testName');

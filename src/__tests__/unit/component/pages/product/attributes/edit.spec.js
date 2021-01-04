@@ -6,6 +6,8 @@ import mocks from "./mocks";
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import VueRouter from 'vue-router';
+import flushPromises from "flush-promises";
+
 const mock = new MockAdapter(axios);
 
 let localVue = createLocalVue()
@@ -17,6 +19,9 @@ describe('Create/Edit Attribute Page', () => {
         localVue.use(VueRouter);
         mock.reset();
     });
+    afterEach(async () => {
+        await flushPromises();
+    })
     it('should render to a snapshot', () => {
         const router = new VueRouter({
             routes: [
@@ -68,7 +73,9 @@ describe('Create/Edit Attribute Page', () => {
         })
         await new Promise(resolve => setTimeout(resolve, 10));
         expect(wrapper.element).toMatchSnapshot();
-        wrapper.vm.saveForm();
+        const saveComponent = wrapper.findComponent({ ref: 'save-button' });
+        saveComponent.vm.$emit('click');
+        // wrapper.vm.saveForm();
         wrapper.vm.setUnitsList({ text: "milli" })
         expect(wrapper.vm.getFormData().details.displayType).toBe('text');
         wrapper.vm.$set(wrapper.vm, 'attrType', 'html');
@@ -76,7 +83,8 @@ describe('Create/Edit Attribute Page', () => {
         wrapper.vm.$set(wrapper.vm, 'attrType', 'test');
         expect(wrapper.vm.getFormData().schema.type).toBe('test');
         expect(wrapper.vm.getFormData().details.displayType).toBe('text');
-        await wrapper.vm.saveForm();
+        saveComponent.vm.$emit('click');
+        // await wrapper.vm.saveForm();
         expect(wrapper.vm.inProgress).toBe(true);
         done();
     });
