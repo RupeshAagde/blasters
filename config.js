@@ -204,6 +204,20 @@ const conf = convict({
             default: '',
             env: 'UNICRON_MAIN_SVC',
             arg: 'UNICRON_MAIN_SVC'
+        },
+        DAYTRADER_MAIN_URL: {
+            doc: 'Daytrader Public URL',
+            format: String,
+            default: '',
+            env: 'DAYTRADER_MAIN_URL',
+            arg: 'daytrader_main_url'
+        },
+        DAYTRADER_MAIN_SVC: {
+            doc: 'Daytrader Kube Service',
+            format: String,
+            default: '',
+            env: 'DAYTRADER_MAIN_SVC',
+            arg: 'daytrader_main_svc'
         }
     },
 
