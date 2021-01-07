@@ -31,6 +31,7 @@
                             <nitrozen-button
                                 class="left-space-txb"
                                 :theme="'secondary'"
+                                ref='save-button'
                                 @click="save"
                                 v-flatBtn
                                 >Save</nitrozen-button

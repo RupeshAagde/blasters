@@ -378,7 +378,7 @@ export default {
                         });
                     })
                     .catch((error) => {
-                        console.error(error);
+                        console.log(error);
                         this.$snackbar.global.showError(
                             `${error.response ? error.response.message : ''}`,
                             {
@@ -446,7 +446,7 @@ export default {
                             }
                         })
                         .catch((error) => {
-                            console.error(error);
+                            console.log(error);
                             this.$snackbar.global.showError(
                                 `${
                                     error.response.data
@@ -485,7 +485,7 @@ export default {
                                 }
                             })
                             .catch((error) => {
-                                console.error(error);
+                                console.log(error);
                                 this.$snackbar.global.showError(
                                     `${
                                         error.response.data

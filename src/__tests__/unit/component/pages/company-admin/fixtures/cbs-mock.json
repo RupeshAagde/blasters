@@ -1,0 +1,2609 @@
+{
+    "brands": {
+        "addResBrandMockData": {
+            "success": true,
+            "message": "Success!!!",
+            "uid": 574
+        },
+        "editResBrandMockData": {
+            "success": true,
+            "message": "Success!!!",
+            "uid": 569
+        },
+        "brandData": {
+            "name": "my test",
+            "logo": "https://hdn-1.addsale.com/x0/brands/pictures/square-logo/original/CyWaLNhNX-uCO0UOmYt-Logo.png",
+            "company_id": "1",
+            "description": "sdsdsdds",
+            "banner": {
+                "landscape": "https://hdn-1.addsale.com/x0/brands/pictures/landscape-banner/original/8XyqjYo1Q-1601376735576.jpeg",
+                "portrait": "https://hdn-1.addsale.com/x0/brands/pictures/portrait-banner/original/exn2kz1Ls-1602218616241.jpeg"
+            },
+            "_locale_language": {},
+            "uid": 574
+        },
+        "allBrandResMockData": {
+            "data": [
+                {
+                    "created_by": {
+                        "user_id": "6",
+                        "username": "919004848895_23458"
+                    },
+                    "company": {
+                        "created_by": {
+                            "user_id": "0",
+                            "username": "app@fynd.com"
+                        },
+                        "business_type": "ltd/pvt ltd",
+                        "verified_by": {
+                            "user_id": "0",
+                            "username": "silverbolt"
+                        },
+                        "verified_on": "2020-10-09T09:53:19.175000+00:00",
+                        "uid": 1,
+                        "addresses": [
+                            {
+                                "address_type": "office",
+                                "pincode": 400050,
+                                "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                                "country": "India",
+                                "address2": "Bandra Terminus, Naupada, Bandra East",
+                                "latitude": 19.0548399,
+                                "city": "Mumbai",
+                                "state": "Maharashtra",
+                                "country_code": "IN",
+                                "longitude": 72.8406903
+                            },
+                            {
+                                "address_type": "registered",
+                                "pincode": 401105,
+                                "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                                "country": "India",
+                                "address2": "tof",
+                                "latitude": 19.303474,
+                                "city": "Mira Bhayandar",
+                                "state": "Maharashtra",
+                                "country_code": "IN",
+                                "longitude": 72.862951
+                            }
+                        ],
+                        "name": "RELIANCE RETAIL LTD",
+                        "created_on": "2020-05-18T16:16:07.902000+00:00",
+                        "company_type": "distributor",
+                        "modified_on": "2020-11-18T05:01:55.474000+00:00",
+                        "modified_by": {
+                            "user_id": "3",
+                            "username": "918793638893_86554"
+                        },
+                        "stage": "complete"
+                    },
+                    "brand": {
+                        "created_on": "2020-10-10T12:52:29.445000+00:00",
+                        "stage": "verified",
+                        "verified_on": "2020-11-18T05:02:18.907000+00:00",
+                        "modified_on": "2020-11-18T05:02:18.907000+00:00",
+                        "slug_key": "dgh",
+                        "modified_by": {
+                            "user_id": "3",
+                            "username": "918793638893_86554"
+                        },
+                        "logo": "https://hdn-1.addsale.com/x0/brands/pictures/square-logo/original/XrVUshEa3-1602334345118.jpeg",
+                        "synonyms": [],
+                        "created_by": {
+                            "user_id": "6",
+                            "username": "919004848895_23458"
+                        },
+                        "verified_by": {
+                            "user_id": "0",
+                            "username": "silverbolt"
+                        },
+                        "uid": 569,
+                        "name": "dghi",
+                        "banner": {
+                            "landscape": "https://hdn-1.addsale.com/x0/brands/pictures/landscape-banner/original/K9HMvHCcI-1602334347339.jpeg",
+                            "portrait": "https://hdn-1.addsale.com/x0/brands/pictures/portrait-banner/original/pWu0DWkGw-1602334348146.jpeg"
+                        }
+                    },
+                    "uid": 968,
+                    "created_on": "2020-10-10T12:52:29.743000+00:00",
+                    "modified_on": "2020-11-18T05:02:19.062000+00:00",
+                    "modified_by": {
+                        "user_id": "6",
+                        "username": "919004848895_23458"
+                    },
+                    "stage": "complete",
+                    "warnings": { "warning": "company not verified." }
+                }
+            ],
+            "success": true,
+            "message": "Success!!!",
+            "total_count": 1,
+            "next_page": false
+        },
+        "brandIdResMockData": {
+            "created_on": "2020-10-10T12:52:29.445000+00:00",
+            "stage": "verified",
+            "verified_on": "2020-11-18T05:02:18.907000+00:00",
+            "modified_on": "2020-11-18T05:02:18.907000+00:00",
+            "slug_key": "dgh",
+            "modified_by": { "user_id": "3", "username": "918793638893_86554" },
+            "logo": "https://hdn-1.addsale.com/x0/brands/pictures/square-logo/original/XrVUshEa3-1602334345118.jpeg",
+            "synonyms": [],
+            "created_by": { "user_id": "6", "username": "919004848895_23458" },
+            "verified_by": { "user_id": "0", "username": "silverbolt" },
+            "uid": 569,
+            "name": "dghi",
+            "banner": {
+                "landscape": "https://hdn-1.addsale.com/x0/brands/pictures/landscape-banner/original/K9HMvHCcI-1602334347339.jpeg",
+                "portrait": "https://hdn-1.addsale.com/x0/brands/pictures/portrait-banner/original/pWu0DWkGw-1602334348146.jpeg"
+            }
+        }
+    },
+    "stores": {
+        "allStoresResMockData": {
+            "data": [
+                {
+                    "documents": [],
+                    "name": "Fahim Farooq Sakir",
+                    "notification_emails": [],
+                    "created_on": "2020-06-26T09:13:42.312000+00:00",
+                    "code": "HS-44f96",
+                    "verified_by": {
+                        "user_id": "0",
+                        "username": "silverbolt"
+                    },
+                    "warnings": {
+                        "company": "Company not verified!",
+                        "store_address": "Invalid Address: Latitude Longitude does differs more than 5km for given address."
+                    },
+                    "integration_type": {
+                        "inventory": "jiopos",
+                        "order": "easyecom"
+                    },
+                    "created_by": {
+                        "user_id": "10",
+                        "username": "fahimsakri_gofynd_com_44938"
+                    },
+                    "contact_numbers": [
+                        {
+                            "country_code": 91,
+                            "number": "9594495254"
+                        }
+                    ],
+                    "display_name": "Fahim Farooq Sakir",
+                    "modified_by": {
+                        "user_id": "3",
+                        "username": "918793638893_86554"
+                    },
+                    "timing": [
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 30,
+                                "hour": 21
+                            },
+                            "weekday": "sunday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 30,
+                                "hour": 21
+                            },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 30,
+                                "hour": 21
+                            },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 30,
+                                "hour": 21
+                            },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 30,
+                                "hour": 21
+                            },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 30,
+                                "hour": 21
+                            },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 30,
+                                "hour": 21
+                            },
+                            "weekday": "saturday"
+                        }
+                    ],
+                    "company": {
+                        "created_on": "2020-05-18T16:16:07.902000+00:00",
+                        "uid": 1,
+                        "verified_by": {
+                            "user_id": "0",
+                            "username": "silverbolt"
+                        },
+                        "verified_on": "2020-10-09T09:53:19.175000+00:00",
+                        "created_by": {
+                            "user_id": "0",
+                            "username": "app@fynd.com"
+                        },
+                        "company_type": "distributor",
+                        "addresses": [
+                            {
+                                "address_type": "office",
+                                "state": "Maharashtra",
+                                "city": "Mumbai",
+                                "longitude": 72.8406903,
+                                "address2": "Bandra Terminus, Naupada, Bandra East",
+                                "pincode": 400050,
+                                "latitude": 19.0548399,
+                                "country": "India",
+                                "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                                "country_code": "IN"
+                            },
+                            {
+                                "address_type": "registered",
+                                "state": "Maharashtra",
+                                "city": "Mira Bhayandar",
+                                "longitude": 72.862951,
+                                "address2": "tof",
+                                "pincode": 401105,
+                                "latitude": 19.303474,
+                                "country": "India",
+                                "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                                "country_code": "IN"
+                            }
+                        ],
+                        "name": "RELIANCE RETAIL LTD",
+                        "business_type": "ltd/pvt ltd",
+                        "modified_on": "2020-11-18T05:01:55.474000+00:00",
+                        "modified_by": {
+                            "user_id": "3",
+                            "username": "918793638893_86554"
+                        },
+                        "stage": "complete"
+                    },
+                    "address": {
+                        "state": "MAHARASHTRA",
+                        "city": "MUMBAI SUBURBAN",
+                        "longitude": 72.8776559,
+                        "address2": "ANDHERI EAST MUMBAI",
+                        "pincode": 400093,
+                        "latitude": 19.0759837,
+                        "country": "INDIA",
+                        "address1": "511, 5TH FLOOR, SUMMIT - BUSINESS BAY, ANDHERI KURLA ROAD"
+                    },
+                    "modified_on": "2020-11-18T05:02:31.314000+00:00",
+                    "stage": "complete",
+                    "uid": 11547,
+                    "manager": {
+                        "email": "fahimsakri@gofynd.com",
+                        "mobile_no": {
+                            "country_code": 91,
+                            "number": "9594495254"
+                        },
+                        "name": "Fahim Sakri"
+                    },
+                    "shipment_tag": [],
+                    "verified_on": "2020-10-08T10:59:30.302000+00:00",
+                    "store_type": "high_street"
+                },
+                {
+                    "documents": [],
+                    "name": "tttt",
+                    "notification_emails": [],
+                    "created_on": "2020-10-13T09:26:16.359000+00:00",
+                    "code": "727272727",
+                    "warnings": {
+                        "company": "Company not verified!"
+                    },
+                    "created_by": {
+                        "user_id": "5",
+                        "username": "919049753052_37528"
+                    },
+                    "contact_numbers": [
+                        {
+                            "country_code": 91,
+                            "number": "9879868676"
+                        }
+                    ],
+                    "display_name": "tttt",
+                    "modified_by": {
+                        "user_id": "5",
+                        "username": "919049753052_37528"
+                    },
+                    "timing": [
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "sunday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "saturday"
+                        }
+                    ],
+                    "company": {
+                        "created_on": "2020-05-18T16:16:07.902000+00:00",
+                        "uid": 1,
+                        "verified_by": {
+                            "user_id": "0",
+                            "username": "silverbolt"
+                        },
+                        "verified_on": "2020-10-09T09:53:19.175000+00:00",
+                        "created_by": {
+                            "user_id": "0",
+                            "username": "app@fynd.com"
+                        },
+                        "company_type": "distributor",
+                        "addresses": [
+                            {
+                                "address_type": "office",
+                                "state": "Maharashtra",
+                                "city": "Mumbai",
+                                "longitude": 72.8406903,
+                                "address2": "Bandra Terminus, Naupada, Bandra East",
+                                "pincode": 400050,
+                                "latitude": 19.0548399,
+                                "country": "India",
+                                "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                                "country_code": "IN"
+                            },
+                            {
+                                "address_type": "registered",
+                                "state": "Maharashtra",
+                                "city": "Mira Bhayandar",
+                                "longitude": 72.862951,
+                                "address2": "tof",
+                                "pincode": 401105,
+                                "latitude": 19.303474,
+                                "country": "India",
+                                "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                                "country_code": "IN"
+                            }
+                        ],
+                        "name": "RELIANCE RETAIL LTD",
+                        "business_type": "ltd/pvt ltd",
+                        "modified_on": "2020-11-18T05:01:55.474000+00:00",
+                        "modified_by": {
+                            "user_id": "3",
+                            "username": "918793638893_86554"
+                        },
+                        "stage": "complete"
+                    },
+                    "address": {
+                        "state": "MAHARASHTRA",
+                        "city": "ULHASNAGAR",
+                        "longitude": 73.1653904,
+                        "pincode": 421003,
+                        "latitude": 19.2207029,
+                        "country": "INDIA",
+                        "address1": "3,YASHWANT COLONY "
+                    },
+                    "modified_on": "2020-10-13T09:26:16.596000+00:00",
+                    "stage": "complete",
+                    "uid": 11868,
+                    "manager": {
+                        "email": "gauravrai@gofynd.com",
+                        "mobile_no": {
+                            "country_code": 91,
+                            "number": "8989898986"
+                        },
+                        "name": "hshsshsjaj"
+                    },
+                    "shipment_tag": [],
+                    "store_type": "high_street"
+                },
+                {
+                    "documents": [],
+                    "name": "ddd",
+                    "notification_emails": [],
+                    "created_on": "2020-10-13T09:24:13.828000+00:00",
+                    "code": "3444444444",
+                    "warnings": {
+                        "company": "Company not verified!"
+                    },
+                    "created_by": {
+                        "user_id": "5",
+                        "username": "919049753052_37528"
+                    },
+                    "contact_numbers": [
+                        {
+                            "country_code": 91,
+                            "number": "9898989898"
+                        }
+                    ],
+                    "display_name": "ddd",
+                    "modified_by": {
+                        "user_id": "5",
+                        "username": "919049753052_37528"
+                    },
+                    "timing": [
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "sunday"
+                        },
+                        {
+                            "open": false,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": false,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": false,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": false,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "saturday"
+                        }
+                    ],
+                    "company": {
+                        "created_on": "2020-05-18T16:16:07.902000+00:00",
+                        "uid": 1,
+                        "verified_by": {
+                            "user_id": "0",
+                            "username": "silverbolt"
+                        },
+                        "verified_on": "2020-10-09T09:53:19.175000+00:00",
+                        "created_by": {
+                            "user_id": "0",
+                            "username": "app@fynd.com"
+                        },
+                        "company_type": "distributor",
+                        "addresses": [
+                            {
+                                "address_type": "office",
+                                "state": "Maharashtra",
+                                "city": "Mumbai",
+                                "longitude": 72.8406903,
+                                "address2": "Bandra Terminus, Naupada, Bandra East",
+                                "pincode": 400050,
+                                "latitude": 19.0548399,
+                                "country": "India",
+                                "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                                "country_code": "IN"
+                            },
+                            {
+                                "address_type": "registered",
+                                "state": "Maharashtra",
+                                "city": "Mira Bhayandar",
+                                "longitude": 72.862951,
+                                "address2": "tof",
+                                "pincode": 401105,
+                                "latitude": 19.303474,
+                                "country": "India",
+                                "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                                "country_code": "IN"
+                            }
+                        ],
+                        "name": "RELIANCE RETAIL LTD",
+                        "business_type": "ltd/pvt ltd",
+                        "modified_on": "2020-11-18T05:01:55.474000+00:00",
+                        "modified_by": {
+                            "user_id": "3",
+                            "username": "918793638893_86554"
+                        },
+                        "stage": "complete"
+                    },
+                    "address": {
+                        "state": "MAHARASHTRA",
+                        "city": "ULHASNAGAR",
+                        "longitude": 73.1653904,
+                        "pincode": 421003,
+                        "latitude": 19.2207029,
+                        "country": "INDIA",
+                        "address1": "3,YASHWANT COLONY "
+                    },
+                    "modified_on": "2020-10-13T09:24:14.305000+00:00",
+                    "stage": "complete",
+                    "uid": 11867,
+                    "manager": {
+                        "email": "gauravrai@gofynd.com",
+                        "mobile_no": {
+                            "country_code": 91,
+                            "number": "8989898989"
+                        },
+                        "name": "ddddss"
+                    },
+                    "shipment_tag": [],
+                    "store_type": "high_street"
+                },
+                {
+                    "documents": [],
+                    "name": "rtt",
+                    "notification_emails": [],
+                    "created_on": "2020-10-13T08:22:11.037000+00:00",
+                    "code": "345544",
+                    "warnings": {
+                        "store_address": "Invalid Address: Latitude Longitude does differs more than 5km for given address.",
+                        "company": "Company not verified!"
+                    },
+                    "created_by": {
+                        "user_id": "6",
+                        "username": "919004848895_23458"
+                    },
+                    "contact_numbers": [
+                        {
+                            "country_code": 91,
+                            "number": "0222885558"
+                        }
+                    ],
+                    "display_name": "rtt",
+                    "modified_by": {
+                        "user_id": "6",
+                        "username": "919004848895_23458"
+                    },
+                    "timing": [
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "sunday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "saturday"
+                        }
+                    ],
+                    "company": {
+                        "created_on": "2020-05-18T16:16:07.902000+00:00",
+                        "uid": 1,
+                        "verified_by": {
+                            "user_id": "0",
+                            "username": "silverbolt"
+                        },
+                        "verified_on": "2020-10-09T09:53:19.175000+00:00",
+                        "created_by": {
+                            "user_id": "0",
+                            "username": "app@fynd.com"
+                        },
+                        "company_type": "distributor",
+                        "addresses": [
+                            {
+                                "address_type": "office",
+                                "state": "Maharashtra",
+                                "city": "Mumbai",
+                                "longitude": 72.8406903,
+                                "address2": "Bandra Terminus, Naupada, Bandra East",
+                                "pincode": 400050,
+                                "latitude": 19.0548399,
+                                "country": "India",
+                                "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                                "country_code": "IN"
+                            },
+                            {
+                                "address_type": "registered",
+                                "state": "Maharashtra",
+                                "city": "Mira Bhayandar",
+                                "longitude": 72.862951,
+                                "address2": "tof",
+                                "pincode": 401105,
+                                "latitude": 19.303474,
+                                "country": "India",
+                                "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                                "country_code": "IN"
+                            }
+                        ],
+                        "name": "RELIANCE RETAIL LTD",
+                        "business_type": "ltd/pvt ltd",
+                        "modified_on": "2020-11-18T05:01:55.474000+00:00",
+                        "modified_by": {
+                            "user_id": "3",
+                            "username": "918793638893_86554"
+                        },
+                        "stage": "complete"
+                    },
+                    "address": {
+                        "state": "KARNATAKA",
+                        "city": "BENGALURU",
+                        "longitude": 77.5943574,
+                        "pincode": 560001,
+                        "latitude": 12.9719491,
+                        "country": "INDIA",
+                        "address1": "HSR LAYOUT "
+                    },
+                    "modified_on": "2020-10-13T08:22:11.584000+00:00",
+                    "stage": "complete",
+                    "uid": 11866,
+                    "manager": {
+                        "email": "sdff@ghji.com",
+                        "mobile_no": {
+                            "country_code": 91,
+                            "number": "9858458855"
+                        },
+                        "name": "fghhhg"
+                    },
+                    "shipment_tag": [],
+                    "store_type": "high_street"
+                },
+                {
+                    "documents": [],
+                    "name": "fferss",
+                    "notification_emails": [],
+                    "created_on": "2020-10-12T12:05:27.600000+00:00",
+                    "code": "35664",
+                    "warnings": {
+                        "company": "Company not verified!"
+                    },
+                    "created_by": {
+                        "user_id": "6",
+                        "username": "919004848895_23458"
+                    },
+                    "contact_numbers": [
+                        {
+                            "country_code": 91,
+                            "number": "0228555556"
+                        }
+                    ],
+                    "display_name": "fferss",
+                    "modified_by": {
+                        "user_id": "6",
+                        "username": "919004848895_23458"
+                    },
+                    "timing": [
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "sunday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "saturday"
+                        }
+                    ],
+                    "company": {
+                        "created_on": "2020-05-18T16:16:07.902000+00:00",
+                        "uid": 1,
+                        "verified_by": {
+                            "user_id": "0",
+                            "username": "silverbolt"
+                        },
+                        "verified_on": "2020-10-09T09:53:19.175000+00:00",
+                        "created_by": {
+                            "user_id": "0",
+                            "username": "app@fynd.com"
+                        },
+                        "company_type": "distributor",
+                        "addresses": [
+                            {
+                                "address_type": "office",
+                                "state": "Maharashtra",
+                                "city": "Mumbai",
+                                "longitude": 72.8406903,
+                                "address2": "Bandra Terminus, Naupada, Bandra East",
+                                "pincode": 400050,
+                                "latitude": 19.0548399,
+                                "country": "India",
+                                "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                                "country_code": "IN"
+                            },
+                            {
+                                "address_type": "registered",
+                                "state": "Maharashtra",
+                                "city": "Mira Bhayandar",
+                                "longitude": 72.862951,
+                                "address2": "tof",
+                                "pincode": 401105,
+                                "latitude": 19.303474,
+                                "country": "India",
+                                "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                                "country_code": "IN"
+                            }
+                        ],
+                        "name": "RELIANCE RETAIL LTD",
+                        "business_type": "ltd/pvt ltd",
+                        "modified_on": "2020-11-18T05:01:55.474000+00:00",
+                        "modified_by": {
+                            "user_id": "3",
+                            "username": "918793638893_86554"
+                        },
+                        "stage": "complete"
+                    },
+                    "address": {
+                        "state": "MAHARASHTRA",
+                        "city": "MUMBAI",
+                        "longitude": 72.838438,
+                        "pincode": 400054,
+                        "latitude": 19.0771659,
+                        "country": "INDIA",
+                        "address1": "19,WILLINGDON,SANTACRUZ WEST "
+                    },
+                    "modified_on": "2020-10-12T12:43:59.434000+00:00",
+                    "stage": "complete",
+                    "uid": 11728,
+                    "manager": {
+                        "email": "sdgg@ghui.com",
+                        "mobile_no": {
+                            "country_code": 91,
+                            "number": "9455852585"
+                        },
+                        "name": "fgyuvddfg"
+                    },
+                    "shipment_tag": [],
+                    "store_type": "high_street"
+                },
+                {
+                    "documents": [],
+                    "name": "kuimuis",
+                    "notification_emails": [],
+                    "created_on": "2020-10-12T12:03:40.799000+00:00",
+                    "code": "345323",
+                    "warnings": {
+                        "company": "Company not verified!"
+                    },
+                    "created_by": {
+                        "user_id": "6",
+                        "username": "919004848895_23458"
+                    },
+                    "contact_numbers": [
+                        {
+                            "country_code": 91,
+                            "number": "0225554566"
+                        }
+                    ],
+                    "display_name": "kuimuis",
+                    "modified_by": {
+                        "user_id": "6",
+                        "username": "919004848895_23458"
+                    },
+                    "timing": [
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "sunday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 23
+                            },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "saturday"
+                        }
+                    ],
+                    "company": {
+                        "created_on": "2020-05-18T16:16:07.902000+00:00",
+                        "uid": 1,
+                        "verified_by": {
+                            "user_id": "0",
+                            "username": "silverbolt"
+                        },
+                        "verified_on": "2020-10-09T09:53:19.175000+00:00",
+                        "created_by": {
+                            "user_id": "0",
+                            "username": "app@fynd.com"
+                        },
+                        "company_type": "distributor",
+                        "addresses": [
+                            {
+                                "address_type": "office",
+                                "state": "Maharashtra",
+                                "city": "Mumbai",
+                                "longitude": 72.8406903,
+                                "address2": "Bandra Terminus, Naupada, Bandra East",
+                                "pincode": 400050,
+                                "latitude": 19.0548399,
+                                "country": "India",
+                                "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                                "country_code": "IN"
+                            },
+                            {
+                                "address_type": "registered",
+                                "state": "Maharashtra",
+                                "city": "Mira Bhayandar",
+                                "longitude": 72.862951,
+                                "address2": "tof",
+                                "pincode": 401105,
+                                "latitude": 19.303474,
+                                "country": "India",
+                                "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                                "country_code": "IN"
+                            }
+                        ],
+                        "name": "RELIANCE RETAIL LTD",
+                        "business_type": "ltd/pvt ltd",
+                        "modified_on": "2020-11-18T05:01:55.474000+00:00",
+                        "modified_by": {
+                            "user_id": "3",
+                            "username": "918793638893_86554"
+                        },
+                        "stage": "complete"
+                    },
+                    "address": {
+                        "state": "MAHARASHTRA",
+                        "city": "MUMBAI",
+                        "longitude": 72.840061,
+                        "pincode": 400054,
+                        "latitude": 19.075971,
+                        "country": "INDIA",
+                        "address1": "3,CONVENT AVE,WILLINGDON,SANTACRUZ WEST "
+                    },
+                    "modified_on": "2020-10-12T12:04:21.285000+00:00",
+                    "stage": "complete",
+                    "uid": 11860,
+                    "manager": {
+                        "email": "safg@ghjj.com",
+                        "mobile_no": {
+                            "country_code": 91,
+                            "number": "9522555522"
+                        },
+                        "name": "etty"
+                    },
+                    "shipment_tag": [],
+                    "store_type": "high_street"
+                },
+                {
+                    "documents": [],
+                    "name": "rozafa",
+                    "notification_emails": [],
+                    "created_on": "2020-10-12T11:59:42.298000+00:00",
+                    "code": "33455",
+                    "warnings": {
+                        "company": "Company not verified!"
+                    },
+                    "created_by": {
+                        "user_id": "6",
+                        "username": "919004848895_23458"
+                    },
+                    "contact_numbers": [
+                        {
+                            "country_code": 91,
+                            "number": "0557455555"
+                        }
+                    ],
+                    "display_name": "rozafa",
+                    "modified_by": {
+                        "user_id": "6",
+                        "username": "919004848895_23458"
+                    },
+                    "timing": [
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "sunday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "saturday"
+                        }
+                    ],
+                    "company": {
+                        "created_on": "2020-05-18T16:16:07.902000+00:00",
+                        "uid": 1,
+                        "verified_by": {
+                            "user_id": "0",
+                            "username": "silverbolt"
+                        },
+                        "verified_on": "2020-10-09T09:53:19.175000+00:00",
+                        "created_by": {
+                            "user_id": "0",
+                            "username": "app@fynd.com"
+                        },
+                        "company_type": "distributor",
+                        "addresses": [
+                            {
+                                "address_type": "office",
+                                "state": "Maharashtra",
+                                "city": "Mumbai",
+                                "longitude": 72.8406903,
+                                "address2": "Bandra Terminus, Naupada, Bandra East",
+                                "pincode": 400050,
+                                "latitude": 19.0548399,
+                                "country": "India",
+                                "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                                "country_code": "IN"
+                            },
+                            {
+                                "address_type": "registered",
+                                "state": "Maharashtra",
+                                "city": "Mira Bhayandar",
+                                "longitude": 72.862951,
+                                "address2": "tof",
+                                "pincode": 401105,
+                                "latitude": 19.303474,
+                                "country": "India",
+                                "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                                "country_code": "IN"
+                            }
+                        ],
+                        "name": "RELIANCE RETAIL LTD",
+                        "business_type": "ltd/pvt ltd",
+                        "modified_on": "2020-11-18T05:01:55.474000+00:00",
+                        "modified_by": {
+                            "user_id": "3",
+                            "username": "918793638893_86554"
+                        },
+                        "stage": "complete"
+                    },
+                    "address": {
+                        "state": "UTTAR PRADESH",
+                        "city": "VARANASI",
+                        "longitude": 82.9738892,
+                        "pincode": 221002,
+                        "latitude": 25.3174112,
+                        "country": "INDIA",
+                        "address1": "DARA NAGAR,BAZARDIHA,MAHESHPUR "
+                    },
+                    "modified_on": "2020-10-12T12:01:59.994000+00:00",
+                    "stage": "complete",
+                    "uid": 11859,
+                    "manager": {
+                        "email": "safg@fghjk.com",
+                        "mobile_no": {
+                            "country_code": 91,
+                            "number": "9855475558"
+                        },
+                        "name": "sdgggdd"
+                    },
+                    "shipment_tag": [],
+                    "store_type": "high_street"
+                },
+                {
+                    "documents": [],
+                    "name": "rathor",
+                    "notification_emails": [],
+                    "created_on": "2020-10-12T11:58:20.492000+00:00",
+                    "code": "23556",
+                    "warnings": {
+                        "company": "Company not verified!"
+                    },
+                    "created_by": {
+                        "user_id": "6",
+                        "username": "919004848895_23458"
+                    },
+                    "contact_numbers": [
+                        {
+                            "country_code": 91,
+                            "number": "0225554587"
+                        }
+                    ],
+                    "display_name": "rathor",
+                    "modified_by": {
+                        "user_id": "6",
+                        "username": "919004848895_23458"
+                    },
+                    "timing": [
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "sunday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "saturday"
+                        }
+                    ],
+                    "company": {
+                        "created_on": "2020-05-18T16:16:07.902000+00:00",
+                        "uid": 1,
+                        "verified_by": {
+                            "user_id": "0",
+                            "username": "silverbolt"
+                        },
+                        "verified_on": "2020-10-09T09:53:19.175000+00:00",
+                        "created_by": {
+                            "user_id": "0",
+                            "username": "app@fynd.com"
+                        },
+                        "company_type": "distributor",
+                        "addresses": [
+                            {
+                                "address_type": "office",
+                                "state": "Maharashtra",
+                                "city": "Mumbai",
+                                "longitude": 72.8406903,
+                                "address2": "Bandra Terminus, Naupada, Bandra East",
+                                "pincode": 400050,
+                                "latitude": 19.0548399,
+                                "country": "India",
+                                "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                                "country_code": "IN"
+                            },
+                            {
+                                "address_type": "registered",
+                                "state": "Maharashtra",
+                                "city": "Mira Bhayandar",
+                                "longitude": 72.862951,
+                                "address2": "tof",
+                                "pincode": 401105,
+                                "latitude": 19.303474,
+                                "country": "India",
+                                "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                                "country_code": "IN"
+                            }
+                        ],
+                        "name": "RELIANCE RETAIL LTD",
+                        "business_type": "ltd/pvt ltd",
+                        "modified_on": "2020-11-18T05:01:55.474000+00:00",
+                        "modified_by": {
+                            "user_id": "3",
+                            "username": "918793638893_86554"
+                        },
+                        "stage": "complete"
+                    },
+                    "address": {
+                        "state": "MAHARASHTRA",
+                        "city": "MUMBAI",
+                        "longitude": 72.8295287,
+                        "pincode": 400050,
+                        "latitude": 19.0595596,
+                        "country": "INDIA",
+                        "address1": "INDIA MAHARASHTRA  AND,BANDRA WEST "
+                    },
+                    "modified_on": "2020-10-12T11:58:21.202000+00:00",
+                    "stage": "complete",
+                    "uid": 11858,
+                    "manager": {
+                        "email": "sdtt@dghu.com",
+                        "mobile_no": {
+                            "country_code": 91,
+                            "number": "9004848895"
+                        },
+                        "name": "dfyyyser"
+                    },
+                    "shipment_tag": [],
+                    "store_type": "high_street"
+                },
+                {
+                    "documents": [
+                        {
+                            "type": "gst",
+                            "value": "34445",
+                            "legal_name": "dfg"
+                        }
+                    ],
+                    "name": "tintinss",
+                    "notification_emails": [],
+                    "created_on": "2020-10-10T16:16:06.557000+00:00",
+                    "code": "445566",
+                    "warnings": {
+                        "company": "Company not verified!"
+                    },
+                    "created_by": {
+                        "user_id": "6",
+                        "username": "919004848895_23458"
+                    },
+                    "contact_numbers": [
+                        {
+                            "country_code": 91,
+                            "number": "5888585698"
+                        }
+                    ],
+                    "display_name": "tintinss",
+                    "modified_by": {
+                        "user_id": "6",
+                        "username": "919004848895_23458"
+                    },
+                    "timing": [
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "sunday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "saturday"
+                        }
+                    ],
+                    "company": {
+                        "created_on": "2020-05-18T16:16:07.902000+00:00",
+                        "uid": 1,
+                        "verified_by": {
+                            "user_id": "0",
+                            "username": "silverbolt"
+                        },
+                        "verified_on": "2020-10-09T09:53:19.175000+00:00",
+                        "created_by": {
+                            "user_id": "0",
+                            "username": "app@fynd.com"
+                        },
+                        "company_type": "distributor",
+                        "addresses": [
+                            {
+                                "address_type": "office",
+                                "state": "Maharashtra",
+                                "city": "Mumbai",
+                                "longitude": 72.8406903,
+                                "address2": "Bandra Terminus, Naupada, Bandra East",
+                                "pincode": 400050,
+                                "latitude": 19.0548399,
+                                "country": "India",
+                                "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                                "country_code": "IN"
+                            },
+                            {
+                                "address_type": "registered",
+                                "state": "Maharashtra",
+                                "city": "Mira Bhayandar",
+                                "longitude": 72.862951,
+                                "address2": "tof",
+                                "pincode": 401105,
+                                "latitude": 19.303474,
+                                "country": "India",
+                                "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                                "country_code": "IN"
+                            }
+                        ],
+                        "name": "RELIANCE RETAIL LTD",
+                        "business_type": "ltd/pvt ltd",
+                        "modified_on": "2020-11-18T05:01:55.474000+00:00",
+                        "modified_by": {
+                            "user_id": "3",
+                            "username": "918793638893_86554"
+                        },
+                        "stage": "complete"
+                    },
+                    "address": {
+                        "state": "KARNATAKA",
+                        "city": "BENGALURU",
+                        "longitude": 77.597386,
+                        "pincode": 560001,
+                        "latitude": 12.9754522,
+                        "country": "INDIA",
+                        "address1": "PRESTIGE OBELISK,KASTURBA RD,AMBEDKAR VEEDHI,SAMPANGI RAMA NAGAR "
+                    },
+                    "modified_on": "2020-10-12T11:56:33.168000+00:00",
+                    "stage": "complete",
+                    "uid": 11857,
+                    "manager": {
+                        "email": "sadfgyfg@gyuij.com",
+                        "mobile_no": {
+                            "country_code": 91,
+                            "number": "9855855585"
+                        },
+                        "name": "tgggud"
+                    },
+                    "shipment_tag": [],
+                    "store_type": "high_street"
+                },
+                {
+                    "documents": [],
+                    "name": "ggdfg",
+                    "notification_emails": [],
+                    "created_on": "2020-10-10T13:24:32.760000+00:00",
+                    "code": "334325",
+                    "warnings": {
+                        "company": "Company not verified!"
+                    },
+                    "created_by": {
+                        "user_id": "6",
+                        "username": "919004848895_23458"
+                    },
+                    "contact_numbers": [
+                        {
+                            "country_code": 91,
+                            "number": "0222555544"
+                        }
+                    ],
+                    "display_name": "ggdfg",
+                    "modified_by": {
+                        "user_id": "6",
+                        "username": "919004848895_23458"
+                    },
+                    "timing": [
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "sunday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": true,
+                            "opening": {
+                                "minute": 0,
+                                "hour": 11
+                            },
+                            "closing": {
+                                "minute": 0,
+                                "hour": 18
+                            },
+                            "weekday": "saturday"
+                        }
+                    ],
+                    "company": {
+                        "created_on": "2020-05-18T16:16:07.902000+00:00",
+                        "uid": 1,
+                        "verified_by": {
+                            "user_id": "0",
+                            "username": "silverbolt"
+                        },
+                        "verified_on": "2020-10-09T09:53:19.175000+00:00",
+                        "created_by": {
+                            "user_id": "0",
+                            "username": "app@fynd.com"
+                        },
+                        "company_type": "distributor",
+                        "addresses": [
+                            {
+                                "address_type": "office",
+                                "state": "Maharashtra",
+                                "city": "Mumbai",
+                                "longitude": 72.8406903,
+                                "address2": "Bandra Terminus, Naupada, Bandra East",
+                                "pincode": 400050,
+                                "latitude": 19.0548399,
+                                "country": "India",
+                                "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                                "country_code": "IN"
+                            },
+                            {
+                                "address_type": "registered",
+                                "state": "Maharashtra",
+                                "city": "Mira Bhayandar",
+                                "longitude": 72.862951,
+                                "address2": "tof",
+                                "pincode": 401105,
+                                "latitude": 19.303474,
+                                "country": "India",
+                                "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                                "country_code": "IN"
+                            }
+                        ],
+                        "name": "RELIANCE RETAIL LTD",
+                        "business_type": "ltd/pvt ltd",
+                        "modified_on": "2020-11-18T05:01:55.474000+00:00",
+                        "modified_by": {
+                            "user_id": "3",
+                            "username": "918793638893_86554"
+                        },
+                        "stage": "complete"
+                    },
+                    "address": {
+                        "state": "MAHARASHTRA",
+                        "city": "MUMBAI",
+                        "longitude": 72.823083,
+                        "pincode": 400050,
+                        "latitude": 19.058372,
+                        "country": "INDIA",
+                        "address1": "SHOP NO 3,NEW JAL DARSHAN SOCIETY,PERRY CROSS ROAD,WEST,OFF,CHIMBAI RD,NEAR JOGGERS PARK,BANDRA WEST "
+                    },
+                    "modified_on": "2020-10-10T16:14:20.548000+00:00",
+                    "stage": "complete",
+                    "uid": 11856,
+                    "manager": {
+                        "email": "sft@ghji.com",
+                        "mobile_no": {
+                            "country_code": 91,
+                            "number": "8525885584"
+                        },
+                        "name": "fghfgg"
+                    },
+                    "shipment_tag": [],
+                    "store_type": "high_street"
+                }
+            ],
+            "success": true,
+            "message": "Success!!!",
+            "total_count": 552,
+            "next_page": true
+        },
+        "storeTypeMockData": {
+            "data": [
+                { "key": "high_street", "value": "High Street" },
+                { "key": "mall", "value": "Mall" },
+                { "key": "warehouse", "value": "Warehouse" }
+            ],
+            "type": "store_type"
+        },
+        "stageTypeMockData": {
+            "data": [
+                { "key": "complete", "value": "Complete" },
+                { "key": "rejected", "value": "Rejected" },
+                { "key": "verified", "value": "Verified" }
+            ],
+            "type": "stage"
+        },
+        "businessCountry": {
+            "data": [
+                {
+                    "country_code": "IN",
+                    "country_name": "India",
+                    "phone_number_prefix": 91,
+                    "document_types": [
+                        {
+                            "key": "gst",
+                            "name": "GST",
+                            "placeholder": "For eg: 18AABCT3518Q1ZV",
+                            "help": {
+                                "text": "How to get GST Number?",
+                                "link": "https://gst-india.org/"
+                            },
+                            "validation": {
+                                "regex": "^([0-2][0-9]|[3][0-7])[A-Z]{3}[ABCFGHLJPTK][A-Z]\\d{4}[A-Z][A-Z0-9][Z][A-Z0-9]$"
+                            },
+                            "tags": ["company", "store"],
+                            "stage": ["onboarding", "profile"]
+                        }
+                    ]
+                }
+            ],
+            "success": true,
+            "message": "Success!!!",
+            "total_count": 1
+        },
+        "storeResMockData": {
+            "name": "Ash",
+            "integration_type": {
+                "order": "pulse",
+                "inventory": "pulse"
+            },
+            "notification_emails": ["newnor@newnorindia.com"],
+            "display_name": "Ash",
+            "created_by": {
+                "username": "919820449189_14485",
+                "user_id": "66"
+            },
+            "manager": {
+                "mobile_no": {
+                    "number": "9988776655",
+                    "country_code": 91
+                },
+                "name": "D'Silva",
+                "email": "dsilva@gmail.com"
+            },
+            "verified_on": "2020-09-30T05:56:22.615000+00:00",
+            "contact_numbers": [
+                {
+                    "number": "7766554433",
+                    "country_code": 91
+                }
+            ],
+            "store_type": "high_street",
+            "verified_by": {
+                "username": "silverbolt",
+                "user_id": "0"
+            },
+            "stage": "verified",
+            "timing": [
+                {
+                    "open": true,
+                    "opening": {
+                        "hour": 11,
+                        "minute": 0
+                    },
+                    "weekday": "monday",
+                    "closing": {
+                        "hour": 21,
+                        "minute": 0
+                    }
+                },
+                {
+                    "open": true,
+                    "opening": {
+                        "hour": 11,
+                        "minute": 0
+                    },
+                    "weekday": "tuesday",
+                    "closing": {
+                        "hour": 21,
+                        "minute": 0
+                    }
+                },
+                {
+                    "open": true,
+                    "opening": {
+                        "hour": 11,
+                        "minute": 0
+                    },
+                    "weekday": "wednesday",
+                    "closing": {
+                        "hour": 21,
+                        "minute": 0
+                    }
+                },
+                {
+                    "open": true,
+                    "opening": {
+                        "hour": 11,
+                        "minute": 0
+                    },
+                    "weekday": "thursday",
+                    "closing": {
+                        "hour": 19,
+                        "minute": 0
+                    }
+                },
+                {
+                    "open": true,
+                    "opening": {
+                        "hour": 11,
+                        "minute": 0
+                    },
+                    "weekday": "friday",
+                    "closing": {
+                        "hour": 19,
+                        "minute": 0
+                    }
+                },
+                {
+                    "open": false,
+                    "opening": {
+                        "hour": 11,
+                        "minute": 0
+                    },
+                    "weekday": "saturday",
+                    "closing": {
+                        "hour": 22,
+                        "minute": 0
+                    }
+                },
+                {
+                    "open": false,
+                    "opening": {
+                        "hour": 11,
+                        "minute": 0
+                    },
+                    "weekday": "sunday",
+                    "closing": {
+                        "hour": 22,
+                        "minute": 0
+                    }
+                }
+            ],
+            "documents": [
+                {
+                    "type": "gst",
+                    "value": "27AABCR1718E1ZP",
+                    "legal_name": "ABC",
+                    "verified": true
+                }
+            ],
+            "uid": 11728,
+            "address": {
+                "address1": "C16-LS STREET, AJMERA MAROL NAKA, ANDHERI - KURLA RD",
+                "longitude": 72.8794774,
+                "landmark": "Near Hotel Continental",
+                "latitude": 19.1081288,
+                "pincode": 400059,
+                "country": "INDIA",
+                "address2": "GAMDEVI, MAROL, ANDHERI (EAST), ",
+                "state": "MAHARASHTRA",
+                "city": "MUMBAI"
+            },
+            "created_on": "2020-07-22T13:23:18.073000+00:00",
+            "modified_on": "2020-09-30T05:56:22.615000+00:00",
+            "company": {
+                "verified_by": {
+                    "username": "silverbolt",
+                    "user_id": "0"
+                },
+                "company_type": "distributor",
+                "name": "RELIANCE RETAIL LTD",
+                "business_type": "ltd/pvt ltd",
+                "stage": "complete",
+                "modified_on": "2020-11-27T05:05:27.646000+00:00",
+                "modified_by": {
+                    "username": "917009853732_23056",
+                    "user_id": "39"
+                },
+                "addresses": [
+                    {
+                        "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                        "longitude": 72.8406903,
+                        "latitude": 19.0548399,
+                        "country_code": "IN",
+                        "pincode": 400050,
+                        "country": "India",
+                        "address_type": "office",
+                        "address2": "Bandra Terminus, Naupada, Bandra East",
+                        "state": "Maharashtra",
+                        "city": "Mumbai"
+                    },
+                    {
+                        "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                        "longitude": 72.862951,
+                        "latitude": 19.303474,
+                        "country_code": "IN",
+                        "pincode": 401105,
+                        "country": "India",
+                        "address_type": "registered",
+                        "address2": "tof",
+                        "state": "Maharashtra",
+                        "city": "Mira Bhayandar"
+                    }
+                ],
+                "verified_on": "2020-10-09T09:53:19.175000+00:00",
+                "uid": 1,
+                "created_by": {
+                    "username": "app@fynd.com",
+                    "user_id": "0"
+                },
+                "created_on": "2020-05-18T16:16:07.902000+00:00"
+            },
+            "shipment_tag": [],
+            "modified_by": {
+                "username": "brijeshgajjar_gofynd_com_89199",
+                "user_id": "2"
+            },
+            "code": "400059"
+        },
+        "storeSuccess": {
+            "success": true,
+            "message": "Success!!!",
+            "uid": 11547
+        }
+    },
+    "profileDetails": {
+        "profile": {
+            "data": {
+                "documents": [
+                    {
+                        "type": "pan",
+                        "value": "AALCA0442L",
+                        "legal_name": "SHOPSENSE RETAIL TECHNOLOGIES PRIVATE LIMITED",
+                        "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/LOmpjCMKn-1602237550732.jpeg?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1606294694&Signature=QxLcP%2FjPXCfe2fzpU2gNZMAdlzc%3D",
+                        "verified": true
+                    },
+                    {
+                        "type": "gst",
+                        "value": "18AABCT3518Q1ZV",
+                        "legal_name": "Rasputin",
+                        "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/dgU2sANsd-1602237551770.jpeg?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1606294694&Signature=pSJ%2BqH0TpYQP9HwPHJ1GgyDqwPo%3D",
+                        "verified": true
+                    },
+                    {
+                        "type": "digital_signature",
+                        "value": "asdasdsad",
+                        "legal_name": "asdasdsad",
+                        "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/Rtn1DzmQb-Screenshot-2020-10-19-at-3.38.19-PM.png?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1606294694&Signature=NhP2txlF9T8sXEo5G4mDJMla%2BQk%3D",
+                        "verified": true
+                    },
+                    {
+                        "type": "cin",
+                        "value": "L21091KA2019OPC141331",
+                        "legal_name": "CIN",
+                        "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/Rtn1DzmQb-Screenshot-2020-10-19-at-3.38.19-PM.png?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1606294694&Signature=NhP2txlF9T8sXEo5G4mDJMla%2BQk%3D",
+                        "verified": true
+                    }
+                ],
+                "business_info": "this is description.. TEST IT PROPERLY",
+                "addresses": [
+                    {
+                        "address_type": "office",
+                        "state": "Maharashtra",
+                        "city": "Mumbai",
+                        "longitude": 72.8406903,
+                        "address2": "Bandra Terminus, Naupada, Bandra East",
+                        "pincode": 400050,
+                        "latitude": 19.0548399,
+                        "country": "India",
+                        "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                        "country_code": "IN"
+                    },
+                    {
+                        "address_type": "registered",
+                        "state": "Maharashtra",
+                        "city": "Mira Bhayandar",
+                        "longitude": 72.862951,
+                        "address2": "tof",
+                        "pincode": 401105,
+                        "latitude": 19.303474,
+                        "country": "India",
+                        "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                        "country_code": "IN"
+                    }
+                ],
+                "name": "RELIANCE RETAIL LTD",
+                "notification_emails": ["ZAK@GMAIL.COM"],
+                "created_on": "2020-05-18T16:16:07.902000+00:00",
+                "verified_by": {
+                    "user_id": "0",
+                    "username": "silverbolt"
+                },
+                "contact_details": {
+                    "phone": [
+                        {
+                            "country_code": 91,
+                            "number": "1234567890"
+                        },
+                        {
+                            "country_code": 91,
+                            "number": "1234567894"
+                        }
+                    ],
+                    "emails": ["abc@gmail.com", "abc2@gmail.com"]
+                },
+                "warnings": {
+                    "pan": "PAN doesn't match with the GST provided"
+                },
+                "created_by": {
+                    "user_id": "0",
+                    "username": "app@fynd.com"
+                },
+                "company_type": "distributor",
+                "modified_by": {
+                    "user_id": "3",
+                    "username": "918793638893_86554"
+                },
+                "business_country_info": {
+                    "country_code": "IN",
+                    "country": "India"
+                },
+                "departments": [],
+                "business_type": "ltd/pvt ltd",
+                "modified_on": "2020-11-18T05:01:55.474000+00:00",
+                "stage": "complete",
+                "uid": 1,
+                "verified_on": "2020-10-09T09:53:19.175000+00:00",
+                "franchise_enabled": true
+            },
+            "success": true,
+            "message": "Success!!!",
+            "total_count": 1
+        },
+        "businessType": {
+            "data": [
+                {
+                    "key": "huf",
+                    "value": "HUF"
+                },
+                {
+                    "key": "ltd/pvt ltd",
+                    "value": "LTD/PVT LTD"
+                },
+                {
+                    "key": "llp",
+                    "value": "LLP/Partnership"
+                },
+                {
+                    "key": "proprietorship",
+                    "value": "Proprietorship"
+                }
+            ],
+            "type": "business_type"
+        },
+        "companyType": {
+            "data": [
+                {
+                    "key": "distributor",
+                    "value": "Distributor"
+                },
+                {
+                    "key": "franchisee",
+                    "value": "Franchisee"
+                },
+                {
+                    "key": "mbo",
+                    "value": "MBO"
+                },
+                {
+                    "key": "manufacturer-owner",
+                    "value": "Owner/Manufacturer"
+                }
+            ],
+            "type": "company_type"
+        },
+        "businessCountry": {
+            "data": [
+                {
+                    "country_code": "IN",
+                    "country_name": "India",
+                    "phone_number_prefix": 91,
+                    "document_types": [
+                        {
+                            "key": "pan",
+                            "name": "PAN Card",
+                            "placeholder": "For eg: EDHPG3198P",
+                            "help": {
+                                "text": "How to get PAN Card Number?",
+                                "link": "https://www.onlineservices.nsdl.com/paam/endUserRegisterContact.html"
+                            },
+                            "validation": {
+                                "regex": "^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$"
+                            },
+                            "tags": ["company"],
+                            "stage": ["onboarding", "profile"]
+                        },
+                        {
+                            "key": "gst",
+                            "name": "GST",
+                            "placeholder": "For eg: 18AABCT3518Q1ZV",
+                            "help": {
+                                "text": "How to get GST Number?",
+                                "link": "https://gst-india.org/"
+                            },
+                            "validation": {
+                                "regex": "^([0-2][0-9]|[3][0-7])[A-Z]{3}[ABCFGHLJPTK][A-Z]\\d{4}[A-Z][A-Z0-9][Z][A-Z0-9]$"
+                            },
+                            "tags": ["company", "store"],
+                            "stage": ["onboarding", "profile"]
+                        },
+                        {
+                            "key": "cin",
+                            "name": "CIN",
+                            "placeholder": "For eg: L21091KA2019OPC141331",
+                            "help": {
+                                "text": "How to get CIN Number?",
+                                "link": "http://www.mca.gov.in/MinistryV2/homepage.html"
+                            },
+                            "validation": {
+                                "regex": "^([L|U]{1})([0-9]{5})([A-Za-z]{2})([0-9]{4})([A-Za-z]{3})([0-9]{6})$"
+                            },
+                            "tags": ["company"],
+                            "stage": ["profile"]
+                        },
+                        {
+                            "key": "digital_signature",
+                            "name": "Digital Signature",
+                            "placeholder": "",
+                            "help": {
+                                "text": "Sign on a paper, scan and upload.",
+                                "link": ""
+                            },
+                            "validation": { "regex": "(.*?)" },
+                            "tags": ["company"],
+                            "stage": ["profile"]
+                        }
+                    ]
+                },
+                {
+                    "country_code": "QA",
+                    "phone_number_prefix": 974,
+                    "country_name": "Qatar",
+                    "document_types": [
+                        {
+                            "key": "tin",
+                            "name": "Tax Identification Number",
+                            "placeholder": "",
+                            "help": {
+                                "text": "How to get TIN Number?",
+                                "link": ""
+                            },
+                            "validation": {},
+                            "tags": ["company"],
+                            "stage": ["onboarding", "profile"]
+                        },
+                        {
+                            "key": "mci",
+                            "placeholder": "",
+                            "help": {
+                                "text": "How to get MCI Number?",
+                                "link": ""
+                            },
+                            "name": "Memorandum and Certificate of Incorporation",
+                            "validation": {},
+                            "tags": ["company"],
+                            "stage": ["onboarding", "profile"]
+                        }
+                    ]
+                }
+            ],
+            "success": true,
+            "message": "Success!!!",
+            "total_count": 1
+        },
+        "profileUpdateSuccess": { "success": true, "message": "Success!!!" },
+        "profileError": {
+            "errors": {
+                "error": {
+                    "_schema": ["document type is invalid"]
+                }
+            },
+            "message": "Error!!!",
+            "success": false
+        }
+    },
+    "error_stores": {
+        "errors": {
+            "error": {
+                "_schema": [
+                    { "name": "Store name or store code already exists" }
+                ]
+            }
+        },
+        "message": "Error!!!",
+        "success": false
+    },
+    "public_url": {
+        "urls": [{ "signed_url": "https://abc.jpeg" }]
+    },
+    "invalid_gst": {
+        "errors": { "error": { "_schema": ["Invalid GST Number"] } },
+        "message": "Error!!!",
+        "success": false
+    },
+    "profile2": {
+        "data": {
+            "documents": [
+                {
+                    "type": "pan",
+                    "value": "AALCA0442L",
+                    "legal_name": "SHOPSENSE RETAIL TECHNOLOGIES PRIVATE LIMITED",
+                    "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/LOmpjCMKn-1602237550732.jpeg?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1606294694&Signature=QxLcP%2FjPXCfe2fzpU2gNZMAdlzc%3D",
+                    "verified": true
+                },
+                {
+                    "type": "gst",
+                    "value": "18AABCT3518Q1ZV",
+                    "legal_name": "Rasputin",
+                    "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/dgU2sANsd-1602237551770.jpeg?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1606294694&Signature=pSJ%2BqH0TpYQP9HwPHJ1GgyDqwPo%3D",
+                    "verified": true
+                },
+                {
+                    "type": "digital_signature",
+                    "value": "asdasdsad",
+                    "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/Rtn1DzmQb-Screenshot-2020-10-19-at-3.38.19-PM.png?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1606294694&Signature=NhP2txlF9T8sXEo5G4mDJMla%2BQk%3D",
+                    "verified": true
+                },
+                {
+                    "type": "cin",
+                    "value": "L21091KA2019OPC141331",
+                    "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/Rtn1DzmQb-Screenshot-2020-10-19-at-3.38.19-PM.png?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1606294694&Signature=NhP2txlF9T8sXEo5G4mDJMla%2BQk%3D",
+                    "verified": true
+                }
+            ],
+            "business_info": "this is description.. TEST IT PROPERLY",
+            "addresses": [
+                {
+                    "address_type": "office",
+                    "state": "Maharashtra",
+                    "city": "Mumbai",
+                    "longitude": 72.8406903,
+                    "address2": "Bandra Terminus, Naupada, Bandra East",
+                    "pincode": 400050,
+                    "latitude": 19.0548399,
+                    "country": "India",
+                    "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                    "country_code": "IN"
+                },
+                {
+                    "address_type": "registered",
+                    "state": "Maharashtra",
+                    "city": "Mira Bhayandar",
+                    "longitude": 72.862951,
+                    "address2": "tof",
+                    "pincode": 401105,
+                    "latitude": 19.303474,
+                    "country": "India",
+                    "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                    "country_code": "IN"
+                }
+            ],
+            "name": "RELIANCE RETAIL LTD",
+            "notification_emails": ["ZAK@GMAIL.COM"],
+            "created_on": "2020-05-18T16:16:07.902000+00:00",
+            "verified_by": {
+                "user_id": "0",
+                "username": "silverbolt"
+            },
+            "contact_details": {
+                "phone": [
+                    {
+                        "country_code": 91,
+                        "number": "1234567890"
+                    },
+                    {
+                        "country_code": 91,
+                        "number": "1234567894"
+                    }
+                ],
+                "emails": ["abc@gmail.com", "abc2@gmail.com"]
+            },
+            "warnings": {
+                "pan": "PAN doesn't match with the GST provided"
+            },
+            "created_by": {
+                "user_id": "0",
+                "username": "app@fynd.com"
+            },
+            "company_type": "distributor",
+            "modified_by": {
+                "user_id": "3",
+                "username": "918793638893_86554"
+            },
+            "business_country_info": {
+                "country_code": "IN",
+                "country": "India"
+            },
+            "departments": [],
+            "business_type": "ltd/pvt ltd",
+            "modified_on": "2020-11-18T05:01:55.474000+00:00",
+            "stage": "complete",
+            "uid": 1,
+            "verified_on": "2020-10-09T09:53:19.175000+00:00",
+            "franchise_enabled": true
+        },
+        "success": true,
+        "message": "Success!!!",
+        "total_count": 1
+    }
+}

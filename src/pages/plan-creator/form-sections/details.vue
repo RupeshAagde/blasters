@@ -5,7 +5,7 @@
             <div class="form-item">
                 <nitrozen-input
                     :label="'Name *'"
-                    v-model="formData.name"
+                    v-model="formData.plan.name"
                 ></nitrozen-input>
                 <nitrozen-error v-bind:class="{ visible: errors['name'] }">{{
                     errors['name'] || '-'
@@ -17,7 +17,7 @@
             <div class="form-item">
                 <nitrozen-input
                     :label="'Description'"
-                    v-model="formData.description"
+                    v-model="formData.plan.description"
                 ></nitrozen-input>
                 <nitrozen-error v-bind:class="{ visible: errors['desc'] }">{{
                     errors['desc'] || '-'
@@ -27,7 +27,7 @@
 
         <div class="form-row">
             <div class="form-item">
-                <tags-input v-model="formData.tags"></tags-input>
+                <tags-input v-model="formData.plan.tags"></tags-input>
                 <nitrozen-error>-</nitrozen-error>
             </div>
         </div>
@@ -64,33 +64,6 @@ export default {
         },
         errors: {
             type: Object
-        }
-    },
-    data() {
-        return {
-            chipInput: ''
-        };
-    },
-    computed: {
-        tags() {
-            return this.formData.tags;
-        }
-    },
-    methods: {
-        removeChip(index) {
-            this.tags.splice(index, 1);
-        },
-        addChip(event) {
-            if (this.chipInput) {
-                if (
-                    this.tags.filter((it) => it === this.chipInput).length ===
-                        0 &&
-                    this.tags.length < 2
-                )
-                    this.tags.push(this.chipInput);
-                this.chipInput = '';
-            }
-            event.preventDefault();
         }
     }
 };

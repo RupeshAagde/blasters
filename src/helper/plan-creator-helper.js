@@ -4,11 +4,7 @@ import _ from 'lodash';
 const getFilterToQuery = (filterObj) => {
     let filter_data = _.cloneDeep(filterObj);
     let query = {
-        offset: Math.max(
-            (filter_data.pagination.current - 1) *
-                parseInt(filter_data.pagination.limit),
-            0
-        ),
+        page: filter_data.pagination.current - 1,
         limit: filter_data.pagination.limit
     };
 
@@ -90,15 +86,16 @@ const PLAN_ENUMS = {
             {
                 text: 'Weeks',
                 value: 'week'
-            },
-            {
-                text: 'Months',
-                value: 'month'
-            },
-            {
-                text: 'Years',
-                value: 'year'
             }
+            // ,
+            // {
+            //     text: 'Months',
+            //     value: 'month'
+            // },
+            // {
+            //     text: 'Years',
+            //     value: 'year'
+            // }
         ]
     },
     usage_type: {
