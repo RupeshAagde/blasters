@@ -26,7 +26,7 @@
                 :key="index"
                 :title="item.brand.name"
             >
-                <div class="brand-img-div" @click="openAdminDialog(item)">
+                <div class="brand-img-div" ref="adminDialog" @click="openAdminDialog(item)">
                     <img
                         v-if="item.brand.logo"
                         :src="item.brand.logo | imagetransform({ width: 130 })"
@@ -58,6 +58,7 @@
         <div class="view-more" v-if="viewMore">
             <nitrozen-button
                 v-if="!showLess"
+                class="view-more-btn"
                 @click="
                     loadMoreBrands(true);
                     showLess = true;
@@ -67,6 +68,7 @@
             >
             <nitrozen-button
                 v-if="showLess"
+                class="view-less-btn"
                 @click="
                     loadMoreBrands(false);
                     showLess = false;
@@ -223,16 +225,12 @@
     margin-bottom: 6px;
 }
 .text-margin {
-    // margin-top: 18px;
     margin-bottom: 24px;
 }
 .cust-inp {
     margin-bottom: 24px;
 }
 .brand-images {
-    // display: flex;
-    // justify-content: space-between;
-    // align-items: center;
     margin-bottom: 24px;
     .brand-logo {
         img {
@@ -243,14 +241,12 @@
     .brand-banner-1 {
         margin: 0 auto;
         img {
-            // margin-left: 50px;
             width: 100%;
             max-height: 250px;
         }
     }
     .brand-banner-2 {
         img {
-            // margin-left: 50px;
             width: 100%;
             max-height: 400px;
         }
@@ -316,19 +312,15 @@
         background-color: #fffaf0;
         color: #f5a300;
         border: 1px solid #f5a300;
-        // opacity: 0.9;
         border-radius: 3px;
         padding: 12px;
         margin-bottom: 12px;
     }
     .brands-body {
-        // display: flex;
-        // flex-wrap: wrap;
         display: grid;
         grid-template-columns: 20% 20% 20% 20% 20%;
         grid-row-gap: 24px;
         margin-bottom: 12px;
-        // overflow-y: scroll;
         -ms-overflow-style: none;
         &::-webkit-scrollbar {
             display: none;
@@ -337,9 +329,7 @@
             opacity: 0.5;
         }
         .brands-div {
-            // margin-right: 24px;
             margin: auto;
-            // margin-top: 12px;
             .brand-img-div {
                 background-color: @Alabaster2;
                 height: 80px;
@@ -392,6 +382,13 @@
     .view-more {
         text-align: right;
         margin: 12px 0;
+
+        .view-more-btn{
+            display: inherit;
+        }
+        .view-less-btn{
+            display: inherit;
+        }
     }
 }
 .shimmer {
@@ -496,7 +493,6 @@ export default {
     },
     mounted() {
         this.getBrands();
-        this.getChoiceType();
     },
     methods: {
         getParams: function() {
@@ -507,15 +503,6 @@ export default {
                     this.$route.query.current || this.paginationConfig.current,
                 brand: ''
             };
-            if (this.$route.query.stage) {
-                this.selectedChoice = this.$route.query.stage;
-                params.stage = this.selectedChoice;
-            }
-
-            if (this.$route.query.search) {
-                this.$route.query.search = this.searchText;
-                params.brand = this.searchText;
-            }
             return params;
         },
         getBrands() {
@@ -541,7 +528,6 @@ export default {
                     this.pageLoading = false;
                     this.pageError = true;
                     this.inProgress = false;
-                    console.log(err, 'error');
                 });
         },
         loadMoreBrands: function(flag) {
@@ -555,48 +541,6 @@ export default {
                     this.showCount
                 );
             }
-        },
-        getChoiceType(params = {}) {
-            params.choice_type = 'stage';
-            CompanyService.fetchChoiceType(params)
-                .then((res) => {
-                    this.choiceType = res.data.data;
-                    this.choiceType.map((ele) => {
-                        ele.text = ele.value;
-                        ele.value = ele.key;
-                    });
-                })
-                .catch((err) => {
-                    console.log(err, 'error');
-                });
-        },
-        searchBrands: function() {
-            let vm = this;
-            _.debounce(function() {
-                vm.getBrands(params);
-            }, 1000)();
-        },
-        changeStage: function() {
-            let params = {
-                page_no: 1,
-                page_size: this.paginationConfig.limit,
-                brand: this.searchText,
-                stage: this.selectedChoice
-            };
-            this.getBrands(params);
-        },
-        paginationChange(e) {
-            this.paginationConfig = e;
-            this.setPage(this.paginationConfig);
-        },
-        setPage(filter) {
-            const { current, limit } = filter;
-            this.paginationConfig = {
-                ...this.paginationConfig,
-                current,
-                limit
-            };
-            this.setRouteQuery({ current, limit });
         },
         verifyBrand() {
             const obj = {
@@ -705,28 +649,6 @@ export default {
         closeAdminDialog() {
             this.$refs['brand_admin_dialog'].close();
         },
-        // getImage(src, str){
-        //   let temp = '/' + str + '/';
-        //   console.log(src, 'src', str ,'str', temp, 'temp');
-        //   return src.replace('/original/', temp);
-        // },
-        setRouteQuery(query) {
-            if (query.search || query.stage) {
-                // clear pagination if search or filter applied
-                this.paginationConfig.current = 1;
-                this.paginationConfig.limit = 100;
-                query.current = 1;
-                query.limit = 100;
-            }
-            this.$router.push({
-                path: this.$route.path,
-                query: {
-                    ...this.$route.query,
-                    ...query
-                }
-            });
-            this.getBrands();
-        }
     }
 };
 </script>
