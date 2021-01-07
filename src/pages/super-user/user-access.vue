@@ -526,7 +526,7 @@ export default {
                         }
                     })
                     .catch((error) => {
-                        console.error(error);
+                        console.log(error);
                         this.$snackbar.global.showError(
                             `${
                                 error.response.data

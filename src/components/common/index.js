@@ -8,6 +8,7 @@ import Loader from './loader.vue';
 import TagsInput from './tags-input.vue';
 import PageHeader from './layout/page-header.vue';
 import BaseCard from './base-card.vue';
+// import DatePicker from './date-picker.vue';
 import ImageUploaderTile from './image-uploader/index.vue';
 import Permissions from './permissions.vue';
 
@@ -25,5 +26,6 @@ export {
     PageHeader,
     BaseCard,
     ImageUploaderTile,
+    //DatePicker,
     Permissions
 };

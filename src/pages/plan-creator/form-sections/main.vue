@@ -148,33 +148,33 @@ export default {
             ]
         };
     },
-    mounted() {
-        let pArr = [];
-        pArr.push(BillingService.getComponentWithPrices({ limit: 100 }));
+    // mounted() {
+    //     let pArr = [];
+    //     pArr.push(BillingService.getComponentWithPrices({ limit: 100 }));
 
-        if (this.formData._id) {
-            pArr.push(BillingService.getPlanComponents({ limit: 100 }));
-        }
+    //     if (this.formData._id) {
+    //         pArr.push(BillingService.getPlanComponents({ limit: 100 }));
+    //     }
 
-        Promise.all(pArr)
-            .then((resArr) => {
-                this.allComponents = [...resArr[0].data];
-                if (resArr.length > 2) {
-                    this.planComponents = [...resArr[2].data.docs];
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    },
-    computed: {
-        planComponentMap() {
-            return this.planComponents.reduce((map, item) => {
-                map[item.component_id] = item;
-                return map;
-            }, {});
-        }
-    },
+    //     Promise.all(pArr)
+    //         .then((resArr) => {
+    //             this.allComponents = [...resArr[0].data];
+    //             if (resArr.length > 2) {
+    //                 this.planComponents = [...resArr[2].data.docs];
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // },
+    // computed: {
+    //     planComponentMap() {
+    //         return this.planComponents.reduce((map, item) => {
+    //             map[item.component_id] = item;
+    //             return map;
+    //         }, {});
+    //     }
+    // },
     methods: {}
 };
 </script>

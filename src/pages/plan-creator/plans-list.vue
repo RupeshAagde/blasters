@@ -2,27 +2,12 @@
     <div class="plans-list main-container">
         <div class="page-container">
             <jumbotron
-                :title="
-                    jumbotronData
-                        ? `${jumbotronData.jumbotronTitle} ${
-                              filter_data
-                                  ? '(' + filter_data.pagination.total + ')'
-                                  : ''
-                          }`
-                        : ''
-                "
+                style="width: 100%"
+                :title="jumbotronData ? `${jumbotronData.jumbotronTitle}` : ''"
                 :desc="jumbotronData ? jumbotronData.jumbotronBody : ''"
                 btnLabel="Create"
                 @btnClick="choosePlanType"
             >
-                <nitrozen-button
-                    class="pad-left"
-                    :theme="'secondary'"
-                    v-strokeBtn
-                    @click="viewComponents"
-                >
-                    View Components
-                </nitrozen-button>
             </jumbotron>
             <div class="plans-list-container">
                 <div class="plans-filters">
@@ -34,7 +19,7 @@
                         class="search"
                     />
                     <div class="dropdown-filters">
-                        <nitrozen-dropdown
+                        <!-- <nitrozen-dropdown
                             class="type-filter"
                             :label="'Country'"
                             :searchable="true"
@@ -46,7 +31,7 @@
                                     searchCountry = e && e.text ? e.text : '';
                                 }
                             "
-                        ></nitrozen-dropdown>
+                        ></nitrozen-dropdown> -->
                         <nitrozen-dropdown
                             class="type-filter"
                             :label="'Plan Type'"
@@ -221,16 +206,15 @@ export default {
         if (queryObj.query) {
             _.merge(this.filter_data.query, JSON.parse(queryObj.query));
         }
-        if (this.filter_data.query.name) {
+        if (this.filter_data.query && this.filter_data.query.name && this.filter_data.query.name.$regex) {
+            this.filter_data.query.name = this.filter_data.query.name.$regex;
             this.searchText = this.filter_data.query.name.trim();
         }
         if (queryObj.limit) {
-            this.filter_data.pagination.limit = queryObj.limit;
+            this.filter_data.pagination.limit = parseInt(queryObj.limit);
         }
-        if (queryObj.offset > 0) {
-            this.filter_data.pagination.current = parseInt(
-                queryObj.offset / queryObj.limit
-            );
+        if (parseInt(queryObj.page) > 0) {
+            this.filter_data.pagination.current = parseInt(queryObj.page);
         }
         this.fetchPlans();
         LocationService.getCountries()
@@ -246,19 +230,20 @@ export default {
                 );
             })
             .catch((err) => {
+                this.$snackbar.global.showError('Failed to fetch country data');
                 console.log(err);
             });
     },
     computed: {
-        countries() {
-            if (this.searchCountry) {
-                const regexSrch = new RegExp(this.searchCountry, 'gi');
-                return this.countryList.filter((it) => {
-                    return regexSrch.test(it.text);
-                });
-            }
-            return this.countryList;
-        }
+        // countries() {
+        //     if (this.searchCountry) {
+        //         const regexSrch = new RegExp(this.searchCountry, 'gi');
+        //         return this.countryList.filter((it) => {
+        //             return regexSrch.test(it.text);
+        //         });
+        //     }
+        //     return this.countryList;
+        // }
     },
     methods: {
         fetchPlans() {
@@ -278,13 +263,9 @@ export default {
                     this.plansList = data.docs;
                 })
                 .catch((err) => {
+                    // console.log(err);
                     this.pageError = true;
                 });
-        },
-        viewComponents() {
-            this.$router.push({
-                path: `/administrator/subscription-components`
-            });
         },
         onSearch() {
             this.filter_data.query.name = this.searchText;
@@ -293,18 +274,6 @@ export default {
         debounceInput: debounce(function(e) {
             this.onSearch();
         }, 500),
-        get_option_values(options) {
-            let option_map = [];
-            Object.keys(options).forEach((key) => {
-                option_map
-                    .push({
-                        id: key,
-                        text: options[key]
-                    })
-                    .catch((err) => {});
-            });
-            return option_map;
-        },
         choosePlanType() {
             this.$refs['plan-type-modal'].open();
         },
@@ -322,12 +291,6 @@ export default {
         editPlan(id, event) {
             this.$router.push({
                 path: `/administrator/subscription-plans/edit/${id}`
-            });
-        },
-        clonePlan(id, event) {
-            this.$router.replace({
-                path: `/administrator/subscription-plans/edit/${id}`,
-                query: { clone: true }
             });
         },
         pageOptionChange(pageOptions) {

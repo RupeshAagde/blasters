@@ -5,7 +5,6 @@
                 :title="`${isEditOnly ? 'Edit' : 'Create'} Subscription Plan`"
                 :contextMenuItems="isEditOnly ? contextMenu : undefined"
                 @backClick="onCancel"
-                @delete="onMenuAction('delete')"
                 @clone="onMenuAction('clone')"
             >
                 <div class="button-box">
@@ -18,7 +17,6 @@
                         @click="
                             () => {
                                 formData.is_active = !formData.is_active;
-                                changeActiveState();
                             }
                         "
                         >{{ formData.is_active ? 'Active' : 'Inactive' }}</span
@@ -26,9 +24,9 @@
                     <nitrozen-toggle
                         class="pad-right"
                         v-model="formData.is_active"
-                        @change="changeActiveState"
                     ></nitrozen-toggle>
                     <nitrozen-button
+                        class="createBtn"
                         :theme="'secondary'"
                         @click="savePlan"
                         v-flatBtn
@@ -287,7 +285,7 @@ export default {
                             this.$snackbar.global.showSuccess(data.message);
 
                             this.$router.push({
-                                path: `administrator/subscription-plans/edit/${data.data._id}/`,
+                                path: `/administrator/subscription-plans/edit/${data.data._id}/`,
                                 query: {}
                             });
 
@@ -328,34 +326,6 @@ export default {
                 );
             }
         },
-        changeActiveState() {
-            const publishState = this.formData._schedule.published
-                ? 'Active'
-                : 'Inactive';
-            if (!this.isEditOnly) {
-                return;
-            }
-            BillingService.patchPlan(
-                { published: this.formData._schedule.published },
-                this.planId
-            )
-                .then(({ data }) => {
-                    this.$snackbar.global.showSuccess(data.message);
-                    // update original data as changes are saved on server
-                    this.originalData._schedule.published = this.formData._schedule.published;
-                })
-                .catch((err) => {
-                    this.$snackbar.global.showError(
-                        `Failed to ${
-                            this.formData._schedule.published
-                                ? 'publish'
-                                : 'unpublish'
-                        } subscription-plan:${
-                            err && err.message ? ' : ' + err.message : ''
-                        }`
-                    );
-                });
-        },
 
         validateData() {
             this.clearErrors();
@@ -374,7 +344,7 @@ export default {
         onMenuAction(action) {
             if (action == 'clone') {
                 this.$router.push({
-                    path: `administrator/subscription-plans/edit/${this.planId}`,
+                    path: `/administrator/subscription-plans/edit/${this.planId}`,
                     query: {
                         clone: true
                     }
@@ -384,20 +354,6 @@ export default {
                 this.formData.plan = oldFormData.plan;
                 this.originalData = {};
                 this.$snackbar.global.showSuccess('Subscription Plan cloned');
-            } else if (action == 'delete') {
-                BillingService.deletePlan(this.planId)
-                    .then(({ data }) => {
-                        this.$snackbar.global.showSuccess(data.message);
-                        this.$router.push({
-                            path: `/administrator/subscription-plans`
-                        });
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                        this.$snackbar.global.showError(
-                            'Failed to delete Subscription Plan'
-                        );
-                    });
             }
         },
         onCancel() {
