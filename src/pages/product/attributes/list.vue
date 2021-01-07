@@ -564,6 +564,14 @@ export default {
                     ...this.$route.query,
                     ...query
                 }
+            })
+            .catch((error) => {
+                this.$router.push({
+                path: this.$route.path,
+                query: {
+                    ...query
+                }
+            });
             });
         },
         $openGroupDialog() {
