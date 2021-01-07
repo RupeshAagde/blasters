@@ -16,7 +16,7 @@
         "build:serverprod": "webpack --config build/webpack.server.config.js --progress --env=production",
         "pretty": "./node_modules/.bin/prettier --config ./.prettierrc --write",
         "precommit": "lint-staged",
-        "test": "jest  --projects  src server --no-cache --detectOpenHandles --json --outputFile=./coverage/coverage.json"
+        "test": "jest --updateSnapshot --projects  src server --no-cache --detectOpenHandles --json --outputFile=./coverage/coverage.json"
     },
     "jest": {
         "projects": [
@@ -105,6 +105,7 @@
         "copy-webpack-plugin": "5.1.2",
         "css-loader": "3.6.0",
         "file-loader": "6.2.0",
+        "flush-promises": "^1.0.2",
         "husky": "4.3.0",
         "jest": "26.6.3",
         "less": "3.12.2",

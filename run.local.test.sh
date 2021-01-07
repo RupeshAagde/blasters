@@ -21,6 +21,7 @@ export SKYWARP_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/platform/authorizati
 export ULTRAMAGNUS_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/internal/settings
 export ULTRAMAGNUS_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/internal/settings
 export UNICRON_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/platform/billing/
+export UNICRON_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/platform/billing/
 export HIGHBROW_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/platform/lead/
 export HIGHBROW_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/platform/lead/
 export SLINGSHOT_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/slingshot/

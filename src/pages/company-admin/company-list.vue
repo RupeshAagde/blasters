@@ -125,21 +125,6 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <!-- <div
-                                        class="txt-arrange"
-                                        v-if="product.created_on"
-                                    >
-                                        <div class="txt-description-heading">
-                                            Created On :
-                                        </div>
-                                        <div class="txt-details-on">
-                                            {{
-                                                new Date(
-                                                    product.created_on
-                                                ).toLocaleString()
-                                            }}
-                                        </div>
-                                    </div>-->
                                 </div>
                             </div>
                             <div class="card-badge-section">
@@ -553,16 +538,6 @@ export default {
                         .catch((err) => {
                             console.log(err);
                         });
-                    // Promise.all([this.fetchUserMeta(this.tempList)])
-                    //     .then(() => {
-                    //         this.companyList = data.data;
-                    //         // this.pagination.current = this.pagination.current + 1;=
-                    //         this.pagination.total = data.total_count;
-                    //         this.pageLoading = false;
-                    //     })
-                    //     .catch((err) => {
-                    //         return reject(err);
-                    //     });
                 })
                 .catch((err) => {
                     this.pageLoading = false;
