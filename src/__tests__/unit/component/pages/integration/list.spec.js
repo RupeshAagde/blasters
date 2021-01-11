@@ -36,7 +36,7 @@ describe('Mounted List Integration Page', () => {
     });
     it('exists wrapper and div', async () => {
         expect(wrapper.vm).toBeTruthy()
-        expect(wrapper.element).toMatchSnapshot()
+        expect(wrapper.element).toMatchSnapshot();
     })
     it('list data', async () => {
         expect(wrapper.vm.integrationsList.length).toBe(10)
