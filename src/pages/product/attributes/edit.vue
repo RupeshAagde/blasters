@@ -7,6 +7,7 @@
                         class="pad-left"
                         :theme="'secondary'"
                         v-flatBtn
+                        ref='save-button'
                         @click="saveForm"
                         >Save</nitrozen-button
                     >
