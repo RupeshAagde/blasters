@@ -9,6 +9,8 @@ import axios from 'axios';
 import URLS from "./../../../../../services/domain.service"
 import MOCK_DATA from "./fixtures/list-mock.json";
 import COMPANY_MOCK_DATA from './fixtures/company-list.json';
+import flushPromises from "flush-promises";
+
 const mock = new MockAdapter(axios);
 let localVue = createLocalVue()
 localVue.use(VueRouter)
@@ -34,7 +36,7 @@ describe('Mounted Create Integartion Page', () => {
             localVue,
             router,
         })
-        await new Promise(resolve => setTimeout(resolve, 10));
+        await flushPromises();
     });
     it('exists wrapper and div', async () => {
         expect(wrapper.vm).toBeTruthy()
@@ -45,7 +47,7 @@ describe('Mounted Create Integartion Page', () => {
     })
     it('save form', async () => {
         wrapper.vm.saveForm();
-        await new Promise(resolve => setTimeout(resolve, 10));
+        await flushPromises();
         expect(wrapper.vm.inProgress).toBe(false);
     })
 })

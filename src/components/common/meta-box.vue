@@ -105,9 +105,9 @@ export default {
             }
         },
         customJson: {
-            type: Object,
+            type: [Array, Object],
             default: () => {
-                return {};
+                return [];
             }
         },
         showJsonOnly: {

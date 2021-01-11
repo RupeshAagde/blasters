@@ -8,6 +8,7 @@ import VueRouter from 'vue-router';
 import axios from 'axios';
 import URLS from "./../../../../../services/domain.service"
 import MOCK_DATA from "./fixtures/list-mock.json";
+import flushPromises from "flush-promises";
 
 const mock = new MockAdapter(axios);
 let localVue = createLocalVue()
@@ -31,7 +32,7 @@ describe('Mounted List Integration Page', () => {
             localVue,
             router,
         })
-        await new Promise(resolve => setTimeout(resolve, 10));
+        await flushPromises();
     });
     it('exists wrapper and div', async () => {
         expect(wrapper.vm).toBeTruthy()
@@ -40,9 +41,18 @@ describe('Mounted List Integration Page', () => {
     it('list data', async () => {
         expect(wrapper.vm.integrationsList.length).toBe(10)
     })
+    it('list data error', async () => {
+        mock.onGet(URLS.INTEGRATIONS_LIST()).reply(500, {error: true});
+        wrapper = mount(IntegrationList, {
+            localVue,
+            router,
+        })
+        await flushPromises();
+        expect(wrapper.vm.pageError).toBe(true)
+    })
     it('pagination data', async () => {
         wrapper.vm.paginationChange({current: 2, limit: 10})
-        await new Promise(resolve => setTimeout(resolve, 10));
+        await flushPromises();
         expect(wrapper.vm.integrationsList.length).toBe(10);
     })
     it('add integartion', async () => {

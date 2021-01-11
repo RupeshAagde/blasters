@@ -135,7 +135,7 @@ export default {
                 .catch((err) => {
                     this.pageLoading = false;
                     this.pageError = true;
-                    console.log(err);
+                    // console.log(err);
                 });
         },
         paginationChange(filter) {

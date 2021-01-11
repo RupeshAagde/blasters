@@ -272,8 +272,8 @@
                     ></json-to-form> -->
                     <nitrozen-custom-form 
                         ref="schema-form"
-                        :inputs="inputs"
-                        v-model="emptyResponse"
+                        :inputs="activeSchema.inputs || []"
+                        v-model="activeData"
                         @change="formResponseChanged"
                     />
                 </div>
@@ -366,153 +366,153 @@ export default {
             integrationData: {},
             token: '',
             integrationId: this.$route.params.integrationId,
-            emptyResponse: {},
-            inputs: [
-                {
-                    type: "toggle",
-                    display: "Does your file have a header?",
-                    key: "fileHasHeader",
-                    default: false,
-                },
-                {
-                    type: "number",
-                    display: "Index of that Header",
-                    key: "headerIndex",
-                    default: 0,
-                    visible_if: {
-                        "==": [
-                        {
-                            var: "fileHasHeader",
-                        },
-                        true,
-                        ],
-                    },
-                },
-                {
-                    display: "Delimiter",
-                    key: "delimiter",
-                    required: true,
-                    type: "text",
-                    tooltip: "Delimiter used in CSV",
-                    default: ",",
-                },
-                {
-                    type: "number",
-                    display: "Start index of your data",
-                    key: "dataStartIndex",
-                    default: 1,
-                },
-                {
-                    display: "File type of your input",
-                    key: "fileType",
-                    required: true,
-                    type: "dropdown",
-                    enum: [
-                        {
-                        key: "EXCEL",
-                        display: "Excel",
-                        },
-                        {
-                        key: "CSV",
-                        display: "CSV",
-                        },
-                    ],
-                    default: "EXCEL",
-                },
-                {
-                    display: "Charachter Encoding",
-                    enum: [
-                        {
-                        key: "UTF-8",
-                        display: "UTF-8",
-                        },
-                        {
-                        key: "UTF-16",
-                        display: "UTF-16",
-                        },
-                    ],
-                    key: "charset",
-                    required: true,
-                    type: "dropdown",
-                    placeholder: "Select Charset",
-                    visible_if: {
-                        "==": [
-                        {
-                            var: "fileType",
-                        },
-                        "CSV",
-                        ],
-                    },
-                },
-                {
-                    type: "toggle",
-                    display: "Should we read all the sheets?",
-                    key: "readAllSheets",
-                    default: false,
-                    visible_if: {
-                            "==": [
-                            {
-                                var: "fileType",
-                            },
-                            "EXCEL",
-                            ],
-                        },
-                    },
-                    {
-                    display: "Sheet Names",
-                    key: "sheetNames",
-                    type: "array",
-                    min: 2,
-                    max: 4,
-                    input: {
-                        display: "",
-                        type: "text",
-                    },
-                    visible_if: {
-                        "==": [
-                        {
-                            var: "readAllSheets",
-                        },
-                        false,
-                        ],
-                    },
-                },
-                {
-                    display: "Prop Bean Configs",
-                    key: "propBeanConfigs",
-                    type: "array",
-                    input: {
-                        display: "",
-                        type: "object",
-                         inputs: [
-                            {
-                                display: "Quantity",
-                                key: "quantity",
-                                required: true,
-                                type: "number",
-                            },
-                            {
-                                display: "Store Id",
-                                key: "intf_store_id",
-                                required: true,
-                                type: "text",
-                            },
-                            {
-                                display: "Price Effective",
-                                key: "price_effective",
-                                required: true,
-                                type: "number",
-                            },
-                            {
-                                display: "Store Id",
-                                key: "intf_store_id",
-                                required: true,
-                                type: "text",
-                            }
-                        ],
-                    },
-                },
-            ]
+            // emptyResponse: {},
+            // inputs: [
+            //     {
+            //         type: "toggle",
+            //         display: "Does your file have a header?",
+            //         key: "fileHasHeader",
+            //         default: false,
+            //     },
+            //     {
+            //         type: "number",
+            //         display: "Index of that Header",
+            //         key: "headerIndex",
+            //         default: 0,
+            //         visible_if: {
+            //             "==": [
+            //             {
+            //                 var: "fileHasHeader",
+            //             },
+            //             true,
+            //             ],
+            //         },
+            //     },
+            //     {
+            //         display: "Delimiter",
+            //         key: "delimiter",
+            //         required: true,
+            //         type: "text",
+            //         tooltip: "Delimiter used in CSV",
+            //         default: ",",
+            //     },
+            //     {
+            //         type: "number",
+            //         display: "Start index of your data",
+            //         key: "dataStartIndex",
+            //         default: 1,
+            //     },
+            //     {
+            //         display: "File type of your input",
+            //         key: "fileType",
+            //         required: true,
+            //         type: "dropdown",
+            //         enum: [
+            //             {
+            //             key: "EXCEL",
+            //             display: "Excel",
+            //             },
+            //             {
+            //             key: "CSV",
+            //             display: "CSV",
+            //             },
+            //         ],
+            //         default: "EXCEL",
+            //     },
+            //     {
+            //         display: "Charachter Encoding",
+            //         enum: [
+            //             {
+            //             key: "UTF-8",
+            //             display: "UTF-8",
+            //             },
+            //             {
+            //             key: "UTF-16",
+            //             display: "UTF-16",
+            //             },
+            //         ],
+            //         key: "charset",
+            //         required: true,
+            //         type: "dropdown",
+            //         placeholder: "Select Charset",
+            //         visible_if: {
+            //             "==": [
+            //             {
+            //                 var: "fileType",
+            //             },
+            //             "CSV",
+            //             ],
+            //         },
+            //     },
+            //     {
+            //         type: "toggle",
+            //         display: "Should we read all the sheets?",
+            //         key: "readAllSheets",
+            //         default: false,
+            //         visible_if: {
+            //                 "==": [
+            //                 {
+            //                     var: "fileType",
+            //                 },
+            //                 "EXCEL",
+            //                 ],
+            //             },
+            //         },
+            //         {
+            //         display: "Sheet Names",
+            //         key: "sheetNames",
+            //         type: "array",
+            //         min: 2,
+            //         max: 4,
+            //         input: {
+            //             display: "",
+            //             type: "text",
+            //         },
+            //         visible_if: {
+            //             "==": [
+            //             {
+            //                 var: "readAllSheets",
+            //             },
+            //             false,
+            //             ],
+            //         },
+            //     },
+            //     {
+            //         display: "Prop Bean Configs",
+            //         key: "propBeanConfigs",
+            //         type: "array",
+            //         input: {
+            //             display: "",
+            //             type: "object",
+            //              inputs: [
+            //                 {
+            //                     display: "Quantity",
+            //                     key: "quantity",
+            //                     required: true,
+            //                     type: "number",
+            //                 },
+            //                 {
+            //                     display: "Store Id",
+            //                     key: "intf_store_id",
+            //                     required: true,
+            //                     type: "text",
+            //                 },
+            //                 {
+            //                     display: "Price Effective",
+            //                     key: "price_effective",
+            //                     required: true,
+            //                     type: "number",
+            //                 },
+            //                 {
+            //                     display: "Store Id",
+            //                     key: "intf_store_id",
+            //                     required: true,
+            //                     type: "text",
+            //                 }
+            //             ],
+            //         },
+            //     },
+            // ]
         };
     },
     mounted() {
@@ -730,7 +730,12 @@ export default {
         // },
         preview(ref) {
             this.activeData = {};
-            this.activeSchema = this.$refs[ref].getJSON();
+            if(Array.isArray(this.$refs[ref].getJSON())){
+                this.activeSchema = this.$refs[ref].getJSON()[0];
+            }
+            else{
+                this.activeSchema = this.$refs[ref].getJSON();
+            }
             this.$refs['previewSchema'].open({
                 width: '600px',
                 showCloseButton: true,
