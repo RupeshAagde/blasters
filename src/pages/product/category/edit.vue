@@ -31,6 +31,7 @@
                             <nitrozen-button
                                 class="left-space-txb"
                                 :theme="'secondary'"
+                                ref="save"
                                 @click="save"
                                 v-flatBtn
                                 >Save</nitrozen-button
@@ -161,7 +162,7 @@
                         @delete="logo.value = ''"
                         @save="logo.value = $event"
                         v-model="logo.value"
-                        :fileName="logo.value"
+                        fileName="logo"
                         namespace="category-square-logo"
                     ></image-uploader-tile>
                     <nitrozen-error v-if="logo.showerror">{{
@@ -176,7 +177,7 @@
                         @delete="banner = ''"
                         @save="banner = $event"
                         v-model="banner"
-                        :fileName="banner"
+                        fileName="banner"
                         namespace="category-portrait-banner"
                     ></image-uploader-tile>
                     <nitrozen-error v-if="miscErrors.portrait.showerror">{{
@@ -191,7 +192,7 @@
                         @delete="landscape = ''"
                         @save="landscape = $event"
                         v-model="landscape"
-                        :fileName="landscape"
+                        fileName="landscape"
                         namespace="category-landscape-banner"
                     ></image-uploader-tile>
                     <nitrozen-error v-if="miscErrors.landscape.showerror">{{

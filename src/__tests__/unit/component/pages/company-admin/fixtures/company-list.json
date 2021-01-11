@@ -1,0 +1,470 @@
+{
+    "data": [
+        {
+            "verified_by": { "username": "silverbolt", "user_id": "0" },
+            "addresses": [
+                {
+                    "address_type": "office",
+                    "address2": "Bandra Terminus, Naupada, Bandra East",
+                    "city": "Bordj el Kiffan",
+                    "state": "Algiers Province",
+                    "longitude": 72.8406903,
+                    "pincode": 400050,
+                    "country_code": "IN",
+                    "latitude": 19.0548399,
+                    "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                    "country": "Algeria"
+                },
+                {
+                    "address_type": "registered",
+                    "address2": "tof",
+                    "city": "Mira Bhayandar",
+                    "state": "Maharashtra",
+                    "longitude": 72.862951,
+                    "pincode": 401105,
+                    "country_code": "IN",
+                    "latitude": 19.303474,
+                    "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                    "country": "India"
+                }
+            ],
+            "modified_on": "2021-01-06T12:35:59.789000+00:00",
+            "bank_detail": {
+                "bank_name": "HDFC",
+                "account_number": "0001234567890001",
+                "account_type": "saving",
+                "beneficiary_name": "Fahim",
+                "ifsc_code": "HDFC0007",
+                "cancel_cheque_url": "http://www.google.com/"
+            },
+            "market_channels": [],
+            "stage": "complete",
+            "verified_on": "2020-10-09T09:53:19.175000+00:00",
+            "created_on": "2020-05-18T16:16:07.902000+00:00",
+            "company_type": "distributor",
+            "name": "RELIANCE RETAIL LTD",
+            "modified_by": {
+                "username": "919096686804_31579",
+                "user_id": "5696"
+            },
+            "departments": [],
+            "business_type": "ltd/pvt ltd",
+            "uid": 1,
+            "notification_emails": ["ZAK@GMAIL.COM", "zak1@gmail.com"],
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_by": { "username": "app@fynd.com", "user_id": "0" }
+        },
+        {
+            "verified_by": { "username": "silverbolt", "user_id": "0" },
+            "addresses": [
+                {
+                    "address_type": "office",
+                    "city": "New Delhi",
+                    "state": "Delhi",
+                    "longitude": 77.0578351,
+                    "pincode": 110061,
+                    "country_code": "IN",
+                    "latitude": 28.535922,
+                    "address1": "Ground Floor, Khasra No.551,552, Nayak Mohalla, Near Holi Chowk, Opp. Park V.P.O., Bijwasan, ",
+                    "country": "India"
+                },
+                {
+                    "address_type": "registered",
+                    "city": "New Delhi",
+                    "state": "Delhi",
+                    "longitude": 77.0578351,
+                    "pincode": 110061,
+                    "country_code": "IN",
+                    "latitude": 28.535922,
+                    "address1": "Ground Floor, Khasra No.551,552, Nayak Mohalla, Near Holi Chowk, Opp. Park V.P.O., Bijwasan, ",
+                    "country": "India"
+                }
+            ],
+            "modified_on": "2020-12-23T07:25:46.539000+00:00",
+            "market_channels": [],
+            "stage": "verified",
+            "verified_on": "2020-12-23T07:25:46.539000+00:00",
+            "created_on": "2020-07-16T04:06:16.385000+00:00",
+            "company_type": "mbo",
+            "name": "Cache Company",
+            "modified_by": { "username": "918793638893_86554", "user_id": "3" },
+            "departments": [],
+            "business_type": "huf",
+            "uid": 257,
+            "notification_emails": ["gaurangpatel@gofynd.com"],
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_by": { "username": "918793638893_86554", "user_id": "3" }
+        },
+        {
+            "verified_by": { "username": "silverbolt", "user_id": "0" },
+            "addresses": [
+                {
+                    "address_type": "office",
+                    "city": "Jaipur",
+                    "state": "Rajasthan",
+                    "longitude": 75.8330174,
+                    "pincode": 302004,
+                    "country_code": "IN",
+                    "latitude": 26.889261,
+                    "address1": "mps school, ",
+                    "country": "India"
+                },
+                {
+                    "address_type": "registered",
+                    "city": "Jaipur",
+                    "state": "Rajasthan",
+                    "longitude": 75.8330174,
+                    "pincode": 302004,
+                    "country_code": "IN",
+                    "latitude": 26.889261,
+                    "address1": "mps school, ",
+                    "country": "India"
+                }
+            ],
+            "modified_on": "2020-12-07T09:59:29.029000+00:00",
+            "market_channels": [],
+            "stage": "verified",
+            "verified_on": "2020-12-07T09:59:29.029000+00:00",
+            "created_on": "2020-12-07T09:59:27.535000+00:00",
+            "company_type": "mbo",
+            "name": "new jest test company",
+            "modified_by": {
+                "username": "917009853732_23056",
+                "user_id": "39"
+            },
+            "departments": [],
+            "business_type": "huf",
+            "uid": 352,
+            "notification_emails": ["aayushvjain@gofynd.com"],
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_by": { "username": "917009853732_23056", "user_id": "39" }
+        },
+        {
+            "verified_by": { "username": "silverbolt", "user_id": "0" },
+            "addresses": [
+                {
+                    "address_type": "office",
+                    "city": "Jaipur",
+                    "state": "Rajasthan",
+                    "longitude": 75.8330174,
+                    "pincode": 302004,
+                    "country_code": "IN",
+                    "latitude": 26.889261,
+                    "address1": "mps school, ",
+                    "country": "India"
+                },
+                {
+                    "address_type": "registered",
+                    "city": "Jaipur",
+                    "state": "Rajasthan",
+                    "longitude": 75.8330174,
+                    "pincode": 302004,
+                    "country_code": "IN",
+                    "latitude": 26.889261,
+                    "address1": "mps school, ",
+                    "country": "India"
+                }
+            ],
+            "modified_on": "2020-12-07T09:30:19.786000+00:00",
+            "market_channels": [],
+            "stage": "verified",
+            "verified_on": "2020-12-07T09:30:19.786000+00:00",
+            "created_on": "2020-12-07T09:30:18.555000+00:00",
+            "company_type": "mbo",
+            "name": "new jest test",
+            "modified_by": {
+                "username": "917009853732_23056",
+                "user_id": "39"
+            },
+            "departments": [],
+            "business_type": "huf",
+            "uid": 351,
+            "notification_emails": ["aayushvjain@gofynd.com"],
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_by": { "username": "917009853732_23056", "user_id": "39" }
+        },
+        {
+            "verified_by": { "username": "silverbolt", "user_id": "0" },
+            "addresses": [
+                {
+                    "address_type": "office",
+                    "city": "Mumbai Suburban",
+                    "state": "Maharashtra",
+                    "longitude": 72.8741323,
+                    "pincode": 400029,
+                    "country_code": "IN",
+                    "latitude": 19.0793365,
+                    "address1": "Panama compund shashtri nagar, Kolivery Village, Kalina, Shastri Nagar, Santacruz East, ",
+                    "country": "India"
+                },
+                {
+                    "address_type": "registered",
+                    "city": "Mumbai Suburban",
+                    "state": "Maharashtra",
+                    "longitude": 72.8741323,
+                    "pincode": 400029,
+                    "country_code": "IN",
+                    "latitude": 19.0793365,
+                    "address1": "Panama compund shashtri nagar, Kolivery Village, Kalina, Shastri Nagar, Santacruz East, ",
+                    "country": "India"
+                }
+            ],
+            "modified_on": "2020-12-03T06:28:43.065000+00:00",
+            "market_channels": [],
+            "stage": "verified",
+            "verified_on": "2020-12-03T06:28:43.065000+00:00",
+            "created_on": "2020-12-03T06:28:41.164000+00:00",
+            "company_type": "mbo",
+            "name": "Mhatre Enterprise",
+            "modified_by": {
+                "username": "919405518774_65327",
+                "user_id": "5703"
+            },
+            "departments": [],
+            "business_type": "ltd/pvt ltd",
+            "uid": 350,
+            "notification_emails": ["pratikmhatre@gofynd.com"],
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_by": {
+                "username": "919405518774_65327",
+                "user_id": "5703"
+            }
+        },
+        {
+            "verified_by": { "username": "silverbolt", "user_id": "0" },
+            "addresses": [
+                {
+                    "address_type": "office",
+                    "city": "Mumbai Suburban",
+                    "state": "Maharashtra",
+                    "longitude": 72.8887242,
+                    "pincode": 400072,
+                    "country_code": "IN",
+                    "latitude": 19.1275261,
+                    "address1": "Jogeshwari - Vikhroli Link Rd, Milind Nagar, Milind Nagar, Krishna Nagar, Powai, ",
+                    "country": "India"
+                },
+                {
+                    "address_type": "registered",
+                    "city": "Mumbai Suburban",
+                    "state": "Maharashtra",
+                    "longitude": 72.8887242,
+                    "pincode": 400072,
+                    "country_code": "IN",
+                    "latitude": 19.1275261,
+                    "address1": "Jogeshwari - Vikhroli Link Rd, Milind Nagar, Milind Nagar, Krishna Nagar, Powai, ",
+                    "country": "India"
+                }
+            ],
+            "modified_on": "2020-12-02T11:34:09.506000+00:00",
+            "market_channels": [],
+            "stage": "verified",
+            "verified_on": "2020-12-02T11:34:09.506000+00:00",
+            "created_on": "2020-12-02T11:34:08.242000+00:00",
+            "company_type": "mbo",
+            "name": "My New Company",
+            "modified_by": {
+                "username": "917009853732_23056",
+                "user_id": "39"
+            },
+            "departments": [],
+            "business_type": "huf",
+            "uid": 349,
+            "notification_emails": ["aayushvjain@gofynd.com"],
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_by": { "username": "917009853732_23056", "user_id": "39" }
+        },
+        {
+            "verified_by": { "username": "silverbolt", "user_id": "0" },
+            "addresses": [
+                {
+                    "address_type": "office",
+                    "city": "Mumbai",
+                    "state": "Maharashtra",
+                    "longitude": 72.8231511,
+                    "pincode": 401209,
+                    "country_code": "IN",
+                    "latitude": 19.4232024,
+                    "address1": "A/204, Sai Vandan, Narayan Nagar, Tulinj Road, ",
+                    "country": "India"
+                },
+                {
+                    "address_type": "registered",
+                    "city": "Mumbai",
+                    "state": "Maharashtra",
+                    "longitude": 72.8231511,
+                    "pincode": 401209,
+                    "country_code": "IN",
+                    "latitude": 19.4232024,
+                    "address1": "A/204, Sai Vandan, Narayan Nagar, Tulinj Road, ",
+                    "country": "India"
+                }
+            ],
+            "modified_on": "2020-11-20T07:25:51.002000+00:00",
+            "market_channels": [],
+            "stage": "verified",
+            "verified_on": "2020-11-20T07:25:51.002000+00:00",
+            "created_on": "2020-11-20T06:17:38.900000+00:00",
+            "company_type": "mbo",
+            "name": "New Test company 101",
+            "modified_by": { "username": "918793638893_86554", "user_id": "3" },
+            "departments": [],
+            "business_type": "huf",
+            "uid": 348,
+            "notification_emails": ["gaurangpatel@gofynd.com"],
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_by": { "username": "918793638893_86554", "user_id": "3" }
+        },
+        {
+            "addresses": [
+                {
+                    "address_type": "office",
+                    "city": "Mumbai",
+                    "state": "Maharashtra",
+                    "longitude": 72.8231511,
+                    "pincode": 401209,
+                    "country_code": "IN",
+                    "latitude": 19.4232024,
+                    "address1": "A/204, Sai Vandan, Narayan Nagar, ",
+                    "country": "India"
+                },
+                {
+                    "address_type": "registered",
+                    "city": "Mumbai",
+                    "state": "Maharashtra",
+                    "longitude": 72.8231511,
+                    "pincode": 401209,
+                    "country_code": "IN",
+                    "latitude": 19.4232024,
+                    "address1": "A/204, Sai Vandan, Narayan Nagar, ",
+                    "country": "India"
+                }
+            ],
+            "modified_on": "2020-11-20T06:14:33.402000+00:00",
+            "market_channels": [],
+            "stage": "complete",
+            "created_on": "2020-11-20T06:14:33.402000+00:00",
+            "company_type": "mbo",
+            "name": "New test account 101",
+            "modified_by": { "username": "918793638893_86554", "user_id": "3" },
+            "departments": [],
+            "business_type": "huf",
+            "uid": 346,
+            "notification_emails": ["gaurangpatel@gofynd.com"],
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_by": { "username": "918793638893_86554", "user_id": "3" }
+        },
+        {
+            "addresses": [
+                {
+                    "address_type": "office",
+                    "city": "Mumbai",
+                    "state": "Maharashtra",
+                    "longitude": 72.8231511,
+                    "pincode": 401209,
+                    "country_code": "IN",
+                    "latitude": 19.4232024,
+                    "address1": "A/204, Sai Vandan, Narayan Nagar, Tulinj Road, ",
+                    "country": "India"
+                },
+                {
+                    "address_type": "registered",
+                    "city": "Mumbai",
+                    "state": "Maharashtra",
+                    "longitude": 72.8231511,
+                    "pincode": 401209,
+                    "country_code": "IN",
+                    "latitude": 19.4232024,
+                    "address1": "A/204, Sai Vandan, Narayan Nagar, Tulinj Road, ",
+                    "country": "India"
+                }
+            ],
+            "modified_on": "2020-11-19T16:36:17.501000+00:00",
+            "market_channels": [],
+            "stage": "complete",
+            "created_on": "2020-11-19T15:49:54.082000+00:00",
+            "company_type": "mbo",
+            "name": "Business Account 101",
+            "modified_by": { "username": "918793638893_86554", "user_id": "3" },
+            "departments": [],
+            "business_type": "huf",
+            "uid": 344,
+            "notification_emails": ["gaurangpatel@gofynd.com"],
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_by": { "username": "918793638893_86554", "user_id": "3" }
+        },
+        {
+            "addresses": [
+                {
+                    "address_type": "office",
+                    "city": "Mumbai",
+                    "state": "Maharashtra",
+                    "longitude": 72.8231511,
+                    "pincode": 401209,
+                    "country_code": "IN",
+                    "latitude": 19.4232024,
+                    "address1": "A/204, Sai Vandan, Narayan Nagar, Tulinj Road, ",
+                    "country": "India"
+                },
+                {
+                    "address_type": "registered",
+                    "city": "Mumbai",
+                    "state": "Maharashtra",
+                    "longitude": 72.8231511,
+                    "pincode": 401209,
+                    "country_code": "IN",
+                    "latitude": 19.4232024,
+                    "address1": "A/204, Sai Vandan, Narayan Nagar, Tulinj Road, ",
+                    "country": "India"
+                }
+            ],
+            "modified_on": "2020-11-19T15:47:37.662000+00:00",
+            "market_channels": [],
+            "stage": "complete",
+            "created_on": "2020-11-19T15:47:37.662000+00:00",
+            "company_type": "mbo",
+            "name": "New Business Account test 2",
+            "modified_by": { "username": "918793638893_86554", "user_id": "3" },
+            "departments": [],
+            "business_type": "huf",
+            "uid": 343,
+            "notification_emails": ["gaurangpatel@gofynd.com"],
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_by": { "username": "918793638893_86554", "user_id": "3" }
+        }
+    ],
+    "success": true,
+    "message": "Success!!!",
+    "total_count": 302,
+    "next_page": true
+}

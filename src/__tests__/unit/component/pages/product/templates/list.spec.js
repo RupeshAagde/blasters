@@ -6,7 +6,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import URLS from "../../../../../../services/domain.service.js"
 import mocks from "./mocks";
-import { console } from "window-or-global";
+import flushPromises from "flush-promises";
 
 describe('Mounted Templates List', () => {
 	let wrapper;
@@ -34,6 +34,9 @@ describe('Mounted Templates List', () => {
 				"updatedAt": "2020-10-23T10:59:13.521Z", "uid": "68"
 			}]);
 	});
+	afterEach(async () => {
+		await flushPromises();
+	})
 	it('List - is a Vue instance', async () => {
 		const router = new VueRouter({
 			routes: [
