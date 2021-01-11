@@ -260,16 +260,22 @@
             </div>
         </div>
         <loader v-if="inProgress" class="loading"></loader>
-        <nitrozen-dialog ref="previewSchema" title="Preview">
+        <nitrozen-dialog ref="previewSchema" title="Preview" class="preview-schema">
             <template slot="body">
                 <div v-if="Object.keys(activeSchema).length">
-                    <json-to-form
+                    <!-- <json-to-form
                         class="form"
                         ref="schema-form"
                         :schema="activeSchema"
                         v-model="activeData"
                         input-wrapping-class="input-wrapping-class"
-                    ></json-to-form>
+                    ></json-to-form> -->
+                    <nitrozen-custom-form 
+                        ref="schema-form"
+                        :inputs="inputs"
+                        v-model="emptyResponse"
+                        @change="formResponseChanged"
+                    />
                 </div>
             </template>
         </nitrozen-dialog>
@@ -288,8 +294,9 @@ import {
     NitrozenInline,
     NitrozenRadio,
     NitrozenDialog,
+    NitrozenCustomForm,
     flatBtn,
-    strokeBtn
+    strokeBtn,
 } from '@gofynd/nitrozen-vue';
 import {
     Loader,
@@ -319,7 +326,8 @@ export default {
         NitrozenInline,
         NitrozenRadio,
         JsonToForm,
-        NitrozenDialog
+        NitrozenDialog,
+        NitrozenCustomForm
     },
     directives: {
         flatBtn,
@@ -357,7 +365,154 @@ export default {
             activeData: {},
             integrationData: {},
             token: '',
-            integrationId: this.$route.params.integrationId
+            integrationId: this.$route.params.integrationId,
+            emptyResponse: {},
+            inputs: [
+                {
+                    type: "toggle",
+                    display: "Does your file have a header?",
+                    key: "fileHasHeader",
+                    default: false,
+                },
+                {
+                    type: "number",
+                    display: "Index of that Header",
+                    key: "headerIndex",
+                    default: 0,
+                    visible_if: {
+                        "==": [
+                        {
+                            var: "fileHasHeader",
+                        },
+                        true,
+                        ],
+                    },
+                },
+                {
+                    display: "Delimiter",
+                    key: "delimiter",
+                    required: true,
+                    type: "text",
+                    tooltip: "Delimiter used in CSV",
+                    default: ",",
+                },
+                {
+                    type: "number",
+                    display: "Start index of your data",
+                    key: "dataStartIndex",
+                    default: 1,
+                },
+                {
+                    display: "File type of your input",
+                    key: "fileType",
+                    required: true,
+                    type: "dropdown",
+                    enum: [
+                        {
+                        key: "EXCEL",
+                        display: "Excel",
+                        },
+                        {
+                        key: "CSV",
+                        display: "CSV",
+                        },
+                    ],
+                    default: "EXCEL",
+                },
+                {
+                    display: "Charachter Encoding",
+                    enum: [
+                        {
+                        key: "UTF-8",
+                        display: "UTF-8",
+                        },
+                        {
+                        key: "UTF-16",
+                        display: "UTF-16",
+                        },
+                    ],
+                    key: "charset",
+                    required: true,
+                    type: "dropdown",
+                    placeholder: "Select Charset",
+                    visible_if: {
+                        "==": [
+                        {
+                            var: "fileType",
+                        },
+                        "CSV",
+                        ],
+                    },
+                },
+                {
+                    type: "toggle",
+                    display: "Should we read all the sheets?",
+                    key: "readAllSheets",
+                    default: false,
+                    visible_if: {
+                            "==": [
+                            {
+                                var: "fileType",
+                            },
+                            "EXCEL",
+                            ],
+                        },
+                    },
+                    {
+                    display: "Sheet Names",
+                    key: "sheetNames",
+                    type: "array",
+                    min: 2,
+                    max: 4,
+                    input: {
+                        display: "",
+                        type: "text",
+                    },
+                    visible_if: {
+                        "==": [
+                        {
+                            var: "readAllSheets",
+                        },
+                        false,
+                        ],
+                    },
+                },
+                {
+                    display: "Prop Bean Configs",
+                    key: "propBeanConfigs",
+                    type: "array",
+                    input: {
+                        display: "",
+                        type: "object",
+                         inputs: [
+                            {
+                                display: "Quantity",
+                                key: "quantity",
+                                required: true,
+                                type: "number",
+                            },
+                            {
+                                display: "Store Id",
+                                key: "intf_store_id",
+                                required: true,
+                                type: "text",
+                            },
+                            {
+                                display: "Price Effective",
+                                key: "price_effective",
+                                required: true,
+                                type: "number",
+                            },
+                            {
+                                display: "Store Id",
+                                key: "intf_store_id",
+                                required: true,
+                                type: "text",
+                            }
+                        ],
+                    },
+                },
+            ]
         };
     },
     mounted() {
@@ -381,6 +536,9 @@ export default {
             this.$router.push({
                 path: `/administrator/integrations/list`
             });
+        },
+        formResponseChanged(){
+            console.log('FORM CHANGED')
         },
         saveForm() {
             if (!this.validateForm()) return;
@@ -651,12 +809,18 @@ export default {
         cursor: pointer;
     }
 }
+.preview-schema{
+    ::v-deep .nitrozen-dialog-body{
+            max-height:calc(100vh - 350px);
+    }
+}
 .main-container {
     .page-container {
         margin: 0;
         width: auto;
         display: block;
     }
+   
     .schmea-head {
         display: flex;
         justify-content: space-between;
