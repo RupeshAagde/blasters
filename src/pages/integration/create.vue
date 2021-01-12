@@ -233,7 +233,7 @@
                                 placeholder="Value"
                                 v-model="item.value"
                             ></nitrozen-input>
-                            <nitrozen-check-box v-model="item.isPublic"
+                            <nitrozen-check-box v-model="item.public"
                                 >Public</nitrozen-check-box
                             >
                             <a class="pointer" @click="removeTag(index)">
@@ -662,7 +662,7 @@ export default {
             this.tags.push({
                 name: '',
                 value: '',
-                isPublic: false
+                public: false
             });
         },
         removeTag(index) {
