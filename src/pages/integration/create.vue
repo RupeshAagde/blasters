@@ -262,7 +262,7 @@
         <loader v-if="inProgress" class="loading"></loader>
         <nitrozen-dialog ref="previewSchema" title="Preview" class="preview-schema">
             <template slot="body">
-                <div v-if="Object.keys(activeSchema).length">
+                <div v-if="Array.isArray(activeSchema) ? activeSchema.length : Object.keys(activeSchema).length">
                     <!-- <json-to-form
                         class="form"
                         ref="schema-form"
@@ -272,7 +272,7 @@
                     ></json-to-form> -->
                     <nitrozen-custom-form 
                         ref="schema-form"
-                        :inputs="activeSchema.inputs || []"
+                        :inputs="activeSchema || []"
                         v-model="activeData"
                         @change="formResponseChanged"
                     />
@@ -730,12 +730,7 @@ export default {
         // },
         preview(ref) {
             this.activeData = {};
-            if(Array.isArray(this.$refs[ref].getJSON())){
-                this.activeSchema = this.$refs[ref].getJSON()[0];
-            }
-            else{
-                this.activeSchema = this.$refs[ref].getJSON();
-            }
+            this.activeSchema = this.$refs[ref].getJSON();
             this.$refs['previewSchema'].open({
                 width: '600px',
                 showCloseButton: true,
