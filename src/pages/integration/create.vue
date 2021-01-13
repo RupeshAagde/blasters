@@ -350,10 +350,10 @@ export default {
             description: this.getInitialValue(''),
             name: this.getInitialValue(''),
             tags: [],
-            companyForm: {},
-            storeForm: {},
-            inventoryForm: {},
-            orderForm: {},
+            companyForm: [],
+            storeForm: [],
+            inventoryForm: [],
+            orderForm: [],
             constants: {},
             selectedSupport: [],
             companyList: [],
@@ -756,27 +756,23 @@ export default {
                     ];
                     this.companyForm =
                         this.integrationData.validators.company.jsonSchema ||
-                        {};
+                        [];
                     this.storeForm =
-                        this.integrationData.validators.store.jsonSchema || {};
+                        this.integrationData.validators.store.jsonSchema || [];
                     this.inventoryForm =
                         (this.integrationData.validators.inventory &&
                             this.integrationData.validators.inventory
                                 .jsonSchema) ||
-                        {};
+                        [];
                     this.orderForm =
                         (this.integrationData.validators.order &&
                             this.integrationData.validators.order.jsonSchema) ||
-                        {};
+                        [];
                     setTimeout(() => {
                         this.$refs['companyForm'].populateData();
                         this.$refs['storeForm'].populateData();
-                        if (Object.keys(this.inventoryForm).length) {
-                            this.$refs['inventoryForm'].populateData();
-                        }
-                        if (Object.keys(this.orderForm).length) {
-                            this.$refs['orderForm'].populateData();
-                        }
+                        this.$refs['inventoryForm'].populateData();
+                        this.$refs['orderForm'].populateData();
                     }, 0);
                 })
                 .catch((err) => {
