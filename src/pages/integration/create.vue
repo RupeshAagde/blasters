@@ -260,9 +260,19 @@
             </div>
         </div>
         <loader v-if="inProgress" class="loading"></loader>
-        <nitrozen-dialog ref="previewSchema" title="Preview" class="preview-schema">
+        <nitrozen-dialog
+            ref="previewSchema"
+            title="Preview"
+            class="preview-schema"
+        >
             <template slot="body">
-                <div v-if="Array.isArray(activeSchema) ? activeSchema.length : Object.keys(activeSchema).length">
+                <div
+                    v-if="
+                        Array.isArray(activeSchema)
+                            ? activeSchema.length
+                            : Object.keys(activeSchema).length
+                    "
+                >
                     <!-- <json-to-form
                         class="form"
                         ref="schema-form"
@@ -270,7 +280,7 @@
                         v-model="activeData"
                         input-wrapping-class="input-wrapping-class"
                     ></json-to-form> -->
-                    <nitrozen-custom-form 
+                    <nitrozen-custom-form
                         ref="schema-form"
                         :inputs="activeSchema || []"
                         v-model="activeData"
@@ -296,7 +306,7 @@ import {
     NitrozenDialog,
     NitrozenCustomForm,
     flatBtn,
-    strokeBtn,
+    strokeBtn
 } from '@gofynd/nitrozen-vue';
 import {
     Loader,
@@ -365,7 +375,7 @@ export default {
             activeData: {},
             integrationData: {},
             token: '',
-            integrationId: this.$route.params.integrationId,
+            integrationId: this.$route.params.integrationId
             // emptyResponse: {},
             // inputs: [
             //     {
@@ -518,7 +528,6 @@ export default {
     mounted() {
         this.pageLoading = true;
         let pArr = [this.getCompanyList()];
-        this.getCompanyList();
         if (this.isEditOnly) {
             pArr.push(this.getIntegration());
         }
@@ -537,8 +546,8 @@ export default {
                 path: `/administrator/integrations/list`
             });
         },
-        formResponseChanged(){
-            console.log('FORM CHANGED')
+        formResponseChanged() {
+            console.log('FORM CHANGED');
         },
         saveForm() {
             if (!this.validateForm()) return;
@@ -723,11 +732,6 @@ export default {
             this.selectedCompany.splice(comIndex, 1);
             this.companyChips.splice(index, 1);
         },
-        // changeSelection(e) {
-        //     if (!this.allCompanies && !this.companyList.length) {
-        //         this.getCompanyList();
-        //     }
-        // },
         preview(ref) {
             this.activeData = {};
             this.activeSchema = this.$refs[ref].getJSON();
@@ -805,9 +809,9 @@ export default {
         cursor: pointer;
     }
 }
-.preview-schema{
-    ::v-deep .nitrozen-dialog-body{
-            max-height:calc(100vh - 350px);
+.preview-schema {
+    ::v-deep .nitrozen-dialog-body {
+        max-height: calc(100vh - 350px);
     }
 }
 .main-container {
@@ -816,7 +820,7 @@ export default {
         width: auto;
         display: block;
     }
-   
+
     .schmea-head {
         display: flex;
         justify-content: space-between;

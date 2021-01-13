@@ -128,7 +128,7 @@ export default {
                     value: 'number'
                 }
             ],
-            json: {},
+            json: [],
             options: {
                 mode: 'code',
                 enableSort: false,
