@@ -1,5 +1,4 @@
 import AdministratorBaseViewVue from './../../pages/administrator/baseview.vue';
-import HomeVue from './../../pages/administrator/home.vue';
 import PlanCreator from './plan-creator';
 import CompanyListVue from './../../pages/company-admin/company-list.vue';
 import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
@@ -24,6 +23,8 @@ import ProductTemplatesList from '@/pages/product/templates/list';
 import ProductTemplatesEdit from '@/pages/product/templates/edit';
 import CategoryList from '@/pages/product/category/list';
 import CategoryEdit from '@/pages/product/category/edit';
+import IntegrationsListVue from '@/pages/integration/list';
+import IntegrationsCreateVue from '@/pages/integration/create';
 
 import { authenticatedUser, checkUserPermission } from './../guards';
 
@@ -33,11 +34,6 @@ export default [
         beforeEnter: authenticatedUser,
         component: AdministratorBaseViewVue,
         children: [
-            // {
-            //     name: 'home',
-            //     path: 'home',
-            //     component: HomeVue
-            // },
             //...PlanCreatorRoutes
             {
                 name: 'company-list',
@@ -290,7 +286,31 @@ export default [
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['product']);
                 }
-            }
+            },
+            {
+                name: 'integrations-list',
+                path: 'integrations/list',
+                component: IntegrationsListVue,
+                // beforeEnter: (to, from, next) => {
+                //     return checkUserPermission(to, from, next, ['admin-access']);
+                // }
+            },
+            {
+                name: 'integration-edit',
+                path: 'integration/edit/:integrationId',
+                component: IntegrationsCreateVue,
+                // beforeEnter: (to, from, next) => {
+                //     return checkUserPermission(to, from, next, ['admin-access']);
+                // }
+            },
+            {
+                name: 'integration-create',
+                path: 'integration/create',
+                component: IntegrationsCreateVue,
+                // beforeEnter: (to, from, next) => {
+                //     return checkUserPermission(to, from, next, ['admin-access']);
+                // }
+            },
         ]
     }
 ];
