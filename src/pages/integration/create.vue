@@ -31,8 +31,11 @@
                         <meta-box
                             ref="companyForm"
                             :showJsonOnly="true"
-                            :customJson="companyForm"
+                            :customJson="companyForm.value"
                         ></meta-box>
+                        <nitrozen-error v-if="companyForm.showerror">
+                            {{ companyForm.errortext }}
+                        </nitrozen-error>
                     </div>
                 </div>
                 <div class="page-container store-form mb-24">
@@ -48,8 +51,11 @@
                         <meta-box
                             ref="storeForm"
                             :showJsonOnly="true"
-                            :customJson="storeForm"
+                            :customJson="storeForm.value"
                         ></meta-box>
+                        <nitrozen-error v-if="storeForm.showerror">
+                            {{ storeForm.errortext }}
+                        </nitrozen-error>
                     </div>
                 </div>
                 <div class="page-container extra-form mb-24">
@@ -85,8 +91,11 @@
                         <meta-box
                             ref="inventoryForm"
                             :showJsonOnly="true"
-                            :customJson="inventoryForm"
+                            :customJson="inventoryForm.value"
                         ></meta-box>
+                        <nitrozen-error v-if="inventoryForm.showerror">
+                            {{ inventoryForm.errortext }}
+                        </nitrozen-error>
                     </div>
                     <div
                         class="form-body mb-24"
@@ -103,8 +112,11 @@
                         <meta-box
                             ref="orderForm"
                             :showJsonOnly="true"
-                            :customJson="orderForm"
+                            :customJson="orderForm.value"
                         ></meta-box>
+                        <nitrozen-error v-if="orderForm.showerror">
+                            {{ orderForm.errortext }}
+                        </nitrozen-error>
                     </div>
                 </div>
             </div>
@@ -283,8 +295,8 @@
                     <nitrozen-custom-form
                         ref="schema-form"
                         :inputs="activeSchema || []"
-                        v-model="activeData"
-                        @change="formResponseChanged"
+                        v-model="activeData"    
+                        
                     />
                 </div>
             </template>
@@ -319,6 +331,7 @@ import JsonToForm from '@/components/common/json-to-form';
 import { copyToClipboard } from '@/helper/utils.js';
 import CompanyService from '@/services/company-admin.service';
 import IntegrationService from '@/services/integration.service';
+import {validateNitrozenCustomFormInputs} from '@/helper/utils';
 export default {
     name: 'create-edit-integration',
     components: {
@@ -360,10 +373,10 @@ export default {
             description: this.getInitialValue(''),
             name: this.getInitialValue(''),
             tags: [],
-            companyForm: [],
-            storeForm: [],
-            inventoryForm: [],
-            orderForm: [],
+            companyForm: this.getInitialValue([]),
+            storeForm: this.getInitialValue([]),
+            inventoryForm: this.getInitialValue([]),
+            orderForm: this.getInitialValue([]),
             constants: {},
             selectedSupport: [],
             companyList: [],
@@ -376,153 +389,7 @@ export default {
             integrationData: {},
             token: '',
             integrationId: this.$route.params.integrationId
-            // emptyResponse: {},
-            // inputs: [
-            //     {
-            //         type: "toggle",
-            //         display: "Does your file have a header?",
-            //         key: "fileHasHeader",
-            //         default: false,
-            //     },
-            //     {
-            //         type: "number",
-            //         display: "Index of that Header",
-            //         key: "headerIndex",
-            //         default: 0,
-            //         visible_if: {
-            //             "==": [
-            //             {
-            //                 var: "fileHasHeader",
-            //             },
-            //             true,
-            //             ],
-            //         },
-            //     },
-            //     {
-            //         display: "Delimiter",
-            //         key: "delimiter",
-            //         required: true,
-            //         type: "text",
-            //         tooltip: "Delimiter used in CSV",
-            //         default: ",",
-            //     },
-            //     {
-            //         type: "number",
-            //         display: "Start index of your data",
-            //         key: "dataStartIndex",
-            //         default: 1,
-            //     },
-            //     {
-            //         display: "File type of your input",
-            //         key: "fileType",
-            //         required: true,
-            //         type: "dropdown",
-            //         enum: [
-            //             {
-            //             key: "EXCEL",
-            //             display: "Excel",
-            //             },
-            //             {
-            //             key: "CSV",
-            //             display: "CSV",
-            //             },
-            //         ],
-            //         default: "EXCEL",
-            //     },
-            //     {
-            //         display: "Charachter Encoding",
-            //         enum: [
-            //             {
-            //             key: "UTF-8",
-            //             display: "UTF-8",
-            //             },
-            //             {
-            //             key: "UTF-16",
-            //             display: "UTF-16",
-            //             },
-            //         ],
-            //         key: "charset",
-            //         required: true,
-            //         type: "dropdown",
-            //         placeholder: "Select Charset",
-            //         visible_if: {
-            //             "==": [
-            //             {
-            //                 var: "fileType",
-            //             },
-            //             "CSV",
-            //             ],
-            //         },
-            //     },
-            //     {
-            //         type: "toggle",
-            //         display: "Should we read all the sheets?",
-            //         key: "readAllSheets",
-            //         default: false,
-            //         visible_if: {
-            //                 "==": [
-            //                 {
-            //                     var: "fileType",
-            //                 },
-            //                 "EXCEL",
-            //                 ],
-            //             },
-            //         },
-            //         {
-            //         display: "Sheet Names",
-            //         key: "sheetNames",
-            //         type: "array",
-            //         min: 2,
-            //         max: 4,
-            //         input: {
-            //             display: "",
-            //             type: "text",
-            //         },
-            //         visible_if: {
-            //             "==": [
-            //             {
-            //                 var: "readAllSheets",
-            //             },
-            //             false,
-            //             ],
-            //         },
-            //     },
-            //     {
-            //         display: "Prop Bean Configs",
-            //         key: "propBeanConfigs",
-            //         type: "array",
-            //         input: {
-            //             display: "",
-            //             type: "object",
-            //              inputs: [
-            //                 {
-            //                     display: "Quantity",
-            //                     key: "quantity",
-            //                     required: true,
-            //                     type: "number",
-            //                 },
-            //                 {
-            //                     display: "Store Id",
-            //                     key: "intf_store_id",
-            //                     required: true,
-            //                     type: "text",
-            //                 },
-            //                 {
-            //                     display: "Price Effective",
-            //                     key: "price_effective",
-            //                     required: true,
-            //                     type: "number",
-            //                 },
-            //                 {
-            //                     display: "Store Id",
-            //                     key: "intf_store_id",
-            //                     required: true,
-            //                     type: "text",
-            //                 }
-            //             ],
-            //         },
-            //     },
-            // ]
+          
         };
     },
     mounted() {
@@ -546,11 +413,12 @@ export default {
                 path: `/administrator/integrations/list`
             });
         },
-        formResponseChanged() {
-            console.log('FORM CHANGED');
-        },
+
         saveForm() {
-            if (!this.validateForm()) return;
+            if (!this.validateForm()){
+                this.$snackbar.global.showError('Something isn\'t right');
+                return;
+            };
             const obj = this.getFormData();
             this.inProgress = true;
             if (this.integrationId) {
@@ -610,11 +478,47 @@ export default {
             if (!this.allCompanies) {
                 formValid = this.selectedSupport.length && formValid;
             }
-            // if(this.tags.length){
 
-            // }
+            this.companyForm.value = this.$refs['companyForm'].getJSON();
+
+            if(!(this.companyForm.value && Array.isArray(this.companyForm.value)) || !validateNitrozenCustomFormInputs(this.companyForm.value)){
+                formValid = false;
+                this.companyForm.showerror = true;
+                this.companyForm.errortext = 'Company Form Schema format is invalid';
+            }
+
+            this.storeForm.value = this.$refs['storeForm'].getJSON();
+
+            if(!(this.storeForm.value && Array.isArray(this.storeForm.value)) || !validateNitrozenCustomFormInputs(this.storeForm.value)){
+                formValid = false;
+                this.storeForm.showerror = true;
+                this.storeForm.errortext = 'Store Form Schema format is invalid';
+            }
+
+            if(this.selectedSupport.includes('inventory')){
+                this.inventoryForm.value = this.$refs['inventoryForm'].getJSON();
+                
+                if(!(this.inventoryForm.value && Array.isArray(this.inventoryForm.value)) || !validateNitrozenCustomFormInputs(this.inventoryForm.value)){
+                    formValid = false;
+                    this.inventoryForm.showerror = true;
+                    this.inventoryForm.errortext = 'Inventory Form Schema format is invalid';
+                }
+            }
+
+            if(this.selectedSupport.includes('order')){
+                this.orderForm.value = this.$refs['orderForm'].getJSON();
+                
+                 if(!(this.orderForm.value && Array.isArray(this.orderForm.value)) || !validateNitrozenCustomFormInputs(this.orderForm.value)){
+                    formValid = false;
+                    this.orderForm.showerror = true;
+                    this.orderForm.errortext = 'Order Form Schema format is invalid';
+                }
+
+            }
+
             return formValid;
         },
+        
         checkEmpty(key) {
             const emptyErorrs = {
                 name: 'Name is required',
@@ -758,25 +662,30 @@ export default {
                         'inventory',
                         'order'
                     ];
-                    this.companyForm =
+                    this.companyForm.value =
                         this.integrationData.validators.company.jsonSchema ||
                         [];
-                    this.storeForm =
+                    this.storeForm.value =
                         this.integrationData.validators.store.jsonSchema || [];
-                    this.inventoryForm =
+                    this.inventoryForm.value =
                         (this.integrationData.validators.inventory &&
                             this.integrationData.validators.inventory
                                 .jsonSchema) ||
                         [];
-                    this.orderForm =
+                    this.orderForm.value =
                         (this.integrationData.validators.order &&
                             this.integrationData.validators.order.jsonSchema) ||
                         [];
                     setTimeout(() => {
                         this.$refs['companyForm'].populateData();
                         this.$refs['storeForm'].populateData();
-                        this.$refs['inventoryForm'].populateData();
-                        this.$refs['orderForm'].populateData();
+
+                        if(this.selectedSupport.includes('inventory')){
+                            this.$refs['inventoryForm'].populateData();
+                        }
+                        if(this.selectedSupport.includes('order')){
+                            this.$refs['orderForm'].populateData();
+                        }
                     }, 0);
                 })
                 .catch((err) => {
