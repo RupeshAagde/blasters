@@ -295,8 +295,7 @@
                     <nitrozen-custom-form
                         ref="schema-form"
                         :inputs="activeSchema || []"
-                        v-model="activeData"    
-                        
+                        v-model="activeData"
                     />
                 </div>
             </template>
@@ -331,7 +330,14 @@ import JsonToForm from '@/components/common/json-to-form';
 import { copyToClipboard } from '@/helper/utils.js';
 import CompanyService from '@/services/company-admin.service';
 import IntegrationService from '@/services/integration.service';
-import {validateNitrozenCustomFormInputs} from '@/helper/utils';
+import { validateNitrozenCustomFormInputs } from '@/helper/utils';
+import { debounce } from '@/helper/utils';
+
+const PAGINATION = {
+    limit: 500,
+    total: 0,
+    current: 1
+};
 export default {
     name: 'create-edit-integration',
     components: {
@@ -388,8 +394,9 @@ export default {
             activeData: {},
             integrationData: {},
             token: '',
-            integrationId: this.$route.params.integrationId
-          
+            integrationId: this.$route.params.integrationId,
+            pagination: { ...PAGINATION },
+            searchText: ''
         };
     },
     mounted() {
@@ -415,10 +422,10 @@ export default {
         },
 
         saveForm() {
-            if (!this.validateForm()){
-                this.$snackbar.global.showError('Something isn\'t right');
+            if (!this.validateForm()) {
+                this.$snackbar.global.showError("Something isn't right");
                 return;
-            };
+            }
             const obj = this.getFormData();
             this.inProgress = true;
             if (this.integrationId) {
@@ -481,44 +488,72 @@ export default {
 
             this.companyForm.value = this.$refs['companyForm'].getJSON();
 
-            if(!(this.companyForm.value && Array.isArray(this.companyForm.value)) || !validateNitrozenCustomFormInputs(this.companyForm.value)){
+            if (
+                !(
+                    this.companyForm.value &&
+                    Array.isArray(this.companyForm.value)
+                ) ||
+                !validateNitrozenCustomFormInputs(this.companyForm.value)
+            ) {
                 formValid = false;
                 this.companyForm.showerror = true;
-                this.companyForm.errortext = 'Company Form Schema format is invalid';
+                this.companyForm.errortext =
+                    'Company Form Schema format is invalid';
             }
 
             this.storeForm.value = this.$refs['storeForm'].getJSON();
 
-            if(!(this.storeForm.value && Array.isArray(this.storeForm.value)) || !validateNitrozenCustomFormInputs(this.storeForm.value)){
+            if (
+                !(
+                    this.storeForm.value && Array.isArray(this.storeForm.value)
+                ) ||
+                !validateNitrozenCustomFormInputs(this.storeForm.value)
+            ) {
                 formValid = false;
                 this.storeForm.showerror = true;
-                this.storeForm.errortext = 'Store Form Schema format is invalid';
+                this.storeForm.errortext =
+                    'Store Form Schema format is invalid';
             }
 
-            if(this.selectedSupport.includes('inventory')){
-                this.inventoryForm.value = this.$refs['inventoryForm'].getJSON();
-                
-                if(!(this.inventoryForm.value && Array.isArray(this.inventoryForm.value)) || !validateNitrozenCustomFormInputs(this.inventoryForm.value)){
+            if (this.selectedSupport.includes('inventory')) {
+                this.inventoryForm.value = this.$refs[
+                    'inventoryForm'
+                ].getJSON();
+
+                if (
+                    !(
+                        this.inventoryForm.value &&
+                        Array.isArray(this.inventoryForm.value)
+                    ) ||
+                    !validateNitrozenCustomFormInputs(this.inventoryForm.value)
+                ) {
                     formValid = false;
                     this.inventoryForm.showerror = true;
-                    this.inventoryForm.errortext = 'Inventory Form Schema format is invalid';
+                    this.inventoryForm.errortext =
+                        'Inventory Form Schema format is invalid';
                 }
             }
 
-            if(this.selectedSupport.includes('order')){
+            if (this.selectedSupport.includes('order')) {
                 this.orderForm.value = this.$refs['orderForm'].getJSON();
-                
-                 if(!(this.orderForm.value && Array.isArray(this.orderForm.value)) || !validateNitrozenCustomFormInputs(this.orderForm.value)){
+
+                if (
+                    !(
+                        this.orderForm.value &&
+                        Array.isArray(this.orderForm.value)
+                    ) ||
+                    !validateNitrozenCustomFormInputs(this.orderForm.value)
+                ) {
                     formValid = false;
                     this.orderForm.showerror = true;
-                    this.orderForm.errortext = 'Order Form Schema format is invalid';
+                    this.orderForm.errortext =
+                        'Order Form Schema format is invalid';
                 }
-
             }
 
             return formValid;
         },
-        
+
         checkEmpty(key) {
             const emptyErorrs = {
                 name: 'Name is required',
@@ -581,32 +616,39 @@ export default {
         removeTag(index) {
             this.tags.splice(index, 1);
         },
+        requestQuery() {
+            const query = {
+                page_no: this.pagination.current,
+                page_size: this.pagination.limit
+            };
+
+            if (this.searchText) {
+                query.name = this.searchText;
+            }
+            return query;
+        },
+
         getCompanyList() {
-            return CompanyService.fetchCompanyList()
+            return CompanyService.getCompanyList(this.requestQuery())
                 .then(({ data }) => {
-                    data.company_info.map((ele) => {
+                    data.data.map((ele) => {
                         ele.text = ele.name;
-                        ele.value = ele.company_id.toString();
-                        this.setCompanyList();
+                        ele.value = ele.uid.toString();
                     });
-                    this.companyList = data.company_info;
-                    this.filteredCompanyList = this.companyList;
+                    this.companyList = data.data;
+                    this.setCompanyList();
                 })
                 .catch((err) => {})
                 .finally(() => {});
         },
-        companySearch(e) {
-            this.filteredCompanyList = [];
-            this.companyList.forEach((ele) => {
-                if (e && e.text) {
-                    if (ele.name.toLowerCase().includes(e.text.toLowerCase())) {
-                        this.filteredCompanyList.push(ele);
-                    }
-                } else {
-                    this.filteredCompanyList = this.companyList;
-                }
-            });
-        },
+        companySearch: debounce(function(e) {
+            if (e && e.text) {
+                this.searchText = e.text;
+            } else {
+                this.searchText = '';
+            }
+            this.getCompanyList();
+        }, 500),
         setCompanyList() {
             let chipsCompanies = this.companyChips.map((it) => it.value);
             let newCompanies = this.selectedCompany.filter(
@@ -680,10 +722,10 @@ export default {
                         this.$refs['companyForm'].populateData();
                         this.$refs['storeForm'].populateData();
 
-                        if(this.selectedSupport.includes('inventory')){
+                        if (this.selectedSupport.includes('inventory')) {
                             this.$refs['inventoryForm'].populateData();
                         }
-                        if(this.selectedSupport.includes('order')){
+                        if (this.selectedSupport.includes('order')) {
                             this.$refs['orderForm'].populateData();
                         }
                     }, 0);
