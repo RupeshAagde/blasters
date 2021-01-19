@@ -4,6 +4,7 @@
         <div v-if="!inProgress" class="cust-panel">
             <div class="top-container" v-if="profileDetails">
                 <page-header
+                    ref="page-header-ref"
                     :title="profileDetails.name"
                     @backClick="redirectToListing"
                     :contextMenuItems="contextMenuItems"
@@ -151,7 +152,7 @@ export default {
         'list-dri': listdri,
         Shimmer,
         PageHeader,
-        'nitrozen-badge': NitrozenBadge
+        'nitrozen-badge': NitrozenBadge,
     },
     computed: {},
     data() {
@@ -162,9 +163,9 @@ export default {
             contextMenuItems: [
                 {
                     text: 'View Company',
-                    action: 'edit'
-                }
-            ]
+                    action: 'edit',
+                },
+            ],
         };
     },
     mounted() {
@@ -174,18 +175,18 @@ export default {
     computed: {
         fyndPlatformDomain(type) {
             return env.FYND_PLATFORM_DOMAIN;
-        }
+        },
     },
     methods: {
-        fetchMetricsApi: function() {
+        fetchMetricsApi: function () {
             let params = {
-                company: this.companyId
+                company: this.companyId,
             };
             this.$store.dispatch(FETCH_METRICS, params);
         },
-        getProfileDetails: function() {
+        getProfileDetails: function () {
             let params = {
-                uid: this.companyId
+                uid: this.companyId,
                 // phase: 'company_detail'
             };
             this.inProgress = true;
@@ -207,7 +208,7 @@ export default {
             window.open(
                 `https://platform.${this.fyndPlatformDomain}/company/${this.companyId}/profile/`
             );
-        }
-    }
+        },
+    },
 };
 </script>

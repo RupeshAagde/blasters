@@ -10,6 +10,7 @@ import MOCK_DATA from './fixtures/cbs-mock.json';
 import AdminRoutes from '@/router/administrator/index.js';
 import URLS from '../../../../../services/domain.service.js';
 import { Promise } from 'window-or-global';
+import { wrap } from 'lodash';
 let localVue, wrapper, router;
 const mock = new MockAdapter(axios);
 
@@ -22,24 +23,25 @@ describe('Mounted Brands Component', () => {
             AdminRoutes
         });
         router.push('/administrator/company-details/1');
-        mock.onGet(URLS.GET_COMPANY_BRANDS()).reply(
+    });
+	
+	it('Get Brand Success', async () => {
+		mock.onGet(URLS.GET_COMPANY_BRANDS()).reply(
             200,
             MOCK_DATA.brands.allBrandResMockData
         );
         wrapper = mount(Brands, {
             localVue,
             router
-        });
-    });
-	
-	it('Get Brand Success', async () => {
+		});
+		await flushPromises();
 		expect(wrapper.element).toMatchSnapshot();
         expect(wrapper.exists()).toBeTruthy();
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
-        // expect(wrapper.html()).toContain('View More');
         await flushPromises();
         expect(wrapper.vm.brandsData.length).toBe(1);
+        mock.reset();
 	});
 
 	it('Get Brand Error', async () => {
@@ -50,9 +52,18 @@ describe('Mounted Brands Component', () => {
         })
         await flushPromises();
         expect(wrapper.vm.pageError).toBe(true);
+        mock.reset();
 	});
 	
 	it("View More Brands", async () => {
+		mock.onGet(URLS.GET_COMPANY_BRANDS()).reply(
+            200,
+            MOCK_DATA.brands.allBrandResMockData
+        );
+        wrapper = mount(Brands, {
+            localVue,
+            router
+        });
 		await flushPromises();
 		const btnFlag = true;
 		wrapper.vm.loadMoreBrands(btnFlag);
@@ -60,10 +71,19 @@ describe('Mounted Brands Component', () => {
 		// viewMoreBtn.trigger('click');
 		const div = wrapper.find('.brands-div');
 		expect(div.exists()).toBe(true);
-		await new Promise(resolve => setTimeout(resolve, 10));
+        await new Promise(resolve => setTimeout(resolve, 10));
+        mock.reset();
 	});
 
 	it("View Less Brands", async () => {
+		mock.onGet(URLS.GET_COMPANY_BRANDS()).reply(
+            200,
+            MOCK_DATA.brands.allBrandResMockData
+        );
+        wrapper = mount(Brands, {
+            localVue,
+            router
+        });
 		await flushPromises();
 		const btnFlag = false;
 		wrapper.vm.loadMoreBrands(btnFlag);
@@ -71,15 +91,29 @@ describe('Mounted Brands Component', () => {
 		// viewMoreBtn.trigger('click');
 		const div = wrapper.find('.brands-div');
 		expect(div.exists()).toBe(true);
-		await new Promise(resolve => setTimeout(resolve, 10));
+        await new Promise(resolve => setTimeout(resolve, 10));
+        mock.reset();
 	});
 
 	it("Brand Admin Dialog", async () => {
+		mock.onGet(URLS.GET_COMPANY_BRANDS()).reply(
+            200,
+            MOCK_DATA.brands.allBrandResMockData
+        );
+        wrapper = mount(Brands, {
+            localVue,
+            router
+        });
 		await flushPromises();
 		const item = MOCK_DATA.brands.allBrandResMockData.data[0];
-		wrapper.vm.openAdminDialog(item);
-		const div = wrapper.find('.remove_staff_dialog')
-		expect(div.exists()).toBe(true)
+		const dialogBtn = wrapper.find('.brand-img-div');
+        expect(dialogBtn.exists()).toBe(true);
+        // dialogBtn.vm.$emit('click');
+        // await wrapper.vm.$nextTick();
+        // await flushPromises();
+        // const brandDialog = wrapper.findComponent({ref:'brand_admin_dialog'});
+        // expect(wrapper.find('div'));
+        mock.reset();
 	});
 
 });

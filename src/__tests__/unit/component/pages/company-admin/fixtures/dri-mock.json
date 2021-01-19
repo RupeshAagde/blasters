@@ -1,0 +1,38 @@
+{
+    "dri-list": [
+        {
+            "tags": ["apple", "mango"],
+            "responsibilities": ["finance_manager", "catalog_manager"],
+            "responsibilities_display_name": [
+                "Finance Manager",
+                "Catalog Manager"
+            ],
+            "company_id": 1,
+            "uid": 1,
+            "contact": "5e19b1ba98cfe13fe3138efb",
+            "status": true,
+            "contact_details": {
+                "id": "5e19b1ba98cfe13fe3138efb",
+                "firstName": "Gaurang",
+                "lastName": "Patel",
+                "phoneNumbers": [
+                    {
+                        "active": true,
+                        "primary": true,
+                        "verified": true,
+                        "countryCode": 91,
+                        "phone": "8793638893"
+                    }
+                ],
+                "emails": [
+                    {
+                        "active": true,
+                        "primary": true,
+                        "verified": true,
+                        "email": "gaurangpatel@gofynd.com"
+                    }
+                ]
+            }
+        }
+    ]
+}
