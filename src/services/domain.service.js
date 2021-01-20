@@ -59,6 +59,10 @@ const SLINGSHOT_MAIN_URL = isNode
     ? envVars.BROWSER_CONFIG.SLINGSHOT_MAIN_URL
     : envVars.SLINGSHOT_MAIN_URL;
 
+const MARKETPLACES_MAIN_URL = isNode
+    ? envVars.BROWSER_CONFIG.MARKETPLACES_MAIN_URL
+    : envVars.MARKETPLACES_MAIN_URL;
+
 const URLS = {
     //fetch attributes
     FETCH_ATTRIBUTE: () => {
@@ -338,6 +342,14 @@ const URLS = {
     },
     GRINDOR_PROXY: () => {
         return urlJoin(PLATFORM_ASSETS_BASE, 'v1/proxy/fetch');
+    },
+
+    // Marketplaces
+    MARKETPLACE_WORKERS: (compId) => {
+        return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId, '/worker/');
+    },
+    UPDATE_MARKETPLACE_WORKERS: (compId, marketplace) => {
+        return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId,'/marketplaces/', marketplace, '/worker/');
     }
 };
 
