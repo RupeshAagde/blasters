@@ -10,7 +10,8 @@ import MOCK_DATA from './fixtures/cbs-mock.json';
 import AdminRoutes from '@/router/administrator/index.js';
 import URLS from '../../../../../services/domain.service.js';
 import { Promise } from 'window-or-global';
-import { wrap } from 'lodash';
+
+
 let localVue, wrapper, router;
 const mock = new MockAdapter(axios);
 
@@ -71,7 +72,7 @@ describe('Mounted Brands Component', () => {
 		// viewMoreBtn.trigger('click');
 		const div = wrapper.find('.brands-div');
 		expect(div.exists()).toBe(true);
-        await new Promise(resolve => setTimeout(resolve, 10));
+        await flushPromises();
         mock.reset();
 	});
 
@@ -91,7 +92,7 @@ describe('Mounted Brands Component', () => {
 		// viewMoreBtn.trigger('click');
 		const div = wrapper.find('.brands-div');
 		expect(div.exists()).toBe(true);
-        await new Promise(resolve => setTimeout(resolve, 10));
+        await flushPromises();
         mock.reset();
 	});
 

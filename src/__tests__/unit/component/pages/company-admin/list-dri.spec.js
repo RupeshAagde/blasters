@@ -33,7 +33,7 @@ describe('LIST DRI component', () => {
             localVue,
             router
         });
-        await new Promise((resolve) => setTimeout(resolve, 10));
+        await flushPromises();
         expect(wrapper.exists()).toBeTruthy();
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
@@ -51,7 +51,7 @@ describe('LIST DRI component', () => {
             localVue,
             router
         });
-        await new Promise((resolve) => setTimeout(resolve, 10));
+        await flushPromises();
         expect(wrapper.vm.pageError).toBe(false)
         wrapper.vm.$set(wrapper.vm, 'driList', MOCK_DATA['dri-list']);
         wrapper.vm.$set(wrapper.vm.pagination, 'total', 1);
@@ -69,7 +69,7 @@ describe('LIST DRI component', () => {
             localVue,
             router
         });
-        await new Promise((resolve) => setTimeout(resolve, 10));
+        await flushPromises();
         wrapper.vm.$set(wrapper.vm, 'companyId', 1);
         wrapper.vm.openAdd();
         expect(wrapper.vm.$route.fullPath).toBe('/administrator/company-details/1/add-dri');
@@ -86,7 +86,7 @@ describe('LIST DRI component', () => {
             localVue,
             router
         });
-        await new Promise((resolve) => setTimeout(resolve, 10));
+        await flushPromises();
         expect(wrapper.vm.pageError).toBeTruthy();
         mock.reset();
     });

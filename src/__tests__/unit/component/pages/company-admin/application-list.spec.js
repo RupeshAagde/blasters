@@ -33,7 +33,7 @@ describe('list, div and wrapper, check exists', () => {
             localVue,
             router
         });
-        await new Promise((resolve) => setTimeout(resolve, 10));
+        await flushPromises();
         expect(wrapper.exists()).toBeTruthy();
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
@@ -51,17 +51,21 @@ describe('list, div and wrapper, check exists', () => {
             localVue,
             router
         });
-        await new Promise((resolve) => setTimeout(resolve, 10));
+        await flushPromises();
         expect(wrapper.vm.inProgress).toBe(false);
         wrapper.vm.$set(wrapper.vm, 'mainList', MOCK_DATA.application.docs);
-        wrapper.vm.$set(wrapper.vm, 'applicationList', MOCK_DATA.application.docs);
+        wrapper.vm.$set(
+            wrapper.vm,
+            'applicationList',
+            MOCK_DATA.application.docs
+        );
         wrapper.vm.$set(wrapper.vm.pagination, 'total', 1);
         wrapper.vm.$set(wrapper.vm, 'selectedFilter', 'active');
         wrapper.vm.$set(wrapper.vm, 'searchText', 'testSearchText');
         wrapper.vm.searchChannels();
         wrapper.vm.$set(wrapper.vm, 'searchText', '');
         wrapper.vm.searchChannels();
-        wrapper.vm.paginationChange({current:1, limit:10});
+        wrapper.vm.paginationChange({ current: 1, limit: 10 });
         mock.reset();
     });
 
@@ -71,7 +75,7 @@ describe('list, div and wrapper, check exists', () => {
             localVue,
             router
         });
-        await new Promise((resolve) => setTimeout(resolve, 10));
+        await flushPromises();
         // expect(wrapper.vm.pageError).toBeTruthy();
         mock.reset();
     });

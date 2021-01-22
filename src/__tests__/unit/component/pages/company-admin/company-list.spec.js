@@ -33,7 +33,7 @@ describe('List Company List Component', () => {
             localVue,
             router
         });
-        await new Promise((resolve) => setTimeout(resolve, 10));
+        await flushPromises();
         expect(wrapper.exists()).toBeTruthy();
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
@@ -53,7 +53,7 @@ describe('List Company List Component', () => {
             localVue,
             router
         });
-        await new Promise((resolve) => setTimeout(resolve, 10));
+        await flushPromises();
         wrapper.vm.$set(wrapper.vm, 'companyList', MOCK_DATA.company.data);
         wrapper.vm.$set(wrapper.vm.pagination, 'total', 1);
         wrapper.vm.$set(wrapper.vm, 'searchText', 'testSearchText');
@@ -73,7 +73,7 @@ describe('List Company List Component', () => {
             localVue,
             router
         });
-        await new Promise((resolve) => setTimeout(resolve, 10));
+        await flushPromises();
         expect(wrapper.vm.pageError).toBeTruthy();
         mock.reset();
     });
