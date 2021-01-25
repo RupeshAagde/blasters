@@ -1,4 +1,71 @@
 {
+    "company": {
+        "data": [
+            {
+                "name": "RELIANCE RETAIL LTD",
+                "verified_by": {
+                    "user_id": "5721",
+                    "username": "919821012599_75351"
+                },
+                "business_type": "ltd/pvt ltd",
+                "created_by": {
+                    "user_id": "0",
+                    "username": "app@fynd.com"
+                },
+                "bank_detail": {
+                    "account_number": "0001234567890001",
+                    "beneficiary_name": "Fahim",
+                    "cancel_cheque_url": "http://www.google.com/",
+                    "account_type": "saving",
+                    "bank_name": "HDFC",
+                    "ifsc_code": "HDFC0007"
+                },
+                "departments": [],
+                "market_channels": [],
+                "uid": 1,
+                "modified_by": {
+                    "user_id": "5721",
+                    "username": "919821012599_75351"
+                },
+                "verified_on": "2021-01-12T15:33:40.629000+00:00",
+                "stage": "verified",
+                "business_country_info": {
+                    "country": "India",
+                    "country_code": "IN"
+                },
+                "addresses": [
+                    {
+                        "longitude": 72.8406903,
+                        "country_code": "IN",
+                        "state": "Algiers Province",
+                        "city": "Bordj el Kiffan",
+                        "latitude": 19.0548399,
+                        "address_type": "office",
+                        "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                        "pincode": 400050,
+                        "country": "Algeria",
+                        "address2": "Bandra Terminus, Naupada, Bandra East"
+                    },
+                    {
+                        "longitude": 72.862951,
+                        "country_code": "IN",
+                        "state": "Maharashtra",
+                        "city": "Mira Bhayandar",
+                        "latitude": 19.303474,
+                        "address_type": "registered",
+                        "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                        "pincode": 401105,
+                        "country": "India",
+                        "address2": "tof"
+                    }
+                ],
+                "modified_on": "2021-01-12T15:33:40.629000+00:00",
+                "created_on": "2020-05-18T16:16:07.902000+00:00",
+                "company_type": "distributor",
+                "notification_emails": ["ZAK@GMAIL.COM", "zak1@gmail.com"]
+            }
+        ]
+    },
     "brands": {
         "addResBrandMockData": {
             "success": true,

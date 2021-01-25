@@ -222,6 +222,7 @@
                 <div class="bottom-buttons">
                     <nitrozen-button
                         class="mr24"
+                        ref="approve_btn"
                         v-if="profileDetails.stage != 'verified'"
                         @click="openApproveDialog()"
                         v-flatBtn
@@ -231,6 +232,7 @@
                     <!-- v-if="product.stage != 'rejected'" -->
                     <nitrozen-button
                         theme="secondary"
+                        ref="reject_btn"
                         class="cust-left-space"
                         v-if="profileDetails.stage != 'rejected'"
                         v-strokeBtn
@@ -609,9 +611,6 @@ export default {
                     this.inProgress = false;
                     console.error(err);
                 });
-        },
-        viewDocuments() {
-            console.log('view document');
         },
         openApproveDialog: function() {
             this.$refs['company_approve_dialog'].open({
