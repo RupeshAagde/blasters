@@ -109,11 +109,6 @@ describe('Mounted Brands Component', () => {
 		const item = MOCK_DATA.brands.allBrandResMockData.data[0];
 		const dialogBtn = wrapper.find('.brand-img-div');
         expect(dialogBtn.exists()).toBe(true);
-        // dialogBtn.vm.$emit('click');
-        // await wrapper.vm.$nextTick();
-        // await flushPromises();
-        // const brandDialog = wrapper.findComponent({ref:'brand_admin_dialog'});
-        // expect(wrapper.find('div'));
         mock.reset();
 	});
 
