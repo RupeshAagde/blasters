@@ -73,26 +73,4 @@ describe('Mounted Company Detail Page', () => {
         );
         mock.reset();
     });
-
-    // it('Check Edit Company button', async () => {
-    //     mock.onGet(URLS.COMPANY_PROFILE()).reply(200, MOCK_DATA.profileDetails.profile);
-    //     wrapper = mount(CbsDetail, {
-    //         localVue,
-    //         router
-    //     });
-    //     await flushPromises();
-    //     const pageBtn = wrapper.find('.nitrozen-menu-content');
-    //     expect(pageBtn.exists()).toBe(true);
-    //     pageBtn.trigger('click');
-    //     await wrapper.vm.$nextTick();
-    //     await flushPromises();
-    //     const viewCompanyBtn = wrapper.find('.nitrozen-menu-item');
-    //     expect(viewCompanyBtn.text()).toBe('View Company');
-    //     viewCompanyBtn.trigger('click');
-    //     global.open = jest.fn();
-    //     expect(global.open).toBeCalled();
-    //     await wrapper.vm.$nextTick();
-    //     await flushPromises();
-    //     mock.reset();
-    // })
 });
