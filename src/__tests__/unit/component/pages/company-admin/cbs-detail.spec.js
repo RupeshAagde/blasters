@@ -26,7 +26,10 @@ describe('Mounted Company Detail Page', () => {
     });
 
     it('Get Cbs detail page info. successfully', async () => {
-        mock.onGet(URLS.COMPANY_PROFILE()).reply(200, MOCK_DATA.profileDetails.profile);
+        mock.onGet(URLS.COMPANY_PROFILE()).reply(
+            200,
+            MOCK_DATA.profileDetails.profile
+        );
         wrapper = mount(CbsDetail, {
             localVue,
             router
@@ -40,17 +43,21 @@ describe('Mounted Company Detail Page', () => {
     });
 
     it('Get CBS detail page info. error', async () => {
-        mock.onGet(URLS.COMPANY_PROFILE()).reply(500, {error: true});
+        mock.onGet(URLS.COMPANY_PROFILE()).reply(500, { error: true });
         wrapper = mount(CbsDetail, {
             localVue,
             router
         });
         await flushPromises();
+        expect(wrapper.vm.inProgress).toBe(false);
         mock.reset();
     });
 
     it('Check back arrow button', async () => {
-        mock.onGet(URLS.COMPANY_PROFILE()).reply(200, MOCK_DATA.profileDetails.profile);
+        mock.onGet(URLS.COMPANY_PROFILE()).reply(
+            200,
+            MOCK_DATA.profileDetails.profile
+        );
         wrapper = mount(CbsDetail, {
             localVue,
             router
@@ -61,7 +68,9 @@ describe('Mounted Company Detail Page', () => {
         backBtn.trigger('click');
         await wrapper.vm.$nextTick();
         await flushPromises();
-        expect(router.currentRoute.fullPath).toBe(`/administrator/company-list`);
+        expect(router.currentRoute.fullPath).toBe(
+            `/administrator/company-list`
+        );
         mock.reset();
     });
 
@@ -86,4 +95,4 @@ describe('Mounted Company Detail Page', () => {
     //     await flushPromises();
     //     mock.reset();
     // })
-})
+});
