@@ -218,6 +218,20 @@ const conf = convict({
             default: '',
             env: 'DAYTRADER_MAIN_SVC',
             arg: 'daytrader_main_svc'
+        },
+        MARKETPLACES_MAIN_URL: {
+            doc: 'Marketpalces Public URL',
+            format: String,
+            default: '',
+            env: 'MARKETPLACES_MAIN_URL',
+            arg: 'marketplaces_main_url'
+        },
+        MARKETPLACES_MAIN_SVC: {
+            doc: 'Marketpalces Kube Service',
+            format: String,
+            default: '',
+            env: 'MARKETPLACES_MAIN_SVC',
+            arg: 'marketplaces_main_svc'
         }
     },
 
