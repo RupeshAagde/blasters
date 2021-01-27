@@ -2,14 +2,6 @@
 
 export const getNavigations = () => {
     return [
-        // Home:{
-        //         display: 'Home',
-        //         link: `/administrator/home`,
-        //         title: 'Home',
-        //         icon: 'home',
-        //         highlightedIcon: 'home-highlighted'
-        //         children: []
-        // },
         {
             display: 'Company',
             link: '/administrator/company-list',
@@ -80,6 +72,16 @@ export const getNavigations = () => {
                     active: false
                 }
             ]
+        },
+        {
+            display: 'Integrations',
+            link: '/administrator/integrations/list',
+            title: 'integrations',
+            icon: 'team',
+            highlightedIcon: 'team-highlighted',
+            active: false,
+            permission: 'admin-access',
+            children: []
         },
         {
             display: 'Support Center',
