@@ -593,7 +593,7 @@ export default {
                 };
                 CompanyService.adminActionBrand(obj)
                     .then((res) => {
-                        this.closeRejectDialog();
+                        this.closeAdminDialog();
                         this.rejection_info.value = '';
                         this.rejection_info.showError = false;
                         this.showLess = false;

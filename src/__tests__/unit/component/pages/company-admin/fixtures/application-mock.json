@@ -1,0 +1,90 @@
+{
+    "application": {
+        "docs": [
+            {
+                "website": {
+                    "enabled": true,
+                    "basepath": "/"
+                },
+                "cors": {
+                    "domains": []
+                },
+                "auth": {
+                    "enabled": false
+                },
+                "description": "Fresh Fashion. Straight from brand stores.",
+                "channel_type": "fynd",
+                "cache_ttl": -1,
+                "internal": false,
+                "is_active": true,
+                "app_type": "live",
+                "_id": "000000000000000000000001",
+                "name": "Fynd",
+                "meta": [
+                    {
+                        "name": "fynd",
+                        "value": "true"
+                    }
+                ],
+                "owner": "5e04a5e6220bc17bc8ad9bc2",
+                "company_id": 1,
+                "token": "BSBXcYPP",
+                "redirections": [],
+                "createdAt": "2019-12-26T13:22:22.962Z",
+                "updatedAt": "2020-10-15T18:55:28.822Z",
+                "__v": 27,
+                "logo": {
+                    "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+                },
+                "banner": {
+                    "secure_url": "https://hdn-1.addsale.com/x0/company/1/applications/000000000000000000000001/application/pictures/landscape-banner/original/l3ARxtc4_-Fynd.png"
+                },
+                "favicon": {
+                    "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1566539375/production/media/store/logo/jwosxsgh9ufoucdxpm10.png"
+                },
+                "domains": [
+                    {
+                        "verified": true,
+                        "is_primary": false,
+                        "is_default": true,
+                        "is_shortlink": true,
+                        "_id": "5eb1177748312a08965d0f1c",
+                        "name": "fynd.hostx0.de"
+                    },
+                    {
+                        "verified": true,
+                        "is_primary": false,
+                        "is_default": false,
+                        "is_shortlink": false,
+                        "_id": "5ecfa38f8c703aae7cf1a8eb",
+                        "name": "test-appgadget.hostx0.de"
+                    },
+                    {
+                        "verified": true,
+                        "is_primary": true,
+                        "is_default": false,
+                        "is_shortlink": false,
+                        "_id": "5f8029170b0c8d4bf3b2765e",
+                        "name": "myfynd.hostx0.de"
+                    }
+                ],
+                "mobileLogo": {
+                    "secure_url": "https://hdn-1.fynd.com/brands/pictures/square-logo/resize-w:200,/zjt4-wU8Lk-VQYu0pcokb-r6yteuannoorjkq9f4tk.jpg"
+                },
+                "domain": {
+                    "verified": true,
+                    "is_primary": true,
+                    "is_default": false,
+                    "is_shortlink": false,
+                    "_id": "5f8029170b0c8d4bf3b2765e",
+                    "name": "myfynd.hostx0.de"
+                },
+                "id": "000000000000000000000001"
+            }
+        ],
+        "total": 53,
+        "limit": 10,
+        "page": 1,
+        "pages": 6
+    }
+}
