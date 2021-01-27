@@ -17,9 +17,10 @@ const {
 // entry-server.js
 import { createApp } from './app';
 import { ON_SERVER_DATA } from './store/action.type';
+import logger from '../server/utils/winston';
 
 export default (context) => {
-    console.log('Routes:', context.url);
+    logger.info('Routes:', context.url);
 
     //asynchronous component
     return new Promise((resolve, reject) => {
@@ -33,7 +34,7 @@ export default (context) => {
         Promise.all(appStatePromises)
             .then((data) => {
                 //add app styles and fonts
-                console.log('All promised');
+                logger.info('All promised');
 
                 //App grimlock JS
                 //TODO
@@ -54,7 +55,7 @@ export default (context) => {
                 router.push(context.url);
             })
             .catch((err) => {
-                console.log('error:', err);
+                logger.info('error:', err);
             });
 
         // wait until router has resolved possible async components and hooks
@@ -95,7 +96,7 @@ export default (context) => {
                     // the initial data fetching on the client.
 
                     context.state = store.state;
-                    console.log(`Server data pre-fetch: ${Date.now() - s}ms`);
+                    logger.info(`Server data pre-fetch: ${Date.now() - s}ms`);
 
                     // the Promise should resolve to the app instance so it can be rendered
                     resolve(app);
