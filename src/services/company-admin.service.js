@@ -266,6 +266,19 @@ const CompanyService = {
             return ApiService.put(URLS.CATEGORY_v2(id), axiosOption);
         }
         return ApiService.post(URLS.CATEGORY_v2(), axiosOption);
-    }
+    },
+    // Fetch Company List
+    fetchCompanyList() {
+        let headers = {
+            'Content-Type': 'application/json'
+        };
+        let axiosOption = Object.assign(
+            {},
+            {
+                headers
+            }
+        );
+        return ApiService.get(URLS.FETCH_COMPANY_LIST(), axiosOption);
+    },
 };
 export default CompanyService;

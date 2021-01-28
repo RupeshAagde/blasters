@@ -3,7 +3,6 @@
 import URLS from './domain.service';
 import ApiService from './api.service';
 import { getCommonHeaderOptions } from './utils.service';
-import { Object, console } from 'window-or-global';
 
 const UserService = {
     getUserList(params, userId) {

@@ -152,7 +152,7 @@
                         v-strokeBtn
                         v-if="
                             item.stage !== 'rejected' &&
-                                item.stage !== 'verified'
+                            item.stage !== 'verified'
                         "
                         @click="openAdminDialog(item, true)"
                         >Disable</nitrozen-button
@@ -513,7 +513,7 @@ import {
     NitrozenInput,
     NitrozenError,
     flatBtn,
-    strokeBtn
+    strokeBtn,
 } from '@gofynd/nitrozen-vue';
 
 import root from 'window-or-global';
@@ -533,19 +533,19 @@ export default {
         'nitrozen-input': NitrozenInput,
         'nitrozen-dialog': NitrozenDialog,
         'nitrozen-error': NitrozenError,
-        'adm-inline-svg': admInlineSVG
+        'adm-inline-svg': admInlineSVG,
     },
     directives: {
         flatBtn,
-        strokeBtn
+        strokeBtn,
     },
     computed: {
         fyndPlatformDomain(type) {
             return env.FYND_PLATFORM_DOMAIN;
         },
         ...mapGetters({
-            metricsData: GET_METRICS
-        })
+            metricsData: GET_METRICS,
+        }),
     },
     data() {
         return {
@@ -556,7 +556,7 @@ export default {
             paginationConfig: {
                 current: 1,
                 total: 0,
-                limit: 10
+                limit: 10,
             },
             selectedChoice: '',
             selectedStoreType: '',
@@ -575,26 +575,26 @@ export default {
             rejection_info: {
                 showError: false,
                 errortext: 'Please explain reason properly.',
-                value: ''
+                value: '',
             },
             admin_action_text: '',
             show_verify_button: true,
             enableEditIntegration: false,
             order_choice_error: {
                 showerror: false,
-                errortext: 'Please select order integration type.'
+                errortext: 'Please select order integration type.',
             },
             inventory_choice_error: {
                 showerror: false,
-                errortext: 'Please select inventory integration type.'
-            }
+                errortext: 'Please select inventory integration type.',
+            },
         };
     },
     filters: {
-        dateFormatter: function(value) {
+        dateFormatter: function (value) {
             if (!value) return '';
             return dateFormat(value, 'dddd, mmmm dS, yyyy, h:MM TT');
-        }
+        },
     },
     mounted() {
         this.getStores();
@@ -602,7 +602,7 @@ export default {
         this.getChoiceType({ choice_type: 'store_type' });
     },
     methods: {
-        getParams: function() {
+        getParams: function () {
             const params = {
                 page_size:
                     this.$route.query.limit || this.paginationConfig.limit,
@@ -610,22 +610,8 @@ export default {
                     this.$route.query.current || this.paginationConfig.current,
                 name: this.searchText,
                 stage: this.selectedChoice,
-                store_type: this.selectedStoreType
+                store_type: this.selectedStoreType,
             };
-            if (this.$route.query.stage) {
-                this.selectedChoice = this.$route.query.stage;
-                params.stage = this.selectedChoice;
-            }
-
-            if (this.$route.query.store) {
-                this.selectedStoreType = this.$route.query.store;
-                params.store = this.selectedStoreType;
-            }
-
-            if (this.$route.query.search) {
-                this.$route.query.search = this.searchText;
-                params.name = this.searchText;
-            }
             return params;
         },
         getStores() {
@@ -651,7 +637,6 @@ export default {
                     this.pageLoading = false;
                     this.pageError = true;
                     this.inProgress = false;
-                    console.log(err, 'error');
                 })
                 .finally(() => {
                     this.isInitialLoad && (this.isInitialLoad = false);
@@ -687,25 +672,25 @@ export default {
                     console.log(err, 'error');
                 });
         },
-        searchStores: debounce(function() {
+        searchStores: debounce(function () {
             let vm = this;
             let params = {
                 page_no: 1,
                 page_size: this.paginationConfig.limit,
-                name: this.searchText
+                name: this.searchText,
             };
             this.getStores(params);
         }, 1000),
-        changeStage: function() {
+        changeStage: function () {
             let params = {
                 page_no: 1,
                 page_size: this.paginationConfig.limit,
                 name: this.searchText,
-                stage: this.selectedChoice
+                stage: this.selectedChoice,
             };
             this.getStores(params);
         },
-        changeStore: function() {
+        changeStore: function () {
             this.getStores();
         },
         paginationChange(e) {
@@ -717,31 +702,13 @@ export default {
             this.paginationConfig = {
                 ...this.paginationConfig,
                 current,
-                limit
+                limit,
             };
             this.getStores();
-            // this.setRouteQuery({ current, limit });
         },
         editIntegration(item) {
             this.enableEditIntegration = true;
             this.openAdminDialog(item, false, false);
-        },
-        setRouteQuery(query) {
-            if (query.search || query.stage) {
-                // clear pagination if search or filter applied
-                this.paginationConfig.current = 1;
-                this.paginationConfig.limit = 100;
-                query.current = 1;
-                query.limit = 100;
-            }
-            this.$router.push({
-                path: this.$route.path,
-                query: {
-                    ...this.$route.query,
-                    ...query
-                }
-            });
-            this.getStores();
         },
         verifyStore() {
             if (this.order_choice && this.inventory_choice) {
@@ -750,8 +717,8 @@ export default {
                     stage: 'verified',
                     integration_type: {
                         order: this.order_choice,
-                        inventory: this.inventory_choice
-                    }
+                        inventory: this.inventory_choice,
+                    },
                 };
                 CompanyService.adminActionStore(obj)
                     .then((res) => {
@@ -760,7 +727,7 @@ export default {
                         this.$snackbar.global.showSuccess(
                             'Store Verified Successfully',
                             {
-                                duration: 2000
+                                duration: 2000,
                             }
                         );
                         setTimeout(() => {}, 2000);
@@ -777,7 +744,7 @@ export default {
                                     : ''
                             }`,
                             {
-                                duration: 2000
+                                duration: 2000,
                             }
                         );
                         this.closeAdminDialog();
@@ -812,8 +779,8 @@ export default {
                     stage: 'rejected',
                     integration_type: {
                         order: this.order_choice,
-                        inventory: this.inventory_choice
-                    }
+                        inventory: this.inventory_choice,
+                    },
                 };
                 CompanyService.adminActionStore(obj)
                     .then((res) => {
@@ -824,7 +791,7 @@ export default {
                         this.$snackbar.global.showSuccess(
                             'Store Disabled Successfully',
                             {
-                                duration: 2000
+                                duration: 2000,
                             }
                         );
                         setTimeout(() => {}, 2000);
@@ -839,7 +806,7 @@ export default {
                                     : ''
                             }`,
                             {
-                                duration: 2000
+                                duration: 2000,
                             }
                         );
                         this.closeAdminDialog();
@@ -889,27 +856,9 @@ export default {
                     width: '600px',
                     height: '480px',
                     showCloseButton: true,
-                    dismissible: true
+                    dismissible: true,
                 });
             }
-            // if (item.stage && item.stage != 'verified') {
-            //     if (this.activeStore) {
-            //         this.$refs['store_admin_dialog'].open({
-            //             width: '600px',
-            //             height: '480px',
-            //             showCloseButton: true,
-            //             dismissible: true
-            //         });
-            //     }
-            // }
-            // else {
-            //     this.$refs['store_admin_dialog'].open({
-            //         width: '600px',
-            //         height: '480px',
-            //         showCloseButton: true,
-            //         dismissible: true
-            //     });
-            // }
         },
         changeDropDown() {
             if (this.order_choice) {
@@ -928,7 +877,7 @@ export default {
             window.open(
                 `https://platform.${this.fyndPlatformDomain}/company/${this.companyId}/profile/edit-store/${item.uid}`
             );
-        }
-    }
+        },
+    },
 };
 </script>
