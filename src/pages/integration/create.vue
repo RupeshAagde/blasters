@@ -296,6 +296,7 @@
                         ref="schema-form"
                         :inputs="activeSchema || []"
                         v-model="activeData"
+                        :disabled="true"
                     />
                 </div>
             </template>
@@ -734,7 +735,7 @@ export default {
                 .catch((err) => {
                     this.pageLoading = false;
                     this.pageError = true;
-                    console.log(err);
+                    // console.log(err);
                 });
         },
         copyToClipboard(data, event) {
@@ -764,6 +765,10 @@ export default {
 .preview-schema {
     ::v-deep .nitrozen-dialog-body {
         max-height: calc(100vh - 350px);
+    }
+    
+    .nitrozen-custom-form{
+        pointer-events: none;
     }
 }
 .main-container {

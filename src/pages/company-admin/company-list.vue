@@ -404,7 +404,7 @@ import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import fynotfound from '@/components/common/ukt-not-found';
 import userInfoTooltip from '@/components/common/feedback/userInfo-tooltip.vue';
-// import { toListingThumbnail } from '@/helper/image.utils';
+
 import {
     NitrozenInput,
     NitrozenError,
@@ -545,9 +545,6 @@ export default {
                     console.log(err);
                 });
         },
-        getErrorImage() {
-            return '/public/admin/assets/pngs/default_icon_listing.png';
-        },
         paginationChange(filter, action) {
             const { current, limit } = filter;
             this.pagination.current = current;
@@ -571,7 +568,6 @@ export default {
         },
         setRouteQuery(query) {
             if (query.name || query.stage !== 'all') {
-                // clear pagination if search or filter applied
                 this.pagination = { ...PAGINATION };
                 query.pageId = undefined;
                 query.limit = PAGINATION.limit;

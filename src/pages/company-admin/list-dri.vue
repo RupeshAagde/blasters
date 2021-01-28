@@ -509,15 +509,6 @@ export default {
             this.pagination = Object.assign({}, this.pagination, filter);
             this.fetchDri();
         },
-        setPage(filter) {
-            const { current, limit } = filter;
-            this.paginationConfig = {
-                ...this.paginationConfig,
-                current,
-                limit
-            };
-            this.fetchDri();
-        },
         openAdd() {
             this.$router.push({
                 path: `/administrator/company-details/${this.companyId}/add-dri`
