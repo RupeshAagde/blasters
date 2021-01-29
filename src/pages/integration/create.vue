@@ -198,7 +198,7 @@
                     <div v-if="!allCompanies">
                         <div class="form-body">
                             <nitrozen-dropdown
-                                :items="filteredCompanyList"
+                                :items="companyList"
                                 v-model="selectedCompany"
                                 :multiple="true"
                                 :searchable="true"
