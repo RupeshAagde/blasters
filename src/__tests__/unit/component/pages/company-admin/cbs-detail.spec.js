@@ -9,7 +9,6 @@ import flushPromises from 'flush-promises';
 import MOCK_DATA from './fixtures/cbs-mock.json';
 import AdminRoutes from '@/router/administrator/index.js';
 import URLS from '../../../../../services/domain.service.js';
-import { global, Promise, URL } from 'window-or-global';
 
 let localVue, wrapper, router;
 const mock = new MockAdapter(axios);

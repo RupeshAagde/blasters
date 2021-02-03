@@ -345,10 +345,11 @@ const URLS = {
     },
 
     // Marketplaces
-    MARKETPLACE_WORKERS: (compId) => {
+    MARKETPLACE_WORKERS: (compId = '') => {
+        console.log("Marketplaces main url ::::", MARKETPLACES_MAIN_URL);
         return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId, '/worker/');
     },
-    UPDATE_MARKETPLACE_WORKERS: (compId, marketplace) => {
+    UPDATE_MARKETPLACE_WORKERS: (compId = '', marketplace = '') => {
         return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId,'/marketplaces/', marketplace, '/worker/');
     },
     // integration list
