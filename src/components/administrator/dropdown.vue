@@ -91,7 +91,7 @@
 .router-link-exact-active {
     background-color: rgba(92, 107, 221, 0.12);
     .title {
-        color: #5c6bdd;
+        color: #2E31BE;
     }
 }
 </style>

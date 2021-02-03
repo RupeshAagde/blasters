@@ -357,7 +357,7 @@
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
             line-height: 22px;
-            color: #5c6bdd;
+            color: #2E31BE;
         }
 
         .card-content-line-2 {

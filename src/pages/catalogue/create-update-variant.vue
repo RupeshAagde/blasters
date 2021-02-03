@@ -193,7 +193,7 @@
     align-items: center;
 
     .active-dept {
-        color: #5c6bdd;
+        color: #2E31BE;
         cursor: pointer;
         display: flex;
         justify-content: flex-start;
@@ -215,7 +215,7 @@
     border-radius: 4px;
     margin: 85px 24px 24px 24px !important;
     padding: 24px;
-    font-family: Poppins;
+    font-family: Inter;
 
     .row-1 {
         width: 100%;

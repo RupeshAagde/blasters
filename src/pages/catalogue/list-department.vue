@@ -124,11 +124,11 @@
 }
 .left-space-co {
     margin-left: 16px;
-    color: #5c6bdd;
+    color: #2E31BE;
 }
 .left-space-mo {
     margin-left: 14px;
-    color: #5c6bdd;
+    color: #2E31BE;
 }
 .label {
     color: #9b9b9b;
@@ -215,7 +215,7 @@
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
             line-height: 24px;
-            color: #5c6bdd;
+            color: #2E31BE;
         }
 
         .card-content-line-2 {

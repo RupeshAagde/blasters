@@ -34,7 +34,7 @@
     overflow-x: hidden;
     background-color: rgba(82, 78, 78, 0.52);
     transition: opacity 0.25s ease;
-    font-family: Poppins;
+    font-family: Inter;
     .blaster-scrollbar;
     .flex-center();
     @media @mobile {

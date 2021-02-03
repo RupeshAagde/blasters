@@ -45,7 +45,7 @@ select:focus {
 }
 .nitrozen-label {
     color: #9b9b9b;
-    font-family: Poppins, sans-serif;
+    font-family: Inter, sans-serif;
     font-size: 12px;
     font-weight: 500;
     line-height: 21px;
@@ -66,7 +66,7 @@ select:focus {
     .chip-input {
         width: 200px;
         border: none;
-        font-family: Poppins, sans-serif;
+        font-family: Inter, sans-serif;
         font-weight: 400;
     }
 }
