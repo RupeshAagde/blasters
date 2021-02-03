@@ -698,6 +698,7 @@ export default {
                     this.tags = this.integrationData.meta;
                     this.token = this.integrationData.token;
                     this.selectedCompany = this.integrationData.companies || [];
+                    this.constants = this.integrationData.constants || {};
                     if (this.selectedCompany.length) {
                         this.allCompanies = false;
                     }
@@ -722,7 +723,7 @@ export default {
                     setTimeout(() => {
                         this.$refs['companyForm'].populateData();
                         this.$refs['storeForm'].populateData();
-
+                        this.$refs['constants'].populateData();
                         if (this.selectedSupport.includes('inventory')) {
                             this.$refs['inventoryForm'].populateData();
                         }
