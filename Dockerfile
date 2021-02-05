@@ -29,7 +29,7 @@ RUN npm install
 
 COPY . .
 RUN npm run build:prod
-
+RUN git rev-parse HEAD > gitsha && rm -rf .git
 
 RUN rm -rf ./node_modules \
 && npm install \
@@ -40,6 +40,6 @@ FROM node:12.19-alpine
 
 COPY --from=buildimage /srv/bombshell /srv/bombshell
 WORKDIR /srv/bombshell
-RUN git rev-parse HEAD > gitsha && rm -rf .git
+
  
 ENTRYPOINT ["node", "server/index.js","--env","production"]
