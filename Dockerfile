@@ -34,7 +34,6 @@ RUN npm run build:prod
 RUN rm -rf ./node_modules \
 && npm install \
 && npm cache clean --force \
-&& rm -rf .git \
 && apk del .build-deps
 
 FROM node:12.19-alpine
