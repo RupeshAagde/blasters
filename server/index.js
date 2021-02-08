@@ -25,6 +25,7 @@ if(fs.existsSync("gitsha"))
 if (SENTRY_DSN) {
   const sentryOptions = {
     dsn: SENTRY_DSN,
+    release: releaseSHA,
     environment: SENTRY_ENVIRONMENT
   }
   Sentry.init(sentryOptions)
