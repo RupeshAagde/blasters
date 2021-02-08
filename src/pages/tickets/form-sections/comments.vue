@@ -174,7 +174,7 @@ export default {
 }
 .comment-section {
     color: #9b9b9b;
-    font-family: Poppins, sans-serif;
+    font-family: Inter, sans-serif;
     font-size: 13px;
     font-weight: 600;
     line-height: 14px;

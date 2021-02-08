@@ -182,7 +182,7 @@
 }
 .nitrozen-label {
     color: #9b9b9b;
-    font-family: Poppins, sans-serif;
+    font-family: Inter, sans-serif;
     font-size: 12px;
     font-weight: 500;
     line-height: 21px;
@@ -207,7 +207,7 @@
     .chip-input {
         width: 200px;
         border: none;
-        font-family: Poppins, sans-serif;
+        font-family: Inter, sans-serif;
         font-size: 11px;
         font-weight: 400;
         margin: 4px;
@@ -224,7 +224,7 @@
 
 ::v-deep .dark-xs {
     color: #9b9b9b;
-    font-family: Poppins, sans-serif;
+    font-family: Inter, sans-serif;
     font-size: 12px;
     font-weight: 500;
     line-height: 21px;

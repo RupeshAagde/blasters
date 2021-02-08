@@ -263,7 +263,7 @@
                 overflow: hidden;
                 line-height: 20px;
                 font-size: 14px;
-                color: #5c6bdd;
+                color: #2E31BE;
                 font-weight: bold;
                 cursor: pointer;
             }
@@ -295,7 +295,7 @@
                 max-width: 200px;
                 white-space: nowrap;
                 overflow: hidden;
-                color: #5c6bdd;
+                color: #2E31BE;
                 font-weight: bold;
                 cursor: pointer;
             }
