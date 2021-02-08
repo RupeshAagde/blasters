@@ -29,17 +29,17 @@ RUN npm install
 
 COPY . .
 RUN npm run build:prod
-
+RUN git rev-parse HEAD > gitsha && rm -rf .git
 
 RUN rm -rf ./node_modules \
 && npm install \
 && npm cache clean --force \
-&& rm -rf .git \
 && apk del .build-deps
 
 FROM node:12.19-alpine
 
 COPY --from=buildimage /srv/bombshell /srv/bombshell
 WORKDIR /srv/bombshell
+
  
 ENTRYPOINT ["node", "server/index.js","--env","production"]

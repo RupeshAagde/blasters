@@ -1,6 +1,9 @@
 'use strict'
 
 const config = require('./../config')
+const packageJson = require('./../package.json');
+const fs = require("fs");
+
 if (config.get('NEW_RELIC_LICENSE_KEY')) {
   require('newrelic')
 }
@@ -9,10 +12,20 @@ const path = require('path')
 const express = require('express')
 const Sentry = require('@sentry/node')
 
+
+let releaseSHA = packageJson.version;
+
+if(fs.existsSync("gitsha"))
+{
+    releaseSHA = fs.readFileSync("gitsha").toString();
+}
+
+
 //Add sentry
 if (SENTRY_DSN) {
   const sentryOptions = {
     dsn: SENTRY_DSN,
+    release: releaseSHA,
     environment: SENTRY_ENVIRONMENT
   }
   Sentry.init(sentryOptions)
