@@ -173,7 +173,7 @@
     justify-content: flex-start;
 
     label {
-        color: #5c6bdd;
+        color: #2E31BE;
         cursor: pointer;
         display: flex;
         justify-content: flex-start;

@@ -344,6 +344,14 @@ const URLS = {
         return urlJoin(PLATFORM_ASSETS_BASE, 'v1/proxy/fetch');
     },
 
+    // Marketplaces
+    MARKETPLACE_WORKERS: (compId = '') => {
+        console.log("Marketplaces main url ::::", MARKETPLACES_MAIN_URL);
+        return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId, '/worker/');
+    },
+    UPDATE_MARKETPLACE_WORKERS: (compId = '', marketplace = '') => {
+        return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId,'/marketplaces/', marketplace, '/worker/');
+    },
     // integration list
     INTEGRATIONS_LIST: () => {
         return urlJoin(PLATFORM_COMMON_BASE,'integration');
@@ -359,13 +367,6 @@ const URLS = {
     },
     FETCH_COMPANY_LIST: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, 'v1/onboarding/company/info-view');
-    },
-    // Marketplaces
-    MARKETPLACE_WORKERS: (compId) => {
-        return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId, '/worker/');
-    },
-    UPDATE_MARKETPLACE_WORKERS: (compId, marketplace) => {
-        return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId,'/marketplaces/', marketplace, '/worker/');
     }
 };
 

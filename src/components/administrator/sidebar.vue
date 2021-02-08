@@ -141,16 +141,16 @@
 .link-exact-active {
     background-color: rgba(92, 107, 221, 0.12);
     .title {
-        color: #5c6bdd;
+        color: #2E31BE;
     }
     .icon {
-        color: #5c6bdd;
+        color: #2E31BE;
     }
 }
 .link-active {
     background-color: #ffffff;
     .title {
-        color: #5c6bdd;
+        color: #2E31BE;
     }
 }
 .blaster-scrollbar {

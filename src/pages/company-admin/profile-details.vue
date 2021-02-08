@@ -394,7 +394,7 @@
     margin-top: 18px;
 }
 .no-doc {
-    font-family: Poppins;
+    font-family: Inter;
     color: #9b9b9b;
     font-size: 14px;
     line-height: 20px;
@@ -408,7 +408,7 @@
     justify-content: space-between;
     margin-bottom: 24px;
     .doc-text {
-        font-family: Poppins;
+        font-family: Inter;
         color: #9b9b9b;
         font-size: 14px;
         line-height: 20px;

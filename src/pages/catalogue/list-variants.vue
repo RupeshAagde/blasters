@@ -131,7 +131,7 @@
     margin: 24px;
     padding: 24px;
     background-color: #fff;
-    font-family: Poppins;
+    font-family: Inter;
 
     .custom-header {
         ::v-deep .n-flat-button-secondary {
@@ -209,7 +209,7 @@
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
             line-height: 24px;
-            color: #5c6bdd;
+            color: #2E31BE;
         }
 
         .card-content-line-2 {
