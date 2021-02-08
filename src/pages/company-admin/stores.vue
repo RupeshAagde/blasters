@@ -297,7 +297,7 @@
 }
 .cust-label {
     color: #9b9b9b;
-    font-family: Poppins, sans-serif;
+    font-family: Inter, sans-serif;
     font-size: 12px;
     font-weight: 500;
     line-height: 21px;
@@ -358,7 +358,7 @@
             }
         }
         .label {
-            font-family: Poppins;
+            font-family: Inter;
             color: @Mako;
             font-size: 14px;
             line-height: 20px;
@@ -481,12 +481,12 @@
         margin-left: 12px;
         cursor: pointer;
         ::v-deep svg {
-            color: #5c6bdd;
+            color: #2E31BE;
         }
     }
 
     .pic-col {
-        color: #5c6bdd;
+        color: #2E31BE;
     }
 }
 </style>

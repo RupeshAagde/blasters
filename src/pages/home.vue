@@ -84,7 +84,7 @@ section:nth-child(2n + 1) {
     max-width: 500px;
     font-size: 14px;
     line-height: 21px;
-    font-family: Poppins;
+    font-family: Inter;
 }
 section.league-of-experts {
     margin-top: 64px;
@@ -98,13 +98,13 @@ section.league-of-experts {
             font-size: 60px;
             line-height: 83px;
             font-weight: bold;
-            font-family: Poppins;
+            font-family: Inter;
         }
         .cst-mh1 {
             max-width: 500px;
             font-size: 14px;
             line-height: 21px;
-            font-family: Poppins;
+            font-family: Inter;
             margin: 45px 0 22px 0;
         }
     }

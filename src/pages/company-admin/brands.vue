@@ -269,7 +269,7 @@
             width: 200px;
         }
         .label {
-            font-family: Poppins;
+            font-family: Inter;
             color: @Mako;
             font-size: 14px;
             line-height: 20px;

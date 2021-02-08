@@ -214,7 +214,7 @@
         align-items: center;
     }
     .label {
-        font-family: Poppins;
+        font-family: Inter;
         color: @Mako;
         font-size: 14px;
         line-height: 20px;
@@ -264,7 +264,7 @@
         }
 
         .txt-company-heading {
-            color: #5c6bdd;
+            color: #2E31BE;
             font-weight: 600;
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
