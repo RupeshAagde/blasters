@@ -4,64 +4,68 @@ import root from 'window-or-global';
 
 const envVars = root.env || {};
 
-if(root && root.process && root.process.env && root.process.env.NODE_ENV == 'test'){
+if (root && root.process && root.process.env && root.process.env.NODE_ENV == 'test') {
     envVars['BROWSER_CONFIG'] = root.process.env;
 }
 
-let PLATFORM_COMMON_BASE = isNode
-    ? envVars.BROWSER_CONFIG.PLATFORM_COMMON_MAIN_URL
-    : envVars.PLATFORM_COMMON_MAIN_URL;
+let PLATFORM_COMMON_BASE = isNode ?
+    envVars.BROWSER_CONFIG.PLATFORM_COMMON_MAIN_URL :
+    envVars.PLATFORM_COMMON_MAIN_URL;
 
 //remove later when done from nginx
 // PLATFORM_COMMON_BASE = urlJoin(PLATFORM_COMMON_BASE, '/partner');
 
-const GRIMLOCK_BASE = isNode
-    ? envVars.BROWSER_CONFIG.GRIMLOCK_MAIN_SVC
-    : envVars.GRIMLOCK_MAIN_URL;
+const GRIMLOCK_BASE = isNode ?
+    envVars.BROWSER_CONFIG.GRIMLOCK_MAIN_SVC :
+    envVars.GRIMLOCK_MAIN_URL;
 
-const BLITZKRIEG_BASE = isNode
-    ? envVars.BROWSER_CONFIG.BLITZKRIEG_MAIN_SVC
-    : envVars.BLITZKRIEG_MAIN_URL;
+const BLITZKRIEG_BASE = isNode ?
+    envVars.BROWSER_CONFIG.BLITZKRIEG_MAIN_SVC :
+    envVars.BLITZKRIEG_MAIN_URL;
 
-const SILVERBOLT_MAIN_URL = isNode
-    ? envVars.BROWSER_CONFIG.SILVERBOLT_MAIN_URL
-    : envVars.SILVERBOLT_MAIN_URL;
+const SILVERBOLT_MAIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.SILVERBOLT_MAIN_URL :
+    envVars.SILVERBOLT_MAIN_URL;
 
-const SKYWARP_MAIN_URL = isNode
-    ? envVars.BROWSER_CONFIG.SKYWARP_MAIN_URL
-    : envVars.SKYWARP_MAIN_URL;
+const SKYWARP_MAIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.SKYWARP_MAIN_URL :
+    envVars.SKYWARP_MAIN_URL;
 
-const UNICRON_BASE = isNode
-    ? envVars.BROWSER_CONFIG.UNICRON_MAIN_SVC
-    : envVars.UNICRON_MAIN_URL;
+const UNICRON_BASE = isNode ?
+    envVars.BROWSER_CONFIG.UNICRON_MAIN_SVC :
+    envVars.UNICRON_MAIN_URL;
 
-const DAYTRADER_BASE = isNode
-    ? envVars.BROWSER_CONFIG.DAYTRADER_MAIN_SVC
-    : envVars.DAYTRADER_MAIN_URL;
+const DAYTRADER_BASE = isNode ?
+    envVars.BROWSER_CONFIG.DAYTRADER_MAIN_SVC :
+    envVars.DAYTRADER_MAIN_URL;
 
-const PLATFORM_LEADS_BASE = isNode
-    ? envVars.BROWSER_CONFIG.HIGHBROW_MAIN_SVC
-    : envVars.HIGHBROW_MAIN_URL;
+const PLATFORM_LEADS_BASE = isNode ?
+    envVars.BROWSER_CONFIG.HIGHBROW_MAIN_SVC :
+    envVars.HIGHBROW_MAIN_URL;
 
-const PLATFORM_ORDERS_BASE = isNode
-    ? envVars.BROWSER_CONFIG.APEFACE_MAIN_SVC
-    : envVars.APEFACE_MAIN_URL;
+const PLATFORM_ORDERS_BASE = isNode ?
+    envVars.BROWSER_CONFIG.APEFACE_MAIN_SVC :
+    envVars.APEFACE_MAIN_URL;
 
-const INTERNAL_SETTINGS = isNode
-    ? envVars.BROWSER_CONFIG.ULTRAMAGNUS_MAIN_SVC
-    : envVars.ULTRAMAGNUS_MAIN_URL;
+const INTERNAL_SETTINGS = isNode ?
+    envVars.BROWSER_CONFIG.ULTRAMAGNUS_MAIN_SVC :
+    envVars.ULTRAMAGNUS_MAIN_URL;
 
-const PLATFORM_ASSETS_BASE = isNode
-    ? envVars.BROWSER_CONFIG.GRINDOR_MAIN_URL
-    : envVars.GRINDOR_MAIN_URL;
+const INTERNAL_SETTINGS_ADMIN = isNode ?
+    envVars.BROWSER_CONFIG.ULTRAMAGNUS_ADMIN_SVC :
+    envVars.ULTRAMAGNUS_ADMIN_URL;
 
-const SLINGSHOT_MAIN_URL = isNode
-    ? envVars.BROWSER_CONFIG.SLINGSHOT_MAIN_URL
-    : envVars.SLINGSHOT_MAIN_URL;
+const PLATFORM_ASSETS_BASE = isNode ?
+    envVars.BROWSER_CONFIG.GRINDOR_MAIN_URL :
+    envVars.GRINDOR_MAIN_URL;
 
-const MARKETPLACES_MAIN_URL = isNode
-    ? envVars.BROWSER_CONFIG.MARKETPLACES_MAIN_URL
-    : envVars.MARKETPLACES_MAIN_URL;
+const SLINGSHOT_MAIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.SLINGSHOT_MAIN_URL :
+    envVars.SLINGSHOT_MAIN_URL;
+
+const MARKETPLACES_MAIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.MARKETPLACES_MAIN_URL :
+    envVars.MARKETPLACES_MAIN_URL;
 
 const URLS = {
     //fetch attributes
@@ -209,7 +213,7 @@ const URLS = {
     SEARCH_USER: () => {
         return urlJoin(GRIMLOCK_BASE, '/user-info/search');
     },
-    
+
     LOCATIONS: () => {
         return urlJoin(PLATFORM_COMMON_BASE, '/locations');
     },
@@ -309,7 +313,11 @@ const URLS = {
 
     // Ultra Magnus
     PLATFORM_BASIC_DETAILS: () => {
-        return urlJoin(INTERNAL_SETTINGS, 'v1/basic-details');
+        return urlJoin(INTERNAL_SETTINGS, '/basic-details');
+    },
+
+    PLATFORM_BASIC_DETAILS_UPDATE: () => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/basic-details');
     },
 
     //Grindor
@@ -349,20 +357,20 @@ const URLS = {
         return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId, '/worker/');
     },
     UPDATE_MARKETPLACE_WORKERS: (compId, marketplace) => {
-        return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId,'/marketplaces/', marketplace, '/worker/');
+        return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId, '/marketplaces/', marketplace, '/worker/');
     },
     // integration list
     INTEGRATIONS_LIST: () => {
-        return urlJoin(PLATFORM_COMMON_BASE,'integration');
+        return urlJoin(PLATFORM_COMMON_BASE, 'integration');
     },
     INTEGRATION_BY_ID: (id = '') => {
-        return urlJoin(PLATFORM_COMMON_BASE,'integration', id);
+        return urlJoin(PLATFORM_COMMON_BASE, 'integration', id);
     },
     SAVE_INTEGRATION: (id = '') => {
-        return urlJoin(PLATFORM_COMMON_BASE,'integration', id);
+        return urlJoin(PLATFORM_COMMON_BASE, 'integration', id);
     },
     ADD_INTEGRATION: () => {
-        return urlJoin(PLATFORM_COMMON_BASE,'integration');
+        return urlJoin(PLATFORM_COMMON_BASE, 'integration');
     },
     FETCH_COMPANY_LIST: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, 'v1/onboarding/company/info-view');
