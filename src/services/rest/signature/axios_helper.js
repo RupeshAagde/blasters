@@ -1,11 +1,9 @@
-const combineURLs = require("axios/lib/helpers/combineURLs");
-const isAbsoluteURL = require("axios/lib/helpers/isAbsoluteURL");
-const urlJoin = require('url-join');
-const { transformRequestOptions } = require('./../../../helper/utils')
-const {
-    sign
-} = require("./signature");
-const { console } = require("window-or-global");
+
+import combineURLs from 'axios/lib/helpers/combineURLs'
+import isAbsoluteURL from "axios/lib/helpers/isAbsoluteURL"
+import urlJoin from 'url-join';
+import { transformRequestOptions } from './../../../helper/utils';
+import { sign } from './signature'
 
 function getTransformer(config) {
     const {
@@ -26,7 +24,7 @@ function getTransformer(config) {
 }
 
 
-function interceptorFn(options) {
+export const interceptorFn = (options) => {
     return (config) => {
 
         if (!config.url) {
@@ -81,15 +79,9 @@ function interceptorFn(options) {
                 headers: headersToSign
             };
             sign(signingOptions);
-            // console.log(signingOptions);
 
             config.headers = signingOptions.headers;
-            // console.log("config", config);
         }
         return config
     };
 }
-
-module.exports = {
-    addSignatureFn: interceptorFn
-};

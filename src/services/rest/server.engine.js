@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { transformRequestOptions } from './../../helper/utils'
 import { LocalStorageService } from './../localstorage.service'
-import { isBrowser, isNode } from 'browser-or-node';
-import { addSignatureFn } from './signature/axios_helper';
+import { isBrowser, isNode } from 'browser-or-node'
+import { interceptorFn } from "./signature/axios_helper";
 axios.defaults.withCredentials = true
 
 let axiosMisc = axios.create({
@@ -18,7 +18,6 @@ let config = {}
 export const setAxiosConfig = (appConfig) => {
     config = appConfig
 }
-
 const getHeaders = (headers) => {
     return {
         'Content-Type': 'application/json',
@@ -97,8 +96,5 @@ axios.interceptors.response.use(
         return Promise.reject(error)
     }
 )
-
-axios.interceptors.request.use(addSignatureFn({}));
-
-
+axios.interceptors.request.use(interceptorFn({}));
 export default engine
