@@ -226,7 +226,9 @@ export default {
                 whats_new: this.basicSettings.whats_new.filter(
                     (wnew) => wnew.description != ''
                 ),
-                features: this.basicSettings.features
+                features: this.basicSettings.features,
+                landingPageDetails:this.basicSettings.landingPageDetails,
+                authentication:this.basicSettings.authentication    
             };
         },
         checkEmpty(key) {
@@ -260,6 +262,7 @@ export default {
             }
             this.pageLoading = true;
             const payload = this.getPayload();
+            console.log('SETTINGS',payload)
             return InternalSettingsService.updateBasicSettings(payload)
                 .then(({ data }) => {
                     this.basicSettings = data;
