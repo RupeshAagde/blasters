@@ -47,6 +47,10 @@ const PLATFORM_ORDERS_BASE = isNode ?
     envVars.BROWSER_CONFIG.APEFACE_MAIN_SVC :
     envVars.APEFACE_MAIN_URL;
 
+const INTERNAL_SETTINGS_MAIN = isNode ?
+    envVars.BROWSER_CONFIG.ULTRAMAGNUS_MAIN_SVC :
+    envVars.ULTRAMAGNUS_MAIN_URL;
+
 const INTERNAL_SETTINGS = isNode ?
     envVars.BROWSER_CONFIG.ULTRAMAGNUS_PUBLIC_SVC :
     envVars.ULTRAMAGNUS_PUBLIC_URL;
@@ -317,7 +321,7 @@ const URLS = {
     },
 
     PLATFORM_BASIC_DETAILS_UPDATE: () => {
-        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/basic-details');
+        return urlJoin(INTERNAL_SETTINGS_MAIN, '/v1/basic-details');
     },
 
     //Grindor
