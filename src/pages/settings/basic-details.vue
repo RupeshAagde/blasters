@@ -262,7 +262,6 @@ export default {
             }
             this.pageLoading = true;
             const payload = this.getPayload();
-            console.log('SETTINGS',payload)
             return InternalSettingsService.updateBasicSettings(payload)
                 .then(({ data }) => {
                     this.basicSettings = data;
