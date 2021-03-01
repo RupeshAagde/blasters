@@ -65,6 +65,34 @@ const conf = convict({
             env: 'ULTRAMAGNUS_MAIN_SVC',
             arg: 'ULTRAMAGNUS_MAIN_SVC'
         },
+        ULTRAMAGNUS_PUBLIC_URL: {
+            doc: 'Internal Settings API',
+            format: String,
+            default: '',
+            env: 'ULTRAMAGNUS_PUBLIC_URL',
+            arg: 'ULTRAMAGNUS_PUBLIC_URL'
+        },
+        ULTRAMAGNUS_PUBLIC_SVC: {
+            doc: 'Internal Settings API public',
+            format: String,
+            default: '',
+            env: 'ULTRAMAGNUS_PUBLIC_SVC',
+            arg: 'ULTRAMAGNUS_PUBLIC_SVC'
+        },
+        ULTRAMAGNUS_ADMIN_URL: {
+            doc: 'Internal Settings API',
+            format: String,
+            default: '',
+            env: 'ULTRAMAGNUS_ADMIN_URL',
+            arg: 'ULTRAMAGNUS_ADMIN_URL'
+        },
+        ULTRAMAGNUS_ADMIN_SVC: {
+            doc: 'Internal Settings API administrator',
+            format: String,
+            default: '',
+            env: 'ULTRAMAGNUS_ADMIN_SVC',
+            arg: 'ULTRAMAGNUS_ADMIN_SVC'
+        },
         HIGHBROW_MAIN_URL: {
             doc: 'Platform Custom Main Public URL to hit',
             format: String,

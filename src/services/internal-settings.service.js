@@ -11,12 +11,10 @@ const InternalSettingsService = {
         return ApiService.get(URLS.PLATFORM_BASIC_DETAILS(), axiosOptions);
     },
     updateBasicSettings(data) {
-        const axiosOptions = Object.assign(
-            {},
-            { data },
+        const axiosOptions = Object.assign({}, { data },
             getCommonHeaderOptions()
         );
-        return ApiService.put(URLS.PLATFORM_BASIC_DETAILS(), axiosOptions);
+        return ApiService.put(URLS.PLATFORM_BASIC_DETAILS_UPDATE(), axiosOptions);
     }
 };
 export default InternalSettingsService;
