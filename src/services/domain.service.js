@@ -27,6 +27,10 @@ const SILVERBOLT_MAIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SILVERBOLT_MAIN_URL :
     envVars.SILVERBOLT_MAIN_URL;
 
+const SILVERBOLT_ACPR_PRIVATE_URL = isNode ?
+    envVars.BROWSER_CONFIG.SILVERBOLT_ACPR_PRIVATE_URL :
+    envVars.SILVERBOLT_ACPR_PRIVATE_URL;
+
 const SKYWARP_MAIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SKYWARP_MAIN_URL :
     envVars.SKYWARP_MAIN_URL;
@@ -82,7 +86,7 @@ const URLS = {
     },
     //fetchDeparment
     FETCH_DEPARTMENT: () => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/department');
+        return urlJoin(SILVERBOLT_ACPR_PRIVATE_URL, '/v1.0/departments');
     },
     //Company Metrics
     FETCH_METRICS: () => {
@@ -157,12 +161,12 @@ const URLS = {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/attribute-master', slug);
     },
     PRODUCT_TEMPLATES: (slug = '') => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/product-templates', slug);
+        return urlJoin(SILVERBOLT_ACPR_PRIVATE_URL, '/v1.0/products/templates', slug);
     },
     PRODUCT_TEMPLATE_DOWNLOAD: (slug = '') => {
         return urlJoin(
-            SILVERBOLT_MAIN_URL,
-            '/v1/product-templates',
+            SILVERBOLT_ACPR_PRIVATE_URL,
+            '/v1.0/products/templates',
             slug,
             'download'
         );
@@ -187,13 +191,13 @@ const URLS = {
         );
     },
     DEPARTMENT: () => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/department');
+        return urlJoin(SILVERBOLT_ACPR_PRIVATE_URL, '/v1.0/departments');
     },
     CATEGORY: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/category');
     },
     CATEGORY_v2: (id = '') => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v2/category', id);
+        return urlJoin(SILVERBOLT_ACPR_PRIVATE_URL, '/v1.0/category', id);
     },
     UNITS: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/units');

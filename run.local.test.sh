@@ -36,6 +36,8 @@ export DAYTRADER_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/daytrader/
 export DAYTRADER_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/daytrader/
 export MARKETPLACES_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/marketplaces/
 export MARKETPLACES_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/marketplaces/
+export SILVERBOLT_ACPR_PRIVATE_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/company-profile/
+
 
 #ENV's
 export SENTRY_DSN=''

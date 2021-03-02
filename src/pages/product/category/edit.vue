@@ -645,12 +645,12 @@ export default {
             }
             try{
             const promiseResult = await Promise.all(promiseArray);
-            if(promiseResult[0].data.data.length){
-                this.departments = promiseResult[0].data.data;
+            if(promiseResult[0].data.items.length){
+                this.departments = promiseResult[0].data.items;
                 this.setDepartmentList();
             }
-            if(this.isEdit && promiseResult[1].data && promiseResult[1].data.data[0]){
-                const categoryData = promiseResult[1].data.data[0];
+            if(this.isEdit && promiseResult[1].data && promiseResult[1].data.items[0]){
+                const categoryData = promiseResult[1].data.items[0];
                 await this.levelChange(3, categoryData.departments, true);
                 this.updateData(categoryData)
             }
@@ -843,11 +843,11 @@ export default {
             params['page_size'] = 200;
             CompanyService.fetchCategory_v2(params)
                 .then(({ data }) => {
-                    if (data && data.data && data.data.length) {
+                    if (data && data.items && data.items.length) {
                         // return data.data.map((item) => ({'text': item.name, 'value': item.uid}))
                         if (level === 1) {
                             this.levelList[department].one = [];
-                            data.data.forEach((item) => {
+                            data.items.forEach((item) => {
                                 this.levelList[department].one.push({
                                     text: item.name,
                                     value: item.uid
@@ -855,7 +855,7 @@ export default {
                             });
                         } else {
                             this.levelList[department].two = [];
-                            data.data.forEach((item) => {
+                            data.items.forEach((item) => {
                                 this.levelList[department].two.push({
                                     text: item.name,
                                     value: item.uid
@@ -897,8 +897,8 @@ export default {
                 this.$set(this.levelList[dept], 'one', []);
                 this.$set(this.levelList[dept], 'two', []);
                 if(promiseresult && promiseresult[index] && promiseresult[index].data &&
-                    promiseresult[index].data.data){
-                    promiseresult[index].data.data.forEach((item, index) => {
+                    promiseresult[index].data.items){
+                    promiseresult[index].data.items.forEach((item, index) => {
                                 if (item.level === 1) {
                                     this.levelList[dept].one.push({
                                         text: item.name,

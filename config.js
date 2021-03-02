@@ -205,6 +205,13 @@ const conf = convict({
             env: 'SILVERBOLT_MAIN_URL',
             arg: 'silverbolt_main_url'
         },
+        SILVERBOLT_ACPR_PRIVATE_URL: {
+            doc: 'Seller Kube Service',
+            format: String,
+            default: '',
+            env: 'SILVERBOLT_ACPR_PRIVATE_URL',
+            arg: 'silverbolt_acpr_private_url'
+        },
         SKYWARP_MAIN_SVC: {
             doc: 'Skywrap Kube Service',
             format: String,
