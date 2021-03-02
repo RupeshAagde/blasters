@@ -325,7 +325,7 @@ const URLS = {
     },
 
     PLATFORM_BASIC_DETAILS_UPDATE: () => {
-        return urlJoin(INTERNAL_SETTINGS_MAIN, '/v1/basic-details');
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/basic-details');
     },
 
     //Grindor
