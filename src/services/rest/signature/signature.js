@@ -3,6 +3,7 @@
 import url from "url";
 import hmacSHA256 from 'crypto-js/hmac-sha256';
 import sha256 from 'crypto-js/sha256';
+import querystring from 'querystring';
 
 function hmac(key, string, encoding) {
   return hmacSHA256(string, key).toString();
