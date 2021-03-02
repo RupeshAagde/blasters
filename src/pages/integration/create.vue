@@ -285,13 +285,6 @@
                             : Object.keys(activeSchema).length
                     "
                 >
-                    <!-- <json-to-form
-                        class="form"
-                        ref="schema-form"
-                        :schema="activeSchema"
-                        v-model="activeData"
-                        input-wrapping-class="input-wrapping-class"
-                    ></json-to-form> -->
                     <nitrozen-custom-form
                         ref="schema-form"
                         :inputs="activeSchema || []"
@@ -327,7 +320,6 @@ import {
     InlineSvg,
     MetaBox
 } from '@/components/common/';
-import JsonToForm from '@/components/common/json-to-form';
 import { copyToClipboard } from '@/helper/utils.js';
 import CompanyService from '@/services/company-admin.service';
 import IntegrationService from '@/services/integration.service';
@@ -355,7 +347,6 @@ export default {
         NitrozenChips,
         NitrozenInline,
         NitrozenRadio,
-        JsonToForm,
         NitrozenDialog,
         NitrozenCustomForm
     },
@@ -699,6 +690,7 @@ export default {
                     this.tags = this.integrationData.meta;
                     this.token = this.integrationData.token;
                     this.selectedCompany = this.integrationData.companies || [];
+                    this.constants = this.integrationData.constants || {};
                     if (this.selectedCompany.length) {
                         this.allCompanies = false;
                     }
@@ -723,7 +715,7 @@ export default {
                     setTimeout(() => {
                         this.$refs['companyForm'].populateData();
                         this.$refs['storeForm'].populateData();
-
+                        this.$refs['constants'].populateData();
                         if (this.selectedSupport.includes('inventory')) {
                             this.$refs['inventoryForm'].populateData();
                         }

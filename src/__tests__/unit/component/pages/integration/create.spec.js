@@ -21,9 +21,9 @@ describe('Mounted Create Integartion Page', () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
         mock.reset();
-        mock.onGet(URLS.INTEGRATION_BY_ID('5e5608bf4265cf7198d1e58f')).reply(200, MOCK_DATA.docs[1]);
-        mock.onPut(URLS.SAVE_INTEGRATION('5e5608bf4265cf7198d1e58f')).reply(200, MOCK_DATA.docs[1]);
-        mock.onPost(URLS.ADD_INTEGRATION()).reply(200, MOCK_DATA.docs[1]);
+        mock.onGet(URLS.INTEGRATION_BY_ID('5e5608bf4265cf7198d1e58f')).reply(200, MOCK_DATA.items[1]);
+        mock.onPut(URLS.SAVE_INTEGRATION('5e5608bf4265cf7198d1e58f')).reply(200, MOCK_DATA.items[1]);
+        mock.onPost(URLS.ADD_INTEGRATION()).reply(200, MOCK_DATA.items[1]);
         mock.onGet(URLS.GET_COMPANY_LIST()).reply(200, COMPANY_MOCK_DATA);
         router = new VueRouter({
             routes: [{

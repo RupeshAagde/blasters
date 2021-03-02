@@ -37,6 +37,20 @@ const conf = convict({
             env: 'SLINGSHOT_MAIN_SVC',
             arg: 'slingshot_main_svc'
         },
+        SLINGSHOT_ADMIN_URL: {
+            doc: 'Slingshot Admin URL',
+            format: String,
+            default: '',
+            env: 'SLINGSHOT_ADMIN_URL',
+            arg: 'slingshot_admin_url'
+        },
+        SLINGSHOT_ADMIN_SVC: {
+            doc: 'Slingshot Admin Service',
+            format: String,
+            default: '',
+            env: 'SLINGSHOT_ADMIN_SVC',
+            arg: 'slingshot_admin_svc'
+        },
         BLITZKRIEG_MAIN_URL: {
             doc: 'Themes API',
             format: String,
@@ -64,6 +78,34 @@ const conf = convict({
             default: '',
             env: 'ULTRAMAGNUS_MAIN_SVC',
             arg: 'ULTRAMAGNUS_MAIN_SVC'
+        },
+        ULTRAMAGNUS_PUBLIC_URL: {
+            doc: 'Internal Settings API',
+            format: String,
+            default: '',
+            env: 'ULTRAMAGNUS_PUBLIC_URL',
+            arg: 'ULTRAMAGNUS_PUBLIC_URL'
+        },
+        ULTRAMAGNUS_PUBLIC_SVC: {
+            doc: 'Internal Settings API public',
+            format: String,
+            default: '',
+            env: 'ULTRAMAGNUS_PUBLIC_SVC',
+            arg: 'ULTRAMAGNUS_PUBLIC_SVC'
+        },
+        ULTRAMAGNUS_ADMIN_URL: {
+            doc: 'Internal Settings API',
+            format: String,
+            default: '',
+            env: 'ULTRAMAGNUS_ADMIN_URL',
+            arg: 'ULTRAMAGNUS_ADMIN_URL'
+        },
+        ULTRAMAGNUS_ADMIN_SVC: {
+            doc: 'Internal Settings API administrator',
+            format: String,
+            default: '',
+            env: 'ULTRAMAGNUS_ADMIN_SVC',
+            arg: 'ULTRAMAGNUS_ADMIN_SVC'
         },
         HIGHBROW_MAIN_URL: {
             doc: 'Platform Custom Main Public URL to hit',

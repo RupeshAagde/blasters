@@ -226,7 +226,9 @@ export default {
                 whats_new: this.basicSettings.whats_new.filter(
                     (wnew) => wnew.description != ''
                 ),
-                features: this.basicSettings.features
+                features: this.basicSettings.features,
+                landingPageDetails:this.basicSettings.landingPageDetails,
+                authentication:this.basicSettings.authentication    
             };
         },
         checkEmpty(key) {
