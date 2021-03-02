@@ -123,19 +123,19 @@ export default {
         getIntegrations() {
             this.pageLoading = true;
             const params = {
-                page: this.pagination.current,
-                limit: this.pagination.limit
+                page_no: this.pagination.current,
+                page_size: this.pagination.limit
             };
             return IntegrationService.getIntegrationsList(params)
                 .then(({ data }) => {
                     this.pageLoading = false;
-                    this.integrationsList = data.docs;
-                    this.pagination.total = data.total;
+                    this.integrationsList = data.items;
+                    this.pagination.total = data.page.item_total;
                 })
                 .catch((err) => {
                     this.pageLoading = false;
                     this.pageError = true;
-                    // console.log(err);
+                    console.log(err);
                 });
         },
         paginationChange(filter) {
