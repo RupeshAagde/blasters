@@ -72,7 +72,7 @@
                             <span>Created By :</span>
                             <span class="left-space-co">
                                 <user-info-tooltip
-                                    :userId="userObj[item.created_by.user_id]"
+                                    :userId="userObj[item.modified_by.user_id]"
                                 ></user-info-tooltip>
                             </span>
                             <span v-if="item.created_on" class="meta-space"
@@ -360,7 +360,7 @@ export default {
             }
             CompanyService.fetchCategory_v2(this.getQueryParam())
                 .then((res) => {
-                    this.tempList = generateArrItem(res.data.data);
+                    this.tempList = generateArrItem(res.data.items);
                     this.tempList = filterDuplicateObject(this.tempList);
                     fetchUserMetaObjects(this.tempList)
                         .then((response) => {
@@ -369,8 +369,8 @@ export default {
                                     this.userObj[element.uid] = element;
                                 }
                             });
-                            this.pagination.total = res.data.total_count; //TODO
-                            this.categoryList = res.data.data;
+                            this.pagination.total = res.data.page.total; //TODO
+                            this.categoryList = res.data.items;
                             this.isLoading = false;
                         })
                         .catch((err) => {

@@ -334,7 +334,7 @@ export default {
                 };
                 CatalogService.fetchDepartment(params)
                     .then((res) => {
-                        this.data = res.data.data;
+                        this.data = res.data.items;
                         this.is_active = this.data[0].is_active;
                         this.name.value = this.data[0].name
                             ? this.data[0].name
@@ -453,7 +453,7 @@ export default {
                 !this.logo.showerror
             ) {
                 this.pageLoading = true;
-                CatalogService.saveDepartment(postdata)
+                CatalogService.saveDepartment(postdata, this.uid)
                     .then((res) => {
                         this.pageLoading = false;
                         this.$snackbar.global.showSuccess(`${this.saveText}`, {
@@ -468,7 +468,9 @@ export default {
                         this.pageLoading = false;
                         console.error(error);
                         this.$snackbar.global.showError(
-                            `${error.response.data.errors.error}`
+                            error && error.response && error.response.data && error.response.data && `${error.response.data.error}` ||
+                            error && error.response && error.response.data && error.response.data && error.response.data.errors && `${error.response.data.errors.error}`||
+                            `Operation Failed !`
                         );
                     });
             }

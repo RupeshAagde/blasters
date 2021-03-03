@@ -27,6 +27,14 @@ const SILVERBOLT_MAIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SILVERBOLT_MAIN_URL :
     envVars.SILVERBOLT_MAIN_URL;
 
+const SILVERBOLT_ACPR_URL = isNode ?
+    envVars.BROWSER_CONFIG.SILVERBOLT_ACPR_URL :
+    envVars.SILVERBOLT_ACPR_URL;
+
+const SILVERBOLT_ACAT_URL = isNode ?
+    envVars.BROWSER_CONFIG.SILVERBOLT_ACAT_URL :
+    envVars.SILVERBOLT_ACAT_URL;
+
 const SKYWARP_MAIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SKYWARP_MAIN_URL :
     envVars.SKYWARP_MAIN_URL;
@@ -85,8 +93,11 @@ const URLS = {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/variants/');
     },
     //fetchDeparment
-    FETCH_DEPARTMENT: () => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/department');
+    FETCH_DEPARTMENT: (uid) => {
+        if(uid){
+            return urlJoin(SILVERBOLT_ACAT_URL, `/v1.0/departments/${uid}`);
+        }
+        return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/departments');
     },
     //Company Metrics
     FETCH_METRICS: () => {
@@ -161,12 +172,12 @@ const URLS = {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/attribute-master', slug);
     },
     PRODUCT_TEMPLATES: (slug = '') => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/product-templates', slug);
+        return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/products/templates', slug);
     },
     PRODUCT_TEMPLATE_DOWNLOAD: (slug = '') => {
         return urlJoin(
-            SILVERBOLT_MAIN_URL,
-            '/v1/product-templates',
+            SILVERBOLT_ACAT_URL,
+            '/v1.0/products/templates',
             slug,
             'download'
         );
@@ -191,13 +202,13 @@ const URLS = {
         );
     },
     DEPARTMENT: () => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/department');
+        return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/departments');
     },
     CATEGORY: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/category');
     },
     CATEGORY_v2: (id = '') => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v2/category', id);
+        return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/category', id);
     },
     UNITS: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/units');

@@ -61,7 +61,7 @@ describe('Mounted List Attributes Page', () => {
             ]
         })
         router.push('/administrator/product/attributes');
-        mock.onGet(URLS.DEPARTMENT()).reply(200, { data: mocks.departments });
+        mock.onGet(URLS.DEPARTMENT()).reply(200, { items: mocks.departments });
         mock.onGet(URLS.FETCH_ATTRIBUTE()).reply(200, {}).onAny().reply(
             200, mocks.attributeResponse
         );
@@ -91,7 +91,7 @@ describe('Mounted List Attributes Page', () => {
             ]
         })
         router.push('/administrator/product/attributes');
-        mock.onGet(URLS.DEPARTMENT()).reply(200, { data: mocks.departments });
+        mock.onGet(URLS.DEPARTMENT()).reply(200, { items: mocks.departments });
         mock.onGet(URLS.FETCH_ATTRIBUTE()).reply(200, {}).onAny().reply(
             200, mocks.attributeResponse
         );

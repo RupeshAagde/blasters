@@ -49,8 +49,8 @@ describe('Mounted Templates', () => {
 			]
 		})
 		router.push('/administrator/product/templates/sunglasses-eyewear');
-		mock.onGet(URLS.DEPARTMENT()).reply(200, { data: mocks.departments });
-		mock.onGet(URLS.PRODUCT_TEMPLATES() + "/sunglasses-eyewear").reply(200, { data: mocks.template });
+		mock.onGet(URLS.DEPARTMENT()).reply(200, { items: mocks.departments });
+		mock.onGet(URLS.PRODUCT_TEMPLATES() + "/sunglasses-eyewear").reply(200, { items: mocks.template });
 		mock.onGet(URLS.ATTRIBUTES_MASTER() + "?limit=999999&department=men&department=women&department=kids").reply
 			(200, mocks.attributes).onAny().reply(200, { data: mocks.attributes });
 		mock.onGet(URLS.CATEGORY() + "?page_size=999999&page_no=1&dept_id=8").reply(200, {});
