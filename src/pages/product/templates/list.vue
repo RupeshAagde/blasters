@@ -101,7 +101,7 @@
                                         <span>Modified By :</span>
                                         <span class="cb-lm">
                                             <user-info-tooltip
-                                                :userId="userObj[template.modified_by.user_id] || userObj[template.modified_by.uid]"
+                                                :userId="userObj[template.modified_by.user_id]"
                                             ></user-info-tooltip>
                                         </span>
                                         <span
