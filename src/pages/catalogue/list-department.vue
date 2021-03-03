@@ -63,7 +63,7 @@
                             <span>Created By :</span>
                             <span class="left-space-co">
                                 <user-info-tooltip
-                                    :userId="userObj[item.created_by.user_id]"
+                                    :userId="userObj[item.modified_by.user_id] || userObj[item.modified_by.uid]"
                                 ></user-info-tooltip>
                             </span>
                             <span v-if="item.created_on" class="meta-space"
@@ -80,7 +80,7 @@
                             <span>Modified By :</span>
                             <span class="left-space-mo">
                                 <user-info-tooltip
-                                    :userId="userObj[item.modified_by.user_id]"
+                                    :userId="userObj[item.modified_by.user_id] || userObj[item.modified_by.uid]"
                                 ></user-info-tooltip>
                             </span>
                             <span class="meta-space" v-if="item.modified_on"
