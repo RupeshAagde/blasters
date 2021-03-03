@@ -81,10 +81,8 @@ export const interceptorFn = (options) => {
             sign(signingOptions);
 
             // config.headers = signingOptions.headers;
-            config.headers = {
-                'x-fp-date': signingOptions.headers['x-fp-date'],
-                'x-fp-signature': signingOptions.headers['x-fp-signature']
-            }
+            config.headers['x-fp-date'] = signingOptions.headers['x-fp-date'];
+            config.headers['x-fp-signature'] = signingOptions.headers['x-fp-signature'];
         }
         return config
     };
