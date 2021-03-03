@@ -420,7 +420,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CatalogService.fetchDepartment()
                     .then(({ data }) => {
-                        this.departmentList = data.data;
+                        this.departmentList = data.items;
                         return resolve();
                     })
                     .catch((err) => {

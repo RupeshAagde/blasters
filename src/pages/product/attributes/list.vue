@@ -483,7 +483,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchDepartments()
                     .then(({ data }) => {
-                        this.departments = data.data;
+                        this.departments = data.items;
                         return resolve();
                     })
                     .catch((err) => {
