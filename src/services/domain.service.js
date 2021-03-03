@@ -71,6 +71,10 @@ const SLINGSHOT_MAIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SLINGSHOT_MAIN_URL :
     envVars.SLINGSHOT_MAIN_URL;
 
+const SLINGSHOT_ADMIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.SLINGSHOT_ADMIN_URL :
+    envVars.SLINGSHOT_ADMIN_URL;
+
 const MARKETPLACES_MAIN_URL = isNode ?
     envVars.BROWSER_CONFIG.MARKETPLACES_MAIN_URL :
     envVars.MARKETPLACES_MAIN_URL;
@@ -325,7 +329,7 @@ const URLS = {
     },
 
     PLATFORM_BASIC_DETAILS_UPDATE: () => {
-        return urlJoin(INTERNAL_SETTINGS_MAIN, '/v1/basic-details');
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/basic-details');
     },
 
     //Grindor
@@ -369,16 +373,16 @@ const URLS = {
     },
     // integration list
     INTEGRATIONS_LIST: () => {
-        return urlJoin(PLATFORM_COMMON_BASE, 'integration');
+        return urlJoin(SLINGSHOT_ADMIN_URL, '/v1.0/integration');
     },
     INTEGRATION_BY_ID: (id = '') => {
-        return urlJoin(PLATFORM_COMMON_BASE, 'integration', id);
+        return urlJoin(SLINGSHOT_ADMIN_URL, '/v1.0/integration', id);
     },
     SAVE_INTEGRATION: (id = '') => {
-        return urlJoin(PLATFORM_COMMON_BASE, 'integration', id);
+        return urlJoin(SLINGSHOT_ADMIN_URL, '/v1.0/integration', id);
     },
     ADD_INTEGRATION: () => {
-        return urlJoin(PLATFORM_COMMON_BASE, 'integration');
+        return urlJoin(SLINGSHOT_ADMIN_URL, '/v1.0/integration');
     },
     FETCH_COMPANY_LIST: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, 'v1/onboarding/company/info-view');

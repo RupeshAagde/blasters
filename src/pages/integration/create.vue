@@ -285,13 +285,6 @@
                             : Object.keys(activeSchema).length
                     "
                 >
-                    <!-- <json-to-form
-                        class="form"
-                        ref="schema-form"
-                        :schema="activeSchema"
-                        v-model="activeData"
-                        input-wrapping-class="input-wrapping-class"
-                    ></json-to-form> -->
                     <nitrozen-custom-form
                         ref="schema-form"
                         :inputs="activeSchema || []"
@@ -327,7 +320,6 @@ import {
     InlineSvg,
     MetaBox
 } from '@/components/common/';
-import JsonToForm from '@/components/common/json-to-form';
 import { copyToClipboard } from '@/helper/utils.js';
 import CompanyService from '@/services/company-admin.service';
 import IntegrationService from '@/services/integration.service';
@@ -355,7 +347,6 @@ export default {
         NitrozenChips,
         NitrozenInline,
         NitrozenRadio,
-        JsonToForm,
         NitrozenDialog,
         NitrozenCustomForm
     },
