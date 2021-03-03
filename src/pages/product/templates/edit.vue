@@ -635,7 +635,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchProductTemplate(this.slug)
                     .then(({ data }) => {
-                        this.template = _.first(data.data);
+                        this.template = _.first(data.items);
 
                         return resolve();
                     })
@@ -648,7 +648,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchDepartments()
                     .then(({ data }) => {
-                        this.departments = data.data;
+                        this.departments = data.items;
                         this.setDepartmentsList();
                         return resolve();
                     })
@@ -669,7 +669,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchCategory_v2(params)
                     .then(({ data }) => {
-                        this.categories = data.data;
+                        this.categories = data.items;
                         this.setCategoriesList();
                         return resolve();
                     })

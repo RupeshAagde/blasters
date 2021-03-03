@@ -67,7 +67,7 @@ describe('Mounted Department', () => {
 			]
 		})
 		router.push('/administrator/product/department/edit/1');
-		mock.onGet(URLS.DEPARTMENT()).reply(200, { data: mocks.departments });
+		mock.onGet(URLS.DEPARTMENT()).reply(200, { items: mocks.departments });
 
 		wrapper = mount(DeptComponent, {
 			localVue,

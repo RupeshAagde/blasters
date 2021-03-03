@@ -449,7 +449,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchProductTemplates(this.requestQuery())
                     .then(({ data }) => {
-                        this.tempList = generateArrItem(data.data);
+                        this.tempList = generateArrItem(data.items);
                         this.tempList = filterDuplicateObject(this.tempList);
                         fetchUserMetaObjects(this.tempList)
                             .then((res) => {
@@ -458,7 +458,7 @@ export default {
                                         this.userObj[element.uid] = element;
                                     }
                                 });
-                                this.templates = data.data;
+                                this.templates = data.items;
 
                                 this.pagination.total = data.page.total_count;
                                 this.pageLoading = false;
@@ -478,7 +478,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchDepartments()
                     .then(({ data }) => {
-                        this.departments = data.data;
+                        this.departments = data.items;
                         return resolve();
                     })
                     .catch((err) => {

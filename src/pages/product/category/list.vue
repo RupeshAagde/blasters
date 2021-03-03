@@ -360,7 +360,7 @@ export default {
             }
             CompanyService.fetchCategory_v2(this.getQueryParam())
                 .then((res) => {
-                    this.tempList = generateArrItem(res.data.data);
+                    this.tempList = generateArrItem(res.data.items);
                     this.tempList = filterDuplicateObject(this.tempList);
                     fetchUserMetaObjects(this.tempList)
                         .then((response) => {
@@ -369,8 +369,8 @@ export default {
                                     this.userObj[element.uid] = element;
                                 }
                             });
-                            this.pagination.total = res.data.total_count; //TODO
-                            this.categoryList = res.data.data;
+                            this.pagination.total = res.data.page.total_count; //TODO
+                            this.categoryList = res.data.items;
                             this.isLoading = false;
                         })
                         .catch((err) => {

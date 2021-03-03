@@ -44,7 +44,7 @@ describe('Mounted List Category Page', () => {
             ]
         })
         router.push('/administrator/product/category');
-        mock.onGet(URLS.CATEGORY_v2()).reply(200, { data: mocks.categoryList });
+        mock.onGet(URLS.CATEGORY_v2()).reply(200, { items: mocks.categoryList });
         mock.onGet("/auth/user-info/search/").reply(200, {});
 
         const wrapper = mount(EditCategory, {
@@ -64,7 +64,7 @@ describe('Mounted List Category Page', () => {
             ]
         })
         router.push('/administrator/product/category');
-        mock.onGet(URLS.CATEGORY_v2()).reply(200, { data: mocks.categoryList });
+        mock.onGet(URLS.CATEGORY_v2()).reply(200, { items: mocks.categoryList });
         mock.onGet("/auth/user-info/search/").reply(200, {});
 
         const wrapper = mount(EditCategory, {
@@ -82,7 +82,7 @@ describe('Mounted List Category Page', () => {
             ]
         })
         router.push('/administrator/product/category');
-        mock.onGet(URLS.CATEGORY_v2()).reply(200, { data: mocks.categoryList });
+        mock.onGet(URLS.CATEGORY_v2()).reply(200, { items: mocks.categoryList });
         mock.onGet("/auth/user-info/search/").reply(200, {});
 
         const wrapper = mount(EditCategory, {
@@ -101,7 +101,7 @@ describe('Mounted List Category Page', () => {
             ]
         })
         router.push('/administrator/product/category');
-        mock.onGet(URLS.CATEGORY_v2()).reply(200, { data: mocks.categoryList });
+        mock.onGet(URLS.CATEGORY_v2()).reply(200, { items: mocks.categoryList });
         mock.onGet("/auth/user-info/search/").reply(200, {});
 
         const wrapper = mount(EditCategory, {

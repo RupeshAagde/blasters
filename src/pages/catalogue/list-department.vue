@@ -323,7 +323,7 @@ export default {
             this.pageError = false;
             CatalogService.fetchDepartment(this.getQueryParam())
                 .then((res) => {
-                    this.tempList = generateArrItem(res.data.data);
+                    this.tempList = generateArrItem(res.data.items);
                     this.tempList = filterDuplicateObject(this.tempList);
                     fetchUserMetaObjects(this.tempList)
                         .then((response) => {
@@ -332,8 +332,8 @@ export default {
                                     this.userObj[element.uid] = element;
                                 }
                             });
-                            this.departmentList = res.data.data;
-                            this.pagination.total = res.data.total_count;
+                            this.departmentList = res.data.items;
+                            this.pagination.total = res.data.page.total_count;
                             this.isLoading = false;
                         })
                         .catch((err) => {
