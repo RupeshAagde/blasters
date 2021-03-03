@@ -453,7 +453,7 @@ export default {
                 !this.logo.showerror
             ) {
                 this.pageLoading = true;
-                CatalogService.saveDepartment(postdata)
+                CatalogService.saveDepartment(postdata, this.uid)
                     .then((res) => {
                         this.pageLoading = false;
                         this.$snackbar.global.showSuccess(`${this.saveText}`, {

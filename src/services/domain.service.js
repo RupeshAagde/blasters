@@ -89,7 +89,10 @@ const URLS = {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/variants/');
     },
     //fetchDeparment
-    FETCH_DEPARTMENT: () => {
+    FETCH_DEPARTMENT: (uid) => {
+        if(uid){
+            return urlJoin(SILVERBOLT_ACPR_URL, `/v1.0/departments/${uid}`);
+        }
         return urlJoin(SILVERBOLT_ACPR_URL, '/v1.0/departments');
     },
     //Company Metrics
