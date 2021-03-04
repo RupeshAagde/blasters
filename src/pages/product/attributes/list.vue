@@ -454,7 +454,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchAttributes(this.requestQuery())
                     .then((res) => {
-                        this.tempList = generateArrItem(res.data.data);
+                        this.tempList = generateArrItem(res.data.items);
                         this.tempList = filterDuplicateObject(this.tempList);
                         fetchUserMetaObjects(this.tempList)
                             .then((response) => {
@@ -463,9 +463,9 @@ export default {
                                         this.userObj[element.uid] = element;
                                     }
                                 });
-                                this.attributes = res.data.data;
+                                this.attributes = res.data.items;
                                 this.pagination.total =
-                                    res.data.page.total_count;
+                                    res.data.page.item_total;
                                 this.pageLoading = false;
                             })
                             .catch((err) => {

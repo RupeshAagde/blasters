@@ -583,12 +583,12 @@ export default {
             const params = {
                 page: 1,
                 limit: 999,
-                sort: 'created_desc',
+                sort_on: 'created_desc',
                 type: this.entity
             };
             return CompanyService.fetchGroups(params)
                 .then(({ data }) => {
-                    this.groups = data.data;
+                    this.groups = data.items;
                 })
                 .catch((err) => {
                     return err;
@@ -632,7 +632,7 @@ export default {
             };
             return CompanyService.fetchAttributes(params)
                 .then(({ data }) => {
-                    this.attributes = data.data;
+                    this.attributes = data.items;
                     this.setAttributesList();
                 })
                 .catch((err) => {
@@ -643,7 +643,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchDepartments()
                     .then(({ data }) => {
-                        this.departments = data.data;
+                        this.departments = data.items;
                         return resolve();
                     })
                     .catch((err) => {

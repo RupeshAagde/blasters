@@ -567,7 +567,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchAttribute(this.slug)
                     .then(({ data }) => {
-                        this.attribute = this.sanitizeAttribute(data.data);
+                        this.attribute = this.sanitizeAttribute(data.items);
                         this.logo = this.attribute.logo
                             ? this.attribute.logo
                             : '';
