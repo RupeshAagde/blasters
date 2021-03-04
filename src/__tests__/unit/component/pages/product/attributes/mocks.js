@@ -61,7 +61,7 @@ export default {
       "is_active": true
    }],
    attributeResponse: {
-      "data": [{
+      "items": [{
          "logo": "https:\/\/hdn-1.addsale.com\/addsale\/products\/pictures\/attribute\/logo\/original\/0UgcODyJj-new-electric-motorcycles-coming-in-2020-main.jpg",
          "filters": { "indexing": false }, "modified_by": {
             "username": "vikaskumarsingh_gofynd_com_69007",
