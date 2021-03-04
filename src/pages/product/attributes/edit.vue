@@ -131,7 +131,7 @@
                         ></nitrozen-tooltip>
                     </div>
                     <nitrozen-toggle-btn
-                        v-model="attribute.variant_enabled"
+                        v-model="attribute.variant"
                     ></nitrozen-toggle-btn>
                 </div>
                 <loader v-if="inProgress" class="loading"></loader>

@@ -581,8 +581,8 @@ export default {
         },
         fetchGroups() {
             const params = {
-                page: 1,
-                limit: 999,
+                page_no: 1,
+                page_size: 999,
                 sort_on: 'created_desc',
                 type: this.entity
             };
@@ -627,7 +627,7 @@ export default {
         },
         fetchAttributes() {
             const params = {
-                limit: 999999,
+                page_size: 999999,
                 ca: true
             };
             return CompanyService.fetchAttributes(params)
