@@ -174,10 +174,10 @@ const URLS = {
     PRODUCT_TEMPLATES: (slug = '') => {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/products/templates', slug);
     },
-    PRODUCT_TEMPLATE_DOWNLOAD: (slug = '') => {
+    PRODUCT_TEMPLATE_DOWNLOAD: (slug = '', company_id = 1) => {
         return urlJoin(
             SILVERBOLT_ACAT_URL,
-            '/v1.0/products/templates',
+            `/v1.0/products/${company_id}/templates`,
             slug,
             'download'
         );

@@ -241,7 +241,7 @@ const CompanyService = {
     productTemplateDownload(slug) {
         return `${URLS.PRODUCT_TEMPLATE_DOWNLOAD(
             slug
-        )}?company_id=1&set=false&type=excel`;
+        )}?set=false&type=excel`;
     },
     // Categories
     fetchCategory_v2(params) {
