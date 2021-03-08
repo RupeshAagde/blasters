@@ -456,7 +456,7 @@ export default {
                                 });
                                 this.templates = data.items;
 
-                                this.pagination.total = data.page.total_count;
+                                this.pagination.total = data.page.total_item_count;
                                 this.pageLoading = false;
                             })
                             .catch((err) => {
