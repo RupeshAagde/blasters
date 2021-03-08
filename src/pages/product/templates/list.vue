@@ -425,8 +425,8 @@ export default {
         },
         requestQuery() {
             const query = {
-                page: this.pagination.current,
-                limit: this.pagination.limit,
+                page_no: this.pagination.current,
+                page_size: this.pagination.limit,
                 sort: 'created_desc'
             };
 
