@@ -239,9 +239,7 @@ const CompanyService = {
         return ApiService.post(URLS.ATTRIBUTE_SHUFFLE(entity), axiosOption);
     },
     productTemplateDownload(slug) {
-        return `${URLS.PRODUCT_TEMPLATE_DOWNLOAD(
-            slug
-        )}?set=false&type=excel`;
+        return ApiService.get(URLS.PRODUCT_TEMPLATE_DOWNLOAD(slug), {}, { 'responseType': 'blob' });
     },
     // Categories
     fetchCategory_v2(params) {
