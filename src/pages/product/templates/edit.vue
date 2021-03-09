@@ -636,7 +636,6 @@ export default {
                 CompanyService.fetchProductTemplate(this.slug)
                     .then(({ data }) => {
                         this.template = _.first(data.items);
-
                         return resolve();
                     })
                     .catch((err) => {
@@ -689,7 +688,7 @@ export default {
             };
             return CompanyService.fetchAttributes(params)
                 .then(({ data }) => {
-                    this.attributes = data.data;
+                    this.attributes = data.items;
                     this.setAttributesList();
                 })
                 .catch((err) => {

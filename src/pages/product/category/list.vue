@@ -369,7 +369,7 @@ export default {
                                     this.userObj[element.uid] = element;
                                 }
                             });
-                            this.pagination.total = res.data.page.total; //TODO
+                            this.pagination.total = res.data.page.item_total;
                             this.categoryList = res.data.items;
                             this.isLoading = false;
                         })
