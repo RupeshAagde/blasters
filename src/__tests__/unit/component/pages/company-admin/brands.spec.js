@@ -20,14 +20,26 @@ describe('Mounted Brands Component', () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
         mock.reset();
-        router = new VueRouter({
-            AdminRoutes
+        router = new VueRouter({routes : [
+            {
+            path: '/administrator/company-details/:companyId',
+            component: Brands
+            }
+        ]
         });
         router.push('/administrator/company-details/1');
     });
 	
 	it('Get Brand Success', async () => {
-		mock.onGet(URLS.GET_COMPANY_BRANDS()).reply(
+        // router = new VueRouter({routes : [
+        //     {
+        //     path: '/administrator/company-details/:companyId',
+        //     component: Brands
+        //     }
+        // ]
+        // });
+        // router.push('/administrator/company-details/1');
+		mock.onGet(URLS.GET_COMPANY_BRANDS({company_id:1})).reply(
             200,
             MOCK_DATA.brands.allBrandResMockData
         );
@@ -35,6 +47,8 @@ describe('Mounted Brands Component', () => {
             localVue,
             router
 		});
+        console.log("=route==>",wrapper.vm.$route)
+        await new Promise(resolve => setTimeout(resolve, 10));
 		await flushPromises();
 		expect(wrapper.element).toMatchSnapshot();
         expect(wrapper.exists()).toBeTruthy();
@@ -46,18 +60,19 @@ describe('Mounted Brands Component', () => {
 	});
 
 	it('Get Brand Error', async () => {
-        mock.onGet(URLS.GET_COMPANY_BRANDS()).reply(500, {error: true});
+        mock.onGet(URLS.GET_COMPANY_BRANDS({company_id:1})).reply(500, {message: "Error"});
         wrapper = mount(Brands, {
             localVue,
             router,
         })
         await flushPromises();
+        await new Promise(resolve => setTimeout(resolve, 10));
         expect(wrapper.vm.pageError).toBe(true);
         mock.reset();
 	});
 	
 	it("View More Brands", async () => {
-		mock.onGet(URLS.GET_COMPANY_BRANDS()).reply(
+		mock.onGet(URLS.GET_COMPANY_BRANDS({company_id:1})).reply(
             200,
             MOCK_DATA.brands.allBrandResMockData
         );
@@ -66,6 +81,7 @@ describe('Mounted Brands Component', () => {
             router
         });
 		await flushPromises();
+        await new Promise(resolve => setTimeout(resolve, 10));
 		const btnFlag = true;
 		wrapper.vm.loadMoreBrands(btnFlag);
 		// const viewMoreBtn = wrapper.find('show-more-btn')
@@ -77,7 +93,7 @@ describe('Mounted Brands Component', () => {
 	});
 
 	it("View Less Brands", async () => {
-		mock.onGet(URLS.GET_COMPANY_BRANDS()).reply(
+		mock.onGet(URLS.GET_COMPANY_BRANDS({company_id:1})).reply(
             200,
             MOCK_DATA.brands.allBrandResMockData
         );
@@ -86,6 +102,7 @@ describe('Mounted Brands Component', () => {
             router
         });
 		await flushPromises();
+        await new Promise(resolve => setTimeout(resolve, 10));
 		const btnFlag = false;
 		wrapper.vm.loadMoreBrands(btnFlag);
 		// const viewMoreBtn = wrapper.find('show-more-btn')
@@ -97,7 +114,7 @@ describe('Mounted Brands Component', () => {
 	});
 
 	it("Brand Admin Dialog", async () => {
-		mock.onGet(URLS.GET_COMPANY_BRANDS()).reply(
+		mock.onGet(URLS.GET_COMPANY_BRANDS({company_id:1})).reply(
             200,
             MOCK_DATA.brands.allBrandResMockData
         );
@@ -106,7 +123,8 @@ describe('Mounted Brands Component', () => {
             router
         });
 		await flushPromises();
-		const item = MOCK_DATA.brands.allBrandResMockData.data[0];
+        await new Promise(resolve => setTimeout(resolve, 10));
+		const item = MOCK_DATA.brands.allBrandResMockData.items[0];
 		const dialogBtn = wrapper.find('.brand-img-div');
         expect(dialogBtn.exists()).toBe(true);
         mock.reset();

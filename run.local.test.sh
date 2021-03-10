@@ -40,7 +40,8 @@ export MARKETPLACES_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/marketplaces/
 export MARKETPLACES_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/marketplaces/
 export SILVERBOLT_ACPR_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/company-profile/
 export SILVERBOLT_ACAT_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/catalog/
-
+export SILVERBOLT_PCPR_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/company-profile/
+export SILVERBOLT_PNLCPR_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/panel/company-profile/
 
 #ENV's
 export SENTRY_DSN=''

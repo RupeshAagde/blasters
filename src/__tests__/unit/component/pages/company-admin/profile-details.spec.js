@@ -25,7 +25,7 @@ describe('Profile Details', () => {
         router.push('/administrator/company-details/1');
     });
     it('Fetch Profile Details successfully',  async () => {
-        mock.onGet(URLS.COMPANY_PROFILE()).reply(200, MOCK_DATA.profileDetails.profile);
+        mock.onGet(URLS.COMPANY_PROFILE({uid:1})).reply(200, MOCK_DATA.profileDetails.profile);
         mock.onGet(URLS.GET_CHOICE_TYPES()).reply(200, MOCK_DATA.profileDetails.businessType);
 
         wrapper = mount(ProfileDetails, {
@@ -39,13 +39,13 @@ describe('Profile Details', () => {
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
         await flushPromises();
-        if(wrapper.vm.profileDetails && Object.keys(wrapper.vm.profileDetails.warnings).length){
+        if(wrapper.vm.profileDetails.warnings){
             expect(wrapper.find('.unverified-warning').isVisible()).toBe(true)
         }
     });
 
     it('Fetch Profile Details Error', async () => {
-        mock.onGet(URLS.COMPANY_PROFILE()).reply(500, {error: true});
+        mock.onGet(URLS.COMPANY_PROFILE({uid:1})).reply(500, {message: "Error"});
         mock.onGet(URLS.GET_CHOICE_TYPES()).reply(200, MOCK_DATA.profileDetails.businessType);
 
         wrapper = mount(ProfileDetails, {

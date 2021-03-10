@@ -475,9 +475,9 @@ export default {
             CompanyService.fetchDri(this.requestQuery())
                 .then((res) => {
                     this.inProgress = false;
-                    this.pagination.total = res.data.total_count;
-                    this.mainList = res.data.data;
-                    this.driList = res.data.data;
+                    this.pagination.total = res.data.page.item_total;
+                    this.mainList = res.data.items;
+                    this.driList = res.data.items;
                 })
                 .catch((error) => {
                     console.error(error);
@@ -554,7 +554,7 @@ export default {
                 };
                 postData.status = this.dataFinal;
                 this.inProgress = true;
-                CompanyService.createDri(postData)
+                CompanyService.editDri(postData)
                     .then((res) => {
                         this.inProgress = false;
                         this.$snackbar.global.showSuccess(

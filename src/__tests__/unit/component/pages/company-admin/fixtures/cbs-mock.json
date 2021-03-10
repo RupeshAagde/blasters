@@ -90,7 +90,7 @@
             "uid": 574
         },
         "allBrandResMockData": {
-            "data": [
+            "items": [
                 {
                     "created_by": {
                         "user_id": "6",
@@ -208,7 +208,7 @@
     },
     "stores": {
         "allStoresResMockData": {
-            "data": [
+            "items": [
                 {
                     "documents": [],
                     "name": "Fahim Farooq Sakir",
@@ -2044,7 +2044,7 @@
             "next_page": true
         },
         "storeTypeMockData": {
-            "data": [
+            "items": [
                 { "key": "high_street", "value": "High Street" },
                 { "key": "mall", "value": "Mall" },
                 { "key": "warehouse", "value": "Warehouse" }
@@ -2052,7 +2052,7 @@
             "type": "store_type"
         },
         "stageTypeMockData": {
-            "data": [
+            "items": [
                 { "key": "complete", "value": "Complete" },
                 { "key": "rejected", "value": "Rejected" },
                 { "key": "verified", "value": "Verified" }
@@ -2060,7 +2060,7 @@
             "type": "stage"
         },
         "businessCountry": {
-            "data": [
+            "items": [
                 {
                     "country_code": "IN",
                     "country_name": "India",
@@ -2291,114 +2291,109 @@
     },
     "profileDetails": {
         "profile": {
-            "data": {
-                "documents": [
-                    {
-                        "type": "pan",
-                        "value": "AALCA0442L",
-                        "legal_name": "SHOPSENSE RETAIL TECHNOLOGIES PRIVATE LIMITED",
-                        "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/LOmpjCMKn-1602237550732.jpeg?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1606294694&Signature=QxLcP%2FjPXCfe2fzpU2gNZMAdlzc%3D",
-                        "verified": true
-                    },
-                    {
-                        "type": "gst",
-                        "value": "18AABCT3518Q1ZV",
-                        "legal_name": "Rasputin",
-                        "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/dgU2sANsd-1602237551770.jpeg?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1606294694&Signature=pSJ%2BqH0TpYQP9HwPHJ1GgyDqwPo%3D",
-                        "verified": true
-                    },
-                    {
-                        "type": "digital_signature",
-                        "value": "asdasdsad",
-                        "legal_name": "asdasdsad",
-                        "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/Rtn1DzmQb-Screenshot-2020-10-19-at-3.38.19-PM.png?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1606294694&Signature=NhP2txlF9T8sXEo5G4mDJMla%2BQk%3D",
-                        "verified": true
-                    },
-                    {
-                        "type": "cin",
-                        "value": "L21091KA2019OPC141331",
-                        "legal_name": "CIN",
-                        "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/Rtn1DzmQb-Screenshot-2020-10-19-at-3.38.19-PM.png?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1606294694&Signature=NhP2txlF9T8sXEo5G4mDJMla%2BQk%3D",
-                        "verified": true
-                    }
-                ],
-                "business_info": "this is description.. TEST IT PROPERLY",
-                "addresses": [
-                    {
-                        "address_type": "office",
-                        "state": "Maharashtra",
-                        "city": "Mumbai",
-                        "longitude": 72.8406903,
-                        "address2": "Bandra Terminus, Naupada, Bandra East",
-                        "pincode": 400050,
-                        "latitude": 19.0548399,
-                        "country": "India",
-                        "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
-                        "country_code": "IN"
-                    },
-                    {
-                        "address_type": "registered",
-                        "state": "Maharashtra",
-                        "city": "Mira Bhayandar",
-                        "longitude": 72.862951,
-                        "address2": "tof",
-                        "pincode": 401105,
-                        "latitude": 19.303474,
-                        "country": "India",
-                        "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
-                        "country_code": "IN"
-                    }
-                ],
-                "name": "RELIANCE RETAIL LTD",
-                "notification_emails": ["ZAK@GMAIL.COM"],
-                "created_on": "2020-05-18T16:16:07.902000+00:00",
-                "verified_by": {
-                    "user_id": "0",
-                    "username": "silverbolt"
+            "documents": [
+                {
+                    "type": "pan",
+                    "value": "AALCA0442L",
+                    "legal_name": "SHOPSENSE RETAIL TECHNOLOGIES PRIVATE LIMITED",
+                    "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/LOmpjCMKn-1602237550732.jpeg?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1606294694&Signature=QxLcP%2FjPXCfe2fzpU2gNZMAdlzc%3D",
+                    "verified": true
                 },
-                "contact_details": {
-                    "phone": [
-                        {
-                            "country_code": 91,
-                            "number": "1234567890"
-                        },
-                        {
-                            "country_code": 91,
-                            "number": "1234567894"
-                        }
-                    ],
-                    "emails": ["abc@gmail.com", "abc2@gmail.com"]
+                {
+                    "type": "gst",
+                    "value": "18AABCT3518Q1ZV",
+                    "legal_name": "Rasputin",
+                    "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/dgU2sANsd-1602237551770.jpeg?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1606294694&Signature=pSJ%2BqH0TpYQP9HwPHJ1GgyDqwPo%3D",
+                    "verified": true
                 },
-                "warnings": {
-                    "pan": "PAN doesn't match with the GST provided"
+                {
+                    "type": "digital_signature",
+                    "value": "asdasdsad",
+                    "legal_name": "asdasdsad",
+                    "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/Rtn1DzmQb-Screenshot-2020-10-19-at-3.38.19-PM.png?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1606294694&Signature=NhP2txlF9T8sXEo5G4mDJMla%2BQk%3D",
+                    "verified": true
                 },
-                "created_by": {
-                    "user_id": "0",
-                    "username": "app@fynd.com"
+                {
+                    "type": "cin",
+                    "value": "L21091KA2019OPC141331",
+                    "legal_name": "CIN",
+                    "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/Rtn1DzmQb-Screenshot-2020-10-19-at-3.38.19-PM.png?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1606294694&Signature=NhP2txlF9T8sXEo5G4mDJMla%2BQk%3D",
+                    "verified": true
+                }
+            ],
+            "business_info": "this is description.. TEST IT PROPERLY",
+            "addresses": [
+                {
+                    "address_type": "office",
+                    "state": "Maharashtra",
+                    "city": "Mumbai",
+                    "longitude": 72.8406903,
+                    "address2": "Bandra Terminus, Naupada, Bandra East",
+                    "pincode": 400050,
+                    "latitude": 19.0548399,
+                    "country": "India",
+                    "address1": "Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ",
+                    "country_code": "IN"
                 },
-                "company_type": "distributor",
-                "modified_by": {
-                    "user_id": "3",
-                    "username": "918793638893_86554"
-                },
-                "business_country_info": {
-                    "country_code": "IN",
-                    "country": "India"
-                },
-                "departments": [],
-                "business_type": "ltd/pvt ltd",
-                "modified_on": "2020-11-18T05:01:55.474000+00:00",
-                "stage": "complete",
-                "uid": 1,
-                "verified_on": "2020-10-09T09:53:19.175000+00:00",
-                "franchise_enabled": true
+                {
+                    "address_type": "registered",
+                    "state": "Maharashtra",
+                    "city": "Mira Bhayandar",
+                    "longitude": 72.862951,
+                    "address2": "tof",
+                    "pincode": 401105,
+                    "latitude": 19.303474,
+                    "country": "India",
+                    "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
+                    "country_code": "IN"
+                }
+            ],
+            "name": "RELIANCE RETAIL LTD",
+            "notification_emails": ["ZAK@GMAIL.COM"],
+            "created_on": "2020-05-18T16:16:07.902000+00:00",
+            "verified_by": {
+                "user_id": "0",
+                "username": "silverbolt"
             },
-            "success": true,
-            "message": "Success!!!",
-            "total_count": 1
+            "contact_details": {
+                "phone": [
+                    {
+                        "country_code": 91,
+                        "number": "1234567890"
+                    },
+                    {
+                        "country_code": 91,
+                        "number": "1234567894"
+                    }
+                ],
+                "emails": ["abc@gmail.com", "abc2@gmail.com"]
+            },
+            "warnings": {
+                "pan": "PAN doesn't match with the GST provided"
+            },
+            "created_by": {
+                "user_id": "0",
+                "username": "app@fynd.com"
+            },
+            "company_type": "distributor",
+            "modified_by": {
+                "user_id": "3",
+                "username": "918793638893_86554"
+            },
+            "business_country_info": {
+                "country_code": "IN",
+                "country": "India"
+            },
+            "departments": [],
+            "business_type": "ltd/pvt ltd",
+            "modified_on": "2020-11-18T05:01:55.474000+00:00",
+            "stage": "complete",
+            "uid": 1,
+            "verified_on": "2020-10-09T09:53:19.175000+00:00",
+            "franchise_enabled": true
         },
         "businessType": {
-            "data": [
+            "items": [
                 {
                     "key": "huf",
                     "value": "HUF"
@@ -2419,7 +2414,7 @@
             "type": "business_type"
         },
         "companyType": {
-            "data": [
+            "items": [
                 {
                     "key": "distributor",
                     "value": "Distributor"
@@ -2440,7 +2435,7 @@
             "type": "company_type"
         },
         "businessCountry": {
-            "data": [
+            "items": [
                 {
                     "country_code": "IN",
                     "country_name": "India",

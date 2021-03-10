@@ -218,7 +218,7 @@ export default {
             CompanyService.fetchCompanyProfile(params)
                 .then((res) => {
                     this.inProgress = false;
-                    this.profileDetails = res.data.data;
+                    this.profileDetails = res.data;
                 })
                 .catch((err) => {
                     this.inProgress = false;
