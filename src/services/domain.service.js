@@ -35,6 +35,14 @@ const SILVERBOLT_ACAT_URL = isNode ?
     envVars.BROWSER_CONFIG.SILVERBOLT_ACAT_URL :
     envVars.SILVERBOLT_ACAT_URL;
 
+const SILVERBOLT_PCPR_URL = isNode ?
+    envVars.BROWSER_CONFIG.SILVERBOLT_PCPR_URL :
+    envVars.SILVERBOLT_PCPR_URL;
+
+const SILVERBOLT_PNLCPR_URL = isNode ?
+    envVars.BROWSER_CONFIG.SILVERBOLT_PNLCPR_URL :
+    envVars.SILVERBOLT_PNLCPR_URL;
+
 const SKYWARP_MAIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SKYWARP_MAIN_URL :
     envVars.SKYWARP_MAIN_URL;
@@ -100,8 +108,8 @@ const URLS = {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/departments');
     },
     //Company Metrics
-    FETCH_METRICS: () => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/company/metrics');
+    FETCH_METRICS: (params) => {
+        return urlJoin(SILVERBOLT_ACPR_URL, `/v1.0/company/${params.company}/metrics`);
     },
 
     //search dri
@@ -110,10 +118,17 @@ const URLS = {
     },
 
     //fetch dri
-    FETCH_DRI: (uid) => {
+    FETCH_DRI: (params) => {
         return urlJoin(
-            SILVERBOLT_MAIN_URL,
-            '/v1/onboarding/company-brand-dri/'
+            SILVERBOLT_ACPR_URL,
+            `/v1.0/company/${params.company_id}/poc`
+        );
+    },
+
+    FETCH_ONE_DRI: (params) => {
+        return urlJoin(
+            SILVERBOLT_ACPR_URL,
+            `/v1.0/company/${params.company_id}/poc/${params.uid}`
         );
     },
 
@@ -140,33 +155,39 @@ const URLS = {
     //company details
     GET_COMPANY_LIST: () => {
         return urlJoin(
-            SILVERBOLT_MAIN_URL,
-            '/v1/admin/onboarding/company/verification/'
+            SILVERBOLT_ACPR_URL,
+            '/v1.0/companies/'
         );
     },
-    BRAND_ADMIN_ACTION: () => {
+    VERIFY_COMPANY: (query_param) => {
         return urlJoin(
-            SILVERBOLT_MAIN_URL,
-            '/v1/admin/onboarding/company/brand/verification/'
-        );
+            SILVERBOLT_ACPR_URL,
+            `/v1.0/company/${query_param.uid}/verify`
+        )
     },
-    STORE_ADMIN_ACTION: () => {
+    BRAND_ADMIN_ACTION: (params) => {
         return urlJoin(
-            SILVERBOLT_MAIN_URL,
-            '/v1/admin/onboarding/store/verification/'
+            SILVERBOLT_ACPR_URL,
+            `/v1.0/company/${params.company}/brand/${params.brand}/verify/`
         );
     },
-    GET_COMPANY_BRANDS: () => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/company/brand/');
+    STORE_ADMIN_ACTION: (params) => {
+        return urlJoin(
+            SILVERBOLT_ACPR_URL,
+            `/v1.0/company/${params.company}/location/${params.uid}/verify/`
+        );
+    },
+    GET_COMPANY_BRANDS: (params) => {
+        return urlJoin(SILVERBOLT_ACPR_URL, `/v1.0/company/${params.company_id}/company-brand/`);
     },
     GET_CHOICE_TYPES: () => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/choices/');
+        return urlJoin(SILVERBOLT_PNLCPR_URL, '/v1.0/choices/');
     },
-    COMPANY_STORES: () => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/company/store/');
+    COMPANY_STORES: (params) => {
+        return urlJoin(SILVERBOLT_ACPR_URL, `/v1.0/company/${params.company_id}/location/`);
     },
-    COMPANY_PROFILE: () => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/company/profile');
+    COMPANY_PROFILE: (params) => {
+        return urlJoin(SILVERBOLT_ACPR_URL, `/v1.0/company/${params.uid}`);
     },
     ATTRIBUTES_MASTER: (slug = '') => {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/product-attributes', slug);

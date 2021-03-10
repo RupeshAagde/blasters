@@ -10,7 +10,7 @@ const CompanyService = {
         let axiosOption = Object.assign({
             params
         });
-        return ApiService.get(URLS.FETCH_METRICS(), axiosOption);
+        return ApiService.get(URLS.FETCH_METRICS(params), axiosOption);
     },
     searchUser(params) {
         const axiosOption = Object.assign(
@@ -28,7 +28,7 @@ const CompanyService = {
             getCommonHeaderOptions()
         );
 
-        return ApiService.post(URLS.FETCH_DRI(), axiosOption);
+        return ApiService.post(URLS.FETCH_DRI(body), axiosOption);
     },
     removeDri(body) {
         const axiosOption = Object.assign(
@@ -41,11 +41,11 @@ const CompanyService = {
     },
     editDri(params) {
         const axiosOption = Object.assign(
-            { params: params },
+            { data: params },
             getCommonHeaderOptions()
         );
 
-        return ApiService.get(URLS.FETCH_DRI(), axiosOption);
+        return ApiService.put(URLS.FETCH_ONE_DRI(params), axiosOption);
     },
     fetchDesignation(params) {
         const axiosOption = Object.assign(
@@ -66,9 +66,15 @@ const CompanyService = {
             { params: params },
             getCommonHeaderOptions()
         );
-        return ApiService.get(URLS.FETCH_DRI(), axiosOption);
+        return ApiService.get(URLS.FETCH_DRI(params), axiosOption);
     },
-
+    fetchOneDri(params) {
+        const axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.FETCH_ONE_DRI(params), axiosOption);
+    },
     fetchApplication(uid, params) {
         const axiosOption = Object.assign(
             { params: params },
@@ -109,7 +115,7 @@ const CompanyService = {
             { data: body },
             getCommonHeaderOptions()
         );
-        return ApiService.post(URLS.GET_COMPANY_LIST(), axiosOption);
+        return ApiService.post(URLS.VERIFY_COMPANY(body), axiosOption);
     },
 
     adminActionBrand(body) {
@@ -118,7 +124,7 @@ const CompanyService = {
             { data: body },
             getCommonHeaderOptions()
         );
-        return ApiService.post(URLS.BRAND_ADMIN_ACTION(), axiosOption);
+        return ApiService.post(URLS.BRAND_ADMIN_ACTION(body), axiosOption);
     },
     adminActionStore(body) {
         let axiosOption = Object.assign(
@@ -126,7 +132,7 @@ const CompanyService = {
             { data: body },
             getCommonHeaderOptions()
         );
-        return ApiService.post(URLS.STORE_ADMIN_ACTION(), axiosOption);
+        return ApiService.post(URLS.STORE_ADMIN_ACTION(body), axiosOption);
     },
     fetchBrands(params = {}) {
         let axiosOption = Object.assign(
@@ -135,7 +141,7 @@ const CompanyService = {
             },
             getCommonHeaderOptions()
         );
-        return ApiService.get(URLS.GET_COMPANY_BRANDS(), axiosOption);
+        return ApiService.get(URLS.GET_COMPANY_BRANDS(params), axiosOption);
     },
     fetchChoiceType(params = {}) {
         let axiosOption = Object.assign(
@@ -154,12 +160,12 @@ const CompanyService = {
             },
             getCommonHeaderOptions()
         );
-        return ApiService.get(URLS.COMPANY_STORES(), axiosOption);
+        return ApiService.get(URLS.COMPANY_STORES(params), axiosOption);
     },
     // Fetch Company Profile
     fetchCompanyProfile(params) {
         let axiosOption = Object.assign({ params });
-        return ApiService.get(URLS.COMPANY_PROFILE(), axiosOption);
+        return ApiService.get(URLS.COMPANY_PROFILE(params), axiosOption);
     },
     // List product attributes master
     fetchAttributes(params) {

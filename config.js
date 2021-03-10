@@ -233,6 +233,20 @@ const conf = convict({
             env: 'SILVERBOLT_ACAT_URL',
             arg: 'silverbolt_acat_url'
         },
+        SILVERBOLT_PCPR_URL: {
+            doc: 'Platform Company profile Kube Service',
+            format: String,
+            default: '',
+            env: 'SILVERBOLT_PCPR_URL',
+            arg: 'silverbolt_pcpr_url'
+        },
+        SILVERBOLT_PNLCPR_URL: {
+            doc: 'Panel Company profile Kube Service',
+            format: String,
+            default: '',
+            env: 'SILVERBOLT_PNLCPR_URL',
+            arg: 'silverbolt_pnlcpr_url'
+        },
         SKYWARP_MAIN_SVC: {
             doc: 'Skywrap Kube Service',
             format: String,

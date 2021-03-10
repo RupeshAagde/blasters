@@ -25,7 +25,7 @@ describe('Mounted Company Detail Page', () => {
     });
 
     it('Get Cbs detail page info. successfully', async () => {
-        mock.onGet(URLS.COMPANY_PROFILE()).reply(
+        mock.onGet(URLS.COMPANY_PROFILE({uid:1})).reply(
             200,
             MOCK_DATA.profileDetails.profile
         );
@@ -42,7 +42,7 @@ describe('Mounted Company Detail Page', () => {
     });
 
     it('Get CBS detail page info. error', async () => {
-        mock.onGet(URLS.COMPANY_PROFILE()).reply(500, { error: true });
+        mock.onGet(URLS.COMPANY_PROFILE({uid:1})).reply(500, { message: "Error" });
         wrapper = mount(CbsDetail, {
             localVue,
             router
@@ -53,7 +53,7 @@ describe('Mounted Company Detail Page', () => {
     });
 
     it('Check back arrow button', async () => {
-        mock.onGet(URLS.COMPANY_PROFILE()).reply(
+        mock.onGet(URLS.COMPANY_PROFILE({uid:1})).reply(
             200,
             MOCK_DATA.profileDetails.profile
         );

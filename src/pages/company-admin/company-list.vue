@@ -509,7 +509,7 @@ export default {
             };
 
             if (this.searchText) {
-                query.name = this.searchText;
+                query.q = this.searchText;
             }
 
             if (this.selectedFilter !== 'all') {
@@ -522,7 +522,7 @@ export default {
             this.pageLoading = true;
             return CompanyService.getCompanyList(this.requestQuery())
                 .then(({ data }) => {
-                    this.tempList = generateArrItem(data.data);
+                    this.tempList = generateArrItem(data.items);
                     this.tempList = filterDuplicateObject(this.tempList);
                     fetchUserMetaObjects(this.tempList)
                         .then((res) => {
@@ -531,8 +531,8 @@ export default {
                                     this.userObj[element.uid] = element;
                                 }
                             });
-                            this.companyList = data.data;
-                            this.pagination.total = data.total_count;
+                            this.companyList = data.items;
+                            this.pagination.total = data.page.item_total;
                             this.pageLoading = false;
                         })
                         .catch((err) => {

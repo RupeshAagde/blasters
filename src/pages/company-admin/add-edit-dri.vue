@@ -670,11 +670,12 @@ export default {
         },
         getUserInfo() {
             const params = {
-                uid: this.userId ? this.userId : ''
+                uid: this.userId ? this.userId : '',
+                company_id: this.companyId
             };
             this.pageLoading = true;
             this.pageError = false;
-            CompanyService.fetchDri(params)
+            CompanyService.fetchOneDri(params)
                 .then((res) => {
                     this.pageLoading = false;
                     this.userData = res.data;
@@ -692,7 +693,7 @@ export default {
             };
             CompanyService.fetchDesignation(params)
                 .then((res) => {
-                    this.designationList = res.data.data;
+                    this.designationList = res.data.items;
                     this.designationList.map((ele) => {
                         ele.text = ele.value;
                         ele.value = ele.key;
@@ -894,10 +895,37 @@ export default {
             if (
                 !this.selectedDesignation.showError &&
                 !this.tagMeta.showError &&
-                !this.userMeta.showError
+                !this.userMeta.showError &&
+                !this.update
             ) {
                 this.pageLoading = true;
                 CompanyService.createDri(postData)
+                    .then((res) => {
+                        this.pageLoading = false;
+                        this.$snackbar.global.showSuccess(`${this.saveText}`, {
+                            duration: 2000
+                        });
+                        setTimeout(() => {}, 2000);
+                        this.$router.push({
+                            path: `/administrator/company-details/${this.companyId}`
+                        });
+                    })
+                    .catch((error) => {
+                        this.pageLoading = false;
+                        console.error(error);
+                        this.$snackbar.global.showError(
+                            `${error.response.data.errors.error}`
+                        );
+                    });
+                }
+            else if (
+                !this.selectedDesignation.showError &&
+                !this.tagMeta.showError &&
+                !this.userMeta.showError &&
+                this.update
+            ) {
+                this.pageLoading = true;
+                CompanyService.editDri(postData)
                     .then((res) => {
                         this.pageLoading = false;
                         this.$snackbar.global.showSuccess(`${this.saveText}`, {
