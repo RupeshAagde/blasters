@@ -44,7 +44,7 @@
                     :key="index"
                     class="container"
                     @click="editDepartment(item)"
-                >
+                >   
                     <div class="card-avatar">
                         <img
                             :src="getDepartmentImage(item)"
@@ -333,7 +333,7 @@ export default {
                                 }
                             });
                             this.departmentList = res.data.items;
-                            this.pagination.total = res.data.page.total_count;
+                            this.pagination.total = res.data.page.item_total;
                             this.isLoading = false;
                         })
                         .catch((err) => {

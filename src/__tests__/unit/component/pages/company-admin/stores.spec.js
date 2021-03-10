@@ -16,13 +16,20 @@ describe('Mounted Company Stores', () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
         mock.reset();
-        router = new VueRouter({
-            AdminRoutes
+        // router = new VueRouter({
+        //     AdminRoutes
+        // });
+		router = new VueRouter({routes : [
+            {
+            path: '/administrator/company-details/:companyId',
+            component: Stores
+            }
+        ]
         });
         router.push('/administrator/company-details/1');
 	});
 	it('Fetch Stores successfully', async () => {
-		mock.onGet(URLS.COMPANY_STORES()).reply(200, MOCK_DATA.stores.allStoresResMockData);
+		mock.onGet(URLS.COMPANY_STORES({company_id:1})).reply(200, MOCK_DATA.stores.allStoresResMockData);
 		mock.onGet(URLS.GET_CHOICE_TYPES()).reply(200, MOCK_DATA.stores.storeTypeMockData);
 		wrapper = shallowMount(Stores, {
 			localVue,
@@ -37,24 +44,11 @@ describe('Mounted Company Stores', () => {
 		expect(wrapper.vm.storeType.length).toBe(3);
         expect(wrapper.vm.choiceType.length).toBe(3);
 		expect(wrapper.vm.storesData.length).toBe(10);
-		mock.reset();
-	});
-
-	it('Fetch Stores Error', async () => {
-		mock.onGet(URLS.GET_CHOICE_TYPES()).reply(200, MOCK_DATA.stores.storeTypeMockData)
-		mock.onGet(URLS.COMPANY_STORES()).reply(500, {error: true});
-		
-		wrapper = shallowMount(Stores, {
-			localVue,
-			router
-		})
-		await flushPromises();
-		expect(wrapper.vm.pageError).toBe(true);
-		mock.reset();
+		// mock.reset();
 	});
 
 	it('Other Methods Success', async () => {
-		mock.onGet(URLS.COMPANY_STORES()).reply(200, MOCK_DATA.stores.allStoresResMockData);
+		mock.onGet(URLS.COMPANY_STORES({company_id:1})).reply(200, MOCK_DATA.stores.allStoresResMockData);
 		mock.onGet(URLS.GET_CHOICE_TYPES()).reply(200, MOCK_DATA.stores.storeTypeMockData);
 		wrapper = shallowMount(Stores, {
 			localVue,
@@ -79,7 +73,22 @@ describe('Mounted Company Stores', () => {
         wrapper.vm.paginationChange({current: 1,total: 0,limit: 10})
 		await flushPromises();
 		
-		mock.reset();
+		// mock.reset();
     });
+
+	it('Fetch Stores Error', async () => {
+		mock.onGet(URLS.GET_CHOICE_TYPES()).reply(200, MOCK_DATA.stores.storeTypeMockData)
+		mock.onGet(URLS.COMPANY_STORES({company_id:1})).reply(500, {message: "Error"});
+		
+		wrapper = shallowMount(Stores, {
+			localVue,
+			router
+		})
+		await flushPromises();
+		expect(wrapper.vm.pageError).toBe(true);
+		// mock.reset();
+	});
+
+	
 
 });

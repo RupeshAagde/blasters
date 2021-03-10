@@ -434,8 +434,8 @@ export default {
         },
         requestQuery() {
             const query = {
-                page: this.pagination.current,
-                limit: this.pagination.limit,
+                page_no: this.pagination.current,
+                page_size: this.pagination.limit,
                 sort: 'created_desc'
             };
 
@@ -454,7 +454,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchAttributes(this.requestQuery())
                     .then((res) => {
-                        this.tempList = generateArrItem(res.data.data);
+                        this.tempList = generateArrItem(res.data.items);
                         this.tempList = filterDuplicateObject(this.tempList);
                         fetchUserMetaObjects(this.tempList)
                             .then((response) => {
@@ -463,9 +463,9 @@ export default {
                                         this.userObj[element.uid] = element;
                                     }
                                 });
-                                this.attributes = res.data.data;
+                                this.attributes = res.data.items;
                                 this.pagination.total =
-                                    res.data.page.total_count;
+                                    res.data.page.item_total;
                                 this.pageLoading = false;
                             })
                             .catch((err) => {
@@ -483,7 +483,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchDepartments()
                     .then(({ data }) => {
-                        this.departments = data.data;
+                        this.departments = data.items;
                         return resolve();
                     })
                     .catch((err) => {

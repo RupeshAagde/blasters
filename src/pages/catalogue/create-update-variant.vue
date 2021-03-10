@@ -406,7 +406,7 @@ export default {
             };
             CatalogService.fetchChoices(params)
                 .then((res) => {
-                    this.displayType.value = res.data.data;
+                    this.displayType.value = res.data.items;
                     this.displayType.value.map((element) => {
                         element.text = element.value;
                         element.value = element.key;
@@ -420,7 +420,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CatalogService.fetchDepartment()
                     .then(({ data }) => {
-                        this.departmentList = data.data;
+                        this.departmentList = data.items;
                         return resolve();
                     })
                     .catch((err) => {

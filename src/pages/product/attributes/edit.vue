@@ -131,7 +131,7 @@
                         ></nitrozen-tooltip>
                     </div>
                     <nitrozen-toggle-btn
-                        v-model="attribute.variant_enabled"
+                        v-model="attribute.variant"
                     ></nitrozen-toggle-btn>
                 </div>
                 <loader v-if="inProgress" class="loading"></loader>
@@ -567,7 +567,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchAttribute(this.slug)
                     .then(({ data }) => {
-                        this.attribute = this.sanitizeAttribute(data.data);
+                        this.attribute = this.sanitizeAttribute(data.items);
                         this.logo = this.attribute.logo
                             ? this.attribute.logo
                             : '';
@@ -583,7 +583,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchDepartments()
                     .then(({ data }) => {
-                        this.departments = data.data;
+                        this.departments = data.items;
                         return resolve();
                     })
                     .catch((err) => {
