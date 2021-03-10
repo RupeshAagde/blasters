@@ -20,13 +20,14 @@ engine.head = function(url, opt) {
     })
 }
 
-engine.get = function(url, opt = {}) {
+engine.get = function(url, opt = {}, config = {}) {
     return axios.get(url, {
         params: opt.params,
         headers: opt.headers,
         paramsSerializer: (params) => {
             return transformRequestOptions(params)
-        }
+        },
+        ...config,
     })
 }
 

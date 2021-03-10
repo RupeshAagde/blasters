@@ -333,7 +333,7 @@ export default {
                                 }
                             });
                             this.departmentList = res.data.items;
-                            this.pagination.total = res.data.page.total_count;
+                            this.pagination.total = res.data.page.item_total;
                             this.isLoading = false;
                         })
                         .catch((err) => {
