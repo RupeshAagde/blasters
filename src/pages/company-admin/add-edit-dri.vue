@@ -118,7 +118,7 @@
                         </div>
                         <div class="card-content-section">
                             <div class="full-name">
-                                {{ user.firstName }}&nbsp;{{ user.lastName }}
+                                {{ user.first_name }}&nbsp;{{ user.last_name }}
                             </div>
                             <div class="card-content-line-2">
                                 {{ user.accountType }}
@@ -126,13 +126,13 @@
                             <div class="card-content-line-2">
                                 <span
                                     v-if="
-                                        user.phoneNumbers &&
-                                            user.phoneNumbers.length > 0
+                                        user.phone_numbers &&
+                                            user.phone_numbers.length > 0
                                     "
                                 >
                                     +{{
-                                        user.phoneNumbers[0].countryCode
-                                    }}&nbsp;{{ user.phoneNumbers[0].phone }}
+                                        user.phone_numbers[0].country_code
+                                    }}&nbsp;{{ user.phone_numbers[0].phone }}
                                 </span>
                                 <span class="seperator left-space-md">|</span>
                                 <span
@@ -645,8 +645,8 @@ export default {
                     this.enterValidText = false;
                     this.noUserFound = false;
                     this.userLoading = false;
-                    if (res.data.length > 0) {
-                        this.userList = res.data;
+                    if (res.data.users.length > 0) {
+                        this.userList = res.data.users;
                         this.isAdded = true;
                     } else {
                         this.noUserFound = true;
@@ -766,8 +766,8 @@ export default {
                             this.enterValidText = false;
                             this.noUserFound = false;
                             this.userLoading = false;
-                            if (res.data.length > 0) {
-                                this.userList = res.data;
+                            if (res.data.users.length > 0) {
+                                this.userList = res.data.users;
                             } else {
                                 this.noUserFound = true;
                             }
@@ -799,8 +799,8 @@ export default {
                                 this.enterValidText = false;
                                 this.noUserFound = false;
                                 this.userLoading = false;
-                                if (res.data.length > 0) {
-                                    this.userList = res.data;
+                                if (res.data.users.length > 0) {
+                                    this.userList = res.data.users;
                                 } else {
                                     this.noUserFound = true;
                                 }
@@ -914,7 +914,7 @@ export default {
                         this.pageLoading = false;
                         console.error(error);
                         this.$snackbar.global.showError(
-                            `${error.response.data.errors.error}`
+                            `${error.response.data.message}`
                         );
                     });
                 }
@@ -940,7 +940,7 @@ export default {
                         this.pageLoading = false;
                         console.error(error);
                         this.$snackbar.global.showError(
-                            `${error.response.data.errors.error}`
+                            `${error.response.data.message}`
                         );
                     });
             }
