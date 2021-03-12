@@ -261,6 +261,13 @@ const conf = convict({
             env: 'SKYWARP_MAIN_URL',
             arg: 'skywarp_main_url'
         },
+        SKYWARP_PNL_URL: {
+            doc: 'Skywrap Panel Kube Service',
+            format: String,
+            default: '',
+            env: 'SKYWARP_PNL_URL',
+            arg: 'skywarp_pnl_url'
+        },
         UNICRON_MAIN_URL: {
             doc: 'Billing service API',
             format: String,
