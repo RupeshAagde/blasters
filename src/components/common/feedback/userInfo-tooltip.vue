@@ -279,7 +279,7 @@ export default {
                 this.userInfo = {
                     email: this.getEmail(userId),
                     phone: this.getPhone(userId),
-                    name: `${userId.firstName} ${userId.lastName}`,
+                    name: `${userId.first_name} ${userId.last_name}`,
                     gender: userId.gender,
                     userId
                 };
@@ -339,16 +339,16 @@ export default {
         getPhone: function(userObj) {
             if (
                 userObj &&
-                Array.isArray(userObj.phoneNumbers) &&
-                userObj.phoneNumbers.length
+                Array.isArray(userObj.phone_numbers) &&
+                userObj.phone_numbers.length
             ) {
-                let priPhone = userObj.phoneNumbers.filter((phone) => {
+                let priPhone = userObj.phone_numbers.filter((phone) => {
                     return phone.primary;
                 });
                 if (priPhone.length)
-                    return `+${priPhone[0].countryCode} ${priPhone[0].phone}`;
+                    return `+${priPhone[0].country_code} ${priPhone[0].phone}`;
                 else {
-                    return `+${userObj.phoneNumbers[0].countryCode} ${userObj.phoneNumbers[0].phone}`;
+                    return `+${userObj.phone_numbers[0].country_code} ${userObj.phone_numbers[0].phone}`;
                 }
             }
         }
