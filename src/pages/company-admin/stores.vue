@@ -139,20 +139,19 @@
                         @click="openAdminDialog(item)"
                         >Verify</nitrozen-button
                     >
-                    <nitrozen-button
+                    <!-- <nitrozen-button
                         :theme="'secondary'"
                         v-flatBtn
                         v-if="item.stage === 'verified'"
                         @click="editIntegration(item)"
                         >Edit Integration</nitrozen-button
-                    >
+                    > -->
                     <nitrozen-button
                         class="left-space"
                         :theme="'secondary'"
                         v-strokeBtn
                         v-if="
-                            item.stage !== 'rejected' &&
-                            item.stage !== 'verified'
+                            item.stage == 'verified'
                         "
                         @click="openAdminDialog(item, true)"
                         >Disable</nitrozen-button
@@ -192,7 +191,10 @@
                             activeStore.address.city
                         }}
                     </div>
-                    <div class="cust-drop">
+                    <div class="cust-sent">
+                        Are you sure you want to {{ admin_action_text }} this store?
+                    </div>
+                    <!-- <div class="cust-drop">
                         <div class="left-drop">
                             <label class="cust-label">Order Integration*</label>
                             <nitrozen-dropdown
@@ -223,7 +225,7 @@
                                 {{ inventory_choice_error.errortext }}
                             </nitrozen-error>
                         </div>
-                    </div>
+                    </div> -->
                     <nitrozen-input
                         class="cust-margin"
                         type="textarea"
@@ -238,9 +240,7 @@
                         >{{ rejection_info.errortext }}</nitrozen-error
                     >
                 </div>
-                <div class="cust-sent">
-                    Are you sure you want to {{ admin_action_text }} this store?
-                </div>
+                
             </template>
             <template slot="footer">
                 <div>
@@ -250,9 +250,7 @@
                         @click="verifyStore"
                         v-flatBtn
                         :theme="'secondary'"
-                        >{{
-                            editIntegration ? 'Update' : 'Verify'
-                        }}</nitrozen-button
+                        >Verify</nitrozen-button
                     >
                     <nitrozen-button
                         v-if="!show_verify_button"
@@ -618,20 +616,20 @@ export default {
             this.inProgress = true;
             this.pageError = false;
             let params = this.getParams();
-            params.company = this.companyId;
+            params.company_id = this.companyId;
             CompanyService.fetchStores(params)
                 .then((res) => {
                     this.inProgress = false;
                     this.pageError = false;
-                    res.data.data.map((ele) => {
+                    res.data.items.map((ele) => {
                         this.storeType.map((type) => {
                             if (ele.store_type == type.key) {
                                 ele.store_type_display = type.text;
                             }
                         });
                     });
-                    this.storesData = res.data.data;
-                    this.paginationConfig.total = res.data.total_count;
+                    this.storesData = res.data.items;
+                    this.paginationConfig.total = res.data.page.item_total;
                 })
                 .catch((err) => {
                     this.pageLoading = false;
@@ -646,20 +644,20 @@ export default {
             CompanyService.fetchChoiceType(params)
                 .then((res) => {
                     if (params.choice_type == 'stage') {
-                        this.choiceType = res.data.data;
+                        this.choiceType = res.data.items;
                         this.choiceType.map((ele) => {
                             ele.text =
                                 ele.value == 'Complete' ? 'Pending' : ele.value;
                             ele.value = ele.key;
                         });
                     } else if (params.choice_type == 'store_type') {
-                        this.storeType = res.data.data;
+                        this.storeType = res.data.items;
                         this.storeType.map((ele) => {
                             ele.text = ele.value;
                             ele.value = ele.key;
                         });
                     } else if (params.choice_type == 'integration_type') {
-                        this.integrationType = res.data.data;
+                        this.integrationType = res.data.items;
                         // this.order_choice = res.data.data[0]['key'];
                         // this.inventory_choice = res.data.data[0]['key'];
                         this.integrationType.map((ele) => {
@@ -711,14 +709,15 @@ export default {
             this.openAdminDialog(item, false, false);
         },
         verifyStore() {
-            if (this.order_choice && this.inventory_choice) {
+            // if () {
                 const obj = {
                     uid: this.activeStore.uid,
                     stage: 'verified',
-                    integration_type: {
-                        order: this.order_choice,
-                        inventory: this.inventory_choice,
-                    },
+                    // integration_type: {
+                    //     order: this.order_choice,
+                    //     inventory: this.inventory_choice,
+                    // },
+                    company: this.companyId
                 };
                 CompanyService.adminActionStore(obj)
                     .then((res) => {
@@ -737,10 +736,8 @@ export default {
                         this.$snackbar.global.showError(
                             `${
                                 error.response.data &&
-                                error.response.data.errors
-                                    ? error.response.data.errors.error
-                                        ? error.response.data.errors.error
-                                        : error.response.data.errors.company
+                                error.response.data.message
+                                    ? error.response.data.message
                                     : ''
                             }`,
                             {
@@ -752,35 +749,36 @@ export default {
                     .finally(() => {
                         this.inProgress = false;
                     });
-            } else {
-                if (
-                    this.order_choice_error.showerror == false &&
-                    !this.order_choice
-                ) {
-                    this.order_choice_error.showerror = true;
-                }
-                if (
-                    this.inventory_choice_error.showerror == false &&
-                    !this.inventory_choice
-                ) {
-                    this.inventory_choice_error.showerror = true;
-                }
-            }
+            // } else {
+            //     if (
+            //         this.order_choice_error.showerror == false &&
+            //         !this.order_choice
+            //     ) {
+            //         this.order_choice_error.showerror = true;
+            //     }
+            //     if (
+            //         this.inventory_choice_error.showerror == false &&
+            //         !this.inventory_choice
+            //     ) {
+            //         this.inventory_choice_error.showerror = true;
+            //     }
+            // }
         },
         rejectStore() {
             if (
-                this.rejection_info.value.length > 0 &&
-                this.order_choice &&
-                this.inventory_choice
+                this.rejection_info.value.length > 0
+                // this.order_choice &&
+                // this.inventory_choice
             ) {
                 const obj = {
                     uid: this.activeStore.uid,
                     reject_reason: this.rejection_info.value,
                     stage: 'rejected',
-                    integration_type: {
-                        order: this.order_choice,
-                        inventory: this.inventory_choice,
-                    },
+                    // integration_type: {
+                    //     order: this.order_choice,
+                    //     inventory: this.inventory_choice,
+                    // },
+                    company: this.companyId
                 };
                 CompanyService.adminActionStore(obj)
                     .then((res) => {
@@ -833,7 +831,7 @@ export default {
             this.inventory_choice_error.showerror = false;
             this.order_choice = null;
             this.inventory_choice = null;
-            this.enableEditIntegration = !isReset;
+            // this.enableEditIntegration = !isReset;
             if (item.stage && isDisable) {
                 this.admin_action_text = 'disable';
                 this.show_verify_button = false;
@@ -841,10 +839,10 @@ export default {
                 this.admin_action_text = 'verify';
                 this.show_verify_button = true;
             }
-            if (this.enableEditIntegration) {
-                this.show_verify_button = true;
-                this.admin_action_text = 'update integration of';
-            }
+            // if (this.enableEditIntegration) {
+            //     this.show_verify_button = true;
+            //     this.admin_action_text = 'update integration of';
+            // }
 
             this.getChoiceType({ choice_type: 'integration_type' });
             if (item.integration_type) {

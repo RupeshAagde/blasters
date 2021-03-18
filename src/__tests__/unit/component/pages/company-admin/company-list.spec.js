@@ -26,9 +26,9 @@ describe('List Company List Component', () => {
 
     it('Fetch Company List Successfully, check wrapper and div should exists', async () => {
         mock.onGet(URLS.GET_COMPANY_LIST())
-            .reply(200, { data: MOCK_DATA.company.data })
+            .reply(200, { items: MOCK_DATA.company.data })
             .onAny()
-            .reply(200, { data: MOCK_DATA.company.data });
+            .reply(200, { items: MOCK_DATA.company.data });
         wrapper = mount(CompanyComponent, {
             localVue,
             router
@@ -45,9 +45,9 @@ describe('List Company List Component', () => {
 
     it('List - should validate functions', async () => {
         mock.onGet(URLS.GET_COMPANY_LIST())
-            .reply(200, { data: MOCK_DATA.company.data })
+            .reply(200, { items: MOCK_DATA.company.data })
             .onAny()
-            .reply(200, { data: MOCK_DATA.company.data });
+            .reply(200, { items: MOCK_DATA.company.data });
 
         wrapper = mount(CompanyComponent, {
             localVue,
@@ -68,7 +68,7 @@ describe('List Company List Component', () => {
     });
 
     it('Get Error on fetching Company List', async () => {
-        mock.onGet(URLS.GET_COMPANY_LIST()).reply(500, { error: true });
+        mock.onGet(URLS.GET_COMPANY_LIST()).reply(500, { error: "Error" });
         wrapper = mount(CompanyComponent, {
             localVue,
             router

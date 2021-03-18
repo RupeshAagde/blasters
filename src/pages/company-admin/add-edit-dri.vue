@@ -118,7 +118,7 @@
                         </div>
                         <div class="card-content-section">
                             <div class="full-name">
-                                {{ user.firstName }}&nbsp;{{ user.lastName }}
+                                {{ user.first_name }}&nbsp;{{ user.last_name }}
                             </div>
                             <div class="card-content-line-2">
                                 {{ user.accountType }}
@@ -126,13 +126,13 @@
                             <div class="card-content-line-2">
                                 <span
                                     v-if="
-                                        user.phoneNumbers &&
-                                            user.phoneNumbers.length > 0
+                                        user.phone_numbers &&
+                                            user.phone_numbers.length > 0
                                     "
                                 >
                                     +{{
-                                        user.phoneNumbers[0].countryCode
-                                    }}&nbsp;{{ user.phoneNumbers[0].phone }}
+                                        user.phone_numbers[0].country_code
+                                    }}&nbsp;{{ user.phone_numbers[0].phone }}
                                 </span>
                                 <span class="seperator left-space-md">|</span>
                                 <span
@@ -645,8 +645,8 @@ export default {
                     this.enterValidText = false;
                     this.noUserFound = false;
                     this.userLoading = false;
-                    if (res.data.length > 0) {
-                        this.userList = res.data;
+                    if (res.data.users.length > 0) {
+                        this.userList = res.data.users;
                         this.isAdded = true;
                     } else {
                         this.noUserFound = true;
@@ -670,11 +670,12 @@ export default {
         },
         getUserInfo() {
             const params = {
-                uid: this.userId ? this.userId : ''
+                uid: this.userId ? this.userId : '',
+                company_id: this.companyId
             };
             this.pageLoading = true;
             this.pageError = false;
-            CompanyService.fetchDri(params)
+            CompanyService.fetchOneDri(params)
                 .then((res) => {
                     this.pageLoading = false;
                     this.userData = res.data;
@@ -692,7 +693,7 @@ export default {
             };
             CompanyService.fetchDesignation(params)
                 .then((res) => {
-                    this.designationList = res.data.data;
+                    this.designationList = res.data.items;
                     this.designationList.map((ele) => {
                         ele.text = ele.value;
                         ele.value = ele.key;
@@ -765,8 +766,8 @@ export default {
                             this.enterValidText = false;
                             this.noUserFound = false;
                             this.userLoading = false;
-                            if (res.data.length > 0) {
-                                this.userList = res.data;
+                            if (res.data.users.length > 0) {
+                                this.userList = res.data.users;
                             } else {
                                 this.noUserFound = true;
                             }
@@ -798,8 +799,8 @@ export default {
                                 this.enterValidText = false;
                                 this.noUserFound = false;
                                 this.userLoading = false;
-                                if (res.data.length > 0) {
-                                    this.userList = res.data;
+                                if (res.data.users.length > 0) {
+                                    this.userList = res.data.users;
                                 } else {
                                     this.noUserFound = true;
                                 }
@@ -894,7 +895,8 @@ export default {
             if (
                 !this.selectedDesignation.showError &&
                 !this.tagMeta.showError &&
-                !this.userMeta.showError
+                !this.userMeta.showError &&
+                !this.update
             ) {
                 this.pageLoading = true;
                 CompanyService.createDri(postData)
@@ -912,7 +914,33 @@ export default {
                         this.pageLoading = false;
                         console.error(error);
                         this.$snackbar.global.showError(
-                            `${error.response.data.errors.error}`
+                            `${error.response.data.message}`
+                        );
+                    });
+                }
+            else if (
+                !this.selectedDesignation.showError &&
+                !this.tagMeta.showError &&
+                !this.userMeta.showError &&
+                this.update
+            ) {
+                this.pageLoading = true;
+                CompanyService.editDri(postData)
+                    .then((res) => {
+                        this.pageLoading = false;
+                        this.$snackbar.global.showSuccess(`${this.saveText}`, {
+                            duration: 2000
+                        });
+                        setTimeout(() => {}, 2000);
+                        this.$router.push({
+                            path: `/administrator/company-details/${this.companyId}`
+                        });
+                    })
+                    .catch((error) => {
+                        this.pageLoading = false;
+                        console.error(error);
+                        this.$snackbar.global.showError(
+                            `${error.response.data.message}`
                         );
                     });
             }

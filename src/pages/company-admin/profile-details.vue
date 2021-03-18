@@ -587,7 +587,7 @@ export default {
                 .then((res) => {
                     this.inProgress = false;
                     this.pageError = false;
-                    this.profileDetails = res.data.data;
+                    this.profileDetails = res.data;
                     this.documentUnverified = this.profileDetails.documents.some(
                         (doc) => {
                             return !doc.verified;
@@ -659,7 +659,7 @@ export default {
                     this.$snackbar.global.showError(
                         `${
                             error.response.data
-                                ? error.response.data.errors.error
+                                ? error.response.data.message
                                 : ''
                         }`,
                         {

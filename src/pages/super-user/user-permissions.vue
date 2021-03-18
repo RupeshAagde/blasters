@@ -213,7 +213,7 @@ export default {
             }
             return CompanyService.getCompanyList(query)
                 .then(({ data }) => {
-                    this.companies = data.data;
+                    this.companies = data.items;
                 })
                 .catch((err) => {
                     this.$snackbar.global.showError('Failed to load companies');

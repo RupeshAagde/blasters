@@ -299,7 +299,7 @@ export const fetchUserMetaObjects = (arr) => {
     return new Promise((resolve, reject) => {
         CompanyService.searchUser(params)
             .then(({ data }) => {
-                return resolve(data);
+                return resolve(data.users);
             })
             .catch((err) => {
                 return reject(err);

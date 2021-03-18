@@ -509,12 +509,12 @@ export default {
             this.inProgress = true;
             this.pageError = false;
             let params = this.getParams();
-            params.company = this.companyId;
+            params.company_id = this.companyId;
             CompanyService.fetchBrands(params)
                 .then((res) => {
                     this.inProgress = false;
                     this.pageError = false;
-                    this.brandsData = res.data.data;
+                    this.brandsData = res.data.items;
                     this.brandsDataToShow = this.brandsData.slice(
                         0,
                         this.showCount
@@ -522,7 +522,7 @@ export default {
                     if (this.brandsDataToShow.length < this.brandsData.length) {
                         this.viewMore = true;
                     }
-                    this.paginationConfig.total = res.data.total_count;
+                    this.paginationConfig.total = res.data.page.item_total;
                 })
                 .catch((err) => {
                     this.pageLoading = false;
@@ -559,16 +559,14 @@ export default {
                             duration: 2000
                         }
                     );
-                    setTimeout(() => {
-                        this.onCancel();
-                    }, 2000);
+                    setTimeout(() => {}, 2000);
                 })
                 .catch((error) => {
                     console.error(error);
                     this.$snackbar.global.showError(
                         `${
                             error.response.data
-                                ? error.response.data.errors.error
+                                ? error.response.data.message
                                 : ''
                         }`,
                         {
@@ -604,9 +602,7 @@ export default {
                                 duration: 2000
                             }
                         );
-                        setTimeout(() => {
-                            this.onCancel();
-                        }, 2000);
+                        setTimeout(() => {}, 2000);
                     })
                     .catch((error) => {
                         console.error(error);
