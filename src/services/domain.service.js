@@ -55,6 +55,10 @@ const PLATFORM_ORDERS_BASE = isNode ?
     envVars.BROWSER_CONFIG.APEFACE_MAIN_SVC :
     envVars.APEFACE_MAIN_URL;
 
+const ADMIN_ORDERS_BASE = isNode ?
+    envVars.BROWSER_CONFIG.APEFACE_ADMIN_SVC :
+    envVars.APEFACE_ADMIN_URL;
+
 const INTERNAL_SETTINGS_MAIN = isNode ?
     envVars.BROWSER_CONFIG.ULTRAMAGNUS_MAIN_SVC :
     envVars.ULTRAMAGNUS_MAIN_URL;
@@ -320,9 +324,13 @@ const URLS = {
     },
 
     FETCH_SHIPMENT_INFO: (slug, company_id) => {
+        // return urlJoin(
+        //     PLATFORM_ORDERS_BASE,
+        //     `/v1/seller/${company_id}?q=${slug}`
+        // );
         return urlJoin(
-            PLATFORM_ORDERS_BASE,
-            `/v1/seller/${company_id}?q=${slug}`
+            ADMIN_ORDERS_BASE,
+            `/v1.0/${company_id}?q=${slug}`
         );
     },
 
