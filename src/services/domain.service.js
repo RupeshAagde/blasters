@@ -47,6 +47,10 @@ const SKYWARP_MAIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SKYWARP_MAIN_URL :
     envVars.SKYWARP_MAIN_URL;
 
+const SKYWARP_PNL_URL = isNode ?
+    envVars.BROWSER_CONFIG.SKYWARP_PNL_URL :
+    envVars.SKYWARP_PNL_URL;
+
 const UNICRON_BASE = isNode ?
     envVars.BROWSER_CONFIG.UNICRON_MAIN_SVC :
     envVars.UNICRON_MAIN_URL;
@@ -114,7 +118,7 @@ const URLS = {
 
     //search dri
     SEARCH_DRI: () => {
-        return urlJoin(GRIMLOCK_BASE, '/user-info/search/');
+        return urlJoin(SKYWARP_PNL_URL, '/v1.0/users/search/');
     },
 
     //fetch dri

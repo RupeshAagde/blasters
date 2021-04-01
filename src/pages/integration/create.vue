@@ -126,11 +126,23 @@
                     <div class="form-body">
                         <nitrozen-input
                             v-model="name.value"
+                            @input="convertToSlug()"
                             label="Name *"
                             placeholder="Name"
                         ></nitrozen-input>
                         <nitrozen-error v-if="name.showerror && !name.value">
                             {{ name.errortext }}
+                        </nitrozen-error>
+                    </div>
+                    <div class="form-body slug" v-if="!isEditOnly">
+                        <nitrozen-input
+                            v-model="slug.value"
+                            label="Slug *"
+                            :disabled="true"
+                            placeholder="Slug"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="slug.showerror && !slug.value">
+                            {{ slug.errortext }}
                         </nitrozen-error>
                     </div>
                     <div class="form-body token" v-if="isEditOnly">
@@ -324,7 +336,7 @@ import { copyToClipboard } from '@/helper/utils.js';
 import CompanyService from '@/services/company-admin.service';
 import IntegrationService from '@/services/integration.service';
 import { validateNitrozenCustomFormInputs } from '@/helper/utils';
-import { debounce } from '@/helper/utils';
+import { debounce, convertToSlug } from '@/helper/utils';
 
 const PAGINATION = {
     limit: 500,
@@ -370,6 +382,7 @@ export default {
             icon: this.getInitialValue(''),
             description: this.getInitialValue(''),
             name: this.getInitialValue(''),
+            slug: this.getInitialValue(''),
             tags: [],
             companyForm: this.getInitialValue([]),
             storeForm: this.getInitialValue([]),
@@ -574,6 +587,7 @@ export default {
                 },
                 meta: this.tags,
                 name: this.name.value,
+                slug: this.slug.value || convertToSlug(this.name.value),
                 description: this.description.value,
                 descriptionHTML: '',
                 icon: this.icon.value,
@@ -734,7 +748,11 @@ export default {
             copyToClipboard(data);
             this.$snackbar.global.showInfo('Copied to clipboard');
             event.stopPropagation();
-        }
+        },
+        convertToSlug() {
+            if (this.isEditOnly) return;
+            this.slug.value = convertToSlug(this.name.value);
+        },
     }
 };
 </script>
