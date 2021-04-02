@@ -135,14 +135,14 @@ const URLS = {
 
     // fetch applications
     FETCH_APPLICATIONS: (uid) => {
-        return urlJoin(SLINGSHOT_MAIN_URL, `/company/${uid}/applications`);
+        return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/company/${uid}/application`);
     },
 
     //archive unarchive sales channel
     ACTION_APPLICATIONS: (uid, appId) => {
         return urlJoin(
-            SLINGSHOT_MAIN_URL,
-            `/company/${uid}/applications/${appId}`
+            SLINGSHOT_ADMIN_URL,
+            `/v1.0/company/${uid}/application/${appId}`
         );
     },
 
