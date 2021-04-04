@@ -96,7 +96,7 @@
                         >
                     </div>
                 </div>
-                <div class="line-4" v-if="!item.internal">
+                <div class="line-4" v-if="!item.internal || item.is_internal">
                     <nitrozen-button
                         :theme="'secondary'"
                         v-if="item.is_active"
