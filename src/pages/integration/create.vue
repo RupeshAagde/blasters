@@ -577,33 +577,33 @@ export default {
                 constants: this.$refs['constants'].getJSON(),
                 validators: {
                     company: {
-                        browserScript: '',
-                        jsonSchema: this.$refs['companyForm'].getJSON()
+                        browser_script: '',
+                        json_schema: this.$refs['companyForm'].getJSON()
                     },
                     store: {
-                        browserScript: '',
-                        jsonSchema: this.$refs['storeForm'].getJSON()
+                        browser_script: '',
+                        json_schema: this.$refs['storeForm'].getJSON()
                     }
                 },
                 meta: this.tags,
                 name: this.name.value,
                 slug: this.slug.value || convertToSlug(this.name.value),
                 description: this.description.value,
-                descriptionHTML: '',
+                description_html: '',
                 icon: this.icon.value,
                 companies: this.selectedCompany,
                 support: this.selectedSupport
             };
             if (this.selectedSupport.includes('inventory')) {
                 obj.validators.inventory = {
-                    browserScript: '',
-                    jsonSchema: this.$refs['inventoryForm'].getJSON()
+                    browser_script: '',
+                    json_schema: this.$refs['inventoryForm'].getJSON()
                 };
             }
             if (this.selectedSupport.includes('order')) {
                 obj.validators.order = {
-                    browserScript: '',
-                    jsonSchema: this.$refs['orderForm'].getJSON()
+                    browser_script: '',
+                    json_schema: this.$refs['orderForm'].getJSON()
                 };
             }
             obj = Object.assign(this.integrationData, obj);
@@ -711,19 +711,17 @@ export default {
                         'inventory',
                         'order'
                     ];
-                    this.companyForm.value =
-                        this.integrationData.validators.company.jsonSchema ||
+                    this.companyForm.value = this.integrationData.validators.company.json_schema ||
                         [];
-                    this.storeForm.value =
-                        this.integrationData.validators.store.jsonSchema || [];
+                    this.storeForm.value = this.integrationData.validators.store.json_schema || [];
                     this.inventoryForm.value =
                         (this.integrationData.validators.inventory &&
                             this.integrationData.validators.inventory
-                                .jsonSchema) ||
+                                .json_schema) ||
                         [];
                     this.orderForm.value =
                         (this.integrationData.validators.order &&
-                            this.integrationData.validators.order.jsonSchema) ||
+                            this.integrationData.validators.order.json_schema) ||
                         [];
                     setTimeout(() => {
                         this.$refs['companyForm'].populateData();

@@ -2,13 +2,13 @@
     "items": [
         {
             "validators": {
-                "company": { "browserScript": "" },
-                "store": { "browserScript": "" },
-                "inventory": { "browserScript": "" },
-                "order": { "browserScript": "" }
+                "company": { "browser_script": "" },
+                "store": { "browser_script": "" },
+                "inventory": { "browser_script": "" },
+                "order": { "browser_script": "" }
             },
             "description": "awesome integration",
-            "descriptionHTML": "",
+            "description_html": "",
             "constants": "{}",
             "companies": [],
             "support": [],
@@ -39,8 +39,8 @@
         {
             "validators": {
                 "company": {
-                    "browserScript": "",
-                    "jsonSchema": {
+                    "browser_script": "",
+                    "json_schema": {
                         "type": "object",
                         "required": ["article_identifier"],
                         "properties": {
@@ -54,8 +54,8 @@
                     }
                 },
                 "store": {
-                    "browserScript": "",
-                    "jsonSchema": {
+                    "browser_script": "",
+                    "json_schema": {
                         "type": "object",
                         "required": ["article_identifier"],
                         "properties": {
@@ -68,11 +68,11 @@
                         }
                     }
                 },
-                "inventory": { "browserScript": "" },
-                "order": { "browserScript": "" }
+                "inventory": { "browser_script": "" },
+                "order": { "browser_script": "" }
             },
             "description": "jabardast",
-            "descriptionHTML": "",
+            "description_html": "",
             "constants": "{}",
             "companies": [],
             "support": ["inventory", "order"],
@@ -96,10 +96,10 @@
         },
         {
             "validators": {
-                "company": { "browserScript": "" },
+                "company": { "browser_script": "" },
                 "store": {
-                    "browserScript": "",
-                    "jsonSchema": {
+                    "browser_script": "",
+                    "json_schema": {
                         "type": "object",
                         "required": [],
                         "properties": {
@@ -111,11 +111,11 @@
                         }
                     }
                 },
-                "inventory": { "browserScript": "" },
-                "order": { "browserScript": "" }
+                "inventory": { "browser_script": "" },
+                "order": { "browser_script": "" }
             },
             "description": "Unicommerce is cloud-based inventory management and omnichannel & multichannel order management system.",
-            "descriptionHTML": "",
+            "description_html": "",
             "constants": "{}",
             "companies": [],
             "support": [],
@@ -132,10 +132,10 @@
         },
         {
             "validators": {
-                "company": { "browserScript": "" },
+                "company": { "browser_script": "" },
                 "store": {
-                    "browserScript": "",
-                    "jsonSchema": {
+                    "browser_script": "",
+                    "json_schema": {
                         "type": "object",
                         "required": [],
                         "properties": {
@@ -147,11 +147,11 @@
                         }
                     }
                 },
-                "inventory": { "browserScript": "" },
-                "order": { "browserScript": "" }
+                "inventory": { "browser_script": "" },
+                "order": { "browser_script": "" }
             },
             "description": "Vinculum is a global software company enabling Omnichannel retailing.",
-            "descriptionHTML": "",
+            "description_html": "",
             "constants": "{}",
             "companies": [],
             "support": [],
@@ -168,13 +168,13 @@
         },
         {
             "validators": {
-                "company": { "browserScript": "" },
-                "store": { "browserScript": "" },
-                "inventory": { "browserScript": "" },
-                "order": { "browserScript": "" }
+                "company": { "browser_script": "" },
+                "store": { "browser_script": "" },
+                "inventory": { "browser_script": "" },
+                "order": { "browser_script": "" }
             },
             "description": "JioMart POS",
-            "descriptionHTML": "",
+            "description_html": "",
             "constants": "{}",
             "companies": [],
             "support": [],
@@ -192,8 +192,8 @@
         {
             "validators": {
                 "company": {
-                    "browserScript": "",
-                    "jsonSchema": {
+                    "browser_script": "",
+                    "json_schema": {
                         "type": "object",
                         "required": ["article_identifier"],
                         "properties": {
@@ -207,8 +207,8 @@
                     }
                 },
                 "store": {
-                    "browserScript": "",
-                    "jsonSchema": {
+                    "browser_script": "",
+                    "json_schema": {
                         "type": "object",
                         "required": ["article_identifier"],
                         "properties": {
@@ -221,11 +221,11 @@
                         }
                     }
                 },
-                "inventory": { "browserScript": "" },
-                "order": { "browserScript": "" }
+                "inventory": { "browser_script": "" },
+                "order": { "browser_script": "" }
             },
             "description": "sarasuole",
-            "descriptionHTML": "",
+            "description_html": "",
             "constants": "{}",
             "companies": [],
             "support": [],
@@ -243,8 +243,8 @@
         {
             "validators": {
                 "company": {
-                    "browserScript": "",
-                    "jsonSchema": {
+                    "browser_script": "",
+                    "json_schema": {
                         "type": "object",
                         "required": ["article_identifier"],
                         "properties": {
@@ -258,8 +258,8 @@
                     }
                 },
                 "store": {
-                    "browserScript": "",
-                    "jsonSchema": {
+                    "browser_script": "",
+                    "json_schema": {
                         "type": "object",
                         "required": ["article_identifier"],
                         "properties": {
@@ -272,11 +272,11 @@
                         }
                     }
                 },
-                "inventory": { "browserScript": "" },
-                "order": { "browserScript": "" }
+                "inventory": { "browser_script": "" },
+                "order": { "browser_script": "" }
             },
             "description": "ethos",
-            "descriptionHTML": "",
+            "description_html": "",
             "constants": "{}",
             "companies": [],
             "support": [],
@@ -294,8 +294,8 @@
         {
             "validators": {
                 "company": {
-                    "browserScript": "",
-                    "jsonSchema": {
+                    "browser_script": "",
+                    "json_schema": {
                         "type": "object",
                         "required": [
                             "ip_address",
@@ -334,8 +334,8 @@
                     }
                 },
                 "store": {
-                    "browserScript": "",
-                    "jsonSchema": {
+                    "browser_script": "",
+                    "json_schema": {
                         "type": "object",
                         "properties": {
                             "location_id": {
@@ -352,11 +352,11 @@
                         }
                     }
                 },
-                "inventory": { "browserScript": "" },
-                "order": { "browserScript": "" }
+                "inventory": { "browser_script": "" },
+                "order": { "browser_script": "" }
             },
             "description": "Sap Integration west ELM brands",
-            "descriptionHTML": "",
+            "description_html": "",
             "constants": "{}",
             "companies": [],
             "support": [],
@@ -381,8 +381,8 @@
         {
             "validators": {
                 "company": {
-                    "browserScript": "",
-                    "jsonSchema": {
+                    "browser_script": "",
+                    "json_schema": {
                         "type": "object",
                         "required": [
                             "ip_address",
@@ -426,8 +426,8 @@
                     }
                 },
                 "store": {
-                    "browserScript": "",
-                    "jsonSchema": {
+                    "browser_script": "",
+                    "json_schema": {
                         "type": "object",
                         "required": [
                             "ip_address",
@@ -469,11 +469,11 @@
                         }
                     }
                 },
-                "inventory": { "browserScript": "" },
-                "order": { "browserScript": "" }
+                "inventory": { "browser_script": "" },
+                "order": { "browser_script": "" }
             },
             "description": "Ginesys POS Integration",
-            "descriptionHTML": "",
+            "description_html": "",
             "constants": "{}",
             "companies": [],
             "support": [],
@@ -505,15 +505,15 @@
         },
         {
             "validators": {
-                "company": { "browserScript": "" },
+                "company": { "browser_script": "" },
                 "store": {
-                    "browserScript": "function check() {\n    return true;\n}"
+                    "browser_script": "function check() {\n    return true;\n}"
                 },
-                "inventory": { "browserScript": "" },
-                "order": { "browserScript": "" }
+                "inventory": { "browser_script": "" },
+                "order": { "browser_script": "" }
             },
             "description": "",
-            "descriptionHTML": "",
+            "description_html": "",
             "constants": "{\"ping\":\"pong4\"}",
             "companies": [],
             "support": [],

@@ -8,12 +8,9 @@ if (root && root.process && root.process.env && root.process.env.NODE_ENV == 'te
     envVars['BROWSER_CONFIG'] = root.process.env;
 }
 
-let PLATFORM_COMMON_BASE = isNode ?
-    envVars.BROWSER_CONFIG.PLATFORM_COMMON_MAIN_URL :
-    envVars.PLATFORM_COMMON_MAIN_URL;
-
-//remove later when done from nginx
-// PLATFORM_COMMON_BASE = urlJoin(PLATFORM_COMMON_BASE, '/partner');
+let SLINGSHOT_PUBLIC_URL = isNode ?
+    envVars.BROWSER_CONFIG.SLINGSHOT_PUBLIC_URL :
+    envVars.SLINGSHOT_PUBLIC_URL;
 
 const GRIMLOCK_BASE = isNode ?
     envVars.BROWSER_CONFIG.GRIMLOCK_MAIN_SVC :
@@ -138,14 +135,14 @@ const URLS = {
 
     // fetch applications
     FETCH_APPLICATIONS: (uid) => {
-        return urlJoin(SLINGSHOT_MAIN_URL, `/company/${uid}/applications`);
+        return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/company/${uid}/application`);
     },
 
     //archive unarchive sales channel
     ACTION_APPLICATIONS: (uid, appId) => {
         return urlJoin(
-            SLINGSHOT_MAIN_URL,
-            `/company/${uid}/applications/${appId}`
+            SLINGSHOT_ADMIN_URL,
+            `/v1.0/company/${uid}/application/${appId}`
         );
     },
 
@@ -257,7 +254,7 @@ const URLS = {
     },
 
     LOCATIONS: () => {
-        return urlJoin(PLATFORM_COMMON_BASE, '/locations');
+        return urlJoin(SLINGSHOT_PUBLIC_URL, '/locations');
     },
 
     // Unicron/Daytrader - Plan creator
