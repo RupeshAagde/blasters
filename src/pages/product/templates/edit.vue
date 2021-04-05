@@ -683,7 +683,7 @@ export default {
                 return;
             }
             const params = {
-                limit: 999999,
+                page_size: 999999,
                 department: this.template.departments
             };
             return CompanyService.fetchAttributes(params)
