@@ -51,6 +51,20 @@ const conf = convict({
             env: 'SLINGSHOT_ADMIN_SVC',
             arg: 'slingshot_admin_svc'
         },
+        SLINGSHOT_PUBLIC_URL: {
+            doc: 'Slingshot Public Service',
+            format: String,
+            default: '',
+            env: 'SLINGSHOT_PUBLIC_URL',
+            arg: 'slingshot_public_url'
+        },
+        SLINGSHOT_PUBLIC_SVC: {
+            doc: 'Slingshot Public Service',
+            format: String,
+            default: '',
+            env: 'SLINGSHOT_PUBLIC_SVC',
+            arg: 'slingshot_public_svc'
+        },
         BLITZKRIEG_MAIN_URL: {
             doc: 'Themes API',
             format: String,

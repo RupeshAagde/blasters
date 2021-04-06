@@ -126,11 +126,23 @@
                     <div class="form-body">
                         <nitrozen-input
                             v-model="name.value"
+                            @input="convertToSlug()"
                             label="Name *"
                             placeholder="Name"
                         ></nitrozen-input>
                         <nitrozen-error v-if="name.showerror && !name.value">
                             {{ name.errortext }}
+                        </nitrozen-error>
+                    </div>
+                    <div class="form-body slug" v-if="!isEditOnly">
+                        <nitrozen-input
+                            v-model="slug.value"
+                            label="Slug *"
+                            :disabled="true"
+                            placeholder="Slug"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="slug.showerror && !slug.value">
+                            {{ slug.errortext }}
                         </nitrozen-error>
                     </div>
                     <div class="form-body token" v-if="isEditOnly">
@@ -324,7 +336,7 @@ import { copyToClipboard } from '@/helper/utils.js';
 import CompanyService from '@/services/company-admin.service';
 import IntegrationService from '@/services/integration.service';
 import { validateNitrozenCustomFormInputs } from '@/helper/utils';
-import { debounce } from '@/helper/utils';
+import { debounce, convertToSlug } from '@/helper/utils';
 
 const PAGINATION = {
     limit: 500,
@@ -370,6 +382,7 @@ export default {
             icon: this.getInitialValue(''),
             description: this.getInitialValue(''),
             name: this.getInitialValue(''),
+            slug: this.getInitialValue(''),
             tags: [],
             companyForm: this.getInitialValue([]),
             storeForm: this.getInitialValue([]),
@@ -564,32 +577,33 @@ export default {
                 constants: this.$refs['constants'].getJSON(),
                 validators: {
                     company: {
-                        browserScript: '',
-                        jsonSchema: this.$refs['companyForm'].getJSON()
+                        browser_script: '',
+                        json_schema: this.$refs['companyForm'].getJSON()
                     },
                     store: {
-                        browserScript: '',
-                        jsonSchema: this.$refs['storeForm'].getJSON()
+                        browser_script: '',
+                        json_schema: this.$refs['storeForm'].getJSON()
                     }
                 },
                 meta: this.tags,
                 name: this.name.value,
+                slug: this.slug.value || convertToSlug(this.name.value),
                 description: this.description.value,
-                descriptionHTML: '',
+                description_html: '',
                 icon: this.icon.value,
                 companies: this.selectedCompany,
                 support: this.selectedSupport
             };
             if (this.selectedSupport.includes('inventory')) {
                 obj.validators.inventory = {
-                    browserScript: '',
-                    jsonSchema: this.$refs['inventoryForm'].getJSON()
+                    browser_script: '',
+                    json_schema: this.$refs['inventoryForm'].getJSON()
                 };
             }
             if (this.selectedSupport.includes('order')) {
                 obj.validators.order = {
-                    browserScript: '',
-                    jsonSchema: this.$refs['orderForm'].getJSON()
+                    browser_script: '',
+                    json_schema: this.$refs['orderForm'].getJSON()
                 };
             }
             obj = Object.assign(this.integrationData, obj);
@@ -686,7 +700,7 @@ export default {
                     this.name.value = this.integrationData.name;
                     this.description.value = this.integrationData.description;
                     this.icon.value = this.integrationData.icon || '';
-                    this.tags = this.integrationData.meta;
+                    this.tags = this.integrationData.meta || [];
                     this.token = this.integrationData.token;
                     this.selectedCompany = this.integrationData.companies || [];
                     this.constants = this.integrationData.constants || {};
@@ -697,19 +711,17 @@ export default {
                         'inventory',
                         'order'
                     ];
-                    this.companyForm.value =
-                        this.integrationData.validators.company.jsonSchema ||
+                    this.companyForm.value = this.integrationData.validators.company.json_schema ||
                         [];
-                    this.storeForm.value =
-                        this.integrationData.validators.store.jsonSchema || [];
+                    this.storeForm.value = this.integrationData.validators.store.json_schema || [];
                     this.inventoryForm.value =
                         (this.integrationData.validators.inventory &&
                             this.integrationData.validators.inventory
-                                .jsonSchema) ||
+                                .json_schema) ||
                         [];
                     this.orderForm.value =
                         (this.integrationData.validators.order &&
-                            this.integrationData.validators.order.jsonSchema) ||
+                            this.integrationData.validators.order.json_schema) ||
                         [];
                     setTimeout(() => {
                         this.$refs['companyForm'].populateData();
@@ -733,7 +745,11 @@ export default {
             copyToClipboard(data);
             this.$snackbar.global.showInfo('Copied to clipboard');
             event.stopPropagation();
-        }
+        },
+        convertToSlug() {
+            if (this.isEditOnly) return;
+            this.slug.value = convertToSlug(this.name.value);
+        },
     }
 };
 </script>

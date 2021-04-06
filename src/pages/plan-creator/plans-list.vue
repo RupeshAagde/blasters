@@ -221,7 +221,7 @@ export default {
             .then(({ data }) => {
                 this.countryList.push({ text: 'All', value: ' ' });
                 this.countryList.push(
-                    ...data.map((ctry) => {
+                    ...data.items.map((ctry) => {
                         return {
                             text: `${ctry.name} (${ctry.iso2})`,
                             value: ctry.iso2
