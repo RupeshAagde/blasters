@@ -149,6 +149,20 @@ const conf = convict({
             env: 'APEFACE_MAIN_SVC',
             arg: 'apeface_main_svc'
         },
+        APEFACE_ADMIN_URL: {
+            doc: 'Admin Orders URL',
+            format: String,
+            default: '',
+            env: 'APEFACE_ADMIN_URL',
+            arg: 'apeface_admin_url'
+        },
+        APEFACE_MAIN_SVC: {
+            doc: 'Admin Orders Service',
+            format: String,
+            default: '',
+            env: 'APEFACE_ADMIN_SVC',
+            arg: 'apeface_admin_svc'
+        },
         SEARCHLIGHT_MAIN_DOMAIN: {
             doc: 'SEARCHLIGTH URL FOR HELP DATA',
             format: String,

@@ -355,7 +355,8 @@ export default {
 
                                     if (attachment.type == 'shipment') {
                                         attachment.details =
-                                            responses[index].data.orders[0];
+                                            // responses[index].data.orders[0];
+                                            responses[index].data.items[0];
                                         index = index + 1;
                                     }
                                 }
