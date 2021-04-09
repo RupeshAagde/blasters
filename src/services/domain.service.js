@@ -307,40 +307,40 @@ const URLS = {
 
     //#########Tickets########
     FETCH_TICKETS: () => {
-        return urlJoin(PLATFORM_LEADS_BASE, `admin/v1/ticket`);
+        return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket`);
     },
 
     FETCH_HISTORY: (ticket_id) => {
         return urlJoin(
             PLATFORM_LEADS_BASE,
-            `admin/v1/ticket/${ticket_id}/history`
+            `v1.0/ticket/${ticket_id}/history`
         );
     },
 
     ADD_COMMENT: (ticket_id) => {
         return urlJoin(
             PLATFORM_LEADS_BASE,
-            `admin/v1/ticket/${ticket_id}/comment`
+            `v1.0/ticket/${ticket_id}/history`
         );
     },
 
     CREATE_VIDEO_ROOM: () => {
-        return urlJoin(PLATFORM_LEADS_BASE, `video/v1/room`);
+        return urlJoin(PLATFORM_LEADS_BASE, `video/v1.0/room`);
     },
 
     GET_VIDEO_ROOM_TOKEN: (unique_name) => {
         return urlJoin(
             PLATFORM_LEADS_BASE,
-            `video/v1/room/${unique_name}/token`
+            `video/v1.0/room/${unique_name}/token`
         );
     },
 
     FETCH_TICKET: (ticket_id) => {
-        return urlJoin(PLATFORM_LEADS_BASE, `admin/v1/ticket/${ticket_id}`);
+        return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket/${ticket_id}`);
     },
 
-    FETCH_TICKETS_OPTIONS: (company_id = '') => {
-        return urlJoin(PLATFORM_LEADS_BASE, `admin/v1/ticket/options`);
+    FETCH_TICKETS_OPTIONS: () => {
+        return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket?items=false`);
     },
 
     FETCH_SHIPMENT_INFO: (slug, company_id) => {

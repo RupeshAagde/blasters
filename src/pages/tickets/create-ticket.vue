@@ -239,7 +239,7 @@ export default {
         loadEverything() {
             let promises = [];
             promises.push(
-                SupportService.fetchOptions(this.$route.params.company_id)
+                SupportService.fetchOptions()
             );
 
             if (this.ticketID) {
@@ -290,7 +290,7 @@ export default {
                         this.ticket.context = ticket.context;
 
                         res = responses[2];
-                        this.ticket.history = res.data.docs;
+                        this.ticket.history = res.data.items;
                     }
 
                     res = responses[1];

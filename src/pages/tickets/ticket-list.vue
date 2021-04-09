@@ -266,8 +266,8 @@ export default {
             this.loading = true;
 
             const params = {
-                limit: this.filter_data.pagination.limit,
-                page: this.filter_data.pagination.current
+                page_size: this.filter_data.pagination.limit,
+                page_no: this.filter_data.pagination.current
             };
 
             if (this.searchText != '') {
@@ -292,8 +292,8 @@ export default {
 
             return SupportService.fetchTickets(params)
                 .then((res) => {
-                    this.initial_data = res.data.docs;
-                    this.filter_data.pagination.total = res.data.total;
+                    this.initial_data = res.data.items;
+                    this.filter_data.pagination.total = res.data.page.item_total;
                     this.filter_data.filters = res.data.filters;
 
                     this.filter_data.filters.statuses = [
@@ -397,9 +397,7 @@ export default {
         },
         onTicketSelection(ticket) {
             this.$router.push({
-                path: `${getRoute(
-                    this.$route
-                )}/administrator/support/ticket/${ticket._id}/edit`
+                path: `${getRoute(this.$route)}/administrator/support/ticket/${ticket._id}/edit`
             });
         },
         readableDate(date) {

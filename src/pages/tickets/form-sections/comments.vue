@@ -125,8 +125,11 @@ export default {
         },
         addComment() {
             let dataToSend = {
-                text: this.newComment,
-                media: [],
+                type: "comment",
+                value: {
+                    text: this.newComment,
+                    media: [],
+                }
             };
             this.loading = true;
             SupportService.addComment(

@@ -45,8 +45,8 @@ const SupportService = {
     getTicket(ticketID) {
         return ApiService.get(URLS.FETCH_TICKET(ticketID), {});
     },
-    fetchOptions(company_id) {
-        return ApiService.get(URLS.FETCH_TICKETS_OPTIONS(company_id), {
+    fetchOptions() {
+        return ApiService.get(URLS.FETCH_TICKETS_OPTIONS(), {
             params: {}
         });
     },
