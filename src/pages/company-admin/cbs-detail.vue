@@ -4,6 +4,7 @@
         <div v-if="!inProgress" class="cust-panel">
             <div class="top-container" v-if="profileDetails">
                 <page-header
+                    ref="page-header-ref"
                     :title="profileDetails.name"
                     @backClick="redirectToListing"
                     :contextMenuItems="contextMenuItems"
@@ -34,7 +35,15 @@
                 </page-header>
             </div>
         </div>
-        <div class="main-container profile-container">
+        <nitrozen-tab
+            :activeIndex="activeTabIndex"
+            class="custom-tab"
+            :tabItem="['Details', 'Marketplace Channels']"
+            @tab-change="(obj) => (activeTabIndex = obj.index)"
+        ></nitrozen-tab>
+        <div 
+             v-show="activeTabIndex === 0"
+            class="main-container profile-container">
             <div class="full-width">
                 <div class="feature-container">
                     <!-- Brands Section -->
@@ -72,6 +81,11 @@
                 </div>
             </div>
         </div>
+        <div
+            v-show="activeTabIndex === 1"
+        >
+            <mkp-channels class="page-container common-container"></mkp-channels>
+        </div>
     </div>
 </template>
 <style lang="less" scoped>
@@ -95,10 +109,18 @@
     position: relative;
 }
 .cust-panel {
-    margin-bottom: 84px;
+    margin-bottom: 60px;
 }
 .profile-container {
     margin-right: 0;
+}
+.custom-tab {
+    ::v-deep .nitrozen-tab-item {
+        padding-top: 15px;
+        &:first-child {
+            margin-left: 10px;
+        }
+    }
 }
 .main-container {
     // margin-right: 0;
@@ -135,8 +157,9 @@ import PageHeader from '@/components/common/layout/page-header';
 import admcompanydetails from './profile-details.vue';
 import CompanyService from '@/services/company-admin.service';
 import Shimmer from '@/components/common/shimmer';
-import { NitrozenBadge } from '@gofynd/nitrozen-vue';
+import { NitrozenBadge, NitrozenTab } from '@gofynd/nitrozen-vue';
 import { FETCH_METRICS } from '@/store/action.type';
+import marketplaceChannels from './mkp-channels.vue';
 
 import root from 'window-or-global';
 const env = root.env || {};
@@ -151,20 +174,23 @@ export default {
         'list-dri': listdri,
         Shimmer,
         PageHeader,
-        'nitrozen-badge': NitrozenBadge
+        'nitrozen-badge': NitrozenBadge,
+        'nitrozen-tab': NitrozenTab,
+        'mkp-channels': marketplaceChannels
     },
     computed: {},
     data() {
         return {
+            activeTabIndex: 0,
             companyId: this.$route.params.companyId,
             profileDetails: {},
             inProgress: false,
             contextMenuItems: [
                 {
                     text: 'View Company',
-                    action: 'edit'
-                }
-            ]
+                    action: 'edit',
+                },
+            ],
         };
     },
     mounted() {
@@ -174,25 +200,25 @@ export default {
     computed: {
         fyndPlatformDomain(type) {
             return env.FYND_PLATFORM_DOMAIN;
-        }
+        },
     },
     methods: {
-        fetchMetricsApi: function() {
+        fetchMetricsApi: function () {
             let params = {
-                company: this.companyId
+                company: this.companyId,
             };
             this.$store.dispatch(FETCH_METRICS, params);
         },
-        getProfileDetails: function() {
+        getProfileDetails: function () {
             let params = {
-                uid: this.companyId
+                uid: this.companyId,
                 // phase: 'company_detail'
             };
             this.inProgress = true;
             CompanyService.fetchCompanyProfile(params)
                 .then((res) => {
                     this.inProgress = false;
-                    this.profileDetails = res.data.data;
+                    this.profileDetails = res.data;
                 })
                 .catch((err) => {
                     this.inProgress = false;
@@ -207,7 +233,7 @@ export default {
             window.open(
                 `https://platform.${this.fyndPlatformDomain}/company/${this.companyId}/profile/`
             );
-        }
-    }
+        },
+    },
 };
 </script>

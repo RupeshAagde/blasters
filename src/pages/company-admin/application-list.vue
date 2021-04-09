@@ -96,7 +96,7 @@
                         >
                     </div>
                 </div>
-                <div class="line-4" v-if="!item.internal">
+                <div class="line-4" v-if="!item.internal || item.is_internal">
                     <nitrozen-button
                         :theme="'secondary'"
                         v-if="item.is_active"
@@ -263,7 +263,7 @@
                 overflow: hidden;
                 line-height: 20px;
                 font-size: 14px;
-                color: #5c6bdd;
+                color: #2E31BE;
                 font-weight: bold;
                 cursor: pointer;
             }
@@ -295,7 +295,7 @@
                 max-width: 200px;
                 white-space: nowrap;
                 overflow: hidden;
-                color: #5c6bdd;
+                color: #2E31BE;
                 font-weight: bold;
                 cursor: pointer;
             }
@@ -398,8 +398,8 @@ export default {
         },
         requestQuery() {
             const temp = {
-                page: this.pagination.current,
-                limit: this.pagination.limit
+                page_no: this.pagination.current,
+                page_size: this.pagination.limit
             };
 
             // if (this.searchText) {
@@ -423,10 +423,10 @@ export default {
                 .then((res) => {
                     this.inProgress = false;
                     this.pageError = false;
-                    this.pagination.total = res.data.total;
-                    this.totalApp = res.data.total;
-                    this.mainList = res.data.docs;
-                    this.applicationList = res.data.docs;
+                    this.pagination.total = res.data.page.item_total;
+                    this.totalApp = res.data.page.item_total;
+                    this.mainList = res.data.items;
+                    this.applicationList = res.data.items;
                 })
                 .catch((error) => {
                     this.inProgress = false;

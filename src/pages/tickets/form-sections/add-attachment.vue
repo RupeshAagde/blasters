@@ -137,7 +137,8 @@ export default {
                     this.company_id
                 )
                     .then((res) => {
-                        this.attachment.details = res.data.orders[0];
+                        // this.attachment.details = res.data.orders[0];
+                        this.attachment.details = res.data.items[0];
                         this.attachment.display = 'Shipment';
                         this.close(this.attachment);
                     })

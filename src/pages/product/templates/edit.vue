@@ -17,6 +17,7 @@
                     <nitrozen-button
                         class="pad-left"
                         :theme="'secondary'"
+                        ref="save-button"
                         v-flatBtn
                         @click="saveForm"
                         >Save</nitrozen-button
@@ -634,8 +635,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchProductTemplate(this.slug)
                     .then(({ data }) => {
-                        this.template = _.first(data.data);
-
+                        this.template = _.first(data.items);
                         return resolve();
                     })
                     .catch((err) => {
@@ -647,7 +647,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchDepartments()
                     .then(({ data }) => {
-                        this.departments = data.data;
+                        this.departments = data.items;
                         this.setDepartmentsList();
                         return resolve();
                     })
@@ -668,7 +668,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchCategory_v2(params)
                     .then(({ data }) => {
-                        this.categories = data.data;
+                        this.categories = data.items;
                         this.setCategoriesList();
                         return resolve();
                     })
@@ -683,12 +683,12 @@ export default {
                 return;
             }
             const params = {
-                limit: 999999,
+                page_size: 999999,
                 department: this.template.departments
             };
             return CompanyService.fetchAttributes(params)
                 .then(({ data }) => {
-                    this.attributes = data.data;
+                    this.attributes = data.items;
                     this.setAttributesList();
                 })
                 .catch((err) => {

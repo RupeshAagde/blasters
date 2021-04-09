@@ -138,11 +138,11 @@
 }
 .left-space-co {
     margin-left: 16px;
-    color: #5c6bdd;
+    color: #2E31BE;
 }
 .left-space-mo {
     margin-left: 14px;
-    color: #5c6bdd;
+    color: #2E31BE;
 }
 .label {
     color: #9b9b9b;
@@ -235,7 +235,7 @@
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
             line-height: 24px;
-            color: #5c6bdd;
+            color: #2E31BE;
         }
 
         .card-content-line-2 {
@@ -360,7 +360,7 @@ export default {
             }
             CompanyService.fetchCategory_v2(this.getQueryParam())
                 .then((res) => {
-                    this.tempList = generateArrItem(res.data.data);
+                    this.tempList = generateArrItem(res.data.items);
                     this.tempList = filterDuplicateObject(this.tempList);
                     fetchUserMetaObjects(this.tempList)
                         .then((response) => {
@@ -369,8 +369,8 @@ export default {
                                     this.userObj[element.uid] = element;
                                 }
                             });
-                            this.pagination.total = res.data.total_count; //TODO
-                            this.categoryList = res.data.data;
+                            this.pagination.total = res.data.page.item_total;
+                            this.categoryList = res.data.items;
                             this.isLoading = false;
                         })
                         .catch((err) => {

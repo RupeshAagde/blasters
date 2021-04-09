@@ -222,6 +222,7 @@
                 <div class="bottom-buttons">
                     <nitrozen-button
                         class="mr24"
+                        ref="approve_btn"
                         v-if="profileDetails.stage != 'verified'"
                         @click="openApproveDialog()"
                         v-flatBtn
@@ -231,6 +232,7 @@
                     <!-- v-if="product.stage != 'rejected'" -->
                     <nitrozen-button
                         theme="secondary"
+                        ref="reject_btn"
                         class="cust-left-space"
                         v-if="profileDetails.stage != 'rejected'"
                         v-strokeBtn
@@ -392,7 +394,7 @@
     margin-top: 18px;
 }
 .no-doc {
-    font-family: Poppins;
+    font-family: Inter;
     color: #9b9b9b;
     font-size: 14px;
     line-height: 20px;
@@ -406,7 +408,7 @@
     justify-content: space-between;
     margin-bottom: 24px;
     .doc-text {
-        font-family: Poppins;
+        font-family: Inter;
         color: #9b9b9b;
         font-size: 14px;
         line-height: 20px;
@@ -585,7 +587,7 @@ export default {
                 .then((res) => {
                     this.inProgress = false;
                     this.pageError = false;
-                    this.profileDetails = res.data.data;
+                    this.profileDetails = res.data;
                     this.documentUnverified = this.profileDetails.documents.some(
                         (doc) => {
                             return !doc.verified;
@@ -609,9 +611,6 @@ export default {
                     this.inProgress = false;
                     console.error(err);
                 });
-        },
-        viewDocuments() {
-            console.log('view document');
         },
         openApproveDialog: function() {
             this.$refs['company_approve_dialog'].open({
@@ -660,7 +659,7 @@ export default {
                     this.$snackbar.global.showError(
                         `${
                             error.response.data
-                                ? error.response.data.errors.error
+                                ? error.response.data.message
                                 : ''
                         }`,
                         {

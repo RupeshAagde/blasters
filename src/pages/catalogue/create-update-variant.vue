@@ -193,7 +193,7 @@
     align-items: center;
 
     .active-dept {
-        color: #5c6bdd;
+        color: #2E31BE;
         cursor: pointer;
         display: flex;
         justify-content: flex-start;
@@ -215,7 +215,7 @@
     border-radius: 4px;
     margin: 85px 24px 24px 24px !important;
     padding: 24px;
-    font-family: Poppins;
+    font-family: Inter;
 
     .row-1 {
         width: 100%;
@@ -406,7 +406,7 @@ export default {
             };
             CatalogService.fetchChoices(params)
                 .then((res) => {
-                    this.displayType.value = res.data.data;
+                    this.displayType.value = res.data.items;
                     this.displayType.value.map((element) => {
                         element.text = element.value;
                         element.value = element.key;
@@ -420,7 +420,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CatalogService.fetchDepartment()
                     .then(({ data }) => {
-                        this.departmentList = data.data;
+                        this.departmentList = data.items;
                         return resolve();
                     })
                     .catch((err) => {

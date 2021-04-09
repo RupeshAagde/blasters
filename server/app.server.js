@@ -10,6 +10,7 @@ const isProduction = env !== 'development'
 const template = fs.readFileSync(resolvePath('./../src/index.html'), 'utf-8')
 const { createBundleRenderer } = require('vue-server-renderer')
 const Sentry = require('@sentry/node')
+const logger = require('./utils/winston')
 let serverReady
 let renderer
 const initdevServer = (app) => {
@@ -19,7 +20,7 @@ const initdevServer = (app) => {
     try {
       renderer = createRenderer(bundle, options)
     } catch (err) {
-      console.log(err)
+      logger.info(err)
     }
   })
 }
@@ -50,33 +51,33 @@ const createRenderer = (bundle, options) => {
 const render = (renderer, req, res, context) => {
   const s = Date.now()
 
-  console.log(`Rendering: ${req.url}`)
+  logger.info(`Rendering: ${req.url}`)
 
   res.setHeader('Content-Type', 'text/html')
 
   const errorHandler = (err) => {
     // TODO: Render Error Page
-    console.error(`Fatal error when rendering : ${req.url}`)
-    console.error(err)
+    logger.info(`Fatal error when rendering : ${req.url}`)
+    logger.info(err)
     Sentry.captureException(err)
 
     const statusCode = err.code || 500
     res.status(statusCode)
     res.end(`<h1>${statusCode}</h1>`)
 
-    console.log(`Whole request: ${Date.now() - s}ms`)
+    logger.info(`Whole request: ${Date.now() - s}ms`)
   }
 
   renderer.renderToString(context, (err, html) => {
     if (err) {
-      console.error(err)
+      logger.info(err)
       return errorHandler(err)
     }
 
     res.status(200)
     res.end(html)
 
-    console.log(`Whole request: ${Date.now() - s}ms`)
+    logger.info(`Whole request: ${Date.now() - s}ms`)
   })
 }
 

@@ -125,21 +125,6 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <!-- <div
-                                        class="txt-arrange"
-                                        v-if="product.created_on"
-                                    >
-                                        <div class="txt-description-heading">
-                                            Created On :
-                                        </div>
-                                        <div class="txt-details-on">
-                                            {{
-                                                new Date(
-                                                    product.created_on
-                                                ).toLocaleString()
-                                            }}
-                                        </div>
-                                    </div>-->
                                 </div>
                             </div>
                             <div class="card-badge-section">
@@ -248,7 +233,7 @@
         align-items: center;
     }
     .label {
-        font-family: Poppins;
+        font-family: Inter;
         color: @Mako;
         font-size: 14px;
         line-height: 20px;
@@ -299,7 +284,7 @@
             }
 
             .txt-company-heading {
-                color: #5c6bdd;
+                color: #2E31BE;
                 font-weight: 600;
                 font-size: 16px;
                 -webkit-font-smoothing: antialiased;
@@ -419,7 +404,7 @@ import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import fynotfound from '@/components/common/ukt-not-found';
 import userInfoTooltip from '@/components/common/feedback/userInfo-tooltip.vue';
-// import { toListingThumbnail } from '@/helper/image.utils';
+
 import {
     NitrozenInput,
     NitrozenError,
@@ -524,7 +509,7 @@ export default {
             };
 
             if (this.searchText) {
-                query.name = this.searchText;
+                query.q = this.searchText;
             }
 
             if (this.selectedFilter !== 'all') {
@@ -537,7 +522,7 @@ export default {
             this.pageLoading = true;
             return CompanyService.getCompanyList(this.requestQuery())
                 .then(({ data }) => {
-                    this.tempList = generateArrItem(data.data);
+                    this.tempList = generateArrItem(data.items);
                     this.tempList = filterDuplicateObject(this.tempList);
                     fetchUserMetaObjects(this.tempList)
                         .then((res) => {
@@ -546,32 +531,19 @@ export default {
                                     this.userObj[element.uid] = element;
                                 }
                             });
-                            this.companyList = data.data;
-                            this.pagination.total = data.total_count;
+                            this.companyList = data.items;
+                            this.pagination.total = data.page.item_total;
                             this.pageLoading = false;
                         })
                         .catch((err) => {
                             console.log(err);
                         });
-                    // Promise.all([this.fetchUserMeta(this.tempList)])
-                    //     .then(() => {
-                    //         this.companyList = data.data;
-                    //         // this.pagination.current = this.pagination.current + 1;=
-                    //         this.pagination.total = data.total_count;
-                    //         this.pageLoading = false;
-                    //     })
-                    //     .catch((err) => {
-                    //         return reject(err);
-                    //     });
                 })
                 .catch((err) => {
                     this.pageLoading = false;
                     this.pageError = true;
                     console.log(err);
                 });
-        },
-        getErrorImage() {
-            return '/public/admin/assets/pngs/default_icon_listing.png';
         },
         paginationChange(filter, action) {
             const { current, limit } = filter;
@@ -596,7 +568,6 @@ export default {
         },
         setRouteQuery(query) {
             if (query.name || query.stage !== 'all') {
-                // clear pagination if search or filter applied
                 this.pagination = { ...PAGINATION };
                 query.pageId = undefined;
                 query.limit = PAGINATION.limit;

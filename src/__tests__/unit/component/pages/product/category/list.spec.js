@@ -6,6 +6,7 @@ import axios from 'axios';
 import EditCategory from "../../../../../../pages/product/category/list.vue";
 import URLS from "../../../../../../services/domain.service.js"
 import mocks from "./mocks";
+import flushPromises from "flush-promises";
 
 const mock = new MockAdapter(axios);
 let localVue = createLocalVue()
@@ -33,6 +34,9 @@ describe('Mounted List Category Page', () => {
                 "updatedAt": "2020-10-23T10:59:13.521Z", "uid": "68"
             }]);
     });
+    afterEach(async () => {
+        await flushPromises();
+    });
     it('list - exists wrapper and div', async () => {
         const router = new VueRouter({
             routes: [
@@ -40,7 +44,7 @@ describe('Mounted List Category Page', () => {
             ]
         })
         router.push('/administrator/product/category');
-        mock.onGet(URLS.CATEGORY_v2()).reply(200, { data: mocks.categoryList });
+        mock.onGet(URLS.CATEGORY_v2()).reply(200, { items: mocks.categoryList });
         mock.onGet("/auth/user-info/search/").reply(200, {});
 
         const wrapper = mount(EditCategory, {
@@ -50,8 +54,6 @@ describe('Mounted List Category Page', () => {
         // await wrapper.vm.$nextTick();
         await new Promise(resolve => setTimeout(resolve, 10));
         expect(wrapper.exists()).toBeTruthy();
-        const div = wrapper.find('div');
-        expect(div.exists()).toBe(true);
         expect(wrapper.element).toMatchSnapshot()
 
     });
@@ -62,7 +64,7 @@ describe('Mounted List Category Page', () => {
             ]
         })
         router.push('/administrator/product/category');
-        mock.onGet(URLS.CATEGORY_v2()).reply(200, { data: mocks.categoryList });
+        mock.onGet(URLS.CATEGORY_v2()).reply(200, { items: mocks.categoryList });
         mock.onGet("/auth/user-info/search/").reply(200, {});
 
         const wrapper = mount(EditCategory, {
@@ -80,7 +82,7 @@ describe('Mounted List Category Page', () => {
             ]
         })
         router.push('/administrator/product/category');
-        mock.onGet(URLS.CATEGORY_v2()).reply(200, { data: mocks.categoryList });
+        mock.onGet(URLS.CATEGORY_v2()).reply(200, { items: mocks.categoryList });
         mock.onGet("/auth/user-info/search/").reply(200, {});
 
         const wrapper = mount(EditCategory, {
@@ -99,7 +101,7 @@ describe('Mounted List Category Page', () => {
             ]
         })
         router.push('/administrator/product/category');
-        mock.onGet(URLS.CATEGORY_v2()).reply(200, { data: mocks.categoryList });
+        mock.onGet(URLS.CATEGORY_v2()).reply(200, { items: mocks.categoryList });
         mock.onGet("/auth/user-info/search/").reply(200, {});
 
         const wrapper = mount(EditCategory, {

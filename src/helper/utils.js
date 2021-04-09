@@ -1,6 +1,8 @@
 import { isBrowser, isNode } from 'browser-or-node';
 import CompanyService from '@/services/company-admin.service';
-import { console } from 'window-or-global';
+import { Array, console } from 'window-or-global';
+import InputTypes from './NitrozenCustomFormInputTypes';
+
 export const debounce = (func, wait, immediate) => {
     var timeout;
 
@@ -297,7 +299,7 @@ export const fetchUserMetaObjects = (arr) => {
     return new Promise((resolve, reject) => {
         CompanyService.searchUser(params)
             .then(({ data }) => {
-                return resolve(data);
+                return resolve(data.users);
             })
             .catch((err) => {
                 return reject(err);
@@ -319,3 +321,77 @@ export const validateEmail = (text) => {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(text).toLowerCase());
 };
+
+export const validateNitrozenCustomFormInputs = (inputs) =>{
+    try{
+        if(inputs && Array.isArray(inputs)){
+            if(inputs.length===0){
+                return true;
+            } 
+            for(let i of inputs){
+                if(!validateNitrozenCustomFormInput(i)){
+                    console.log('INPUT:::',i,inputs.length)
+                  throw 'Some input is invalid'; 
+                }
+            }
+            return true;
+        }else{
+            throw 'Inputs format invalid';
+        }
+    }catch(e){
+        console.log('ERROR',e)
+        return false
+    }
+}
+
+export const validateNitrozenCustomFormInput = (input, skipKey = false) => {
+    if (!input.type) {
+        return false
+    }
+
+    // if (!input.key && !skipKey) {
+    //     return false
+    // }
+
+    // if (skipKey && input.key) {
+    //     return false
+    // }
+
+    if (input.required != undefined && input.required != true && input.required != false) {
+        return false
+    }
+
+    switch (input.type) {
+        case InputTypes.text.key:
+        case InputTypes.textarea.key:
+        case InputTypes.email.key:
+            return true;
+        case InputTypes.number.key:
+            return true;
+        case InputTypes.radio.key:
+        case InputTypes.dropdown.key:
+        case InputTypes.checkbox.key:
+            if (!input.enum || input.enum.length == 0) {
+                return false;
+            }
+            return true;
+        case InputTypes.mobile.key:
+            return true;
+        case InputTypes.toggle.key:
+            return true;
+        case InputTypes.object.key:
+            if (!input.inputs || input.inputs.length == 0) {
+                return false;
+            }
+            let isValid = true
+            input.inputs.forEach(io => {
+                isValid = validateNitrozenCustomFormInput(io) && isValid;
+            });
+            return isValid;
+        case InputTypes.array.key:
+            return validateNitrozenCustomFormInput(input.input, true);
+        default:
+            console.log(input.type + 'Unknown input type detected')
+            return false
+    }
+}

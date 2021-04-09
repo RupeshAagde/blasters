@@ -54,13 +54,15 @@ const CatalogService = {
 
         return ApiService.get(URLS.FETCH_DEPARTMENT(), axiosOption);
     },
-    saveDepartment(body) {
+    saveDepartment(body, uid) {
         const axiosOption = Object.assign(
             {},
             { data: body },
             getCommonHeaderOptions()
         );
-
+        if(uid){
+            return ApiService.put(URLS.FETCH_DEPARTMENT(uid), axiosOption);    
+        }
         return ApiService.post(URLS.FETCH_DEPARTMENT(), axiosOption);
     }
 };

@@ -3,9 +3,7 @@
         <div class="jumbotron-container">
             <jumbotron
                 :title="'Templates'"
-                :desc="
-                    'Product template is used to create a template structure per department wise.'
-                "
+                :desc="'Product template is used to create a template structure per department wise.'"
                 btnLabel="Create"
                 @btnClick="redirectEdit"
             ></jumbotron>
@@ -13,9 +11,7 @@
         <div class="second-container">
             <div
                 class="search-box"
-                v-if="
-                    !pageLoading || (searchText !== '' || templates.length > 0)
-                "
+                v-if="!pageLoading || searchText !== '' || templates.length > 0"
             >
                 <div v-if="isInitialLoad" class="input-shimmer shimmer"></div>
                 <template v-else>
@@ -48,7 +44,7 @@
                             @change="
                                 fetchProductTemplates(),
                                     setRouteQuery({
-                                        department: selectedDepartment
+                                        department: selectedDepartment,
                                     })
                             "
                         ></nitrozen-dropdown>
@@ -74,7 +70,7 @@
                                 <img
                                     :src="
                                         template.logo ||
-                                            '/public/assets/pngs/default_icon_listing.png'
+                                        '/public/assets/pngs/default_icon_listing.png'
                                     "
                                 />
                             </div>
@@ -95,7 +91,7 @@
                                         class="cb-box"
                                         v-if="
                                             template.modified_by &&
-                                                template.modified_by.username
+                                            template.modified_by.username
                                         "
                                     >
                                         <span>Modified By :</span>
@@ -129,8 +125,8 @@
                             </div>
                         </div>
                         <div class="card-badge-section" @click.stop="() => {}">
-                            <a
-                                :href="
+                            <div
+                                @click="
                                     templateSampleDownloadLink(template.slug)
                                 "
                             >
@@ -139,7 +135,7 @@
                                     src="download"
                                     title="Download sample template excel"
                                 ></inline-svg>
-                            </a>
+                            </div>
                             <!-- <nitrozen-badge
                                     v-if="template.schema.mandatory"
                                     state="error"
@@ -210,7 +206,7 @@
         align-items: center;
     }
     .label {
-        font-family: Poppins;
+        font-family: Inter;
         color: @Mako;
         font-size: 14px;
         line-height: 20px;
@@ -260,7 +256,7 @@
         }
 
         .txt-company-heading {
-            color: #5c6bdd;
+            color: #2e31be;
             font-weight: 600;
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
@@ -332,7 +328,7 @@ import pageerror from '@/components/common/page-error';
 import fynotfound from '@/components/common/ukt-not-found';
 import InlineSvg from '@/components/common/ukt-inline-svg';
 import userInfoTooltip from '@/components/common/feedback/userInfo-tooltip.vue';
-// import { toListingThumbnail } from '@/helper/image.utils';
+
 import {
     NitrozenInput,
     NitrozenError,
@@ -429,8 +425,8 @@ export default {
         },
         requestQuery() {
             const query = {
-                page: this.pagination.current,
-                limit: this.pagination.limit,
+                page_no: this.pagination.current,
+                page_size: this.pagination.limit,
                 sort: 'created_desc'
             };
 
@@ -449,7 +445,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchProductTemplates(this.requestQuery())
                     .then(({ data }) => {
-                        this.tempList = generateArrItem(data.data);
+                        this.tempList = generateArrItem(data.items);
                         this.tempList = filterDuplicateObject(this.tempList);
                         fetchUserMetaObjects(this.tempList)
                             .then((res) => {
@@ -458,9 +454,9 @@ export default {
                                         this.userObj[element.uid] = element;
                                     }
                                 });
-                                this.templates = data.data;
+                                this.templates = data.items;
 
-                                this.pagination.total = data.page.total_count;
+                                this.pagination.total = data.page.item_total;
                                 this.pageLoading = false;
                             })
                             .catch((err) => {
@@ -478,7 +474,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchDepartments()
                     .then(({ data }) => {
-                        this.departments = data.data;
+                        this.departments = data.items;
                         return resolve();
                     })
                     .catch((err) => {
@@ -487,7 +483,20 @@ export default {
             });
         },
         templateSampleDownloadLink(slug) {
-            return CompanyService.productTemplateDownload(slug);
+            CompanyService.productTemplateDownload(slug).then(async (response) => {
+             const fileName = `${slug}_template`;
+             const url = URL.createObjectURL(new Blob([response.data], {
+                 type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+             }))
+             const link = document.createElement('a')
+             link.href = url
+             link.setAttribute('download', fileName);
+             document.body.appendChild(link)
+             link.click()
+
+           }).catch((response) => {
+            console.error("Could not Download the Excel report from the backend.", response);
+          });
         },
         setDepartmentsList(e = {}) {
             this.departmentsList = [];

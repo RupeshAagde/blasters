@@ -173,7 +173,7 @@
     justify-content: flex-start;
 
     label {
-        color: #5c6bdd;
+        color: #2E31BE;
         cursor: pointer;
         display: flex;
         justify-content: flex-start;
@@ -475,9 +475,9 @@ export default {
             CompanyService.fetchDri(this.requestQuery())
                 .then((res) => {
                     this.inProgress = false;
-                    this.pagination.total = res.data.total_count;
-                    this.mainList = res.data.data;
-                    this.driList = res.data.data;
+                    this.pagination.total = res.data.page.item_total;
+                    this.mainList = res.data.items;
+                    this.driList = res.data.items;
                 })
                 .catch((error) => {
                     console.error(error);
@@ -507,15 +507,6 @@ export default {
             const { current, limit } = filter;
             this.pagination.current = current;
             this.pagination = Object.assign({}, this.pagination, filter);
-            this.fetchDri();
-        },
-        setPage(filter) {
-            const { current, limit } = filter;
-            this.paginationConfig = {
-                ...this.paginationConfig,
-                current,
-                limit
-            };
             this.fetchDri();
         },
         openAdd() {
@@ -563,7 +554,7 @@ export default {
                 };
                 postData.status = this.dataFinal;
                 this.inProgress = true;
-                CompanyService.createDri(postData)
+                CompanyService.editDri(postData)
                     .then((res) => {
                         this.inProgress = false;
                         this.$snackbar.global.showSuccess(

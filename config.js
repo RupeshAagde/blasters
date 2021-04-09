@@ -37,6 +37,34 @@ const conf = convict({
             env: 'SLINGSHOT_MAIN_SVC',
             arg: 'slingshot_main_svc'
         },
+        SLINGSHOT_ADMIN_URL: {
+            doc: 'Slingshot Admin URL',
+            format: String,
+            default: '',
+            env: 'SLINGSHOT_ADMIN_URL',
+            arg: 'slingshot_admin_url'
+        },
+        SLINGSHOT_ADMIN_SVC: {
+            doc: 'Slingshot Admin Service',
+            format: String,
+            default: '',
+            env: 'SLINGSHOT_ADMIN_SVC',
+            arg: 'slingshot_admin_svc'
+        },
+        SLINGSHOT_PUBLIC_URL: {
+            doc: 'Slingshot Public Service',
+            format: String,
+            default: '',
+            env: 'SLINGSHOT_PUBLIC_URL',
+            arg: 'slingshot_public_url'
+        },
+        SLINGSHOT_PUBLIC_SVC: {
+            doc: 'Slingshot Public Service',
+            format: String,
+            default: '',
+            env: 'SLINGSHOT_PUBLIC_SVC',
+            arg: 'slingshot_public_svc'
+        },
         BLITZKRIEG_MAIN_URL: {
             doc: 'Themes API',
             format: String,
@@ -65,6 +93,34 @@ const conf = convict({
             env: 'ULTRAMAGNUS_MAIN_SVC',
             arg: 'ULTRAMAGNUS_MAIN_SVC'
         },
+        ULTRAMAGNUS_PUBLIC_URL: {
+            doc: 'Internal Settings API',
+            format: String,
+            default: '',
+            env: 'ULTRAMAGNUS_PUBLIC_URL',
+            arg: 'ULTRAMAGNUS_PUBLIC_URL'
+        },
+        ULTRAMAGNUS_PUBLIC_SVC: {
+            doc: 'Internal Settings API public',
+            format: String,
+            default: '',
+            env: 'ULTRAMAGNUS_PUBLIC_SVC',
+            arg: 'ULTRAMAGNUS_PUBLIC_SVC'
+        },
+        ULTRAMAGNUS_ADMIN_URL: {
+            doc: 'Internal Settings API',
+            format: String,
+            default: '',
+            env: 'ULTRAMAGNUS_ADMIN_URL',
+            arg: 'ULTRAMAGNUS_ADMIN_URL'
+        },
+        ULTRAMAGNUS_ADMIN_SVC: {
+            doc: 'Internal Settings API administrator',
+            format: String,
+            default: '',
+            env: 'ULTRAMAGNUS_ADMIN_SVC',
+            arg: 'ULTRAMAGNUS_ADMIN_SVC'
+        },
         HIGHBROW_MAIN_URL: {
             doc: 'Platform Custom Main Public URL to hit',
             format: String,
@@ -92,6 +148,20 @@ const conf = convict({
             default: '',
             env: 'APEFACE_MAIN_SVC',
             arg: 'apeface_main_svc'
+        },
+        APEFACE_ADMIN_URL: {
+            doc: 'Admin Orders URL',
+            format: String,
+            default: '',
+            env: 'APEFACE_ADMIN_URL',
+            arg: 'apeface_admin_url'
+        },
+        APEFACE_MAIN_SVC: {
+            doc: 'Admin Orders Service',
+            format: String,
+            default: '',
+            env: 'APEFACE_ADMIN_SVC',
+            arg: 'apeface_admin_svc'
         },
         SEARCHLIGHT_MAIN_DOMAIN: {
             doc: 'SEARCHLIGTH URL FOR HELP DATA',
@@ -177,6 +247,34 @@ const conf = convict({
             env: 'SILVERBOLT_MAIN_URL',
             arg: 'silverbolt_main_url'
         },
+        SILVERBOLT_ACPR_URL: {
+            doc: 'Seller Kube Service',
+            format: String,
+            default: '',
+            env: 'SILVERBOLT_ACPR_URL',
+            arg: 'silverbolt_acpr_url'
+        },
+        SILVERBOLT_ACAT_URL: {
+            doc: 'Seller Kube Service',
+            format: String,
+            default: '',
+            env: 'SILVERBOLT_ACAT_URL',
+            arg: 'silverbolt_acat_url'
+        },
+        SILVERBOLT_PCPR_URL: {
+            doc: 'Platform Company profile Kube Service',
+            format: String,
+            default: '',
+            env: 'SILVERBOLT_PCPR_URL',
+            arg: 'silverbolt_pcpr_url'
+        },
+        SILVERBOLT_PNLCPR_URL: {
+            doc: 'Panel Company profile Kube Service',
+            format: String,
+            default: '',
+            env: 'SILVERBOLT_PNLCPR_URL',
+            arg: 'silverbolt_pnlcpr_url'
+        },
         SKYWARP_MAIN_SVC: {
             doc: 'Skywrap Kube Service',
             format: String,
@@ -191,6 +289,13 @@ const conf = convict({
             env: 'SKYWARP_MAIN_URL',
             arg: 'skywarp_main_url'
         },
+        SKYWARP_PNL_URL: {
+            doc: 'Skywrap Panel Kube Service',
+            format: String,
+            default: '',
+            env: 'SKYWARP_PNL_URL',
+            arg: 'skywarp_pnl_url'
+        },
         UNICRON_MAIN_URL: {
             doc: 'Billing service API',
             format: String,
@@ -204,6 +309,34 @@ const conf = convict({
             default: '',
             env: 'UNICRON_MAIN_SVC',
             arg: 'UNICRON_MAIN_SVC'
+        },
+        DAYTRADER_MAIN_URL: {
+            doc: 'Daytrader Public URL',
+            format: String,
+            default: '',
+            env: 'DAYTRADER_MAIN_URL',
+            arg: 'daytrader_main_url'
+        },
+        DAYTRADER_MAIN_SVC: {
+            doc: 'Daytrader Kube Service',
+            format: String,
+            default: '',
+            env: 'DAYTRADER_MAIN_SVC',
+            arg: 'daytrader_main_svc'
+        },
+        MARKETPLACES_MAIN_URL: {
+            doc: 'Marketpalces Public URL',
+            format: String,
+            default: '',
+            env: 'MARKETPLACES_MAIN_URL',
+            arg: 'marketplaces_main_url'
+        },
+        MARKETPLACES_MAIN_SVC: {
+            doc: 'Marketpalces Kube Service',
+            format: String,
+            default: '',
+            env: 'MARKETPLACES_MAIN_SVC',
+            arg: 'marketplaces_main_svc'
         }
     },
 
