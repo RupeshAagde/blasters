@@ -450,7 +450,7 @@ export default {
                     if (this.isCompanyFromRoute) {
                         this.isCompanyFromRoute = false
                         this.companies.push(
-                            ...res.data.data.filter(v => v.uid != this.selectedCompany)
+                            ...res.data.items.filter(v => v.uid != this.selectedCompany)
                             .map((v) => {
                                 return {
                                     text: v.name,
@@ -461,7 +461,7 @@ export default {
                         this.$refs['company-dropdown'].selectItem(1, this.companies[1]);
                     } else {
                         this.companies.push(
-                            ...res.data.data.map((v) => {
+                            ...res.data.items.map((v) => {
                                 return {
                                     text: v.name,
                                     value: v.uid
@@ -470,9 +470,9 @@ export default {
                         );
                     }
 
-                    this.pagination.total = res.data.total_count;
+                    this.pagination.total = res.data.page.item_total;
                     this.pagination.current = this.pagination.current + 1;
-                    this.pagination.next_page = res.data.next_page;
+                    this.pagination.next_page = res.data.page.has_next;
                 })
                 .catch((err) => {
                     console.log(err);
