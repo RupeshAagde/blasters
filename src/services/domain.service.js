@@ -350,7 +350,7 @@ const URLS = {
         // );
         return urlJoin(
             ADMIN_ORDERS_BASE,
-            `/v1.0/${company_id}?q=${slug}`
+            `/v1.0/${company_id}?q=${slug}&filter_type=auto`
         );
     },
 

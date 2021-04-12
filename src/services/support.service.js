@@ -15,7 +15,7 @@ const SupportService = {
     },
     updateTicket(ticketID, ticket) {
         let axiosOption = { data: ticket };
-        return ApiService.patch(URLS.FETCH_TICKET(ticketID), axiosOption);
+        return ApiService.put(URLS.FETCH_TICKET(ticketID), axiosOption);
     },
     createVideoRoom() {
         let axiosOption = {};
