@@ -324,19 +324,19 @@ const conf = convict({
             env: 'DAYTRADER_MAIN_SVC',
             arg: 'daytrader_main_svc'
         },
-        MARKETPLACES_MAIN_URL: {
-            doc: 'Marketpalces Public URL',
+        MARKETPLACES_ADMIN_URL: {
+            doc: 'Marketpalces Admin URL',
             format: String,
-            default: '',
-            env: 'MARKETPLACES_MAIN_URL',
-            arg: 'marketplaces_main_url'
+            default: 'https://api.fyndx0.de/service/___/administrator/marketplaces/',
+            env: 'MARKETPLACES_ADMIN_URL',
+            arg: 'marketplaces_admin_url'
         },
-        MARKETPLACES_MAIN_SVC: {
+        MARKETPLACES_ADMIN_SVC: {
             doc: 'Marketpalces Kube Service',
             format: String,
-            default: '',
-            env: 'MARKETPLACES_MAIN_SVC',
-            arg: 'marketplaces_main_svc'
+            default: 'https://api.fyndx0.de/service/___/administrator/marketplaces/',
+            env: 'MARKETPLACES_ADMIN_SVC',
+            arg: 'marketplaces_admin_svc'
         }
     },
 

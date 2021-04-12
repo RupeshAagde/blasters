@@ -92,9 +92,9 @@ const SLINGSHOT_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SLINGSHOT_ADMIN_URL :
     envVars.SLINGSHOT_ADMIN_URL;
 
-const MARKETPLACES_MAIN_URL = isNode ?
-    envVars.BROWSER_CONFIG.MARKETPLACES_MAIN_URL :
-    envVars.MARKETPLACES_MAIN_URL;
+const MARKETPLACES_ADMIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.MARKETPLACES_ADMIN_URL :
+    envVars.MARKETPLACES_ADMIN_URL;
 
 const URLS = {
     //fetch attributes
@@ -401,10 +401,10 @@ const URLS = {
 
     // Marketplaces
     MARKETPLACE_WORKERS: (compId) => {
-        return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId, '/worker/');
+        return urlJoin(MARKETPLACES_ADMIN_URL, '/v1.0/company/', compId, '/worker/');
     },
     UPDATE_MARKETPLACE_WORKERS: (compId, marketplace) => {
-        return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId, '/marketplaces/', marketplace, '/worker/');
+        return urlJoin(MARKETPLACES_ADMIN_URL, '/v1.0/company/', compId, '/channels/', marketplace, '/worker/');
     },
     // integration list
     INTEGRATIONS_LIST: () => {

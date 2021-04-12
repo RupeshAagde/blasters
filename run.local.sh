@@ -46,8 +46,8 @@ export APEFACE_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/adminis
 export APEFACE_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/order/
 export DAYTRADER_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/daytrader/
 export DAYTRADER_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/daytrader/
-export MARKETPLACES_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/marketplaces/
-export MARKETPLACES_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/marketplaces/
+export MARKETPLACES_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/marketplaces/
+export MARKETPLACES_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/marketplaces/
 #ENV's
 export SENTRY_DSN=''
 export SENTRY_ENVIRONMENT=development
