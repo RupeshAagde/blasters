@@ -80,9 +80,9 @@ const INTERNAL_SETTINGS_ADMIN = isNode ?
     envVars.BROWSER_CONFIG.ULTRAMAGNUS_ADMIN_SVC :
     envVars.ULTRAMAGNUS_ADMIN_URL;
 
-const PLATFORM_ASSETS_BASE = isNode ?
-    envVars.BROWSER_CONFIG.GRINDOR_MAIN_URL :
-    envVars.GRINDOR_MAIN_URL;
+const PLATFORM_ASSETS_ADMIN = isNode ?
+    envVars.BROWSER_CONFIG.GRINDOR_ADMIN_URL :
+    envVars.GRINDOR_ADMIN_URL;
 
 const SLINGSHOT_MAIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SLINGSHOT_MAIN_URL :
@@ -370,33 +370,30 @@ const URLS = {
     //Grindor
     GRINDOR_EXPLORER: (namespace) => {
         return urlJoin(
-            PLATFORM_ASSETS_BASE,
-            'v1/asset/explorer/namespaces/',
-            namespace
+            PLATFORM_ASSETS_ADMIN,
+            `v1.0/namespaces/${namespace}/browse/`
         );
     },
     GRINDOR_UPLOAD_START: (namespace) => {
         return urlJoin(
-            PLATFORM_ASSETS_BASE,
-            'v1/asset/uploads/start/',
-            namespace
+            PLATFORM_ASSETS_ADMIN,
+            `v1.0/namespaces/${namespace}/upload/start/`
         );
     },
     GRINDOR_UPLOAD_COMPLETE: (namespace) => {
         return urlJoin(
-            PLATFORM_ASSETS_BASE,
-            'v1/asset/uploads/complete/',
-            namespace
+            PLATFORM_ASSETS_ADMIN,
+            `v1.0/namespaces/${namespace}/upload/complete/`
         );
     },
     GRINDOR_COPY_FILE: () => {
         return urlJoin(
-            PLATFORM_ASSETS_BASE,
-            'v1/asset/uploads/bulk/copy-files?sync=true'
+            PLATFORM_ASSETS_ADMIN,
+            'v1.0/uploads/copy/?sync=true'
         );
     },
     GRINDOR_PROXY: () => {
-        return urlJoin(PLATFORM_ASSETS_BASE, 'v1/proxy/fetch');
+        return urlJoin(PLATFORM_ASSETS_ADMIN, 'v1.0/proxy/');
     },
 
     // Marketplaces
