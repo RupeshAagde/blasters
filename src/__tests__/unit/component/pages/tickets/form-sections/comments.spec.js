@@ -86,7 +86,7 @@ describe('Comment', () => {
         const addCommentMockData = { "_id": "5fb7b3acb018887582f14f03", "ticket_id": "604bb0835f00e4e3d5d26248", "type": "comment", "value": { "text": "This is a new comment", "media": [] }, "created_on": { "user_agent": "curl/7.64.1", "platform": "web", "meta": { "browser": { "name": "", "version": "" } } }, "created_by": "5e79e721768c6bf54b783146", "createdAt": "2020-11-20T12: 16: 44.286Z", "updatedAt": "2020-11-20T12: 16: 44.286Z", "__v": 0 };
         mock.onPost(ADMIN_URLS.ADD_COMMENT('604bb0835f00e4e3d5d26248')).reply(200, addCommentMockData);
         wrapper.setData({ newComment: 'This is a new comment' });
-        console.log('URLLLL' + ADMIN_URLS.ADD_COMMENT('604bb0835f00e4e3d5d26248'))
+        wrapper.setData({ isSubmitable: true });
         wrapper.vm.addComment();
         await new Promise(resolve => setTimeout(resolve, 10));
         expect(wrapper.findAll('.comment').length).toBe(1);
