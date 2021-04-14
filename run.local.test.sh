@@ -5,7 +5,7 @@ export PORT=8087
 #API's
 export FYND_PLATFORM_DOMAIN=xyz.com
 export BLITZKRIEG_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/platform/theme/
-export GRINDOR_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/common/assets/
+export GRINDOR_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/assets/
 export GRINGOTTS_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/gringotts/
 export GRIMLOCK_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/auth/
 export GRIMLOCK_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/auth/
