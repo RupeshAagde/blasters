@@ -239,7 +239,7 @@ export default {
         loadEverything() {
             let promises = [];
             promises.push(
-                SupportService.fetchOptions(this.$route.params.company_id)
+                SupportService.fetchOptions()
             );
 
             if (this.ticketID) {
@@ -290,7 +290,7 @@ export default {
                         this.ticket.context = ticket.context;
 
                         res = responses[2];
-                        this.ticket.history = res.data.docs;
+                        this.ticket.history = res.data.items;
                     }
 
                     res = responses[1];
@@ -463,16 +463,17 @@ export default {
             );
         },
         onCancel() {
-            const route = getRoute(this.$route);
-            if (route.includes('application')) {
-                this.$router.push({
-                    path: `${getRoute(this.$route)}/tickets`
-                });
-            } else {
-                this.$router.push({
-                    path: `${getRoute(this.$route)}/administrator/support`
-                });
-            }
+            // const route = getRoute(this.$route);
+            // if (route.includes('application')) {
+            //     this.$router.push({
+            //         path: `${getRoute(this.$route)}/tickets`
+            //     });
+            // } else {
+            //     this.$router.push({
+            //         path: `${getRoute(this.$route)}/administrator/support`
+            //     });
+            // }
+            this.$router.back();
         }
     }
 };

@@ -16,6 +16,7 @@
                 label="Add new comment"
                 placeholder="Enter your comment"
                 v-model="newComment"
+                @keyup.enter.native="addComment"
                 @input="onCommentChange"
             />
             <nitrozen-button
@@ -124,9 +125,15 @@ export default {
                 this.newComment && this.newComment.trim().length > 0;
         },
         addComment() {
+            if (!this.isSubmitable) {
+                return
+            }
             let dataToSend = {
-                text: this.newComment,
-                media: [],
+                type: "comment",
+                value: {
+                    text: this.newComment,
+                    media: [],
+                }
             };
             this.loading = true;
             SupportService.addComment(
