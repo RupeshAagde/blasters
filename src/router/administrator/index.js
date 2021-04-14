@@ -2,6 +2,7 @@ import AdministratorBaseViewVue from './../../pages/administrator/baseview.vue';
 import PlanCreator from './plan-creator';
 import CompanyListVue from './../../pages/company-admin/company-list.vue';
 import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
+import BillingVue from './../../pages/company-admin/billing.vue';
 import UserManagementVue from './../../pages/super-user/user-access.vue';
 import AddSuperUserVue from './../../pages/super-user/add-user.vue';
 import Tickets from './../../pages/tickets/index.vue';
@@ -54,6 +55,19 @@ export default [
                         next,
                         ['company'],
                         'companyId'
+                    );
+                }
+            },
+            {
+                name: 'billing-details',
+                path: 'billing-details/:billingNo',
+                component: BillingVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
                     );
                 }
             },
