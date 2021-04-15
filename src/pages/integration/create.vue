@@ -701,7 +701,7 @@ export default {
                     this.name.value = this.integrationData.name;
                     this.description.value = this.integrationData.description;
                     this.icon.value = this.integrationData.icon || '';
-                    this.tags = this.integrationData.meta;
+                    this.tags = this.integrationData.meta || [];
                     this.token = this.integrationData.token;
                     this.selectedCompany = this.integrationData.companies || [];
                     this.constants = this.integrationData.constants || {};

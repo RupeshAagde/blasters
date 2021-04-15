@@ -121,19 +121,19 @@ const conf = convict({
             env: 'ULTRAMAGNUS_ADMIN_SVC',
             arg: 'ULTRAMAGNUS_ADMIN_SVC'
         },
-        HIGHBROW_MAIN_URL: {
+        HIGHBROW_ADMIN_URL: {
             doc: 'Platform Custom Main Public URL to hit',
             format: String,
             default: '',
-            env: 'HIGHBROW_MAIN_URL',
-            arg: 'highbrow_main_url'
+            env: 'HIGHBROW_ADMIN_URL',
+            arg: 'highbrow_admin_url'
         },
-        HIGHBROW_MAIN_SVC: {
+        HIGHBROW_ADMIN_SVC: {
             doc: 'Platform Custom Main Public URL to hit',
             format: String,
             default: '',
-            env: 'HIGHBROW_MAIN_SVC',
-            arg: 'highbrow_main_svc'
+            env: 'HIGHBROW_ADMIN_SVC',
+            arg: 'highbrow_admin_svc'
         },
         APEFACE_MAIN_URL: {
             doc: 'Platform Orders URL',
@@ -148,6 +148,20 @@ const conf = convict({
             default: '',
             env: 'APEFACE_MAIN_SVC',
             arg: 'apeface_main_svc'
+        },
+        APEFACE_ADMIN_URL: {
+            doc: 'Admin Orders URL',
+            format: String,
+            default: '',
+            env: 'APEFACE_ADMIN_URL',
+            arg: 'apeface_admin_url'
+        },
+        APEFACE_MAIN_SVC: {
+            doc: 'Admin Orders Service',
+            format: String,
+            default: '',
+            env: 'APEFACE_ADMIN_SVC',
+            arg: 'apeface_admin_svc'
         },
         SEARCHLIGHT_MAIN_DOMAIN: {
             doc: 'SEARCHLIGTH URL FOR HELP DATA',
@@ -177,12 +191,12 @@ const conf = convict({
             env: 'PLATFORM_COMMON_MAIN_SVC',
             arg: 'platform_common_main_svc'
         },
-        GRINDOR_MAIN_URL: {
+        GRINDOR_ADMIN_URL: {
             doc: 'Grindor file upload service URL',
             format: String,
             default: '',
-            env: 'GRINDOR_MAIN_URL',
-            arg: 'GRINDOR_MAIN_URL'
+            env: 'GRINDOR_ADMIN_URL',
+            arg: 'GRINDOR_ADMIN_URL'
         },
         GRINDOR_MAIN_SVC: {
             doc: 'Grindor file upload service',
@@ -282,19 +296,19 @@ const conf = convict({
             env: 'SKYWARP_PNL_URL',
             arg: 'skywarp_pnl_url'
         },
-        UNICRON_MAIN_URL: {
+        UNICRON_ADMIN_URL: {
             doc: 'Billing service API',
             format: String,
             default: '',
-            env: 'UNICRON_MAIN_URL',
-            arg: 'UNICRON_MAIN_URL'
+            env: 'UNICRON_ADMIN_URL',
+            arg: 'UNICRON_ADMIN_URL'
         },
-        UNICRON_MAIN_SVC: {
+        UNICRON_ADMIN_SVC: {
             doc: 'Billing service API private',
             format: String,
             default: '',
-            env: 'UNICRON_MAIN_SVC',
-            arg: 'UNICRON_MAIN_SVC'
+            env: 'UNICRON_ADMIN_SVC',
+            arg: 'UNICRON_ADMIN_SVC'
         },
         DAYTRADER_MAIN_URL: {
             doc: 'Daytrader Public URL',

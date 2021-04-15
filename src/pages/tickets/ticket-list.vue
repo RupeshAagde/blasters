@@ -14,6 +14,7 @@
             />
             <div class="dropdown-filters">
                 <nitrozen-dropdown
+                    ref="company-dropdown"
                     :searchable="true"
                     class="archived-filter"
                     style="width: 215px"
@@ -219,6 +220,7 @@ export default {
                 }
             ],
             selectedCompany: 'All',
+            isCompanyFromRoute: false,
             defaultStatus: 'All',
             defaultCategory: 'All',
             defaultPriority: 'All',
@@ -248,6 +250,7 @@ export default {
         };
     },
     mounted() {
+        this.getFilterDataFromRoute()
         this.loadCompanies();
     },
     methods: {
@@ -263,8 +266,8 @@ export default {
             this.loading = true;
 
             const params = {
-                limit: this.filter_data.pagination.limit,
-                page: this.filter_data.pagination.current
+                page_size: this.filter_data.pagination.limit,
+                page_no: this.filter_data.pagination.current
             };
 
             if (this.searchText != '') {
@@ -289,8 +292,8 @@ export default {
 
             return SupportService.fetchTickets(params)
                 .then((res) => {
-                    this.initial_data = res.data.docs;
-                    this.filter_data.pagination.total = res.data.total;
+                    this.initial_data = res.data.items;
+                    this.filter_data.pagination.total = res.data.page.item_total;
                     this.filter_data.filters = res.data.filters;
 
                     this.filter_data.filters.statuses = [
@@ -337,13 +340,64 @@ export default {
                 })
                 .finally(() => {
                     this.loading = false;
+                    this.setFilterForRoute()
                 });
+        },
+        getFilterDataFromRoute() {
+            this.searchText = this.$route.query.search_text || this.searchText;
+            this.defaultStatus = this.$route.query.status || this.defaultStatus;
+            this.defaultPriority = this.$route.query.priority || this.defaultPriority;
+            this.defaultCategory = this.$route.query.category || this.defaultCategory;
+            this.selectedCompany = this.$route.query.company_id || this.selectedCompany;
+            var selectedCompanyName = this.$route.query.company_name || '';
+            this.filter_data.pagination.current = this.$route.query.page || this.filter_data.pagination.current;
+            this.filter_data.pagination.limit = this.$route.query.limit || this.filter_data.pagination.limit;
+            if (this.selectedCompany != 'All' && selectedCompanyName != '') {
+                this.companies.push({
+                    value: this.selectedCompany,
+                    text: selectedCompanyName
+                });
+                this.isCompanyFromRoute = true;
+            }
+        },
+        setFilterForRoute() {
+            const params = {
+                limit: this.filter_data.pagination.limit,
+                page: this.filter_data.pagination.current
+            };
+            if (this.searchText != '') {
+                params['search_text'] = this.searchText;
+            }
+
+            if (this.defaultStatus != 'All' && this.defaultStatus != '') {
+                params['status'] = this.defaultStatus;
+            }
+
+            if (this.defaultPriority != 'All' && this.defaultPriority != '') {
+                params['priority'] = this.defaultPriority;
+            }
+
+            if (this.defaultCategory != 'All' && this.defaultCategory != '') {
+                params['category'] = this.defaultCategory;
+            }
+
+            if (this.selectedCompany != 'All' && this.selectedCompany != '') {
+                params['company_id'] = this.selectedCompany;
+                var selectedObj = this.companies.find(obj => {
+                    return obj.value == this.selectedCompany
+                });
+                if (selectedObj) {
+                    params['company_name'] = selectedObj.text;
+                }
+            }
+
+            this.$router.replace({
+                query: params
+            });
         },
         onTicketSelection(ticket) {
             this.$router.push({
-                path: `${getRoute(
-                    this.$route
-                )}/administrator/support/ticket/edit/${ticket._id}`
+                path: `${getRoute(this.$route)}/administrator/support/ticket/${ticket._id}/edit`
             });
         },
         readableDate(date) {
@@ -393,19 +447,32 @@ export default {
                             }
                         ];
                     }
+                    if (this.isCompanyFromRoute) {
+                        this.isCompanyFromRoute = false
+                        this.companies.push(
+                            ...res.data.items.filter(v => v.uid != this.selectedCompany)
+                            .map((v) => {
+                                return {
+                                    text: v.name,
+                                    value: v.uid
+                                };
+                            })
+                        );
+                        this.$refs['company-dropdown'].selectItem(1, this.companies[1]);
+                    } else {
+                        this.companies.push(
+                            ...res.data.items.map((v) => {
+                                return {
+                                    text: v.name,
+                                    value: v.uid
+                                };
+                            })
+                        );
+                    }
 
-                    this.companies.push(
-                        ...res.data.data.map((v) => {
-                            return {
-                                text: v.name,
-                                value: v.uid
-                            };
-                        })
-                    );
-
-                    this.pagination.total = res.data.total_count;
+                    this.pagination.total = res.data.page.item_total;
                     this.pagination.current = this.pagination.current + 1;
-                    this.pagination.next_page = res.data.next_page;
+                    this.pagination.next_page = res.data.page.has_next;
                 })
                 .catch((err) => {
                     console.log(err);
