@@ -8,6 +8,7 @@ docker run --net=host -p 8086:8086 --name=bombshell \
 -e PORT=8086 \
 -e CDN_URL='' \
 -e BLITZKRIEG_MAIN_URL=https://api.fynd.com/platform/theme \
+-e UNICRON_ADMIN_URL=https://api.fyndx0.de/service/___/administrator/billing \
 -e UNICRON_MAIN_URL=https://api.fyndx0.de/platform/billing/ \
 -e PLATFORM_CONTENT_MAIN_URL=https://api.fynd.com/platform/content/ \
 -e PLATFORM_MARTELL_CONTENT_MAIN_URL=https://api.fynd.com/martell/platform/content/ \

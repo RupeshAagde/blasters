@@ -296,6 +296,20 @@ const conf = convict({
             env: 'SKYWARP_PNL_URL',
             arg: 'skywarp_pnl_url'
         },
+        UNICRON_ADMIN_URL: {
+            doc: 'Billing service API',
+            format: String,
+            default: '',
+            env: 'UNICRON_ADMIN_URL',
+            arg: 'UNICRON_ADMIN_URL'
+        },
+        UNICRON_ADMIN_SVC: {
+            doc: 'Billing service API private',
+            format: String,
+            default: '',
+            env: 'UNICRON_ADMIN_SVC',
+            arg: 'UNICRON_ADMIN_SVC'
+        },
         UNICRON_MAIN_URL: {
             doc: 'Billing service API',
             format: String,
