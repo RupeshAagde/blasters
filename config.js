@@ -310,20 +310,6 @@ const conf = convict({
             env: 'UNICRON_ADMIN_SVC',
             arg: 'UNICRON_ADMIN_SVC'
         },
-        UNICRON_MAIN_URL: {
-            doc: 'Billing service API',
-            format: String,
-            default: '',
-            env: 'UNICRON_MAIN_URL',
-            arg: 'UNICRON_MAIN_URL'
-        },
-        UNICRON_MAIN_SVC: {
-            doc: 'Billing service API private',
-            format: String,
-            default: '',
-            env: 'UNICRON_MAIN_SVC',
-            arg: 'UNICRON_MAIN_SVC'
-        },
         DAYTRADER_MAIN_URL: {
             doc: 'Daytrader Public URL',
             format: String,
