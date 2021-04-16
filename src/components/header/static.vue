@@ -11,24 +11,26 @@
                     </router-link>
                 </div>
                 <div class="group-btns">
-                    <nitrozen-button
-                        v-if="
-                            isValidUser &&
-                                currentUserPermissions.permissions.length
-                        "
-                        v-stroke-btn
-                        :theme="'secondary'"
-                        @click="openLogin"
-                    >
-                        {{ isLoggedIn ? 'Manage' : 'Login' }}
-                    </nitrozen-button>
-                    <nitrozen-button
-                        v-flat-btn
-                        :theme="'secondary'"
-                        @click="signOut()"
-                    >
-                        {{ isLoggedIn ? 'Logout' : 'Login' }}
-                    </nitrozen-button>
+                    <no-ssr>
+                        <nitrozen-button
+                            v-if="
+                                isValidUser &&
+                                    currentUserPermissions.permissions.length
+                            "
+                            v-stroke-btn
+                            :theme="'secondary'"
+                            @click="openLogin"
+                        >
+                            {{ isLoggedIn ? 'Manage' : 'Login' }}
+                        </nitrozen-button>
+                        <nitrozen-button
+                            v-flat-btn
+                            :theme="'secondary'"
+                            @click="signOut()"
+                        >
+                            {{ isLoggedIn ? 'Logout' : 'Login' }}
+                        </nitrozen-button>
+                    </no-ssr>
                 </div>
             </div>
         </header>
@@ -108,10 +110,12 @@ import {
     IS_VALID_USER,
     GET_USER_PERMISSIONS
 } from '../../store/getters.type';
+import NoSSR from 'vue-no-ssr';
 export default {
     name: 'static-header',
     components: {
-        'nitrozen-button': NitrozenButton
+        'nitrozen-button': NitrozenButton,
+        'no-ssr': NoSSR
     },
     directives: {
         flatBtn,
