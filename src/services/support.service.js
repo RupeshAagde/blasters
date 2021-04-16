@@ -15,7 +15,7 @@ const SupportService = {
     },
     updateTicket(ticketID, ticket) {
         let axiosOption = { data: ticket };
-        return ApiService.patch(URLS.FETCH_TICKET(ticketID), axiosOption);
+        return ApiService.put(URLS.FETCH_TICKET(ticketID), axiosOption);
     },
     createVideoRoom() {
         let axiosOption = {};
@@ -45,8 +45,8 @@ const SupportService = {
     getTicket(ticketID) {
         return ApiService.get(URLS.FETCH_TICKET(ticketID), {});
     },
-    fetchOptions(company_id) {
-        return ApiService.get(URLS.FETCH_TICKETS_OPTIONS(company_id), {
+    fetchOptions() {
+        return ApiService.get(URLS.FETCH_TICKETS_OPTIONS(), {
             params: {}
         });
     },

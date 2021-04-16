@@ -3,11 +3,9 @@ import UserAccessService from './../../services/user-access.service';
 import {
     UPDATE_USER_DATA,
     FETCH_USER_DATA,
-    ON_USER_LOGGED_IN,
     ON_USER_LOGGED_OUT,
     OPEN_LOGIN_MODAL,
     SIGNOUT_USER,
-    OPEN_REGISTER_MODAL,
     VALIDATE_USER,
     FETCH_ADMIN_PERMISSIONS
 } from '../action.type';
@@ -26,6 +24,9 @@ import {
     ADMIN_PERMISSIONS,
     GET_USER_PERMISSIONS
 } from '../getters.type';
+import { isBrowser } from 'browser-or-node';
+import root, { console } from 'window-or-global';
+const env = root.env || {};
 
 const getDefaultState = () => {
     return {
@@ -87,42 +88,49 @@ const mutations = {
 };
 
 const actions = {
-    [FETCH_USER_DATA]({ commit }) {
-        if (this.state.auth.userFetched) {
-            return this.state.auth;
-        }
-        return AuthService.fetchUserData().then((data) => {
+    async [FETCH_USER_DATA]({ commit, dispatch }) {
+        try {
+            if (this.state.auth.userFetched) {
+                return this.state.auth;
+            }
+            const data = await AuthService.fetchUserData()
             commit(SET_USER_DATA, { data });
+            if (data.isLoggedIn){
+                commit(SET_USER_LOGGED_IN);
+            }
+            await dispatch(VALIDATE_USER)
             return data;
-        });
+        } catch(err) {
+            console.log(err)
+        }
     },
-    [VALIDATE_USER]({ commit }) {
-        return AuthService.validateUser().then((data) => {
+    async [VALIDATE_USER]({ commit }) {
+        try {
+            const data = await AuthService.validateUser()
             commit(SET_USER_VALID, { data });
             commit(SET_USER_PERMISSIONS, { data });
             return data;
-        });
+        } catch(err) {
+            console.log(err)
+        }
     },
     [UPDATE_USER_DATA]({ commit }, data) {
         commit(SET_USER_DATA, { data });
     },
     [OPEN_LOGIN_MODAL]({ commit }) {
-        AuthService.openLoginScreen();
-    },
-    [OPEN_REGISTER_MODAL]({ commit }) {
-        AuthService.openRegisterScreen();
-    },
-    [ON_USER_LOGGED_IN]({ commit }) {
-        AuthService.onUserLoggedIn();
-        commit(SET_USER_LOGGED_IN);
+        if (isBrowser) {
+            window.location.href = `https://platform.${env.FYND_PLATFORM_DOMAIN}/auth/login?redirectUrl=administrator.${env.FYND_PLATFORM_DOMAIN}` 
+        }
     },
     [ON_USER_LOGGED_OUT]({ commit }) {
         AuthService.onUserLoggedOut();
         commit(SET_USER_LOGGED_OUT);
     },
     [SIGNOUT_USER]({ commit }) {
-        AuthService.signOutUser().then((res) => {
+        AuthService.signOutUser().then(res => {
             //on action of user signout
+            AuthService.onUserLoggedOut();
+            commit(SET_USER_LOGGED_OUT);
         });
     },
     [FETCH_ADMIN_PERMISSIONS]({ commit }) {

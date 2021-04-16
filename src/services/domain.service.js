@@ -12,14 +12,6 @@ let SLINGSHOT_PUBLIC_URL = isNode ?
     envVars.BROWSER_CONFIG.SLINGSHOT_PUBLIC_URL :
     envVars.SLINGSHOT_PUBLIC_URL;
 
-const GRIMLOCK_BASE = isNode ?
-    envVars.BROWSER_CONFIG.GRIMLOCK_MAIN_SVC :
-    envVars.GRIMLOCK_MAIN_URL;
-
-const BLITZKRIEG_BASE = isNode ?
-    envVars.BROWSER_CONFIG.BLITZKRIEG_MAIN_SVC :
-    envVars.BLITZKRIEG_MAIN_URL;
-
 const SILVERBOLT_MAIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SILVERBOLT_MAIN_URL :
     envVars.SILVERBOLT_MAIN_URL;
@@ -32,33 +24,21 @@ const SILVERBOLT_ACAT_URL = isNode ?
     envVars.BROWSER_CONFIG.SILVERBOLT_ACAT_URL :
     envVars.SILVERBOLT_ACAT_URL;
 
-const SILVERBOLT_PCPR_URL = isNode ?
-    envVars.BROWSER_CONFIG.SILVERBOLT_PCPR_URL :
-    envVars.SILVERBOLT_PCPR_URL;
-
 const SILVERBOLT_PNLCPR_URL = isNode ?
     envVars.BROWSER_CONFIG.SILVERBOLT_PNLCPR_URL :
     envVars.SILVERBOLT_PNLCPR_URL;
-
-const SKYWARP_MAIN_URL = isNode ?
-    envVars.BROWSER_CONFIG.SKYWARP_MAIN_URL :
-    envVars.SKYWARP_MAIN_URL;
 
 const SKYWARP_PNL_URL = isNode ?
     envVars.BROWSER_CONFIG.SKYWARP_PNL_URL :
     envVars.SKYWARP_PNL_URL;
 
 const UNICRON_BASE = isNode ?
-    envVars.BROWSER_CONFIG.UNICRON_MAIN_SVC :
-    envVars.UNICRON_MAIN_URL;
-
-const DAYTRADER_BASE = isNode ?
-    envVars.BROWSER_CONFIG.DAYTRADER_MAIN_SVC :
-    envVars.DAYTRADER_MAIN_URL;
+    envVars.BROWSER_CONFIG.UNICRON_ADMIN_SVC :
+    envVars.UNICRON_ADMIN_URL;
 
 const PLATFORM_LEADS_BASE = isNode ?
-    envVars.BROWSER_CONFIG.HIGHBROW_MAIN_SVC :
-    envVars.HIGHBROW_MAIN_URL;
+    envVars.BROWSER_CONFIG.HIGHBROW_ADMIN_SVC :
+    envVars.HIGHBROW_ADMIN_URL;
 
 const PLATFORM_ORDERS_BASE = isNode ?
     envVars.BROWSER_CONFIG.APEFACE_MAIN_SVC :
@@ -80,9 +60,9 @@ const INTERNAL_SETTINGS_ADMIN = isNode ?
     envVars.BROWSER_CONFIG.ULTRAMAGNUS_ADMIN_SVC :
     envVars.ULTRAMAGNUS_ADMIN_URL;
 
-const PLATFORM_ASSETS_BASE = isNode ?
-    envVars.BROWSER_CONFIG.GRINDOR_MAIN_URL :
-    envVars.GRINDOR_MAIN_URL;
+const PLATFORM_ASSETS_ADMIN = isNode ?
+    envVars.BROWSER_CONFIG.GRINDOR_ADMIN_URL :
+    envVars.GRINDOR_ADMIN_URL;
 
 const SLINGSHOT_MAIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SLINGSHOT_MAIN_URL :
@@ -92,11 +72,23 @@ const SLINGSHOT_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SLINGSHOT_ADMIN_URL :
     envVars.SLINGSHOT_ADMIN_URL;
 
-const MARKETPLACES_MAIN_URL = isNode ?
-    envVars.BROWSER_CONFIG.MARKETPLACES_MAIN_URL :
-    envVars.MARKETPLACES_MAIN_URL;
+const MARKETPLACES_ADMIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.MARKETPLACES_ADMIN_URL :
+    envVars.MARKETPLACES_ADMIN_URL;
+
+const SKYWARP_PNL_BASE = isNode
+    ? envVars.BROWSER_CONFIG.SKYWARP_PNL_URL
+    : envVars.SKYWARP_PNL_URL;
+
+const SKYWARP_ADMIN_BASE = isNode
+    ? envVars.BROWSER_CONFIG.SKYWARP_ADMIN_URL
+    : envVars.SKYWARP_ADMIN_URL;
 
 const URLS = {
+    // User Profile API's
+    USER_PROFILE: () => {
+        return urlJoin(SKYWARP_PNL_BASE, '/v1.0/profile');
+    },
     //fetch attributes
     FETCH_ATTRIBUTE: () => {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/product-attributes/');
@@ -152,10 +144,13 @@ const URLS = {
 
     // validate user
     VALIDATE_USER: () => {
-        return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff/current/access');
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/staff/current/access');
+    },
+    USER_LOGOUT:  ()=> {
+        return urlJoin(SKYWARP_PNL_BASE, '/v1.0/auth/logout');
     },
     ADMIN_PERMISSIONS: () => {
-        return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/permissions');
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/permissions');
     },
     //company details
     GET_COMPANY_LIST: () => {
@@ -240,21 +235,19 @@ const URLS = {
 
     //SKYWRAP
     LIST_USERS: (userId = '') => {
-        return urlJoin(SKYWARP_MAIN_URL, `/v1/admin/staff/${userId}`);
+        return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/admin/staff/${userId}`);
     },
 
     DELETE_USERS: (uid) => {
-        return urlJoin(SKYWARP_MAIN_URL, `/v1/admin/staff/${uid}`);
+        return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/admin/staff/${uid}`);
     },
     ADD_USERS: (uid) => {
-        return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff/');
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/staff/');
     },
-
-    // GrimLock
 
     // Search
     SEARCH_USER: () => {
-        return urlJoin(GRIMLOCK_BASE, '/user-info/search');
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/user-info/search');
     },
 
     LOCATIONS: () => {
@@ -263,84 +256,78 @@ const URLS = {
 
     // Unicron/Daytrader - Plan creator
     FETCH_PLANS_LIST: (planId = '') => {
-        return urlJoin(UNICRON_BASE, `v1/plan/${planId}`);
+        return urlJoin(UNICRON_BASE, `v1.0/plan/${planId}`);
     },
     FETCH_SINGLE_PLAN: (planId) => {
-        return urlJoin(UNICRON_BASE, `v1/plan-editor/${planId}`);
+        return urlJoin(UNICRON_BASE, `v1.0/plan-editor/${planId}`);
     },
     FETCH_SUBSCRIPTION_COMPONENTS: () => {
-        return urlJoin(UNICRON_BASE, 'v1/component');
+        return urlJoin(UNICRON_BASE, 'v1.0//component');
     },
     FETCH_COMPONENT_PRICES: (componentId) => {
-        return urlJoin(UNICRON_BASE, `v1/component/${componentId}/prices`);
+        return urlJoin(UNICRON_BASE, `v1.0//component/${componentId}/prices`);
     },
     FETCH_PLAN_COMPONENTS: () => {
-        return urlJoin(UNICRON_BASE, 'v1/plan-component');
+        return urlJoin(UNICRON_BASE, 'v1.0//plan-component');
     },
     FETCH_COMPONENT_WITH_PRICES: () => {
-        return urlJoin(UNICRON_BASE, 'v1/component-prices');
+        return urlJoin(UNICRON_BASE, 'v1.0//component-prices');
     },
     FETCH_DAYTRADER_COMPONENT: () => {
-        return urlJoin(UNICRON_BASE, 'v1/daytrader-component');
-    },
-    FETCH_DAYTRADER_CONFIG: () => {
-        return urlJoin(DAYTRADER_BASE, 'api/v1/get-output-fields_v2');
-    },
-    FETCH_DAYTRADER_FILTERS: () => {
-        return urlJoin(DAYTRADER_BASE, 'api/v1/get-data');
+        return urlJoin(UNICRON_BASE, 'v1.0/daytrader-component');
     },
     CURRENT_SUBSCRIPTION_DETAILS: () => {
-        return urlJoin(UNICRON_BASE, 'v1/subscription/current');
+        return urlJoin(UNICRON_BASE, 'v1.0/subscription/current');
     },
     SUBSCRIPTION_DAYTRADER_RULES: (subscriptionId) => {
         return urlJoin(
             UNICRON_BASE,
-            `v1/daytrader-rule/subscription/${subscriptionId}`
+            `v1.0/daytrader-rule/subscription/${subscriptionId}`
         );
     },
     PLAN_DETAILS: (planId) => {
-        return urlJoin(UNICRON_BASE, `v1/plan/details/${planId}`);
+        return urlJoin(UNICRON_BASE, `v1.0/plan/details/${planId}`);
     },
     AGREEMENT_PDF: () => {
-        return urlJoin(UNICRON_BASE, `v1/plan-pdf/generate-pdf/`);
+        return urlJoin(UNICRON_BASE, `v1.0/plan-pdf/generate-pdf/`);
     },
 
     //#########Tickets########
     FETCH_TICKETS: () => {
-        return urlJoin(PLATFORM_LEADS_BASE, `admin/v1/ticket`);
+        return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket`);
     },
 
     FETCH_HISTORY: (ticket_id) => {
         return urlJoin(
             PLATFORM_LEADS_BASE,
-            `admin/v1/ticket/${ticket_id}/history`
+            `v1.0/ticket/${ticket_id}/history`
         );
     },
 
     ADD_COMMENT: (ticket_id) => {
         return urlJoin(
             PLATFORM_LEADS_BASE,
-            `admin/v1/ticket/${ticket_id}/comment`
+            `v1.0/ticket/${ticket_id}/history`
         );
     },
 
     CREATE_VIDEO_ROOM: () => {
-        return urlJoin(PLATFORM_LEADS_BASE, `video/v1/room`);
+        return urlJoin(PLATFORM_LEADS_BASE, `video/v1.0/room`);
     },
 
     GET_VIDEO_ROOM_TOKEN: (unique_name) => {
         return urlJoin(
             PLATFORM_LEADS_BASE,
-            `video/v1/room/${unique_name}/token`
+            `video/v1.0/room/${unique_name}/token`
         );
     },
 
     FETCH_TICKET: (ticket_id) => {
-        return urlJoin(PLATFORM_LEADS_BASE, `admin/v1/ticket/${ticket_id}`);
+        return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket/${ticket_id}`);
     },
 
-    FETCH_TICKETS_OPTIONS: (company_id = '') => {
-        return urlJoin(PLATFORM_LEADS_BASE, `admin/v1/ticket/options`);
+    FETCH_TICKETS_OPTIONS: () => {
+        return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket?items=false`);
     },
 
     FETCH_SHIPMENT_INFO: (slug, company_id) => {
@@ -350,7 +337,7 @@ const URLS = {
         // );
         return urlJoin(
             ADMIN_ORDERS_BASE,
-            `/v1.0/${company_id}?q=${slug}`
+            `/v1.0/${company_id}?q=${slug}&filter_type=auto`
         );
     },
 
@@ -370,41 +357,38 @@ const URLS = {
     //Grindor
     GRINDOR_EXPLORER: (namespace) => {
         return urlJoin(
-            PLATFORM_ASSETS_BASE,
-            'v1/asset/explorer/namespaces/',
-            namespace
+            PLATFORM_ASSETS_ADMIN,
+            `v1.0/namespaces/${namespace}/browse/`
         );
     },
     GRINDOR_UPLOAD_START: (namespace) => {
         return urlJoin(
-            PLATFORM_ASSETS_BASE,
-            'v1/asset/uploads/start/',
-            namespace
+            PLATFORM_ASSETS_ADMIN,
+            `v1.0/namespaces/${namespace}/upload/start/`
         );
     },
     GRINDOR_UPLOAD_COMPLETE: (namespace) => {
         return urlJoin(
-            PLATFORM_ASSETS_BASE,
-            'v1/asset/uploads/complete/',
-            namespace
+            PLATFORM_ASSETS_ADMIN,
+            `v1.0/namespaces/${namespace}/upload/complete/`
         );
     },
     GRINDOR_COPY_FILE: () => {
         return urlJoin(
-            PLATFORM_ASSETS_BASE,
-            'v1/asset/uploads/bulk/copy-files?sync=true'
+            PLATFORM_ASSETS_ADMIN,
+            'v1.0/uploads/copy/?sync=true'
         );
     },
     GRINDOR_PROXY: () => {
-        return urlJoin(PLATFORM_ASSETS_BASE, 'v1/proxy/fetch');
+        return urlJoin(PLATFORM_ASSETS_ADMIN, 'v1.0/proxy/');
     },
 
     // Marketplaces
     MARKETPLACE_WORKERS: (compId) => {
-        return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId, '/worker/');
+        return urlJoin(MARKETPLACES_ADMIN_URL, '/v1.0/company/', compId, '/worker/');
     },
     UPDATE_MARKETPLACE_WORKERS: (compId, marketplace) => {
-        return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId, '/marketplaces/', marketplace, '/worker/');
+        return urlJoin(MARKETPLACES_ADMIN_URL, '/v1.0/company/', compId, '/channels/', marketplace, '/worker/');
     },
     // integration list
     INTEGRATIONS_LIST: () => {

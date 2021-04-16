@@ -240,14 +240,14 @@ export default {
                 this.loading = true;
                 GrindorService.explore(this.namespace, this.grindorPagination)
                     .then(({ data }) => {
-                        data.docs = data.docs.map((f) => {
+                        data.items = data.items.map((f) => {
                             return {
                                 text: f.file_name,
                                 secure_url: f.cdn.url,
                                 ...f
                             };
                         });
-                        this.imageList = this.imageList.concat(data.docs);
+                        this.imageList = this.imageList.concat(data.items);
                         this.grindorPagination.nextPage = data.nextPage;
                         if (this.imageList && this.imageList.length === 0) {
                             this.showNoImageText = true;
