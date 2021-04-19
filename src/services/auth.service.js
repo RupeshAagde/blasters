@@ -4,33 +4,26 @@ import URLS from './domain.service';
 import ApiService from './api.service';
 import { getCommonHeaderOptions } from '../services/utils.service';
 
-let IframeWindow = null;
 const AuthService = {
     fetchUserData() {
-        return new Promise((resolve, reject) => {
-            window.grimlock.getUser &&
-                window.grimlock
-                    .getUser()
-                    .then((res) => {
-                        resolve({
-                            isLoggedIn: true,
-                            userData: res,
-                            userFetched: true
-                        });
-                    })
-                    .catch((err) => {
-                        resolve({
-                            isLoggedIn: false,
-                            userFetched: true
-                        });
-                    });
+        return ApiService.get(URLS.USER_PROFILE(), {}).then(({ data }) => {
+            return {
+                isLoggedIn: true,
+                userData: data,
+                userFetched: true
+            }
+        }).catch(err => {
+            return {
+                isLoggedIn: false,
+                userFetched: true
+            }
         });
     },
     validateUser(params) {
         const axiosOptions = Object.assign(
             {},
             { params: params },
-            // getCommonHeaderOptions(),
+            getCommonHeaderOptions(),
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,19 +32,6 @@ const AuthService = {
             }
         );
         return ApiService.get(URLS.VALIDATE_USER(), axiosOptions);
-    },
-    openLoginScreen() {
-        this.IframeWindow = window.grimlock.openLoginDialog();
-        return;
-    },
-    openRegisterScreen() {
-        this.IframeWindow = window.grimlock.openRegisterDialog();
-    },
-    onUserLoggedIn() {
-        if (this.IframeWindow) {
-            this.IframeWindow.close();
-            window.location.href = '';
-        }
     },
     onUserLoggedOut() {
         //Handle logged out
@@ -64,17 +44,13 @@ const AuthService = {
         return;
     },
     signOutUser() {
-        return (
-            window.grimlock &&
-            window.grimlock
-                .logout()
-                .then((res) => {
-                    return res.data;
-                })
-                .catch((err) => {
-                    return { error: true, msg: err };
-                })
-        );
+        return ApiService.get(URLS.USER_LOGOUT(), {})
+        .then(({data}) => {
+            return data;
+        })
+        .catch(err => {
+            return { error: true, msg: err };
+        })
     }
 };
 export default AuthService;

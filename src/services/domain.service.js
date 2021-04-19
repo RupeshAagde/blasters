@@ -12,14 +12,6 @@ let SLINGSHOT_PUBLIC_URL = isNode ?
     envVars.BROWSER_CONFIG.SLINGSHOT_PUBLIC_URL :
     envVars.SLINGSHOT_PUBLIC_URL;
 
-const GRIMLOCK_BASE = isNode ?
-    envVars.BROWSER_CONFIG.GRIMLOCK_MAIN_SVC :
-    envVars.GRIMLOCK_MAIN_URL;
-
-const BLITZKRIEG_BASE = isNode ?
-    envVars.BROWSER_CONFIG.BLITZKRIEG_MAIN_SVC :
-    envVars.BLITZKRIEG_MAIN_URL;
-
 const SILVERBOLT_MAIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SILVERBOLT_MAIN_URL :
     envVars.SILVERBOLT_MAIN_URL;
@@ -32,17 +24,9 @@ const SILVERBOLT_ACAT_URL = isNode ?
     envVars.BROWSER_CONFIG.SILVERBOLT_ACAT_URL :
     envVars.SILVERBOLT_ACAT_URL;
 
-const SILVERBOLT_PCPR_URL = isNode ?
-    envVars.BROWSER_CONFIG.SILVERBOLT_PCPR_URL :
-    envVars.SILVERBOLT_PCPR_URL;
-
 const SILVERBOLT_PNLCPR_URL = isNode ?
     envVars.BROWSER_CONFIG.SILVERBOLT_PNLCPR_URL :
     envVars.SILVERBOLT_PNLCPR_URL;
-
-const SKYWARP_MAIN_URL = isNode ?
-    envVars.BROWSER_CONFIG.SKYWARP_MAIN_URL :
-    envVars.SKYWARP_MAIN_URL;
 
 const SKYWARP_PNL_URL = isNode ?
     envVars.BROWSER_CONFIG.SKYWARP_PNL_URL :
@@ -51,10 +35,6 @@ const SKYWARP_PNL_URL = isNode ?
 const UNICRON_BASE = isNode ?
     envVars.BROWSER_CONFIG.UNICRON_ADMIN_SVC :
     envVars.UNICRON_ADMIN_URL;
-
-const DAYTRADER_BASE = isNode ?
-    envVars.BROWSER_CONFIG.DAYTRADER_MAIN_SVC :
-    envVars.DAYTRADER_MAIN_URL;
 
 const PLATFORM_LEADS_BASE = isNode ?
     envVars.BROWSER_CONFIG.HIGHBROW_ADMIN_SVC :
@@ -92,11 +72,23 @@ const SLINGSHOT_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SLINGSHOT_ADMIN_URL :
     envVars.SLINGSHOT_ADMIN_URL;
 
-const MARKETPLACES_MAIN_URL = isNode ?
-    envVars.BROWSER_CONFIG.MARKETPLACES_MAIN_URL :
-    envVars.MARKETPLACES_MAIN_URL;
+const MARKETPLACES_ADMIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.MARKETPLACES_ADMIN_URL :
+    envVars.MARKETPLACES_ADMIN_URL;
+
+const SKYWARP_PNL_BASE = isNode
+    ? envVars.BROWSER_CONFIG.SKYWARP_PNL_URL
+    : envVars.SKYWARP_PNL_URL;
+
+const SKYWARP_ADMIN_BASE = isNode
+    ? envVars.BROWSER_CONFIG.SKYWARP_ADMIN_URL
+    : envVars.SKYWARP_ADMIN_URL;
 
 const URLS = {
+    // User Profile API's
+    USER_PROFILE: () => {
+        return urlJoin(SKYWARP_PNL_BASE, '/v1.0/profile');
+    },
     //fetch attributes
     FETCH_ATTRIBUTE: () => {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/product-attributes/');
@@ -152,10 +144,13 @@ const URLS = {
 
     // validate user
     VALIDATE_USER: () => {
-        return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff/current/access');
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/staff/current/access');
+    },
+    USER_LOGOUT:  ()=> {
+        return urlJoin(SKYWARP_PNL_BASE, '/v1.0/auth/logout');
     },
     ADMIN_PERMISSIONS: () => {
-        return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/permissions');
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/permissions');
     },
     //company details
     GET_COMPANY_LIST: () => {
@@ -240,21 +235,19 @@ const URLS = {
 
     //SKYWRAP
     LIST_USERS: (userId = '') => {
-        return urlJoin(SKYWARP_MAIN_URL, `/v1/admin/staff/${userId}`);
+        return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/admin/staff/${userId}`);
     },
 
     DELETE_USERS: (uid) => {
-        return urlJoin(SKYWARP_MAIN_URL, `/v1/admin/staff/${uid}`);
+        return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/admin/staff/${uid}`);
     },
     ADD_USERS: (uid) => {
-        return urlJoin(SKYWARP_MAIN_URL, '/v1/admin/staff/');
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/staff/');
     },
-
-    // GrimLock
 
     // Search
     SEARCH_USER: () => {
-        return urlJoin(GRIMLOCK_BASE, '/user-info/search');
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/user-info/search');
     },
 
     LOCATIONS: () => {
@@ -282,12 +275,6 @@ const URLS = {
     },
     FETCH_DAYTRADER_COMPONENT: () => {
         return urlJoin(UNICRON_BASE, 'v1.0/daytrader-component');
-    },
-    FETCH_DAYTRADER_CONFIG: () => {
-        return urlJoin(DAYTRADER_BASE, 'api/v1/get-output-fields_v2');
-    },
-    FETCH_DAYTRADER_FILTERS: () => {
-        return urlJoin(DAYTRADER_BASE, 'api/v1/get-data');
     },
     CURRENT_SUBSCRIPTION_DETAILS: () => {
         return urlJoin(UNICRON_BASE, 'v1.0/subscription/current');
@@ -398,10 +385,10 @@ const URLS = {
 
     // Marketplaces
     MARKETPLACE_WORKERS: (compId) => {
-        return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId, '/worker/');
+        return urlJoin(MARKETPLACES_ADMIN_URL, '/v1.0/company/', compId, '/worker/');
     },
     UPDATE_MARKETPLACE_WORKERS: (compId, marketplace) => {
-        return urlJoin(MARKETPLACES_MAIN_URL, '/company/', compId, '/marketplaces/', marketplace, '/worker/');
+        return urlJoin(MARKETPLACES_ADMIN_URL, '/v1.0/company/', compId, '/channels/', marketplace, '/worker/');
     },
     // integration list
     INTEGRATIONS_LIST: () => {

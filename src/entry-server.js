@@ -4,10 +4,6 @@ import root from 'window-or-global';
 
 const envVars = root.env || {};
 
-const GRIMLOCKWEB_BASE = isNode
-    ? envVars.BROWSER_CONFIG.GRIMLOCKWEB_MAIN_DOMAIN
-    : envVars.GRIMLOCKWEB_MAIN_DOMAIN;
-
 const {
     BROWSER_CONFIG,
     SENTRY_DSN,
@@ -35,15 +31,6 @@ export default (context) => {
             .then((data) => {
                 //add app styles and fonts
                 logger.info('All promised');
-
-                //App grimlock JS
-                //TODO
-                const PLATFORM = 'partner';
-                context.appAuthJs = '';
-                if (PLATFORM) {
-                    context.appAuthJs = getAppAuthJs(PLATFORM);
-                    // store.commit(SET_APP_PLATFORM, PLATFORM)
-                }
 
                 //Attach App Env
                 context.appEnv = getAppEnv();
@@ -104,23 +91,6 @@ export default (context) => {
                 .catch(reject);
         }, reject);
     });
-};
-const getAppAuthJs = (platform) => {
-    let strJs = '';
-    if (platform) {
-        strJs += `<script type="text/javascript">window.grimlock={ platform:"${platform}"}</script> `;
-        strJs += `<script type="text/javascript">window.loadGrimlock= new Promise(function(resolve,reject){ 
-            window.grimlock.onLibraryLoad=function(data){
-                resolve(data);
-            }
-         })  
-        </script>`;
-
-        //add grimlock
-        let scriptSrc = urlJoin(GRIMLOCKWEB_BASE, '/library_init.js');
-        strJs += `<script type="text/javascript" src="${scriptSrc}"></script> `;
-    }
-    return strJs;
 };
 
 const getAppEnv = () => {
