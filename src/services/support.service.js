@@ -59,6 +59,15 @@ const SupportService = {
         return ApiService.get(URLS.FETCH_SHIPMENT_INFO(id, company_id), {
             params: {}
         });
+    },
+    fetchCategories() {
+        return ApiService.get(URLS.FETCH_CATEGORIES(), {
+            params: {}
+        });
+    },
+    addCategories(categories) {
+        let axiosOption = { data: categories };
+        return ApiService.post(URLS.FETCH_CATEGORIES(), axiosOption);
     }
     // Product Info
     // fetchProductInfo(slug) {
