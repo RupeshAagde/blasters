@@ -5,20 +5,18 @@
             @backClick="$router.push({ name: 'support' })"
         >
             <nitrozen-button
-                    v-flatBtn
-                    theme="secondary"
-                    @click="saveData"
-                    :showProgress="loading"
-                    :disabled="!fetchedSuccesfully"
-                >
+                v-flatBtn
+                theme="secondary"
+                @click="saveData"
+                :showProgress="loading"
+                :disabled="!fetchedSuccesfully"
+            >
                 Save
             </nitrozen-button>
         </page-header>
         <div class="main-container">
-            <br>
+            <p class="heading">All Categories</p>
             <loader v-if="loading"></loader>
-            <h4>All Categories</h4>
-            <br>
             <div class="add-category">
                 <nitrozen-input
                     class="category-input"
@@ -41,27 +39,41 @@
             <div v-for="(item, index) in allCategories" v-bind:key="index">
                 <div class="category">
                     <div class="category-top">
-                        <p style="flex: 1 1 auto;">{{ item.display }}</p>
-                        <span v-on:click="editCategory(item.key)">
+                        <p style="flex: 1 1 auto">{{ item.display }}</p>
+                        <span
+                            v-on:click="editCategory(item.key)"
+                            v-if="item.sub_categories.length == 0"
+                            title="Add sub-categories"
+                        >
                             <inline-svg
-                                v-if="item.sub_categories.length == 0"
                                 class="svg-icon"
                                 src="plus-black"
                             ></inline-svg>
+                        </span>
+                        <span
+                            v-on:click="editCategory(item.key)"
+                            v-else
+                            title="Edit sub-categories"
+                        >
                             <inline-svg
-                                v-else
                                 class="svg-icon"
                                 src="edit"
                             ></inline-svg>
                         </span>
-                        <span v-on:click="removeCategory(index)">
+                        <span
+                            v-on:click="removeCategory(index)"
+                            title="Delete this category"
+                        >
                             <inline-svg
                                 class="svg-icon"
                                 src="delete"
                             ></inline-svg>
                         </span>
                     </div>
-                    <div class="sub-categories" v-if="item.key == editingCatKey">
+                    <div
+                        class="sub-categories"
+                        v-if="item.key == editingCatKey"
+                    >
                         <p>Sub Categories</p>
                         <nitrozen-chips
                             class="chip-wrapper"
@@ -71,16 +83,15 @@
                             <nitrozen-inline
                                 :icon="'cross'"
                                 class="nitrozen-icon"
-                                v-on:click="removeChip(index,opt_index)"
+                                v-on:click="removeChip(index, opt_index)"
                             ></nitrozen-inline>
                         </nitrozen-chips>
-                        <input
+                        <nitrozen-input
                             placeholder="Add your sub-category"
                             ref="chipInput"
                             type="text"
                             class="chip-input"
-                            @keydown.enter="addChip(index,$event)"
-                            @keydown.tab="addChip(index,$event)"
+                            @keyup.enter.native="addChip(index, $event)"
                             v-model="chipInput"
                         />
                     </div>
@@ -101,7 +112,7 @@ import {
     NitrozenBadge,
     NitrozenDialog,
     NitrozenInline,
-    NitrozenChips
+    NitrozenChips,
 } from '@gofynd/nitrozen-vue';
 import { Loader, PageHeader } from '@/components/common';
 import inlinesvg from '@/components/common/inline-svg';
@@ -166,9 +177,9 @@ export default {
         },
         addCategory() {
             const slugifiedKey = slugify(this.newCategory.trim(), {
-                            lower: true,
-                            strict: true,
-                        });
+                lower: true,
+                strict: true,
+            });
             if (!this.isSubmitable && this.loading) {
                 return;
             }
@@ -178,14 +189,16 @@ export default {
             }
             for (let item of this.allCategories) {
                 if (item.key.trim() == slugifiedKey) {
-                    this.$snackbar.global.showError('This category already exist');
+                    this.$snackbar.global.showError(
+                        'This category already exist'
+                    );
                     return;
                 }
             }
             let data = {
                 key: slugifiedKey,
                 display: this.newCategory.trim(),
-                sub_categories: []
+                sub_categories: [],
             };
             this.allCategories.push(data);
             this.newCategory = '';
@@ -197,27 +210,27 @@ export default {
         },
         removeCategory(index) {
             if (this.allCategories[index].key == this.editingCatKey) {
-                this.chipInput = ''
+                this.chipInput = '';
             }
-            this.allCategories.splice(index, 1)
+            this.allCategories.splice(index, 1);
             this.isUpdated = true;
         },
         editCategory(key) {
-            this.editingCatKey = key
-            this.chipInput = ''
+            this.editingCatKey = key;
+            this.chipInput = '';
         },
         saveData() {
             if (this.loading) {
                 return;
             }
             let data = {
-                items: this.allCategories
+                items: this.allCategories,
             };
             this.loading = true;
             SupportService.addCategories(data)
                 .then((response) => {
                     if (response.data.items && response.data.items.length > 0) {
-                        this.allCategories = response.data.items
+                        this.allCategories = response.data.items;
                     }
                     this.$snackbar.global.showSuccess('Categories updated');
                 })
@@ -230,15 +243,15 @@ export default {
                 });
         },
         removeChip(index, opt_index) {
-            this.allCategories[index].sub_categories.splice(opt_index, 1)
+            this.allCategories[index].sub_categories.splice(opt_index, 1);
             this.isUpdated = true;
         },
         addChip(index, event) {
             event.preventDefault();
             const slugifiedKey = slugify(this.chipInput.trim(), {
-                            lower: true,
-                            strict: true,
-                        });
+                lower: true,
+                strict: true,
+            });
             if (slugifiedKey == '') {
                 this.$snackbar.global.showError('Please enter a sub-category');
                 return;
@@ -246,18 +259,20 @@ export default {
             for (let subCat of this.allCategories[index].sub_categories) {
                 if (subCat.key.trim() == slugifiedKey) {
                     console.log('This sub-category already exist');
-                    this.$snackbar.global.showError('This sub-category already exist');
+                    this.$snackbar.global.showError(
+                        'This sub-category already exist'
+                    );
                     return;
                 }
             }
             const data = {
                 key: slugifiedKey,
                 display: this.chipInput.trim(),
-            }
+            };
             this.allCategories[index].sub_categories.push(data);
             this.chipInput = '';
             this.isUpdated = true;
-        }
+        },
     },
 };
 </script>
@@ -267,16 +282,25 @@ export default {
     display: flex;
     flex-direction: column;
 }
+.heading {
+    font-family: Inter, sans-serif;
+    font-size: 17px;
+    line-height: 1.5;
+    padding-bottom: 9px;
+}
 .main-container {
     background-color: white;
     font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
     margin: 24px;
     padding: 24px;
     top: 56.5px;
     position: relative;
     min-height: 400px;
 }
-.category {  
+.category {
     padding: 8px;
     margin-top: 12px;
     border-radius: 6px;
@@ -286,6 +310,8 @@ export default {
     display: flex;
     align-items: center;
     margin-bottom: 8px;
+    color: rgb(55, 55, 55);
+    font-weight: 500;
 }
 .add-category {
     text-align: center;
@@ -302,21 +328,28 @@ export default {
 .sub-categories {
     border: 1px solid @Iron;
     border-radius: 4px;
+    color: grey;
     padding: 5px;
     .nitrozen-chip {
+        color: rgb(55, 55, 55);
         margin: 5px;
-        height: 30px;
-        padding: 0 9px;
+        height: 25px;
+        padding: 0 6px;
         font-size: 12px;
-        line-height: 30px;
+        line-height: 25px;
     }
     .chip-input {
         width: 200px;
-        border: none;
         font-family: Inter, sans-serif;
-        font-size: 11px;
+        color: rgb(55, 55, 55);
+        font-size: 12px;
         font-weight: 400;
         margin: 4px;
+        ::v-deep.n-input {
+            height: 30px;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
     }
 }
 </style>
