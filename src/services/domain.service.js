@@ -291,6 +291,15 @@ const URLS = {
     AGREEMENT_PDF: () => {
         return urlJoin(UNICRON_BASE, `v1.0/plan-pdf/generate-pdf/`);
     },
+    FETCH_INVOICE_LISTING: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/listing`)
+    },
+    FETCH_INVOICE_DETAILS: (id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/${id}`)
+    },
+    SUBSCRIPTION_DOWNLOAD_INVOICE: (id,company_id='') => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/invoice`, id, 'pdf');
+    },
 
     //#########Tickets########
     FETCH_TICKETS: () => {

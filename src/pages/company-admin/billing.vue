@@ -10,7 +10,7 @@
             <nitrozen-button
             :theme="'secondary'"
             v-strokeBtn
-            @click="()=>{}"
+            @click="downloadInvoice"
             >Download</nitrozen-button>
 
         <span
@@ -547,6 +547,9 @@
 import PageHeader from '@/components/common/layout/page-header';
 import moment from 'moment';
 import admInlineSvg from '@/components/common/adm-inline-svg.vue';
+import BillingService from '@/services/billing.service';
+import URLS from '@/services/domain.service';
+import get from 'lodash/get';
 import {
     NitrozenButton,
     NitrozenDropdown,
@@ -611,6 +614,7 @@ export default {
     data() {
         return {
             invoice:null,
+            invoiceId:this.$route.params.billingNo,
             contextMenuItems: [
                 {
                     text: 'Retry Payment',
@@ -633,267 +637,9 @@ export default {
         };
     },
     mounted() {
-        this.invoice={
-  "invoice": {
-    "period": {
-      "start": "2020-08-17T13:45:36.722Z",
-      "end": "2020-09-17T13:45:36.722Z"
-    },
-    "client": {
-      "address_lines": [
-        "TV TOWER, Foot Over Bridge Khar",
-        null,
-        "Mumbai, 400079, Maharashtra, India"
-      ],
-      "name": "RELIANCE RETAIL LTD",
-      "email": "ZAK@GMAIL.COM",
-      "phone": "91 9869821300"
-    },
-    "auto_advance": true,
-    "currency": "INR",
-    "paid": true,
-    "attemp": 3,
-    "_id": "5f7acb709e76da30e3b92cdb",
-    "collection_method": "charge_automatically",
-    "subscriber_id": "5ee773e1351e5e84289ed9cf",
-    "invoice_url": "",
-    "number": "FP-1-72020-736",
-    "pg_data": {},
-    "receipt_number": "5fd9b08464dc6ac048a08988",
-    "statement_descriptor": "RELIANCE RETAIL LTD",
-    "current_status": "paid",
-    "status_trail": [
-      {
-        "_id": "5f7ad29bd562744eab216379",
-        "value": "draft",
-        "timestamp": "2020-10-05T08:00:27.753Z"
-      },
-      {
-        "_id": "5fcf40ce1613c029aff417dd",
-        "value": "open",
-        "timestamp": "2020-12-08T09:01:02.038Z"
-      },
-      {
-        "_id": "5fd9b08664dc6a1ad0a08989",
-        "value": "paid",
-        "timestamp": "2020-12-16T07:00:22.973Z"
-      }
-    ],
-    "subtotal": 15720.08,
-    "total": 15720.08,
-    "subscription": "5f3a8a00668947663b7fbd38",
-    "next_action_time": "2020-10-05T09:00:27.754Z",
-    "paymentMethod": {
-      "id": 73,
-      "type": "card",
-      "pg_payment_method_id": "pm_1H9PRrJ1ZTFIN1aDhz3TKqgV",
-      "data": {
-        "brand": "visa",
-        "last4": "4242",
-        "checks": {
-          "cvc_check": "pass",
-          "address_line1_check": null,
-          "address_postal_code_check": null
-        },
-        "wallet": null,
-        "country": "US",
-        "funding": "credit",
-        "exp_year": 2044,
-        "networks": {
-          "available": [
-            "visa"
-          ],
-          "preferred": null
-        },
-        "exp_month": 12,
-        "fingerprint": "0aror24meTf8iYfw",
-        "generated_from": null,
-        "three_d_secure_usage": {
-          "supported": true
-        }
-      },
-      "is_default": true
-    },
-    "created_at": "2020-10-05T07:29:52.876Z",
-    "modified_at": "2020-12-16T07:00:22.980Z",
-    "hash_identifier": "575999aca03e36f0fa54db5235bc7f25",
-    "payment_method": {
-      "pg_payment_method_id": null
-    }
-  },
-  "invoice_items": [
-    {
-      "_id": "5f7acb709e76da48b1b92cdd",
-      "currency": "INR",
-      "plan": {
-        "recurring": {
-          "interval": "month",
-          "interval_count": 1
-        },
-        "is_trial_plan": false,
-        "plan_group": "default",
-        "tagLines": [],
-        "currency": "INR",
-        "is_active": true,
-        "is_visible": true,
-        "trial_period": 0,
-        "addons": [],
-        "tags": [],
-        "type": "public",
-        "country": "IN",
-        "_id": "5f3a8786c90d780037723a14",
-        "name": "Professional",
-        "description": "Professional",
-        "amount": 1499,
-        "product_suite_id": "5f3a8786c90d7800377239f3",
-        "created_at": "2020-08-17T13:35:02.802Z",
-        "modified_at": "2020-08-17T13:35:02.802Z"
-      },
-      "name": "Professional",
-      "quantity": 1,
-      "description": "Professional",
-      "period": {
-        "start": "2020-08-17T13:45:36.722Z",
-        "end": "2020-10-05T07:29:52.868Z"
-      },
-      "unit_amount": 2356.77,
-      "amount": 2356.77,
-      "type": "subscription",
-      "invoice_id": "5f7acb709e76da30e3b92cdb",
-      "created_at": "2020-10-05T07:29:52.886Z",
-      "modified_at": "2020-10-05T07:29:52.886Z"
-    },
-    {
-      "_id": "5f7acf199aa6830c4fe5e984",
-      "currency": "INR",
-      "plan": {
-        "recurring": {
-          "interval": "month",
-          "interval_count": 1
-        },
-        "is_trial_plan": false,
-        "plan_group": "default",
-        "tagLines": [],
-        "currency": "INR",
-        "is_active": true,
-        "is_visible": true,
-        "trial_period": 0,
-        "addons": [],
-        "tags": [
-          "popular"
-        ],
-        "type": "public",
-        "country": "IN",
-        "_id": "5f3a8786c90d780037723a13",
-        "name": "Premium",
-        "description": "Premium",
-        "amount": 2499,
-        "product_suite_id": "5f3a8786c90d7800377239f3",
-        "created_at": "2020-08-17T13:35:02.547Z",
-        "modified_at": "2020-08-17T13:35:02.547Z"
-      },
-      "name": "Premium",
-      "quantity": 1,
-      "description": "Premium",
-      "period": {
-        "start": "2020-08-17T13:45:36.722Z",
-        "end": "2020-10-05T07:45:29.755Z"
-      },
-      "unit_amount": 3929.87,
-      "amount": 3929.87,
-      "type": "subscription",
-      "invoice_id": "5f7acb709e76da30e3b92cdb",
-      "created_at": "2020-10-05T07:45:29.765Z",
-      "modified_at": "2020-10-05T07:45:29.765Z"
-    },
-    {
-      "_id": "5f7acf7da10a707fc502dcd4",
-      "currency": "INR",
-      "plan": {
-        "recurring": {
-          "interval": "month",
-          "interval_count": 1
-        },
-        "is_trial_plan": false,
-        "plan_group": "default",
-        "tagLines": [],
-        "currency": "INR",
-        "is_active": true,
-        "is_visible": true,
-        "trial_period": 0,
-        "addons": [],
-        "tags": [],
-        "type": "public",
-        "country": "IN",
-        "_id": "5f3a8786c90d780037723a16",
-        "name": "Ultra Premium",
-        "description": "Ultra Premium",
-        "amount": 2999,
-        "product_suite_id": "5f3a8786c90d7800377239f3",
-        "created_at": "2020-08-17T13:35:02.802Z",
-        "modified_at": "2020-08-17T13:35:02.802Z"
-      },
-      "name": "Ultra Premium",
-      "quantity": 1,
-      "description": "Ultra Premium",
-      "period": {
-        "start": "2020-08-17T13:45:36.722Z",
-        "end": "2020-10-05T07:47:09.532Z"
-      },
-      "unit_amount": 4716.27,
-      "amount": 4716.27,
-      "type": "subscription",
-      "invoice_id": "5f7acb709e76da30e3b92cdb",
-      "created_at": "2020-10-05T07:47:09.541Z",
-      "modified_at": "2020-10-05T07:47:09.541Z"
-    },
-    {
-      "_id": "5f7ad29bd56274f23321637a",
-      "currency": "INR",
-      "plan": {
-        "recurring": {
-          "interval": "month",
-          "interval_count": 1
-        },
-        "is_trial_plan": false,
-        "plan_group": "default",
-        "tagLines": [],
-        "currency": "INR",
-        "is_active": true,
-        "is_visible": true,
-        "trial_period": 0,
-        "addons": [],
-        "tags": [],
-        "type": "public",
-        "country": "IN",
-        "_id": "5f3a8786c90d780037723a16",
-        "name": "Ultra Premium",
-        "description": "Ultra Premium",
-        "amount": 2999,
-        "product_suite_id": "5f3a8786c90d7800377239f3",
-        "created_at": "2020-08-17T13:35:02.802Z",
-        "modified_at": "2020-08-17T13:35:02.802Z"
-      },
-      "name": "Ultra Premium",
-      "quantity": 1,
-      "description": "Ultra Premium",
-      "period": {
-        "start": "2020-08-17T13:45:36.722Z",
-        "end": "2020-10-05T08:00:27.753Z"
-      },
-      "unit_amount": 4717.17,
-      "amount": 4717.17,
-      "type": "subscription",
-      "invoice_id": "5f7acb709e76da30e3b92cdb",
-      "created_at": "2020-10-05T08:00:27.768Z",
-      "modified_at": "2020-10-05T08:00:27.768Z"
-    }
-  ]
-}
-
-    },
-    computed: {
-
+        BillingService.getInvoiceDetail(this.invoiceId).then(({data})=>{
+            this.invoice=data;
+        })
     },
     methods: {
         redirectToListing() {
@@ -904,6 +650,15 @@ export default {
                 style: 'currency',
                 currency: plan.currency
             }).format(plan.amount);
+        },
+        safeGet(obj, path, defaultValue) {
+            return get(obj, path, defaultValue);
+        },
+        downloadInvoice() {
+            window.open(
+                URLS.SUBSCRIPTION_DOWNLOAD_INVOICE(this.invoiceId),
+                '_blank'
+            );
         },
         
     },

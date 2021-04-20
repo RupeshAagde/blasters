@@ -83,7 +83,26 @@ const BillingService = {
     getPlanDetail(planId) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.PLAN_DETAILS(planId), axiosOptions);
-    }
+    },
+
+    getInvoiceListing(params){
+        const axiosOptions = Object.assign(
+            {},
+            { params: params },
+            // getCommonHeaderOptions(),
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-currency-code': 'INR'
+                }
+            }
+        );
+        return ApiService.get(URLS.FETCH_INVOICE_LISTING(), axiosOptions);
+    },
+    getInvoiceDetail(InvoiceId) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.FETCH_INVOICE_DETAILS(InvoiceId), axiosOptions);
+    },
 };
 
 export default BillingService;

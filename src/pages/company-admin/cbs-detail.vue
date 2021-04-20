@@ -92,7 +92,7 @@
             v-show="activeTabIndex === 2"
             class="main-container profile-container"
         >
-            <div class="full-width">
+            <!-- <div class="full-width">
                 <div class="applications" style="width: 98%">
                     <div v-if="inProgress" class="shimmer"></div>
                     <div
@@ -171,7 +171,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
+            <invoice-listing></invoice-listing>
         </div>
     </div>
 </template>
@@ -386,6 +387,7 @@ import {
 } from '@gofynd/nitrozen-vue';
 import { FETCH_METRICS } from '@/store/action.type';
 import marketplaceChannels from './mkp-channels.vue';
+import invoiceListing from './invoice-listing.vue'
 
 import root from 'window-or-global';
 const env = root.env || {};
@@ -406,6 +408,7 @@ export default {
         'mkp-channels': marketplaceChannels,
         'ukt-inline-svg': uktInlineSVG,
         'adm-inline-svg': admInlineSVG,
+        'invoice-listing':invoiceListing,
     },
     computed: {},
     data() {
