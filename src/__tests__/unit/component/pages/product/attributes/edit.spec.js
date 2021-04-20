@@ -77,12 +77,12 @@ describe('Create/Edit Attribute Page', () => {
         saveComponent.vm.$emit('click');
         // wrapper.vm.saveForm();
         wrapper.vm.setUnitsList({ text: "milli" })
-        expect(wrapper.vm.getFormData().details.displayType).toBe('text');
+        expect(wrapper.vm.getFormData().details.display_type).toBe('text');
         wrapper.vm.$set(wrapper.vm, 'attrType', 'html');
-        expect(wrapper.vm.getFormData().details.displayType).toBe('html');
+        expect(wrapper.vm.getFormData().details.display_type).toBe('html');
         wrapper.vm.$set(wrapper.vm, 'attrType', 'test');
         expect(wrapper.vm.getFormData().schema.type).toBe('test');
-        expect(wrapper.vm.getFormData().details.displayType).toBe('text');
+        expect(wrapper.vm.getFormData().details.display_type).toBe('text');
         saveComponent.vm.$emit('click');
         // await wrapper.vm.saveForm();
         expect(wrapper.vm.inProgress).toBe(true);
