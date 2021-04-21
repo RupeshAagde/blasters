@@ -233,13 +233,13 @@ export default {
                         this.allCategories = response.data.items;
                     }
                     this.$snackbar.global.showSuccess('Categories updated');
+                    this.isUpdated = false;
                 })
                 .catch((error) => {
                     this.$snackbar.global.showError(error.message);
                 })
                 .finally(() => {
                     this.loading = false;
-                    this.isUpdated = false;
                 });
         },
         removeChip(index, opt_index) {
