@@ -520,12 +520,12 @@ export default {
 
             let txt = 'Type: ';
 
-            if (attribute.details.displayType === 'text') {
+            if (attribute.details.display_type === 'text') {
                 this.attrType = attribute.schema.type;
                 txt += PROPERTY_TYPES[attribute.schema.type];
             } else {
-                this.attrType = attribute.details.displayType;
-                txt += PROPERTY_TYPES[attribute.details.displayType];
+                this.attrType = attribute.details.display_type;
+                txt += PROPERTY_TYPES[attribute.details.display_type];
             }
 
             return txt;
