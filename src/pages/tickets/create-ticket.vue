@@ -222,6 +222,10 @@ export default {
                 this.ticket.category = option['category'];
             }
 
+            if (option['sub_category'] && option['sub_category'] != '') {
+                this.ticket.sub_category = option['sub_category'];
+            }
+
             this.ticket.tags = option.tags;
             this.ticket.content.attachments = option.attachments;
             this.ticket.assigned_to = {
@@ -268,6 +272,10 @@ export default {
                     this.filters.categories.forEach((element) => {
                         element.text = element.display;
                         element.value = element.key;
+                        element.sub_categories.forEach((item) => {
+                            item.text = item.display;
+                            item.value = item.key;
+                        });
                     });
 
                     if (this.ticketID) {
