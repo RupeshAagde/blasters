@@ -440,7 +440,7 @@ export default {
     },
     methods: {
         goToBillingPage(id) {
-            this.$router.push({ path: `/administrator/billing-details/${id}` });
+            this.$router.push({ path: `/administrator/company-details/${this.companyId}/billing-details/${id}` });
         },
         tempSetup: function () {
             this.applicationList = [

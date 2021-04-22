@@ -103,6 +103,12 @@ const BillingService = {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.FETCH_INVOICE_DETAILS(InvoiceId), axiosOptions);
     },
+    updateOfflinePayment(InvoiceId,payload) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{
+            data: payload
+        });
+        return ApiService.put(URLS.FETCH_INVOICE_DETAILS(InvoiceId), axiosOptions);
+    },
 };
 
 export default BillingService;

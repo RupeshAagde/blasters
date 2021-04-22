@@ -73,8 +73,21 @@ export default [
                 }
             },
             {
+                name: 'invoices details',
+                path: 'subscription/invoices/:billingNo',
+                component: BillingVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
                 name: 'billing-details',
-                path: 'billing-details/:billingNo',
+                path: 'company-details/:companyId/billing-details/:billingNo',
                 component: BillingVue,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(

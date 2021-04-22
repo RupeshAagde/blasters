@@ -7,6 +7,7 @@
             >
                 <div v-if="isInitialLoad" class="input-shimmer shimmer"></div>
                 <template v-else>
+                    <div style="display:flex; margin-top:6px;">
                     <nitrozen-input
                         :showSearchIcon="true"
                         class="search"
@@ -16,41 +17,47 @@
                         @input="debounceInput({ number: searchText })"
                     ></nitrozen-input>
 
-                    <div class="flex date-wrapper">
+                    <div class="flex date-wrapper" style="margin-left:12px;">
                     <div class="date-container m-r-24">
+                        <div class="date">
                         <date-picker
-                            v-on:input="(e) => dateChanged(e, 'start')"
-                            :date_format="'YYYY-MM-DD hh:mm:ss a'"
-                            :picker_type="'datetime'"
-                            v-model="filters.start.value"
+                            class="date-picker"
+                            @input="dateRangeChange"
+                            date_format="MMM Do, YY"
+                            :picker_type="'date'"
+                            :range="true"
+                            :clearable="true"
+                            :useNitrozenTheme="true"
+                            v-model="orderDateRange"
                             :not_before="new Date(0).toISOString()"
-                            :placeholder="'Created at start date'"
+                            :placeholder="'Select Date Range'"
                         />
-                    </div>
-                    <div class="inner-container">
-                        <date-picker
-                            :date_format="'YYYY-MM-DD hh:mm:ss a'"
-                            v-on:input="(e) => dateChanged(e, 'end')"
-                            :picker_type="'datetime'"
-                            v-model="filters.end.value"
-                            :not_before="new Date(0).toISOString()"
-                            :placeholder="'Created at end date'"
-                        />
+                        </div>
                     </div>
                 </div>
-
-                    <!-- <div class="filter">
-                        <label class="label">Filter</label>
+                    </div>
+                    <div style="display:flex; margin-top:-13px">
+                    <div>
                         <nitrozen-dropdown
+                            :label="'Status'"
                             class="filter-dropdown"
-                            :items="filters"
-                            v-model="selectedFilter"
-                            @change="
-                                fetchCompany(),
-                                    setRouteQuery({ stage: selectedFilter })
-                            "
+                            :useNitrozenTheme="true"
+                            :items="statusFilterList"
+                            v-model="filters.status"
+                            @change="fieldChanged"
                         ></nitrozen-dropdown>
-                    </div> -->
+                    </div>
+                    <div>
+                        <nitrozen-dropdown
+                            :label="'Collection Method'"
+                            class="filter-dropdown"
+                            :useNitrozenTheme="true"
+                            :items="collectionMethodFilterList"
+                            v-model="filters.collection_method"
+                            @change="fieldChanged"
+                        ></nitrozen-dropdown>
+                    </div>
+                    </div>
                 </template>
             </div>
             <div
@@ -66,8 +73,8 @@
                     @click="goToBillingPage(item._id)"
                 >
                     <div class="line-1">
-                        <div class="cust-head">
-                            <a>Payment Status</a>
+                        <div v-if="item.client && item.client.name" class="cust-head">
+                            <a>{{item.client.name}}</a>
                         </div>
                         <div class="cust-badge">
                             <adm-inline-svg
@@ -86,7 +93,7 @@
                         </div>
                     </div>
                     <div class="line-2" v-if="item.number">
-                        <div class="cust-head">Number</div>
+                        <div class="cust-head">Invoice Number</div>
                         <div
                             class="cust-pointer"
                             :title="`${item.number} (Click to copy)`"
@@ -95,33 +102,24 @@
                             {{ item.number }}
                         </div>
                     </div>
-                    <div class="line-2" v-if="item.receipt_number">
-                        <div class="cust-head">Receipt No</div>
-                        <div
-                            class="cust-app cust-pointer"
-                            :title="`${item.receipt_number} (Click to copy)`"
-                            @click="copy(item.receipt_number)"
-                        >
-                            {{ item.receipt_number }}
-                        </div>
-                    </div>
                     <div class="line-2" v-if="item.period">
                         <div class="cust-head" v-if="item.period.start">
-                            Start Date
+                            Invoice Period
                         </div>
                         <div
-                            v-if="item.period.start"
-                            :title="item.period.start"
+                            v-if="item.period.start && item.period.end"
+                            :title="'Invoice Period'"
                         >
-                            {{ item.period.start | formatDate }}
+                            {{ item.period.start | formatDate }} - {{ item.period.end | formatDate }}
                         </div>
                     </div>
-                    <div class="line-2" v-if="item.period">
-                        <div class="cust-head" v-if="item.period.start">
-                            End Date
-                        </div>
-                        <div v-if="item.period.end" :title="item.period.end">
-                            {{ item.period.end | formatDate }}
+                    <div class="line-2" v-if="item.collection_method">
+                        <div class="cust-head">Collection Method</div>
+                        <div
+                            class="cust-pointer"
+                            style="text-transform: capitalize;"
+                        >
+                            {{ item.collection_method | removeUnderscore}}
                         </div>
                     </div>
                     <div class="line-2" v-if="item.total">
@@ -156,6 +154,17 @@
     display: flex;
     justify-content: flex-start;
     margin-left: 24px;
+}
+
+.date {
+    display: flex;
+    margin-bottom: 12px;
+    .date-picker {
+        width: 250px;
+        @media @mobile {
+            width: 100%;
+        }
+    }
 }
 
 ::v-deep .page-slot {
@@ -207,14 +216,6 @@
         margin-top: 12px;
     }
 }
-.vue-date-picker {
-    display: flex;
-    align-items: center;
-    /deep/.mx-input {
-        height: 40px;
-        box-sizing: border-box;
-    }
-}
 .shimmer {
     display: block;
     width: 100%;
@@ -225,7 +226,7 @@
     min-width: 400px;
 }
 .search-box {
-    margin: 0 0 24px 0;
+    margin: 0 0 12px 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -245,7 +246,7 @@
         font-weight: 500;
     }
     .filter-dropdown {
-        width: 200px;
+        width: 120px;
         margin-left: 12px;
     }
 }
@@ -459,9 +460,54 @@ export default {
             applicationList: [],
             pagination: { ...PAGINATION },
             searchText: '',
+            notBefore: moment().subtract(2, 'years').toISOString(),
+            orderDateRange: [
+                null,
+                null,
+            ],
+            statusFilterList: [
+                {
+                    text: 'All',
+                    value: 'all'
+                },
+                {
+                    text: 'Draft',
+                    value: 'draft'
+                },
+                {
+                    text: 'Open',
+                    value: 'open'
+                },
+                {
+                    text: 'Paid',
+                    value: 'paid'
+                },
+                {
+                    text: 'Uncollectible',
+                    value: 'uncollectible'
+                },
+                {
+                    text: 'Void',
+                    value: 'void'
+                }
+            ],
+            collectionMethodFilterList: [
+                {
+                    text: 'All',
+                    value: 'all'
+                },
+                {
+                    text: 'Charge Automatically',
+                    value: 'charge_automatically'
+                },
+                {
+                    text: 'Send Invoice',
+                    value: 'send_invoice'
+                }
+            ],
             filters: {
                 plainTextSearch: '',
-                type: 'all',
+                collection_method: 'all',
                 status: 'all',
                 templateSearch: '',
                 start: {
@@ -483,29 +529,46 @@ export default {
         };
     },
     mounted() {
-        console.log(this.$route.params);
         this.fetchInvoiceList();
     },
     computed: {},
     filters: {
         formatDate(value) {
             if (value) {
-                return moment(String(value)).format('ll');
+                return moment(String(value)).format("Do MMM YY");;
             }
         },
+        removeUnderscore(value){
+            if(value){
+                return value.replace(/_/g, ' ');
+            }
+        }
     },
     methods: {
         goToBillingPage(id) {
-            this.$router.push({ path: `/administrator/billing-details/${id}` });
+            if(!this.companyId){
+                this.$router.push({ path: `/administrator/subscription/invoices/${id}` });
+            }else{
+                this.$router.push({ path: `/administrator/company-details/${this.companyId}/billing-details/${id}` });
+            }
+        },
+        fieldChanged() {
+            this.fetchInvoiceList()
         },
         dateChanged() {
-            console.log(this.filters)
+            this.fetchInvoiceList();
+        },
+        dateRangeChange() {
+            // this.setRouteQuery({
+            //     from_date: moment(this.orderDateRange[0]).format('MM-DD-YYYY'),
+            //     to_date: moment(this.orderDateRange[1]).format('MM-DD-YYYY'),
+            //     page: 1,
+            // });
             this.fetchInvoiceList();
         },
         fetchInvoiceList() {
             BillingService.getInvoiceListing(this.requestQuery()).then(
                 (res) => {
-                    console.log('data', res.data);
                     this.applicationList = res.data.items;
                     this.pagination.total = res.data.page.item_total;
                     this.pageLoading = false;
@@ -521,7 +584,6 @@ export default {
             CompanyService.fetchCompanyProfile(params)
                 .then((res) => {
                     this.inProgress = false;
-                    console.log(res.data);
                     this.profileDetails = res.data;
                     // this.fetchInvoiceList();
                 })
@@ -560,21 +622,27 @@ export default {
             if (this.companyId) {
                 filterQuery.company_id = this.companyId;
             }
-            if (this.validateDates() == 'valid'){
-                let start = this.filters.start.value;
-                let end = this.filters.end.value;
+            if (this.orderDateRange[0] && this.orderDateRange[1]){
+                let start = this.orderDateRange[0]
+                let end = this.orderDateRange[1]
                 if(start){
                     filterQuery['period.start']={$gte: start}
                 }
                 if(end){
                     filterQuery['period.end']={$lte: end} 
                 }
-            } else if (this.validateDates() == 'invalid') {
-                this.$snackbar.global.showError('Invalid dates provided');
-                return;
-            } else if (this.validateDates() == 'notProvidedStart') {
-                this.$snackbar.global.showError('Please provide start date');
-                return;
+            }
+            if(this.filters.status!=='all'){
+                filterQuery.current_status = {
+                    $regex: this.filters.status,
+                    $options: 'ig',
+                };
+            }
+            if(this.filters.collection_method!=='all'){
+                filterQuery.collection_method = {
+                    $regex: this.filters.collection_method,
+                    $options: 'ig',
+                };
             }
             query.query = JSON.stringify(filterQuery);
             // if (this.selectedFilter !== 'all') {

@@ -5,25 +5,16 @@
             :title="'Invoice'"
             :contextMenuItems="contextMenuItems"
             @backClick="redirectToListing"
+            @payOffline="open"
         >
-        <div style="display:flex; width:18%">
-            <nitrozen-button
-            :theme="'secondary'"
-            v-strokeBtn
-            @click="downloadInvoice"
-            >Download</nitrozen-button>
-
-        <span
-            @click="()=>{}"
-            class="refresh-icon"
-            title="Refresh"
-        >
-            <adm-inline-svg
-                class="svg-icon"
-                src="refresh"
-            ></adm-inline-svg>
-        </span>
-        </div>
+            <div>
+                <nitrozen-button
+                    :theme="'secondary'"
+                    v-strokeBtn
+                    @click="downloadInvoice"
+                    >Download
+                </nitrozen-button>
+            </div>
         </page-header>
         <div class="main-container">
             <div class="header-margin page-container">
@@ -32,22 +23,16 @@
                     <div v-if="invoice && invoice.invoice">
                         <div class="flex m-b-24">
                             <div class="flex-2">
-                                <table
-                                    class="invoice-number-table width-50"
-                                    v-if="registeredAddress"
-                                >
+                                <table class="invoice-number-table width-50">
                                     <tr>
                                         <td>Address</td>
                                         <td class="line-height-24">
                                             <div>
-                                                {{ registeredAddress.address1 }}
-                                            </div>
-                                            <div>
-                                                {{ registeredAddress.city }}
-                                            </div>
-                                            <div>
-                                                {{ registeredAddress.state }}
-                                                {{ registeredAddress.pincode }}
+                                                {{
+                                                    invoice.invoice.client.address_lines.join(
+                                                        ' '
+                                                    )
+                                                }}
                                             </div>
                                         </td>
                                     </tr>
@@ -121,8 +106,9 @@
                                 <tbody>
                                     <tr
                                         :key="i"
-                                        v-for="(item,
-                                        i) in invoice.invoice_items"
+                                        v-for="(
+                                            item, i
+                                        ) in invoice.invoice_items"
                                     >
                                         <td>
                                             <div>{{ item.name }}</div>
@@ -135,7 +121,8 @@
                                                 {{
                                                     amountFormat({
                                                         currency: item.currency,
-                                                        amount: item.unit_amount
+                                                        amount:
+                                                            item.unit_amount,
                                                     })
                                                 }}
                                             </div>
@@ -147,7 +134,7 @@
                                                         currency: item.currency,
                                                         amount:
                                                             item.quantity *
-                                                            item.unit_amount
+                                                            item.unit_amount,
                                                     })
                                                 }}
                                             </div>
@@ -168,7 +155,7 @@
                                                                 .currency,
                                                         amount:
                                                             invoice.invoice
-                                                                .subtotal
+                                                                .subtotal,
                                                     })
                                                 }}
                                             </div>
@@ -187,7 +174,7 @@
                                                                 .currency,
                                                         amount:
                                                             invoice.invoice
-                                                                .total
+                                                                .total,
                                                     })
                                                 }}
                                             </div>
@@ -200,9 +187,9 @@
                             class="m-t-24"
                             v-if="
                                 invoice &&
-                                    invoice.invoice &&
-                                    invoice.invoice.paymentMethod &&
-                                    paidStatus
+                                invoice.invoice &&
+                                invoice.invoice.paymentMethod &&
+                                paidStatus
                             "
                         >
                             <table class="m-t-24 card-details-table width-100">
@@ -240,11 +227,11 @@
                                             <div>
                                                 {{
                                                     '**** **** ****' +
-                                                        safeGet(
-                                                            invoice,
-                                                            'invoice.paymentMethod.data.last4',
-                                                            ''
-                                                        )
+                                                    safeGet(
+                                                        invoice,
+                                                        'invoice.paymentMethod.data.last4',
+                                                        ''
+                                                    )
                                                 }}
                                             </div>
                                         </td>
@@ -256,6 +243,51 @@
                 </div>
             </div>
         </div>
+        <div class="main-container">
+            <div class="page-container" v-if="invoice">
+                <div class="title">Payment Attempt</div>
+                <base-card-1
+                    v-for="(item, index) in invoice.invoice_charges"
+                    :key="index"
+                    :item="item"
+                    :index="index + 1"
+                ></base-card-1>
+            </div>
+        </div>
+
+        <transition name="modal">
+            <nitrozen-dialog ref="dialog" title="Add Offline Payment" @close="close">
+            <template slot="body">
+                <div class="meta-container">
+                    <nitrozen-input
+                        class="search"
+                        type="input"
+                        placeholder="Payment Intent Id..."
+                        v-model="offline_payment.payment_intent_id"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="offline_payment.showError">This field is required</nitrozen-error>
+                    <nitrozen-input
+                        class="search m-t-24"
+                        type="textarea"
+                        placeholder="Comment..."
+                        v-model="offline_payment.comment"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="offline_payment.showError">This field is required</nitrozen-error>
+                    <div class="flex m-t-24">
+                        <nitrozen-button
+                            style="width:100%"
+                            :theme="'secondary'"
+                            v-strokeBtn
+                            @click="addOfflinePayment"
+                            >Add Payment
+                        </nitrozen-button>
+                    </div>
+                </div>
+            </template>
+            <template slot="footer">
+            </template>
+        </nitrozen-dialog>
+        </transition>
     </div>
 </template>
 <style lang="less" scoped>
@@ -288,8 +320,8 @@
                 padding: 6px 6px;
             }
             .paid-status {
-                border: 1px solid #2E31BE;
-                color: #2E31BE;
+                border: 1px solid #2e31be;
+                color: #2e31be;
                 display: inline;
                 padding: 3px 5px;
             }
@@ -358,7 +390,6 @@
     }
 }
 
-
 .nitrozen-label {
     color: #9b9b9b;
     font-family: Inter, sans-serif;
@@ -382,12 +413,12 @@
 .cursor-pointer {
     cursor: pointer;
 }
-.inline-block{
+.inline-block {
     display: inline-block;
 }
 .link {
     cursor: pointer;
-    color: #2E31BE;
+    color: #2e31be;
     font-size: 12px;
     font-family: Inter, sans-serif;
 }
@@ -397,8 +428,8 @@
 .form-field {
     margin-bottom: 24px;
 }
-.float-right{
-    float:right;
+.float-right {
+    float: right;
 }
 .flex-end {
     align-items: flex-end;
@@ -410,7 +441,7 @@
 .align-self-center {
     align-self: center;
 }
-.justify-content-flex-end{
+.justify-content-flex-end {
     justify-content: flex-end;
 }
 .hidden {
@@ -485,7 +516,7 @@
 
 .width-50 {
     width: 50%;
-    @media @mobile{
+    @media @mobile {
         width: 100%;
     }
 }
@@ -498,14 +529,14 @@
 .text-right {
     text-align: right;
 }
-.box-sizing-border-box{
+.box-sizing-border-box {
     box-sizing: border-box;
 }
 .from-container {
     border: 1px solid #f9f9f9;
     border-radius: 4px;
     padding: 24px;
-    @media @mobile{
+    @media @mobile {
         padding: 0;
     }
     .container {
@@ -532,7 +563,7 @@
     }
 }
 .bold-link {
-    color: #2E31BE;
+    color: #2e31be;
     text-align: right;
     cursor: pointer;
     margin-bottom: 0px;
@@ -540,7 +571,6 @@
     font-weight: 700;
     font-size: 13px;
 }
-
 </style>
 
 <script>
@@ -549,6 +579,7 @@ import moment from 'moment';
 import admInlineSvg from '@/components/common/adm-inline-svg.vue';
 import BillingService from '@/services/billing.service';
 import URLS from '@/services/domain.service';
+import CompanyService from '@/services/company-admin.service';
 import get from 'lodash/get';
 import {
     NitrozenButton,
@@ -557,9 +588,11 @@ import {
     NitrozenRadio,
     NitrozenCheckBox,
     NitrozenDialog,
+    NitrozenError,
     flatBtn,
-    strokeBtn
+    strokeBtn,
 } from '@gofynd/nitrozen-vue';
+import BaseCard1 from '../../components/common/base-card-1.vue';
 
 export default {
     name: 'billing',
@@ -572,6 +605,8 @@ export default {
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-dialog': NitrozenDialog,
         'adm-inline-svg': admInlineSvg,
+        'nitrozen-error': NitrozenError,
+        BaseCard1,
     },
     computed: {
         paidStatus() {
@@ -580,19 +615,26 @@ export default {
                 return null;
             }
             let paid_status = status_trail.find(
-                status => status.value == 'paid'
+                (status) => status.value == 'paid'
             );
             if (paid_status) {
                 return paid_status;
             }
             return null;
-        }
+        },
+        registeredAddress() {
+            let addresses = get(this, 'profileDetails.addresses', []);
+            let registered = addresses.find(
+                (address) => address.address_type == 'registered'
+            );
+            return registered;
+        },
     },
     filters: {
-        getDateString: function(value) {
+        getDateString: function (value) {
             return moment(value).format('Do MMMM YYYY');
         },
-        accountNumber: function(value) {
+        accountNumber: function (value) {
             if (!value) return '';
             var last = 4;
 
@@ -601,54 +643,56 @@ export default {
                 value.slice(-last);
             return value;
         },
-        capitalize: function(value) {
+        capitalize: function (value) {
             if (!value) return '';
             value = value.toString();
             return value.charAt(0).toUpperCase() + value.slice(1);
-        }
+        },
     },
     directives: {
         flatBtn,
-        strokeBtn
+        strokeBtn,
     },
     data() {
         return {
-            invoice:null,
-            invoiceId:this.$route.params.billingNo,
+            companyId: this.$route.params.companyId,
+            invoice: null,
+            profileDetails: null,
+            invoiceId: this.$route.params.billingNo,
             contextMenuItems: [
                 {
-                    text: 'Retry Payment',
-                    action: 'retryPayment',
+                    text: 'Pay Offline',
+                    action: 'payOffline',
                 },
             ],
-            registeredAddress:{
-            "country": "India",
-            "address1": "WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ",
-            "country_code": "IN",
-            "landmark": "",
-            "longitude": 72.862951,
-            "pincode": 400606,
-            "state": "Andaman and Nicobar Islands",
-            "city": "Mira Bhayandar",
-            "latitude": 19.303474,
-            "address2": "tof",
-            "address_type": "registered"
+            offline_payment:{
+                showError:false,
+                payment_intent_id:'',
+                comment:''
             }
         };
     },
     mounted() {
-        BillingService.getInvoiceDetail(this.invoiceId).then(({data})=>{
-            this.invoice=data;
-        })
+        BillingService.getInvoiceDetail(this.invoiceId).then(({ data }) => {
+            this.invoice = data;
+        });
     },
     methods: {
         redirectToListing() {
-            this.$router.push({ path: '/administrator/company-details/1?tab=2' });
+            if (this.companyId) {
+                this.$router.push({
+                    path: `/administrator/company-details/${this.companyId}?tab=2`,
+                });
+            } else {
+                this.$router.push({
+                    path: `/administrator/subscription/invoices?tab=2`,
+                });
+            }
         },
         amountFormat(plan) {
             return new Intl.NumberFormat('en-IN', {
                 style: 'currency',
-                currency: plan.currency
+                currency: plan.currency,
             }).format(plan.amount);
         },
         safeGet(obj, path, defaultValue) {
@@ -660,7 +704,51 @@ export default {
                 '_blank'
             );
         },
+        open() {
+            this.$refs['dialog'].open({
+                width: '500px',
+                height: '450px',
+                showCloseButton: true,
+                dismissible: false,
+                positiveButtonLabel: 'Add Payment'
+            });
+        },
         
+        close(){
+            this.offline_payment.showError=false;
+        },
+        addOfflinePayment(){
+            if(!this.offline_payment.payment_intent_id || !this.offline_payment.comment){
+                this.offline_payment.showError=true;
+                return
+            }else{
+                let payload={
+                    payment_intent_id: this.offline_payment.payment_intent_id,
+                    comment: this.offline_payment.comment
+                }
+                BillingService.updateOfflinePayment(this.invoiceId,payload).then(res=>{
+                    console.log(res)
+                })
+            }
+        },
+        getProfileDetails: function () {
+            let params = {
+                uid: this.companyId,
+                // phase: 'company_detail'
+            };
+            this.inProgress = true;
+            CompanyService.fetchCompanyProfile(params)
+                .then((res) => {
+                    this.inProgress = false;
+                    console.log('profile details', res.data);
+                    this.profileDetails = res.data;
+                    // this.fetchInvoiceList();
+                })
+                .catch((err) => {
+                    this.inProgress = false;
+                    console.error(err);
+                });
+        },
     },
 };
 </script>
