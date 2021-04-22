@@ -286,6 +286,7 @@ export default {
                         this.ticket.content = ticket.content;
                         this.ticket.status = ticket.status.key;
                         this.ticket.category = ticket.category.key;
+                        this.ticket.sub_category = ticket.sub_category.key || '';
                         this.ticket.priority = ticket.priority.key;
                         this.ticket.assigned_to = ticket.assigned_to;
                         this.ticket.created_by = ticket.created_by;
