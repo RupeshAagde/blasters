@@ -39,7 +39,7 @@
             ref="nit_tab"
             :activeIndex="activeTabIndex"
             class="custom-tab"
-            :tabItem="['Details', 'Marketplace Channels', 'Invoices']"
+            :tabItem="['Details', 'Marketplace Channels','Subscription', 'Invoices']"
             @tab-change="(obj) => (activeTabIndex = obj.index)"
         ></nitrozen-tab>
         <div
@@ -90,6 +90,15 @@
         </div>
         <div
             v-show="activeTabIndex === 2"
+            class="main-container profile-container">
+            <div class="full-width">
+                <div class="applications" style="width: 98%">
+                    this is subscription
+                </div>
+            </div>
+        </div>
+        <div
+            v-show="activeTabIndex === 3"
             class="main-container profile-container"
         >
             <!-- <div class="full-width">

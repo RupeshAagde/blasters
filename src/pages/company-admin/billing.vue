@@ -244,7 +244,7 @@
             </div>
         </div>
         <div class="main-container">
-            <div class="page-container" v-if="invoice">
+            <div class="page-container" v-if="invoice && invoice.invoice_charges.length">
                 <div class="title">Payment Attempt</div>
                 <base-card-1
                     v-for="(item, index) in invoice.invoice_charges"
@@ -273,18 +273,16 @@
                         v-model="offline_payment.comment"
                     ></nitrozen-input>
                     <nitrozen-error v-if="offline_payment.showError">This field is required</nitrozen-error>
-                    <div class="flex m-t-24">
-                        <nitrozen-button
-                            style="width:100%"
-                            :theme="'secondary'"
-                            v-strokeBtn
-                            @click="addOfflinePayment"
-                            >Add Payment
-                        </nitrozen-button>
-                    </div>
                 </div>
             </template>
             <template slot="footer">
+                <nitrozen-button
+                    style="width:100%"
+                    :theme="'secondary'"
+                    v-strokeBtn
+                    @click="addOfflinePayment"
+                    >Add Payment
+                </nitrozen-button>
             </template>
         </nitrozen-dialog>
         </transition>
@@ -681,11 +679,11 @@ export default {
         redirectToListing() {
             if (this.companyId) {
                 this.$router.push({
-                    path: `/administrator/company-details/${this.companyId}?tab=2`,
+                    path: `/administrator/company-details/${this.companyId}?tab=3`,
                 });
             } else {
                 this.$router.push({
-                    path: `/administrator/subscription/invoices?tab=2`,
+                    path: `/administrator/subscription/invoices?tab=3`,
                 });
             }
         },

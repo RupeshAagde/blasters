@@ -36,16 +36,19 @@
             <div class="store-address-detail">
                 <div class="store-country">
                     <label class="n-input-label">Card </label>
-                    <div class="store-address-name">
-                        <span  class="number">
-                        {{ item.payment_method_last4 ? '**** **** ****'+item.payment_method_last4 : 'NA'}}
+                    <div class="store-address-name" v-if="item.payment_method_last4">
+                        <span  class="number" >
+                        {{'**** **** ****'+item.payment_method_last4}}
                         </span>
                         <span>
-                            {{ item.payment_method_brand || 'NA' }}
+                            {{ item.payment_method_brand }}
                         </span>
                         <span>
-                            {{ item.payment_method_funding || 'NA' }}
+                            {{ item.payment_method_funding }}
                         </span>
+                    </div>
+                    <div class="store-address-name" v-else>
+                        NA
                     </div>
                 </div>
             </div>
@@ -65,7 +68,7 @@
                     <no-ssr>
                         <vue-json-pretty
                         :path="'res'"
-                        :data="item"
+                        :data="item.debug"
                         >
                         </vue-json-pretty>
                     </no-ssr>
