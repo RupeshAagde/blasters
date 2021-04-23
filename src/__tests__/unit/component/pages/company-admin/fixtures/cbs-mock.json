@@ -2544,6 +2544,102 @@
             "success": false
         }
     },
+    "invoiceListing":{
+        "items": [
+          {
+            "_id": "605ccdc6e35be300338e41c1",
+            "client": {
+              "address_lines": [
+                "6TH CROSS, SY NO 62 SITE NO 13, NS PALYA BTM LAYOUT, BANGALORE, BENGALURU (BANGALORE) URBAN",
+                "",
+                "BANGALORE URBAN, 560076, KARNATAKA, INDIA"
+              ],
+              "name": "SARASUOLE PRIVATE LIMITED",
+              "phone": "undefined undefined"
+            },
+            "auto_advance": true,
+            "currency": "INR",
+            "paid": false,
+            "attemp": 0,
+            "collection_method": "send_invoice",
+            "subscriber_id": "5ef5f868b8ca62005e16dfd8",
+            "invoice_url": "",
+            "number": "FP-3-102020-892",
+            "pg_data": {},
+            "period": {
+              "start": "2020-11-29T14:27:12.349Z",
+              "end": "2020-12-29T14:27:12.349Z"
+            },
+            "receipt_number": "",
+            "statement_descriptor": "SARASUOLE PRIVATE LIMITED",
+            "current_status": "paid",
+            "status_trail": [
+              {
+                "_id": "605ccdc6e35be300338e41c2",
+                "value": "draft",
+                "timestamp": "2021-03-25T17:52:06.306Z"
+              }
+            ],
+            "subtotal": 999,
+            "total": 999,
+            "subscription": "5f4a65c02bf74b3655d5e8d9",
+            "next_action_time": "2021-03-25T18:52:06.306Z",
+            "created_at": "2021-03-25T17:52:06.308Z",
+            "modified_at": "2021-04-23T08:47:20.827Z",
+            "hash_identifier": "2f141e0b1b5a29e52da514dc4ea098f4",
+            "payment": {
+              "payment_intent_id": "Test",
+              "comment": "test"
+            },
+            "invoice_items": [
+              {
+                "_id": "605ccdc6e35be300338e41c3",
+                "currency": "INR",
+                "plan": {
+                  "recurring": {
+                    "interval": "month",
+                    "interval_count": 1
+                  },
+                  "is_trial_plan": false,
+                  "plan_group": "default",
+                  "tagLines": [],
+                  "currency": "INR",
+                  "is_active": true,
+                  "is_visible": true,
+                  "trial_period": 0,
+                  "addons": [],
+                  "tags": [],
+                  "type": "public",
+                  "country": "IN",
+                  "_id": "5f3a8786c90d780037723a12",
+                  "name": "Standard",
+                  "description": "Standard",
+                  "amount": 999,
+                  "product_suite_id": "5f3a8786c90d7800377239f3",
+                  "created_at": "2020-08-17T13:35:02.547Z",
+                  "modified_at": "2020-08-17T13:35:02.547Z"
+                },
+                "name": "Standard",
+                "quantity": 1,
+                "description": "Standard",
+                "unit_amount": 999,
+                "amount": 999,
+                "type": "subscription",
+                "invoice_id": "605ccdc6e35be300338e41c1",
+                "created_at": "2021-03-25T17:52:06.310Z",
+                "modified_at": "2021-03-25T17:52:06.310Z"
+              }
+            ]
+          }
+        ],
+        "page": {
+          "type": "number",
+          "size": 10,
+          "current": 1,
+          "has_next": true,
+          "item_total": 15
+        }
+      },
     "error_stores": {
         "errors": {
             "error": {

@@ -29,6 +29,10 @@ describe('Mounted Company Detail Page', () => {
             200,
             MOCK_DATA.profileDetails.profile
         );
+        mock.onGet(URLS.FETCH_INVOICE_LISTING()).reply(
+            200,
+            MOCK_DATA.invoiceListing
+        );
         wrapper = mount(CbsDetail, {
             localVue,
             router
@@ -47,6 +51,10 @@ describe('Mounted Company Detail Page', () => {
             localVue,
             router
         });
+        mock.onGet(URLS.FETCH_INVOICE_LISTING()).reply(
+            200,
+            MOCK_DATA.invoiceListing
+        );
         await flushPromises();
         expect(wrapper.vm.inProgress).toBe(false);
         mock.reset();
@@ -56,6 +64,10 @@ describe('Mounted Company Detail Page', () => {
         mock.onGet(URLS.COMPANY_PROFILE({uid:1})).reply(
             200,
             MOCK_DATA.profileDetails.profile
+        );
+        mock.onGet(URLS.FETCH_INVOICE_LISTING()).reply(
+            200,
+            MOCK_DATA.invoiceListing
         );
         wrapper = mount(CbsDetail, {
             localVue,

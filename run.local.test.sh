@@ -1,6 +1,6 @@
 export NODE_ENV=test
 export ENV=test
-export PORT=8087
+export PORT=8086
 
 #API's
 export FYND_PLATFORM_DOMAIN=xyz.com
