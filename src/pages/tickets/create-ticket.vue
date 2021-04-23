@@ -209,6 +209,23 @@ export default {
         mainSectionchanged(content) {
             this.ticket.content = Object.assign(this.ticket.content, content);
         },
+        base64Encode(rawStr) {
+            var CryptoJS = require("crypto-js");
+            var wordArray = CryptoJS.enc.Utf8.parse(rawStr);
+            var base64 = CryptoJS.enc.Base64.stringify(wordArray);
+            return base64;
+        },
+        decode64Encode(base64Str) {
+            var CryptoJS = require("crypto-js");
+            try {
+                var parsedWordArray = CryptoJS.enc.Base64.parse(base64Str);
+                var parsedStr = parsedWordArray.toString(CryptoJS.enc.Utf8);
+                return parsedStr;
+            } catch(err) {
+                console.log(err);
+                return base64Str;
+            }
+        },
         sideSectionchanged(option) {
             if (option['status'] && option['status'] != '') {
                 this.ticket.status = option['status'];
@@ -284,6 +301,9 @@ export default {
                         const ticket = res.data;
                         this.ticketID = ticket._id;
                         this.ticket.content = ticket.content;
+                        if (this.ticket.content && this.ticket.content.description) {
+                            this.ticket.content.description = this.decode64Encode(this.ticket.content.description);
+                        }
                         this.ticket.status = ticket.status.key;
                         this.ticket.category = ticket.category.key;
                         if (ticket.sub_category) {
@@ -418,8 +438,11 @@ export default {
             );
 
             this.ticket.context = undefined;
+            var payloadTicket = JSON.parse(JSON.stringify(this.ticket));
+            payloadTicket.content.description = this.base64Encode(payloadTicket.content.description|| '');
+            payloadTicket.history = null
             if (this.ticketID) {
-                SupportService.updateTicket(this.ticketID, this.ticket)
+                SupportService.updateTicket(this.ticketID, payloadTicket)
                     .then((res) => {
                         this.$snackbar.global.showSuccess(
                             'Ticket updated successfully'
@@ -433,7 +456,7 @@ export default {
                         this.saving = false;
                     });
             } else {
-                SupportService.saveTicket(this.ticket)
+                SupportService.saveTicket(payloadTicket)
                     .then((res) => {
                         this.$snackbar.global.showSuccess(
                             'Ticket created successfully'
