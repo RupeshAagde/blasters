@@ -113,9 +113,10 @@
             }
         }
         .main-section {
-            flex: 1;
+            width: 70%;
         }
         .detail-section {
+            width: 25%;
             width: 368px;
             margin-left: 24px;
         }
