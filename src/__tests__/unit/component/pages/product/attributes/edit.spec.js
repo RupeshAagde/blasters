@@ -61,7 +61,7 @@ describe('Create/Edit Attribute Page', () => {
                 { path: '/administrator/product/attributes/edit/:slug', component: EditAttributes }]
         })
         router.push('/administrator/product/attributes/edit/size-of-helmet');
-        mock.onGet(URLS.FETCH_ATTRIBUTE() + "size-of-helmet").reply(200, mocks.attributeResponse);
+        mock.onGet(URLS.FETCH_ATTRIBUTE() + "size-of-helmet").reply(200, mocks.attributeSlugResponse);
         mock.onGet(URLS.DEPARTMENT()).reply(200, { data: mocks.departments });
         mock.onGet(URLS.UNITS()).reply(200, mocks.unitsResponse);
         mock.onPut().reply(200);
