@@ -181,7 +181,7 @@ export default {
         "name": "Season",
         "is_nested": true,
         "details": {
-            "displayType": "details"
+            "display_type": "details"
         },
         "enabled_for_end_consumer": true,
         "meta": {
@@ -250,7 +250,7 @@ export default {
         "name": "Occasion",
         "is_nested": true,
         "details": {
-            "displayType": "details"
+            "display_type": "details"
         },
         "enabled_for_end_consumer": true,
         "meta": {
