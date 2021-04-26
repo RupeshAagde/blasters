@@ -344,6 +344,20 @@ const conf = convict({
             default: 'https://api.fyndx0.de/service/___/administrator/marketplaces/',
             env: 'MARKETPLACES_ADMIN_SVC',
             arg: 'marketplaces_admin_svc'
+        },
+        MIXMASTER_ADMIN_URL: {
+            doc: 'Mixmaster Admin URL',
+            format: String,
+            default: 'https://api.fyndx0.de/service/___/administrator/partners/',
+            env: 'MIXMASTER_ADMIN_URL',
+            arg: 'mixmaster_admin_url'
+        },
+        MIXMASTER_ADMIN_SVC: {
+            doc: 'Mixmaster Kube Service',
+            format: String,
+            default: 'https://api.fyndx0.de/service/___/administrator/partners/',
+            env: 'MIXMASTER_ADMIN_SVC',
+            arg: 'mixmaster_admin_svc'
         }
     },
 
