@@ -568,7 +568,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchAttribute(this.slug)
                     .then(({ data }) => {
-                        this.attribute = this.sanitizeAttribute(data.items);
+                        this.attribute = this.sanitizeAttribute(data);
                         this.logo = this.attribute.logo
                             ? this.attribute.logo
                             : '';
@@ -604,8 +604,8 @@ export default {
                     });
             });
         },
-        sanitizeAttribute(attributes = []) {
-            const attribute = _.first(attributes);
+        sanitizeAttribute(attribute) {
+            
             if (!attribute) return {};
 
             if (attribute.details.display_type === 'text') {
