@@ -61,7 +61,7 @@ export default {
       "is_active": true
    }],
    attributeResponse: {
-      "items": [{
+      
          "logo": "https:\/\/hdn-1.addsale.com\/addsale\/products\/pictures\/attribute\/logo\/original\/0UgcODyJj-new-electric-motorcycles-coming-in-2020-main.jpg",
          "filters": { "indexing": false }, "modified_by": {
             "username": "vikaskumarsingh_gofynd_com_69007",
@@ -74,8 +74,21 @@ export default {
          "created_on": "2020-08-09T10:24:22.293000Z", "modified_on": "2020-08-09T10:24:22.293000Z",
          "enabled_for_end_consumer": false, "departments": ["car-motorbike", "automobile", "motorcycles"],
          "slug": "size-of-helmet", "id": "5f2fced60b75e00001e24d31"
-      }],
-      "page": { "current": 1, "next": 2, "has_next": false, "total_count": 1 }
+      }
+   },
+   attributeSlugResponse: {
+         "logo": "https:\/\/hdn-1.addsale.com\/addsale\/products\/pictures\/attribute\/logo\/original\/0UgcODyJj-new-electric-motorcycles-coming-in-2020-main.jpg",
+         "filters": { "indexing": false }, "modified_by": {
+            "username": "vikaskumarsingh_gofynd_com_69007",
+            "user_id": "69"
+         }, "created_by": { "username": "vikaskumarsingh_gofynd_com_69007", "user_id": "69" },
+         "is_nested": true, "description": "Please enter the size of the helmet",
+         "unit": "in", "meta": { "enriched": false, "mandatory_details": { "l3_keys": [] } },
+         "schema": { "mandatory": true, "type": "float", "format": "", "multi": false },
+         "details": { "display_type": "text" }, "name": "Size of helmet",
+         "created_on": "2020-08-09T10:24:22.293000Z", "modified_on": "2020-08-09T10:24:22.293000Z",
+         "enabled_for_end_consumer": false, "departments": ["car-motorbike", "automobile", "motorcycles"],
+         "slug": "size-of-helmet", "id": "5f2fced60b75e00001e24d31"
    },
    unitsResponse: {
       "success": true, "data": [{
