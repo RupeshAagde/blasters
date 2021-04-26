@@ -165,6 +165,7 @@
     line-height: 1.2;
     font-size: 14px;
     border: 1px solid #f6f6f6;
+    word-wrap: break-word;
 }
 
 .history-label {
