@@ -39,7 +39,7 @@
                             (selectedDepartment == '' &&
                                 attributes.length > 0) ||
                             searchText == '' ||
-                            (selectedDepartment == '' && attributes.length > 0)
+                            (selectedDepartment == '' && attributes.length > 0) || searchText
                                 ? debounceInput({ search: searchText })
                                 : ''
                         "
@@ -414,7 +414,7 @@ export default {
         init() {
             this.populateFromURL();
             Promise.all([this.fetchAttributes(), this.fetchDepartments()])
-                .then(() => {
+                .then((data) => {
                     this.setDepartmentsList();
                 })
                 .catch((err) => {});
@@ -467,15 +467,18 @@ export default {
                                 this.pagination.total =
                                     res.data.page.item_total;
                                 this.pageLoading = false;
+                                return resolve();
                             })
                             .catch((err) => {
                                 console.log(err);
+                                return reject(err);
                             });
                     })
                     .catch((err) => {
                         this.pageLoading = false;
                         this.pageError = true;
                         console.log(err);
+                        return reject();
                     });
             });
         },

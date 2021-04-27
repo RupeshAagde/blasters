@@ -27,7 +27,7 @@
                             (selectedDepartment == '' &&
                                 templates.length > 0) ||
                             searchText == '' ||
-                            (selectedDepartment == '' && templates.length > 0)
+                            (selectedDepartment == '' && templates.length > 0) || searchText
                                 ? debounceInput({ search: searchText })
                                 : ''
                         "
@@ -458,15 +458,18 @@ export default {
 
                                 this.pagination.total = data.page.item_total;
                                 this.pageLoading = false;
+                                return resolve();
                             })
                             .catch((err) => {
                                 console.log(err);
+                                return reject();
                             });
                     })
                     .catch((err) => {
                         this.pageLoading = false;
                         this.pageError = true;
                         console.log(err);
+                        return reject();
                     });
             });
         },
