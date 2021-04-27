@@ -467,12 +467,12 @@ export default {
                                 this.pagination.total =
                                     res.data.page.item_total;
                                 this.pageLoading = false;
-                                return resolve();
                             })
                             .catch((err) => {
                                 console.log(err);
-                                return reject(err);
+                                // return reject(err);
                             });
+                        return resolve();
                     })
                     .catch((err) => {
                         this.pageLoading = false;

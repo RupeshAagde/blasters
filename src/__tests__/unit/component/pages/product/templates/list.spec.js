@@ -62,7 +62,7 @@ describe('Mounted Templates List', () => {
 				{ path: '/administrator/product/templates/', component: ListComponent }
 			]
 		})
-		mock.onGet(URLS.PRODUCT_TEMPLATES()).reply(500, "error");
+		mock.onGet(URLS.PRODUCT_TEMPLATES()).reply(500, {message: "error"});
 		wrapper = mount(ListComponent, {
 			localVue,
 			router
@@ -103,6 +103,8 @@ describe('Mounted Templates List', () => {
 				{ path: '/administrator/product/templates/', component: ListComponent }
 			]
 		})
+		mock.onGet(URLS.PRODUCT_TEMPLATES()).reply(200, { items: mocks.template });
+		mock.onGet(URLS.DEPARTMENT()).reply(200, { items: mocks.departments });
 		// mock.onGet(URLS.PRODUCT_TEMPLATES()).reply(200, {data:mocks.template});
 		// mock.onGet(URLS.DEPARTMENT()).reply(200, {data:mocks.departments});
 		wrapper = mount(ListComponent, {
