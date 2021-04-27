@@ -262,14 +262,16 @@
                     <nitrozen-input
                         class="search"
                         type="input"
-                        placeholder="Payment Intent Id..."
+                        label="Payment Intent Id"
+                        placeholder="Enter Payment Intent Id"
                         v-model="offline_payment.payment_intent_id"
                     ></nitrozen-input>
                     <nitrozen-error v-if="offline_payment.showError">This field is required</nitrozen-error>
                     <nitrozen-input
                         class="search m-t-24"
                         type="textarea"
-                        placeholder="Comment..."
+                        label="Comment"
+                        placeholder="Enter Comment"
                         v-model="offline_payment.comment"
                     ></nitrozen-input>
                     <nitrozen-error v-if="offline_payment.showError">This field is required</nitrozen-error>
@@ -659,9 +661,9 @@ export default {
             invoiceId: this.$route.params.billingNo,
             contextMenuItems: [
                 {
-                    text: 'Pay Offline',
-                    action: 'payOffline',
-                },
+                        text: 'Pay Offline',
+                        action: 'payOffline',
+                }
             ],
             offline_payment:{
                 showError:false,
@@ -671,11 +673,14 @@ export default {
         };
     },
     mounted() {
-        BillingService.getInvoiceDetail(this.invoiceId).then(({ data }) => {
-            this.invoice = data;
-        });
+        this.fetchInvoiceDetail()
     },
     methods: {
+        fetchInvoiceDetail(){
+            return BillingService.getInvoiceDetail(this.invoiceId).then(({ data }) => {
+                this.invoice = data;
+            });
+        },
         redirectToListing() {
             if (this.companyId) {
                 this.$router.push({
@@ -712,8 +717,11 @@ export default {
             });
         },
         
-        close(){
+        close(meta){
             this.offline_payment.showError=false;
+            if(meta.offlinePaidSuccess){
+                this.fetchInvoiceDetail()
+            }
         },
         addOfflinePayment(){
             if(!this.offline_payment.payment_intent_id || !this.offline_payment.comment){
@@ -725,7 +733,16 @@ export default {
                     comment: this.offline_payment.comment
                 }
                 BillingService.updateOfflinePayment(this.invoiceId,payload).then(res=>{
-                    console.log(res)
+                    this.$refs['dialog'].close({offlinePaidSuccess:true})
+                    this.$snackbar.global.showSuccess(`Invoice marked paid as offline successfully`, {
+                        duration: 2000
+                    });
+                })
+                .catch(err=>{
+                    this.$refs['dialog'].close({offlinePaidSuccess:true})
+                    this.$snackbar.global.showError(`Failed to mark invoice as offline paid`, {
+                        duration: 2000
+                    });
                 })
             }
         },

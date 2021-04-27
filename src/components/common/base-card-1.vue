@@ -18,6 +18,10 @@
                 </div>
             </div>
             <div class="store-address-detail">
+                <div class="store-city" v-if="item.collection_method">
+                    <label class="n-input-label">Collection method</label>
+                    <div class="store-address-name">{{ startCase(item.collection_method) }}</div>
+                </div>
                 <div class="store-city" v-if="item.created_at">
                     <label class="n-input-label">Transaction Date</label>
                     <div class="store-address-name">{{ formatDateTime(item.created_at) }}</div>
@@ -97,7 +101,7 @@ import moment from 'moment';
 import NoSSR from 'vue-no-ssr';
 const VueJsonPretty = () => import(/*webpackChunkName:"vue-json-pretty" */ 'vue-json-pretty');
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
-
+import startCase from 'lodash/startCase';
 export default {
     name: 'base-card',
     components: {
@@ -130,9 +134,12 @@ export default {
         }
     },
     mounted() {
-        console.log('prop::', this.item);
+        
     },
     methods: {
+        startCase(s){
+            return startCase(s)
+        },
         amountFormat(plan) {
             return new Intl.NumberFormat('en-IN', {
                 style: 'currency',
