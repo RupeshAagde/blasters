@@ -33,6 +33,23 @@ describe('Mounted Company Detail Page', () => {
             200,
             MOCK_DATA.invoiceListing
         );
+        mock.onGet(URLS.SUBSCRIPTION_GET_AVAILABLE_PLANS_DETAILED()).reply(
+            200,
+            MOCK_DATA.availablePlansDetailed
+        );
+        mock.onGet(URLS.SUBSCRIPTION_GET_ACTIVE_PLAN()).reply(
+            200,
+            MOCK_DATA.currentSubscription
+        );
+        mock.onGet(URLS.SUBSCRIPTION_MAX_APPLICATION_LIMIT()).reply(
+            200,
+            MOCK_DATA.currentLimit
+        );
+        mock.onGet(URLS.SUBSCRIPTION_GET_PLAN_DETAILS_BY_ID("5f3a8786c90d780037723a13")).reply(
+            200,
+            MOCK_DATA.planDetails
+        );
+        
         wrapper = mount(CbsDetail, {
             localVue,
             router
@@ -55,6 +72,22 @@ describe('Mounted Company Detail Page', () => {
             200,
             MOCK_DATA.invoiceListing
         );
+        mock.onGet(URLS.SUBSCRIPTION_GET_AVAILABLE_PLANS_DETAILED()).reply(
+            200,
+            MOCK_DATA.availablePlansDetailed
+        );
+        mock.onGet(URLS.SUBSCRIPTION_GET_ACTIVE_PLAN()).reply(
+            200,
+            MOCK_DATA.currentSubscription
+        );
+        mock.onGet(URLS.SUBSCRIPTION_MAX_APPLICATION_LIMIT()).reply(
+            200,
+            MOCK_DATA.currentLimit
+        );
+        mock.onGet(URLS.SUBSCRIPTION_GET_PLAN_DETAILS_BY_ID("5f3a8786c90d780037723a13")).reply(
+            200,
+            MOCK_DATA.planDetails
+        );
         await flushPromises();
         expect(wrapper.vm.inProgress).toBe(false);
         mock.reset();
@@ -68,6 +101,22 @@ describe('Mounted Company Detail Page', () => {
         mock.onGet(URLS.FETCH_INVOICE_LISTING()).reply(
             200,
             MOCK_DATA.invoiceListing
+        );
+        mock.onGet(URLS.SUBSCRIPTION_GET_AVAILABLE_PLANS_DETAILED()).reply(
+            200,
+            MOCK_DATA.availablePlansDetailed
+        );
+        mock.onGet(URLS.SUBSCRIPTION_GET_ACTIVE_PLAN()).reply(
+            200,
+            MOCK_DATA.currentSubscription
+        );
+        mock.onGet(URLS.SUBSCRIPTION_MAX_APPLICATION_LIMIT()).reply(
+            200,
+            MOCK_DATA.currentLimit
+        );
+        mock.onGet(URLS.SUBSCRIPTION_GET_PLAN_DETAILS_BY_ID("5f3a8786c90d780037723a13")).reply(
+            200,
+            MOCK_DATA.planDetails
         );
         wrapper = mount(CbsDetail, {
             localVue,
