@@ -39,7 +39,7 @@
                             (selectedDepartment == '' &&
                                 attributes.length > 0) ||
                             searchText == '' ||
-                            (selectedDepartment == '' && attributes.length > 0)
+                            (selectedDepartment == '' && attributes.length > 0) || searchText
                                 ? debounceInput({ search: searchText })
                                 : ''
                         "
@@ -414,7 +414,7 @@ export default {
         init() {
             this.populateFromURL();
             Promise.all([this.fetchAttributes(), this.fetchDepartments()])
-                .then(() => {
+                .then((data) => {
                     this.setDepartmentsList();
                 })
                 .catch((err) => {});
@@ -470,12 +470,15 @@ export default {
                             })
                             .catch((err) => {
                                 console.log(err);
+                                // return reject(err);
                             });
+                        return resolve();
                     })
                     .catch((err) => {
                         this.pageLoading = false;
                         this.pageError = true;
                         console.log(err);
+                        return reject();
                     });
             });
         },
@@ -520,12 +523,12 @@ export default {
 
             let txt = 'Type: ';
 
-            if (attribute.details.displayType === 'text') {
+            if (attribute.details.display_type === 'text') {
                 this.attrType = attribute.schema.type;
                 txt += PROPERTY_TYPES[attribute.schema.type];
             } else {
-                this.attrType = attribute.details.displayType;
-                txt += PROPERTY_TYPES[attribute.details.displayType];
+                this.attrType = attribute.details.display_type;
+                txt += PROPERTY_TYPES[attribute.details.display_type];
             }
 
             return txt;
