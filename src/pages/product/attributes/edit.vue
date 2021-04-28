@@ -178,7 +178,6 @@
                 <div class="inline">
                     <!-- type -->
                     <div class="input w-md mt-sm mr-md">
-                        {{attrType}}
                         <nitrozen-dropdown
                             label="Type"
                             :items="propertyTypes"
