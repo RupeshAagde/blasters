@@ -1,4 +1,5 @@
 import { mount, createLocalVue } from "@vue/test-utils";
+import flushPromises from "flush-promises";
 import AttributeComponent from "../../../../../../pages/product/attributes/list.vue";
 
 import MockAdapter from 'axios-mock-adapter';
@@ -7,6 +8,7 @@ import axios from 'axios';
 
 import URLS from "../../../../../../services/domain.service.js"
 import mocks from "./mocks";
+
 
 const mock = new MockAdapter(axios);
 let localVue = createLocalVue()
@@ -34,6 +36,9 @@ describe('Mounted List Attributes Page', () => {
                 "updatedAt": "2020-10-23T10:59:13.521Z", "uid": "68"
             }]);
     });
+    afterEach(async () => {
+		await flushPromises();
+	})
     it('list - exists wrapper and div', async () => {
         const router = new VueRouter({
             routes: [

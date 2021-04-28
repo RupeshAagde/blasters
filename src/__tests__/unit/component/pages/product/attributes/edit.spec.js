@@ -61,7 +61,7 @@ describe('Create/Edit Attribute Page', () => {
                 { path: '/administrator/product/attributes/edit/:slug', component: EditAttributes }]
         })
         router.push('/administrator/product/attributes/edit/size-of-helmet');
-        mock.onGet(URLS.FETCH_ATTRIBUTE() + "size-of-helmet").reply(200, mocks.attributeResponse);
+        mock.onGet(URLS.FETCH_ATTRIBUTE() + "size-of-helmet").reply(200, mocks.attributeSlugResponse);
         mock.onGet(URLS.DEPARTMENT()).reply(200, { data: mocks.departments });
         mock.onGet(URLS.UNITS()).reply(200, mocks.unitsResponse);
         mock.onPut().reply(200);
@@ -77,12 +77,12 @@ describe('Create/Edit Attribute Page', () => {
         saveComponent.vm.$emit('click');
         // wrapper.vm.saveForm();
         wrapper.vm.setUnitsList({ text: "milli" })
-        expect(wrapper.vm.getFormData().details.displayType).toBe('text');
+        expect(wrapper.vm.getFormData().details.display_type).toBe('text');
         wrapper.vm.$set(wrapper.vm, 'attrType', 'html');
-        expect(wrapper.vm.getFormData().details.displayType).toBe('html');
+        expect(wrapper.vm.getFormData().details.display_type).toBe('html');
         wrapper.vm.$set(wrapper.vm, 'attrType', 'test');
         expect(wrapper.vm.getFormData().schema.type).toBe('test');
-        expect(wrapper.vm.getFormData().details.displayType).toBe('text');
+        expect(wrapper.vm.getFormData().details.display_type).toBe('text');
         saveComponent.vm.$emit('click');
         // await wrapper.vm.saveForm();
         expect(wrapper.vm.inProgress).toBe(true);
