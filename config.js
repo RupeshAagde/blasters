@@ -320,14 +320,14 @@ const conf = convict({
         UNICRON_PUBLIC_URL:{
             doc: 'Billing service API',
             format: String,
-            default: '',
+            default: 'https://api.fyndx0.de/service/public/billing',
             env: 'UNICRON_PUBLIC_URL',
             arg: 'UNICRON_PUBLIC_URL'
         },
         UNICRON_PUBLIC_SVC:{
             doc: 'Billing service API',
             format: String,
-            default: '',
+            default: 'https://api.fyndx0.de/service/public/billing',
             env: 'UNICRON_PUBLIC_SVC',
             arg: 'UNICRON_PUBLIC_SVC'
         },
