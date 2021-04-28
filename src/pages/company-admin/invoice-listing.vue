@@ -143,6 +143,9 @@
                     ></nitrozen-pagination>
                 </div>
             </div>
+            <div v-else>
+                <page-empty text="No invoices present"></page-empty>
+            </div>
         </div>
     </div>
 </template>
@@ -246,7 +249,7 @@
         font-weight: 500;
     }
     .filter-dropdown {
-        width: 120px;
+        width: 180px;
         margin-left: 12px;
     }
 }
@@ -423,7 +426,7 @@ import { FETCH_METRICS } from '@/store/action.type';
 import marketplaceChannels from './mkp-channels.vue';
 import moment from 'moment';
 import { titleCase, debounce } from '@/helper/utils';
-
+import pageempty from '@/components/common/page-empty.vue'
 import root from 'window-or-global';
 const env = root.env || {};
 
@@ -437,6 +440,7 @@ export default {
     name: 'invoice-listing',
     components: {
         Shimmer,
+        'page-empty':pageempty,
         'nitrozen-badge': NitrozenBadge,
         'nitrozen-button': NitrozenButton,
         'nitrozen-tab': NitrozenTab,

@@ -93,7 +93,10 @@
             class="main-container profile-container">
             <div class="full-width">
                 <div class="applications" style="width: 98%">
-                    this is subscription
+                    <!-- this is subscription -->
+                    <adm-company-subscription
+                        :companyProfile="profileDetails"
+                    ></adm-company-subscription>
                 </div>
             </div>
         </div>
@@ -397,7 +400,7 @@ import {
 import { FETCH_METRICS } from '@/store/action.type';
 import marketplaceChannels from './mkp-channels.vue';
 import invoiceListing from './invoice-listing.vue'
-
+import admcompanysubscription from './subscription.vue'
 import root from 'window-or-global';
 const env = root.env || {};
 
@@ -409,6 +412,7 @@ export default {
         'adm-stores': admstores,
         'adm-company-details': admcompanydetails,
         'list-dri': listdri,
+        'adm-company-subscription':admcompanysubscription,
         Shimmer,
         PageHeader,
         'nitrozen-badge': NitrozenBadge,

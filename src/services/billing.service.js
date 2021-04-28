@@ -109,6 +109,37 @@ const BillingService = {
         });
         return ApiService.put(URLS.UPDATE_OFFLINE_PAYMENT(InvoiceId), axiosOptions);
     },
+
+    getAvailablePlansDetailed(productSuiteIdOrSlug) {
+        const axiosOption = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(
+            URLS.SUBSCRIPTION_GET_AVAILABLE_PLANS_DETAILED(),
+            axiosOption
+        );
+    },
+    getCurrentActivePlan(options) {
+        const { unique_id,product_suite,type } = options.params
+        const company_id = unique_id
+        const axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.SUBSCRIPTION_GET_ACTIVE_PLAN(company_id), axiosOption);
+    },
+    fetchCompanyMaxApplicationLimit({company_id}) {
+        const axiosOption = Object.assign({}, getCommonHeaderOptions() );
+        return ApiService.get(
+            URLS.SUBSCRIPTION_MAX_APPLICATION_LIMIT(company_id),
+            axiosOption
+        );
+    },
+    getPlanDetailsById(plan_id) {
+        const axiosOption = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(
+            URLS.SUBSCRIPTION_GET_PLAN_DETAILS_BY_ID(plan_id),
+            axiosOption
+        );
+    },
 };
 
 export default BillingService;
