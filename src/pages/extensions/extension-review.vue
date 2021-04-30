@@ -45,6 +45,13 @@
             <div class="page-container">
                 <a class="cl-RoyalBlue" :href="`https://partners.fyndx0.de/extensions/preview/${extension_id}`" target="_blank" >Link to extension</a>
                 <nitrozen-input
+                    :disabled="true"
+                    :type="'textarea'"
+                    :label="'Review Instructions'"
+                    v-model="extension_info.review_instructions"
+                >
+                </nitrozen-input>
+                <nitrozen-input
                     class="nitrozen-form-input full-width"
                     :type="'textarea'"
                     :label="'Review Comments'"
@@ -114,7 +121,7 @@ export default {
             extension_info: {},
             review_data: {
                 review_comments: "",
-                current_status: ""
+                current_status: "",
             },
             error_comments:""
         }
