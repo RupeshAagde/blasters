@@ -70,12 +70,26 @@ export default {
          "is_nested": true, "description": "Please enter the size of the helmet",
          "unit": "in", "meta": { "enriched": false, "mandatory_details": { "l3_keys": [] } },
          "schema": { "mandatory": true, "type": "float", "format": "", "multi": false },
-         "details": { "displayType": "text" }, "name": "Size of helmet",
+         "details": { "display_type": "text" }, "name": "Size of helmet",
          "created_on": "2020-08-09T10:24:22.293000Z", "modified_on": "2020-08-09T10:24:22.293000Z",
          "enabled_for_end_consumer": false, "departments": ["car-motorbike", "automobile", "motorcycles"],
          "slug": "size-of-helmet", "id": "5f2fced60b75e00001e24d31"
       }],
       "page": { "current": 1, "next": 2, "has_next": false, "total_count": 1 }
+   },
+   attributeSlugResponse: {
+         "logo": "https:\/\/hdn-1.addsale.com\/addsale\/products\/pictures\/attribute\/logo\/original\/0UgcODyJj-new-electric-motorcycles-coming-in-2020-main.jpg",
+         "filters": { "indexing": false }, "modified_by": {
+            "username": "vikaskumarsingh_gofynd_com_69007",
+            "user_id": "69"
+         }, "created_by": { "username": "vikaskumarsingh_gofynd_com_69007", "user_id": "69" },
+         "is_nested": true, "description": "Please enter the size of the helmet",
+         "unit": "in", "meta": { "enriched": false, "mandatory_details": { "l3_keys": [] } },
+         "schema": { "mandatory": true, "type": "float", "format": "", "multi": false },
+         "details": { "display_type": "text" }, "name": "Size of helmet",
+         "created_on": "2020-08-09T10:24:22.293000Z", "modified_on": "2020-08-09T10:24:22.293000Z",
+         "enabled_for_end_consumer": false, "departments": ["car-motorbike", "automobile", "motorcycles"],
+         "slug": "size-of-helmet", "id": "5f2fced60b75e00001e24d31"
    },
    unitsResponse: {
       "success": true, "data": [{
@@ -149,7 +163,7 @@ export default {
             "enabled_for_end_consumer": true, "description": "", "tags": [], "schema": {
                "multi": false, "range": {},
                "mandatory": false, "enum": [], "type": "str"
-            }, "details": { "displayType": "text" },
+            }, "details": { "display_type": "text" },
             "filters": { "depends_on": [], "indexing": false }, "slug": "phone_hardware_storage",
             "is_nested": true, "synonyms": {}, "name": "Phone Hardware & Storage", "id": "5ef2472e0087fa001ce990c9"
          },
@@ -158,7 +172,7 @@ export default {
             "enabled_for_end_consumer": true, "description": "", "tags": [], "schema": {
                "multi": false, "range": {},
                "mandatory": false, "enum": [], "type": "str"
-            }, "details": { "displayType": "details" },
+            }, "details": { "display_type": "details" },
             "filters": { "depends_on": [], "indexing": true, "priority": 6 }, "slug": "storage", "is_nested": true,
             "synonyms": {}, "name": "Storage", "id": "5ef2472e0087fa001ce99125"
          },
@@ -170,7 +184,7 @@ export default {
             "enabled_for_end_consumer": true, "description": "", "tags": [], "schema": {
                "multi": false,
                "range": {}, "mandatory": false, "enum": [], "type": "str"
-            }, "details": { "displayType": "details" },
+            }, "details": { "display_type": "details" },
             "filters": { "depends_on": [], "indexing": false, "priority": 7 }, "slug": "processor", "is_nested": true,
             "synonyms": {}, "name": "Processor", "id": "5ef2472e0087fa001ce99128"
          },

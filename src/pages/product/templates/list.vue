@@ -27,7 +27,7 @@
                             (selectedDepartment == '' &&
                                 templates.length > 0) ||
                             searchText == '' ||
-                            (selectedDepartment == '' && templates.length > 0)
+                            (selectedDepartment == '' && templates.length > 0) || searchText
                                 ? debounceInput({ search: searchText })
                                 : ''
                         "
@@ -462,11 +462,13 @@ export default {
                             .catch((err) => {
                                 console.log(err);
                             });
+                        return resolve();
                     })
                     .catch((err) => {
                         this.pageLoading = false;
                         this.pageError = true;
                         console.log(err);
+                        return reject();
                     });
             });
         },
