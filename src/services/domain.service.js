@@ -330,6 +330,10 @@ const URLS = {
         return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket?items=false`);
     },
 
+    FETCH_CATEGORIES: () => {
+        return urlJoin(PLATFORM_LEADS_BASE, 'v1.0/category')
+    },
+
     FETCH_SHIPMENT_INFO: (slug, company_id) => {
         // return urlJoin(
         //     PLATFORM_ORDERS_BASE,
