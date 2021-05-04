@@ -348,6 +348,12 @@ export default {
                 return
             }
             return BillingSubscriptionService.updateSubscriptionById(this.companyId,subscription_id,data)
+            .then(()=>{
+                this.$snackbar.global.showSuccess('Collection method updated successfully',{duration: 2000});
+            })
+            .catch(err=>{
+                this.$snackbar.global.showError('Failed to updated collection method',{duration: 2000});
+            })
         },
         fetchPlanDetailed(id) {
             return BillingSubscriptionService.getPlanDetailsById(id);
