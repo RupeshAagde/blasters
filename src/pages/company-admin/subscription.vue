@@ -101,6 +101,37 @@
                         Currently under the trial plan.
                     </div>
                 </div>
+                
+                <div class="m-t-24" v-if="collection_method">
+                    <div class="title">
+                        Collection Method
+                    </div>
+                    <div>
+                        <div>
+                            <nitrozen-radio
+                                class="m-b-12"
+                                :name="'charge_automatically'"
+                                :radioValue="'charge_automatically'"
+                                v-model="collection_method"
+                            >Charge automatically</nitrozen-radio>
+                            <nitrozen-radio
+                                class="m-b-24"
+                                :name="'send_invoice'"
+                                :radioValue="'send_invoice'"
+                                v-model="collection_method"
+                            >Send Invoice</nitrozen-radio>
+                        </div>
+                        <div>
+                            <nitrozen-button
+                                theme="secondary"
+                                v-strokeBtn
+                                @click="updateCollectionMethod"
+                                >Update</nitrozen-button
+                            >
+                        </div>
+                    </div>
+                </div>
+
                 <nitrozen-dialog
                     id="view-plan-details"
                     ref="view_plan_details"
@@ -271,6 +302,8 @@ export default {
         return {
             currentPlanDetailed: null,
             company_id: this.$route.params.companyId,
+            collection_method: null,
+            companyId: this.$route.params.companyId,
         }
     },
     mounted(){
@@ -296,10 +329,26 @@ export default {
                             }
                         );
                     }
+                    
+                })
+                .then(()=>{
+                    if(this.safeGet(this.currentActivePlan,"subscription.collection_method")){
+                        this.collection_method = this.currentActivePlan.subscription.collection_method
+                    }
                 })
         );
     },
     methods:{
+        updateCollectionMethod(){
+            let data = {
+                collection_method: this.collection_method
+            }
+            let subscription_id = this.safeGet(this.currentActivePlan,'subscription._id')
+            if(!subscription_id){
+                return
+            }
+            return BillingSubscriptionService.updateSubscriptionById(this.companyId,subscription_id,data)
+        },
         fetchPlanDetailed(id) {
             return BillingSubscriptionService.getPlanDetailsById(id);
         },

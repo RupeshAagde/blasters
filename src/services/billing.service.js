@@ -140,6 +140,12 @@ const BillingService = {
             axiosOption
         );
     },
+    updateSubscriptionById(company_id,subscription_id,payload) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{
+            data: payload
+        });
+        return ApiService.put(URLS.SUBSCRIPTION_UPDATE_BY_ID(company_id,subscription_id), axiosOptions);
+    },
 };
 
 export default BillingService;

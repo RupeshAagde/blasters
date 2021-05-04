@@ -319,6 +319,9 @@ const URLS = {
     SUBSCRIPTION_GET_PLAN_DETAILS_BY_ID: (plan_id) => {
         return urlJoin(UNICRON_PUBLIC_URL, '/v1.0/plan/details', plan_id);
     },
+    SUBSCRIPTION_UPDATE_BY_ID: (company_id,subscription_id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/${subscription_id}`)
+    },
 
     //#########Tickets########
     FETCH_TICKETS: () => {
