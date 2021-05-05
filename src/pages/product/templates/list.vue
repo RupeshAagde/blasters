@@ -440,17 +440,15 @@ export default {
 
             return query;
         },
-        async fetchProductTemplates() {
+        fetchProductTemplates() {
             this.pageLoading = true;
             return new Promise((resolve, reject) => {
                 CompanyService.fetchProductTemplates(this.requestQuery())
                     .then(({ data }) => {
-                        console.log("templates response----", data);
                         this.tempList = generateArrItem(data.items);
                         this.tempList = filterDuplicateObject(this.tempList);
                         fetchUserMetaObjects(this.tempList)
                             .then((res) => {
-                                 console.log("user meta response----", res)
                                 res.map((element) => {
                                     if (!this.userObj[element.uid]) {
                                         this.userObj[element.uid] = element;

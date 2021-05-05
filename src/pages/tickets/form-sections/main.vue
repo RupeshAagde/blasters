@@ -140,9 +140,6 @@
 @import './../../less/page-header.less';
 @import './../../less/page-ui.less';
 
-.main-section {
-    flex: 1;
-}
 .detail-section {
     width: 368px;
     margin-left: 24px;
@@ -167,7 +164,8 @@
     color: #a4a5a8;
     line-height: 1.2;
     font-size: 14px;
-    border: 1px solid #f6f6f6;;
+    border: 1px solid #f6f6f6;
+    word-wrap: break-word;
 }
 
 .history-label {
