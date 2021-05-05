@@ -82,7 +82,7 @@ describe('Mounted Create/Edit Category Page', () => {
         })
         router.push('/administrator/product/category/edit/1');
         mock.onGet(URLS.DEPARTMENT()).reply(200, { items: mocks.departments });
-        mock.onGet(URLS.CATEGORY_v2() + "/1").reply(200, { items: [mocks.categoryList[0]] });
+        mock.onGet(URLS.CATEGORY_v2() + "/1").reply(200, { data: mocks.categoryList[0] });
         mock.onGet(URLS.CATEGORY_v2 + "?level=1&level=2&page_size=500&department=1").reply(
             200, { items: [mocks.categoryList[1], mocks.categoryList[2]] })
         const wrapper = mount(EditCategory, {
