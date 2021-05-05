@@ -88,7 +88,7 @@
                     </div>
                 </div>
                 <div class="card-badge-section right-container">
-                    <div class="states">
+                    <div class="states" v-if="ticket.status.key != 'closed'">
                         <nitrozen-badge
                             v-if="
                                 ticket.assigned_to != null &&
@@ -109,6 +109,11 @@
                         <nitrozen-badge state="default">{{
                             ticket.priority.display
                         }}</nitrozen-badge>
+                        <nitrozen-badge state="default">{{
+                            ticket.status.display
+                        }}</nitrozen-badge>
+                    </div>
+                    <div v-else>
                         <nitrozen-badge state="default">{{
                             ticket.status.display
                         }}</nitrozen-badge>
