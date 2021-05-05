@@ -458,7 +458,7 @@ export default {
             this.isLoading = true;
             CatalogService.fetchAttributes(params)
                 .then((res) => {
-                    this.deptkey.value = res.data.data;
+                    this.deptkey.value = res.data.items;
                     this.deptkey.value.map((element) => {
                         element.text = element.name;
                         element.value = element.slug;
