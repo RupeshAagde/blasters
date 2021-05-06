@@ -19,13 +19,40 @@
         <div class="main-container">
             <div class="header-margin page-container">
                 <div>
-                    <div class="title">Details</div>
+                    <div v-if="invoice && invoice.shopsense_details">
+                        <div class="flex align-items-center">
+                            <div class="m-r-24">
+                                <img class="shopsense_logo" src="/public/assets/pngs/platform-logo.png" />
+                            </div>
+                            <div>
+                                <div v-if="invoice.shopsense_details.company_name"
+                                    class="title m-b-12"
+                                >{{ invoice.shopsense_details.company_name }}</div>
+                                <div v-if="invoice.shopsense_details.address"
+                                    class="line-height-24"
+                                >{{ invoice.shopsense_details.address }}</div>
+                                <div v-if="invoice.shopsense_details.gstin"
+                                    class="line-height-24"
+                                >GSTIN : {{ invoice.shopsense_details.gstin }}</div>
+                                <div v-if="invoice.shopsense_details.pan"
+                                    class="line-height-24"
+                                >PAN : {{ invoice.shopsense_details.pan }}</div>
+                                <div v-if="invoice.shopsense_details.phone"
+                                    class="line-height-24"
+                                >Phone : {{ invoice.shopsense_details.phone }}</div>
+                                <div v-if="invoice.shopsense_details.email"
+                                    class="line-height-24"
+                                >Email : {{ invoice.shopsense_details.email }}</div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
                     <div v-if="invoice && invoice.invoice">
                         <div class="flex m-b-24">
                             <div class="flex-2">
-                                <table class="invoice-number-table width-50">
+                                <table class="invoice-number-table width-80">
                                     <tr>
-                                        <td>Address</td>
+                                        <td>Billing Address</td>
                                         <td class="line-height-24">
                                             <div>
                                                 {{
@@ -301,6 +328,10 @@
 .header-margin {
     margin-top: 56.5px;
 }
+.shopsense_logo{
+    width: 240px;
+    margin-right: 12px;
+}
 .page-container {
     flex-direction: column;
 
@@ -513,7 +544,12 @@
 .m-l-0 {
     margin-left: 0px;
 }
-
+.width-80 {
+    width: 80%;
+    @media @mobile {
+        width: 100%;
+    }
+}
 .width-50 {
     width: 50%;
     @media @mobile {
@@ -578,6 +614,7 @@ import PageHeader from '@/components/common/layout/page-header';
 import moment from 'moment';
 import admInlineSvg from '@/components/common/adm-inline-svg.vue';
 import BillingService from '@/services/billing.service';
+import { sign } from '@/services/rest/signature/signature'
 import URLS from '@/services/domain.service';
 import CompanyService from '@/services/company-admin.service';
 import get from 'lodash/get';
@@ -593,7 +630,7 @@ import {
     strokeBtn,
 } from '@gofynd/nitrozen-vue';
 import BaseCard1 from '../../components/common/base-card-1.vue';
-
+import { getAuthToken } from '../../services/utils.service'
 export default {
     name: 'billing',
     components: {
@@ -702,8 +739,24 @@ export default {
             return get(obj, path, defaultValue);
         },
         downloadInvoice() {
+            const {
+                host,
+                pathname,
+                search
+            } = new URL(URLS.SUBSCRIPTION_DOWNLOAD_INVOICE(this.invoiceId,this.companyId));
+            let signingOptions = {
+                method: "GET",
+                host: host,
+                path: pathname + search,
+                headers: {},
+                signQuery: false
+            }
+            let params = sign(signingOptions)
+            console.log(params)
+            var queryString = Object.keys(params.headers).map(key => key + '=' + params.headers[key]).join('&');
+
             window.open(
-                URLS.SUBSCRIPTION_DOWNLOAD_INVOICE(this.invoiceId),
+                URLS.SUBSCRIPTION_DOWNLOAD_INVOICE(this.invoiceId,this.companyId)+"?"+queryString,
                 '_blank'
             );
         },
