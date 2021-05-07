@@ -3,6 +3,7 @@ const { VueLoaderPlugin } = require('vue-loader')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const vueloaderConfig = require('./vue.config')
 const config = require('./../config')
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = {
   mode: config.get('env') === 'production' ? 'production' : 'development',
@@ -26,6 +27,7 @@ module.exports = {
     }
   },
   optimization: {
+    minimizer: [new CssMinimizerPlugin()],
     splitChunks: {
       chunks: 'async',
       minSize: 30000,
