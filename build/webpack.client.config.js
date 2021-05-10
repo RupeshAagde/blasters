@@ -6,14 +6,13 @@ const path = require('path')
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserJSPlugin = require('terser-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 module.exports = merge(baseConfig, {
   entry: {
     app: './src/entry-client.js'
   },
   optimization: {
-    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})]
+    minimizer: [new TerserJSPlugin({})]
   },
   plugins: [
     // ... Vue Loader plugin omitted
