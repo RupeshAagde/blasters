@@ -1,4 +1,4 @@
-FROM node:12.19-alpine as buildimage
+FROM node:14-alpine3.13 as buildimage
 
 RUN apk add --no-cache --virtual .build-deps \
         python2-dev \
@@ -36,7 +36,7 @@ RUN rm -rf ./node_modules \
 && npm cache clean --force \
 && apk del .build-deps
 
-FROM node:12.19-alpine
+FROM node:14-alpine3.13
 
 COPY --from=buildimage /srv/bombshell /srv/bombshell
 WORKDIR /srv/bombshell
