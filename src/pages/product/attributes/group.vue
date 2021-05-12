@@ -838,7 +838,7 @@ export default {
             );
         },
         removeItem(entity, index) {
-            this.groupDetails.template_slugs.splice(index,1);
+            this.groupDetails[this.entity].template_slugs.splice(index,1);
             this.filterAttributes();
         },
         moveGroup() {
@@ -945,7 +945,7 @@ export default {
             }
 
             if ( prop === 'template_slugs') {
-                val = this.groupDetails[prop];
+                val = this.groupDetails[this.entity][prop];
             }
 
             if (!val || _.isEmpty(val)) {
@@ -961,6 +961,7 @@ export default {
             formValid = this.checkRequired('name') && formValid;
             formValid = this.checkRequired('slug') && formValid;
             formValid = this.checkRequired('attributes') && formValid;
+            formValid = this.checkRequired('template_slugs') && formValid;
 
             return formValid;
         },
