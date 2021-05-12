@@ -176,7 +176,7 @@
                                 class="input w-l mr-md"
                                 label="Templates"
                                 :items="templatesList"
-                                v-model="groupDetails.template_slugs"
+                                v-model="groupDetails[entity].template_slugs"
                                 :required="true"
                                 :multiple="true"
                                 :searchable="true"
@@ -191,7 +191,7 @@
                     <div class="chip-wrapper inline">
                         <div
                             v-for="(template,
-                            index) of groupDetails.template_slugs"
+                            index) of groupDetails[entity].template_slugs"
                             :key="index"
                         >
                             <nitrozen-chips class="chip">
@@ -506,9 +506,8 @@ import {
 } from '@gofynd/nitrozen-vue';
 
 const EMPTY_GROUP_DETAILS = {
-    template_slugs: [],
-    details: { attributes: [], display: false },
-    comparisons: { attributes: [], display: false }
+    details: { attributes: [],template_slugs: [], display: false },
+    comparisons: { attributes: [],template_slugs: [], display: false }
 };
 
 export default {
@@ -684,7 +683,7 @@ export default {
                         ...EMPTY_GROUP_DETAILS,
                         ...data.data
                     };
-                    this.filterAttributes(this.groupDetails.template_slugs);
+                    this.filterAttributes();
                 })
                 .catch((err) => {
                     this.inProgress = false;
@@ -752,11 +751,13 @@ export default {
                     path: redirectPath
                 });
             this.fetchGroupDetails();
+            this.groupDetails[this.entity].template_slugs = [];
         },
         unselectGroup() {
             this.selectedGroupSlug = '';
             this.groupDetails = { ...EMPTY_GROUP_DETAILS, _new: true };
             this.groupDetails[this.entity].attributes = [];
+            this.groupDetails[this.entity].template_slugs = [];
         },
         toggleGroupDisplay(slug) {
             // this.$set(
@@ -815,11 +816,10 @@ export default {
                 }
             });
         },
-        filterAttributes(template){
-            console.log("template received", template);
+        filterAttributes(){
             let new_attributes = [];
-            
-            const temp_templates = this.templates.filter((temp) => template.some((slug) => slug === temp.slug))
+            const templates = this.groupDetails[this.entity].template_slugs ? this.groupDetails[this.entity].template_slugs : [];
+            const temp_templates = this.templates.filter((temp) => templates.some((slug) => slug === temp.slug))
             temp_templates.forEach((temp) => {
                 new_attributes = new_attributes.concat(temp.attributes)
             })
@@ -839,7 +839,7 @@ export default {
         },
         removeItem(entity, index) {
             this.groupDetails.template_slugs.splice(index,1);
-            this.filterAttributes(this.groupDetails.template_slugs);
+            this.filterAttributes();
         },
         moveGroup() {
             if (
