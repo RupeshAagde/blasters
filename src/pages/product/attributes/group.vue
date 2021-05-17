@@ -630,9 +630,6 @@ export default {
             }
                 return CompanyService.fetchProductTemplates(query)
                     .then(({ data }) => {
-                        // this.templatesList = generateArrItem(data.items);
-                        console.log("data--------template", this.templatesList)
-                        // this.templatesList = filterDuplicateObject(this.templatesList);
                          this.templates = data.items;
                          this.setTemplatesList();
                     })
