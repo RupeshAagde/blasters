@@ -37,9 +37,6 @@
                                 <div v-if="invoice.shopsense_details.pan"
                                     class="line-height-24"
                                 >PAN : {{ invoice.shopsense_details.pan }}</div>
-                                <div v-if="invoice.shopsense_details.phone"
-                                    class="line-height-24"
-                                >Phone : {{ invoice.shopsense_details.phone }}</div>
                                 <div v-if="invoice.shopsense_details.email"
                                     class="line-height-24"
                                 >Email : {{ invoice.shopsense_details.email }}</div>
@@ -53,23 +50,34 @@
                                 <table class="invoice-number-table width-80">
                                     <tr>
                                         <td>Billing Address</td>
-                                        <td class="line-height-24">
-                                            <div>
-                                                {{
-                                                    invoice.invoice.client.address_lines.join(
-                                                        ' '
-                                                    )
-                                                }}
-                                            </div>
-                                        </td>
                                     </tr>
                                 </table>
+                                <div class="line-height-24 bold">
+                                    {{
+                                        invoice.invoice.client.name
+                                    }}
+                                </div>
+                                <div class="line-height-24">
+                                    {{
+                                        invoice.invoice.client.address_lines.join(
+                                            ' '
+                                        )
+                                    }}
+                                </div>
                             </div>
                             <div class="flex-1 invoice-number-wrapper">
                                 <table class="invoice-number-table width-100">
                                     <tr>
                                         <td>Invoice number</td>
                                         <td>{{ invoice.invoice.number }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date issued</td>
+                                        <td>
+                                            {{
+                                                invoiceOpenDate
+                                            }}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Billing period from</td>
@@ -89,15 +97,7 @@
                                             }}
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>Date issued</td>
-                                        <td>
-                                            {{
-                                                invoice.invoice.created_at
-                                                    | getDateString
-                                            }}
-                                        </td>
-                                    </tr>
+                                    
                                     <tr>
                                         <td>Status</td>
                                         <td>
@@ -646,6 +646,19 @@ export default {
         BaseCard1,
     },
     computed: {
+        invoiceOpen(){
+            let status_trail = get(this, 'invoice.invoice.status_trail', null);
+            let open_status = status_trail.find(
+                (status) => status.value == 'open'
+            );
+            if(!open_status) return null;
+            return open_status;
+        },
+        invoiceOpenDate(){
+            this.invoiceOpen
+            if(!this.invoiceOpen) return null;
+            return moment(this.invoiceOpen.timestamp).format('Do MMMM YYYY');
+        },
         paidStatus() {
             let status_trail = get(this, 'invoice.invoice.status_trail', null);
             if (!status_trail || status_trail.length == 0) {
@@ -711,6 +724,11 @@ export default {
     },
     mounted() {
         this.fetchInvoiceDetail()
+        .then(()=>{
+            if(!this.invoiceOpen){
+                this.contextMenuItems = this.contextMenuItems.filter(a=>a.action != "payOffline")
+            }
+        })
     },
     methods: {
         fetchInvoiceDetail(){
@@ -753,7 +771,6 @@ export default {
                 signQuery: true
             }
             let params = sign(signingOptions)
-            console.log(params)
             // var queryString = Object.keys(params.headers).map(key => key + '=' + params.headers[key]).join('&');
 
             window.open(
