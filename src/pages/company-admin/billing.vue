@@ -749,14 +749,15 @@ export default {
                 host: host,
                 path: pathname + search,
                 headers: {},
-                signQuery: false
+                body:null,
+                signQuery: true
             }
             let params = sign(signingOptions)
             console.log(params)
-            var queryString = Object.keys(params.headers).map(key => key + '=' + params.headers[key]).join('&');
+            // var queryString = Object.keys(params.headers).map(key => key + '=' + params.headers[key]).join('&');
 
             window.open(
-                URLS.SUBSCRIPTION_DOWNLOAD_INVOICE(this.invoiceId,this.companyId)+"?"+queryString,
+                "https://"+params.host+params.path,
                 '_blank'
             );
         },

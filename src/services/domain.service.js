@@ -304,7 +304,10 @@ const URLS = {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/mark-offline-paid/${id}`)
     },
     SUBSCRIPTION_DOWNLOAD_INVOICE: (id,company_id='') => {
-        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/invoice`, id, 'pdf');
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice`, id, 'pdf');
+    },
+    SUBSCRIPTION_DOWNLOAD_INVOICE_SIGNED: (params) => {
+        return urlJoin(UNICRON_BASE)+params.path;
     },
 
     SUBSCRIPTION_GET_AVAILABLE_PLANS_DETAILED: () => {
