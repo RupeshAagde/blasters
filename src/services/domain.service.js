@@ -35,6 +35,9 @@ const SKYWARP_PNL_URL = isNode ?
 const UNICRON_BASE = isNode ?
     envVars.BROWSER_CONFIG.UNICRON_ADMIN_SVC :
     envVars.UNICRON_ADMIN_URL;
+const UNICRON_PUBLIC_URL = isNode ? 
+    envVars.BROWSER_CONFIG.UNICRON_PUBLIC_SVC :
+    envVars.UNICRON_PUBLIC_URL;
 
 const PLATFORM_LEADS_BASE = isNode ?
     envVars.BROWSER_CONFIG.HIGHBROW_ADMIN_SVC :
@@ -290,6 +293,37 @@ const URLS = {
     },
     AGREEMENT_PDF: () => {
         return urlJoin(UNICRON_BASE, `v1.0/plan-pdf/generate-pdf/`);
+    },
+    FETCH_INVOICE_LISTING: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/listing`)
+    },
+    FETCH_INVOICE_DETAILS: (id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/${id}`)
+    },
+    UPDATE_OFFLINE_PAYMENT: (id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/mark-offline-paid/${id}`)
+    },
+    SUBSCRIPTION_DOWNLOAD_INVOICE: (id,company_id='') => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice`, id, 'pdf');
+    },
+    SUBSCRIPTION_DOWNLOAD_INVOICE_SIGNED: (params) => {
+        return urlJoin(UNICRON_BASE)+params.path;
+    },
+
+    SUBSCRIPTION_GET_AVAILABLE_PLANS_DETAILED: () => {
+        return urlJoin(UNICRON_PUBLIC_URL, '/v1.0/plan/detailed-list');
+    },
+    SUBSCRIPTION_GET_ACTIVE_PLAN: (company_id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/subscription/current`);
+    },
+    SUBSCRIPTION_MAX_APPLICATION_LIMIT: (company_id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}}/subscription/current-limit`);
+    },
+    SUBSCRIPTION_GET_PLAN_DETAILS_BY_ID: (plan_id) => {
+        return urlJoin(UNICRON_PUBLIC_URL, '/v1.0/plan/details', plan_id);
+    },
+    SUBSCRIPTION_UPDATE_BY_ID: (company_id,subscription_id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/${subscription_id}`)
     },
 
     //#########Tickets########

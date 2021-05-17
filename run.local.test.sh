@@ -1,6 +1,6 @@
 export NODE_ENV=test
 export ENV=test
-export PORT=8087
+export PORT=8086
 
 #API's
 export FYND_PLATFORM_DOMAIN=xyz.com
@@ -28,6 +28,8 @@ export ULTRAMAGNUS_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/adm
 export ULTRAMAGNUS_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/internal/settings
 export UNICRON_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/billing
 export UNICRON_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/billing
+export UNICRON_PUBLIC_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/public/billing
+export UNICRON_PUBLIC_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/public/billing
 export HIGHBROW_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/lead
 export HIGHBROW_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/lead
 export SLINGSHOT_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/slingshot/
