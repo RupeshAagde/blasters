@@ -168,12 +168,12 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
+                                        <td class="no-border-left no-border-right"></td>
+                                        <td class="no-border-left no-border-right"></td>
+                                        <td class="no-border-left no-border-right">
                                             <div class="bold">Sub Total</div>
                                         </td>
-                                        <td>
+                                        <td class="no-border-left no-border-right">
                                             <div class="bold">
                                                 {{
                                                     amountFormat({
@@ -429,8 +429,7 @@
         .no-border-right{
             border-right: none;
         }
-        tr:nth-last-child(1),
-        tr:nth-last-child(2) {
+        tr:nth-last-child(1) {
             td {
                 border-left: none;
                 border-right: none;
