@@ -107,9 +107,9 @@ export default {
                     creator = "You "
                 } else {
                     creator =
-                    event.created_by.firstName +
+                    event.created_by.first_name +
                     ' ' +
-                    event.created_by.lastName +
+                    event.created_by.last_name +
                     ' ';
                 }
             }

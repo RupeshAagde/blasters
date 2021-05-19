@@ -77,18 +77,18 @@
                         {{ ticketSubtitle(ticket) }}
                     </div>
                     <div class="card-content-line-3"
-                        v-if="ticket.assigned_to && ticket.assigned_to.firstName"
+                        v-if="ticket.assigned_to && ticket.assigned_to.first_name"
                     >
                         {{
                             'Assigned to ' +
-                            ticket.assigned_to.firstName +
+                            ticket.assigned_to.first_name +
                             ' ' +
-                            ticket.assigned_to.lastName
+                            ticket.assigned_to.last_name
                         }}
                     </div>
                 </div>
                 <div class="card-badge-section right-container">
-                    <div class="states">
+                    <div class="states" v-if="ticket.status.key != 'closed'">
                         <nitrozen-badge
                             v-if="
                                 ticket.assigned_to != null &&
@@ -98,9 +98,9 @@
                             state="default"
                         >
                             {{
-                                ticket.assigned_to.source.firstName +
+                                ticket.assigned_to.source.first_name +
                                 ' ' +
-                                ticket.assigned_to.source.lastName
+                                ticket.assigned_to.source.last_name
                             }}</nitrozen-badge
                         >
                         <nitrozen-badge state="default">{{
@@ -109,6 +109,11 @@
                         <nitrozen-badge state="default">{{
                             ticket.priority.display
                         }}</nitrozen-badge>
+                        <nitrozen-badge state="default">{{
+                            ticket.status.display
+                        }}</nitrozen-badge>
+                    </div>
+                    <div v-else>
                         <nitrozen-badge state="default">{{
                             ticket.status.display
                         }}</nitrozen-badge>
@@ -408,9 +413,9 @@ export default {
 
             if (ticket.created_by && ticket.created_by.user) {
                 const username =
-                    ticket.created_by.user.firstName +
+                    ticket.created_by.user.first_name +
                     ' ' +
-                    ticket.created_by.user.lastName;
+                    ticket.created_by.user.last_name;
                 subtitle = subtitle + username;
             } else if (ticket.created_by && ticket.created_by.details) {
                 subtitle =
