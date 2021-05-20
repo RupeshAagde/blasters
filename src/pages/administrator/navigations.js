@@ -84,6 +84,25 @@ export const getNavigations = () => {
             children: []
         },
         {
+            display: 'Subscription',
+            link: '/administrator/subscription/invoices',
+            title: 'invoice',
+            icon: 'support-icon',
+            highlightedIcon: 'home-highlighted',
+            active: false,
+            permission: 'admin-access',
+            children: [
+                {
+                    display: 'Invoices',
+                    link: '/administrator/subscription/invoices',
+                    title: 'invoice',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                }
+            ]
+        },
+        {
             display: 'Support Center',
             link: '/administrator/support',
             title: 'support',
