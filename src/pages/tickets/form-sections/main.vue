@@ -140,9 +140,6 @@
 @import './../../less/page-header.less';
 @import './../../less/page-ui.less';
 
-.main-section {
-    flex: 1;
-}
 .detail-section {
     width: 368px;
     margin-left: 24px;
@@ -167,7 +164,8 @@
     color: #a4a5a8;
     line-height: 1.2;
     font-size: 14px;
-    border: 1px solid #f6f6f6;;
+    border: 1px solid #f6f6f6;
+    word-wrap: break-word;
 }
 
 .history-label {
@@ -328,9 +326,9 @@ export default {
 
             if (ticket.created_by.user) {
                 username =
-                    ticket.created_by.user.firstName +
+                    ticket.created_by.user.first_name +
                     ' ' +
-                    ticket.created_by.user.lastName;
+                    ticket.created_by.user.last_name;
 
                 if (ticket.created_by.details) {
                     if (username == ticket.created_by.details.name) {
@@ -417,9 +415,9 @@ export default {
             let final = '';
             if (event.created_by) {
                 creator =
-                    event.created_by.firstName +
+                    event.created_by.first_name +
                     ' ' +
-                    event.created_by.lastName +
+                    event.created_by.last_name +
                     ' ';
             }
 
@@ -444,9 +442,9 @@ export default {
         },
         diffDetail(event) {
             let history =
-                event.created_by.firstName +
+                event.created_by.first_name +
                 ' ' +
-                event.created_by.lastName +
+                event.created_by.last_name +
                 ' ';
             const date = ' at ' + this.readableDate(new Date(event.createdAt));
             let additions = 0;
@@ -588,9 +586,9 @@ export default {
         },
         logDetail(event) {
             let history =
-                event.created_by.firstName +
+                event.created_by.first_name +
                 ' ' +
-                event.created_by.lastName +
+                event.created_by.last_name +
                 ' ';
             const date = ' at ' + this.readableDate(new Date(event.createdAt));
             let additions = 0;

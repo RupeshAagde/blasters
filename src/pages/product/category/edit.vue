@@ -649,8 +649,8 @@ export default {
                 this.departments = promiseResult[0].data.items;
                 this.setDepartmentList();
             }
-            if(this.isEdit && promiseResult[1].data && promiseResult[1].data.items[0]){
-                const categoryData = promiseResult[1].data.items[0];
+            if(this.isEdit && promiseResult[1].data && promiseResult[1].data.data){
+                const categoryData = promiseResult[1].data.data;
                 await this.levelChange(3, categoryData.departments, true);
                 this.updateData(categoryData)
             }

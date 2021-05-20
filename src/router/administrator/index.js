@@ -8,6 +8,7 @@ import UserManagementVue from './../../pages/super-user/user-access.vue';
 import AddSuperUserVue from './../../pages/super-user/add-user.vue';
 import Tickets from './../../pages/tickets/index.vue';
 import CreateTicket from './../../pages/tickets/create-ticket.vue';
+import AddCategory from './../../pages/tickets/add-category.vue';
 import SettingsVue from './../../pages/settings';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details';
 import FeaturesSettingsVue from './../../pages/settings/features';
@@ -120,6 +121,14 @@ export default [
                 name: 'support-edit',
                 path: 'support/ticket/:ticket_id/edit',
                 component: CreateTicket,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'support-category',
+                path: 'support/add-category',
+                component: AddCategory,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['support']);
                 }

@@ -5,6 +5,8 @@
                 <jumbotron
                     :title="'Support Center'"
                     :desc="'View and solve open tickets logged in by the users'"
+                    :btnLabel="'Add new category'"
+                    @btnClick="redirectToAddCategory"
                 ></jumbotron>
                 <ticket-list style="margin-top: 16px"> </ticket-list>
             </div>
@@ -63,7 +65,11 @@ export default {
         //
     },
     methods: {
-        //
+        redirectToAddCategory() {
+            this.$router.push({
+                path: `${getRoute(this.$route)}/administrator/support/add-category`
+            });
+        }
     }
 };
 </script>
