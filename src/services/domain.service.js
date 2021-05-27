@@ -399,6 +399,10 @@ const URLS = {
             `v1.0/namespaces/${namespace}/browse/`
         );
     },
+    GET_PUBLIC_URL: (companyId) => {
+        let urlPath = `/v1.0/sign-urls/`
+        return urlJoin(PLATFORM_ASSETS_ADMIN, urlPath);
+    },
     GRINDOR_UPLOAD_START: (namespace) => {
         return urlJoin(
             PLATFORM_ASSETS_ADMIN,

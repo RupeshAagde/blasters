@@ -663,8 +663,6 @@ import PageHeader from '@/components/common/layout/page-header';
 import moment from 'moment';
 import admInlineSvg from '@/components/common/adm-inline-svg.vue';
 import BillingService from '@/services/billing.service';
-import { sign } from '@/services/rest/signature/signature'
-import URLS from '@/services/domain.service';
 import CompanyService from '@/services/company-admin.service';
 import get from 'lodash/get';
 import {
@@ -680,6 +678,8 @@ import {
 } from '@gofynd/nitrozen-vue';
 import BaseCard1 from '../../components/common/base-card-1.vue';
 import { getAuthToken } from '../../services/utils.service'
+import GrindorService from '@/services/grindor.service';
+
 export default {
     name: 'billing',
     components: {
@@ -805,27 +805,26 @@ export default {
         safeGet(obj, path, defaultValue) {
             return get(obj, path, defaultValue);
         },
+        getPublicUrl(urls,expiry){
+            return GrindorService.getPublicUrl(this.companyId,{
+                expiry,
+                urls
+            })
+            .then(res=>res.data)
+        },
         downloadInvoice() {
-            const {
-                host,
-                pathname,
-                search
-            } = new URL(URLS.SUBSCRIPTION_DOWNLOAD_INVOICE(this.invoiceId,this.companyId));
-            let signingOptions = {
-                method: "GET",
-                host: host,
-                path: pathname + search,
-                headers: {},
-                body:null,
-                signQuery: true
-            }
-            let params = sign(signingOptions)
-            // var queryString = Object.keys(params.headers).map(key => key + '=' + params.headers[key]).join('&');
+            var link = document.createElement('a');
+            return this.getPublicUrl([this.invoice.invoice.pdf_url],30000)
+            .then((publicUrlResponse)=>{
+                let public_signed_url = get(publicUrlResponse,'urls.0.signed_url')
+                link.setAttribute('href', public_signed_url);
+                link.setAttribute('target', '_blank');
+                link.setAttribute('download', 'invoice.pdf');
+                document.body.appendChild(link); // Required for FF
+    
+                link.click();
 
-            window.open(
-                "https://"+params.host+params.path,
-                '_blank'
-            );
+            })
         },
         open() {
             this.$refs['dialog'].open({
