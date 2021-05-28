@@ -74,7 +74,7 @@
                 >
                     <div class="line-1">
                         <div v-if="item.client && item.client.name" class="cust-head">
-                            <div @click.stop="routeToCompanyProfile">{{item.client.name}}</div>
+                            <div @click.stop="routeToCompanyProfile(item)">{{item.client.name}}</div>
                         </div>
                         <div class="cust-badge">
                             <adm-inline-svg
@@ -549,8 +549,8 @@ export default {
         }
     },
     methods: {
-        routeToCompanyProfile(){
-            let companyId = this.companyId;
+        routeToCompanyProfile(item){
+            let companyId = item.subscriber.unique_id;
             if (companyId) {
                 this.$router.push({
                     path: `/administrator/company-details/${companyId}`
