@@ -74,7 +74,7 @@
                 >
                     <div class="line-1">
                         <div v-if="item.client && item.client.name" class="cust-head">
-                            <a>{{item.client.name}}</a>
+                            <div @click.stop="routeToCompanyProfile">{{item.client.name}}</div>
                         </div>
                         <div class="cust-badge">
                             <adm-inline-svg
@@ -549,6 +549,14 @@ export default {
         }
     },
     methods: {
+        routeToCompanyProfile(){
+            let companyId = this.companyId;
+            if (companyId) {
+                this.$router.push({
+                    path: `/administrator/company-details/${companyId}`
+                });
+            }
+        },
         goToBillingPage(id) {
             if(!this.companyId){
                 this.$router.push({ path: `/administrator/subscription/invoices/${id}` });
