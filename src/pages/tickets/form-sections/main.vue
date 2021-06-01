@@ -16,12 +16,9 @@
                     class="description"
                     :content="description"
                 ></html-content>
-                <div v-if="ticket.created_by" class="width: auto">
+                <div v-if="ticket.created_by">
                     <div class="n-input-label-ticket">Created By</div>
-                    <div
-                        class="bombshell-list-card-container"
-                        style="margin-top: 0px; height: auto; max-height: 200px;"
-                    >
+                    <div class="created-by">
                         <div class="card-content-section">
                             <div class="card-content-line-1">
                                 {{ createdBy() }}
@@ -31,7 +28,6 @@
                                     class="contact-email"
                                     v-if="contactEmail()"
                                 >
-                                    <!-- <adm-inline-svg :src="'email'"></adm-inline-svg> -->
                                     <a
                                         target="_blank"
                                         :href="'mailto:' + contactEmail()"
@@ -41,14 +37,6 @@
                                     </a>
                                 </div>
                                 <div v-if="contactPhone()">
-                                    <!-- <div v-if="isPlatformTicket">
-                                        <a
-                                            :href="'tel:+' + contactPhone()"
-                                            class="contact-text"
-                                        >
-                                            {{ '+' + contactPhone() }}
-                                        </a>
-                                    </div> v-else -->
                                     <div
                                         class="contact-phone"
                                         @click="
@@ -61,33 +49,29 @@
                                         <div style="margin-right: 4px">
                                             {{ '+' + contactPhone() }}
                                         </div>
-                                        <!-- <adm-inline-svg
-                                            class="make-a-call"
-                                            :src="'call'"
-                                        ></adm-inline-svg> -->
                                     </div>
                                 </div>
-                                <!-- <div
-                                    class="contact-phone card-content-line-2"
-                                    @click="makeAVideoCall()"
-                                >
-                                    <div style="margin-right: 4px">
-                                        Video Call
-                                    </div>
-                                    <adm-inline-svg
-                                        class="make-a-call"
-                                        :src="'call'"
-                                    ></adm-inline-svg>
-                                </div> -->
-                                <div v-if="companyInfo">
-                                    <a
-                                        :href="
-                                            '/administrator/company-details/' +
-                                                companyInfo.uid
-                                        "
-                                        >{{ companyInfo.name }}</a
-                                    >
-                                </div>
+                            </div>
+                        </div>
+                        <div class="communication">
+                            <div
+                                class="phone"
+                                v-if="contactPhone() && false"
+                                @click="clickToCall(contactPhone(),'Call customer')"
+                            >
+                                <adm-inline-svg
+                                    class="make-a-call"
+                                    :src="'call'"
+                                ></adm-inline-svg>
+                            </div>
+                            <div
+                                class="video"
+                                @click="makeAVideoCall()"
+                            >
+                                <adm-inline-svg
+                                    class="make-a-video-call"
+                                    :src="'video-call'"
+                                ></adm-inline-svg>
                             </div>
                         </div>
                     </div>
@@ -127,17 +111,12 @@
                 </div>
             </div>
         </div>
-
-        <!-- <click-to-call-dialog
-            ref="clickToCallDialog"
-            @close="$clickToCallDialogClosed"
-        >
-        </click-to-call-dialog> -->
     </div>
 </template>
 
 <style lang="less" scoped>
 @import './../../less/page-header.less';
+@import '@/less/color.less';
 @import './../../less/page-ui.less';
 
 .detail-section {
@@ -185,6 +164,76 @@
     padding: 8px 12px;
 }
 
+.created-by {
+    padding: 8px 12px;
+    background: @White;
+    margin: 16px 0px;
+    border: 1px solid @Iron;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: auto;
+    transition: box-shadow 0.3s;
+    flex: none;
+    box-shadow: none;
+    margin-top: 0px;
+    height: auto;
+    max-height: 200px;
+    -webkit-tap-highlight-color: transparent;
+    .card-content-section {
+        flex: 0.7;
+        @media @mobile {
+            flex-direction: row;
+        }
+        .card-content-line-1 {
+            color: @Mako;
+            font-weight: 600;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            line-height: 22px;
+        }
+        .card-content-line-2 {
+            color: @DustyGray2;
+            line-height: 22px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .card-content-line-3 {
+            color: @DustyGray2;
+            line-height: 22px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+    }
+    .communication {
+        flex: 0.3;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .video {
+            flex: 0.5;
+            cursor: pointer;
+            .inline-svg {
+                padding-top: 10px;
+                padding-bottom: 10px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+        .phone {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            flex: 0.5;
+            cursor: pointer;
+            .inline-svg {
+                width: 35px;
+                height: 35px;
+            }
+        }
+    }
+}
+
 .contact-us {
     justify-content: space-around;
     .contact-email {
@@ -193,27 +242,10 @@
     .contact-phone {
         cursor: pointer;
         display: flex;
-        .make-a-call {
-            cursor: pointer;
-            display: inline-block;
-            ::v-deep svg {
-                width: 16px;
-                height: 16px;
-                padding-top: 2px;
-            }
-        }
     }
     .contact-text {
         font-size: 12px;
     }
-}
-
-::v-deep .bombshell-list-card-container .card-content-section {
-    flex: none;
-}
-
-::v-deep .bombshell-list-card-container:hover {
-    box-shadow: none;
 }
 
 ::v-deep .n-input-textarea {
@@ -239,7 +271,6 @@ import HtmlContent from '@/components/common/html-content';
 import SupportService from '@/services/support.service';
 import CompanyService from '@/services/company-admin.service';
 import comments from './comments.vue'
-// import Video from 'twilio-video';
 
 export default {
     name: 'main-section',
@@ -599,7 +630,7 @@ export default {
             return history;
         },
         clickToCall(receiver, title) {
-            this.$refs.clickToCallDialog.open({ receiver, title });
+            //this.$refs.clickToCallDialog.open({ receiver, title });
         },
         $clickToCallDialogClosed(reason) {
             if (reason == 'success') {
@@ -622,21 +653,47 @@ export default {
             }
         },
         makeAVideoCall() {
-            SupportService.createVideoRoom()
+            const notify = [];
+
+            if (
+                this.ticket.created_by &&
+                this.ticket.created_by.details &&
+                this.ticket.created_by.details.phone
+            ) {
+                notify.push({
+                    country_code: this.ticket.created_by.details.phone.code,
+                    phone_number: this.ticket.created_by.details.phone.number,
+                });
+            } else if (
+                this.ticket.created_by &&
+                this.ticket.created_by.user &&
+                this.ticket.created_by.user.phone_numbers
+            ) {
+                const phone = this.ticket.created_by.user.phone_numbers.find(
+                    (a) => a.primary
+                );
+                notify.push({
+                    country_code: phone.country_code,
+                    phone_number: phone.phone,
+                });
+            }
+            
+            let createVideoPayload = {
+                company_id: this.ticket.context.company_id,
+                notify: notify,
+                unique_name: this.$route.params.ticket_id
+            }
+
+            SupportService.createVideoRoom(createVideoPayload)
                 .then((res) => {
-                    const uniqueName = res.data.uniqueName;
+                    const uniqueName = res.data.uniqueName || this.$route.params.ticket_id;
                     this.$router.push({
-                        path: `${getRoute(this.$route)}/leads/edit/${
-                            this.$route.params.ticket_id
-                        }/video-room/${uniqueName}`
-                    });
+                        path: `${getRoute(this.$route)}/administrator/support/ticket/${uniqueName}/video-room`
+                        });
                 })
                 .catch((err) => {
                     console.log(err && err.message);
                 })
-                .finally(() => {
-                    //
-                });
         }
     }
 };
