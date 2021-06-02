@@ -788,15 +788,7 @@ export default {
             });
         },
         redirectToListing() {
-            if (this.companyId) {
-                this.$router.push({
-                    path: `/administrator/company-details/${this.companyId}?tab=3`,
-                });
-            } else {
-                this.$router.push({
-                    path: `/administrator/subscription/invoices?tab=3`,
-                });
-            }
+            this.$router.back();
         },
         amountFormat(plan) {
             return new Intl.NumberFormat('en-IN', {

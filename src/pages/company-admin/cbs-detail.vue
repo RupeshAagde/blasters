@@ -39,8 +39,8 @@
             ref="nit_tab"
             :activeIndex="activeTabIndex"
             class="custom-tab"
-            :tabItem="['Details', 'Marketplace Channels','Subscription', 'Invoices']"
-            @tab-change="(obj) => (activeTabIndex = obj.index)"
+            :tabItem="tabs"
+            @tab-change="onTabChange"
         ></nitrozen-tab>
         <div
             v-show="activeTabIndex === 0"
@@ -101,7 +101,7 @@
             </div>
         </div>
         <div
-            v-show="activeTabIndex === 3"
+            v-if="activeTabIndex === 3"
             class="main-container profile-container"
         >
             <!-- <div class="full-width">
@@ -402,8 +402,10 @@ import marketplaceChannels from './mkp-channels.vue';
 import invoiceListing from './invoice-listing.vue'
 import admcompanysubscription from './subscription.vue'
 import root from 'window-or-global';
-const env = root.env || {};
+import invert from 'lodash/invert';
 
+const env = root.env || {};
+const TAB_NAMES = ['Details', 'Marketplace Channels','Subscription', 'Invoices']
 export default {
     name: 'adm-company-profile',
     components: {
@@ -429,6 +431,7 @@ export default {
             activeTabIndex: 0,
             companyId: this.$route.params.companyId,
             profileDetails: {},
+            tabs: TAB_NAMES,
             inProgress: false,
             applicationList: [],
             contextMenuItems: [
@@ -440,8 +443,18 @@ export default {
         };
     },
     mounted() {
-        this.activeTabIndex = this.$refs.nit_tab.activeTab =
-            +this.$route.query.tab || 0;
+        this.$refs.nit_tab.activeTab = 0
+        if(this.$route.query.tab){
+            let tab = this.$route.query.tab
+            let tabs = invert(TAB_NAMES)
+            let obj = {
+                index: Number(tabs[tab]),
+                item: tab
+            }
+            this.$refs.nit_tab.activeTab = obj.index
+            this.onTabChange(obj)
+        }
+        
         this.getProfileDetails();
         this.fetchMetricsApi();
     },
@@ -451,6 +464,31 @@ export default {
         },
     },
     methods: {
+        onTabChange(obj){
+            if(this.$route.query.tab != obj.item){
+                this.$router.replace({
+                    name: this.$route.name,
+                    query: {
+                        tab: obj.item
+                    }
+                })
+                .then(()=>{
+                    this.activeTabIndex = obj.index
+                }).catch(() => {});
+            }
+            else{
+                this.$router.replace({
+                    name: this.$route.name,
+                    query: {
+                        ...this.$route.query,
+                        tab: obj.item
+                    }
+                })
+                .then(()=>{
+                    this.activeTabIndex = obj.index
+                }).catch(() => {});
+            }
+        },
         goToBillingPage(id) {
             this.$router.push({ path: `/administrator/company-details/${this.companyId}/billing-details/${id}` });
         },

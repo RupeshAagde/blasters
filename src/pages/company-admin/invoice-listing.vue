@@ -1,5 +1,5 @@
 <template>
-    <div class="full-width">
+    <div class="full-width" :class="{ 'bg-white': $route.name == 'company-details' }">
         <div class="applications" style="width: 98%">
             <div v-if="inProgress" class="shimmer"></div>
             <div
@@ -153,6 +153,10 @@
 @import './../less/page-header.less';
 @import './../less/page-ui.less';
 
+.bg-white{
+    background: white;
+    padding: 24px;
+}
 .top-badge {
     display: flex;
     justify-content: flex-start;
@@ -535,8 +539,23 @@ export default {
     },
     mounted() {
         let query = null
-        if(this.$route.query){
-            query = this.$route.query
+        if(this.$route.query && this.$route.query.query){
+            query = JSON.parse(this.$route.query.query)
+            if(query.searchText){
+                this.searchText = query.searchText
+            }
+            if(query.query){
+                let api_query = JSON.parse(query.query)
+                if(api_query.current_status && api_query.current_status.$regex){
+                    this.filters.status = api_query.current_status.$regex
+                }
+                if(api_query.collection_method && api_query.collection_method.$regex){
+                    this.filters.collection_method = api_query.collection_method.$regex
+                }
+                if(api_query["period.start"] && api_query["period.start"].$gte && api_query["period.end"] && api_query["period.end"].$lte){
+                    this.orderDateRange = [api_query["period.start"].$gte,api_query["period.end"].$lte]
+                }
+            }
         }
         this.fetchInvoiceList(query);
     },
@@ -667,10 +686,10 @@ export default {
             //     query.stage = [this.selectedFilter];
             // }
             this.$router.replace({
-                name: 'invoices',
+                name: this.$route.name,
                 query: {
                     ...this.$route.query,
-                    ...query
+                    query: JSON.stringify(Object.assign({},(this.$route.query && this.$route.query.query ? JSON.parse(this.$route.query.query) : {}) ,query))
                 }
             }).catch(() => {});
             return query;
