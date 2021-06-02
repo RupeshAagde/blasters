@@ -47,7 +47,7 @@
                     <div v-if="invoice && invoice.invoice">
                         <div class="flex m-b-24">
                             <div class="flex-2">
-                                <table class="invoice-number-table width-80">
+                                <table class="bold m-b-12 m-t-6 width-80">
                                     <tr>
                                         <td>Billing Address</td>
                                     </tr>
@@ -545,6 +545,9 @@
 .m-r-24 {
     margin-right: 24px;
 }
+.m-t-6 {
+    margin-top: 6px;
+}
 .m-t-24 {
     margin-top: 24px;
 }
@@ -704,7 +707,6 @@ export default {
             return open_status;
         },
         invoiceOpenDate(){
-            this.invoiceOpen
             if(!this.invoiceOpen) return null;
             return moment(this.invoiceOpen.timestamp).format('Do MMMM YYYY');
         },
@@ -814,7 +816,7 @@ export default {
         },
         downloadInvoice() {
             var link = document.createElement('a');
-            return this.getPublicUrl([this.invoice.invoice.pdf_url],30000)
+            return this.getPublicUrl([this.invoice.invoice.pdf_url],20000)
             .then((publicUrlResponse)=>{
                 let public_signed_url = get(publicUrlResponse,'urls.0.signed_url')
                 link.setAttribute('href', public_signed_url);

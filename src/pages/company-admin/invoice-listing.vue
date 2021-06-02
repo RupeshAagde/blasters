@@ -92,7 +92,7 @@
                             >
                         </div>
                     </div>
-                    <div class="line-2" v-if="item.number">
+                    <div class="line-2 m-t-12" v-if="item.number">
                         <div class="cust-head">Invoice Number</div>
                         <div
                             class="cust-pointer"
@@ -179,6 +179,9 @@
     width: 100%;
     margin: 0 0 0 0;
     position: relative;
+}
+.m-t-12 {
+    margin-top: 12px;
 }
 .cust-panel {
     margin-bottom: 60px;
@@ -296,9 +299,8 @@
     margin: 12px 0 24px 0;
 }
 .cust-head {
-    font-size: 14px;
+    font-size: 12px;
     color: #9b9b9b;
-    font-weight: 100;
 }
 .applications {
     .text-heading {
@@ -359,7 +361,7 @@
                 line-height: 20px;
                 font-size: 14px;
                 color: #2e31be;
-                font-weight: bold;
+                font-weight: 600;
                 cursor: pointer;
             }
 
@@ -370,12 +372,11 @@
             }
         }
         .line-2 {
-            margin: 12px 0;
             display: flex;
-            font-size: 14px;
-            line-height: 20px;
-            color: #41434c;
-            font-weight: 200;
+            font-size: 12px;
+            line-height: 22px;
+            color: #9b9b9b;;
+            font-weight: 400;
             justify-content: space-between;
 
             .cust-app {
