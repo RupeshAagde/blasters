@@ -130,7 +130,7 @@
                             :title="item.total"
                         >
                             <span v-html="currencyMap[item.currency]"></span
-                            >{{ item.total }}
+                            >{{ item.total.toFixed(2) }}
                         </div>
                     </div>
                 </div>
@@ -534,7 +534,11 @@ export default {
         };
     },
     mounted() {
-        this.fetchInvoiceList();
+        let query = null
+        if(this.$route.query){
+            query = this.$route.query
+        }
+        this.fetchInvoiceList(query);
     },
     computed: {},
     filters: {
@@ -579,8 +583,9 @@ export default {
             // });
             this.fetchInvoiceList();
         },
-        fetchInvoiceList() {
-            BillingService.getInvoiceListing(this.requestQuery()).then(
+        fetchInvoiceList(query) {
+            query = query || this.requestQuery()
+            BillingService.getInvoiceListing(query).then(
                 (res) => {
                     this.applicationList = res.data.items;
                     this.pagination.total = res.data.page.item_total;
@@ -623,7 +628,7 @@ export default {
         requestQuery() {
             const query = {
                 page_no: this.pagination.current,
-                page_size: this.pagination.limit,
+                page_size: this.pagination.limit
             };
             let filterQuery = {};
             if (this.searchText) {
@@ -661,6 +666,13 @@ export default {
             // if (this.selectedFilter !== 'all') {
             //     query.stage = [this.selectedFilter];
             // }
+            this.$router.replace({
+                name: 'invoices',
+                query: {
+                    ...this.$route.query,
+                    ...query
+                }
+            }).catch(() => {});
             return query;
         },
         paginationChange(filter, action) {
