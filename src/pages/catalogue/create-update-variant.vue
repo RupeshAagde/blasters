@@ -418,7 +418,11 @@ export default {
         },
         getDepartment() {
             return new Promise((resolve, reject) => {
-                CatalogService.fetchDepartment()
+                const query = {
+                    "page_size":9999,
+                    "page_no":1,
+                }
+                CatalogService.fetchDepartment(query)
                     .then(({ data }) => {
                         this.departmentList = data.items;
                         return resolve();
