@@ -443,7 +443,14 @@ const URLS = {
     },
     FETCH_COMPANY_LIST: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, 'v1/onboarding/company/info-view');
-    }
+    },
+    // Product Verification
+    FETCH_VERIFICATION_COMPANY_LIST: (companyId) => {
+        return urlJoin(SILVERBOLT_ACAT_URL, `/v1.0/company/${companyId}/verification/company`);
+    },
+    FETCH_VERIFICATION_PRODUCT_LIST: (companyId) => {
+        return urlJoin(SILVERBOLT_ACAT_URL, `/v1.0/company/${companyId}/verification/company`);
+    },
 };
 
 export default URLS;

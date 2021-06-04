@@ -26,6 +26,10 @@ import ProductTemplatesList from '@/pages/product/templates/list';
 import ProductTemplatesEdit from '@/pages/product/templates/edit';
 import CategoryList from '@/pages/product/category/list';
 import CategoryEdit from '@/pages/product/category/edit';
+import ProductVerificationCompanyList from '@/pages/product/verification/list';
+import ProductVerificationEdit from '@/pages/product/verification/edit';
+import ProductVerificationList from '@/pages/product/verification/productList';
+
 import IntegrationsListVue from '@/pages/integration/list';
 import IntegrationsCreateVue from '@/pages/integration/create';
 
@@ -283,6 +287,31 @@ export default [
                 name: 'templates-edit',
                 path: 'product/templates/:slug',
                 component: ProductTemplatesEdit,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
+                }
+            },
+            // Product Verification
+            {
+                name: 'verification',
+                path: 'product/verification',
+                component: ProductVerificationCompanyList,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
+                }
+            },
+            {
+                name: 'verification-edit',
+                path: 'product/verification/edit/:id',
+                component: ProductVerificationEdit,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
+                }
+            },
+            {
+                name: 'verification',
+                path: 'product/verification/:id/products',
+                component: ProductVerificationList,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['product']);
                 }

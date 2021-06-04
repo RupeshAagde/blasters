@@ -60,10 +60,18 @@ const CatalogService = {
             { data: body },
             getCommonHeaderOptions()
         );
-        if(uid){
-            return ApiService.put(URLS.FETCH_DEPARTMENT(uid), axiosOption);    
+        if (uid) {
+            return ApiService.put(URLS.FETCH_DEPARTMENT(uid), axiosOption);
         }
         return ApiService.post(URLS.FETCH_DEPARTMENT(), axiosOption);
+    },
+    fetchVariantCompanyListing(params) {
+        const { companyId } = params;
+        const axiosOption = Object.assign(
+            { params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.FETCH_VERIFICATION_COMPANY_LIST(companyId), axiosOption);
     }
 };
 export default CatalogService;
