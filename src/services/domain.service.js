@@ -346,16 +346,18 @@ const URLS = {
     },
 
     CREATE_VIDEO_ROOM: () => {
-        return urlJoin(PLATFORM_LEADS_BASE, `video/v1.0/room`);
+        return urlJoin(PLATFORM_LEADS_BASE, `v1.0/video/room`);
     },
 
     GET_VIDEO_ROOM_TOKEN: (unique_name) => {
         return urlJoin(
             PLATFORM_LEADS_BASE,
-            `video/v1.0/room/${unique_name}/token`
+            `v1.0/video/room/${unique_name}/token`
         );
     },
-
+    GET_VIDEO_PARTICIPANTS:(ticket_id) => {
+        return urlJoin(PLATFORM_LEADS_BASE, `v1.0/video/room/${ticket_id}/participants`);
+    },
     FETCH_TICKET: (ticket_id) => {
         return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket/${ticket_id}`);
     },
@@ -369,10 +371,6 @@ const URLS = {
     },
 
     FETCH_SHIPMENT_INFO: (slug, company_id) => {
-        // return urlJoin(
-        //     PLATFORM_ORDERS_BASE,
-        //     `/v1/seller/${company_id}?q=${slug}`
-        // );
         return urlJoin(
             ADMIN_ORDERS_BASE,
             `/v1.0/${company_id}?q=${slug}&filter_type=auto`

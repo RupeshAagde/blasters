@@ -120,7 +120,7 @@
                         </div>
                     </div>
                     <div v-if="invoice && invoice.invoice_items" class="m-t-24">
-                        <div class="flex m-t-24">
+                        <div class="m-t-24">
                             <table class="invoice-items-table width-100 m-t-24">
                                 <thead>
                                     <tr>
@@ -168,12 +168,12 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
+                                        <td class="no-border-left no-border-right"></td>
+                                        <td class="no-border-left no-border-right"></td>
+                                        <td class="no-border-left no-border-right">
                                             <div class="bold">Sub Total</div>
                                         </td>
-                                        <td>
+                                        <td class="no-border-left no-border-right">
                                             <div class="bold">
                                                 {{
                                                     amountFormat({
@@ -183,6 +183,50 @@
                                                         amount:
                                                             invoice.invoice
                                                                 .subtotal,
+                                                    })
+                                                }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr v-if="!invoice.invoice.is_pricing_gst_included">
+                                        <td class="no-border-left no-border-right"></td>
+                                        <td class="no-border-left no-border-right"></td>
+                                        <td class="no-border-left no-border-right">
+                                            <div class="bold ">CGST {{ invoice.invoice
+                                                                .taxation.cgst * 100 }}%</div>
+                                        </td>
+                                        <td class="no-border-left no-border-right">
+                                            <div class="bold">
+                                                {{
+                                                    amountFormat({
+                                                        currency:
+                                                            invoice.invoice
+                                                                .currency,
+                                                        amount:
+                                                            invoice.invoice
+                                                                .taxation.cgst*invoice.invoice.subtotal,
+                                                    })
+                                                }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr v-if="!invoice.invoice.is_pricing_gst_included && invoice.invoice.taxation.sgst">
+                                        <td class="no-border-left no-border-right"></td>
+                                        <td class="no-border-left no-border-right"></td>
+                                        <td class="no-border-left no-border-right">
+                                            <div class="bold">SCGST {{ invoice.invoice
+                                                                .taxation.cgst * 100 }}%</div>
+                                        </td>
+                                        <td class="no-border-left no-border-right">
+                                            <div class="bold">
+                                                {{
+                                                    amountFormat({
+                                                        currency:
+                                                            invoice.invoice
+                                                                .currency,
+                                                        amount:
+                                                            invoice.invoice
+                                                                .taxation.sgst*invoice.invoice.subtotal,
                                                     })
                                                 }}
                                             </div>
@@ -379,8 +423,13 @@
             text-align: left;
             border: 1px solid black;
         }
-        tr:nth-last-child(1),
-        tr:nth-last-child(2) {
+        .no-border-left{
+            border-left: none;
+        }
+        .no-border-right{
+            border-right: none;
+        }
+        tr:nth-last-child(1) {
             td {
                 border-left: none;
                 border-right: none;
