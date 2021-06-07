@@ -1,62 +1,79 @@
 <template>
-    <div class="full-width">
-        <div class="applications" style="width: 98%">
+    <div
+        class="full-width"
+        :class="{ 'white-container': $route.name == 'company-details' }"
+    >
+        <div class="applications width-100">
             <div v-if="inProgress" class="shimmer"></div>
-            <div
-                class="search-box"
-            >
+            <div class="search-box flex">
                 <div v-if="isInitialLoad" class="input-shimmer shimmer"></div>
                 <template v-else>
-                    <div style="display:flex; margin-top:6px;">
-                    <nitrozen-input
-                        :showSearchIcon="true"
-                        class="search"
-                        type="search"
-                        placeholder="Search by number..."
-                        v-model="searchText"
-                        @input="debounceInput({ number: searchText })"
-                    ></nitrozen-input>
-
-                    <div class="flex date-wrapper" style="margin-left:12px;">
-                    <div class="date-container m-r-24">
-                        <div class="date">
-                        <date-picker
-                            class="date-picker"
-                            @input="dateRangeChange"
-                            date_format="MMM Do, YY"
-                            :picker_type="'date'"
-                            :range="true"
-                            :clearable="true"
-                            :useNitrozenTheme="true"
-                            v-model="orderDateRange"
-                            :not_before="new Date(0).toISOString()"
-                            :placeholder="'Select Date Range'"
-                        />
+                    <div class="flex flex-2" style="margin-top:6px;">
+                        <nitrozen-input
+                            :showSearchIcon="true"
+                            class="search flex-1"
+                            type="search"
+                            placeholder="Search by number..."
+                            v-model="searchText"
+                            @input="debounceInput({ number: searchText })"
+                        ></nitrozen-input>
+                        
+                        <div
+                            class="flex date-wrapper flex-1"
+                            style="margin-left:12px;"
+                        >
+                            <div class="width-100 m-r-12">
+                                <div class="date">
+                                    <date-picker
+                                        class="date-picker"
+                                        @input="dateRangeChange"
+                                        date_format="MMM Do, YY"
+                                        :picker_type="'date'"
+                                        :range="true"
+                                        :clearable="true"
+                                        :useNitrozenTheme="true"
+                                        v-model="orderDateRange"
+                                        :not_before="new Date(0).toISOString()"
+                                        :placeholder="'Select Date Range'"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                    </div>
-                    <div style="display:flex; margin-top:-13px">
-                    <div>
+                    <div class="flex flex-3 m-r-12" style="margin-top:-13px">
+                        <div>
+                            <nitrozen-dropdown
+                                :label="'Status'"
+                                class="filter-dropdown"
+                                :useNitrozenTheme="true"
+                                :items="statusFilterList"
+                                v-model="filters.status"
+                                @change="fieldChanged"
+                            ></nitrozen-dropdown>
+                        </div>
+                        <div>
+                            <nitrozen-dropdown
+                                :label="'Collection Method'"
+                                class="m-l-12 filter-dropdown"
+                                :useNitrozenTheme="true"
+                                :items="collectionMethodFilterList"
+                                v-model="filters.collection_method"
+                                @change="fieldChanged"
+                            ></nitrozen-dropdown>
+                        </div>
+                        <div>
                         <nitrozen-dropdown
-                            :label="'Status'"
-                            class="filter-dropdown"
-                            :useNitrozenTheme="true"
-                            :items="statusFilterList"
-                            v-model="filters.status"
-                            @change="fieldChanged"
-                        ></nitrozen-dropdown>
-                    </div>
-                    <div>
-                        <nitrozen-dropdown
-                            :label="'Collection Method'"
-                            class="filter-dropdown"
-                            :useNitrozenTheme="true"
-                            :items="collectionMethodFilterList"
-                            v-model="filters.collection_method"
-                            @change="fieldChanged"
-                        ></nitrozen-dropdown>
-                    </div>
+                                v-if="this.$route.name == 'invoices'"
+                                class="m-l-12 title-label"
+                                :searchable="true"
+                                :label="'Company'"
+                                :placeholder="'Search company'"
+                                @searchInputChange="companySearch"
+                                v-model="filters.selectedCompany"
+                                :items="companyList"
+                                @change="onCompanySelect"
+                            ></nitrozen-dropdown>
+                        </div>
                     </div>
                 </template>
             </div>
@@ -66,15 +83,20 @@
                 "
             >
                 <div
-                    class="container"
+                    class="container m-t-24"
                     v-for="(item, index) in applicationList"
                     :key="index"
                     :title="item.name"
                     @click="goToBillingPage(item._id)"
                 >
                     <div class="line-1">
-                        <div v-if="item.client && item.client.name" class="cust-head">
-                            <a>{{item.client.name}}</a>
+                        <div
+                            v-if="item.client && item.client.name"
+                            class="cust-head"
+                        >
+                            <div @click.stop="routeToCompanyProfile(item)">
+                                {{ item.client.name }}
+                            </div>
                         </div>
                         <div class="cust-badge">
                             <adm-inline-svg
@@ -92,7 +114,7 @@
                             >
                         </div>
                     </div>
-                    <div class="line-2" v-if="item.number">
+                    <div class="line-2 m-t-12" v-if="item.number">
                         <div class="cust-head">Invoice Number</div>
                         <div
                             class="cust-pointer"
@@ -110,7 +132,8 @@
                             v-if="item.period.start && item.period.end"
                             :title="'Invoice Period'"
                         >
-                            {{ item.period.start | formatDate }} - {{ item.period.end | formatDate }}
+                            {{ item.period.start | formatDate }} -
+                            {{ item.period.end | formatDate }}
                         </div>
                     </div>
                     <div class="line-2" v-if="item.collection_method">
@@ -119,7 +142,7 @@
                             class="cust-pointer"
                             style="text-transform: capitalize;"
                         >
-                            {{ item.collection_method | removeUnderscore}}
+                            {{ item.collection_method | removeUnderscore }}
                         </div>
                     </div>
                     <div class="line-2" v-if="item.total">
@@ -130,7 +153,7 @@
                             :title="item.total"
                         >
                             <span v-html="currencyMap[item.currency]"></span
-                            >{{ item.total }}
+                            >{{ item.total.toFixed(2) }}
                         </div>
                     </div>
                 </div>
@@ -153,17 +176,24 @@
 @import './../less/page-header.less';
 @import './../less/page-ui.less';
 
+.white-container {
+    background: white;
+    padding: 24px;
+    margin-right: 24px;
+}
 .top-badge {
     display: flex;
     justify-content: flex-start;
     margin-left: 24px;
 }
-
+.width-100{
+    width: 100%;
+}
 .date {
     display: flex;
     margin-bottom: 12px;
     .date-picker {
-        width: 250px;
+        width: 100%;
         @media @mobile {
             width: 100%;
         }
@@ -179,6 +209,15 @@
     width: 100%;
     margin: 0 0 0 0;
     position: relative;
+}
+.m-l-12 {
+    margin-left: 12px;
+}
+.m-t-12 {
+    margin-top: 12px;
+}
+.m-t-24 {
+    margin-top: 24px;
 }
 .cust-panel {
     margin-bottom: 60px;
@@ -212,6 +251,12 @@
         }
     }
 }
+.m-r-12 {
+    margin-right: 12px;
+    @media @mobile {
+        margin-right: 0;
+    }
+}
 .m-r-24 {
     margin-right: 24px;
     @media @mobile {
@@ -226,17 +271,10 @@
     margin-bottom: 24px;
 }
 .search-box {
-    min-width: 400px;
-}
-.search-box {
     margin: 0 0 12px 0;
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    .search {
-        min-width: 400px;
-    }
-
+    justify-content: center;
+    
     .filter {
         display: flex;
         align-items: center;
@@ -250,7 +288,6 @@
     }
     .filter-dropdown {
         width: 180px;
-        margin-left: 12px;
     }
 }
 .flex {
@@ -296,9 +333,8 @@
     margin: 12px 0 24px 0;
 }
 .cust-head {
-    font-size: 14px;
+    font-size: 12px;
     color: #9b9b9b;
-    font-weight: 100;
 }
 .applications {
     .text-heading {
@@ -359,7 +395,7 @@
                 line-height: 20px;
                 font-size: 14px;
                 color: #2e31be;
-                font-weight: bold;
+                font-weight: 600;
                 cursor: pointer;
             }
 
@@ -370,12 +406,11 @@
             }
         }
         .line-2 {
-            margin: 12px 0;
             display: flex;
-            font-size: 14px;
-            line-height: 20px;
-            color: #41434c;
-            font-weight: 200;
+            font-size: 12px;
+            line-height: 22px;
+            color: #9b9b9b;
+            font-weight: 400;
             justify-content: space-between;
 
             .cust-app {
@@ -404,6 +439,7 @@
 </style>
 
 <script>
+import Loader from '@/components/common/loader';
 import admInlineSVG from '@/components/common/adm-inline-svg';
 import uktInlineSVG from '@/components/common/ukt-inline-svg';
 import admapplication from './application-list.vue';
@@ -420,27 +456,29 @@ import {
     NitrozenButton,
     NitrozenPagination,
     NitrozenInput,
-    NitrozenDropdown,
+    NitrozenDropdown
 } from '@gofynd/nitrozen-vue';
 import { FETCH_METRICS } from '@/store/action.type';
 import marketplaceChannels from './mkp-channels.vue';
 import moment from 'moment';
 import { titleCase, debounce } from '@/helper/utils';
-import pageempty from '@/components/common/page-empty.vue'
+import pageempty from '@/components/common/page-empty.vue';
 import root from 'window-or-global';
+import companyListVue from './company-list.vue';
+
 const env = root.env || {};
 
 const PAGINATION = {
     limit: 10,
     total: 0,
-    current: 1,
+    current: 1
 };
 
 export default {
     name: 'invoice-listing',
     components: {
         Shimmer,
-        'page-empty':pageempty,
+        'page-empty': pageempty,
         'nitrozen-badge': NitrozenBadge,
         'nitrozen-button': NitrozenButton,
         'nitrozen-tab': NitrozenTab,
@@ -450,11 +488,14 @@ export default {
         'nitrozen-pagination': NitrozenPagination,
         'nitrozen-input': NitrozenInput,
         NitrozenDropdown,
-        'date-picker': DatePicker,
+        Loader,
+        'date-picker': DatePicker
     },
     computed: {},
     data() {
         return {
+            companyList: [{value:'all',text:'All'}],
+            companies: [],
             companyId: this.$route.params.companyId,
             inProgress: false,
             pageLoading: false,
@@ -464,11 +505,10 @@ export default {
             applicationList: [],
             pagination: { ...PAGINATION },
             searchText: '',
-            notBefore: moment().subtract(2, 'years').toISOString(),
-            orderDateRange: [
-                null,
-                null,
-            ],
+            notBefore: moment()
+                .subtract(2, 'years')
+                .toISOString(),
+            orderDateRange: [null, null],
             statusFilterList: [
                 {
                     text: 'All',
@@ -510,54 +550,148 @@ export default {
                 }
             ],
             filters: {
+                selectedCompany: 'all',
                 plainTextSearch: '',
                 collection_method: 'all',
                 status: 'all',
                 templateSearch: '',
                 start: {
-                    value: '',
+                    value: ''
                 },
                 end: {
-                    value: '',
-                },
+                    value: ''
+                }
             },
             contextMenuItems: [
                 {
                     text: 'View Company',
-                    action: 'edit',
-                },
+                    action: 'edit'
+                }
             ],
             currencyMap: {
-                INR: '&#8377;',
-            },
+                INR: '&#8377;'
+            }
         };
     },
     mounted() {
-        this.fetchInvoiceList();
+        let query = null;
+        if (this.$route.query && this.$route.query.query) {
+            query = JSON.parse(this.$route.query.query);
+            if (query.searchText) {
+                this.searchText = query.searchText;
+            }
+            if (query.query) {
+                let api_query = JSON.parse(query.query);
+                if (
+                    api_query.current_status &&
+                    api_query.current_status.$regex
+                ) {
+                    this.filters.status = api_query.current_status.$regex;
+                }
+                if (
+                    api_query.company_id
+                ) {
+                    this.filters.selectedCompany = String(api_query.company_id);
+                }
+                else{
+                    this.filters.selectedCompany = 'all'
+                }
+                if (
+                    api_query.collection_method &&
+                    api_query.collection_method.$regex
+                ) {
+                    this.filters.collection_method =
+                        api_query.collection_method.$regex;
+                }
+                if (
+                    api_query['period.start'] &&
+                    api_query['period.start'].$gte &&
+                    api_query['period.end'] &&
+                    api_query['period.end'].$lte
+                ) {
+                    this.orderDateRange = [
+                        api_query['period.start'].$gte,
+                        api_query['period.end'].$lte
+                    ];
+                }
+            }
+        }
+        this.fetchCompany();
+        this.fetchInvoiceList(query)
     },
     computed: {},
     filters: {
         formatDate(value) {
             if (value) {
-                return moment(String(value)).format("Do MMM YY");;
+                return moment(String(value)).format('Do MMM YY');
             }
         },
-        removeUnderscore(value){
-            if(value){
+        removeUnderscore(value) {
+            if (value) {
                 return value.replace(/_/g, ' ');
             }
         }
     },
     methods: {
+        onCompanySelect(company_id) {
+            this.filters.selectedCompany = String(company_id);
+            this.fetchInvoiceList();
+        },
+        companySearch(e) {
+            debounce((text) => {
+                this.fetchCompany(text);
+            }, 600)(e.text);
+        },
+        fetchCompany(searchCompany) {
+            const query = {
+                page_no: 0,
+                page_size: 10
+            };
+
+            if (searchCompany) {
+                query.q = searchCompany;
+            }
+            return CompanyService.getCompanyList(query)
+                .then(({ data }) => {
+                    this.companies = data.items;
+                    let companies = this.companies.map((item) => {
+                        return {
+                            text: `${item.name} (${item.uid})`,
+                            value: String(item.uid)
+                        };
+                    });
+                    companies.unshift({
+                        text: `All`,
+                        value: 'all'
+                    });
+                    this.companyList = companies;
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError('Failed to load companies');
+                    console.log(err);
+                });
+        },
+        routeToCompanyProfile(item) {
+            let companyId = item.subscriber.unique_id;
+            if (companyId) {
+                this.$router.push({
+                    path: `/administrator/company-details/${companyId}`
+                });
+            }
+        },
         goToBillingPage(id) {
-            if(!this.companyId){
-                this.$router.push({ path: `/administrator/subscription/invoices/${id}` });
-            }else{
-                this.$router.push({ path: `/administrator/company-details/${this.companyId}/billing-details/${id}` });
+            if (!this.companyId) {
+                this.$router.push({
+                    path: `/administrator/subscription/invoices/${id}`
+                });
+            } else {
+                this.$router.push({
+                    path: `/administrator/company-details/${this.companyId}/billing-details/${id}`
+                });
             }
         },
         fieldChanged() {
-            this.fetchInvoiceList()
+            this.fetchInvoiceList();
         },
         dateChanged() {
             this.fetchInvoiceList();
@@ -570,18 +704,19 @@ export default {
             // });
             this.fetchInvoiceList();
         },
-        fetchInvoiceList() {
-            BillingService.getInvoiceListing(this.requestQuery()).then(
-                (res) => {
-                    this.applicationList = res.data.items;
-                    this.pagination.total = res.data.page.item_total;
-                    this.pageLoading = false;
-                }
-            );
+        fetchInvoiceList(query) {
+            query = query || this.requestQuery();
+            this.inProgress = true;
+            BillingService.getInvoiceListing(query).then((res) => {
+                this.applicationList = res.data.items;
+                this.pagination.total = res.data.page.item_total;
+                this.pageLoading = false;
+                this.inProgress = false;
+            });
         },
-        getProfileDetails: function () {
+        getProfileDetails: function() {
             let params = {
-                uid: this.companyId,
+                uid: this.companyId
                 // phase: 'company_detail'
             };
             this.inProgress = true;
@@ -601,12 +736,12 @@ export default {
             if (number) this.searchText = number;
             if (pageId) this.pageId = pageId;
         },
-        debounceInput: debounce(function (e) {
+        debounceInput: debounce(function(e) {
             if (this.searchText.length === 0) {
                 this.clearSearchFilter();
             } else {
                 this.setRouteQuery({
-                    number: { $regex: this.searchText, $options: 'ig' },
+                    number: { $regex: this.searchText, $options: 'ig' }
                 });
             }
             this.fetchInvoiceList();
@@ -614,44 +749,62 @@ export default {
         requestQuery() {
             const query = {
                 page_no: this.pagination.current,
-                page_size: this.pagination.limit,
+                page_size: this.pagination.limit
             };
             let filterQuery = {};
             if (this.searchText) {
                 filterQuery.number = {
                     $regex: this.searchText,
-                    $options: 'ig',
+                    $options: 'ig'
                 };
             }
             if (this.companyId) {
                 filterQuery.company_id = this.companyId;
             }
-            if (this.orderDateRange[0] && this.orderDateRange[1]){
-                let start = this.orderDateRange[0]
-                let end = this.orderDateRange[1]
-                if(start){
-                    filterQuery['period.start']={$gte: start}
+            if (this.orderDateRange[0] && this.orderDateRange[1]) {
+                let start = this.orderDateRange[0];
+                let end = this.orderDateRange[1];
+                if (start) {
+                    filterQuery['period.start'] = { $gte: start };
                 }
-                if(end){
-                    filterQuery['period.end']={$lte: end} 
+                if (end) {
+                    filterQuery['period.end'] = { $lte: end };
                 }
             }
-            if(this.filters.status!=='all'){
+            if (this.filters.status !== 'all') {
                 filterQuery.current_status = {
                     $regex: this.filters.status,
-                    $options: 'ig',
+                    $options: 'ig'
                 };
             }
-            if(this.filters.collection_method!=='all'){
+            if (this.filters.collection_method !== 'all') {
                 filterQuery.collection_method = {
                     $regex: this.filters.collection_method,
-                    $options: 'ig',
+                    $options: 'ig'
                 };
             }
+
+            if (this.filters.selectedCompany !== 'all') {
+                filterQuery.company_id = Number(this.filters.selectedCompany);
+            }
             query.query = JSON.stringify(filterQuery);
-            // if (this.selectedFilter !== 'all') {
-            //     query.stage = [this.selectedFilter];
-            // }
+            this.$router
+                .replace({
+                    name: this.$route.name,
+                    query: {
+                        ...this.$route.query,
+                        query: JSON.stringify(
+                            Object.assign(
+                                {},
+                                this.$route.query && this.$route.query.query
+                                    ? JSON.parse(this.$route.query.query)
+                                    : {},
+                                query
+                            )
+                        )
+                    }
+                })
+                .catch(() => {});
             return query;
         },
         paginationChange(filter, action) {
@@ -674,8 +827,8 @@ export default {
                 path: this.$route.path,
                 query: {
                     ...this.$route.query,
-                    ...query,
-                },
+                    ...query
+                }
             });
         },
         redirectToListing() {
@@ -699,7 +852,7 @@ export default {
             } else {
                 return;
             }
-        },
-    },
+        }
+    }
 };
 </script>

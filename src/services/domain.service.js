@@ -325,6 +325,9 @@ const URLS = {
     SUBSCRIPTION_UPDATE_BY_ID: (company_id,subscription_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/${subscription_id}`)
     },
+    SUBSCRIPTION_CANCEL: (company_id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/cancel`)
+    },
 
     //#########Tickets########
     FETCH_TICKETS: () => {
@@ -396,6 +399,10 @@ const URLS = {
             PLATFORM_ASSETS_ADMIN,
             `v1.0/namespaces/${namespace}/browse/`
         );
+    },
+    GET_PUBLIC_URL: (companyId) => {
+        let urlPath = `/v1.0/sign-urls/`
+        return urlJoin(PLATFORM_ASSETS_ADMIN, urlPath);
     },
     GRINDOR_UPLOAD_START: (namespace) => {
         return urlJoin(
