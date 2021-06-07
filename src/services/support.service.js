@@ -17,9 +17,19 @@ const SupportService = {
         let axiosOption = { data: ticket };
         return ApiService.put(URLS.FETCH_TICKET(ticketID), axiosOption);
     },
-    createVideoRoom() {
-        let axiosOption = {};
+    createVideoRoom(data) {
+        let axiosOption = { data: data };
         return ApiService.post(URLS.CREATE_VIDEO_ROOM(), axiosOption);
+    },
+    getParticipantsForVideoRoom(ticketID) {
+        return ApiService.get(URLS.GET_VIDEO_PARTICIPANTS(ticketID), {});
+    },
+    getTokenForVideoRoom(ticketID) {
+        return ApiService.get(URLS.GET_VIDEO_ROOM_TOKEN(ticketID), {});
+    },
+    rateVideo(ticketID, ratingData) {
+        let axiosOption = { data: ratingData };
+        return ApiService.post(URLS.FETCH_HISTORY(ticketID), axiosOption);
     },
     fetchHistory(ticketID) {
         return ApiService.get(URLS.FETCH_HISTORY(ticketID), {});
@@ -27,13 +37,6 @@ const SupportService = {
     addComment(ticketID, comment) {
         let axiosOption = { data: comment };
         return ApiService.post(URLS.ADD_COMMENT(ticketID), axiosOption);
-    },
-    getTokenForVideoRoom(uniqueName) {
-        let axiosOption = {};
-        return ApiService.get(
-            URLS.GET_VIDEO_ROOM_TOKEN(uniqueName),
-            axiosOption
-        );
     },
     deleteTicket(company_id, ticketID) {
         let axiosOption = {};
