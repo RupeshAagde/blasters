@@ -57,6 +57,11 @@
                                         invoice.invoice.client.name
                                     }}
                                 </div>
+                                <div class="line-height-24" v-if="safeGet(invoice,'invoice.documents.gst')">
+                                    GSTIN: {{
+                                        invoice.invoice.documents.gst
+                                    }}
+                                </div>
                                 <div class="line-height-24">
                                     {{
                                         invoice.invoice.client.address_lines.join(
