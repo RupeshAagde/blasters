@@ -69,7 +69,7 @@
                                 :label="'Company'"
                                 :placeholder="'Search company'"
                                 @searchInputChange="companySearch"
-                                v-model="filteredCompany"
+                                v-model="filters.selectedCompany"
                                 :items="companyList"
                                 @change="onCompanySelect"
                             ></nitrozen-dropdown>
@@ -496,7 +496,6 @@ export default {
         return {
             companyList: [{value:'all',text:'All'}],
             companies: [],
-            selectedCompany: [],
             companyId: this.$route.params.companyId,
             inProgress: false,
             pageLoading: false,
@@ -550,9 +549,8 @@ export default {
                     value: 'send_invoice'
                 }
             ],
-            filteredCompany: 'all',
             filters: {
-                selectedCompany: '',
+                selectedCompany: 'all',
                 plainTextSearch: '',
                 collection_method: 'all',
                 status: 'all',
@@ -593,10 +591,10 @@ export default {
                 if (
                     api_query.company_id
                 ) {
-                    this.filters.selectedCompany = api_query.company_id
+                    this.filters.selectedCompany = String(api_query.company_id);
                 }
                 else{
-                    this.filteredCompany = 'all'
+                    this.filters.selectedCompany = 'all'
                 }
                 if (
                     api_query.collection_method &&
@@ -618,8 +616,8 @@ export default {
                 }
             }
         }
-        this.fetchInvoiceList(query);
         this.fetchCompany();
+        this.fetchInvoiceList(query)
     },
     computed: {},
     filters: {
@@ -636,8 +634,7 @@ export default {
     },
     methods: {
         onCompanySelect(company_id) {
-            console.log(this.$route);
-            this.filters.selectedCompany = company_id;
+            this.filters.selectedCompany = String(company_id);
             this.fetchInvoiceList();
         },
         companySearch(e) {
@@ -660,7 +657,7 @@ export default {
                     let companies = this.companies.map((item) => {
                         return {
                             text: `${item.name} (${item.uid})`,
-                            value: item.uid
+                            value: String(item.uid)
                         };
                     });
                     companies.unshift({
@@ -787,13 +784,10 @@ export default {
                 };
             }
 
-            if (this.filters.selectedCompany) {
-                filterQuery.company_id = this.filters.selectedCompany;
+            if (this.filters.selectedCompany !== 'all') {
+                filterQuery.company_id = Number(this.filters.selectedCompany);
             }
             query.query = JSON.stringify(filterQuery);
-            // if (this.selectedFilter !== 'all') {
-            //     query.stage = [this.selectedFilter];
-            // }
             this.$router
                 .replace({
                     name: this.$route.name,

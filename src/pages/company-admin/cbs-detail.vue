@@ -472,9 +472,8 @@ export default {
                         tab: obj.item
                     }
                 })
-                .then(()=>{
-                    this.activeTabIndex = obj.index
-                }).catch(() => {});
+                .catch(() => {});
+                this.activeTabIndex = obj.index
             }
             else{
                 this.$router.replace({
@@ -484,9 +483,8 @@ export default {
                         tab: obj.item
                     }
                 })
-                .then(()=>{
-                    this.activeTabIndex = obj.index
-                }).catch(() => {});
+                .catch(() => {});
+                this.activeTabIndex = obj.index
             }
         },
         goToBillingPage(id) {
