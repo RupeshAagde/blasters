@@ -300,9 +300,17 @@ export default [
                     return checkUserPermission(to, from, next, ['product']);
                 }
             },
+            // {
+            //     name: 'verification-edit',
+            //     path: 'product/verification/edit/:id',
+            //     component: ProductVerificationEdit,
+            //     beforeEnter: (to, from, next) => {
+            //         return checkUserPermission(to, from, next, ['product']);
+            //     }
+            // },
             {
                 name: 'verification-edit',
-                path: 'product/verification/edit/:id',
+                path: 'product/verification/:id/products/edit/:productId',
                 component: ProductVerificationEdit,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['product']);

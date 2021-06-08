@@ -72,6 +72,22 @@ const CatalogService = {
             getCommonHeaderOptions()
         );
         return ApiService.get(URLS.FETCH_VERIFICATION_COMPANY_LIST(companyId), axiosOption);
-    }
+    },
+    fetchVariantProductListing(data) {
+        const { companyId, ...params } = data;
+        const axiosOption = Object.assign(
+            { params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.FETCH_VERIFICATION_PRODUCT_LIST(companyId), axiosOption);
+    },
+    fetchVerificationProductDetails(data) {
+        const { companyId, itemId, ...params } = data;
+        const axiosOption = Object.assign(
+            { params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.FETCH_VERIFICATION_PRODUCT_DATA({ companyId, itemId }), axiosOption);
+    },
 };
 export default CatalogService;

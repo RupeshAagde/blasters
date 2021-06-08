@@ -369,20 +369,18 @@ const URLS = {
     },
 
     FETCH_SHIPMENT_INFO: (slug, company_id) => {
-        // return urlJoin(
-        //     PLATFORM_ORDERS_BASE,
-        //     `/v1/seller/${company_id}?q=${slug}`
-        // );
         return urlJoin(
             ADMIN_ORDERS_BASE,
             `/v1.0/${company_id}?q=${slug}&filter_type=auto`
         );
     },
-
-    FETCH_PRODUCT_INFO: (slug) => {
-        return urlJoin(PLATFORM_CONTENT_BASE, `v1/products/${slug}`);
+    PRODUCT: ({companyId, itemId}) => {
+        let url = `v1.0/company/${companyId}/products/`
+        if (itemId) {
+            url += itemId
+        }
+        return urlJoin(SILVERBOLT_ACAT_URL, url); //FIX
     },
-
     // Ultra Magnus
     PLATFORM_BASIC_DETAILS: () => {
         return urlJoin(INTERNAL_SETTINGS, '/basic-details');
@@ -449,7 +447,10 @@ const URLS = {
         return urlJoin(SILVERBOLT_ACAT_URL, `/v1.0/company/${companyId}/verification/company`);
     },
     FETCH_VERIFICATION_PRODUCT_LIST: (companyId) => {
-        return urlJoin(SILVERBOLT_ACAT_URL, `/v1.0/company/${companyId}/verification/company`);
+        return urlJoin(SILVERBOLT_ACAT_URL, `/v1.0/company/${companyId}/verification/products`);
+    },
+    FETCH_VERIFICATION_PRODUCT_DATA: ({companyId, itemId}) => {
+        return urlJoin(SILVERBOLT_ACAT_URL, `/v1.0/company/${companyId}/verification/products/${itemId}`);
     },
 };
 

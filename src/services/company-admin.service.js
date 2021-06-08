@@ -184,7 +184,11 @@ const CompanyService = {
         let axiosOption = Object.assign({}, { data }, getCommonHeaderOptions());
         return ApiService.put(URLS.ATTRIBUTES_MASTER(), axiosOption);
     },
-
+    fetchProductDetails(data) {
+        const { companyId, itemId, ...params } = data;
+        let axiosOption = Object.assign({ params });
+        return ApiService.get(URLS.PRODUCT({ companyId, itemId }), axiosOption);
+    },
     fetchProductTemplates(params) {
         let axiosOption = Object.assign({ params });
         return ApiService.get(URLS.PRODUCT_TEMPLATES(), axiosOption);

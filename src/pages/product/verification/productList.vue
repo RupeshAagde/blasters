@@ -2,7 +2,7 @@
     <div class="main-container">
         <div class="jumbotron-container">
             <jumbotron
-                :title="'Company'"
+                :title="'Products'"
                 :desc="
                     'Access the company information, its brands and selling locations. Manage active integrations and sales channels.'
                 "
@@ -67,19 +67,13 @@
 
                                     <div
                                         class="txt-arrange"
-                                        v-if="
-                                            product.business_country_info &&
-                                                product.business_country_info
-                                                    .country
-                                        "
+                                        
                                     >
                                         <div class="txt-description-heading">
-                                            Business Country :
                                         </div>
                                         <div class="txt-country">
                                             {{
-                                                product.business_country_info
-                                                    .country
+                                                product.item_code
                                             }}
                                         </div>
                                     </div>
@@ -129,24 +123,18 @@
                             </div>
                             <div class="card-badge-section">
                                 <nitrozen-badge
-                                    v-if="product.stage == 'verified'"
+                                    v-if="product.status == 'verified'"
                                     state="success"
-                                    >{{ product.stage }}</nitrozen-badge
+                                    >{{ product.status }}</nitrozen-badge
                                 >
                                 <nitrozen-badge
-                                    v-if="product.stage == 'complete'"
                                     state="warn"
                                     >Verification Pending</nitrozen-badge
                                 >
                                 <nitrozen-badge
-                                    v-if="product.stage == 'rejected'"
+                                    v-if="product.status == 'rejected'"
                                     state="error"
-                                    >{{ product.stage }}</nitrozen-badge
-                                >
-                                <nitrozen-badge
-                                    v-if="product.stage == 'incomplete'"
-                                    state="error"
-                                    >{{ product.stage }}</nitrozen-badge
+                                    >{{ product.status }}</nitrozen-badge
                                 >
                             </div>
                         </div>
@@ -304,7 +292,6 @@
                 display: flex;
             }
             .txt-country {
-                margin-left: 24px;
                 color: #9b9b9b;
                 line-height: 22px;
                 font-size: 12px;
@@ -404,6 +391,7 @@ import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import fynotfound from '@/components/common/ukt-not-found';
 import userInfoTooltip from '@/components/common/feedback/userInfo-tooltip.vue';
+import CatalogService from '@/services/catalog.service.js';
 
 import {
     NitrozenInput,
@@ -425,9 +413,8 @@ const PAGINATION = {
 
 const ROLE_FILTER = [
     { value: 'all', text: 'All' },
-    { value: 'incomplete', text: 'Incomplete' },
     { value: 'verified', text: 'Verified' },
-    { value: 'complete', text: 'Verification Pending' },
+    { value: 'complete', text: 'Pending' },
     { value: 'rejected', text: 'Rejected' }
 ];
 
@@ -498,14 +485,15 @@ export default {
             let companyId = company.uid;
             if (companyId) {
                 this.$router.push({
-                    path: `/administrator/company-details/${companyId}`
+                    path: `/administrator/product/verification/1/products/edit/${companyId}`
                 });
             }
         },
         requestQuery() {
             const query = {
                 page_no: this.pagination.current,
-                page_size: this.pagination.limit
+                page_size: this.pagination.limit,
+                companyId: 1,
             };
 
             if (this.searchText) {
@@ -520,7 +508,7 @@ export default {
         },
         fetchCompany() {
             this.pageLoading = true;
-            return CompanyService.getCompanyList(this.requestQuery())
+            return CatalogService.fetchVariantProductListing(this.requestQuery())
                 .then(({ data }) => {
                     this.tempList = generateArrItem(data.items);
                     this.tempList = filterDuplicateObject(this.tempList);
