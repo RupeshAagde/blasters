@@ -42,22 +42,22 @@
                         <p style="flex: 1 1 auto">{{ item.display }}</p>
                         <span
                             v-on:click="editCategory(item.key, index)"
-                            v-if="item.sub_categories.length == 0"
-                            title="Add sub-categories"
+                            v-if="item.sub_categories.length != 0 || item.feedback_form"
+                            title="Edit sub-categories and Feedback Form"
                         >
                             <inline-svg
                                 class="svg-icon"
-                                src="plus-black"
+                                src="edit"
                             ></inline-svg>
                         </span>
                         <span
                             v-on:click="editCategory(item.key, index)"
                             v-else
-                            title="Edit sub-categories"
+                            title="Add sub-categories and Feedback Form"
                         >
                             <inline-svg
                                 class="svg-icon"
-                                src="edit"
+                                src="plus-black"
                             ></inline-svg>
                         </span>
                         <span
