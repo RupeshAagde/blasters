@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex">
+        <div class="flex flex-direction-column width-100">
             <div class="flex-1 page-container m-r-12">
                 <div class="width-100">
                     <div class="flex">
@@ -100,37 +100,20 @@
                     >
                         Currently under the trial plan.
                     </div>
+                    <div class="flex">
+                        <div class="flex-1 text-right">
+                            <nitrozen-button
+                                id="side-link"
+                                :theme="'secondary'"
+                                @click="onOpenCancelSubscription"
+                            >
+                                Cancel Subscription
+                            </nitrozen-button>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="m-t-24" v-if="collection_method">
-                    <div class="title">
-                        Collection Method
-                    </div>
-                    <div>
-                        <div>
-                            <nitrozen-radio
-                                class="m-b-12"
-                                :name="'charge_automatically'"
-                                :radioValue="'charge_automatically'"
-                                v-model="collection_method"
-                            >Charge automatically</nitrozen-radio>
-                            <nitrozen-radio
-                                class="m-b-24"
-                                :name="'send_invoice'"
-                                :radioValue="'send_invoice'"
-                                v-model="collection_method"
-                            >Send Invoice</nitrozen-radio>
-                        </div>
-                        <div>
-                            <nitrozen-button
-                                theme="secondary"
-                                v-strokeBtn
-                                @click="updateCollectionMethod"
-                                >Update</nitrozen-button
-                            >
-                        </div>
-                    </div>
-                </div>
+                
 
                 <nitrozen-dialog
                     id="view-plan-details"
@@ -162,6 +145,46 @@
                     ></template>
                 </nitrozen-dialog>
             </div>
+            <div class="flex-1 page-container m-r-12">
+                <div v-if="collection_method">
+                    <div class="title">
+                        Collection Method
+                    </div>
+                    <div>
+                        <div>
+                            <nitrozen-radio
+                                class="m-b-12"
+                                :name="'charge_automatically'"
+                                :radioValue="'charge_automatically'"
+                                v-model="collection_method"
+                            >Charge automatically</nitrozen-radio>
+                            <nitrozen-radio
+                                class="m-b-24"
+                                :name="'send_invoice'"
+                                :radioValue="'send_invoice'"
+                                v-model="collection_method"
+                            >Send Invoice</nitrozen-radio>
+                        </div>
+                        <div>
+                            <nitrozen-button
+                                theme="secondary"
+                                v-strokeBtn
+                                @click="updateCollectionMethod"
+                                >Update</nitrozen-button
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nitrozen-dialog
+                ref="confirm_cancel_subscription"
+                title="Confirm"
+                @close="onCloseCancelSubscription"
+            >
+                <template slot="body" name="body"
+                    >Are you sure you want to cancel subscription?</template
+                >
+            </nitrozen-dialog>
         </div>
     </div>
 </template>
@@ -339,6 +362,45 @@ export default {
         );
     },
     methods:{
+        onOpenCancelSubscription() {
+            this.$refs['confirm_cancel_subscription'].open({
+                width: '400px',
+                positiveButtonLabel: 'Yes',
+                negativeButtonLabel: 'No',
+                neutralButtonLabel: false
+            });
+        },
+        onCloseCancelSubscription(optionSelected) {
+            if (optionSelected == 'Yes') {
+                this.cancelSubscription(this.company_id);
+            }
+        },
+        cancelSubscription(company_id){
+            let subscription_id = this.safeGet(this.currentActivePlan,'subscription._id')
+            if(!subscription_id){
+                return
+            }
+            let payload = {
+                "unique_id": this.companyId,
+                "type": "company",
+                "product_suite": "fynd-platform",
+                "subscription_id": subscription_id
+            }
+            
+            return BillingSubscriptionService.cancelSubscription(this.companyId,payload)
+            .then(({data})=>{
+                if(data.success){
+                    this.$snackbar.global.showSuccess('Subscription has been cancelled successfully',{duration: 2000});
+                }
+                else{
+                    this.$snackbar.global.showError('Failed to cancel subscription',{duration: 2000});
+                }
+            })
+            .catch(err=>{
+                this.$snackbar.global.showError('Failed to cancel subscription',{duration: 2000});
+            })
+
+        },
         updateCollectionMethod(){
             let data = {
                 collection_method: this.collection_method
@@ -443,6 +505,9 @@ export default {
     border: 1px solid lightgray;
     line-height: 24px;
 }
+.background-white{
+    background: white;
+}
 .plan-bolder {
     font-weight: 500;
     font-size: 15px;
@@ -453,11 +518,15 @@ export default {
     -webkit-font-smoothing: antialiased;
     color: #696969;
 }
+.flex-direction-column{
+    flex-direction: column;
+}
 .page-container {
     display: flex;
+    margin-bottom: 24px;
     flex-direction: column;
+    box-sizing: border-box;
     margin-top:0px;
-    margin-bottom:0px;
     margin-left:0px;
     #side-link {
         position: relative;

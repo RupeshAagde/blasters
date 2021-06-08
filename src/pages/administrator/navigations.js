@@ -87,7 +87,7 @@ export const getNavigations = () => {
             display: 'Subscription',
             link: '/administrator/subscription/invoices',
             title: 'invoice',
-            icon: 'support-icon',
+            icon: 'settings',
             highlightedIcon: 'home-highlighted',
             active: false,
             permission: 'admin-access',

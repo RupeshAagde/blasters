@@ -146,6 +146,12 @@ const BillingService = {
         });
         return ApiService.put(URLS.SUBSCRIPTION_UPDATE_BY_ID(company_id,subscription_id), axiosOptions);
     },
+    cancelSubscription(company_id, payload) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{
+            data: payload
+        });
+        return ApiService.post(URLS.SUBSCRIPTION_CANCEL(company_id), axiosOptions);
+    },
 };
 
 export default BillingService;

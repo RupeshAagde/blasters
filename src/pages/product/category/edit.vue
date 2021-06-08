@@ -637,7 +637,12 @@ export default {
 
     methods: {
         async init() {
-            const promiseArray = [CompanyService.fetchDepartments()];
+            const promiseArray = [CompanyService.fetchDepartments(
+                {
+                    "page_size":9999,
+                    "page_no":1,
+                }
+            )];
             if (this.isEdit) {
                 promiseArray.push(
                     CompanyService.fetchCategory_v2({ uid: this.uid })
