@@ -84,6 +84,16 @@ export const getNavigations = () => {
             children: []
         },
         {
+            display: 'Extension Review',
+            link: '/administrator/extensions/review',
+            title: 'extensons',
+            icon: 'settings',
+            highlightedIcon: 'settings-highlighted',
+            active: false,
+            permission: 'settings',
+            children: []
+        },
+        {
             display: 'Subscription',
             link: '/administrator/subscription/invoices',
             title: 'invoice',
