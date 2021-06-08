@@ -21,6 +21,7 @@ export const getCommonHeaderOptions = () => {
 export const setAuthTokenHeader = (token) => {
     headers[env.AUTH_HEADER_NAME] = token;
 };
+
 // "_id": "5c987cf426c22b21a4420e3e",
 // "domain": {
 //   "verified": true,

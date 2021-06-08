@@ -32,11 +32,21 @@
         </div>
         <div class="mt-sm" v-if="isPlatformTicket && filters">
             <nitrozen-dropdown
-                :searchable="true"
+                :searchable="false"
                 class="type-filter"
                 :label="'Category'"
                 v-model="category"
                 :items="filters.categories"
+                @change="somethingChanged"
+            ></nitrozen-dropdown>
+        </div>
+        <div class="mt-sm" v-if="isPlatformTicket && subCategoryList && subCategoryList.length > 0">
+            <nitrozen-dropdown
+                :searchable="false"
+                class="type-filter"
+                :label="'Sub-category'"
+                v-model="sub_category"
+                :items="subCategoryList"
                 @change="somethingChanged"
             ></nitrozen-dropdown>
         </div>
@@ -292,11 +302,13 @@ export default {
             agentName: undefined,
             priority: '',
             category: '',
+            sub_category: '',
             imageTemp: '',
             attachments: [],
             tags: [],
             chipInput: '',
             filteredStaff: [],
+            subCategoryList: [],
             name: this.getInitialValue()
         };
     },
@@ -314,6 +326,11 @@ export default {
         this.filteredStaff = this.staff;
         this.status = this.ticket.status;
         this.category = this.ticket.category;
+        this.sub_category = this.ticket.sub_category;
+        const selectedCategory = this.filters.categories.find((el) => {
+            return (el.key == this.category);
+        });
+        this.subCategoryList = selectedCategory.sub_categories;
         this.priority = this.ticket.priority;
         this.attachments = this.ticket.content.attachments;
         this.tags = this.ticket.tags || [];
@@ -358,10 +375,25 @@ export default {
             }
         },
         somethingChanged() {
+            const selectedCategory = this.filters.categories.find((el) => {
+                return (el.key == this.category);
+            });
+            this.subCategoryList = selectedCategory.sub_categories;
+            if (this.subCategoryList && this.subCategoryList.length  > 0) {
+                var present = this.subCategoryList.find((el) => {
+                    return (el.key == this.sub_category);
+                });
+                if (present == undefined) {
+                    this.sub_category = '';
+                }
+            } else {
+                this.sub_category = '';
+            }
             this.$emit(`something-changed`, {
                 status: this.status,
                 priority: this.priority,
                 category: this.category,
+                sub_category: this.sub_category,
                 tags: this.tags,
                 assigned_to: this.agentID,
                 attachments: this.attachments

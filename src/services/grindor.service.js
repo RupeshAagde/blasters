@@ -14,7 +14,16 @@ const GrindorService = {
         const url = new URL(path);
         return this.hdns.includes(url.hostname);
     },
-
+    getPublicUrl(companyId, data = {}) {
+        let axiosOption = Object.assign(
+            {},
+            {
+                data
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.post(URLS.GET_PUBLIC_URL(), axiosOption);
+    },
     uploadToGrindorStart(namespace, body) {
         let axiosOption = Object.assign(
             {},

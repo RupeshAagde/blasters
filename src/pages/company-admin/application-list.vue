@@ -423,10 +423,11 @@ export default {
                 .then((res) => {
                     this.inProgress = false;
                     this.pageError = false;
-                    this.pagination.total = res.data.page.item_total;
-                    this.totalApp = res.data.page.item_total;
-                    this.mainList = res.data.items;
+                    this.pagination.total = res.data.total;
+                    this.totalApp = res.data.total;
+                    this.mainList = res.data.docs;
                     this.applicationList = res.data.items;
+                    console.log("application list",this.applicationList)
                 })
                 .catch((error) => {
                     this.inProgress = false;
