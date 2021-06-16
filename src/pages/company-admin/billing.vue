@@ -12,6 +12,7 @@
                 <nitrozen-button
                     :theme="'secondary'"
                     v-strokeBtn
+                    id="download-invoice"
                     @click="downloadInvoice"
                     >Download
                 </nitrozen-button>
@@ -385,6 +386,7 @@
                     style="width:100%"
                     :theme="'secondary'"
                     v-strokeBtn
+                    :showProgress="chargeInvoiceLoading"
                     @click="chargeInvoice"
                     >Charge Invoice
                 </nitrozen-button>
@@ -793,6 +795,7 @@ export default {
             invoice: null,
             profileDetails: null,
             invoiceId: this.$route.params.billingNo,
+            chargeInvoiceLoading: false,
             contextMenuItems: [
                 {
                         text: 'Pay Offline',
@@ -833,6 +836,7 @@ export default {
                 this.charge_invoice.showError = true
                 return
             }
+            this.chargeInvoiceLoading = true
             return BillingService.chargeInvoice({invoice_id:this.invoiceId, password: this.charge_invoice.password}).then(({ data }) => {
                 this.$snackbar.global.showSuccess(`Invoice marked paid as offline successfully`, {
                     duration: 2000
@@ -850,6 +854,9 @@ export default {
                         duration: 2000
                     });
                 }
+            })
+            .finally(()=>{
+                this.chargeInvoiceLoading = false
             })
         },
         fetchInvoiceDetail(){
@@ -887,7 +894,9 @@ export default {
                 document.body.appendChild(link); // Required for FF
     
                 link.click();
-
+            })
+            .catch(err=>{
+                console.log(err)
             })
         },
         openPayOfflineModal() {
@@ -949,25 +958,7 @@ export default {
                     });
                 })
             }
-        },
-        getProfileDetails: function () {
-            let params = {
-                uid: this.companyId,
-                // phase: 'company_detail'
-            };
-            this.inProgress = true;
-            CompanyService.fetchCompanyProfile(params)
-                .then((res) => {
-                    this.inProgress = false;
-                    console.log('profile details', res.data);
-                    this.profileDetails = res.data;
-                    // this.fetchInvoiceList();
-                })
-                .catch((err) => {
-                    this.inProgress = false;
-                    console.error(err);
-                });
-        },
+        }
     },
 };
 </script>
