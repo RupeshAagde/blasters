@@ -341,6 +341,13 @@ const URLS = {
         );
     },
 
+    FETCH_FEEDBACK: (ticket_id) => {
+        return urlJoin(
+            PLATFORM_LEADS_BASE,
+            `v1.0/ticket/${ticket_id}/feedback`
+        );
+    },
+
     ADD_COMMENT: (ticket_id) => {
         return urlJoin(
             PLATFORM_LEADS_BASE,

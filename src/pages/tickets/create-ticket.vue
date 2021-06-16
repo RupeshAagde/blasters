@@ -27,6 +27,7 @@
                     :ticket="ticket"
                     :filters="filters"
                     :staff="staff"
+                    :feedbackList="feedbackList"
                 />
                 <detail-section
                     class="detail-section"
@@ -190,6 +191,7 @@ export default {
             loading: true,
             saving: false,
             filters: undefined,
+            feedbackList: [],
             contextMenu: [
                 // {
                 //     text: 'Delete',
@@ -267,6 +269,7 @@ export default {
             if (this.ticketID) {
                 promises.push(SupportService.getTicket(this.ticketID));
                 promises.push(SupportService.fetchHistory(this.ticketID));
+                promises.push(SupportService.fetchFeedbacks(this.ticketID));
             }
 
             promises.push(UserService.getUserList(this.requestQuery()));
@@ -325,6 +328,8 @@ export default {
 
                         res = responses[2];
                         this.ticket.history = res.data.items;
+                        res = responses[3];
+                        this.feedbackList =  res.data.items || [];
                     }
 
                     res = responses[1];
@@ -333,7 +338,7 @@ export default {
                     }
 
                     const array = [];
-                    res.data.docs.forEach((element) => {
+                    res.data.items.forEach((element) => {
                         array.push({
                             text:
                                 (element.first_name || 'Team') +

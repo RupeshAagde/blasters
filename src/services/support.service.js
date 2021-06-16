@@ -34,6 +34,9 @@ const SupportService = {
     fetchHistory(ticketID) {
         return ApiService.get(URLS.FETCH_HISTORY(ticketID), {});
     },
+    fetchFeedbacks(ticketID) {
+        return ApiService.get(URLS.FETCH_FEEDBACK(ticketID), {});
+    },
     addComment(ticketID, comment) {
         let axiosOption = { data: comment };
         return ApiService.post(URLS.ADD_COMMENT(ticketID), axiosOption);
