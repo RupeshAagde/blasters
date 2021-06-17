@@ -47,7 +47,6 @@ name: 'feedback-details-dailog',
     },
     methods: {
         openFeedback(feedback) {
-            console.log(feedback);
             this.responses = feedback.response || [];
             this.$refs['feedback-details-dailog'].open({
                 width: '600px',
