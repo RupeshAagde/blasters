@@ -73,7 +73,7 @@
                                         </div>
                                         <div class="txt-country">
                                             {{
-                                                
+                                                product.totalCount
                                             }}
                                         </div>
                                     </div>
@@ -130,30 +130,35 @@
                                         </div>
                                         <div class="txt-country">
                                             {{
-                                                
+                                                product.verifiedCount
                                             }}
                                         </div>
                                 </div>
-                                <nitrozen-badge
-                                    v-if="product.stage == 'verified'"
-                                    state="success"
-                                    >{{ product.stage }}</nitrozen-badge
-                                >
-                                <nitrozen-badge
-                                    v-if="product.stage == 'complete'"
-                                    state="warn"
-                                    >Verification Pending</nitrozen-badge
-                                >
-                                <nitrozen-badge
-                                    v-if="product.stage == 'rejected'"
-                                    state="error"
-                                    >{{ product.stage }}</nitrozen-badge
-                                >
-                                <nitrozen-badge
-                                    v-if="product.stage == 'incomplete'"
-                                    state="error"
-                                    >{{ product.stage }}</nitrozen-badge
-                                >
+                                <div
+                                        class="txt-arrange"
+                                    >
+                                        <div class="txt-description-heading">
+                                            Pending Count :
+                                        </div>
+                                        <div class="txt-country">
+                                            {{
+                                                product.pendingCount
+                                            }}
+                                        </div>
+                                </div>
+                                <div
+                                        class="txt-arrange"
+                                    >
+                                        <div class="txt-description-heading">
+                                            Rejected Count :
+                                        </div>
+                                        <div class="txt-country">
+                                            {{
+                                                product.rejectedCount
+                                            }}
+                                        </div>
+                                </div>
+                             
                             </div>
                         </div>
                     </div>
@@ -272,6 +277,23 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+    .txt-description-heading {
+                color: #9b9b9b;
+                line-height: 22px;
+                font-size: 12px;
+    }
+    .txt-country {
+                margin-left: 24px;
+                color: #9b9b9b;
+                line-height: 22px;
+                font-size: 12px;
+    }
+    .txt-arrange {
+                display: flex;
+                justify-content: flex-start;
+                text-align: center;
+    }
+
     .card-top {
         display: flex;
         height: auto;
@@ -283,11 +305,7 @@
             position: relative;
             width: calc(100% - 60px);
 
-            .txt-arrange {
-                display: flex;
-                justify-content: flex-start;
-                text-align: center;
-            }
+            
 
             .txt-company-heading {
                 color: #2E31BE;
@@ -308,12 +326,6 @@
                 font-size: 12px;
                 margin-left: 60px;
                 display: flex;
-            }
-            .txt-country {
-                margin-left: 24px;
-                color: #9b9b9b;
-                line-height: 22px;
-                font-size: 12px;
             }
             .txt-details-on {
                 color: #9b9b9b;
@@ -505,7 +517,7 @@ export default {
             let companyId = company.uid;
             if (companyId) {
                 this.$router.push({
-                    path: `product/verification/${companyId}/products`
+                    path: `/administrator/product/verification/${companyId}/products`
                 });
             }
         },
@@ -513,7 +525,7 @@ export default {
             const query = {
                 page_no: this.pagination.current,
                 page_size: this.pagination.limit,
-                companyId: 1,
+                companyId: 401,
             };
 
             if (this.searchText) {
@@ -542,6 +554,7 @@ export default {
                             });
                             this.companyList = data.items;
                             this.pagination.total = data.page.item_total;
+                            this.initializeFormValues();
                             this.pageLoading = false;
                         })
                         .catch((err) => {
@@ -553,6 +566,23 @@ export default {
                     this.pageError = true;
                     console.log(err);
                 });
+        },
+        initializeFormValues(){
+            this.companyList = this.companyList.map((item) => {
+                const { products : { verified, pending, rejected } = {}} = item;
+                const pendingCount = (pending && pending[0] && pending[0].count) || 0;
+                const verifiedCount = (verified && verified[0] && verified[0].count) || 0;
+                const rejectedCount = (rejected && rejected[0] && rejected[0].count) || 0;
+                const totalCount = pendingCount + verifiedCount + rejectedCount;
+                
+                return {
+                    ...item,
+                    pendingCount,
+                    verifiedCount,
+                    rejectedCount,
+                    totalCount
+                }
+            })
         },
         paginationChange(filter, action) {
             const { current, limit } = filter;

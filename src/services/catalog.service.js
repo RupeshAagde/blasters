@@ -89,5 +89,15 @@ const CatalogService = {
         );
         return ApiService.get(URLS.FETCH_VERIFICATION_PRODUCT_DATA({ companyId, itemId }), axiosOption);
     },
+    saveVerifiedProducts(data) {
+        const { companyId, itemId, body, ...params } = data;
+        console.log("params => ", params);
+        const axiosOption = Object.assign(
+            { params },
+            { data: body },
+            getCommonHeaderOptions()
+        );
+        return ApiService.put(URLS.FETCH_VERIFICATION_PRODUCT_DATA({ companyId, itemId }), axiosOption);
+    },
 };
 export default CatalogService;

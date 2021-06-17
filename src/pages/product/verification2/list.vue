@@ -2,9 +2,9 @@
     <div class="main-container">
         <div class="jumbotron-container">
             <jumbotron
-                :title="'Products'"
+                :title="'Product Verification'"
                 :desc="
-                    'Access the opted products information. Manage verification of products for a company.'
+                    'Manage verification of company products. View list of companies and their relative number of products'
                 "
             ></jumbotron>
         </div>
@@ -47,7 +47,6 @@
                 <page-error
                     v-else-if="pageError && !pageLoading"
                     @tryAgain="fetchCompany"
-                    text="Oops ! Something went wrong."
                 ></page-error>
                 <div v-else-if="companyList && companyList.length">
                     <!-- new cards -->
@@ -68,13 +67,13 @@
 
                                     <div
                                         class="txt-arrange"
-                                        
                                     >
                                         <div class="txt-description-heading">
+                                            Total Products :
                                         </div>
                                         <div class="txt-country">
                                             {{
-                                                product.item_code
+                                                
                                             }}
                                         </div>
                                     </div>
@@ -123,19 +122,37 @@
                                 </div>
                             </div>
                             <div class="card-badge-section">
+                                <div
+                                        class="txt-arrange"
+                                    >
+                                        <div class="txt-description-heading">
+                                            Verified Count :
+                                        </div>
+                                        <div class="txt-country">
+                                            {{
+                                                
+                                            }}
+                                        </div>
+                                </div>
                                 <nitrozen-badge
-                                    v-if="product.status == 'verified'"
+                                    v-if="product.stage == 'verified'"
                                     state="success"
-                                    >{{ product.status }}</nitrozen-badge
+                                    >{{ product.stage }}</nitrozen-badge
                                 >
                                 <nitrozen-badge
+                                    v-if="product.stage == 'complete'"
                                     state="warn"
                                     >Verification Pending</nitrozen-badge
                                 >
                                 <nitrozen-badge
-                                    v-if="product.status == 'rejected'"
+                                    v-if="product.stage == 'rejected'"
                                     state="error"
-                                    >{{ product.status }}</nitrozen-badge
+                                    >{{ product.stage }}</nitrozen-badge
+                                >
+                                <nitrozen-badge
+                                    v-if="product.stage == 'incomplete'"
+                                    state="error"
+                                    >{{ product.stage }}</nitrozen-badge
                                 >
                             </div>
                         </div>
@@ -143,8 +160,7 @@
                 </div>
                 <page-empty
                     v-else
-                    :helperText="'No product found'"
-                    text="No Products Available"
+                    :helperText="'No company found'"
                 ></page-empty>
                 <div class="pagination" v-if="companyList.length > 0">
                     <nitrozen-pagination
@@ -294,6 +310,7 @@
                 display: flex;
             }
             .txt-country {
+                margin-left: 24px;
                 color: #9b9b9b;
                 line-height: 22px;
                 font-size: 12px;
@@ -379,7 +396,7 @@
 </style>
 <script>
 import path from 'path';
-import CompanyService from '@/services/company-admin.service';
+import CatalogService from '@/services/catalog.service.js';
 import Jumbotron from '@/components/common/jumbotron';
 import {
     titleCase,
@@ -393,7 +410,6 @@ import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import fynotfound from '@/components/common/ukt-not-found';
 import userInfoTooltip from '@/components/common/feedback/userInfo-tooltip.vue';
-import CatalogService from '@/services/catalog.service.js';
 
 import {
     NitrozenInput,
@@ -415,9 +431,9 @@ const PAGINATION = {
 
 const ROLE_FILTER = [
     { value: 'all', text: 'All' },
+    { value: 'marketplace_opted', text: 'Marketplace Opted' },
+    { value: 'unverified', text: 'Unverified' },
     { value: 'verified', text: 'Verified' },
-    { value: 'pending', text: 'Pending' },
-    { value: 'rejected', text: 'Rejected' }
 ];
 
 export default {
@@ -443,6 +459,8 @@ export default {
     computed: {},
     data() {
         return {
+            title: "Product Verification",
+            description: "Manage Company Verification. View list of companies and their products",
             companyList: [],
             pageLoading: false,
             isInitialLoad: false,
@@ -468,17 +486,13 @@ export default {
                 showError: false,
                 errortext: 'Please explain rejection reason properly.',
                 value: ''
-            },
-            
+            }
         };
     },
     mounted() {
-        const { params: { companyId }} = this.$route;
-        this.companyId = companyId;
         this.pageLoading = true;
         this.populateFromURL();
         this.fetchCompany();
-
     },
     methods: {
         titleCase,
@@ -487,41 +501,35 @@ export default {
             if (name) this.searchText = name;
             if (pageId) this.pageId = pageId;
         },
-        companyView(product) {
-            const { uid: productId, item_code , brand: { uid: brandUID }, template_tag } = product;
-            const query = {
-                    brandId: brandUID,
-                    template: template_tag,
-                    uid: productId
-                };
-            if (productId) {
+        companyView(company) {
+            let companyId = company.uid;
+            if (companyId) {
                 this.$router.push({
-                    path: `/administrator/product/verification/${this.companyId}/products/edit/${item_code}`,
-                    query,
+                    path: `product/verification/${companyId}/products`
                 });
             }
         },
         requestQuery() {
-            const { current, limit } = this.pagination;
             const query = {
-                page_no: current,
-                page_size: limit,
-                companyId: this.companyId,
+                page_no: this.pagination.current,
+                page_size: this.pagination.limit,
+                companyId: 401,
             };
 
             if (this.searchText) {
-                query.search = this.searchText;
+                query.q = this.searchText;
             }
 
             if (this.selectedFilter !== 'all') {
-                query.status = [this.selectedFilter];
+                query.stage = [this.selectedFilter];
             }
 
             return query;
         },
         fetchCompany() {
             this.pageLoading = true;
-            return CatalogService.fetchVariantProductListing(this.requestQuery())
+            
+            return CatalogService.fetchVariantCompanyListing(this.requestQuery())
                 .then(({ data }) => {
                     this.tempList = generateArrItem(data.items);
                     this.tempList = filterDuplicateObject(this.tempList);

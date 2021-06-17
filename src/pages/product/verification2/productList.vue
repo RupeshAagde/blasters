@@ -4,7 +4,7 @@
             <jumbotron
                 :title="'Products'"
                 :desc="
-                    'Access the opted products information. Manage verification of products for a company.'
+                    'Access the company information, its brands and selling locations. Manage active integrations and sales channels.'
                 "
             ></jumbotron>
         </div>
@@ -47,7 +47,6 @@
                 <page-error
                     v-else-if="pageError && !pageLoading"
                     @tryAgain="fetchCompany"
-                    text="Oops ! Something went wrong."
                 ></page-error>
                 <div v-else-if="companyList && companyList.length">
                     <!-- new cards -->
@@ -143,8 +142,7 @@
                 </div>
                 <page-empty
                     v-else
-                    :helperText="'No product found'"
-                    text="No Products Available"
+                    :helperText="'No company found'"
                 ></page-empty>
                 <div class="pagination" v-if="companyList.length > 0">
                     <nitrozen-pagination
@@ -416,7 +414,7 @@ const PAGINATION = {
 const ROLE_FILTER = [
     { value: 'all', text: 'All' },
     { value: 'verified', text: 'Verified' },
-    { value: 'pending', text: 'Pending' },
+    { value: 'complete', text: 'Pending' },
     { value: 'rejected', text: 'Rejected' }
 ];
 
@@ -473,12 +471,9 @@ export default {
         };
     },
     mounted() {
-        const { params: { companyId }} = this.$route;
-        this.companyId = companyId;
         this.pageLoading = true;
         this.populateFromURL();
         this.fetchCompany();
-
     },
     methods: {
         titleCase,
@@ -488,33 +483,31 @@ export default {
             if (pageId) this.pageId = pageId;
         },
         companyView(product) {
-            const { uid: productId, item_code , brand: { uid: brandUID }, template_tag } = product;
+            const { uid: productId, brand: { uid: brandUID }, template_tag } = product;
             const query = {
                     brandId: brandUID,
-                    template: template_tag,
-                    uid: productId
+                    template: template_tag
                 };
             if (productId) {
                 this.$router.push({
-                    path: `/administrator/product/verification/${this.companyId}/products/edit/${item_code}`,
+                    path: `/administrator/product/verification/1/products/edit/${productId}`,
                     query,
                 });
             }
         },
         requestQuery() {
-            const { current, limit } = this.pagination;
             const query = {
-                page_no: current,
-                page_size: limit,
-                companyId: this.companyId,
+                page_no: this.pagination.current,
+                page_size: this.pagination.limit,
+                companyId: 401,
             };
 
             if (this.searchText) {
-                query.search = this.searchText;
+                query.q = this.searchText;
             }
 
             if (this.selectedFilter !== 'all') {
-                query.status = [this.selectedFilter];
+                query.stage = [this.selectedFilter];
             }
 
             return query;

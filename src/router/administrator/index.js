@@ -300,14 +300,14 @@ export default [
                     return checkUserPermission(to, from, next, ['product']);
                 }
             },
-            // {
-            //     name: 'verification-edit',
-            //     path: 'product/verification/edit/:id',
-            //     component: ProductVerificationEdit,
-            //     beforeEnter: (to, from, next) => {
-            //         return checkUserPermission(to, from, next, ['product']);
-            //     }
-            // },
+            {
+                name: 'verification-edit',
+                path: 'product/verification/edit/:id',
+                component: ProductVerificationEdit,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['product']);
+                }
+            },
             {
                 name: 'verification-edit',
                 path: 'product/verification/:id/products/edit/:productId',
@@ -318,7 +318,7 @@ export default [
             },
             {
                 name: 'verification',
-                path: 'product/verification/:id/products',
+                path: 'product/verification/:companyId/products',
                 component: ProductVerificationList,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['product']);

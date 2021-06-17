@@ -15,14 +15,6 @@
                             validateField('name')
                     "
                 ></nitrozen-input>
-                <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.item_type || false"
-                    v-model="rejected_fields.item_type || false"
-                    id="rejected_fields.department"
-                    class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'item_type')"
-                >
-                </nitrozen-checkbox>
                 <nitrozen-error v-if="name.error">
                     {{ name.error }}
                 </nitrozen-error>
@@ -43,14 +35,9 @@
                             validateField('name')
                     "
                 ></nitrozen-input>
-                <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.departments || false"
-                    v-model="rejected_fields.departments || false"
-                    id="rejected_fields.departments"
-                    class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'departments')"
-                >
-                </nitrozen-checkbox>
+                <nitrozen-error v-if="name.error">
+                    {{ name.error }}
+                </nitrozen-error>
             </div>
             <div class="mt-sm">
                 <nitrozen-input
@@ -66,14 +53,6 @@
                             validateField('name')
                     "
                 ></nitrozen-input>
-                <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.category || false"
-                    v-model="rejected_fields.category || false"
-                    id="rejected_fields.category"
-                    class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'category')"
-                >
-                </nitrozen-checkbox>
                 <nitrozen-error v-if="name.error">
                     {{ name.error }}
                 </nitrozen-error>
@@ -92,14 +71,6 @@
                             validateField('name')
                     "
                 ></nitrozen-input>
-                <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.name || false"
-                    v-model="rejected_fields.name || false"
-                    id="rejected_fields.name"
-                    class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'name')"
-                >
-                </nitrozen-checkbox>
                 <nitrozen-error v-if="name.error">
                     {{ name.error }}
                 </nitrozen-error>
@@ -111,19 +82,11 @@
                     placeholder="For eg. black-casual-shirt"
                     :showTooltip="true"
                     tooltipText="Used as product name in product links. Allowed characters are capital alphabets, numbers and hyphens"
-                    :disabled="true"
+                    :disabled="editMode"
                     v-model="slug.value"
                     @input="(slug.value = $event.trim()), validateField('slug')"
                     @blur="validateField('slug'), validateUniqueSlug()"
                 ></nitrozen-input>
-                <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.slug || false"
-                    v-model="rejected_fields.slug || false"
-                    id="rejected_fields.slug"
-                    class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'slug')"
-                >
-                </nitrozen-checkbox>
                 <nitrozen-error v-if="slug.error">
                     {{ slug.error }}
                 </nitrozen-error>
@@ -144,14 +107,6 @@
                     "
                     @searchInputChange="setBrandValuesList"
                 ></nitrozen-dropdown>
-                <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.brand || false"
-                    v-model="rejected_fields.brand || false"
-                    id="rejected_fields.brand"
-                    class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'brand')"
-                >
-                </nitrozen-checkbox>
                 <nitrozen-error v-if="brand_uid.error">
                     {{ brand_uid.error }}
                 </nitrozen-error>
@@ -175,14 +130,6 @@
                             validateField('item_code')
                     "
                 ></nitrozen-input>
-                <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.item_code || false"
-                    v-model="rejected_fields.item_code || false"
-                    id="rejected_fields.item_code"
-                    class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'item_code')"
-                >
-                </nitrozen-checkbox>
                 <nitrozen-error v-if="item_code.error">
                     {{ item_code.error }}
                 </nitrozen-error>
@@ -196,14 +143,6 @@
                         placeholder="Fynd Assured"
                         v-model="teaser.value"
                     ></nitrozen-input>
-                    <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.teaser_tag || false"
-                    v-model="rejected_fields.teaser_tag || false"
-                    id="rejected_fields.teaser_tag"
-                    class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'teaser_tag')"
-                >
-                </nitrozen-checkbox>
                 </div>
 
                 <div class="mt-sm" v-if="product_type.value === 'standard'">
@@ -214,14 +153,6 @@
                         v-model="no_of_boxes.value"
                     >
                     </nitrozen-input>
-                    <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.no_of_boxes || false"
-                    v-model="rejected_fields.no_of_boxes || false"
-                    id="rejected_fields.no_of_boxes"
-                    class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'no_of_boxes')"
-                >
-                    </nitrozen-checkbox>
                     <nitrozen-error v-if="no_of_boxes.error">
                         {{ no_of_boxes.error }}
                     </nitrozen-error>
@@ -511,12 +442,6 @@ export default {
                     value: '',
                     error: ''
                 };
-            }
-        },
-        rejected_fields: {
-            type: Object,
-            default: () => {
-                return {}
             }
         },
         is_dependent: {
