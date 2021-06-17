@@ -13,6 +13,7 @@
                             :showSearchIcon="true"
                             class="search flex-1"
                             type="search"
+                            id="search-by-number"
                             placeholder="Search by number..."
                             v-model="searchText"
                             @input="debounceInput({ number: searchText })"
