@@ -631,11 +631,16 @@ export default {
                     this.filters.selectedCompany = 'all'
                 }
                 if (
-                    api_query.collection_method &&
                     api_query.collection_method
                 ) {
                     this.filters.collection_method =
                         api_query.collection_method;
+                }
+                if (
+                    api_query.attemp
+                ) {
+                    this.filters.attemp =
+                        api_query.attemp;
                 }
                 if (
                     api_query['period.start'] &&
