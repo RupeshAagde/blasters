@@ -5,12 +5,14 @@
             :title="'Invoice'"
             :contextMenuItems="contextMenuItems"
             @backClick="redirectToListing"
-            @payOffline="open"
+            @payOffline="openPayOfflineModal"
+            @openChargeInvoiceModal="openChargeInvoiceModal"
         >
             <div>
                 <nitrozen-button
                     :theme="'secondary'"
                     v-strokeBtn
+                    id="download-invoice"
                     @click="downloadInvoice"
                     >Download
                 </nitrozen-button>
@@ -332,7 +334,7 @@
         </div>
 
         <transition name="modal">
-            <nitrozen-dialog ref="dialog" title="Add Offline Payment" @close="close">
+            <nitrozen-dialog ref="dialog" title="Add Offline Payment" @close="closePayOfflineModal">
             <template slot="body">
                 <div class="meta-container">
                     <nitrozen-input
@@ -360,6 +362,33 @@
                     v-strokeBtn
                     @click="addOfflinePayment"
                     >Add Payment
+                </nitrozen-button>
+            </template>
+        </nitrozen-dialog>
+        </transition>
+        <transition name="modal">
+            <nitrozen-dialog ref="charge_invoice_dialog" title="Charge Invoice" @close="closeChargeInvoiceModal">
+            <template slot="body">
+                <div class="meta-container">
+                    <nitrozen-input
+                        class="search"
+                        type="password"
+                        label="Password"
+                        placeholder="Enter password to charge invoice"
+                        v-model="charge_invoice.password"
+                        @change="chargeInvoice.password=false"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="charge_invoice.showError">This field is required</nitrozen-error>
+                </div>
+            </template>
+            <template slot="footer">
+                <nitrozen-button
+                    style="width:100%"
+                    :theme="'secondary'"
+                    v-strokeBtn
+                    :showProgress="chargeInvoiceLoading"
+                    @click="chargeInvoice"
+                    >Charge Invoice
                 </nitrozen-button>
             </template>
         </nitrozen-dialog>
@@ -704,11 +733,12 @@ export default {
     },
     computed: {
         invoiceOpen(){
+            let current_status = get(this, 'invoice.invoice.current_status', null);
+            if(current_status != "open") return null;
             let status_trail = get(this, 'invoice.invoice.status_trail', null);
             let open_status = status_trail.find(
                 (status) => status.value == 'open'
             );
-            if(!open_status) return null;
             return open_status;
         },
         invoiceOpenDate(){
@@ -765,16 +795,26 @@ export default {
             invoice: null,
             profileDetails: null,
             invoiceId: this.$route.params.billingNo,
+            chargeInvoiceLoading: false,
             contextMenuItems: [
                 {
                         text: 'Pay Offline',
                         action: 'payOffline',
+                },
+                {
+                    text: 'Charge Invoice',
+                    action: 'openChargeInvoiceModal'
                 }
             ],
             offline_payment:{
                 showError:false,
                 payment_intent_id:'',
                 comment:''
+            },
+            charge_invoice:{
+                password: '',
+                showError:false,
+
             }
         };
     },
@@ -784,9 +824,41 @@ export default {
             if(!this.invoiceOpen){
                 this.contextMenuItems = this.contextMenuItems.filter(a=>a.action != "payOffline")
             }
+            if(this.paidStatus){
+                this.contextMenuItems = this.contextMenuItems.filter(a=>a.action != "openChargeInvoiceModal")
+            }
         })
     },
     methods: {
+        chargeInvoice(){
+            this.charge_invoice.showError = false
+            if(!this.charge_invoice.password){
+                this.charge_invoice.showError = true
+                return
+            }
+            this.chargeInvoiceLoading = true
+            return BillingService.chargeInvoice({invoice_id:this.invoiceId, password: this.charge_invoice.password}).then(({ data }) => {
+                this.$snackbar.global.showSuccess(`Invoice marked paid as offline successfully`, {
+                    duration: 2000
+                });
+                this.$refs['charge_invoice_dialog'].close()
+            })
+            .catch((err)=>{
+                if(err.response.data && err.response.data.message){
+                    this.$snackbar.global.showError(err.response.data.message, {
+                        duration: 3000
+                    });
+                }
+                else{
+                    this.$snackbar.global.showError("Something went wrong", {
+                        duration: 2000
+                    });
+                }
+            })
+            .finally(()=>{
+                this.chargeInvoiceLoading = false
+            })
+        },
         fetchInvoiceDetail(){
             return BillingService.getInvoiceDetail(this.invoiceId).then(({ data }) => {
                 this.invoice = data;
@@ -822,10 +894,12 @@ export default {
                 document.body.appendChild(link); // Required for FF
     
                 link.click();
-
+            })
+            .catch(err=>{
+                console.log(err)
             })
         },
-        open() {
+        openPayOfflineModal() {
             this.$refs['dialog'].open({
                 width: '500px',
                 height: '450px',
@@ -834,8 +908,29 @@ export default {
                 positiveButtonLabel: 'Add Payment'
             });
         },
+        openChargeInvoiceModal() {
+            this.$refs['charge_invoice_dialog'].open({
+                width: '500px',
+                height: '250px',
+                showCloseButton: true,
+                dismissible: true,
+                positiveButtonLabel: 'Charge Invoice'
+            });
+        },
         
-        close(meta){
+        closeChargeInvoiceModal(meta){
+            setTimeout(() => {
+                this.fetchInvoiceDetail()
+                .then(()=>{
+                    if(this.invoice.invoice.current_status == 'paid' && !this.invoice.invoice.paid){
+                        setTimeout(() => {
+                            this.fetchInvoiceDetail()                
+                        }, 3000);
+                    }
+                })
+            }, 4000);
+        },
+        closePayOfflineModal(meta){
             this.offline_payment.showError=false;
             if(meta.offlinePaidSuccess){
                 this.fetchInvoiceDetail()
@@ -851,37 +946,19 @@ export default {
                     comment: this.offline_payment.comment
                 }
                 BillingService.updateOfflinePayment(this.invoiceId,payload).then(res=>{
-                    this.$refs['dialog'].close({offlinePaidSuccess:true})
+                    this.$refs['dialog'].closePayOfflineModal({offlinePaidSuccess:true})
                     this.$snackbar.global.showSuccess(`Invoice marked paid as offline successfully`, {
                         duration: 2000
                     });
                 })
                 .catch(err=>{
-                    this.$refs['dialog'].close({offlinePaidSuccess:true})
+                    this.$refs['dialog'].closePayOfflineModal({offlinePaidSuccess:true})
                     this.$snackbar.global.showError(`Failed to mark invoice as offline paid`, {
                         duration: 2000
                     });
                 })
             }
-        },
-        getProfileDetails: function () {
-            let params = {
-                uid: this.companyId,
-                // phase: 'company_detail'
-            };
-            this.inProgress = true;
-            CompanyService.fetchCompanyProfile(params)
-                .then((res) => {
-                    this.inProgress = false;
-                    console.log('profile details', res.data);
-                    this.profileDetails = res.data;
-                    // this.fetchInvoiceList();
-                })
-                .catch((err) => {
-                    this.inProgress = false;
-                    console.error(err);
-                });
-        },
+        }
     },
 };
 </script>

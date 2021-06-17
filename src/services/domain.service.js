@@ -297,8 +297,11 @@ const URLS = {
     FETCH_INVOICE_LISTING: () => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/listing`)
     },
+    CHARGE_INVOICE: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/charge-invoice`);
+    },
     FETCH_INVOICE_DETAILS: (id) => {
-        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/${id}`)
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/${id}`);
     },
     UPDATE_OFFLINE_PAYMENT: (id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/mark-offline-paid/${id}`)

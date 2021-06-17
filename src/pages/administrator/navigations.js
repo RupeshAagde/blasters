@@ -103,6 +103,16 @@ export const getNavigations = () => {
             ]
         },
         {
+            display: 'Extension Review',
+            link: '/administrator/extensions/review',
+            title: 'extensons',
+            icon: 'settings',
+            highlightedIcon: 'settings-highlighted',
+            active: false,
+            permission: 'settings',
+            children: []
+        },
+        {
             display: 'Support Center',
             link: '/administrator/support',
             title: 'support',
