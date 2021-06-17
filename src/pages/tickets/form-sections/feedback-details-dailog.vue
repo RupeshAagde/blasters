@@ -5,18 +5,14 @@
         class="feedback-details-dailog"
     >
         <template slot="body">
-            <div class="feedback-header">
-                <p style="flex:0.5">Parameters</p>
-                <p style="flex:0.5">User's response</p>
-            </div>
             <div
                 class="response-list"
                 v-for="(response, index) in responses"
                 v-bind:key="'response-item-'+index"
             >
                 <div class="feedback">
-                        <p style="flex:0.5">{{response.display}}</p>
-                        <p style="flex:0.5">{{response.value}}</p>
+                        <span>{{response.display}} :</span>
+                        <span class="feedback-value">&nbsp;{{response.value}}</span>
                 </div>
             </div>
         </template>
@@ -24,15 +20,15 @@
 </template>
 
 <style lang="less" scoped>
-.feedback-header {
-    display: flex;
-    height: 40px;
-    background-color: whitesmoke
+.feedback-value {
+    color: rgb(61, 61, 61);
+    font-size: 14px;
+    font-weight: bold;
+    max-width: 60%;
 }
 .feedback {
-    display: flex;
-    height: 40px;
-    background-color: whitesmoke
+    padding-top: 6px;
+    padding-bottom: 6px;
 }
 </style>
 
@@ -55,6 +51,7 @@ name: 'feedback-details-dailog',
             this.responses = feedback.response || [];
             this.$refs['feedback-details-dailog'].open({
                 width: '600px',
+                height: '400px',
                 showCloseButton: true,
                 dismissible: true
             });
