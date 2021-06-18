@@ -124,19 +124,21 @@
                             </div>
                             <div class="card-badge-section">
                                 <nitrozen-badge
-                                    v-if="product.status == 'verified'"
+                                    v-if="product.status === 'verified'"
                                     state="success"
-                                    >{{ product.status }}</nitrozen-badge
+                                    >Verified</nitrozen-badge
                                 >
                                 <nitrozen-badge
-                                    state="warn"
-                                    >Verification Pending</nitrozen-badge
-                                >
-                                <nitrozen-badge
-                                    v-if="product.status == 'rejected'"
+                                    v-else-if="product.status === 'rejected'"
                                     state="error"
-                                    >{{ product.status }}</nitrozen-badge
+                                    >Rejected</nitrozen-badge
                                 >
+                                <nitrozen-badge
+                                    v-else
+                                    state="warn"
+                                    >Pending</nitrozen-badge
+                                >
+
                             </div>
                         </div>
                     </div>
