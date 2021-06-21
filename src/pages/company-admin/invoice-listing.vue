@@ -7,76 +7,92 @@
             <div v-if="inProgress" class="shimmer"></div>
             <div class="search-box flex">
                 <div v-if="isInitialLoad" class="input-shimmer shimmer"></div>
-                <template v-else>
-                    <div class="flex flex-2" style="margin-top:6px;">
-                        <nitrozen-input
-                            :showSearchIcon="true"
-                            class="search flex-1"
-                            type="search"
-                            id="search-by-number"
-                            placeholder="Search by number..."
-                            v-model="searchText"
-                            @input="debounceInput({ number: searchText })"
-                        ></nitrozen-input>
-                        
-                        <div
-                            class="flex date-wrapper flex-1"
-                            style="margin-left:12px;"
-                        >
-                            <div class="width-100 m-r-12">
-                                <div class="date">
-                                    <date-picker
-                                        class="date-picker"
-                                        @input="dateRangeChange"
-                                        date_format="MMM Do, YY"
-                                        :picker_type="'date'"
-                                        :range="true"
-                                        :clearable="true"
-                                        :useNitrozenTheme="true"
-                                        v-model="orderDateRange"
-                                        :not_before="new Date(0).toISOString()"
-                                        :placeholder="'Select Date Range'"
-                                    />
+                <div v-else class="width-100">
+                    <div class="width-100 flex">
+                        <div class="flex flex-2" style="margin-top:6px;">
+                            <nitrozen-input
+                                :showSearchIcon="true"
+                                class="search flex-1"
+                                type="search"
+                                id="search-by-number"
+                                placeholder="Search by number..."
+                                v-model="searchText"
+                                @input="debounceInput({ number: searchText })"
+                            ></nitrozen-input>
+                            
+                            <div
+                                class="flex date-wrapper flex-1"
+                                style="margin-left:12px;"
+                            >
+                                <div class="width-100 m-r-12">
+                                    <div class="date">
+                                        <date-picker
+                                            class="date-picker"
+                                            @input="dateRangeChange"
+                                            date_format="MMM Do, YY"
+                                            :picker_type="'date'"
+                                            :range="true"
+                                            :clearable="true"
+                                            :useNitrozenTheme="true"
+                                            v-model="orderDateRange"
+                                            :not_before="new Date(0).toISOString()"
+                                            :placeholder="'Select Date Range'"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="flex flex-3 m-r-12" style="margin-top:-13px">
-                        <div>
+                        <div class="flex flex-3 m-r-12" style="margin-top:-13px">
+                            <div>
+                                <nitrozen-dropdown
+                                    :label="'Status'"
+                                    class="filter-dropdown"
+                                    :useNitrozenTheme="true"
+                                    :items="statusFilterList"
+                                    v-model="filters.status"
+                                    @change="fieldChanged"
+                                ></nitrozen-dropdown>
+                            </div>
+                            <div>
+                                <nitrozen-dropdown
+                                    :label="'Collection Method'"
+                                    class="m-l-12 filter-dropdown"
+                                    :useNitrozenTheme="true"
+                                    :items="collectionMethodFilterList"
+                                    v-model="filters.collection_method"
+                                    @change="fieldChanged"
+                                ></nitrozen-dropdown>
+                            </div>
+                            <div>
                             <nitrozen-dropdown
-                                :label="'Status'"
-                                class="filter-dropdown"
-                                :useNitrozenTheme="true"
-                                :items="statusFilterList"
-                                v-model="filters.status"
-                                @change="fieldChanged"
-                            ></nitrozen-dropdown>
-                        </div>
-                        <div>
-                            <nitrozen-dropdown
-                                :label="'Collection Method'"
-                                class="m-l-12 filter-dropdown"
-                                :useNitrozenTheme="true"
-                                :items="collectionMethodFilterList"
-                                v-model="filters.collection_method"
-                                @change="fieldChanged"
-                            ></nitrozen-dropdown>
-                        </div>
-                        <div>
-                        <nitrozen-dropdown
-                                v-if="this.$route.name == 'invoices'"
-                                class="m-l-12 title-label"
-                                :searchable="true"
-                                :label="'Company'"
-                                :placeholder="'Search company'"
-                                @searchInputChange="companySearch"
-                                v-model="filters.selectedCompany"
-                                :items="companyList"
-                                @change="onCompanySelect"
-                            ></nitrozen-dropdown>
+                                    v-if="this.$route.name == 'invoices'"
+                                    class="m-l-12 title-label"
+                                    :searchable="true"
+                                    :label="'Company'"
+                                    :placeholder="'Search company'"
+                                    @searchInputChange="companySearch"
+                                    v-model="filters.selectedCompany"
+                                    :items="companyList"
+                                    @change="onCompanySelect"
+                                ></nitrozen-dropdown>
+                            </div>
                         </div>
                     </div>
-                </template>
+                    <div class="width-100 flex">
+                        <div class="flex flex-2" style="margin-top:6px;">
+                            <div>
+                                <nitrozen-dropdown
+                                    :label="'Attempts'"
+                                    class="filter-dropdown"
+                                    :useNitrozenTheme="true"
+                                    :items="attempList"
+                                    v-model="filters.attemp"
+                                    @change="fieldChanged"
+                                ></nitrozen-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div
                 v-if="
@@ -146,6 +162,14 @@
                             {{ item.collection_method | removeUnderscore }}
                         </div>
                     </div>
+                    <div class="line-2" v-if="item.hasOwnProperty('attemp')">
+                        <div class="cust-head">Attempts</div>
+                        <div
+                            class="cust-pointer"
+                        >
+                            {{ item.attemp }}
+                        </div>
+                    </div>
                     <div class="line-2" v-if="item.total">
                         <div class="cust-head" v-if="item.total">Amount</div>
                         <div
@@ -157,6 +181,7 @@
                             >{{ item.total.toFixed(2) }}
                         </div>
                     </div>
+                    
                 </div>
                 <div class="pagination" v-if="applicationList.length > 0">
                     <nitrozen-pagination
@@ -496,6 +521,13 @@ export default {
     data() {
         return {
             companyList: [{value:'all',text:'All'}],
+            attempList: [
+                {value:'all',text:'all'},
+                {value:'0',text:'0'},
+                {value:'1',text:'1'},
+                {value:'2',text:'2'},
+                {value:'3',text:'3'},
+            ],
             companies: [],
             companyId: this.$route.params.companyId,
             inProgress: false,
@@ -561,7 +593,8 @@ export default {
                 },
                 end: {
                     value: ''
-                }
+                },
+                attemp: 'all'
             },
             contextMenuItems: [
                 {
@@ -598,11 +631,16 @@ export default {
                     this.filters.selectedCompany = 'all'
                 }
                 if (
-                    api_query.collection_method &&
-                    api_query.collection_method.$regex
+                    api_query.collection_method
                 ) {
                     this.filters.collection_method =
-                        api_query.collection_method.$regex;
+                        api_query.collection_method;
+                }
+                if (
+                    api_query.attemp
+                ) {
+                    this.filters.attemp =
+                        api_query.attemp;
                 }
                 if (
                     api_query['period.start'] &&
@@ -779,10 +817,11 @@ export default {
                 };
             }
             if (this.filters.collection_method !== 'all') {
-                filterQuery.collection_method = {
-                    $regex: this.filters.collection_method,
-                    $options: 'ig'
-                };
+                filterQuery.collection_method = this.filters.collection_method
+            }
+
+            if (this.filters.attemp !== 'all') {
+                filterQuery.attemp = Number(this.filters.attemp)
             }
 
             if (this.filters.selectedCompany !== 'all') {
