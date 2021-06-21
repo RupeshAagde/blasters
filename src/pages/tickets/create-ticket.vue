@@ -142,7 +142,6 @@ import {
 } from '@gofynd/nitrozen-vue';
 
 import _ from 'lodash';
-import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
 
 import UserService from '@/services/user-access.service';
 import SupportService from './../../services/support.service';
@@ -169,7 +168,6 @@ export default {
         flatBtn,
         strokeBtn
     },
-    mixins: [dirtyCheckMixin],
     mounted() {
         this.ticketID = this.$route.params.ticket_id;
         this.originalTicket = JSON.parse(JSON.stringify(this.ticket));
@@ -494,15 +492,6 @@ export default {
                 .finally(() => {
                     this.saving = false;
                 });
-        },
-        isFormDirty() {
-            if (this.saving) {
-                return false;
-            }
-            return (
-                JSON.stringify(this.originalTicket) !=
-                JSON.stringify(this.ticket)
-            );
         },
         onCancel() {
             // const route = getRoute(this.$route);

@@ -37,11 +37,13 @@
                 </nitrozen-button>
             </div>
             <div v-for="(item, index) in allCategories" v-bind:key="index">
-                <div class="category">
+                <div class="category"
+                    v-on:click="editCategory(item.key, index)"
+                >
                     <div class="category-top">
                         <p style="flex: 1 1 auto">{{ item.display }}</p>
                         <span
-                            v-on:click="editCategory(item.key, index)"
+                            v-on:click="editCategory(item.key, index, $event)"
                             v-if="item.sub_categories.length != 0 || item.feedback_form"
                             title="Edit sub-categories and Feedback Form"
                         >
@@ -51,7 +53,7 @@
                             ></inline-svg>
                         </span>
                         <span
-                            v-on:click="editCategory(item.key, index)"
+                            v-on:click="editCategory(item.key, index, $event)"
                             v-else
                             title="Add sub-categories and Feedback Form"
                         >
@@ -264,7 +266,10 @@ export default {
             this.allCategories.splice(index, 1);
             this.isUpdated = true;
         },
-        editCategory(key, index) {
+        editCategory(key, index, event) {
+            if (event) {
+                event.stopPropagation();
+            }
             this.editingCatKey = key;
             this.chipInput = '';
             let selectedForm = this.allCategories[index].feedback_form;
