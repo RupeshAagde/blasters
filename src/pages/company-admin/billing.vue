@@ -7,6 +7,7 @@
             @backClick="redirectToListing"
             @payOffline="openPayOfflineModal"
             @openChargeInvoiceModal="openChargeInvoiceModal"
+            @openVoiceInvoiceModal="openVoiceInvoiceModal"
         >
             <div>
                 <nitrozen-button
@@ -109,13 +110,19 @@
                                         <td>Status</td>
                                         <td>
                                             <div
-                                                v-if="invoice.invoice.paid"
+                                                v-if="invoice.invoice.current_status == 'void'"
+                                                class="void-status"
+                                            >
+                                                Void
+                                            </div>
+                                            <div
+                                                v-else-if="invoice.invoice.paid"
                                                 class="paid-status"
                                             >
                                                 Paid
                                             </div>
                                             <div
-                                                v-if="!invoice.invoice.paid"
+                                                v-else-if="!invoice.invoice.paid"
                                                 class="paid-status unpaid"
                                             >
                                                 Unpaid
@@ -335,36 +342,47 @@
 
         <transition name="modal">
             <nitrozen-dialog ref="dialog" title="Add Offline Payment" @close="closePayOfflineModal">
-            <template slot="body">
-                <div class="meta-container">
-                    <nitrozen-input
-                        class="search"
-                        type="input"
-                        label="Payment Intent Id"
-                        placeholder="Enter Payment Intent Id"
-                        v-model="offline_payment.payment_intent_id"
-                    ></nitrozen-input>
-                    <nitrozen-error v-if="offline_payment.showError">This field is required</nitrozen-error>
-                    <nitrozen-input
-                        class="search m-t-24"
-                        type="textarea"
-                        label="Comment"
-                        placeholder="Enter Comment"
-                        v-model="offline_payment.comment"
-                    ></nitrozen-input>
-                    <nitrozen-error v-if="offline_payment.showError">This field is required</nitrozen-error>
-                </div>
-            </template>
-            <template slot="footer">
-                <nitrozen-button
-                    style="width:100%"
-                    :theme="'secondary'"
-                    v-strokeBtn
-                    @click="addOfflinePayment"
-                    >Add Payment
-                </nitrozen-button>
-            </template>
-        </nitrozen-dialog>
+                <template slot="body">
+                    <div class="meta-container">
+                        <nitrozen-input
+                            class="search"
+                            type="input"
+                            label="Payment Intent Id"
+                            placeholder="Enter Payment Intent Id"
+                            v-model="offline_payment.payment_intent_id"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="offline_payment.showError">This field is required</nitrozen-error>
+                        <nitrozen-input
+                            class="search m-t-24"
+                            type="textarea"
+                            label="Comment"
+                            placeholder="Enter Comment"
+                            v-model="offline_payment.comment"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="offline_payment.showError">This field is required</nitrozen-error>
+                    </div>
+                </template>
+                <template slot="footer">
+                    <nitrozen-button
+                        style="width:100%"
+                        :theme="'secondary'"
+                        v-strokeBtn
+                        @click="addOfflinePayment"
+                        >Add Payment
+                    </nitrozen-button>
+                </template>
+            </nitrozen-dialog>
+        </transition>
+        <transition name="modal">
+            <nitrozen-dialog
+                ref="confirm_void_invoice_dialog"
+                title="Confirm"
+                @close="onCloseVoidInvoiceDialog"
+            >
+                <template v-slot:body name="body"
+                >Are you sure you want to void this invoice?</template
+                >
+            </nitrozen-dialog>
         </transition>
         <transition name="modal">
             <nitrozen-dialog ref="charge_invoice_dialog" title="Charge Invoice" @close="closeChargeInvoiceModal">
@@ -427,6 +445,12 @@
             }
             td {
                 padding: 6px 6px;
+            }
+            .void-status{
+                border: 1px solid #f33;
+                color: #f33;
+                display: inline;
+                padding: 3px 5px;
             }
             .paid-status {
                 border: 1px solid #2e31be;
@@ -804,6 +828,10 @@ export default {
                 {
                     text: 'Charge Invoice',
                     action: 'openChargeInvoiceModal'
+                },
+                {
+                    text: 'Void Invoice',
+                    action: 'openVoiceInvoiceModal'
                 }
             ],
             offline_payment:{
@@ -826,6 +854,9 @@ export default {
             }
             if(this.paidStatus){
                 this.contextMenuItems = this.contextMenuItems.filter(a=>a.action != "openChargeInvoiceModal")
+            }
+            if(["open","draft"].indexOf(this.invoice.invoice.current_status) == -1){
+                this.contextMenuItems = this.contextMenuItems.filter(a=>a.action != "openVoiceInvoiceModal")
             }
         })
     },
@@ -917,7 +948,34 @@ export default {
                 positiveButtonLabel: 'Charge Invoice'
             });
         },
-        
+        openVoiceInvoiceModal(){
+            this.$refs['confirm_void_invoice_dialog'].open({
+                width: '500px',
+                showCloseButton: true,
+                dismissible: true,
+                neutralButtonLabel: false,
+                positiveButtonLabel: 'Void Invoice',
+                negativeButtonLabel: 'Cancel'
+            });
+        },
+        onCloseVoidInvoiceDialog(meta){
+            if(meta == "Void Invoice"){
+                let payload={
+                    invoice_id: this.invoiceId
+                }
+                BillingService.voidInvoice(payload).then(res=>{
+                    this.$snackbar.global.showSuccess(`Invoice marked as void successfully`, {
+                        duration: 2000
+                    });
+                    return this.fetchInvoiceDetail()
+                })
+                .catch(err=>{
+                    this.$snackbar.global.showError(`Failed to mark invoice as void`, {
+                        duration: 2000
+                    });
+                })
+            }
+        },
         closeChargeInvoiceModal(meta){
             setTimeout(() => {
                 this.fetchInvoiceDetail()

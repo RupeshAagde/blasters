@@ -304,7 +304,10 @@ const URLS = {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/${id}`);
     },
     UPDATE_OFFLINE_PAYMENT: (id) => {
-        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/mark-offline-paid/${id}`)
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/mark-offline-paid/${id}`);
+    },
+    VOID_INVOICE: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/void-invoice`);
     },
     SUBSCRIPTION_DOWNLOAD_INVOICE: (id,company_id='') => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice`, id, 'pdf');
@@ -320,7 +323,7 @@ const URLS = {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/subscription/current`);
     },
     SUBSCRIPTION_MAX_APPLICATION_LIMIT: (company_id) => {
-        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}}/subscription/current-limit`);
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/subscription/current-limit`);
     },
     SUBSCRIPTION_GET_PLAN_DETAILS_BY_ID: (plan_id) => {
         return urlJoin(UNICRON_PUBLIC_URL, '/v1.0/plan/details', plan_id);
