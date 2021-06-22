@@ -63,7 +63,7 @@
                             ></inline-svg>
                         </span>
                         <span
-                            v-on:click="removeCategory(index)"
+                            v-on:click="removeCategory(index,$event)"
                             title="Delete this category"
                         >
                             <inline-svg
@@ -259,7 +259,8 @@ export default {
             this.isSubmitable =
                 this.newCategory && this.newCategory.trim().length > 0;
         },
-        removeCategory(index) {
+        removeCategory(index, event) {
+            event.stopPropagation();
             if (this.allCategories[index].key == this.editingCatKey) {
                 this.chipInput = '';
             }
