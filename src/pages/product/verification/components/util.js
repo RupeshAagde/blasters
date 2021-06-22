@@ -27,7 +27,7 @@ export function productProfileImage(media) {
     return profileImg.url;
 }
 
-export function parseDynamicAttributes(schema = {}, value = {}, options = {}) {
+export function parseDynamicAttributes(schema = {}, value = {}, options = {}, rejectedFields = {}) {
     const { properties, required } = schema;
     const schemas = {};
     const values = {};
@@ -54,6 +54,9 @@ export function parseDynamicAttributes(schema = {}, value = {}, options = {}) {
 
         schemas[grpName]['properties'][key] = prop;
         values[grpName][key] = value[key];
+        // if(rejectedFields[key]){
+        schemas[grpName]['properties'][key]['verified'] = rejectedFields[key] || true;
+        // }
 
         if (required.includes(key)) {
             schemas[grpName].required.push(key);

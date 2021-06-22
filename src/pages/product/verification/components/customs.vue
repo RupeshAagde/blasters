@@ -8,42 +8,38 @@
             </div>
 
             <!-- Country of origin -->
-            <div class="mt-sm">
+            <div class="mt-sm verify-block">
+                <nitrozen-checkbox
+                    :value="rejectedFields.country_of_origin ? false :  true"
+                    :checkboxValue="rejectedFields.country_of_origin"
+                    id="rejectedFields.country_of_origin"
+                    class="nt-checkbox"
+                    @change="$emit('trigger-verify', {'key': 'country_of_origin', value: country_of_origin.value})"
+                 >
+                </nitrozen-checkbox>
                 <nitrozen-input
+                    disabled
                     label="Country of Origin *"
                     placeholder="Choose Country"
                     v-model="country_of_origin.value"
                 ></nitrozen-input>
-                <nitrozen-checkbox
-                            :checkboxValue="rejectedFields.country_of_origin || false"
-                            v-model="rejectedFields.country_of_origin || false"
-                            id="rejectedFields.country_of_origin"
-                            class="nt-checkbox"
-                            @change= "$emit(trigger-verify, 'country_of_origin')"
-                            >
-                </nitrozen-checkbox>
-                <nitrozen-error v-if="country_of_origin.error">
-                    {{ country_of_origin.error }}
-                </nitrozen-error>
             </div>
             <!-- HSN Code -->
-            <div class="mt-sm">
+            <div class="mt-sm verify-block">
+                <nitrozen-checkbox
+                    :value="rejectedFields.hsn_code ? false :  true"
+                    :checkboxValue="rejectedFields.hsn_code"
+                    id="rejectedFields.hsn_code"
+                    class="nt-checkbox"
+                    @change="$emit('trigger-verify', {'key': 'hsn_code', value: hsn_code.value})"
+                >
+                </nitrozen-checkbox>
                 <nitrozen-input
+                    disabled
                     label="HS/HSN Code *"
                     placeholder="Choose HSN code"
                     v-model="hsn_code.value"
                 ></nitrozen-input>
-                <nitrozen-checkbox
-                            :checkboxValue="rejectedFields.hsn_code || false"
-                            v-model="rejectedFields.hsn_code || false"
-                            id="rejectedFields.hsn_code"
-                            class="nt-checkbox"
-                            @change= "$emit(trigger-verify, 'hsn_code')"
-                            >
-                </nitrozen-checkbox>
-                <nitrozen-error v-if="hsn_code.error">
-                    {{ hsn_code.error }}
-                </nitrozen-error>
             </div>
         </div>
     </div>
@@ -60,6 +56,11 @@
 
 .mt-sm {
     margin-top: 20px;
+}
+
+.verify-block {
+    display: flex;
+    align-items: center;
 }
 
 </style>
@@ -116,8 +117,13 @@ export default {
     },
     mounted() {
         // this.fetchHSNAndCountry();
+        this.populateForm();
     },
     props: {
+        rejectedFields: {
+            type: Object,
+            default: () => {return {}}
+        },
         product: {
             type: Object,
             default: () => {
@@ -229,8 +235,8 @@ export default {
         },
         populateForm() {
             try {
-                this.setCountryList();
-                this.setHSNCodesList();
+                // this.setCountryList();
+                // this.setHSNCodesList();
 
                 this.country_of_origin.value =
                     this.product.country_of_origin ||

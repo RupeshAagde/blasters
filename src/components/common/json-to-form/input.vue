@@ -1,10 +1,16 @@
 <template>
-    <div>
+    <div class="container">
+        <nitrozen-checkbox
+            :value="verified"
+            :checkboxValue="checked"
+            class="nt-checkbox"
+            @change="$emit('change', {key: name, value})"
+        ></nitrozen-checkbox>
         <nitrozen-input
             :type="type"
             :label="label"
             :placeholder="placeholder"
-            :disabled="disabled"
+            disabled
             :value="value"
             :showError="showError"
             :hint="hint"
@@ -20,15 +26,15 @@
             :custom="custom"
             @input="$emit('input', $event)"
         ></nitrozen-input>
-        <!-- <nitrozen-checkbox
-            :checkboxValue="false"
-            class="nt-checkbox"
-            @change= "$emit('trigger-verify', label)"
-        ></nitrozen-checkbox> -->
         <nitrozen-error v-if="errorMessage">{{ errorMessage }}</nitrozen-error>
     </div>
 </template>
-
+<style lang="less" scoped>
+.container {
+    display: flex;
+    align-items: center;
+}
+</style>
 <script>
 import { NitrozenInput, NitrozenError, NitrozenCheckBox } from '@gofynd/nitrozen-vue';
 // import { EventBus } from '@/event-bus';
@@ -42,6 +48,9 @@ export default {
         'nitrozen-checkbox': NitrozenCheckBox,
     },
     props: {
+        verified: {
+            type: Boolean,
+        },
         type: {
             type: String,
             default: 'text'
@@ -61,6 +70,9 @@ export default {
         value: {
             type: [Number, String],
             default: ''
+        },
+        name: {
+            type: String,
         },
         showError: {
             type: Boolean,
@@ -107,12 +119,17 @@ export default {
             type: Boolean,
             default: false
         },
+         checked: {
+            type: Boolean,
+            default: false,
+        },
+        
 
         // error props
         errorMessage: {
             type: String,
             default: ''
         }
-    }
+    },
 };
 </script>

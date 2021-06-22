@@ -4,53 +4,14 @@
             <div class="image-uploader">
                 <div v-if="value.url">
                     <div v-if="value.type === 'image'" class="image"
-                    @mouseover="showOptions = true"
-                            @mouseleave="showOptions = false"
                     >
                         <img
                             :src="value.url"
-                            @error="$imageError"
                         />
-                        <div
-                            v-if="showOptions"
-                            @mouseover="showOptions = true"
-                            @mouseleave="showOptions = false"
-                        >
-                            <div class="reorder" v-if="!loading">
-                                <ukt-inline-svg
-                                    title="Reorder image"
-                                    src="reorder-white"
-                                    class="reorder-icon"
-                                ></ukt-inline-svg>
-                            </div>
-                            <div
-                                class="delete-image"
-                                v-if="!loading"
-                                @click.stop="$emit('delete', $event)"
-                            >
-                                <ukt-inline-svg
-                                    title="Delete image"
-                                    src="delete"
-                                    class="delete-icon"
-                                ></ukt-inline-svg>
-                            </div>
-                            <div
-                                class="edit-image"
-                                v-if="!loading"
-                                @click.stop="openDialog()"
-                            >
-                                <ukt-inline-svg
-                                    title="Edit image"
-                                    src="image-edit"
-                                ></ukt-inline-svg>
-                            </div>
-                        </div>
                     </div>
                     <div
                         v-else-if="value.type === 'video'"
                         class="image"
-                        @mouseover="showOptions = true"
-                        @mouseleave="showOptions = false"
                     >
                         <no-ssr>
                             <iframe
@@ -62,41 +23,12 @@
                                 allowfullscreen
                             ></iframe>
                         </no-ssr>
-                        <div
-                            v-if="showOptions"
-                            @mouseover="showOptions = true"
-                            @mouseleave="showOptions = false"
-                        >
-                            <div
-                                class="delete-image"
-                                v-if="!loading"
-                                @click.stop="$emit('delete', $event)"
-                            >
-                                <ukt-inline-svg
-                                    title="Delete video"
-                                    src="delete"
-                                    class="delete-icon"
-                                ></ukt-inline-svg>
-                            </div>
-                            <div
-                                class="edit-image"
-                                v-if="!loading"
-                                @click.stop="openYoutubeDialog(true, value)"
-                            >
-                                <ukt-inline-svg
-                                    title="Edit video"
-                                    src="image-edit"
-                                ></ukt-inline-svg>
-                            </div>
-                        </div>
                     </div>
 
 
                     <div
                         v-else-if="value.type === '3d_model' && isMounted"
                         class="image"
-                        @mouseover="showOptions = true"
-                        @mouseleave="showOptions = false"
                     >
                         <no-ssr>
                             <viewer-3d
@@ -104,33 +36,6 @@
                                 :list="true"
                             ></viewer-3d>
                         </no-ssr>
-                        <div
-                            v-if="showOptions"
-                            @mouseover="showOptions = true"
-                            @mouseleave="showOptions = false"
-                        >
-                            <div
-                                class="delete-image"
-                                v-if="!loading"
-                                @click.stop="$emit('delete', $event)"
-                            >
-                                <ukt-inline-svg
-                                    title="Delete Model"
-                                    src="delete"
-                                    class="delete-icon"
-                                ></ukt-inline-svg>
-                            </div>
-                            <div
-                                class="edit-image"
-                                v-if="!loading"
-                                @click.stop="open3dDialog(true)"
-                            >
-                                <ukt-inline-svg
-                                    title="Edit Model"
-                                    src="preview"
-                                ></ukt-inline-svg>
-                            </div>
-                        </div>
                     </div>
 
                 </div>
@@ -138,54 +43,6 @@
             </div>
             <loader class="image-uploading" v-if="loading"></loader>
         </div>
-        <!-- <mirage-image-uploader-dialog
-            ref="dialog"
-            :label="label"
-            :fileTypes="fileTypes"
-            :fileDomain="fileDomain"
-            :maxSize="maxSize"
-            :aspectRatio="aspectRatio"
-            :minimumResolution="minimumResolution"
-            :maximumResolution="maximumResolution"
-            :recommendedResolution="recommendedResolution"
-            :mediaFolder="mediaFolder"
-            :namespace="namespace"
-            :fileName="fileName"
-            :tags="tags"
-            @delete="$emit('delete', $event)"
-            @save="save($event, 'image')"
-            v-model="value.url"
-        ></mirage-image-uploader-dialog> -->
-        <!-- <mirage-3d-model-uploader-dialog
-            ref="threeddialog"
-            :label="label"
-            :fileTypes="fileTypes"
-            :fileDomain="fileDomain"
-            namespace="products-item-3d-model"
-            :fileName="fileName"
-            :tags="tags"
-            @delete="$emit('delete', $event)"
-            @save="save($event, '3d_model')"
-            v-model="value.url"
-        >
-        </mirage-3d-model-uploader-dialog> -->
-        <!-- <youtube-uploader
-            ref="youtubeUploader"
-            v-model="value.url"
-            @save="save($event, 'video')"
-        ></youtube-uploader>
-        <video-uploader
-            v-if="value.url && value.type === 'video'"
-            namespace="products-item-video"
-            ref="videoUploader"
-            :uploaderId="`videoUploader${index}`"
-            :fileName="fileName"
-            :customInput="true"
-            :customVideo="true"
-            @save="save($event, 'video', { source: 'direct' })"
-        >
-            <template name="customVideo"></template>
-        </video-uploader> -->
     </div>
 </template>
 
@@ -196,34 +53,16 @@ import uktinlinesvg from '@/components/common/ukt-inline-svg.vue';
 import InlineSvg from '@/components/common/adm-inline-svg.vue';
 import { formatBytes } from '@/helper/digital-storage.util';
 import NoSSR from 'vue-no-ssr';
-// import VideoPlayer from '@/components/common/video/VideoPlayer.vue';
 import { isNode } from "browser-or-node";
 
-const ONE_MB = 1024;
-const ONE_GB = ONE_MB * 1024;
-// const viewer_path = "@/components/admin/common/3dmodel-uploader/viewer-3d.vue";
-
-// "media": [
-//     {
-//       "url": "https://www.youtube.com/embed/x0Kv_QRWR-I",
-//       "type": "video",
-//       "meta": {
-//           "source": "youtube"
-//       }
-//     }
-//   ],
 export default {
     name: 'mirage-image-uploader-banner',
     components: {
-        // 'mirage-image-uploader-dialog': mirageimageuploaderdialog,
-        // 'mirage-3d-model-uploader-dialog': ThreeDModel,
         'nitrozen-dialog': NitrozenDialog,
         'ukt-inline-svg': uktinlinesvg,
         'no-ssr': NoSSR,
         'viewer-3d' : () => isNode ? Promise.resolve(null) : Promise.resolve(require("@/components/media/viewer3D.vue")),
         InlineSvg,
-        // VideoUploader,
-        // VideoPlayer,
         loader
     },
     props: {
@@ -263,9 +102,6 @@ export default {
         mediaFolder: {
             type: String
         },
-        // namespace: {
-        //     type: String
-        // },
         fileName: {
             type: String
         },
@@ -285,7 +121,6 @@ export default {
             namespace: 'products-item-image',
             fileTypes: ['png', 'jpeg'],
             fileDomain: 'image',
-            maxSize: ONE_MB * 3,
             isMounted: false
         };
     },
@@ -294,49 +129,6 @@ export default {
     },
     methods: {
         formatBytes,
-        openDialog() {
-            this.$refs.dialog.open();
-        },
-        open3dDialog(edit=false) {
-            this.namespace = 'products-item-3d-model';
-            this.fileTypes = ['glb'];
-            this.fileDomain = '3d_model';
-            this.maxSize = ONE_MB * 5;
-            this.$refs.threeddialog.open(edit);
-        },
-        $imageError(e) {
-            // handle error
-            // this.$emit('input', '');
-            console.error(e);
-        },
-        openImageDialog() {
-            this.namespace = 'products-item-image';
-            this.fileTypes = ['png', 'jpeg'];
-            this.fileDomain = 'image';
-            this.maxSize = ONE_MB * 3;
-            this.openDialog();
-        },
-        // openVideoDialog() {
-        //     this.namespace = 'products-item-video';
-        //     this.fileTypes = ['mp4'];
-        //     this.fileDomain = 'video';
-        //     this.maxSize = ONE_GB;
-        //     this.openDialog();
-        // },
-        openYoutubeDialog(editMode = false, media = {}) {
-            if (media && media.meta && media.meta.source === 'direct') {
-                this.$refs.videoUploader.openVideoUploader();
-            } else {
-                this.$refs.youtubeUploader.open(editMode);
-            }
-        },
-        save(url, type, meta) {
-            this.$emit('save', {
-                url,
-                type,
-                ...(meta && { meta })
-            });
-        }
     }
 };
 </script>

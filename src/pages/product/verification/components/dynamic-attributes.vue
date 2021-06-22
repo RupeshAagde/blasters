@@ -11,6 +11,9 @@
                 :schema="schema"
                 v-model="values[grpName]"
                 input-wrapping-class="input-wrapping-class"
+                @change="updateVerifiedList"
+                check-prop="Value"
+                rejectedFields="rejectedFields"
             ></json-to-form>
         </div>
     </div>
@@ -48,7 +51,6 @@ form {
 <script>
 import { parseDynamicAttributes } from './util';
 import JsonToForm from '@/components/common/json-to-form';
-// import _ from 'lodash';
 import isEmpty from 'lodash/isEmpty';
 import pickBy from 'lodash/pickBy';
 import identity from 'lodash/identity';
@@ -67,6 +69,12 @@ export default {
         };
     },
     props: {
+        rejectedFields:{
+            type: Object,
+            schema: {
+                default : () => {return {}}
+            }
+        },
         schema: {
             type: Object,
             default: () => {
@@ -90,7 +98,7 @@ export default {
             
             const parsed = parseDynamicAttributes(this.schema, this.value, {
                 appendRequiredAsterisk: true
-            });
+            }, this.rejectedFields);
             this.groupSchemas = {};
             this.values = {};
             this.$nextTick(() => {
@@ -110,6 +118,9 @@ export default {
                 this.$refs['form'].forEach(form => form.$forceUpdate());
             }
             return isValid;
+        },
+        updateVerifiedList(e){
+            this.$emit('trigger-verify', e)
         },
         getFormData() {
             let value = {};

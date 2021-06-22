@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <div class="header mt-sm">
+           
             <div class="title bold">Available</div>
             <div class="btn-container">
                 <!-- toogle button -->
@@ -15,6 +16,14 @@
             </nitrozen-error>
         </div>
         <div class="display_date" v-if="is_set && is_active.value">
+             <nitrozen-checkbox
+                            :checkboxValue="rejectedFields.availability"
+                            v-model="rejectedFields.availability"
+                            id="rejectedFields.no_of_boxes"
+                            class="nt-checkbox"
+                            @change="trigger - verify"
+                        >
+            </nitrozen-checkbox>
             <div class="title bold">
                 {{ published ? "Published on : " : "Will be Available on : "}}
             </div>
@@ -80,7 +89,7 @@
 </style>
 
 <script>
-import { NitrozenError, NitrozenToggleBtn } from '@gofynd/nitrozen-vue';
+import { NitrozenError, NitrozenToggleBtn, NitrozenCheckBox } from '@gofynd/nitrozen-vue';
 import isEmpty from 'lodash/isEmpty';
 import admInlineSvg from '@/components/common/adm-inline-svg.vue';
 
@@ -95,7 +104,8 @@ export default {
     components: {
         NitrozenError,
         NitrozenToggleBtn,
-        'adm-inline-svg': admInlineSvg
+        'adm-inline-svg': admInlineSvg,
+        'nitrozen-checkbox': NitrozenCheckBox
     },
 
     data() {

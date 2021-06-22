@@ -5,15 +5,20 @@ import Input from './input';
 import Select from './select';
 import { validateJsonFormField } from './utils';
 
+
 FormSchemaNative.setComponent('title', Title);
 
 FormSchemaNative.setComponent('label', 'div');
 
 FormSchemaNative.setComponent('button', '');
 
+
 FormSchemaNative.setComponent('text', Input, form => {
-    const { field } = form;
+    const { field, vm } = form;
     let errorMessage = validateJsonFormField(form);
+    const propSchema = vm.schema.properties[field.name];
+
+    field['verified'] = propSchema.verified ? propSchema.verified : false;
 
     if (field.description) {
         field.tooltipText = field.description;
@@ -30,6 +35,9 @@ FormSchemaNative.setComponent('text', Input, form => {
 FormSchemaNative.setComponent('number', Input, form => {
     const { field } = form;
     let errorMessage = validateJsonFormField(form);
+    
+    const propSchema = vm.schema.properties[field.name];
+    field['verified'] = propSchema.verified ? propSchema.verified : false;
 
     if (field.description) {
         field.tooltipText = field.description;
@@ -45,7 +53,6 @@ FormSchemaNative.setComponent('number', Input, form => {
 
 FormSchemaNative.setComponent('select', Select, form => {
     const { field, vm } = form;
-
     if (!vm._isMounted) {
         // hack code
         // reverting prop type to 'array' so that form validation works right

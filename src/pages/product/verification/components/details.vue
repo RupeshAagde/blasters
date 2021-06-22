@@ -1,111 +1,83 @@
 <template>
     <div class="details">
         <div class="container">
-            <div class="mt-sm">
+            <div class="mt-sm verify-block">
+                <nitrozen-checkbox
+                    :value="rejected_fields.item_type ? false :  true"
+                    :checkboxValue="rejected_fields.item_type"
+                    id="rejected_fields.item_type"
+                    class="nt-checkbox"
+                    @change="emitVerify('item_type', item_type)"
+                >
+                </nitrozen-checkbox>
                 <nitrozen-input
                     label="Type *"
                     placeholder="For eg. Black Casual Shirt"
-                    v-model="department.value"
+                    v-model="item_type"
                     :disabled="true"
-                    @blur="validateUniqueSlug"
-                    @input="
-                        (name.value = $event.trim()),
-                            $emit('input-name', $event),
-                            updateSlug(),
-                            validateField('name')
-                    "
                 ></nitrozen-input>
+            </div>
+            <div class="mt-sm">
+            </div>
+            <div class="mt-sm verify-block">
                 <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.item_type || false"
-                    v-model="rejected_fields.item_type || false"
-                    id="rejected_fields.department"
+                    :value="rejected_fields.departments ? false : true"
+                    :checkboxValue="rejected_fields.departments"
+                    id="rejected_fields.departments"
                     class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'item_type')"
+                    @change="emitVerify('departments', department.value)"
                 >
                 </nitrozen-checkbox>
-                <nitrozen-error v-if="name.error">
-                    {{ name.error }}
-                </nitrozen-error>
-            </div>
-            <div class="mt-sm">
-            </div>
-            <div class="mt-sm">
                 <nitrozen-input
                     label="Department *"
                     placeholder="For eg. Black Casual Shirt"
                     v-model="department.value"
                     :disabled="true"
-                    @blur="validateUniqueSlug"
-                    @input="
-                        (name.value = $event.trim()),
-                            $emit('input-name', $event),
-                            updateSlug(),
-                            validateField('name')
-                    "
                 ></nitrozen-input>
+            </div>
+            <div class="mt-sm verify-block">
                 <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.departments || false"
-                    v-model="rejected_fields.departments || false"
-                    id="rejected_fields.departments"
+                    :checkboxValue="rejected_fields.category_slug"
+                    :value="rejected_fields.category ? false : true"
+                    id="rejected_fields.category"
                     class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'departments')"
+                    @change="emitVerify('category_slug', category_slug.value)"
                 >
                 </nitrozen-checkbox>
-            </div>
-            <div class="mt-sm">
                 <nitrozen-input
                     label="Category *"
                     placeholder="For eg. Black Casual Shirt"
-                    v-model="department.value"
+                    v-model="category_slug.value"
                     :disabled="true"
-                    @blur="validateUniqueSlug"
-                    @input="
-                        (name.value = $event.trim()),
-                            $emit('input-name', $event),
-                            updateSlug(),
-                            validateField('name')
-                    "
                 ></nitrozen-input>
-                <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.category || false"
-                    v-model="rejected_fields.category || false"
-                    id="rejected_fields.category"
-                    class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'category')"
-                >
-                </nitrozen-checkbox>
-                <nitrozen-error v-if="name.error">
-                    {{ name.error }}
-                </nitrozen-error>
             </div>
             <!-- Name -->
-            <div class="mt-sm">
+            <div class="mt-sm verify-block">
+                <nitrozen-checkbox
+                    :value="isCheckboxSelected(rejected_fields.name)"
+                    :checkboxValue="rejected_fields.name"
+                    id="rejected_fields.name"
+                    class="nt-checkbox"
+                    @change="emitVerify('name', name.value)"
+                >
+                </nitrozen-checkbox>
                 <nitrozen-input
                     label="Name *"
                     placeholder="For eg. Black Casual Shirt"
                     v-model="name.value"
-                    @blur="validateUniqueSlug"
-                    @input="
-                        (name.value = $event.trim()),
-                            $emit('input-name', $event),
-                            updateSlug(),
-                            validateField('name')
-                    "
+                    disabled
                 ></nitrozen-input>
-                <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.name || false"
-                    v-model="rejected_fields.name || false"
-                    id="rejected_fields.name"
-                    class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'name')"
-                >
-                </nitrozen-checkbox>
-                <nitrozen-error v-if="name.error">
-                    {{ name.error }}
-                </nitrozen-error>
             </div>
             <!-- Slug -->
-            <div class="mt-sm">
+            <div class="mt-sm verify-block">
+                <nitrozen-checkbox
+                    :checkboxValue="rejected_fields.slug"
+                    :value="isCheckboxSelected(rejected_fields.slug)"
+                    id="rejected_fields.slug"
+                    class="nt-checkbox"
+                    @change="emitVerify('slug', slug.value)"
+                >
+                </nitrozen-checkbox>
                 <nitrozen-input
                     label="Slug"
                     placeholder="For eg. black-casual-shirt"
@@ -113,164 +85,88 @@
                     tooltipText="Used as product name in product links. Allowed characters are capital alphabets, numbers and hyphens"
                     :disabled="true"
                     v-model="slug.value"
-                    @input="(slug.value = $event.trim()), validateField('slug')"
-                    @blur="validateField('slug'), validateUniqueSlug()"
                 ></nitrozen-input>
-                <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.slug || false"
-                    v-model="rejected_fields.slug || false"
-                    id="rejected_fields.slug"
-                    class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'slug')"
-                >
-                </nitrozen-checkbox>
-                <nitrozen-error v-if="slug.error">
-                    {{ slug.error }}
-                </nitrozen-error>
             </div>
             <!-- Brand -->
-            <div class="mt-sm">
-                <nitrozen-dropdown
-                    label="Brand *"
-                    placeholder="Choose Brand"
-                    :disabled="editMode"
-                    :items="brandValuesList"
-                    v-model="brand_uid.value"
-                    :searchable="true"
-                    @change="
-                        $emit('change-brand-uid', $event),
-                            validateField('brand_uid'),
-                            validateUniqueItemCode()
-                    "
-                    @searchInputChange="setBrandValuesList"
-                ></nitrozen-dropdown>
+            <div class="mt-sm verify-block">
                 <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.brand || false"
-                    v-model="rejected_fields.brand || false"
+                    :value="isCheckboxSelected(rejected_fields.brand_uid)"
+                    :checkboxValue="rejected_fields.brand"
                     id="rejected_fields.brand"
                     class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'brand')"
+                    @change="emitVerify('brand_uid', brand_uid.value)"
                 >
                 </nitrozen-checkbox>
-                <nitrozen-error v-if="brand_uid.error">
-                    {{ brand_uid.error }}
-                </nitrozen-error>
+                <nitrozen-input
+                    label="Brand *"
+                    placeholder="Choose Brand"
+                        disabled
+                    :items="brandValuesList"
+                    v-model="brand_uid.value"
+                ></nitrozen-input>
             </div>
             <!-- Item Code -->
-            <div class="mt-sm">
+            <div class="mt-sm verify-block">
+                <nitrozen-checkbox
+                    :value="isCheckboxSelected(rejected_fields.item_code)"
+                    :checkboxValue="rejected_fields.item_code"
+                    id="rejected_fields.item_code"
+                    class="nt-checkbox"
+                    @change="emitVerify('item_code', item_code.value)"
+                >
+                </nitrozen-checkbox>
                 <nitrozen-input
                     label="Item Code *"
                     placeholder="For eg. BK-101"
                     :showTooltip="true"
                     tooltipText="Allowed characters are capital alphabets, numbers and hyphens"
-                    :disabled="editMode"
+                    disabled
                     v-model="item_code.value"
-                    @blur="validateUniqueItemCode"
-                    @input="
-                        (item_code.value = $event.trim().toUpperCase()),
-                            $emit(
-                                'input-item-code',
-                                $event.trim().toUpperCase()
-                            ),
-                            validateField('item_code')
-                    "
                 ></nitrozen-input>
-                <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.item_code || false"
-                    v-model="rejected_fields.item_code || false"
-                    id="rejected_fields.item_code"
-                    class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'item_code')"
-                >
-                </nitrozen-checkbox>
-                <nitrozen-error v-if="item_code.error">
-                    {{ item_code.error }}
-                </nitrozen-error>
             </div>
         </div>
         <div class="header">
             <div class="container teaser">
-                <div class="mt-sm">
+                <div class="mt-sm verify-block">
+                    <nitrozen-checkbox
+                    :value="isCheckboxSelected(rejected_fields.teaser_tag)"
+                    :checkboxValue="rejected_fields.teaser_tag"
+                    id="rejected_fields.teaser_tag"
+                    class="nt-checkbox"
+                    @change="emitVerify('teaser_tag', teaser.value)"
+                >
+                    </nitrozen-checkbox>
                     <nitrozen-input
                         label="Badge"
                         placeholder="Fynd Assured"
+                        disabled
                         v-model="teaser.value"
                     ></nitrozen-input>
-                    <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.teaser_tag || false"
-                    v-model="rejected_fields.teaser_tag || false"
-                    id="rejected_fields.teaser_tag"
-                    class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'teaser_tag')"
-                >
-                </nitrozen-checkbox>
                 </div>
 
-                <div class="mt-sm" v-if="product_type.value === 'standard'">
+                <div class="mt-sm verify-block" v-if="product_type.value === 'standard'">
+                    <nitrozen-checkbox
+                    :value="isCheckboxSelected(rejected_fields.no_of_boxes)"
+                    :checkboxValue="rejected_fields.no_of_boxes"
+                    id="rejected_fields.no_of_boxes"
+                    class="nt-checkbox"
+                    @change="emitVerify('no_of_boxes', no_of_boxes.value)"
+                >
+                    </nitrozen-checkbox>
                     <nitrozen-input
                         label="No. of boxes"
                         type="number"
+                        disabled
                         placeholder="No. of boxes"
                         v-model="no_of_boxes.value"
                     >
                     </nitrozen-input>
-                    <nitrozen-checkbox
-                    :checkboxValue="rejected_fields.no_of_boxes || false"
-                    v-model="rejected_fields.no_of_boxes || false"
-                    id="rejected_fields.no_of_boxes"
-                    class="nt-checkbox"
-                    @change= "$emit('trigger-verify', 'no_of_boxes')"
-                >
-                    </nitrozen-checkbox>
-                    <nitrozen-error v-if="no_of_boxes.error">
-                        {{ no_of_boxes.error }}
-                    </nitrozen-error>
                 </div>
 
-                <!-- <div
-                    class="no-image img_container"
-                    @click.stop="openImageDialog"
-                    v-if="!teaserURL"
-                >
-                    <ukt-inline-svg
-                        src="plus-black"
-                        class="add-image"
-                    ></ukt-inline-svg>
-                </div>
-                <div class="image img_container" v-if="teaserURL">
-                    <img
-                        v-if="teaserURL"
-                        :src="teaserURL"
-                        @error="$imageError"
-                        @mouseover="showOptions = true"
-                        @mouseleave="showOptions = false"
-                    />
-                    <div class="delete-image" @click.stop="delete_()">
-                        <ukt-inline-svg
-                            title="Delete image"
-                            src="delete"
-                            class="delete-icon"
-                        ></ukt-inline-svg>
-                    </div>
-                </div> -->
             </div>
         </div>
 
-        <!-- <mirage-image-uploader-dialog
-            ref="dialog"
-            :label="'Teaser Tag Upload'"
-            :text="'Add Image'"
-            :fileTypes="fileTypes"
-            :fileDomain="fileDomain"
-            :maxSize="maxSize"
-            :aspectRatio="'1:1'"
-            :namespace="namespace"
-            :fileName="teaser.tag || 'Teaser'"
-            :tags="tags"
-            @delete="delete_($event)"
-            @save="save($event)"
-            v-model="teaserURL"
-        ></mirage-image-uploader-dialog> -->
+       
     </div>
 </template>
 
@@ -331,7 +227,10 @@
 .img_container {
     margin: 35px 0 0 20px !important;
 }
-
+.verify-block {
+    display: flex;
+    align-items: center;
+}
 .image {
     width: 75px;
     height: 50px;
@@ -405,6 +304,7 @@ import {
     NitrozenTooltip,
     NitrozenCheckBox
 } from '@gofynd/nitrozen-vue';
+import { log } from 'util';
 // import { seller } from '../../../auto_gen/admin-svgs';
 
 const VALIDATE_FIELDS = [
@@ -443,6 +343,7 @@ export default {
             brand_uid: this.getInitialValue(),
             category_slug: this.getInitialValue(),
             teaser: this.getInitialValue(),
+            item_type: '',
             // teaserURL: '',
 
 
@@ -561,19 +462,16 @@ export default {
             try {
                 // this.setBrandValuesList();
                 // this.setCategoryValuesList();
+                const { slug = '', name = '', item_type = '', department = '', item_code = '', teaser_tag = ''} = this.product;
 
-                this.name.value = this.name.value || this.product.name || '';
-                this.slug.value = this.slug.value || this.product.slug || '';
-                this.department.value = this.department.value || this.product.department || '';
-                this.item_code.value = this.item_code.value || this.product.item_code || '';
-                this.teaser.value = this.teaser.value || (this.product.teaser_tag
+                this.item_type = item_type;
+                this.name.value = this.name.value || name;
+                this.slug.value = this.slug.value || slug;
+                this.department.value = this.department.value || department;
+                this.item_code.value = this.item_code.value || item_code;
+                this.teaser.value = this.teaser.value || ( teaser_tag
                     ? this.product.teaser_tag.tag
                     : '');
-                // this.teaserURL = this.product.teaser_tag
-                //     ? this.product.teaser_tag.url
-                //         ? this.product.teaser_tag.url
-                //         : ''
-                //     : '';
 
                 this.brand_uid.value =
                     this.product.brand_uid ||
@@ -613,6 +511,9 @@ export default {
                     });
                 }
             });
+        },
+        isCheckboxSelected(value){
+            return value ? false : true
         },
         setCategoryValuesList(e = {}) {
             this.categoryValuesList = [];
@@ -684,32 +585,30 @@ export default {
             );
             return !this[prop].error;
         },
-        getFormData() {
-            let value = {
-                name: this.name.value,
-                slug: this.slug.value,
-                brand_uid: this.brand_uid.value,
-                item_code: this.item_code.value,
-                teaser_tag: {
-                    // url: this.teaserURL,
-                    tag: this.teaser.value
-                },
-            };
-            // if (!this.teaserURL && !this.teaser.value) {
-            //     delete value['teaser_tag'];
-            // }
-            // if (!this.teaserURL) {
-            //     delete value['teaser_tag']['url'];
-            // }
-            if (!this.teaser.value) {
-                delete value['teaser_tag']['tag'];
-            }
-            if (this.product_type.value === 'standrd') {
-                value['no_of_boxes'] = this.no_of_boxes.value
-            }
+        emitVerify(name, value){
+            this.$emit('trigger-verify', {'key': name, value})
+        },
+        // getFormData() {
+        //     let value = {
+        //         name: this.name.value,
+        //         slug: this.slug.value,
+        //         brand_uid: this.brand_uid.value,
+        //         item_code: this.item_code.value,
+        //         teaser_tag: {
+        //             // url: this.teaserURL,
+        //             tag: this.teaser.value
+        //         },
+        //     };
+            
+        //     if (!this.teaser.value) {
+        //         delete value['teaser_tag']['tag'];
+        //     }
+        //     if (this.product_type.value === 'standrd') {
+        //         value['no_of_boxes'] = this.no_of_boxes.value
+        //     }
 
-            return pickBy(value, identity);
-        }
+        //     return pickBy(value, identity);
+        // }
         // save(url) {
         //     this.teaserURL = url;
         // },
