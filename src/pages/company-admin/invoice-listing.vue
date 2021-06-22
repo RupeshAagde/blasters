@@ -125,6 +125,8 @@
                                 :state="
                                     item.current_status === 'paid'
                                         ? 'success'
+                                        : item.current_status == 'void'
+                                        ?'error'
                                         : 'warn'
                                 "
                                 >{{ item.current_status }}</nitrozen-badge
