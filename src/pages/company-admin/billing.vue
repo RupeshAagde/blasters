@@ -153,7 +153,7 @@
                                     >
                                         <td>
                                             <div class="invoice_item_name">{{ item.name }}</div>
-                                            <div>{{ item.description }}</div>
+                                            <div v-if="item.type !== 'subscription'">{{ item.description }}</div>
                                         </td>
                                         <td>
                                             <div>{{ item.quantity }}</div>
