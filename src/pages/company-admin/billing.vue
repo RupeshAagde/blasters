@@ -153,7 +153,7 @@
                                     >
                                         <td>
                                             <div class="invoice_item_name">{{ item.name }}</div>
-                                            <div v-if="item.type !== 'subscription'">{{ item.description }}</div>
+                                            <div class="invoice_item_description" v-if="item.type !== 'subscription'">{{ item.description }}</div>
                                         </td>
                                         <td>
                                             <div>{{ item.quantity }}</div>
@@ -375,42 +375,58 @@
             </nitrozen-dialog>
         </transition>
         <transition name="modal">
-            <nitrozen-dialog
-                ref="confirm_void_invoice_dialog"
-                title="Confirm"
-                @close="onCloseVoidInvoiceDialog"
-            >
-                <template v-slot:body name="body"
-                >Are you sure you want to void this invoice?</template
-                >
+            <nitrozen-dialog ref="confirm_void_invoice_dialog" title="Void Invoice" @close="onCloseVoidInvoiceDialog">
+                <template slot="body">
+                    <div class="meta-container">
+                        <nitrozen-input
+                            class="search"
+                            type="password"
+                            label="Password"
+                            placeholder="Enter password to charge invoice"
+                            v-model="void_invoice.password"
+                            @change="void_invoice.showError=false"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="void_invoice.showError">This field is required</nitrozen-error>
+                    </div>
+                </template>
+                <template slot="footer">
+                    <nitrozen-button
+                        style="width:100%"
+                        :theme="'secondary'"
+                        v-strokeBtn
+                        :showProgress="voidInvoiceLoading"
+                        @click="onVoidInvoice"
+                        >Void Invoice
+                    </nitrozen-button>
+                </template>
             </nitrozen-dialog>
         </transition>
         <transition name="modal">
             <nitrozen-dialog ref="charge_invoice_dialog" title="Charge Invoice" @close="closeChargeInvoiceModal">
-            <template slot="body">
-                <div class="meta-container">
-                    <nitrozen-input
-                        class="search"
-                        type="password"
-                        label="Password"
-                        placeholder="Enter password to charge invoice"
-                        v-model="charge_invoice.password"
-                        @change="chargeInvoice.password=false"
-                    ></nitrozen-input>
-                    <nitrozen-error v-if="charge_invoice.showError">This field is required</nitrozen-error>
-                </div>
-            </template>
-            <template slot="footer">
-                <nitrozen-button
-                    style="width:100%"
-                    :theme="'secondary'"
-                    v-strokeBtn
-                    :showProgress="chargeInvoiceLoading"
-                    @click="chargeInvoice"
-                    >Charge Invoice
-                </nitrozen-button>
-            </template>
-        </nitrozen-dialog>
+                <template slot="body">
+                    <div class="meta-container">
+                        <nitrozen-input
+                            class="search"
+                            type="password"
+                            label="Password"
+                            placeholder="Enter password to charge invoice"
+                            v-model="charge_invoice.password"
+                            @change="chargeInvoice.password=false"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="charge_invoice.showError">This field is required</nitrozen-error>
+                    </div>
+                </template>
+                <template slot="footer">
+                    <nitrozen-button
+                        style="width:100%"
+                        :theme="'secondary'"
+                        v-strokeBtn
+                        :showProgress="chargeInvoiceLoading"
+                        @click="chargeInvoice"
+                        >Charge Invoice
+                    </nitrozen-button>
+                </template>
+            </nitrozen-dialog>
         </transition>
     </div>
 </template>
@@ -484,7 +500,9 @@
         }
         .invoice_item_name{
             font-weight: 600;
-            margin-bottom: 8px;
+        }
+        .invoice_item_description{
+            margin-top: 8px;
         }
         .no-border-left{
             border-left: none;
@@ -825,6 +843,7 @@ export default {
             profileDetails: null,
             invoiceId: this.$route.params.billingNo,
             chargeInvoiceLoading: false,
+            voidInvoiceLoading: false,
             contextMenuItems: [
                 {
                         text: 'Pay Offline',
@@ -847,7 +866,10 @@ export default {
             charge_invoice:{
                 password: '',
                 showError:false,
-
+            },
+            void_invoice:{
+                password: '',
+                showError:false,
             }
         };
     },
@@ -963,23 +985,46 @@ export default {
                 negativeButtonLabel: 'Cancel'
             });
         },
-        onCloseVoidInvoiceDialog(meta){
-            if(meta == "Void Invoice"){
-                let payload={
-                    invoice_id: this.invoiceId
-                }
-                BillingService.voidInvoice(payload).then(res=>{
-                    this.$snackbar.global.showSuccess(`Invoice marked as void successfully`, {
-                        duration: 2000
-                    });
-                    return this.fetchInvoiceDetail()
-                })
-                .catch(err=>{
-                    this.$snackbar.global.showError(`Failed to mark invoice as void`, {
-                        duration: 2000
-                    });
-                })
+        onVoidInvoice(){
+            this.void_invoice.showError = false
+            if(!this.void_invoice.password){
+                this.void_invoice.showError = true
+                return
             }
+
+            this.voidInvoiceLoading = true
+            let payload={
+                invoice_id: this.invoiceId,
+                password: this.void_invoice.password
+            }
+            BillingService.voidInvoice(payload)
+            .then(res=>{
+                this.$snackbar.global.showSuccess(`Invoice marked as void successfully`, {
+                    duration: 2000
+                });
+                return this.fetchInvoiceDetail()
+            })
+            .then(()=>{
+                this.$refs['confirm_void_invoice_dialog'].close()
+            })
+            .catch(err=>{
+                if(err && err.response && err.response.data && err.response.data.message){
+                    this.$snackbar.global.showError(err.response.data.message, {
+                        duration: 3000
+                    });
+                }
+                else{
+                    this.$snackbar.global.showError("Something went wrong", {
+                        duration: 2000
+                    });
+                }
+            })
+            .finally(()=>{
+                this.voidInvoiceLoading = false
+            })
+        },
+        onCloseVoidInvoiceDialog(meta){
+            
         },
         closeChargeInvoiceModal(meta){
             setTimeout(() => {
