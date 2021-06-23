@@ -152,7 +152,8 @@
                                         ) in invoice.invoice_items"
                                     >
                                         <td>
-                                            <div>{{ item.name }}</div>
+                                            <div class="invoice_item_name">{{ item.name }}</div>
+                                            <div>{{ item.description }}</div>
                                         </td>
                                         <td>
                                             <div>{{ item.quantity }}</div>
@@ -480,6 +481,10 @@
             padding: 12px;
             text-align: left;
             border: 1px solid black;
+        }
+        .invoice_item_name{
+            font-weight: 600;
+            margin-bottom: 8px;
         }
         .no-border-left{
             border-left: none;
