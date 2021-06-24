@@ -391,7 +391,8 @@
                 </template>
                 <template slot="footer">
                     <nitrozen-button
-                        style="width:100%"
+                        :class="{'void-invoice-btn-loading':voidInvoiceLoading}"
+                        class="void-invoice-btn"
                         :theme="'secondary'"
                         v-strokeBtn
                         :showProgress="voidInvoiceLoading"
@@ -418,7 +419,8 @@
                 </template>
                 <template slot="footer">
                     <nitrozen-button
-                        style="width:100%"
+                        class="charge-invoice-btn"
+                        :class="{'charge-invoice-btn-loading':chargeInvoiceLoading}"
                         :theme="'secondary'"
                         v-strokeBtn
                         :showProgress="chargeInvoiceLoading"
@@ -444,6 +446,32 @@
 .shopsense_logo{
     width: 240px;
     margin-right: 12px;
+}
+.void-invoice-btn{
+    width:100%;
+    background-color: #fff;
+    color:#f33;
+    border: 1px solid #f33;
+    border-radius: 3px;
+}
+.void-invoice-btn-loading{
+    width:100%;
+    color: #fff;
+    background-color:#f33;
+    border-radius: 3px;
+}
+.charge-invoice-btn{
+    width:100%;
+    background-color: #fff;
+    color:#2e31be;
+    border: 1px solid #2e31be;
+    border-radius: 3px;
+}
+.charge-invoice-btn-loading{
+    width:100%;
+    color: #fff;
+    background-color:#2e31be;
+    border-radius: 3px;
 }
 .page-container {
     flex-direction: column;
@@ -902,7 +930,7 @@ export default {
             }
             this.chargeInvoiceLoading = true
             return BillingService.chargeInvoice({invoice_id:this.invoiceId, password: this.charge_invoice.password}).then(({ data }) => {
-                this.$snackbar.global.showSuccess(`Invoice marked paid as offline successfully`, {
+                this.$snackbar.global.showSuccess(`Invoice charged successfully`, {
                     duration: 2000
                 });
                 this.$refs['charge_invoice_dialog'].close()
@@ -1033,16 +1061,17 @@ export default {
             
         },
         closeChargeInvoiceModal(meta){
+            this.refreshInvoiceDetailUntilPaid(1)
+        },
+        refreshInvoiceDetailUntilPaid(count=1){
             setTimeout(() => {
                 this.fetchInvoiceDetail()
                 .then(()=>{
-                    if(this.invoice.invoice.current_status == 'paid' && !this.invoice.invoice.paid){
-                        setTimeout(() => {
-                            this.fetchInvoiceDetail()                
-                        }, 3000);
+                    if(count < 10 && this.invoice.invoice.current_status == 'paid' && !this.invoice.invoice.paid){
+                        this.refreshInvoiceDetailUntilPaid(count+1)
                     }
                 })
-            }, 4000);
+            }, 1500);
         },
         closePayOfflineModal(meta){
             this.offline_payment.showError=false;
