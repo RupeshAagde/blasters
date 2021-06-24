@@ -99,21 +99,25 @@
                     !inProgress && applicationList && applicationList.length > 0
                 "
             >
-                <div
-                    class="container m-t-24"
+                <a
+                    class="card-container container m-t-24"
+                    :href="getBillingPagePath(item._id)"
                     v-for="(item, index) in applicationList"
                     :key="index"
                     :title="item.name"
-                    @click="goToBillingPage(item._id)"
+                    @click="(e)=>goToBillingPage(item._id,e)"
                 >
                     <div class="line-1">
                         <div
                             v-if="item.client && item.client.name"
                             class="cust-head"
                         >
-                            <div @click.stop="routeToCompanyProfile(item)">
+                            <a
+                                :href="getCompanyProfileLink(item)"
+                                @click.stop.prevent="e=>routeToCompanyProfile(e,item)"
+                            >
                                 {{ item.client.name }}
-                            </div>
+                            </a>
                         </div>
                         <div class="cust-badge">
                             <adm-inline-svg
@@ -184,7 +188,7 @@
                         </div>
                     </div>
                     
-                </div>
+                </a>
                 <div class="pagination" v-if="applicationList.length > 0">
                     <nitrozen-pagination
                         name="Invoices"
@@ -396,6 +400,9 @@
             width: 33%;
         }
     }
+    .card-container{
+        display: block;
+    }
     .container {
         box-sizing: border-box;
         border: 1px solid @Iron;
@@ -524,7 +531,7 @@ export default {
         return {
             companyList: [{value:'all',text:'All'}],
             attempList: [
-                {value:'all',text:'all'},
+                {value:'all',text:'All'},
                 {value:'0',text:'0'},
                 {value:'1',text:'1'},
                 {value:'2',text:'2'},
@@ -675,6 +682,7 @@ export default {
     },
     methods: {
         onCompanySelect(company_id) {
+            this.pagination = Object.assign({},this.pagination,{current:1})
             this.filters.selectedCompany = String(company_id);
             this.fetchInvoiceList();
         },
@@ -712,15 +720,30 @@ export default {
                     console.log(err);
                 });
         },
-        routeToCompanyProfile(item) {
+        getCompanyProfileLink(item){
+            let companyId = item.subscriber.unique_id;
+            if (companyId) {
+                return `/administrator/company-details/${companyId}?tab=Invoices`
+            }
+        },
+        routeToCompanyProfile(e,item) {
+            e.preventDefault()
             let companyId = item.subscriber.unique_id;
             if (companyId) {
                 this.$router.push({
-                    path: `/administrator/company-details/${companyId}`
+                    path: `/administrator/company-details/${companyId}?tab=Invoices`
                 });
             }
         },
-        goToBillingPage(id) {
+        getBillingPagePath(id){
+            if (!this.companyId) {
+                return `/administrator/subscription/invoices/${id}`
+            } else {
+                return `/administrator/company-details/${this.companyId}/billing-details/${id}`
+            }
+        },
+        goToBillingPage(id,e) {
+            e.preventDefault();
             if (!this.companyId) {
                 this.$router.push({
                     path: `/administrator/subscription/invoices/${id}`
@@ -732,12 +755,15 @@ export default {
             }
         },
         fieldChanged() {
+            this.pagination = Object.assign({},this.pagination,{current:1})
             this.fetchInvoiceList();
         },
         dateChanged() {
+            this.pagination = Object.assign({},this.pagination,{current:1})
             this.fetchInvoiceList();
         },
         dateRangeChange() {
+            this.pagination = Object.assign({},this.pagination,{current:1})
             // this.setRouteQuery({
             //     from_date: moment(this.orderDateRange[0]).format('MM-DD-YYYY'),
             //     to_date: moment(this.orderDateRange[1]).format('MM-DD-YYYY'),
