@@ -115,6 +115,12 @@ const BillingService = {
         });
         return ApiService.put(URLS.UPDATE_OFFLINE_PAYMENT(InvoiceId), axiosOptions);
     },
+    voidInvoice(payload) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{
+            data: payload
+        });
+        return ApiService.post(URLS.VOID_INVOICE(), axiosOptions);
+    },
 
     getAvailablePlansDetailed(productSuiteIdOrSlug) {
         const axiosOption = Object.assign({}, getCommonHeaderOptions());
