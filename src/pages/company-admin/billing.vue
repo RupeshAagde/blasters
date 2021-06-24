@@ -793,6 +793,9 @@ export default {
             let open_status = status_trail.find(
                 (status) => status.value == 'open'
             );
+            if(!open_status){
+                return null
+            }
             return moment(open_status.timestamp).format('Do MMMM YYYY');
         },
         paidStatus() {
