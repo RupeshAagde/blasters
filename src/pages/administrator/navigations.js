@@ -84,20 +84,10 @@ export const getNavigations = () => {
             children: []
         },
         {
-            display: 'Extension Review',
-            link: '/administrator/extensions/review',
-            title: 'extensons',
-            icon: 'settings',
-            highlightedIcon: 'settings-highlighted',
-            active: false,
-            permission: 'settings',
-            children: []
-        },
-        {
             display: 'Subscription',
             link: '/administrator/subscription/invoices',
             title: 'invoice',
-            icon: 'support-icon',
+            icon: 'settings',
             highlightedIcon: 'home-highlighted',
             active: false,
             permission: 'admin-access',
@@ -111,6 +101,16 @@ export const getNavigations = () => {
                     active: false
                 }
             ]
+        },
+        {
+            display: 'Extension Review',
+            link: '/administrator/extensions/review',
+            title: 'extensons',
+            icon: 'settings',
+            highlightedIcon: 'settings-highlighted',
+            active: false,
+            permission: 'settings',
+            children: []
         },
         {
             display: 'Support Center',

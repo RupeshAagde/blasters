@@ -43,7 +43,7 @@
         ></page-error>
         <div class="main-container" v-else>
             <div class="page-container">
-                <a class="cl-RoyalBlue" :href="`https://partners.fyndx0.de/extensions/preview/${extension_id}`" target="_blank" >Link to extension</a>
+                <a class="cl-RoyalBlue" :href="`https://partners.${fynd_platform_domain}/extensions/preview/${extension_id}`" target="_blank" >Link to extension</a>
                 <nitrozen-input
                     :disabled="true"
                     :type="'textarea'"
@@ -98,6 +98,9 @@ import pageEmpty from '@/components/common/page-empty.vue';
 import pageError from '@/components/common/page-error.vue';
 import pageHeader from '@/components/common/layout/page-header.vue';
 import ExtensionService from '@/services/extension.service';
+import root from 'window-or-global';
+const env = root.env || {};
+
 export default {
     name: "extension-review",
     components: {
@@ -123,7 +126,8 @@ export default {
                 review_comments: "",
                 current_status: "",
             },
-            error_comments:""
+            error_comments:"",
+            fynd_platform_domain: 'fynd.com',
         }
     },
     computed: {
@@ -135,6 +139,7 @@ export default {
         }
     },
     mounted() {
+        this.fynd_platform_domain = env.FYND_PLATFORM_DOMAIN || this.fynd_platform_domain;
         this.fetchExtension();
     },
     methods: {

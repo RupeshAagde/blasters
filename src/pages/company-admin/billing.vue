@@ -5,12 +5,15 @@
             :title="'Invoice'"
             :contextMenuItems="contextMenuItems"
             @backClick="redirectToListing"
-            @payOffline="open"
+            @payOffline="openPayOfflineModal"
+            @openChargeInvoiceModal="openChargeInvoiceModal"
+            @openVoiceInvoiceModal="openVoiceInvoiceModal"
         >
             <div>
                 <nitrozen-button
                     :theme="'secondary'"
                     v-strokeBtn
+                    id="download-invoice"
                     @click="downloadInvoice"
                     >Download
                 </nitrozen-button>
@@ -47,7 +50,7 @@
                     <div v-if="invoice && invoice.invoice">
                         <div class="flex m-b-24">
                             <div class="flex-2">
-                                <table class="invoice-number-table width-80">
+                                <table class="bold m-b-12 m-t-6 width-80">
                                     <tr>
                                         <td>Billing Address</td>
                                     </tr>
@@ -55,6 +58,11 @@
                                 <div class="line-height-24 bold">
                                     {{
                                         invoice.invoice.client.name
+                                    }}
+                                </div>
+                                <div class="line-height-24" v-if="safeGet(invoice,'invoice.documents.gst')">
+                                    GSTIN: {{
+                                        invoice.invoice.documents.gst
                                     }}
                                 </div>
                                 <div class="line-height-24">
@@ -102,13 +110,19 @@
                                         <td>Status</td>
                                         <td>
                                             <div
-                                                v-if="invoice.invoice.paid"
+                                                v-if="invoice.invoice.current_status == 'void'"
+                                                class="void-status"
+                                            >
+                                                Void
+                                            </div>
+                                            <div
+                                                v-else-if="invoice.invoice.paid"
                                                 class="paid-status"
                                             >
                                                 Paid
                                             </div>
                                             <div
-                                                v-if="!invoice.invoice.paid"
+                                                v-else-if="!invoice.invoice.paid"
                                                 class="paid-status unpaid"
                                             >
                                                 Unpaid
@@ -138,7 +152,8 @@
                                         ) in invoice.invoice_items"
                                     >
                                         <td>
-                                            <div>{{ item.name }}</div>
+                                            <div class="invoice_item_name">{{ item.name }}</div>
+                                            <div class="invoice_item_description" v-if="item.type !== 'subscription'">{{ item.description }}</div>
                                         </td>
                                         <td>
                                             <div>{{ item.quantity }}</div>
@@ -215,7 +230,7 @@
                                         <td class="no-border-left no-border-right"></td>
                                         <td class="no-border-left no-border-right">
                                             <div class="bold">SCGST {{ invoice.invoice
-                                                                .taxation.cgst * 100 }}%</div>
+                                                                .taxation.sgst * 100 }}%</div>
                                         </td>
                                         <td class="no-border-left no-border-right">
                                             <div class="bold">
@@ -327,37 +342,91 @@
         </div>
 
         <transition name="modal">
-            <nitrozen-dialog ref="dialog" title="Add Offline Payment" @close="close">
-            <template slot="body">
-                <div class="meta-container">
-                    <nitrozen-input
-                        class="search"
-                        type="input"
-                        label="Payment Intent Id"
-                        placeholder="Enter Payment Intent Id"
-                        v-model="offline_payment.payment_intent_id"
-                    ></nitrozen-input>
-                    <nitrozen-error v-if="offline_payment.showError">This field is required</nitrozen-error>
-                    <nitrozen-input
-                        class="search m-t-24"
-                        type="textarea"
-                        label="Comment"
-                        placeholder="Enter Comment"
-                        v-model="offline_payment.comment"
-                    ></nitrozen-input>
-                    <nitrozen-error v-if="offline_payment.showError">This field is required</nitrozen-error>
-                </div>
-            </template>
-            <template slot="footer">
-                <nitrozen-button
-                    style="width:100%"
-                    :theme="'secondary'"
-                    v-strokeBtn
-                    @click="addOfflinePayment"
-                    >Add Payment
-                </nitrozen-button>
-            </template>
-        </nitrozen-dialog>
+            <nitrozen-dialog ref="dialog" title="Add Offline Payment" @close="closePayOfflineModal">
+                <template slot="body">
+                    <div class="meta-container">
+                        <nitrozen-input
+                            class="search"
+                            type="input"
+                            label="Payment Intent Id"
+                            placeholder="Enter Payment Intent Id"
+                            v-model="offline_payment.payment_intent_id"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="offline_payment.showError">This field is required</nitrozen-error>
+                        <nitrozen-input
+                            class="search m-t-24"
+                            type="textarea"
+                            label="Comment"
+                            placeholder="Enter Comment"
+                            v-model="offline_payment.comment"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="offline_payment.showError">This field is required</nitrozen-error>
+                    </div>
+                </template>
+                <template slot="footer">
+                    <nitrozen-button
+                        style="width:100%"
+                        :theme="'secondary'"
+                        v-strokeBtn
+                        @click="addOfflinePayment"
+                        >Add Payment
+                    </nitrozen-button>
+                </template>
+            </nitrozen-dialog>
+        </transition>
+        <transition name="modal">
+            <nitrozen-dialog ref="confirm_void_invoice_dialog" title="Void Invoice" @close="onCloseVoidInvoiceDialog">
+                <template slot="body">
+                    <div class="meta-container">
+                        <nitrozen-input
+                            class="search"
+                            type="password"
+                            label="Password"
+                            placeholder="Enter password to charge invoice"
+                            v-model="void_invoice.password"
+                            @change="void_invoice.showError=false"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="void_invoice.showError">This field is required</nitrozen-error>
+                    </div>
+                </template>
+                <template slot="footer">
+                    <nitrozen-button
+                        style="width:100%"
+                        :theme="'secondary'"
+                        v-strokeBtn
+                        :showProgress="voidInvoiceLoading"
+                        @click="onVoidInvoice"
+                        >Void Invoice
+                    </nitrozen-button>
+                </template>
+            </nitrozen-dialog>
+        </transition>
+        <transition name="modal">
+            <nitrozen-dialog ref="charge_invoice_dialog" title="Charge Invoice" @close="closeChargeInvoiceModal">
+                <template slot="body">
+                    <div class="meta-container">
+                        <nitrozen-input
+                            class="search"
+                            type="password"
+                            label="Password"
+                            placeholder="Enter password to charge invoice"
+                            v-model="charge_invoice.password"
+                            @change="chargeInvoice.password=false"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="charge_invoice.showError">This field is required</nitrozen-error>
+                    </div>
+                </template>
+                <template slot="footer">
+                    <nitrozen-button
+                        style="width:100%"
+                        :theme="'secondary'"
+                        v-strokeBtn
+                        :showProgress="chargeInvoiceLoading"
+                        @click="chargeInvoice"
+                        >Charge Invoice
+                    </nitrozen-button>
+                </template>
+            </nitrozen-dialog>
         </transition>
     </div>
 </template>
@@ -394,6 +463,12 @@
             td {
                 padding: 6px 6px;
             }
+            .void-status{
+                border: 1px solid #f33;
+                color: #f33;
+                display: inline;
+                padding: 3px 5px;
+            }
             .paid-status {
                 border: 1px solid #2e31be;
                 color: #2e31be;
@@ -422,6 +497,12 @@
             padding: 12px;
             text-align: left;
             border: 1px solid black;
+        }
+        .invoice_item_name{
+            font-weight: 600;
+        }
+        .invoice_item_description{
+            margin-top: 8px;
         }
         .no-border-left{
             border-left: none;
@@ -545,6 +626,9 @@
 .m-r-24 {
     margin-right: 24px;
 }
+.m-t-6 {
+    margin-top: 6px;
+}
 .m-t-24 {
     margin-top: 24px;
 }
@@ -663,8 +747,6 @@ import PageHeader from '@/components/common/layout/page-header';
 import moment from 'moment';
 import admInlineSvg from '@/components/common/adm-inline-svg.vue';
 import BillingService from '@/services/billing.service';
-import { sign } from '@/services/rest/signature/signature'
-import URLS from '@/services/domain.service';
 import CompanyService from '@/services/company-admin.service';
 import get from 'lodash/get';
 import {
@@ -680,6 +762,8 @@ import {
 } from '@gofynd/nitrozen-vue';
 import BaseCard1 from '../../components/common/base-card-1.vue';
 import { getAuthToken } from '../../services/utils.service'
+import GrindorService from '@/services/grindor.service';
+
 export default {
     name: 'billing',
     components: {
@@ -696,17 +780,23 @@ export default {
     },
     computed: {
         invoiceOpen(){
+            let current_status = get(this, 'invoice.invoice.current_status', null);
+            if(current_status != "open") return null;
             let status_trail = get(this, 'invoice.invoice.status_trail', null);
             let open_status = status_trail.find(
                 (status) => status.value == 'open'
             );
-            if(!open_status) return null;
             return open_status;
         },
         invoiceOpenDate(){
-            this.invoiceOpen
-            if(!this.invoiceOpen) return null;
-            return moment(this.invoiceOpen.timestamp).format('Do MMMM YYYY');
+            let status_trail = get(this, 'invoice.invoice.status_trail', null);
+            let open_status = status_trail.find(
+                (status) => status.value == 'open'
+            );
+            if(!open_status){
+                return null
+            }
+            return moment(open_status.timestamp).format('Do MMMM YYYY');
         },
         paidStatus() {
             let status_trail = get(this, 'invoice.invoice.status_trail', null);
@@ -758,16 +848,34 @@ export default {
             invoice: null,
             profileDetails: null,
             invoiceId: this.$route.params.billingNo,
+            chargeInvoiceLoading: false,
+            voidInvoiceLoading: false,
             contextMenuItems: [
                 {
                         text: 'Pay Offline',
                         action: 'payOffline',
+                },
+                {
+                    text: 'Charge Invoice',
+                    action: 'openChargeInvoiceModal'
+                },
+                {
+                    text: 'Void Invoice',
+                    action: 'openVoiceInvoiceModal'
                 }
             ],
             offline_payment:{
                 showError:false,
                 payment_intent_id:'',
                 comment:''
+            },
+            charge_invoice:{
+                password: '',
+                showError:false,
+            },
+            void_invoice:{
+                password: '',
+                showError:false,
             }
         };
     },
@@ -777,24 +885,51 @@ export default {
             if(!this.invoiceOpen){
                 this.contextMenuItems = this.contextMenuItems.filter(a=>a.action != "payOffline")
             }
+            if(this.paidStatus){
+                this.contextMenuItems = this.contextMenuItems.filter(a=>a.action != "openChargeInvoiceModal")
+            }
+            if(["open","draft"].indexOf(this.invoice.invoice.current_status) == -1){
+                this.contextMenuItems = this.contextMenuItems.filter(a=>a.action != "openVoiceInvoiceModal")
+            }
         })
     },
     methods: {
+        chargeInvoice(){
+            this.charge_invoice.showError = false
+            if(!this.charge_invoice.password){
+                this.charge_invoice.showError = true
+                return
+            }
+            this.chargeInvoiceLoading = true
+            return BillingService.chargeInvoice({invoice_id:this.invoiceId, password: this.charge_invoice.password}).then(({ data }) => {
+                this.$snackbar.global.showSuccess(`Invoice marked paid as offline successfully`, {
+                    duration: 2000
+                });
+                this.$refs['charge_invoice_dialog'].close()
+            })
+            .catch((err)=>{
+                if(err.response.data && err.response.data.message){
+                    this.$snackbar.global.showError(err.response.data.message, {
+                        duration: 3000
+                    });
+                }
+                else{
+                    this.$snackbar.global.showError("Something went wrong", {
+                        duration: 2000
+                    });
+                }
+            })
+            .finally(()=>{
+                this.chargeInvoiceLoading = false
+            })
+        },
         fetchInvoiceDetail(){
             return BillingService.getInvoiceDetail(this.invoiceId).then(({ data }) => {
                 this.invoice = data;
             });
         },
         redirectToListing() {
-            if (this.companyId) {
-                this.$router.push({
-                    path: `/administrator/company-details/${this.companyId}?tab=3`,
-                });
-            } else {
-                this.$router.push({
-                    path: `/administrator/subscription/invoices?tab=3`,
-                });
-            }
+            this.$router.back();
         },
         amountFormat(plan) {
             return new Intl.NumberFormat('en-IN', {
@@ -805,29 +940,30 @@ export default {
         safeGet(obj, path, defaultValue) {
             return get(obj, path, defaultValue);
         },
-        downloadInvoice() {
-            const {
-                host,
-                pathname,
-                search
-            } = new URL(URLS.SUBSCRIPTION_DOWNLOAD_INVOICE(this.invoiceId,this.companyId));
-            let signingOptions = {
-                method: "GET",
-                host: host,
-                path: pathname + search,
-                headers: {},
-                body:null,
-                signQuery: true
-            }
-            let params = sign(signingOptions)
-            // var queryString = Object.keys(params.headers).map(key => key + '=' + params.headers[key]).join('&');
-
-            window.open(
-                "https://"+params.host+params.path,
-                '_blank'
-            );
+        getPublicUrl(urls,expiry){
+            return GrindorService.getPublicUrl(this.companyId,{
+                expiry,
+                urls
+            })
+            .then(res=>res.data)
         },
-        open() {
+        downloadInvoice() {
+            var link = document.createElement('a');
+            return this.getPublicUrl([this.invoice.invoice.pdf_url],20000)
+            .then((publicUrlResponse)=>{
+                let public_signed_url = get(publicUrlResponse,'urls.0.signed_url')
+                link.setAttribute('href', public_signed_url);
+                link.setAttribute('target', '_blank');
+                link.setAttribute('download', 'invoice.pdf');
+                document.body.appendChild(link); // Required for FF
+    
+                link.click();
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+        },
+        openPayOfflineModal() {
             this.$refs['dialog'].open({
                 width: '500px',
                 height: '450px',
@@ -836,8 +972,79 @@ export default {
                 positiveButtonLabel: 'Add Payment'
             });
         },
-        
-        close(meta){
+        openChargeInvoiceModal() {
+            this.$refs['charge_invoice_dialog'].open({
+                width: '500px',
+                height: '250px',
+                showCloseButton: true,
+                dismissible: true,
+                positiveButtonLabel: 'Charge Invoice'
+            });
+        },
+        openVoiceInvoiceModal(){
+            this.$refs['confirm_void_invoice_dialog'].open({
+                width: '500px',
+                showCloseButton: true,
+                dismissible: true,
+                neutralButtonLabel: false,
+                positiveButtonLabel: 'Void Invoice',
+                negativeButtonLabel: 'Cancel'
+            });
+        },
+        onVoidInvoice(){
+            this.void_invoice.showError = false
+            if(!this.void_invoice.password){
+                this.void_invoice.showError = true
+                return
+            }
+
+            this.voidInvoiceLoading = true
+            let payload={
+                invoice_id: this.invoiceId,
+                password: this.void_invoice.password
+            }
+            BillingService.voidInvoice(payload)
+            .then(res=>{
+                this.$snackbar.global.showSuccess(`Invoice marked as void successfully`, {
+                    duration: 2000
+                });
+                return this.fetchInvoiceDetail()
+            })
+            .then(()=>{
+                this.$refs['confirm_void_invoice_dialog'].close()
+            })
+            .catch(err=>{
+                if(err && err.response && err.response.data && err.response.data.message){
+                    this.$snackbar.global.showError(err.response.data.message, {
+                        duration: 3000
+                    });
+                }
+                else{
+                    this.$snackbar.global.showError("Something went wrong", {
+                        duration: 2000
+                    });
+                }
+            })
+            .finally(()=>{
+                this.voidInvoiceLoading = false
+            })
+        },
+        onCloseVoidInvoiceDialog(meta){
+            
+        },
+        closeChargeInvoiceModal(meta){
+            setTimeout(() => {
+                this.fetchInvoiceDetail()
+                .then(()=>{
+                    if(this.invoice.invoice.current_status == 'paid' && !this.invoice.invoice.paid){
+                        setTimeout(() => {
+                            this.fetchInvoiceDetail()                
+                        }, 3000);
+                    }
+                })
+            }, 4000);
+        },
+        closePayOfflineModal(meta){
             this.offline_payment.showError=false;
             if(meta.offlinePaidSuccess){
                 this.fetchInvoiceDetail()
@@ -865,25 +1072,7 @@ export default {
                     });
                 })
             }
-        },
-        getProfileDetails: function () {
-            let params = {
-                uid: this.companyId,
-                // phase: 'company_detail'
-            };
-            this.inProgress = true;
-            CompanyService.fetchCompanyProfile(params)
-                .then((res) => {
-                    this.inProgress = false;
-                    console.log('profile details', res.data);
-                    this.profileDetails = res.data;
-                    // this.fetchInvoiceList();
-                })
-                .catch((err) => {
-                    this.inProgress = false;
-                    console.error(err);
-                });
-        },
+        }
     },
 };
 </script>
