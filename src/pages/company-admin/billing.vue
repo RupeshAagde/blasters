@@ -230,7 +230,7 @@
                                         <td class="no-border-left no-border-right"></td>
                                         <td class="no-border-left no-border-right">
                                             <div class="bold">SCGST {{ invoice.invoice
-                                                                .taxation.cgst * 100 }}%</div>
+                                                                .taxation.sgst * 100 }}%</div>
                                         </td>
                                         <td class="no-border-left no-border-right">
                                             <div class="bold">
@@ -789,8 +789,11 @@ export default {
             return open_status;
         },
         invoiceOpenDate(){
-            if(!this.invoiceOpen) return null;
-            return moment(this.invoiceOpen.timestamp).format('Do MMMM YYYY');
+            let status_trail = get(this, 'invoice.invoice.status_trail', null);
+            let open_status = status_trail.find(
+                (status) => status.value == 'open'
+            );
+            return moment(open_status.timestamp).format('Do MMMM YYYY');
         },
         paidStatus() {
             let status_trail = get(this, 'invoice.invoice.status_trail', null);
@@ -1054,13 +1057,13 @@ export default {
                     comment: this.offline_payment.comment
                 }
                 BillingService.updateOfflinePayment(this.invoiceId,payload).then(res=>{
-                    this.$refs['dialog'].closePayOfflineModal({offlinePaidSuccess:true})
+                    this.$refs['dialog'].close({offlinePaidSuccess:true})
                     this.$snackbar.global.showSuccess(`Invoice marked paid as offline successfully`, {
                         duration: 2000
                     });
                 })
                 .catch(err=>{
-                    this.$refs['dialog'].closePayOfflineModal({offlinePaidSuccess:true})
+                    this.$refs['dialog'].close({offlinePaidSuccess:true})
                     this.$snackbar.global.showError(`Failed to mark invoice as offline paid`, {
                         duration: 2000
                     });
