@@ -73,7 +73,7 @@
                         </span>
                     </div>
                     <div v-if="item.key == editingCatKey">
-                        <div class="sub-categories">
+                        <!-- <div class="sub-categories">
                             <p>Sub Categories</p>
                             <nitrozen-chips
                                 class="chip-wrapper"
@@ -94,7 +94,7 @@
                                 @keyup.enter.native="addChip(index, $event)"
                                 v-model="chipInput"
                             />
-                        </div>
+                        </div> -->
                         <div class="feedback-form">
                             <div class="header-line">
                                 <p>Feedback Form Schema</p>
