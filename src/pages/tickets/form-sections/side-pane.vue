@@ -40,7 +40,7 @@
                 @change="somethingChanged"
             ></nitrozen-dropdown>
         </div>
-        <div class="mt-sm" v-if="isPlatformTicket && subCategoryList && subCategoryList.length > 0">
+        <!-- <div class="mt-sm" v-if="isPlatformTicket && subCategoryList && subCategoryList.length > 0">
             <nitrozen-dropdown
                 :searchable="false"
                 class="type-filter"
@@ -49,7 +49,7 @@
                 :items="subCategoryList"
                 @change="somethingChanged"
             ></nitrozen-dropdown>
-        </div>
+        </div> -->
         <!-- <div class="date" v-if="ticket.time_slot">
             <adm-form-input :item="ticket.time_slot" :custom="true">
                 <adm-date-picker

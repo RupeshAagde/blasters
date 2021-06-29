@@ -1071,7 +1071,7 @@ export default {
                         this.refreshInvoiceDetailUntilPaid(count+1)
                     }
                 })
-            }, 1000);
+            }, 1500);
         },
         closePayOfflineModal(meta){
             this.offline_payment.showError=false;
