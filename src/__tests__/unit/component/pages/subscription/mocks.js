@@ -1,4 +1,1300 @@
 export default {
+    detailedList: {
+        plans: [
+            {
+                recurring: { interval: 'month', interval_count: 1 },
+                is_trial_plan: false,
+                plan_group: 'default',
+                tagLines: [],
+                currency: 'INR',
+                is_active: true,
+                is_visible: true,
+                trial_period: 0,
+                addons: [],
+                tags: [],
+                type: 'public',
+                country: 'IN',
+                _id: '5f3a8786c90d780037723a12',
+                name: 'Standard',
+                description: 'Standard',
+                amount: 999,
+                product_suite_id: '5f3a8786c90d7800377239f3',
+                created_at: '2020-08-17T13:35:02.547Z',
+                modified_at: '2020-08-17T13:35:02.547Z',
+                components: [
+                    {
+                        name: 'Shipping',
+                        slug: 'shipping',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'As per rate card'
+                    },
+                    {
+                        name: 'Transaction Fee',
+                        slug: 'transaction-fee',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '4.5%'
+                    },
+                    {
+                        name: 'Number of Customers',
+                        slug: 'customers',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Unlimited'
+                    },
+                    {
+                        name: 'Team Management',
+                        slug: 'team-management',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '20'
+                    },
+                    {
+                        name: 'Selling Locations',
+                        slug: 'selling-locations',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '10'
+                    },
+                    {
+                        name: 'Number of Products',
+                        slug: 'products',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Unlimited'
+                    },
+                    {
+                        name: 'Fynd supported Payment Gateway',
+                        slug: 'fynd-supported-payment-gateway',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'SSL Certificates',
+                        slug: 'ssl-certificates',
+                        description: 'SSL certificates',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Free'
+                    },
+                    {
+                        name: 'Themes',
+                        slug: 'themes',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Basic Themes <br> Use themes by Partners'
+                    },
+                    {
+                        name: 'Email Campaign',
+                        slug: 'email-campagin',
+                        description: 'email-campagin',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text:
+                            'Free 5000 email <br> Additional email charged at 0.25 INR per email'
+                    },
+                    {
+                        name: 'Sale Websites',
+                        slug: 'sale-websites',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '2'
+                    },
+                    {
+                        name: 'SMS campaign',
+                        slug: 'sms-campagin',
+                        description: 'Sms campagin',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text:
+                            'Free 5000 SMS <br> Additional SMS charged at 0.25 INR per SMS'
+                    },
+                    {
+                        name: 'Analytics - Campaign Source',
+                        slug: 'analytics-campaign-source',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'CSV + Basic Events'
+                    },
+                    {
+                        name: 'Content Management',
+                        slug: 'content-managment',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Custom Domain',
+                        slug: 'custom-domain',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Service-Level Agreement',
+                        slug: 'sla',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '48Hr'
+                    },
+                    {
+                        name: 'Support',
+                        slug: 'support',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Email'
+                    }
+                ]
+            },
+            {
+                recurring: { interval: 'month', interval_count: 1 },
+                is_trial_plan: false,
+                plan_group: 'default',
+                tagLines: [],
+                currency: 'INR',
+                is_active: true,
+                is_visible: true,
+                trial_period: 0,
+                addons: [],
+                tags: [],
+                type: 'public',
+                country: 'IN',
+                _id: '5f3a8786c90d780037723a14',
+                name: 'Professional',
+                description: 'Professional',
+                amount: 1499,
+                product_suite_id: '5f3a8786c90d7800377239f3',
+                created_at: '2020-08-17T13:35:02.802Z',
+                modified_at: '2020-08-17T13:35:02.802Z',
+                components: [
+                    {
+                        name: 'Shipping',
+                        slug: 'shipping',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'As per rate card'
+                    },
+                    {
+                        name: 'Transaction Fee',
+                        slug: 'transaction-fee',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '4.0%'
+                    },
+                    {
+                        name: 'Number of Customers',
+                        slug: 'customers',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Unlimited'
+                    },
+                    {
+                        name: 'Team Management',
+                        slug: 'team-management',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '50'
+                    },
+                    {
+                        name: 'Selling Locations',
+                        slug: 'selling-locations',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '50'
+                    },
+                    {
+                        name: 'Number of Products',
+                        slug: 'products',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Unlimited'
+                    },
+                    {
+                        name: 'Fynd supported Payment Gateway',
+                        slug: 'fynd-supported-payment-gateway',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'SSL Certificates',
+                        slug: 'ssl-certificates',
+                        description: 'SSL certificates',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Free'
+                    },
+                    {
+                        name: 'Themes',
+                        slug: 'themes',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text:
+                            'Premium Themes <br> Use themes by Partners'
+                    },
+                    {
+                        name: 'Email Campaign',
+                        slug: 'email-campagin',
+                        description: 'email-campagin',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text:
+                            'Free 50000 email <br> Additional email charged at 0.25 INR per email'
+                    },
+                    {
+                        name: 'Sale Websites',
+                        slug: 'sale-websites',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '2'
+                    },
+                    {
+                        name: 'SMS campaign',
+                        slug: 'sms-campagin',
+                        description: 'Sms campagin',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text:
+                            'Free 50000 SMS <br> Additional SMS charged at 0.25 INR per SMS'
+                    },
+                    {
+                        name: 'Marketplace Integration',
+                        slug: 'marketplace-integration',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'No'
+                    },
+                    {
+                        name: 'Analytics - Campaign Source',
+                        slug: 'analytics-campaign-source',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'CSV + Basic Events'
+                    },
+                    {
+                        name: 'Content Management',
+                        slug: 'content-managment',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Custom Domain',
+                        slug: 'custom-domain',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Analytics - Raw Events Export',
+                        slug: 'analytics-raw-events-export',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Service-Level Agreement',
+                        slug: 'sla',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '12Hr'
+                    },
+                    {
+                        name: 'Analytics - Raw Events Query',
+                        slug: 'analytics-raw-events-query',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Support',
+                        slug: 'support',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Email'
+                    }
+                ]
+            },
+            {
+                recurring: { interval: 'month', interval_count: 1 },
+                is_trial_plan: false,
+                plan_group: 'default',
+                tagLines: [],
+                currency: 'INR',
+                is_active: true,
+                is_visible: true,
+                trial_period: 0,
+                addons: [],
+                tags: ['popular'],
+                type: 'public',
+                country: 'IN',
+                _id: '5f3a8786c90d780037723a13',
+                name: 'Premium',
+                description: 'Premium',
+                amount: 2499,
+                product_suite_id: '5f3a8786c90d7800377239f3',
+                created_at: '2020-08-17T13:35:02.547Z',
+                modified_at: '2020-08-17T13:35:02.547Z',
+                components: [
+                    {
+                        name: 'Shipping',
+                        slug: 'shipping',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'As per rate card'
+                    },
+                    {
+                        name: 'Transaction Fee',
+                        slug: 'transaction-fee',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '3.5%'
+                    },
+                    {
+                        name: 'Number of Customers',
+                        slug: 'customers',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Unlimited'
+                    },
+                    {
+                        name: 'Team Management',
+                        slug: 'team-management',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '100'
+                    },
+                    {
+                        name: 'Selling Locations',
+                        slug: 'selling-locations',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '200'
+                    },
+                    {
+                        name: 'Number of Products',
+                        slug: 'products',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Unlimited'
+                    },
+                    {
+                        name: 'Fynd supported Payment Gateway',
+                        slug: 'fynd-supported-payment-gateway',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'SSL Certificates',
+                        slug: 'ssl-certificates',
+                        description: 'SSL certificates',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Free'
+                    },
+                    {
+                        name: 'Themes',
+                        slug: 'themes',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text:
+                            'Premium Themes <br> Use themes by Partners'
+                    },
+                    {
+                        name: 'Email Campaign',
+                        slug: 'email-campagin',
+                        description: 'email-campagin',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text:
+                            'Free 100k email <br> Additional email charged at 0.25 INR per email'
+                    },
+                    {
+                        name: 'Sale Websites',
+                        slug: 'sale-websites',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '3'
+                    },
+                    {
+                        name: 'SMS campaign',
+                        slug: 'sms-campagin',
+                        description: 'Sms campagin',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text:
+                            'Free 100k SMS <br> Additional SMS charged at 0.25 INR per SMS'
+                    },
+                    {
+                        name: 'Catalogue export for Marketplace',
+                        slug: 'catalogue-export-marketplace',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'No'
+                    },
+                    {
+                        name: 'Marketplace Integration',
+                        slug: 'marketplace-integration',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'POS Inventory Integration',
+                        slug: 'pos-inventory-integration',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Analytics - Campaign Source',
+                        slug: 'analytics-campaign-source',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'CSV + Basic Events + Custom Query'
+                    },
+                    {
+                        name: 'Content Management',
+                        slug: 'content-managment',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Custom Domain',
+                        slug: 'custom-domain',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Analytics - Raw Events Export',
+                        slug: 'analytics-raw-events-export',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Service-Level Agreement',
+                        slug: 'sla',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '14Hr'
+                    },
+                    {
+                        name: 'Analytics - Raw Events Query',
+                        slug: 'analytics-raw-events-query',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Support',
+                        slug: 'support',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Email'
+                    }
+                ]
+            },
+            {
+                recurring: { interval: 'month', interval_count: 1 },
+                is_trial_plan: false,
+                plan_group: 'default',
+                tagLines: [],
+                currency: 'INR',
+                is_active: true,
+                is_visible: true,
+                trial_period: 0,
+                addons: [],
+                tags: [],
+                type: 'public',
+                country: 'IN',
+                _id: '5f3a8786c90d780037723a16',
+                name: 'Ultra Premium',
+                description: 'Ultra Premium',
+                amount: 2999,
+                product_suite_id: '5f3a8786c90d7800377239f3',
+                created_at: '2020-08-17T13:35:02.802Z',
+                modified_at: '2020-08-17T13:35:02.802Z',
+                components: [
+                    {
+                        name: 'Shipping',
+                        slug: 'shipping',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'As per rate card'
+                    },
+                    {
+                        name: 'Transaction Fee',
+                        slug: 'transaction-fee',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '3.5%'
+                    },
+                    {
+                        name: 'Number of Customers',
+                        slug: 'customers',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Unlimited'
+                    },
+                    {
+                        name: 'Team Management',
+                        slug: 'team-management',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Unlimited'
+                    },
+                    {
+                        name: 'Selling Locations',
+                        slug: 'selling-locations',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Unlimited'
+                    },
+                    {
+                        name: 'Number of Products',
+                        slug: 'products',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Unlimited'
+                    },
+                    {
+                        name: 'Fynd supported Payment Gateway',
+                        slug: 'fynd-supported-payment-gateway',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'SSL Certificates',
+                        slug: 'ssl-certificates',
+                        description: 'SSL certificates',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Free'
+                    },
+                    {
+                        name: 'Themes',
+                        slug: 'themes',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text:
+                            'Premium Themes <br> Use themes by Partners'
+                    },
+                    {
+                        name: 'Email Campaign',
+                        slug: 'email-campagin',
+                        description: 'email-campagin',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text:
+                            'Free 500k email <br> Additional email charged at 0.25 INR per email'
+                    },
+                    {
+                        name: 'Sale Websites',
+                        slug: 'sale-websites',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '4'
+                    },
+                    {
+                        name: 'SMS campaign',
+                        slug: 'sms-campagin',
+                        description: 'Sms campagin',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text:
+                            'Free 500k SMS <br> Additional SMS charged at 0.25 INR per SMS'
+                    },
+                    {
+                        name: 'Custom PaymentGatway Setup',
+                        slug: 'custom-payment-gatway-setup',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Catalogue export for Marketplace',
+                        slug: 'catalogue-export-marketplace',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'No'
+                    },
+                    {
+                        name: 'Marketplace Integration',
+                        slug: 'marketplace-integration',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'POS Inventory Integration',
+                        slug: 'pos-inventory-integration',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Analytics - Campaign Source',
+                        slug: 'analytics-campaign-source',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'CSV + Basic Events + Custom Query'
+                    },
+                    {
+                        name: 'Content Management',
+                        slug: 'content-managment',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Custom Domain',
+                        slug: 'custom-domain',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Mobile App',
+                        slug: 'mobile-app',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Analytics - Raw Events Export',
+                        slug: 'analytics-raw-events-export',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Service-Level Agreement',
+                        slug: 'sla',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: '4Hr'
+                    },
+                    {
+                        name: 'Analytics - Raw Events Query',
+                        slug: 'analytics-raw-events-query',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Yes'
+                    },
+                    {
+                        name: 'Support',
+                        slug: 'support',
+                        description: '',
+                        group: 'feature',
+                        icon: '',
+                        links: {},
+                        enabled: true,
+                        display_text: 'Dedicated Account Manager'
+                    }
+                ]
+            }
+        ],
+        trialPlan: {
+            recurring: { interval: 'month', interval_count: 1 },
+            is_trial_plan: true,
+            plan_group: 'default',
+            tagLines: [],
+            currency: 'INR',
+            is_active: true,
+            is_visible: false,
+            trial_period: 30,
+            addons: [],
+            tags: [],
+            type: 'public',
+            country: 'IN',
+            _id: '5f3a8786c90d780037723a11',
+            name: '30 day Trial',
+            description: '30 day Trial',
+            amount: 0,
+            product_suite_id: '5f3a8786c90d7800377239f3',
+            created_at: '2020-08-17T13:35:02.547Z',
+            modified_at: '2020-08-17T13:35:02.547Z'
+        }
+    },
+    currentTrialSubscription: {
+        is_enabled: true,
+        subscription: {
+            current_period: {
+                start: '2021-06-04T12:09:35.499Z',
+                end: '2021-07-04T12:09:35.499Z'
+            },
+            pause_collection: {},
+            trial: {
+                end: '2021-07-04T12:09:35.499Z'
+            },
+            invoice_settings: { generation: true, charging: true },
+            is_active: true,
+            cancel_at_period_end: false,
+            _id: '5f3a8a00668947663b7fbd38',
+            subscriber_id: '5ee773e1351e5e84289ed9cf',
+            plan_id: '5f3a8786c90d780037723a13',
+            product_suite_id: '5f3a8786c90d7800377239f3',
+            plan_data: {
+                recurring: { interval: 'month', interval_count: 1 },
+                is_trial_plan: true,
+                plan_group: 'default',
+                tagLines: [],
+                currency: 'INR',
+                is_active: true,
+                is_visible: true,
+                trial_period: 0,
+                addons: [],
+                tags: ['popular'],
+                type: 'public',
+                country: 'IN',
+                _id: '5f3a8786c90d780037723a13',
+                name: 'Premium',
+                description: 'Premium',
+                amount: 2499,
+                product_suite_id: '5f3a8786c90d7800377239f3',
+                created_at: '2020-08-17T13:35:02.547Z',
+                modified_at: '2020-08-17T13:35:02.547Z',
+                taxation: { gst: 0.18 }
+            },
+            current_status: 'active',
+            collection_method: 'charge_automatically',
+            created_at: '2020-08-17T13:45:36.731Z',
+            modified_at: '2021-06-17T17:48:56.273Z',
+            latest_invoice: '60cb8b084582c200328acfdd'
+        }
+    },
+    currentSubscription: {
+        is_enabled: true,
+        subscription: {
+            current_period: {
+                start: '2021-06-04T12:09:35.499Z',
+                end: '2021-07-04T12:09:35.499Z'
+            },
+            pause_collection: {},
+            trial: {},
+            invoice_settings: { generation: true, charging: true },
+            is_active: true,
+            cancel_at_period_end: false,
+            _id: '5f3a8a00668947663b7fbd38',
+            subscriber_id: '5ee773e1351e5e84289ed9cf',
+            plan_id: '5f3a8786c90d780037723a13',
+            product_suite_id: '5f3a8786c90d7800377239f3',
+            plan_data: {
+                recurring: { interval: 'month', interval_count: 1 },
+                is_trial_plan: false,
+                plan_group: 'default',
+                tagLines: [],
+                currency: 'INR',
+                is_active: true,
+                is_visible: true,
+                trial_period: 0,
+                addons: [],
+                tags: ['popular'],
+                type: 'public',
+                country: 'IN',
+                _id: '5f3a8786c90d780037723a13',
+                name: 'Premium',
+                description: 'Premium',
+                amount: 2499,
+                product_suite_id: '5f3a8786c90d7800377239f3',
+                created_at: '2020-08-17T13:35:02.547Z',
+                modified_at: '2020-08-17T13:35:02.547Z',
+                taxation: { gst: 0.18 }
+            },
+            current_status: 'active',
+            collection_method: 'charge_automatically',
+            created_at: '2020-08-17T13:45:36.731Z',
+            modified_at: '2021-06-17T17:48:56.273Z',
+            latest_invoice: '60cb8b084582c200328acfdd'
+        }
+    },
+    subscription: {
+        recurring: { interval: 'month', interval_count: 1 },
+        taxation: { gst: 0.18 },
+        is_trial_plan: false,
+        plan_group: 'default',
+        tag_lines: [],
+        currency: 'INR',
+        is_active: true,
+        is_visible: true,
+        trial_period: 0,
+        addons: [],
+        tags: ['popular'],
+        type: 'public',
+        country: 'IN',
+        _id: '5f3a8786c90d780037723a13',
+        name: 'Premium',
+        description: 'Premium',
+        amount: 2499,
+        product_suite_id: '5f3a8786c90d7800377239f3',
+        created_at: '2020-08-17T13:35:02.547Z',
+        modified_at: '2021-06-02T04:46:42.100Z',
+        components: [
+            {
+                name: 'Shipping',
+                slug: 'shipping',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: 'As per rate card'
+            },
+            {
+                name: 'Transaction Fee',
+                slug: 'transaction-fee',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: '3.5%'
+            },
+            {
+                name: 'Number of Customers',
+                slug: 'customers',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: 'Unlimited'
+            },
+            {
+                name: 'Team Management',
+                slug: 'team-management',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: '100'
+            },
+            {
+                name: 'Selling Locations',
+                slug: 'selling-locations',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: '200'
+            },
+            {
+                name: 'Number of Products',
+                slug: 'products',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: 'Unlimited'
+            },
+            {
+                name: 'Fynd supported Payment Gateway',
+                slug: 'fynd-supported-payment-gateway',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: 'Yes'
+            },
+            {
+                name: 'SSL Certificates',
+                slug: 'ssl-certificates',
+                description: 'SSL certificates',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: 'Free'
+            },
+            {
+                name: 'Themes',
+                slug: 'themes',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: 'Premium Themes <br> Use themes by Partners'
+            },
+            {
+                name: 'Email Campaign',
+                slug: 'email-campagin',
+                description: 'email-campagin',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text:
+                    'Free 100k email <br> Additional email charged at 0.25 INR per email'
+            },
+            {
+                name: 'Sale Websites',
+                slug: 'sale-websites',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: '3'
+            },
+            {
+                name: 'SMS campaign',
+                slug: 'sms-campagin',
+                description: 'Sms campagin',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text:
+                    'Free 100k SMS <br> Additional SMS charged at 0.25 INR per SMS'
+            },
+            {
+                name: 'Catalogue export for Marketplace',
+                slug: 'catalogue-export-marketplace',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: 'No'
+            },
+            {
+                name: 'Marketplace Integration',
+                slug: 'marketplace-integration',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: 'Yes'
+            },
+            {
+                name: 'POS Inventory Integration',
+                slug: 'pos-inventory-integration',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: 'Yes'
+            },
+            {
+                name: 'Analytics - Campaign Source',
+                slug: 'analytics-campaign-source',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: 'CSV + Basic Events + Custom Query'
+            },
+            {
+                name: 'Content Management',
+                slug: 'content-managment',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: 'Yes'
+            },
+            {
+                name: 'Custom Domain',
+                slug: 'custom-domain',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: 'Yes'
+            },
+            {
+                name: 'Analytics - Raw Events Export',
+                slug: 'analytics-raw-events-export',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: 'Yes'
+            },
+            {
+                name: 'Service-Level Agreement',
+                slug: 'sla',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: '14Hr'
+            },
+            {
+                name: 'Analytics - Raw Events Query',
+                slug: 'analytics-raw-events-query',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: 'Yes'
+            },
+            {
+                name: 'Support',
+                slug: 'support',
+                description: '',
+                group: 'feature',
+                icon: '',
+                links: {},
+                enabled: true,
+                display_text: 'Email'
+            }
+        ]
+    },
     invoicesListing: {
         items: [
             {

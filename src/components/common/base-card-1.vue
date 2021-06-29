@@ -37,7 +37,15 @@
                     </div>
                 </div>
             </div>
-            <div class="store-address-detail">
+            <div class="store-address-detail" v-if="item.offline_payment_comment">
+                <div class="store-country">
+                    <label class="n-input-label">Offline Payment Comment</label>
+                    <div class="store-address-name">
+                        {{ item.offline_payment_comment }}
+                    </div>
+                </div>
+            </div>
+            <div class="store-address-detail" v-if="item.payment_method_last4 || item.payment_method_last4 || item.payment_method_brand || item.payment_method_funding">
                 <div class="store-country">
                     <label class="n-input-label">Card </label>
                     <div class="store-address-name" v-if="item.payment_method_last4">

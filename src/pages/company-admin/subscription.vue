@@ -240,13 +240,6 @@ export default {
         ...mapGetters({
             currentActivePlan: GET_CURRENT_ACTIVE_SUBSCRIPTION
         }),
-        isTrialPlan() {
-            return get(
-                this.currentActivePlan,
-                'subscription.plan_data.is_trial_plan',
-                false
-            );
-        },
         trialDaysLeftString() {
             let currentActivePlan = this.currentActivePlan;
             if (
@@ -306,20 +299,6 @@ export default {
         getDateString: function(value) {
             return moment(value).format('MMMM Do YYYY');
         },
-        accountNumber: function(value) {
-            if (!value) return '';
-            var last = 4;
-
-            value =
-                new Array(value.length - last + 1).join('*') +
-                value.slice(-last);
-            return value;
-        },
-        capitalize: function(value) {
-            if (!value) return '';
-            value = value.toString();
-            return value.charAt(0).toUpperCase() + value.slice(1);
-        }
     },
     data(){
         return {
@@ -358,6 +337,9 @@ export default {
                     if(this.safeGet(this.currentActivePlan,"subscription.collection_method")){
                         this.collection_method = this.currentActivePlan.subscription.collection_method
                     }
+                })
+                .catch(err=>{
+                    console.log(err)
                 })
         );
     },
@@ -433,9 +415,6 @@ export default {
                 style: 'currency',
                 currency: plan.currency
             }).format(plan.amount);
-        },
-        getBillingText(plan) {
-            return `Billed every ${plan.recurring.interval_count} ${plan.recurring.interval}`;
         },
         recurringText(interval_count, interval) {
             if (interval_count == 1) {
