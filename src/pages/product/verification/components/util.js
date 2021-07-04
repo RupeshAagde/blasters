@@ -55,7 +55,7 @@ export function parseDynamicAttributes(schema = {}, value = {}, options = {}, re
         schemas[grpName]['properties'][key] = prop;
         values[grpName][key] = value[key];
         // if(rejectedFields[key]){
-        schemas[grpName]['properties'][key]['verified'] = rejectedFields[key] || true;
+        schemas[grpName]['properties'][key]['verified'] = rejectedFields[key] !==undefined ? false :  true;
         // }
 
         if (required.includes(key)) {

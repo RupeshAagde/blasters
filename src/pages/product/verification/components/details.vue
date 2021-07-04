@@ -91,7 +91,7 @@
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
                     :value="isCheckboxSelected(rejected_fields.brand_uid)"
-                    :checkboxValue="rejected_fields.brand"
+                    :checkboxValue="rejected_fields.brand_uid"
                     id="rejected_fields.brand"
                     class="nt-checkbox"
                     @change="emitVerify('brand_uid', brand_uid.value)"

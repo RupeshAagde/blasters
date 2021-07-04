@@ -36,7 +36,7 @@
                             v-model="selectedFilter"
                             @change="
                                 fetchCompany(),
-                                    setRouteQuery({ stage: selectedFilter })
+                                    setRouteQuery({ selectedFilter: true })
                             "
                         ></nitrozen-dropdown>
                     </div>
@@ -444,8 +444,6 @@ const PAGINATION = {
 const ROLE_FILTER = [
     { value: 'all', text: 'All' },
     { value: 'marketplace_opted', text: 'Marketplace Opted' },
-    { value: 'unverified', text: 'Unverified' },
-    { value: 'verified', text: 'Verified' },
 ];
 
 export default {
@@ -533,7 +531,7 @@ export default {
             }
 
             if (this.selectedFilter !== 'all') {
-                query.stage = [this.selectedFilter];
+                query[this.selectedFilter] = true;
             }
 
             return query;

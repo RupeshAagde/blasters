@@ -124,12 +124,12 @@
                             </div>
                             <div class="card-badge-section">
                                 <nitrozen-badge
-                                    v-if="product.status === 'verified'"
+                                    v-if="product.verification && product.verification.status === 'verified'"
                                     state="success"
                                     >Verified</nitrozen-badge
                                 >
                                 <nitrozen-badge
-                                    v-else-if="product.status === 'rejected'"
+                                    v-else-if="product.verification && product.verification.status === 'rejected'"
                                     state="error"
                                     >Rejected</nitrozen-badge
                                 >
@@ -490,13 +490,13 @@ export default {
             if (pageId) this.pageId = pageId;
         },
         companyView(product) {
-            const { uid: productId, item_code , brand: { uid: brandUID }, template_tag } = product;
+            console.log("product data------", product);
+            const { uid, item_code , template_tag } = product;
             const query = {
-                    brandId: brandUID,
-                    template: template_tag,
-                    uid: productId
+                    "template": template_tag,
+                    uid
                 };
-            if (productId) {
+            if (uid) {
                 this.$router.push({
                     path: `/administrator/product/verification/${this.companyId}/products/edit/${item_code}`,
                     query,

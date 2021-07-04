@@ -7,12 +7,14 @@
                     title="Verify Product"
                     :showContextMenuItemMeta="true"
                     :custom-json="customJSON"
+                    @backClick="redirectToListing"
                 >
                     <div class="button-box">
                         <nitrozen-button
                             class="pad-left"
                             :theme="'secondary'"
                             v-flatBtn
+                            @click="redirect({platform:true})"
                             >Edit</nitrozen-button
                         >
                     </div>
@@ -21,6 +23,7 @@
                             class="footer-actions"
                             :theme="'secondary'"
                             v-flatBtn
+                            @click="redirect({platform:true})"
                             >Edit</nitrozen-button
                         >
                     </template>
@@ -75,11 +78,10 @@
                         <div class="mt-md inline">
                             <div v-for="(m, index) of media" :key="index" class="image-verify-block">
                             <nitrozen-checkbox
-                                :value="isCheckboxSelected(rejectedFields.media)"
-                                :checkboxValue="rejectedFields.m"
+                                :value="isCheckboxSelected(rejectedFields.media, m && m.url)"
                                 id="rejectedFields.no_of_boxes"
                                 class="nt-checkbox"
-                                @change="updateVerifiedList({'key': 'media', value: m && m.url})"
+                                @change="updateVerifiedList({'key': 'media', value: m && m.url, type:'array'})"
                             >
                             </nitrozen-checkbox>
                             <media
@@ -111,11 +113,10 @@
                         >
                             <!-- Highlight Input -->
                             <nitrozen-checkbox
-                                :value="isCheckboxSelected(rejectedFields.highlight)"
-                                :checkboxValue="rejectedFields.highlight"
+                                :value="isCheckboxSelected(rejectedFields.highlights, highlight)"
                                 id="rejectedFields.no_of_boxes"
                                 class="nt-checkbox"
-                                @change="updateVerifiedList({'key': highlight , 'value': highlight})"
+                                @change="updateVerifiedList({'key': 'highlights' , 'value': highlight, type:'array'})"
                             >
                             </nitrozen-checkbox>
                             <nitrozen-input
@@ -375,7 +376,7 @@
                                         :checkboxValue="rejectedFields.trader_name"
                                         id="rejectedFields.trader_name"
                                         class="nt-checkbox"
-                                        @change="updateVerifiedList({'key': 'trader_name' , 'value': trader_name})"
+                                        @change="updateVerifiedList({'key': 'trader_name' , 'value': trader.name})"
                                     >
                                     </nitrozen-checkbox>
                                     <nitrozen-input
@@ -391,7 +392,7 @@
                                         :checkboxValue="rejectedFields.trader_address"
                                         id="rejectedFields.trader_address"
                                         class="nt-checkbox"
-                                        @change="updateVerifiedList({'key': 'trader_address' , 'value': trader_address})"
+                                        @change="updateVerifiedList({'key': 'trader_address' , 'value': trader.address})"
                                     >
                                     </nitrozen-checkbox>
                                     <nitrozen-input
@@ -428,12 +429,13 @@
                 </div> -->
                 </div>
 
-                </div>
-                <div class="download_section flex">
+                <div class="download_section flex" v-if="!isRejected">
                     <div
+                        
                         v-for="(button, index) in actionButtons"
                         :key="index"
                         class="flex download-btn"
+
                     >
                         <nitrozen-button
                             theme="secondary"
@@ -443,7 +445,26 @@
                             {{ button }}
                         </nitrozen-button>
                     </div>
-            </div>
+
+                    
+                </div>
+                <div class="download_section" v-else>
+                        <nitrozen-input
+                            class="input reject-input"
+                            label="Remark"
+                            type="textarea"
+                            v-model="remark"
+                            placeholder="Add a remark"
+                        ></nitrozen-input>
+                        <nitrozen-button
+                            theme="secondary"
+                            v-flatBtn
+                            @click="save(2)"
+                        >
+                            Reject
+                        </nitrozen-button>
+                </div>
+                </div>
         </div>
     </div>
 </template>
@@ -476,9 +497,15 @@
         padding: 7px 0 7px 0;
     }
 }
+
 .download_section {
-    display: flex;
-    justify-content: space-evenly;
+    width: 100%;
+
+    .reject-input{
+            max-width: fit-content;
+            margin-bottom: 10px;
+    }
+
 
     .download-btn {
         padding: 0 10px;
@@ -920,6 +947,7 @@ export default {
             otherSizes: [],
             customJSON: {},
             hsnDetails: {},
+            isRejected: false,
 
             name: '',
             brandUid: 0,
@@ -931,6 +959,7 @@ export default {
                 name: '',
                 address: '',
             },
+            remark: '',
             traderError: '',
             traderTypeList: [],
             moq: {
@@ -1061,7 +1090,7 @@ export default {
                 this.categories = this.templateDetails.category_details;
                 // product fields
                 this.name = this.product.name || this.name;
-                this.brandUid = this.product.brand_uid || this.brandUid;
+                this.brandUid = this.product.brand_uid;
                 this.categorySlug =
                     this.product.category_slug || this.categorySlug;
                 this.itemCode = this.product.item_code || this.itemCode;
@@ -1141,8 +1170,8 @@ export default {
                     this.highlights = this.product.highlights;
 
                 const { rejected_fields = {} } = this.verificationDetails;
-                // this.rejectedFields = rejected_fields;
-                // console.log('rejected_fields----', this.rejectedFields);
+                this.rejectedFields = rejected_fields;
+                console.log('rejected_fields----', this.rejectedFields);
 
                 // this.$nextTick(() => {
                 //     this.$refs.details.populateForm();
@@ -1160,7 +1189,11 @@ export default {
                 console.log(err);
             }
         },
-        isCheckboxSelected(value){
+        isCheckboxSelected(value, optional = null){
+            if(Array.isArray(value)){
+                console.log("********((((((((((((((((((((((((((((((((((((((((((", value.includes(optional));
+                return !value.includes(optional);
+            }
             return value ? false : true
         },
         setValues(product_type) {
@@ -1194,13 +1227,39 @@ export default {
             }
         },
         updateVerifiedList(e) {
-            const { key, value = "" } = e;
-            
-            if( this.rejectedFields[key] || Object.keys(this.rejectedFields).includes(key)){
-                delete this.rejectedFields[key];        // delete if exists in unverified objects
+            const { key, value = "" , type="text"} = e;
+
+            if (type === 'array'){
+                if(!this.rejectedFields[key]){
+                    this.rejectedFields[key] = [];
+                }
+                
+                const preFilterLength = this.rejectedFields[key].length;
+                
+                // remove key url if already present
+                this.rejectedFields[ key] = this.rejectedFields[key].filter((url) => url!==value );
+                
+                const postFilterLength = this.rejectedFields[key].length;
+
+                // add url to key if not present
+                if( preFilterLength === postFilterLength){
+                    this.rejectedFields[key].push(value);
+                }
+
+                // delete key from rejected_fields if all key checked true, i.e, key has empty value
+                if(!this.rejectedFields[key].length){
+                    delete this.rejectedFields[key];
+                }
             }
             else{
-                this.rejectedFields[key] = value;
+                if( this.rejectedFields[key] || Object.keys(this.rejectedFields).includes(key)){
+                    // delete key if exists in unverified objects
+                    delete this.rejectedFields[key];        
+                }
+                else{
+                    // add to unverified object
+                    this.rejectedFields[key] = value;
+                }
             }
          
             console.log('updateveridfeiedList', this.rejectedFields);
@@ -1208,23 +1267,31 @@ export default {
         async save(e) {
             if (e && this.actionButtons[e] === 'Verify') {
                 // Verified
-                this.verificationDetails.rejectedFields = {};
-                this.verificationDetails.status = 'verified';
-
-                if(Object.keys(this.rejectedFields).length){
+                if(Object.keys(this.rejectedFields).length){  // if all fields are not verified
                     this.$snackbar.global.showError(`${this.errorText}`, {
-                            duration: 2000
+                        duration: 2000
                     });
                     return;
                 }
+                this.verificationDetails.status = 'verified';
+                this.verificationDetails['rejected_fields'] = {};
+
+                
             } else if (e && this.actionButtons[e] === 'Reject') {
                 // Rejected
-                this.verificationDetails.rejectedFields = this.rejectedFields;
+                if(!this.isRejected){
+                    this.isRejected=true;
+                    return;
+                }
+                this.verificationDetails['remark'] = this.remark;
+                this.verificationDetails['rejected_fields'] = this.rejectedFields;
                 this.verificationDetails.status = 'rejected';
             } else {
                 // Skip
                 return;
             }
+
+
             const query = {
                 companyId: this.companyId,
                 itemId: this.itemCode,
@@ -1242,7 +1309,7 @@ export default {
                 this.$snackbar.global.showSuccess(`${this.saveText}`, {
                             duration: 2000
                 });
-                console.log('result***************', result);
+                this.redirectToListing();
             } catch (e) {
                 console.log('error', e);
             }
@@ -1250,8 +1317,13 @@ export default {
         saveMeta({ meta = [], json = {} }) {
             this.customJSON = json;
         },
-        redirect() {
-            return;
+        redirect(param) {
+            const { platform } = param;
+            console.log("router----", this.$router)
+            if( platform ){
+                window.open(`https://platform.${env.FYND_PLATFORM_DOMAIN}/company/${this.companyId}/products/list/?search=${this.itemCode}&limit=10`, "_blank") 
+            }
+            this.redirectToListing();
         },
         getImageTags() {
             return [`company_${this.companyId}`, `brand_${this.productCode}`];

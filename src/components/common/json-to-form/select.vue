@@ -1,8 +1,14 @@
 <template>
-    <div>
+    <div class="container">
+        <nitrozen-checkbox
+            :value="verified"
+            :checkboxValue="checked"
+            class="nt-checkbox"
+            @change="$emit('change', {key: name, value})"
+        ></nitrozen-checkbox>
         <nitrozen-dropdown
             :items="items"
-            :disabled="disabled"
+            disabled
             :label="label"
             :multiple="multiple"
             :placeholder="placeholder"
@@ -17,16 +23,32 @@
         <nitrozen-error v-if="errorMessage">{{ errorMessage }}</nitrozen-error>
     </div>
 </template>
-
+<style lang="less" scoped>
+.container {
+    display: flex;
+    align-items: center;
+}
+</style>
 <script>
-import { NitrozenDropdown, NitrozenError } from '@gofynd/nitrozen-vue';
+import { NitrozenDropdown, NitrozenError, NitrozenCheckBox } from '@gofynd/nitrozen-vue';
 export default {
     name: 'JsonToFormSelect',
     components: {
         NitrozenDropdown,
-        NitrozenError
+        NitrozenError,
+        'nitrozen-checkbox': NitrozenCheckBox,
     },
     props: {
+        name: {
+            type: String,
+        },
+        verified: {
+            type: Boolean,
+        },
+         checked: {
+            type: Boolean,
+            default: false,
+        },
         items: {
             type: Array,
             default: () => {
