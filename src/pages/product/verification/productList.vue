@@ -512,7 +512,7 @@ export default {
             };
 
             if (this.searchText) {
-                query.search = this.searchText;
+                query.q = this.searchText;
             }
 
             if (this.selectedFilter !== 'all') {
