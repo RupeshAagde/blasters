@@ -1171,7 +1171,6 @@ export default {
 
                 const { rejected_fields = {} } = this.verificationDetails;
                 this.rejectedFields = rejected_fields;
-                console.log('rejected_fields----', this.rejectedFields);
 
                 // this.$nextTick(() => {
                 //     this.$refs.details.populateForm();
@@ -1191,7 +1190,6 @@ export default {
         },
         isCheckboxSelected(value, optional = null){
             if(Array.isArray(value)){
-                console.log("********((((((((((((((((((((((((((((((((((((((((((", value.includes(optional));
                 return !value.includes(optional);
             }
             return value ? false : true
@@ -1262,7 +1260,6 @@ export default {
                 }
             }
          
-            console.log('updateveridfeiedList', this.rejectedFields);
         },
         async save(e) {
             if (e && this.actionButtons[e] === 'Verify') {
@@ -1319,7 +1316,6 @@ export default {
         },
         redirect(param) {
             const { platform } = param;
-            console.log("router----", this.$router)
             if( platform ){
                 window.open(`https://platform.${env.FYND_PLATFORM_DOMAIN}/company/${this.companyId}/products/list/?search=${this.itemCode}&limit=10`, "_blank") 
             }

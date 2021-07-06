@@ -65,7 +65,7 @@ const CatalogService = {
         }
         return ApiService.post(URLS.FETCH_DEPARTMENT(), axiosOption);
     },
-    fetchVariantCompanyListing(params) {
+    fetchVerificationCompanyListing(params) {
         const { companyId } = params;
         const axiosOption = Object.assign(
             { params },

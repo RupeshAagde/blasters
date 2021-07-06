@@ -15,7 +15,7 @@
                     pageLoading ||
                         (searchText !== '' ||
                             selectedFilter !== 'all' ||
-                            companyList.length > 0)
+                            productList.length)
                 "
             >
                 <div v-if="isInitialLoad" class="input-shimmer shimmer"></div>
@@ -35,7 +35,7 @@
                             :items="filters"
                             v-model="selectedFilter"
                             @change="
-                                fetchCompany(),
+                                fetchProduct(),
                                     setRouteQuery({ stage: selectedFilter })
                             "
                         ></nitrozen-dropdown>
@@ -46,13 +46,13 @@
                 <shimmer v-if="pageLoading && !pageError" :count="4"></shimmer>
                 <page-error
                     v-else-if="pageError && !pageLoading"
-                    @tryAgain="fetchCompany"
+                    @tryAgain="fetchProduct"
                     text="Oops ! Something went wrong."
                 ></page-error>
-                <div v-else-if="companyList && companyList.length">
+                <div v-else-if="productList && productList.length">
                     <!-- new cards -->
                     <div
-                        v-for="(product, index) in companyList"
+                        v-for="(product, index) in productList"
                         :key="index"
                         class="container"
                     >
@@ -148,7 +148,7 @@
                     :helperText="'No product found'"
                     text="No Products Available"
                 ></page-empty>
-                <div class="pagination" v-if="companyList.length > 0">
+                <div class="pagination" v-if="productList.length">
                     <nitrozen-pagination
                         name="Companies"
                         v-model="pagination"
@@ -445,7 +445,7 @@ export default {
     computed: {},
     data() {
         return {
-            companyList: [],
+            productList: [],
             pageLoading: false,
             isInitialLoad: false,
             templatesLoading: false,
@@ -479,7 +479,7 @@ export default {
         this.companyId = companyId;
         this.pageLoading = true;
         this.populateFromURL();
-        this.fetchCompany();
+        this.fetchProduct();
 
     },
     methods: {
@@ -490,7 +490,6 @@ export default {
             if (pageId) this.pageId = pageId;
         },
         companyView(product) {
-            console.log("product data------", product);
             const { uid, item_code , template_tag } = product;
             const query = {
                     "template": template_tag,
@@ -521,7 +520,7 @@ export default {
 
             return query;
         },
-        fetchCompany() {
+        fetchProduct() {
             this.pageLoading = true;
             return CatalogService.fetchVariantProductListing(this.requestQuery())
                 .then(({ data }) => {
@@ -534,7 +533,7 @@ export default {
                                     this.userObj[element.uid] = element;
                                 }
                             });
-                            this.companyList = data.items;
+                            this.productList = data.items;
                             this.pagination.total = data.page.item_total;
                             this.pageLoading = false;
                         })
@@ -555,7 +554,7 @@ export default {
             // let pageQuery = { pageId: current, limit };
             // this.setRouteQuery(pageQuery);
 
-            this.fetchCompany();
+            this.fetchProduct();
         },
         debounceInput: debounce(function(e) {
             if (this.searchText.length === 0) {
@@ -563,7 +562,7 @@ export default {
             } else {
                 this.setRouteQuery({ name: this.searchText });
             }
-            this.fetchCompany();
+            this.fetchProduct();
         }, 200),
         clearSearchFilter() {
             this.searchText = '';

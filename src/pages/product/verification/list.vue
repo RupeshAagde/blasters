@@ -472,6 +472,7 @@ export default {
             title: "Product Verification",
             description: "Manage Company Verification. View list of companies and their products",
             companyList: [],
+            companyId: this.$route.params.companyId,
             pageLoading: false,
             isInitialLoad: false,
             templatesLoading: false,
@@ -523,7 +524,7 @@ export default {
             const query = {
                 page_no: this.pagination.current,
                 page_size: this.pagination.limit,
-                companyId: 401,
+                companyId: 1,
             };
 
             if (this.searchText) {
@@ -539,25 +540,17 @@ export default {
         fetchCompany() {
             this.pageLoading = true;
             
-            return CatalogService.fetchVariantCompanyListing(this.requestQuery())
+            return CatalogService.fetchVerificationCompanyListing(this.requestQuery())
                 .then(({ data }) => {
+                    console.log("--------------------data", data);
                     this.tempList = generateArrItem(data.items);
                     this.tempList = filterDuplicateObject(this.tempList);
-                    fetchUserMetaObjects(this.tempList)
-                        .then((res) => {
-                            res.map((element) => {
-                                if (!this.userObj[element.uid]) {
-                                    this.userObj[element.uid] = element;
-                                }
-                            });
-                            this.companyList = data.items;
-                            this.pagination.total = data.page.item_total;
-                            this.initializeFormValues();
-                            this.pageLoading = false;
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
+                    
+                    this.companyList = data.items;
+                    this.pagination.total = data.page.item_total;
+                    this.initializeFormValues();
+                    this.pageLoading = false;
+                       
                 })
                 .catch((err) => {
                     this.pageLoading = false;
