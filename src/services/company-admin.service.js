@@ -184,7 +184,11 @@ const CompanyService = {
         let axiosOption = Object.assign({}, { data }, getCommonHeaderOptions());
         return ApiService.put(URLS.ATTRIBUTES_MASTER(), axiosOption);
     },
-
+    fetchProductDetails(data) {
+        const { companyId, itemId, ...params } = data;
+        let axiosOption = Object.assign({ params });
+        return ApiService.get(URLS.PRODUCT({ companyId, itemId }), axiosOption);
+    },
     fetchProductTemplates(params) {
         let axiosOption = Object.assign({ params });
         return ApiService.get(URLS.PRODUCT_TEMPLATES(), axiosOption);
@@ -289,5 +293,18 @@ const CompanyService = {
         );
         return ApiService.get(URLS.FETCH_COMPANY_LIST(), axiosOption);
     },
+    fetchTemplateSchema({companyId, slug, ...params}) {
+        let axiosOption = Object.assign(
+            {
+                params
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(
+            URLS.PRODUCT_TEMPLATE_VALIDATION({companyId, slug}),
+            axiosOption
+        );
+    },
+
 };
 export default CompanyService;
