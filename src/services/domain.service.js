@@ -392,11 +392,13 @@ const URLS = {
             `/v1.0/${company_id}?q=${slug}&filter_type=auto`
         );
     },
-
-    FETCH_PRODUCT_INFO: (slug) => {
-        return urlJoin(PLATFORM_CONTENT_BASE, `v1/products/${slug}`);
+    PRODUCT: ({companyId, itemId}) => {
+        let url = `v1.0/company/${companyId}/products/`
+        if (itemId) {
+            url += itemId
+        }
+        return urlJoin(SILVERBOLT_ACAT_URL, url); //FIX
     },
-
     // Ultra Magnus
     PLATFORM_BASIC_DETAILS: () => {
         return urlJoin(INTERNAL_SETTINGS, '/basic-details');
@@ -461,7 +463,23 @@ const URLS = {
     },
     FETCH_COMPANY_LIST: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, 'v1/onboarding/company/info-view');
-    }
+    },
+    // Product Verification
+    FETCH_VERIFICATION_COMPANY_LIST: (companyId) => {
+        return urlJoin(SILVERBOLT_ACAT_URL, `/v1.0/company/${companyId}/verification/company`);
+    },
+    FETCH_VERIFICATION_PRODUCT_LIST: (companyId) => {
+        return urlJoin(SILVERBOLT_ACAT_URL, `/v1.0/company/${companyId}/verification/products`);
+    },
+    FETCH_VERIFICATION_PRODUCT_DATA: ({companyId, itemId}) => {
+        return urlJoin(SILVERBOLT_ACAT_URL, `/v1.0/company/${companyId}/verification/products/${itemId}`);
+    },
+    PRODUCT_TEMPLATE_VALIDATION: ({companyId, slug}) => {
+        return urlJoin(
+            SILVERBOLT_ACAT_URL,
+            `/v1.0/products/company/${companyId}/templates/${slug}/validation/schema`
+        );
+    },
 };
 
 export default URLS;
