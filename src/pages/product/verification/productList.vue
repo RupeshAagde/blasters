@@ -124,12 +124,12 @@
                             </div>
                             <div class="card-badge-section">
                                 <nitrozen-badge
-                                    v-if="product.verification && product.verification.status === 'verified'"
+                                    v-if="product.verification_status && product.verification_status === 'verified'"
                                     state="success"
                                     >Verified</nitrozen-badge
                                 >
                                 <nitrozen-badge
-                                    v-else-if="product.verification && product.verification.status === 'rejected'"
+                                    v-else-if="product.verification_status && product.verification_status === 'rejected'"
                                     state="error"
                                     >Rejected</nitrozen-badge
                                 >
