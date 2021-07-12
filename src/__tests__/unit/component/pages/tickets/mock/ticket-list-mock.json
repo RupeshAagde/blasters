@@ -1,0 +1,1568 @@
+{
+    "items": [
+        {
+            "_id": "60da2cbe73b2862cf17a86e6",
+            "status": {
+                "display": "Pending",
+                "color": "#eae22b",
+                "key": "pending"
+            },
+            "priority": {
+                "display": "Low",
+                "color": "#fed766",
+                "key": "low"
+            },
+            "tags": [],
+            "is_feedback_pending": false,
+            "content": {
+                "title": "Test webhook",
+                "description": "PHA+eHl6IDEyMyAzMzEzPC9wPg==",
+                "attachments": []
+            },
+            "category": {
+                "_id": "5f6ee94ce13efe769cbcabff",
+                "display": "Collection",
+                "key": "collection",
+                "__v": 0,
+                "sub_categories": []
+            },
+            "context": {
+                "company_id": "1"
+            },
+            "created_on": {
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+                "platform": "web",
+                "meta": {
+                    "browser": {
+                        "name": "Chrome",
+                        "version": "91.0.4472.114"
+                    },
+                    "os": {
+                        "name": "macOS",
+                        "version": "10.15.7",
+                        "versionName": "Catalina"
+                    },
+                    "platform": {
+                        "type": "desktop",
+                        "vendor": "Apple"
+                    },
+                    "engine": {
+                        "name": "Blink"
+                    }
+                }
+            },
+            "source": "platform_panel",
+            "created_by": {
+                "id": "5f8147abbd1a0a870f61f1a6",
+                "user": {
+                    "_id": "5f8147abbd1a0a870f61f1a6",
+                    "gender": "male",
+                    "accountType": "user",
+                    "active": true,
+                    "phoneNumbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "8412805281",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "firstName": "Satyen",
+                    "lastName": "Maurya",
+                    "emails": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "email": "satyenmaurya95@gmail.com"
+                        }
+                    ],
+                    "createdAt": "2020-10-10T05:33:31.119Z",
+                    "updatedAt": "2020-10-10T05:33:31.119Z",
+                    "uid": "5678",
+                    "account_type": "user",
+                    "phone_numbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "8412805281",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "first_name": "Satyen",
+                    "last_name": "Maurya",
+                    "created_at": "2020-10-10T05:33:31.119Z",
+                    "updated_at": "2020-10-10T05:33:31.119Z"
+                }
+            },
+            "ticket_id": "65",
+            "createdAt": "2021-06-28T20:10:38.420Z",
+            "updatedAt": "2021-06-30T05:45:42.753Z",
+            "__v": 0,
+            "id": "60da2cbe73b2862cf17a86e6",
+            "created_at": "2021-06-28T20:10:38.420Z",
+            "updated_at": "2021-06-30T05:45:42.753Z"
+        },
+        {
+            "_id": "60d969512bca1f6d25da413a",
+            "status": {
+                "display": "Pending",
+                "color": "#eae22b",
+                "key": "pending"
+            },
+            "priority": {
+                "display": "Low",
+                "color": "#fed766",
+                "key": "low"
+            },
+            "tags": [],
+            "is_feedback_pending": false,
+            "content": {
+                "title": "Test",
+                "description": "PHA+RGVzY3JpcHRpb248L3A+",
+                "attachments": [
+                    {
+                        "type": "image",
+                        "display": "image_file",
+                        "value": "https://hdn-1.addsale.com/x0/support-ticket/files/free/original/6ZCmhUvpb-.jpeg"
+                    }
+                ]
+            },
+            "category": {
+                "_id": "5f6ee94ce13efe3c73bcac02",
+                "display": "Order",
+                "key": "order",
+                "__v": 0,
+                "sub_categories": []
+            },
+            "context": {
+                "company_id": "1"
+            },
+            "created_on": {
+                "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+                "platform": "web",
+                "meta": {
+                    "browser": {
+                        "name": "Chrome",
+                        "version": "91.0.4472.114"
+                    },
+                    "os": {
+                        "name": "Linux"
+                    },
+                    "platform": {
+                        "type": "desktop"
+                    },
+                    "engine": {
+                        "name": "Blink"
+                    }
+                }
+            },
+            "source": "platform_panel",
+            "created_by": {
+                "id": "5fb3854cec015ebcb4460178",
+                "user": {
+                    "_id": "5fb3854cec015ebcb4460178",
+                    "gender": "male",
+                    "accountType": "user",
+                    "active": true,
+                    "firstName": "Paul",
+                    "lastName": "Lobo",
+                    "phoneNumbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "8879204266",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "emails": [],
+                    "createdAt": "2020-11-17T08:09:48.803Z",
+                    "updatedAt": "2020-11-17T08:09:48.803Z",
+                    "uid": "5692",
+                    "account_type": "user",
+                    "first_name": "Paul",
+                    "last_name": "Lobo",
+                    "phone_numbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "8879204266",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "created_at": "2020-11-17T08:09:48.803Z",
+                    "updated_at": "2020-11-17T08:09:48.803Z"
+                }
+            },
+            "ticket_id": "64",
+            "createdAt": "2021-06-28T06:16:49.401Z",
+            "updatedAt": "2021-06-28T06:16:49.401Z",
+            "__v": 0,
+            "id": "60d969512bca1f6d25da413a",
+            "created_at": "2021-06-28T06:16:49.401Z",
+            "updated_at": "2021-06-28T06:16:49.401Z"
+        },
+        {
+            "_id": "60d1bb14d02ce53bc7ae7626",
+            "status": {
+                "display": "Pending",
+                "color": "#eae22b",
+                "key": "pending"
+            },
+            "priority": {
+                "display": "Low",
+                "color": "#fed766",
+                "key": "low"
+            },
+            "tags": [],
+            "is_feedback_pending": false,
+            "content": {
+                "title": "Test Ticket",
+                "description": "PHA+ZGVzY3JpcHRpb248L3A+",
+                "attachments": [
+                    {
+                        "type": "shipment",
+                        "display": "Shipment ID",
+                        "value": "16240016178491397769"
+                    }
+                ]
+            },
+            "category": {
+                "_id": "5f6ee94ce13efe3c73bcac02",
+                "display": "Order",
+                "key": "order",
+                "__v": 0,
+                "sub_categories": []
+            },
+            "context": {
+                "company_id": "1"
+            },
+            "created_on": {
+                "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36",
+                "platform": "web",
+                "meta": {
+                    "browser": {
+                        "name": "Chrome",
+                        "version": "88.0.4324.150"
+                    },
+                    "os": {
+                        "name": "Linux"
+                    },
+                    "platform": {
+                        "type": "desktop"
+                    },
+                    "engine": {
+                        "name": "Blink"
+                    }
+                }
+            },
+            "source": "platform_panel",
+            "created_by": {
+                "id": "5fb3854cec015ebcb4460178",
+                "user": {
+                    "_id": "5fb3854cec015ebcb4460178",
+                    "gender": "male",
+                    "accountType": "user",
+                    "active": true,
+                    "firstName": "Paul",
+                    "lastName": "Lobo",
+                    "phoneNumbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "8879204266",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "emails": [],
+                    "createdAt": "2020-11-17T08:09:48.803Z",
+                    "updatedAt": "2020-11-17T08:09:48.803Z",
+                    "uid": "5692",
+                    "account_type": "user",
+                    "first_name": "Paul",
+                    "last_name": "Lobo",
+                    "phone_numbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "8879204266",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "created_at": "2020-11-17T08:09:48.803Z",
+                    "updated_at": "2020-11-17T08:09:48.803Z"
+                }
+            },
+            "ticket_id": "63",
+            "createdAt": "2021-06-22T10:27:32.248Z",
+            "updatedAt": "2021-06-22T10:27:32.248Z",
+            "__v": 0,
+            "id": "60d1bb14d02ce53bc7ae7626",
+            "created_at": "2021-06-22T10:27:32.248Z",
+            "updated_at": "2021-06-22T10:27:32.248Z"
+        },
+        {
+            "_id": "60d02576bfc178660f412e08",
+            "status": {
+                "display": "Closed",
+                "color": "#41434c",
+                "key": "closed"
+            },
+            "priority": {
+                "display": "High",
+                "color": "#fe4a49",
+                "key": "high"
+            },
+            "tags": [],
+            "is_feedback_pending": true,
+            "content": {
+                "title": "Ticket feedback",
+                "description": "PHA+YWZhc2RmYXNkPC9wPg==",
+                "attachments": [
+                    {
+                        "type": "shipment",
+                        "display": "Shipment",
+                        "value": "sdfs"
+                    }
+                ]
+            },
+            "category": {
+                "_id": "5f6ee94ce13efe8864bcac0b",
+                "display": "Blogs",
+                "key": "blogs",
+                "__v": 0,
+                "sub_categories": [],
+                "feedback_form": {
+                    "inputs": [
+                        {
+                            "type": "text",
+                            "showRegexInput": false,
+                            "enum": [],
+                            "display": "How was the service?",
+                            "key": "test-input-22",
+                            "required": true
+                        },
+                        {
+                            "type": "toggle",
+                            "display": "Satisfied?",
+                            "key": "test",
+                            "required": true
+                        },
+                        {
+                            "type": "dropdown",
+                            "showRegexInput": false,
+                            "enum": [
+                                {
+                                    "key": "1",
+                                    "display": "1"
+                                },
+                                {
+                                    "key": "2",
+                                    "display": "2"
+                                },
+                                {
+                                    "key": "3",
+                                    "display": "3"
+                                },
+                                {
+                                    "key": "4",
+                                    "display": "4"
+                                },
+                                {
+                                    "key": "5",
+                                    "display": "5"
+                                }
+                            ],
+                            "display": "Rate",
+                            "placeholder": "Rate",
+                            "required": true,
+                            "key": "rate"
+                        }
+                    ],
+                    "title": "Feedback form"
+                }
+            },
+            "context": {
+                "company_id": "1"
+            },
+            "created_on": {
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36",
+                "platform": "web",
+                "meta": {
+                    "browser": {
+                        "name": "Chrome",
+                        "version": "91.0.4472.106"
+                    },
+                    "os": {
+                        "name": "macOS",
+                        "version": "10.15.7",
+                        "versionName": "Catalina"
+                    },
+                    "platform": {
+                        "type": "desktop",
+                        "vendor": "Apple"
+                    },
+                    "engine": {
+                        "name": "Blink"
+                    }
+                }
+            },
+            "source": "platform_panel",
+            "created_by": {
+                "id": "5e79e721768c6bf54b783146",
+                "user": {
+                    "_id": "5e79e721768c6bf54b783146",
+                    "gender": "male",
+                    "accountType": "user",
+                    "active": true,
+                    "emails": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "email": "nikhilmshchs@gmail.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "nikhilmanapure@gofynd.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "nikhilmanapure@fynd.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "nikhilmanapure@uniket.store"
+                        }
+                    ],
+                    "phoneNumbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "countryCode": 91,
+                            "phone": "9890425946",
+                            "country_code": 91
+                        }
+                    ],
+                    "firstName": "Nikhil",
+                    "lastName": "Manapure",
+                    "createdAt": "2020-03-24T10:55:29.298Z",
+                    "updatedAt": "2020-03-24T10:55:29.298Z",
+                    "uid": "5567",
+                    "account_type": "user",
+                    "phone_numbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "countryCode": 91,
+                            "phone": "9890425946",
+                            "country_code": 91
+                        }
+                    ],
+                    "first_name": "Nikhil",
+                    "last_name": "Manapure",
+                    "created_at": "2020-03-24T10:55:29.298Z",
+                    "updated_at": "2020-03-24T10:55:29.298Z"
+                }
+            },
+            "ticket_id": "62",
+            "createdAt": "2021-06-21T05:36:54.486Z",
+            "updatedAt": "2021-06-21T07:48:10.355Z",
+            "__v": 0,
+            "assigned_to": {},
+            "id": "60d02576bfc178660f412e08",
+            "created_at": "2021-06-21T05:36:54.486Z",
+            "updated_at": "2021-06-21T07:48:10.355Z"
+        },
+        {
+            "_id": "60c83d1d0daec65f9166ef22",
+            "status": {
+                "display": "Pending",
+                "color": "#eae22b",
+                "key": "pending"
+            },
+            "priority": {
+                "display": "Medium",
+                "color": "#f37736",
+                "key": "medium"
+            },
+            "assigned_to": {},
+            "tags": [],
+            "is_feedback_pending": false,
+            "content": {
+                "title": "testing",
+                "description": "PHA+dGVzdGluZyBhYmNkZSB0ZXN0PC9wPg==",
+                "attachments": [
+                    {
+                        "type": "shipment",
+                        "display": "Shipment ID",
+                        "value": "16236750368521176891"
+                    },
+                    {
+                        "type": "image",
+                        "display": "image_file",
+                        "value": "https://hdn-1.addsale.com/x0/support-ticket/files/free/original/3MWBtSbOR-.jpeg"
+                    },
+                    {
+                        "type": "file",
+                        "display": "success-image.jpeg",
+                        "value": "https://hdn-1.addsale.com/x0/support-ticket/files/free/original/SILFPAx8M-success-image.jpeg"
+                    },
+                    {
+                        "type": "image",
+                        "display": "image_file",
+                        "value": "https://hdn-1.addsale.com/x0/support-ticket/files/free/original/jCufMUo-X-.png"
+                    }
+                ]
+            },
+            "category": {
+                "_id": "5f6ee94ce13efe3c73bcac02",
+                "display": "Order",
+                "key": "order",
+                "__v": 0,
+                "sub_categories": []
+            },
+            "context": {
+                "company_id": "1"
+            },
+            "created_on": {
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36",
+                "platform": "web",
+                "meta": {
+                    "browser": {
+                        "name": "Chrome",
+                        "version": "91.0.4472.101"
+                    },
+                    "os": {
+                        "name": "macOS",
+                        "version": "10.15.7",
+                        "versionName": "Catalina"
+                    },
+                    "platform": {
+                        "type": "desktop",
+                        "vendor": "Apple"
+                    },
+                    "engine": {
+                        "name": "Blink"
+                    }
+                }
+            },
+            "source": "platform_panel",
+            "created_by": {
+                "id": "5e5796c4fc10a0d133839372",
+                "user": {
+                    "_id": "5e5796c4fc10a0d133839372",
+                    "gender": "male",
+                    "accountType": "user",
+                    "active": true,
+                    "firstName": "Aayush",
+                    "lastName": "Jain",
+                    "phoneNumbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "7009853732",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "emails": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "email": "aayushvjain@gofynd.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "aayushvjain@fynd.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "aayushvjain@uniket.store"
+                        }
+                    ],
+                    "createdAt": "2020-02-27T10:15:32.059Z",
+                    "updatedAt": "2020-02-27T10:15:32.059Z",
+                    "uid": "39",
+                    "account_type": "user",
+                    "first_name": "Aayush",
+                    "last_name": "Jain",
+                    "phone_numbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "7009853732",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "created_at": "2020-02-27T10:15:32.059Z",
+                    "updated_at": "2020-02-27T10:15:32.059Z"
+                }
+            },
+            "ticket_id": "61",
+            "createdAt": "2021-06-15T05:39:41.765Z",
+            "updatedAt": "2021-06-29T07:52:31.987Z",
+            "__v": 0,
+            "id": "60c83d1d0daec65f9166ef22",
+            "created_at": "2021-06-15T05:39:41.765Z",
+            "updated_at": "2021-06-29T07:52:31.987Z"
+        },
+        {
+            "_id": "60c70d8af1f3b7410290cf08",
+            "status": {
+                "display": "In Progress",
+                "color": "#ffa951",
+                "key": "in_progress"
+            },
+            "priority": {
+                "display": "High",
+                "color": "#fe4a49",
+                "key": "high"
+            },
+            "tags": [],
+            "is_feedback_pending": false,
+            "content": {
+                "title": "FP Test Training",
+                "description": "PHA+RlAgVGVzdCBUcmFpbmluZzwvcD4=",
+                "attachments": []
+            },
+            "category": {
+                "_id": "608fee37373fa020332e5c4b",
+                "key": "catalog-training",
+                "display": "Catalog Training",
+                "sub_categories": [],
+                "__v": 0
+            },
+            "context": {
+                "company_id": "402"
+            },
+            "created_on": {
+                "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.51 Safari/537.36",
+                "platform": "web",
+                "meta": {
+                    "browser": {
+                        "name": "Chrome",
+                        "version": "92.0.4515.51"
+                    },
+                    "os": {
+                        "name": "Windows",
+                        "version": "NT 10.0",
+                        "versionName": "10"
+                    },
+                    "platform": {
+                        "type": "desktop"
+                    },
+                    "engine": {
+                        "name": "Blink"
+                    }
+                }
+            },
+            "source": "platform_panel",
+            "created_by": {
+                "id": "5f0561bc17abd6a2b4fb56e8",
+                "user": {
+                    "_id": "5f0561bc17abd6a2b4fb56e8",
+                    "gender": "female",
+                    "accountType": "user",
+                    "active": true,
+                    "firstName": "Asavari",
+                    "lastName": "Jadhav",
+                    "phoneNumbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "9702396547",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "emails": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "email": "asavarijadhav@gofynd.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "asavarijadhav@fynd.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "asavarijadhav@uniket.store"
+                        }
+                    ],
+                    "createdAt": "2020-07-08T06:03:40.182Z",
+                    "updatedAt": "2020-07-08T06:03:40.182Z",
+                    "uid": "5634",
+                    "account_type": "user",
+                    "first_name": "Asavari",
+                    "last_name": "Jadhav",
+                    "phone_numbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "9702396547",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "created_at": "2020-07-08T06:03:40.182Z",
+                    "updated_at": "2020-07-08T06:03:40.182Z"
+                }
+            },
+            "ticket_id": "2",
+            "createdAt": "2021-06-14T08:04:26.760Z",
+            "updatedAt": "2021-06-14T08:05:07.197Z",
+            "__v": 0,
+            "assigned_to": {
+                "agent_id": "5e7c51e5768c6b2b0f7d5e55",
+                "_id": "5e7c51e5768c6b2b0f7d5e55",
+                "gender": "female",
+                "accountType": "user",
+                "active": true,
+                "emails": [
+                    {
+                        "active": true,
+                        "primary": true,
+                        "verified": true,
+                        "email": "meghanakate@gofynd.com"
+                    },
+                    {
+                        "active": true,
+                        "primary": false,
+                        "verified": true,
+                        "email": "meghanakate@fynd.com"
+                    },
+                    {
+                        "active": true,
+                        "primary": false,
+                        "verified": true,
+                        "email": "meghanakate@uniket.store"
+                    }
+                ],
+                "phoneNumbers": [
+                    {
+                        "active": true,
+                        "primary": true,
+                        "verified": true,
+                        "phone": "9096611086",
+                        "countryCode": 91,
+                        "country_code": 91
+                    }
+                ],
+                "firstName": "Meghana",
+                "lastName": "Kate",
+                "createdAt": "2020-03-26T06:55:33.118Z",
+                "updatedAt": "2020-03-26T06:55:33.118Z",
+                "uid": "5570",
+                "account_type": "user",
+                "phone_numbers": [
+                    {
+                        "active": true,
+                        "primary": true,
+                        "verified": true,
+                        "phone": "9096611086",
+                        "countryCode": 91,
+                        "country_code": 91
+                    }
+                ],
+                "first_name": "Meghana",
+                "last_name": "Kate",
+                "created_at": "2020-03-26T06:55:33.118Z",
+                "updated_at": "2020-03-26T06:55:33.118Z"
+            },
+            "id": "60c70d8af1f3b7410290cf08",
+            "created_at": "2021-06-14T08:04:26.760Z",
+            "updated_at": "2021-06-14T08:05:07.197Z"
+        },
+        {
+            "_id": "60c70a72f1f3b7612990cf07",
+            "status": {
+                "display": "Pending",
+                "color": "#eae22b",
+                "key": "pending"
+            },
+            "priority": {
+                "display": "High",
+                "color": "#fe4a49",
+                "key": "high"
+            },
+            "tags": [],
+            "is_feedback_pending": false,
+            "content": {
+                "title": "Need Catalogue Training",
+                "description": "PHA+TmVlZCBDYXRhbG9ndWUgVHJhaW5pbmc8L3A+",
+                "attachments": []
+            },
+            "category": {
+                "_id": "608fee37373fa020332e5c4b",
+                "key": "catalog-training",
+                "display": "Catalog Training",
+                "sub_categories": [],
+                "__v": 0
+            },
+            "context": {
+                "company_id": "402"
+            },
+            "created_on": {
+                "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.51 Safari/537.36",
+                "platform": "web",
+                "meta": {
+                    "browser": {
+                        "name": "Chrome",
+                        "version": "92.0.4515.51"
+                    },
+                    "os": {
+                        "name": "Windows",
+                        "version": "NT 10.0",
+                        "versionName": "10"
+                    },
+                    "platform": {
+                        "type": "desktop"
+                    },
+                    "engine": {
+                        "name": "Blink"
+                    }
+                }
+            },
+            "source": "platform_panel",
+            "created_by": {
+                "id": "5e7c51e5768c6b2b0f7d5e55",
+                "user": {
+                    "_id": "5e7c51e5768c6b2b0f7d5e55",
+                    "gender": "female",
+                    "accountType": "user",
+                    "active": true,
+                    "emails": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "email": "meghanakate@gofynd.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "meghanakate@fynd.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "meghanakate@uniket.store"
+                        }
+                    ],
+                    "phoneNumbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "9096611086",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "firstName": "Meghana",
+                    "lastName": "Kate",
+                    "createdAt": "2020-03-26T06:55:33.118Z",
+                    "updatedAt": "2020-03-26T06:55:33.118Z",
+                    "uid": "5570",
+                    "account_type": "user",
+                    "phone_numbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "9096611086",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "first_name": "Meghana",
+                    "last_name": "Kate",
+                    "created_at": "2020-03-26T06:55:33.118Z",
+                    "updated_at": "2020-03-26T06:55:33.118Z"
+                }
+            },
+            "ticket_id": "1",
+            "createdAt": "2021-06-14T07:51:14.685Z",
+            "updatedAt": "2021-06-14T08:01:18.635Z",
+            "__v": 0,
+            "assigned_to": {
+                "agent_id": "5f1586cc90b122fb7e75ac16"
+            },
+            "id": "60c70a72f1f3b7612990cf07",
+            "created_at": "2021-06-14T07:51:14.685Z",
+            "updated_at": "2021-06-14T08:01:18.635Z"
+        },
+        {
+            "_id": "60c70624f1f3b71d7c90cf05",
+            "status": {
+                "display": "Closed",
+                "color": "#41434c",
+                "key": "closed"
+            },
+            "priority": {
+                "display": "Low",
+                "color": "#fed766",
+                "key": "low"
+            },
+            "tags": [],
+            "is_feedback_pending": false,
+            "content": {
+                "title": "I want product support",
+                "description": "PHA+TmVlZCBzdXBwb3J0PC9wPg==",
+                "attachments": []
+            },
+            "category": {
+                "_id": "5f6ee94ce13efe8864bcac0b",
+                "display": "Blogs",
+                "key": "blogs",
+                "__v": 0,
+                "sub_categories": [],
+                "feedback_form": {
+                    "inputs": [
+                        {
+                            "type": "text",
+                            "showRegexInput": false,
+                            "enum": [],
+                            "display": "How was the service?",
+                            "key": "test-input-22",
+                            "required": true
+                        },
+                        {
+                            "type": "toggle",
+                            "display": "Satisfied?",
+                            "key": "test",
+                            "required": true
+                        },
+                        {
+                            "type": "dropdown",
+                            "showRegexInput": false,
+                            "enum": [
+                                {
+                                    "key": "1",
+                                    "display": "1"
+                                },
+                                {
+                                    "key": "2",
+                                    "display": "2"
+                                },
+                                {
+                                    "key": "3",
+                                    "display": "3"
+                                },
+                                {
+                                    "key": "4",
+                                    "display": "4"
+                                },
+                                {
+                                    "key": "5",
+                                    "display": "5"
+                                }
+                            ],
+                            "display": "Rate",
+                            "placeholder": "Rate",
+                            "required": true,
+                            "key": "rate"
+                        }
+                    ],
+                    "title": "Feedback form"
+                }
+            },
+            "context": {
+                "company_id": "1"
+            },
+            "created_on": {
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15",
+                "platform": "web",
+                "meta": {
+                    "browser": {
+                        "name": "Safari",
+                        "version": "14.1.1"
+                    },
+                    "os": {
+                        "name": "macOS",
+                        "version": "10.15.7",
+                        "versionName": "Catalina"
+                    },
+                    "platform": {
+                        "type": "desktop",
+                        "vendor": "Apple"
+                    },
+                    "engine": {
+                        "name": "WebKit",
+                        "version": "605.1.15"
+                    }
+                }
+            },
+            "source": "platform_panel",
+            "created_by": {
+                "id": "5f8147abbd1a0a870f61f1a6",
+                "user": {
+                    "_id": "5f8147abbd1a0a870f61f1a6",
+                    "gender": "male",
+                    "accountType": "user",
+                    "active": true,
+                    "phoneNumbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "8412805281",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "firstName": "Satyen",
+                    "lastName": "Maurya",
+                    "emails": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "email": "satyenmaurya95@gmail.com"
+                        }
+                    ],
+                    "createdAt": "2020-10-10T05:33:31.119Z",
+                    "updatedAt": "2020-10-10T05:33:31.119Z",
+                    "uid": "5678",
+                    "account_type": "user",
+                    "phone_numbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "8412805281",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "first_name": "Satyen",
+                    "last_name": "Maurya",
+                    "created_at": "2020-10-10T05:33:31.119Z",
+                    "updated_at": "2020-10-10T05:33:31.119Z"
+                }
+            },
+            "ticket_id": "60",
+            "createdAt": "2021-06-14T07:32:52.485Z",
+            "updatedAt": "2021-07-12T06:59:08.616Z",
+            "__v": 0,
+            "assigned_to": {},
+            "id": "60c70624f1f3b71d7c90cf05",
+            "created_at": "2021-06-14T07:32:52.485Z",
+            "updated_at": "2021-07-12T06:59:08.616Z"
+        },
+        {
+            "_id": "60c316e2da1d40952eae119c",
+            "status": {
+                "display": "Pending",
+                "color": "#eae22b",
+                "key": "pending"
+            },
+            "priority": {
+                "display": "Low",
+                "color": "#fed766",
+                "key": "low"
+            },
+            "assigned_to": null,
+            "tags": [],
+            "is_feedback_pending": false,
+            "content": {
+                "title": "testing",
+                "description": "PHA+dGVzdGluZ3Rlc3RpbmcgYWJjPC9wPg==",
+                "attachments": [
+                    {
+                        "type": "shipment",
+                        "display": "Shipment ID",
+                        "value": "16232494145741688878"
+                    }
+                ]
+            },
+            "category": {
+                "_id": "5f6ee94ce13efe3c73bcac02",
+                "display": "Order",
+                "key": "order",
+                "__v": 0,
+                "sub_categories": []
+            },
+            "context": {
+                "company_id": "1"
+            },
+            "created_on": {
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36",
+                "platform": "web",
+                "meta": {
+                    "browser": {
+                        "name": "Chrome",
+                        "version": "91.0.4472.77"
+                    },
+                    "os": {
+                        "name": "macOS",
+                        "version": "10.15.7",
+                        "versionName": "Catalina"
+                    },
+                    "platform": {
+                        "type": "desktop",
+                        "vendor": "Apple"
+                    },
+                    "engine": {
+                        "name": "Blink"
+                    }
+                }
+            },
+            "source": "platform_panel",
+            "created_by": {
+                "id": "5e5796c4fc10a0d133839372",
+                "user": {
+                    "_id": "5e5796c4fc10a0d133839372",
+                    "gender": "male",
+                    "accountType": "user",
+                    "active": true,
+                    "firstName": "Aayush",
+                    "lastName": "Jain",
+                    "phoneNumbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "7009853732",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "emails": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "email": "aayushvjain@gofynd.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "aayushvjain@fynd.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "aayushvjain@uniket.store"
+                        }
+                    ],
+                    "createdAt": "2020-02-27T10:15:32.059Z",
+                    "updatedAt": "2020-02-27T10:15:32.059Z",
+                    "uid": "39",
+                    "account_type": "user",
+                    "first_name": "Aayush",
+                    "last_name": "Jain",
+                    "phone_numbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "7009853732",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "created_at": "2020-02-27T10:15:32.059Z",
+                    "updated_at": "2020-02-27T10:15:32.059Z"
+                }
+            },
+            "ticket_id": "59",
+            "createdAt": "2021-06-11T07:55:14.566Z",
+            "updatedAt": "2021-06-28T11:53:11.668Z",
+            "__v": 0,
+            "id": "60c316e2da1d40952eae119c",
+            "created_at": "2021-06-11T07:55:14.566Z",
+            "updated_at": "2021-06-28T11:53:11.668Z"
+        },
+        {
+            "_id": "60c3165fda1d40d4f3ae119b",
+            "status": {
+                "display": "Pending",
+                "color": "#eae22b",
+                "key": "pending"
+            },
+            "priority": {
+                "display": "Low",
+                "color": "#fed766",
+                "key": "low"
+            },
+            "assigned_to": null,
+            "tags": [],
+            "is_feedback_pending": false,
+            "content": {
+                "title": "testing",
+                "description": "PHA+dGVzdGluZzwvcD4=",
+                "attachments": [
+                    {
+                        "type": "shipment",
+                        "display": "Shipment ID",
+                        "value": "16232495276581326580"
+                    }
+                ]
+            },
+            "category": {
+                "_id": "5f6ee94ce13efe3c73bcac02",
+                "display": "Order",
+                "key": "order",
+                "__v": 0,
+                "sub_categories": []
+            },
+            "context": {
+                "company_id": "1"
+            },
+            "created_on": {
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36",
+                "platform": "web",
+                "meta": {
+                    "browser": {
+                        "name": "Chrome",
+                        "version": "91.0.4472.77"
+                    },
+                    "os": {
+                        "name": "macOS",
+                        "version": "10.15.7",
+                        "versionName": "Catalina"
+                    },
+                    "platform": {
+                        "type": "desktop",
+                        "vendor": "Apple"
+                    },
+                    "engine": {
+                        "name": "Blink"
+                    }
+                }
+            },
+            "source": "platform_panel",
+            "created_by": {
+                "id": "5e5796c4fc10a0d133839372",
+                "user": {
+                    "_id": "5e5796c4fc10a0d133839372",
+                    "gender": "male",
+                    "accountType": "user",
+                    "active": true,
+                    "firstName": "Aayush",
+                    "lastName": "Jain",
+                    "phoneNumbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "7009853732",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "emails": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "email": "aayushvjain@gofynd.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "aayushvjain@fynd.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "aayushvjain@uniket.store"
+                        }
+                    ],
+                    "createdAt": "2020-02-27T10:15:32.059Z",
+                    "updatedAt": "2020-02-27T10:15:32.059Z",
+                    "uid": "39",
+                    "account_type": "user",
+                    "first_name": "Aayush",
+                    "last_name": "Jain",
+                    "phone_numbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "7009853732",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "created_at": "2020-02-27T10:15:32.059Z",
+                    "updated_at": "2020-02-27T10:15:32.059Z"
+                }
+            },
+            "ticket_id": "58",
+            "createdAt": "2021-06-11T07:53:03.256Z",
+            "updatedAt": "2021-06-11T07:53:03.256Z",
+            "__v": 0,
+            "id": "60c3165fda1d40d4f3ae119b",
+            "created_at": "2021-06-11T07:53:03.256Z",
+            "updated_at": "2021-06-11T07:53:03.256Z"
+        }
+    ],
+    "page": {
+        "type": "number",
+        "current": 1,
+        "size": 10,
+        "item_total": 81,
+        "has_next": true
+    },
+    "filters": {
+        "statuses": [
+            {
+                "display": "Pending",
+                "color": "#eae22b",
+                "key": "pending"
+            },
+            {
+                "display": "In Progress",
+                "color": "#ffa951",
+                "key": "in_progress"
+            },
+            {
+                "display": "Resolved",
+                "color": "#20c3a6",
+                "key": "resolved"
+            },
+            {
+                "display": "Closed",
+                "color": "#41434c",
+                "key": "closed"
+            }
+        ],
+        "priorities": [
+            {
+                "display": "Low",
+                "color": "#fed766",
+                "key": "low"
+            },
+            {
+                "display": "Medium",
+                "color": "#f37736",
+                "key": "medium"
+            },
+            {
+                "display": "High",
+                "color": "#fe4a49",
+                "key": "high"
+            }
+        ],
+        "categories": [
+            {
+                "_id": "608feebc373fa0734b2e5c5f",
+                "key": "asdf",
+                "display": "asdf",
+                "sub_categories": [],
+                "__v": 0,
+                "feedback_form": {
+                    "inputs": [
+                        {
+                            "type": "text",
+                            "showRegexInput": false,
+                            "enum": [],
+                            "display": "Test input",
+                            "key": "test-input"
+                        }
+                    ],
+                    "title": "Feedback form"
+                }
+            },
+            {
+                "_id": "5f6ee94ce13efe8864bcac0b",
+                "display": "Blogs",
+                "key": "blogs",
+                "__v": 0,
+                "sub_categories": [],
+                "feedback_form": {
+                    "inputs": [
+                        {
+                            "type": "text",
+                            "showRegexInput": false,
+                            "enum": [],
+                            "display": "How was the service?",
+                            "key": "test-input-22",
+                            "required": true
+                        },
+                        {
+                            "type": "toggle",
+                            "display": "Satisfied?",
+                            "key": "test",
+                            "required": true
+                        },
+                        {
+                            "type": "dropdown",
+                            "showRegexInput": false,
+                            "enum": [
+                                {
+                                    "key": "1",
+                                    "display": "1"
+                                },
+                                {
+                                    "key": "2",
+                                    "display": "2"
+                                },
+                                {
+                                    "key": "3",
+                                    "display": "3"
+                                },
+                                {
+                                    "key": "4",
+                                    "display": "4"
+                                },
+                                {
+                                    "key": "5",
+                                    "display": "5"
+                                }
+                            ],
+                            "display": "Rate",
+                            "placeholder": "Rate",
+                            "required": true,
+                            "key": "rate"
+                        }
+                    ],
+                    "title": "Feedback form"
+                }
+            },
+            {
+                "_id": "608fee37373fa020332e5c4b",
+                "key": "catalog-training",
+                "display": "Catalog Training",
+                "sub_categories": [],
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efe3368bcac07",
+                "display": "Catalogue",
+                "key": "catalogue",
+                "__v": 0,
+                "sub_categories": []
+            },
+            {
+                "_id": "5f6ee94ce13efe769cbcabff",
+                "display": "Collection",
+                "key": "collection",
+                "__v": 0,
+                "sub_categories": []
+            },
+            {
+                "_id": "5f6ee94ce13efe4211bcac01",
+                "display": "Coupon",
+                "key": "coupon",
+                "__v": 0,
+                "sub_categories": []
+            },
+            {
+                "_id": "5f6ee94ce13efe1b2cbcac06",
+                "display": "Customers",
+                "key": "customers",
+                "__v": 0,
+                "sub_categories": []
+            },
+            {
+                "_id": "5f6ee94ce13efe79babcac05",
+                "display": "Developers",
+                "key": "developers",
+                "__v": 0,
+                "sub_categories": []
+            },
+            {
+                "_id": "5f6ee94ce13efe6f03bcac04",
+                "display": "Extensions",
+                "key": "extensions",
+                "__v": 0,
+                "sub_categories": []
+            },
+            {
+                "_id": "5f6ee94ce13efe1389bcac09",
+                "display": "Navigations",
+                "key": "navigations",
+                "__v": 0,
+                "sub_categories": []
+            },
+            {
+                "_id": "5f6ee94ce13efe3c73bcac02",
+                "display": "Order",
+                "key": "order",
+                "__v": 0,
+                "sub_categories": []
+            },
+            {
+                "_id": "608fefe8373fa03ded2e5c74",
+                "key": "packagin-config",
+                "display": "Packagin Config",
+                "sub_categories": [],
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efe7b9dbcac00",
+                "display": "Page",
+                "key": "page",
+                "__v": 0,
+                "sub_categories": []
+            },
+            {
+                "_id": "5f6ee94ce13efe3d36bcabfe",
+                "display": "Product",
+                "key": "product",
+                "__v": 0,
+                "sub_categories": []
+            },
+            {
+                "_id": "5f6ee94ce13efe3658bcac0a",
+                "display": "Short Links",
+                "key": "short-links",
+                "__v": 0,
+                "sub_categories": []
+            },
+            {
+                "_id": "5f6ee94ce13efed98bbcac03",
+                "display": "Team",
+                "key": "team",
+                "__v": 0,
+                "sub_categories": []
+            }
+        ]
+    }
+}

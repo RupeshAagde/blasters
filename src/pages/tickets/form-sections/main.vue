@@ -106,11 +106,31 @@
                             </div>
                         </template>
                     </div>
+                    <br>
+                    <p v-if="feedbackList.length > 0">Feedbacks</p>
+                    <div
+                        class="feedback-list"
+                        v-for="(feedback, index) in feedbackList"
+                        v-bind:key="'feedback-item-'+index"
+                    >
+                        <div class="history-label" >
+                            Feedback submitted on {{readableDate(new Date(feedback.createdAt))}}.
+                            <span 
+                                class="see-feedback-details"
+                                @click="openFeedback(feedback, $event)"
+                            >
+                            See details
+                            </span>
+                        </div>
+                    </div>
                     <br/>
                     <comments v-if="isEditOnly" :allComments="this.allComments"/>
                 </div>
             </div>
         </div>
+        <feedback-details-dailog 
+            ref="feedback-anchor">
+        </feedback-details-dailog>
     </div>
 </template>
 
@@ -158,6 +178,16 @@
     flex: 1;
     margin-top: 0px;
     margin-bottom: 0px;
+}
+
+.feedback-list {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.see-feedback-details {
+    color: @RoyalBlue;
+    cursor: pointer;
 }
 
 .bombshell-list-card-container {
@@ -266,6 +296,7 @@ import { NitrozenInput, NitrozenError } from '@gofynd/nitrozen-vue';
 import { getRoute } from '@/helper/get-route';
 import moment from 'moment';
 // import ClickToCallDialog from '@/components/common/tools/click-to-call-dialog.vue';
+import FeedbackDetailsDailog from './feedback-details-dailog.vue'
 import admInlineSvg from '@/components/common/adm-inline-svg';
 import HtmlContent from '@/components/common/html-content';
 import SupportService from '@/services/support.service';
@@ -279,7 +310,8 @@ export default {
         'nitrozen-error': NitrozenError,
         'adm-inline-svg': admInlineSvg,
         'html-content': HtmlContent,
-        comments
+        comments,
+        FeedbackDetailsDailog
         // 'click-to-call-dialog': ClickToCallDialog
     },
     props: {
@@ -291,6 +323,9 @@ export default {
         },
         ticket: {
             type: Object
+        },
+        feedbackList: {
+            type: Array
         }
     },
     data() {
@@ -628,6 +663,10 @@ export default {
 
             history = history + date;
             return history;
+        },
+        openFeedback(feedback, event) {
+            event.stopPropagation();
+            this.$refs['feedback-anchor'].openFeedback(feedback);
         },
         clickToCall(receiver, title) {
             //this.$refs.clickToCallDialog.open({ receiver, title });
