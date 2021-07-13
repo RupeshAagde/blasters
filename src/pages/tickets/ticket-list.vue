@@ -398,7 +398,7 @@ export default {
 
             this.$router.replace({
                 query: params
-            });
+            }).catch(()=>{});
         },
         onTicketSelection(ticket) {
             this.$router.push({
