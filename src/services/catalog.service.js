@@ -89,7 +89,7 @@ const CatalogService = {
         );
         return ApiService.get(URLS.FETCH_VERIFICATION_PRODUCT_DATA({ companyId, itemId }), axiosOption);
     },
-    saveVerifiedProducts(data) {
+    saveVerifiedProducts(data, edit=true) {
         const { companyId, itemId, body, ...params } = data;
         console.log("params => ", params);
         const axiosOption = Object.assign(
@@ -97,6 +97,10 @@ const CatalogService = {
             { data: body },
             getCommonHeaderOptions()
         );
+
+        if(!edit){
+            return ApiService.post(URLS.FETCH_VERIFICATION_PRODUCT_LIST(companyId), axiosOption);    
+        }
         return ApiService.put(URLS.FETCH_VERIFICATION_PRODUCT_DATA({ companyId, itemId }), axiosOption);
     },
 };

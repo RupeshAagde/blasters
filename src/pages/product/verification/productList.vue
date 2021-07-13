@@ -122,14 +122,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-badge-section">
+                            <div v-if="product && product.verification && product.verification.status" class="card-badge-section">
                                 <nitrozen-badge
-                                    v-if="product.verification_status && product.verification_status === 'verified'"
+                                    v-if="product.verification.status === 'verified'"
                                     state="success"
                                     >Verified</nitrozen-badge
                                 >
                                 <nitrozen-badge
-                                    v-else-if="product.verification_status && product.verification_status === 'rejected'"
+                                    v-else-if="product.verification.status === 'rejected'"
                                     state="error"
                                     >Rejected</nitrozen-badge
                                 >
@@ -150,7 +150,7 @@
                 ></page-empty>
                 <div class="pagination" v-if="productList.length">
                     <nitrozen-pagination
-                        name="Companies"
+                        name="Products"
                         v-model="pagination"
                         @change="paginationChange"
                         :pageSizeOptions="[5, 10, 20, 50]"
