@@ -14,7 +14,7 @@
                             class="pad-left"
                             :theme="'secondary'"
                             v-flatBtn
-                            @click="redirect({platform:true})"
+                            @click="redirect({ platform: true })"
                             >Edit</nitrozen-button
                         >
                     </div>
@@ -23,7 +23,7 @@
                             class="footer-actions"
                             :theme="'secondary'"
                             v-flatBtn
-                            @click="redirect({platform:true})"
+                            @click="redirect({ platform: true })"
                             >Edit</nitrozen-button
                         >
                     </template>
@@ -76,30 +76,44 @@
                     <div class="settings-container horizontal-scroll">
                         <div class="cl-Mako bold-md">Media</div>
                         <div class="mt-md inline">
-                            <div v-for="(m, index) of media" :key="index" class="image-verify-block">
-                            <nitrozen-checkbox
-                                :value="isCheckboxSelected(rejectedFields.media, m && m.url)"
-                                id="rejectedFields.no_of_boxes"
-                                class="nt-checkbox"
-                                @change="updateVerifiedList({'key': 'media', value: m && m.url, type:'array'})"
-                            >
-                            </nitrozen-checkbox>
-                            <media
-                                class="mr-md cursor-move"
-                                
+                            <div
+                                v-for="(m, index) of media"
                                 :key="index"
-                                label="Product Image"
-                                aspectRatio="*"
-                                :minimumResolution="{
-                                    width: 200,
-                                    height: 200,
-                                }"
-                                :value="m"
-                                :index="index"
-                                :fileName="name || 'product'"
-                                :tags="getImageTags()"
-                                namespace="products-item-image"
-                            ></media>
+                                class="image-verify-block"
+                            >
+                                <nitrozen-checkbox
+                                    :value="
+                                        isCheckboxSelected(
+                                            rejectedFields.media,
+                                            m && m.url
+                                        )
+                                    "
+                                    id="rejectedFields.no_of_boxes"
+                                    class="nt-checkbox"
+                                    @change="
+                                        updateVerifiedList({
+                                            key: 'media',
+                                            value: m && m.url,
+                                            type: 'array',
+                                        })
+                                    "
+                                >
+                                </nitrozen-checkbox>
+                                <media
+                                    class="mr-md cursor-move"
+                                    :key="index"
+                                    label="Product Image"
+                                    aspectRatio="*"
+                                    :minimumResolution="{
+                                        width: 200,
+                                        height: 200,
+                                    }"
+                                    :value="m"
+                                    :index="index"
+                                    :fileName="name || 'product'"
+                                    :tags="getImageTags()"
+                                    namespace="products-item-image"
+                                ></media>
                             </div>
                         </div>
                     </div>
@@ -113,10 +127,21 @@
                         >
                             <!-- Highlight Input -->
                             <nitrozen-checkbox
-                                :value="isCheckboxSelected(rejectedFields.highlights, highlight)"
+                                :value="
+                                    isCheckboxSelected(
+                                        rejectedFields.highlights,
+                                        highlight
+                                    )
+                                "
                                 id="rejectedFields.no_of_boxes"
                                 class="nt-checkbox"
-                                @change="updateVerifiedList({'key': 'highlights' , 'value': highlight, type:'array'})"
+                                @change="
+                                    updateVerifiedList({
+                                        key: 'highlights',
+                                        value: highlight,
+                                        type: 'array',
+                                    })
+                                "
                             >
                             </nitrozen-checkbox>
                             <nitrozen-input
@@ -178,9 +203,11 @@
                         </customs>
                     </div>
 
-
                     <!-- Limit Order Quantity -->
-                    <div class="moq base" v-if="is_dependent.value===false && limitQuantity">
+                    <div
+                        class="moq base"
+                        v-if="is_dependent.value === false && limitQuantity"
+                    >
                         <div class="header">
                             <div class="cl-Mako bold-md">
                                 Limit Order Quantity
@@ -189,13 +216,22 @@
                         <div class="input-quantity">
                             <div class="mt-sm verify-block">
                                 <nitrozen-checkbox
-                                :value="isCheckboxSelected(rejectedFields.minimum)"
-                                :checkboxValue="rejectedFields.minimum"
-                                id="rejectedFields.no_of_boxes"
-                                class="nt-checkbox"
-                                @change="updateVerifiedList({'key': 'minimum' , 'value': minimum.value})"
-                            >
-                            </nitrozen-checkbox>
+                                    :value="
+                                        isCheckboxSelected(
+                                            rejectedFields.minimum
+                                        )
+                                    "
+                                    :checkboxValue="rejectedFields.minimum"
+                                    id="rejectedFields.no_of_boxes"
+                                    class="nt-checkbox"
+                                    @change="
+                                        updateVerifiedList({
+                                            key: 'minimum',
+                                            value: minimum.value,
+                                        })
+                                    "
+                                >
+                                </nitrozen-checkbox>
                                 <nitrozen-input
                                     label="Minimum"
                                     type="number"
@@ -208,11 +244,20 @@
                             </div>
                             <div class="mt-sm verify-block">
                                 <nitrozen-checkbox
-                                    :value="isCheckboxSelected(rejectedFields.maximum)"
+                                    :value="
+                                        isCheckboxSelected(
+                                            rejectedFields.maximum
+                                        )
+                                    "
                                     :checkboxValue="rejectedFields.maximum"
                                     id="rejectedFields.no_of_boxes"
                                     class="nt-checkbox"
-                                    @change="updateVerifiedList({'key': 'maximum' , 'value': maximum.value})"
+                                    @change="
+                                        updateVerifiedList({
+                                            key: 'maximum',
+                                            value: maximum.value,
+                                        })
+                                    "
                                 >
                                 </nitrozen-checkbox>
                                 <nitrozen-input
@@ -233,12 +278,17 @@
                         </div>
                         <div class="chip-wrapper inline tag-chips">
                             <nitrozen-checkbox
-                                    :value="isCheckboxSelected(rejectedFields.tags)"
-                                    :checkboxValue="rejectedFields.tags"
-                                    id="rejectedFields.no_of_boxes"
-                                    class="nt-checkbox"
-                                    @change="updateVerifiedList({'key': 'tags' , 'value': tags})"
-                                >
+                                :value="isCheckboxSelected(rejectedFields.tags)"
+                                :checkboxValue="rejectedFields.tags"
+                                id="rejectedFields.no_of_boxes"
+                                class="nt-checkbox"
+                                @change="
+                                    updateVerifiedList({
+                                        key: 'tags',
+                                        value: tags,
+                                    })
+                                "
+                            >
                             </nitrozen-checkbox>
                             <div v-for="(tag, index) of tags" :key="index">
                                 <nitrozen-chips class="chip">
@@ -308,42 +358,63 @@
                                 <div class="title mf-btn">
                                     <div class="mt-title">Return Time</div>
                                     <div class="verify-block">
-                                    <nitrozen-checkbox
-                                        :value="isCheckboxSelected(rejectedFields.return_time)"
-                                        :checkboxValue="rejectedFields.return_time"
-                                        id="rejectedFields.return_time"
-                                        class="nt-checkbox"
-                                        @change="updateVerifiedList({'key': 'return_time' , 'value': return_time})"
-                                    >
-                                     </nitrozen-checkbox>
-                                    <nitrozen-input
-                                        :disabled="true"
-                                        type="number"
-                                        placeholder="No of days/hours"
-                                        v-model="return_time"
-                                        class="mt-input"
-                                        :min="1"
-                                    >
-                                    </nitrozen-input>
+                                        <nitrozen-checkbox
+                                            :value="
+                                                isCheckboxSelected(
+                                                    rejectedFields.return_time
+                                                )
+                                            "
+                                            :checkboxValue="
+                                                rejectedFields.return_time
+                                            "
+                                            id="rejectedFields.return_time"
+                                            class="nt-checkbox"
+                                            @change="
+                                                updateVerifiedList({
+                                                    key: 'return_time',
+                                                    value: return_time,
+                                                })
+                                            "
+                                        >
+                                        </nitrozen-checkbox>
+                                        <nitrozen-input
+                                            :disabled="true"
+                                            type="number"
+                                            placeholder="No of days/hours"
+                                            v-model="return_time"
+                                            class="mt-input"
+                                            :min="1"
+                                        >
+                                        </nitrozen-input>
                                     </div>
                                     <div class="verify-block">
-                                    <nitrozen-checkbox
-                                        :value="isCheckboxSelected(rejectedFields.return_time_unit)"
-                                        :checkboxValue="rejectedFields.return_time_unit"
-                                        id="rejectedFields.return_time_unit"
-                                        class="nt-checkbox"
-                                        @change="updateVerifiedList({'key': 'return_time_unit' , 'value': return_time_unit})"
-                                    >
-                                    </nitrozen-checkbox>
-                                    <nitrozen-input
-                                        :disabled="true"
-                                        type="string"
-                                        placeholder="Manufacturing time Unit"
-                                        v-model="return_time_unit"
-                                        class="mt-dd"
-                                    >
-                                    </nitrozen-input>
-                                    
+                                        <nitrozen-checkbox
+                                            :value="
+                                                isCheckboxSelected(
+                                                    rejectedFields.return_time_unit
+                                                )
+                                            "
+                                            :checkboxValue="
+                                                rejectedFields.return_time_unit
+                                            "
+                                            id="rejectedFields.return_time_unit"
+                                            class="nt-checkbox"
+                                            @change="
+                                                updateVerifiedList({
+                                                    key: 'return_time_unit',
+                                                    value: return_time_unit,
+                                                })
+                                            "
+                                        >
+                                        </nitrozen-checkbox>
+                                        <nitrozen-input
+                                            :disabled="true"
+                                            type="string"
+                                            placeholder="Manufacturing time Unit"
+                                            v-model="return_time_unit"
+                                            class="mt-dd"
+                                        >
+                                        </nitrozen-input>
                                     </div>
                                 </div>
                             </div>
@@ -357,11 +428,22 @@
                             <div class="mr-md full">
                                 <div class="verify-block">
                                     <nitrozen-checkbox
-                                        :value="isCheckboxSelected(rejectedFields.trader_type)"
-                                        :checkboxValue="rejectedFields.trader_type"
+                                        :value="
+                                            isCheckboxSelected(
+                                                rejectedFields.trader_type
+                                            )
+                                        "
+                                        :checkboxValue="
+                                            rejectedFields.trader_type
+                                        "
                                         id="rejectedFields.trader_type"
                                         class="nt-checkbox"
-                                        @change="updateVerifiedList({'key': 'trader_type' , 'value': trader_type})"
+                                        @change="
+                                            updateVerifiedList({
+                                                key: 'trader_type',
+                                                value: trader_type,
+                                            })
+                                        "
                                     >
                                     </nitrozen-checkbox>
                                     <nitrozen-input
@@ -372,11 +454,22 @@
                                 </div>
                                 <div class="verify-block">
                                     <nitrozen-checkbox
-                                        :value="isCheckboxSelected(rejectedFields.trader_name)"
-                                        :checkboxValue="rejectedFields.trader_name"
+                                        :value="
+                                            isCheckboxSelected(
+                                                rejectedFields.trader_name
+                                            )
+                                        "
+                                        :checkboxValue="
+                                            rejectedFields.trader_name
+                                        "
                                         id="rejectedFields.trader_name"
                                         class="nt-checkbox"
-                                        @change="updateVerifiedList({'key': 'trader_name' , 'value': trader.name})"
+                                        @change="
+                                            updateVerifiedList({
+                                                key: 'trader_name',
+                                                value: trader.name,
+                                            })
+                                        "
                                     >
                                     </nitrozen-checkbox>
                                     <nitrozen-input
@@ -388,11 +481,22 @@
                                 </div>
                                 <div class="verify-block">
                                     <nitrozen-checkbox
-                                        :value="isCheckboxSelected(rejectedFields.trader_address)"
-                                        :checkboxValue="rejectedFields.trader_address"
+                                        :value="
+                                            isCheckboxSelected(
+                                                rejectedFields.trader_address
+                                            )
+                                        "
+                                        :checkboxValue="
+                                            rejectedFields.trader_address
+                                        "
                                         id="rejectedFields.trader_address"
                                         class="nt-checkbox"
-                                        @change="updateVerifiedList({'key': 'trader_address' , 'value': trader.address})"
+                                        @change="
+                                            updateVerifiedList({
+                                                key: 'trader_address',
+                                                value: trader.address,
+                                            })
+                                        "
                                     >
                                     </nitrozen-checkbox>
                                     <nitrozen-input
@@ -431,11 +535,9 @@
 
                 <div class="download_section flex" v-if="!isRejected">
                     <div
-                        
                         v-for="(button, index) in actionButtons"
                         :key="index"
                         class="flex download-btn"
-
                     >
                         <nitrozen-button
                             theme="secondary"
@@ -445,26 +547,24 @@
                             {{ button }}
                         </nitrozen-button>
                     </div>
-
-                    
                 </div>
                 <div class="download_section" v-else>
-                        <nitrozen-input
-                            class="input reject-input"
-                            label="Remark"
-                            type="textarea"
-                            v-model="remark"
-                            placeholder="Add a remark"
-                        ></nitrozen-input>
-                        <nitrozen-button
-                            theme="secondary"
-                            v-flatBtn
-                            @click="save(2)"
-                        >
-                            Reject
-                        </nitrozen-button>
+                    <nitrozen-input
+                        class="input reject-input"
+                        label="Remark"
+                        type="textarea"
+                        v-model="remark"
+                        placeholder="Add a remark"
+                    ></nitrozen-input>
+                    <nitrozen-button
+                        theme="secondary"
+                        v-flatBtn
+                        @click="save(2)"
+                    >
+                        Reject
+                    </nitrozen-button>
                 </div>
-                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -501,11 +601,10 @@
 .download_section {
     width: 100%;
 
-    .reject-input{
-            max-width: fit-content;
-            margin-bottom: 10px;
+    .reject-input {
+        max-width: fit-content;
+        margin-bottom: 10px;
     }
-
 
     .download-btn {
         padding: 0 10px;
@@ -948,7 +1047,7 @@ export default {
             customJSON: {},
             hsnDetails: {},
             isRejected: false,
-
+            isEdit: true,
             name: '',
             brandUid: 0,
             itemCode: '',
@@ -975,8 +1074,8 @@ export default {
             tags: [],
             tagList: [],
             product_online_date: '',
-            saveText: "Saved Successfully",
-            errorText: "Verification Failed. Please verify all fields.",
+            saveText: 'Saved Successfully',
+            errorText: 'Verification Failed. Please verify all fields.',
 
             pay_at_store: false,
             store_pickup: false,
@@ -1018,17 +1117,40 @@ export default {
                 this.fetchVerificationDetails(),
                 this.fetchTemplateSchema(),
             ];
-            try {
-                const [product, verification, globalSchema] = await Promise.all(
-                    promiseArray
-                );
 
-                this.product = product.data.data;
+            try {
+                const [
+                    product,
+                    verification,
+                    globalSchema,
+                ] = await Promise.allSettled(promiseArray);
+            console.log("asdasdsad", product);
+
+                if (
+                    product.status === 'rejected' ||
+                    globalSchema.status === 'rejected'
+                ) {
+                    throw new Error('Failed');
+                }
+                this.product = product.value.data.data;
                 this.templateSchema =
-                    globalSchema.data.data.template_validation;
-                this.globalSchema = globalSchema.data.data.global_validation;
-                this.templateDetails = globalSchema.data.template_details;
-                this.verificationDetails = verification.data;
+                    globalSchema.value.data.data.template_validation;
+                this.globalSchema = globalSchema.value.data.data.global_validation;
+                this.templateDetails = globalSchema.value.data.template_details;
+
+                if (verification.data) {
+                    this.verificationDetails = verification.data;
+                } else {
+                    this.isEdit = false;
+                    this.verificationDetails = {
+                        company_id: this.companyId,
+                        item_code: this.product.item_code,
+                        rejected_fields: {},
+                        remark: '',
+                        status: 'pending',
+                        brand_uid: this.product.brand_uid,
+                    };
+                }
                 this.populateForm();
             } catch (error) {
                 this.pageError = true;
@@ -1060,6 +1182,7 @@ export default {
         fetchTemplateSchema() {
             const myParams = {
                 slug: this.templateSlug,
+                companyId: this.companyId
             };
             return CompanyService.fetchTemplateSchema(this.getParams(myParams));
         },
@@ -1188,11 +1311,11 @@ export default {
                 console.log(err);
             }
         },
-        isCheckboxSelected(value, optional = null){
-            if(Array.isArray(value)){
+        isCheckboxSelected(value, optional = null) {
+            if (Array.isArray(value)) {
                 return !value.includes(optional);
             }
-            return value ? false : true
+            return value ? false : true;
         },
         setValues(product_type) {
             switch (product_type) {
@@ -1225,69 +1348,71 @@ export default {
             }
         },
         updateVerifiedList(e) {
-            const { key, value = "" , type="text"} = e;
+            const { key, value = '', type = 'text' } = e;
 
-            if (type === 'array'){
-                if(!this.rejectedFields[key]){
+            if (type === 'array') {
+                if (!this.rejectedFields[key]) {
                     this.rejectedFields[key] = [];
                 }
-                
+
                 const preFilterLength = this.rejectedFields[key].length;
-                
+
                 // remove key url if already present
-                this.rejectedFields[ key] = this.rejectedFields[key].filter((url) => url!==value );
-                
+                this.rejectedFields[key] = this.rejectedFields[key].filter(
+                    (url) => url !== value
+                );
+
                 const postFilterLength = this.rejectedFields[key].length;
 
                 // add url to key if not present
-                if( preFilterLength === postFilterLength){
+                if (preFilterLength === postFilterLength) {
                     this.rejectedFields[key].push(value);
                 }
 
                 // delete key from rejected_fields if all key checked true, i.e, key has empty value
-                if(!this.rejectedFields[key].length){
+                if (!this.rejectedFields[key].length) {
                     delete this.rejectedFields[key];
                 }
-            }
-            else{
-                if( this.rejectedFields[key] || Object.keys(this.rejectedFields).includes(key)){
+            } else {
+                if (
+                    this.rejectedFields[key] ||
+                    Object.keys(this.rejectedFields).includes(key)
+                ) {
                     // delete key if exists in unverified objects
-                    delete this.rejectedFields[key];        
-                }
-                else{
+                    delete this.rejectedFields[key];
+                } else {
                     // add to unverified object
                     this.rejectedFields[key] = value;
                 }
             }
-         
         },
         async save(e) {
             if (e && this.actionButtons[e] === 'Verify') {
                 // Verified
-                if(Object.keys(this.rejectedFields).length){  // if all fields are not verified
+                if (Object.keys(this.rejectedFields).length) {
+                    // if all fields are not verified
                     this.$snackbar.global.showError(`${this.errorText}`, {
-                        duration: 2000
+                        duration: 2000,
                     });
                     return;
                 }
                 this.verificationDetails.status = 'verified';
                 this.verificationDetails['rejected_fields'] = {};
-
-                
             } else if (e && this.actionButtons[e] === 'Reject') {
                 // Rejected
-                if(!this.isRejected){
-                    this.isRejected=true;
+                if (!this.isRejected) {
+                    this.isRejected = true;
                     return;
                 }
                 this.verificationDetails['remark'] = this.remark;
-                this.verificationDetails['rejected_fields'] = this.rejectedFields;
+                this.verificationDetails[
+                    'rejected_fields'
+                ] = this.rejectedFields;
                 this.verificationDetails.status = 'rejected';
             } else {
                 // Skip
-                return;
+                return this.redirectToListing();
             }
-
 
             const query = {
                 companyId: this.companyId,
@@ -1299,12 +1424,12 @@ export default {
                 const result = await CatalogService.saveVerifiedProducts({
                     ...query,
                     body: this.verificationDetails,
-                })
-                if(!result){
-                    throw Error("Not Updated");
+                }, this.isEdit);
+                if (!result) {
+                    throw Error('Not Updated');
                 }
                 this.$snackbar.global.showSuccess(`${this.saveText}`, {
-                            duration: 2000
+                    duration: 2000,
                 });
                 this.redirectToListing();
             } catch (e) {
@@ -1316,8 +1441,11 @@ export default {
         },
         redirect(param) {
             const { platform } = param;
-            if( platform ){
-                window.open(`https://platform.${env.FYND_PLATFORM_DOMAIN}/company/${this.companyId}/products/list/?search=${this.itemCode}&limit=10`, "_blank") 
+            if (platform) {
+                window.open(
+                    `https://platform.${env.FYND_PLATFORM_DOMAIN}/company/${this.companyId}/products/list/?search=${this.itemCode}&limit=10`,
+                    '_blank'
+                );
             }
             this.redirectToListing();
         },
