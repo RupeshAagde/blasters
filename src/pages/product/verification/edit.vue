@@ -1124,7 +1124,8 @@ export default {
                     verification,
                     globalSchema,
                 ] = await Promise.allSettled(promiseArray);
-            console.log("asdasdsad", product);
+                
+                console.log("asdasdsad", verification);
 
                 if (
                     product.status === 'rejected' ||
@@ -1138,8 +1139,8 @@ export default {
                 this.globalSchema = globalSchema.value.data.data.global_validation;
                 this.templateDetails = globalSchema.value.data.template_details;
 
-                if (verification.data) {
-                    this.verificationDetails = verification.data;
+                if (verification.value && verification.value.data) {
+                    this.verificationDetails = verification.value.data;
                 } else {
                     this.isEdit = false;
                     this.verificationDetails = {
