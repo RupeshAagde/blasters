@@ -517,10 +517,10 @@ export default {
 
             if (
                 event.value.assigned_to &&
-                event.value.assigned_to.id &&
-                event.value.assigned_to.id.length == 2
+                event.value.assigned_to.agent_id &&
+                event.value.assigned_to.agent_id.length == 2
             ) {
-                const key = event.value.assigned_to.id[1];
+                const key = event.value.assigned_to.agent_id[1];
                 let value = undefined;
 
                 this.staff.forEach(element => {
@@ -537,7 +537,7 @@ export default {
                 event.value.assigned_to &&
                 event.value.assigned_to.length == 2
             ) {
-                const key = event.value.assigned_to[1].id;
+                const key = event.value.assigned_to[1].agent_id;
                 let value = undefined;
 
                 this.staff.forEach(element => {
