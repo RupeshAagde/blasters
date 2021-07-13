@@ -143,7 +143,7 @@ import {
 
 import _ from 'lodash';
 
-import UserService from '@/services/user-access.service';
+import UserService from './../../services/user-access.service';
 import SupportService from './../../services/support.service';
 
 const PAGINATION = {
@@ -260,17 +260,13 @@ export default {
         },
         loadEverything() {
             let promises = [];
-            promises.push(
-                SupportService.fetchOptions()
-            );
-
+            promises.push(SupportService.fetchOptions());
             if (this.ticketID) {
                 promises.push(SupportService.getTicket(this.ticketID));
                 promises.push(SupportService.fetchHistory(this.ticketID));
                 promises.push(SupportService.fetchFeedbacks(this.ticketID));
+                promises.push(UserService.getUserList(this.requestQuery()));
             }
-
-            promises.push(UserService.getUserList(this.requestQuery()));
 
             Promise.all(promises)
                 .then((responses) => {
@@ -332,11 +328,11 @@ export default {
 
                     res = responses[1];
                     if (this.ticketID) {
-                        res = responses[3];
+                        res = responses[4];
                     }
 
                     const array = [];
-                    res.data.items.forEach((element) => {
+                    res.data.docs.forEach((element) => {
                         array.push({
                             text:
                                 (element.first_name || 'Team') +
