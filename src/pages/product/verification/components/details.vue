@@ -28,12 +28,16 @@
                     @change="emitVerify('departments', department.value)"
                 >
                 </nitrozen-checkbox>
-                <nitrozen-input
-                    label="Department *"
-                    placeholder="For eg. Black Casual Shirt"
-                    v-model="department.value"
-                    :disabled="true"
-                ></nitrozen-input>
+                <nitrozen-dropdown
+                    class="input w-l"
+                    label="Departments"
+                    :items="departments"
+                    disabled
+                    v-model="product.departments"
+                    :required="true"
+                    :multiple="true"
+                ></nitrozen-dropdown>
+                
             </div>
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
@@ -97,13 +101,13 @@
                     @change="emitVerify('brand_uid', brand_uid.value)"
                 >
                 </nitrozen-checkbox>
-                <nitrozen-input
+                <nitrozen-dropdown
                     label="Brand *"
                     placeholder="Choose Brand"
-                        disabled
+                    disabled
                     :items="brandValuesList"
                     v-model="brand_uid.value"
-                ></nitrozen-input>
+                ></nitrozen-dropdown>
             </div>
             <!-- Item Code -->
             <div class="mt-sm verify-block">
@@ -343,6 +347,7 @@ export default {
             brand_uid: this.getInitialValue(),
             category_slug: this.getInitialValue(),
             teaser: this.getInitialValue(),
+            departmentsList: [],
             item_type: '',
             // teaserURL: '',
 
@@ -379,6 +384,12 @@ export default {
             }
         },
         brands: {
+            type: Array,
+            default: () => {
+                return [];
+            }
+        },
+        departments: {
             type: Array,
             default: () => {
                 return [];
@@ -460,7 +471,7 @@ export default {
         },
         populateForm() {
             try {
-                // this.setBrandValuesList();
+                this.setBrandValuesList();
                 // this.setCategoryValuesList();
                 const { slug = '', name = '', item_type = '', department = '', item_code = '', teaser_tag = ''} = this.product;
 
