@@ -5,8 +5,6 @@
             <div class="header-position">
                 <adm-page-header
                     title="Verify Product"
-                    :showContextMenuItemMeta="true"
-                    :custom-json="customJSON"
                     @backClick="redirectToListing"
                 >
                     <div class="button-box">
@@ -57,12 +55,12 @@
                                     :edit-mode="false"
                                     :product="product"
                                     :global-schema="globalSchema"
-                                    :brands="[]"
+                                    :brands="brands"
                                     :categories="[]"
                                     teaser="teaser_tag"
                                     :is_physical="true"
                                     :product_type="product_type"
-                                    :departments="[]"
+                                    :departments="departmentsList"
                                     :is_dependent="is_dependent"
                                     :no_of_boxes="no_of_boxes"
                                     :rejected_fields="rejectedFields"
@@ -511,33 +509,14 @@
                         </div>
                     </div>
 
-                    <!-- Product-Bundle -->
-                    <!--      <div class="settings-container base">
-                    <div class="cl-Mako bold-md">Product Bundle</div>
-                    <product-bundle
-                        ref="product-bundle"
-                        :product="product"
-                        :brand-id="brandUid"
-                        :product_type="product_type.value"
-                    ></product-bundle>
-                </div> -->
-
-                    <!-- Size-Guide -->
-                    <!--     <div class="settings-container">
-                    <div class="cl-Mako bold-md">Size Guide</div>
-                    <size-guide
-                        ref="size-guide"
-                        :product="product"
-                        :brand-id="brandUid"
-                    ></size-guide>
-                </div> -->
                 </div>
 
-                <div class="download_section flex" v-if="!isRejected">
+                <div class="download_section" v-if="!isRejected">
+                    <div class="flex">
                     <div
                         v-for="(button, index) in actionButtons"
                         :key="index"
-                        class="flex download-btn"
+                        class="download-btn"
                     >
                         <nitrozen-button
                             theme="secondary"
@@ -546,6 +525,7 @@
                         >
                             {{ button }}
                         </nitrozen-button>
+                    </div>
                     </div>
                 </div>
                 <div class="download_section" v-else>
@@ -556,13 +536,21 @@
                         v-model="remark"
                         placeholder="Add a remark"
                     ></nitrozen-input>
-                    <nitrozen-button
-                        theme="secondary"
-                        v-flatBtn
-                        @click="save(2)"
+                    <div class="flex">
+                    <div
+                        v-for="(button, index) in actionButtons"
+                        :key="index"
+                        class="download-btn"
                     >
-                        Reject
-                    </nitrozen-button>
+                        <nitrozen-button
+                            theme="secondary"
+                            v-flatBtn
+                            @click="save(index)"
+                        >
+                            {{ button }}
+                        </nitrozen-button>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -602,7 +590,8 @@
     width: 100%;
 
     .reject-input {
-        max-width: fit-content;
+        max-width: 40%;
+        min-width: 50px;
         margin-bottom: 10px;
     }
 
@@ -640,7 +629,9 @@
 .moq,
 .tags,
 .dependable,
-.customs,
+.customs {
+    margin-top: 0px;
+}
 .fulfillment {
     margin-top: 24px;
 }
@@ -1021,7 +1012,7 @@ export default {
             this.pageLoading = true;
             this.productId = uid;
             this.productCode = code;
-            this.saveText = 'Product Updated Successfully';
+            this.saveText = 'Verification Status Updated';
             this.templateSlug = template;
             this.update = true;
         }
@@ -1049,6 +1040,7 @@ export default {
             isRejected: false,
             isEdit: true,
             name: '',
+            brands: [],
             brandUid: 0,
             itemCode: '',
             categorySlug: '',
@@ -1058,6 +1050,8 @@ export default {
                 name: '',
                 address: '',
             },
+            departments: [],
+            departmentsList: [],
             remark: '',
             traderError: '',
             traderTypeList: [],
@@ -1116,6 +1110,8 @@ export default {
                 this.fetchProductData(),
                 this.fetchVerificationDetails(),
                 this.fetchTemplateSchema(),
+                this.fetchBrands(),
+                this.getDepartment()
             ];
 
             try {
@@ -1123,6 +1119,8 @@ export default {
                     product,
                     verification,
                     globalSchema,
+                    brandsResponse,
+                    departmentsResponse
                 ] = await Promise.allSettled(promiseArray);
                 
                 console.log("asdasdsad", verification);
@@ -1166,6 +1164,36 @@ export default {
                 ...obj,
             };
         },
+        fetchBrands() {
+            const params = {
+                page_size: 9999,
+                company_id: this.companyId
+            };
+            return new Promise((resolve, reject) => {
+                CompanyService.fetchBrands(params)
+                    .then(({ data }) => {
+                        this.brands = data.items;
+                        return resolve();
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        return reject(err);
+                    });
+            });
+        },
+        getDepartment() {
+            return new Promise((resolve, reject) => {
+                CatalogService.fetchDepartment()
+                    .then(({ data }) => {
+                        this.departments = data.items;
+                        this.setDepartmentsList();
+                        return resolve();
+                    })
+                    .catch((err) => {
+                        return reject(err);
+                    });
+            });
+        },
         fetchProductData() {
             const myParams = {
                 uid: this.productId,
@@ -1199,7 +1227,22 @@ export default {
                 error: '',
             };
         },
-
+        setDepartmentsList(e = {}) {
+            this.departmentsList = [];
+            this.departments.forEach((d) => {
+                if (
+                    !e.text ||
+                    d.name.toLowerCase().includes(e.text.toLowerCase())
+                ) {
+                    this.departmentsList.push({
+                        text: d.name,
+                        value: d.uid
+                    });
+                    // this.departmentMap[d.uid] = d.slug;
+                }
+            });
+            // this.setDepartmentAndCategories();
+        },
         populateForm() {
             try {
                 this.product_type.value = this.product_type.value
@@ -1210,9 +1253,7 @@ export default {
                     ? 'set'
                     : 'standard';
                 this.setValues(this.product_type.value);
-                // attribute lists
                 this.categories = this.templateDetails.category_details;
-                // product fields
                 this.name = this.product.name || this.name;
                 this.brandUid = this.product.brand_uid;
                 this.categorySlug =
@@ -1222,14 +1263,8 @@ export default {
                 this.trader = this.product.trader || this.trader;
                 this.customJSON = this.product._custom_json || this.customJSON;
                 this.sizes = this.product.sizes || this.sizes;
-
-                // this.description.value = this.description.value || this.product.description || '';
-                // this.short_description.value =
-                //     this.short_description.value || this.product.short_description || '';
-
-                // if ('multi_size' in this.product){
-                //     this.multiSize = this.product.multi_size;
-                // }
+                this.isRejected = this.verificationDetails.status === "rejected";
+                this.remark = this.isRejected ? this.verificationDetails.remark : "";
 
                 if ('is_set' in this.product) {
                     this.isSet = this.product.is_set;
@@ -1296,17 +1331,6 @@ export default {
                 const { rejected_fields = {} } = this.verificationDetails;
                 this.rejectedFields = rejected_fields;
 
-                // this.$nextTick(() => {
-                //     this.$refs.details.populateForm();
-                //     this.$refs.availability.populateForm();
-                //     this.$refs.sizes.populateForm();
-                //     this.$refs.template.populateForm();
-                //     this.$refs.customs.populateForm();
-
-                //     // set clean product object for dirty form check
-                //     this.cleanProduct = this.getFormData();
-                //     this.cleanProduct.variants = this.product.variants || {};
-                // });
             } catch (err) {
                 this.$snackbar.global.showError(err.errMsgGeneric);
                 console.log(err);
@@ -1396,6 +1420,7 @@ export default {
                         duration: 2000,
                     });
                     return;
+
                 }
                 this.verificationDetails.status = 'verified';
                 this.verificationDetails['rejected_fields'] = {};
