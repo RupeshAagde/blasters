@@ -142,12 +142,14 @@
                                 "
                             >
                             </nitrozen-checkbox>
+                            <div class="input">
                             <nitrozen-input
                                 disabled
-                                class="input"
+                                
                                 placeholder="For eg. All day battery backup"
                                 v-model="highlights[index]"
                             ></nitrozen-input>
+                            </div>
                         </div>
                     </div>
                     <!-- Dynamic Attributes -->
@@ -743,6 +745,7 @@
 }
 
 .input {
+    width: 100%;
     &.xs {
         width: 200px;
     }

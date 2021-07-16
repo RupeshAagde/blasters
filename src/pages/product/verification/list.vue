@@ -126,7 +126,7 @@
                                         class="txt-arrange"
                                     >
                                         <div class="txt-description-heading">
-                                            Verified Count :
+                                            Verified Count &nbsp;&nbsp;:
                                         </div>
                                         <div class="txt-country">
                                             {{
@@ -138,7 +138,7 @@
                                         class="txt-arrange"
                                     >
                                         <div class="txt-description-heading">
-                                            Pending Count :
+                                            Pending Count &nbsp;:
                                         </div>
                                         <div class="txt-country">
                                             {{
@@ -256,6 +256,10 @@
     }
 }
 
+.card-badge-section{
+    width: 160px;
+
+}
 .container {
     border: 1px solid #e4e5e6;
     cursor: pointer;
@@ -560,11 +564,11 @@ export default {
         },
         initializeFormValues(){
             this.companyList = this.companyList.map((item) => {
-                const { products : { verified, pending, rejected } = {}} = item;
-                const pendingCount = (pending && pending[0] && pending[0].count) || 0;
+                const { products : { verified, pending, rejected } = {}, total_count} = item;
                 const verifiedCount = (verified && verified[0] && verified[0].count) || 0;
                 const rejectedCount = (rejected && rejected[0] && rejected[0].count) || 0;
-                const totalCount = pendingCount + verifiedCount + rejectedCount;
+                const totalCount = total_count;
+                const pendingCount = totalCount - (verifiedCount + rejectedCount);
                 
                 return {
                     ...item,
