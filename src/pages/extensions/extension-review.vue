@@ -7,14 +7,14 @@
             >
                 <div class="button-box">
                     <nitrozen-button
-                        v-if="extension_info.status==='pending'"
+                        v-if="extension_info.current_status==='pending'"
                         :theme="'secondary'"
                         @click="saveForm(true)"
                         v-flatBtn
                         >Approve</nitrozen-button
                     >
                     <nitrozen-button
-                        v-if="extension_info.status==='pending'"
+                        v-if="extension_info.current_status==='pending'"
                         :theme="'secondary'"
                         @click="saveForm(false)"
                         v-strokeBtn
@@ -22,7 +22,7 @@
                     >
                     <nitrozen-badge v-if="extension_info.current_status!=='pending'" :state="extension_info.current_status==='rejected'? 'error': 'success'">{{extension_info.current_status}}</nitrozen-badge>
                 </div>
-                <template v-if="extension_info.status==='pending'" slot="page-slot-mobile-footer">
+                <template v-if="extension_info.current_status==='pending'" slot="page-slot-mobile-footer">
                     <nitrozen-button
                         @click="saveForm(true)"
                         class="footer-actions"
