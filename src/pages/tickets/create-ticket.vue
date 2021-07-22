@@ -27,6 +27,7 @@
                     :ticket="ticket"
                     :filters="filters"
                     :staff="staff"
+                    :feedbackList="feedbackList"
                 />
                 <detail-section
                     class="detail-section"
@@ -141,7 +142,6 @@ import {
 } from '@gofynd/nitrozen-vue';
 
 import _ from 'lodash';
-import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
 
 import UserService from '@/services/user-access.service';
 import SupportService from './../../services/support.service';
@@ -168,7 +168,6 @@ export default {
         flatBtn,
         strokeBtn
     },
-    mixins: [dirtyCheckMixin],
     mounted() {
         this.ticketID = this.$route.params.ticket_id;
         this.originalTicket = JSON.parse(JSON.stringify(this.ticket));
@@ -190,6 +189,7 @@ export default {
             loading: true,
             saving: false,
             filters: undefined,
+            feedbackList: [],
             contextMenu: [
                 // {
                 //     text: 'Delete',
@@ -267,6 +267,7 @@ export default {
             if (this.ticketID) {
                 promises.push(SupportService.getTicket(this.ticketID));
                 promises.push(SupportService.fetchHistory(this.ticketID));
+                promises.push(SupportService.fetchFeedbacks(this.ticketID));
             }
 
             promises.push(UserService.getUserList(this.requestQuery()));
@@ -325,6 +326,8 @@ export default {
 
                         res = responses[2];
                         this.ticket.history = res.data.items;
+                        res = responses[3];
+                        this.feedbackList =  res.data.items || [];
                     }
 
                     res = responses[1];
@@ -333,7 +336,7 @@ export default {
                     }
 
                     const array = [];
-                    res.data.docs.forEach((element) => {
+                    res.data.items.forEach((element) => {
                         array.push({
                             text:
                                 (element.first_name || 'Team') +
@@ -489,15 +492,6 @@ export default {
                 .finally(() => {
                     this.saving = false;
                 });
-        },
-        isFormDirty() {
-            if (this.saving) {
-                return false;
-            }
-            return (
-                JSON.stringify(this.originalTicket) !=
-                JSON.stringify(this.ticket)
-            );
         },
         onCancel() {
             // const route = getRoute(this.$route);

@@ -26,10 +26,12 @@ describe('Load invoice listing', () => {
     test('Load invoice listing page', async () => {
         const router = new VueRouter({
 			routes: [
-				{ path: '/administrator/subscription/invoices', component: InvoiceListing }
+				{
+                    path: '/administrator/subscription/invoices', component: InvoiceListing,
+                }
 			]
 		});
-		router.push('/administrator/subscription/invoices');
+		router.push('/administrator/subscription/invoices?page_no=2&page_size=10&query=%7B%7D');
         mock.onGet(URLS.FETCH_INVOICE_LISTING()).reply(200, mocks.invoicesListing);
         wrapper = shallowMount(InvoiceListing, {
             localVue,

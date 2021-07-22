@@ -99,6 +99,12 @@ const BillingService = {
         );
         return ApiService.get(URLS.FETCH_INVOICE_LISTING(), axiosOptions);
     },
+    chargeInvoice(payload) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{
+            data: payload
+        });
+        return ApiService.post(URLS.CHARGE_INVOICE(), axiosOptions);
+    },
     getInvoiceDetail(InvoiceId) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.FETCH_INVOICE_DETAILS(InvoiceId), axiosOptions);
@@ -108,6 +114,12 @@ const BillingService = {
             data: payload
         });
         return ApiService.put(URLS.UPDATE_OFFLINE_PAYMENT(InvoiceId), axiosOptions);
+    },
+    voidInvoice(payload) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{
+            data: payload
+        });
+        return ApiService.post(URLS.VOID_INVOICE(), axiosOptions);
     },
 
     getAvailablePlansDetailed(productSuiteIdOrSlug) {

@@ -37,23 +37,15 @@
                 </nitrozen-button>
             </div>
             <div v-for="(item, index) in allCategories" v-bind:key="index">
-                <div class="category">
+                <div class="category"
+                    v-on:click="editCategory(item.key, index)"
+                >
                     <div class="category-top">
                         <p style="flex: 1 1 auto">{{ item.display }}</p>
                         <span
-                            v-on:click="editCategory(item.key)"
-                            v-if="item.sub_categories.length == 0"
-                            title="Add sub-categories"
-                        >
-                            <inline-svg
-                                class="svg-icon"
-                                src="plus-black"
-                            ></inline-svg>
-                        </span>
-                        <span
-                            v-on:click="editCategory(item.key)"
-                            v-else
-                            title="Edit sub-categories"
+                            v-on:click="editCategory(item.key, index, $event)"
+                            v-if="item.sub_categories.length != 0 || item.feedback_form"
+                            title="Edit sub-categories and Feedback Form"
                         >
                             <inline-svg
                                 class="svg-icon"
@@ -61,7 +53,17 @@
                             ></inline-svg>
                         </span>
                         <span
-                            v-on:click="removeCategory(index)"
+                            v-on:click="editCategory(item.key, index, $event)"
+                            v-else
+                            title="Add sub-categories and Feedback Form"
+                        >
+                            <inline-svg
+                                class="svg-icon"
+                                src="plus-black"
+                            ></inline-svg>
+                        </span>
+                        <span
+                            v-on:click="removeCategory(index,$event)"
                             title="Delete this category"
                         >
                             <inline-svg
@@ -70,34 +72,73 @@
                             ></inline-svg>
                         </span>
                     </div>
-                    <div
-                        class="sub-categories"
-                        v-if="item.key == editingCatKey"
-                    >
-                        <p>Sub Categories</p>
-                        <nitrozen-chips
-                            class="chip-wrapper"
-                            v-for="(option, opt_index) in item.sub_categories"
-                            :key="opt_index"
-                            >{{ option.display }}
-                            <nitrozen-inline
-                                :icon="'cross'"
-                                class="nitrozen-icon"
-                                v-on:click="removeChip(index, opt_index)"
-                            ></nitrozen-inline>
-                        </nitrozen-chips>
-                        <nitrozen-input
-                            placeholder="Add your sub-category"
-                            ref="chipInput"
-                            type="text"
-                            class="chip-input"
-                            @keyup.enter.native="addChip(index, $event)"
-                            v-model="chipInput"
-                        />
+                    <div v-if="item.key == editingCatKey">
+                        <!-- <div class="sub-categories">
+                            <p>Sub Categories</p>
+                            <nitrozen-chips
+                                class="chip-wrapper"
+                                v-for="(option, opt_index) in item.sub_categories"
+                                :key="opt_index"
+                                >{{ option.display }}
+                                <nitrozen-inline
+                                    :icon="'cross'"
+                                    class="nitrozen-icon"
+                                    v-on:click="removeChip(index, opt_index)"
+                                ></nitrozen-inline>
+                            </nitrozen-chips>
+                            <nitrozen-input
+                                placeholder="Add your sub-category"
+                                ref="chipInput"
+                                type="text"
+                                class="chip-input"
+                                @keyup.enter.native="addChip(index, $event)"
+                                v-model="chipInput"
+                            />
+                        </div> -->
+                        <div class="feedback-form">
+                            <div class="header-line">
+                                <p>Feedback Form Schema</p>
+                                <nitrozen-button
+                                    theme="secondary"
+                                    @click="preview('categoryFeedbackForm')"
+                                    >
+                                    Preview
+                                </nitrozen-button>
+                                <nitrozen-button
+                                    v-flatBtn
+                                    theme="secondary"
+                                    @click="addFeedbackForm(index, $event)"
+                                    :showProgress="loading"
+                                >
+                                    Save Schema
+                                </nitrozen-button>
+                            </div>
+                            <meta-box
+                                ref="categoryFeedbackForm"
+                                :showJsonOnly="true"
+                                :customJson="formSchema.inputs"
+                            ></meta-box>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <nitrozen-dialog
+            ref="previewFeedbackSchema"
+            title="Preview"
+            class="preview-schema"
+        >
+            <template slot="body">
+                <div v-if="Array.isArray(previewSchema)">
+                    <nitrozen-custom-form
+                        ref="feedback-form-preview"
+                        :inputs="previewSchema || []"
+                        v-model=previewModel
+                        :disabled="true"
+                    />
+                </div>
+            </template>
+        </nitrozen-dialog>
     </div>
 </template>
 
@@ -113,8 +154,10 @@ import {
     NitrozenDialog,
     NitrozenInline,
     NitrozenChips,
+    NitrozenCustomForm
 } from '@gofynd/nitrozen-vue';
-import { Loader, PageHeader } from '@/components/common';
+import { Loader, PageHeader, MetaBox } from '@/components/common';
+import { validateNitrozenCustomFormInputs } from '@/helper/utils';
 import inlinesvg from '@/components/common/inline-svg';
 import SupportService from './../../services/support.service';
 import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
@@ -133,6 +176,8 @@ export default {
         PageHeader,
         NitrozenInline,
         NitrozenChips,
+        NitrozenCustomForm,
+        MetaBox,
         'inline-svg': inlinesvg,
     },
     directives: {
@@ -150,6 +195,12 @@ export default {
             fetchedSuccesfully: false,
             chipInput: '',
             editingCatKey: null,
+            formSchema: {
+                title: 'Feedback Form',
+                inputs: []
+            },
+            previewSchema: [],
+            previewModel: {}
         };
     },
     mounted() {
@@ -208,16 +259,33 @@ export default {
             this.isSubmitable =
                 this.newCategory && this.newCategory.trim().length > 0;
         },
-        removeCategory(index) {
+        removeCategory(index, event) {
+            event.stopPropagation();
             if (this.allCategories[index].key == this.editingCatKey) {
                 this.chipInput = '';
             }
             this.allCategories.splice(index, 1);
             this.isUpdated = true;
         },
-        editCategory(key) {
+        editCategory(key, index, event) {
+            if (event) {
+                event.stopPropagation();
+            }
             this.editingCatKey = key;
             this.chipInput = '';
+            let selectedForm = this.allCategories[index].feedback_form;
+            if (selectedForm) {
+                this.formSchema.inputs = selectedForm.inputs || [];
+                this.formSchema.title = selectedForm.title || 'Feedback Form';
+            } else {
+                this.formSchema.inputs = [];
+                this.formSchema.title = 'Feedback Form';
+            }
+            setTimeout(() => {
+                if (this.$refs['categoryFeedbackForm'] && this.$refs['categoryFeedbackForm'].length > 0) {
+                    this.$refs['categoryFeedbackForm'][0].populateData();
+                }
+            }, 1);
         },
         saveData() {
             if (this.loading) {
@@ -242,6 +310,44 @@ export default {
                     this.loading = false;
                 });
         },
+        preview(ref){
+            if (this.$refs[ref] && this.$refs[ref].length > 0) {
+                this.previewSchema = this.$refs[ref][0].getJSON() || [];
+            } else {
+                this.previewSchema = []
+            }
+            this.$refs['previewFeedbackSchema'].open({
+                width: '600px',
+                showCloseButton: true,
+                dismissible: true
+            });
+        },
+        addFeedbackForm(index, event) {
+            event.preventDefault();
+            let inputs = [];
+            if (this.$refs['categoryFeedbackForm'] && this.$refs['categoryFeedbackForm'].length > 0) {
+                inputs = this.$refs['categoryFeedbackForm'][0].getJSON() || [];
+            } else {
+                this.$snackbar.global.showError('Something went wrong');
+                return;
+            }
+
+            if (!( inputs && Array.isArray(inputs)) ||
+                !validateNitrozenCustomFormInputs(inputs)) {
+                this.$snackbar.global.showError('Data not saved, please enter proper nitrogen form schema');
+                return;
+            }           
+            const data = {
+                inputs: inputs,
+                title: "Feedback form"
+            };
+            if (inputs.length > 0) {
+                this.allCategories[index].feedback_form = data;
+            } else {
+                this.allCategories[index].feedback_form = undefined;
+            }
+            this.isUpdated = true;
+        },
         removeChip(index, opt_index) {
             this.allCategories[index].sub_categories.splice(opt_index, 1);
             this.isUpdated = true;
@@ -258,7 +364,6 @@ export default {
             }
             for (let subCat of this.allCategories[index].sub_categories) {
                 if (subCat.key.trim() == slugifiedKey) {
-                    console.log('This sub-category already exist');
                     this.$snackbar.global.showError(
                         'This sub-category already exist'
                     );
@@ -350,6 +455,22 @@ export default {
             padding: 5px 10px;
             font-size: 12px;
         }
+    }
+}
+.feedback-form {
+    border: 1px solid @Iron;
+    border-radius: 4px;
+    color: grey;
+    padding: 10px;
+    margin-top: 8px;
+    .header-line {
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between
+    }
+    .meta-box {
+        margin-top: 10px
     }
 }
 </style>

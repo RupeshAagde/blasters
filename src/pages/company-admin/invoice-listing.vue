@@ -7,96 +7,117 @@
             <div v-if="inProgress" class="shimmer"></div>
             <div class="search-box flex">
                 <div v-if="isInitialLoad" class="input-shimmer shimmer"></div>
-                <template v-else>
-                    <div class="flex flex-2" style="margin-top:6px;">
-                        <nitrozen-input
-                            :showSearchIcon="true"
-                            class="search flex-1"
-                            type="search"
-                            placeholder="Search by number..."
-                            v-model="searchText"
-                            @input="debounceInput({ number: searchText })"
-                        ></nitrozen-input>
-                        
-                        <div
-                            class="flex date-wrapper flex-1"
-                            style="margin-left:12px;"
-                        >
-                            <div class="width-100 m-r-12">
-                                <div class="date">
-                                    <date-picker
-                                        class="date-picker"
-                                        @input="dateRangeChange"
-                                        date_format="MMM Do, YY"
-                                        :picker_type="'date'"
-                                        :range="true"
-                                        :clearable="true"
-                                        :useNitrozenTheme="true"
-                                        v-model="orderDateRange"
-                                        :not_before="new Date(0).toISOString()"
-                                        :placeholder="'Select Date Range'"
-                                    />
+                <div v-else class="width-100">
+                    <div class="width-100 flex">
+                        <div class="flex flex-2" style="margin-top:6px;">
+                            <nitrozen-input
+                                :showSearchIcon="true"
+                                class="search flex-1"
+                                type="search"
+                                id="search-by-number"
+                                placeholder="Search by number..."
+                                v-model="searchText"
+                                @input="debounceInput({ number: searchText })"
+                            ></nitrozen-input>
+                            
+                            <div
+                                class="flex date-wrapper flex-1"
+                                style="margin-left:12px;"
+                            >
+                                <div class="width-100 m-r-12">
+                                    <div class="date">
+                                        <date-picker
+                                            class="date-picker"
+                                            @input="dateRangeChange"
+                                            date_format="MMM Do, YY"
+                                            :picker_type="'date'"
+                                            :range="true"
+                                            :clearable="true"
+                                            :useNitrozenTheme="true"
+                                            v-model="orderDateRange"
+                                            :not_before="new Date(0).toISOString()"
+                                            :placeholder="'Select Date Range'"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="flex flex-3 m-r-12" style="margin-top:-13px">
-                        <div>
+                        <div class="flex flex-3 m-r-12" style="margin-top:-13px">
+                            <div>
+                                <nitrozen-dropdown
+                                    :label="'Status'"
+                                    class="filter-dropdown"
+                                    :useNitrozenTheme="true"
+                                    :items="statusFilterList"
+                                    v-model="filters.status"
+                                    @change="fieldChanged"
+                                ></nitrozen-dropdown>
+                            </div>
+                            <div>
+                                <nitrozen-dropdown
+                                    :label="'Collection Method'"
+                                    class="m-l-12 filter-dropdown"
+                                    :useNitrozenTheme="true"
+                                    :items="collectionMethodFilterList"
+                                    v-model="filters.collection_method"
+                                    @change="fieldChanged"
+                                ></nitrozen-dropdown>
+                            </div>
+                            <div>
                             <nitrozen-dropdown
-                                :label="'Status'"
-                                class="filter-dropdown"
-                                :useNitrozenTheme="true"
-                                :items="statusFilterList"
-                                v-model="filters.status"
-                                @change="fieldChanged"
-                            ></nitrozen-dropdown>
-                        </div>
-                        <div>
-                            <nitrozen-dropdown
-                                :label="'Collection Method'"
-                                class="m-l-12 filter-dropdown"
-                                :useNitrozenTheme="true"
-                                :items="collectionMethodFilterList"
-                                v-model="filters.collection_method"
-                                @change="fieldChanged"
-                            ></nitrozen-dropdown>
-                        </div>
-                        <div>
-                        <nitrozen-dropdown
-                                v-if="this.$route.name == 'invoices'"
-                                class="m-l-12 title-label"
-                                :searchable="true"
-                                :label="'Company'"
-                                :placeholder="'Search company'"
-                                @searchInputChange="companySearch"
-                                v-model="filters.selectedCompany"
-                                :items="companyList"
-                                @change="onCompanySelect"
-                            ></nitrozen-dropdown>
+                                    v-if="this.$route.name == 'invoices'"
+                                    class="m-l-12 title-label"
+                                    :searchable="true"
+                                    :label="'Company'"
+                                    :placeholder="'Search company'"
+                                    @searchInputChange="companySearch"
+                                    v-model="filters.selectedCompany"
+                                    :items="companyList"
+                                    @change="onCompanySelect"
+                                ></nitrozen-dropdown>
+                            </div>
                         </div>
                     </div>
-                </template>
+                    <div class="width-100 flex">
+                        <div class="flex flex-2" style="margin-top:6px;">
+                            <div>
+                                <nitrozen-dropdown
+                                    :label="'Attempts'"
+                                    class="filter-dropdown"
+                                    :useNitrozenTheme="true"
+                                    :items="attempList"
+                                    v-model="filters.attemp"
+                                    @change="fieldChanged"
+                                ></nitrozen-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div
                 v-if="
                     !inProgress && applicationList && applicationList.length > 0
                 "
             >
-                <div
-                    class="container m-t-24"
+                <a
+                    class="card-container container m-t-24"
+                    :href="getBillingPagePath(item._id)"
                     v-for="(item, index) in applicationList"
                     :key="index"
                     :title="item.name"
-                    @click="goToBillingPage(item._id)"
+                    @click="(e)=>goToBillingPage(item._id,e)"
                 >
                     <div class="line-1">
                         <div
                             v-if="item.client && item.client.name"
                             class="cust-head"
                         >
-                            <div @click.stop="routeToCompanyProfile(item)">
+                            <a
+                                :href="getCompanyProfileLink(item)"
+                                @click.stop.prevent="e=>routeToCompanyProfile(e,item)"
+                            >
                                 {{ item.client.name }}
-                            </div>
+                            </a>
                         </div>
                         <div class="cust-badge">
                             <adm-inline-svg
@@ -108,6 +129,8 @@
                                 :state="
                                     item.current_status === 'paid'
                                         ? 'success'
+                                        : item.current_status == 'void'
+                                        ?'error'
                                         : 'warn'
                                 "
                                 >{{ item.current_status }}</nitrozen-badge
@@ -145,6 +168,14 @@
                             {{ item.collection_method | removeUnderscore }}
                         </div>
                     </div>
+                    <div class="line-2" v-if="item.hasOwnProperty('attemp')">
+                        <div class="cust-head">Attempts</div>
+                        <div
+                            class="cust-pointer"
+                        >
+                            {{ item.attemp }}
+                        </div>
+                    </div>
                     <div class="line-2" v-if="item.total">
                         <div class="cust-head" v-if="item.total">Amount</div>
                         <div
@@ -156,7 +187,8 @@
                             >{{ item.total.toFixed(2) }}
                         </div>
                     </div>
-                </div>
+                    
+                </a>
                 <div class="pagination" v-if="applicationList.length > 0">
                     <nitrozen-pagination
                         name="Invoices"
@@ -368,6 +400,9 @@
             width: 33%;
         }
     }
+    .card-container{
+        display: block;
+    }
     .container {
         box-sizing: border-box;
         border: 1px solid @Iron;
@@ -495,6 +530,13 @@ export default {
     data() {
         return {
             companyList: [{value:'all',text:'All'}],
+            attempList: [
+                {value:'all',text:'All'},
+                {value:'0',text:'0'},
+                {value:'1',text:'1'},
+                {value:'2',text:'2'},
+                {value:'3',text:'3'},
+            ],
             companies: [],
             companyId: this.$route.params.companyId,
             inProgress: false,
@@ -560,7 +602,8 @@ export default {
                 },
                 end: {
                     value: ''
-                }
+                },
+                attemp: 'all'
             },
             contextMenuItems: [
                 {
@@ -597,11 +640,16 @@ export default {
                     this.filters.selectedCompany = 'all'
                 }
                 if (
-                    api_query.collection_method &&
-                    api_query.collection_method.$regex
+                    api_query.collection_method
                 ) {
                     this.filters.collection_method =
-                        api_query.collection_method.$regex;
+                        api_query.collection_method;
+                }
+                if (
+                    api_query.attemp
+                ) {
+                    this.filters.attemp =
+                        api_query.attemp;
                 }
                 if (
                     api_query['period.start'] &&
@@ -634,6 +682,7 @@ export default {
     },
     methods: {
         onCompanySelect(company_id) {
+            this.pagination = Object.assign({},this.pagination,{current:1})
             this.filters.selectedCompany = String(company_id);
             this.fetchInvoiceList();
         },
@@ -671,15 +720,30 @@ export default {
                     console.log(err);
                 });
         },
-        routeToCompanyProfile(item) {
+        getCompanyProfileLink(item){
+            let companyId = item.subscriber.unique_id;
+            if (companyId) {
+                return `/administrator/company-details/${companyId}?tab=Invoices`
+            }
+        },
+        routeToCompanyProfile(e,item) {
+            e.preventDefault()
             let companyId = item.subscriber.unique_id;
             if (companyId) {
                 this.$router.push({
-                    path: `/administrator/company-details/${companyId}`
+                    path: `/administrator/company-details/${companyId}?tab=Invoices`
                 });
             }
         },
-        goToBillingPage(id) {
+        getBillingPagePath(id){
+            if (!this.companyId) {
+                return `/administrator/subscription/invoices/${id}`
+            } else {
+                return `/administrator/company-details/${this.companyId}/billing-details/${id}`
+            }
+        },
+        goToBillingPage(id,e) {
+            e.preventDefault();
             if (!this.companyId) {
                 this.$router.push({
                     path: `/administrator/subscription/invoices/${id}`
@@ -691,12 +755,15 @@ export default {
             }
         },
         fieldChanged() {
+            this.pagination = Object.assign({},this.pagination,{current:1})
             this.fetchInvoiceList();
         },
         dateChanged() {
+            this.pagination = Object.assign({},this.pagination,{current:1})
             this.fetchInvoiceList();
         },
         dateRangeChange() {
+            this.pagination = Object.assign({},this.pagination,{current:1})
             // this.setRouteQuery({
             //     from_date: moment(this.orderDateRange[0]).format('MM-DD-YYYY'),
             //     to_date: moment(this.orderDateRange[1]).format('MM-DD-YYYY'),
@@ -778,10 +845,11 @@ export default {
                 };
             }
             if (this.filters.collection_method !== 'all') {
-                filterQuery.collection_method = {
-                    $regex: this.filters.collection_method,
-                    $options: 'ig'
-                };
+                filterQuery.collection_method = this.filters.collection_method
+            }
+
+            if (this.filters.attemp !== 'all') {
+                filterQuery.attemp = Number(this.filters.attemp)
             }
 
             if (this.filters.selectedCompany !== 'all') {
