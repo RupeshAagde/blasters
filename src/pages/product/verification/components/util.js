@@ -56,6 +56,7 @@ export function parseDynamicAttributes(schema = {}, value = {}, options = {}, re
         values[grpName][key] = value[key];
         // if(rejectedFields[key]){
         schemas[grpName]['properties'][key]['verified'] = rejectedFields[key] !==undefined ? false :  true;
+        schemas[grpName]['properties'][key]['errorMessage'] = schemas[grpName]['properties'][key]['verified'] ? null : "This field is required to verify the product"
         // }
 
         if (required.includes(key)) {

@@ -59,17 +59,17 @@
                                 <div class="card-avatar">
                                     <img
                                         :src="
-                                            productProfileImage(product.media)
+                                            productProfileImage(product.product.media)
                                         "
                                         @error="getErrorImage()"
                                     />
                                 </div>
                                 <div class="offer-details">
                                     <div
-                                        v-if="product.name"
+                                        v-if="product.product.name"
                                         class="card-content-line-1 txt-company-heading"
                                     >
-                                        {{ product.name }}
+                                        {{ product.product.name }}
                                     </div>
 
                                     <div class="txt-arrange">
@@ -127,14 +127,13 @@
                             <div
                                 v-if="
                                     product &&
-                                    product.verification &&
-                                    product.verification.status
+                                    product.status
                                 "
                                 class="card-badge-section"
                             >
                                 <nitrozen-badge
                                     v-if="
-                                        product.verification.status ===
+                                        product.status ===
                                         'verified'
                                     "
                                     state="success"
@@ -142,7 +141,7 @@
                                 >
                                 <nitrozen-badge
                                     v-else-if="
-                                        product.verification.status ===
+                                        product.status ===
                                         'rejected'
                                     "
                                     state="error"
@@ -313,7 +312,7 @@
                 color: #9b9b9b;
                 line-height: 22px;
                 font-size: 12px;
-                margin-left: 60px;
+                margin-left: 5px;
                 display: flex;
             }
             .txt-country {
@@ -504,10 +503,13 @@ export default {
             if (pageId) this.pageId = pageId;
         },
         companyView(product) {
-            const { uid, item_code , template_tag } = product;
+            let vproduct = product.product
+            const { uid, item_code , template_tag} = vproduct;
+            const { id } = product
             const query = {
                     "template": template_tag,
-                    uid
+                    uid,
+                    id
                 };
             if (uid) {
                 this.$router.push({
@@ -543,8 +545,8 @@ export default {
                     fetchUserMetaObjects(this.tempList)
                         .then((res) => {
                             res.map((element) => {
-                                if (!this.userObj[element.uid]) {
-                                    this.userObj[element.uid] = element;
+                                if (!this.userObj[element._id]) {
+                                    this.userObj[element._id] = element;
                                 }
                             });
                             this.productList = data.items;

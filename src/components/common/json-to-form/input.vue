@@ -4,35 +4,47 @@
             :value="verified"
             :checkboxValue="checked"
             class="nt-checkbox"
-            @change="$emit('change', {key: name, value})"
+            @change="changeCheckboxVal"
         ></nitrozen-checkbox>
-        <nitrozen-input
-            :type="type"
-            :label="label"
-            :placeholder="placeholder"
-            disabled
-            :value="value"
-            :showError="showError"
-            :hint="hint"
-            :search="search"
-            :showSearchIcon="showSearchIcon"
-            :showTooltip="showTooltip"
-            :tooltipText="tooltipText"
-            :maxlength="maxlength"
-            :showPrefix="showPrefix"
-            :showSuffix="showSuffix"
-            :prefix="prefix"
-            :suffix="suffix"
-            :custom="custom"
-            @input="$emit('input', $event)"
-        ></nitrozen-input>
-        <nitrozen-error v-if="errorMessage">{{ errorMessage }}</nitrozen-error>
+        <div class="block">
+            <nitrozen-input
+                :type="type"
+                :label="label"
+                :placeholder="placeholder"
+                disabled
+                :value="value"
+                :showError="showError"
+                :hint="hint"
+                :search="search"
+                :showSearchIcon="showSearchIcon"
+                :showTooltip="showTooltip"
+                :tooltipText="tooltipText"
+                :maxlength="maxlength"
+                :showPrefix="showPrefix"
+                :showSuffix="showSuffix"
+                :prefix="prefix"
+                :suffix="suffix"
+                :custom="custom"
+                @input="$emit('input', $event)"
+            ></nitrozen-input>
+            <nitrozen-error v-if="errorMessage">
+                {{ errorMessage }}
+            </nitrozen-error>
+        </div>
     </div>
 </template>
 <style lang="less" scoped>
 .container {
     display: flex;
     align-items: center;
+    .block {
+        width: 100%;
+        display: block;
+
+        .nitrozen-form-input {
+            width: 100%;
+        }
+    }
 }
 </style>
 <script>
@@ -131,5 +143,10 @@ export default {
             default: ''
         }
     },
+    methods: {
+        changeCheckboxVal(e) {
+            this.$emit('change', {key: this.name, value:this.value})
+        }
+    }
 };
 </script>

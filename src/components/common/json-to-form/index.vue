@@ -14,12 +14,12 @@ FormSchemaNative.setComponent('button', '');
 
 
 FormSchemaNative.setComponent('text', Input, form => {
+    
     const { field, vm } = form;
-    let errorMessage = validateJsonFormField(form);
     const propSchema = vm.schema.properties[field.name];
 
     field['verified'] = propSchema.verified ? propSchema.verified : false;
-
+    let errorMessage = propSchema.errorMessage ? propSchema.errorMessage: null
     if (field.description) {
         field.tooltipText = field.description;
         field.description = '';
@@ -33,11 +33,12 @@ FormSchemaNative.setComponent('text', Input, form => {
 });
 
 FormSchemaNative.setComponent('number', Input, form => {
+    
     const { field, vm } = form;
-    let errorMessage = validateJsonFormField(form);
     
     const propSchema = vm.schema.properties[field.name];
     field['verified'] = propSchema.verified ? propSchema.verified : false;
+    let errorMessage = propSchema.errorMessage ? propSchema.errorMessage: null
 
     if (field.description) {
         field.tooltipText = field.description;
@@ -52,10 +53,12 @@ FormSchemaNative.setComponent('number', Input, form => {
 });
 
 FormSchemaNative.setComponent('select', Select, form => {
+    
     const { field, vm } = form;
     
     const propSchema = vm.schema.properties[field.name];
     field['verified'] = propSchema.verified ? propSchema.verified : false;
+    
 
     if (!vm._isMounted) {
         // hack code
@@ -69,7 +72,8 @@ FormSchemaNative.setComponent('select', Select, form => {
         }
     }
 
-    let errorMessage = validateJsonFormField(form);
+    // let errorMessage = validateJsonFormField(form);
+    let errorMessage = propSchema.errorMessage ? propSchema.errorMessage: null
 
     if (!field.items) {
         return;

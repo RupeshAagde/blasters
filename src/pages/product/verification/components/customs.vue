@@ -17,12 +17,18 @@
                     @change="$emit('trigger-verify', {'key': 'country_of_origin', value: country_of_origin.value})"
                  >
                 </nitrozen-checkbox>
-                <nitrozen-input
-                    disabled
-                    label="Country of Origin *"
-                    placeholder="Choose Country"
-                    v-model="country_of_origin.value"
-                ></nitrozen-input>
+                <div class="block">
+                    <nitrozen-input
+                        disabled
+                        label="Country of Origin *"
+                        placeholder="Choose Country"
+                        v-model="country_of_origin.value"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="rejectedFields.country_of_origin">
+                        {{ errMsgRequired }}
+                    </nitrozen-error>
+                </div>
+                
             </div>
             <!-- HSN Code -->
             <div class="mt-sm verify-block">
@@ -34,12 +40,18 @@
                     @change="$emit('trigger-verify', {'key': 'hsn_code', value: hsn_code.value})"
                 >
                 </nitrozen-checkbox>
-                <nitrozen-input
-                    disabled
-                    label="HS/HSN Code *"
-                    placeholder="Choose HSN code"
-                    v-model="hsn_code.value"
-                ></nitrozen-input>
+                <div class="block">
+                    <nitrozen-input
+                        disabled
+                        label="HS/HSN Code *"
+                        placeholder="Choose HSN code"
+                        v-model="hsn_code.value"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="rejectedFields.hsn_code">
+                        {{ errMsgRequired }}
+                    </nitrozen-error>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -56,11 +68,20 @@
 
 .mt-sm {
     margin-top: 20px;
+
+    .nitrozen-form-input {
+        width: 100%;
+    }
 }
 
 .verify-block {
     display: flex;
     align-items: center;
+
+    .block {
+        display: block;
+        width: 100%;
+    }
 }
 
 </style>
@@ -141,10 +162,10 @@ export default {
                 return 0;
             }
         },
-        rejectedFields: {
-            type: Object,
+        errMsgRequired: {
+            type: String,
             default: () => {
-                return {};
+                return "This field is required to verify the product"
             }
         }
     },
