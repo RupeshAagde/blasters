@@ -10,12 +10,17 @@
                     @change="emitVerify('item_type', item_type)"
                 >
                 </nitrozen-checkbox>
-                <nitrozen-input
-                    label="Type *"
-                    placeholder="For eg. Black Casual Shirt"
-                    v-model="item_type"
-                    :disabled="true"
-                ></nitrozen-input>
+                <div class="block">
+                    <nitrozen-input
+                        label="Type *"
+                        placeholder="For eg. Black Casual Shirt"
+                        v-model="item_type"
+                        :disabled="true"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="rejected_fields.item_type">
+                        {{ errMsgRequired }}
+                    </nitrozen-error>
+                </div>
             </div>
             <div class="mt-sm">
             </div>
@@ -28,12 +33,22 @@
                     @change="emitVerify('departments', department.value)"
                 >
                 </nitrozen-checkbox>
-                <nitrozen-input
-                    label="Department *"
-                    placeholder="For eg. Black Casual Shirt"
-                    v-model="department.value"
-                    :disabled="true"
-                ></nitrozen-input>
+                <div class="block">
+                    <nitrozen-dropdown
+                        class="input w-l"
+                        label="Departments"
+                        :items="departments"
+                        disabled
+                        v-model="product.departments"
+                        :required="true"
+                        :multiple="true"
+                    ></nitrozen-dropdown>
+                    <nitrozen-error v-if="rejected_fields.departments">
+                        {{ errMsgRequired }}
+                    </nitrozen-error>
+                </div>
+                
+                
             </div>
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
@@ -44,12 +59,18 @@
                     @change="emitVerify('category_slug', category_slug.value)"
                 >
                 </nitrozen-checkbox>
-                <nitrozen-input
-                    label="Category *"
-                    placeholder="For eg. Black Casual Shirt"
-                    v-model="category_slug.value"
-                    :disabled="true"
-                ></nitrozen-input>
+                <div class="block">
+                    <nitrozen-input
+                        label="Category *"
+                        placeholder="For eg. Black Casual Shirt"
+                        v-model="category_slug.value"
+                        :disabled="true"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="rejected_fields.category_slug">
+                        {{ errMsgRequired }}
+                    </nitrozen-error>
+                </div>
+                
             </div>
             <!-- Name -->
             <div class="mt-sm verify-block">
@@ -61,12 +82,17 @@
                     @change="emitVerify('name', name.value)"
                 >
                 </nitrozen-checkbox>
-                <nitrozen-input
-                    label="Name *"
-                    placeholder="For eg. Black Casual Shirt"
-                    v-model="name.value"
-                    disabled
-                ></nitrozen-input>
+                <div class="block">
+                    <nitrozen-input
+                        label="Name *"
+                        placeholder="For eg. Black Casual Shirt"
+                        v-model="name.value"
+                        disabled
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="rejected_fields.name">
+                        {{ errMsgRequired }}
+                    </nitrozen-error>
+                </div>
             </div>
             <!-- Slug -->
             <div class="mt-sm verify-block">
@@ -78,14 +104,19 @@
                     @change="emitVerify('slug', slug.value)"
                 >
                 </nitrozen-checkbox>
-                <nitrozen-input
-                    label="Slug"
-                    placeholder="For eg. black-casual-shirt"
-                    :showTooltip="true"
-                    tooltipText="Used as product name in product links. Allowed characters are capital alphabets, numbers and hyphens"
-                    :disabled="true"
-                    v-model="slug.value"
-                ></nitrozen-input>
+                <div class="block">
+                     <nitrozen-input
+                        label="Slug"
+                        placeholder="For eg. black-casual-shirt"
+                        :showTooltip="true"
+                        tooltipText="Used as product name in product links. Allowed characters are capital alphabets, numbers and hyphens"
+                        :disabled="true"
+                        v-model="slug.value"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="rejected_fields.slug">
+                        {{ errMsgRequired }}
+                    </nitrozen-error>
+                </div>
             </div>
             <!-- Brand -->
             <div class="mt-sm verify-block">
@@ -97,13 +128,18 @@
                     @change="emitVerify('brand_uid', brand_uid.value)"
                 >
                 </nitrozen-checkbox>
-                <nitrozen-input
-                    label="Brand *"
-                    placeholder="Choose Brand"
+                <div class="block">
+                    <nitrozen-dropdown
+                        label="Brand *"
+                        placeholder="Choose Brand"
                         disabled
-                    :items="brandValuesList"
-                    v-model="brand_uid.value"
-                ></nitrozen-input>
+                        :items="brandValuesList"
+                        v-model="brand_uid.value"
+                    ></nitrozen-dropdown>
+                    <nitrozen-error v-if="rejected_fields.brand_uid">
+                        {{ errMsgRequired }}
+                    </nitrozen-error>
+                </div>
             </div>
             <!-- Item Code -->
             <div class="mt-sm verify-block">
@@ -115,14 +151,20 @@
                     @change="emitVerify('item_code', item_code.value)"
                 >
                 </nitrozen-checkbox>
-                <nitrozen-input
-                    label="Item Code *"
-                    placeholder="For eg. BK-101"
-                    :showTooltip="true"
-                    tooltipText="Allowed characters are capital alphabets, numbers and hyphens"
-                    disabled
-                    v-model="item_code.value"
-                ></nitrozen-input>
+                <div class="block">
+                    <nitrozen-input
+                        label="Item Code *"
+                        placeholder="For eg. BK-101"
+                        :showTooltip="true"
+                        tooltipText="Allowed characters are capital alphabets, numbers and hyphens"
+                        disabled
+                        v-model="item_code.value"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="rejected_fields.item_code">
+                        {{ errMsgRequired }}
+                    </nitrozen-error>
+                </div>
+                
             </div>
         </div>
         <div class="header">
@@ -136,12 +178,18 @@
                     @change="emitVerify('teaser_tag', teaser.value)"
                 >
                     </nitrozen-checkbox>
-                    <nitrozen-input
-                        label="Badge"
-                        placeholder="Fynd Assured"
-                        disabled
-                        v-model="teaser.value"
-                    ></nitrozen-input>
+                    <div class="block">
+                        <nitrozen-input
+                            label="Badge"
+                            placeholder="Fynd Assured"
+                            disabled
+                            v-model="teaser.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="!isCheckboxSelected(rejected_fields.teaser_tag)">
+                            {{ errMsgRequired }}
+                        </nitrozen-error>
+                    </div>
+                    
                 </div>
 
                 <div class="mt-sm verify-block" v-if="product_type.value === 'standard'">
@@ -153,14 +201,20 @@
                     @change="emitVerify('no_of_boxes', no_of_boxes.value)"
                 >
                     </nitrozen-checkbox>
-                    <nitrozen-input
-                        label="No. of boxes"
-                        type="number"
-                        disabled
-                        placeholder="No. of boxes"
-                        v-model="no_of_boxes.value"
-                    >
-                    </nitrozen-input>
+                    <div class="block">
+                        <nitrozen-input
+                            label="No. of boxes"
+                            type="number"
+                            disabled
+                            placeholder="No. of boxes"
+                            v-model="no_of_boxes.value"
+                        >
+                        </nitrozen-input>
+                        <nitrozen-error v-if="!isCheckboxSelected(rejected_fields.no_of_boxes)">
+                            {{ errMsgRequired }}
+                        </nitrozen-error>
+                    </div>
+                    
                 </div>
 
             </div>
@@ -184,6 +238,10 @@
             width: 100%;
             max-width: 100%;
             margin-right: 0;
+        }
+
+        .nitrozen-form-input {
+            width: 100% !important;
         }
     }
 }
@@ -222,6 +280,10 @@
 .teaser {
     width: 100%;
     display: flex;
+}
+.block {
+    display: block;
+    width: 100%;
 }
 
 .img_container {
@@ -343,6 +405,7 @@ export default {
             brand_uid: this.getInitialValue(),
             category_slug: this.getInitialValue(),
             teaser: this.getInitialValue(),
+            departmentsList: [],
             item_type: '',
             // teaserURL: '',
 
@@ -379,6 +442,12 @@ export default {
             }
         },
         brands: {
+            type: Array,
+            default: () => {
+                return [];
+            }
+        },
+        departments: {
             type: Array,
             default: () => {
                 return [];
@@ -428,6 +497,12 @@ export default {
                     error: ''
                 };
             }
+        },
+        errMsgRequired: {
+            type: String,
+            default: () => {
+                return "This field is required to verify the product"
+            }
         }
     },
     computed: {
@@ -460,7 +535,7 @@ export default {
         },
         populateForm() {
             try {
-                // this.setBrandValuesList();
+                this.setBrandValuesList();
                 // this.setCategoryValuesList();
                 const { slug = '', name = '', item_type = '', department = '', item_code = '', teaser_tag = ''} = this.product;
 
@@ -587,34 +662,7 @@ export default {
         },
         emitVerify(name, value){
             this.$emit('trigger-verify', {'key': name, value})
-        },
-        // getFormData() {
-        //     let value = {
-        //         name: this.name.value,
-        //         slug: this.slug.value,
-        //         brand_uid: this.brand_uid.value,
-        //         item_code: this.item_code.value,
-        //         teaser_tag: {
-        //             // url: this.teaserURL,
-        //             tag: this.teaser.value
-        //         },
-        //     };
-            
-        //     if (!this.teaser.value) {
-        //         delete value['teaser_tag']['tag'];
-        //     }
-        //     if (this.product_type.value === 'standrd') {
-        //         value['no_of_boxes'] = this.no_of_boxes.value
-        //     }
-
-        //     return pickBy(value, identity);
-        // }
-        // save(url) {
-        //     this.teaserURL = url;
-        // },
-        // delete_() {
-        //     this.teaserURL = '';
-        // }
+        }
     }
 };
 </script>

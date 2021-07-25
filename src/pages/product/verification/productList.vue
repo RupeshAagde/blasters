@@ -3,9 +3,7 @@
         <div class="jumbotron-container">
             <jumbotron
                 :title="'Products'"
-                :desc="
-                    'Access the opted products information. Manage verification of products for a company.'
-                "
+                :desc="'Access the opted products information. Manage verification of products for a company.'"
             ></jumbotron>
         </div>
         <div class="second-container">
@@ -13,9 +11,9 @@
                 class="search-box"
                 v-if="
                     pageLoading ||
-                        (searchText !== '' ||
-                            selectedFilter !== 'all' ||
-                            productList.length)
+                    searchText !== '' ||
+                    selectedFilter !== 'all' ||
+                    productList.length
                 "
             >
                 <div v-if="isInitialLoad" class="input-shimmer shimmer"></div>
@@ -58,38 +56,42 @@
                     >
                         <div class="card-top" @click="companyView(product)">
                             <div class="left-container">
-                                <div>
+                                <div class="card-avatar">
+                                    <img
+                                        :src="
+                                            productProfileImage(product.product.media)
+                                        "
+                                        @error="getErrorImage()"
+                                    />
+                                </div>
+                                <div class="offer-details">
                                     <div
-                                        v-if="product.name"
+                                        v-if="product.product.name"
                                         class="card-content-line-1 txt-company-heading"
                                     >
-                                        {{ product.name }}
+                                        {{ product.product.name }}
                                     </div>
 
-                                    <div
-                                        class="txt-arrange"
-                                        
-                                    >
-                                        <div class="txt-description-heading">
-                                        </div>
+                                    <div class="txt-arrange">
+                                        <div
+                                            class="txt-description-heading"
+                                        ></div>
                                         <div class="txt-country">
-                                            {{
-                                                product.item_code
-                                            }}
+                                            {{ product.item_code }}
                                         </div>
                                     </div>
                                     <div
                                         class="txt-arrange"
                                         v-if="
                                             product.modified_by &&
-                                                product.modified_on
+                                            product.modified_on
                                         "
                                     >
                                         <div
                                             class="txt-description-heading"
                                             v-if="
                                                 product.modified_by &&
-                                                    product.modified_by.user_id
+                                                product.modified_by.user_id
                                             "
                                         >
                                             Modified By :
@@ -122,23 +124,32 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="product && product.verification && product.verification.status" class="card-badge-section">
+                            <div
+                                v-if="
+                                    product &&
+                                    product.status
+                                "
+                                class="card-badge-section"
+                            >
                                 <nitrozen-badge
-                                    v-if="product.verification.status === 'verified'"
+                                    v-if="
+                                        product.status ===
+                                        'verified'
+                                    "
                                     state="success"
                                     >Verified</nitrozen-badge
                                 >
                                 <nitrozen-badge
-                                    v-else-if="product.verification.status === 'rejected'"
+                                    v-else-if="
+                                        product.status ===
+                                        'rejected'
+                                    "
                                     state="error"
                                     >Rejected</nitrozen-badge
                                 >
-                                <nitrozen-badge
-                                    v-else
-                                    state="warn"
+                                <nitrozen-badge v-else state="warn"
                                     >Pending</nitrozen-badge
                                 >
-
                             </div>
                         </div>
                     </div>
@@ -262,12 +273,21 @@
         display: flex;
         height: auto;
         margin-top: 24px;
-        margin-bottom: 12px;
         .left-container {
             display: flex;
             flex: 2;
             position: relative;
             width: calc(100% - 60px);
+            align-items: center;
+
+            .offer-details {
+                padding: 0px 24px;
+                line-height: 24px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                width: calc(100% - 100px);
+            }
 
             .txt-arrange {
                 display: flex;
@@ -276,7 +296,7 @@
             }
 
             .txt-company-heading {
-                color: #2E31BE;
+                color: #2e31be;
                 font-weight: 600;
                 font-size: 16px;
                 -webkit-font-smoothing: antialiased;
@@ -292,7 +312,7 @@
                 color: #9b9b9b;
                 line-height: 22px;
                 font-size: 12px;
-                margin-left: 60px;
+                margin-left: 5px;
                 display: flex;
             }
             .txt-country {
@@ -320,14 +340,6 @@
                     object-fit: cover;
                     border-radius: 50%;
                 }
-            }
-            .offer-details {
-                padding: 0px 24px;
-                line-height: 24px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                width: calc(100% - 100px);
             }
         }
         .right-container {
@@ -390,6 +402,7 @@ import {
     filterDuplicateObject,
     fetchUserMetaObjects
 } from '@/helper/utils';
+import { isEmpty } from 'lodash';
 import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
@@ -490,10 +503,13 @@ export default {
             if (pageId) this.pageId = pageId;
         },
         companyView(product) {
-            const { uid, item_code , template_tag } = product;
+            let vproduct = product.product
+            const { uid, item_code , template_tag} = vproduct;
+            const { id } = product
             const query = {
                     "template": template_tag,
-                    uid
+                    uid,
+                    id
                 };
             if (uid) {
                 this.$router.push({
@@ -529,8 +545,8 @@ export default {
                     fetchUserMetaObjects(this.tempList)
                         .then((res) => {
                             res.map((element) => {
-                                if (!this.userObj[element.uid]) {
-                                    this.userObj[element.uid] = element;
+                                if (!this.userObj[element._id]) {
+                                    this.userObj[element._id] = element;
                                 }
                             });
                             this.productList = data.items;
@@ -567,6 +583,21 @@ export default {
         clearSearchFilter() {
             this.searchText = '';
             this.setRouteQuery({ name: undefined });
+        },
+        productProfileImage(media) {
+            const DEFAULT_NO_IMAGE = '/public/admin/assets/pngs/default_icon_listing.png';
+
+            if (isEmpty(media)) {
+                return DEFAULT_NO_IMAGE;
+                }
+                const profileImg = media.find(m => m.type === 'image');
+            if (isEmpty(profileImg) || !profileImg.url) {
+                return DEFAULT_NO_IMAGE;
+            }
+                return profileImg.url;
+        },
+        getErrorImage() {
+            return '/public/admin/assets/pngs/default_icon_listing.png';
         },
         setRouteQuery(query) {
             if (query.name || query.stage !== 'all') {
