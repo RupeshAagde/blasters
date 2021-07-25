@@ -51,18 +51,18 @@
                 <div v-else-if="companyList && companyList.length">
                     <!-- new cards -->
                     <div
-                        v-for="(product, index) in companyList"
+                        v-for="(company, index) in companyList"
                         :key="index"
                         class="container"
                     >
-                        <div class="card-top" @click="companyView(product)">
+                        <div class="card-top" @click="companyView(company)">
                             <div class="left-container">
                                 <div>
                                     <div
-                                        v-if="product.name"
+                                        v-if="company.name"
                                         class="card-content-line-1 txt-company-heading"
                                     >
-                                        {{ product.name }}
+                                        {{ company.name }}
                                     </div>
 
                                     <div
@@ -73,50 +73,8 @@
                                         </div>
                                         <div class="txt-country">
                                             {{
-                                                product.totalCount
+                                                company.total
                                             }}
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="txt-arrange"
-                                        v-if="
-                                            product.modified_by &&
-                                                product.modified_on
-                                        "
-                                    >
-                                        <div
-                                            class="txt-description-heading"
-                                            v-if="
-                                                product.modified_by &&
-                                                    product.modified_by.user_id
-                                            "
-                                        >
-                                            Modified By :
-                                        </div>
-                                        <div class="txt-details-by">
-                                            <user-info-tooltip
-                                                :userId="
-                                                    userObj[
-                                                        product.modified_by
-                                                            .user_id
-                                                    ]
-                                                "
-                                            ></user-info-tooltip>
-                                            <span
-                                                class="txt-clm"
-                                                v-if="product.modified_on"
-                                                >On</span
-                                            >
-                                            <span
-                                                class="txt-clm"
-                                                v-if="product.modified_on"
-                                            >
-                                                {{
-                                                    new Date(
-                                                        product.modified_on
-                                                    ).toLocaleString()
-                                                }}
-                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -130,7 +88,7 @@
                                         </div>
                                         <div class="txt-country">
                                             {{
-                                                product.verifiedCount
+                                                company.verified
                                             }}
                                         </div>
                                 </div>
@@ -142,7 +100,7 @@
                                         </div>
                                         <div class="txt-country">
                                             {{
-                                                product.pendingCount
+                                                company.pending
                                             }}
                                         </div>
                                 </div>
@@ -154,7 +112,7 @@
                                         </div>
                                         <div class="txt-country">
                                             {{
-                                                product.rejectedCount
+                                                company.rejected
                                             }}
                                         </div>
                                 </div>
@@ -528,7 +486,6 @@ export default {
             const query = {
                 page_no: this.pagination.current,
                 page_size: this.pagination.limit,
-                companyId: 1,
             };
 
             if (this.searchText) {
@@ -564,18 +521,15 @@ export default {
         },
         initializeFormValues(){
             this.companyList = this.companyList.map((item) => {
-                const { products : { verified, pending, rejected } = {}, total_count} = item;
-                const verifiedCount = (verified && verified[0] && verified[0].count) || 0;
-                const rejectedCount = (rejected && rejected[0] && rejected[0].count) || 0;
-                const totalCount = total_count;
-                const pendingCount = totalCount - (verifiedCount + rejectedCount);
+                const {verified = 0, rejected = 0, total = 0} = item.stats
+                let pending = total - rejected - verified
                 
                 return {
                     ...item,
-                    pendingCount,
-                    verifiedCount,
-                    rejectedCount,
-                    totalCount
+                    pending,
+                    verified,
+                    rejected,
+                    total
                 }
             })
         },

@@ -8,6 +8,7 @@
                         <img
                             :src="value.url"
                         />
+                        <div class="dimensions">{{getImageDimensions(value.url)}}</div>
                     </div>
                     <div
                         v-else-if="value.type === 'video'"
@@ -129,6 +130,11 @@ export default {
     },
     methods: {
         formatBytes,
+        getImageDimensions (url) {
+            const image = new Image()
+            image.src = url
+            return image.width.toString() + " X " + image.height.toString()
+        } 
     }
 };
 </script>
@@ -137,8 +143,6 @@ export default {
 .image-uploader-container {
     display: flex;
     .image-uploader {
-        // width: auto;
-        // height: 80px;
         
         .model {
             pointer-events: none;
@@ -150,6 +154,10 @@ export default {
             background-color: @Alabaster2;
             border: 1px dashed @RoyalBlue;
             border-radius: @BorderRadius;
+            .dimensions {
+                margin-top: 5px;
+                font-size: small;
+            }
             img {
                 object-fit: contain;
                 display: block;

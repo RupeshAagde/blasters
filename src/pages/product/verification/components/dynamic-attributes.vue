@@ -13,7 +13,7 @@
                 input-wrapping-class="input-wrapping-class"
                 @change="updateVerifiedList"
                 check-prop="Value"
-                rejectedFields="rejectedFields"
+                :rejectedFields="rejectedFields"
             ></json-to-form>
         </div>
     </div>
@@ -121,6 +121,7 @@ export default {
         },
         updateVerifiedList(e){
             this.$emit('trigger-verify', e)
+            this.init();
         },
         getFormData() {
             let value = {};

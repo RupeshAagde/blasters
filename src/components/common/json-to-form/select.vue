@@ -6,27 +6,40 @@
             class="nt-checkbox"
             @change="$emit('change', {key: name, value})"
         ></nitrozen-checkbox>
-        <nitrozen-dropdown
-            :items="items"
-            disabled
-            :label="label"
-            :multiple="multiple"
-            :placeholder="placeholder"
-            :required="required"
-            :searchable="searchable"
-            :tooltip="tooltip"
-            :value="value"
-            @input="$emit('input', $event)"
-            @change="$emit('change', $event)"
-            @scroll="$emit('scroll', $event)"
-        ></nitrozen-dropdown>
-        <nitrozen-error v-if="errorMessage">{{ errorMessage }}</nitrozen-error>
+        <div class="block">
+            <nitrozen-dropdown
+                :items="items"
+                disabled
+                :label="label"
+                :multiple="multiple"
+                :placeholder="placeholder"
+                :required="required"
+                :searchable="searchable"
+                :tooltip="tooltip"
+                :value="value"
+                @input="$emit('input', $event)"
+                @change="$emit('change', $event)"
+                @scroll="$emit('scroll', $event)"
+            ></nitrozen-dropdown>
+            <nitrozen-error v-if="errorMessage">
+                {{ errorMessage }}
+            </nitrozen-error>
+        </div>
     </div>
 </template>
 <style lang="less" scoped>
 .container {
     display: flex;
     align-items: center;
+
+    .block {
+        width: 100%;
+        display: block;
+
+        .nitrozen-form-input {
+            width: 100%;
+        }
+    }
 }
 </style>
 <script>
