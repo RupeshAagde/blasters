@@ -634,7 +634,7 @@
 .customs {
     margin-top: 0px;
 }
-.fulfillment, .tags {
+.fulfillment, .tags, .moq{
     margin-top: 24px;
 }
 .multiSize {
