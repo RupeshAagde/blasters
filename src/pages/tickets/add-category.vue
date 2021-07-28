@@ -45,7 +45,7 @@
                         <span
                             class="cursor-pointer"
                             v-on:click="editCategory(item.key, index, $event)"
-                            v-if="item.sub_categories.length != 0 || item.feedback_form"
+                            v-if="item.sub_categories.length != 0 || item.feedback_form || item.freshdesk_config"
                             title="Edit sub-categories and Feedback Form"
                         >
                             <inline-svg
@@ -129,15 +129,13 @@
                                     v-flatBtn
                                     theme="secondary"
                                     @click="
-                                        addFreshDeskConfigForm(index, $event)
+                                        addFreshDeskConfig(index, $event)
                                     "
                                     :showProgress="loading"
                                 >
                                     Save Config
                                 </nitrozen-button>
                             </div>
-
-                            <!-- Group ID Input -->
                             <div class="space-between">
                                 <label class="label-text " for="sync"
                                     >Group ID</label
@@ -147,19 +145,14 @@
                                     :id="index"
                                     :placeholder="'Enter Group ID'"
                                     v-model="freshDeskConfig.group_id"
-                                    @change="editGroupIdValue"
                                 ></nitrozen-input>
                             </div>
-
-                            <!-- Toggle Button -->
-
                             <div class="space-between">
-                                <label class="label-text" for="sync"
-                                    >Enable Sync</label
-                                >
+                                <label class="label-text" for="sync">
+                                    Enable Sync
+                                </label>
                                 <nitrozen-toggle-btn
                                     v-model="freshDeskConfig.sync_enabled"
-                                    @change="checkIsEnabledValue"
                                 ></nitrozen-toggle-btn>
                             </div>
                         </div>
@@ -247,7 +240,11 @@ export default {
                 inputs: []
             },
             previewSchema: [],
-            previewModel: {}
+            previewModel: {},
+            freshDeskConfig: {
+                sync_enabled: false,
+                group_id: undefined
+            }
         };
     },
     mounted() {
@@ -320,7 +317,6 @@ export default {
             }
             if (this.editingCatIdx === index) return;
             this.editingCatIdx = index;
-
             this.editingCatKey = key;
             this.chipInput = '';
             let selectedForm = this.allCategories[index].feedback_form;
@@ -338,7 +334,7 @@ export default {
                 this.freshDeskConfig.group_id = selectedConfig.group_id;
             } else {
                 this.freshDeskConfig.sync_enabled = false;
-                this.freshDeskConfig.group_id = null;
+                this.freshDeskConfig.group_id = undefined;
             }
             setTimeout(() => {
                 if (this.$refs['categoryFeedbackForm'] && this.$refs['categoryFeedbackForm'].length > 0) {
@@ -407,38 +403,33 @@ export default {
             }
             this.isUpdated = true;
         },
-        addFreshDeskConfigForm(index, event) {
+        validNumber(str) {
+            return (!str || !isNaN(str) || (parseInt(str) == str))
+        },
+        addFreshDeskConfig(index, event) {
             event.preventDefault();
-
-            function isNumeric(str) {
-                if (typeof str != 'string') return false; // we only process strings!
-                return (
-                    !isNaN(str) && !isNaN(parseFloat(str)) // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-                ); // ...and ensure strings of whitespace fail
+            if (this.freshDeskConfig.sync_enabled) {
+                if (!validNumber(this.freshDeskConfig.group_id)) {
+                    this.$snackbar.global.showError('Group ID must not be empty and number');
+                    return;
+                }
+            } else if (this.freshDeskConfig.group_id) {
+                if (!validNumber(this.freshDeskConfig.group_id)){
+                    this.$snackbar.global.showError('Group ID must be a number');
+                    return;
+                }
             }
-
-            if (
-                !this.freshDeskConfig.group_id ||
-                !isNumeric(this.freshDeskConfig.group_id)
-            ) {
-                this.$snackbar.global.showError(
-                    'Group ID must be not null and Number'
-                );
-                return;
-            }
-
-            const configData = {
-                sync_enabled: this.freshDeskConfig.sync_enabled,
-                group_id: parseFloat(this.freshDeskConfig.group_id)
-            };
-            if (this.freshDeskConfig.group_id !== null) {
-                this.allCategories[index].freshdesk_config = configData;
+            let configData
+            if (!this.freshDeskConfig.sync_enabled && !this.freshDeskConfig.group_id) {
+                configData = undefined;
             } else {
-                this.allCategories[index].freshdesk_config = undefined;
+                configData = {
+                    sync_enabled: this.freshDeskConfig.sync_enabled,
+                    group_id: parseInt(this.freshDeskConfig.group_id)
+                };
             }
+            this.allCategories[index].freshdesk_config = configData;
             this.isUpdated = true;
-
-            console.log(this.allCategories[index]);
         },
         removeChip(index, opt_index) {
             this.allCategories[index].sub_categories.splice(opt_index, 1);
@@ -469,12 +460,6 @@ export default {
             this.allCategories[index].sub_categories.push(data);
             this.chipInput = '';
             this.isUpdated = true;
-        },
-        checkIsEnabledValue(event) {
-            this.freshDeskConfig.sync_enabled = event.target.checked;
-        },
-        editGroupIdValue(event) {
-            this.freshDeskConfig.group_id = event.target.value;
         }
     }
 };
