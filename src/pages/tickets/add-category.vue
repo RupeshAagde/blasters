@@ -43,8 +43,9 @@
                     <div class="category-top">
                         <p style="flex: 1 1 auto">{{ item.display }}</p>
                         <span
+                            class="cursor-pointer"
                             v-on:click="editCategory(item.key, index, $event)"
-                            v-if="item.sub_categories.length != 0 || item.feedback_form"
+                            v-if="item.sub_categories.length != 0 || item.feedback_form || item.freshdesk_config"
                             title="Edit sub-categories and Feedback Form"
                         >
                             <inline-svg
@@ -53,6 +54,7 @@
                             ></inline-svg>
                         </span>
                         <span
+                            class="cursor-pointer"
                             v-on:click="editCategory(item.key, index, $event)"
                             v-else
                             title="Add sub-categories and Feedback Form"
@@ -119,6 +121,41 @@
                                 :customJson="formSchema.inputs"
                             ></meta-box>
                         </div>
+                        <div class="freshdesk-config">
+                            <div class="header-line">
+                                <p>Fresh Desk Config</p>
+
+                                <nitrozen-button
+                                    v-flatBtn
+                                    theme="secondary"
+                                    @click="
+                                        addFreshDeskConfig(index, $event)
+                                    "
+                                    :showProgress="loading"
+                                >
+                                    Save Config
+                                </nitrozen-button>
+                            </div>
+                            <div class="space-between">
+                                <label class="label-text " for="sync"
+                                    >Group ID</label
+                                >
+                                <nitrozen-input
+                                    class="group-input extra-margin"
+                                    :id="index"
+                                    :placeholder="'Enter Group ID'"
+                                    v-model="freshDeskConfig.group_id"
+                                ></nitrozen-input>
+                            </div>
+                            <div class="space-between">
+                                <label class="label-text" for="sync">
+                                    Enable Sync
+                                </label>
+                                <nitrozen-toggle-btn
+                                    v-model="freshDeskConfig.sync_enabled"
+                                ></nitrozen-toggle-btn>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -148,6 +185,7 @@ import {
     NitrozenError,
     NitrozenButton,
     NitrozenDropdown,
+    NitrozenToggleBtn,
     strokeBtn,
     flatBtn,
     NitrozenBadge,
@@ -172,6 +210,7 @@ export default {
         NitrozenError,
         NitrozenDropdown,
         NitrozenButton,
+        NitrozenToggleBtn,
         Loader,
         PageHeader,
         NitrozenInline,
@@ -194,13 +233,18 @@ export default {
             isUpdated: false,
             fetchedSuccesfully: false,
             chipInput: '',
+            editingCatIdx: null,
             editingCatKey: null,
             formSchema: {
                 title: 'Feedback Form',
                 inputs: []
             },
             previewSchema: [],
-            previewModel: {}
+            previewModel: {},
+            freshDeskConfig: {
+                sync_enabled: false,
+                group_id: undefined
+            }
         };
     },
     mounted() {
@@ -271,6 +315,8 @@ export default {
             if (event) {
                 event.stopPropagation();
             }
+            if (this.editingCatIdx === index) return;
+            this.editingCatIdx = index;
             this.editingCatKey = key;
             this.chipInput = '';
             let selectedForm = this.allCategories[index].feedback_form;
@@ -280,6 +326,15 @@ export default {
             } else {
                 this.formSchema.inputs = [];
                 this.formSchema.title = 'Feedback Form';
+            }
+
+            let selectedConfig = this.allCategories[index].freshdesk_config;
+            if (selectedConfig) {
+                this.freshDeskConfig.sync_enabled = selectedConfig.sync_enabled;
+                this.freshDeskConfig.group_id = selectedConfig.group_id;
+            } else {
+                this.freshDeskConfig.sync_enabled = false;
+                this.freshDeskConfig.group_id = undefined;
             }
             setTimeout(() => {
                 if (this.$refs['categoryFeedbackForm'] && this.$refs['categoryFeedbackForm'].length > 0) {
@@ -348,6 +403,34 @@ export default {
             }
             this.isUpdated = true;
         },
+        validNumber(str) {
+            return (!str || !isNaN(str) || (parseInt(str) == str))
+        },
+        addFreshDeskConfig(index, event) {
+            event.preventDefault();
+            if (this.freshDeskConfig.sync_enabled) {
+                if (!this.validNumber(this.freshDeskConfig.group_id)) {
+                    this.$snackbar.global.showError('Group ID must not be empty and number');
+                    return;
+                }
+            } else if (this.freshDeskConfig.group_id) {
+                if (!this.validNumber(this.freshDeskConfig.group_id)){
+                    this.$snackbar.global.showError('Group ID must be a number');
+                    return;
+                }
+            }
+            let configData
+            if (!this.freshDeskConfig.sync_enabled && !this.freshDeskConfig.group_id) {
+                configData = undefined;
+            } else {
+                configData = {
+                    sync_enabled: this.freshDeskConfig.sync_enabled,
+                    group_id: parseInt(this.freshDeskConfig.group_id)
+                };
+            }
+            this.allCategories[index].freshdesk_config = configData;
+            this.isUpdated = true;
+        },
         removeChip(index, opt_index) {
             this.allCategories[index].sub_categories.splice(opt_index, 1);
             this.isUpdated = true;
@@ -377,8 +460,8 @@ export default {
             this.allCategories[index].sub_categories.push(data);
             this.chipInput = '';
             this.isUpdated = true;
-        },
-    },
+        }
+    }
 };
 </script>
 
@@ -457,7 +540,8 @@ export default {
         }
     }
 }
-.feedback-form {
+.feedback-form,
+.freshdesk-config {
     border: 1px solid @Iron;
     border-radius: 4px;
     color: grey;
@@ -467,10 +551,42 @@ export default {
         margin-top: 5px;
         display: flex;
         align-items: center;
-        justify-content: space-between
+        justify-content: space-between;
     }
     .meta-box {
-        margin-top: 10px
+        margin-top: 10px;
     }
+}
+
+.freshdesk-config {
+    .header-line {
+        padding-bottom: 10px;
+        border-bottom: 1px solid @Iron;
+    }
+}
+
+.space-between {
+    margin: 10px 0;
+    display: flex;
+
+    flex-wrap: wrap;
+}
+
+.label-text {
+    width: 200px;
+
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+.extra-margin {
+    margin-left: 10px;
+}
+.group-input {
+    width: 35%;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }
 </style>
