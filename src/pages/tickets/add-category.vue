@@ -409,12 +409,12 @@ export default {
         addFreshDeskConfig(index, event) {
             event.preventDefault();
             if (this.freshDeskConfig.sync_enabled) {
-                if (!validNumber(this.freshDeskConfig.group_id)) {
+                if (!this.validNumber(this.freshDeskConfig.group_id)) {
                     this.$snackbar.global.showError('Group ID must not be empty and number');
                     return;
                 }
             } else if (this.freshDeskConfig.group_id) {
-                if (!validNumber(this.freshDeskConfig.group_id)){
+                if (!this.validNumber(this.freshDeskConfig.group_id)){
                     this.$snackbar.global.showError('Group ID must be a number');
                     return;
                 }
