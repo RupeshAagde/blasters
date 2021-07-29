@@ -251,7 +251,7 @@
                                         <td class="no-border-left no-border-right"></td>
                                         <td class="no-border-left no-border-right"></td>
                                         <td class="no-border-left no-border-right">
-                                            <div class="bold">ICGST {{ invoice.invoice
+                                            <div class="bold">IGST {{ invoice.invoice
                                                                 .taxation.igst * 100 }}%</div>
                                         </td>
                                         <td class="no-border-left no-border-right">
