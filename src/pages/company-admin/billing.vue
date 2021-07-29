@@ -247,6 +247,28 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    <tr v-if="!invoice.invoice.is_pricing_gst_included && invoice.invoice.taxation.igst">
+                                        <td class="no-border-left no-border-right"></td>
+                                        <td class="no-border-left no-border-right"></td>
+                                        <td class="no-border-left no-border-right">
+                                            <div class="bold">ICGST {{ invoice.invoice
+                                                                .taxation.igst * 100 }}%</div>
+                                        </td>
+                                        <td class="no-border-left no-border-right">
+                                            <div class="bold">
+                                                {{
+                                                    amountFormat({
+                                                        currency:
+                                                            invoice.invoice
+                                                                .currency,
+                                                        amount:
+                                                            invoice.invoice
+                                                                .taxation.igst*invoice.invoice.subtotal,
+                                                    })
+                                                }}
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td></td>
                                         <td></td>
