@@ -203,7 +203,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr v-if="!invoice.invoice.is_pricing_gst_included">
+                                    <tr v-if="!invoice.invoice.is_pricing_gst_included  && invoice.invoice.taxation.cgst">
                                         <td class="no-border-left no-border-right"></td>
                                         <td class="no-border-left no-border-right"></td>
                                         <td class="no-border-left no-border-right">
@@ -229,7 +229,7 @@
                                         <td class="no-border-left no-border-right"></td>
                                         <td class="no-border-left no-border-right"></td>
                                         <td class="no-border-left no-border-right">
-                                            <div class="bold">SCGST {{ invoice.invoice
+                                            <div class="bold">SGST {{ invoice.invoice
                                                                 .taxation.sgst * 100 }}%</div>
                                         </td>
                                         <td class="no-border-left no-border-right">
@@ -242,6 +242,28 @@
                                                         amount:
                                                             invoice.invoice
                                                                 .taxation.sgst*invoice.invoice.subtotal,
+                                                    })
+                                                }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr v-if="!invoice.invoice.is_pricing_gst_included && invoice.invoice.taxation.igst">
+                                        <td class="no-border-left no-border-right"></td>
+                                        <td class="no-border-left no-border-right"></td>
+                                        <td class="no-border-left no-border-right">
+                                            <div class="bold">IGST {{ invoice.invoice
+                                                                .taxation.igst * 100 }}%</div>
+                                        </td>
+                                        <td class="no-border-left no-border-right">
+                                            <div class="bold">
+                                                {{
+                                                    amountFormat({
+                                                        currency:
+                                                            invoice.invoice
+                                                                .currency,
+                                                        amount:
+                                                            invoice.invoice
+                                                                .taxation.igst*invoice.invoice.subtotal,
                                                     })
                                                 }}
                                             </div>
