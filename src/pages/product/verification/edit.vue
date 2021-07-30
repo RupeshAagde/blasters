@@ -42,7 +42,6 @@
                                 <div class="cl-Mako bold-md">Details</div>
 
                                 <product-details
-                                    :key="start"
                                     ref="details"
                                     :edit-mode="false"
                                     :product="product"
@@ -56,62 +55,66 @@
                                     :is_dependent="is_dependent"
                                     :no_of_boxes="no_of_boxes"
                                     :rejected_fields="rejectedFields"
+                                    :all_required_fields="all_required_fields"
                                     :errMsgRequired="errMsgRequired"
                                     @input-name="name = $event"
                                     @trigger-verify="updateVerifiedList"
+                                    :displayCheck="isDisplayCheckbox"
                                 ></product-details>
                             </div>
                         </div>
                     </div>
                     <!-- Images -->
-                    <div class="settings-container horizontal-scroll">
+                    <div class="settings-container">
                         <div class="cl-Mako bold-md">Media</div>
                         <div class="header"></div>
                         <nitrozen-error v-if="rejectedFields.media">
                             {{ errMsgRequired }}
                         </nitrozen-error>
-
-                        <div class="mt-md inline" :key="start" v-if="!isEmpty(media)">
-                            <div
-                                v-for="(m, index) of media"
-                                :key="index"
-                                class="image-verify-block"
-                            >
-                                <nitrozen-checkbox
-                                    :value="
-                                        isCheckboxSelected(
-                                            rejectedFields.media,
-                                            m && m.url
-                                        )
-                                    "
-                                    id="rejectedFields.media"
-                                    class="nt-checkbox"
-                                    @change="
-                                        updateVerifiedList({
-                                            key: 'media',
-                                            value: m && m.url,
-                                            type: 'array',
-                                            index: index
-                                        })
-                                    "
+                        <div class="horizontal-scroll" v-if="!isEmpty(media)">
+                            <div class="mt-md inline">
+                                <div
+                                    v-for="(m, index) of media"
+                                    :key="index"
+                                    class="image-verify-block"
                                 >
-                                </nitrozen-checkbox>
-                                    <media
-                                        class="mr-md cursor-move"
-                                        :key="start.toString()+index.toString()"
-                                        label="Product Image"
-                                        aspectRatio="*"
-                                        :minimumResolution="{
-                                            width: 200,
-                                            height: 200,
-                                        }"
-                                        :value="m"
-                                        :index="index"
-                                        :fileName="name || 'product'"
-                                        :tags="getImageTags()"
-                                        namespace="products-item-image"
-                                    ></media>
-                                
+                                    <nitrozen-checkbox
+                                        :disabled="isDisplayCheckbox('media')"
+                                        :value="
+                                            isCheckboxSelected(
+                                                rejectedFields.media,
+                                                m && m.url
+                                            )
+                                        "
+                                        id="rejectedFields.media"
+                                        class="nt-checkbox"
+                                        @change="
+                                            updateVerifiedList({
+                                                key: 'media',
+                                                value: m && m.url,
+                                                type: 'array',
+                                                index: index
+                                            })
+                                        "
+                                    >
+                                    </nitrozen-checkbox>
+                                        <media
+                                            class="mr-md cursor-move"
+                                            label="Product Image"
+                                            aspectRatio="*"
+                                            :minimumResolution="{
+                                                width: 200,
+                                                height: 200,
+                                            }"
+                                            :value="m"
+                                            :index="index"
+                                            :fileName="name || 'product'"
+                                            :tags="getImageTags()"
+                                            namespace="products-item-image"
+                                            :displayCheck="isDisplayCheckbox"
+                                        ></media>
+                                    
+                                </div>
                             </div>
                         </div>
                         <div class="no-data" v-else>
@@ -132,6 +135,7 @@
                             >
                                 <!-- Highlight Input -->
                                 <nitrozen-checkbox
+                                    :disabled="isDisplayCheckbox('highlights')"
                                     :value="
                                         isCheckboxSelected(
                                             rejectedFields.highlights,
@@ -152,7 +156,6 @@
                                 </nitrozen-checkbox>
                                 <nitrozen-input
                                     disabled
-                                    :key="start"
                                     placeholder="For eg. All day battery backup"
                                     v-model="highlights[index]"
                                 ></nitrozen-input>
@@ -168,11 +171,11 @@
                     <div class="settings-container">
                         <div class="cl-Mako bold-md">Attributes</div>
                         <dynamic-attributes
-                            :key="start"
                             :rejectedFields="rejectedFields"
                             ref="dynamicAttributes"
                             :schema="templateSchema"
                             :errMsgRequired="errMsgRequired"
+                            :all_required_fields="all_required_fields"
                             v-model="product.attributes"
                             @trigger-verify="updateVerifiedList"
                         ></dynamic-attributes>
@@ -186,11 +189,12 @@
                     <div class="customs base">
                         <customs
                             ref="customs"
-                            :key="start"
                             :product="product"
                             :globalSchema="globalSchema"
                             :companyId="companyId"
                             :rejectedFields="rejectedFields"
+                            :displayCheck="isDisplayCheckbox"
+                            :all_required_fields="all_required_fields"
                             :errMsgRequired="errMsgRequired"
                             @trigger-verify="updateVerifiedList"
                         >
@@ -198,81 +202,55 @@
                     </div>
 
                     <!-- Limit Order Quantity -->
-                    <div
-                        class="moq base"
-                        v-if="is_dependent.value === false && limitQuantity"
-                    >
+                    <div class="moq base">
                         <div class="header">
                             <div class="cl-Mako bold-md">
                                 Limit Order Quantity
                             </div>
                         </div>
+                        <nitrozen-error v-if="rejectedFields.minimum || rejectedFields.maximum">
+                            {{ errMsgRequired }}
+                        </nitrozen-error>
                         <div class="input-quantity">
                             <div class="mt-sm verify-block">
                                 <nitrozen-checkbox
-                                    :value="
-                                        isCheckboxSelected(
-                                            rejectedFields.minimum
-                                        )
-                                    "
+                                    :disabled="isDisplayCheckbox('minimum')"
+                                    :value="isCheckboxSelected(rejectedFields.minimum)"
                                     :checkboxValue="rejectedFields.minimum"
                                     id="rejectedFields.no_of_boxes"
                                     class="nt-checkbox"
-                                    @change="
-                                        updateVerifiedList({
-                                            key: 'minimum',
-                                            value: minimum.value,
-                                        })
-                                    "
+                                    @change="updateVerifiedList({key: 'minimum', value: minimum.value})"
                                 >
                                 </nitrozen-checkbox>
                                 <div class="block">
                                     <nitrozen-input
-                                        :key="start"
-                                        label="Minimum"
-                                        type="number"
-                                        :required="true"
-                                        placeholder="1"
-                                        v-model="minimum.value"
-                                        v-if="limitQuantity"
-                                    >
-                                </nitrozen-input>
-                                    <nitrozen-error v-if="rejectedFields.minimum">
-                                        {{ errMsgRequired }}
-                                    </nitrozen-error>
+                                            label="Minimum"
+                                            type="number"
+                                            :required="true"
+                                            placeholder="1"
+                                            v-model="minimum.value"
+                                        >
+                                    </nitrozen-input>
                                 </div>
                                 
                             </div>
                             <div class="mt-sm verify-block">
                                 <nitrozen-checkbox
-                                    :value="
-                                        isCheckboxSelected(
-                                            rejectedFields.maximum
-                                        )
-                                    "
+                                    :value="isCheckboxSelected(rejectedFields.maximum)"
+                                    :disabled="isDisplayCheckbox('maximum')"
                                     :checkboxValue="rejectedFields.maximum"
                                     id="rejectedFields.no_of_boxes"
                                     class="nt-checkbox"
-                                    @change="
-                                        updateVerifiedList({
-                                            key: 'maximum',
-                                            value: maximum.value,
-                                        })
-                                    "
+                                    @change="updateVerifiedList({key: 'maximum',value: maximum.value})"
                                 >
                                 </nitrozen-checkbox>
                                 <div class="block">
                                     <nitrozen-input
-                                        :key="start"
                                         label="Maximum"
                                         type="number"
                                         v-model="maximum.value"
-                                        v-if="limitQuantity"
                                     >
-                                </nitrozen-input>
-                                    <nitrozen-error v-if="rejectedFields.maximum">
-                                        {{ errMsgRequired }}
-                                    </nitrozen-error>
+                                    </nitrozen-input>
                                 </div>
                                 
                             </div>
@@ -286,31 +264,96 @@
                         </div>
                         <div class="mt-sm verify-block">
                             <nitrozen-checkbox
-                                    :value="isCheckboxSelected(rejectedFields.tags)"
-                                    :checkboxValue="rejectedFields.tags"
-                                    id="rejectedFields.tags"
-                                    class="nt-checkbox"
-                                    @change="
-                                        updateVerifiedList({
-                                            key: 'tags',
-                                            value: tags,
-                                        })
-                                    "
-                                >
+                                :disabled="isDisplayCheckbox('tags')"
+                                :value="isCheckboxSelected(rejectedFields.tags)"
+                                :checkboxValue="rejectedFields.tags"
+                                id="rejectedFields.tags"
+                                class="nt-checkbox"
+                                @change="updateVerifiedList({key: 'tags',value: tags})"
+                            >
                             </nitrozen-checkbox>
-                            <div class="block">
-                                <div class="chip-wrapper inline tag-chips">
-                                    <div v-for="(tag, index) of tags" :key="index">
-                                        <nitrozen-chips class="chip">
-                                            {{ tag }}
-                                        </nitrozen-chips>
+                            <div class="chip-wrapper inline tag-chips">
+                                <div v-for="(tag, index) of tags" :key="index">
+                                    <nitrozen-chips class="chip">
+                                        {{ tag }}
+                                    </nitrozen-chips>
+                                </div>
+                            </div>
+                        </div>
+                        <nitrozen-error v-if="rejectedFields.tags">
+                            {{ errMsgRequired }}
+                        </nitrozen-error>
+                    </div>
+
+                    <!-- manufactring time -->
+
+                    <div class="fulfillment base">
+                        <div class="header">
+                            <div class="cl-Mako bold-md">
+                                Made to Order
+                            </div>
+                        </div>
+                        <nitrozen-error v-if="rejectedFields.manufacturing_time || rejectedFields.manufacturing_time_unit">
+                            {{ errMsgRequired }}
+                        </nitrozen-error>
+                        <div class="container fulfillment-section">
+                            <div class="header">
+                                <div class="title mf-btn">
+                                    <div class="mt-title">Return Time</div>
+                                    <div class="header"></div>
+                                    <div class="inline">
+                                        <div class="verify-block">
+                                            <nitrozen-checkbox
+                                                :disabled="isDisplayCheckbox('manufacturing_time')"
+                                                :value="isCheckboxSelected(rejectedFields.manufacturing_time)"
+                                                :checkboxValue="rejectedFields.manufacturing_time"
+                                                id="rejectedFields.manufacturing_time"
+                                                class="nt-checkbox"
+                                                @change="updateVerifiedList({key: 'manufacturing_time',value: manufacturing_time})"
+                                            >
+                                            </nitrozen-checkbox>
+                                            <nitrozen-input
+                                                :disabled="true"
+                                                type="number"
+                                                placeholder="No of days/hours"
+                                                v-model="manufacturing_time"
+                                                class="mt-input"
+                                                :min="1"
+                                            >
+                                            </nitrozen-input>
+                                        </div>
+                                        <div class="verify-block ml-15">
+                                            <nitrozen-checkbox
+                                                :disabled="isDisplayCheckbox('manufacturing_time_unit')"
+                                                :value="
+                                                    isCheckboxSelected(
+                                                        rejectedFields.manufacturing_time_unit
+                                                    )
+                                                "
+                                                :checkboxValue="
+                                                    rejectedFields.manufacturing_time_unit
+                                                "
+                                                id="rejectedFields.manufacturing_time_unit"
+                                                class="nt-checkbox"
+                                                @change="
+                                                    updateVerifiedList({
+                                                        key: 'manufacturing_time_unit',
+                                                        value: manufacturing_time_unit,
+                                                    })
+                                                "
+                                            >
+                                            </nitrozen-checkbox>
+                                            <nitrozen-input
+                                                :disabled="true"
+                                                type="string"
+                                                v-model="manufacturing_time_unit"
+                                                class="mt-dd"
+                                            >
+                                            </nitrozen-input>
+                                        </div>
                                     </div>
                                 </div>
-                                <nitrozen-error v-if="rejectedFields.tags">
-                                    {{ errMsgRequired }}
-                                </nitrozen-error>
                             </div>
-                            
                         </div>
                     </div>
 
@@ -321,6 +364,9 @@
                                 Return Configuration
                             </div>
                         </div>
+                        <nitrozen-error v-if="rejectedFields.return_time || rejectedFields.return_time_unit">
+                            {{ errMsgRequired }}
+                        </nitrozen-error>
                         <div class="container fulfillment-section">
                             <div class="header">
                                 <div class="title mf-btn">
@@ -329,22 +375,12 @@
                                     <div class="inline">
                                         <div class="verify-block">
                                             <nitrozen-checkbox
-                                                :value="
-                                                    isCheckboxSelected(
-                                                        rejectedFields.return_time
-                                                    )
-                                                "
-                                                :checkboxValue="
-                                                    rejectedFields.return_time
-                                                "
+                                                :disabled="isDisplayCheckbox('return_time')"
+                                                :value="isCheckboxSelected(rejectedFields.return_time)"
+                                                :checkboxValue="rejectedFields.return_time"
                                                 id="rejectedFields.return_time"
                                                 class="nt-checkbox"
-                                                @change="
-                                                    updateVerifiedList({
-                                                        key: 'return_time',
-                                                        value: return_time,
-                                                    })
-                                                "
+                                                @change="updateVerifiedList({key: 'return_time',value: return_time})"
                                             >
                                             </nitrozen-checkbox>
                                             <nitrozen-input
@@ -359,6 +395,7 @@
                                         </div>
                                         <div class="verify-block ml-15">
                                             <nitrozen-checkbox
+                                                :disabled="isDisplayCheckbox('return_time_unit')"
                                                 :value="
                                                     isCheckboxSelected(
                                                         rejectedFields.return_time_unit
@@ -380,17 +417,13 @@
                                             <nitrozen-input
                                                 :disabled="true"
                                                 type="string"
-                                                placeholder="Manufacturing time Unit"
+                                                placeholder="Return time Unit"
                                                 v-model="return_time_unit"
                                                 class="mt-dd"
                                             >
                                             </nitrozen-input>
                                         </div>
                                     </div>
-                                    <div class="header"></div>
-                                    <nitrozen-error v-if="rejectedFields.return_time || rejectedFields.return_time_unit">
-                                        {{ errMsgRequired }}
-                                    </nitrozen-error>
                                 </div>
                             </div>
                         </div>
@@ -403,6 +436,7 @@
                             <div class="mr-md full">
                                 <div class="mt-sm verify-block">
                                     <nitrozen-checkbox
+                                        :disabled="isDisplayCheckbox('trader_type')"
                                         :value="
                                             isCheckboxSelected(
                                                 rejectedFields.trader_type
@@ -434,6 +468,7 @@
                                 </div>
                                 <div class="mt-sm verify-block">
                                     <nitrozen-checkbox
+                                        :disabled="isDisplayCheckbox('trader_name')"
                                         :value="
                                             isCheckboxSelected(
                                                 rejectedFields.trader_name
@@ -466,6 +501,7 @@
                                 </div>
                                 <div class="mt-sm verify-block">
                                     <nitrozen-checkbox
+                                        :disabled="isDisplayCheckbox('trader_address')"
                                         :value="
                                             isCheckboxSelected(
                                                 rejectedFields.trader_address
@@ -548,7 +584,6 @@
 
 .no-data {
     padding: 24px;
-    width: 100%;
     text-align: center;
     color: @DustyGray2;
     font-size: 14px;
@@ -634,8 +669,11 @@
 .customs {
     margin-top: 0px;
 }
-.fulfillment, .tags {
+.fulfillment, .tags, .moq{
     margin-top: 24px;
+    .header {
+        padding: 10px 0 5px 0;
+    }
 }
 .multiSize {
     padding: 20px 0 15px 0;
@@ -643,7 +681,7 @@
 .input-quantity {
     display: flex;
     .mt-sm {
-        width: 50%;
+        width: 45%;
         margin: 2px;
 
         .nitrozen-form-input {
@@ -740,7 +778,6 @@
 
 .verify-block {
     display: flex;
-    align-items: center;
     .nitrozen-form-input {
         width: 100%;
     }
@@ -959,7 +996,7 @@ import {
     Customs,
     ProductDetails,
     Media,
-    DynamicAttributes,
+    DynamicAttributes
 } from './components';
 
 import {
@@ -994,7 +1031,6 @@ export default {
         NitrozenError,
         NitrozenChips,
         NitrozenCheckBox,
-
         customs: Customs,
         'adm-page-header': admpageheader,
         'nitrozen-checkbox': NitrozenCheckBox,
@@ -1082,8 +1118,8 @@ export default {
             no_of_boxes: this.getInitialValue(),
             is_dependent: { value: false, error: '' },
             product_type: this.getInitialValue(),
-            errMsgRequired: "This field is required to verify the product",
-            errMsgGeneric: 'Something not right here',
+            errMsgRequired: "Correct the highlighted Errors",
+            errMsgGeneric: 'Please fill all required fields.',
 
             returnConfigError: '',
             returnable: false,
@@ -1092,7 +1128,7 @@ export default {
             verificationDetails: {},
             rejectedFields: {},
             actionButtons: ['Verify', 'Reject'],
-            start: -1
+            all_required_fields: []
         };
     },
 
@@ -1113,7 +1149,6 @@ export default {
                 this.templateSlug = template;
                 this.update = true;
                 this.id = id
-                this.start += 1;
             }
 
             const promiseArray = [
@@ -1160,6 +1195,13 @@ export default {
                         slug: this.product.slug
                     };
                 }
+
+                this.all_required_fields = [
+                    ...this.globalSchema.required, 
+                    ...this.templateSchema.required, 
+                    'media', 'item_type', 'departments'
+                ]
+
                 this.populateForm();
             } catch (error) {
                 this.pageError = true;
@@ -1191,6 +1233,12 @@ export default {
                         return reject(err);
                     });
             });
+        },
+        getErrorImage() {
+            return '/public/assets/pngs/default_icon_listing.png';
+        },
+        isDisplayCheckbox(fieldName) {
+            return !(this.all_required_fields.includes(fieldName))
         },
         getDepartment() {
             return new Promise((resolve, reject) => {
@@ -1231,9 +1279,6 @@ export default {
         redirectToListing(){
             this.$router.push({ path: `/administrator/product/verification/${this.companyId}/products`});
         },
-        // redirectToListing() {
-        //     this.$router.go(-1);
-        // },
         getInitialValue() {
             return {
                 value: '',
@@ -1251,10 +1296,8 @@ export default {
                         text: d.name,
                         value: d.uid
                     });
-                    // this.departmentMap[d.uid] = d.slug;
                 }
             });
-            // this.setDepartmentAndCategories();
         },
         populateForm() {
             try {
@@ -1459,7 +1502,11 @@ export default {
                 this.$snackbar.global.showSuccess(`${this.saveText}`, {
                     duration: 2000,
                 });
-                this.redirectToListing();
+                if(!isEmpty(this.verificationDetails.next_product)) {
+                    this.skipProduct()
+                } else{
+                    this.redirectToListing();
+                }
             } catch (e) {
                 this.$snackbar.global.showError(`${this.errMsgGeneric}`, {
                     duration: 500,
@@ -1501,8 +1548,8 @@ export default {
                 query: params,
             })
             .then(success => {
-                // this.init();
-                this.$router.go()
+                this.init();
+                // this.$router.go()
             });
             
         }

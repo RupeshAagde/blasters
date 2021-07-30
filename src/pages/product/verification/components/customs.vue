@@ -10,6 +10,7 @@
             <!-- Country of origin -->
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
+                    :disabled="displayCheck('country_of_origin')"
                     :value="rejectedFields.country_of_origin ? false :  true"
                     :checkboxValue="rejectedFields.country_of_origin"
                     id="rejectedFields.country_of_origin"
@@ -33,6 +34,7 @@
             <!-- HSN Code -->
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
+                    :disabled="displayCheck('hsn_code')"
                     :value="rejectedFields.hsn_code ? false :  true"
                     :checkboxValue="rejectedFields.hsn_code"
                     id="rejectedFields.hsn_code"
@@ -76,7 +78,6 @@
 
 .verify-block {
     display: flex;
-    align-items: center;
 
     .block {
         display: block;
@@ -167,6 +168,12 @@ export default {
             default: () => {
                 return "This field is required to verify the product"
             }
+        },
+        all_required_fields: {
+            type: Array,
+            default: () => {
+                return []
+            }
         }
     },
 
@@ -187,25 +194,9 @@ export default {
             this.countries.splice(indiaIndex, 1);
             this.countries.unshift(INDIA);
         },
-        // fetchHSNAndCountry() {
-        //     const params = {
-        //         company_id: this.companyId
-        //     };
-        //     return new Promise((resolve, reject) => {
-        //         SellerService.getHSNAnCountryList(params)
-        //         .then(( { data }) => {
-        //             this.hsnCodes = data.data.hsn_code;
-        //             this.countryList = data.data.country_of_origin;
-        //             this.loadCountries();
-        //             this.populateForm();
-        //             return resolve();
-        //         })
-        //         .catch(err => {
-        //             console.log(err);
-        //             return reject(err);
-        //         })
-        //     })
-        // },
+        displayCheck(fieldName){
+            return !(this.all_required_fields.includes(fieldName))
+        },
         setCountryList(e = {}) {
             this.countryList = [];
             this.countries.forEach(c => {

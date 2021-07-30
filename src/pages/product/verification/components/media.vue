@@ -7,8 +7,9 @@
                     >
                         <img
                             :src="value.url"
+                            @load="getImageDimensions($event)"
                         />
-                        <div class="dimensions">{{getImageDimensions(value.url)}}</div>
+                        <div class="dimensions">{{this.width + " X " + this.height}}</div>
                     </div>
                     <div
                         v-else-if="value.type === 'video'"
@@ -122,7 +123,9 @@ export default {
             namespace: 'products-item-image',
             fileTypes: ['png', 'jpeg'],
             fileDomain: 'image',
-            isMounted: false
+            isMounted: false,
+            height: 0,
+            width: 0
         };
     },
     mounted() {
@@ -130,11 +133,13 @@ export default {
     },
     methods: {
         formatBytes,
-        getImageDimensions (url) {
-            const image = new Image()
-            image.src = url
-            return image.width.toString() + " X " + image.height.toString()
-        } 
+        getImageDimensions (e) {
+            if(e) {
+                this.width = e.target.naturalWidth;
+                this.height = e.target.naturalHeight;
+            }
+        }
+        
     }
 };
 </script>
