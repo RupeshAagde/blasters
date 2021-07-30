@@ -538,6 +538,21 @@
                         </div>
                     </div>
 
+                    <!-- size-guide-->
+
+                    <div class="settings-container">
+                        <div class="cl-Mako bold-md">Size Guide</div>
+                        <size-guide
+                            ref="size-guide"
+                            :product="product"
+                            :brand-id="product.brand_uid"
+                            :companyId="companyId"
+                            :rejectedFields="rejectedFields"
+                            :all_required_fields="all_required_fields"
+                            @trigger-verify="updateVerifiedList"
+                        ></size-guide>
+                    </div>
+
                 </div>
 
                 <div class="download_section">
@@ -996,7 +1011,8 @@ import {
     Customs,
     ProductDetails,
     Media,
-    DynamicAttributes
+    DynamicAttributes,
+    SizeGuide
 } from './components';
 
 import {
@@ -1032,6 +1048,7 @@ export default {
         NitrozenChips,
         NitrozenCheckBox,
         customs: Customs,
+        'size-guide': SizeGuide,
         'adm-page-header': admpageheader,
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-button': NitrozenButton,
@@ -1061,7 +1078,7 @@ export default {
             product: {},
             templateSchema: {},
             is_dependent: { value: false, error: '' },
-            companyId: -1,
+            companyId: "-1",
             media: [],
             isSet: false,
             highlights: [''],
