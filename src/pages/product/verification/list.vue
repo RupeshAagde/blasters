@@ -549,7 +549,7 @@ export default {
                 this.setRouteQuery({ name: this.searchText });
             }
             this.fetchCompany();
-        }, 200),
+        }, 300),
         clearSearchFilter() {
             this.searchText = '';
             this.setRouteQuery({ name: undefined });
