@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <nitrozen-checkbox
+            :disabled="!required"
             :value="verified"
             :checkboxValue="checked"
             class="nt-checkbox"
@@ -36,7 +37,6 @@
 <style lang="less" scoped>
 .container {
     display: flex;
-    align-items: center;
     .block {
         width: 100%;
         display: block;
@@ -61,6 +61,9 @@ export default {
     },
     props: {
         verified: {
+            type: Boolean,
+        },
+        required: {
             type: Boolean,
         },
         type: {

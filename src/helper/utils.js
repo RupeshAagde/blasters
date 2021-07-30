@@ -257,20 +257,18 @@ export const moveArrayItem = (arr, oldIndex, newIndex) => {
 
 export const generateArrItem = (arr, filterKey) => {
     const tempArr = [];
-    if (arr.length > 1) {
-        arr.forEach((element) => {
-            if (element.hasOwnProperty('modified_by')) {
-                if (element['modified_by'] !== null) {
-                    tempArr.push(element['modified_by']);
-                }
+    arr.forEach((element) => {
+        if (element.hasOwnProperty('modified_by')) {
+            if (element['modified_by'] !== null) {
+                tempArr.push(element['modified_by']);
             }
-            if (element.hasOwnProperty('created_by')) {
-                if (element['created_by'] !== null) {
-                    tempArr.push(element['created_by']);
-                }
+        }
+        if (element.hasOwnProperty('created_by')) {
+            if (element['created_by'] !== null) {
+                tempArr.push(element['created_by']);
             }
-        });
-    }
+        }
+    });
     return tempArr;
 };
 

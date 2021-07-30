@@ -300,6 +300,16 @@ const CompanyService = {
             axiosOption
         );
     },
+    getSizeGuide(params = {}) {
+        let axiosOption = Object.assign(
+            {},
+            {
+                params
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.SIZE_GUIDE_URL(), axiosOption);
+    }
 
 };
 export default CompanyService;

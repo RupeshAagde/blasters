@@ -458,6 +458,9 @@ const URLS = {
             `/v1.0/products/company/${companyId}/templates/${slug}/validation/schema/`
         );
     },
+    SIZE_GUIDE_URL: (companyId) => {
+        return urlJoin(SILVERBOLT_ACAT_URL, `/v1.0/company/${companyId}/sizeguide/`);
+    },
 };
 
 export default URLS;

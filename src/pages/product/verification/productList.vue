@@ -12,7 +12,7 @@
                 v-if="
                     pageLoading ||
                     searchText !== '' ||
-                    selectedFilter !== 'all' ||
+                    stageFilter !== 'all' ||
                     productList.length
                 "
             >
@@ -29,13 +29,26 @@
                     <div class="filter">
                         <label class="label">Filter</label>
                         <nitrozen-dropdown
+                            label="Stage"
                             class="filter-dropdown"
                             :items="filters"
-                            v-model="selectedFilter"
+                            v-model="stageFilter"
                             @change="
-                                fetchProduct(),
-                                    setRouteQuery({ stage: selectedFilter })
+                                setRouteQuery({ stage: stageFilter })
                             "
+                        ></nitrozen-dropdown>
+                        <nitrozen-dropdown
+                            label="Brand"
+                            class="filter-dropdown"
+                            :items="brandValuesList"
+                            v-model="selectedBrandFilter"
+                            @input="
+                                setRouteQuery({
+                                    brandFilter: selectedBrandFilter
+                                })
+                            "
+                            :searchable="true"
+                            @searchInputChange="setBrandValuesList"
                         ></nitrozen-dropdown>
                     </div>
                 </template>
@@ -392,8 +405,6 @@
 }
 </style>
 <script>
-import path from 'path';
-import CompanyService from '@/services/company-admin.service';
 import Jumbotron from '@/components/common/jumbotron';
 import {
     titleCase,
@@ -406,7 +417,7 @@ import { isEmpty } from 'lodash';
 import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
-import fynotfound from '@/components/common/ukt-not-found';
+import CompanyService from '@/services/company-admin.service';
 import userInfoTooltip from '@/components/common/feedback/userInfo-tooltip.vue';
 import CatalogService from '@/services/catalog.service.js';
 
@@ -468,11 +479,14 @@ export default {
             categoryValuesList: [],
             filters: [...ROLE_FILTER],
             searchText: '',
-            selectedFilter: 'all',
+            stageFilter: 'pending',
             pagination: { ...PAGINATION },
             pageId: '',
             showSelectModal: false,
             departments: [],
+            brands: [],
+            brandValuesList:[],
+            selectedBrandFilter: 0,
             templates: [],
             selectedDepartment: '',
             tempList: [],
@@ -488,15 +502,18 @@ export default {
         };
     },
     mounted() {
-        const { params: { companyId }} = this.$route;
-        this.companyId = companyId;
-        this.pageLoading = true;
-        this.populateFromURL();
-        this.fetchProduct();
-
+        this.init();
     },
     methods: {
         titleCase,
+        init(){
+            const { params: { companyId }} = this.$route;
+            this.companyId = companyId;
+            this.pageLoading = true;
+            this.populateFromURL();
+            this.fetchProduct();
+            this.fetchBrands();
+        },
         populateFromURL() {
             const { name, pageId } = this.$route.query;
             if (name) this.searchText = name;
@@ -529,9 +546,11 @@ export default {
             if (this.searchText) {
                 query.q = this.searchText;
             }
-
-            if (this.selectedFilter !== 'all') {
-                query.status = [this.selectedFilter];
+            if (this.selectedBrandFilter) {
+                query.brand_ids = [this.selectedBrandFilter];
+            }
+            if (this.stageFilter !== 'all') {
+                query.status = [this.stageFilter];
             }
 
             return query;
@@ -563,12 +582,52 @@ export default {
                     console.log(err);
                 });
         },
+        fetchBrands() {
+            const params = {
+                page_size: 9999,
+                company_id: this.companyId
+            };
+            return new Promise((resolve, reject) => {
+                CompanyService.fetchBrands(params)
+                    .then(({ data }) => {
+                        this.brands = data.items
+                        this.setBrandValuesList();
+                        return resolve();
+                    })
+                    .catch(err => {
+                        return reject(err);
+                    });
+            });
+        },
+        setBrandValuesList(e = {}) {
+            if (!e.text) {
+                this.clearBrandFilter();
+                this.fetchProduct();
+            }
+            this.brandValuesList = [];
+            this.brands.forEach(b => {
+                if (
+                    !e ||
+                    !e.text ||
+                    b.brand.name.toLowerCase().indexOf(e.text.toLowerCase()) >
+                        -1
+                ) {
+                    this.brandValuesList.push({
+                        text: b.brand.name,
+                        value: b.brand.uid,
+                        logo: b.brand.logo
+                    });
+                }
+            });
+        },
+        clearBrandFilter() {
+            this.selectedBrandFilter = '';
+            this.setRouteQuery({ brandFilter: undefined });
+        },
         paginationChange(filter, action) {
             const { current, limit } = filter;
             this.pagination.current = current;
             this.pagination = Object.assign({}, this.pagination, filter);
-            // let pageQuery = { pageId: current, limit };
-            // this.setRouteQuery(pageQuery);
 
             this.fetchProduct();
         },
@@ -578,14 +637,13 @@ export default {
             } else {
                 this.setRouteQuery({ name: this.searchText });
             }
-            this.fetchProduct();
         }, 200),
         clearSearchFilter() {
             this.searchText = '';
             this.setRouteQuery({ name: undefined });
         },
         productProfileImage(media) {
-            const DEFAULT_NO_IMAGE = '/public/admin/assets/pngs/default_icon_listing.png';
+            const DEFAULT_NO_IMAGE = '/public/assets/pngs/default_icon_listing.png';
 
             if (isEmpty(media)) {
                 return DEFAULT_NO_IMAGE;
@@ -597,7 +655,7 @@ export default {
                 return profileImg.url;
         },
         getErrorImage() {
-            return '/public/admin/assets/pngs/default_icon_listing.png';
+            return '/public/assets/pngs/default_icon_listing.png';
         },
         setRouteQuery(query) {
             if (query.name || query.stage !== 'all') {
@@ -612,6 +670,7 @@ export default {
                     ...query
                 }
             });
+            this.fetchProduct();
         }
     }
 };

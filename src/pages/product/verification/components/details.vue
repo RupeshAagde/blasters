@@ -3,6 +3,7 @@
         <div class="container">
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
+                    :disabled="displayCheck('item_type')"
                     :value="rejected_fields.item_type ? false :  true"
                     :checkboxValue="rejected_fields.item_type"
                     id="rejected_fields.item_type"
@@ -17,7 +18,7 @@
                         v-model="item_type"
                         :disabled="true"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="rejected_fields.item_type">
+                    <nitrozen-error v-show="rejected_fields.item_type">
                         {{ errMsgRequired }}
                     </nitrozen-error>
                 </div>
@@ -26,6 +27,7 @@
             </div>
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
+                    :disabled="displayCheck('departments')"
                     :value="rejected_fields.departments ? false : true"
                     :checkboxValue="rejected_fields.departments"
                     id="rejected_fields.departments"
@@ -43,7 +45,7 @@
                         :required="true"
                         :multiple="true"
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="rejected_fields.departments">
+                    <nitrozen-error v-show="rejected_fields.departments">
                         {{ errMsgRequired }}
                     </nitrozen-error>
                 </div>
@@ -52,6 +54,7 @@
             </div>
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
+                    :disabled="displayCheck('category_slug')"
                     :checkboxValue="rejected_fields.category_slug"
                     :value="rejected_fields.category ? false : true"
                     id="rejected_fields.category"
@@ -66,7 +69,7 @@
                         v-model="category_slug.value"
                         :disabled="true"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="rejected_fields.category_slug">
+                    <nitrozen-error v-show="rejected_fields.category_slug">
                         {{ errMsgRequired }}
                     </nitrozen-error>
                 </div>
@@ -75,6 +78,7 @@
             <!-- Name -->
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
+                    :disabled="displayCheck('name')"
                     :value="isCheckboxSelected(rejected_fields.name)"
                     :checkboxValue="rejected_fields.name"
                     id="rejected_fields.name"
@@ -89,7 +93,7 @@
                         v-model="name.value"
                         disabled
                     ></nitrozen-input>
-                    <nitrozen-error v-if="rejected_fields.name">
+                    <nitrozen-error v-show="rejected_fields.name">
                         {{ errMsgRequired }}
                     </nitrozen-error>
                 </div>
@@ -97,6 +101,7 @@
             <!-- Slug -->
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
+                    :disabled="displayCheck('slug')"
                     :checkboxValue="rejected_fields.slug"
                     :value="isCheckboxSelected(rejected_fields.slug)"
                     id="rejected_fields.slug"
@@ -113,7 +118,7 @@
                         :disabled="true"
                         v-model="slug.value"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="rejected_fields.slug">
+                    <nitrozen-error v-show="rejected_fields.slug">
                         {{ errMsgRequired }}
                     </nitrozen-error>
                 </div>
@@ -121,6 +126,7 @@
             <!-- Brand -->
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
+                    :disabled="displayCheck('brand_uid')"
                     :value="isCheckboxSelected(rejected_fields.brand_uid)"
                     :checkboxValue="rejected_fields.brand_uid"
                     id="rejected_fields.brand"
@@ -136,7 +142,7 @@
                         :items="brandValuesList"
                         v-model="brand_uid.value"
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="rejected_fields.brand_uid">
+                    <nitrozen-error v-show="rejected_fields.brand_uid">
                         {{ errMsgRequired }}
                     </nitrozen-error>
                 </div>
@@ -144,6 +150,7 @@
             <!-- Item Code -->
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
+                    :disabled="displayCheck('item_code')"
                     :value="isCheckboxSelected(rejected_fields.item_code)"
                     :checkboxValue="rejected_fields.item_code"
                     id="rejected_fields.item_code"
@@ -160,7 +167,7 @@
                         disabled
                         v-model="item_code.value"
                     ></nitrozen-input>
-                    <nitrozen-error v-if="rejected_fields.item_code">
+                    <nitrozen-error v-show="rejected_fields.item_code">
                         {{ errMsgRequired }}
                     </nitrozen-error>
                 </div>
@@ -171,6 +178,7 @@
             <div class="container teaser">
                 <div class="mt-sm verify-block">
                     <nitrozen-checkbox
+                    :disabled="displayCheck('teaser_tag')"
                     :value="isCheckboxSelected(rejected_fields.teaser_tag)"
                     :checkboxValue="rejected_fields.teaser_tag"
                     id="rejected_fields.teaser_tag"
@@ -185,7 +193,7 @@
                             disabled
                             v-model="teaser.value"
                         ></nitrozen-input>
-                        <nitrozen-error v-if="!isCheckboxSelected(rejected_fields.teaser_tag)">
+                        <nitrozen-error v-show="!isCheckboxSelected(rejected_fields.teaser_tag)">
                             {{ errMsgRequired }}
                         </nitrozen-error>
                     </div>
@@ -194,12 +202,13 @@
 
                 <div class="mt-sm verify-block" v-if="product_type.value === 'standard'">
                     <nitrozen-checkbox
-                    :value="isCheckboxSelected(rejected_fields.no_of_boxes)"
-                    :checkboxValue="rejected_fields.no_of_boxes"
-                    id="rejected_fields.no_of_boxes"
-                    class="nt-checkbox"
-                    @change="emitVerify('no_of_boxes', no_of_boxes.value)"
-                >
+                        :disabled="displayCheck('no_of_boxes')"
+                        :value="isCheckboxSelected(rejected_fields.no_of_boxes)"
+                        :checkboxValue="rejected_fields.no_of_boxes"
+                        id="rejected_fields.no_of_boxes"
+                        class="nt-checkbox"
+                        @change="emitVerify('no_of_boxes', no_of_boxes.value)"
+                    >
                     </nitrozen-checkbox>
                     <div class="block">
                         <nitrozen-input
@@ -210,7 +219,7 @@
                             v-model="no_of_boxes.value"
                         >
                         </nitrozen-input>
-                        <nitrozen-error v-if="!isCheckboxSelected(rejected_fields.no_of_boxes)">
+                        <nitrozen-error v-show="!isCheckboxSelected(rejected_fields.no_of_boxes)">
                             {{ errMsgRequired }}
                         </nitrozen-error>
                     </div>
@@ -291,7 +300,6 @@
 }
 .verify-block {
     display: flex;
-    align-items: center;
 }
 .image {
     width: 75px;
@@ -345,18 +353,10 @@
 </style>
 
 <script>
-import { parseDynamicAttributes } from './util';
-// import JsonToForm from '@/components/admin/common/json-to-form';
-// import SellerService from '@/services/admin/admin-seller.service';
-// import mirageimageuploaderdialog from '@/components/admin/common/image-uploader/dialog.vue';
 import uktinlinesvg from '@/components/common/ukt-inline-svg.vue';
 import { fieldSchemaValidation } from './util';
 import isEmpty from 'lodash/isEmpty';
-import pickBy from 'lodash/pickBy';
-import identity from 'lodash/identity';
 import slugify from 'slugify';
-import path from 'path';
-import Ajv from 'ajv';
 import {
     NitrozenRadio,
     NitrozenInput,
@@ -382,8 +382,6 @@ const ONE_MB = 1024;
 export default {
     name: 'ProductDetails',
     components: {
-        // JsonToForm,
-        // 'mirage-image-uploader-dialog': mirageimageuploaderdialog,
         'nitrozen-checkbox': NitrozenCheckBox,
         'ukt-inline-svg': uktinlinesvg,
         NitrozenRadio,
@@ -503,6 +501,12 @@ export default {
             default: () => {
                 return "This field is required to verify the product"
             }
+        },
+        all_required_fields: {
+            type: Array,
+            default: () => {
+                return []
+            }
         }
     },
     computed: {
@@ -517,6 +521,9 @@ export default {
     },
     methods: {
         isEmpty: isEmpty,
+        displayCheck(fieldName) {
+            return !(this.all_required_fields.includes(fieldName))
+        },
         getInitialValue() {
             return {
                 value: '',
