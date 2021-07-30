@@ -300,7 +300,7 @@ const CompanyService = {
             axiosOption
         );
     },
-    getSizeGuide(params = {}) {
+    getSizeGuide({companyId, ...params}) {
         let axiosOption = Object.assign(
             {},
             {
@@ -308,7 +308,7 @@ const CompanyService = {
             },
             getCommonHeaderOptions()
         );
-        return ApiService.get(URLS.SIZE_GUIDE_URL(), axiosOption);
+        return ApiService.get(URLS.SIZE_GUIDE_URL(companyId), axiosOption);
     }
 
 };
