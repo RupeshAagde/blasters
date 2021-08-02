@@ -4,6 +4,7 @@
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
                     :disabled="displayCheck('item_type')"
+                    :class="displayCheck('item_type') ? 'hidden': ''"
                     :value="rejected_fields.item_type ? false :  true"
                     :checkboxValue="rejected_fields.item_type"
                     id="rejected_fields.item_type"
@@ -178,6 +179,7 @@
             <div class="container teaser">
                 <div class="mt-sm verify-block">
                     <nitrozen-checkbox
+                    :class="displayCheck('teaser_tag') ? 'hidden': ''"
                     :disabled="displayCheck('teaser_tag')"
                     :value="isCheckboxSelected(rejected_fields.teaser_tag)"
                     :checkboxValue="rejected_fields.teaser_tag"
@@ -202,6 +204,7 @@
 
                 <div class="mt-sm verify-block" v-if="product_type.value === 'standard'">
                     <nitrozen-checkbox
+                        :class="displayCheck('no_of_boxes') ? 'hidden': ''"
                         :disabled="displayCheck('no_of_boxes')"
                         :value="isCheckboxSelected(rejected_fields.no_of_boxes)"
                         :checkboxValue="rejected_fields.no_of_boxes"
@@ -289,6 +292,9 @@
 .teaser {
     width: 100%;
     display: flex;
+}
+.hidden {
+    visibility: hidden;
 }
 .block {
     display: block;

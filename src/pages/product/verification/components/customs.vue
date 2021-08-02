@@ -11,6 +11,7 @@
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
                     :disabled="displayCheck('country_of_origin')"
+                    :class="displayCheck('country_of_origin') ? 'hidden': ''"
                     :value="rejectedFields.country_of_origin ? false :  true"
                     :checkboxValue="rejectedFields.country_of_origin"
                     id="rejectedFields.country_of_origin"
@@ -35,6 +36,7 @@
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
                     :disabled="displayCheck('hsn_code')"
+                    :class="displayCheck('hsn_code') ? 'hidden': ''"
                     :value="rejectedFields.hsn_code ? false :  true"
                     :checkboxValue="rejectedFields.hsn_code"
                     id="rejectedFields.hsn_code"
@@ -83,6 +85,9 @@
         display: block;
         width: 100%;
     }
+}
+.hidden {
+    visibility: hidden;
 }
 
 </style>
