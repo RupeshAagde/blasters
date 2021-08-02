@@ -1,327 +1,156 @@
 export default {
     "productList": {
-        "page": {
-            "current": 1,
-            "type": "number",
-            "size": 97,
-            "has_previous": false,
-            "has_next": true,
-            "item_total": 966
+      "items": [
+        {
+          "created_by": {
+            "username": "917972410891_94643",
+            "user_id": "5f2e55aba5b03061309c1203"
+          },
+          "modified_on": 1627625590,
+          "remark": "test",
+          "item_code": "IO-01",
+          "company_ids": [
+            1
+          ],
+          "created_on": 1627644670,
+          "modified_by": {
+            "username": "917972410891_94643",
+            "user_id": "5f2e55aba5b03061309c1203"
+          },
+          "status": "rejected",
+          "slug": "rtyuiop",
+          "rejected_fields": {
+            "name": true,
+            "item_code": true,
+            "trader_type": true,
+            "slug": true
+          },
+          "item_id": 75253530,
+          "brand_uid": 85,
+          "product": {
+            "media": [
+              {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/products/pictures/item/free/original/3RWw6xyfx-zxcv.jpeg"
+              },
+              {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/products/pictures/item/free/original/TIlB2BeFu-zxcv.jpeg"
+              },
+              {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/products/pictures/item/free/original/r9kFaRu_T-zxcv.jpeg"
+              },
+              {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/products/pictures/item/free/original/HhO5BXjtP-zxcv.jpeg"
+              },
+              {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/products/pictures/item/free/original/HF0BulMdE-zxcv.jpeg"
+              },
+              {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/products/pictures/item/free/original/BTZbqgZux-zxcv.jpeg"
+              },
+              {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/products/pictures/item/free/original/rD053HmTp-zxcv.jpeg"
+              },
+              {
+                "type": "video",
+                "meta": {
+                  "source": "direct"
+                },
+                "url": "https://hdn-1.addsale.com/addsale/products/videos/item/free/original/GdmLJd-g8-rtyuiop.mp4"
+              }
+            ],
+            "slug": "rtyuiop",
+            "brand_uid": 85,
+            "name": "rtyuiop",
+            "item_code": "IO-01",
+            "template_tag": "home-and-living",
+            "uid": 75253530
+          },
+          "id": "610138c4467d480001e46385"
         },
-        "items": [
-            {
-                "brand_uid": 8,
-                "is_digital": false,
-                "name": "black shirt",
-                "highlights": [
-                    "Wild One"
-                ],
-                "country_of_origin": "India",
-                "short_description": "",
-                "searchable": true,
-                "transactable": true,
-                "currency": "INR",
-                "is_set": false,
-                "slug": "black-shirt-12345678",
-                "trader_type": "Manufacturer",
-                "description": "",
-                "_custom_json": {},
-                "trader": {
-                    "name": "Elliot alderson",
-                    "address": "Pune"
+        {
+          "created_by": {
+            "user_id": "b02e3786f949dc629ab7e47a",
+            "username": "anilsharma_gofynd_com_49339"
+          },
+          "modified_on": 1627395496,
+          "remark": "",
+          "item_code": "ZX-01",
+          "company_ids": [
+            1
+          ],
+          "created_on": 1627469298,
+          "modified_by": {
+            "user_id": "b02e3786f949dc629ab7e47a",
+            "username": "anilsharma_gofynd_com_49339"
+          },
+          "status": "pending",
+          "slug": "zxcv",
+          "rejected_fields": {},
+          "item_id": 75253529,
+          "brand_uid": 85,
+          "product": {
+            "media": [
+              {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/products/pictures/item/free/original/3RWw6xyfx-zxcv.jpeg"
+              },
+              {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/products/pictures/item/free/original/TIlB2BeFu-zxcv.jpeg"
+              },
+              {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/products/pictures/item/free/original/r9kFaRu_T-zxcv.jpeg"
+              },
+              {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/products/pictures/item/free/original/HhO5BXjtP-zxcv.jpeg"
+              },
+              {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/products/pictures/item/free/original/HF0BulMdE-zxcv.jpeg"
+              },
+              {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/products/pictures/item/free/original/BTZbqgZux-zxcv.jpeg"
+              },
+              {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/products/pictures/item/free/original/rD053HmTp-zxcv.jpeg"
+              },
+              {
+                "type": "video",
+                "meta": {
+                  "source": "direct"
                 },
-                "item_code": "BK-101",
-                "template_tag": "dsaa",
-                "l3_mapping": [
-                    "industrial_supplies > box"
-                ],
-                "image_nature": "standard",
-                "departments": [
-                    2
-                ],
-                "created_on": "2020-09-28T09:59:13.224000Z",
-                "created_by": {
-                    "username": "917972410891_48194",
-                    "user_id": "5646"
-                },
-                "modified_on": "2021-06-28T17:16:45.176000Z",
-                "modified_by": {
-                    "username": "nikhilmhatre_gofynd_com_97636",
-                    "user_id": "16",
-                    "super_user": false
-                },
-                "stage": "verified",
-                "uid": 7501586,
-                "verified_by": {
-                    "username": "Silverbolt",
-                    "user_id": "0"
-                },
-                "verified_on": 1624900648,
-                "all_sizes": [
-                    {
-                        "size": "LARGE",
-                        "identifiers": [
-                            {
-                                "gtin_value": "ASDFVGBHNJMK",
-                                "gtin_type": "sku_code",
-                                "primary": true
-                            }
-                        ],
-                        "item_length": 15.0,
-                        "item_weight": 15.0,
-                        "item_height": 15.0,
-                        "item_width": 15.0,
-                        "item_weight_unit_of_measure": "gram",
-                        "item_dimensions_unit_of_measure": "cm"
-                    }
-                ],
-                "category_slug": "test-category-kaf",
-                "company_id": 1,
-                "is_image_less_product": true,
-                "media": [],
-                "variants": {},
-                "product_publish": {
-                    "is_set": false,
-                    "product_online_date": 1624880648
-                },
-                "is_dependent": false,
-                "is_physical": true,
-                "item_type": "standard",
-                "multi_size": true,
-                "synonyms": [],
-                "car-color": [
-                    "Red"
-                ],
-                "category_uid": 22328,
-                "custom_order": {
-                    "manufacturing_time_unit": "days",
-                    "manufacturing_time": 0,
-                    "is_custom_order": false
-                },
-                "hsn_code": "09873242",
-                "moq": {
-                    "is_set": false,
-                    "minimum": 1
-                },
-                "net-quantity": "1",
-                "no_of_boxes": 1,
-                "product_group_tag": [],
-                "return_config": {
-                    "time": 30,
-                    "unit": "days",
-                    "returnable": true
-                },
-                "size_guide": "",
-                "tags": [],
-                "teaser_tag": {},
-                "all_company_ids": [
-                    1
-                ],
-                "all_identifiers": [
-                    "ASDFVGBHNJMK"
-                ],
-                "id": "5f71b3f18e70820001c5f329"
-            },
-            {
-                "tags": [],
-                "size_guide": "",
-                "multi_size": false,
-                "product_publish": {
-                    "product_online_date": 1623928408,
-                    "is_set": false
-                },
-                "name": "Solr v25",
-                "item_code": "SOLR-V2",
-                "highlights": [],
-                "brand_uid": 13,
-                "is_image_less_product": false,
-                "moq": {
-                    "minimum": 1,
-                    "is_set": false
-                },
-                "no_of_boxes": 1,
-                "item_type": "standard",
-                "return_config": {
-                    "time": 0,
-                    "unit": "days",
-                    "returnable": false
-                },
-                "company_id": 1,
-                "slug": "solr-v2",
-                "hsn_code": "10101010",
-                "media": [
-                    {
-                        "url": "https:\/\/hdn-1.addsale.com\/x0\/products\/pictures\/item\/free\/original\/XHuthnv68-Special-Product.jpeg",
-                        "type": "image"
-                    }
-                ],
-                "country_of_origin": "India",
-                "is_set": false,
-                "product_group_tag": [],
-                "short_description": "",
-                "custom_order": {
-                    "manufacturing_time_unit": "days",
-                    "manufacturing_time": 0,
-                    "is_custom_order": false
-                },
-                "description": "",
-                "currency": "INR",
-                "teaser_tag": {},
-                "is_dependent": false,
-                "category_slug": "smart-cellphone",
-                "departments": [
-                    1
-                ],
-                "_custom_json": {},
-                "template_tag": "mobile-phones-and-tablet",
-                "category_uid": 12,
-                "variants": {},
-                "created_on": "2021-05-17T11:40:22.915000Z",
-                "created_by": {
-                    "username": "nikhilmhatre_gofynd_com_97636",
-                    "user_id": "16",
-                    "super_user": true
-                },
-                "modified_on": "2021-06-17T16:44:20.043000Z",
-                "modified_by": {
-                    "username": "917753852478_51632",
-                    "user_id": "5f7ec98b74d8524be07301dd",
-                    "super_user": false
-                },
-                "stage": "verified",
-                "uid": 7685514,
-                "verified_by": {
-                    "username": "Silverbolt",
-                    "user_id": "0"
-                },
-                "verified_on": 1624425610,
-                "all_sizes": [
-                    {
-                        "size": "OS",
-                        "identifiers": [
-                            {
-                                "primary": true,
-                                "gtin_type": "ean",
-                                "gtin_value": "SOLR-V2"
-                            }
-                        ],
-                        "item_length": 1.0,
-                        "item_weight": 1.0,
-                        "item_height": 1.0,
-                        "item_width": 1.0,
-                        "item_weight_unit_of_measure": "gram",
-                        "item_dimensions_unit_of_measure": "cm"
-                    }
-                ],
-                "all_company_ids": [
-                    1
-                ],
-                "all_identifiers": [
-                    "SOLR-V2"
-                ],
-                "id": "60a25626a8da02000153bbc1"
-            },
-            {
-                "category_slug": "smart-cellphone",
-                "highlights": [],
-                "moq": {
-                    "is_set": false,
-                    "minimum": 1
-                },
-                "item_type": "standard",
-                "slug": "18lpsdo",
-                "custom_order": {
-                    "manufacturing_time_unit": "days",
-                    "manufacturing_time": 0,
-                    "is_custom_order": false
-                },
-                "tags": [],
-                "currency": "INR",
-                "size_guide": "",
-                "is_image_less_product": false,
-                "multi_size": true,
-                "product_group_tag": [],
-                "media": [
-                    {
-                        "url": "https:\/\/hdn-1.addsale.com\/x0\/products\/pictures\/item\/free\/original\/Zg4K1ur40-iron-man-jetpack-fortnite.jpg",
-                        "type": "image"
-                    }
-                ],
-                "company_id": 1,
-                "short_description": "",
-                "product_publish": {
-                    "is_set": false,
-                    "product_online_date": 1623905928
-                },
-                "return_config": {
-                    "unit": "days",
-                    "returnable": false,
-                    "time": 0
-                },
-                "hsn_code": "09873242",
-                "is_set": false,
-                "brand_uid": 624,
-                "item_code": "18LPSDO",
-                "departments": [
-                    1
-                ],
-                "name": "18lpsdo",
-                "description": "",
-                "_custom_json": {},
-                "teaser_tag": {},
-                "country_of_origin": "India",
-                "is_dependent": false,
-                "no_of_boxes": 1,
-                "template_tag": "mobile-phones-and-tablet",
-                "category_uid": 12,
-                "variants": {},
-                "created_on": "2021-06-17T04:58:48.566000Z",
-                "created_by": {
-                    "username": "nikhilmhatre_gofynd_com_97636",
-                    "user_id": "5e450fa97d32f455f09df38e",
-                    "super_user": false
-                },
-                "modified_on": "2021-06-17T04:58:48.566000Z",
-                "modified_by": {
-                    "username": "nikhilmhatre_gofynd_com_97636",
-                    "user_id": "5e450fa97d32f455f09df38e",
-                    "super_user": false
-                },
-                "stage": "verified",
-                "uid": 7685532,
-                "verified_by": {
-                    "username": "Silverbolt",
-                    "user_id": "0"
-                },
-                "verified_on": 1623905928,
-                "all_sizes": [
-                    {
-                        "size": "OS",
-                        "identifiers": [
-                            {
-                                "gtin_type": "ean",
-                                "gtin_value": "18LPSDO",
-                                "primary": true
-                            }
-                        ],
-                        "item_length": 10.0,
-                        "item_weight": 1.0,
-                        "item_height": 1.0,
-                        "item_width": 1.0,
-                        "item_weight_unit_of_measure": "gram",
-                        "item_dimensions_unit_of_measure": "cm"
-                    }
-                ],
-                "all_company_ids": [
-                    1
-                ],
-                "all_identifiers": [
-                    "18LPSDO"
-                ],
-                "id": "60cad68833b1180001038ef9"
-            }
-
-        ]
+                "url": "https://hdn-1.addsale.com/addsale/products/videos/item/free/original/egpYUHr9A-zxcv.mp4"
+              }
+            ],
+            "slug": "zxcv",
+            "brand_uid": 85,
+            "name": "zxcv",
+            "item_code": "ZX-01",
+            "template_tag": "bags",
+            "uid": 75253529
+          },
+          "id": "610135f2467d480001e46159"
+        }
+      ],
+      "page": {
+        "current": 1,
+        "type": "number",
+        "size": 2,
+        "has_previous": false,
+        "has_next": false,
+        "item_total": 2
+      }
     },
     "companyList": { "items": [{ "stage": "verified", "company_type": "mbo", "name": "sadsadasdasdasd sadsadasdasdasd sadsadasdasdasd s", "products": { "verified": [], "pending": [], "rejected": [] }, "uid": 526 }, { "stage": "verified", "company_type": "mbo", "name": "test 3", "products": { "verified": [], "pending": [], "rejected": [] }, "uid": 525 }, { "stage": "complete", "company_type": "mbo", "name": "asa", "products": { "verified": [], "pending": [], "rejected": [] }, "uid": 524 }, { "stage": "verified", "business_type": "proprietorship", "company_type": "franchisee", "name": "Lashaun Elger", "_custom_json": {}, "products": { "verified": [], "pending": [{ "count": 4 }], "rejected": [] }, "uid": 28 }, { "stage": "verified", "company_type": "mbo", "name": "abc test 12", "products": { "verified": [], "pending": [], "rejected": [] }, "uid": 523 }, { "stage": "verified", "company_type": "mbo", "name": "abc test 11", "products": { "verified": [], "pending": [], "rejected": [] }, "uid": 522 }, { "stage": "verified", "company_type": "mbo", "name": "abc test 10", "products": { "verified": [], "pending": [], "rejected": [] }, "uid": 521 }, { "stage": "verified", "company_type": "mbo", "name": "abc test 9", "products": { "verified": [], "pending": [], "rejected": [] }, "uid": 520 }, { "stage": "verified", "company_type": "mbo", "name": "abc test 8", "products": { "verified": [], "pending": [], "rejected": [] }, "uid": 519 }, { "stage": "verified", "company_type": "mbo", "name": "abc test 7", "products": { "verified": [], "pending": [], "rejected": [] }, "uid": 518 }], "page": { "current": 1, "type": "number", "size": 48, "has_previous": false, "has_next": true, "item_total": 472 } },
     "productData": { "data": { "tags": [], "size_guide": "", "multi_size": false, "product_publish": { "product_online_date": "2021-06-17T11:13:28.962000Z", "is_set": false }, "name": "Solr v25", "item_code": "SOLR-V2", "highlights": [], "brand_uid": 13, "moq": { "minimum": 1, "is_set": false }, "no_of_boxes": 1, "item_type": "standard", "return_config": { "returnable": false }, "company_id": 1, "slug": "solr-v2", "hsn_code": "10101010", "media": [{ "url": "https:\/\/hdn-1.addsale.com\/x0\/products\/pictures\/item\/free\/original\/XHuthnv68-Special-Product.jpeg", "type": "image" }], "country_of_origin": "India", "is_set": false, "product_group_tag": [], "short_description": "", "custom_order": { "manufacturing_time_unit": "days", "manufacturing_time": 0, "is_custom_order": false }, "description": "", "currency": "INR", "teaser_tag": {}, "is_dependent": false, "category_slug": "smart-cellphone", "departments": [1], "_custom_json": {}, "template_tag": "mobile-phones-and-tablet", "variants": {}, "uid": 7685514, "all_sizes": [{ "size": "OS", "identifiers": [{ "primary": true, "gtin_type": "ean", "gtin_value": "SOLR-V2" }], "item_length": 1.0, "item_weight": 1.0, "item_height": 1.0, "item_width": 1.0, "item_weight_unit_of_measure": "gram", "item_dimensions_unit_of_measure": "cm" }], "id": "60a25626a8da02000153bbc1", "brand": { "name": "Apple", "logo": { "aspect_ratio": "1:1", "aspect_ratio_f": 1.0, "url": "https:\/\/hdn-1.jiox0.de\/jioecomm\/seller\/pictures\/logo\/50x0\/apple-7f951c\/logo_apple.png", "secure_url": "https:\/\/hdn-1.jiox0.de\/jioecomm\/seller\/pictures\/logo\/50x0\/apple-7f951c\/logo_apple.png" }, "uid": 13 }, "is_active": true, "sizes": [], "attributes": { "is_image_less_product": false, "category_uid": 12, "created_on": "2021-05-17T11:40:22.915000Z", "created_by": { "username": "nikhilmhatre_gofynd_com_97636", "user_id": "16", "super_user": true }, "modified_on": "2021-06-17T16:44:20.043000Z", "modified_by": { "username": "917753852478_51632", "user_id": "5f7ec98b74d8524be07301dd", "super_user": false }, "stage": "verified", "verified_by": { "username": "Silverbolt", "user_id": "0" }, "verified_on": 1624425610, "all_company_ids": [1], "all_identifiers": ["SOLR-V2"], "other_available_sizes": [{ "size": "OS", "identifiers": [{ "primary": true, "gtin_type": "ean", "gtin_value": "SOLR-V2" }], "item_length": 1.0, "item_weight": 1.0, "item_height": 1.0, "item_width": 1.0, "item_weight_unit_of_measure": "gram", "item_dimensions_unit_of_measure": "cm" }] } } },
@@ -347,5 +176,310 @@ export default {
             }
         }, "template_details": { "attributes": ["series", "model", "color", "primary_camera", "selfie_camera", "dual_camera_rear", "screen_resolution", "screen_size_diagonal", "display_type", "glass_type", "touch_screen", "metal_frame", "sensors", "thickness", "item_length", "item_height", "item_width", "item_dimensions_unit_of_measure", "item_weight", "item_weight_unit_of_measure", "fingerprint_recognition", "2g_bands", "3g_support", "3g_bands", "4g_support", "4g_bands", "audio_jack", "audio_formats", "video_formats", "bluetooth_support", "bluetooth_version", "ram", "internal-storage", "expandable_memory", "storage_type", "hybrid_sim_slot", "sim_type", "processor", "operating_system", "operating_system_type", "graphics_card_brand", "card_reader", "cellular_technology", "preloaded_apps", "battery_capacity", "battery_type", "battery_voltage", "battery_run_time", "quick_charge", "standby_time", "talk_time", "power_supply", "features", "package_contents", "edge_support", "gprs_support", "microphone_support", "nfc_support", "usb_support", "wi_fi_support", "fm_radio", "speaker_support", "additional_connectivity", "water_resistant", "resq_support_guide_attachment", "user_guides_attachment", "dlna_compliant", "warranty_type", "warranty_description", "manufacturer_packer_importer_name", "manufacturer_packer_importer_address", "country_of_origin", "panel_type", "sub_brand", "data_transfer_on_cloud", "brightness", "colour_reproduction", "action", "promotion_freebie", "services", "accessories", "screen_size_filter", "primary_camera_filter", "selfie_camera_filter", "subtitle"], "categories": ["feature-cellphone", "smart-cellphone", "android-tablets"], "banner": "https:\/\/hdn-1.jiox0.de\/jiox0\/seller\/pictures\/landscape-banner\/original\/NhPaut_white-tablet-computer-in-landscape-orientation-and-smartphone-in-portrait-EWHDNG.jpg49fed0d5-aa9f-4d72-9532-576f313ef353\/NhPaut_white-tablet-computer-in-landscape-orientation-and-smartphone-in-portrait-EWHDNG.jpg", "slug": "mobile-phones-and-tablet", "logo": "https:\/\/hdn-1.jiox0.de\/jiox0\/seller\/pictures\/logo\/original\/Oda39B_99946594-portable-devices-with-tablet-and-mobile-phone-vector-icon-for-apps-and-websites.jpgcc2dff44-7fae-4002-9ebe-d2b59c8bee91\/Oda39B_99946594-portable-devices-with-tablet-and-mobile-phone-vector-icon-for-apps-and-websites.jpg", "name": "Mobile Phones & Tablet", "description": "", "departments": ["electronics"], "is_physical": true, "id": "5eff22be2f6b932615a08dcb", "category_details": [{ "uid": 566, "departments": [1], "hierarchy": [{ "department": 1, "l1": 2, "l2": 7 }], "is_active": true, "level": 3, "marketplaces": {}, "media": { "logo": "http:\/\/d3p8ifzkmzds37.cloudfront.net\/media\/logo\/category\/original\/15762_2a0b9948dbc845dd9cf8d0cd7cfde5fa.jpg", "portrait": "http:\/\/d3p8ifzkmzds37.cloudfront.net\/media\/banner_portrait\/category\/original\/15760_f6672718ea5241a4a0952b111f533e6d.jpg", "landscape": "http:\/\/d3p8ifzkmzds37.cloudfront.net\/media\/banner\/category\/original\/15761_05712a00169e4af6aadbeb9211d85c64.jpg" }, "name": "Android Tablets", "priority": 5, "slug": "android-tablets", "synonyms": [], "tryouts": [], "created_on": "2016-04-09T06:44:35Z", "id": "5fabab96a18a1284b98001f7" }, { "uid": 13, "departments": [1], "hierarchy": [{ "department": 1, "l1": 2, "l2": 4 }], "is_active": true, "level": 3, "marketplaces": {}, "media": { "logo": "http:\/\/d3p8ifzkmzds37.cloudfront.net\/media\/logo\/department\/original\/15870_c287d3c2431a432bb0e49363ef6b82bc.png", "portrait": "http:\/\/cdn4.gofynd.com\/media\/logo\/department\/original\/13239_660c6f5b2b8d458789de4552d241ea1b.jpg", "landscape": "https:\/\/hdn-1.fynd.com\/media\/banner\/category\/original\/16128_380bed8bff064a0b981041df65e0d8b3.jpg" }, "name": "Feature Cellphone", "priority": 5, "slug": "feature-cellphone", "synonyms": [], "tryouts": [], "created_on": "2016-04-09T06:44:35Z", "id": "5fabab92a18a1284b97ffcad" }, { "uid": 12, "departments": [1], "hierarchy": [{ "l1": 2, "l2": 3, "department": 1 }], "is_active": true, "level": 3, "marketplaces": {}, "media": { "portrait": "http:\/\/cdn4.gofynd.com\/media\/logo\/department\/original\/13239_660c6f5b2b8d458789de4552d241ea1b.jpg", "logo": "http:\/\/d3p8ifzkmzds37.cloudfront.net\/media\/logo\/department\/original\/15870_c287d3c2431a432bb0e49363ef6b82bc.png", "landscape": "https:\/\/hdn-1.fynd.com\/media\/banner\/category\/original\/16128_380bed8bff064a0b981041df65e0d8b3.jpg" }, "name": "Smart Cellphone", "priority": 5, "slug": "smart-cellphone", "synonyms": ["Smart", " Cellphones"], "tryouts": [], "created_on": "2016-04-09T06:44:35Z", "modified_by": { "username": "918793638893_86554", "user_id": "3" }, "modified_on": "2021-01-13T10:00:22.800000Z", "id": "5fabababa18a1284b98019af" }] }
     },
+    "companyBrand": {
+        "items": [
+          {
+            "modified_by": {
+              "user_id": "5f2a8d829badae03c584c3be",
+              "username": "917972410891_48194"
+            },
+            "stage": "verified",
+            "verified_by": {
+              "user_id": "0",
+              "username": "Silverbolt"
+            },
+            "verified_on": "2021-06-21T10:44:28.688000+00:00",
+            "company": {
+              "modified_by": {
+                "user_id": "23",
+                "username": "lalitmunot_gofynd_com_58320"
+              },
+              "created_on": "2020-05-19 08:46:41.854000",
+              "stage": "verified",
+              "verified_by": {
+                "user_id": "23",
+                "username": "lalitmunot_gofynd_com_58320"
+              },
+              "verified_on": "2021-03-04 12:28:42.237000",
+              "business_type": "ltd/pvt ltd",
+              "addresses": [
+                {
+                  "longitude": 72.8231511,
+                  "address1": "A-204, Sai Vandan, Narayan Nagar, Tulinj Road, Nallasopara (E)",
+                  "country": "INDIA",
+                  "address_type": "office",
+                  "country_code": "IN",
+                  "city": "MUMBAI",
+                  "latitude": 19.4232024,
+                  "address2": "",
+                  "pincode": 401209,
+                  "state": "MAHARASHTRA",
+                  "landmark": ""
+                },
+                {
+                  "longitude": 72.8231511,
+                  "address1": "A-204, Sai Vandan, Narayan Nagar, Tulinj Road, Nallasopara (E)",
+                  "country": "INDIA",
+                  "address_type": "registered",
+                  "country_code": "IN",
+                  "city": "MUMBAI",
+                  "latitude": 19.4232024,
+                  "address2": "",
+                  "pincode": 401209,
+                  "state": "MAHARASHTRA",
+                  "landmark": ""
+                }
+              ],
+              "uid": 3,
+              "created_by": {
+                "user_id": "5557",
+                "username": "talhakhan_gofynd_com_68788"
+              },
+              "modified_on": "2021-03-04 12:28:42.237000",
+              "name": "SARASUOLE PRIVATE LIMITED",
+              "company_type": "manufacturer-owner"
+            },
+            "uid": 1113,
+            "created_by": {
+              "user_id": "5f2a8d829badae03c584c3be",
+              "username": "917972410891_48194"
+            },
+            "brand": {
+              "synonyms": [],
+              "modified_by": {
+                "user_id": "5e19b1ba98cfe13fe3138efb",
+                "username": "918793638893_86554"
+              },
+              "created_on": "2020-05-18T16:16:11.148000+00:00",
+              "stage": "verified",
+              "banner": {
+                "portrait": "https://hdn-1.jiox0.de/jioecomm/seller/pictures/portrait-banner/original/apple-3bd2e1/Apple_Banner_Portrait.jpg",
+                "landscape": "https://hdn-1.jiox0.de/jioecomm/seller/pictures/landscape-banner/original/apple-ee1925/Apple_Banner_Landscape.jpg"
+              },
+              "verified_by": {
+                "user_id": "0",
+                "username": "Silverbolt"
+              },
+              "verified_on": "2021-07-26T12:20:52.487000+00:00",
+              "logo": "https://hdn-1.jiox0.de/jioecomm/seller/pictures/logo/original/apple-7f951c/logo_apple.png",
+              "uid": 13,
+              "created_by": {
+                "user_id": "0",
+                "username": "app@fynd.com"
+              },
+              "modified_on": "2021-07-26T12:20:52.373000+00:00",
+              "_locale_language": {
+                "hi": {
+                  "name": "अप्पल"
+                },
+                "ar": {
+                  "name": "تفاحة"
+                }
+              },
+              "slug_key": "apple",
+              "name": "Apple"
+            }
+          },
+          {
+            "modified_by": {
+              "user_id": "16",
+              "username": "nikhilmhatre_gofynd_com_97636"
+            },
+            "stage": "verified",
+            "verified_by": {
+              "user_id": "16",
+              "username": "nikhilmhatre_gofynd_com_97636"
+            },
+            "verified_on": "2021-06-02T08:51:39.042000+00:00",
+            "company": {
+              "modified_by": {
+                "user_id": "23",
+                "username": "lalitmunot_gofynd_com_58320"
+              },
+              "created_on": "2020-05-19 08:46:41.854000",
+              "stage": "verified",
+              "verified_by": {
+                "user_id": "23",
+                "username": "lalitmunot_gofynd_com_58320"
+              },
+              "verified_on": "2021-03-04 12:28:42.237000",
+              "business_type": "ltd/pvt ltd",
+              "addresses": [
+                {
+                  "longitude": 72.8231511,
+                  "address1": "A-204, Sai Vandan, Narayan Nagar, Tulinj Road, Nallasopara (E)",
+                  "country": "INDIA",
+                  "address_type": "office",
+                  "country_code": "IN",
+                  "city": "MUMBAI",
+                  "latitude": 19.4232024,
+                  "address2": "",
+                  "pincode": 401209,
+                  "state": "MAHARASHTRA",
+                  "landmark": ""
+                },
+                {
+                  "longitude": 72.8231511,
+                  "address1": "A-204, Sai Vandan, Narayan Nagar, Tulinj Road, Nallasopara (E)",
+                  "country": "INDIA",
+                  "address_type": "registered",
+                  "country_code": "IN",
+                  "city": "MUMBAI",
+                  "latitude": 19.4232024,
+                  "address2": "",
+                  "pincode": 401209,
+                  "state": "MAHARASHTRA",
+                  "landmark": ""
+                }
+              ],
+              "uid": 3,
+              "created_by": {
+                "user_id": "5557",
+                "username": "talhakhan_gofynd_com_68788"
+              },
+              "modified_on": "2021-03-04 12:28:42.237000",
+              "name": "SARASUOLE PRIVATE LIMITED",
+              "company_type": "manufacturer-owner"
+            },
+            "uid": 1095,
+            "created_by": {
+              "user_id": "16",
+              "username": "nikhilmhatre_gofynd_com_97636"
+            },
+            "brand": {
+              "modified_by": {
+                "user_id": "16",
+                "username": "nikhilmhatre_gofynd_com_97636"
+              },
+              "created_on": "2021-06-02T08:49:29.480000+00:00",
+              "stage": "verified",
+              "banner": {
+                "portrait": "https://hdn-1.addsale.com/x0/brands/pictures/portrait-banner/original/K8LZC396W-1601395125914.jpeg",
+                "landscape": "https://hdn-1.addsale.com/x0/brands/pictures/landscape-banner/original/HTVwA7P_L-Landsacpe-Banner.jpeg"
+              },
+              "verified_by": {
+                "user_id": "0",
+                "username": "Silverbolt"
+              },
+              "verified_on": "2021-06-02T08:50:58.193000+00:00",
+              "logo": "https://hdn-1.addsale.com/x0/brands/pictures/square-logo/original/3Sl2AzO0F-Logo.jpeg",
+              "uid": 628,
+              "created_by": {
+                "user_id": "16",
+                "username": "nikhilmhatre_gofynd_com_97636"
+              },
+              "modified_on": "2021-06-02T08:50:58.082000+00:00",
+              "slug_key": "apnabrand",
+              "description": "ApnaBrand",
+              "name": "ApnaBrand"
+            }
+          }
+        ],
+        "page": {
+          "current": 1,
+          "type": "number",
+          "size": 1,
+          "has_previous": false,
+          "has_next": false,
+          "item_total": 2
+        }
+      },
+    "userList": {
+      "users": [
+        {
+          "_id": "5f2e55aba5b03061309c1203",
+          "gender": "male",
+          "active": true,
+          "emails": [],
+          "uid": "87",
+          "account_type": "user",
+          "first_name": "Sourabh",
+          "last_name": "Nilakhe",
+          "phone_numbers": [
+            {
+              "active": true,
+              "primary": true,
+              "verified": true,
+              "phone": "7972410891",
+              "country_code": 91
+            }
+          ],
+          "created_at": "2020-08-08T07:35:07.509Z",
+          "updated_at": "2020-08-08T07:35:07.509Z"
+        },
+        {
+          "_id": "b02e3786f949dc629ab7e47a",
+          "gender": null,
+          "active": true,
+          "emails": [
+            {
+              "active": true,
+              "primary": true,
+              "verified": true,
+              "email": "anilsharma@gofynd.com"
+            },
+            {
+              "active": true,
+              "primary": false,
+              "verified": true,
+              "email": "anilsharma@fynd.com"
+            },
+            {
+              "active": true,
+              "primary": false,
+              "verified": true,
+              "email": "anilsharma@uniket.store"
+            }
+          ],
+          "uid": "206",
+          "account_type": "user",
+          "first_name": "Anil",
+          "last_name": "s",
+          "phone_numbers": [],
+          "created_at": "2021-06-07T14:09:53.986Z",
+          "updated_at": "2021-06-07T14:09:53.986Z"
+        },
+        {
+          "_id": "5ee7770fae42c3c2687884b5",
+          "gender": "male",
+          "active": true,
+          "emails": [
+            {
+              "active": true,
+              "primary": false,
+              "verified": true,
+              "email": "app@gofynd.com"
+            },
+            {
+              "active": true,
+              "primary": true,
+              "verified": true,
+              "email": "app@fynd.com"
+            },
+            {
+              "active": true,
+              "primary": false,
+              "verified": true,
+              "email": "app@uniket.store"
+            }
+          ],
+          "uid": "0",
+          "account_type": "user",
+          "first_name": "Fynd",
+          "last_name": "App",
+          "phone_numbers": [
+            {
+              "active": true,
+              "primary": true,
+              "verified": true,
+              "phone": "9999632145",
+              "country_code": 91
+            }
+          ],
+          "created_at": "2020-06-15T13:26:39.560Z",
+          "updated_at": "2021-07-30T14:46:51.851Z"
+        }
+      ]
+    }
 
 }
