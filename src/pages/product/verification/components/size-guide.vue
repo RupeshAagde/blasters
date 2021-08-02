@@ -4,6 +4,7 @@
             <div class="dropdown-cls mt-sm verify-block ">
                 <nitrozen-checkbox
                     :disabled="displayCheck('size_guide')"
+                    :class="displayCheck('size_guide') ? 'hidden':''"
                     :checkboxValue="rejectedFields.size_guide"
                     :value="rejectedFields.size_guide ? false:true"
                     id="rejectedFields.size_guide"
@@ -43,6 +44,9 @@
     .nitrozen-form-input {
         width: 100%;
     }
+}
+.hidden {
+    visibility: hidden;
 }
 
 .verify-block {

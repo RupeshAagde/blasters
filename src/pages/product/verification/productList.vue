@@ -1,11 +1,16 @@
 <template>
-    <div class="main-container">
-        <div class="jumbotron-container">
-            <jumbotron
-                :title="'Products'"
-                :desc="'Access the opted products information. Manage verification of products for a company.'"
-            ></jumbotron>
+    <div>
+        <loader class="loading" v-if="pageLoading"></loader>
+        <div v-else class="panel">
+            <div class="header-position">
+                <adm-page-header
+                    title="Product Listing"
+                    @backClick="redirectToListing"
+                >
+                </adm-page-header>
+            </div>
         </div>
+    <div class="main-container">
         <div class="second-container">
             <div
                 class="search-box"
@@ -20,6 +25,7 @@
                 <template v-else>
                     <nitrozen-input
                         :showSearchIcon="true"
+                        label="Search"
                         class="search"
                         type="search"
                         placeholder="Search by name..."
@@ -183,14 +189,18 @@
             </div>
         </div>
     </div>
+    </div>
 </template>
 
 <style lang="less" scoped>
 .txt-clm {
     margin-left: 6px;
 }
+.header-position {
+    height: 58.5px;
+}
 .main-container {
-    width: 100%;
+    width: auto;
     background-color: white;
     margin: 24px;
     padding: 24px;
@@ -420,6 +430,7 @@ import pageerror from '@/components/common/page-error';
 import CompanyService from '@/services/company-admin.service';
 import userInfoTooltip from '@/components/common/feedback/userInfo-tooltip.vue';
 import CatalogService from '@/services/catalog.service.js';
+import admpageheader from '@/components/common/layout/page-header';
 
 import {
     NitrozenInput,
@@ -453,6 +464,7 @@ export default {
         PageEmpty,
         Shimmer,
         userInfoTooltip,
+        'adm-page-header': admpageheader,
         'page-error': pageerror,
         'nitrozen-input': NitrozenInput,
         'nitrozen-pagination': NitrozenPagination,
@@ -671,7 +683,10 @@ export default {
                 }
             });
             this.fetchProduct();
-        }
+        },
+        redirectToListing(){
+            this.$router.push({ path: `/administrator/product/verification/`});
+        },
     }
 };
 </script>
