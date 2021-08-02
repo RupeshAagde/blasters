@@ -80,6 +80,7 @@
                                 >
                                     <nitrozen-checkbox
                                         :disabled="isDisplayCheckbox('media')"
+                                        :class="isDisplayCheckbox('media') ? 'hidden': ''"
                                         :value="
                                             isCheckboxSelected(
                                                 rejectedFields.media,
@@ -136,6 +137,7 @@
                                 <!-- Highlight Input -->
                                 <nitrozen-checkbox
                                     :disabled="isDisplayCheckbox('highlights')"
+                                    :class="isDisplayCheckbox('highlights') ? 'hidden': ''"
                                     :value="
                                         isCheckboxSelected(
                                             rejectedFields.highlights,
@@ -215,6 +217,7 @@
                             <div class="mt-sm verify-block">
                                 <nitrozen-checkbox
                                     :disabled="isDisplayCheckbox('minimum')"
+                                    :class="isDisplayCheckbox('minimum') ? 'hidden': ''"
                                     :value="isCheckboxSelected(rejectedFields.minimum)"
                                     :checkboxValue="rejectedFields.minimum"
                                     id="rejectedFields.no_of_boxes"
@@ -224,12 +227,13 @@
                                 </nitrozen-checkbox>
                                 <div class="block">
                                     <nitrozen-input
-                                            label="Minimum"
-                                            type="number"
-                                            :required="true"
-                                            placeholder="1"
-                                            v-model="minimum.value"
-                                        >
+                                        disabled
+                                        label="Minimum"
+                                        type="number"
+                                        :required="true"
+                                        placeholder="1"
+                                        v-model="minimum.value"
+                                    >
                                     </nitrozen-input>
                                 </div>
                                 
@@ -237,6 +241,7 @@
                             <div class="mt-sm verify-block">
                                 <nitrozen-checkbox
                                     :value="isCheckboxSelected(rejectedFields.maximum)"
+                                    :class="isDisplayCheckbox('maximum') ? 'hidden': ''"
                                     :disabled="isDisplayCheckbox('maximum')"
                                     :checkboxValue="rejectedFields.maximum"
                                     id="rejectedFields.no_of_boxes"
@@ -246,6 +251,7 @@
                                 </nitrozen-checkbox>
                                 <div class="block">
                                     <nitrozen-input
+                                        disabled
                                         label="Maximum"
                                         type="number"
                                         v-model="maximum.value"
@@ -265,6 +271,7 @@
                         <div class="mt-sm verify-block">
                             <nitrozen-checkbox
                                 :disabled="isDisplayCheckbox('tags')"
+                                :class="isDisplayCheckbox('tags') ? 'hidden': ''"
                                 :value="isCheckboxSelected(rejectedFields.tags)"
                                 :checkboxValue="rejectedFields.tags"
                                 id="rejectedFields.tags"
@@ -305,6 +312,7 @@
                                         <div class="verify-block">
                                             <nitrozen-checkbox
                                                 :disabled="isDisplayCheckbox('manufacturing_time')"
+                                                :class="isDisplayCheckbox('manufacturing_time') ? 'hidden': ''"
                                                 :value="isCheckboxSelected(rejectedFields.manufacturing_time)"
                                                 :checkboxValue="rejectedFields.manufacturing_time"
                                                 id="rejectedFields.manufacturing_time"
@@ -325,6 +333,7 @@
                                         <div class="verify-block ml-15">
                                             <nitrozen-checkbox
                                                 :disabled="isDisplayCheckbox('manufacturing_time_unit')"
+                                                :class="isDisplayCheckbox('manufacturing_time_unit') ? 'hidden': ''"
                                                 :value="
                                                     isCheckboxSelected(
                                                         rejectedFields.manufacturing_time_unit
@@ -376,6 +385,7 @@
                                         <div class="verify-block">
                                             <nitrozen-checkbox
                                                 :disabled="isDisplayCheckbox('return_time')"
+                                                :class="isDisplayCheckbox('return_time') ? 'hidden': ''"
                                                 :value="isCheckboxSelected(rejectedFields.return_time)"
                                                 :checkboxValue="rejectedFields.return_time"
                                                 id="rejectedFields.return_time"
@@ -396,6 +406,7 @@
                                         <div class="verify-block ml-15">
                                             <nitrozen-checkbox
                                                 :disabled="isDisplayCheckbox('return_time_unit')"
+                                                :class="isDisplayCheckbox('return_time_unit') ? 'hidden': ''"
                                                 :value="
                                                     isCheckboxSelected(
                                                         rejectedFields.return_time_unit
@@ -437,6 +448,7 @@
                                 <div class="mt-sm verify-block">
                                     <nitrozen-checkbox
                                         :disabled="isDisplayCheckbox('trader_type')"
+                                        :class="isDisplayCheckbox('trader_type') ? 'hidden': ''"
                                         :value="
                                             isCheckboxSelected(
                                                 rejectedFields.trader_type
@@ -460,6 +472,7 @@
                                             class="input"
                                             label="Trader Type"
                                             disabled
+                                            v-model="trader_type"
                                         ></nitrozen-input>
                                         <nitrozen-error v-if="rejectedFields.trader_type">
                                             {{ errMsgRequired }}
@@ -469,6 +482,7 @@
                                 <div class="mt-sm verify-block">
                                     <nitrozen-checkbox
                                         :disabled="isDisplayCheckbox('trader_name')"
+                                        :class="isDisplayCheckbox('trader_name') ? 'hidden': ''"
                                         :value="
                                             isCheckboxSelected(
                                                 rejectedFields.trader_name
@@ -502,6 +516,7 @@
                                 <div class="mt-sm verify-block">
                                     <nitrozen-checkbox
                                         :disabled="isDisplayCheckbox('trader_address')"
+                                        :class="isDisplayCheckbox('trader_address') ? 'hidden': ''"
                                         :value="
                                             isCheckboxSelected(
                                                 rejectedFields.trader_address
@@ -679,6 +694,9 @@
 
 .check-container {
     margin-bottom: 15px;
+}
+.hidden {
+    visibility: hidden;
 }
 
 .moq,
@@ -874,6 +892,7 @@
 }
 .horizontal-scroll {
     overflow-x: auto;
+    min-height: 325px;
 }
 .float-right {
     float: right;
@@ -1482,7 +1501,6 @@ export default {
         async save(action) {
             if (action === 'Verify') {
                 // Verified
-                let isValid = this.$refs['dynamicAttributes'].validateForm()
                 if (Object.keys(this.rejectedFields).length) {
                     // if all fields are not verified
                     this.$snackbar.global.showError(`${this.errorText}`, {
@@ -1528,7 +1546,8 @@ export default {
                     this.redirectToListing();
                 }
             } catch (e) {
-                this.$snackbar.global.showError(`${this.errMsgGeneric}`, {
+                let m = e && e.message ? e.message: 'Something went wrong.'
+                this.$snackbar.global.showError(m, {
                     duration: 500,
                 });
             }

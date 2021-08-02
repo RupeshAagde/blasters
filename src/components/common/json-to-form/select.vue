@@ -1,7 +1,6 @@
 <template>
     <div class="container">
         <nitrozen-checkbox
-            :disabled="!required"
             :value="verified"
             :checkboxValue="checked"
             class="nt-checkbox"
@@ -40,6 +39,9 @@
             width: 100%;
         }
     }
+}
+.hidden {
+    visibility: hidden;
 }
 </style>
 <script>
