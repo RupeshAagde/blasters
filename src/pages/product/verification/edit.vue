@@ -556,6 +556,9 @@
                 </div>
 
                 <div class="download_section">
+                    <nitrozen-error v-if="isRejected && !remark.length">
+                        {{ errMsgGeneric }}
+                    </nitrozen-error>
                     <nitrozen-input
                         v-if="isRejected"
                         class="input reject-input"
@@ -1145,7 +1148,7 @@ export default {
             verificationDetails: {},
             rejectedFields: {},
             actionButtons: ['Verify', 'Reject'],
-            all_required_fields: []
+            all_required_fields: [],
         };
     },
 
