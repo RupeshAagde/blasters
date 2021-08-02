@@ -30,6 +30,8 @@ describe('Mounted List Product Verification', () => {
         mocks.productList
         router.push('/administrator/product/verification/1/products')
         mock.onGet(URLS.FETCH_VERIFICATION_PRODUCT_LIST(1)).reply(200,  mocks.productList);
+        mock.onGet(URLS.GET_COMPANY_BRANDS({company_id:1})).reply(200, mocks.companyBrand);
+        mock.onGet(URLS.SEARCH_DRI()).reply(200, mocks.userList);
 
         const wrapper = mount(ListVerification, {
             localVue,
@@ -50,6 +52,9 @@ describe('Mounted List Product Verification', () => {
         mocks.productList
         router.push('/administrator/product/verification/1/products')
         mock.onGet(URLS.FETCH_VERIFICATION_PRODUCT_LIST(1)).reply(200,  mocks.productList);
+        mock.onGet(URLS.GET_COMPANY_BRANDS({company_id:1})).reply(200, mocks.companyBrand);
+        mock.onGet(URLS.SEARCH_DRI()).reply(200, mocks.userList);
+        
 
         const wrapper = mount(ListVerification, {
             localVue,
@@ -58,7 +63,7 @@ describe('Mounted List Product Verification', () => {
 
         await new Promise(resolve => setTimeout(resolve, 10));
         wrapper.vm.$set(wrapper.vm, 'productList', mocks.productList.items);
-        expect(wrapper.vm.productList.length).toBe(3);
+        expect(wrapper.vm.productList.length).toBe(2);
 
     });
 })
