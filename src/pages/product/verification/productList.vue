@@ -1,7 +1,6 @@
 <template>
     <div>
-        <loader class="loading" v-if="pageLoading"></loader>
-        <div v-else class="panel">
+        <div class="panel">
             <div class="header-position">
                 <adm-page-header
                     title="Product Listing"
@@ -10,185 +9,185 @@
                 </adm-page-header>
             </div>
         </div>
-    <div class="main-container">
-        <div class="second-container">
-            <div
-                class="search-box"
-                v-if="
-                    pageLoading ||
-                    searchText !== '' ||
-                    stageFilter !== 'all' ||
-                    productList.length
-                "
-            >
-                <div v-if="isInitialLoad" class="input-shimmer shimmer"></div>
-                <template v-else>
-                    <nitrozen-input
-                        :showSearchIcon="true"
-                        label="Search"
-                        class="search"
-                        type="search"
-                        placeholder="Search by name..."
-                        v-model="searchText"
-                        @input="debounceInput({ name: searchText })"
-                    ></nitrozen-input>
-                    <div class="filter">
-                        <label class="label">Filter</label>
-                        <nitrozen-dropdown
-                            label="Stage"
-                            class="filter-dropdown"
-                            :items="filters"
-                            v-model="stageFilter"
-                            @change="
-                                setRouteQuery({ stage: stageFilter })
-                            "
-                        ></nitrozen-dropdown>
-                        <nitrozen-dropdown
-                            label="Brand"
-                            class="filter-dropdown"
-                            :items="brandValuesList"
-                            v-model="selectedBrandFilter"
-                            @input="
-                                setRouteQuery({
-                                    brandFilter: selectedBrandFilter
-                                })
-                            "
-                            :searchable="true"
-                            @searchInputChange="setBrandValuesList"
-                        ></nitrozen-dropdown>
-                    </div>
-                </template>
-            </div>
-            <div class="product-list">
-                <shimmer v-if="pageLoading && !pageError" :count="4"></shimmer>
-                <page-error
-                    v-else-if="pageError && !pageLoading"
-                    @tryAgain="fetchProduct"
-                    text="Oops ! Something went wrong."
-                ></page-error>
-                <div v-else-if="productList && productList.length">
-                    <!-- new cards -->
-                    <div
-                        v-for="(product, index) in productList"
-                        :key="index"
-                        class="container"
-                    >
-                        <div class="card-top" @click="companyView(product)">
-                            <div class="left-container">
-                                <div class="card-avatar">
-                                    <img
-                                        :src="
-                                            productProfileImage(product.product.media)
-                                        "
-                                        @error="getErrorImage()"
-                                    />
-                                </div>
-                                <div class="offer-details">
-                                    <div
-                                        v-if="product.product.name"
-                                        class="card-content-line-1 txt-company-heading"
-                                    >
-                                        {{ product.product.name }}
+        <div class="main-container">
+            <div class="second-container">
+                <div
+                    class="search-box"
+                    v-if="
+                        pageLoading ||
+                        searchText !== '' ||
+                        stageFilter !== 'all' ||
+                        productList.length
+                    "
+                >
+                    <div v-if="isInitialLoad" class="input-shimmer shimmer"></div>
+                    <template v-else>
+                        <nitrozen-input
+                            :showSearchIcon="true"
+                            label="Search"
+                            class="search"
+                            type="search"
+                            placeholder="Search by name..."
+                            v-model="searchText"
+                            @input="debounceInput({ name: searchText })"
+                        ></nitrozen-input>
+                        <div class="filter">
+                            <label class="label">Filter</label>
+                            <nitrozen-dropdown
+                                label="Stage"
+                                class="filter-dropdown"
+                                :items="filters"
+                                v-model="stageFilter"
+                                @change="
+                                    setRouteQuery({ stage: stageFilter })
+                                "
+                            ></nitrozen-dropdown>
+                            <nitrozen-dropdown
+                                label="Brand"
+                                class="filter-dropdown"
+                                :items="brandValuesList"
+                                v-model="selectedBrandFilter"
+                                @input="
+                                    setRouteQuery({
+                                        brandFilter: selectedBrandFilter
+                                    })
+                                "
+                                :searchable="true"
+                                @searchInputChange="setBrandValuesList"
+                            ></nitrozen-dropdown>
+                        </div>
+                    </template>
+                </div>
+                <div class="product-list">
+                    <shimmer v-if="pageLoading && !pageError" :count="4"></shimmer>
+                    <page-error
+                        v-else-if="pageError && !pageLoading"
+                        @tryAgain="fetchProduct"
+                        text="Oops ! Something went wrong."
+                    ></page-error>
+                    <div v-else-if="productList && productList.length">
+                        <!-- new cards -->
+                        <div
+                            v-for="(product, index) in productList"
+                            :key="index"
+                            class="container"
+                        >
+                            <div class="card-top" @click="companyView(product)">
+                                <div class="left-container">
+                                    <div class="card-avatar">
+                                        <img
+                                            :src="
+                                                productProfileImage(product.product.media)
+                                            "
+                                            @error="getErrorImage()"
+                                        />
                                     </div>
-
-                                    <div class="txt-arrange">
+                                    <div class="offer-details">
                                         <div
-                                            class="txt-description-heading"
-                                        ></div>
-                                        <div class="txt-country">
-                                            {{ product.item_code }}
+                                            v-if="product.product.name"
+                                            class="card-content-line-1 txt-company-heading"
+                                        >
+                                            {{ product.product.name }}
                                         </div>
-                                    </div>
-                                    <div
-                                        class="txt-arrange"
-                                        v-if="
-                                            product.modified_by &&
-                                            product.modified_on
-                                        "
-                                    >
+
+                                        <div class="txt-arrange">
+                                            <div
+                                                class="txt-description-heading"
+                                            ></div>
+                                            <div class="txt-country">
+                                                {{ product.item_code }}
+                                            </div>
+                                        </div>
                                         <div
-                                            class="txt-description-heading"
+                                            class="txt-arrange"
                                             v-if="
                                                 product.modified_by &&
-                                                product.modified_by.user_id
+                                                product.modified_on
                                             "
                                         >
-                                            Modified By :
-                                        </div>
-                                        <div class="txt-details-by">
-                                            <user-info-tooltip
-                                                :userId="
-                                                    userObj[
-                                                        product.modified_by
-                                                            .user_id
-                                                    ]
+                                            <div
+                                                class="txt-description-heading"
+                                                v-if="
+                                                    product.modified_by &&
+                                                    product.modified_by.user_id
                                                 "
-                                            ></user-info-tooltip>
-                                            <span
-                                                class="txt-clm"
-                                                v-if="product.modified_on"
-                                                >On</span
                                             >
-                                            <span
-                                                class="txt-clm"
-                                                v-if="product.modified_on"
-                                            >
-                                                {{
-                                                    new Date(
-                                                        product.modified_on
-                                                    ).toLocaleString()
-                                                }}
-                                            </span>
+                                                Modified By :
+                                            </div>
+                                            <div class="txt-details-by">
+                                                <user-info-tooltip
+                                                    :userId="
+                                                        userObj[
+                                                            product.modified_by
+                                                                .user_id
+                                                        ]
+                                                    "
+                                                ></user-info-tooltip>
+                                                <span
+                                                    class="txt-clm"
+                                                    v-if="product.modified_on"
+                                                    >On</span
+                                                >
+                                                <span
+                                                    class="txt-clm"
+                                                    v-if="product.modified_on"
+                                                >
+                                                    {{
+                                                        new Date(
+                                                            product.modified_on
+                                                        ).toLocaleString()
+                                                    }}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div
-                                v-if="
-                                    product &&
-                                    product.status
-                                "
-                                class="card-badge-section"
-                            >
-                                <nitrozen-badge
+                                <div
                                     v-if="
-                                        product.status ===
-                                        'verified'
+                                        product &&
+                                        product.status
                                     "
-                                    state="success"
-                                    >Verified</nitrozen-badge
+                                    class="card-badge-section"
                                 >
-                                <nitrozen-badge
-                                    v-else-if="
-                                        product.status ===
-                                        'rejected'
-                                    "
-                                    state="error"
-                                    >Rejected</nitrozen-badge
-                                >
-                                <nitrozen-badge v-else state="warn"
-                                    >Pending</nitrozen-badge
-                                >
+                                    <nitrozen-badge
+                                        v-if="
+                                            product.status ===
+                                            'verified'
+                                        "
+                                        state="success"
+                                        >Verified</nitrozen-badge
+                                    >
+                                    <nitrozen-badge
+                                        v-else-if="
+                                            product.status ===
+                                            'rejected'
+                                        "
+                                        state="error"
+                                        >Rejected</nitrozen-badge
+                                    >
+                                    <nitrozen-badge v-else state="warn"
+                                        >Pending</nitrozen-badge
+                                    >
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <page-empty
-                    v-else
-                    :helperText="'No product found'"
-                    text="No Products Available"
-                ></page-empty>
-                <div class="pagination" v-if="productList.length">
-                    <nitrozen-pagination
-                        name="Products"
-                        v-model="pagination"
-                        @change="paginationChange"
-                        :pageSizeOptions="[5, 10, 20, 50]"
-                    ></nitrozen-pagination>
+                    <page-empty
+                        v-else
+                        :helperText="'No product found'"
+                        text="No Products Available"
+                    ></page-empty>
+                    <div class="pagination" v-if="productList.length">
+                        <nitrozen-pagination
+                            name="Products"
+                            v-model="pagination"
+                            @change="paginationChange"
+                            :pageSizeOptions="[5, 10, 20, 50]"
+                        ></nitrozen-pagination>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </template>
 
@@ -523,7 +522,6 @@ export default {
             this.companyId = companyId;
             this.pageLoading = true;
             this.populateFromURL();
-            this.fetchProduct();
             this.fetchBrands();
         },
         populateFromURL() {
