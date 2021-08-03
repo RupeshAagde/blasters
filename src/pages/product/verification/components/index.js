@@ -3,4 +3,3 @@ export { default as ProductDetails } from "./details.vue"
 export { default as DynamicAttributes } from "./dynamic-attributes.vue"
 export { default as Customs } from "./customs.vue"
 export { default as SizeGuide } from "./size-guide.vue"
-

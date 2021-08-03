@@ -10,8 +10,6 @@
             <!-- Country of origin -->
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
-                    :disabled="displayCheck('country_of_origin')"
-                    :class="displayCheck('country_of_origin') ? 'hidden': ''"
                     :value="rejectedFields.country_of_origin ? false :  true"
                     :checkboxValue="rejectedFields.country_of_origin"
                     id="rejectedFields.country_of_origin"
@@ -35,8 +33,6 @@
             <!-- HSN Code -->
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
-                    :disabled="displayCheck('hsn_code')"
-                    :class="displayCheck('hsn_code') ? 'hidden': ''"
                     :value="rejectedFields.hsn_code ? false :  true"
                     :checkboxValue="rejectedFields.hsn_code"
                     id="rejectedFields.hsn_code"
@@ -95,13 +91,6 @@
 
 <script>
 
-// import SellerService from '@/services/admin-seller.service';
-import path from 'path';
-import { fieldSchemaValidation } from './util';
-import isEmpty from 'lodash/isEmpty';
-import pickBy from 'lodash/pickBy';
-import identity from 'lodash/identity';
-
 import {
     NitrozenDropdown,
     NitrozenError,
@@ -109,10 +98,6 @@ import {
     NitrozenCheckBox,
 } from '@gofynd/nitrozen-vue';
 
-const VALIDATE_FIELDS = [
-    'hsn_code',
-    'country_of_origin'
-];
 
 
 export default {
@@ -134,16 +119,7 @@ export default {
             hsnCodesList: [],
         };
     },
-
-    watch: {
-
-    },
-
-    computed: {
-
-    },
     mounted() {
-        // this.fetchHSNAndCountry();
         this.populateForm();
     },
     props: {
@@ -157,27 +133,10 @@ export default {
                 return {};
             }
         },
-        globalSchema: {
-            type: Object,
-            default: () => {
-                return {};
-            }
-        },
-        companyId: {
-            default: () => {
-                return 0;
-            }
-        },
         errMsgRequired: {
             type: String,
             default: () => {
                 return "This field is required to verify the product"
-            }
-        },
-        all_required_fields: {
-            type: Array,
-            default: () => {
-                return []
             }
         }
     },
@@ -189,98 +148,13 @@ export default {
                 error: ''
             };
         },
-        loadCountries() {
-            if (isEmpty(this.countryList)) {
-                return;
-            }
-            const INDIA = 'India';
-            this.countries = this.countryList;
-            const indiaIndex = this.countries.indexOf(INDIA);
-            this.countries.splice(indiaIndex, 1);
-            this.countries.unshift(INDIA);
-        },
-        displayCheck(fieldName){
-            return !(this.all_required_fields.includes(fieldName))
-        },
-        setCountryList(e = {}) {
-            this.countryList = [];
-            this.countries.forEach(c => {
-                if (
-                    !e ||
-                    !e.text ||
-                    c.toLowerCase().includes(e.text.toLowerCase())
-                ) {
-                    this.countryList.push({
-                        text: c,
-                        value: c
-                    });
-                }
-            });
-        },
-        setHSNCodesList(e = {}) {
-            this.hsnCodesList = [];
-            this.hsnCodes.forEach(code => {
-                if (
-                    !e ||
-                    !e.text ||
-                    code.toLowerCase().includes(e.text.toLowerCase())
-                ) {
-                    this.hsnCodesList.push({
-                        text: code,
-                        value: code
-                    });
-                }
-            });
-        },
-        validateForm() {
-            let isValid = true;
-            VALIDATE_FIELDS.forEach(prop => {
-                isValid = !this[prop].error && isValid;
-                isValid = this.validateField(prop) && isValid;
-            });
-
-            return isValid;
-        },
-        validateField(prop) {
-            this[prop].error = '';
-            this[prop].error = fieldSchemaValidation(
-                this.globalSchema,
-                prop,
-                this[prop].value
-            );
-            return !this[prop].error;
-        },
         populateForm() {
             try {
-                // this.setCountryList();
-                // this.setHSNCodesList();
-
-                this.country_of_origin.value =
-                    this.product.country_of_origin ||
-                    (this.countries.length && this.countries[0]);
-                this.$emit(
-                    'change-origin-country',
-                    this.country_of_origin.value
-                );
-
-                this.hsn_code.value =
-                    this.product.hsn_code ||
-                    (this.hsnCodes.length && this.hsnCodes[0]);
-                this.$emit('change-hsn-code', this.hsn_code.value);
+                this.country_of_origin.value = this.product.country_of_origin
+                this.hsn_code.value = this.product.hsn_code;
             } catch (err) {
                 this.$snackbar.global.showError('Something not right here');
-                console.error(err);
             }
-        },
-        getFormData() {
-            let value = {
-                hsn_code: this.hsn_code.value,
-                country_of_origin: this.country_of_origin.value,
-            };
-            return pickBy(value, identity);
-        },
-        redirectAddHSN() {
-            return path.join(this.$basePath, '/product-taxation/add');
         }
     }
 };

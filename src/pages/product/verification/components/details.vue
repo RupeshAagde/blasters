@@ -3,8 +3,6 @@
         <div class="container">
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
-                    :disabled="displayCheck('item_type')"
-                    :class="displayCheck('item_type') ? 'hidden': ''"
                     :value="rejected_fields.item_type ? false :  true"
                     :checkboxValue="rejected_fields.item_type"
                     id="rejected_fields.item_type"
@@ -28,7 +26,6 @@
             </div>
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
-                    :disabled="displayCheck('departments')"
                     :value="rejected_fields.departments ? false : true"
                     :checkboxValue="rejected_fields.departments"
                     id="rejected_fields.departments"
@@ -55,7 +52,6 @@
             </div>
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
-                    :disabled="displayCheck('category_slug')"
                     :checkboxValue="rejected_fields.category_slug"
                     :value="rejected_fields.category ? false : true"
                     id="rejected_fields.category"
@@ -79,7 +75,6 @@
             <!-- Name -->
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
-                    :disabled="displayCheck('name')"
                     :value="isCheckboxSelected(rejected_fields.name)"
                     :checkboxValue="rejected_fields.name"
                     id="rejected_fields.name"
@@ -102,7 +97,6 @@
             <!-- Slug -->
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
-                    :disabled="displayCheck('slug')"
                     :checkboxValue="rejected_fields.slug"
                     :value="isCheckboxSelected(rejected_fields.slug)"
                     id="rejected_fields.slug"
@@ -127,7 +121,6 @@
             <!-- Brand -->
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
-                    :disabled="displayCheck('brand_uid')"
                     :value="isCheckboxSelected(rejected_fields.brand_uid)"
                     :checkboxValue="rejected_fields.brand_uid"
                     id="rejected_fields.brand"
@@ -151,7 +144,6 @@
             <!-- Item Code -->
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
-                    :disabled="displayCheck('item_code')"
                     :value="isCheckboxSelected(rejected_fields.item_code)"
                     :checkboxValue="rejected_fields.item_code"
                     id="rejected_fields.item_code"
@@ -179,8 +171,6 @@
             <div class="container teaser">
                 <div class="mt-sm verify-block">
                     <nitrozen-checkbox
-                    :class="displayCheck('teaser_tag') ? 'hidden': ''"
-                    :disabled="displayCheck('teaser_tag')"
                     :value="isCheckboxSelected(rejected_fields.teaser_tag)"
                     :checkboxValue="rejected_fields.teaser_tag"
                     id="rejected_fields.teaser_tag"
@@ -204,8 +194,6 @@
 
                 <div class="mt-sm verify-block" v-if="product_type.value === 'standard'">
                     <nitrozen-checkbox
-                        :class="displayCheck('no_of_boxes') ? 'hidden': ''"
-                        :disabled="displayCheck('no_of_boxes')"
                         :value="isCheckboxSelected(rejected_fields.no_of_boxes)"
                         :checkboxValue="rejected_fields.no_of_boxes"
                         id="rejected_fields.no_of_boxes"
@@ -360,9 +348,7 @@
 
 <script>
 import uktinlinesvg from '@/components/common/ukt-inline-svg.vue';
-import { fieldSchemaValidation } from './util';
 import isEmpty from 'lodash/isEmpty';
-import slugify from 'slugify';
 import {
     NitrozenRadio,
     NitrozenInput,
@@ -372,18 +358,6 @@ import {
     NitrozenTooltip,
     NitrozenCheckBox
 } from '@gofynd/nitrozen-vue';
-import { log } from 'util';
-// import { seller } from '../../../auto_gen/admin-svgs';
-
-const VALIDATE_FIELDS = [
-    'name',
-    'slug',
-    'brand_uid',
-    'item_code',
-    'teaser',
-    'no_of_boxes'
-];
-const ONE_MB = 1024;
 
 export default {
     name: 'ProductDetails',
@@ -409,23 +383,10 @@ export default {
             brand_uid: this.getInitialValue(),
             category_slug: this.getInitialValue(),
             teaser: this.getInitialValue(),
-            departmentsList: [],
             item_type: '',
-            // teaserURL: '',
-
-
             brandValuesList: [],
             categoryValuesList: [],
-            productTypeList: [
-                { text: 'Standard', value: 'Standard' }
-            ],
             errMsgGeneric: 'Something went wrong',
-
-            showOptions: false,
-            namespace: 'products-item-image', // change this later to correct namespace.
-            fileTypes: ['png', 'jpeg'],
-            fileDomain: 'image',
-            maxSize: ONE_MB * 3
         };
     },
     props: {
@@ -507,12 +468,6 @@ export default {
             default: () => {
                 return "This field is required to verify the product"
             }
-        },
-        all_required_fields: {
-            type: Array,
-            default: () => {
-                return []
-            }
         }
     },
     computed: {
@@ -527,24 +482,11 @@ export default {
     },
     methods: {
         isEmpty: isEmpty,
-        displayCheck(fieldName) {
-            return !(this.all_required_fields.includes(fieldName))
-        },
         getInitialValue() {
             return {
                 value: '',
                 error: ''
             };
-        },
-        openDialog() {
-            this.$refs.dialog.open();
-        },
-        openImageDialog() {
-            this.namespace = 'products-item-image';
-            this.fileTypes = ['png', 'jpeg'];
-            this.fileDomain = 'image';
-            this.maxSize = ONE_MB * 3;
-            this.openDialog();
         },
         populateForm() {
             try {
@@ -576,13 +518,6 @@ export default {
                 this.$snackbar.global.showError('Something not right here');
                 console.error(err);
             }
-        },
-        updateSlug() {
-            if (this.editMode) return;
-            this.slug.value = slugify(this.name.value, {
-                lower: true,
-                strict: true
-            });
         },
         setBrandValuesList(e = {}) {
             this.brandValuesList = [];
@@ -617,61 +552,6 @@ export default {
                     });
                 }
             });
-        },
-        validateUniqness(prop = '', params = {}) {
-            if (!this[prop].value) {
-                return;
-            }
-            this.$parent.inProgress = true;
-            SellerService.validateAttributes(params)
-                .then(({ data }) => {
-                    this.$parent.inProgress = false;
-                    if (data.valid) {
-                        return;
-                    }
-                    this.$snackbar.global.showError(data.message);
-                    this[prop].error = data.message;
-                })
-                .catch(err => {
-                    this.$parent.inProgress = false;
-                    this.$snackbar.global.showError(this.errMsgGeneric);
-                });
-        },
-        validateUniqueSlug() {
-            if (this.editMode) {
-                return;
-            }
-            const params = {
-                type: 'slug',
-                slug: this.slug.value
-            };
-            this.validateUniqness('slug', params);
-        },
-        validateUniqueItemCode() {
-            const params = {
-                type: 'item',
-                brand_uid: this.brand_uid.value,
-                item_code: this.item_code.value
-            };
-            this.validateUniqness('item_code', params);
-        },
-        validateForm() {
-            let isValid = true;
-            VALIDATE_FIELDS.forEach(prop => {
-                isValid = !this[prop].error && isValid;
-                isValid = this.validateField(prop) && isValid;
-            });
-
-            return isValid;
-        },
-        validateField(prop) {
-            this[prop].error = '';
-            this[prop].error = fieldSchemaValidation(
-                this.globalSchema,
-                prop,
-                this[prop].value
-            );
-            return !this[prop].error;
         },
         emitVerify(name, value){
             this.$emit('trigger-verify', {'key': name, value})
