@@ -19,7 +19,6 @@ FormSchemaNative.setComponent('text', Input, form => {
     const propSchema = vm.schema.properties[field.name];
 
     field['verified'] = propSchema.verified ? propSchema.verified : false;
-    field['required'] = propSchema.required ? propSchema.required : false;
     let errorMessage = propSchema.errorMessage ? propSchema.errorMessage: null
     if (field.description) {
         field.tooltipText = field.description;
@@ -39,7 +38,6 @@ FormSchemaNative.setComponent('number', Input, form => {
     
     const propSchema = vm.schema.properties[field.name];
     field['verified'] = propSchema.verified ? propSchema.verified : false;
-    field['required'] = propSchema.required ? propSchema.required : false;
     let errorMessage = propSchema.errorMessage ? propSchema.errorMessage: null
 
     if (field.description) {
@@ -60,7 +58,6 @@ FormSchemaNative.setComponent('select', Select, form => {
     
     const propSchema = vm.schema.properties[field.name];
     field['verified'] = propSchema.verified ? propSchema.verified : false;
-    field['required'] = propSchema.required ? propSchema.required : false;
 
     if (!vm._isMounted) {
         // hack code

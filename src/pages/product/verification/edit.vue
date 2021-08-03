@@ -55,11 +55,9 @@
                                     :is_dependent="is_dependent"
                                     :no_of_boxes="no_of_boxes"
                                     :rejected_fields="rejectedFields"
-                                    :all_required_fields="all_required_fields"
                                     :errMsgRequired="errMsgRequired"
                                     @input-name="name = $event"
                                     @trigger-verify="updateVerifiedList"
-                                    :displayCheck="isDisplayCheckbox"
                                 ></product-details>
                             </div>
                         </div>
@@ -79,8 +77,6 @@
                                     class="image-verify-block"
                                 >
                                     <nitrozen-checkbox
-                                        :disabled="isDisplayCheckbox('media')"
-                                        :class="isDisplayCheckbox('media') ? 'hidden': ''"
                                         :value="
                                             isCheckboxSelected(
                                                 rejectedFields.media,
@@ -110,9 +106,7 @@
                                             :value="m"
                                             :index="index"
                                             :fileName="name || 'product'"
-                                            :tags="getImageTags()"
                                             namespace="products-item-image"
-                                            :displayCheck="isDisplayCheckbox"
                                         ></media>
                                     
                                 </div>
@@ -136,8 +130,6 @@
                             >
                                 <!-- Highlight Input -->
                                 <nitrozen-checkbox
-                                    :disabled="isDisplayCheckbox('highlights')"
-                                    :class="isDisplayCheckbox('highlights') ? 'hidden': ''"
                                     :value="
                                         isCheckboxSelected(
                                             rejectedFields.highlights,
@@ -177,7 +169,6 @@
                             ref="dynamicAttributes"
                             :schema="templateSchema"
                             :errMsgRequired="errMsgRequired"
-                            :all_required_fields="all_required_fields"
                             v-model="product.attributes"
                             @trigger-verify="updateVerifiedList"
                         ></dynamic-attributes>
@@ -195,8 +186,6 @@
                             :globalSchema="globalSchema"
                             :companyId="companyId"
                             :rejectedFields="rejectedFields"
-                            :displayCheck="isDisplayCheckbox"
-                            :all_required_fields="all_required_fields"
                             :errMsgRequired="errMsgRequired"
                             @trigger-verify="updateVerifiedList"
                         >
@@ -216,8 +205,6 @@
                         <div class="input-quantity">
                             <div class="mt-sm verify-block">
                                 <nitrozen-checkbox
-                                    :disabled="isDisplayCheckbox('minimum')"
-                                    :class="isDisplayCheckbox('minimum') ? 'hidden': ''"
                                     :value="isCheckboxSelected(rejectedFields.minimum)"
                                     :checkboxValue="rejectedFields.minimum"
                                     id="rejectedFields.no_of_boxes"
@@ -241,8 +228,6 @@
                             <div class="mt-sm verify-block">
                                 <nitrozen-checkbox
                                     :value="isCheckboxSelected(rejectedFields.maximum)"
-                                    :class="isDisplayCheckbox('maximum') ? 'hidden': ''"
-                                    :disabled="isDisplayCheckbox('maximum')"
                                     :checkboxValue="rejectedFields.maximum"
                                     id="rejectedFields.no_of_boxes"
                                     class="nt-checkbox"
@@ -270,8 +255,6 @@
                         </div>
                         <div class="mt-sm verify-block">
                             <nitrozen-checkbox
-                                :disabled="isDisplayCheckbox('tags')"
-                                :class="isDisplayCheckbox('tags') ? 'hidden': ''"
                                 :value="isCheckboxSelected(rejectedFields.tags)"
                                 :checkboxValue="rejectedFields.tags"
                                 id="rejectedFields.tags"
@@ -311,8 +294,6 @@
                                     <div class="inline">
                                         <div class="verify-block">
                                             <nitrozen-checkbox
-                                                :disabled="isDisplayCheckbox('manufacturing_time')"
-                                                :class="isDisplayCheckbox('manufacturing_time') ? 'hidden': ''"
                                                 :value="isCheckboxSelected(rejectedFields.manufacturing_time)"
                                                 :checkboxValue="rejectedFields.manufacturing_time"
                                                 id="rejectedFields.manufacturing_time"
@@ -332,8 +313,6 @@
                                         </div>
                                         <div class="verify-block ml-15">
                                             <nitrozen-checkbox
-                                                :disabled="isDisplayCheckbox('manufacturing_time_unit')"
-                                                :class="isDisplayCheckbox('manufacturing_time_unit') ? 'hidden': ''"
                                                 :value="
                                                     isCheckboxSelected(
                                                         rejectedFields.manufacturing_time_unit
@@ -384,8 +363,6 @@
                                     <div class="inline">
                                         <div class="verify-block">
                                             <nitrozen-checkbox
-                                                :disabled="isDisplayCheckbox('return_time')"
-                                                :class="isDisplayCheckbox('return_time') ? 'hidden': ''"
                                                 :value="isCheckboxSelected(rejectedFields.return_time)"
                                                 :checkboxValue="rejectedFields.return_time"
                                                 id="rejectedFields.return_time"
@@ -405,8 +382,6 @@
                                         </div>
                                         <div class="verify-block ml-15">
                                             <nitrozen-checkbox
-                                                :disabled="isDisplayCheckbox('return_time_unit')"
-                                                :class="isDisplayCheckbox('return_time_unit') ? 'hidden': ''"
                                                 :value="
                                                     isCheckboxSelected(
                                                         rejectedFields.return_time_unit
@@ -447,8 +422,6 @@
                             <div class="mr-md full">
                                 <div class="mt-sm verify-block">
                                     <nitrozen-checkbox
-                                        :disabled="isDisplayCheckbox('trader_type')"
-                                        :class="isDisplayCheckbox('trader_type') ? 'hidden': ''"
                                         :value="
                                             isCheckboxSelected(
                                                 rejectedFields.trader_type
@@ -481,8 +454,6 @@
                                 </div>
                                 <div class="mt-sm verify-block">
                                     <nitrozen-checkbox
-                                        :disabled="isDisplayCheckbox('trader_name')"
-                                        :class="isDisplayCheckbox('trader_name') ? 'hidden': ''"
                                         :value="
                                             isCheckboxSelected(
                                                 rejectedFields.trader_name
@@ -515,8 +486,6 @@
                                 </div>
                                 <div class="mt-sm verify-block">
                                     <nitrozen-checkbox
-                                        :disabled="isDisplayCheckbox('trader_address')"
-                                        :class="isDisplayCheckbox('trader_address') ? 'hidden': ''"
                                         :value="
                                             isCheckboxSelected(
                                                 rejectedFields.trader_address
@@ -563,7 +532,6 @@
                             :brand-id="product.brand_uid"
                             :companyId="companyId"
                             :rejectedFields="rejectedFields"
-                            :all_required_fields="all_required_fields"
                             @trigger-verify="updateVerifiedList"
                         ></size-guide>
                     </div>
@@ -1157,7 +1125,7 @@ export default {
             no_of_boxes: this.getInitialValue(),
             is_dependent: { value: false, error: '' },
             product_type: this.getInitialValue(),
-            errMsgRequired: "Correct the highlighted Errors",
+            errMsgRequired: "This field is not verified",
             errMsgGeneric: 'Please fill all required fields.',
 
             returnConfigError: '',
@@ -1167,7 +1135,6 @@ export default {
             verificationDetails: {},
             rejectedFields: {},
             actionButtons: ['Verify', 'Reject'],
-            all_required_fields: [],
         };
     },
 
@@ -1235,12 +1202,6 @@ export default {
                     };
                 }
 
-                this.all_required_fields = [
-                    ...this.globalSchema.required, 
-                    ...this.templateSchema.required, 
-                    'media', 'item_type', 'departments'
-                ]
-
                 this.populateForm();
             } catch (error) {
                 this.pageError = true;
@@ -1272,12 +1233,6 @@ export default {
                         return reject(err);
                     });
             });
-        },
-        getErrorImage() {
-            return '/public/assets/pngs/default_icon_listing.png';
-        },
-        isDisplayCheckbox(fieldName) {
-            return !(this.all_required_fields.includes(fieldName))
         },
         getDepartment() {
             return new Promise((resolve, reject) => {
@@ -1340,14 +1295,7 @@ export default {
         },
         populateForm() {
             try {
-                this.product_type.value = this.product_type.value
-                    ? this.product_type.value
-                    : this.product.item_type
-                    ? this.product.item_type.toLowerCase()
-                    : this.product.is_set
-                    ? 'set'
-                    : 'standard';
-                this.setValues(this.product_type.value);
+                this.product_type.value = this.product.item_type;
                 this.categories = this.templateDetails.category_details;
                 this.name = this.product.name || this.name;
                 this.brandUid = this.product.brand_uid;
@@ -1375,12 +1323,12 @@ export default {
                     this.return_time_unit = this.product.return_config.unit;
                 }
 
-                this.teaser_tag = this.product.teaser_tag || this.teaser_tag;
+                this.teaser_tag = this.product.teaser_tag;
 
                 this.is_custom_order =
                     (this.product.custom_order
                         ? this.product.custom_order.is_custom_order
-                        : false) || this.is_custom_order;
+                        : false);
                 if (this.is_custom_order) {
                     this.manufacturing_time_unit =
                         toLower(
@@ -1388,12 +1336,11 @@ export default {
                                 ? this.product.custom_order
                                       .manufacturing_time_unit
                                 : this.manufacturing_time_unit
-                        ) || toLower(this.manufacturing_time_unit);
+                        )
                     this.manufacturing_time =
                         (this.product.custom_order
                             ? this.product.custom_order.manufacturing_time
-                            : this.manufacturing_time) ||
-                        this.manufacturing_time;
+                            : this.manufacturing_time)
                 }
 
                 this.tags = !isEmpty(this.product.tags)
@@ -1435,36 +1382,6 @@ export default {
                 return !value.includes(optional);
             }
             return value ? false : true;
-        },
-        setValues(product_type) {
-            switch (product_type) {
-                case 'standard':
-                    this.isSet = false;
-                    this.multiSize = false;
-                    this.product_type.value = product_type;
-                    this.is_physical = true;
-                    break;
-                case 'set':
-                    this.multiSize = true;
-                    this.isSet = true;
-                    this.product_type.value = product_type;
-                    this.is_physical = true;
-                    break;
-                case 'composite':
-                    this.isSet = false;
-                    this.multiSize = false;
-                    this.product_type.value = product_type;
-                    this.is_physical = true;
-                    break;
-                case 'digital':
-                    this.isSet = false;
-                    this.multiSize = false;
-                    this.is_physical = false;
-                    this.product_type.value = product_type;
-                    break;
-                default:
-                    break;
-            }
         },
         updateVerifiedList(e) {
             const { key, value = '', type = 'text', index = -1} = e;
@@ -1552,9 +1469,6 @@ export default {
                 });
             }
         },
-        saveMeta({ meta = [], json = {} }) {
-            this.customJSON = json;
-        },
         redirect(param) {
             const { platform } = param;
             if (platform) {
@@ -1564,9 +1478,6 @@ export default {
                 );
             }
             this.redirectToListing();
-        },
-        getImageTags() {
-            return [`company_${this.companyId}`, `brand_${this.item_code}`];
         },
         
         skipProduct() {

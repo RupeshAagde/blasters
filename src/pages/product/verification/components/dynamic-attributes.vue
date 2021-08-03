@@ -52,9 +52,6 @@ form {
 import { parseDynamicAttributes } from './util';
 import JsonToForm from '@/components/common/json-to-form';
 import isEmpty from 'lodash/isEmpty';
-import pickBy from 'lodash/pickBy';
-import identity from 'lodash/identity';
-import map from 'lodash/map';
 import Ajv from 'ajv';
 
 export default {
@@ -122,14 +119,6 @@ export default {
         updateVerifiedList(e){
             this.$emit('trigger-verify', e)
             this.init();
-        },
-        getFormData() {
-            let value = {};
-            map(this.values, grp => {
-                // pickBy identity will remove falsy values
-                Object.assign(value, pickBy(grp, identity));
-            });
-            return value;
         }
     }
 };
