@@ -112,7 +112,7 @@
                                                     product.modified_by.user_id
                                                 "
                                             >
-                                                Modified By :
+                                                Modified By:
                                             </div>
                                             <div class="txt-details-by">
                                                 <user-info-tooltip
@@ -133,8 +133,8 @@
                                                     v-if="product.modified_on"
                                                 >
                                                     {{
-                                                        new Date(
-                                                            product.modified_on
+                                                        new Date( 
+                                                            product.modified_on * 1000
                                                         ).toLocaleString()
                                                     }}
                                                 </span>
@@ -263,6 +263,7 @@
         font-size: 14px;
         line-height: 20px;
         font-weight: 500;
+        margin-top: 20px;
     }
     .filter-dropdown {
         width: 200px;
