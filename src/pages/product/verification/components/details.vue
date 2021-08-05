@@ -6,7 +6,7 @@
                     :value="rejected_fields.item_type ? false :  true"
                     :checkboxValue="rejected_fields.item_type"
                     id="rejected_fields.item_type"
-                    class="nt-checkbox"
+                    class="nt-checkbox, checkbox-align"
                     @change="emitVerify('item_type', item_type)"
                 >
                 </nitrozen-checkbox>
@@ -14,6 +14,8 @@
                     <nitrozen-input
                         label="Type *"
                         placeholder="For eg. Black Casual Shirt"
+                        :showTooltip="true"
+                        tooltipText="Type"
                         v-model="item_type"
                         :disabled="true"
                     ></nitrozen-input>
@@ -29,7 +31,7 @@
                     :value="rejected_fields.departments ? false : true"
                     :checkboxValue="rejected_fields.departments"
                     id="rejected_fields.departments"
-                    class="nt-checkbox"
+                    class="nt-checkbox, checkbox-align"
                     @change="emitVerify('departments', department.value)"
                 >
                 </nitrozen-checkbox>
@@ -55,7 +57,7 @@
                     :checkboxValue="rejected_fields.category_slug"
                     :value="rejected_fields.category ? false : true"
                     id="rejected_fields.category"
-                    class="nt-checkbox"
+                    class="nt-checkbox, checkbox-align"
                     @change="emitVerify('category_slug', category_slug.value)"
                 >
                 </nitrozen-checkbox>
@@ -63,6 +65,8 @@
                     <nitrozen-input
                         label="Category *"
                         placeholder="For eg. Black Casual Shirt"
+                        :showTooltip="true"
+                        tooltipText="Category"
                         v-model="category_slug.value"
                         :disabled="true"
                     ></nitrozen-input>
@@ -78,7 +82,7 @@
                     :value="isCheckboxSelected(rejected_fields.name)"
                     :checkboxValue="rejected_fields.name"
                     id="rejected_fields.name"
-                    class="nt-checkbox"
+                    class="nt-checkbox, checkbox-align"
                     @change="emitVerify('name', name.value)"
                 >
                 </nitrozen-checkbox>
@@ -86,6 +90,8 @@
                     <nitrozen-input
                         label="Name *"
                         placeholder="For eg. Black Casual Shirt"
+                        :showTooltip="true"
+                        tooltipText="Name"
                         v-model="name.value"
                         disabled
                     ></nitrozen-input>
@@ -100,7 +106,7 @@
                     :checkboxValue="rejected_fields.slug"
                     :value="isCheckboxSelected(rejected_fields.slug)"
                     id="rejected_fields.slug"
-                    class="nt-checkbox"
+                    class="nt-checkbox, checkbox-align"
                     @change="emitVerify('slug', slug.value)"
                 >
                 </nitrozen-checkbox>
@@ -124,7 +130,7 @@
                     :value="isCheckboxSelected(rejected_fields.brand_uid)"
                     :checkboxValue="rejected_fields.brand_uid"
                     id="rejected_fields.brand"
-                    class="nt-checkbox"
+                    class="nt-checkbox, checkbox-align"
                     @change="emitVerify('brand_uid', brand_uid.value)"
                 >
                 </nitrozen-checkbox>
@@ -147,7 +153,7 @@
                     :value="isCheckboxSelected(rejected_fields.item_code)"
                     :checkboxValue="rejected_fields.item_code"
                     id="rejected_fields.item_code"
-                    class="nt-checkbox"
+                    class="nt-checkbox, checkbox-align"
                     @change="emitVerify('item_code', item_code.value)"
                 >
                 </nitrozen-checkbox>
@@ -174,7 +180,7 @@
                     :value="isCheckboxSelected(rejected_fields.teaser_tag)"
                     :checkboxValue="rejected_fields.teaser_tag"
                     id="rejected_fields.teaser_tag"
-                    class="nt-checkbox"
+                    class="nt-checkbox, checkbox-align "
                     @change="emitVerify('teaser_tag', teaser.value)"
                 >
                     </nitrozen-checkbox>
@@ -197,7 +203,7 @@
                         :value="isCheckboxSelected(rejected_fields.no_of_boxes)"
                         :checkboxValue="rejected_fields.no_of_boxes"
                         id="rejected_fields.no_of_boxes"
-                        class="nt-checkbox"
+                        class="nt-checkbox, checkbox-align"
                         @change="emitVerify('no_of_boxes', no_of_boxes.value)"
                     >
                     </nitrozen-checkbox>
@@ -343,6 +349,9 @@
             width: 46%;
         }
     }
+}
+.checkbox-align {
+    margin-top: 30px;
 }
 </style>
 
