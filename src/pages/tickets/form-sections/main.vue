@@ -550,6 +550,23 @@ export default {
                     additions = additions + 1;
                     history = history + 'assigned this to ' + value;
                 }
+            } else if (
+                event.value.assigned_to &&
+                event.value.assigned_to.length == 1
+            ) {
+                const key = event.value.assigned_to[0].agent_id;
+                let value = undefined;
+
+                this.staff.forEach((element) => {
+                    if (element.value == key) {
+                        value = element.text;
+                    }
+                });
+
+                if (value) {
+                    additions = additions + 1;
+                    history = history + 'assigned this to ' + value;
+                }
             }
 
             if (event.value.status && event.value.status.length == 2) {
