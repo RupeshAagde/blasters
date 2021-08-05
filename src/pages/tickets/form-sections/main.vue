@@ -426,6 +426,7 @@ export default {
         },
         contactEmail() {
             const ticket = this.ticket;
+            if(!ticket.created_by) return undefined;
             if (ticket.created_by.details) {
                 if (ticket.created_by.details.email) {
                     return ticket.created_by.details.email;
@@ -443,6 +444,7 @@ export default {
         },
         contactPhone() {
             const ticket = this.ticket;
+            if(!ticket.created_by) return undefined;
             if (ticket.created_by.details) {
                 if (ticket.created_by.details.phone) {
                     return (
@@ -477,7 +479,7 @@ export default {
                 });
         },
         ratingDetail(event) {
-            let creator = 'User';
+            let creator = 'Staff';
             let final = '';
             if (event.created_by) {
                 creator =
@@ -508,10 +510,12 @@ export default {
         },
         diffDetail(event) {
             let history =
-                event.created_by.first_name +
-                ' ' +
-                event.created_by.last_name +
-                ' ';
+                event.created_by
+                ? event.created_by.first_name +
+                  ' ' +
+                  event.created_by.last_name +
+                  ' '
+                : 'Staff';
             const date = ' at ' + this.readableDate(new Date(event.createdAt));
             let additions = 0;
 
@@ -669,10 +673,12 @@ export default {
         },
         logDetail(event) {
             let history =
-                event.created_by.first_name +
-                ' ' +
-                event.created_by.last_name +
-                ' ';
+                event.created_by
+                ? event.created_by.first_name +
+                  ' ' +
+                  event.created_by.last_name +
+                  ' '
+                : 'Staff';
             const date = ' at ' + this.readableDate(new Date(event.createdAt));
             let additions = 0;
 

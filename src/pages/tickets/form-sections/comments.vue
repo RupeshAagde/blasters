@@ -98,7 +98,7 @@ export default {
             }
         },
         commentInfo(event) {
-            let creator = 'User';
+            let creator = 'Staff';
             let final = '';
             if (event.created_by) {
                 let selfUserID = this.userdata.user._id;
