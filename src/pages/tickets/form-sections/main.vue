@@ -479,7 +479,7 @@ export default {
                 });
         },
         ratingDetail(event) {
-            let creator = 'Staff';
+            let creator = 'Staff ';
             let final = '';
             if (event.created_by) {
                 creator =
@@ -515,7 +515,7 @@ export default {
                   ' ' +
                   event.created_by.last_name +
                   ' '
-                : 'Staff';
+                : 'Staff ';
             const date = ' at ' + this.readableDate(new Date(event.createdAt));
             let additions = 0;
 
@@ -678,7 +678,7 @@ export default {
                   ' ' +
                   event.created_by.last_name +
                   ' '
-                : 'Staff';
+                : 'Staff ';
             const date = ' at ' + this.readableDate(new Date(event.createdAt));
             let additions = 0;
 
