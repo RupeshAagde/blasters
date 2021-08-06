@@ -3,7 +3,7 @@
         <nitrozen-checkbox
             :value="verified"
             :checkboxValue="checked"
-            class="nt-checkbox"
+            class="nt-checkbox, checkbox-align"
             @change="$emit('change', {key: name, value})"
         ></nitrozen-checkbox>
         <div class="block">
@@ -42,6 +42,9 @@
 }
 .hidden {
     visibility: hidden;
+}
+.checkbox-align {
+    margin-top: 30px;
 }
 </style>
 <script>

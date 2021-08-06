@@ -3,12 +3,10 @@
         <div class="size-guide-dropdown">
             <div class="dropdown-cls mt-sm verify-block ">
                 <nitrozen-checkbox
-                    :disabled="displayCheck('size_guide')"
-                    :class="displayCheck('size_guide') ? 'hidden':''"
                     :checkboxValue="rejectedFields.size_guide"
                     :value="rejectedFields.size_guide ? false:true"
                     id="rejectedFields.size_guide"
-                    class="nt-checkbox"
+                    class="nt-checkbox, checkbox-align"
                     @change="emitVerify('size_guide', size_guide)"
                 >
                 </nitrozen-checkbox>
@@ -45,10 +43,6 @@
         width: 100%;
     }
 }
-.hidden {
-    visibility: hidden;
-}
-
 .verify-block {
     display: flex;
 
@@ -56,6 +50,9 @@
         display: block;
         width: 100%;
     }
+}
+.checkbox-align {
+    margin-top: 30px;
 }
 </style>
 
@@ -103,12 +100,6 @@ export default {
         companyId: {
             type: String
         },
-        all_required_fields: {
-            type: Array,
-            default: () => {
-                return []
-            }
-        },
         rejectedFields: {
             type: Object,
             default: () => {return {}}
@@ -145,9 +136,6 @@ export default {
         },
         mapNameTag(obj) {
             return { text: obj.name, value: obj.tag, active: obj.active };
-        },
-        displayCheck(fieldName){
-            return !(this.all_required_fields.includes(fieldName))
         },
         fetchSizeGuide(obj, set = false) {
             if (this.companyId  < 1) {

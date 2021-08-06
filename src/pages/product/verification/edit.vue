@@ -137,7 +137,7 @@
                                         )
                                     "
                                     id="rejectedFields.no_of_boxes"
-                                    class="nt-checkbox"
+                                    class="nt-checkbox, checkbox-aligner-small"
                                     @change="
                                         updateVerifiedList({
                                             key: 'highlights',
@@ -203,12 +203,12 @@
                             {{ errMsgRequired }}
                         </nitrozen-error>
                         <div class="input-quantity">
-                            <div class="mt-sm verify-block">
+                            <div class="mt-sm mr-md verify-block">
                                 <nitrozen-checkbox
                                     :value="isCheckboxSelected(rejectedFields.minimum)"
                                     :checkboxValue="rejectedFields.minimum"
                                     id="rejectedFields.no_of_boxes"
-                                    class="nt-checkbox"
+                                    class="nt-checkbox, checkbox-align"
                                     @change="updateVerifiedList({key: 'minimum', value: minimum.value})"
                                 >
                                 </nitrozen-checkbox>
@@ -216,6 +216,8 @@
                                     <nitrozen-input
                                         disabled
                                         label="Minimum"
+                                        :showTooltip="true"
+                                        tooltipText="Minimum"
                                         type="number"
                                         :required="true"
                                         placeholder="1"
@@ -230,7 +232,7 @@
                                     :value="isCheckboxSelected(rejectedFields.maximum)"
                                     :checkboxValue="rejectedFields.maximum"
                                     id="rejectedFields.no_of_boxes"
-                                    class="nt-checkbox"
+                                    class="nt-checkbox, checkbox-align"
                                     @change="updateVerifiedList({key: 'maximum',value: maximum.value})"
                                 >
                                 </nitrozen-checkbox>
@@ -258,7 +260,7 @@
                                 :value="isCheckboxSelected(rejectedFields.tags)"
                                 :checkboxValue="rejectedFields.tags"
                                 id="rejectedFields.tags"
-                                class="nt-checkbox"
+                                class="nt-checkbox, checkbox-align"
                                 @change="updateVerifiedList({key: 'tags',value: tags})"
                             >
                             </nitrozen-checkbox>
@@ -297,7 +299,7 @@
                                                 :value="isCheckboxSelected(rejectedFields.manufacturing_time)"
                                                 :checkboxValue="rejectedFields.manufacturing_time"
                                                 id="rejectedFields.manufacturing_time"
-                                                class="nt-checkbox"
+                                                class="nt-checkbox, checkbox-aligner-small"
                                                 @change="updateVerifiedList({key: 'manufacturing_time',value: manufacturing_time})"
                                             >
                                             </nitrozen-checkbox>
@@ -322,7 +324,7 @@
                                                     rejectedFields.manufacturing_time_unit
                                                 "
                                                 id="rejectedFields.manufacturing_time_unit"
-                                                class="nt-checkbox"
+                                                class="nt-checkbox, checkbox-aligner-small"
                                                 @change="
                                                     updateVerifiedList({
                                                         key: 'manufacturing_time_unit',
@@ -366,7 +368,7 @@
                                                 :value="isCheckboxSelected(rejectedFields.return_time)"
                                                 :checkboxValue="rejectedFields.return_time"
                                                 id="rejectedFields.return_time"
-                                                class="nt-checkbox"
+                                                class="nt-checkbox, checkbox-aligner-small"
                                                 @change="updateVerifiedList({key: 'return_time',value: return_time})"
                                             >
                                             </nitrozen-checkbox>
@@ -391,7 +393,7 @@
                                                     rejectedFields.return_time_unit
                                                 "
                                                 id="rejectedFields.return_time_unit"
-                                                class="nt-checkbox"
+                                                class="nt-checkbox, checkbox-aligner-small"
                                                 @change="
                                                     updateVerifiedList({
                                                         key: 'return_time_unit',
@@ -431,7 +433,7 @@
                                             rejectedFields.trader_type
                                         "
                                         id="rejectedFields.trader_type"
-                                        class="nt-checkbox"
+                                        class="nt-checkbox, checkbox-align"
                                         @change="
                                             updateVerifiedList({
                                                 key: 'trader_type',
@@ -463,7 +465,7 @@
                                             rejectedFields.trader_name
                                         "
                                         id="rejectedFields.trader_name"
-                                        class="nt-checkbox"
+                                        class="nt-checkbox, , checkbox-align"
                                         @change="
                                             updateVerifiedList({
                                                 key: 'trader_name',
@@ -495,7 +497,7 @@
                                             rejectedFields.trader_address
                                         "
                                         id="rejectedFields.trader_address"
-                                        class="nt-checkbox"
+                                        class="nt-checkbox, checkbox-align"
                                         @change="
                                             updateVerifiedList({
                                                 key: 'trader_address',
@@ -984,6 +986,12 @@
     @media @mobile {
         display: block;
     }
+}
+.checkbox-align {
+    margin-top: 30px;
+}
+.checkbox-aligner-small {
+    margin-top: 10px;
 }
 </style>
 <script type="text/javascript">
