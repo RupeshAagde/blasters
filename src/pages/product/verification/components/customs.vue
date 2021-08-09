@@ -13,7 +13,7 @@
                     :value="rejectedFields.country_of_origin ? false :  true"
                     :checkboxValue="rejectedFields.country_of_origin"
                     id="rejectedFields.country_of_origin"
-                    class="nt-checkbox"
+                    class="nt-checkbox, checkbox-align"
                     @change="$emit('trigger-verify', {'key': 'country_of_origin', value: country_of_origin.value})"
                  >
                 </nitrozen-checkbox>
@@ -22,6 +22,8 @@
                         disabled
                         label="Country of Origin *"
                         placeholder="Choose Country"
+                        :showTooltip="true"
+                        tooltipText="Country of Origin"
                         v-model="country_of_origin.value"
                     ></nitrozen-input>
                     <nitrozen-error v-if="rejectedFields.country_of_origin">
@@ -36,7 +38,7 @@
                     :value="rejectedFields.hsn_code ? false :  true"
                     :checkboxValue="rejectedFields.hsn_code"
                     id="rejectedFields.hsn_code"
-                    class="nt-checkbox"
+                    class="nt-checkbox, checkbox-align"
                     @change="$emit('trigger-verify', {'key': 'hsn_code', value: hsn_code.value})"
                 >
                 </nitrozen-checkbox>
@@ -45,6 +47,8 @@
                         disabled
                         label="HS/HSN Code *"
                         placeholder="Choose HSN code"
+                        :showTooltip="true"
+                        tooltipText="HS/HSN Code"
                         v-model="hsn_code.value"
                     ></nitrozen-input>
                     <nitrozen-error v-if="rejectedFields.hsn_code">
@@ -84,6 +88,9 @@
 }
 .hidden {
     visibility: hidden;
+}
+.checkbox-align {
+    margin-top: 30px;
 }
 
 </style>

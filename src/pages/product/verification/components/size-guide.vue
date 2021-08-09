@@ -1,30 +1,76 @@
 <template>
-    <div class="size-guide">
+    <div class="size-guide" v-if="sizeGuideLoaded">
+        <nitrozen-error v-if="rejectedFields.size_guide">
+                {{ errMsgRequired }}
+        </nitrozen-error>
         <div class="size-guide-dropdown">
             <div class="dropdown-cls mt-sm verify-block ">
                 <nitrozen-checkbox
-                    :disabled="displayCheck('size_guide')"
-                    :class="displayCheck('size_guide') ? 'hidden':''"
                     :checkboxValue="rejectedFields.size_guide"
-                    :value="rejectedFields.size_guide ? false:true"
+                    :value="isCheckboxSelected(rejectedFields.size_guide)"
                     id="rejectedFields.size_guide"
-                    class="nt-checkbox"
+                    class="nt-checkbox, checkbox-align"
                     @change="emitVerify('size_guide', size_guide)"
                 >
                 </nitrozen-checkbox>
-                <nitrozen-input
+                <!-- <nitrozen-input
                     disabled
                     label="Size Guide Name"
                     v-model="size_guide"
                 >
-                </nitrozen-input>
+                </nitrozen-input> -->
+                <nitrozen-dropdown
+                    disabled
+                    label="Size Guide Name"
+                    placeholder="Choose size guide"
+                    :items="sizeGuideList"
+                    v-model="size_guide"
+                    autocomplete="off"
+                    :searchable="true"
+                    @searchInputChange="searchSizeGuide"
+                >
+                    <template slot="option" slot-scope="slotProps">
+                        <div
+                            class="custom-size-guide-dropdown"
+                            :class="{ selected: slotProps.selected }"
+                        >
+                            <div class="text">
+                                {{ slotProps.item.text }}
+                            </div>
+                            <nitrozen-badge
+                                :state="
+                                    slotProps.item.active ? 'success' : 'error'
+                                "
+                            >
+                                {{
+                                    slotProps.item.active
+                                        ? 'Active'
+                                        : 'InActive'
+                                }}
+                            </nitrozen-badge>
+                        </div>
+                    </template>
+                </nitrozen-dropdown>
             </div>
         </div>
+        <div class="add-size-guide">
+
+            <div v-if="size_guide" class="preview-cls alignLeft">
+                <div class="cl-RoyalBlue darker-xxs" @click="openPreview">
+                    Preview
+                </div>
+            </div>
+        </div>
+        <SizeGuidePreview ref="size-guide-preview"></SizeGuidePreview>    
     </div>
 </template>
 
 <style lang="less" scoped>
 
+.alignLeft {
+    float: left;
+    cursor: pointer;
+}
 .size-guide {
     margin-bottom: 12px;
     .size-guide-dropdown {
@@ -36,7 +82,26 @@
             width: 100%;
         }
     }
+    .add-size-guide {
+        width: 100%;
+        justify-content: flex-end;
+        line-height: 22px;
+        margin: 5px 0px;
+    }
 }
+.custom-size-guide-dropdown {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px;
+    &.selected {
+        color: @White;
+        background-color: @RoyalBlue;
+    }
+}
+.preview-cls {
+            margin-left: 30px;
+            cursor: pointer;
+        }
 
 .mt-sm {
     margin-top: 10px;
@@ -45,10 +110,6 @@
         width: 100%;
     }
 }
-.hidden {
-    visibility: hidden;
-}
-
 .verify-block {
     display: flex;
 
@@ -57,26 +118,33 @@
         width: 100%;
     }
 }
+.checkbox-align {
+    margin-top: 30px;
+}
 </style>
 
 <script>
 import UktInlineSvg from '@/components/common/ukt-inline-svg';
 import CompanyService from '../../../../services/company-admin.service';
+import SizeGuidePreview from './size-guide-preview.vue';
 import {
     NitrozenError,
     NitrozenButton,
     NitrozenBadge,
     NitrozenInput,
-    NitrozenCheckBox
+    NitrozenCheckBox,
+    NitrozenDropdown
 } from '@gofynd/nitrozen-vue';
 
 export default {
     name: 'ProductSizeGuide',
     components: {
         UktInlineSvg,
+        NitrozenDropdown,
         NitrozenError,
         NitrozenButton,
         NitrozenBadge,
+        SizeGuidePreview,
         'nitrozen-input': NitrozenInput,
         'nitrozen-checkbox': NitrozenCheckBox,
     },
@@ -88,6 +156,7 @@ export default {
             sizeGuideList: [],
             size_guide: '',
             sizeGuideLoaded: false,
+            errMsgRequired: "This field is not verified"
         };
     },
     props: {
@@ -102,12 +171,6 @@ export default {
         },
         companyId: {
             type: String
-        },
-        all_required_fields: {
-            type: Array,
-            default: () => {
-                return []
-            }
         },
         rejectedFields: {
             type: Object,
@@ -146,8 +209,15 @@ export default {
         mapNameTag(obj) {
             return { text: obj.name, value: obj.tag, active: obj.active };
         },
-        displayCheck(fieldName){
-            return !(this.all_required_fields.includes(fieldName))
+        searchSizeGuide(e) {
+            if (e.text) {
+                var obj = {  company_id: this.companyId, brand_id: this.brandId, q: e.text };
+                this.fetchSizeGuide(obj);
+            } else {
+                this.size_guide = '';
+                var obj = {  company_id: this.companyId, brand_id: this.brandId };
+                this.fetchSizeGuide(obj);
+            }
         },
         fetchSizeGuide(obj, set = false) {
             if (this.companyId  < 1) {
@@ -170,6 +240,34 @@ export default {
                 .catch(err => {
                     console.error(err);
                 });
+        },
+        openPreview() {
+            if (!this.size_guide) {
+                this.$snackbar.global.showError(
+                    'To preview please select a particular size guide'
+                );
+                return;
+            }
+            let size_guide_meta = '';
+            this.fullSizeGuideMeta.forEach(ele => {
+                if (ele.tag === this.size_guide) {
+                    size_guide_meta = ele;
+                }
+            });
+            if (!size_guide_meta) {
+                this.$snackbar.global.showError('No Preview found!');
+                return;
+            }
+            this.$refs['size-guide-preview'].open(
+                this.size_guide,
+                size_guide_meta
+            );
+        },
+        isCheckboxSelected(value, optional = null) {
+            if (Array.isArray(value)) {
+                return !value.includes(optional);
+            }
+            return value ? false : true;
         },
         addSizeGuideIfAbsent(tag){
             if (this.companyId  < 1) {
