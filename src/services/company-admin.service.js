@@ -204,9 +204,14 @@ const CompanyService = {
         let axiosOption = Object.assign({}, { data }, getCommonHeaderOptions());
         return ApiService.put(URLS.PRODUCT_TEMPLATES(slug), axiosOption);
     },
-
-    fetchDepartments() {
-        return ApiService.get(URLS.DEPARTMENT(), {});
+    fetchDepartments(params) {
+        let axiosOption = Object.assign(
+            {
+                params
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.DEPARTMENT(), axiosOption);
     },
     fetchUnits() {
         return ApiService.get(URLS.UNITS(), {});

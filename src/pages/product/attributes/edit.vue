@@ -581,7 +581,11 @@ export default {
         },
         fetchDepartments() {
             return new Promise((resolve, reject) => {
-                CompanyService.fetchDepartments()
+                const query = {
+                    "page_size":9999,
+                    "page_no":1,
+                }
+                CompanyService.fetchDepartments(query)
                     .then(({ data }) => {
                         this.departments = data.items;
                         return resolve();

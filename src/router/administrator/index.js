@@ -1,5 +1,6 @@
 import AdministratorBaseViewVue from './../../pages/administrator/baseview.vue';
 import PlanCreator from './plan-creator';
+import ExtensionRoutes from './extension';
 import CompanyListVue from './../../pages/company-admin/company-list.vue';
 import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
 import BillingVue from './../../pages/company-admin/billing.vue';
@@ -8,6 +9,7 @@ import UserManagementVue from './../../pages/super-user/user-access.vue';
 import AddSuperUserVue from './../../pages/super-user/add-user.vue';
 import Tickets from './../../pages/tickets/index.vue';
 import CreateTicket from './../../pages/tickets/create-ticket.vue';
+import VideoRoom from './../../pages/tickets/video-call/video-room.vue';
 import AddCategory from './../../pages/tickets/add-category.vue';
 import SettingsVue from './../../pages/settings';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details';
@@ -41,7 +43,8 @@ export default [
         beforeEnter: authenticatedUser,
         component: AdministratorBaseViewVue,
         children: [
-            //...PlanCreatorRoutes
+            //...PlanCreatorRoutes,
+            ...ExtensionRoutes,
             {
                 name: 'company-list',
                 path: 'company-list',
@@ -125,6 +128,14 @@ export default [
                 name: 'support-edit',
                 path: 'support/ticket/:ticket_id/edit',
                 component: CreateTicket,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'support-video',
+                path: 'support/ticket/:ticket_id/video-room',
+                component: VideoRoom,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['support']);
                 }

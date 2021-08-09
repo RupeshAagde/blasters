@@ -427,7 +427,6 @@ export default {
                     this.totalApp = res.data.total;
                     this.mainList = res.data.docs;
                     this.applicationList = res.data.items;
-                    console.log("application list",this.applicationList)
                 })
                 .catch((error) => {
                     this.inProgress = false;

@@ -297,11 +297,17 @@ const URLS = {
     FETCH_INVOICE_LISTING: () => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/listing`)
     },
+    CHARGE_INVOICE: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/charge-invoice`);
+    },
     FETCH_INVOICE_DETAILS: (id) => {
-        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/${id}`)
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/${id}`);
     },
     UPDATE_OFFLINE_PAYMENT: (id) => {
-        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/mark-offline-paid/${id}`)
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/mark-offline-paid/${id}`);
+    },
+    VOID_INVOICE: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/void-invoice`);
     },
     SUBSCRIPTION_DOWNLOAD_INVOICE: (id,company_id='') => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice`, id, 'pdf');
@@ -317,13 +323,16 @@ const URLS = {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/subscription/current`);
     },
     SUBSCRIPTION_MAX_APPLICATION_LIMIT: (company_id) => {
-        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}}/subscription/current-limit`);
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/subscription/current-limit`);
     },
     SUBSCRIPTION_GET_PLAN_DETAILS_BY_ID: (plan_id) => {
         return urlJoin(UNICRON_PUBLIC_URL, '/v1.0/plan/details', plan_id);
     },
     SUBSCRIPTION_UPDATE_BY_ID: (company_id,subscription_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/${subscription_id}`)
+    },
+    SUBSCRIPTION_CANCEL: (company_id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/cancel`)
     },
 
     //#########Tickets########
@@ -338,6 +347,13 @@ const URLS = {
         );
     },
 
+    FETCH_FEEDBACK: (ticket_id) => {
+        return urlJoin(
+            PLATFORM_LEADS_BASE,
+            `v1.0/ticket/${ticket_id}/feedback`
+        );
+    },
+
     ADD_COMMENT: (ticket_id) => {
         return urlJoin(
             PLATFORM_LEADS_BASE,
@@ -346,16 +362,18 @@ const URLS = {
     },
 
     CREATE_VIDEO_ROOM: () => {
-        return urlJoin(PLATFORM_LEADS_BASE, `video/v1.0/room`);
+        return urlJoin(PLATFORM_LEADS_BASE, `v1.0/video/room`);
     },
 
     GET_VIDEO_ROOM_TOKEN: (unique_name) => {
         return urlJoin(
             PLATFORM_LEADS_BASE,
-            `video/v1.0/room/${unique_name}/token`
+            `v1.0/video/room/${unique_name}/token`
         );
     },
-
+    GET_VIDEO_PARTICIPANTS:(ticket_id) => {
+        return urlJoin(PLATFORM_LEADS_BASE, `v1.0/video/room/${ticket_id}/participants`);
+    },
     FETCH_TICKET: (ticket_id) => {
         return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket/${ticket_id}`);
     },
@@ -396,6 +414,10 @@ const URLS = {
             PLATFORM_ASSETS_ADMIN,
             `v1.0/namespaces/${namespace}/browse/`
         );
+    },
+    GET_PUBLIC_URL: (companyId) => {
+        let urlPath = `/v1.0/sign-urls/`
+        return urlJoin(PLATFORM_ASSETS_ADMIN, urlPath);
     },
     GRINDOR_UPLOAD_START: (namespace) => {
         return urlJoin(
