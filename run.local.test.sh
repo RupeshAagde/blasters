@@ -52,6 +52,7 @@ export SILVERBOLT_ACPR_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/admin
 export SILVERBOLT_ACAT_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/catalog/
 export SILVERBOLT_PCPR_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/company-profile/
 export SILVERBOLT_PNLCPR_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/panel/company-profile/
+export SILVERBOLT_PCAT_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/catalog
 
 #ENV's
 export SENTRY_DSN=''
