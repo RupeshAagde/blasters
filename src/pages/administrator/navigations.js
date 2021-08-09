@@ -70,15 +70,15 @@ export const getNavigations = () => {
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
-                },
-                {
-                    display: 'Verification',
-                    link: '/administrator/product/verification',
-                    title: 'verification',
-                    icon: 'home',
-                    highlightedIcon: 'home-highlighted',
-                    active: false
                 }
+                // {
+                //     display: 'Verification',
+                //     link: '/administrator/product/verification',
+                //     title: 'verification',
+                //     icon: 'home',
+                //     highlightedIcon: 'home-highlighted',
+                //     active: false
+                // }
             ]
         },
         {
