@@ -1,10 +1,13 @@
 <template>
     <div class="size-guide" v-if="sizeGuideLoaded">
+        <nitrozen-error v-if="rejectedFields.size_guide">
+                {{ errMsgRequired }}
+        </nitrozen-error>
         <div class="size-guide-dropdown">
             <div class="dropdown-cls mt-sm verify-block ">
                 <nitrozen-checkbox
                     :checkboxValue="rejectedFields.size_guide"
-                    :value="rejectedFields.size_guide ? false:true"
+                    :value="isCheckboxSelected(rejectedFields.size_guide)"
                     id="rejectedFields.size_guide"
                     class="nt-checkbox, checkbox-align"
                     @change="emitVerify('size_guide', size_guide)"
@@ -153,6 +156,7 @@ export default {
             sizeGuideList: [],
             size_guide: '',
             sizeGuideLoaded: false,
+            errMsgRequired: "This field is not verified"
         };
     },
     props: {
@@ -258,6 +262,12 @@ export default {
                 this.size_guide,
                 size_guide_meta
             );
+        },
+        isCheckboxSelected(value, optional = null) {
+            if (Array.isArray(value)) {
+                return !value.includes(optional);
+            }
+            return value ? false : true;
         },
         addSizeGuideIfAbsent(tag){
             if (this.companyId  < 1) {
