@@ -316,27 +316,7 @@ export default {
             this.allCategories.unshift(data);
             this.newCategory = '';
 
-            this.cat_slug = this.allCategories[0].key;
-            this.cat_name = this.allCategories[0].display;
-
-            let selectedForm = this.allCategories[0].feedback_form;
-            if (selectedForm) {
-                this.formSchema.inputs = selectedForm.inputs || [];
-                this.formSchema.title = selectedForm.title || 'Feedback Form';
-            } else {
-                this.formSchema.inputs = [];
-                this.formSchema.title = 'Feedback Form';
-            }
-
-            let selectedConfig = this.allCategories[0].freshdesk_config;
-            if (selectedConfig) {
-                this.freshDeskConfig.sync_enabled = selectedConfig.sync_enabled;
-                this.freshDeskConfig.group_id = selectedConfig.group_id;
-            } else {
-                this.freshDeskConfig.sync_enabled = false;
-                this.freshDeskConfig.group_id = undefined;
-            }
-            
+            this.updateDataForCategory(0);
             this.editCategory(data.slugifiedKey, 0);
             this.isUpdated = true;
         },
@@ -351,26 +331,7 @@ export default {
             }
             this.allCategories.splice(index, 1);
 
-            this.cat_slug = this.allCategories[index].key;
-            this.cat_name = this.allCategories[index].display;
-            
-            let selectedForm = this.allCategories[index].feedback_form;
-            if (selectedForm) {
-                this.formSchema.inputs = selectedForm.inputs || [];
-                this.formSchema.title = selectedForm.title || 'Feedback Form';
-            } else {
-                this.formSchema.inputs = [];
-                this.formSchema.title = 'Feedback Form';
-            }
-
-            let selectedConfig = this.allCategories[index].freshdesk_config;
-            if (selectedConfig) {
-                this.freshDeskConfig.sync_enabled = selectedConfig.sync_enabled;
-                this.freshDeskConfig.group_id = selectedConfig.group_id;
-            } else {
-                this.freshDeskConfig.sync_enabled = false;
-                this.freshDeskConfig.group_id = undefined;
-            }
+            if(this.allCategories.length > index)   this.updateDataForCategory(index);
             this.isUpdated = true;
         },
         editCategory(key, index, event) {
@@ -382,26 +343,7 @@ export default {
             this.editingCatKey = key;
             this.chipInput = '';
 
-            this.cat_slug = this.allCategories[index].key;
-            this.cat_name = this.allCategories[index].display;
-            
-            let selectedForm = this.allCategories[index].feedback_form;
-            if (selectedForm) {
-                this.formSchema.inputs = selectedForm.inputs || [];
-                this.formSchema.title = selectedForm.title || 'Feedback Form';
-            } else {
-                this.formSchema.inputs = [];
-                this.formSchema.title = 'Feedback Form';
-            }
-
-            let selectedConfig = this.allCategories[index].freshdesk_config;
-            if (selectedConfig) {
-                this.freshDeskConfig.sync_enabled = selectedConfig.sync_enabled;
-                this.freshDeskConfig.group_id = selectedConfig.group_id;
-            } else {
-                this.freshDeskConfig.sync_enabled = false;
-                this.freshDeskConfig.group_id = undefined;
-            }
+            this.updateDataForCategory(index);
             setTimeout(() => {
                 if (this.$refs['categoryFeedbackForm'] && this.$refs['categoryFeedbackForm'].length > 0) {
                     this.$refs['categoryFeedbackForm'][0].populateData();
@@ -549,6 +491,28 @@ export default {
             this.allCategories[index].sub_categories.push(data);
             this.chipInput = '';
             this.isUpdated = true;
+        },
+        updateDataForCategory(index){
+            this.cat_slug = this.allCategories[index].key;
+            this.cat_name = this.allCategories[index].display;
+
+            let selectedForm = this.allCategories[index].feedback_form;
+            if (selectedForm) {
+                this.formSchema.inputs = selectedForm.inputs || [];
+                this.formSchema.title = selectedForm.title || 'Feedback Form';
+            } else {
+                this.formSchema.inputs = [];
+                this.formSchema.title = 'Feedback Form';
+            }
+
+            let selectedConfig = this.allCategories[index].freshdesk_config;
+            if (selectedConfig) {
+                this.freshDeskConfig.sync_enabled = selectedConfig.sync_enabled;
+                this.freshDeskConfig.group_id = selectedConfig.group_id;
+            } else {
+                this.freshDeskConfig.sync_enabled = false;
+                this.freshDeskConfig.group_id = undefined;
+            }
         }
     }
 };
