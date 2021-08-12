@@ -40,4 +40,22 @@ describe('Ticket Category Page', () => {
         await new Promise(resolve => setTimeout(resolve, 10));
         expect(wrapper.findAllComponents({name: "add-category"}).length).toBe(1);
     })
+
+    it('test categories edit a category', async () => {
+        const router = new VueRouter({
+            routes: [
+                { path: '/administrator/support/add-category', component: ticketCategory }
+            ]
+        })
+        router.push('/administrator/support/add-category');
+        const wrapper = mount(ticketCategory, {
+            localVue,
+            router
+        })
+        
+        wrapper.setData({ systemStatus: false})
+        expect(wrapper.find(".category-details")).toBeTruthy()
+        expect(wrapper.find(".feedback-form")).toBeTruthy()
+        expect(wrapper.find(".freshdesk-config")).toBeTruthy()
+    })
 })
