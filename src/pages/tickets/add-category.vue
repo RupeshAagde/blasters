@@ -384,7 +384,7 @@ export default {
             });
         },
         addFeedbackForm(index, event) {
-            event.preventDefault();
+            if(event)   event.preventDefault();
             let inputs = [];
             if (this.$refs['categoryFeedbackForm'] && this.$refs['categoryFeedbackForm'].length > 0) {
                 inputs = this.$refs['categoryFeedbackForm'][0].getJSON() || [];
@@ -413,7 +413,7 @@ export default {
             return (!str || !isNaN(str) || (parseInt(str) == str))
         },
         addFreshDeskConfig(index, event) {
-            event.preventDefault();
+            if(event)   event.preventDefault();
             if (this.freshDeskConfig.sync_enabled) {
                 if (!this.freshDeskConfig.group_id || !this.validNumber(this.freshDeskConfig.group_id)) {
                     this.$snackbar.global.showError('Group ID must not be empty and number');

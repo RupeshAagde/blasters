@@ -53,9 +53,43 @@ describe('Ticket Category Page', () => {
             router
         })
         
-        wrapper.setData({ systemStatus: false})
-        expect(wrapper.find(".category-details")).toBeTruthy()
-        expect(wrapper.find(".feedback-form")).toBeTruthy()
-        expect(wrapper.find(".freshdesk-config")).toBeTruthy()
+        const mockCategoryData = {"items":[{"_id":"6114cac4ca9929529fa7bd9f","key":"order","display":"Order","sub_categories":[],"__v":0,"feedback_form":{"inputs":[{"type":"text","showRegexInput":false,"enum":[],"display":"How was the service?","key":"how-was-the-service","required":true}],"title":"Feedback form"}},{"_id":"6114c5d2ca9929c665a7bd9b","key":"product","display":"Product","sub_categories":[],"__v":0},{"_id":"611416d645620b7633c86c5d","key":"test","display":"Test","sub_categories":[],"__v":0}]};
+        mock.onGet(ADMIN_URLS.FETCH_CATEGORIES()).reply(200, mockCategoryData);
+        await new Promise(resolve => setTimeout(resolve, 10));
+
+        wrapper.setData({ cat_name: "updated one" });
+        wrapper.setData({ cat_slug: "updated-key" });
+        wrapper.setData({ freshDeskConfig : {
+            group_id: "1245124521", 
+            sync_enabled: true
+            } 
+        });
+        wrapper.setData({ formSchema: { 
+            title: 'Feedback Form', 
+            inputs: [
+                        {
+                            "type": "text",
+                            "showRegexInput": false,
+                            "enum": [],
+                            "display": "How was the service?",
+                            "key": "how-was-the-service",
+                            "required": true
+                        }
+                    ] 
+            } 
+        });
+
+        wrapper.vm.saveAllField(0)
+        await new Promise(resolve => setTimeout(resolve, 10));
+
+        expect(wrapper.text()).toContain("updated one");
+
+        wrapper.setData({ editingCatIdx: 0})
+        await new Promise(resolve => setTimeout(resolve, 10));
+
+        expect(wrapper.findAll('.category-details').length).toBe(1);
+        expect(wrapper.findAll('.feedback-form').length).toBe(1);
+        expect(wrapper.findAll('.freshdesk-config').length).toBe(1);
+
     })
 })
