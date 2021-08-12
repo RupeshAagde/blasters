@@ -536,12 +536,11 @@ export default {
             const { id } = product
             const query = {
                     "template": template_tag,
-                    uid,
                     id
                 };
             if (uid) {
                 this.$router.push({
-                    path: `/administrator/product/verification/${this.companyId}/products/edit/${item_code}`,
+                    path: `/administrator/product/verification/${this.companyId}/products/edit/${uid}`,
                     query,
                 });
             }

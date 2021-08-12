@@ -3,13 +3,14 @@
         <div class="container">
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
-                    :value="rejected_fields.item_type ? false :  true"
+                    :value="rejected_fields.item_type ? false : true"
                     :checkboxValue="rejected_fields.item_type"
                     id="rejected_fields.item_type"
                     class="nt-checkbox, checkbox-align"
                     @change="emitVerify('item_type', item_type)"
                 >
                 </nitrozen-checkbox>
+                
                 <div class="block">
                     <nitrozen-input
                         label="Type *"
@@ -24,8 +25,7 @@
                     </nitrozen-error>
                 </div>
             </div>
-            <div class="mt-sm">
-            </div>
+            <div class="mt-sm"></div>
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
                     :value="rejected_fields.departments ? false : true"
@@ -49,8 +49,6 @@
                         {{ errMsgRequired }}
                     </nitrozen-error>
                 </div>
-                
-                
             </div>
             <div class="mt-sm verify-block">
                 <nitrozen-checkbox
@@ -74,7 +72,6 @@
                         {{ errMsgRequired }}
                     </nitrozen-error>
                 </div>
-                
             </div>
             <!-- Name -->
             <div class="mt-sm verify-block">
@@ -111,7 +108,7 @@
                 >
                 </nitrozen-checkbox>
                 <div class="block">
-                     <nitrozen-input
+                    <nitrozen-input
                         label="Slug"
                         placeholder="For eg. black-casual-shirt"
                         :showTooltip="true"
@@ -170,19 +167,18 @@
                         {{ errMsgRequired }}
                     </nitrozen-error>
                 </div>
-                
             </div>
         </div>
         <div class="header">
             <div class="container teaser">
                 <div class="mt-sm verify-block">
                     <nitrozen-checkbox
-                    :value="isCheckboxSelected(rejected_fields.teaser_tag)"
-                    :checkboxValue="rejected_fields.teaser_tag"
-                    id="rejected_fields.teaser_tag"
-                    class="nt-checkbox, checkbox-align "
-                    @change="emitVerify('teaser_tag', teaser.value)"
-                >
+                        :value="isCheckboxSelected(rejected_fields.teaser_tag)"
+                        :checkboxValue="rejected_fields.teaser_tag"
+                        id="rejected_fields.teaser_tag"
+                        class="nt-checkbox, checkbox-align"
+                        @change="emitVerify('teaser_tag', teaser.value)"
+                    >
                     </nitrozen-checkbox>
                     <div class="block">
                         <nitrozen-input
@@ -191,14 +187,20 @@
                             disabled
                             v-model="teaser.value"
                         ></nitrozen-input>
-                        <nitrozen-error v-show="!isCheckboxSelected(rejected_fields.teaser_tag)">
+                        <nitrozen-error
+                            v-show="
+                                !isCheckboxSelected(rejected_fields.teaser_tag)
+                            "
+                        >
                             {{ errMsgRequired }}
                         </nitrozen-error>
                     </div>
-                    
                 </div>
 
-                <div class="mt-sm verify-block" v-if="product_type.value === 'standard'">
+                <div
+                    class="mt-sm verify-block"
+                    v-if="product_type.value === 'standard'"
+                >
                     <nitrozen-checkbox
                         :value="isCheckboxSelected(rejected_fields.no_of_boxes)"
                         :checkboxValue="rejected_fields.no_of_boxes"
@@ -216,17 +218,17 @@
                             v-model="no_of_boxes.value"
                         >
                         </nitrozen-input>
-                        <nitrozen-error v-show="!isCheckboxSelected(rejected_fields.no_of_boxes)">
+                        <nitrozen-error
+                            v-show="
+                                !isCheckboxSelected(rejected_fields.no_of_boxes)
+                            "
+                        >
                             {{ errMsgRequired }}
                         </nitrozen-error>
                     </div>
-                    
                 </div>
-
             </div>
         </div>
-
-       
     </div>
 </template>
 
@@ -363,9 +365,10 @@ import {
     NitrozenInput,
     NitrozenInline,
     NitrozenDropdown,
+    NitrozenButton,
     NitrozenError,
     NitrozenTooltip,
-    NitrozenCheckBox
+    NitrozenCheckBox,
 } from '@gofynd/nitrozen-vue';
 
 export default {
@@ -378,7 +381,7 @@ export default {
         NitrozenInline,
         NitrozenDropdown,
         NitrozenError,
-        NitrozenTooltip
+        NitrozenTooltip,
     },
 
     data() {
@@ -401,90 +404,90 @@ export default {
     props: {
         editMode: {
             type: Boolean,
-            default: false
+            default: false,
         },
         product: {
             type: Object,
             default: () => {
                 return {};
-            }
+            },
         },
         globalSchema: {
             type: Object,
             default: () => {
                 return {};
-            }
+            },
         },
         brands: {
             type: Array,
             default: () => {
                 return [];
-            }
+            },
         },
         departments: {
             type: Array,
             default: () => {
                 return [];
-            }
+            },
         },
         categories: {
             type: Array,
             default: () => {
                 return [];
-            }
+            },
         },
         tags: {
             type: Array,
             default: () => {
                 return [];
-            }
+            },
         },
         product_type: {
             type: Object,
             default: () => {
                 return {
                     value: '',
-                    error: ''
+                    error: '',
                 };
-            }
+            },
         },
         no_of_boxes: {
             type: Object,
             default: () => {
                 return {
                     value: '',
-                    error: ''
+                    error: '',
                 };
-            }
+            },
         },
         rejected_fields: {
             type: Object,
             default: () => {
-                return {}
-            }
+                return {};
+            },
         },
         is_dependent: {
             type: Object,
             default: () => {
                 return {
                     value: '',
-                    error: ''
+                    error: '',
                 };
-            }
+            },
         },
         errMsgRequired: {
             type: String,
             default: () => {
-                return "This field is required to verify the product"
-            }
-        }
+                return 'This field is required to verify the product';
+            },
+        },
     },
     computed: {
         brand() {
             return this.brands.find(
-                brand => brand.brand.uid === this.brand_uid.value
+                (brand) => brand.brand.uid === this.brand_uid.value
             );
-        }
+        },
     },
     mounted() {
         this.populateForm();
@@ -494,23 +497,30 @@ export default {
         getInitialValue() {
             return {
                 value: '',
-                error: ''
+                error: '',
             };
         },
         populateForm() {
             try {
                 this.setBrandValuesList();
                 // this.setCategoryValuesList();
-                const { slug = '', name = '', item_type = '', department = '', item_code = '', teaser_tag = ''} = this.product;
+                const {
+                    slug = '',
+                    name = '',
+                    item_type = '',
+                    department = '',
+                    item_code = '',
+                    teaser_tag = '',
+                } = this.product;
 
                 this.item_type = item_type;
                 this.name.value = this.name.value || name;
                 this.slug.value = this.slug.value || slug;
                 this.department.value = this.department.value || department;
                 this.item_code.value = this.item_code.value || item_code;
-                this.teaser.value = this.teaser.value || ( teaser_tag
-                    ? this.product.teaser_tag.tag
-                    : '');
+                this.teaser.value =
+                    this.teaser.value ||
+                    (teaser_tag ? this.product.teaser_tag.tag : '');
 
                 this.brand_uid.value =
                     this.product.brand_uid ||
@@ -520,8 +530,13 @@ export default {
                     this.product.category_slug ||
                     (this.categories.length && this.categories[0].slug_key);
 
-                this.no_of_boxes.value = this.no_of_boxes.value || this.product.no_of_boxes ? this.product.no_of_boxes : 1;
-                this.is_dependent.value = this.product.is_dependent ? this.product.is_dependent : this.is_dependent.value
+                this.no_of_boxes.value =
+                    this.no_of_boxes.value || this.product.no_of_boxes
+                        ? this.product.no_of_boxes
+                        : 1;
+                this.is_dependent.value = this.product.is_dependent
+                    ? this.product.is_dependent
+                    : this.is_dependent.value;
                 this.$emit('change-category-slug', this.category_slug.value);
             } catch (err) {
                 this.$snackbar.global.showError('Something not right here');
@@ -530,7 +545,7 @@ export default {
         },
         setBrandValuesList(e = {}) {
             this.brandValuesList = [];
-            this.brands.forEach(b => {
+            this.brands.forEach((b) => {
                 if (
                     !e ||
                     !e.text ||
@@ -539,17 +554,17 @@ export default {
                     this.brandValuesList.push({
                         text: b.brand.name,
                         value: b.brand.uid,
-                        logo: b.brand.logo
+                        logo: b.brand.logo,
                     });
                 }
             });
         },
-        isCheckboxSelected(value){
-            return value ? false : true
+        isCheckboxSelected(value) {
+            return value ? false : true;
         },
         setCategoryValuesList(e = {}) {
             this.categoryValuesList = [];
-            this.categories.forEach(c => {
+            this.categories.forEach((c) => {
                 if (
                     !e ||
                     !e.text ||
@@ -557,14 +572,14 @@ export default {
                 ) {
                     this.categoryValuesList.push({
                         text: c.name,
-                        value: c.slug_key
+                        value: c.slug_key,
                     });
                 }
             });
         },
-        emitVerify(name, value){
-            this.$emit('trigger-verify', {'key': name, value})
-        }
-    }
+        emitVerify(name, value) {
+            this.$emit('trigger-verify', { key: name, value });
+        },
+    },
 };
 </script>
