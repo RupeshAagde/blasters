@@ -249,7 +249,6 @@ export default {
             fetchedSuccesfully: false,
             chipInput: '',
             editingCatIdx: null,
-            editingCatKey: null,
             formSchema: {
                 title: 'Feedback Form',
                 inputs: []
@@ -258,7 +257,7 @@ export default {
             previewModel: {},
             freshDeskConfig: {
                 sync_enabled: false,
-                group_id: undefined
+                group_id: ""
             },
             cat_slug: undefined,
             cat_name: undefined
@@ -340,7 +339,6 @@ export default {
             }
             if (this.editingCatIdx === index) return;
             this.editingCatIdx = index;
-            this.editingCatKey = key;
             this.chipInput = '';
 
             this.updateDataForCategory(index);
@@ -417,7 +415,7 @@ export default {
         addFreshDeskConfig(index, event) {
             event.preventDefault();
             if (this.freshDeskConfig.sync_enabled) {
-                if (!this.validNumber(this.freshDeskConfig.group_id)) {
+                if (!this.freshDeskConfig.group_id || !this.validNumber(this.freshDeskConfig.group_id)) {
                     this.$snackbar.global.showError('Group ID must not be empty and number');
                     return;
                 }
