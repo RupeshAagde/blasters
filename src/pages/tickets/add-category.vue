@@ -509,7 +509,7 @@ export default {
                 this.freshDeskConfig.group_id = selectedConfig.group_id;
             } else {
                 this.freshDeskConfig.sync_enabled = false;
-                this.freshDeskConfig.group_id = undefined;
+                this.freshDeskConfig.group_id = "";
             }
         }
     }
