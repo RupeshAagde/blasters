@@ -48,27 +48,21 @@
                                     class="mr-sm ml-sm"
                                     theme="secondary"
                                     v-flatBtn
-                                    @click="save((action = 'Verify'))"
+                                    @click="save('Verify')"
                                 >
                                     Verify
                                 </nitrozen-button>
 
                                 <nitrozen-button
                                     class="mr-sm ml-sm"
+                                    @click="saveWithComment"
                                     theme="secondary"
                                     v-flatBtn
                                     :disabled="isAllCheckBoxSelected"
-                                    @click="save((action = 'Reject'))"
                                 >
                                     Reject
                                 </nitrozen-button>
                             </div>
-                            <!-- <nitrozen-button
-                                class="pad-left"
-                                :theme="'secondary'"
-                                v-flatBtn
-                                @click="redirect({ platform: true })"
-                                >Edit</nitrozen-button> -->
                         </div>
                     </div>
                     <template slot="page-slot-mobile-footer">
@@ -95,13 +89,17 @@
                             <div class="base">
                                 <div class="cl-Mako bold-md">Details</div>
 
-                                <div class="button-right">
-                                    <nitrozen-button
-                                        :theme="'secondary'"
-                                        v-flatBtn
-                                        @click="redirect({ platform: true })"
-                                        >Edit</nitrozen-button
-                                    >
+                                <div class="button-right" @click="redirect({ platform: true })">
+                                        <span class="button-title">
+                                            Edit
+                                        </span>
+                                        
+                                        <adm-svg
+                                            class="window-icon"
+                                            src="open_window"
+                                            title="Edit product in new window"
+                                        ></adm-svg>
+                                    
                                 </div>
                                 <product-details
                                     ref="details"
@@ -671,21 +669,7 @@
                     </div>
                 </div>
 
-                <div class="download_section">
-                    <nitrozen-input
-                        class="input reject-input"
-                        label="Remark *"
-                        type="textarea"
-                        v-model="remark"
-                        placeholder="Add a remark"
-                    ></nitrozen-input>
-                    <nitrozen-error
-                        v-if="isRejected && !remark.length"
-                        class="error-remark"
-                    >
-                        Please fill remark
-                    </nitrozen-error>
-                </div>
+                <remark-msg :ref="'remark-msg'" @continue="save"></remark-msg>
             </div>
         </div>
     </div>
@@ -702,9 +686,9 @@
     height: 58.5px;
 }
 .button-box {
-    // .pad-left {
-    //     margin-left: 12px;
-    // }
+    .pad-left {
+        margin-left: 12px;
+    }
 }
 .label {
     color: #9b9b9b !important;
@@ -1123,11 +1107,22 @@
 }
 .button-right {
     float: right;
-    position: absolute;
-    left: 920px;
-    top: 100px;
+    position: relative;
     background: none;
     color: black;
+}
+.window-icon {
+    position: inherit;
+    height: 15px;
+    width: 15px;
+    display: inline-flex;
+    cursor: pointer;
+}
+.button-title {
+    color: #2e31be;
+    font-size: 15px;
+    position: inherit;
+    bottom: 15px;
 }
 </style>
 <script type="text/javascript">
@@ -1138,6 +1133,8 @@ import loader from '@/components/common/loader';
 import admpageheader from '@/components/common/layout/page-header';
 import uktinlinesvg from '@/components/common/ukt-inline-svg';
 import inlineSVG from '@/components/common/adm-inline-svg';
+import remarkMsgDialog from './components/remark-msg-dialog.vue';
+import admsvg from '@/components/common/adm-inline-svg.vue';
 
 import { isEmpty, toLower, cloneDeep } from 'lodash';
 
@@ -1169,6 +1166,7 @@ import {
 export default {
     name: 'verification-edit',
     components: {
+        'adm-svg': admsvg,
         NitrozenButton,
         NitrozenRadio,
         NitrozenInput,
@@ -1192,6 +1190,7 @@ export default {
         'ukt-inline-svg': uktinlinesvg,
         'dynamic-attributes': DynamicAttributes,
         'inline-svg': inlineSVG,
+        'remark-msg': remarkMsgDialog,
         media: Media,
         loader,
     },
@@ -1556,7 +1555,14 @@ export default {
                 }
             }
         },
-        async save(action) {
+        saveWithComment() {
+            if (!this.verificationDetails) {
+                this.$snackbar.global.showError('Invalid data');
+                return;
+            }
+            this.$refs['remark-msg'].open();
+        },
+        async save(action, remarkText) {
             if (action === 'Verify') {
                 // Verified
                 if (Object.keys(this.rejectedFields).length) {
@@ -1570,26 +1576,7 @@ export default {
                 this.verificationDetails['rejected_fields'] = {};
             } else if (action === 'Reject') {
                 // Rejected
-                if (!this.isRejected) {
-                    this.isRejected = true;
-                    if (this.remark.length === 0 && this.isRejected === true) {
-                        this.$snackbar.global.showError(
-                            'Please fill the remark',
-                            {
-                                duration: 2000,
-                            }
-                        );
-                        return;
-                    }
-                    return;
-                }
-                if (this.remark.length === 0 && this.isRejected === true) {
-                    this.$snackbar.global.showError('Please fill the remark', {
-                        duration: 2000,
-                    });
-                    return;
-                }
-                this.verificationDetails['remark'] = this.remark;
+                this.verificationDetails['remark'] = remarkText;
                 this.verificationDetails['rejected_fields'] =
                     this.rejectedFields;
                 this.verificationDetails.status = 'rejected';

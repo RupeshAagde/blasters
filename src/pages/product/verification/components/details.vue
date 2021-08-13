@@ -168,10 +168,7 @@
                     </nitrozen-error>
                 </div>
             </div>
-        </div>
-        <div class="header">
-            <div class="container teaser">
-                <div class="mt-sm verify-block">
+            <div class="mt-sm verify-block">
                     <nitrozen-checkbox
                         :value="isCheckboxSelected(rejected_fields.teaser_tag)"
                         :checkboxValue="rejected_fields.teaser_tag"
@@ -227,6 +224,10 @@
                         </nitrozen-error>
                     </div>
                 </div>
+        </div>
+        <div class="header">
+            <div class="container teaser">
+                
             </div>
         </div>
     </div>
