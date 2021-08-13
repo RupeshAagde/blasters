@@ -37,23 +37,26 @@
                 </nitrozen-button>
             </div>
             <div v-for="(item, index) in allCategories" v-bind:key="index">
-                <div class="category">
+                <div class="category"
+                    v-on:click="editCategory(item.key, index)"
+                >
                     <div class="category-top">
-                        <p style="flex: 1 1 auto">{{ item.display }}</p>
+                        <p v-if="editingCatIdx != index" style="flex: 1 1 auto">{{ item.display }}</p> 
+                        <nitrozen-button
+                                    v-if="editingCatIdx == index"
+                                    class="margin-left"
+                                    v-flatBtn
+                                    theme="secondary"
+                                    @click="saveAllField(index, $event)"
+                                    :showProgress="loading"
+                                >
+                                    Save Category
+                                </nitrozen-button>
                         <span
-                            v-on:click="editCategory(item.key)"
-                            v-if="item.sub_categories.length == 0"
-                            title="Add sub-categories"
-                        >
-                            <inline-svg
-                                class="svg-icon"
-                                src="plus-black"
-                            ></inline-svg>
-                        </span>
-                        <span
-                            v-on:click="editCategory(item.key)"
-                            v-else
-                            title="Edit sub-categories"
+                            class="cursor-pointer"
+                            v-on:click="editCategory(item.key, index, $event)"
+                            v-if="item.sub_categories.length != 0 || item.feedback_form || item.freshdesk_config"
+                            title="Edit sub-categories and Feedback Form"
                         >
                             <inline-svg
                                 class="svg-icon"
@@ -61,7 +64,18 @@
                             ></inline-svg>
                         </span>
                         <span
-                            v-on:click="removeCategory(index)"
+                            class="cursor-pointer"
+                            v-on:click="editCategory(item.key, index, $event)"
+                            v-else
+                            title="Add sub-categories and Feedback Form"
+                        >
+                            <inline-svg
+                                class="svg-icon"
+                                src="plus-black"
+                            ></inline-svg>
+                        </span>
+                        <span
+                            v-on:click="removeCategory(index,$event)"
                             title="Delete this category"
                         >
                             <inline-svg
@@ -70,34 +84,113 @@
                             ></inline-svg>
                         </span>
                     </div>
-                    <div
-                        class="sub-categories"
-                        v-if="item.key == editingCatKey"
-                    >
-                        <p>Sub Categories</p>
-                        <nitrozen-chips
-                            class="chip-wrapper"
-                            v-for="(option, opt_index) in item.sub_categories"
-                            :key="opt_index"
-                            >{{ option.display }}
-                            <nitrozen-inline
-                                :icon="'cross'"
-                                class="nitrozen-icon"
-                                v-on:click="removeChip(index, opt_index)"
-                            ></nitrozen-inline>
-                        </nitrozen-chips>
-                        <nitrozen-input
-                            placeholder="Add your sub-category"
-                            ref="chipInput"
-                            type="text"
-                            class="chip-input"
-                            @keyup.enter.native="addChip(index, $event)"
-                            v-model="chipInput"
-                        />
+                    <div v-if="index == editingCatIdx">
+                        <!-- <div class="sub-categories">
+                            <p>Sub Categories</p>
+                            <nitrozen-chips
+                                class="chip-wrapper"
+                                v-for="(option, opt_index) in item.sub_categories"
+                                :key="opt_index"
+                                >{{ option.display }}
+                                <nitrozen-inline
+                                    :icon="'cross'"
+                                    class="nitrozen-icon"
+                                    v-on:click="removeChip(index, opt_index)"
+                                ></nitrozen-inline>
+                            </nitrozen-chips>
+                            <nitrozen-input
+                                placeholder="Add your sub-category"
+                                ref="chipInput"
+                                type="text"
+                                class="chip-input"
+                                @keyup.enter.native="addChip(index, $event)"
+                                v-model="chipInput"
+                            />
+                        </div> -->
+                         <div class="category-details">
+                            <div class="space-between">
+                                <label class="label-text-2 " for="name"
+                                    >Category Name</label
+                                >
+                                <nitrozen-input
+                                    class="group-input extra-margin"
+                                    :id="allCategories.length + index"
+                                    :placeholder="'Edit Category name'"
+                                    v-model="cat_name"
+                                ></nitrozen-input>
+                            </div>
+                            <div class="space-between">
+                                <label class="label-text-2 " for="slug"
+                                    >Category Slug</label
+                                >
+                                <nitrozen-input
+                                    class="group-input extra-margin"
+                                    :id="allCategories.length*2 + index"
+                                    :placeholder="'Edit Category slug'"
+                                    v-model="cat_slug"
+                                ></nitrozen-input>
+                            </div>
+                        </div>
+                        <div class="feedback-form">
+                            <div class="header-line">
+                                <p>Feedback Form Schema</p>
+                                <nitrozen-button
+                                    theme="secondary"
+                                    @click="preview('categoryFeedbackForm')"
+                                    >
+                                    Preview
+                                </nitrozen-button>
+                            </div>
+                            <meta-box
+                                ref="categoryFeedbackForm"
+                                :showJsonOnly="true"
+                                :customJson="formSchema.inputs"
+                            ></meta-box>
+                        </div>
+                        <div class="freshdesk-config">
+                            <div class="header-line">
+                                <p>Fresh Desk Config</p>
+                            </div>
+                            <div class="space-between">
+                                <label class="label-text " for="sync"
+                                    >Group ID</label
+                                >
+                                <nitrozen-input
+                                    class="group-input extra-margin"
+                                    :id="index"
+                                    :placeholder="'Enter Group ID'"
+                                    v-model="freshDeskConfig.group_id"
+                                ></nitrozen-input>
+                            </div>
+                            <div class="space-between">
+                                <label class="label-text" for="sync">
+                                    Enable Sync
+                                </label>
+                                <nitrozen-toggle-btn
+                                    v-model="freshDeskConfig.sync_enabled"
+                                ></nitrozen-toggle-btn>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <nitrozen-dialog
+            ref="previewFeedbackSchema"
+            title="Preview"
+            class="preview-schema"
+        >
+            <template slot="body">
+                <div v-if="Array.isArray(previewSchema)">
+                    <nitrozen-custom-form
+                        ref="feedback-form-preview"
+                        :inputs="previewSchema || []"
+                        v-model=previewModel
+                        :disabled="true"
+                    />
+                </div>
+            </template>
+        </nitrozen-dialog>
     </div>
 </template>
 
@@ -107,14 +200,17 @@ import {
     NitrozenError,
     NitrozenButton,
     NitrozenDropdown,
+    NitrozenToggleBtn,
     strokeBtn,
     flatBtn,
     NitrozenBadge,
     NitrozenDialog,
     NitrozenInline,
     NitrozenChips,
+    NitrozenCustomForm
 } from '@gofynd/nitrozen-vue';
-import { Loader, PageHeader } from '@/components/common';
+import { Loader, PageHeader, MetaBox } from '@/components/common';
+import { validateNitrozenCustomFormInputs } from '@/helper/utils';
 import inlinesvg from '@/components/common/inline-svg';
 import SupportService from './../../services/support.service';
 import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
@@ -129,10 +225,13 @@ export default {
         NitrozenError,
         NitrozenDropdown,
         NitrozenButton,
+        NitrozenToggleBtn,
         Loader,
         PageHeader,
         NitrozenInline,
         NitrozenChips,
+        NitrozenCustomForm,
+        MetaBox,
         'inline-svg': inlinesvg,
     },
     directives: {
@@ -149,7 +248,20 @@ export default {
             isUpdated: false,
             fetchedSuccesfully: false,
             chipInput: '',
-            editingCatKey: null,
+            editingCatIdx: null,
+            formSchema: {
+                title: 'Feedback Form',
+                inputs: []
+            },
+            previewSchema: [],
+            previewModel: {},
+            freshDeskConfig: {
+                sync_enabled: false,
+                group_id: ""
+            },
+            cat_slug: undefined,
+            cat_name: undefined
+            
         };
     },
     mounted() {
@@ -200,24 +312,41 @@ export default {
                 display: this.newCategory.trim(),
                 sub_categories: [],
             };
-            this.allCategories.push(data);
+            this.allCategories.unshift(data);
             this.newCategory = '';
+
+            this.updateDataForCategory(0);
+            this.editCategory(data.slugifiedKey, 0);
             this.isUpdated = true;
         },
         onCategoryChange() {
             this.isSubmitable =
                 this.newCategory && this.newCategory.trim().length > 0;
         },
-        removeCategory(index) {
-            if (this.allCategories[index].key == this.editingCatKey) {
+        removeCategory(index, event) {
+            event.stopPropagation();
+            if (this.allCategories[index].key == this.editingCatIdx) {
                 this.chipInput = '';
             }
             this.allCategories.splice(index, 1);
+
+            if(this.allCategories.length > index)   this.updateDataForCategory(index);
             this.isUpdated = true;
         },
-        editCategory(key) {
-            this.editingCatKey = key;
+        editCategory(key, index, event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            if (this.editingCatIdx === index) return;
+            this.editingCatIdx = index;
             this.chipInput = '';
+
+            this.updateDataForCategory(index);
+            setTimeout(() => {
+                if (this.$refs['categoryFeedbackForm'] && this.$refs['categoryFeedbackForm'].length > 0) {
+                    this.$refs['categoryFeedbackForm'][0].populateData();
+                }
+            }, 1);
         },
         saveData() {
             if (this.loading) {
@@ -242,6 +371,95 @@ export default {
                     this.loading = false;
                 });
         },
+        preview(ref){
+            if (this.$refs[ref] && this.$refs[ref].length > 0) {
+                this.previewSchema = this.$refs[ref][0].getJSON() || [];
+            } else {
+                this.previewSchema = []
+            }
+            this.$refs['previewFeedbackSchema'].open({
+                width: '600px',
+                showCloseButton: true,
+                dismissible: true
+            });
+        },
+        addFeedbackForm(index, event) {
+            if(event)   event.preventDefault();
+            let inputs = [];
+            if (this.$refs['categoryFeedbackForm'] && this.$refs['categoryFeedbackForm'].length > 0) {
+                inputs = this.$refs['categoryFeedbackForm'][0].getJSON() || [];
+            } else {
+                this.$snackbar.global.showError('Something went wrong');
+                return;
+            }
+
+            if (!( inputs && Array.isArray(inputs)) ||
+                !validateNitrozenCustomFormInputs(inputs)) {
+                this.$snackbar.global.showError('Data not saved, please enter proper nitrogen form schema');
+                return;
+            }           
+            const data = {
+                inputs: inputs,
+                title: "Feedback form"
+            };
+            if (inputs.length > 0) {
+                this.allCategories[index].feedback_form = data;
+            } else {
+                this.allCategories[index].feedback_form = undefined;
+            }
+            this.isUpdated = true;
+        },
+        validNumber(str) {
+            return (!str || !isNaN(str) || (parseInt(str) == str))
+        },
+        addFreshDeskConfig(index, event) {
+            if(event)   event.preventDefault();
+            if (this.freshDeskConfig.sync_enabled) {
+                if (!this.freshDeskConfig.group_id || !this.validNumber(this.freshDeskConfig.group_id)) {
+                    this.$snackbar.global.showError('Group ID must not be empty and number');
+                    return;
+                }
+            } else if (this.freshDeskConfig.group_id) {
+                if (!this.validNumber(this.freshDeskConfig.group_id)){
+                    this.$snackbar.global.showError('Group ID must be a number');
+                    return;
+                }
+            }
+            let configData
+            if (!this.freshDeskConfig.sync_enabled && !this.freshDeskConfig.group_id) {
+                configData = undefined;
+            } else {
+                configData = {
+                    sync_enabled: this.freshDeskConfig.sync_enabled,
+                    group_id: parseInt(this.freshDeskConfig.group_id)
+                };
+            }
+            this.allCategories[index].freshdesk_config = configData;
+            this.isUpdated = true;
+        },
+        saveAllField(index, event){
+            this.addFreshDeskConfig(index, event);
+            this.addFeedbackForm(index, event);
+
+            const slug = this.cat_slug;
+            const name = this.cat_name;
+            if (slug == '' || name == '') {
+                this.$snackbar.global.showError('Category can not be empty');
+                return;
+            }
+            for (let i=0; i<this.allCategories.length; i++) {
+                if (i !== index && this.allCategories[i].key.trim() == slug) {
+                    this.$snackbar.global.showError(
+                        'This category already exist'
+                    );
+                    return;
+                }
+            }
+
+            this.allCategories[index].display = name;
+            this.allCategories[index].key = slug;
+            this.isUpdated = true;
+        },
         removeChip(index, opt_index) {
             this.allCategories[index].sub_categories.splice(opt_index, 1);
             this.isUpdated = true;
@@ -258,7 +476,6 @@ export default {
             }
             for (let subCat of this.allCategories[index].sub_categories) {
                 if (subCat.key.trim() == slugifiedKey) {
-                    console.log('This sub-category already exist');
                     this.$snackbar.global.showError(
                         'This sub-category already exist'
                     );
@@ -273,7 +490,29 @@ export default {
             this.chipInput = '';
             this.isUpdated = true;
         },
-    },
+        updateDataForCategory(index){
+            this.cat_slug = this.allCategories[index].key;
+            this.cat_name = this.allCategories[index].display;
+
+            let selectedForm = this.allCategories[index].feedback_form;
+            if (selectedForm) {
+                this.formSchema.inputs = selectedForm.inputs || [];
+                this.formSchema.title = selectedForm.title || 'Feedback Form';
+            } else {
+                this.formSchema.inputs = [];
+                this.formSchema.title = 'Feedback Form';
+            }
+
+            let selectedConfig = this.allCategories[index].freshdesk_config;
+            if (selectedConfig) {
+                this.freshDeskConfig.sync_enabled = selectedConfig.sync_enabled;
+                this.freshDeskConfig.group_id = selectedConfig.group_id;
+            } else {
+                this.freshDeskConfig.sync_enabled = false;
+                this.freshDeskConfig.group_id = "";
+            }
+        }
+    }
 };
 </script>
 
@@ -351,5 +590,65 @@ export default {
             font-size: 12px;
         }
     }
+}
+.feedback-form,
+.category-details,
+.freshdesk-config {
+    border: 1px solid @Iron;
+    border-radius: 4px;
+    color: grey;
+    padding: 10px;
+    margin-top: 8px;
+    .header-line {
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .meta-box {
+        margin-top: 10px;
+    }
+}
+
+.freshdesk-config {
+    .header-line {
+        padding-bottom: 10px;
+        border-bottom: 1px solid @Iron;
+    }
+}
+
+.space-between {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.label-text {
+    width: 200px;
+
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+.label-text-2{
+    width: 200px;
+    font-weight: normal;
+}
+
+.extra-margin {
+    margin-left: 10px;
+}
+
+.margin-left{
+    margin-left: auto;
+    margin-right: 10px;
+}
+.group-input {
+    width: 35%;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }
 </style>

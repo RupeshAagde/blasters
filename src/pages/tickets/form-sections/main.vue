@@ -106,11 +106,31 @@
                             </div>
                         </template>
                     </div>
+                    <br>
+                    <p v-if="feedbackList.length > 0">Feedbacks</p>
+                    <div
+                        class="feedback-list"
+                        v-for="(feedback, index) in feedbackList"
+                        v-bind:key="'feedback-item-'+index"
+                    >
+                        <div class="history-label" >
+                            Feedback submitted on {{readableDate(new Date(feedback.createdAt))}}.
+                            <span 
+                                class="see-feedback-details"
+                                @click="openFeedback(feedback, $event)"
+                            >
+                            See details
+                            </span>
+                        </div>
+                    </div>
                     <br/>
                     <comments v-if="isEditOnly" :allComments="this.allComments"/>
                 </div>
             </div>
         </div>
+        <feedback-details-dailog 
+            ref="feedback-anchor">
+        </feedback-details-dailog>
     </div>
 </template>
 
@@ -158,6 +178,16 @@
     flex: 1;
     margin-top: 0px;
     margin-bottom: 0px;
+}
+
+.feedback-list {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.see-feedback-details {
+    color: @RoyalBlue;
+    cursor: pointer;
 }
 
 .bombshell-list-card-container {
@@ -266,6 +296,7 @@ import { NitrozenInput, NitrozenError } from '@gofynd/nitrozen-vue';
 import { getRoute } from '@/helper/get-route';
 import moment from 'moment';
 // import ClickToCallDialog from '@/components/common/tools/click-to-call-dialog.vue';
+import FeedbackDetailsDailog from './feedback-details-dailog.vue'
 import admInlineSvg from '@/components/common/adm-inline-svg';
 import HtmlContent from '@/components/common/html-content';
 import SupportService from '@/services/support.service';
@@ -279,7 +310,8 @@ export default {
         'nitrozen-error': NitrozenError,
         'adm-inline-svg': admInlineSvg,
         'html-content': HtmlContent,
-        comments
+        comments,
+        FeedbackDetailsDailog
         // 'click-to-call-dialog': ClickToCallDialog
     },
     props: {
@@ -291,6 +323,9 @@ export default {
         },
         ticket: {
             type: Object
+        },
+        feedbackList: {
+            type: Array
         }
     },
     data() {
@@ -391,6 +426,7 @@ export default {
         },
         contactEmail() {
             const ticket = this.ticket;
+            if(!ticket.created_by) return undefined;
             if (ticket.created_by.details) {
                 if (ticket.created_by.details.email) {
                     return ticket.created_by.details.email;
@@ -408,6 +444,7 @@ export default {
         },
         contactPhone() {
             const ticket = this.ticket;
+            if(!ticket.created_by) return undefined;
             if (ticket.created_by.details) {
                 if (ticket.created_by.details.phone) {
                     return (
@@ -442,7 +479,7 @@ export default {
                 });
         },
         ratingDetail(event) {
-            let creator = 'User';
+            let creator = 'Staff ';
             let final = '';
             if (event.created_by) {
                 creator =
@@ -473,19 +510,21 @@ export default {
         },
         diffDetail(event) {
             let history =
-                event.created_by.first_name +
-                ' ' +
-                event.created_by.last_name +
-                ' ';
+                event.created_by
+                ? event.created_by.first_name +
+                  ' ' +
+                  event.created_by.last_name +
+                  ' '
+                : 'Staff ';
             const date = ' at ' + this.readableDate(new Date(event.createdAt));
             let additions = 0;
 
             if (
                 event.value.assigned_to &&
-                event.value.assigned_to.id &&
-                event.value.assigned_to.id.length == 2
+                event.value.assigned_to.agent_id &&
+                event.value.assigned_to.agent_id.length == 2
             ) {
-                const key = event.value.assigned_to.id[1];
+                const key = event.value.assigned_to.agent_id[1];
                 let value = undefined;
 
                 this.staff.forEach(element => {
@@ -502,10 +541,27 @@ export default {
                 event.value.assigned_to &&
                 event.value.assigned_to.length == 2
             ) {
-                const key = event.value.assigned_to[1].id;
+                const key = event.value.assigned_to[1].agent_id;
                 let value = undefined;
 
                 this.staff.forEach(element => {
+                    if (element.value == key) {
+                        value = element.text;
+                    }
+                });
+
+                if (value) {
+                    additions = additions + 1;
+                    history = history + 'assigned this to ' + value;
+                }
+            } else if (
+                event.value.assigned_to &&
+                event.value.assigned_to.length == 1
+            ) {
+                const key = event.value.assigned_to[0].agent_id;
+                let value = undefined;
+
+                this.staff.forEach((element) => {
                     if (element.value == key) {
                         value = element.text;
                     }
@@ -617,10 +673,12 @@ export default {
         },
         logDetail(event) {
             let history =
-                event.created_by.first_name +
-                ' ' +
-                event.created_by.last_name +
-                ' ';
+                event.created_by
+                ? event.created_by.first_name +
+                  ' ' +
+                  event.created_by.last_name +
+                  ' '
+                : 'Staff ';
             const date = ' at ' + this.readableDate(new Date(event.createdAt));
             let additions = 0;
 
@@ -628,6 +686,10 @@ export default {
 
             history = history + date;
             return history;
+        },
+        openFeedback(feedback, event) {
+            event.stopPropagation();
+            this.$refs['feedback-anchor'].openFeedback(feedback);
         },
         clickToCall(receiver, title) {
             //this.$refs.clickToCallDialog.open({ receiver, title });

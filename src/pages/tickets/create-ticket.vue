@@ -27,6 +27,7 @@
                     :ticket="ticket"
                     :filters="filters"
                     :staff="staff"
+                    :feedbackList="feedbackList"
                 />
                 <detail-section
                     class="detail-section"
@@ -141,9 +142,8 @@ import {
 } from '@gofynd/nitrozen-vue';
 
 import _ from 'lodash';
-import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
 
-import UserService from '@/services/user-access.service';
+import UserService from './../../services/user-access.service';
 import SupportService from './../../services/support.service';
 
 const PAGINATION = {
@@ -168,7 +168,6 @@ export default {
         flatBtn,
         strokeBtn
     },
-    mixins: [dirtyCheckMixin],
     mounted() {
         this.ticketID = this.$route.params.ticket_id;
         this.originalTicket = JSON.parse(JSON.stringify(this.ticket));
@@ -190,6 +189,7 @@ export default {
             loading: true,
             saving: false,
             filters: undefined,
+            feedbackList: [],
             contextMenu: [
                 // {
                 //     text: 'Delete',
@@ -260,16 +260,13 @@ export default {
         },
         loadEverything() {
             let promises = [];
-            promises.push(
-                SupportService.fetchOptions()
-            );
-
+            promises.push(SupportService.fetchOptions());
             if (this.ticketID) {
                 promises.push(SupportService.getTicket(this.ticketID));
                 promises.push(SupportService.fetchHistory(this.ticketID));
+                promises.push(SupportService.fetchFeedbacks(this.ticketID));
+                promises.push(UserService.getUserList(this.requestQuery()));
             }
-
-            promises.push(UserService.getUserList(this.requestQuery()));
 
             Promise.all(promises)
                 .then((responses) => {
@@ -325,11 +322,13 @@ export default {
 
                         res = responses[2];
                         this.ticket.history = res.data.items;
+                        res = responses[3];
+                        this.feedbackList =  res.data.items || [];
                     }
 
                     res = responses[1];
                     if (this.ticketID) {
-                        res = responses[3];
+                        res = responses[4];
                     }
 
                     const array = [];
@@ -489,15 +488,6 @@ export default {
                 .finally(() => {
                     this.saving = false;
                 });
-        },
-        isFormDirty() {
-            if (this.saving) {
-                return false;
-            }
-            return (
-                JSON.stringify(this.originalTicket) !=
-                JSON.stringify(this.ticket)
-            );
         },
         onCancel() {
             // const route = getRoute(this.$route);
