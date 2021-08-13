@@ -130,6 +130,11 @@
                                     v-model="cat_slug"
                                 ></nitrozen-input>
                             </div>
+                            <div class="space-between">
+                                <label class="label-text-3 " for="slug"
+                                    >*L1, L2, L3 slug and name should be seperated by " / "</label
+                                >
+                            </div>
                         </div>
                         <div class="feedback-form">
                             <div class="header-line">
@@ -458,6 +463,8 @@ export default {
 
             this.allCategories[index].display = name;
             this.allCategories[index].key = slug;
+
+            this.saveData();
             this.isUpdated = true;
         },
         removeChip(index, opt_index) {
@@ -633,6 +640,12 @@ export default {
 
 .label-text-2{
     width: 200px;
+    font-weight: normal;
+}
+
+.label-text-3{
+    width: auto;
+    font-size: 0.9em;
     font-weight: normal;
 }
 
