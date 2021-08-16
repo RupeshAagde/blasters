@@ -1616,9 +1616,11 @@ export default {
                     this.redirectToListing();
                 }
             } catch (e) {
-                let m = e && e.message ? e.message : 'Something went wrong.';
+                let m = e && e.response && e.response.data && e.response.data.message ? e.response.data.message : (
+                    e && e.message ? e.message : 'Something went wrong.'
+                )
                 this.$snackbar.global.showError(m, {
-                    duration: 500,
+                    duration: 1000,
                 });
             }
         },
