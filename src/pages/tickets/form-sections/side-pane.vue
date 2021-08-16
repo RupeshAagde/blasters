@@ -32,11 +32,12 @@
         </div>
         <div class="mt-sm" v-if="isPlatformTicket && filters">
             <nitrozen-dropdown
-                :searchable="false"
+                :searchable="true"
                 class="type-filter"
                 :label="'Category'"
                 v-model="category"
-                :items="filters.categories"
+                :items="filteredCategory"
+                @searchInputChange="categorySearch"
                 @change="somethingChanged"
             ></nitrozen-dropdown>
         </div>
@@ -309,7 +310,8 @@ export default {
             chipInput: '',
             filteredStaff: [],
             subCategoryList: [],
-            name: this.getInitialValue()
+            name: this.getInitialValue(),
+            filteredCategory: []
         };
     },
     computed: {
@@ -372,6 +374,16 @@ export default {
                 );
             } else {
                 this.filteredStaff = this.staff;
+            }
+        },
+        categorySearch(e) {
+            if (e && e.text) {
+                this.filteredCategory = this.filters.categories.filter(
+                    (a) =>
+                        a.text.toLowerCase().indexOf(e.text.toLowerCase()) > -1
+                );
+            } else {
+                this.filteredCategory = this.filters.categories;
             }
         },
         somethingChanged() {
