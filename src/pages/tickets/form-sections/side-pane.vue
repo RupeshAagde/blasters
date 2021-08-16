@@ -311,7 +311,7 @@ export default {
             filteredStaff: [],
             subCategoryList: [],
             name: this.getInitialValue(),
-            filteredCategory: []
+            filteredCategory: this.filters.categories
         };
     },
     computed: {
@@ -387,6 +387,7 @@ export default {
             }
         },
         somethingChanged() {
+            this.filteredCategory = this.filters.categories;
             const selectedCategory = this.filters.categories.find((el) => {
                 return (el.key == this.category);
             });

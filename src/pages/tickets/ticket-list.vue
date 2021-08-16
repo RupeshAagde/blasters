@@ -351,6 +351,8 @@ export default {
                         element.text = element.display;
                         element.value = element.key;
                     });
+
+                    this.filteredCategory = this.filter_data.filters.categories;
                 })
                 .catch((err) => {
                     console.log(err && err.message);
