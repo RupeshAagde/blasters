@@ -1643,12 +1643,11 @@ export default {
             }
             const params = {
                 id: nextProduct.id,
-                uid: nextProduct.item_id,
                 template: nextProduct.product.template_tag,
             };
             this.$router
                 .push({
-                    path: `/administrator/product/verification/${this.companyId}/products/edit/${nextProduct.item_code}`,
+                    path: `/administrator/product/verification/${this.companyId}/products/edit/${nextProduct.item_id}`,
                     query: params,
                 })
                 .then((success) => {
