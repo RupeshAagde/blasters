@@ -19,38 +19,12 @@
                     v-model="size_guide"
                 >
                 </nitrozen-input> -->
-                <nitrozen-dropdown
+                <nitrozen-input
                     disabled
                     label="Size Guide Name"
-                    placeholder="Choose size guide"
-                    :items="sizeGuideList"
-                    v-model="size_guide"
-                    autocomplete="off"
-                    :searchable="true"
-                    @searchInputChange="searchSizeGuide"
+                    v-model="size_guide_name"
                 >
-                    <template slot="option" slot-scope="slotProps">
-                        <div
-                            class="custom-size-guide-dropdown"
-                            :class="{ selected: slotProps.selected }"
-                        >
-                            <div class="text">
-                                {{ slotProps.item.text }}
-                            </div>
-                            <nitrozen-badge
-                                :state="
-                                    slotProps.item.active ? 'success' : 'error'
-                                "
-                            >
-                                {{
-                                    slotProps.item.active
-                                        ? 'Active'
-                                        : 'InActive'
-                                }}
-                            </nitrozen-badge>
-                        </div>
-                    </template>
-                </nitrozen-dropdown>
+                </nitrozen-input>
             </div>
         </div>
         <div class="add-size-guide">
@@ -150,13 +124,13 @@ export default {
     },
     data() {
         return {
-            showAddButton: true,
             pageLoading: false,
             pageError: false,
             sizeGuideList: [],
             size_guide: '',
             sizeGuideLoaded: false,
-            errMsgRequired: "This field is not verified"
+            errMsgRequired: "This field is not verified",
+            size_guide_name:''
         };
     },
     props: {
@@ -185,21 +159,16 @@ export default {
             this.getSizeGuideList();
         },
         setParams() {
+            this.sizeGuideLoaded = true
             if (
                 this.product &&
                 this.product.size_guide
             ) {
-                if (this.sizeGuideList.some(tag => tag.value != this.product.size_guide)){
-                    this.addSizeGuideIfAbsent(this.product.size_guide)
-                }
-                else {
-                    this.sizeGuideLoaded = true    
-                }
-                this.showAddButton = false;
-                this.size_guide = this.product.size_guide;
-            } else {
-                this.showAddButton = true;
-                this.sizeGuideLoaded = true
+                let values = this.sizeGuideList.filter(sizeguide =>
+                    sizeguide.value === this.product.size_guide
+                );
+                this.size_guide =  this.product.size_guide;
+                this.size_guide_name = values.length > 0 ? values[0].text : this.product.size_guide;
             }
         },
         getSizeGuideList() {
@@ -208,16 +177,6 @@ export default {
         },
         mapNameTag(obj) {
             return { text: obj.name, value: obj.tag, active: obj.active };
-        },
-        searchSizeGuide(e) {
-            if (e.text) {
-                var obj = {  company_id: this.companyId, brand_id: this.brandId, q: e.text };
-                this.fetchSizeGuide(obj);
-            } else {
-                this.size_guide = '';
-                var obj = {  company_id: this.companyId, brand_id: this.brandId };
-                this.fetchSizeGuide(obj);
-            }
         },
         fetchSizeGuide(obj, set = false) {
             if (this.companyId  < 1) {
@@ -235,6 +194,7 @@ export default {
                         if (set) {
                             this.setParams();
                         }
+
                     }
                 })
                 .catch(err => {
@@ -268,32 +228,6 @@ export default {
                 return !value.includes(optional);
             }
             return value ? false : true;
-        },
-        addSizeGuideIfAbsent(tag){
-            if (this.companyId  < 1) {
-                return
-            }
-            let obj = {
-                tag : tag,
-                companyId: this.companyId
-            }
-            SellerService.getSizeGuide(obj)
-                .then(({ data }) => {
-                    if (data.items.length > 0) {
-                        console.log(data)
-                        let add_obj = {
-                            text: data.items[0].name,
-                            value: data.items[0].tag,
-                            active: data.items[0].active,
-                        }
-                        this.sizeGuideList.unshift(add_obj);
-                        this.fullSizeGuideMeta.unshift(data.items[0]);
-                        this.sizeGuideLoaded = true
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
-                });
         },
         emitVerify(name, value){
             this.$emit('trigger-verify', {'key': name, value})
