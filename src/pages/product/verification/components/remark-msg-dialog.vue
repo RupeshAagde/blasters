@@ -1,6 +1,6 @@
 <template>
     <transition name="modal">
-        <nitrozen-dialog ref="dialog" :title="title" @close="close">
+        <nitrozen-dialog ref="dialog" :title="title">
             <template slot="body">
                 <nitrozen-input
                     type="textarea"
