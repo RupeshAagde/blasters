@@ -9,7 +9,7 @@
                 theme="secondary"
                 @click="saveData"
                 :showProgress="loading"
-                :disabled="!fetchedSuccesfully"
+                :disabled="!fetchedSuccesfully || !isUpdated"
             >
                 Save
             </nitrozen-button>
@@ -129,6 +129,11 @@
                                     :placeholder="'Edit Category slug'"
                                     v-model="cat_slug"
                                 ></nitrozen-input>
+                            </div>
+                            <div class="space-between">
+                                <label class="label-text-3 " for="slug"
+                                    >*L1, L2, L3 slug and name should be seperated by " / "</label
+                                >
                             </div>
                         </div>
                         <div class="feedback-form">
@@ -459,6 +464,7 @@ export default {
             this.allCategories[index].display = name;
             this.allCategories[index].key = slug;
             this.isUpdated = true;
+            this.saveData();
         },
         removeChip(index, opt_index) {
             this.allCategories[index].sub_categories.splice(opt_index, 1);
@@ -633,6 +639,12 @@ export default {
 
 .label-text-2{
     width: 200px;
+    font-weight: normal;
+}
+
+.label-text-3{
+    width: auto;
+    font-size: 0.9em;
     font-weight: normal;
 }
 

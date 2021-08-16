@@ -132,14 +132,29 @@ export default {
                         this.isLoadingDetails = false;
                     });
             } else if (this.attachment.type == 'shipment') {
+                const shipmentRegExp = new RegExp("^SH-[A-Z0-9-]*(?:List)?$");
+                const shipmentRegV2Exp = new RegExp("^[0-9]{20}$");
+                if(!shipmentRegExp.test(this.attachment.value) && !shipmentRegV2Exp.test(this.attachment.value))
+                {
+                    this.$snackbar.global.showError("Please enter valid shipment ID")
+                    this.isLoadingDetails = false;
+                    return;
+                }
+
                 SupportService.fetchShipmentInfo(
                     this.attachment.value,
                     this.company_id
                 )
                     .then((res) => {
+                        if(res.data.items.length === 0){
+                            this.$snackbar.global.showError("Couldn't find the shipment")
+                            return;
+                        }
+
                         this.attachment.details = res.data.items[0];
                         this.attachment.display = 'Shipment';
                         this.close(this.attachment);
+                        this.attachment.value="";
                     })
                     .catch((error) => {
                         //
