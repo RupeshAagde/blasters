@@ -9,7 +9,7 @@
                 theme="secondary"
                 @click="saveData"
                 :showProgress="loading"
-                :disabled="!fetchedSuccesfully"
+                :disabled="!fetchedSuccesfully || !isUpdated"
             >
                 Save
             </nitrozen-button>
@@ -463,9 +463,8 @@ export default {
 
             this.allCategories[index].display = name;
             this.allCategories[index].key = slug;
-
-            this.saveData();
             this.isUpdated = true;
+            this.saveData();
         },
         removeChip(index, opt_index) {
             this.allCategories[index].sub_categories.splice(opt_index, 1);
