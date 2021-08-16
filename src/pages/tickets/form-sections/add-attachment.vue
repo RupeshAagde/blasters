@@ -136,7 +136,8 @@ export default {
                 const shipmentRegV2Exp = new RegExp("^[0-9]{20}$");
                 if(!shipmentRegExp.test(this.attachment.value) && !shipmentRegV2Exp.test(this.attachment.value))
                 {
-                    this.$snackbar.global.showError("Couldn't find the shipment")
+                    this.$snackbar.global.showError("Please enter valid shipment ID")
+                    this.isLoadingDetails = false;
                     return;
                 }
 
