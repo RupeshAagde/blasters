@@ -113,7 +113,7 @@
                                     >Category Name</label
                                 >
                                 <nitrozen-input
-                                    class="group-input extra-margin"
+                                    class="group-input "
                                     :id="allCategories.length + index"
                                     :placeholder="'Edit Category name'"
                                     v-model="cat_name"
@@ -124,7 +124,7 @@
                                     >Category Slug</label
                                 >
                                 <nitrozen-input
-                                    class="group-input extra-margin"
+                                    class="group-input "
                                     :id="allCategories.length*2 + index"
                                     :placeholder="'Edit Category slug'"
                                     v-model="cat_slug"
@@ -161,7 +161,7 @@
                                     >Group ID</label
                                 >
                                 <nitrozen-input
-                                    class="group-input extra-margin"
+                                    class="group-input "
                                     :id="index"
                                     :placeholder="'Enter Group ID'"
                                     v-model="freshDeskConfig.group_id"
@@ -648,16 +648,14 @@ export default {
     font-weight: normal;
 }
 
-.extra-margin {
-    margin-left: 10px;
-}
 
 .margin-left{
     margin-left: auto;
     margin-right: 10px;
 }
 .group-input {
-    width: 35%;
+    flex: 1;
+    margin-left: 10px;
 }
 
 .cursor-pointer {

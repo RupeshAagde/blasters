@@ -48,7 +48,7 @@
 
                 <nitrozen-dropdown
                     class="archived-filter"
-                    :searchable="false"
+                    :searchable="true"
                     :label="'Category'"
                     v-if="filter_data.filters"
                     v-model="defaultCategory"
