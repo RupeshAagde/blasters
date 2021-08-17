@@ -65,15 +65,6 @@
                             </div>
                         </div>
                     </div>
-                    <template slot="page-slot-mobile-footer">
-                        <nitrozen-button
-                            class="footer-actions"
-                            :theme="'secondary'"
-                            v-flatBtn
-                            @click="redirect({ platform: true })"
-                            >Edit</nitrozen-button
-                        >
-                    </template>
                 </adm-page-header>
             </div>
             <loader v-if="pageLoading" class="loading"></loader>
@@ -90,16 +81,15 @@
                                 <div class="cl-Mako bold-md">Details</div>
 
                                 <div class="button-right" @click="redirect({ platform: true })">
-                                        <span class="button-title">
-                                            Edit
-                                        </span>
-                                        
-                                        <adm-svg
-                                            class="window-icon"
-                                            src="open_window"
-                                            title="Edit product in new window"
-                                        ></adm-svg>
+                                    <span class="button-title">
+                                        Edit
+                                    </span>
                                     
+                                    <adm-svg
+                                        class="window-icon"
+                                        src="open_window"
+                                        title="Edit product in new window"
+                                    ></adm-svg>
                                 </div>
                                 <product-details
                                     ref="details"
@@ -1556,10 +1546,6 @@ export default {
             }
         },
         saveWithComment() {
-            if (!this.verificationDetails) {
-                this.$snackbar.global.showError('Invalid data');
-                return;
-            }
             this.$refs['remark-msg'].open();
         },
         async save(action, remarkText) {
@@ -1632,7 +1618,6 @@ export default {
                     '_blank'
                 );
             }
-            this.redirectToListing();
         },
 
         skipProduct() {

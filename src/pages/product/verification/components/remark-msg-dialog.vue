@@ -1,20 +1,21 @@
 <template>
     <transition name="modal">
-        <nitrozen-dialog ref="dialog" :title="title">
+        <nitrozen-dialog ref="remark-dialog" :title="title" @close="close">
             <template slot="body">
                 <nitrozen-input
                     type="textarea"
-                    :placeholder="'Kindly enter reason for rejecting'"
+                    :placeholder="'Enter reason for rejection'"
                     v-model="remark"
                 ></nitrozen-input>
             </template>
             <template slot="footer">
                 <nitrozen-button
-                theme="secondary"
-                :disabled="remark===''"
-                @click="continueBack"
-                v-flatBtn>
-                Add remark and reject
+                    theme="secondary"
+                    :disabled="remark===''"
+                    @click="close('Continue')"
+                    v-flatBtn
+                >
+                Reject
             </nitrozen-button>
             </template>
         </nitrozen-dialog>
@@ -23,7 +24,6 @@
 
 <script>
 import { NitrozenDialog, NitrozenInput, NitrozenButton, flatBtn } from '@gofynd/nitrozen-vue';
-import isEmpty from 'lodash';
 export default {
     name: 'remark-msg-dialog',
     components: {
@@ -37,7 +37,7 @@ export default {
     props: {
         title: {
             type: String,
-            default: 'Remark',
+            default: 'Reason for Rejection',
         },
     },
     data() {
@@ -47,7 +47,7 @@ export default {
     },
     methods: {
         open() {
-            this.$refs['dialog'].open({
+            this.$refs['remark-dialog'].open({
                 width: '600px',
                 height: '300px',
                 showCloseButton: true,
@@ -56,9 +56,17 @@ export default {
             });
         },
         continueBack(e) {
-                this.$emit('continue', 'Reject', this.remark);
-                this.remark = '';
+            this.close();
+            this.$emit('continue', 'Reject', this.remark);
+            this.remark = '';
         }, 
+        close(e) {
+            if(e === 'Continue') {
+                this.$refs['remark-dialog'].close();
+                this.$emit('continue', this.message);
+                this.message = '';
+            }
+        }
     },
 };
 </script>
