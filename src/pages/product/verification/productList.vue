@@ -13,18 +13,11 @@
             <div class="second-container">
                 <div
                     class="search-box"
-                    v-if="
-                        pageLoading ||
-                        searchText !== '' ||
-                        stageFilter !== 'all' ||
-                        productList.length
-                    "
                 >
                     <div v-if="isInitialLoad" class="input-shimmer shimmer"></div>
                     <template v-else>
                         <nitrozen-input
                             :showSearchIcon="true"
-                            label="Search"
                             class="search"
                             type="search"
                             placeholder="Search by name..."
@@ -34,7 +27,6 @@
                         <div class="filter">
                             <label class="label">Filter</label>
                             <nitrozen-dropdown
-                                label="Stage"
                                 class="filter-dropdown"
                                 :items="filters"
                                 v-model="stageFilter"
@@ -43,7 +35,7 @@
                                 "
                             ></nitrozen-dropdown>
                             <nitrozen-dropdown
-                                label="Brand"
+                                placeholder="Choose Brand"
                                 class="filter-dropdown"
                                 :items="brandValuesList"
                                 v-model="selectedBrandFilter"
@@ -263,7 +255,6 @@
         font-size: 14px;
         line-height: 20px;
         font-weight: 500;
-        margin-top: 20px;
     }
     .filter-dropdown {
         width: 200px;
@@ -536,12 +527,11 @@ export default {
             const { id } = product
             const query = {
                     "template": template_tag,
-                    uid,
                     id
                 };
             if (uid) {
                 this.$router.push({
-                    path: `/administrator/product/verification/${this.companyId}/products/edit/${item_code}`,
+                    path: `/administrator/product/verification/${this.companyId}/products/edit/${uid}`,
                     query,
                 });
             }

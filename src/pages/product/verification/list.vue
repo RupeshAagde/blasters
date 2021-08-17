@@ -24,7 +24,7 @@
                         :showSearchIcon="true"
                         class="search"
                         type="search"
-                        placeholder="Search by name..."
+                        placeholder="Search by business name..."
                         v-model="searchText"
                         @input="debounceInput({ name: searchText })"
                     ></nitrozen-input>
@@ -74,7 +74,7 @@
                                         <div class="txt-country">
                                             {{
                                                 company.total
-                                            }}
+                                            }} items
                                         </div>
                                     </div>
                                 </div>
@@ -89,7 +89,7 @@
                                         <div class="txt-country">
                                             {{
                                                 company.verified
-                                            }}
+                                            }} items
                                         </div>
                                 </div>
                                 <div
@@ -101,7 +101,7 @@
                                         <div class="txt-country">
                                             {{
                                                 company.pending
-                                            }}
+                                            }} items
                                         </div>
                                 </div>
                                 <div
@@ -113,7 +113,7 @@
                                         <div class="txt-country">
                                             {{
                                                 company.rejected
-                                            }}
+                                            }} items
                                         </div>
                                 </div>
                              
@@ -245,7 +245,7 @@
                 font-size: 12px;
     }
     .txt-country {
-                margin-left: 24px;
+                margin-left: 10px;
                 color: #9b9b9b;
                 line-height: 22px;
                 font-size: 12px;
@@ -405,7 +405,7 @@ const PAGINATION = {
 
 const ROLE_FILTER = [
     { value: 'all', text: 'All' },
-    { value: 'marketplace_opted', text: 'Marketplace Opted' },
+    { value: 'opted', text: 'Marketplace Opted' },
 ];
 
 export default {

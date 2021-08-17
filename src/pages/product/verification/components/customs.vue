@@ -2,13 +2,13 @@
     <div>
         <div class="custom base">
             <div class="header">
-                <div class="cl-Mako bold-md">
+                <div class="cl-Mako bold-md mb-sm">
                     Customs Information
                 </div>
             </div>
 
             <!-- Country of origin -->
-            <div class="mt-sm verify-block">
+            <div class="verify-block">
                 <nitrozen-checkbox
                     :value="rejectedFields.country_of_origin ? false :  true"
                     :checkboxValue="rejectedFields.country_of_origin"
@@ -91,6 +91,9 @@
 }
 .checkbox-align {
     margin-top: 30px;
+}
+.mb-sm {
+    margin-bottom: 12px;
 }
 
 </style>

@@ -34,10 +34,11 @@ describe('Mounted Create/Edit Category Page', () => {
                 { path: '/administrator/product/verification/:id/products/edit/:productId', component: EditVerification }
             ]
         })
-        router.push( `/administrator/product/verification/1/products/edit/SOLR-V2?template=mobile-phones-and-tablet&uid=7685514`);
+        router.push( `/administrator/product/verification/1/products/edit/7685514?template=mobile-phones-and-tablet`);
         mock.onGet('https://api.xyz.com/service/___/administrator/catalog/v1.0/company/1/products/7685514').reply(200,  mocks.productData);
-        mock.onGet('https://api.xyz.com/service/___/administrator/catalog/v1.0/company/1/verification/products/SOLR-V2').reply(200,  mocks.productVerificationData);
+        mock.onGet('https://api.xyz.com/service/___/administrator/catalog/v1.0/company/1/verification/products/7685514').reply(200,  mocks.productVerificationData);
         mock.onGet(URLS.PRODUCT_TEMPLATE_VALIDATION({companyId, slug: templateSlug})).reply(200,  mocks.globalSchema);
+        mock.onGet(URLS.SIZE_GUIDE_URL(companyId)).reply(200, {})
         
         const wrapper = mount(EditVerification, {
             localVue,
@@ -56,11 +57,12 @@ describe('Mounted Create/Edit Category Page', () => {
                 { path: '/administrator/product/verification/:id/products/edit/:productId', component: EditVerification }
             ]
         })
-        router.push(`/administrator/product/verification/1/products/edit/SOLR-V2?template=mobile-phones-and-tablet&uid=7685514`);
+        router.push(`/administrator/product/verification/1/products/edit/7685514?template=mobile-phones-and-tablet`);
         console.log("0000000000000000000000000000000000000000", productId);
         mock.onGet('https://api.xyz.com/service/___/administrator/catalog/v1.0/company/1/products/7685514').reply(200,  mocks.productData);
-        mock.onGet('https://api.xyz.com/service/___/administrator/catalog/v1.0/company/1/verification/products/SOLR-V2').reply(200,  mocks.productVerificationData);
+        mock.onGet('https://api.xyz.com/service/___/administrator/catalog/v1.0/company/1/verification/products/7685514').reply(200,  mocks.productVerificationData);
         mock.onGet(URLS.PRODUCT_TEMPLATE_VALIDATION({companyId, slug: templateSlug})).reply(200,  mocks.globalSchema);
+        mock.onGet(URLS.SIZE_GUIDE_URL(companyId)).reply(200, {})
 
         
         const wrapper = mount(EditVerification, {
