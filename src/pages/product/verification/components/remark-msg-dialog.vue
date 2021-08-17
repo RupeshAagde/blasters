@@ -63,7 +63,7 @@ export default {
         close(e) {
             if(e === 'Continue') {
                 this.$refs['remark-dialog'].close();
-                this.$emit('continue', this.message);
+                this.$emit('continue', "Reject");
                 this.message = '';
             }
         }
