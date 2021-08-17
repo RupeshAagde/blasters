@@ -9,21 +9,8 @@
                 >
                     <div class="badge-align">
                         <nitrozen-badge
-                            v-if="
-                                this.verificationDetails.status === 'verified'
-                            "
-                            state="success"
-                            >Verified</nitrozen-badge
-                        >
-                        <nitrozen-badge
-                            v-else-if="
-                                this.verificationDetails.status === 'rejected'
-                            "
-                            state="error"
-                            >Rejected</nitrozen-badge
-                        >
-                        <nitrozen-badge v-else state="warn"
-                            >Pending</nitrozen-badge
+                            :state="status_state_map[status]"
+                            >{{status_name_map[status]}}</nitrozen-badge
                         >
                     </div>
 
@@ -1116,6 +1103,19 @@
 }
 </style>
 <script type="text/javascript">
+
+const STATUS_NAME_MAP = {
+    "rejected": "Rejected",
+    "pending": "Pending",
+    "verified": "Verified"
+}
+
+const STATUS_STATE_MAP = {
+    "rejected": "error",
+    "verified": "success",
+    "pending": "warn"
+}
+
 import CompanyService from '@/services/company-admin.service';
 import CatalogService from '@/services/catalog.service';
 import pageerror from '@/components/common/page-error';
@@ -1262,13 +1262,15 @@ export default {
             errMsgRequired: 'This field is not verified',
             errMsgGeneric: 'Please fill all required fields.',
 
-            returnConfigError: '',
             returnable: false,
             return_time: 3,
             return_time_unit: 'days',
             verificationDetails: {},
+            status: 'pending',
             rejectedFields: {},
             actionButtons: ['Verify', 'Reject'],
+            status_name_map: STATUS_NAME_MAP,
+            status_state_map: STATUS_STATE_MAP,
         };
     },
 
@@ -1333,6 +1335,8 @@ export default {
                         slug: this.product.slug,
                     };
                 }
+
+                this.status = this.verificationDetails.status;
 
                 this.populateForm();
             } catch (error) {
