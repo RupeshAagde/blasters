@@ -405,7 +405,7 @@ const PAGINATION = {
 
 const ROLE_FILTER = [
     { value: 'all', text: 'All' },
-    { value: 'marketplace_opted', text: 'Marketplace Opted' },
+    { value: 'opted', text: 'Marketplace Opted' },
 ];
 
 export default {
