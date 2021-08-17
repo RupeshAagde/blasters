@@ -55,16 +55,11 @@ export default {
                 // neutralButtonLabel: false,
             });
         },
-        continueBack(e) {
-            this.close();
-            this.$emit('continue', 'Reject', this.remark);
-            this.remark = '';
-        }, 
         close(e) {
             if(e === 'Continue') {
                 this.$refs['remark-dialog'].close();
-                this.$emit('continue', "Reject", this.message);
-                this.message = '';
+                this.$emit('continue', "Reject", this.remark);
+                this.remark = '';
             }
         }
     },
