@@ -74,6 +74,20 @@
                     {{ attachment.display + ': ' + attachment.value }}
                 </div>
             </a>
+            <a
+                v-else-if="attachment.type == 'file'"
+                class="attachement-file"
+                :href="attachment.value"
+                target="_blank"
+            >   
+                <adm-inline-svg
+                src="details"
+                class="attachment-image"
+                ></adm-inline-svg>
+                <div class="attachment-label">
+                    {{attachment.display}}
+                </div>
+            </a>
         </div>
         <!-- <div class="cross-container">
             <nitrozen-inline
@@ -212,6 +226,24 @@
     }
 }
 
+.attachement-file {
+    display: flex;
+    padding: 8px;
+    width: 95%;
+    max-height: 80px;
+    align-items: center;
+    .attachment-image {
+        width: 40px;
+        height: 40px;
+    }
+    .attachment-label {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 200px;
+    }
+}
+
 .image {
     display: flex;
     padding: 8px;
@@ -266,13 +298,15 @@ import {
 
 import { getRoute } from '@/helper/get-route';
 import { getAppInfo } from '@/services/utils.service';
+import admInlineSvg from '@/components/common/adm-inline-svg.vue';
 // import { getPrimaryDomain } from '@/helper/domains.util';
 import path from 'path';
 
 export default {
     name: 'attachment',
     components: {
-        'nitrozen-inline': NitrozenInline
+        'nitrozen-inline': NitrozenInline,
+        'adm-inline-svg': admInlineSvg
     },
     props: {
         attachment: {
