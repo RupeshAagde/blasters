@@ -423,12 +423,12 @@ export default {
 
             if(isAvailable) {
                 this.$snackbar.global.showError("You have already added one shipment")
-                this.hideActions();
                 return;
             }
             this.$refs.addAttachment.open();
         },
         $openAddAttachmentDialogueClosed(attachment) {
+            attachment.isSaved = false;
             this.attachments.push(attachment);
             this.somethingChanged();
         },

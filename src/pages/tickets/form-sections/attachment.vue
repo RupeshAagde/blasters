@@ -89,13 +89,13 @@
                 </div>
             </a>
         </div>
-        <!-- <div class="cross-container">
+        <div v-if="attachment.isSaved === false"  class="cross-container">
             <nitrozen-inline
                 icon="cross"
                 class="nitrozen-icon cross"
                 @click="deleteThis()"
             ></nitrozen-inline>
-        </div> -->
+        </div>
     </div>
 </template>
 
