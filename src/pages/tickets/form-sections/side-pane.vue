@@ -413,6 +413,19 @@ export default {
             });
         },
         openAddAttachmentDialogue() {
+            let isAvailable = false;
+            for(let i=0; i < this.attachments.length; i++){
+                if(this.attachments[i].type == 'shipment'){
+                    isAvailable = true;
+                    break;
+                }
+            }
+
+            if(isAvailable) {
+                this.$snackbar.global.showError("You have already added one shipment")
+                this.hideActions();
+                return;
+            }
             this.$refs.addAttachment.open();
         },
         $openAddAttachmentDialogueClosed(attachment) {
