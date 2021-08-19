@@ -154,7 +154,6 @@ export default {
                         this.attachment.details = res.data.items[0];
                         this.attachment.display = 'Shipment';
                         this.close(this.attachment);
-                        this.attachment.value="";
                     })
                     .catch((error) => {
                         //
