@@ -11,7 +11,7 @@
                     </div>
                 </div>
             </div>
-            <a
+            <!-- <a
                 v-else-if="attachment.type == 'product'"
                 class="product"
                 :href="urlToOpen"
@@ -31,7 +31,7 @@
                 <div v-else>
                     {{ attachment.display || attachment.value }}
                 </div>
-            </a>
+            </a> -->
             <a
                 v-else-if="attachment.type == 'shipment'"
                 class="shipment"
