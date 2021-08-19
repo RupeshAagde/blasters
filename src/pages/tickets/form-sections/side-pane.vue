@@ -32,11 +32,12 @@
         </div>
         <div class="mt-sm" v-if="isPlatformTicket && filters">
             <nitrozen-dropdown
-                :searchable="false"
+                :searchable="true"
                 class="type-filter"
                 :label="'Category'"
                 v-model="category"
-                :items="filters.categories"
+                :items="filteredCategory"
+                @searchInputChange="categorySearch"
                 @change="somethingChanged"
             ></nitrozen-dropdown>
         </div>
@@ -309,7 +310,8 @@ export default {
             chipInput: '',
             filteredStaff: [],
             subCategoryList: [],
-            name: this.getInitialValue()
+            name: this.getInitialValue(),
+            filteredCategory: this.filters.categories
         };
     },
     computed: {
@@ -374,7 +376,18 @@ export default {
                 this.filteredStaff = this.staff;
             }
         },
+        categorySearch(e) {
+            if (e && e.text) {
+                this.filteredCategory = this.filters.categories.filter(
+                    (a) =>
+                        a.text.toLowerCase().indexOf(e.text.toLowerCase()) > -1
+                );
+            } else {
+                this.filteredCategory = this.filters.categories;
+            }
+        },
         somethingChanged() {
+            this.filteredCategory = this.filters.categories;
             const selectedCategory = this.filters.categories.find((el) => {
                 return (el.key == this.category);
             });
@@ -400,9 +413,22 @@ export default {
             });
         },
         openAddAttachmentDialogue() {
+            let isAvailable = false;
+            for(let i=0; i < this.attachments.length; i++){
+                if(this.attachments[i].type == 'shipment'){
+                    isAvailable = true;
+                    break;
+                }
+            }
+
+            if(isAvailable) {
+                this.$snackbar.global.showError("You have already added one shipment")
+                return;
+            }
             this.$refs.addAttachment.open();
         },
         $openAddAttachmentDialogueClosed(attachment) {
+            attachment.isSaved = false;
             this.attachments.push(attachment);
             this.somethingChanged();
         },

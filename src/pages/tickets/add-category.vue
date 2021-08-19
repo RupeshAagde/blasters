@@ -9,7 +9,7 @@
                 theme="secondary"
                 @click="saveData"
                 :showProgress="loading"
-                :disabled="!fetchedSuccesfully"
+                :disabled="!fetchedSuccesfully || !isUpdated"
             >
                 Save
             </nitrozen-button>
@@ -113,7 +113,7 @@
                                     >Category Name</label
                                 >
                                 <nitrozen-input
-                                    class="group-input extra-margin"
+                                    class="group-input "
                                     :id="allCategories.length + index"
                                     :placeholder="'Edit Category name'"
                                     v-model="cat_name"
@@ -124,11 +124,16 @@
                                     >Category Slug</label
                                 >
                                 <nitrozen-input
-                                    class="group-input extra-margin"
+                                    class="group-input "
                                     :id="allCategories.length*2 + index"
                                     :placeholder="'Edit Category slug'"
                                     v-model="cat_slug"
                                 ></nitrozen-input>
+                            </div>
+                            <div class="space-between">
+                                <label class="label-text-3 " for="slug"
+                                    >*L1, L2, L3 slug and name should be seperated by " / "</label
+                                >
                             </div>
                         </div>
                         <div class="feedback-form">
@@ -156,7 +161,7 @@
                                     >Group ID</label
                                 >
                                 <nitrozen-input
-                                    class="group-input extra-margin"
+                                    class="group-input "
                                     :id="index"
                                     :placeholder="'Enter Group ID'"
                                     v-model="freshDeskConfig.group_id"
@@ -314,8 +319,6 @@ export default {
             };
             this.allCategories.unshift(data);
             this.newCategory = '';
-
-            this.updateDataForCategory(0);
             this.editCategory(data.slugifiedKey, 0);
             this.isUpdated = true;
         },
@@ -328,9 +331,19 @@ export default {
             if (this.allCategories[index].key == this.editingCatIdx) {
                 this.chipInput = '';
             }
-            this.allCategories.splice(index, 1);
-
-            if(this.allCategories.length > index)   this.updateDataForCategory(index);
+            if (this.editingCatIdx == null || this.editingCatIdx == undefined) {
+                this.allCategories.splice(index, 1);
+            } else if(index === this.editingCatIdx) {
+                this.allCategories.splice(index, 1);
+                this.updateDataForCategory();
+                this.editingCatIdx = null;
+            } else if (index > this.editingCatIdx) {
+                this.allCategories.splice(index, 1);
+            } else {
+                this.allCategories.splice(index, 1);
+                if(this.editingCatIdx !== undefined && this.editingCatIdx>0)    this.editingCatIdx--;
+                this.updateDataForCategory(this.editingCatIdx);                
+            }
             this.isUpdated = true;
         },
         editCategory(key, index, event) {
@@ -340,13 +353,7 @@ export default {
             if (this.editingCatIdx === index) return;
             this.editingCatIdx = index;
             this.chipInput = '';
-
             this.updateDataForCategory(index);
-            setTimeout(() => {
-                if (this.$refs['categoryFeedbackForm'] && this.$refs['categoryFeedbackForm'].length > 0) {
-                    this.$refs['categoryFeedbackForm'][0].populateData();
-                }
-            }, 1);
         },
         saveData() {
             if (this.loading) {
@@ -364,8 +371,13 @@ export default {
                     this.$snackbar.global.showSuccess('Categories updated');
                     this.isUpdated = false;
                 })
-                .catch((error) => {
-                    this.$snackbar.global.showError(error.message);
+                .catch((err) => {
+                    this.$snackbar.global
+                    .showError(
+                        (err.message &&
+                        err.response &&
+                        err.response.data && 
+                        err.response.data.message) ? err.response.data.message : "Something went wrong");
                 })
                 .finally(() => {
                     this.loading = false;
@@ -390,13 +402,13 @@ export default {
                 inputs = this.$refs['categoryFeedbackForm'][0].getJSON() || [];
             } else {
                 this.$snackbar.global.showError('Something went wrong');
-                return;
+                return false;
             }
 
             if (!( inputs && Array.isArray(inputs)) ||
                 !validateNitrozenCustomFormInputs(inputs)) {
                 this.$snackbar.global.showError('Data not saved, please enter proper nitrogen form schema');
-                return;
+                return false;
             }           
             const data = {
                 inputs: inputs,
@@ -408,6 +420,7 @@ export default {
                 this.allCategories[index].feedback_form = undefined;
             }
             this.isUpdated = true;
+            return true;
         },
         validNumber(str) {
             return (!str || !isNaN(str) || (parseInt(str) == str))
@@ -417,12 +430,12 @@ export default {
             if (this.freshDeskConfig.sync_enabled) {
                 if (!this.freshDeskConfig.group_id || !this.validNumber(this.freshDeskConfig.group_id)) {
                     this.$snackbar.global.showError('Group ID must not be empty and number');
-                    return;
+                    return false;
                 }
             } else if (this.freshDeskConfig.group_id) {
                 if (!this.validNumber(this.freshDeskConfig.group_id)){
                     this.$snackbar.global.showError('Group ID must be a number');
-                    return;
+                    return false;
                 }
             }
             let configData
@@ -436,10 +449,14 @@ export default {
             }
             this.allCategories[index].freshdesk_config = configData;
             this.isUpdated = true;
+            return true;
         },
         saveAllField(index, event){
-            this.addFreshDeskConfig(index, event);
-            this.addFeedbackForm(index, event);
+            let success;
+            success = this.addFreshDeskConfig(index, event);
+            if (!success) return;
+            success = this.addFeedbackForm(index, event);
+            if (!success) return;
 
             const slug = this.cat_slug;
             const name = this.cat_name;
@@ -459,6 +476,7 @@ export default {
             this.allCategories[index].display = name;
             this.allCategories[index].key = slug;
             this.isUpdated = true;
+            this.saveData();
         },
         removeChip(index, opt_index) {
             this.allCategories[index].sub_categories.splice(opt_index, 1);
@@ -491,17 +509,19 @@ export default {
             this.isUpdated = true;
         },
         updateDataForCategory(index){
+            if(index === undefined){
+                this.cat_slug = undefined;
+                this.cat_name = undefined;
+                this.formSchema.inputs = [];
+                this.formSchema.title = 'Feedback Form';        
+                this.freshDeskConfig.sync_enabled = false;
+                this.freshDeskConfig.group_id = "";
+                return;
+            }
+            if(index >= this.allCategories.length)  return;
+
             this.cat_slug = this.allCategories[index].key;
             this.cat_name = this.allCategories[index].display;
-
-            let selectedForm = this.allCategories[index].feedback_form;
-            if (selectedForm) {
-                this.formSchema.inputs = selectedForm.inputs || [];
-                this.formSchema.title = selectedForm.title || 'Feedback Form';
-            } else {
-                this.formSchema.inputs = [];
-                this.formSchema.title = 'Feedback Form';
-            }
 
             let selectedConfig = this.allCategories[index].freshdesk_config;
             if (selectedConfig) {
@@ -511,6 +531,20 @@ export default {
                 this.freshDeskConfig.sync_enabled = false;
                 this.freshDeskConfig.group_id = "";
             }
+
+            let selectedForm = this.allCategories[index].feedback_form;
+            if (selectedForm) {
+                this.formSchema.inputs = selectedForm.inputs || [];
+                this.formSchema.title = selectedForm.title || 'Feedback Form';
+            } else {
+                this.formSchema.inputs = [];
+                this.formSchema.title = 'Feedback Form';
+            }
+            setTimeout(() => {
+                if (this.$refs['categoryFeedbackForm'] && this.$refs['categoryFeedbackForm'].length > 0) {
+                    this.$refs['categoryFeedbackForm'][0].populateData();
+                }
+            }, 1);
         }
     }
 };
@@ -636,16 +670,20 @@ export default {
     font-weight: normal;
 }
 
-.extra-margin {
-    margin-left: 10px;
+.label-text-3{
+    width: auto;
+    font-size: 0.9em;
+    font-weight: normal;
 }
+
 
 .margin-left{
     margin-left: auto;
     margin-right: 10px;
 }
 .group-input {
-    width: 35%;
+    flex: 1;
+    margin-left: 10px;
 }
 
 .cursor-pointer {
