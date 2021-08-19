@@ -48,11 +48,12 @@
 
                 <nitrozen-dropdown
                     class="archived-filter"
-                    :searchable="false"
+                    :searchable="true"
                     :label="'Category'"
                     v-if="filter_data.filters"
                     v-model="defaultCategory"
-                    :items="filter_data.filters.categories"
+                    :items="filteredCategory"
+                    @searchInputChange="categorySearch"
                     @change="fetchTickets"
                 ></nitrozen-dropdown>
             </div>
@@ -251,7 +252,8 @@ export default {
             current_schedule: {},
             companySearchText: '',
             isFirstTime: true,
-            searchText: ''
+            searchText: '',
+            filteredCategory : []
         };
     },
     mounted() {
@@ -267,6 +269,16 @@ export default {
         debounceInput: debounce(function(e) {
             this.onSearch();
         }, 200),
+        categorySearch(e) {
+            if (e && e.text) {
+                this.filteredCategory = this.filter_data.filters.categories.filter(
+                    (a) =>
+                        a.text.toLowerCase().indexOf(e.text.toLowerCase()) > -1
+                );
+            } else {
+                this.filteredCategory = this.filter_data.filters.categories;
+            }
+        },
         fetchTickets() {
             this.loading = true;
 
@@ -339,6 +351,8 @@ export default {
                         element.text = element.display;
                         element.value = element.key;
                     });
+
+                    this.filteredCategory = this.filter_data.filters.categories;
                 })
                 .catch((err) => {
                     console.log(err && err.message);
