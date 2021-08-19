@@ -333,9 +333,22 @@ export default {
             if (this.allCategories[index].key == this.editingCatIdx) {
                 this.chipInput = '';
             }
-            this.allCategories.splice(index, 1);
 
-            if(this.allCategories.length > index)   this.updateDataForCategory(index);
+            if(index === this.editingCatIdx){
+                this.allCategories.splice(index, 1);
+                this.updateDataForCategory();
+                this.editingCatIdx = null;
+            }
+            else if(index > this.editingCatIdx){
+                this.allCategories.splice(index, 1);
+            }
+            else{
+                this.allCategories.splice(index, 1);
+                if(this.editingCatIdx !== undefined && this.editingCatIdx>0)    this.editingCatIdx--;
+                this.updateDataForCategory(this.editingCatIdx);
+                //this.editingCatIdx--;
+                
+            }
             this.isUpdated = true;
         },
         editCategory(key, index, event) {
@@ -370,7 +383,9 @@ export default {
                     this.isUpdated = false;
                 })
                 .catch((error) => {
-                    this.$snackbar.global.showError(error.message);
+                    console.log(error)
+                    if(this.allCategories.length == 0)    this.$snackbar.global.showError("Categories cannot be empty");
+                    else    this.$snackbar.global.showError(error.message);
                 })
                 .finally(() => {
                     this.loading = false;
@@ -497,6 +512,17 @@ export default {
             this.isUpdated = true;
         },
         updateDataForCategory(index){
+            if(index === undefined){
+                this.cat_slug = undefined;
+                this.cat_name = undefined;
+                this.formSchema.inputs = [];
+                this.formSchema.title = 'Feedback Form';        
+                this.freshDeskConfig.sync_enabled = false;
+                this.freshDeskConfig.group_id = "";
+                return;
+            }
+            if(index >= this.allCategories.length)  return;
+
             this.cat_slug = this.allCategories[index].key;
             this.cat_name = this.allCategories[index].display;
 
@@ -508,6 +534,12 @@ export default {
                 this.formSchema.inputs = [];
                 this.formSchema.title = 'Feedback Form';
             }
+
+            setTimeout(() => {
+                if (this.$refs['categoryFeedbackForm'] && this.$refs['categoryFeedbackForm'].length > 0) {
+                    this.$refs['categoryFeedbackForm'][0].populateData();
+                }
+            }, 1);
 
             let selectedConfig = this.allCategories[index].freshdesk_config;
             if (selectedConfig) {
