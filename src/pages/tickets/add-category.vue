@@ -109,6 +109,11 @@
                         </div> -->
                          <div class="category-details">
                             <div class="space-between">
+                                <label class="label-text-3 " for="slug">
+                                    * L1, L2, L3 slug and name should be seperated by " > "
+                                </label>
+                            </div>
+                            <div class="space-between">
                                 <label class="label-text-2 " for="name"
                                     >Category Name</label
                                 >
@@ -129,11 +134,6 @@
                                     :placeholder="'Edit Category slug'"
                                     v-model="cat_slug"
                                 ></nitrozen-input>
-                            </div>
-                            <div class="space-between">
-                                <label class="label-text-3 " for="slug"
-                                    >*L1, L2, L3 slug and name should be seperated by " / "</label
-                                >
                             </div>
                         </div>
                         <div class="feedback-form">
