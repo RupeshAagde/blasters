@@ -38,7 +38,7 @@
             </div>
             <div v-for="(item, index) in allCategories" v-bind:key="index">
                 <div class="category"
-                    v-on:click="editCategory(item.key, index)"
+                    v-on:click="editCategory(index)"
                 >
                     <div class="category-top">
                         <p v-if="editingCatIdx != index" style="flex: 1 1 auto">{{ item.display }}</p> 
@@ -65,7 +65,7 @@
                         </span>
                         <span
                             class="cursor-pointer"
-                            v-on:click="editCategory(item.key, index, $event)"
+                            v-on:click="editCategory(index, $event)"
                             v-else
                             title="Add sub-categories and Feedback Form"
                         >
@@ -136,22 +136,6 @@
                                 ></nitrozen-input>
                             </div>
                         </div>
-                        <div class="feedback-form">
-                            <div class="header-line">
-                                <p>Feedback Form Schema</p>
-                                <nitrozen-button
-                                    theme="secondary"
-                                    @click="preview('categoryFeedbackForm')"
-                                    >
-                                    Preview
-                                </nitrozen-button>
-                            </div>
-                            <meta-box
-                                ref="categoryFeedbackForm"
-                                :showJsonOnly="true"
-                                :customJson="formSchema.inputs"
-                            ></meta-box>
-                        </div>
                         <div class="freshdesk-config">
                             <div class="header-line">
                                 <p>Fresh Desk Config</p>
@@ -175,6 +159,22 @@
                                     v-model="freshDeskConfig.sync_enabled"
                                 ></nitrozen-toggle-btn>
                             </div>
+                        </div>
+                        <div class="feedback-form">
+                            <div class="header-line">
+                                <p>Feedback Form Schema</p>
+                                <nitrozen-button
+                                    theme="secondary"
+                                    @click="preview('categoryFeedbackForm')"
+                                    >
+                                    Preview
+                                </nitrozen-button>
+                            </div>
+                            <meta-box
+                                ref="categoryFeedbackForm"
+                                :showJsonOnly="true"
+                                :customJson="formSchema.inputs"
+                            ></meta-box>
                         </div>
                     </div>
                 </div>
@@ -295,7 +295,6 @@ export default {
         addCategory() {
             const slugifiedKey = slugify(this.newCategory.trim(), {
                 lower: true,
-                strict: true,
             });
             if (!this.isSubmitable && this.loading) {
                 return;
@@ -319,7 +318,7 @@ export default {
             };
             this.allCategories.unshift(data);
             this.newCategory = '';
-            this.editCategory(data.slugifiedKey, 0);
+            this.editCategory(0, undefined, true);
             this.isUpdated = true;
         },
         onCategoryChange() {
@@ -346,11 +345,11 @@ export default {
             }
             this.isUpdated = true;
         },
-        editCategory(key, index, event) {
+        editCategory(index, event, newAddition) {
             if (event) {
                 event.stopPropagation();
             }
-            if (this.editingCatIdx === index) return;
+            if (this.editingCatIdx === index && !newAddition) return;
             this.editingCatIdx = index;
             this.chipInput = '';
             this.updateDataForCategory(index);
