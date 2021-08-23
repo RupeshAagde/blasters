@@ -360,13 +360,13 @@ export default {
                 return;
             }
             let data = {
-                items: this.allCategories,
+                items: this.allCategories.filter(cat => cat.key !== 'unassigned')
             };
             this.loading = true;
             SupportService.addCategories(data)
                 .then((response) => {
                     if (response.data.items && response.data.items.length > 0) {
-                        this.allCategories = response.data.items;
+                        this.allCategories = response.data.items.filter(cat => cat.key !== 'unassigned');
                     }
                     this.$snackbar.global.showSuccess('Categories updated');
                     this.isUpdated = false;
