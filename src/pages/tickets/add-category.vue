@@ -274,7 +274,7 @@ export default {
         SupportService.fetchCategories()
             .then((response) => {
                 if (response.data.items && response.data.items.length > 0) {
-                    this.allCategories = response.data.items;
+                    this.allCategories = response.data.items.filter(cat => cat.key !== 'unassigned');
                 }
                 this.fetchedSuccesfully = true;
             })
