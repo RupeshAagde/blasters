@@ -24,7 +24,7 @@
                                 {{ createdBy() }}
                             </div>
                             <div
-                                v-if="this.companyInfo.name"
+                                v-if="this.companyInfo && this.companyInfo.name"
                                 class="contact-us card-content-line-2"
                             >
                                 {{ this.companyInfo.name }}
