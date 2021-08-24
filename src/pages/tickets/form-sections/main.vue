@@ -23,6 +23,12 @@
                             <div class="card-content-line-1">
                                 {{ createdBy() }}
                             </div>
+                            <div
+                                v-if="this.companyInfo.name"
+                                class="contact-us card-content-line-2"
+                            >
+                                {{ this.companyInfo.name }}
+                            </div>
                             <div class="contact-us card-content-line-2">
                                 <div
                                     class="contact-email"
@@ -472,7 +478,7 @@ export default {
             };
             CompanyService.fetchCompanyProfile(params)
                 .then((res) => {
-                    this.companyInfo = res.data.data;
+                    this.companyInfo = res.data;
                 })
                 .catch((err) => {
                     console.error(err);
