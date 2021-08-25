@@ -88,7 +88,10 @@
                     </div>
                 </div>
                 <div class="join-section">
-                    <div class="self-controls-in-joining-section" v-if="detectMobileWidth()">
+                    <div
+                        class="self-controls-in-joining-section"
+                        v-if="detectMobileWidth()"
+                    >
                         <div
                             v-bind:class="[
                                 'action-button',
@@ -132,7 +135,9 @@
                         </div>
                     </div>
                     <div v-if="ticket" class="join-section-real">
-                        <div class="request-id" v-if="ticket.created_by">Customer Details</div>
+                        <div class="request-id" v-if="ticket.created_by">
+                            Customer Details
+                        </div>
                         <div class="assignee" v-if="ticket.created_by">
                             <div class="avatar-circle">
                                 <span class="initials">
@@ -202,7 +207,11 @@ export default {
                     ticket.created_by.user.last_name;
 
                 subtitle = subtitle + username;
-            } else if (ticket.created_by && ticket.created_by.details && ticket.created_by.details.name) {
+            } else if (
+                ticket.created_by &&
+                ticket.created_by.details &&
+                ticket.created_by.details.name
+            ) {
                 subtitle = subtitle + ticket.created_by.details.name;
             } else {
                 subtitle = 'Anonymous';
@@ -255,9 +264,7 @@ export default {
                     this.$route.params.ticket_id
                 ),
                 import('twilio-video'),
-                SupportService.getTicket(
-                    this.$route.params.ticket_id
-                ),
+                SupportService.getTicket(this.$route.params.ticket_id),
             ];
 
             Promise.all(promises)
@@ -281,9 +288,10 @@ export default {
                             this.localTrack = track;
 
                             setTimeout(function () {
-                                let container = document.getElementById(
-                                    'video-joining-self'
-                                );
+                                let container =
+                                    document.getElementById(
+                                        'video-joining-self'
+                                    );
 
                                 const element = track.attach();
 
@@ -379,9 +387,14 @@ export default {
     }
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 .whole-container {
-    height: 100%;
-    padding-top: 100px;
+    overflow-y: scroll;
+    height: 100vh;
+    padding-top: 70px;
     box-sizing: border-box;
 
     @media @mobile {
@@ -582,7 +595,7 @@ export default {
     position: relative;
     background-color: rgb(41, 41, 41);
     margin: auto;
-    max-width: 700px;
+    max-width: 680px;
     min-height: var(--self-video-min-height);
 
     @media @mobile {

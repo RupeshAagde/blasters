@@ -40,4 +40,69 @@ describe('Ticket Category Page', () => {
         await new Promise(resolve => setTimeout(resolve, 10));
         expect(wrapper.findAllComponents({name: "add-category"}).length).toBe(1);
     })
+
+    it('test categories edit a category', async () => {
+        const router = new VueRouter({
+            routes: [
+                { path: '/administrator/support/add-category', component: ticketCategory }
+            ]
+        })
+        router.push('/administrator/support/add-category');
+        const wrapper = mount(ticketCategory, {
+            localVue,
+            router
+        })
+        
+        const mockCategoryData = {"items":[{"_id":"6114cac4ca9929529fa7bd9f","key":"order","display":"Order","sub_categories":[],"__v":0,"feedback_form":{"inputs":[{"type":"text","showRegexInput":false,"enum":[],"display":"How was the service?","key":"how-was-the-service","required":true}],"title":"Feedback form"}},{"_id":"6114c5d2ca9929c665a7bd9b","key":"updated-key","display":"updated one","sub_categories":[],"__v":0},{"_id":"611416d645620b7633c86c5d","key":"test","display":"Test","sub_categories":[],"__v":0}]};
+        mock.onGet(ADMIN_URLS.FETCH_CATEGORIES()).reply(200, mockCategoryData);
+        await new Promise(resolve => setTimeout(resolve, 10));
+
+        wrapper.setData({ cat_name: "updated one" });
+
+        mock.onPost(ADMIN_URLS.FETCH_CATEGORIES()).reply(200, mockCategoryData);
+        await new Promise(resolve => setTimeout(resolve, 10));
+
+        wrapper.vm.saveAllField(2)
+        await new Promise(resolve => setTimeout(resolve, 10));
+
+        wrapper.setData({ editingCatIdx: 0})
+        await new Promise(resolve => setTimeout(resolve, 10));
+
+        expect(wrapper.text()).toContain("updated one");
+        expect(wrapper.findAll('.category-details').length).toBe(1);
+        expect(wrapper.findAll('.feedback-form').length).toBe(1);
+        expect(wrapper.findAll('.freshdesk-config').length).toBe(1);
+
+    })
+
+    it('test add a category', async () => {
+        const router = new VueRouter({
+            routes: [
+                { path: '/administrator/support/add-category', component: ticketCategory }
+            ]
+        })
+        router.push('/administrator/support/add-category');
+        const wrapper = mount(ticketCategory, {
+            localVue,
+            router
+        })
+        
+        const mockCategoryData = {"items":[{"_id":"6114cac4ca9929529fa7bd9f","key":"order","display":"Order","sub_categories":[],"__v":0,"feedback_form":{"inputs":[{"type":"text","showRegexInput":false,"enum":[],"display":"How was the service?","key":"how-was-the-service","required":true}],"title":"Feedback form"}},{"_id":"6114c5d2ca9929c665a7bd9b","key":"updated-key","display":"updated one","sub_categories":[],"__v":0},{"_id":"611416d645620b7633c86c5d","key":"test","display":"Test","sub_categories":[],"__v":0}]};
+        mock.onGet(ADMIN_URLS.FETCH_CATEGORIES()).reply(200, mockCategoryData);
+        await new Promise(resolve => setTimeout(resolve, 10));
+
+        wrapper.setData({ cat_name: "updated one" });
+
+        mock.onPost(ADMIN_URLS.FETCH_CATEGORIES()).reply(200, mockCategoryData);
+        await new Promise(resolve => setTimeout(resolve, 10));
+
+        wrapper.vm.addCategory();
+        wrapper.vm.saveAllField(0)
+        await new Promise(resolve => setTimeout(resolve, 10));
+
+        wrapper.setData({ editingCatIdx: 0})
+        await new Promise(resolve => setTimeout(resolve, 10));
+
+        expect(wrapper.text()).toContain("updated one");
+    })
 })
