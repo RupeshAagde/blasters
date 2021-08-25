@@ -23,6 +23,12 @@
                             <div class="card-content-line-1">
                                 {{ createdBy() }}
                             </div>
+                            <div
+                                v-if="this.companyInfo && this.companyInfo.name"
+                                class="contact-us card-content-line-2"
+                            >
+                                {{ this.companyInfo.name }}
+                            </div>
                             <div class="contact-us card-content-line-2">
                                 <div
                                     class="contact-email"
@@ -426,6 +432,7 @@ export default {
         },
         contactEmail() {
             const ticket = this.ticket;
+            if(!ticket.created_by) return undefined;
             if (ticket.created_by.details) {
                 if (ticket.created_by.details.email) {
                     return ticket.created_by.details.email;
@@ -443,6 +450,7 @@ export default {
         },
         contactPhone() {
             const ticket = this.ticket;
+            if(!ticket.created_by) return undefined;
             if (ticket.created_by.details) {
                 if (ticket.created_by.details.phone) {
                     return (
@@ -470,14 +478,14 @@ export default {
             };
             CompanyService.fetchCompanyProfile(params)
                 .then((res) => {
-                    this.companyInfo = res.data.data;
+                    this.companyInfo = res.data;
                 })
                 .catch((err) => {
                     console.error(err);
                 });
         },
         ratingDetail(event) {
-            let creator = 'User';
+            let creator = 'Staff ';
             let final = '';
             if (event.created_by) {
                 creator =
@@ -508,19 +516,21 @@ export default {
         },
         diffDetail(event) {
             let history =
-                event.created_by.first_name +
-                ' ' +
-                event.created_by.last_name +
-                ' ';
+                event.created_by
+                ? event.created_by.first_name +
+                  ' ' +
+                  event.created_by.last_name +
+                  ' '
+                : 'Staff ';
             const date = ' at ' + this.readableDate(new Date(event.createdAt));
             let additions = 0;
 
             if (
                 event.value.assigned_to &&
-                event.value.assigned_to.id &&
-                event.value.assigned_to.id.length == 2
+                event.value.assigned_to.agent_id &&
+                event.value.assigned_to.agent_id.length == 2
             ) {
-                const key = event.value.assigned_to.id[1];
+                const key = event.value.assigned_to.agent_id[1];
                 let value = undefined;
 
                 this.staff.forEach(element => {
@@ -537,10 +547,27 @@ export default {
                 event.value.assigned_to &&
                 event.value.assigned_to.length == 2
             ) {
-                const key = event.value.assigned_to[1].id;
+                const key = event.value.assigned_to[1].agent_id;
                 let value = undefined;
 
                 this.staff.forEach(element => {
+                    if (element.value == key) {
+                        value = element.text;
+                    }
+                });
+
+                if (value) {
+                    additions = additions + 1;
+                    history = history + 'assigned this to ' + value;
+                }
+            } else if (
+                event.value.assigned_to &&
+                event.value.assigned_to.length == 1
+            ) {
+                const key = event.value.assigned_to[0].agent_id;
+                let value = undefined;
+
+                this.staff.forEach((element) => {
                     if (element.value == key) {
                         value = element.text;
                     }
@@ -652,10 +679,12 @@ export default {
         },
         logDetail(event) {
             let history =
-                event.created_by.first_name +
-                ' ' +
-                event.created_by.last_name +
-                ' ';
+                event.created_by
+                ? event.created_by.first_name +
+                  ' ' +
+                  event.created_by.last_name +
+                  ' '
+                : 'Staff ';
             const date = ' at ' + this.readableDate(new Date(event.createdAt));
             let additions = 0;
 
