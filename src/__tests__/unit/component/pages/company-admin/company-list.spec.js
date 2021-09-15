@@ -20,7 +20,7 @@ describe('List Company List Component', () => {
         mock.reset();
         router = new VueRouter({
             AdminRoutes
-        });
+        }); 
         router.push('/administrator/company-list');
     });
 
