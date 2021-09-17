@@ -43,17 +43,6 @@ describe('Mounted PG review component ', () => {
       200,
       response
     );
-
-    // mock.onGet(URLS.FETCH_COD_CONFIG(JSON.stringify({ companyId: '1', app_id: '000000000000000000000001' }))).reply(
-    //   200,
-    //   res2
-    // );
-
-    // mock.onPost(URLS.PG_REVIEWED(JSON.stringify({ companyId: '1', app_id: '000000000000000000000001' }), dataraw )).reply(
-    //   200,
-    //   res3
-    //   );
-
     wrapper = mount(PgConfig, {
       localVue,
       router

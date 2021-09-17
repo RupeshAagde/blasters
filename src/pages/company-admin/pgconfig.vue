@@ -18,11 +18,11 @@
                 ></nitrozen-dropdown>
             </div>
         </div>
-        <page-empty v-if="response.data.data[0] >= 0" > </page-empty>
+        <page-empty v-if="!reviewDetails || reviewDetails.data && reviewDetails.data[0].length == 0" > </page-empty>
         <shimmer v-if="loading" :count="4"></shimmer>
-        <div v-if="!loading">
+        <div v-if="!loading && reviewDetails && reviewDetails.data && reviewDetails.data.length">
            
-            <div v-for="item in response.data.data[0]" :key="item.id">
+            <div v-for="item in reviewDetails.data[0]" :key="item.id">
                 <div class="container">
                     <div class="card-top" @click="openRejectDialog(item)">
                         <div class="left-container">
@@ -272,7 +272,7 @@ export default {
     },
     data() {
         return {
-            response: {},
+            reviewDetails: null,
             param: {
                 companyId: this.$route.params.companyId,
                 app_id: this.$route.params.appId,
@@ -313,10 +313,8 @@ export default {
             PaymentServices.getReviewDetails(
                 this.param,
                 this.selectedFilter
-            ).then((data) => {
-            
-                this.response = data;
-                console.log(data);
+            ).then(({data}) => {
+                this.reviewDetails = data;
                 this.loading = false;
             })
             .catch(err=>{
@@ -341,7 +339,6 @@ export default {
             };
             PaymentServices.postPgReview(ids, payload)
                 .then((data) => {
-                    console.log(data);
                     this.getReviewList();
                     this.closeDialog();
                     this.$snackbar.global.showSuccess('PG cred Approved');
@@ -387,7 +384,7 @@ export default {
         },
         fetchcodconfig() {
             PaymentServices.getCOD(this.param).then((a) => {
-                //console.log(a);
+                console.log(a);
                 this.typeSelectedCollect = a.data.delivery_config.cod.refund_by;
                 this.typeSelectedRefund = a.data.delivery_config.cod.collect_by;
             });
@@ -423,9 +420,8 @@ export default {
         }),
     },
     mounted() {
+        console.log("Mounting",this.$route.params)
         this.getReviewList();
-        console.log( JSON.stringify(this.$route.params));
-        console.log();
     },
 };
 </script>

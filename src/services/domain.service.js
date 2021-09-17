@@ -492,9 +492,8 @@ const URLS = {
     FETCH_REVIEW_LIST: (params,status) => {
         console.log(urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/?action=reviewed&is_reviewed=${status}`))
         return urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/?action=reviewed&is_reviewed=${status}`)
-    }
-
-    ,PG_REVIEWED: (params)=>{
+    },
+    PG_REVIEWED: (params)=>{
      return urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/${params.paymentId}/?action=reviewed&email=${params.email}`)
     },
     FETCH_COD_CONFIG: (params)=>{
