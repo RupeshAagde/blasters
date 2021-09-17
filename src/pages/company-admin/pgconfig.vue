@@ -1,7 +1,8 @@
 <template>
     <div class="top">
-        <div class="search-box">
+         <div class="search-box">
             <nitrozen-button
+               id="cod"
                 :theme="'secondary'"
                 @click="fetchcodconfig"
                 v-flatBtn
@@ -17,8 +18,10 @@
                 ></nitrozen-dropdown>
             </div>
         </div>
+        <page-empty v-if="response.data.data[0] >= 0" > </page-empty>
         <shimmer v-if="loading" :count="4"></shimmer>
         <div v-if="!loading">
+           
             <div v-for="item in response.data.data[0]" :key="item.id">
                 <div class="container">
                     <div class="card-top" @click="openRejectDialog(item)">
@@ -113,8 +116,7 @@
                                 </nitrozen-check-box>
                             </div>
                             <div class="sub-acc">
-                                Are you sure you want to Approve these
-                                credentials?
+                                is it a Fynd Sub Merchant Account?
                             </div>
                         </div>
                         <div>
@@ -224,6 +226,7 @@ import { mapGetters } from 'vuex';
 import { GET_USER_INFO } from '../../store/getters.type';
 import Shimmer from '@/components/common/shimmer';
 import Jumbotron from '@/components/common/jumbotron';
+import PageEmpty from '@/components/common/page-empty';
 
 import PaymentServices from '../../services/gringotts.service';
 import {
@@ -261,6 +264,7 @@ export default {
         'nitrozen-dialog': NitrozenDialog,
         'inline-svg': inlinesvg,
         Jumbotron,
+        'page-empty' : PageEmpty
     },
     directives: {
         flatBtn,
@@ -286,6 +290,7 @@ export default {
             typeSelectedCollect: '',
             typeSelectedRefund: '',
         };
+
     },
     methods: {
         openRejectDialog: function (item) {
@@ -309,20 +314,25 @@ export default {
                 this.param,
                 this.selectedFilter
             ).then((data) => {
+            
                 this.response = data;
                 console.log(data);
                 this.loading = false;
-            });
+            })
+            .catch(err=>{
+                console.log(err);
+            })
         },
         postReviewedAccept: function () {
             const payload = {
                 payment_gateway: this.modalProps.payment_gateway,
                 is_reviewed: 'true',
                 reviewer: this.reviewerEmail,
-                comments: '',
+                comments: this.comments,
                 is_active: 'true',
-                is_sub_fynd_account: 'false',
-                password: 'unicron@admin@fynd#2021',
+                is_sub_fynd_account: this.fyndSubAcc ,
+                password: this.password , 
+                // unicron@admin@fynd#2021
             };
             const ids = {
                 ...this.param,
@@ -414,6 +424,8 @@ export default {
     },
     mounted() {
         this.getReviewList();
+        console.log( JSON.stringify(this.$route.params));
+        console.log();
     },
 };
 </script>

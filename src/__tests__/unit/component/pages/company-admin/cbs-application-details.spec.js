@@ -44,25 +44,25 @@ describe('Mounted Company Application Detail Page', () => {
 
 
 
-    it('Check back arrow button', async () => {
-        mock.onGet(URLS.FETCH_REVIEW_LIST(JSON.stringify({ companyId: '1', app_id: '000000000000000000000001' }), "true")).reply(
-            200,
-            response
-          );
-          await flushPromises();
-        wrapper = mount(CbsAppDetail, {
-            localVue,
-            router
-        });
-        await flushPromises();
-        const backBtn = wrapper.find('.page-nav-back-text');
-        expect(backBtn.exists()).toBe(true);
-        backBtn.trigger('click');
-        await wrapper.vm.$nextTick();
-        await flushPromises();
-        expect(router.currentRoute.fullPath).toBe(
-            $router.go(-1)
-        );
-        mock.reset();
-    });
+    // it('Check back arrow button', async () => {
+    //     mock.onGet(URLS.FETCH_REVIEW_LIST(JSON.stringify({ companyId: '1', app_id: '000000000000000000000001' }), "true")).reply(
+    //         200,
+    //         response
+    //       );
+    //       await flushPromises();
+    //     wrapper = mount(CbsAppDetail, {
+    //         localVue,
+    //         router
+    //     });
+    //     await flushPromises();
+    //     const backBtn = wrapper.find('.page-nav-back-text');
+    //     expect(backBtn.exists()).toBe(true);
+    //     backBtn.trigger('click');
+    //     await wrapper.vm.$nextTick();
+    //     await flushPromises();
+    //     expect(router.currentRoute.fullPath).toBe(
+    //         $router.go(-1)
+    //     );
+    //     mock.reset();
+    // });
 });
