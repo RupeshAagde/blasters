@@ -30,12 +30,7 @@ let dataraw = {
 describe('Mounted PG review component ', () => {
   beforeEach(() => {
     localVue = createLocalVue();
-    localVue.use(VueRouter);
     mock.reset();
-    router = new VueRouter({
-      AdminRoutes
-    });
-    router.push('/administrator/company-details/1/application/000000000000000000000001');
   });
 
   it('Get pg detail page info. successfully', async () => {
@@ -45,7 +40,17 @@ describe('Mounted PG review component ', () => {
     );
     wrapper = mount(PgConfig, {
       localVue,
-      router
+      mocks: {
+				$route: {
+					params: {
+            companyId: "1",
+            appId: "000000000000000000000001"
+          },
+          query:{
+            status:"true"
+          }
+				}
+			}
     });
     await flushPromises();
     expect(wrapper.element).toMatchSnapshot();
