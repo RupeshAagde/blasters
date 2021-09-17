@@ -4,7 +4,7 @@
         <div v-else class="panel">
             <div class="header-position">
                 <adm-page-header
-                    title="Verify Product"
+                    :title="title"
                     @backClick="redirectToListing"
                 >
                     <div class="badge-align">
@@ -1126,7 +1126,7 @@ import inlineSVG from '@/components/common/adm-inline-svg';
 import remarkMsgDialog from './components/remark-msg-dialog.vue';
 import admsvg from '@/components/common/adm-inline-svg.vue';
 
-import { isEmpty, toLower, cloneDeep } from 'lodash';
+import { isEmpty, toLower, cloneDeep, upperCase } from 'lodash';
 
 import {
     Customs,
@@ -1194,6 +1194,7 @@ export default {
 
     data() {
         return {
+            title: "",
             customJSON: {},
             pageLoading: false,
             miscErrors: {},
@@ -1337,6 +1338,7 @@ export default {
                 }
 
                 this.status = this.verificationDetails.status;
+                this.title = `Verify Product - ${upperCase(this.product.item_code)}`
 
                 this.populateForm();
             } catch (error) {
