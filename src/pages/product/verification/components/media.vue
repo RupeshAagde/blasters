@@ -9,7 +9,7 @@
                             :src="value.url"
                             @load="getImageDimensions($event)"
                         />
-                        <div class="dimensions">{{this.width + "px X " + this.height + "px"}}</div>
+                        <div class="dimensions">{{this.aspect_ratio}}</div>
                     </div>
                     <div
                         v-else-if="value.type === 'video'"
@@ -125,7 +125,8 @@ export default {
             fileDomain: 'image',
             isMounted: false,
             height: 0,
-            width: 0
+            width: 0,
+            aspect_ratio: "1:1"
         };
     },
     mounted() {
@@ -133,11 +134,18 @@ export default {
     },
     methods: {
         formatBytes,
+        gcd(a, b){
+            // calculates gcd of two numbers
+            return b ? this.gcd(b,a%b) : a; 
+        },
         getImageDimensions (e) {
             if(e) {
                 this.width = e.target.naturalWidth;
                 this.height = e.target.naturalHeight;
+                let gcd = this.gcd(this.width, this.height);
+                this.aspect_ratio = `${this.width/gcd}:${this.height/gcd}`
             }
+            
         }
         
     }
