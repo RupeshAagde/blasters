@@ -24,7 +24,7 @@
            
             <div v-for="item in reviewDetails.data[0]" :key="item.id">
                 <div class="container">
-                    <div class="card-top" @click="openRejectDialog(item)">
+                    <div class="card-top" id="removedialog" @click="openRejectDialog(item)">
                         <div class="left-container">
                             <div>
                                 <div
@@ -111,12 +111,14 @@
                             <div>
                                 <nitrozen-check-box v-model="fyndSubAcc">
                                     <div class="check">
-                                        Fynd Sub Merchant Account
+                                        <span class="cst-1">FYND Sub Merchant Account</span> <nitrozen-tooltip class="cst-space-left">
+                <div class="custom-tooltip-txt">Select this checkbox if this account creds belongs to Fynd  submerchant account. Otherwise leave it unchecked. Fynd submerchant account means your transaction amount get settled in Fynd bank account.</div>
+            </nitrozen-tooltip>
                                     </div>
                                 </nitrozen-check-box>
                             </div>
                             <div class="sub-acc">
-                                is it a Fynd Sub Merchant Account?
+                                
                             </div>
                         </div>
                         <div>
@@ -151,13 +153,15 @@
                 <template slot="footer">
                     <div>
                         <nitrozen-button
+                            v-flatBtn
                             class="mr24"
+                            id="approve"
                             :theme="'secondary'"
                             @click="postReviewedAccept()"
                             :disabled="false"
                             >Approve</nitrozen-button
                         >
-                        <nitrozen-button class="mr24" :theme="'secondary'"
+                        <nitrozen-button v-strokeBtn class="mr24" :theme="'secondary'"
                             >Decline</nitrozen-button
                         >
                     </div>
@@ -195,6 +199,7 @@
                             </div>
                             <nitrozen-input
                                 class="search"
+                                id="blurE"
                                 type="password"
                                 label="Password"
                                 placeholder="Enter password to change COD config"
@@ -211,7 +216,7 @@
                 </template>
                 <template slot="footer">
                     <div @click="postcodconfig">
-                        <nitrozen-button class="mr24" :theme="'secondary'"
+                        <nitrozen-button v-flatBtn id="codPost" class="mr24" :theme="'secondary'"
                             >Save</nitrozen-button
                         >
                     </div>
@@ -239,6 +244,7 @@ import {
     NitrozenError,
     flatBtn,
     strokeBtn,
+    NitrozenTooltip
 } from '@gofynd/nitrozen-vue';
 
 const ROLE_FILTER = [
@@ -264,7 +270,8 @@ export default {
         'nitrozen-dialog': NitrozenDialog,
         'inline-svg': inlinesvg,
         Jumbotron,
-        'page-empty' : PageEmpty
+        'page-empty' : PageEmpty,
+        NitrozenTooltip
     },
     directives: {
         flatBtn,
@@ -310,6 +317,7 @@ export default {
             if (this.$route.query.status) {
                 this.selectedFilter = this.$route.query.status;
             }
+            //console.log("inside",this.$route.params)
             PaymentServices.getReviewDetails(
                 this.param,
                 this.selectedFilter
@@ -332,26 +340,32 @@ export default {
                 password: this.password , 
                 // unicron@admin@fynd#2021
             };
+             
             const ids = {
                 ...this.param,
                 paymentId: this.modalProps.id,
-                email: '',
+                email: this.reviewerEmail ,
             };
+            this.checkRequired()
             PaymentServices.postPgReview(ids, payload)
                 .then((data) => {
-                    this.getReviewList();
+                   this.getReviewList();
                     this.closeDialog();
                     this.$snackbar.global.showSuccess('PG cred Approved');
+                    this.password = '';
                 })
                 .catch((err) => {
+                    //console.log(err);
                     this.$snackbar.global.showError(err);
                 });
         },
         getReviewerMail: function () {
+            //console.log(this.currentUserInfo);
             let mails = this.currentUserInfo.user.emails;
+            //console.log(mails);
             for (let i of mails) {
                 if (i.active && i.primary) {
-                    c//onsole.log(i.email);
+                    //console.log(i.email);
                     this.reviewerEmail = i.email;
                 }
             }
@@ -384,10 +398,13 @@ export default {
         },
         fetchcodconfig() {
             PaymentServices.getCOD(this.param).then((a) => {
-                console.log(a);
+                //console.log(a);
                 this.typeSelectedCollect = a.data.delivery_config.cod.refund_by;
                 this.typeSelectedRefund = a.data.delivery_config.cod.collect_by;
-            });
+            })
+            .catch(e=>{
+                console.log(e);
+            })
             this.$refs['cod_dialog'].open({
                 width: '500px',
             });
@@ -400,17 +417,20 @@ export default {
             collect_by: this.typeSelectedCollect
         }
     },
-    password: "unicron@admin@fynd#2021"
+    password: this.password
 }
+this.checkRequired()
             
             PaymentServices.postCOD(this.param, data)
                 .then((res) => {
                     this.$snackbar.global.showSuccess('COD config Saved');
-                    console.log(res);
+                    this.password= ''
+                    this.comments = ''
+                    //console.log(res);
                 })
                 .catch((err) => {
                     this.$snackbar.global.showError(err);
-                    console.log(err);
+                    //console.log(err);
                 });
         },
     },
@@ -420,7 +440,7 @@ export default {
         }),
     },
     mounted() {
-        console.log("Mounting",this.$route.params)
+        //console.log("Mounting",this.$route.params)
         this.getReviewList();
     },
 };
@@ -589,9 +609,10 @@ export default {
     text-transform: capitalize;
 }
 .check {
+    display: flex;
     color: #9b9b9b;
     font-family: Inter, sans-serif;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
     -webkit-box-flex: 1;
 }
@@ -644,14 +665,12 @@ export default {
     -webkit-box-flex: 1;
     margin-bottom: 15px;
 }
-.b1 {
-    margin-bottom: 30px;
-}
+
 .comm {
     margin-bottom: 15px;
 }
 .filter-type {
-    width: 67%;
+    width: 100%;
     margin-bottom: 25px;
 }
 .extra {
@@ -665,4 +684,17 @@ export default {
     line-height: 21px;
     -webkit-box-flex: 1;
 }
+.custom-tooltip-txt {
+    line-height: 20px;
+    font-family: Inter;
+    font-size: 12px;
+    text-align: left;
+    min-width: 200px;
+    padding: 6px 12px;
+}
+.cst-space-left {
+    margin-left: 10px;
+    margin-top: 2px
+}
+
 </style>

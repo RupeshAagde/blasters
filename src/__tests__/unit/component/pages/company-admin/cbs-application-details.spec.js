@@ -25,7 +25,7 @@ describe('Mounted Company Application Detail Page', () => {
         router = new VueRouter({
             AdminRoutes
         });
-        router.push('/administrator/company-details/1/application/000000000000000000000001');
+        router.push('/administrator/company-details/1/application/000000000000000000000001?tab=PG%20Cred%20Review');
     });
 
     it('Get Cbs detail page info. successfully', async () => {
@@ -37,6 +37,8 @@ describe('Mounted Company Application Detail Page', () => {
         await flushPromises();
          expect(wrapper.element).toMatchSnapshot();
          expect(wrapper.exists()).toBeTruthy();
+         const redirectDiv = wrapper.find('.custom-tab')
+         expect(redirectDiv.exists()).toBe(true);
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
         mock.reset();
@@ -49,10 +51,18 @@ describe('Mounted Company Application Detail Page', () => {
     //         200,
     //         response
     //       );
-    //       await flushPromises();
+          
     //     wrapper = mount(CbsAppDetail, {
     //         localVue,
-    //         router
+    //         mocks: {
+	// 			$route: {
+	// 				params: {
+    //         companyId: "1",
+    //         appId: "000000000000000000000001",
+            
+    //       }
+	// 			}
+	// 		}
     //     });
     //     await flushPromises();
     //     const backBtn = wrapper.find('.page-nav-back-text');

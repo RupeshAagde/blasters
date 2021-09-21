@@ -6,14 +6,10 @@ import { getCommonHeaderOptions } from './utils.service';
 
 const PaymentServices = {
     getReviewDetails(params,status){
-        console.log(params);
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.FETCH_REVIEW_LIST(params,status) , axiosOptions);
-        
-
     },
     postPgReview(params,payload){
-
         const axiosOptions = Object.assign(
             {},
             { data: payload },

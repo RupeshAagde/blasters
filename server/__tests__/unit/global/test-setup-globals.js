@@ -1,4 +1,8 @@
 const nock = require('nock')
+//const noop = require('noop')
+
+const noop = () => {};
+ Object.defineProperty(window, 'scrollTo', { value: noop, writable: true });
 
 const host = 'https://api.xyz.com/gringotts'
 const gringottsMock = nock(host)

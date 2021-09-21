@@ -5,57 +5,111 @@ import VueRouter from 'vue-router';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import flushPromises from 'flush-promises';
-import MOCK_DATA from './fixtures/cbs-mock.json';
-import AdminRoutes from '@/router/administrator/index.js';
+import MOCK_DATA from './fixtures/gringotts-mock.json';
 import URLS from '../../../../../services/domain.service.js';
+import AdminRoutes from '@/router/administrator/index.js';
+
+import { shallowMount } from '@vue/test-utils'
 
 let localVue, wrapper, router;
 const mock = new MockAdapter(axios);
 
 
-let response = { "status": true, "data": [[{ "payment_gateway": "payumoney", "is_active": true, "comments": "", "id": 45, "app_id": "000000000000000000000001", "reviewer": "omanshlavania@gofynd.com", "collect_by": "fynd", "refund_by": "fynd", "api_key": "EPbQ3UMB", "is_reviewed": false, "merchant_profile_id": null }, { "payment_gateway": "payubiz", "is_active": true, "comments": "", "id": 51, "app_id": "000000000000000000000001", "reviewer": "omanshlavania@gofynd.com", "collect_by": "fynd", "refund_by": "fynd", "api_key": "lu7Y7O", "is_reviewed": false, "merchant_profile_id": null }], {}] }
-
-let res2 = { "success": true, "id": 1, "app_id": "000000000000000000000001", "delivery_config": { "cod": { "refund_by": "self", "collect_by": "fynd" } } }
-let res3 = { "status": true, "data": [[{ "payment_gateway": "payubiz", "is_active": true, "comments": "", "id": 51, "app_id": "000000000000000000000001", "reviewer": "omanshlavania@gofynd.com", "collect_by": "fynd", "refund_by": "fynd", "api_key": "lu7Y7O", "is_reviewed": false, "merchant_profile_id": null }], {}] }
-
-let dataraw = {
-  "payment_gateway": "razorpay",
-  "is_reviewed": true,
-  "reviewer": "vikaskumar@gofynd.com",
-  "comments": "live",
-  "is_active": true,
-  "is_sub_fynd_account": false,
-  "password": "unicron@admin@fynd#2021"
-}
 describe('Mounted PG review component ', () => {
   beforeEach(() => {
     localVue = createLocalVue();
-    localVue.use(VueRouter);
-    mock.reset();
-    router = new VueRouter({
-      AdminRoutes
-    });
-    router.push('/administrator/company-details/1/application/000000000000000000000001');
+        localVue.use(VueRouter);
+        mock.reset();
+        window.scrollTo = (x, y) => {
+          document.documentElement.scrollTop = y;
+        }
+
+        
+
   });
 
   it('Get pg detail page info. successfully', async () => {
+    router = new VueRouter({
+      routes: [
+          { path: '/administrator/company-details/:companyId/application/:appId', component: PgConfig   }
+      ]
+  })
+    router.push('/administrator/company-details/1/application/000000000000000000000001?status=true');
+    
+    mock.onGet(URLS.FETCH_COD_CONFIG({ companyId: '1', app_id: '000000000000000000000001' })).reply(
+      200,
+      MOCK_DATA.getcod
+    );
+
     mock.onGet(URLS.FETCH_REVIEW_LIST({ companyId: '1', app_id: '000000000000000000000001' }, "true")).reply(
       200,
-      response
+      MOCK_DATA.getpg
     );
+   
+
+    
+
+
+    mock.onPost(URLS.FETCH_COD_CONFIG({ companyId: '1', app_id: '000000000000000000000001' })).reply(
+      200,
+      MOCK_DATA.getcod
+    );
+    mock.onPost(URLS.PG_REVIEWED({ companyId: '1', app_id: '000000000000000000000001', paymentId: "45", email: "omanshlavania@gofynd.com" })).reply(
+      200,
+      MOCK_DATA.postpg
+    );
+
+
+
     wrapper = mount(PgConfig, {
       localVue,
-      router
+      router,
+      computed: {
+				currentUserInfo: (state) => {
+					return MOCK_DATA.computedFix;
+				}
+      }
+      // mocks: {
+      //   $route: {
+      //     params: {
+      //       companyId: "1",
+      //       appId: "000000000000000000000001",
+      //       paymentId: "51",
+      //     },
+      //     query: {
+      //       status: "true",
+      //       email: "omanshlavania@gofynd.com"
+      //     }
+      //   }
+      // }
     });
+
     await flushPromises();
+    console.log(router.path);
     expect(wrapper.element).toMatchSnapshot();
     expect(wrapper.exists()).toBeTruthy();
-    const coddiv = wrapper.find('#cod')
-    expect(coddiv.exists()).toBe(true);
-    // coddiv.trigger('click')
+    const modalDiv = wrapper.find('#removedialog')
+    modalDiv.trigger('click');
     const div = wrapper.find('div');
     expect(div.exists()).toBe(true);
-    mock.reset();
+    const coddiv = wrapper.find('#cod')
+    expect(coddiv.exists()).toBe(true);
+    coddiv.trigger('click')
+
+    const approveDiv = wrapper.find("#approve")
+    expect(approveDiv.exists()).toBe(true);
+    approveDiv.trigger('click')
+    const checkBlur = wrapper.find("#blurE")
+    expect(checkBlur.exists()).toBe(true);
+    checkBlur.trigger("blur")
+     const codpost = wrapper.find('#codPost')
+     expect(codpost.exists()).toBe(true);
+     codpost.trigger('click')
+    
+
+
+
+    //mock.reset();
   });
 
 
@@ -63,3 +117,5 @@ describe('Mounted PG review component ', () => {
 
 
 });
+
+
