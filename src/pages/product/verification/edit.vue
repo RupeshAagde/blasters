@@ -1194,7 +1194,7 @@ export default {
 
     data() {
         return {
-            title: "Verify Product",
+            title: "",
             customJSON: {},
             pageLoading: false,
             miscErrors: {},
@@ -1338,7 +1338,7 @@ export default {
                 }
 
                 this.status = this.verificationDetails.status;
-                this.title += ` - ${upperCase(this.product.item_code)}`
+                this.title = `Verify Product - ${upperCase(this.product.item_code)}`
 
                 this.populateForm();
             } catch (error) {
