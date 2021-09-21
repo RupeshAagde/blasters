@@ -18,7 +18,6 @@ const mock = new MockAdapter(axios);
 describe('Mounted PG review component ', () => {
   beforeEach(() => {
     localVue = createLocalVue();
-<<<<<<< HEAD
         localVue.use(VueRouter);
         mock.reset();
         window.scrollTo = (x, y) => {
@@ -27,9 +26,6 @@ describe('Mounted PG review component ', () => {
 
         
 
-=======
-    mock.reset();
->>>>>>> 8b8159fd21e6967b0831be5329e40ccea3393a08
   });
 
   it('Get pg detail page info. successfully', async () => {
@@ -67,7 +63,6 @@ describe('Mounted PG review component ', () => {
 
     wrapper = mount(PgConfig, {
       localVue,
-<<<<<<< HEAD
       router,
       computed: {
 				currentUserInfo: (state) => {
@@ -87,19 +82,6 @@ describe('Mounted PG review component ', () => {
       //     }
       //   }
       // }
-=======
-      mocks: {
-				$route: {
-					params: {
-            companyId: "1",
-            appId: "000000000000000000000001"
-          },
-          query:{
-            status:"true"
-          }
-				}
-			}
->>>>>>> 8b8159fd21e6967b0831be5329e40ccea3393a08
     });
 
     await flushPromises();
