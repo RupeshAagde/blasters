@@ -87,6 +87,11 @@ const SKYWARP_ADMIN_BASE = isNode
     ? envVars.BROWSER_CONFIG.SKYWARP_ADMIN_URL
     : envVars.SKYWARP_ADMIN_URL;
 
+const GRINGOTTS_ADMIN_URL = isNode
+? envVars.BROWSER_CONFIG.GRINGOTTS_ADMIN_URL
+    : envVars.GRINGOTTS_ADMIN_URL;
+
+
 const URLS = {
     // User Profile API's
     USER_PROFILE: () => {
@@ -483,6 +488,19 @@ const URLS = {
     SIZE_GUIDE_URL: (companyId) => {
         return urlJoin(SILVERBOLT_ACAT_URL, `/v1.0/company/${companyId}/sizeguide/`);
     },
+    //GRINGOTTS
+    FETCH_REVIEW_LIST: (params,status) => {
+        //console.log(urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/?action=reviewed&is_reviewed=${status}`))
+        return urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/?action=reviewed&is_reviewed=${status}`)
+    },
+    PG_REVIEWED: (params)=>{
+        //console.log(urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/${params.paymentId}/?action=reviewed&email=${params.email}`));
+     return urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/${params.paymentId}/?action=reviewed&email=${params.email}`)
+    },
+    FETCH_COD_CONFIG: (params)=>{
+        //console.log(urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/company/${params.companyId}/application/${params.app_id}/cod/delivery/`))
+        return urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/company/${params.companyId}/application/${params.app_id}/cod/delivery/`)
+    }
 };
 
 export default URLS;
