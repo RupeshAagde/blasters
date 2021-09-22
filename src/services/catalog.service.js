@@ -53,7 +53,7 @@ const CatalogService = {
             { data: body },
             getCommonHeaderOptions()
         );
-        return ApiService.put(URLS.FETCH_VARIANT(), axiosOption);
+        return ApiService.put(URLS.FETCH_VARIANT(body.uid), axiosOption);
     },
     fetchDepartment(params) {
         const axiosOption = Object.assign(
