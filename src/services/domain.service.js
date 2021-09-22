@@ -102,11 +102,8 @@ const URLS = {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/product-attributes/');
     },
     //fetchVariant
-    FETCH_VARIANT: (uid) => {
-        if(uid) {
-            return urlJoin(SILVERBOLT_ACAT_URL, `/v1.0/variants/${uid}`);
-        }
-        return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/variants/');
+    FETCH_VARIANT: () => {
+        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/variants/');
     },
     //fetchDeparment
     FETCH_DEPARTMENT: (uid) => {
