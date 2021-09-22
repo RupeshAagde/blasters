@@ -47,6 +47,14 @@ const CatalogService = {
 
         return ApiService.post(URLS.FETCH_VARIANT(), axiosOption);
     },
+    updateVariant(body) {
+        const axiosOption = Object.assign(
+            {},
+            { data: body },
+            getCommonHeaderOptions()
+        );
+        return ApiService.put(URLS.FETCH_VARIANT(body.uid), axiosOption);
+    },
     fetchDepartment(params) {
         const axiosOption = Object.assign(
             {

@@ -531,45 +531,38 @@ export default {
             this.$router.push({ path: '/administrator/product/variants' });
         },
         save() {
-            let postData = {
+            let reqBody = {
                 is_active: this.is_active,
                 priority: this.priority.value
             };
-            if (this.uid && this.update) postData.uid = this.uid;
-            if (this.display.value != '') {
+            if (this.uid && this.update) reqBody.uid = this.uid;
+            if (this.display.value !== '') {
                 this.display.showerror = false;
-                postData.display = this.display.value;
+                reqBody.display = this.display.value;
             } else {
                 this.display.showerror = true;
             }
 
-            if (this.displayType.selectedtype != '') {
+            if (this.displayType.selectedtype !== '') {
                 this.displayType.showerror = false;
-                postData.display_type = this.displayType.selectedtype;
+                reqBody.display_type = this.displayType.selectedtype;
             } else {
                 this.displayType.showerror = true;
             }
 
             if (this.department.selectedtype.length > 0) {
                 this.department.showerror = false;
-                postData.departments = this.department.selectedtype;
+                reqBody.departments = this.department.selectedtype;
             } else {
                 this.department.showerror = true;
             }
 
-            if (this.deptkey.selectedtype != '') {
+            if (this.deptkey.selectedtype !== '') {
                 this.deptkey.showerror = false;
-                postData.key = this.deptkey.selectedtype;
+                reqBody.key = this.deptkey.selectedtype;
             } else {
                 this.deptkey.showerror = true;
             }
-
-            // if (this.priority.value >= '0') {
-            //     this.priority.showerror = false;
-            //     postData.priority = this.priority.value;
-            // } else {
-            //     this.priority.showerror = true;
-            // }
 
             if (
                 !this.display.showerror &&
@@ -578,8 +571,39 @@ export default {
                 !this.deptkey.showerror &&
                 !this.priority.showerror
             ) {
-                CatalogService.saveVariant(postData)
-                    .then((res) => {
+                if (reqBody.uid) {
+                    CatalogService.updateVariant(reqBody)
+                        .then((res) => {
+                            this.pageLoading = false;
+                            this.$snackbar.global.showSuccess(`${this.saveText}`, {
+                                duration: 2000
+                            });
+                            setTimeout(() => {
+                            }, 2000);
+                            this.$router.push({
+                                path: `/administrator/product/variants/edit/${res.data.uid}`
+                            });
+                        })
+                        .catch((error) => {
+                            this.pageLoading = false;
+                            if (error &&
+                                error.response &&
+                                error.response.data &&
+                                error.response.data.errors &&
+                                error.response.data.errors.error) {
+                                this.$snackbar.global.showError(
+                                    `${error.response.data.errors.error}`
+                                );
+                                return;
+                            }
+                            this.$snackbar.global.showError(
+                                `Something went wrong`
+                            );
+                        });
+                    return;
+                }
+                CatalogService.saveVariant(reqBody)
+                    .then(() => {
                         this.pageLoading = false;
                         this.$snackbar.global.showSuccess(`${this.saveText}`, {
                             duration: 2000
