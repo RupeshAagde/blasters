@@ -653,6 +653,7 @@ export default {
             } else {
                 this.searchText = '';
             }
+            
             this.getCompanyList();
         }, 500),
         setCompanyList() {
