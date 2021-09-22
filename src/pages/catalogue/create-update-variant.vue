@@ -573,7 +573,7 @@ export default {
             ) {
                 if (reqBody.uid) {
                     CatalogService.updateVariant(reqBody)
-                        .then(() => {
+                        .then((res) => {
                             this.pageLoading = false;
                             this.$snackbar.global.showSuccess(`${this.saveText}`, {
                                 duration: 2000
@@ -581,7 +581,7 @@ export default {
                             setTimeout(() => {
                             }, 2000);
                             this.$router.push({
-                                path: `/administrator/product/variants/${reqBody.uid}`
+                                path: `/administrator/product/variants/edit/${res.data.uid}`
                             });
                         })
                         .catch((error) => {
