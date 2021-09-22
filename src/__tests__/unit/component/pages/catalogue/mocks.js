@@ -18,13 +18,15 @@ export default {
         "is_active": true,
         "name": "Electronics"
     }],
-    variants: [{
-        "display": "Additional Colors", "priority": 1, "uid": 2,
-        "departments": ["men", "electronics"], "modified_on": "2020-08-18T05:14:35.519000Z",
-        "is_active": true, "created_by": { "user_id": "0", "username": "tergeo" },
-        "display_type": "image", "created_on": "2019-06-08T04:34:16.736000Z",
-        "modified_by": { "user_id": "0", "username": "silverbolt" }, "key": "color"
-    }],
+    variants: {
+        "items": {
+            "display": "Additional Colors", "priority": 1, "uid": 2,
+            "departments": ["men", "electronics"], "modified_on": "2020-08-18T05:14:35.519000Z",
+            "is_active": true, "created_by": { "user_id": "0", "username": "tergeo" },
+            "display_type": "image", "created_on": "2019-06-08T04:34:16.736000Z",
+            "modified_by": { "user_id": "0", "username": "silverbolt" }, "key": "color"
+        }
+    },
     choicesResponse: {
         "data": [{ "key": "text", "value": "Text" },
         { "key": "image", "value": "Image" },
