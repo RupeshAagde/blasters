@@ -1,25 +1,27 @@
 <template>
     <div>
         <div>
-            <page-header :title="headerText" @backClick="redirectToListing">
-                <div class="page-slot">
-                    <div class="left-space-txb">
-                        <div v-if="update">
-                            <nitrozen-badge v-if="is_active" state="success"
-                                >Active</nitrozen-badge
+            <page-header :title='headerText' @backClick='redirectToListing'>
+                <div class='page-slot'>
+                    <div class='left-space-txb'>
+                        <div v-if='update'>
+                            <nitrozen-badge v-if='is_active' state='success'
+                            >Active
+                            </nitrozen-badge
                             >
-                            <nitrozen-badge v-if="!is_active" state="warn"
-                                >Disabled</nitrozen-badge
+                            <nitrozen-badge v-if='!is_active' state='warn'
+                            >Disabled
+                            </nitrozen-badge
                             >
                         </div>
                     </div>
-                    <div class="button-box">
+                    <div class='button-box'>
                         <label
                             :class="is_active ? 'active-dept' : 'disabled-dept'"
                         >
                             <span>{{ is_active ? 'Active' : 'Disabled' }}</span>
                             <nitrozen-toggle-btn
-                                v-model="is_active"
+                                v-model='is_active'
                                 :title="
                                     is_active
                                         ? 'Disable department'
@@ -29,11 +31,11 @@
                         </label>
                         <span>
                             <nitrozen-button
-                                class="left-space-txb"
+                                class='left-space-txb'
                                 :theme="'secondary'"
-                                @click="save"
+                                @click='save'
                                 v-flatBtn
-                                >Save</nitrozen-button
+                            >Save</nitrozen-button
                             >
                         </span>
                     </div>
@@ -41,105 +43,111 @@
             </page-header>
         </div>
         <img
-            src="/public/assets/loader.gif"
-            class="cust-loader"
-            v-if="pageLoading"
+            src='/public/assets/loader.gif'
+            class='cust-loader'
+            v-if='pageLoading'
         />
         <!-- <loader v-if="isLoading"></loader> -->
-        <div class="main-container" v-else>
-            <div class="row-1">
-                <div class="input-box">
+        <div class='main-container' v-else>
+            <div class='row-1'>
+                <div class='input-box'>
                     <nitrozen-input
-                        label="Display *"
-                        placeholder="e.g. Electronics"
-                        v-model="display.value"
+                        label='Display *'
+                        placeholder='e.g. Electronics'
+                        v-model='display.value'
                     ></nitrozen-input>
-                    <nitrozen-error v-if="display.showerror">{{
-                        display.errortext
-                    }}</nitrozen-error>
+                    <nitrozen-error v-if='display.showerror'>{{
+                            display.errortext
+                        }}
+                    </nitrozen-error>
                 </div>
-                <div class="input-box left-space-txb">
+                <div class='input-box left-space-txb'>
                     <nitrozen-dropdown
-                        label="Display Type *"
-                        class="filter-dropdown"
-                        :items="displayType.value"
-                        placeholder="Choose Display type"
-                        v-model="displayType.selectedtype"
+                        label='Display Type *'
+                        class='filter-dropdown'
+                        :items='displayType.value'
+                        placeholder='Choose Display type'
+                        v-model='displayType.selectedtype'
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="displayType.showerror">{{
-                        displayType.errortext
-                    }}</nitrozen-error>
+                    <nitrozen-error v-if='displayType.showerror'>{{
+                            displayType.errortext
+                        }}
+                    </nitrozen-error>
                 </div>
             </div>
-            <div class="dept-box">
-                <div class="input-box">
+            <div class='dept-box'>
+                <div class='input-box'>
                     <nitrozen-dropdown
                         :label="'Department'"
-                        class="filter-dropdown"
-                        :multiple="true"
-                        :searchable="true"
-                        :required="true"
-                        :items="department.value"
-                        placeholder="Choose departments"
-                        v-model="department.selectedtype"
-                        @change="getAttribute"
-                        @searchInputChange="setDepartmentsList"
+                        class='filter-dropdown'
+                        :multiple='true'
+                        :searchable='true'
+                        :required='true'
+                        :items='department.value'
+                        placeholder='Choose departments'
+                        v-model='department.selectedtype'
+                        @change='getAttribute'
+                        @searchInputChange='setDepartmentsList'
                     ></nitrozen-dropdown>
-                    <nitrozen-error v-if="department.showerror">{{
-                        department.errortext
-                    }}</nitrozen-error>
-                </div>
-                <div :class="department.showerror ? 'cust-mt' : 'dcb'">
-                    <a
-                        class="txt-btn"
-                        href="/administrator/product/department/create"
-                        target="_blank"
-                        title="Go to 'Create Department' page"
+                    <nitrozen-error v-if='department.showerror'>{{
+                            department.errortext
+                        }}
+                    </nitrozen-error>
+                    <div :class="department.showerror ? 'cust-mt' : 'dcb'">
+                        <a
+                            class='txt-btn'
+                            href='/administrator/product/department/create'
+                            target='_blank'
+                            title="Go to 'Create Department' page"
                         >Create Department</a
-                    >
+                        >
+                    </div>
+                </div>
+                <div class='row-2'>
+                    <nitrozen-dropdown
+                        label='Attribute *'
+                        class='filter-dropdown'
+                        :disabled='!department.selectedtype.length'
+                        :items='deptkey.value'
+                        placeholder='Choose Attribute'
+                        v-model='deptkey.selectedtype'
+                    ></nitrozen-dropdown>
+                    <nitrozen-error v-if='deptkey.showerror'>{{
+                            deptkey.errortext
+                        }}
+                    </nitrozen-error>
                 </div>
             </div>
-            <div class="chip-wrapper inline">
+            <div class='chip-wrapper inline'>
                 <div
-                    v-for="(item, index) of department.selectedtype"
-                    :key="index"
+                    v-for='(item, index) of department.selectedtype'
+                    :key='index'
                 >
-                    <nitrozen-chips class="chip">
+                    <nitrozen-chips class='chip'>
                         {{ item }}
                         <nitrozen-inline
-                            icon="cross"
-                            class="nitrozen-icon"
-                            @click="department.selectedtype.splice(index, 1)"
+                            icon='cross'
+                            class='nitrozen-icon'
+                            @click='department.selectedtype.splice(index, 1)'
                         ></nitrozen-inline>
                     </nitrozen-chips>
                 </div>
             </div>
-            <div class="row-2">
-                <nitrozen-dropdown
-                    label="Attribute *"
-                    class="filter-dropdown"
-                    :disabled="!department.selectedtype.length"
-                    :items="deptkey.value"
-                    placeholder="Choose Attribute"
-                    v-model="deptkey.selectedtype"
-                ></nitrozen-dropdown>
-                <nitrozen-error v-if="deptkey.showerror">{{
-                    deptkey.errortext
-                }}</nitrozen-error>
-            </div>
         </div>
     </div>
 </template>
-<style lang="less" scoped>
+<style lang='less' scoped>
 .txt-btn {
     color: @RoyalBlue;
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
 }
+
 .mt-md {
     margin-top: 24px;
 }
+
 .chip-wrapper {
     flex-wrap: wrap;
     height: fit-content;
@@ -148,33 +156,42 @@
     margin-top: -12px;
     margin-bottom: 20px;
     .blaster-scrollbar;
+
     .chip {
         margin: 8px 8px 0 0;
     }
 }
+
 .inline {
     display: flex;
+    padding-top: 12px;
+    width: 50%;
 
     &.apart {
         justify-content: space-between;
     }
+
     .inline-left {
         width: 50%;
     }
+
     .inline-right {
         flex: 1;
         margin-left: 24px;
     }
 }
+
 .left-space-txb {
     margin-left: 12px;
 }
+
 .label {
     color: #9b9b9b;
     font-size: 14px;
     margin-bottom: 6px;
     font-weight: 500;
 }
+
 .cust-loader {
     display: flex;
     align-items: center;
@@ -182,11 +199,13 @@
     justify-content: center;
     height: 100px;
 }
+
 ::v-deep .page-slot {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center;
 }
+
 .button-box {
     display: flex;
     justify-content: flex-start;
@@ -210,6 +229,7 @@
         font-weight: 600;
     }
 }
+
 .main-container {
     background-color: #fff;
     border-radius: 4px;
@@ -228,28 +248,31 @@
             width: 50%;
         }
     }
+
     .dept-box {
         width: 100%;
-        margin: 0 0 20px 0;
         display: flex;
         // justify-content: space-between;
         // align-items: center;
 
         .input-box {
             width: 50%;
-            margin-right: 20px;
         }
+
         .dcb {
-            align-self: center;
-            margin-top: 16px;
+            display: flex;
+            line-height: 22px;
+            justify-content: end;
         }
+
         .cust-mt {
             align-self: center;
         }
     }
+
     .row-2 {
         width: 50%;
-        margin: 0 0 20px 0;
+        margin: 0 0 20px 12px;
         display: flex;
         flex-direction: column;
         align-items: baseline;
@@ -258,23 +281,29 @@
             width: 90%;
         }
     }
+
     .row-3 {
         width: 100%;
         margin: 24px 0 24px 0;
+
         .input-text {
             border: 1px solid #eee;
             padding: 12px;
+
             input {
                 padding: 8px 0px 5px 10px;
                 border-radius: @BorderRadius;
             }
         }
+
         .tags {
             min-height: 100px;
             width: 97%;
             cursor: text;
+
             .chip-input {
                 border: none !important;
+
                 &:focus {
                     outline: none;
                 }
@@ -291,15 +320,15 @@ import Shimmer from '@/components/common/shimmer';
 import PageHeader from '@/components/common/layout/page-header';
 import PageError from '@/components/common/page-error';
 import {
-    NitrozenInput,
-    NitrozenError,
+    flatBtn,
+    NitrozenBadge,
     NitrozenButton,
     NitrozenChips,
-    NitrozenInline,
-    NitrozenBadge,
-    NitrozenToggleBtn,
     NitrozenDropdown,
-    flatBtn,
+    NitrozenError,
+    NitrozenInline,
+    NitrozenInput,
+    NitrozenToggleBtn,
     strokeBtn
 } from '@gofynd/nitrozen-vue';
 
@@ -419,9 +448,9 @@ export default {
         getDepartment() {
             return new Promise((resolve, reject) => {
                 const query = {
-                    "page_size":9999,
-                    "page_no":1,
-                }
+                    'page_size': 9999,
+                    'page_no': 1
+                };
                 CatalogService.fetchDepartment(query)
                     .then(({ data }) => {
                         this.departmentList = data.items;
@@ -479,16 +508,16 @@ export default {
                 let params = {
                     uid: this.uid
                 };
-                CatalogService.fetchVariants(params)
+                CatalogService.fetchVariants(params, this.uid)
                     .then((res) => {
-                        this.data = res.data.data;
-                        this.is_active = this.data[0].is_active;
-                        this.display.value = this.data[0].display;
-                        this.displayType.selectedtype = this.data[0].display_type;
-                        this.department.selectedtype = this.data[0].departments;
+                        this.data = res.data.items;
+                        this.is_active = this.data.is_active;
+                        this.display.value = this.data.display;
+                        this.displayType.selectedtype = this.data.display_type;
+                        this.department.selectedtype = this.data.departments;
                         this.getAttribute();
-                        this.deptkey.selectedtype = this.data[0].key;
-                        this.priority.value = this.data[0].priority;
+                        this.deptkey.selectedtype = this.data.key;
+                        this.priority.value = this.data.priority;
                         this.pageLoading = false;
                     })
                     .catch((error) => {
@@ -555,7 +584,8 @@ export default {
                         this.$snackbar.global.showSuccess(`${this.saveText}`, {
                             duration: 2000
                         });
-                        setTimeout(() => {}, 2000);
+                        setTimeout(() => {
+                        }, 2000);
                         this.$router.push({
                             path: '/administrator/product/variants'
                         });
