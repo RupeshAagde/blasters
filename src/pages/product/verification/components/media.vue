@@ -9,7 +9,7 @@
                             :src="value.url"
                             @load="getImageDimensions($event)"
                         />
-                        <div class="dimensions">{{this.aspect_ratio}}</div>
+                        <div class="dimensions">{{this.width + "px X " + this.height + "px" (this.aspect_ratio)}}</div>
                     </div>
                     <div
                         v-else-if="value.type === 'video'"
