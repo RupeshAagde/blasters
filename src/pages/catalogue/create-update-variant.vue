@@ -581,7 +581,7 @@ export default {
                             setTimeout(() => {
                             }, 2000);
                             this.$router.push({
-                                path: `/administrator/product/variants/}`
+                                path: `/administrator/product/variants`
                             });
                         })
                         .catch((error) => {
