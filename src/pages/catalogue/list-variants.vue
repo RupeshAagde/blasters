@@ -301,10 +301,14 @@ export default {
                 .then((res) => {
                     this.tempList = generateArrItem(res.data.items);
                     this.tempList = filterDuplicateObject(this.tempList);
+                    console.log("this.userObj", this.userObj)
                     fetchUserMetaObjects(this.tempList)
                         .then((response) => {
                             response.map((element) => {
-                                if (!this.userObj[element.uid]) {
+                                if (this.userObj && !this.userObj[element._id]) {
+                                    this.userObj[element._id] = element;
+                                }
+                                if (this.userObj && !this.userObj[element.uid]) {
                                     this.userObj[element.uid] = element;
                                 }
                             });
