@@ -581,7 +581,7 @@ export default {
                             setTimeout(() => {
                             }, 2000);
                             this.$router.push({
-                                path: `/administrator/product/variants/edit/${res.data.uid}`
+                                path: `/administrator/product/variants`
                             });
                         })
                         .catch((error) => {
@@ -616,9 +616,18 @@ export default {
                     })
                     .catch((error) => {
                         this.pageLoading = false;
-                        console.error(error);
+                        if (error &&
+                            error.response &&
+                            error.response.data &&
+                            error.response.data.errors &&
+                            error.response.data.errors.error) {
+                            this.$snackbar.global.showError(
+                                `${error.response.data.errors.error}`
+                            );
+                            return;
+                        }
                         this.$snackbar.global.showError(
-                            `${error.response.data.errors.error}`
+                            `Something went wrong`
                         );
                     });
             }
