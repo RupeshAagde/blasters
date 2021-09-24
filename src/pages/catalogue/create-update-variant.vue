@@ -6,7 +6,7 @@
                     <div class='left-space-txb'>
                         <div v-if='update'>
                             <nitrozen-badge v-if='is_active' state='success'
-                            >Active
+                            >Enabled
                             </nitrozen-badge
                             >
                             <nitrozen-badge v-if='!is_active' state='warn'
