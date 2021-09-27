@@ -26,7 +26,7 @@ describe('Mounted Variant Create/Update', () => {
 		router.push('/administrator/product/variants/edit/2');
 		mock.onGet(URLS.DEPARTMENT()).reply(200, { data: mocks.departments });
 		mock.onGet(URLS.GET_CHOICE_TYPES(), { params: { choice_type: 'variants' } }).reply(200, mocks.choicesResponse);
-		mock.onGet(URLS.FETCH_VARIANT(), { params: { uid: '2' } }).reply(200, { data: mocks.variants });
+		mock.onGet(URLS.FETCH_VARIANT()).reply(200, mocks.variants);
 		mock.onGet(URLS.FETCH_ATTRIBUTE(), {
 			params: {
 				page_no: 1, page_size: 100000, department: ['men',
@@ -76,7 +76,7 @@ describe('Mounted Variant Create/Update', () => {
 		router.push('/administrator/product/variants/edit/2');
 		mock.onGet(URLS.DEPARTMENT()).reply(200, { data: mocks.departments });
 		mock.onGet(URLS.GET_CHOICE_TYPES(), { params: { choice_type: 'variants' } }).reply(200, mocks.choicesResponse);
-		mock.onGet(URLS.FETCH_VARIANT(), { params: { uid: '2' } }).reply(200, { data: mocks.variants });
+		mock.onGet(URLS.FETCH_VARIANT('2')).reply(200, mocks.variants);
 		mock.onGet(URLS.FETCH_ATTRIBUTE(), {
 			params: {
 				page_no: 1, page_size: 100000, department: ['men',
@@ -89,7 +89,8 @@ describe('Mounted Variant Create/Update', () => {
 			router
 		}
 		);
-		await new Promise(resolve => setTimeout(resolve, 10));
+		await new Promise(resolve => setTimeout(resolve, 100));
+		await wrapper.vm.updateData();
 		wrapper.vm.save();
 		expect(wrapper.vm.deptkey.showerror).toBe(false);
 		expect(wrapper.vm.department.showerror).toBe(false);
