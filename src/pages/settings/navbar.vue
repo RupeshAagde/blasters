@@ -34,7 +34,7 @@
                 >
                     <div class="item-title">{{ nav.title }}</div>
                     <div class="item-action">
-                        <div @click="edit(nav)">
+                        <div @click="edit(nav, index)">
                             <adm-inline-svg
                                 :src="'edit'"
                                 title="Edit"
@@ -52,6 +52,7 @@
             </div>
         </div>
 
+        <!-- Add new items in navbar -->
         <nitrozen-dialog ref="add-edit-navbar" title="Add/Edit Navbar">
             <template slot="body">
                 <div class="navbar-tilte mb-24">
@@ -107,6 +108,7 @@
             </template>
         </nitrozen-dialog>
 
+        <!-- Confirmation Dialog -->
         <nitrozen-dialog ref="confirm-dialog" title="Confirmation">
             <template slot="body">
                 <p>{{ confirmationText }}</p>
@@ -199,7 +201,8 @@ export default {
             confirmationText: '',
             activeNavIndex: 0,
             deleteConfirmation: false,
-            inProgress: false
+            inProgress: false,
+            isEdit: false
         };
     },
     mounted() {
@@ -269,6 +272,7 @@ export default {
         },
         addNew(isReset = true) {
             if (isReset) {
+                this.isEdit = false;
                 this.navbarTitle = this.getInitialValue('');
                 this.selectedPage = this.getInitialValue('');
                 this.extenalLink = this.getInitialValue('');
@@ -280,7 +284,9 @@ export default {
                 showCloseButton: true
             });
         },
-        edit(item) {
+        edit(item, index) {
+            this.activeNavIndex = index;
+            this.isEdit = true;
             this.navbarTitle.value = item.title;
             this.isExtenalLink = item.href ? true : false;
             this.selectedPage.value = item.link;
@@ -332,7 +338,11 @@ export default {
                 } else {
                     obj.link = this.selectedPage.value;
                 }
-                this.navbar.push(obj);
+                if(this.isEdit){
+                    this.$set(this.navbar, this.activeNavIndex, obj)
+                } else {
+                    this.navbar.push(obj);
+                }
                 this.closeAddDialog();
             }
         },
