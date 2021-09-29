@@ -318,9 +318,9 @@ export default {
         setDefaultNavbar() {
             this.navbar = this.defaultNavbar;
             this.closeConfirmationDialog(); // temporary solution
-            // this.save().then(res => {
-            //     this.closeConfirmationDialog()
-            // })
+            this.save().then(res => {
+                this.closeConfirmationDialog()
+            })
         },
         addNavbarItem() {
             if (this.validateForm()) {
