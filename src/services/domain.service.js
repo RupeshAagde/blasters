@@ -411,6 +411,18 @@ const URLS = {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/basic-details');
     },
 
+    PLATFORM_NAVBAR: () => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/navbar');
+    },
+
+    PLATFORM_DEFAULT_NAVBAR: () => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/navbar/default');
+    },
+
+    PLATFORM_CUSTOM_PAGES(){
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/custom-pages');
+    },
+
     //Grindor
     GRINDOR_EXPLORER: (namespace) => {
         return urlJoin(

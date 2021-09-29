@@ -81,6 +81,14 @@ const GENERAL_MENUS = [
         permissions: [],
         active: false,
         desc: 'Change platform features information'
+    },
+    {
+        title: 'Navbar',
+        link: 'settings/navbar',
+        icon: 'settings',
+        permissions: [],
+        active: false,
+        desc: 'Change platform navbar'
     }
 ];
 export default {

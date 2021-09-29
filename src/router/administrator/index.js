@@ -14,6 +14,7 @@ import AddCategory from './../../pages/tickets/add-category.vue';
 import SettingsVue from './../../pages/settings';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details';
 import FeaturesSettingsVue from './../../pages/settings/features';
+import NavbarSettingsVue from './../../pages/settings/navbar';
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
@@ -356,6 +357,14 @@ export default [
                 name: 'features-setting',
                 path: 'settings/features',
                 component: FeaturesSettingsVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'navbar-setting',
+                path: 'settings/navbar',
+                component: NavbarSettingsVue,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
                 }
