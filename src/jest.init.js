@@ -28,3 +28,5 @@ config.mocks['$snackbar'] = {
     }
 };
 window.loadGrimlock = Promise.resolve();
+window.scrollTo = () => {};
+window.open = (link, target) => {};

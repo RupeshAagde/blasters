@@ -7,6 +7,7 @@
             <nitrozen-button
                 theme="secondary"
                 class="mr-24"
+                ref="switch-default"
                 @click="switchToDefault"
                 >Switch to default</nitrozen-button
             >
@@ -24,6 +25,7 @@
                         v-strokeBtn
                         :disabled="navbar.length >= 7"
                         @click="addNew()"
+                        ref="add-new"
                         >Add New</nitrozen-button
                     >
                 </div>
@@ -34,14 +36,14 @@
                 >
                     <div class="item-title">{{ nav.title }}</div>
                     <div class="item-action">
-                        <div @click="edit(nav, index)">
+                        <div :ref="'edit-'+index" @click="edit(nav, index)">
                             <adm-inline-svg
                                 :src="'edit'"
                                 title="Edit"
                                 class="edit-icon"
                             ></adm-inline-svg>
                         </div>
-                        <div @click="deleteItem(nav, index)">
+                        <div :ref="'delete-'+index" @click="deleteItem(nav, index)">
                             <adm-inline-svg
                                 :src="'delete'"
                                 title="Delete"
@@ -99,6 +101,7 @@
                         class="mr-24"
                         @click="addNavbarItem"
                         v-flatBtn
+                        ref="save-btn"
                         >Save</nitrozen-button
                     >
                     <nitrozen-button theme="secondary" v-strokeBtn
@@ -121,6 +124,7 @@
                         class="mr-24"
                         @click="deleteNavItem"
                         v-flatBtn
+                        ref="delete-btn"
                         >Delete</nitrozen-button
                     >
                     <nitrozen-button
@@ -128,6 +132,7 @@
                         theme="secondary"
                         class="mr-24"
                         @click="setDefaultNavbar"
+                        ref="save-default-btn"
                         v-flatBtn
                         >Save</nitrozen-button
                     >
