@@ -1,0 +1,11 @@
+{
+    "_id": "6153ed23922faac9142c2b0f",
+    "items": [
+        { "title": "Features", "link": "/features" },
+        { "title": "Pricing", "link": "/pricing" },
+        { "title": "Learn", "href": "https://documentation.fynd.com" },
+        { "title": "Partners", "href": "https://partners.fynd.com" },
+        { "title": "Blogs", "href": "https://platform.fynd.com/blog" }
+    ],
+    "__v": 0
+}
