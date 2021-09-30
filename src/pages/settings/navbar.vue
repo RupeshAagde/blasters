@@ -55,7 +55,7 @@
         </div>
 
         <!-- Add new items in navbar -->
-        <nitrozen-dialog ref="add-edit-navbar" title="Add/Edit Navbar">
+        <nitrozen-dialog ref="add-edit-navbar" :title="(isEdit ? 'Edit' : 'Add') + ' Navbar Item'">
             <template slot="body">
                 <div class="navbar-tilte mb-24">
                     <nitrozen-input
