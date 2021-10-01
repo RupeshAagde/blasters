@@ -106,6 +106,10 @@ export default {
             return InternalSettingsService.getHomePage();
         },
         save() {
+            if(!this.customHomePage){
+                this.$snackbar.global.showError('Please select page');
+                return
+            }
             const body = {
                 slug: this.customHomePage
             };
