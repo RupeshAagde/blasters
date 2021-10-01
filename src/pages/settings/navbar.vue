@@ -329,7 +329,7 @@ export default {
             this.$refs['confirm-dialog'].close();
         },
         setDefaultNavbar() {
-            this.navbar = this.defaultNavbar;
+            this.navbar = [...this.defaultNavbar];
             this.closeConfirmationDialog(); // temporary solution
             this.save().then(res => {
                 this.closeConfirmationDialog()
