@@ -301,7 +301,6 @@ export default {
                 .then((res) => {
                     this.tempList = generateArrItem(res.data.items);
                     this.tempList = filterDuplicateObject(this.tempList);
-                    console.log("this.userObj", this.userObj)
                     fetchUserMetaObjects(this.tempList)
                         .then((response) => {
                             response.map((element) => {

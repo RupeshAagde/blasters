@@ -101,7 +101,8 @@
                     @delete="logo.value = ''"
                     @save="logo.value = $event"
                     v-model="logo.value"
-                    :fileName="logo.value"
+                    fileName="department"
+                    :showGallery=true
                     namespace="department-square-logo"
                 ></image-uploader-tile>
                 <nitrozen-error v-if="logo.showerror">{{
