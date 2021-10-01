@@ -22,11 +22,13 @@
                 <nitrozen-button
                     theme="secondary"
                     v-if="isCustomHomePage"
+                    ref="default-btn"
                     @click="setDefault"
                     >Switch to default</nitrozen-button
                 >
                 <nitrozen-button
                     theme="secondary"
+                    ref="save-btn"
                     class="ml-12"
                     @click="save"
                     :disabled="!customHomePage"
@@ -79,7 +81,7 @@ export default {
             });
             Promise.all([this.getHomePage(), this.getCustomPages()])
                 .then((res) => {
-                    this.isCustomHomePage = res[0].data.slug;
+                    this.isCustomHomePage = res[0].data.slug ? true : false;
                     this.homePageRes = res[0].data;
                     if (this.isCustomHomePage) {
                         this.customHomePage = res[0].data.slug;
@@ -118,8 +120,7 @@ export default {
                 body._id = this.homePageRes._id;
             }
             return InternalSettingsService.setHomePage(body).then(res => {
-                console.log(res, "success")
-                this.close()
+                this.close();
                 this.$snackbar.global.showSuccess('Saved Successfully');
             }).catch(err => {
                 console.log(err, "error")
@@ -133,7 +134,6 @@ export default {
                 _id: this.homePageRes._id
             };
             return InternalSettingsService.setHomePage(body).then(res => {
-                console.log(res, "default success")
                 this.close()
                 this.$snackbar.global.showSuccess('Saved Successfully');
             }).catch(err => {
