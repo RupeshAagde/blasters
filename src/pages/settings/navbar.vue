@@ -330,7 +330,6 @@ export default {
         },
         setDefaultNavbar() {
             this.navbar = [...this.defaultNavbar];
-            this.closeConfirmationDialog(); // temporary solution
             this.save().then(res => {
                 this.closeConfirmationDialog()
             })
