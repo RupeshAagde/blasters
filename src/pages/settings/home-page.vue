@@ -29,6 +29,7 @@
                     theme="secondary"
                     class="ml-12"
                     @click="save"
+                    :disabled="!customHomePage"
                     v-flatBtn
                     >Save</nitrozen-button
                 >
