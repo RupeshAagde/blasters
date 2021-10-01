@@ -424,8 +424,12 @@ const URLS = {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/navbar/default');
     },
 
-    PLATFORM_CUSTOM_PAGES(){
+    PLATFORM_CUSTOM_PAGES:() =>{
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/custom-pages');
+    },
+
+    PLATFORM_HOME_PAGE: () => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/home-page');
     },
 
     //Grindor

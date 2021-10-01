@@ -38,6 +38,16 @@ const InternalSettingsService = {
             getCommonHeaderOptions()
         );
         return ApiService.put(URLS.PLATFORM_NAVBAR(), axiosOptions);
+    },
+    getHomePage(){
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.PLATFORM_HOME_PAGE(), axiosOptions);
+    },
+    setHomePage(data){
+        const axiosOptions = Object.assign({}, { data },
+            getCommonHeaderOptions()
+        );
+        return ApiService.put(URLS.PLATFORM_HOME_PAGE(), axiosOptions);
     }
 };
 export default InternalSettingsService;
