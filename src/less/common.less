@@ -271,3 +271,107 @@ p.content-desc {
 .jsoneditor-menu a.jsoneditor-poweredBy{
     display: none;
 }
+
+.blaster-list-card-container {
+    background: @White;
+    margin: 16px 0px;
+    border: 1px solid @Iron;
+    padding: 24px;
+    border-radius: @BorderRadius;
+    display: flex;
+    height: 70px;
+    overflow: auto;
+    max-height: 70px;
+    cursor: pointer;
+    transition: box-shadow 0.3s;
+    @media @mobile{
+        padding: 16px;
+        -webkit-tap-highlight-color: transparent;
+    }
+    &:hover {
+        box-shadow: 0 9px 13px 0 rgba(221, 221, 221, 0.5);
+    }
+
+    .card-avatar{
+        margin-right: 24px;
+        width: 60px;
+        height: 60px;
+        align-self: center;
+        border-radius: 50%;
+        @media @mobile{
+            width: 15%;
+            height: 75%;
+            margin-right: 8px;
+            padding-right: 8px;
+        }
+        img{
+            width: 60px;
+            height: auto;
+            border-radius: 50%;
+            @media @mobile{
+                width: 100%;
+                max-width: 100%;
+                height: initial;
+            }
+        }
+    }
+    .card-content-section{
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        justify-content: center;
+        @media @mobile{
+            width: calc(65% - 8px);
+        }
+        .card-content-line-1{
+            color: @Mako;
+            font-weight: 600;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            line-height: 22px;
+            @media @mobile{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100%;
+            }
+        }
+        .card-content-line-2 {
+            color: @DustyGray2;
+            line-height: 22px;
+            font-size: 12px;
+            @media @mobile{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100%;
+            }
+        }
+        .card-content-line-3 {
+            color: @DustyGray2;
+            line-height: 22px;
+            font-size: 12px;
+            @media @mobile{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100%;
+            }
+        }
+    }
+    .card-badge-section {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        @media @mobile{
+            width: 20%;
+            display: block;
+        }
+        .nitrozen-badge {
+            margin: 0 0 0 8px;
+            @media @mobile{
+                margin: 0 0 8px 0;
+            }
+        }
+    }
+}

@@ -12,9 +12,13 @@ import CreateTicket from './../../pages/tickets/create-ticket.vue';
 import VideoRoom from './../../pages/tickets/video-call/video-room.vue';
 import AddCategory from './../../pages/tickets/add-category.vue';
 import SettingsVue from './../../pages/settings';
-import BasicDetailSettingsVue from './../../pages/settings/basic-details';
-import FeaturesSettingsVue from './../../pages/settings/features';
+import BasicDetailSettingsVue from './../../pages/settings/basic-details.vue';
+import FeaturesSettingsVue from './../../pages/settings/features.vue';
+import PagesSettingsVue from './../../pages/settings/custompage.vue';
+import CreateCustomVue from './../../pages/settings/page-editor/create.vue';
 import NavbarSettingsVue from './../../pages/settings/navbar';
+
+
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
@@ -362,9 +366,33 @@ export default [
                 }
             },
             {
+                name: 'pages-setting',
+                path: 'settings/pages',
+                component: PagesSettingsVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'create-custom',
+                path: 'settings/pages/:pagetype/create',
+                component: CreateCustomVue ,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
                 name: 'navbar-setting',
                 path: 'settings/navbar',
                 component: NavbarSettingsVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'edit-custom',
+                path: 'settings/pages/:pagetype/:slug/edit',
+                component: CreateCustomVue ,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
                 }

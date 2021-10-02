@@ -41,3 +41,22 @@
     background-color: @DoveGray;
   }
 }
+
+.mirage-scrollbar {
+  /* scrollbar */
+  &::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+      background-color: @White;
+  }
+  /* Track */
+  &::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+      background-color: @White;
+  }
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+      border-radius: 2.5px;
+      background-color: @DoveGray;
+  }
+}
