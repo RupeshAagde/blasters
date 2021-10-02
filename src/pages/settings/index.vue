@@ -46,9 +46,35 @@
                             </div>
                         </router-link>
                     </span>
+
+                    <span class="settings-menu" @click="openHomePage" key="home-page">
+                        <span>
+                            <div class="settings-body">
+                                <span class="settings-icon">
+                                    <inline-svg
+                                        src="settings"
+                                        class="feature-icon"
+                                    ></inline-svg>
+                                </span>
+                                <span class="settings-content">
+                                    <div>
+                                        <span class="bold-xs cl-Mako"
+                                            >Home Page</span
+                                        >
+                                    </div>
+                                    <div class="settings-detail">
+                                        <span class="cl-Mako">
+                                            Update home page
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>
+                        </span>
+                    </span>
                 </div>
             </section>
         </div>
+        <home-page ref="custom-home-page"></home-page>
     </div>
 </template>
 
@@ -64,6 +90,7 @@ import {
     NitrozenBadge
 } from '@gofynd/nitrozen-vue';
 import _ from 'lodash';
+import HomePage from "./home-page"
 
 const GENERAL_MENUS = [
     {
@@ -106,7 +133,8 @@ export default {
         NitrozenBadge,
         NitrozenDropdown,
         NitrozenButton,
-        Jumbotron
+        Jumbotron,
+        HomePage
     },
     directives: {
         strokeBtn,
@@ -122,7 +150,10 @@ export default {
     },
     mounted() {},
     methods: {
-        titleCase
+        titleCase,
+        openHomePage(){
+            this.$refs["custom-home-page"].open()
+        }
     }
 };
 </script>

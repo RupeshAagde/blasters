@@ -60,6 +60,7 @@
                 <div class="navbar-tilte mb-24">
                     <nitrozen-input
                         placeholder="Enter Navbar Title"
+                        title="Navbar Title"
                         v-model="navbarTitle.value"
                     ></nitrozen-input>
                     <nitrozen-error
@@ -74,7 +75,8 @@
                 </div>
                 <div class="navbar-link mb-24" v-if="isExtenalLink">
                     <nitrozen-input
-                        placeholder="Enter extenal link"
+                        placeholder="Enter Extenal Link"
+                        title="External Link"
                         v-model="extenalLink.value"
                     ></nitrozen-input>
                     <nitrozen-error
@@ -327,8 +329,7 @@ export default {
             this.$refs['confirm-dialog'].close();
         },
         setDefaultNavbar() {
-            this.navbar = this.defaultNavbar;
-            this.closeConfirmationDialog(); // temporary solution
+            this.navbar = [...this.defaultNavbar];
             this.save().then(res => {
                 this.closeConfirmationDialog()
             })
