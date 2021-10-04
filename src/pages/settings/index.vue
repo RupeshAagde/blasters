@@ -109,14 +109,14 @@ const GENERAL_MENUS = [
         active: false,
         desc: 'Change platform features information'
     },
-    // {
-    //     title: 'Custom Pages',
-    //     link: 'settings/pages',
-    //     icon: 'edit',
-    //     permissions: [],
-    //     active: false,
-    //     desc: 'Use this section to develop and manage custom webpages'
-    // },
+    {
+        title: 'Custom Pages',
+        link: 'settings/pages',
+        icon: 'edit',
+        permissions: [],
+        active: false,
+        desc: 'Use this section to develop and manage custom webpages'
+    },
     {
         title: 'Navbar',
         link: 'settings/navbar',
