@@ -68,7 +68,7 @@
                         </nitrozen-error>
                     </div>
                 </div>
-                <div class="input-column" v-if="basicSettings">
+                <!-- <div class="input-column" v-if="basicSettings">
                     <label class="cl-Mako bold-xs title">
                         Whats New Information
                     </label>
@@ -79,7 +79,6 @@
                             : []"
                         :key="i"
                     >
-                        <!-- Whats NEw -->
                         <div class="input-field">
                             <nitrozen-input
                                 :label="`Whats New ${i + 1}`"
@@ -104,7 +103,7 @@
                             Add Whats New
                         </nitrozen-button>
                     </div>
-                </div>
+                </div> -->
             </section>
         </div>
 

@@ -1,17 +1,17 @@
 <template>
     <div>
         <page-header
-            title="Create Page"
-            @backClick="$router.push({ name: 'pages-setting' })"
+            title="Footer"
+            @backClick="$router.push({ name: 'settings' })"
         >
             <div
                 class="publish-status status-text bold-xs"
                 :class="{ 'publish-status-disabled': !published }"
-                @click="published = !published"
+                @click="published = !published; changeState()"
             >
                 {{ published ? 'Published' : 'Unpublished' }}
             </div>
-            <nitrozen-toggle-btn v-model="published"></nitrozen-toggle-btn>
+            <nitrozen-toggle-btn v-model="published" @change="changeState()"></nitrozen-toggle-btn>
             <span class="actions"
                 ><nitrozen-button
                     class="actions"
@@ -270,6 +270,11 @@ export default {
                 }).finally(() => {
                         this.inProgress = false
                     })
+        },
+        changeState(){
+            if(this.customFooter && this.customFooter._id){
+                this.save();
+            }
         }
     }
 };
