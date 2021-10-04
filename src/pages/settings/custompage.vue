@@ -435,7 +435,7 @@ export default {
     min-height: 400px;
 }
 .search-box {
-    margin: 12px 0 12px;
+    margin: 24px 0;
     width: 100%;
     height: 40px;
     display: flex;

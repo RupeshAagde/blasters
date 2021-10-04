@@ -124,6 +124,14 @@ const GENERAL_MENUS = [
         permissions: [],
         active: false,
         desc: 'Use this section to change platform navbar'
+    },
+    {
+        title: 'Footer',
+        link: 'settings/footer',
+        icon: 'settings',
+        permissions: [],
+        active: false,
+        desc: 'Use this section to change platform footer'
     }
 ];
 export default {

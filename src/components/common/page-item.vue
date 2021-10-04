@@ -1,14 +1,7 @@
 <template>
     <div class="blaster-list-card-container" >
         <div class="card-avatar banner-image">
-            <img
-                v-if="itemType == 'blog'"
-                :src="
-                    pageDetail.feature_image.secure_url ||
-                        '/public/admin/assets/pngs/default_icon_listing.png'
-                "
-            />
-            <adm-text-avatar v-else :text="pageDetail.title"></adm-text-avatar>
+            <adm-text-avatar :text="pageDetail.title"></adm-text-avatar>
         </div>
         <div class="card-content-section">
             <div class="card-content-line-1">{{ pageDetail.title }}</div>
@@ -82,14 +75,7 @@ export default {
             this.$emit('updatePage');
         },
         getDate() {
-            let date;
-            switch (this.itemType) {
-                case 'page':
-                    date = this.pageDetail.modified_on;
-                    break;
-                default:
-                    break;
-            }
+            let date = this.pageDetail && this.pageDetail.modified_on || '';
             return date ? `${new Date(date).toDateString()}` : '';
         }
     }

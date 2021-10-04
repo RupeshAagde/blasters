@@ -17,7 +17,7 @@ import FeaturesSettingsVue from './../../pages/settings/features.vue';
 import PagesSettingsVue from './../../pages/settings/custompage.vue';
 import CreateCustomVue from './../../pages/settings/page-editor/create.vue';
 import NavbarSettingsVue from './../../pages/settings/navbar';
-
+import FooterSettingsVue from './../../pages/settings/footer';
 
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
@@ -393,6 +393,14 @@ export default [
                 name: 'edit-custom',
                 path: 'settings/pages/:pagetype/:slug/edit',
                 component: CreateCustomVue ,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'footer-setting',
+                path: 'settings/footer',
+                component: FooterSettingsVue,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
                 }

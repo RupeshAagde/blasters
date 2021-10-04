@@ -426,6 +426,9 @@ const URLS = {
     PLATFORM_HOME_PAGE: () => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/home-page');
     },
+    PLATFORM_CUSTOM_FOOTER: (id = '') => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/footer', id);
+    },
 
     //Grindor
     GRINDOR_EXPLORER: (namespace) => {
