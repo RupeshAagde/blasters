@@ -109,13 +109,29 @@ const GENERAL_MENUS = [
         active: false,
         desc: 'Change platform features information'
     },
+    // {
+    //     title: 'Custom Pages',
+    //     link: 'settings/pages',
+    //     icon: 'edit',
+    //     permissions: [],
+    //     active: false,
+    //     desc: 'Use this section to develop and manage custom webpages'
+    // },
     {
         title: 'Navbar',
         link: 'settings/navbar',
         icon: 'settings',
         permissions: [],
         active: false,
-        desc: 'Change platform navbar'
+        desc: 'Use this section to change platform navbar'
+    },
+    {
+        title: 'Footer',
+        link: 'settings/footer',
+        icon: 'settings',
+        permissions: [],
+        active: false,
+        desc: 'Use this section to change platform footer'
     }
 ];
 export default {

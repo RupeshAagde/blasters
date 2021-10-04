@@ -48,6 +48,27 @@ const InternalSettingsService = {
             getCommonHeaderOptions()
         );
         return ApiService.put(URLS.PLATFORM_HOME_PAGE(), axiosOptions);
+    },
+    getFooterList(params = {}) {
+        let axiosOption = Object.assign(
+            {
+                params
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.PLATFORM_CUSTOM_FOOTER(), axiosOption);
+    },
+    saveFooter(data, id){
+        const axiosOptions = Object.assign({}, { data },
+            getCommonHeaderOptions()
+        );
+        return ApiService.put(URLS.PLATFORM_CUSTOM_FOOTER(id), axiosOptions);
+    },
+    createFooter(data){
+        const axiosOptions = Object.assign({}, { data },
+            getCommonHeaderOptions()
+        );
+        return ApiService.post(URLS.PLATFORM_CUSTOM_FOOTER(), axiosOptions);
     }
 };
 export default InternalSettingsService;
