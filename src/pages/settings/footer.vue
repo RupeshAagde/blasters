@@ -2,7 +2,7 @@
     <div>
         <page-header
             title="Create Page"
-            @backClick="$router.push({ name: 'pages-setting' })"
+            @backClick="$router.push({ name: 'settings' })"
         >
             <div
                 class="publish-status status-text bold-xs"
