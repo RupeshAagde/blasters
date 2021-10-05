@@ -16,13 +16,13 @@
             <!-- @imgAdd="onImgAdd" -->
             <template slot="left-toolbar-after">
                 <span data-v-548e2160="" class="op-icon-divider"></span>
-                <button
+                <!-- <button
                     @click="openURLBuilder"
                     type="button"
                     aria-hidden="true"
                     title="Link (ctrl+l)"
                     class="op-icon fa fa-mavon-link"
-                ></button>
+                ></button> -->
                 <div
                     @click="$refs.image_uploader_dialog.open()"
                     type="button"

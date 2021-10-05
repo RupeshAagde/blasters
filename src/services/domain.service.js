@@ -422,7 +422,9 @@ const URLS = {
     PLATFORM_CUSTOM_PAGES:() =>{
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/custom-pages');
     },
-
+    PLATFORM_EDIT_CUSTOM_PAGES:(slug) =>{
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/custom-pages/',slug);
+    },
     PLATFORM_HOME_PAGE: () => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/home-page');
     },

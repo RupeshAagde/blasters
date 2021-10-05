@@ -12,8 +12,8 @@
                 {{ published ? 'Published' : 'Unpublished' }}
             </div>
             <nitrozen-toggle-btn v-model="published"></nitrozen-toggle-btn>
-            <span class="actions"
-                ><nitrozen-button class="actions" v-flatBtn theme="secondary">
+            <span class="actions" 
+                ><nitrozen-button class="actions" v-flatBtn theme="secondary" @click="saveForm" >
                     {{ editMode ? 'Save' : 'Create' }}
                 </nitrozen-button></span
             >
@@ -38,6 +38,7 @@
                     </div>
 
                     <!-- Slug -->
+                    {{slug.value}}
                     <div class="input">
                         <nitrozen-input
                             label="Slug *"
@@ -89,6 +90,7 @@
                     </div> -->
 
                     <!-- Description -->
+                    {{this.content}}
                     <div class="input">
                         <nitrozen-input
                             type="textarea"
@@ -135,20 +137,6 @@
                             />
                         </div>
                     </adm-form-input>
-
-                    <!-- <adm-form-input
-                    v-if="pageType !== 'link'"
-                    :item="pageLandscapeBanner"
-                    :label="'Landscape Banner'"
-                    :custom="true"
-                >
-                    <adm-upload-banner
-                        :cropperConfig="bannerLandscapeConfig"
-                        :srcURL="pageLandscapeBanner.value"
-                        @save-image="saveImage('landscape', $event)"
-                        @delete-image="pageLandscapeBanner.value = ''"
-                    ></adm-upload-banner>
-                    </adm-form-input>-->
                 </section>
                 
                 <section class="section">
@@ -189,9 +177,12 @@
     </div>
 </template>
 <script>
-import { PageHeader, FormInput, PageOptions } from '@/components/common/';
+
+import { PageHeader,Loader, FormInput, PageOptions } from '@/components/common/';
 import rawhtmlEditor from './rawhtml-editor.vue'
 import markdownPageEditor from './markdown-page-editor.vue'
+import InternalSettingsService from '@/services/internal-settings.service';
+
 import {
     NitrozenToggleBtn,
     NitrozenButton,
@@ -219,6 +210,7 @@ export default {
         'page-options': PageOptions,
         'rawhtml-editor': rawhtmlEditor,
         'markdown-page-editor': markdownPageEditor,
+        Loader
 
     },
     directives: {
@@ -232,7 +224,7 @@ export default {
             name: this.getInitialValue(),
             slug: this.getInitialValue(),
             description: this.getInitialValue(),
-            pageLink: this.getInitialValue(),
+            
              pageCssOptions: [
                 {
                     key: 'width',
@@ -253,6 +245,7 @@ export default {
             inProgress: false,
             pageType: '',
             content: '',
+            seoObj: { title: '', description: '' },
 
 
 
@@ -288,9 +281,116 @@ export default {
         },deleteOption(index) {
             this.pageCss.splice(index, 1);
         },
+         getFormData() {
+            let contentInfo = {
+                type: this.pageType ,
+            value: this.content
+            };
+
+            const obj = {
+                content: [],
+                title: this.name.value,
+                description: this.description.value,
+                tags: this.tags.map(it => it.display),
+                slug: this.slug.value,
+                published: this.published,
+                page_meta: this.getPageMeta() ,
+                seo: this.seoObj,
+                type: this.pageType ,               
+            };
+            obj.content.push(contentInfo);
+            
+            return obj;
+        },
+        saveForm() {
+             if (!this.validateForm()) {
+                this.showSettings = true;
+                return;
+            }
+            //console.log(this.getFormData())
+            const formData = this.getFormData();
+            //const formData = 
+            let promisefn =  InternalSettingsService.createCustomPage(formData)
+
+            this.inProgress = true;
+            promisefn
+                .then(res => {
+                    this.$snackbar.global.showSuccess(
+                        `Page ${
+                            this.editMode ? 'updated' : 'created'
+                        } successfully`
+                    );
+                    //this.pageData = res.data;
+                    this.inProgress = false;
+                    this.$router.push({
+                        path: `/administrator/settings/pages`
+                    }).catch(() => {});
+                })
+                .catch(err => {
+                    console.log(err);
+                    let msg =
+                        err.response.data.message;
+                    if (msg && msg.includes('DuplicateKey'))
+                        msg = 'Duplicate Slug Not allowed';
+                    this.inProgress = false;
+                    this.$snackbar.global.showError(
+                        `Failed to ${
+                            this.editMode ? 'update' : 'create'
+                        } page${' : ' + msg || ' : ' + err.message || ''}`
+                    );
+                    console.error(err.message);
+                });
+        },
+        
+        validateForm() {
+            let formValid = true;
+            formValid = this.checkEmpty('name') && formValid;
+            // formValid = this.checkEmpty('description') && formValid;
+            formValid =
+                this.checkEmpty('slug') && this.validateSlug() && formValid;
+            
+            //
+            // if ( this.pageData.length) {
+            //     formValid = this.validateVariables() && formValid;
+            // }
+            return formValid;
+        },
+        validateSlug() {
+            const valid = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(this.slug.value);
+            this['slug'].showerror = !valid;
+            if (!valid) {
+                this['slug'].errortext = 'Slug is invalid';
+            }
+            return valid;
+        },
+        checkEmpty(key) {
+            const emptyErorrs = {
+                name: 'Title is required',
+                slug: 'Slug is required'
+            };
+            if (this[key].value.trim() === '') {
+                this[key].showerror = true;
+                this[key].errortext = emptyErorrs[key] || 'Enter ' + key;
+                return false;
+            }
+            return true;
+        },
+        getPageMeta() {
+            let meta = [];
+            this.pageCssOptions.forEach(pageCss => {
+                if (pageCss.value) {
+                    meta.push({
+                        key: pageCss.key,
+                        value: { value: pageCss.value, unit: pageCss.unit }
+                    });
+                }
+            });
+
+            return meta;
+        }
     },
     mounted(){
-        //console.log(this.$route.params);
+        console.log(this.$route.params);
                 this.pageType = this.$route.params.pagetype;
 
     }

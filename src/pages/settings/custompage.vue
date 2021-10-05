@@ -54,11 +54,13 @@
             </div>
             <div v-if="pagesList && pagesList.length > 0 && !inProgress" class="page">
                 <div v-for="item in pagesList" :key="`index+${item.slug}`">
+                    <div  @click="updatePage(item)">
                     <page-item
                         :pageDetail="item"
                         :pageUrl="getPageUrl(item)"
                         itemType="page"
                     ></page-item>
+                    </div>
             </div>
          <nitrozen-pagination
             name="Pages"
@@ -175,7 +177,8 @@
                             id="approve"
                             :theme="'secondary'"
                             @click="modalSelectandProceed"
-                            >Select and Proceed</nitrozen-button
+                            :disabled="pageTypeSelection=='grapeJS'"
+                            >{{ pageTypeSelection=="grapeJS" ? 'Coming Soon' : 'Select and Proceed' }}</nitrozen-button
                         >
                     </div>
                 </template>
@@ -301,7 +304,7 @@ export default {
             this.inProgress = true;
             this.noResults = false;
             this.pageError = false;
-            console.log(this.selectedOpt.value);
+            //console.log(this.selectedOpt.value);
             return InternalSettingsService.getCustomPages(
                 Object.assign(
                     {
@@ -359,6 +362,13 @@ export default {
             this.pagination = Object.assign({}, this.pagination, filter);
             console.log(this.pagination);
             this.setRouteQuery(filter);
+        },
+        updatePage(item) {
+            this.$router.push({
+                path: `pages/${item.type}/${
+                    item.slug
+                }/edit`
+            }).catch(() => {});
         },
         populateFromURL() {
             const { search, all, published, page, limit } = this.$route.query;
