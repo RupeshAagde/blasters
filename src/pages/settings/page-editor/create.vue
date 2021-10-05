@@ -4,12 +4,14 @@
             :title="editMode ? 'Edit Page' : 'Create Page'"
             @backClick="$router.push({ name: 'pages-setting' })"
         >
+            <div @click="changePublish">
             <div
                 class="publish-status status-text bold-xs"
                 :class="{ 'publish-status-disabled': !published }"
                 @click="published = !published"
             >
                 {{ published ? 'Published' : 'Unpublished' }}
+            </div>
             </div>
             <nitrozen-toggle-btn v-model="published"></nitrozen-toggle-btn>
             <span class="actions" 
@@ -165,7 +167,7 @@ import rawhtmlEditor from './rawhtml-editor.vue'
 import markdownPageEditor from './markdown-page-editor.vue'
 import InternalSettingsService from '@/services/internal-settings.service';
 import pageLink from '../../../components/common/page-link.vue';
-
+import {convertToSlug} from '../../../helper/utils'
 import {
     NitrozenToggleBtn,
     NitrozenButton,
@@ -247,6 +249,13 @@ export default {
      }
     },
     methods: {
+        changePublish(){
+            console.log("hi");
+            InternalSettingsService.editPublished(this.slug.value,{published: this.published}).then(res=>{
+                console.log(res);
+            })
+
+        },
         getInitialValue(val = '') {
             return {
                 showerror: false,
@@ -299,13 +308,17 @@ export default {
         },
         saveForm() {
              if (!this.validateForm()) {
-                this.showSettings = true;
                 return;
             }
-            //console.log(this.getFormData())
             const formData = this.getFormData();
-            //const formData = 
-            console.log(this.content);
+            
+            if(formData.content[0].value === ''){
+                this.$snackbar.global.showError(
+                        `Editor is Empty`
+                    );
+                    return;
+            }
+            
             let promisefn = this.$route.params.slug ? InternalSettingsService.editCustomPage(this.pageData._id,formData) : InternalSettingsService.createCustomPage(formData)
 
             this.inProgress = true;
@@ -316,7 +329,6 @@ export default {
                             this.editMode ? 'updated' : 'created'
                         } successfully`
                     );
-                    console.log(res);
                     this.pageData = res.data;
                     this.inProgress = false;
                     this.$router.push({
@@ -324,7 +336,6 @@ export default {
                     }).catch(() => {});
                 })
                 .catch(err => {
-                    console.log(err);
                     let msg =
                         err.response.data.message;
                     if (msg && msg.includes('DuplicateKey'))
@@ -335,7 +346,6 @@ export default {
                             this.editMode ? 'update' : 'create'
                         } page${' : ' + msg || ' : ' + err.message || ''}`
                     );
-                    console.error(err.message);
                 });
         },
         
@@ -345,11 +355,9 @@ export default {
             // formValid = this.checkEmpty('description') && formValid;
             formValid =
                 this.checkEmpty('slug') && this.validateSlug() && formValid;
+
             
-            //
-            // if ( this.pageData.length) {
-            //     formValid = this.validateVariables() && formValid;
-            // }
+           
             return formValid;
         },
         validateSlug() {
@@ -413,16 +421,29 @@ export default {
             let contentData = this.pageData.content.find(
                     elem => elem.type === this.pageType
                 );
-                console.log(contentData);
-                console.log(this.pageType);
                 this.content = (contentData && contentData.value) || '';
             this.pageLoading = false;
-            console.log(this.content);
 
-        }
+        },
+        attachNameWatcher() {
+            this.detachNameWatcher = this.$watch(
+                'name',
+                function handler(val) {
+                    this.slug.value = convertToSlug(this.name.value);
+                    this.seoObj.title = this.name.value
+                },
+                { deep: true }
+            );
+            this.detachDescriptionWatcher = this.$watch(
+                'description',
+                function handler(val) {
+                    this.seoObj.description = this.description.value
+                },
+                { deep: true }
+            );
+        },
     },
     mounted(){
-        console.log(this.editMode);
                 this.pageType = this.$route.params.pagetype;
                 if(this.editMode){
                   this.pageLoading = true;
@@ -436,13 +457,13 @@ export default {
                   })
                 //    .catch(err => {
                 //     this.pageLoading = false;
-                //     console.error(err);
                 //     this.$snackbar.global.showError(
                 //         'Failed to load Page. Try Again.'
                 //     );
                 // })
                 )
                 }
+                this.attachNameWatcher();
 
     }
 };
@@ -477,6 +498,11 @@ export default {
     @media @mobile {
         display: block;
         margin-top: 48px;
+    }
+}
+.custom-form-input {
+    ::v-deep label {
+        font-size: 12px;
     }
 }
 .form-container {
@@ -521,8 +547,9 @@ export default {
         line-height: 30px;
     }
     .chip-input {
-        width: 200px;
-        border: none;
+    width: 92%;
+    border: none;
+    padding: 10px;
     }
 }
 .page-editor-wrapper {

@@ -49,6 +49,14 @@ const InternalSettingsService = {
         );
         return ApiService.put(URLS.PLATFORM_EDIT_CUSTOM_PAGES(id), axiosOption);
     },
+    editPublished(slug,data){
+        let axiosOption = Object.assign(
+            {
+            }, {data},
+            getCommonHeaderOptions()
+        );
+        return ApiService.put(URLS.PLATFORM_PUBLISHED(slug), axiosOption);
+    },
     
     createCustomPage(data){
         const axiosOptions = Object.assign({}, { data },

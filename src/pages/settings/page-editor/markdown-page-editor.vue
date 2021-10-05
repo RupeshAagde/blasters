@@ -83,9 +83,7 @@
     ::v-deep .nitrozen-dialog {
         overflow: unset;
         max-height: 95%;
-        .nitrozen-dialog-body {
-            // overflow: auto;
-        }
+       
     }
     ::v-deep .nitrozen-dialog-backdrop {
         z-index: 1501;
