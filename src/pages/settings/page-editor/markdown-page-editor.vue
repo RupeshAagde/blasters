@@ -39,7 +39,7 @@
             @closedialog="closeMdModal"
         ></markdown-preview-modal>
 
-        <mirage-image-uploader-dialog
+        <blaster-image-uploader-dialog
             ref="image_uploader_dialog"
             aspectRatio="*"
             mediaFolder="page"
@@ -47,7 +47,7 @@
             v-model="currentImageURL"
             :fileName="'Page Image'"
             namespace="page-image"
-        ></mirage-image-uploader-dialog>
+        ></blaster-image-uploader-dialog>
 
         <!-- <nitrozen-dialog
             class="url-builder-dialog"
@@ -128,7 +128,7 @@ export default {
     components: {
         'mavon-editor': mavonEditor,
         'markdown-preview-modal': markdownPreviewModal,
-        'mirage-image-uploader-dialog': blasterimageuploaderdialog,
+        'blaster-image-uploader-dialog': blasterimageuploaderdialog,
         'nitrozen-dialog': NitrozenDialog,
         loader
     },

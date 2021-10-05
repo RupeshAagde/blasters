@@ -33,14 +33,23 @@ const InternalSettingsService = {
         );
         return ApiService.get(URLS.PLATFORM_CUSTOM_PAGES(), axiosOption);
     },
-    editCustomPage(params = {}){
+    previewCustomPage(slug){
         let axiosOption = Object.assign(
             {
             },
             getCommonHeaderOptions()
         );
-        return ApiService.get(URLS.PLATFORM_CUSTOM_PAGES(), axiosOption);
+        return ApiService.get(URLS.PLATFORM_EDIT_CUSTOM_PAGES(slug), axiosOption);
     },
+    editCustomPage(id){
+        let axiosOption = Object.assign(
+            {
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.put(URLS.PLATFORM_EDIT_CUSTOM_PAGES(id), axiosOption);
+    },
+    
     createCustomPage(data){
         const axiosOptions = Object.assign({}, { data },
             getCommonHeaderOptions()

@@ -1,7 +1,7 @@
 <template>
     <div>
         <page-header
-            title="Create Page"
+            :title="editMode ? 'Edit Page' : 'Create Page'"
             @backClick="$router.push({ name: 'pages-setting' })"
         >
             <div
@@ -38,7 +38,6 @@
                     </div>
 
                     <!-- Slug -->
-                    {{slug.value}}
                     <div class="input">
                         <nitrozen-input
                             label="Slug *"
@@ -47,6 +46,7 @@
                             v-model="slug.value"
                             tooltipText="Part of the URL that explains the page’s content"
                             :showTooltip="true"
+                            :disabled="editMode"
                         ></nitrozen-input>
                         <nitrozen-error
                             class="nitrozen-error"
@@ -56,7 +56,7 @@
                         </nitrozen-error>
                     </div>
                     <!-- Generated Link -->
-                    <!-- <adm-form-input
+                    <adm-form-input
                         v-if="editMode"
                         class="custom-form-input"
                         label="Preview Link"
@@ -65,32 +65,14 @@
                         :showTooltip="true"
                     >
                         <page-link
-                            v-if="savedSlug"
-                            :link="`${domainURL()}page/${savedSlug}`"
+                            :link="getPageLink"
                         ></page-link>
-                        <div class="non-slug-text" v-else>
-                            Start typing slug value...
-                        </div>
-                    </adm-form-input> -->
+                        
+                    </adm-form-input>
 
-                    <!-- Page Link -->
-                    <!-- <div class="input" v-show="pageType === 'link'">
-                        <nitrozen-input
-                            label="Link *"
-                            placeholder="Enter Page Link"
-                            v-model="pageLink.value"
-                            @change="linkChange"
-                        ></nitrozen-input>
-                        <nitrozen-error
-                            class="nitrozen-error"
-                            v-if="pageLink.showerror"
-                        >
-                            {{ pageLink.errortext }}
-                        </nitrozen-error>
-                    </div> -->
+                    
 
                     <!-- Description -->
-                    {{this.content}}
                     <div class="input">
                         <nitrozen-input
                             type="textarea"
@@ -182,6 +164,7 @@ import { PageHeader,Loader, FormInput, PageOptions } from '@/components/common/'
 import rawhtmlEditor from './rawhtml-editor.vue'
 import markdownPageEditor from './markdown-page-editor.vue'
 import InternalSettingsService from '@/services/internal-settings.service';
+import pageLink from '../../../components/common/page-link.vue';
 
 import {
     NitrozenToggleBtn,
@@ -195,6 +178,9 @@ import {
 
     
 } from '@gofynd/nitrozen-vue';
+
+import root from 'window-or-global';
+const env = root.env || {};
 
 export default {
     name: 'create-custom-page',
@@ -210,6 +196,7 @@ export default {
         'page-options': PageOptions,
         'rawhtml-editor': rawhtmlEditor,
         'markdown-page-editor': markdownPageEditor,
+        'page-link': pageLink,
         Loader
 
     },
@@ -219,12 +206,12 @@ export default {
     },
     data() {
         return {
-            published: true,
-            editMode: false,
+            published: false,
+            editMode: false || this.$route.name == "edit-custom" ,
             name: this.getInitialValue(),
             slug: this.getInitialValue(),
             description: this.getInitialValue(),
-            
+            pageData: {},
              pageCssOptions: [
                 {
                     key: 'width',
@@ -246,10 +233,18 @@ export default {
             pageType: '',
             content: '',
             seoObj: { title: '', description: '' },
+            savedSlug: null,
 
 
 
         };
+    },
+    computed:{
+     getPageLink(){
+         if(this.slug){
+             return `https://platform.${env.FYND_PLATFORM_DOMAIN}/p/${this.slug.value}`;
+         }
+     }
     },
     methods: {
         getInitialValue(val = '') {
@@ -310,7 +305,7 @@ export default {
             //console.log(this.getFormData())
             const formData = this.getFormData();
             //const formData = 
-            let promisefn =  InternalSettingsService.createCustomPage(formData)
+            let promisefn = this.$route.params.slug ? InternalSettingsService.editCustomPage(this.$route.params.slug,formData) : InternalSettingsService.createCustomPage(formData)
 
             this.inProgress = true;
             promisefn
@@ -320,7 +315,8 @@ export default {
                             this.editMode ? 'updated' : 'created'
                         } successfully`
                     );
-                    //this.pageData = res.data;
+                    console.log(res);
+                    this.pageData = res.data;
                     this.inProgress = false;
                     this.$router.push({
                         path: `/administrator/settings/pages`
@@ -387,11 +383,65 @@ export default {
             });
 
             return meta;
+        },
+        loadPageData(){
+            this.name.value = this.pageData.title || '';
+            this.seoObj.title = this.pageData.seo && this.pageData.seo.title ? this.pageData.seo.title : '';
+            this.seoObj.description = this.pageData.seo && this.pageData.seo.description ? this.pageData.seo.description : '';
+            this.slug.value = this.pageData.slug || '';
+            this.savedSlug = this.pageData.slug || null;
+            this.description.value = this.pageData.description || '';
+            this.published = this.pageData.published;
+            this.pageData.page_meta &&
+                this.pageData.page_meta.forEach(meta => {
+                    this.pageCssOptions.forEach(pageCss => {
+                        if (pageCss.key === meta.key) {
+                            pageCss.value = meta.value.value;
+                            pageCss.unit = meta.value.unit;
+                        }
+                    });
+                });
+            this.tags =
+                (this.pageData.tags &&
+                    this.pageData.tags.map(t => {
+                        return { display: t };
+                    })) ||
+                [];
+
+            this.pageData.content = this.pageData.content || [];
+            let contentData = this.pageData.content.find(
+                    elem => elem.type === this.pageType
+                );
+                console.log(contentData);
+                console.log(this.pageType);
+                this.content = (contentData && contentData.value) || '';
+            this.pageLoading = false;
+            console.log(this.content);
+
         }
     },
     mounted(){
-        console.log(this.$route.params);
+        console.log(this.editMode);
                 this.pageType = this.$route.params.pagetype;
+                if(this.editMode){
+                  this.pageLoading = true;
+                  InternalSettingsService.previewCustomPage(this.$route.params.slug)
+                  .then((res=>{
+                       //console.log(data)
+                       this.pageData = res.data;
+                       //console.log(this.pageData);
+                       this.loadPageData()
+
+                  })
+                //    .catch(err => {
+                //     this.pageLoading = false;
+                //     console.error(err);
+                //     this.$snackbar.global.showError(
+                //         'Failed to load Page. Try Again.'
+                //     );
+                // })
+                )
+                }
 
     }
 };
