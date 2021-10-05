@@ -41,10 +41,10 @@ const InternalSettingsService = {
         );
         return ApiService.get(URLS.PLATFORM_EDIT_CUSTOM_PAGES(slug), axiosOption);
     },
-    editCustomPage(id){
+    editCustomPage(id,data){
         let axiosOption = Object.assign(
             {
-            },
+            }, {data},
             getCommonHeaderOptions()
         );
         return ApiService.put(URLS.PLATFORM_EDIT_CUSTOM_PAGES(id), axiosOption);

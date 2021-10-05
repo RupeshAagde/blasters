@@ -305,7 +305,8 @@ export default {
             //console.log(this.getFormData())
             const formData = this.getFormData();
             //const formData = 
-            let promisefn = this.$route.params.slug ? InternalSettingsService.editCustomPage(this.$route.params.slug,formData) : InternalSettingsService.createCustomPage(formData)
+            console.log(this.content);
+            let promisefn = this.$route.params.slug ? InternalSettingsService.editCustomPage(this.pageData._id,formData) : InternalSettingsService.createCustomPage(formData)
 
             this.inProgress = true;
             promisefn
