@@ -425,7 +425,7 @@ const URLS = {
     PLATFORM_EDIT_CUSTOM_PAGES:(slug) =>{
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/custom-pages/',slug);
     },
-    PLATFORM_PUBLISHED: () => {
+    PLATFORM_PUBLISHED: (slug) => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/custom-pages/publish',slug,);
     },
     PLATFORM_HOME_PAGE: () => {

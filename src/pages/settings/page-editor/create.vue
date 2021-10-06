@@ -4,16 +4,16 @@
             :title="editMode ? 'Edit Page' : 'Create Page'"
             @backClick="$router.push({ name: 'pages-setting' })"
         >
-            <div @click="changePublish">
+            <div >
             <div
                 class="publish-status status-text bold-xs"
                 :class="{ 'publish-status-disabled': !published }"
-                @click="published = !published"
+                
             >
                 {{ published ? 'Published' : 'Unpublished' }}
             </div>
             </div>
-            <nitrozen-toggle-btn v-model="published"></nitrozen-toggle-btn>
+            <nitrozen-toggle-btn @change="changePublish" v-model="published"></nitrozen-toggle-btn>
             <span class="actions" 
                 ><nitrozen-button class="actions" v-flatBtn theme="secondary" @click="saveForm" >
                     {{ editMode ? 'Save' : 'Create' }}
@@ -250,11 +250,31 @@ export default {
     },
     methods: {
         changePublish(){
-            console.log("hi");
-            InternalSettingsService.editPublished(this.slug.value,{published: this.published}).then(res=>{
-                console.log(res);
-            })
+                        this.inProgress = true;
 
+            InternalSettingsService.editPublished(this.slug.value,{published: this.published}).then(res=>{
+                this.$snackbar.global.showSuccess(
+                        this.published
+                            ? 'Page published successfully'
+                            : 'Page unpublished successfully'
+                    );
+            })
+            .catch(err => {
+                    this.$snackbar.global.showError(
+                        `Failed to ${
+                            this.published ? 'publish' : 'unpublish'
+                        } page`
+                    );
+                    this.published = !this.published;
+                    console.error(err);
+                })
+                .finally(() => {
+                    this.inProgress = false;
+                });
+
+        },
+        publish(){
+          
         },
         getInitialValue(val = '') {
             return {
