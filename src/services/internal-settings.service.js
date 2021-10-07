@@ -33,6 +33,44 @@ const InternalSettingsService = {
         );
         return ApiService.get(URLS.PLATFORM_CUSTOM_PAGES(), axiosOption);
     },
+    previewCustomPage(slug){
+        let axiosOption = Object.assign(
+            {
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.PLATFORM_EDIT_CUSTOM_PAGES(slug), axiosOption);
+    },
+    editCustomPage(id,data){
+        let axiosOption = Object.assign(
+            {
+            }, {data},
+            getCommonHeaderOptions()
+        );
+        return ApiService.put(URLS.PLATFORM_EDIT_CUSTOM_PAGES(id), axiosOption);
+    },
+    editPublished(slug,data){
+        let axiosOption = Object.assign(
+            {
+            }, {data},
+            getCommonHeaderOptions()
+        );
+        return ApiService.put(URLS.PLATFORM_PUBLISHED(slug), axiosOption);
+    },
+    
+    createCustomPage(data){
+        const axiosOptions = Object.assign({}, { data },
+            getCommonHeaderOptions()
+        );
+        return ApiService.post(URLS.PLATFORM_CUSTOM_PAGES(), axiosOptions);
+    }
+    ,
+    getEditPage(slug){
+        const axiosOptions = Object.assign({}, { },
+            getCommonHeaderOptions()
+        );
+        return ApiService.put(URLS.PLATFORM_EDIT_CUSTOM_PAGES(slug), axiosOptions);
+    },
     saveNavbar(data) {
         const axiosOptions = Object.assign({}, { data },
             getCommonHeaderOptions()

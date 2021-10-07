@@ -1,19 +1,29 @@
 <template>
     <div>
         <page-header
-            title="Create Page"
+            :title="editMode ? 'Edit Page' : 'Create Page'"
             @backClick="$router.push({ name: 'pages-setting' })"
         >
-            <div
-                class="publish-status status-text bold-xs"
-                :class="{ 'publish-status-disabled': !published }"
-                @click="published = !published"
-            >
-                {{ published ? 'Published' : 'Unpublished' }}
+            <div>
+                <div
+                    class="publish-status status-text bold-xs"
+                    :class="{ 'publish-status-disabled': !published }"
+                >
+                    {{ published ? 'Published' : 'Unpublished' }}
+                </div>
             </div>
-            <nitrozen-toggle-btn v-model="published"></nitrozen-toggle-btn>
+            <nitrozen-toggle-btn
+                id="publish"
+                @change="changePublish"
+                v-model="published"
+            ></nitrozen-toggle-btn>
             <span class="actions"
-                ><nitrozen-button class="actions" v-flatBtn theme="secondary">
+                ><nitrozen-button
+                   id="actions"
+                    v-flatBtn
+                    theme="secondary"
+                    @click="saveForm"
+                >
                     {{ editMode ? 'Save' : 'Create' }}
                 </nitrozen-button></span
             >
@@ -46,6 +56,7 @@
                             v-model="slug.value"
                             tooltipText="Part of the URL that explains the page’s content"
                             :showTooltip="true"
+                            :disabled="editMode"
                         ></nitrozen-input>
                         <nitrozen-error
                             class="nitrozen-error"
@@ -55,7 +66,7 @@
                         </nitrozen-error>
                     </div>
                     <!-- Generated Link -->
-                    <!-- <adm-form-input
+                    <adm-form-input
                         v-if="editMode"
                         class="custom-form-input"
                         label="Preview Link"
@@ -63,30 +74,8 @@
                         tooltipText="The URL of the page, generated using slug"
                         :showTooltip="true"
                     >
-                        <page-link
-                            v-if="savedSlug"
-                            :link="`${domainURL()}page/${savedSlug}`"
-                        ></page-link>
-                        <div class="non-slug-text" v-else>
-                            Start typing slug value...
-                        </div>
-                    </adm-form-input> -->
-
-                    <!-- Page Link -->
-                    <!-- <div class="input" v-show="pageType === 'link'">
-                        <nitrozen-input
-                            label="Link *"
-                            placeholder="Enter Page Link"
-                            v-model="pageLink.value"
-                            @change="linkChange"
-                        ></nitrozen-input>
-                        <nitrozen-error
-                            class="nitrozen-error"
-                            v-if="pageLink.showerror"
-                        >
-                            {{ pageLink.errortext }}
-                        </nitrozen-error>
-                    </div> -->
+                        <page-link :link="getPageLink"></page-link>
+                    </adm-form-input>
 
                     <!-- Description -->
                     <div class="input">
@@ -111,7 +100,7 @@
                         :custom="true"
                         name="tags"
                     >
-                        <div class="input-text tags" @click="focusOnChipInput">
+                        <div class="input-text tags" id="chipFocus" @click="focusOnChipInput">
                             <nitrozen-chips
                                 v-for="(item, index) in tags"
                                 :key="'chips_' + index"
@@ -127,6 +116,7 @@
                                 type="text"
                                 placeholder="E.g. Featured"
                                 ref="chipInput"
+                                id="chipInput"
                                 class="chip-input cl-Mako light-xs"
                                 @blur="addChip"
                                 @keydown.enter="addChip"
@@ -135,22 +125,8 @@
                             />
                         </div>
                     </adm-form-input>
-
-                    <!-- <adm-form-input
-                    v-if="pageType !== 'link'"
-                    :item="pageLandscapeBanner"
-                    :label="'Landscape Banner'"
-                    :custom="true"
-                >
-                    <adm-upload-banner
-                        :cropperConfig="bannerLandscapeConfig"
-                        :srcURL="pageLandscapeBanner.value"
-                        @save-image="saveImage('landscape', $event)"
-                        @delete-image="pageLandscapeBanner.value = ''"
-                    ></adm-upload-banner>
-                    </adm-form-input>-->
                 </section>
-                
+
                 <section class="section">
                     <h3 class="cl-Mako bold-md">Advanced</h3>
 
@@ -167,31 +143,37 @@
                     class="loading"
                 ></loader>
             </div>
-            <div 
-                class="page-editor-wrapper"
-                v-show="!pageLoading">
+            <div class="page-editor-wrapper" v-show="!pageLoading">
                 <div class="page-editor">
                     <div>
                         <rawhtml-editor
-                        v-if="pageType === 'rawhtml'"
-                        v-model="content"
-                        ref="rawhtml"
-                    ></rawhtml-editor>
-                    <markdown-page-editor
-                        v-if="pageType === 'markdown'"
-                        v-model="content"
-                        ref="markdown"
-                    ></markdown-page-editor>
+                            v-if="pageType === 'rawhtml'"
+                            v-model="content"
+                            ref="rawhtml"
+                        ></rawhtml-editor>
+                        <markdown-page-editor
+                            v-if="pageType === 'markdown'"
+                            v-model="content"
+                            ref="markdown"
+                        ></markdown-page-editor>
                     </div>
                 </div>
-                </div>
+            </div>
         </div>
     </div>
 </template>
 <script>
-import { PageHeader, FormInput, PageOptions } from '@/components/common/';
-import rawhtmlEditor from './rawhtml-editor.vue'
-import markdownPageEditor from './markdown-page-editor.vue'
+import {
+    PageHeader,
+    Loader,
+    FormInput,
+    PageOptions,
+} from '@/components/common/';
+import rawhtmlEditor from './rawhtml-editor.vue';
+import markdownPageEditor from './markdown-page-editor.vue';
+import InternalSettingsService from '@/services/internal-settings.service';
+import pageLink from '../../../components/common/page-link.vue';
+import { convertToSlug } from '../../../helper/utils';
 import {
     NitrozenToggleBtn,
     NitrozenButton,
@@ -201,9 +183,10 @@ import {
     NitrozenError,
     NitrozenChips,
     NitrozenInline,
-
-    
 } from '@gofynd/nitrozen-vue';
+
+import root from 'window-or-global';
+const env = root.env || {};
 
 export default {
     name: 'create-custom-page',
@@ -219,7 +202,8 @@ export default {
         'page-options': PageOptions,
         'rawhtml-editor': rawhtmlEditor,
         'markdown-page-editor': markdownPageEditor,
-
+        'page-link': pageLink,
+        Loader,
     },
     directives: {
         strokeBtn,
@@ -227,13 +211,13 @@ export default {
     },
     data() {
         return {
-            published: true,
-            editMode: false,
+            published: false,
+            editMode: false || this.$route.name == 'edit-custom',
             name: this.getInitialValue(),
             slug: this.getInitialValue(),
             description: this.getInitialValue(),
-            pageLink: this.getInitialValue(),
-             pageCssOptions: [
+            pageData: {},
+            pageCssOptions: [
                 {
                     key: 'width',
                     value: '',
@@ -241,11 +225,11 @@ export default {
                     units: [
                         {
                             text: 'px',
-                            value: 'px'
+                            value: 'px',
                         },
-                        { text: '%', value: '%' }
-                    ]
-                }
+                        { text: '%', value: '%' },
+                    ],
+                },
             ],
             tags: [],
             chipInput: '',
@@ -253,12 +237,47 @@ export default {
             inProgress: false,
             pageType: '',
             content: '',
-
-
-
+            seoObj: { title: '', description: '' },
+            savedSlug: null,
         };
     },
+    computed: {
+        getPageLink() {
+            if (this.slug) {
+                return `https://platform.${env.FYND_PLATFORM_DOMAIN}/p/${this.slug.value}`;
+            }
+        },
+    },
     methods: {
+        changePublish() {
+            console.log(this.editMode);
+            if(this.editMode){
+            this.inProgress = true;
+
+            InternalSettingsService.editPublished(this.slug.value, {
+                published: this.published,
+            })
+                .then((res) => {
+                    this.$snackbar.global.showSuccess(
+                        this.published
+                            ? 'Page published successfully'
+                            : 'Page unpublished successfully'
+                    );
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError(
+                        `Failed to ${
+                            this.published ? 'publish' : 'unpublish'
+                        } page`
+                    );
+                    this.published = !this.published;
+                    console.error(err);
+                })
+                .finally(() => {
+                    this.inProgress = false;
+                });
+            }
+        },
         getInitialValue(val = '') {
             return {
                 showerror: false,
@@ -269,10 +288,10 @@ export default {
         focusOnChipInput() {
             this.$refs['chipInput'].focus();
         },
-         addChip(event) {
+        addChip(event) {
             if (this.chipInput) {
                 if (
-                    this.tags.filter(it => it.display === this.chipInput)
+                    this.tags.filter((it) => it.display === this.chipInput)
                         .length === 0
                 )
                     this.tags.push({ display: this.chipInput });
@@ -285,15 +304,199 @@ export default {
         },
         addOption() {
             this.pageCss.push({ key: '', value: '' });
-        },deleteOption(index) {
+        },
+        deleteOption(index) {
             this.pageCss.splice(index, 1);
         },
-    },
-    mounted(){
-        //console.log(this.$route.params);
-                this.pageType = this.$route.params.pagetype;
+        getFormData() {
+            let contentInfo = {
+                type: this.pageType,
+                value: this.content,
+            };
 
-    }
+            const obj = {
+                content: [],
+                title: this.name.value,
+                description: this.description.value,
+                tags: this.tags.map((it) => it.display),
+                slug: this.slug.value,
+                published: this.published,
+                page_meta: this.getPageMeta(),
+                seo: this.seoObj,
+                type: this.pageType,
+            };
+            obj.content.push(contentInfo);
+
+            return obj;
+        },
+        saveForm() {
+            if (!this.validateForm()) {
+                return;
+            }
+            const formData = this.getFormData();
+             console.log(formData);
+            if (formData.content[0].value === '') {
+                this.$snackbar.global.showError(`Editor is Empty`);
+                return;
+            }
+
+            let promisefn = this.$route.params.slug
+                ? InternalSettingsService.editCustomPage(
+                      this.pageData._id,
+                      formData
+                  )
+                : InternalSettingsService.createCustomPage(formData);
+
+            this.inProgress = true;
+            promisefn
+                .then((res) => {
+                    this.$snackbar.global.showSuccess(
+                        `Page ${
+                            this.editMode ? 'updated' : 'created'
+                        } successfully`
+                    );
+                    this.pageData = res.data;
+                    this.inProgress = false;
+                    this.$router
+                        .push({
+                            path: `/administrator/settings/pages`,
+                        })
+                        .catch(() => {});
+                })
+                .catch((err) => {
+                    let msg = err.response.data.message;
+                    if (msg && msg.includes('DuplicateKey'))
+                        msg = 'Duplicate Slug Not allowed';
+                    this.inProgress = false;
+                    this.$snackbar.global.showError(
+                        `Failed to ${this.editMode ? 'update' : 'create'} page${
+                            ' : ' + msg || ' : ' + err.message || ''
+                        }`
+                    );
+                });
+        },
+
+        validateForm() {
+            let formValid = true;
+            formValid = this.checkEmpty('name') && formValid;
+            // formValid = this.checkEmpty('description') && formValid;
+            formValid =
+                this.checkEmpty('slug') && this.validateSlug() && formValid;
+
+            return formValid;
+        },
+        validateSlug() {
+            const valid = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(this.slug.value);
+            this['slug'].showerror = !valid;
+            if (!valid) {
+                this['slug'].errortext = 'Slug is invalid';
+            }
+            return valid;
+        },
+        checkEmpty(key) {
+            const emptyErorrs = {
+                name: 'Title is required',
+                slug: 'Slug is required',
+            };
+            if (this[key].value.trim() === '') {
+                this[key].showerror = true;
+                this[key].errortext = emptyErorrs[key] || 'Enter ' + key;
+                return false;
+            }
+            return true;
+        },
+        getPageMeta() {
+            let meta = [];
+            this.pageCssOptions.forEach((pageCss) => {
+                if (pageCss.value) {
+                    meta.push({
+                        key: pageCss.key,
+                        value: { value: pageCss.value, unit: pageCss.unit },
+                    });
+                }
+            });
+
+            return meta;
+        },
+        loadPageData() {
+            this.name.value = this.pageData.title || '';
+            this.seoObj.title =
+                this.pageData.seo && this.pageData.seo.title
+                    ? this.pageData.seo.title
+                    : '';
+            this.seoObj.description =
+                this.pageData.seo && this.pageData.seo.description
+                    ? this.pageData.seo.description
+                    : '';
+            this.slug.value = this.pageData.slug || '';
+            this.savedSlug = this.pageData.slug || null;
+            this.description.value = this.pageData.description || '';
+            this.published = this.pageData.published;
+            this.pageData.page_meta &&
+                this.pageData.page_meta.forEach((meta) => {
+                    this.pageCssOptions.forEach((pageCss) => {
+                        if (pageCss.key === meta.key) {
+                            pageCss.value = meta.value.value;
+                            pageCss.unit = meta.value.unit;
+                        }
+                    });
+                });
+            this.tags =
+                (this.pageData.tags &&
+                    this.pageData.tags.map((t) => {
+                        return { display: t };
+                    })) ||
+                [];
+
+            this.pageData.content = this.pageData.content || [];
+            let contentData = this.pageData.content.find(
+                (elem) => elem.type === this.pageType
+            );
+            this.content = (contentData && contentData.value) || '';
+            this.pageLoading = false;
+        },
+        attachNameWatcher() {
+            this.detachNameWatcher = this.$watch(
+                'name',
+                function handler(val) {
+                    this.slug.value = convertToSlug(this.name.value);
+                    this.seoObj.title = this.name.value;
+                },
+                { deep: true }
+            );
+            this.detachDescriptionWatcher = this.$watch(
+                'description',
+                function handler(val) {
+                    this.seoObj.description = this.description.value;
+                },
+                { deep: true }
+            );
+        },
+    },
+    mounted() {
+        this.pageType = this.$route.params.pagetype;
+        if (this.editMode) {
+            //console.log(this.pageType,this.editMode);
+            this.pageLoading = true;
+            InternalSettingsService.previewCustomPage(
+                this.$route.params.slug
+            ).then(
+                (res) => {
+                    //console.log(data)
+                    this.pageData = res.data;
+                    //console.log(this.pageData);
+                    this.loadPageData();
+                }
+                //    .catch(err => {
+                //     this.pageLoading = false;
+                //     this.$snackbar.global.showError(
+                //         'Failed to load Page. Try Again.'
+                //     );
+                // })
+            );
+        }
+        this.attachNameWatcher();
+    },
 };
 </script>
 <style lang="less" scoped>
@@ -326,6 +529,11 @@ export default {
     @media @mobile {
         display: block;
         margin-top: 48px;
+    }
+}
+.custom-form-input {
+    ::v-deep label {
+        font-size: 12px;
     }
 }
 .form-container {
@@ -370,8 +578,9 @@ export default {
         line-height: 30px;
     }
     .chip-input {
-        width: 200px;
+        width: 92%;
         border: none;
+        padding: 10px;
     }
 }
 .page-editor-wrapper {
@@ -395,5 +604,4 @@ export default {
         height: calc(100vh - 170px);
     }
 }
-
 </style>

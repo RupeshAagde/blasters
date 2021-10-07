@@ -255,6 +255,7 @@ export default {
             this.pageLoading = true;
             return InternalSettingsService.getNavbar()
                 .then(({ data }) => {
+                    console.log(data);
                     this.navbar = data.items;
                     this.pageError = false;
                 })

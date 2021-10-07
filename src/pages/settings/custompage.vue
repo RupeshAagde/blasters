@@ -1,111 +1,115 @@
 <template>
     <div>
         <div>
-           
-        <div class="main-container">
-             <jumbotron
-                :title="'Custom Pages'"
-                :desc="
-                    'Use this section to develop and manage custom webpages'
-                "
-            >
-            <div>
-                 <nitrozen-button
-                v-flatBtn
-                theme="secondary"
-                @click="openCreateModal"
-            >
-                Create
-            </nitrozen-button>
-            </div>
-            </jumbotron>
-            <div class="search-box" v-if="inProgress ||
-                        (searchText !== '' ||
-                            selectedOpt.key !== 'all' ||
-                            (pagesList && pagesList.length > 0))">
-                                <!-- <div v-if="isInitialLoad" class="input-shimmer shimmer"></div> -->
-
-                <template>
-                    <nitrozen-input
-                        class="search"
-                        :showSearchIcon="true"
-                        type="search"
-                        placeholder="Search by page title"
-                        v-model="searchText"
-                        @keyup.enter="setRouteQuery({ search: searchText })"
-                        @input="debounceInput"
-                        
-                    ></nitrozen-input>
-
-                    <div class="filter">
-                        <label class="label">Status</label>
-                        <nitrozen-dropdown
-                            class="filter-dropdown"
-                            :items="statusList"
-                            v-model="selectedOpt"
-                            @change="
-                                setRouteQuery({
-                                    statusFilter: selectedOpt,
-                                })
-                            "
-                        ></nitrozen-dropdown>
+            <div class="main-container">
+                <jumbotron
+                    :title="'Custom Pages'"
+                    :desc="'Use this section to develop and manage custom webpages'"
+                >
+                    <div>
+                        <nitrozen-button
+                            v-flatBtn
+                            theme="secondary"
+                            @click="openCreateModal"
+                        >
+                            Create
+                        </nitrozen-button>
                     </div>
-                </template>
-            </div>
-            <div v-if="pagesList && pagesList.length > 0 && !inProgress" class="page">
-                <div v-for="item in pagesList" :key="`index+${item.slug}`">
-                    <page-item
-                        :pageDetail="item"
-                        :pageUrl="getPageUrl(item)"
-                        itemType="page"
-                    ></page-item>
-            </div>
-         <nitrozen-pagination
-            name="Pages"
-            v-model="pagination"
-            @change="setPagination"
-            :pageSizeOptions="[5, 10, 20, 50]"
-        ></nitrozen-pagination>
-        </div>
-        <shimmer
-                v-if="inProgress"
-                class="page-shimmer"
-                :count="3"
-            ></shimmer>
-            <no-content
-                v-if="noResults"
-                helperText="No Pages Found"
-            ></no-content>
-            <!-- <adm-page-error
+                </jumbotron>
+                <div
+                    class="search-box"
+                    v-if="
+                        inProgress ||
+                        searchText !== '' ||
+                        selectedOpt.key !== 'all' ||
+                        (pagesList && pagesList.length > 0)
+                    "
+                >
+                    <!-- <div v-if="isInitialLoad" class="input-shimmer shimmer"></div> -->
+
+                    <template>
+                        <nitrozen-input
+                            class="search"
+                            :showSearchIcon="true"
+                            type="search"
+                            placeholder="Search by page title"
+                            v-model="searchText"
+                            @keyup.enter="setRouteQuery({ search: searchText })"
+                            @input="debounceInput"
+                        ></nitrozen-input>
+
+                        <div class="filter">
+                            <label class="label">Status</label>
+                            <nitrozen-dropdown
+                                class="filter-dropdown"
+                                :items="statusList"
+                                v-model="selectedOpt"
+                                @change="
+                                    setRouteQuery({
+                                        statusFilter: selectedOpt,
+                                    })
+                                "
+                            ></nitrozen-dropdown>
+                        </div>
+                    </template>
+                </div>
+                <div
+                    v-if="pagesList && pagesList.length > 0 && !inProgress"
+                    class="page"
+                >
+                    <div v-for="item in pagesList" :key="`index+${item.slug}`">
+                        <div @click="updatePage(item)">
+                            <page-item
+                                :pageDetail="item"
+                                :pageUrl="getPageUrl(item)"
+                                itemType="page"
+                            ></page-item>
+                        </div>
+                    </div>
+                    <nitrozen-pagination
+                        name="Pages"
+                        id="pagination"
+                        v-model="pagination"
+                        @change="setPagination"
+                        :pageSizeOptions="[5, 10, 20, 50]"
+                    ></nitrozen-pagination>
+                </div>
+                <shimmer
+                    v-if="inProgress"
+                    class="page-shimmer"
+                    :count="3"
+                ></shimmer>
+                <no-content
+                    v-if="noResults"
+                    helperText="No Pages Found"
+                ></no-content>
+                <!-- <adm-page-error
                 v-else-if="pageError && !inProgress"
                 @tryAgain="getPages"
             ></adm-page-error> -->
-               </div>
+            </div>
+        </div>
+        <nitrozen-dialog
+            class="custom_pages_dialog"
+            ref="custom_pages_dialog"
+            title="Create Page"
+        >
+            <template slot="header">
+                <div class="cross">Create Page</div>
+            </template>
+            <template slot="header">
+                <div class="cross" @click="closeModal">
+                    <inline-svg :src="'cross-black'"></inline-svg>
+                </div>
+            </template>
 
-    </div>
-    <nitrozen-dialog
-                class="custom_pages_dialog"
-                ref="custom_pages_dialog"
-                title="Create Page"
-            >
-            
-                <template slot="header">
-                    <div class="cross" >Create Page</div>
-                </template>
-                <template slot="header">
-                    <div class="cross" @click="closeModal" >
-                        <inline-svg :src="'cross-black'"></inline-svg>
-                    </div>
-                </template>
-            
-            
-                <template slot="body">
-                <div  class="wizard-body-wrapper">
+            <template slot="body">
+                <div class="wizard-body-wrapper">
                     <div class="modal-details-body">
                         <div class="modal-body-description">
                             <component
                                 :is="{
-                                    template: `<p>Create your own custom template</p>`
+                                    template: `<p>Create your own custom template</p>`,
                                 }"
                             ></component>
                         </div>
@@ -165,24 +169,26 @@
                             </div>
                         </div>
                     </div>
-                    </div>
-                    </template>
-                    <br>
-                    <template slot="footer">
-                    <div>
-                        <nitrozen-button
-                            v-flatBtn
-                            id="approve"
-                            :theme="'secondary'"
-                            @click="modalSelectandProceed"
-                            >Select and Proceed</nitrozen-button
-                        >
-                    </div>
-                </template>
-                
-
-
-            </nitrozen-dialog>
+                </div>
+            </template>
+            <br />
+            <template slot="footer">
+                <div>
+                    <nitrozen-button
+                        v-flatBtn
+                        id="approve"
+                        :theme="'secondary'"
+                        @click="modalSelectandProceed"
+                        :disabled="pageTypeSelection == 'grapeJS'"
+                        >{{
+                            pageTypeSelection == 'grapeJS'
+                                ? 'Coming Soon'
+                                : 'Select and Proceed'
+                        }}</nitrozen-button
+                    >
+                </div>
+            </template>
+        </nitrozen-dialog>
     </div>
 </template>
 <script>
@@ -202,7 +208,7 @@ import {
     NitrozenDropdown,
     NitrozenDialog,
     NitrozenRadio,
-    NitrozenPagination
+    NitrozenPagination,
 } from '@gofynd/nitrozen-vue';
 
 import root from 'window-or-global';
@@ -233,29 +239,26 @@ const PAGE_TYPE_DETAILS = {
         name: 'GrapesJS Editor',
         description: {
             template:
-                '<div><span>For advanced users</span><li>Use readily available drag-and-drop blocks to build any page with multiple styles (CSS). Easily manage layers and media files (assets).</li><li> Get all the content tools, forms and its components, along with extras like custom code, tooltips and many more.</li></div>'
+                '<div><span>For advanced users</span><li>Use readily available drag-and-drop blocks to build any page with multiple styles (CSS). Easily manage layers and media files (assets).</li><li> Get all the content tools, forms and its components, along with extras like custom code, tooltips and many more.</li></div>',
         },
-        image:
-            'https://res.cloudinary.com/dwzm9bysq/image/upload/v1587047567/production/platform/admin-panel/page-editor/grapesjs-editor.jpg'
+        image: 'https://res.cloudinary.com/dwzm9bysq/image/upload/v1587047567/production/platform/admin-panel/page-editor/grapesjs-editor.jpg',
     },
     markdown: {
         name: 'Markdown Editor',
         description: {
             template:
-                "<p>Create a page rapidly using Markdown, a formatting language that's easy to write and is functionally similar to HTML.</p>"
+                "<p>Create a page rapidly using Markdown, a formatting language that's easy to write and is functionally similar to HTML.</p>",
         },
-        image:
-            'https://res.cloudinary.com/dwzm9bysq/image/upload/v1587050181/production/platform/admin-panel/page-editor/markdown-editor.png'
+        image: 'https://res.cloudinary.com/dwzm9bysq/image/upload/v1587050181/production/platform/admin-panel/page-editor/markdown-editor.png',
     },
     rawhtml: {
         name: 'Raw HTML Editor',
         description: {
             template:
-                '<p>Create a page using HTML, a conventionally used language that supports all the markup tags within angle brackets.</p>'
+                '<p>Create a page using HTML, a conventionally used language that supports all the markup tags within angle brackets.</p>',
         },
-        image:
-            'https://res.cloudinary.com/dwzm9bysq/image/upload/v1587050182/production/platform/admin-panel/page-editor/rawhtml-editor.png'
-    }
+        image: 'https://res.cloudinary.com/dwzm9bysq/image/upload/v1587050182/production/platform/admin-panel/page-editor/rawhtml-editor.png',
+    },
 };
 
 export default {
@@ -271,10 +274,9 @@ export default {
         'inline-svg': inlinesvg,
         'page-item': pageItem,
         'no-content': PageEmpty,
-        Shimmer
-
+        Shimmer,
     },
-     directives: {
+    directives: {
         flatBtn,
         strokeBtn,
     },
@@ -293,37 +295,34 @@ export default {
             ModalOpen: false,
             pageTypeSelection: 'grapeJS',
             PAGE_TYPE_DETAILS,
-            pageType: ''
+            pageType: '',
         };
     },
     methods: {
-     getPages(params = { current: 1, limit: 10 }) {
+        getPages(params = { current: 1, limit: 10 }) {
             this.inProgress = true;
             this.noResults = false;
             this.pageError = false;
-            console.log(this.selectedOpt.value);
             return InternalSettingsService.getCustomPages(
-                Object.assign(
-                    {
-                        page_no: this.pagination.current,
-                        page_size: this.pagination.limit,
-                        [this.selectedOpt.key]: this.selectedOpt.value,
-                        q: this.searchText 
-                    }
-                )
+                Object.assign({
+                    page_no: this.pagination.current,
+                    page_size: this.pagination.limit,
+                    [this.selectedOpt.key]: this.selectedOpt.value,
+                    q: this.searchText,
+                })
             )
-                .then(res => {
+                .then((res) => {
                     this.pagesList = res.data.items;
                     this.pagination = {
                         limit: res.data.page.size,
                         total: res.data.page.item_total,
-                        current: res.data.page.current
+                        current: res.data.page.current,
                     };
                     //console.log(this.pagination)
                     if (!res.data.items || res.data.items.length === 0)
                         this.noResults = true;
                 })
-                .catch(err => {
+                .catch((err) => {
                     this.pageError = true;
                     this.$snackbar.global.showError(
                         `Failed to load pages${
@@ -336,36 +335,46 @@ export default {
                     this.inProgress = false;
                 });
         },
-        modalSelectandProceed(){
-            let pagetype = this.pageTypeSelection;
-            this.closeModal
-            if(pagetype)
-            {
-            this.$router.push({ path: `/administrator/settings/pages/${pagetype}/create` });
+        modalSelectandProceed() {
+            this.closeModal()
+            if (this.pageTypeSelection) {
+                setTimeout(() => {
+                    this.$router.push({
+                        path: `/administrator/settings/pages/${this.pageTypeSelection}/create`,
+                    });
+                });
             }
         },
-        openCreateModal(){
-        this.$refs['custom_pages_dialog'].open({
-            width: "700px",
-                height: "550px"
-        })
+        openCreateModal() {
+            this.$refs['custom_pages_dialog'].open({
+                width: '700px',
+                height: '550px',
+            });
         },
         getPageUrl(item) {
             return `https://platform.${env.FYND_PLATFORM_DOMAIN}/p/${item.slug}`;
         },
         setPagination(filter) {
             const { current, limit } = filter;
+            console.log(filter);
             filter = { page: current, limit };
             this.pagination = Object.assign({}, this.pagination, filter);
-            console.log(this.pagination);
             this.setRouteQuery(filter);
+        },
+        updatePage(item) {
+            console.log(item);
+            this.$router
+                .push({
+                    path: `pages/${item.type}/${item.slug}/edit`,
+                })
+                .catch(() => {});
         },
         populateFromURL() {
             const { search, all, published, page, limit } = this.$route.query;
 
             this.searchText = search || this.searchText;
             if (published) {
-                const opt = PAGE_FILTERS.find(f => {
+                const opt = PAGE_FILTERS.find((f) => {
                     return (
                         f.value.key == 'published' && f.value.value == published
                     );
@@ -390,31 +399,30 @@ export default {
                 query.page = undefined;
                 query.limit = undefined;
             }
-            this.$router.push({
-                path: this.$route.path,
-                query: {
-                    ...this.$route.query,
-                    ...query
-                }
-            }).catch(() => {});
+            this.$router
+                .push({
+                    path: this.$route.path,
+                    query: {
+                        ...this.$route.query,
+                        ...query,
+                    },
+                })
+                .catch(() => {});
             this.getPages();
-
         },
-        closeModal(){
-            this.$refs['custom_pages_dialog'].close()
-         }
-        ,
-         debounceInput: debounce(function(e) {
+        closeModal() {
+            this.$refs['custom_pages_dialog'].close();
+        },
+        debounceInput: debounce(function (e) {
             if (this.searchText.length === 0) {
                 this.setRouteQuery({ search: undefined });
             }
-        }, 200)
-        
+        }, 200),
     },
-    mounted(){
+    mounted() {
         this.populateFromURL();
-        this.getPages()
-    }
+        this.getPages();
+    },
 };
 </script>
 <style lang="less" scoped>
@@ -531,8 +539,7 @@ export default {
         width: 100%;
     }
 }
-.cross{
+.cross {
     margin: 0px;
 }
-
 </style>

@@ -16,13 +16,13 @@
             <!-- @imgAdd="onImgAdd" -->
             <template slot="left-toolbar-after">
                 <span data-v-548e2160="" class="op-icon-divider"></span>
-                <button
+                <!-- <button
                     @click="openURLBuilder"
                     type="button"
                     aria-hidden="true"
                     title="Link (ctrl+l)"
                     class="op-icon fa fa-mavon-link"
-                ></button>
+                ></button> -->
                 <div
                     @click="$refs.image_uploader_dialog.open()"
                     type="button"
@@ -39,7 +39,7 @@
             @closedialog="closeMdModal"
         ></markdown-preview-modal>
 
-        <mirage-image-uploader-dialog
+        <blaster-image-uploader-dialog
             ref="image_uploader_dialog"
             aspectRatio="*"
             mediaFolder="page"
@@ -47,7 +47,7 @@
             v-model="currentImageURL"
             :fileName="'Page Image'"
             namespace="page-image"
-        ></mirage-image-uploader-dialog>
+        ></blaster-image-uploader-dialog>
 
         <!-- <nitrozen-dialog
             class="url-builder-dialog"
@@ -83,9 +83,7 @@
     ::v-deep .nitrozen-dialog {
         overflow: unset;
         max-height: 95%;
-        .nitrozen-dialog-body {
-            // overflow: auto;
-        }
+       
     }
     ::v-deep .nitrozen-dialog-backdrop {
         z-index: 1501;
@@ -128,7 +126,7 @@ export default {
     components: {
         'mavon-editor': mavonEditor,
         'markdown-preview-modal': markdownPreviewModal,
-        'mirage-image-uploader-dialog': blasterimageuploaderdialog,
+        'blaster-image-uploader-dialog': blasterimageuploaderdialog,
         'nitrozen-dialog': NitrozenDialog,
         loader
     },

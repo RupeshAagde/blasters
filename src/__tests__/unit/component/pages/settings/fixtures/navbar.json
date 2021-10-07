@@ -3,7 +3,7 @@
     "items": [
         { "title": "Features", "link": "/features" },
         { "title": "Pricing", "link": "/pricing" },
-        { "title": "Learn", "href": "https://documentation.fynd.com" },
+        { "title": "Learn", "href": "https://help.fynd.com" },
         { "title": "Partners", "href": "https://partners.fynd.com" },
         { "title": "Blogs", "href": "https://platform.fynd.com/blog" }
     ],
