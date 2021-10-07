@@ -68,6 +68,7 @@
                     </div>
                     <nitrozen-pagination
                         name="Pages"
+                        id="pagination"
                         v-model="pagination"
                         @change="setPagination"
                         :pageSizeOptions="[5, 10, 20, 50]"
@@ -355,11 +356,13 @@ export default {
         },
         setPagination(filter) {
             const { current, limit } = filter;
+            console.log(filter);
             filter = { page: current, limit };
             this.pagination = Object.assign({}, this.pagination, filter);
             this.setRouteQuery(filter);
         },
         updatePage(item) {
+            console.log(item);
             this.$router
                 .push({
                     path: `pages/${item.type}/${item.slug}/edit`,

@@ -426,7 +426,7 @@ const URLS = {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/custom-pages/',slug);
     },
     PLATFORM_PUBLISHED: (slug) => {
-        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/custom-pages/publish',slug,);
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/custom-pages/publish/',slug);
     },
     PLATFORM_HOME_PAGE: () => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/home-page');
