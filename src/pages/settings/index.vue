@@ -46,6 +46,88 @@
                             </div>
                         </router-link>
                     </span>
+                </div>
+
+                <div class="settings-head">
+                    <inline-svg src="settings"></inline-svg>
+                    <span class="bold-xs cl-Mako title">Custom Page</span>
+                </div>
+
+                <div class="settings-main">
+                    <span
+                        class="settings-menu"
+                        v-for="(menu, index) in custom_menus"
+                        :key="'general' + index"
+                    >
+                        <router-link :to="menu.link">
+                            <div class="settings-body" @click="$emit('click')">
+                                <span class="settings-icon">
+                                    <inline-svg
+                                        v-if="menu.icon"
+                                        :src="menu.icon"
+                                        class="feature-icon"
+                                    ></inline-svg>
+                                </span>
+                                <span class="settings-content">
+                                    <div>
+                                        <span class="bold-xs cl-Mako">{{
+                                            menu.title
+                                        }}</span>
+                                    </div>
+                                    <div class="settings-detail">
+                                        <span class="cl-Mako">
+                                            {{
+                                                menu.desc ||
+                                                    'View and Update store details'
+                                            }}
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>
+                        </router-link>
+                    </span>
+                </div>
+
+                
+
+                <div class="settings-head">
+                    <inline-svg src="settings"></inline-svg>
+                    <span class="bold-xs cl-Mako title">Customize</span>
+                </div>
+
+                <div class="settings-main">
+                    <span
+                        class="settings-menu"
+                        v-for="(menu, index) in customize_menus"
+                        :key="'general' + index"
+                    >
+                        <router-link :to="menu.link">
+                            <div class="settings-body" @click="$emit('click')">
+                                <span class="settings-icon">
+                                    <inline-svg
+                                        v-if="menu.icon"
+                                        :src="menu.icon"
+                                        class="feature-icon"
+                                    ></inline-svg>
+                                </span>
+                                <span class="settings-content">
+                                    <div>
+                                        <span class="bold-xs cl-Mako">{{
+                                            menu.title
+                                        }}</span>
+                                    </div>
+                                    <div class="settings-detail">
+                                        <span class="cl-Mako">
+                                            {{
+                                                menu.desc ||
+                                                    'View and Update store details'
+                                            }}
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>
+                        </router-link>
+                    </span>
 
                     <span class="settings-menu" @click="openHomePage" key="home-page">
                         <span>
@@ -109,15 +191,19 @@ const GENERAL_MENUS = [
         active: false,
         desc: 'Change platform features information'
     },
+];
+const CUSTOM_MENUS = [
     {
         title: 'Custom Pages',
         link: 'settings/pages',
-        icon: 'edit',
+        icon: 'settings',
         permissions: [],
         active: false,
         desc: 'Use this section to develop and manage custom webpages'
-    },
-    {
+    }
+]
+const CUSTOMIZE_MENUS = [
+{
         title: 'Navbar',
         link: 'settings/navbar',
         icon: 'settings',
@@ -133,7 +219,7 @@ const GENERAL_MENUS = [
         active: false,
         desc: 'Use this section to change platform footer'
     }
-];
+]
 export default {
     name: 'settings',
     components: {
@@ -152,8 +238,9 @@ export default {
         return {
             pageLoading: false,
             pageError: false,
-
-            general_menus: GENERAL_MENUS
+            general_menus: GENERAL_MENUS,
+            customize_menus: CUSTOMIZE_MENUS,
+            custom_menus: CUSTOM_MENUS
         };
     },
     mounted() {},
@@ -191,6 +278,7 @@ export default {
         .settings-main {
             display: flex;
             flex-wrap: wrap;
+            margin-bottom: 48px;
             .settings-menu {
                 flex: 0 33.3%;
             }
