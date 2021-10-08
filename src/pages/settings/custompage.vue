@@ -53,6 +53,8 @@
                         </div>
                     </template>
                 </div>
+                <div v-if="pagesList.length>0" class="pagecount">{{pagesList.length}} Pages in total</div>
+
                 <div
                     v-if="pagesList && pagesList.length > 0 && !inProgress"
                     class="page"
@@ -300,9 +302,10 @@ export default {
     },
     methods: {
         debounceInput: debounce(function (e) {
-            if (e.length === 0) {
-                return;
+             if (e.length === 0) {
+                this.setRouteQuery({ search: undefined });
             }
+            
             this.setRouteQuery({search: e});
         }, 200),
         getPages(params = { current: 1, limit: 10 }) {
@@ -539,5 +542,10 @@ export default {
 }
 .cross {
     margin: 0px;
+}
+.pagecount{
+    font-family: sans-serif;
+    font-size: 14px;
+    color: #41434c;
 }
 </style>

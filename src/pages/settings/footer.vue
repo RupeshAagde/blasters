@@ -348,8 +348,9 @@ export default {
         line-height: 30px;
     }
     .chip-input {
-        width: 200px;
-        border: none;
+    width: 92%;
+    border: none;
+    padding: 10px;
     }
 }
 .page-editor-wrapper {
