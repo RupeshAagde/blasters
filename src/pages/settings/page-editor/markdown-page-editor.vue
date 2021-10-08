@@ -46,7 +46,7 @@
             @save="replaceImageUrl(null, $event)"
             v-model="currentImageURL"
             :fileName="'Page Image'"
-            namespace="page-image"
+            namespace="platform-page-image"
         ></blaster-image-uploader-dialog>
 
         <!-- <nitrozen-dialog
