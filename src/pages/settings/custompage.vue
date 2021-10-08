@@ -299,6 +299,12 @@ export default {
         };
     },
     methods: {
+        debounceInput: debounce(function (e) {
+            if (e.length === 0) {
+                return;
+            }
+            this.setRouteQuery({search: e});
+        }, 200),
         getPages(params = { current: 1, limit: 10 }) {
             this.inProgress = true;
             this.noResults = false;
@@ -356,13 +362,11 @@ export default {
         },
         setPagination(filter) {
             const { current, limit } = filter;
-            console.log(filter);
             filter = { page: current, limit };
             this.pagination = Object.assign({}, this.pagination, filter);
             this.setRouteQuery(filter);
         },
         updatePage(item) {
-            console.log(item);
             this.$router
                 .push({
                     path: `pages/${item.type}/${item.slug}/edit`,
@@ -371,7 +375,6 @@ export default {
         },
         populateFromURL() {
             const { search, all, published, page, limit } = this.$route.query;
-
             this.searchText = search || this.searchText;
             if (published) {
                 const opt = PAGE_FILTERS.find((f) => {
@@ -413,11 +416,6 @@ export default {
         closeModal() {
             this.$refs['custom_pages_dialog'].close();
         },
-        debounceInput: debounce(function (e) {
-            if (this.searchText.length === 0) {
-                this.setRouteQuery({ search: undefined });
-            }
-        }, 200),
     },
     mounted() {
         this.populateFromURL();
