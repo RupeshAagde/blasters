@@ -8,6 +8,7 @@
                 <div
                     class="publish-status status-text bold-xs"
                     :class="{ 'publish-status-disabled': !published }"
+                    @click="published = !published; changePublish()"
                 >
                     {{ published ? 'Published' : 'Unpublished' }}
                 </div>
@@ -250,7 +251,6 @@ export default {
     },
     methods: {
         changePublish() {
-            console.log(this.editMode);
             if(this.editMode){
             this.inProgress = true;
 
@@ -334,7 +334,6 @@ export default {
                 return;
             }
             const formData = this.getFormData();
-             console.log(formData);
             if (formData.content[0].value === '') {
                 this.$snackbar.global.showError(`Editor is Empty`);
                 return;
@@ -383,7 +382,12 @@ export default {
             formValid =
                 this.checkEmpty('slug') && this.validateSlug() && formValid;
 
+            if(formValid){  
+                this.name.showError= false;
+                this.name.errortext= '';
+            }
             return formValid;
+            
         },
         validateSlug() {
             const valid = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(this.slug.value);
@@ -456,6 +460,7 @@ export default {
             this.pageLoading = false;
         },
         attachNameWatcher() {
+            if(!this.editMode){
             this.detachNameWatcher = this.$watch(
                 'name',
                 function handler(val) {
@@ -464,6 +469,7 @@ export default {
                 },
                 { deep: true }
             );
+            }
             this.detachDescriptionWatcher = this.$watch(
                 'description',
                 function handler(val) {
@@ -515,7 +521,7 @@ export default {
     color: @DustyGray2;
 }
 .actions {
-    margin-top: 5px;
+    margin-top: 8.75px;
     padding-left: 24px;
 }
 .form.page-container {
