@@ -10,12 +10,15 @@
                         :items="customPages"
                         label="Page"
                         v-model="customHomePage"
+                        :searchable="true"
+                        @searchInputChange="pageSearch"
                     ></nitrozen-dropdown>
                 </div>
                 <div class="info">
                     This will change Fynd Platform home page
                 </div>
             </div>
+            <loader v-if="isLoading"></loader>
         </template>
         <template slot="footer">
             <div class="custom-footer">
@@ -49,7 +52,9 @@ import {
     flatBtn,
     NitrozenDialog
 } from '@gofynd/nitrozen-vue';
+import { Loader } from '@/components/common/';
 import InternalSettingsService from '@/services/internal-settings.service';
+import { debounce } from '@/helper/utils';
 
 export default {
     name: 'home-page-dialog',
@@ -57,7 +62,8 @@ export default {
         NitrozenDialog,
         NitrozenError,
         NitrozenDropdown,
-        NitrozenButton
+        NitrozenButton,
+        Loader
     },
     directives: {
         strokeBtn,
@@ -68,7 +74,8 @@ export default {
             customPages: [],
             isCustomHomePage: false,
             customHomePage: '',
-            homePageRes: null
+            homePageRes: null,
+            isLoading: false
         };
     },
     mounted() {},
@@ -86,24 +93,33 @@ export default {
                     if (this.isCustomHomePage) {
                         this.customHomePage = res[0].data.slug;
                     }
-                    res[1].data.items.map((ele) => {
-                        this.customPages.push({
-                            text: `${ele.title} (${ele.slug})`,
-                            value: `${ele.slug}`
-                        });
-                    });
                 })
                 .catch((err) => {
                     console.log(err);
                 });
         },
-        getCustomPages() {
+        getCustomPages(q = '', isSearch = false) {
+            this.isLoading = true
             const params = {
                 page_size: 200,
                 page_no: 1,
-                published: true
+                published: true,
+                q
             };
-            return InternalSettingsService.getCustomPages(params);
+            if(isSearch){
+                this.customPages = []
+            }
+            return InternalSettingsService.getCustomPages(params).then(
+                (res) => {
+                    this.isLoading = false
+                    res.data.items.map((ele) => {
+                        this.customPages.push({
+                            text: `${ele.title} (${ele.slug})`,
+                            value: `${ele.slug}`
+                        });
+                    });
+                }
+            );
         },
         getHomePage() {
             return InternalSettingsService.getHomePage();
@@ -115,13 +131,15 @@ export default {
             if (this.homePageRes._id) {
                 body._id = this.homePageRes._id;
             }
-            return InternalSettingsService.setHomePage(body).then(res => {
-                this.close();
-                this.$snackbar.global.showSuccess('Saved Successfully');
-            }).catch(err => {
-                console.log(err, "error")
-                this.$snackbar.global.showError('Failed to save');
-            });
+            return InternalSettingsService.setHomePage(body)
+                .then((res) => {
+                    this.close();
+                    this.$snackbar.global.showSuccess('Saved Successfully');
+                })
+                .catch((err) => {
+                    console.log(err, 'error');
+                    this.$snackbar.global.showError('Failed to save');
+                });
         },
         setDefault() {
             const body = {
@@ -129,18 +147,23 @@ export default {
                 archived: true,
                 _id: this.homePageRes._id
             };
-            return InternalSettingsService.setHomePage(body).then(res => {
-                this.close()
-                this.$snackbar.global.showSuccess('Saved Successfully');
-            }).catch(err => {
-                console.log(err, "default error")
-                this.$snackbar.global.showError('Failed to save');
-            });
+            return InternalSettingsService.setHomePage(body)
+                .then((res) => {
+                    this.close();
+                    this.$snackbar.global.showSuccess('Saved Successfully');
+                })
+                .catch((err) => {
+                    console.log(err, 'default error');
+                    this.$snackbar.global.showError('Failed to save');
+                });
         },
-        close(){
-            this.customHomePage = ''
-            this.$refs['home-page'].close()
-        }
+        close() {
+            this.customHomePage = '';
+            this.$refs['home-page'].close();
+        },
+        pageSearch: debounce(function(e) {
+            this.getCustomPages(e.text, true);
+        }, 200)
     }
 };
 </script>
@@ -156,7 +179,7 @@ export default {
         border-radius: 4px;
         margin-bottom: 12px;
     }
-    .info{
+    .info {
         margin-top: 24px;
         font-weight: bold;
         font-size: 16px;
