@@ -416,6 +416,30 @@ const URLS = {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/basic-details');
     },
 
+    PLATFORM_NAVBAR: () => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/navbar');
+    },
+
+    PLATFORM_DEFAULT_NAVBAR: () => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/navbar/default');
+    },
+
+    PLATFORM_CUSTOM_PAGES:() =>{
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/custom-pages');
+    },
+    PLATFORM_EDIT_CUSTOM_PAGES:(slug) =>{
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/custom-pages/',slug);
+    },
+    PLATFORM_PUBLISHED: (slug) => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/custom-pages/publish/',slug);
+    },
+    PLATFORM_HOME_PAGE: () => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/home-page');
+    },
+    PLATFORM_CUSTOM_FOOTER: (id = '') => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/footer', id);
+    },
+
     //Grindor
     GRINDOR_EXPLORER: (namespace) => {
         return urlJoin(

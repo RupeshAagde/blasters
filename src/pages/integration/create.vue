@@ -648,6 +648,9 @@ export default {
                 .finally(() => {});
         },
         companySearch: debounce(function(e) {
+            if (e.length === 0) {
+                this.setRouteQuery({ search: undefined });
+            }
             if (e && e.text) {
                 this.searchText = e.text;
             } else {

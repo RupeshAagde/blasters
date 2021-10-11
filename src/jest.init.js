@@ -1,8 +1,13 @@
 'use strict'
 import 'babel-polyfill'
-import { createLocalVue, config } from '@vue/test-utils';
+import {
+    createLocalVue,
+    config
+} from '@vue/test-utils';
 // import { getAppStore } from '@/entry-client';
-import { createStore } from '@/store';
+import {
+    createStore
+} from '@/store';
 
 import Vuex from 'vuex';
 
@@ -28,3 +33,33 @@ config.mocks['$snackbar'] = {
     }
 };
 window.loadGrimlock = Promise.resolve();
+window.scrollTo = () => {};
+window.open = (link, target) => {};
+document.execCommand = () => {}
+document.createRange = () => {
+    const range = new Range();
+
+    range.getBoundingClientRect = () => {
+        return {
+            x: 0,
+            y: 0,
+            bottom: 0,
+            height: 0,
+            left: 0,
+            right: 0,
+            top: 0,
+            width: 0,
+            toJSON: () => {}
+        };
+    };
+
+    range.getClientRects = () => {
+        return {
+            item: (index) => null,
+            length: 0,
+            *[Symbol.iterator]() {}
+        };
+    };
+
+    return range;
+}
