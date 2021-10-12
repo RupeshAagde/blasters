@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="25px" height="24px" viewBox="0 0 25 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Small</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Review" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Small" stroke="#9B9B9B">
+            <g id="Group-2">
+                <line x1="20.6001" y1="7.3999" x2="16.6001" y2="7.3999" id="Stroke-26"></line>
+                <line x1="16.6001" y1="3.3999" x2="16.6001" y2="7.3999" id="Stroke-27"></line>
+                <line x1="16.6001" y1="20.6001" x2="16.6001" y2="16.6001" id="Stroke-28"></line>
+                <line x1="20.6001" y1="16.6001" x2="16.6001" y2="16.6001" id="Stroke-29"></line>
+                <line x1="3.3999" y1="16.6001" x2="7.3999" y2="16.6001" id="Stroke-30"></line>
+                <line x1="7.3999" y1="20.6001" x2="7.3999" y2="16.6001" id="Stroke-31"></line>
+                <line x1="7.3999" y1="3.3999" x2="7.3999" y2="7.3999" id="Stroke-32"></line>
+                <line x1="3.3999" y1="7.3999" x2="7.3999" y2="7.3999" id="Stroke-33"></line>
+                <g id="Group-42">
+                    <line x1="16.6001" y1="16.6001" x2="23.5001" y2="23.5001" id="Stroke-34"></line>
+                    <line x1="0.5" y1="0.5" x2="7.4" y2="7.4" id="Stroke-36"></line>
+                    <line x1="0.5" y1="23.5" x2="7.4" y2="16.6" id="Stroke-38"></line>
+                    <line x1="16.6001" y1="7.3999" x2="23.5001" y2="0.4999" id="Stroke-40"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
