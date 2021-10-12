@@ -200,6 +200,14 @@ const CUSTOM_MENUS = [
         permissions: [],
         active: false,
         desc: 'Use this section to develop and manage custom webpages'
+    },
+     {
+        title: 'Tags',
+        link: 'settings/list-tags',
+        icon: 'settings',
+        permissions: [],
+        active: false,
+        desc: 'Inject Script/CSS'
     }
 ]
 const CUSTOMIZE_MENUS = [

@@ -15,6 +15,8 @@ import SettingsVue from './../../pages/settings';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details.vue';
 import FeaturesSettingsVue from './../../pages/settings/features.vue';
 import PagesSettingsVue from './../../pages/settings/custompage.vue';
+import TagsInjectVue from './../../pages/settings/tags-inject.vue';
+import TagsCreateUpdateVue from '../../pages/settings/tags-create-update.vue'
 import CreateCustomVue from './../../pages/settings/page-editor/create.vue';
 import NavbarSettingsVue from './../../pages/settings/navbar';
 import FooterSettingsVue from './../../pages/settings/footer';
@@ -369,6 +371,22 @@ export default [
                 name: 'pages-setting',
                 path: 'settings/pages',
                 component: PagesSettingsVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'list-tags',
+                path: 'settings/list-tags',
+                component: TagsInjectVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'update-tag',
+                path: 'settings/update-tag',
+                component: TagsCreateUpdateVue,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
                 }
