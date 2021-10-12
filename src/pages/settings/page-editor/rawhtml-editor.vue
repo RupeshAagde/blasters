@@ -250,6 +250,7 @@ export default {
                     this.loadPreview();
                 }, 0);
             } else {
+                this.preview = false;
                 this.removeQuery(['fullscreen', 'preview']);
             }
         },
