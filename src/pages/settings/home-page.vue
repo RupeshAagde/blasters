@@ -98,7 +98,7 @@ export default {
                     console.log(err);
                 });
         },
-        getCustomPages(q = '', isSearch = false) {
+        getCustomPages(q = '') {
             this.isLoading = true
             const params = {
                 page_size: 200,
@@ -106,9 +106,7 @@ export default {
                 published: true,
                 q
             };
-            if(isSearch){
-                this.customPages = []
-            }
+            this.customPages = []
             return InternalSettingsService.getCustomPages(params).then(
                 (res) => {
                     this.isLoading = false
@@ -162,7 +160,7 @@ export default {
             this.$refs['home-page'].close();
         },
         pageSearch: debounce(function(e) {
-            this.getCustomPages(e.text, true);
+            this.getCustomPages(e.text);
         }, 200)
     }
 };
