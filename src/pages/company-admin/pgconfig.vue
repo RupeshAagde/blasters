@@ -18,7 +18,7 @@
                 ></nitrozen-dropdown>
             </div>
         </div>
-        <page-empty v-if="!reviewDetails || reviewDetails.data && reviewDetails.data[0].length == 0" > </page-empty>
+        <page-empty v-if="noContent" > </page-empty>
         <shimmer v-if="loading" :count="4"></shimmer>
         <div v-if="!loading && reviewDetails && reviewDetails.data && reviewDetails.data.length">
            
@@ -291,16 +291,20 @@ export default {
             comments: '',
             fyndSubAcc: false,
             filters: [...ROLE_FILTER],
-            selectedFilter: '',
+            selectedFilter: false ,
             errors: { name: '', password: '' },
             typeList: [...TYPE_FILTER],
             typeSelectedCollect: '',
             typeSelectedRefund: '',
+            noContent: false
         };
 
     },
     methods: {
         openRejectDialog: function (item) {
+            this.password = ''
+            this.errors.name = '';
+            this.errors.password = '';
             this.$refs['company_reject_dialog'].open({
                 width: '500px',
             });
@@ -322,7 +326,14 @@ export default {
                 this.param,
                 this.selectedFilter
             ).then(({data}) => {
+                // if(this.$route.params.status === false){
+                //     this.selectedFilter = this.filters[0]
+                // }
                 this.reviewDetails = data;
+                console.log(this.reviewDetails.data[0]);
+                if(this.reviewDetails.data[0].length === 0){
+                    this.noContent = true;
+                }
                 this.loading = false;
             })
             .catch(err=>{
@@ -330,6 +341,9 @@ export default {
             })
         },
         postReviewedAccept: function () {
+            if(this.comments == ''){
+                return
+            }
             const payload = {
                 payment_gateway: this.modalProps.payment_gateway,
                 is_reviewed: 'true',
@@ -395,6 +409,10 @@ export default {
             if (this.password !== '') {
                 this.errors.password = '';
             }
+            // if(this.errors.name.length && this.errors.password.length  ){
+            //     this.valid = true
+            // }
+            // valid
         },
         fetchcodconfig() {
             PaymentServices.getCOD(this.param).then((a) => {
