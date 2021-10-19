@@ -434,6 +434,10 @@ const URLS = {
     PLATFORM_CUSTOM_FOOTER: (id = '') => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/footer', id);
     },
+    PLATFORM_CUSTOM_TAGS:() =>{
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/');
+    },
+
 
     //Grindor
     GRINDOR_EXPLORER: (namespace) => {

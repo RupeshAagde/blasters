@@ -107,6 +107,16 @@ const InternalSettingsService = {
             getCommonHeaderOptions()
         );
         return ApiService.post(URLS.PLATFORM_CUSTOM_FOOTER(), axiosOptions);
+    },
+    getCustomTags(){
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.PLATFORM_CUSTOM_TAGS(), axiosOptions);
+
+    },
+    postCustomTags(data){
+        const axiosOptions = Object.assign({},{data}, getCommonHeaderOptions());
+        return ApiService.post(URLS.PLATFORM_CUSTOM_TAGS(), axiosOptions);
+
     }
 };
 export default InternalSettingsService;

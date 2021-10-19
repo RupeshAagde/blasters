@@ -385,7 +385,7 @@ export default [
             },
             {
                 name: 'update-tag',
-                path: 'settings/update-tag',
+                path: 'settings/update-tag/:tagId',
                 component: TagsCreateUpdateVue,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);

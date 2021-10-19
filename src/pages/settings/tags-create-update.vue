@@ -7,6 +7,7 @@
                         class="pad-left"
                         theme="secondary"
                         v-flatBtn
+                        @click="postTags"
                     >
                         Save
                     </nitrozen-button>
@@ -129,19 +130,20 @@
                     <div class="cs-disp">
                         <div class="cst-label">Code *</div>
                         <div>
-                            <nitrozen-error v-if="functionCode.showerror">
-                                {{ functionCode.errortext }}
-                            </nitrozen-error>
+                             <rawhtml-editor
+                            v-model="content"
+                            ref="rawhtml"
+                        ></rawhtml-editor>
                         </div>
                     </div>
-                    <code-mirror
+                    <!-- <code-mirror
                         class="editor"
                         v-model="functionCode.value"
                         placeholder="Codemirror Loading..."
                         :options="cmOptions"
                         ref="codemirror-editor"
                     >
-                    </code-mirror>
+                    </code-mirror> -->
                 </div>
             </div>
         </div>
@@ -153,6 +155,8 @@ import Shimmer from '@/components/common/shimmer';
 import {PageHeader,Loader} from '@/components/common/';
 import adminlinesvg from '@/components/common/adm-inline-svg.vue';
 import inlinesvg from '@/components/common/ukt-inline-svg.vue';
+import rawhtmlEditor from './page-editor/rawhtml-editor.vue';
+import InternalSettingsService from '@/services/internal-settings.service';
 
 
 
@@ -174,6 +178,8 @@ export default {
          NitrozenError,
         NitrozenInput,
         NitrozenDropdown,
+                'rawhtml-editor': rawhtmlEditor,
+
         // 'nitrozen-dialog': NitrozenDialog,
         // 'adm-inline-svg': adminlinesvg,
          'ukt-inline-svg': inlinesvg,
@@ -189,6 +195,7 @@ export default {
     },
     data(){
         return{
+            content: '',
         update: false,
             uid: null,
             noUrl: false,
@@ -199,56 +206,8 @@ export default {
             inProgress: false,
             saveText: 'Tag saved successfully',
             metaType: 'json',
-            // testCode: ToolsService.defaultAdvanceTagCode,
-            // functionCode: {
-            //     value: ToolsService.defaultAdvanceTagCode,
-            //     showerror: false,
-            //     errortext: "Empty code content can't be saved.",
-            // },
-            cmOptions: {
-                autoCloseTags: true,
-                highlightNonStandardPropertyKeywords: true,
-                extraKeys: {
-                    Ctrl: 'autocomplete',
-                    F11(cm) {
-                        cm.setOption('fullScreen', !cm.getOption('fullScreen'));
-                    },
-                    Esc(cm) {
-                        if (cm.getOption('fullScreen'))
-                            cm.setOption('fullScreen', false);
-                    },
-                },
-                foldGutter: true,
-                gutters: [
-                    'CodeMirror-linenumbers',
-                    'CodeMirror-foldgutter',
-                    'CodeMirror-lint-markers',
-                ],
-                highlightSelectionMatches: {
-                    showToken: /\w/,
-                    annotateScrollbar: true,
-                },
-                hintOptions: {
-                    completeSingle: false,
-                },
-                line: true,
-                lineNumbers: true,
-                lineWrapping: true,
-                lint: {
-                    strict: 'implied',
-                    esversion: 6,
-                    globals: { _: true, jsonata: true, console: true },
-                },
-                lintOnChange: true,
-                matchBrackets: true,
-                mode: 'text/javascript',
-                enableCodeFormatting: true,
-                selfContain: true,
-                showCursorWhenSelecting: true,
-                styleActiveLine: true,
-                tabSize: 4,
-                theme: 'ambiance',
-            },
+            
+            
             supportedFileTypes: [
                 {
                     text: 'CSS',
@@ -324,14 +283,14 @@ export default {
             this.update = true;
             this.pageTitle = 'Update Tag';
             this.uid = this.$route.query.id;
-            this.getList();
+            //this.getList();
         } else {
             this.update = false;
         }
     },
     methods: {
         redirectToListing() {
-            this.$router.push({ path: 'list-tags' });
+            this.$router.push({ path: '/administrator/settings/list-tags' });
         },
         add() {
             this.arrAttribute.push(this.newPair());
@@ -341,6 +300,23 @@ export default {
                 key: '',
                 value: '',
             };
+        },
+        postTags(){
+            const data = {
+            attributes: {},
+            name: "newsletter script",
+            type: "js",
+            sub_type: "inline",
+            content: "CiAgICBjb25zdCBuZXdzbGV0dGVySGVhZEVsbSA9IGRvY3VtZW50LmdldEVsZW1lbnRzQnlUYWdOYW1lKCdoZWFkJylbMF07CiAgICBjb25zdCBzY3JpcHQgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdzY3JpcHQnKTsKICAgIHNjcmlwdC5zZXRBdHRyaWJ1dGUoJ3R5cGUnLCd0ZXh0L2phdmFzY3JpcHQnKTsKICAgIHNjcmlwdC5zZXRBdHRyaWJ1dGUoJ2FzeW5jJyx0cnVlKTsKICAgIHNjcmlwdC5zcmMgPSAnaHR0cHM6Ly9uZXdzbGV0dGVyLmV4dGVuc2lvbnMuZnluZC5jb20vYXBwbGljYXRpb24vc2NyaXB0cy9leHQvNjBjMDNiZmEzYWUzMDZhMDE2MThkZmU5L2NvbnRlbnQuanMnOwogICAgaWYgKG5ld3NsZXR0ZXJIZWFkRWxtKSB7CiAgICAgICAgbmV3c2xldHRlckhlYWRFbG0uYXBwZW5kQ2hpbGQoc2NyaXB0KTsKICAgIH0KICAgIA==",
+            position: "body-bottom"
+        }
+            InternalSettingsService.postCustomTags(data)
+            .then(res=>{
+                console.log(res)
+            })
+        },
+        mounted(){
+            
         }
     }
     
@@ -362,14 +338,6 @@ export default {
         margin: 24px 12px 24px 24px;
         overflow: hidden;
         padding: 24px 0 24px 24px;
-
-        ::v-deep .CodeMirror {
-            height: 750px;
-            font-size: 14px;
-            .CodeMirror-vscrollbar {
-                .mirage-scrollbar;
-            }
-        }
     }
 
     .form-container {
@@ -423,7 +391,15 @@ export default {
     }
 }
 .subtype{
-margin-bottom: 10px;
+margin-bottom: 20px;
+}
+.cst-label {
+    color: #9b9b9b;
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 21px;
+    margin-bottom: 12px;
 }
 
 
