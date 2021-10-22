@@ -107,6 +107,16 @@ const InternalSettingsService = {
             getCommonHeaderOptions()
         );
         return ApiService.post(URLS.PLATFORM_CUSTOM_FOOTER(), axiosOptions);
+    },
+    getPricingBanner(){
+        let axiosOption = Object.assign({},getCommonHeaderOptions());
+        return ApiService.get(URLS.PLATFORM_PRICING_BANNER(), axiosOption);
+    },
+    savePricingBanner(data){
+        const axiosOptions = Object.assign({}, { data },
+            getCommonHeaderOptions()
+        );
+        return ApiService.put(URLS.PLATFORM_PRICING_BANNER(), axiosOptions);
     }
 };
 export default InternalSettingsService;

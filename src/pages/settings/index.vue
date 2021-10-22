@@ -191,6 +191,14 @@ const GENERAL_MENUS = [
         active: false,
         desc: 'Change platform features information'
     },
+    {
+        title: 'Pricing Banner',
+        link: 'settings/pricing-banner',
+        icon: 'settings',
+        permissions: [],
+        active: false,
+        desc: 'Change platform pricing banner'
+    },
 ];
 const CUSTOM_MENUS = [
     {
