@@ -1,7 +1,7 @@
 <template>
     <div>
         <page-header
-            title="Footer"
+            title="Pricing Banner"
             @backClick="$router.push({ name: 'settings' })"
         >
             <div
