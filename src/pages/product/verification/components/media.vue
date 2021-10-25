@@ -9,7 +9,10 @@
                             :src="value.url"
                             @load="getImageDimensions($event)"
                         />
-                        <div class="dimensions">{{this.aspect_ratio}}</div>
+                        <div class="metadata">
+                            <div class="dimensions">{{this.width + "px X " + this.height + "px"}}</div>
+                            <div class="aspect-ratio">{{`(${this.aspect_ratio})`}}</div>
+                        </div>
                     </div>
                     <div
                         v-else-if="value.type === 'video'"
@@ -134,16 +137,13 @@ export default {
     },
     methods: {
         formatBytes,
-        gcd(a, b){
-            // calculates gcd of two numbers
-            return b ? this.gcd(b,a%b) : a; 
-        },
         getImageDimensions (e) {
             if(e) {
                 this.width = e.target.naturalWidth;
                 this.height = e.target.naturalHeight;
-                let gcd = this.gcd(this.width, this.height);
-                this.aspect_ratio = `${this.width/gcd}:${this.height/gcd}`
+                let left =  this.width/this.height
+                this.aspect_ratio = `${left.toFixed(2)} : 1`
+
             }
             
         }
@@ -167,9 +167,13 @@ export default {
             background-color: @Alabaster2;
             border: 1px dashed @RoyalBlue;
             border-radius: @BorderRadius;
-            .dimensions {
+            .metadata {
                 margin-top: 5px;
                 font-size: small;
+
+                .aspect-ratio {
+                    margin-top: 5px;
+                }
             }
             img {
                 object-fit: contain;

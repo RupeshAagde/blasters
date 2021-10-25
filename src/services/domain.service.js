@@ -102,8 +102,11 @@ const URLS = {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/product-attributes/');
     },
     //fetchVariant
-    FETCH_VARIANT: () => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/variants/');
+    FETCH_VARIANT: (uid) => {
+        if(uid) {
+            return urlJoin(SILVERBOLT_ACAT_URL, `/v1.0/variants/${uid}`);
+        }
+        return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/variants/');
     },
     //fetchDeparment
     FETCH_DEPARTMENT: (uid) => {
@@ -411,6 +414,30 @@ const URLS = {
 
     PLATFORM_BASIC_DETAILS_UPDATE: () => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/basic-details');
+    },
+
+    PLATFORM_NAVBAR: () => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/navbar');
+    },
+
+    PLATFORM_DEFAULT_NAVBAR: () => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/navbar/default');
+    },
+
+    PLATFORM_CUSTOM_PAGES:() =>{
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/custom-pages');
+    },
+    PLATFORM_EDIT_CUSTOM_PAGES:(slug) =>{
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/custom-pages/',slug);
+    },
+    PLATFORM_PUBLISHED: (slug) => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/custom-pages/publish/',slug);
+    },
+    PLATFORM_HOME_PAGE: () => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/home-page');
+    },
+    PLATFORM_CUSTOM_FOOTER: (id = '') => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/footer', id);
     },
 
     //Grindor

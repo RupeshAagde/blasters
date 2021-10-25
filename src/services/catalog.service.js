@@ -25,14 +25,17 @@ const CatalogService = {
         );
         return ApiService.get(URLS.FETCH_ATTRIBUTE(), axiosOption);
     },
-    fetchVariants(params) {
+    fetchVariants(params, uid) {
         const axiosOption = Object.assign(
             {
-                params: params
+                params: !uid ? params : {}
             },
             getCommonHeaderOptions()
         );
 
+        if (uid) {
+            return ApiService.get(URLS.FETCH_VARIANT(uid), axiosOption);
+        }
         return ApiService.get(URLS.FETCH_VARIANT(), axiosOption);
     },
     saveVariant(body) {
@@ -43,6 +46,14 @@ const CatalogService = {
         );
 
         return ApiService.post(URLS.FETCH_VARIANT(), axiosOption);
+    },
+    updateVariant(body) {
+        const axiosOption = Object.assign(
+            {},
+            { data: body },
+            getCommonHeaderOptions()
+        );
+        return ApiService.put(URLS.FETCH_VARIANT(body.uid), axiosOption);
     },
     fetchDepartment(params) {
         const axiosOption = Object.assign(

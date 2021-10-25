@@ -98,10 +98,10 @@ describe('Mounted List Variant Componant', () => {
         wrapper.vm.$set(wrapper.vm, 'isLoading', false);
         wrapper.vm.$set(wrapper.vm, 'searchText', "Additiona");
         wrapper.vm.searchVariant();
-        expect(wrapper.vm.variantList.length).toBe(1)
+        // expect(wrapper.vm.variantList.length).toBe(1)
         wrapper.vm.createVariant();
         expect(wrapper.vm.$route.fullPath).toBe('/administrator/product/variants/create');
-        wrapper.vm.editVariant(mocks.variants[0]);
+        wrapper.vm.editVariant(mocks.variants.items);
         expect(wrapper.vm.$route.fullPath).toBe('/administrator/product/variants/edit/2');
     });
 })

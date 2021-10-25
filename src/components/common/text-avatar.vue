@@ -15,6 +15,12 @@
   color: white;
   font-weight: 700;
   font-size: 18px;
+  @media @mobile {
+        width: 100%;
+        height: 100%;
+        line-height: 55px;
+        min-width: 50px;
+    }
 }
 </style>
 

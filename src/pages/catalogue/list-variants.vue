@@ -299,19 +299,22 @@ export default {
             this.isLoading = true;
             CatalogService.fetchVariants(this.getQueryParams())
                 .then((res) => {
-                    this.tempList = generateArrItem(res.data.data);
+                    this.tempList = generateArrItem(res.data.items);
                     this.tempList = filterDuplicateObject(this.tempList);
                     fetchUserMetaObjects(this.tempList)
                         .then((response) => {
                             response.map((element) => {
-                                if (!this.userObj[element.uid]) {
+                                if (this.userObj && !this.userObj[element._id]) {
+                                    this.userObj[element._id] = element;
+                                }
+                                if (this.userObj && !this.userObj[element.uid]) {
                                     this.userObj[element.uid] = element;
                                 }
                             });
                             this.pagination.total =
                                 res.data.page.total_item_count;
-                            this.mainList = res.data.data;
-                            this.variantList = res.data.data;
+                            this.mainList = res.data.items;
+                            this.variantList = res.data.items;
                             this.isLoading = false;
                         })
                         .catch((err) => {
