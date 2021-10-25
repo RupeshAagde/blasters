@@ -2,7 +2,7 @@
     <div class="main-container">
         <jumbotron :title="'Tags'" :desc="'Inject Script/CSS'">
             <div>
-                <nitrozen-button v-flatBtn theme="secondary">
+                <nitrozen-button v-flatBtn theme="secondary" @click="createTag">
                     Create
                 </nitrozen-button>
             </div>
@@ -107,12 +107,18 @@ export default {
                 });
             }
         },
+        createTag(){
+            this.$router.push({
+                    path: `/administrator/settings/create-tag`
+                });
+
+        },
         getPages(){
           InternalSettingsService.getCustomTags()
           .then(res=>{
               //console.log(res.data.items);
               this.tagList = res.data.items;
-              console.log(res);
+              //console.log(res);
           })
         }
     },

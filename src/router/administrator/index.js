@@ -382,6 +382,15 @@ export default [
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
                 }
+            }
+            ,
+            {
+                name: 'create-tag',
+                path: 'settings/create-tag',
+                component: TagsCreateUpdateVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
             },
             {
                 name: 'update-tag',
