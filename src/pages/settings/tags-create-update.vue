@@ -136,14 +136,6 @@
                         ></rawhtml-editor>
                         </div>
                     </div>
-                    <!-- <code-mirror
-                        class="editor"
-                        v-model="functionCode.value"
-                        placeholder="Codemirror Loading..."
-                        :options="cmOptions"
-                        ref="codemirror-editor"
-                    >
-                    </code-mirror> -->
                 </div>
             </div>
         </div>
