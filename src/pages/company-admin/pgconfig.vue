@@ -14,7 +14,7 @@
                     class="filter-dropdown"
                     :items="filters"
                     v-model="selectedFilter"
-                    @change="setRouteQuery(), getReviewList()"
+                    @change="()=>{setRouteQuery().then(()=>{getReviewList()})}"
                 ></nitrozen-dropdown>
             </div>
         </div>
@@ -291,7 +291,7 @@ export default {
             comments: '',
             fyndSubAcc: false,
             filters: [...ROLE_FILTER],
-            selectedFilter: false ,
+            selectedFilter: 'false' ,
             errors: { name: '', password: '' },
             typeList: [...TYPE_FILTER],
             typeSelectedCollect: '',
@@ -321,7 +321,7 @@ export default {
             if (this.$route.query.status) {
                 this.selectedFilter = this.$route.query.status;
             }
-            //console.log("inside",this.$route.params)
+            console.log("inside",this.$route.params)
             PaymentServices.getReviewDetails(
                 this.param,
                 this.selectedFilter
@@ -329,8 +329,9 @@ export default {
                 // if(this.$route.params.status === false){
                 //     this.selectedFilter = this.filters[0]
                 // }
+                this.noContent = false;
+
                 this.reviewDetails = data;
-                console.log(this.reviewDetails.data[0]);
                 if(this.reviewDetails.data[0].length === 0){
                     this.noContent = true;
                 }
@@ -388,13 +389,14 @@ export default {
             let query = { status: this.selectedFilter };
             //console.log(this.$route.query);
             //console.log(query);
-            this.$router.push({
+            return this.$router.replace({
                 path: this.$route.path,
                 query: {
                     ...this.$route.query,
                     ...query,
                 },
-            });
+            })
+            .catch(()=>{});
         },
         checkRequired() {
             if (this.comments == '') {
