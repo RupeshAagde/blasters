@@ -321,7 +321,6 @@ export default {
             if (this.$route.query.status) {
                 this.selectedFilter = this.$route.query.status;
             }
-            console.log("inside",this.$route.params)
             PaymentServices.getReviewDetails(
                 this.param,
                 this.selectedFilter
