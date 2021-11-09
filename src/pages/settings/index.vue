@@ -50,7 +50,7 @@
 
                 <div class="settings-head">
                     <inline-svg src="settings"></inline-svg>
-                    <span class="bold-xs cl-Mako title">Custom Page</span>
+                    <span class="bold-xs cl-Mako title">Custom Page and Tag</span>
                 </div>
 
                 <div class="settings-main">
@@ -208,6 +208,14 @@ const CUSTOM_MENUS = [
         permissions: [],
         active: false,
         desc: 'Use this section to develop and manage custom webpages'
+    },
+     {
+        title: 'Custom Tags',
+        link: 'settings/list-tags',
+        icon: 'settings',
+        permissions: [],
+        active: false,
+        desc: 'Inject Script/CSS'
     }
 ]
 const CUSTOMIZE_MENUS = [
