@@ -1,0 +1,57 @@
+{
+    "pricing_banner": {
+        "published": true,
+        "created_on": "2021-10-21T04:48:00.605Z",
+        "modified_on": "2021-10-21T04:48:00.605Z",
+        "_id": "617281340c83aafabea518e5",
+        "web_banner": {
+            "url": "https://hdn-1.addsale.com/x0/platform/pictures/feature-image/original/Hwbs-IDwY-platform-feature.png",
+            "anchor_link": "https://platform.fyndx0.de/",
+            "type": "image",
+            "alt": "Desktop pricing"
+        },
+        "mobile_banner": {
+            "url": "https://hdn-1.addsale.com/x0/platform/pictures/feature-image/original/Hwbs-IDwY-platform-feature.png",
+            "anchor_link": "https://platform.fyndx0.de/",
+            "type": "image",
+            "alt": "Mobile pricing"
+        },
+        "modified_by": {
+            "user_id": "572806472bb26f0506ea6acb"
+        },
+        "created_by": {
+            "user_id": "572806472bb26f0506ea6acb"
+        },
+        "__v": 0
+    },
+    "post-banner": {
+        "web_banner": {
+            "url": "https://hdn-1.addsale.com/x0/platform/pictures/feature-image/original/Hwbs-IDwY-platform-feature.png",
+            "anchor_link": "https://platform.fyndx0.de/",
+            "type": "image",
+            "alt": "Desktop pricing"
+        },
+        "mobile_banner": {
+            "url": "https://hdn-1.addsale.com/x0/platform/pictures/feature-image/original/Hwbs-IDwY-platform-feature.png",
+            "anchor_link": "https://platform.fyndx0.de/",
+            "type": "image",
+            "alt": "Mobile pricing"
+        },
+        "published": true
+    },
+    "put_data": {
+        "web_banner": {
+            "url": "https://hdn-1.addsale.com/x0/platform/pictures/feature-image/original/Hwbs-IDwY-platform-feature.png",
+            "anchor_link": "https://platform.fyndx0.de/",
+            "type": "image",
+            "alt": "Desktop pricing"
+        },
+        "mobile_banner": {
+            "url": "https://hdn-1.addsale.com/x0/platform/pictures/feature-image/original/Hwbs-IDwY-platform-feature.png",
+            "anchor_link": "https://platform.fyndx0.de/",
+            "type": "image",
+            "alt": "Mobile pricing"
+        },
+        "published": true
+    }
+}

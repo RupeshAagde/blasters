@@ -174,7 +174,6 @@ export default {
             this.pageLoading = true;
             return InternalSettingsService.getPricingBanner()
                 .then(({ data }) => {
-                    console.log(data);
                     if (data._id) {
                         this.published = data.published;
                         this.desktop.url.value = data.web_banner.url;
@@ -290,14 +289,12 @@ export default {
                         this.$snackbar.global.showSuccess('Saved Successfully');
                     })
                     .catch((err) => {
-                        console.error(err);
                     })
                     .finally(() => {
                         this.inProgress = false;
                     });
             }
         },
-        changeState() {},
         copyBanner() {
             if (this.isBannerSame) {
                 this.$set(this.mobile.url, 'value', this.desktop.url.value);
