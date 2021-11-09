@@ -199,7 +199,6 @@ export default {
             saveText: 'Tag saved successfully',
             metaType: 'json',
             validForm: true,
-
             supportedFileTypes: [
                 {
                     text: 'CSS',
