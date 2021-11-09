@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+    <div class="container">
         <div class="header-position">
             <page-header :title="pageTitle" @backClick="redirectToListing">
                 <div class="button-box">
@@ -7,9 +7,10 @@
                         class="pad-left"
                         theme="secondary"
                         v-flatBtn
+                        id="post-update"
                         @click="postTags"
                     >
-                        Save
+                        {{ this.tagMode }}
                     </nitrozen-button>
                 </div>
             </page-header>
@@ -117,6 +118,7 @@
                         label="URL *"
                         placeholder="Enter external file url"
                         v-model="url.value"
+                        id="url"
                         @input="isUrl(url.value)"
                     ></nitrozen-input>
                     <nitrozen-error class="nitrozen-error" v-if="url.showerror">
@@ -130,10 +132,10 @@
                     <div class="cs-disp">
                         <div class="cst-label">Code *</div>
                         <div>
-                             <rawhtml-editor
-                            v-model="content"
-                            ref="rawhtml"
-                        ></rawhtml-editor>
+                            <rawhtml-editor
+                                v-model="content"
+                                ref="rawhtml"
+                            ></rawhtml-editor>
                         </div>
                     </div>
                 </div>
@@ -144,13 +146,12 @@
 <script>
 import PageEmpty from '@/components/common/page-empty.vue';
 import Shimmer from '@/components/common/shimmer';
-import {PageHeader,Loader} from '@/components/common/';
+import { PageHeader, Loader } from '@/components/common/';
 import adminlinesvg from '@/components/common/adm-inline-svg.vue';
 import inlinesvg from '@/components/common/ukt-inline-svg.vue';
 import rawhtmlEditor from './page-editor/rawhtml-editor.vue';
 import InternalSettingsService from '@/services/internal-settings.service';
-
-
+import root from 'window-or-global';
 
 import {
     NitrozenButton,
@@ -158,37 +159,36 @@ import {
     strokeBtn,
     NitrozenDialog,
     NitrozenError,
-        NitrozenInput,
-        NitrozenDropdown
-
+    NitrozenInput,
+    NitrozenDropdown,
 } from '@gofynd/nitrozen-vue';
 export default {
-    name: "tag-update",
+    name: 'tag-update',
     components: {
-             PageHeader,  
-         'nitrozen-button': NitrozenButton,
-         NitrozenError,
+        PageHeader,
+        'nitrozen-button': NitrozenButton,
+        NitrozenError,
         NitrozenInput,
         NitrozenDropdown,
-                'rawhtml-editor': rawhtmlEditor,
+        'rawhtml-editor': rawhtmlEditor,
 
         // 'nitrozen-dialog': NitrozenDialog,
         // 'adm-inline-svg': adminlinesvg,
-         'ukt-inline-svg': inlinesvg,
+        'ukt-inline-svg': inlinesvg,
         // 'no-content': PageEmpty,
         // Shimmer,
-         Loader,
-          flatBtn,
-         strokeBtn,
+        Loader,
+        flatBtn,
+        strokeBtn,
     },
     directives: {
         flatBtn,
         strokeBtn,
     },
-    data(){
-        return{
+    data() {
+        return {
             content: '',
-        update: false,
+            update: false,
             uid: null,
             noUrl: false,
             tagList: [],
@@ -198,8 +198,8 @@ export default {
             inProgress: false,
             saveText: 'Tag saved successfully',
             metaType: 'json',
-            
-            
+            validForm: true,
+
             supportedFileTypes: [
                 {
                     text: 'CSS',
@@ -267,52 +267,231 @@ export default {
                 emptyerror: false,
                 emptytext: 'Atleast one tag is required',
             },
-
-    }
+            tagMode: '',
+        };
     },
-     mounted() {
-        if (this.$route.query.id) {
+    mounted() {
+        //console.log(this.$route)
+        if (this.$route.params.tagId) {
             this.update = true;
             this.pageTitle = 'Update Tag';
-            this.uid = this.$route.query.id;
-            //this.getList();
+            this.uid = this.$route.params.tagId;
+            this.getList();
         } else {
             this.update = false;
         }
+        if (this.$route.name === 'update-tag') {
+            this.tagMode = 'Save';
+        }
+        if (this.$route.name === 'create-tag') {
+            this.tagMode = 'Create';
+        }
     },
     methods: {
+        getList() {
+            InternalSettingsService.getUpdateTags(this.uid)
+                .then((res) => {
+                    this.tagList = res.data;
+                    //console.log(this.tagList);
+                    this.tagData = this.tagList;
+                    //console.log(this.tagData,"tagData");
+                    this.tagList.name
+                        ? (this.name.value = this.tagList.name)
+                        : (this.name.value = '');
+                    if (this.tagData.type) {
+                        this.fileType.value = this.tagData.type;
+                        //this.checkType();
+                    }
+                    if (this.tagData.sub_type) {
+                        this.subType.value = this.tagData.sub_type;
+                    }
+                    this.tagData.url
+                        ? (this.url.value = this.tagData.url)
+                        : (this.url.value = '');
+                    this.tagData.content
+                        ? (this.content = this.tagData.content)
+                        : (this.content = '');
+                    this.tagData.position
+                        ? (this.position.value = this.tagData.position)
+                        : (this.position.value = '');
+                    if (this.tagData.attributes) {
+                        this.arrAttribute = [];
+                        for (const item in this.tagData.attributes) {
+                            let temp = {
+                                key: item,
+                                value: this.tagData.attributes[item],
+                            };
+                            this.arrAttribute.push(temp);
+                        }
+                    }
+                })
+                .catch((err) => {
+                    this.tagList = [];
+                    this.pageLoading = true;
+                });
+        },
         redirectToListing() {
             this.$router.push({ path: '/administrator/settings/list-tags' });
         },
         add() {
             this.arrAttribute.push(this.newPair());
         },
-            newPair() {
+        newPair() {
             return {
                 key: '',
                 value: '',
             };
         },
-        postTags(){
-            const data = {
-            attributes: {},
-            name: "newsletter script",
-            type: "js",
-            sub_type: "inline",
-            content: "CiAgICBjb25zdCBuZXdzbGV0dGVySGVhZEVsbSA9IGRvY3VtZW50LmdldEVsZW1lbnRzQnlUYWdOYW1lKCdoZWFkJylbMF07CiAgICBjb25zdCBzY3JpcHQgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdzY3JpcHQnKTsKICAgIHNjcmlwdC5zZXRBdHRyaWJ1dGUoJ3R5cGUnLCd0ZXh0L2phdmFzY3JpcHQnKTsKICAgIHNjcmlwdC5zZXRBdHRyaWJ1dGUoJ2FzeW5jJyx0cnVlKTsKICAgIHNjcmlwdC5zcmMgPSAnaHR0cHM6Ly9uZXdzbGV0dGVyLmV4dGVuc2lvbnMuZnluZC5jb20vYXBwbGljYXRpb24vc2NyaXB0cy9leHQvNjBjMDNiZmEzYWUzMDZhMDE2MThkZmU5L2NvbnRlbnQuanMnOwogICAgaWYgKG5ld3NsZXR0ZXJIZWFkRWxtKSB7CiAgICAgICAgbmV3c2xldHRlckhlYWRFbG0uYXBwZW5kQ2hpbGQoc2NyaXB0KTsKICAgIH0KICAgIA==",
-            position: "body-bottom"
-        }
-            InternalSettingsService.postCustomTags(data)
-            .then(res=>{
-                console.log(res)
-            })
-        }
-    }
-    
-}
+        deletePair(index) {
+            this.arrAttribute.splice(index, 1);
+            if (this.arrAttribute.length === 0) {
+                this.errAttributes.showerror = false;
+            }
+        },
+        checkform() {
+            if (this.name.value !== '') {
+                this.name.showerror = false;
+            } else {
+                this.name.showerror = true;
+            }
+            if (this.url.value !== '') {
+                this.url.showerror = false;
+            } else {
+                this.url.showerror = true;
+            }
+            if (this.subType.value === 'external') {
+                if (this.name.showerror || this.url.showerror) {
+                    this.validForm = false;
+                }
+            }
+            //this.validForm = false;
+            //  if (this.subType.value === 'external') {
+            //         if (!this.url.showerror) {
+            //             if (!this.noUrl) {
+
+            //             }
+            //         }
+            //     }
+            // if (this.subType.value === 'inline') {
+            //     if (!this.functionCode.showerror) {
+            //         this.submit(postData);
+            //     }
+            // }
+        },
+        isUrl(str) {
+            if (str !== '') {
+                let pattern = new RegExp(
+                    '^(https?:\\/\\/)?' + // protocol
+                        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+                        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+                        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+                        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+                        '(\\#[-a-z\\d_]*)?$',
+                    'i'
+                ); // fragment locator
+                if (pattern.test(str)) {
+                    this.noUrl = false;
+                    // return true;
+                } else {
+                    this.url.showerror = false;
+                    this.noUrl = true;
+                    // return false;
+                }
+            } else {
+                this.noUrl = false;
+            }
+        },
+        postTags() {
+            this.checkform();
+            if (!this.validForm) {
+                return;
+            }
+            this.pageLoading = true;
+
+            if (this.tagMode === 'Create') {
+                const data = {
+                    attributes: {},
+                    name: this.name.value,
+                    type: this.fileType.value,
+                    sub_type: this.subType.value,
+                    content: window.btoa(
+                        unescape(encodeURIComponent(this.content))
+                    ),
+                    position: this.position.value,
+                    url: this.url.value,
+                };
+                this.arrAttribute.forEach((ele) => {
+                    data.attributes[ele.key] = ele.value;
+                });
+                InternalSettingsService.postCustomTags(data)
+                    .then((res) => {
+                        this.pageLoading = false;
+                        this.$snackbar.global.showSuccess(
+                            'Tag saved successfully',
+                            {
+                                duration: 2000,
+                            }
+                        );
+                        this.$router
+                            .push({
+                                path: `/administrator/settings/list-tags`,
+                            })
+                            .catch(() => {});
+                    })
+                    .catch((error) => {
+                        this.pageLoading = false;
+                        this.$snackbar.global.showError(
+                            `${
+                                error.response.data.message
+                                    ? error.response.data.message
+                                    : JSON.stringify(error.response.data)
+                            }`
+                        );
+                    });
+            }
+
+            if (this.tagMode === 'Save') {
+                const data = {
+                    attributes: {},
+                    name: this.name.value,
+                    type: this.fileType.value,
+                    sub_type: this.subType.value,
+                    content: this.content,
+                    position: this.position.value,
+                    url: this.url.value,
+                };
+                InternalSettingsService.putCustomTag(this.uid, data)
+                    .then((res) => {
+                        this.pageLoading = false;
+                        this.$snackbar.global.showSuccess(
+                            'Tag Updated successfully',
+                            {
+                                duration: 2000,
+                            }
+                        );
+                        this.$router
+                            .push({
+                                path: `/administrator/settings/list-tags`,
+                            })
+                            .catch(() => {});
+                    })
+                    .catch((error) => {
+                        this.pageLoading = false;
+                        this.$snackbar.global.showError(
+                            `${
+                                error.response.data.message
+                                    ? error.response.data.message
+                                    : JSON.stringify(error.response.data)
+                            }`
+                        );
+                    });
+            }
+        },
+    },
+};
 </script>
 <style lang="less" scoped>
- .main-container {
+.main-container {
     display: flex;
     flex-flow: row-reverse;
     width: auto;
@@ -379,8 +558,8 @@ export default {
         margin-top: 16px;
     }
 }
-.subtype{
-margin-bottom: 20px;
+.subtype {
+    margin-bottom: 20px;
 }
 .cst-label {
     color: #9b9b9b;
@@ -390,6 +569,4 @@ margin-bottom: 20px;
     line-height: 21px;
     margin-bottom: 12px;
 }
-
-
 </style>

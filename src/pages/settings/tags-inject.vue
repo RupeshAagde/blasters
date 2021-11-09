@@ -9,13 +9,18 @@
         </jumbotron>
         <div>
             <no-content
-                v-if="pageerror || tagList.length === 0"
+                v-if="noResults"
                 helperText="No items found"
             ></no-content>
+            <shimmer
+                    v-if="inProgress"
+                    class="page-shimmer"
+                    :count="3"
+                ></shimmer>
             <loader v-if="isLoading" class="loading"></loader>
             <div v-if="tagList.length" class="page-container">
                 <div v-for="(item, index) in tagList" :key="index">
-                    <div class="blaster-list-card-container extra" @click="openTag(item)">
+                    <div class="blaster-list-card-container extra" @click="openTag(item)" >
                         <div class="card-content-section">
                             <div class="card-content-line-1">
                                 <span class="cst-clr"> {{ item.name }}</span>
@@ -28,7 +33,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-badge-section">
+                        <div class="card-badge-section" id="delete" @click="openDeleteDialog(item,$event)">
                             <ukt-inline-svg
                                 src="delete"
                                 class="delete-icon"
@@ -36,6 +41,13 @@
                         </div>
                     </div>
                 </div>
+                <nitrozen-pagination
+                        name="Pages"
+                        id="pagination"
+                        v-model="pagination"
+                        @change="setPagination"
+                        :pageSizeOptions="[5, 10, 20, 50]"
+                    ></nitrozen-pagination>
             </div>
         </div>
         <nitrozen-dialog ref="tag_delete_dialog" :title="'Delete'">
@@ -44,7 +56,7 @@
             </template>
             <template slot="footer">
                 <div>
-                    <nitrozen-button class="mr24" v-flatBtn :theme="'secondary'"
+                    <nitrozen-button class="mr24" v-flatBtn :theme="'secondary'" id="del" @click="deleteTag"
                         >Delete</nitrozen-button
                     >
                     <nitrozen-button v-strokeBtn :theme="'secondary'"
@@ -53,6 +65,7 @@
                 </div>
             </template>
         </nitrozen-dialog>
+        
     </div>
 </template>
 <script>
@@ -65,13 +78,18 @@ import inlinesvg from '@/components/common/ukt-inline-svg.vue';
 import InternalSettingsService from '@/services/internal-settings.service';
 
 
-import draggable from 'vuedraggable';
+const PAGINATION = {
+    limit: 0,
+    current: 0,
+    total: 0,
+};
 
 import {
     NitrozenButton,
     flatBtn,
     strokeBtn,
     NitrozenDialog,
+    NitrozenPagination
 } from '@gofynd/nitrozen-vue';
 export default {
     name: 'tags-inject',
@@ -79,6 +97,7 @@ export default {
         Jumbotron,
         'nitrozen-button': NitrozenButton,
         'nitrozen-dialog': NitrozenDialog,
+        'nitrozen-pagination': NitrozenPagination,
         'adm-inline-svg': adminlinesvg,
         'ukt-inline-svg': inlinesvg,
         'no-content': PageEmpty,
@@ -86,7 +105,6 @@ export default {
         Loader,
         flatBtn,
         strokeBtn,
-        draggable,
     },
     directives: {
         flatBtn,
@@ -97,14 +115,31 @@ export default {
             tagList: [],
             isLoading: false,
             pageerror: false,
+            activeTag : null,
+            pagination: { ...PAGINATION },
+            noResults: false,
+            inProgress: false,
+
         };
     },
     methods: {
+         openDeleteDialog(item,event) {
+            event.stopPropagation();
+            event.preventDefault();
+            
+            this.activeTag = item._id;
+            this.$refs.tag_delete_dialog.open({
+                width: '500px',
+                showCloseButton: true,
+                dismissible: true,
+            });
+        },
         openTag(item) {
             if (item) {
                 this.$router.push({
                     path: `/administrator/settings/update-tag/${item._id}`
-                });
+                })
+                .catch(()=>{})
             }
         },
         createTag(){
@@ -114,15 +149,78 @@ export default {
 
         },
         getPages(){
-          InternalSettingsService.getCustomTags()
+            this.inProgress = true;
+
+            console.log(this.pagination.current,this.pagination.limit)
+
+          InternalSettingsService.getCustomTags({ page_no: this.pagination.current,
+                    page_size: this.pagination.limit})
           .then(res=>{
               //console.log(res.data.items);
               this.tagList = res.data.items;
+               this.pagination = {
+                        limit: res.data.page.size,
+                        total: res.data.page.item_total,
+                        current: res.data.page.current,
+                    };
+                if (!res.data.items || res.data.items.length === 0){
+                        this.noResults = true; }
               //console.log(res);
           })
+          .finally(() => {
+                    this.inProgress = false;
+                });
+        },
+        deleteTag() {
+                this.isLoading = true;
+                InternalSettingsService.deleteTag(this.activeTag)
+                    .then((res) => {
+                        this.isLoading = false;
+                        this.$snackbar.global.showSuccess(
+                            `Tag removed successfully`,
+                            {
+                                duration: 2000,
+                            }
+                        );
+                        this.closeDeleteDialog();
+                        this.getPages();
+                    })
+                    .catch((err) => {
+                        this.closeDeleteDialog();
+                        this.isLoading = false;
+                    });
+            
+        },
+        closeDeleteDialog: function () {
+            this.$refs.tag_delete_dialog.close();
+        },
+        setPagination(filter) {
+            const { current, limit } = filter;
+            filter = { page: current, limit };
+            this.pagination = Object.assign({}, this.pagination, filter);
+            this.setRouteQuery(filter);
+        },
+        setRouteQuery(query) {
+            this.$router
+                .push({
+                    path: this.$route.path,
+                    query: {
+                        ...this.$route.query,
+                        ...query,
+                    },
+                })
+                .catch(() => {});
+            this.getPages();
+        },
+        populateFromURL() {
+            const { page, limit } = this.$route.query;
+            
+            this.pagination.current = +page || this.pagination.current;
+            this.pagination.limit = +limit || this.pagination.limit;
         }
     },
     mounted(){
+        this.populateFromURL();
         this.getPages()
     }
 };

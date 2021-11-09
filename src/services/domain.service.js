@@ -434,8 +434,8 @@ const URLS = {
     PLATFORM_CUSTOM_FOOTER: (id = '') => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/footer', id);
     },
-    PLATFORM_CUSTOM_TAGS:() =>{
-        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/');
+    PLATFORM_CUSTOM_TAGS:(id='') =>{
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/',id);
     },
 
 
