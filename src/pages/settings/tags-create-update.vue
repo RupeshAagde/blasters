@@ -1,7 +1,12 @@
 <template>
     <div class="container">
         <div class="header-position">
-            <page-header :title="pageTitle" @backClick="redirectToListing">
+            <page-header 
+            :title="pageTitle" 
+            @backClick="redirectToListing"
+            :contextMenuItems="contextDeleteTag"
+            @edit="deleteTag"
+            >
                 <div class="button-box">
                     <nitrozen-button
                         class="pad-left"
@@ -267,6 +272,12 @@ export default {
                 emptytext: 'Atleast one tag is required',
             },
             tagMode: '',
+            contextDeleteTag: [
+                {
+                    text: 'Delete',
+                    action: 'edit',
+                },
+            ],
         };
     },
     mounted() {
@@ -363,31 +374,10 @@ export default {
                     this.validForm = false;
                 }
             }
-            //this.validForm = false;
-            //  if (this.subType.value === 'external') {
-            //         if (!this.url.showerror) {
-            //             if (!this.noUrl) {
-
-            //             }
-            //         }
-            //     }
-            // if (this.subType.value === 'inline') {
-            //     if (!this.functionCode.showerror) {
-            //         this.submit(postData);
-            //     }
-            // }
         },
         isUrl(str) {
             if (str !== '') {
-                let pattern = new RegExp(
-                    '^(https?:\\/\\/)?' + // protocol
-                        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-                        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-                        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-                        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-                        '(\\#[-a-z\\d_]*)?$',
-                    'i'
-                ); // fragment locator
+                let pattern = new RegExp("((http|https)://)(www.)?[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)"); // fragment locator
                 if (pattern.test(str)) {
                     this.noUrl = false;
                     // return true;
@@ -402,13 +392,11 @@ export default {
         },
         postTags() {
             this.checkform();
-            if (!this.validForm) {
+            if (!this.validForm || this.noUrl) {
                 return;
             }
             this.pageLoading = true;
-
-            if (this.tagMode === 'Create') {
-                const data = {
+            const data = {
                     attributes: {},
                     name: this.name.value,
                     type: this.fileType.value,
@@ -419,6 +407,8 @@ export default {
                     position: this.position.value,
                     url: this.url.value,
                 };
+
+            if (this.tagMode === 'Create') {
                 this.arrAttribute.forEach((ele) => {
                     data.attributes[ele.key] = ele.value;
                 });
@@ -450,15 +440,6 @@ export default {
             }
 
             if (this.tagMode === 'Save') {
-                const data = {
-                    attributes: {},
-                    name: this.name.value,
-                    type: this.fileType.value,
-                    sub_type: this.subType.value,
-                    content: this.content,
-                    position: this.position.value,
-                    url: this.url.value,
-                };
                 InternalSettingsService.putCustomTag(this.uid, data)
                     .then((res) => {
                         this.pageLoading = false;
@@ -486,6 +467,29 @@ export default {
                     });
             }
         },
+        deleteTag(){
+             this.pageLoading = true;
+                InternalSettingsService.deleteTag(this.uid)
+                    .then((res) => {
+                        this.pageLoading = false;
+                        this.$snackbar.global.showSuccess(
+                            `Tag removed successfully`,
+                            {
+                                duration: 2000,
+                            }
+                        );
+                    })
+                    .catch((err) => {
+                        this.pageLoading = false;
+                        this.$snackbar.global.showError(
+                            `Tag removed Failed`,
+                            {
+                                duration: 2000,
+                            }
+                        );
+                    });
+                    this.redirectToListing();
+        }
     },
 };
 </script>

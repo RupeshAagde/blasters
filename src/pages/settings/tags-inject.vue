@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <nitrozen-pagination
-                        name="Pages"
+                        name="Tags"
                         id="pagination"
                         v-model="pagination"
                         @change="setPagination"
@@ -150,9 +150,6 @@ export default {
         },
         getPages(){
             this.inProgress = true;
-
-            console.log(this.pagination.current,this.pagination.limit)
-
           InternalSettingsService.getCustomTags({ page_no: this.pagination.current,
                     page_size: this.pagination.limit})
           .then(res=>{
@@ -285,7 +282,6 @@ export default {
     margin: 24px;
     padding: 24px;
     position: relative;
-    min-height: 400px;
 }
 
 .mt-6 {

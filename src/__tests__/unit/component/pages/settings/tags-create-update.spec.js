@@ -181,10 +181,14 @@ describe('Mounted Update tags', () => {
         postBtn.trigger('click')
         
     })
-    it('attribute method', async()=>{
+    it('attribute and delete method', async()=>{
+        mock.onDelete(URLS.PLATFORM_CUSTOM_TAGS('6188f1efaefd898270b21333')).reply(200, MOCK_DATA.delete);
+        mock.onDelete(URLS.PLATFORM_CUSTOM_TAGS('12345')).reply(404, MOCK_DATA.delete);
         wrapper.vm.add();
         wrapper.vm.deletePair(0)
+        wrapper.vm.deleteTag()
     })
+
 
     
 
