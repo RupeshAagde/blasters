@@ -442,6 +442,10 @@ const URLS = {
     PLATFORM_PRICING_BANNER: () =>{
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/pricing-banner');
     },
+    PLATFORM_CUSTOM_TAGS:(id='') =>{
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/',id);
+    },
+
 
     //Grindor
     GRINDOR_EXPLORER: (namespace) => {

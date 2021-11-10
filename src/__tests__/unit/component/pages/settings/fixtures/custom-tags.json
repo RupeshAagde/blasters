@@ -1,0 +1,86 @@
+{
+    "delete": {
+        "name": "key",
+        "archived": false,
+        "created_on": "2021-11-08T04:55:28.881Z",
+        "modified_on": "2021-11-08T04:55:28.881Z",
+        "_id": "6188f1efaefd898270b21333",
+        "attributes": {
+            "ho": "ja"
+        },
+        "type": "css",
+        "sub_type": "external",
+        "content": "",
+        "position": "head",
+        "url": "w.g.com",
+        "created_by": {
+            "user_id": "6dea800ff2befc54a6342d52"
+        },
+        "__v": 0
+    },
+    "list": {
+        "items": [
+            {
+                "name": "qwert",
+                "archived": false,
+                "created_on": "2021-11-08T04:55:28.881Z",
+                "modified_on": "2021-11-08T04:55:28.881Z",
+                "_id": "6188f1efaefd898270b21333",
+                "type": "css",
+                "sub_type": "inline",
+                "content": "adsfdgfhghkjk{}",
+                "position": "head",
+                "url": "",
+                "created_by": {
+                    "user_id": "6dea800ff2befc54a6342d52"
+                },
+                "__v": 0
+            }
+        ],
+        "page": {
+            "type": "number",
+            "current": 1,
+            "size": 10,
+            "item_total": 1,
+            "has_next": false
+        }
+    },
+    "create": {
+        "name": "tags",
+        "archived": false,
+        "created_on": "2021-11-08T04:55:28.881Z",
+        "modified_on": "2021-11-08T04:55:28.881Z",
+        "_id": "6188f1efaefd898270b21333",
+        "attributes": {
+            "yes": "no"
+        },
+        "type": "css",
+        "sub_type": "external",
+        "content": "",
+        "position": "head",
+        "url": "www.fynd.com",
+        "created_by": {
+            "user_id": "6dea800ff2befc54a6342d52"
+        },
+        "__v": 0
+    },
+    "update": {
+        "name": "tags-update",
+        "archived": false,
+        "created_on": "2021-11-08T04:55:28.881Z",
+        "modified_on": "2021-11-08T04:55:28.881Z",
+        "_id": "6188f1efaefd898270b21333",
+        "attributes": {
+            "yes": "no"
+        },
+        "type": "css",
+        "sub_type": "external",
+        "content": "",
+        "position": "head",
+        "url": "www.fynd.com",
+        "created_by": {
+            "user_id": "6dea800ff2befc54a6342d52"
+        },
+        "__v": 0
+    }
+}

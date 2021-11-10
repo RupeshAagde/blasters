@@ -117,6 +117,34 @@ const InternalSettingsService = {
             getCommonHeaderOptions()
         );
         return ApiService.put(URLS.PLATFORM_PRICING_BANNER(), axiosOptions);
+    },
+    getCustomTags(params={}){
+        let axiosOptions = Object.assign(
+            {
+                params
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.PLATFORM_CUSTOM_TAGS(), axiosOptions);
+
+    },
+    postCustomTags(data){
+        const axiosOptions = Object.assign({},{data}, getCommonHeaderOptions());
+        return ApiService.post(URLS.PLATFORM_CUSTOM_TAGS(), axiosOptions);
+
+    },
+    putCustomTag(id,data){
+        const axiosOptions = Object.assign({},{data}, getCommonHeaderOptions());
+        return ApiService.put(URLS.PLATFORM_CUSTOM_TAGS(id), axiosOptions);
+    },
+    getUpdateTags(id){
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.PLATFORM_CUSTOM_TAGS(id), axiosOptions);
+    },
+    deleteTag(id){
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.del(URLS.PLATFORM_CUSTOM_TAGS(id), axiosOptions);
     }
+    
 };
 export default InternalSettingsService;
