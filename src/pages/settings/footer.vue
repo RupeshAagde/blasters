@@ -254,6 +254,7 @@ export default {
                 )
                     .then((res) => {
                         this.$snackbar.global.showSuccess('Saved Successfully');
+                        this.$router.push({ name: 'settings' })
                     })
                     .catch((err) => {
                         this.$snackbar.global.showError('Failed to save');
