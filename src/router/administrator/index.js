@@ -90,6 +90,19 @@ export default [
                 }
             },
             {
+                name: 'invoices',
+                path: 'subscription/coupons',
+                component: InvoiceListingMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
                 name: 'invoices details',
                 path: 'subscription/invoices/:billingNo',
                 component: BillingVue,
