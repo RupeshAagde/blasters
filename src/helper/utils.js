@@ -400,3 +400,46 @@ export const validateNitrozenCustomFormInput = (input, skipKey = false) => {
      }
      return false
  }
+
+ export const isLive = schedule => {
+    let isLive = false;
+    const s = schedule.next_schedule; // next schedules
+    if (!s) return false;
+    const now = new Date().getTime();
+    for (let i = 0; i < s.length; i++) {
+        const group = s[i];
+        const start = group.start ? new Date(group.start).getTime() : null;
+        const end = group.end ? new Date(group.end).getTime() : null;
+        if (!end && start < now) {
+            isLive = true;
+            break;
+        } else if (start < now && now < end) {
+            isLive = true;
+            break;
+        }
+    }
+    return isLive;
+};
+
+export const nextSchedules = schedule => {
+    let next_schedules = [];
+    const s = schedule.next_schedule; // next schedules
+    if (!s) return next_schedules;
+    const now = new Date().getTime();
+    for (let i = 0; i < s.length; i++) {
+        const group = s[i];
+        const start = group.start ? new Date(group.start).getTime() : null;
+        const end = group.end ? new Date(group.end).getTime() : null;
+        if (end && end < now) {
+            continue;
+        } else {
+            next_schedules.push(group);
+        }
+    }
+    return next_schedules;
+};
+
+export const nextSchedule = schedule => {
+    const ns = nextSchedules(schedule);
+    return ns.length > 0 ? ns[0] : null;
+};
