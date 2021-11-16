@@ -5,7 +5,7 @@
             :title="pageTitle" 
             @backClick="redirectToListing"
             :contextMenuItems="contextDeleteTag"
-            @edit="deleteTag"
+            @edit="openDeleteDialog()"
             >
                 <div class="button-box">
                     <nitrozen-button
@@ -146,6 +146,21 @@
                 </div>
             </div>
         </div>
+        <nitrozen-dialog ref="tag_delete_dialog" :title="'Delete'" @close="closeDeleteDialog">
+            <template slot="body">
+                <div>Are you sure you want to delete this tag?</div>
+            </template>
+            <template slot="footer">
+                <div>
+                    <nitrozen-button class="mr24" v-flatBtn :theme="'secondary'" id="del" @click="deleteTag"
+                        >Delete</nitrozen-button
+                    >
+                    <nitrozen-button v-strokeBtn :theme="'secondary'" @click="closeDeleteDialog"
+                        >Cancel</nitrozen-button
+                    >
+                </div>
+            </template>
+        </nitrozen-dialog>
     </div>
 </template>
 <script>
@@ -176,8 +191,7 @@ export default {
         NitrozenInput,
         NitrozenDropdown,
         'rawhtml-editor': rawhtmlEditor,
-
-        // 'nitrozen-dialog': NitrozenDialog,
+         'nitrozen-dialog': NitrozenDialog,
         // 'adm-inline-svg': adminlinesvg,
         'ukt-inline-svg': inlinesvg,
         // 'no-content': PageEmpty,
@@ -341,7 +355,10 @@ export default {
                 });
         },
         redirectToListing() {
-            this.$router.push({ path: '/administrator/settings/list-tags' });
+            setTimeout(() => {
+            this.$router.push({ path: '/administrator/settings/list-tags' })
+            });
+
         },
         add() {
             this.arrAttribute.push(this.newPair());
@@ -489,7 +506,17 @@ export default {
                         );
                     });
                     this.redirectToListing();
-        }
+        },
+         closeDeleteDialog: function () {
+            this.$refs.tag_delete_dialog.close();
+        },
+        openDeleteDialog() {        
+            this.$refs.tag_delete_dialog.open({
+                width: '500px',
+                showCloseButton: true,
+                dismissible: true,
+            });
+        },
     },
 };
 </script>
