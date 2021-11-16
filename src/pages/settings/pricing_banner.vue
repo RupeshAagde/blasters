@@ -207,38 +207,34 @@ export default {
             let formValid = true;
             formValid = this.checkEmpty('url') && formValid;
             if (this.desktop.anchor_link.value) {
-                if (this.desktop.anchor_link.value) {
                     if (!validUrl(this.desktop.anchor_link.value)) {
                         this.$set(this.desktop.anchor_link, 'showError', true);
                         this.$set(
                             this.desktop.anchor_link,
-                            'errortext',
+                            'errorText',
                             'Invalid URL'
                         );
                         formValid = false;
                     } else {
                         this.$set(this.desktop.anchor_link, 'showError', false);
-                        this.$set(this.desktop.anchor_link, 'errortext', '');
+                        this.$set(this.desktop.anchor_link, 'errorText', '');
                         formValid = true;
                     }
-                }
             }
             if (this.mobile.anchor_link.value) {
-                if (this.mobile.anchor_link.value) {
                     if (!validUrl(this.mobile.anchor_link.value)) {
                         this.$set(this.mobile.anchor_link, 'showError', true);
                         this.$set(
                             this.mobile.anchor_link,
-                            'errortext',
+                            'errorText',
                             'Invalid URL'
                         );
                         formValid = false;
                     } else {
                         this.$set(this.mobile.anchor_link, 'showError', false);
-                        this.$set(this.mobile.anchor_link, 'errortext', '');
+                        this.$set(this.mobile.anchor_link, 'errorText', '');
                         formValid = true;
                     }
-                }
             }
             return formValid;
         },
@@ -252,7 +248,7 @@ export default {
                     this.desktop[key].value.trim() === '')
             ) {
                 this.desktop[key].showError = true;
-                this.desktop[key].errortext = emptyErorrs[key];
+                this.desktop[key].errorText = emptyErorrs[key];
 
                 return false;
             }
@@ -261,12 +257,13 @@ export default {
                 (this.mobile[key].value && this.mobile[key].value.trim() === '')
             ) {
                 this.mobile[key].showError = true;
-                this.mobile[key].errortext = emptyErorrs[key];
+                this.mobile[key].errorText = emptyErorrs[key];
                 return false;
             }
             return true;
         },
         saveForm() {
+            console.log(this.validateForm(),'this.validateForm()')
             const obj = {
                 web_banner: {
                     url: this.desktop.url.value,
