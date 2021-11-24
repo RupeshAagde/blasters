@@ -4,7 +4,7 @@
             <div class="left-container">
                 <div class="line-1">{{creditTransaction.description | capitalize}}
                 </div>
-                <div class="line-2">
+                <div class="line-2 display-block">
                     <span>{{getType}} </span>
                     <span v-if="creditTransaction.invoice"> | <a class="view-invoice" :href="openInvoicePage()" v-if="creditTransaction.invoice">View invoice</a></span>
                 </div>
@@ -79,7 +79,7 @@ export default {
         },
         openInvoicePage() {
             if (this.companyId) {
-                return `/administrator/company-details/${this.companyId}/billing-details/${creditTransaction.invoice}`
+                return `/administrator/company-details/${this.companyId}/billing-details/${this.creditTransaction.invoice}`
             }
         },
     }
@@ -126,6 +126,9 @@ export default {
             font-weight: 400;
             justify-content: space-between;
 
+        }
+        .line-2.display-block{
+            display: block;
         }
         .transaction-id-line{
             gap: 0px!important;
