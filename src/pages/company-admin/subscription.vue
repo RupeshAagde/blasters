@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex flex-direction-column width-100">
+        <div class="flex width-100">
             <div class="flex-1 page-container m-r-12">
                 <div class="width-100">
                     <div class="flex">
@@ -145,7 +145,7 @@
                     ></template>
                 </nitrozen-dialog>
             </div>
-            <div class="flex-1 page-container m-r-12">
+            <div class="flex-1 page-container m-l-12 m-r-0">
                 <div v-if="collection_method">
                     <div class="title">
                         Collection Method
@@ -186,6 +186,45 @@
                 >
             </nitrozen-dialog>
         </div>
+        <div class="width-100">
+            <div class="page-container display-block">
+                <div class="title">
+                    Credit Balance
+                </div>
+                <div class="m-b-24 flex">
+                    <div class="flex-1 balance-amount" v-if="this.subscriber && this.subscriber.hasOwnProperty('credit_balance')">
+                        {{ amountFormat({currency:"INR",amount:this.subscriber.credit_balance}) }}
+                    </div>
+                    <nitrozen-button
+                        class="adjust-credit-btn"
+                        :theme="'secondary'"
+                        v-strokeBtn
+                        @click="openCreditAdjustmentModal"
+                    >Credit adjustment</nitrozen-button>
+                </div>
+                <div>
+                    <div class="title">Past Transactions</div>
+                    <loader class="image-uploading" v-if="isLoading"></loader>
+                    <div v-if="creditTransactions && creditTransactions.items && creditTransactions.items.length">
+                        <div v-for="(creditTransaction,index) in creditTransactions.items" :key="index">
+                            <credit-transaction-card :creditTransaction="creditTransaction"></credit-transaction-card>
+                        </div>
+                        <nitrozen-pagination
+                            name="Past transactions"
+                            v-model="creditTransactionPagination"
+                            @change="creditTransactionPaginationChange"
+                            :pageSizeOptions="[5, 10, 20, 50]"
+                        ></nitrozen-pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <credit-balance-modal
+            ref="credit-balance-modal"
+            @closeCreditBalanceModal="closeCreditBalanceModal"
+        >
+
+        </credit-balance-modal>
     </div>
 </template>
 
@@ -196,33 +235,42 @@ import { mapGetters } from 'vuex';
 import BillingSubscriptionService from '../../services/billing.service';
 import planRows from './plan-rows.vue';
 import { GET_CURRENT_ACTIVE_SUBSCRIPTION } from '@/store/getters.type';
-
+import CreditBalanceModal from '../../components/company-admin/subscription/credit-balance-modal.vue'
 import {
     FETCH_COMPANY_SUBSCRIPTION_LIMITS,
     FETCH_CURRENT_ACTIVE_SUBSCRIPTION
 } from '@/store/action.type';
 import {
     NitrozenButton,
+    NitrozenError,
     NitrozenDropdown,
     NitrozenInput,
     NitrozenRadio,
     NitrozenCheckBox,
     NitrozenDialog,
+    NitrozenPagination,
     flatBtn,
     strokeBtn
 } from '@gofynd/nitrozen-vue';
 import moment from 'moment';
+import CreditTransactionCard from "@/components/company-admin/subscription/credit-transaction-card.vue"
+import loader from '@/components/common/loader';
 
 export default {
     name: 'adm-company-subscription',
     components: {
+        loader,
+        'nitrozen-error':NitrozenError,
         'nitrozen-input': NitrozenInput,
         'nitrozen-button': NitrozenButton,
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-radio': NitrozenRadio,
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-dialog': NitrozenDialog,
-        'plan-rows':planRows
+        'nitrozen-pagination':NitrozenPagination,
+        'credit-transaction-card':CreditTransactionCard,
+        'plan-rows':planRows,
+        'credit-balance-modal':CreditBalanceModal
     },
     directives: {
         flatBtn,
@@ -302,10 +350,18 @@ export default {
     },
     data(){
         return {
+            isLoading:false,
             currentPlanDetailed: null,
             company_id: this.$route.params.companyId,
             collection_method: null,
             companyId: this.$route.params.companyId,
+            creditTransactions: null,
+            creditTransactionPagination:{
+                total: 0,
+                current: 1,
+                limit: 10
+            },
+            subscriber:null,
         }
     },
     mounted(){
@@ -342,8 +398,62 @@ export default {
                     console.log(err)
                 })
         );
+
+        pArr.push(
+            this.fetchCreditTransactions()
+            .then(({data})=>{
+                this.creditTransactions = data
+            })
+        )
+        pArr.push(
+            this.fetchCustomerDetails()
+            .then(({data})=>{
+                this.subscriber = data
+            })
+        )
+        
+
+        Promise.all(pArr)
+        .catch(err=>{
+            console.log(err)
+        })
     },
     methods:{
+        creditTransactionPaginationChange(e){
+            this.creditTransactionPagination.current = e.current
+            this.creditTransactionPagination.limit = e.limit
+            this.fetchCreditTransactions()
+            .then(({data})=>{
+                this.creditTransactions = data
+            })
+        },
+        closeCreditBalanceModal(e){
+            if(e.creditAdjustment && e.creditAdjustment.success){
+                let pArr = []
+                pArr.push(
+                    this.fetchCreditTransactions()
+                    .then(({data})=>{
+                        this.creditTransactions = data
+                    })
+                )
+                pArr.push(
+                    this.fetchCustomerDetails()
+                    .then(({data})=>{
+                        this.subscriber = data
+                    })
+                )
+                
+
+                Promise.all(pArr)
+                .catch(err=>{
+                    console.log(err)
+                })
+                
+            }
+        },
+        openCreditAdjustmentModal(){
+            this.$refs["credit-balance-modal"].open()
+        },
         onOpenCancelSubscription() {
             this.$refs['confirm_cancel_subscription'].open({
                 width: '400px',
@@ -397,6 +507,35 @@ export default {
             })
             .catch(err=>{
                 this.$snackbar.global.showError('Failed to updated collection method',{duration: 2000});
+            })
+        },
+        fetchCreditTransactions(){
+            this.isLoading = true
+            return BillingSubscriptionService.getCreditTransactions({
+                params:{
+                    unique_id: this.company_id,
+                    product_suite: 'fynd-platform',
+                    type: 'company',
+                    page_size: this.creditTransactionPagination.limit,
+                    page_no: this.creditTransactionPagination.current,
+                    sort: JSON.stringify({ created_at: -1 }),
+                }
+            })
+            .then((res)=>{
+                this.isLoading = false
+                this.creditTransactionPagination = {
+                    total: res.data.total,
+                    current: res.data.page,
+                    limit: res.data.limit
+                }
+                return res
+            })
+        },
+        fetchCustomerDetails(){
+            return BillingSubscriptionService.getSubscriberDetails({
+                params:{
+                    unique_id: this.company_id
+                }
             })
         },
         fetchPlanDetailed(id) {
@@ -478,6 +617,14 @@ export default {
 <style lang="less" scoped>
 @import './../less/page-header.less';
 @import './../less/page-ui.less';
+.adjust-credit-btn{
+    width: 200px;
+}
+.balance-amount{
+    font-size: 40px;
+    font-weight: 900;
+    color: #2e35be;
+}
 .plan-info {
     padding: 14px;
     border-radius: 5px;
@@ -487,6 +634,7 @@ export default {
 .background-white{
     background: white;
 }
+
 .plan-bolder {
     font-weight: 500;
     font-size: 15px;
@@ -497,8 +645,8 @@ export default {
     -webkit-font-smoothing: antialiased;
     color: #696969;
 }
-.flex-direction-column{
-    flex-direction: column;
+.display-block{
+    display: block!important;
 }
 .page-container {
     display: flex;
