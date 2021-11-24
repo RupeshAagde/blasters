@@ -210,6 +210,7 @@
                             <credit-transaction-card :creditTransaction="creditTransaction"></credit-transaction-card>
                         </div>
                         <nitrozen-pagination
+                            id="credit-transaction-pagination"
                             name="Past transactions"
                             v-model="creditTransactionPagination"
                             @change="creditTransactionPaginationChange"
