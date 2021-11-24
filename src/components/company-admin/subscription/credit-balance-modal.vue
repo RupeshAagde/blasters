@@ -1,5 +1,5 @@
 <template>
-    <nitrozen-dialog ref="credit-balance-dialog" title="Credit balance" @close="closeModal">
+    <nitrozen-dialog class="credit-dialog" ref="credit-balance-dialog" title="Credit balance" @close="closeModal">
         <template slot="body">
             <div class="m-b-24">
                 <div class="credit-adjust width-100">
@@ -191,7 +191,9 @@ export default {
     .btn-container{
         margin-bottom: 42px;
     }
-    ::v-deep .nitrozen-dialog-footer{
-        display: none;
+    .credit-dialog{
+        ::v-deep .nitrozen-dialog-footer{
+            display: none;
+        }
     }
 </style>
