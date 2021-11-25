@@ -204,6 +204,42 @@
                 </div>
                 <div>
                     <div class="title">Past Transactions</div>
+                    <div class="m-b-24 flex gap-24">
+                        <nitrozen-input
+                            @input="debouncedFetch"
+                            class="flex-1"
+                            placeholder="Search by Credit Transaction ID"
+                            :showSearchIcon="true"
+                            v-model="filters.transaction_id"
+                        ></nitrozen-input>
+                        <nitrozen-input
+                            @input="debouncedFetch"
+                            class="flex-1"
+                            placeholder="Search by Unique Transaction Reference(UTR)"
+                            :showSearchIcon="true"
+                            v-model="filters.search_unique_transaction_reference"
+                        ></nitrozen-input>
+                        <date-picker
+                            v-on:input="e => debouncedFetch()"
+                            class="flex-1"
+                            :useNitrozenTheme="true"
+                            :date_format="
+                                'YYYY-MM-DD'
+                            "
+                            :range="true"
+                            :picker_type="'datetime'"
+                            v-model="filters.transaction_date"
+                            :not_before="
+                                new Date(0).toISOString()
+                            "
+                            :not_after="
+                                new Date().toISOString()
+                            "
+                            :placeholder="
+                                'Enter transaction date range'
+                            "
+                        />
+                    </div>
                     <loader class="image-uploading" v-if="isLoading"></loader>
                     <div v-if="creditTransactions && creditTransactions.items && creditTransactions.items.length">
                         <div v-for="(creditTransaction,index) in creditTransactions.items" :key="index">
@@ -232,6 +268,8 @@
 <script>
 import get from 'lodash/get';
 import set from 'lodash/set';
+import { debounce } from '@/helper/utils';
+import datePicker from '../../components/common/date-picker.vue';
 import { mapGetters } from 'vuex';
 import BillingSubscriptionService from '../../services/billing.service';
 import planRows from './plan-rows.vue';
@@ -271,7 +309,8 @@ export default {
         'nitrozen-pagination':NitrozenPagination,
         'credit-transaction-card':CreditTransactionCard,
         'plan-rows':planRows,
-        'credit-balance-modal':CreditBalanceModal
+        'credit-balance-modal':CreditBalanceModal,
+        'date-picker':datePicker
     },
     directives: {
         flatBtn,
@@ -363,10 +402,18 @@ export default {
                 limit: 10
             },
             subscriber:null,
+            filters:{
+                search_unique_transaction_reference:"",
+                transaction_id:"",
+                transaction_date:null
+            }
         }
     },
     mounted(){
         let pArr = []
+        if(this.$route.query && this.$route.query.subscriptionFilters){
+            this.filters = JSON.parse(this.$route.query.subscriptionFilters)
+        }
         pArr.push(
             BillingSubscriptionService.getAvailablePlansDetailed(
                 'fynd-platform'
@@ -402,9 +449,6 @@ export default {
 
         pArr.push(
             this.fetchCreditTransactions()
-            .then(({data})=>{
-                this.creditTransactions = data
-            })
         )
         pArr.push(
             this.fetchCustomerDetails()
@@ -420,22 +464,27 @@ export default {
         })
     },
     methods:{
+        debouncedFetch: debounce(function(e) {
+            this.$router.replace({
+                name: 'company-details',
+                query: {
+                    ...this.$route.query,
+                    subscriptionFilters: JSON.stringify(this.filters)
+                }
+            }).catch(() => {});
+            
+            this.fetchCreditTransactions();
+        }, 700),
         creditTransactionPaginationChange(e){
             this.creditTransactionPagination.current = e.current
             this.creditTransactionPagination.limit = e.limit
             this.fetchCreditTransactions()
-            .then(({data})=>{
-                this.creditTransactions = data
-            })
         },
         closeCreditBalanceModal(e){
             if(e && e.creditAdjustment && e.creditAdjustment.success){
                 let pArr = []
                 pArr.push(
                     this.fetchCreditTransactions()
-                    .then(({data})=>{
-                        this.creditTransactions = data
-                    })
                 )
                 pArr.push(
                     this.fetchCustomerDetails()
@@ -512,6 +561,29 @@ export default {
         },
         fetchCreditTransactions(){
             this.isLoading = true
+            let filters = {}
+            if(this.filters.search_unique_transaction_reference){
+                filters["$or"] = filters["$or"] || {}
+                filters["$or"] = [
+                    { "payment.unique_transaction_reference": { $regex:this.filters.search_unique_transaction_reference ,$options:"ig"}},
+                ]
+            }
+            if(this.filters.transaction_id && this.filters.transaction_id.length >= 24){
+                filters["$or"] = filters["$or"] || {}
+                filters["$or"] = [
+                    { "_id": this.filters.transaction_id},
+                ]
+            }
+            if(this.filters.transaction_date && this.filters.transaction_date.length == 2){
+                filters["$and"] = filters["$and"] || {}
+                filters["$and"] = [
+                    { "created_at": {
+                        $gte: this.filters.transaction_date[0],
+                        $lte: this.filters.transaction_date[1],
+                    }},
+                ]
+            }
+
             return BillingSubscriptionService.getCreditTransactions({
                 params:{
                     unique_id: this.company_id,
@@ -520,6 +592,7 @@ export default {
                     page_size: this.creditTransactionPagination.limit,
                     page_no: this.creditTransactionPagination.current,
                     sort: JSON.stringify({ created_at: -1 }),
+                    query: JSON.stringify(filters)
                 }
             })
             .then((res)=>{
@@ -529,6 +602,7 @@ export default {
                     current: res.data.page,
                     limit: res.data.limit
                 }
+                this.creditTransactions = res.data
                 return res
             })
         },
@@ -728,6 +802,9 @@ export default {
 }
 .float-right{
     float:right;
+}
+.gap-24{
+    gap:24px;
 }
 .flex-end {
     align-items: flex-end;
