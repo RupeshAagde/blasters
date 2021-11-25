@@ -2,10 +2,10 @@
     <div v-if="creditTransaction" class="container">
         <div class="inside-container">
             <div class="left-container">
-                <div class="line-1">{{creditTransaction.description | capitalize}}
+                <div class="line-1">{{ getType }}
                 </div>
                 <div class="line-2 display-block">
-                    <span>{{getType}} </span>
+                    <span>{{creditTransaction.description | capitalize}}</span>
                     <span v-if="creditTransaction.invoice"> | <a class="view-invoice" :href="openInvoicePage()" v-if="creditTransaction.invoice">View invoice</a></span>
                 </div>
                 <div class="line-2 transaction-id-line">
@@ -19,7 +19,11 @@
                         "
                     ></adm-inline-svg>
                 </div>
-                <div class="line-2 width-50">
+                <div class="line-2 modified-by-line">
+                    <span v-if="creditTransaction.payment && creditTransaction.payment.receipt_date">Payment receipt on: {{toDateString(creditTransaction.payment.receipt_date)}}</span>
+                    <span v-if="creditTransaction.payment && creditTransaction.payment.unique_transaction_reference">Unique Transaction Reference(UTR): {{creditTransaction.payment.unique_transaction_reference}}</span>
+                </div>
+                <div class="line-2 modified-by-line">
                     <span>{{ getModifiedBy }}</span>
                     <span>On: {{toDateTimeString(creditTransaction.created_at)}}</span>
                 </div>
@@ -73,6 +77,9 @@ export default {
                 style: 'currency',
                 currency: currency
             }).format(amount);
+        },
+        toDateString(date) {
+            return moment(date).format('MMMM Do YYYY');
         },
         toDateTimeString(date) {
             return moment(date).format('MMMM Do YYYY, h:mm:ss a');
@@ -129,6 +136,10 @@ export default {
         }
         .line-2.display-block{
             display: block;
+        }
+        .line-2.modified-by-line{
+            gap: 16px;
+            justify-content: flex-start;
         }
         .transaction-id-line{
             gap: 0px!important;

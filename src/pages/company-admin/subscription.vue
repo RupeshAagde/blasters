@@ -429,7 +429,7 @@ export default {
             })
         },
         closeCreditBalanceModal(e){
-            if(e.creditAdjustment && e.creditAdjustment.success){
+            if(e && e.creditAdjustment && e.creditAdjustment.success){
                 let pArr = []
                 pArr.push(
                     this.fetchCreditTransactions()

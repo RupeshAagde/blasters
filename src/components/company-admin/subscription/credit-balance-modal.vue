@@ -1,10 +1,21 @@
 <template>
-    <nitrozen-dialog class="credit-dialog" ref="credit-balance-dialog" title="Credit balance" @close="closeModal">
+    <nitrozen-dialog class="credit-dialog" ref="credit-balance-dialog" title="Credit adjustment" @close="closeModal">
         <template slot="body">
-            <div class="m-b-24">
-                <div class="credit-adjust width-100">
+            <div class="m-b-24 body-container" v-if="creditAdjustment">
+                <div class="m-b-12">
+                    <nitrozen-dropdown
+                        label="Transaction type *"
+                        class="input-field"
+                        placeholder="Select transaction type"
+                        :items="transactionTypes"
+                        v-model="creditAdjustment.transactionType"
+                        @change="onTransactionTypeSelect"
+                    ></nitrozen-dropdown>
+                </div>
+                <div class="credit-adjust width-100" v-if="creditAdjustment.transactionType">
                     <div class="m-b-12">
                         <nitrozen-input
+                            @input="clearError('creditAdjustment.amount')"
                             label="Amount *"
                             type="number"
                             v-model="creditAdjustment.amount.value"
@@ -12,27 +23,54 @@
                         ></nitrozen-input>
                         <nitrozen-error v-if="creditAdjustment.amount.error">{{creditAdjustment.amount.error}}</nitrozen-error>
                     </div>
-                    <div class="m-b-24">
+                    <div class="m-b-12">
                         <nitrozen-input
+                            @input="clearError('creditAdjustment.description')"
                             label="Description *"
                             type="text"
                             v-model="creditAdjustment.description.value"
                         ></nitrozen-input>
                         <nitrozen-error v-if="creditAdjustment.description.error">{{creditAdjustment.description.error}}</nitrozen-error>
                     </div>
-                    <div class="flex gap-12 btn-container">
+                    <div class="m-b-24" v-if="creditAdjustment.transactionType">
+                        <nitrozen-input
+                            @input="clearError('creditAdjustment.unique_transaction_reference')"
+                            label="Unique Transaction Reference(UTR)"
+                            type="text"
+                            v-model="creditAdjustment.unique_transaction_reference.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="creditAdjustment.unique_transaction_reference.error">{{creditAdjustment.unique_transaction_reference.error}}</nitrozen-error>
+                    </div>
+                    <div class="m-b-24" v-if="creditAdjustment.transactionType">
+                        <date-picker
+                            @change="clearError('creditAdjustment.receipt_date')"
+                            :label="datePickerLabel"
+                            :useNitrozenTheme="true"
+                            :date_format="
+                                'YYYY-MM-DD'
+                            "
+                            :picker_type="'date'"
+                            v-model="creditAdjustment.receipt_date.value"
+                            :not_before="
+                                new Date(0).toISOString()
+                            "
+                            :not_after="
+                                new Date().toISOString()
+                            "
+                            :placeholder="
+                                'Enter date of amount received'
+                            "
+                        />
+                        <nitrozen-error v-if="creditAdjustment.receipt_date.error">{{creditAdjustment.receipt_date.error}}</nitrozen-error>
+                    </div>
+                    <div class="flex gap-12 btn-container" v-if="creditAdjustment.transactionType">
                         <nitrozen-button
                             class="flex-1 adjust-credit-btn"
+                            :class="{'charge-amount-btn':creditAdjustment.transactionType == 'adjustment'}"
                             :theme="'secondary'"
                             v-strokeBtn
                             @click="makeCreditAdjustment('credit')"
-                        >Credit amount</nitrozen-button>
-                        <nitrozen-button
-                            class="flex-1 adjust-credit-btn charge-amount-btn"
-                            :theme="'secondary'"
-                            v-strokeBtn
-                            @click="makeCreditAdjustment('debit')"
-                        >Charge amount</nitrozen-button>
+                        >{{getBtnText}}</nitrozen-button>
                     </div>
                 </div>
             </div>
@@ -41,9 +79,10 @@
 </template>
 
 <script>
-import { NitrozenDialog } from '@gofynd/nitrozen-vue';
+import { NitrozenDialog, NitrozenDropdown } from '@gofynd/nitrozen-vue';
 import moment from 'moment';
 import BillingSubscriptionService from '../../../services/billing.service';
+import datePicker from '../../common/date-picker.vue';
 import {
     NitrozenButton,
     NitrozenError,
@@ -51,6 +90,7 @@ import {
     flatBtn,
     strokeBtn
 } from '@gofynd/nitrozen-vue';
+import set from 'lodash/set';
 export default {
     name: 'credit-balance-modal',
     components:{
@@ -58,6 +98,9 @@ export default {
         'nitrozen-error':NitrozenError,
         'nitrozen-input': NitrozenInput,
         'nitrozen-button': NitrozenButton,
+        'nitrozen-dropdown': NitrozenDropdown,
+        'date-picker': datePicker,
+
     },
     directives: {
         flatBtn,
@@ -67,25 +110,70 @@ export default {
         
     },
     computed:{
-        
+        getBtnText(){
+            let map = {
+                top_up: "Topup Amount",
+                adjustment: "Make adjustment",
+            }
+            return map[this.creditAdjustment.transactionType]
+        },
+        datePickerLabel(){
+            let map = {
+                top_up: "Enter date of payment received*",
+                adjustment: "Enter date of payment received",
+            }
+            return map[this.creditAdjustment.transactionType]
+        }
     },
     data(){
         return {
             companyId: this.$route.params.companyId,
-            creditAdjustment:{
+            transactionTypes:[{
+                text: "Topup",
+                value: "top_up"
+            },{
+                text: "Make adjustment",
+                value: "adjustment"
+            }],
+            creditAdjustment: null
+        }
+    },
+    mounted(){
+        this.initForm()
+    },
+    methods:{
+        clearError(path){
+            set(this,`${path}.error`,"")
+        },
+        initForm(){
+            this.creditAdjustment = {
+                transactionType:null,
                 amount: {
                     value: 0,
                     error: ""
                 },
                 currency: "INR",
+                unique_transaction_reference: {
+                    value: "",
+                    error: ""
+                },
+                receipt_date: {
+                    value: "",
+                    error: ""
+                },
                 description: {
+                    value: "",
+                    error: ""
+                },
+                receipt_date:{
                     value: "",
                     error: ""
                 }
             }
-        }
-    },
-    methods:{
+        },
+        onTransactionTypeSelect(value){
+            this.creditAdjustment.transactionType = value
+        },
         open(){
             this.$refs["credit-balance-dialog"].open({
                 showCloseButton: true,
@@ -96,6 +184,7 @@ export default {
             });
         },
         closeModal(e){
+            this.initForm()
             this.$emit('closeCreditBalanceModal', e);
         },
         validateCreditAdjustment(){
@@ -118,21 +207,34 @@ export default {
             else{
                 this.creditAdjustment.description.error = ""
             }
+
+            if(this.creditAdjustment.transactionType == "top_up" && !this.creditAdjustment.receipt_date.value){
+                this.creditAdjustment.receipt_date.error = "Required Field"
+            }
+            else{
+                this.creditAdjustment.receipt_date.error = ""
+            }
+
             return isValid
         },
         makeCreditAdjustment(transaction_type){
             if(this.validateCreditAdjustment()){
-                return BillingSubscriptionService.creditAdjustment({
-                        unique_id: this.companyId,
-                        product_suite: 'fynd-platform',
-                        type: 'company'
-                    },{
+                let reqBody = {
                     "amount":this.creditAdjustment.amount.value,
                     "currency":this.creditAdjustment.currency,
                     "description":this.creditAdjustment.description.value,
                     "type":transaction_type == "credit"? "top_up" : "adjustment",
-                    "transaction_type":transaction_type
-                })
+                    "transaction_type":transaction_type,
+                    "payment":{
+                        "receipt_date": this.creditAdjustment.receipt_date.value,
+                        "unique_transaction_reference":this.creditAdjustment.unique_transaction_reference.value
+                    }
+                }
+                return BillingSubscriptionService.creditAdjustment({
+                        unique_id: this.companyId,
+                        product_suite: 'fynd-platform',
+                        type: 'company'
+                    },reqBody)
                 .then(({data})=>{
                     this.creditTransactions = data
                     this.$snackbar.global.showSuccess(`Transaction successful`);
@@ -163,6 +265,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+    .body-container{
+        min-height: 160px;        
+    }
     .flex{
         display: flex;
         .flex-1{
@@ -182,10 +287,14 @@ export default {
         .adjust-credit-btn{
             position: relative;
             top: 21px;
+            border: 1px solid;
+            border-radius: 3px;
         }
         .charge-amount-btn{
             color: #f33;
             border-color: #f33;
+            border: 1px solid;
+            border-radius: 3px;
         }
     }
     .btn-container{
