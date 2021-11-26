@@ -240,7 +240,7 @@
                             "
                         />
                     </div>
-                    <loader class="image-uploading" v-if="isLoading"></loader>
+                    <shimmer v-if="isLoading" :count="4"></shimmer>
                     <div v-if="creditTransactions && creditTransactions.items && creditTransactions.items.length">
                         <div v-for="(creditTransaction,index) in creditTransactions.items" :key="index">
                             <credit-transaction-card :creditTransaction="creditTransaction"></credit-transaction-card>
@@ -253,6 +253,7 @@
                             :pageSizeOptions="[5, 10, 20, 50]"
                         ></nitrozen-pagination>
                     </div>
+                    <ukt-not-found v-else :title="'No results found'"></ukt-not-found>
                 </div>
             </div>
         </div>
@@ -294,6 +295,8 @@ import {
 import moment from 'moment';
 import CreditTransactionCard from "@/components/company-admin/subscription/credit-transaction-card.vue"
 import loader from '@/components/common/loader';
+import uktNotFound from '../../components/common/ukt-not-found.vue';
+import shimmer from '../../components/common/shimmer.vue';
 
 export default {
     name: 'adm-company-subscription',
@@ -310,7 +313,9 @@ export default {
         'credit-transaction-card':CreditTransactionCard,
         'plan-rows':planRows,
         'credit-balance-modal':CreditBalanceModal,
-        'date-picker':datePicker
+        'date-picker':datePicker,
+        'shimmer':shimmer,
+        'ukt-not-found':uktNotFound
     },
     directives: {
         flatBtn,
