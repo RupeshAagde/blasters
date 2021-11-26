@@ -696,7 +696,7 @@ export default {
     width: 200px;
 }
 .balance-amount{
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 900;
     color: #2e35be;
 }
