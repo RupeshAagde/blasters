@@ -41,7 +41,7 @@
                         ></nitrozen-input>
                         <nitrozen-error v-if="creditAdjustment.unique_transaction_reference.error">{{creditAdjustment.unique_transaction_reference.error}}</nitrozen-error>
                     </div>
-                    <div class="m-b-24" v-if="creditAdjustment.transactionType">
+                    <div class="m-b-24" v-if="creditAdjustment.transactionType == 'top_up'">
                         <date-picker
                             @change="clearError('creditAdjustment.receipt_date')"
                             :label="datePickerLabel"
@@ -69,7 +69,7 @@
                             :class="{'charge-amount-btn':creditAdjustment.transactionType == 'adjustment'}"
                             :theme="'secondary'"
                             v-strokeBtn
-                            @click="makeCreditAdjustment('credit')"
+                            @click="makeCreditAdjustment(creditAdjustment.transactionType)"
                         >{{getBtnText}}</nitrozen-button>
                     </div>
                 </div>
@@ -223,8 +223,8 @@ export default {
                     "amount":this.creditAdjustment.amount.value,
                     "currency":this.creditAdjustment.currency,
                     "description":this.creditAdjustment.description.value,
-                    "type":transaction_type == "credit"? "top_up" : "adjustment",
-                    "transaction_type":transaction_type,
+                    "type":transaction_type,
+                    "transaction_type":transaction_type == "top_up" ? "credit" : "debit",
                     "payment":{
                         "receipt_date": this.creditAdjustment.receipt_date.value,
                         "unique_transaction_reference":this.creditAdjustment.unique_transaction_reference.value
