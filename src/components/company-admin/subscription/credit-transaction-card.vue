@@ -9,7 +9,7 @@
                     <span v-if="creditTransaction.invoice"> | <a class="view-invoice" :href="openInvoicePage()" v-if="creditTransaction.invoice">View invoice</a></span>
                 </div>
                 <div class="line-2 transaction-id-line">
-                    <span>Transaction ID: {{creditTransaction._id}}</span>
+                    <span>Credit Transaction ID: {{creditTransaction._id}}</span>
                     <adm-inline-svg
                         class="copy-icon"
                         :src="'copy'"
@@ -143,7 +143,7 @@ export default {
         }
         .transaction-id-line{
             gap: 0px!important;
-            width: 292px;
+            width: 323px;
             align-items: center;
             .copy-icon{
                 position: relative;

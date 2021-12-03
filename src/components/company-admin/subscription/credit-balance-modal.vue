@@ -41,7 +41,7 @@
                         ></nitrozen-input>
                         <nitrozen-error v-if="creditAdjustment.unique_transaction_reference.error">{{creditAdjustment.unique_transaction_reference.error}}</nitrozen-error>
                     </div>
-                    <div class="m-b-24" v-if="creditAdjustment.transactionType == 'top_up'">
+                    <div class="m-b-24" v-if="creditAdjustment.transactionType">
                         <date-picker
                             @change="clearError('creditAdjustment.receipt_date')"
                             :label="datePickerLabel"
@@ -58,7 +58,7 @@
                                 new Date().toISOString()
                             "
                             :placeholder="
-                                'Enter date of amount received'
+                                getUTRDatePlaceholder
                             "
                         />
                         <nitrozen-error v-if="creditAdjustment.receipt_date.error">{{creditAdjustment.receipt_date.error}}</nitrozen-error>
@@ -110,6 +110,13 @@ export default {
         
     },
     computed:{
+        getUTRDatePlaceholder(){
+            let map = {
+                "top_up":"Enter date of payment received",
+                "adjustment":"Enter date of payment refund",
+            }
+            return map[this.creditAdjustment.transactionType]
+        },
         getBtnText(){
             let map = {
                 top_up: "Topup Amount",
@@ -119,8 +126,8 @@ export default {
         },
         datePickerLabel(){
             let map = {
-                top_up: "Enter date of payment received*",
-                adjustment: "Enter date of payment received",
+                top_up: "Date of payment received*",
+                adjustment: "Date of payment refund",
             }
             return map[this.creditAdjustment.transactionType]
         }
