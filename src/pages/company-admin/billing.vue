@@ -49,7 +49,7 @@
                     </div>
                     <div v-if="invoice && invoice.invoice">
                         <div class="flex m-b-24">
-                            <div class="flex-2">
+                            <div class="flex-3">
                                 <table class="bold m-b-12 m-t-6 width-80">
                                     <tr>
                                         <td>Billing Address</td>
@@ -73,7 +73,7 @@
                                     }}
                                 </div>
                             </div>
-                            <div class="flex-1 invoice-number-wrapper">
+                            <div class="flex-2 invoice-number-wrapper">
                                 <table class="invoice-number-table width-100">
                                     <tr>
                                         <td>Invoice number</td>
@@ -106,6 +106,20 @@
                                         </td>
                                     </tr>
                                     
+                                    <tr v-if="invoice.invoice.paid">
+                                        <td>Payment method</td>
+                                        <td>{{paymentMethod | capitalize}}</td>
+                                    </tr>
+
+                                    <tr v-if="invoice.invoice.paid && paymentMethod == 'credits'">
+                                        <td>Credit Transaction Id</td>
+                                        <td>{{ safeGet(
+                                                    invoice,
+                                                    'invoice_charges.0.credit_transaction_id',
+                                                    ''
+                                                )}}</td>
+                                    </tr>
+
                                     <tr>
                                         <td>Status</td>
                                         <td>
@@ -829,6 +843,13 @@ export default {
         BaseCard1,
     },
     computed: {
+        paymentMethod(){
+            return this.safeGet(
+                this.invoice,
+                'invoice_charges.0.credit_transaction_id',
+                ''
+            ) ? "credits" : "card"
+        },
         invoiceOpen(){
             let current_status = get(this, 'invoice.invoice.current_status', null);
             if(current_status != "open") return null;
