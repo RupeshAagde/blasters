@@ -115,7 +115,7 @@
                                         <td>Credit Transaction Id</td>
                                         <td>{{ safeGet(
                                                     invoice,
-                                                    'invoice_charges.0.credit_transaction_id',
+                                                    'invoice.payment.credit_transaction_id',
                                                     ''
                                                 )}}</td>
                                     </tr>
@@ -846,7 +846,7 @@ export default {
         paymentMethod(){
             return this.safeGet(
                 this.invoice,
-                'invoice_charges.0.credit_transaction_id',
+                'invoice.payment.credit_transaction_id',
                 ''
             ) ? "credits" : "card"
         },

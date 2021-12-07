@@ -20,7 +20,7 @@
                     ></adm-inline-svg>
                 </div>
                 <div class="line-2 modified-by-line">
-                    <span v-if="creditTransaction.payment && creditTransaction.payment.receipt_date">Payment receipt on: {{toDateString(creditTransaction.payment.receipt_date)}}</span>
+                    <span v-if="creditTransaction.payment && creditTransaction.payment.receipt_date">{{ getPaymentReceiptRefund }}</span>
                     <span v-if="creditTransaction.payment && creditTransaction.payment.unique_transaction_reference">Unique Transaction Reference(UTR): {{creditTransaction.payment.unique_transaction_reference}}</span>
                 </div>
                 <div class="line-2 modified-by-line">
@@ -54,6 +54,12 @@ export default {
     computed:{
         getType(){
             return this.creditTransaction.type.split("_").join(" ").toUpperCase()
+        },
+        getPaymentReceiptRefund(){
+            if(this.creditTransaction.type == "adjustment"){
+                return "Payment refund on: "+this.toDateString(this.creditTransaction.payment.receipt_date)
+            }
+            return "Payment receipt on: "+this.toDateString(this.creditTransaction.payment.receipt_date)
         },
         getModifiedBy(){
             if(get(this.creditTransaction,"author.modified_by")){
