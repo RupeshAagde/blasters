@@ -34,7 +34,7 @@ export const TYPE_DATA = [
         ===========================
         TOTAL					700
         `,
-        value_title: 'Percentage Value',
+        value_title: 'percentage_off',
         postfix_value: 'OFF',
         type: 'percentage',
         applicable_on: 'quantity',
@@ -69,7 +69,7 @@ export const TYPE_DATA = [
         ===========================
         TOTAL					2500
         `,
-        value_title: 'Amount Value',
+        value_title: 'amount_off',
         postfix_value: 'OFF',
         type: 'absolute',
         applicable_on: 'quantity',

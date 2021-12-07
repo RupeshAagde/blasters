@@ -94,7 +94,7 @@ export const getNavigations = () => {
         {
             display: 'Subscription',
             link: '/administrator/subscription/invoices',
-            title: 'invoice',
+            title: 'subscription',
             icon: 'settings',
             highlightedIcon: 'home-highlighted',
             active: false,

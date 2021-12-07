@@ -17,12 +17,15 @@
                 class="remove_staff_dialog desc-dialog"
                 ref="coupon_create_dialog"
                 title="Create Coupon"
-                @close="closeModal"
             >
-                <!-- <template slot="header">
-                    <div class="capitalize">Create</div>
-                </template> -->
-
+                 <template slot="header">
+                <div class="cross">Create Page</div>
+            </template>
+                <template slot="header">
+                <div class="cross" @click="closeModal">
+                    <inline-svg :src="'cross-black'"></inline-svg>
+                </div>
+            </template>
                 <template slot="body" class="desc-dialog">
                     <div class="parent">
                         <div class="left">
@@ -32,7 +35,7 @@
                          v-bind:class="{
                             childSelected: selectedType == x.key
                         }"
-                         v-for="x in titleList" :key="x.key">
+                         v-for="x in typeList" :key="x.key">
                         <div class="childName" @click="()=>{ selectedType = x.key   }">{{x.title}}</div>
                         
                     </div>
@@ -76,7 +79,7 @@
                             class="mr24"
                             id="approve"
                             :theme="'secondary'"
-                            :disabled="false"
+                            @click="onCreate"
                             >Select and Proceed</nitrozen-button
                         >
                     </div>
@@ -190,12 +193,15 @@
 .desc-dialog{
     ::v-deep.nitrozen-dialog-body{
      padding: 0px;
+     //overflow: hidden;
     }
     ::v-deep.nitrozen-dialog-header{
         margin-bottom: 0px;
     }
 }
-
+.cross {
+    margin: 0px;
+}
     
 </style>
 
@@ -213,6 +219,7 @@ import {
     NitrozenPagination,
 } from '@gofynd/nitrozen-vue';
 import { TYPE_DATA } from '@/helper/coupon-helper';
+import inlinesvg from '@/components/common/ukt-inline-svg.vue';
 
 export default {
     name: 'coupon-listing-main',
@@ -223,6 +230,7 @@ export default {
         'nitrozen-pagination': NitrozenPagination,
         'nitrozen-dialog': NitrozenDialog,
         'nitrozen-radio': NitrozenRadio,
+        'inline-svg': inlinesvg,
         jumbotron: Jumbotron,
         'coupon-listing': CouponsListing,
     },
@@ -244,10 +252,12 @@ export default {
     data() {
         return {
             selectedType: 0,
-            titleList: [...TYPE_DATA],
+            typeList: [...TYPE_DATA],
+            couponType: ''
         };
     },
     mounted() {
+         
     },
     methods: {
         openModal: function () {
@@ -260,6 +270,15 @@ export default {
         closeModal() {
             this.$refs['coupon_create_dialog'].close();
         },
+        onCreate(){
+            this.couponType = this.typeList[this.selectedType].value_title
+            setTimeout(() => {
+             this.$router.push({
+                        path: `/administrator/subscription/coupons/create/${this.couponType}`
+                        }).catch(()=>{})
+            })
+                        this.closeModal();
+        }
     },
 };
 </script>

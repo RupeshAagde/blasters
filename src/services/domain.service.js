@@ -342,6 +342,15 @@ const URLS = {
     SUBSCRIPTION_CANCEL: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/cancel`)
     },
+    SUBSCRIPTION_COUPON: (id='') => {
+        return urlJoin(UNICRON_BASE, `/v1.0/coupon/`,id)
+    },
+    SUBSCRIPTION_COUPON_UNIQUE: (code) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/coupon/code_uniqueness/`,code)
+    },
+    SUBSCRIBER_LIST: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/customer`)
+    },
 
     //#########Tickets########
     FETCH_TICKETS: () => {

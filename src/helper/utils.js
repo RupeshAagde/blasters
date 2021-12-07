@@ -443,3 +443,39 @@ export const nextSchedule = schedule => {
     const ns = nextSchedules(schedule);
     return ns.length > 0 ? ns[0] : null;
 };
+
+export const allowNumbersOnly = function (event){
+    if((event.ctrlKey || event.metaKey) && event.keyCode == 65){
+        return true; // allow control + A
+    }
+    if (!event.shiftKey && event.keyCode == 8 || event.keyCode == 46
+        || event.keyCode == 37 || event.keyCode == 39) {
+            return true;
+    }
+    else if ( (event.keyCode >= 48 && event.keyCode <= 57) && !event.shiftKey) {
+        return true;
+    }
+    event.preventDefault()
+    return false;
+}
+
+export const allowAlphaNumbericOnly = function(event){
+    if((event.ctrlKey || event.metaKey) && event.keyCode == 65){
+        return true; // allow control + A
+    }
+    if (!event.shiftKey && event.keyCode == 8 || event.keyCode == 46
+        || event.keyCode == 37 || event.keyCode == 39) {
+            return true;
+    }
+    if (
+        (
+            (!event.shiftKey && event.keyCode >= 48 && event.keyCode <= 57) || 
+            (event.keyCode >= 65 && event.keyCode <= 90) || 
+            (event.keyCode >= 97 && event.keyCode <= 122)
+        )
+    ) {
+        return true;
+    }
+    event.preventDefault();
+    return false;
+}

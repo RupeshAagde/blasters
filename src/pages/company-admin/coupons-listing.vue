@@ -2,61 +2,42 @@
     <div class="coupon-list-container">
         <div class="coupon-filters">
             <nitrozen-input
-                :value="
-                    filter_data.query.title.trim() ||
-                        filter_data.query.code.trim()
-                "
+                id="search"
                 :showSearchIcon="true"
                 class="search"
-                :placeholder="'Search Code or Title'"
+                :placeholder="'Search by Code '"
                 v-model="searchText"
                 @input="debounceInput"
             />
             <div class="dropdown-filters">
                 <nitrozen-dropdown
-                    :searchable="true"
                     class="type-filter"
                     :label="'Type'"
-                    v-model="filter_data.query.type_slug"
+                    v-model="query.type"
                     :items="typeSlugItems"
-                    @change="get_coupons_list"
-                ></nitrozen-dropdown>
-
-                <nitrozen-dropdown
-                    class="applicable-on-filter"
-                    :label="'Applicable On'"
-                    v-model="filter_data.query.scope"
-                    :items="scopeItems"
-                    @change="get_coupons_list"
+                    @change="setRouteQuery({type : query.type})"
                 ></nitrozen-dropdown>
 
                 <nitrozen-dropdown
                     class="archived-filter"
                     :label="'Status'"
-                    v-model="filter_data.query.is_archived"
-                    :items="
-                        getDropdownValues({ true: 'Inactive', false: 'Active' })
-                    "
-                    @change="get_coupons_list"
+                    v-model="query.is_active"
+                    :items="pageFilters"
+                    @change="setRouteQuery({published: query.is_active})"
                 ></nitrozen-dropdown>
             </div>
         </div>
-        <adm-shimmer v-if="loading" :count="4"></adm-shimmer>
-        <div v-else-if="initial_data.length" class="coupon-card-list">
-            <div
-        class="blaster-list-card-container coupon-card-container"
-        
-    >
-        <!-- <div class="card-avatar banner-image">
-            <img :src="'/public/admin/assets/pngs/default_icon_listing.png'" />
-        </div> -->
+        <shimmer v-if="loading" :count="4"></shimmer>
+        <div v-if="couponList.length > 0">
+        <div  v-for="coupon in couponList" :key="coupon._id" class="coupon-card-list">
+            <div @click="onUpdate(coupon.type,coupon._id)" class="blaster-list-card-container coupon-card-container">
         <div class="card-content-section left-container">
             <div class="card-content-line-1">
-                {{ coupon.title }}
+                {{ coupon.display_meta.title }}
             </div>
             <div class="darker-xs card-content-line-2 coupon-code">
                 {{ coupon.code.toUpperCase() }}
-                <span @click="onCopyCode">
+                <span id="copycode" @click="onCopyCode">
                     <inline-svg
                         title="Click to copy"
                         :src="'copy'"
@@ -67,24 +48,25 @@
             <div class="card-content-line-3">
                 {{
                     `Created on ${new Date(
-                        coupon.created_on
+                        coupon.created_at
                     ).toDateString()}`
                 }}
-                <!-- <span v-if="showNextSchedule()">
-                    |
-                    <span class="show-next-schedule">
-                        {{ showNextSchedule() }}
-                    </span>
-                </span> -->
+            </div>
+            <div class="card-content-line-3">
+                {{
+                    `Modified on ${new Date(
+                        coupon.modified_at
+                    ).toDateString()} by ${coupon.author.modified_by_details.first_name} ${coupon.author.modified_by_details.last_name}`
+                }}
             </div>
         </div>
         <div class="card-badge-section right-container">
             <div class="states">
-                <nitrozen-badge v-if="coupon.live" state="success"
+                <!-- <nitrozen-badge v-if="coupon.state.is_archived" state="success"
                     >Live</nitrozen-badge
                 >
-                <nitrozen-badge v-else>Not Live</nitrozen-badge>
-                <nitrozen-badge v-if="true" state="success"
+                <nitrozen-badge v-else>Not Live</nitrozen-badge> -->
+                <nitrozen-badge v-if="coupon.state.is_active" state="success"
                     >Active</nitrozen-badge
                 >
                 <nitrozen-badge v-else>Inactive</nitrozen-badge>
@@ -92,14 +74,18 @@
         </div>
     </div>
         </div>
+        </div>
         <div v-else>
             <no-content :helperText="'No coupons found'"></no-content>
         </div>
         <nitrozen-pagination
             v-if="initial_data.length"
             name="coupons"
-            v-model="filter_data.pagination"
+            v-model="pagination"
+            @change="setPagination"
             :pageSizeOptions="perPageValues"
+            id="pagination"
+
             
         ></nitrozen-pagination>
     </div>
@@ -112,6 +98,9 @@ import {
 
 import PageEmpty from '@/components/common/page-empty.vue';
 import inlinesvg from '@/components/common/ukt-inline-svg.vue';
+import {TYPE_DATA} from '@/helper/coupon-helper'
+import BillingService from '@/services/billing.service.js'
+import Shimmer from '@/components/common/shimmer';
 
 import {
     NitrozenButton,
@@ -122,9 +111,24 @@ import {
     NitrozenDialog,
     NitrozenRadio,
     NitrozenPagination,
-    NitrozenBadge
+    NitrozenBadge,
+    
+
 } from '@gofynd/nitrozen-vue';
-import {TYPE_DATA} from '@/helper/coupon-helper'
+const PAGE_FILTERS = [
+    {
+        text: 'All',
+        value: { key: 'all', value: '' },
+    },
+    {
+        text: 'Active',
+        value: { key: 'published', value: 'true' },
+    },
+    {
+        text: 'Inactive',
+        value: { key: 'published', value: 'false' },
+    },
+];
 export default {
     name: 'coupon-listing' ,
     components: {
@@ -137,6 +141,7 @@ export default {
         'nitrozen-badge': NitrozenBadge,
         'inline-svg' : inlinesvg,
     'no-content': PageEmpty,
+    Shimmer
     },
     data() {
         return {
@@ -145,51 +150,57 @@ export default {
             loading: false,
             show_schedule_modal: false,
             showSelectModal: false,
-            filter_data: {
+    
                 query: {
-                    title: ' ',
-                    code: ' ',
-                    type_slug: ' ',
-                    scope: ' ',
-                    is_archived: '',
-                    is_display: ''
+                    code: '',
+                    is_active: '',
+                    type: ''
                 },
                 pagination: {
                     limit:  10,
                     current: 1,
                     total: 100
                 }
-            },
+            ,
             perPageValues: [1, 2, 5, 10, 25, 50, 100, 200],
             searchText: '',
             coupon: {
-                title: 'Testing UI',
-                code: 'test22',
-                created_on : "2019-11-06T16:16:53.982Z",
-                live: true
-            }
+            },
+            scopeItems: [{ text: 'All Product', value: 'all' }],
+            typeSlugItems: [{ text: 'All', value: '' }, { text: 'X Percentage Value', value: 'percentage_off' },{ text: 'X Amount Value', value: 'amount_off' }],
+            pageFilters: [...PAGE_FILTERS],
+            couponList: []
 
         }
     },
     methods: {
-        onSearch() {
-            this.filter_data.query.title = this.searchText;
-            this.filter_data.query.code = this.searchText;
-            this.get_coupons_list();
-        },
+        
         debounceInput: debounce(function(e) {
-            this.onSearch();
+            if (e.length === 0) {
+                this.setRouteQuery({ code: undefined });
+            }
+            this.setRouteQuery({code: e});
         }, 200),
-        getDropdownValues(option_dict) {
-            option_dict[' '] = 'All';
-            return Object.keys(option_dict).map(key => {
-                return {
-                    text: option_dict[key],
-                    value: key
-                };
-            });
-        },
+        
         get_coupons_list(){
+            this.loading= true;
+             BillingService.getCouponList( Object.assign({
+                    page_no: this.pagination.current,
+                    page_size: this.pagination.limit,
+                    "state.is_active" : this.query.is_active.value,
+                    type: this.query.type,
+                    code: this.searchText,
+                }))
+        .then(res=>{
+            this.coupon = res.data;
+            this.pagination = {
+                limit : res.data.page.size,
+                total : res.data.page.item_total,
+                current : res.data.page.current
+            }
+            this.couponList = res.data.items;
+            this.loading = false;
+            })
         },
         onCopyCode(event) {
             copyToClipboard(this.coupon.code.toUpperCase());
@@ -197,27 +208,55 @@ export default {
             event.stopPropagation();
             event.preventDefault();
         },
+        onUpdate(type,id){
+             this.$router.push({
+                        path: `/administrator/subscription/coupons/edit/${type}/${id}`
+                        }).catch(()=>{})
+        
+        },
+        setPagination(){
+        const filter = { page : this.pagination.current, limit: this.pagination.limit }
+        this.setRouteQuery(filter);
+        },
+        setRouteQuery(query) {
+            if (query.code || query.published) {
+                // clear pagination if search or filter applied
+                this.pagination = { ...this.pagination, current: 0 };
+                query.page = undefined;
+                query.limit = undefined;
+                query.published = this.query.is_active.value;
+            }
+            if(query.type){
+            query.type = this.query.type
+            }
+                this.$router
+                .push({
+                    path: this.$route.path,
+                    query: {
+                        ...this.$route.query,
+                        ...query,
+                    },
+                })
+                .catch(() => {});
+            this.get_coupons_list();
+        },
+        populateFromURL(){
+        const { code, all, published, page, limit } = this.$route.query;
+        this.searchText = code || this.searchText;
+        this.pagination.current = +page || this.pagination.current;
+        this.pagination.limit = +limit || this.pagination.limit;
+        }
        
         
     },
     computed: {
-         typeSlugItems() {
-            return this.getDropdownValues(
-                Object.keys(TYPE_DATA).reduce(
-                    (obj, type) => {
-                        obj[type] = TYPE_DATA[type].title;
-                        return obj;
-                    },
-                    { ' ': 'All' }
-                )
-            );
-        },
-         scopeItems() {
-            return this.getDropdownValues({
-                all: 'All Products',
-                
-            });
-        }
+       
+         
+
+    },
+    mounted(){
+        this.populateFromURL()
+       this.get_coupons_list()
 
     }
     
@@ -250,7 +289,7 @@ export default {
                 padding-left: 10px;
             }
             .type-filter {
-                width: 350px;
+                width: 250px;
                 @media @mobile {
                     width: auto;
                     padding-left: 0;
@@ -260,7 +299,7 @@ export default {
                 width: 130px;
             }
             .archived-filter {
-                width: 100px;
+                width: 150px;
             }
         }
     }
