@@ -14,7 +14,7 @@
                     class="filter-dropdown"
                     :items="filters"
                     v-model="selectedFilter"
-                    @change="setRouteQuery(), getReviewList()"
+                    @change="()=>{setRouteQuery().then(()=>{getReviewList()})}"
                 ></nitrozen-dropdown>
             </div>
         </div>
@@ -38,26 +38,26 @@
                                 </div>
 
                                 <div class="txt-arrange">
-                                    <div class="txt-description-heading">
+                                    <div class="txt-description-heading column1">
                                         API Key :
                                     </div>
-                                    <div class="txt-details-by">
+                                    <div class="txt-details-by column">
                                         {{ item.api_key }}
                                     </div>
                                 </div>
                                 <div class="txt-arrange">
-                                    <div class="txt-description-heading">
+                                    <div class="txt-description-heading column1">
                                         Refund by :
                                     </div>
-                                    <div class="txt-details-by capitalize">
+                                    <div class="txt-details-by capitalize column">
                                         {{ item.refund_by }}
                                     </div>
                                 </div>
                                 <div class="txt-arrange">
-                                    <div class="txt-description-heading">
+                                    <div class="txt-description-heading column1">
                                         Collect by :
                                     </div>
-                                    <div class="txt-details-by capitalize">
+                                    <div class="txt-details-by capitalize column">
                                         {{ item.refund_by }}
                                     </div>
                                 </div>
@@ -65,10 +65,10 @@
                                     v-if="selectedFilter === 'true'"
                                     class="txt-arrange"
                                 >
-                                    <div class="txt-description-heading">
+                                    <div class="txt-description-heading column1">
                                         Reviewer :
                                     </div>
-                                    <div class="txt-details-by capitalize">
+                                    <div class="txt-details-by capitalize column">
                                         {{ item.reviewer }}
                                     </div>
                                 </div>
@@ -291,7 +291,7 @@ export default {
             comments: '',
             fyndSubAcc: false,
             filters: [...ROLE_FILTER],
-            selectedFilter: false ,
+            selectedFilter: 'false' ,
             errors: { name: '', password: '' },
             typeList: [...TYPE_FILTER],
             typeSelectedCollect: '',
@@ -321,7 +321,6 @@ export default {
             if (this.$route.query.status) {
                 this.selectedFilter = this.$route.query.status;
             }
-            //console.log("inside",this.$route.params)
             PaymentServices.getReviewDetails(
                 this.param,
                 this.selectedFilter
@@ -329,8 +328,9 @@ export default {
                 // if(this.$route.params.status === false){
                 //     this.selectedFilter = this.filters[0]
                 // }
+                this.noContent = false;
+
                 this.reviewDetails = data;
-                console.log(this.reviewDetails.data[0]);
                 if(this.reviewDetails.data[0].length === 0){
                     this.noContent = true;
                 }
@@ -388,13 +388,14 @@ export default {
             let query = { status: this.selectedFilter };
             //console.log(this.$route.query);
             //console.log(query);
-            this.$router.push({
+            return this.$router.replace({
                 path: this.$route.path,
                 query: {
                     ...this.$route.query,
                     ...query,
                 },
-            });
+            })
+            .catch(()=>{});
         },
         checkRequired() {
             if (this.comments == '') {
@@ -495,15 +496,13 @@ this.checkRequired()
         margin-top: 24px;
         margin-bottom: 12px;
         .left-container {
-            display: flex;
-            flex: 2;
-            position: relative;
-            width: calc(100% - 60px);
+            // display: flex;
+            // flex: 2;
+            // position: relative;
+            // width: calc(100% - 60px);
 
             .txt-arrange {
                 display: flex;
-                justify-content: flex-start;
-                text-align: center;
             }
 
             .txt-company-heading {
@@ -523,7 +522,6 @@ this.checkRequired()
                 color: #9b9b9b;
                 line-height: 22px;
                 font-size: 12px;
-                margin-left: 60px;
                 display: flex;
             }
             .txt-country {
@@ -713,6 +711,12 @@ this.checkRequired()
 .cst-space-left {
     margin-left: 10px;
     margin-top: 2px
+}
+.column{
+    width: 40%
+}
+.column1{
+    width: 15%
 }
 
 </style>
