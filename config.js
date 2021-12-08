@@ -212,6 +212,13 @@ const conf = convict({
             env: 'GRINGOTTS_MAIN_URL',
             arg: 'gringotts_main_url'
         },
+        GRINGOTTS_ADMIN_URL: {
+            doc: 'Gringotts admin url',
+            format: String,
+            default: '',
+            env: 'GRINGOTTS_ADMIN_URL',
+            arg: 'gringotts_admin_url'
+        },
         GRIMLOCK_MAIN_URL: {
             doc: 'GrimlockWeb Main URL',
             format: String,

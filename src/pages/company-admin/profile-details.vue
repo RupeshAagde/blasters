@@ -629,6 +629,7 @@ export default {
                 showCloseButton: true,
                 dismissible: true
             });
+            console.log("hit");
         },
         closeRejectDialog: function() {
             this.$refs['company_reject_dialog'].close();
