@@ -109,6 +109,8 @@
     overflow: hidden;
     padding-top: 12px;
     .sidebar {
+        position: fixed;
+        width: 14.3%;
         
         .group {
             margin-bottom: 12px;

@@ -367,8 +367,6 @@ export default {
             const { current, limit } = filter;
             filter = { page: current, limit };
             this.pagination = Object.assign({}, this.pagination, filter);
-            console.log(this.pagination);
-            console.log(filter);
             this.setRouteQuery(filter);
         },
         updatePage(item) {

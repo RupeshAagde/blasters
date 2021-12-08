@@ -776,6 +776,8 @@
     overflow: hidden;
     padding-top: 12px;
     .sidebar {
+         position: fixed;
+        width: 14.3%;
         .group {
             margin-bottom: 12px;
         }
@@ -1107,7 +1109,6 @@ export default {
                         this.selectedPlan.value = currentplans
                         let currentsubs = this.selectSubscriber.filter(it=> this.selected_Subs.includes(it.value))
                         this.selectedSubs.value = currentsubs
-                console.log("selc",this.selected_Subs);
                 }
             );
         },
