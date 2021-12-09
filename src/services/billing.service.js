@@ -191,12 +191,16 @@ const BillingService = {
         return ApiService.put(URLS.SUBSCRIPTION_COUPON(id), axiosOptions);
     },
 
-    getPlans() {
-        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+    getPlans(params) {
+        const axiosOptions = Object.assign({}, 
+            { params: params },
+            getCommonHeaderOptions());
         return ApiService.get(URLS.FETCH_PLANS_LIST(), axiosOptions);
     },
-    getSubscribers() {
-        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+    getSubscribers(params) {
+        const axiosOptions = Object.assign({},
+            { params: params },
+            getCommonHeaderOptions());
         return ApiService.get(URLS.SUBSCRIBER_LIST(), axiosOptions);
     },
     getUniqueCoupon(code) {

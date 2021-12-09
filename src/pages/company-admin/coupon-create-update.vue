@@ -239,11 +239,14 @@
                                     <div class="form-row">
                                         <div class="form-input-item app-item">
                                             <nitrozen-dropdown
+                                                :searchable="true"
                                                 label="Subscriber"
                                                 v-model="selected_Subs"
                                                 :multiple="true"
                                                 :items="selectSubscriber"
                                                 @change="pushSubs"
+                                                @searchInputChange="searchSubscriber"
+
                                             >
                                             </nitrozen-dropdown>
                                          
@@ -900,6 +903,7 @@ import { TYPE_DATA } from '@/helper/coupon-helper';
 import { allowNumbersOnly, allowAlphaNumbericOnly } from '@/helper/utils';
 import inlinesvg from '@/components/common/ukt-inline-svg.vue';
 import BillingService from '@/services/billing.service.js';
+import { debounce } from '../../helper/utils';
 
 export default {
     name: 'coupon-create-update',
@@ -1036,31 +1040,42 @@ export default {
             this.$refs['coupon_create_dialog'].close();
         },
         fetchPlans() {
-            BillingService.getPlans().then((res) => {
+            BillingService.getPlans({page_size: 50}).then((res) => {
                 let docs = res.data.items;
                 let drop = [{ text: 'All', value: 'all' }];
                 for (let i = 0; i < docs.length; i++) {
                     let abc = { text: '', value: '' };
-                    abc.text = docs[i].name;
+                    let name = docs[i].name+" "+docs[i].amount+" per "+docs[i].recurring.interval
+                    abc.text = name;
                     abc.value = docs[i]._id;
                     drop.push(abc);
                 }
                 this.selectPlan = drop;
             });
         },
-        fetchSubscriber() {
-            BillingService.getSubscribers().then((res) => {
+        fetchSubscriber(subscriber) {
+            BillingService.getSubscribers({name: subscriber, page_size: 50}).then((res) => {
                 let docs = res.data.items;
 
                 let drop = [{ text: 'All', value: 'all' }];
                 for (let i = 0; i < docs.length; i++) {
                     let abc = { text: '', value: '' };
-                    abc.text = docs[i].name;
+                    abc.text = docs[i].unique_id+' '+docs[i].name;
                     abc.value = docs[i]._id;
                     drop.push(abc);
                 }
                 this.selectSubscriber = drop;
             });
+        },
+        searchSubscriber(e){
+            if(e && e.text){
+                console.log(e.text);
+                debounce(()=>{
+                 this.fetchSubscriber(e.text)
+                },400)();
+            }
+            this.fetchSubscriber();
+
         },
         updateFields() {
             BillingService.getCouponId(this.$route.params.couponId).then(
@@ -1114,7 +1129,6 @@ export default {
         },
         onCreate() {
             this.couponType = this.typeList[this.selectedType].value_title;
-            //console.log(this.couponType);
             this.$router
                 .push({
                     path: `/administrator/subscription/coupons/create/${this.couponType}`,
@@ -1218,6 +1232,8 @@ export default {
                     value: val,
                     duration: this.durationDrop.value,
                     duration_in_months: this.duration.value,
+                    max_discount: this.discount.value,
+
                 },
                 display_meta: {
                     title: this.titleCoupon.value,

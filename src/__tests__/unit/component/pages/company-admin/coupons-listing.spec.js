@@ -55,6 +55,7 @@ describe('Mounted Custom tags', () => {
         wrapper.vm.debounceInput("omi");  
         wrapper.vm.setPagination();
         wrapper.vm.setRouteQuery({code:'omansh'})
+        //wrapper.vm.onCopyCode("event")
 
     })
 })
