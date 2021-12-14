@@ -266,6 +266,30 @@ export default [{
                 return checkUserPermission(to, from, next, ['product']);
             }
         },
+        {
+            name: 'taxation',
+            path: 'product/taxation',
+            component: ProductTaxationList,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'add hsn',
+            path: 'product/taxation/add',
+            component: ProductTaxationEdit,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'edit hsn',
+            path: 'product/taxation/:uid/edit',
+            component: ProductTaxationEdit,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
         // group-and-sequence
         {
             name: 'attributes-group',
