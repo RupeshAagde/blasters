@@ -8,7 +8,10 @@
                 <div
                     class="publish-status status-text bold-xs"
                     :class="{ 'publish-status-disabled': !published }"
-                    @click="published = !published; changePublish()"
+                    @click="
+                        published = !published;
+                        changePublish();
+                    "
                 >
                     {{ published ? 'Published' : 'Unpublished' }}
                 </div>
@@ -240,20 +243,19 @@
                                         <div class="form-input-item app-item">
                                             <nitrozen-dropdown
                                                 :searchable="true"
-                                                label="Subscriber"
+                                                label="Subscribers"
                                                 v-model="selected_Subs"
                                                 :multiple="true"
                                                 :items="selectSubscriber"
                                                 @change="pushSubs"
-                                                @searchInputChange="searchSubscriber"
-
+                                                @searchInputChange="
+                                                    searchSubscriber
+                                                "
                                             >
                                             </nitrozen-dropdown>
-                                         
                                         </div>
                                     </div>
                                     <div class="form-row">
-                   
                                         <div class="form-input-item">
                                             <div
                                                 class="chip-container"
@@ -275,7 +277,7 @@
                                                     </div>
 
                                                     <div
-                                                     @click="
+                                                        @click="
                                                             () => {
                                                                 let selected = [
                                                                     ...selectedSubs.value,
@@ -362,7 +364,7 @@
                                             <nitrozen-checkbox
                                                 v-model="subscriberSpecific"
                                             >
-                                                Subscriber Specific uses
+                                                Subscriber Specific Uses
                                             </nitrozen-checkbox>
                                             <nitrozen-tooltip
                                                 :position="'top'"
@@ -394,7 +396,7 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-input-item">
+                            <div class="form-input-item full">
                                 <nitrozen-input
                                     id="unique"
                                     :disabled="this.editMode"
@@ -413,7 +415,7 @@
                         </div>
 
                         <div class="form-row">
-                            <div class="form-input-item">
+                            <div class="form-input-item full">
                                 <nitrozen-input
                                     label="Title *"
                                     v-model="titleCoupon.value"
@@ -423,8 +425,8 @@
                                 </nitrozen-error>
                             </div>
                         </div>
-                        <div>
-                            <div class="form-input-item">
+                        <div class="form-row">
+                            <div class="form-input-item full">
                                 <nitrozen-input
                                     type="textarea"
                                     label="Description"
@@ -558,13 +560,12 @@
 
     .page-container {
         margin-right: 12px;
-        width: 838px;
+        width: 95%;
         box-sizing: border-box;
     }
 
     .left-form-container {
         flex: 1;
-        border: 1px solid @WhiteSmoke;
         border-radius: 4px;
     }
     .right-form-container {
@@ -574,7 +575,6 @@
         background-color: @White;
         border-radius: @BorderRadius;
         width: 348px;
-        border: 1px solid @WhiteSmoke;
         border-radius: 4px;
         @media @mobile {
             width: 100%;
@@ -779,7 +779,7 @@
     overflow: hidden;
     padding-top: 12px;
     .sidebar {
-         position: fixed;
+        position: fixed;
         width: 14.3%;
         .group {
             margin-bottom: 12px;
@@ -877,7 +877,10 @@
     flex-direction: column;
 }
 .uni {
-    width: 34%;
+    width: 246.5px;
+}
+.full {
+    width: 100%;
 }
 </style>
 
@@ -1027,7 +1030,7 @@ export default {
             : (this.selectedType = '0');
 
         this.value_type = this.typeList[this.selectedType].value_type;
-        this.pushPlan()
+        this.pushPlan();
     },
     methods: {
         openModal: function () {
@@ -1040,12 +1043,17 @@ export default {
             this.$refs['coupon_create_dialog'].close();
         },
         fetchPlans() {
-            BillingService.getPlans({page_size: 50}).then((res) => {
+            BillingService.getPlans({ page_size: 50 }).then((res) => {
                 let docs = res.data.items;
                 let drop = [{ text: 'All', value: 'all' }];
                 for (let i = 0; i < docs.length; i++) {
                     let abc = { text: '', value: '' };
-                    let name = docs[i].name+" "+docs[i].amount+" per "+docs[i].recurring.interval
+                    let name =
+                        docs[i].name +
+                        ' ' +
+                        docs[i].amount +
+                        ' per ' +
+                        docs[i].recurring.interval;
                     abc.text = name;
                     abc.value = docs[i]._id;
                     drop.push(abc);
@@ -1054,28 +1062,30 @@ export default {
             });
         },
         fetchSubscriber(subscriber) {
-            BillingService.getSubscribers({name: subscriber, page_size: 50}).then((res) => {
+            BillingService.getSubscribers({
+                name: subscriber,
+                page_size: 50,
+            }).then((res) => {
                 let docs = res.data.items;
 
                 let drop = [{ text: 'All', value: 'all' }];
                 for (let i = 0; i < docs.length; i++) {
                     let abc = { text: '', value: '' };
-                    abc.text = docs[i].unique_id+' '+docs[i].name;
+                    abc.text = docs[i].unique_id + ' ' + docs[i].name;
                     abc.value = docs[i]._id;
                     drop.push(abc);
                 }
                 this.selectSubscriber = drop;
             });
         },
-        searchSubscriber(e){
-            if(e && e.text){
+        searchSubscriber(e) {
+            if (e && e.text) {
                 console.log(e.text);
-                debounce(()=>{
-                 this.fetchSubscriber(e.text)
-                },400)();
+                debounce(() => {
+                    this.fetchSubscriber(e.text);
+                }, 400)();
             }
             this.fetchSubscriber();
-
         },
         updateFields() {
             BillingService.getCouponId(this.$route.params.couponId).then(
@@ -1120,10 +1130,14 @@ export default {
                     data.identifiers.subscribers.length === 0
                         ? (this.selected_Subs = ['all'])
                         : (this.selected_Subs = data.identifiers.subscribers);
-                        let currentplans = this.selectPlan.filter(it=> this.selected_plan.includes(it.value))
-                        this.selectedPlan.value = currentplans
-                        let currentsubs = this.selectSubscriber.filter(it=> this.selected_Subs.includes(it.value))
-                        this.selectedSubs.value = currentsubs
+                    let currentplans = this.selectPlan.filter((it) =>
+                        this.selected_plan.includes(it.value)
+                    );
+                    this.selectedPlan.value = currentplans;
+                    let currentsubs = this.selectSubscriber.filter((it) =>
+                        this.selected_Subs.includes(it.value)
+                    );
+                    this.selectedSubs.value = currentsubs;
                 }
             );
         },
@@ -1233,7 +1247,6 @@ export default {
                     duration: this.durationDrop.value,
                     duration_in_months: this.duration.value,
                     max_discount: this.discount.value,
-
                 },
                 display_meta: {
                     title: this.titleCoupon.value,
@@ -1310,6 +1323,17 @@ export default {
             }
         },
         pushPlan() {
+            if (this.selected_plan.includes('all')) {
+                for (var i = 0; i < this.selected_plan.length; i++) {
+                    if (this.selected_plan[i] === 'all') {
+                        this.selected_plan.splice(i, 1);
+                    }
+                }
+                if (this.selected_plan.length === 0) {
+                    this.selected_plan = ['all'];
+                }
+            }
+
             let selected_stores = this.selectPlan.map((it) => it.value);
             let newplan = selected_stores.filter((item) =>
                 this.selected_plan.includes(item)
@@ -1319,16 +1343,30 @@ export default {
                 ...this.selectPlan.filter((it) => newplan.includes(it.value))
             );
 
-            let current = this.selectPlan.filter(it=> this.selected_plan.includes(it.value))
+            let current = this.selectPlan.filter((it) =>
+                this.selected_plan.includes(it.value)
+            );
         },
-        pushSubs(){
+        pushSubs() {
+            if (this.selected_Subs.includes('all')) {
+                for (var i = 0; i < this.selected_Subs.length; i++) {
+                    if (this.selected_Subs[i] === 'all') {
+                        this.selected_Subs.splice(i, 1);
+                    }
+                }
+                if (this.selected_Subs.length === 0) {
+                    this.selected_Subs = ['all'];
+                }
+            }
             let selected_stores = this.selectSubscriber.map((it) => it.value);
             let newsubs = selected_stores.filter((item) =>
                 this.selected_Subs.includes(item)
             );
             this.selectedSubs.value = [];
             this.selectedSubs.value.push(
-                ...this.selectSubscriber.filter((it) => newsubs.includes(it.value))
+                ...this.selectSubscriber.filter((it) =>
+                    newsubs.includes(it.value)
+                )
             );
         },
         allowNumbers(event) {
@@ -1346,36 +1384,37 @@ export default {
                     this.unique = false;
                 });
         },
-         changePublish() {
-            if(this.editMode){
-            this.inProgress = true;
-            let data = {
-                code: this.code.value,
-                state: {
-                    is_active: this.published,
-                }}
-            BillingService.putCouponList(data, this.$route.params.couponId)
-                .then((res) => {
-                    this.$snackbar.global.showSuccess(
-                        this.published
-                            ? 'Page published successfully'
-                            : 'Page unpublished successfully'
-                    );
-                })
-                .catch((err) => {
-                    this.$snackbar.global.showError(
-                        `Failed to ${
-                            this.published ? 'publish' : 'unpublish'
-                        } page`
-                    );
-                    this.published = !this.published;
-                    console.error(err);
-                })
-                .finally(() => {
-                    this.inProgress = false;
-                });
+        changePublish() {
+            if (this.editMode) {
+                this.inProgress = true;
+                let data = {
+                    code: this.code.value,
+                    state: {
+                        is_active: this.published,
+                    },
+                };
+                BillingService.putCouponList(data, this.$route.params.couponId)
+                    .then((res) => {
+                        this.$snackbar.global.showSuccess(
+                            this.published
+                                ? 'Page published successfully'
+                                : 'Page unpublished successfully'
+                        );
+                    })
+                    .catch((err) => {
+                        this.$snackbar.global.showError(
+                            `Failed to ${
+                                this.published ? 'publish' : 'unpublish'
+                            } page`
+                        );
+                        this.published = !this.published;
+                        console.error(err);
+                    })
+                    .finally(() => {
+                        this.inProgress = false;
+                    });
             }
-        }
+        },
     },
 };
 </script>
