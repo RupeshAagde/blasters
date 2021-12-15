@@ -551,7 +551,7 @@
     .invoice-items-table {
         border-radius: 5px;
         .product-name {
-            width: 45%;
+            width: 48%;
         }
         th {
             font-weight: 600;

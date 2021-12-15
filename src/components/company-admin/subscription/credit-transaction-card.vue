@@ -20,7 +20,8 @@
                     ></adm-inline-svg>
                 </div>
                 <div class="line-2 modified-by-line">
-                    <span v-if="creditTransaction.payment && creditTransaction.payment.receipt_date">{{ getPaymentReceiptRefund }}</span>
+                    <span v-if="creditTransaction.payment && creditTransaction.payment.receipt_date">{{ getPaymentReceipt }}</span>
+                    <span v-if="creditTransaction.payment && creditTransaction.payment.refund_date">{{ getPaymentRefund }}</span>
                     <span v-if="creditTransaction.payment && creditTransaction.payment.unique_transaction_reference">Unique Transaction Reference(UTR): {{creditTransaction.payment.unique_transaction_reference}}</span>
                 </div>
                 <div class="line-2 modified-by-line">
@@ -55,11 +56,17 @@ export default {
         getType(){
             return this.creditTransaction.type.split("_").join(" ").toUpperCase()
         },
-        getPaymentReceiptRefund(){
-            if(this.creditTransaction.type == "adjustment"){
-                return "Payment refund on: "+this.toDateString(this.creditTransaction.payment.receipt_date)
+        getPaymentReceipt(){
+            if(this.creditTransaction.payment.receipt_date){
+                return "Payment receipt on: "+this.toDateString(this.creditTransaction.payment.receipt_date)
             }
-            return "Payment receipt on: "+this.toDateString(this.creditTransaction.payment.receipt_date)
+            return null
+        },
+        getPaymentRefund(){
+            if(this.creditTransaction.payment.refund_date){
+                return "Payment refund on: "+this.toDateString(this.creditTransaction.payment.refund_date)
+            }
+            return null
         },
         getModifiedBy(){
             if(get(this.creditTransaction,"author.modified_by")){

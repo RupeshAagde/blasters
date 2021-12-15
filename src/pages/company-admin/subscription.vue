@@ -200,7 +200,7 @@
                         :theme="'secondary'"
                         v-strokeBtn
                         @click="openCreditAdjustmentModal"
-                    >Credit adjustment</nitrozen-button>
+                    >Credit Adjustment</nitrozen-button>
                 </div>
                 <div>
                     <div class="title">Past Transactions</div>

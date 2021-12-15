@@ -1,5 +1,5 @@
 <template>
-    <nitrozen-dialog class="credit-dialog" ref="credit-balance-dialog" title="Credit adjustment" @close="closeModal">
+    <nitrozen-dialog class="credit-dialog" ref="credit-balance-dialog" title="Credit Adjustment" @close="closeModal">
         <template slot="body">
             <div class="m-b-24 body-container" v-if="creditAdjustment">
                 <div class="m-b-12">
@@ -41,7 +41,7 @@
                         ></nitrozen-input>
                         <nitrozen-error v-if="creditAdjustment.unique_transaction_reference.error">{{creditAdjustment.unique_transaction_reference.error}}</nitrozen-error>
                     </div>
-                    <div class="m-b-24" v-if="creditAdjustment.transactionType">
+                    <div class="m-b-24" v-if="creditAdjustment.transactionType == 'top_up'">
                         <date-picker
                             @change="clearError('creditAdjustment.receipt_date')"
                             :label="datePickerLabel"
@@ -62,6 +62,28 @@
                             "
                         />
                         <nitrozen-error v-if="creditAdjustment.receipt_date.error">{{creditAdjustment.receipt_date.error}}</nitrozen-error>
+                    </div>
+                    <div class="m-b-24" v-if="creditAdjustment.transactionType == 'adjustment'">
+                        <date-picker
+                            @change="clearError('creditAdjustment.refund_date')"
+                            :label="datePickerLabel"
+                            :useNitrozenTheme="true"
+                            :date_format="
+                                'YYYY-MM-DD'
+                            "
+                            :picker_type="'date'"
+                            v-model="creditAdjustment.refund_date.value"
+                            :not_before="
+                                new Date(0).toISOString()
+                            "
+                            :not_after="
+                                new Date().toISOString()
+                            "
+                            :placeholder="
+                                getUTRDatePlaceholder
+                            "
+                        />
+                        <nitrozen-error v-if="creditAdjustment.refund_date.error">{{creditAdjustment.refund_date.error}}</nitrozen-error>
                     </div>
                     <div class="flex gap-12 btn-container" v-if="creditAdjustment.transactionType">
                         <nitrozen-button
@@ -172,7 +194,7 @@ export default {
                     value: "",
                     error: ""
                 },
-                receipt_date:{
+                refund_date:{
                     value: "",
                     error: ""
                 }
@@ -233,7 +255,10 @@ export default {
                     "type":transaction_type,
                     "transaction_type":transaction_type == "top_up" ? "credit" : "debit",
                     "payment":{
-                        "receipt_date": this.creditAdjustment.receipt_date.value,
+                        ...(transaction_type == 'top_up'?
+                            { "receipt_date": this.creditAdjustment.receipt_date.value }:
+                            transaction_type == 'adjustment'?
+                            {"refund_date": this.creditAdjustment.refund_date.value}:{}),
                         "unique_transaction_reference":this.creditAdjustment.unique_transaction_reference.value
                     }
                 }
