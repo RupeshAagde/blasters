@@ -6,6 +6,7 @@
                     <jumbotron
                         class="jumbotron-h"
                         :title="'Product Taxation'"
+                        :desc="'Succeded'"
                         btnLabel="Add HSN"
                         @btnClick="redirectEdit"
                     ></jumbotron>
@@ -141,12 +142,12 @@
 <script>
 import AdminService from '@/services/company-admin.service';
 import { GET_HELP_SECTION_DATA } from '@/store/getters.type';
-import Loader from '@/components/common/adm-loader';
-import Shimmer from '@/components/common/adm-shimmer';
-import NoContent from '@/components/common/adm-no-content';
-import PageError from '@/components/common/adm-page-error';
+import Loader from '@/components/common/loader';
+import Shimmer from '@/components/common/shimmer';
+import NoContent from '@/components/common/page-error';
+import PageError from '@/components/common/page-error';
 import Jumbotron from '@/components/common/jumbotron';
-import TextAvatar from '@/components/common/adm-text-avatar.vue';
+import TextAvatar from '@/components/common/text-avatar.vue';
 import { copyToClipboard, debounce, titleCase } from '@/helper/utils.js';
 import { LocalStorageService } from '@/services/localstorage.service'
 // import { toCurrencyString } from '@/helper/currency.utils.js';
@@ -421,15 +422,17 @@ body .panel {
     }
 }
 
+
 .card-content-line-3{
     font-size: 12px;
     font-weight: 500;
     line-height: 21px;
+    max-width: 600px;
     color: @DustyGray2;
     padding-right: 4px;
 }
 .card-badge-section {
-    margin-left: 524px;
+    margin-left: 500px;
     margin-right:24px;
     display: flex;
     align-items: center;  

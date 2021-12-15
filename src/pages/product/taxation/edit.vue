@@ -25,15 +25,6 @@
         <loader v-if="pageLoading" class="loading"></loader>
         <div v-else class="page-container">
             <div class="form-container cl-Mako">
-                <div class="disclaimer-container">
-                    <div class="warning-icon">
-                        <inline-svg src="warning"></inline-svg>
-                    </div>
-                    <div class="text">
-                        <div class="title">Disclaimer of Liability</div>
-                        {{ disclaimerText }}
-                    </div>
-                </div>
                 <nitrozen-input
                     class="input md mt-md"
                     label="HSN Code"
@@ -98,9 +89,6 @@
                                     </adm-form-input>
                                 </div>
                             </div>
-                            <nitrozen-error >
-                                {{  }}
-                            </nitrozen-error>
                         </div>
                         <!-- Add Button -->
                         <ukt-inline-svg
@@ -159,9 +147,6 @@
                                     </adm-form-input>
                                 </div>
                             </div>
-                            <nitrozen-error >
-                                {{  }}
-                            </nitrozen-error>
                         </div>
                         <!-- Delete Button -->
                         <ukt-inline-svg
@@ -180,10 +165,10 @@
 
 <script>
 import path from 'path';
-import pageerror from '@/components/common/adm-page-error';
-import loader from '@/components/common/adm-loader';
-import admpageheader from '@/components/common/layout/adm-page-header';
-import admNoContent from '@/components/common/adm-no-content.vue';
+import pageerror from '@/components/common/page-error';
+import loader from '@/components/common/loader';
+import admpageheader from '@/components/common/layout/page-header';
+import admNoContent from '@/components/common/page-error.vue';
 import AdminService from '@/services/company-admin.service';
 import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
@@ -261,9 +246,6 @@ export default {
         };
     },
     computed: {
-        disclaimerText() {
-            return `You are hereby requested to ensure the correctness of the HSN code and corresponding tax percentage for your products. This data will be utilized while generating the tax invoice for your customers. Fynd will not be held liable for any discrepancy in the HSN code and the tax rate applicable for the slab defined by you. You realize that is fully responsible for paying the GST and settling any dues incurred in the form of interest or penalty.`;
-        },
         gstRatesListSlab1() {
             return GST_RATES.map((rate) => {
                 if (rate === 0) {
@@ -621,5 +603,12 @@ export default {
     padding: 3px;
     border: 1px solid @Iron;
     border-radius: 3px;
+}
+.btn-container{
+    margin-right: 12px;
+    max-width: 200px;
+    line-height: 28px;
+    
+    
 }
 </style>
