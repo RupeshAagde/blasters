@@ -62,7 +62,13 @@
                                             On
                                             {{ readableDate(hsn.modified_on) }}
                                         </span>
-                                    </div>    
+                                    </div>
+                                    <div class="card-content-line-3">
+                                        <span>
+                                            Description: 
+                                            {{ hsn.description }}
+                                        </span>
+                                    </div>      
                                 </div>
                                 <div class="card-badge-section">
                                     <div
