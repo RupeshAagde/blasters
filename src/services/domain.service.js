@@ -103,7 +103,6 @@ const URLS = {
     },
     //fetch all hsn codes
     FETCH_HSNCODES: () => {
-        console.log(SILVERBOLT_ACAT_URL)
         return urlJoin(SILVERBOLT_ACAT_URL, '/v2.0/hsn/');
     },
     //Create Hsn codes
