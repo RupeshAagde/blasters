@@ -173,12 +173,16 @@
                                     <div class="form-row">
                                         <div class="form-input-item app-item">
                                             <nitrozen-dropdown
+                                             :searchable="true"
                                                 id="dropplan"
                                                 label="Plans"
                                                 :items="selectPlan"
                                                 v-model="selected_plan"
                                                 :multiple="true"
                                                 @change="pushPlan"
+                                                @searchInputChange="
+                                                    searchPlan
+                                                "
                                             >
                                             </nitrozen-dropdown>
                                         </div>
@@ -1042,8 +1046,8 @@ export default {
         closeModal() {
             this.$refs['coupon_create_dialog'].close();
         },
-        fetchPlans() {
-            BillingService.getPlans({ page_size: 50 }).then((res) => {
+        fetchPlans(plan) {
+            BillingService.getPlans({ name: plan, page_size: 50 }).then((res) => {
                 let docs = res.data.items;
                 let drop = [{ text: 'All', value: 'all' }];
                 for (let i = 0; i < docs.length; i++) {
@@ -1080,12 +1084,17 @@ export default {
         },
         searchSubscriber(e) {
             if (e && e.text) {
-                console.log(e.text);
                 debounce(() => {
                     this.fetchSubscriber(e.text);
                 }, 400)();
             }
-            this.fetchSubscriber();
+        },
+        searchPlan(e) {
+            if (e && e.text) {
+                debounce(() => {
+                    this.fetchPlans(e.text);
+                }, 400)();
+            }
         },
         updateFields() {
             BillingService.getCouponId(this.$route.params.couponId).then(
@@ -1328,10 +1337,16 @@ export default {
                     if (this.selected_plan[i] === 'all') {
                         this.selected_plan.splice(i, 1);
                     }
+                    if(this.selected_plan[this.selected_plan.length-1] === 'all'){
+                    this.selected_plan = ['all'];
+                    break;
+                }
                 }
                 if (this.selected_plan.length === 0) {
                     this.selected_plan = ['all'];
                 }
+                
+
             }
 
             let selected_stores = this.selectPlan.map((it) => it.value);
@@ -1349,15 +1364,21 @@ export default {
         },
         pushSubs() {
             if (this.selected_Subs.includes('all')) {
+                
                 for (var i = 0; i < this.selected_Subs.length; i++) {
+                    
+                    if(this.selected_Subs[this.selected_Subs.length-1] === 'all'){
+                    this.selected_Subs = ['all'];
+                    break;
+                }
                     if (this.selected_Subs[i] === 'all') {
                         this.selected_Subs.splice(i, 1);
                     }
+                    
                 }
-                if (this.selected_Subs.length === 0) {
-                    this.selected_Subs = ['all'];
-                }
+                
             }
+           
             let selected_stores = this.selectSubscriber.map((it) => it.value);
             let newsubs = selected_stores.filter((item) =>
                 this.selected_Subs.includes(item)
