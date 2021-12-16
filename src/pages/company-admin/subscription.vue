@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex flex-direction-column width-100">
+        <div class="flex width-100">
             <div class="flex-1 page-container m-r-12">
                 <div class="width-100">
                     <div class="flex">
@@ -146,7 +146,7 @@
                     ></template>
                 </nitrozen-dialog>
             </div>
-            <div class="flex-1 page-container m-r-12" v-if="currentActivePlan.is_enabled">
+            <div class="flex-1 page-container m-l-12 m-r-0">
                 <div v-if="collection_method">
                     <div class="title">
                         Collection Method
@@ -187,43 +187,136 @@
                 >
             </nitrozen-dialog>
         </div>
+        <div class="width-100">
+            <div class="page-container display-block">
+                <div class="title">
+                    Credit Balance
+                </div>
+                <div class="m-b-24 flex">
+                    <div class="flex-1 balance-amount" v-if="this.subscriber && this.subscriber.hasOwnProperty('credit_balance')">
+                        {{ amountFormat({currency:"INR",amount:this.subscriber.credit_balance}) }}
+                    </div>
+                    <nitrozen-button
+                        class="adjust-credit-btn"
+                        :theme="'secondary'"
+                        v-strokeBtn
+                        @click="openCreditAdjustmentModal"
+                    >Credit Adjustment</nitrozen-button>
+                </div>
+                <div>
+                    <div class="title">Past Transactions</div>
+                    <div class="m-b-24 flex gap-24">
+                        <nitrozen-input
+                            @input="debouncedFetch"
+                            class="flex-1"
+                            placeholder="Search by Credit Transaction ID"
+                            :showSearchIcon="true"
+                            v-model="filters.transaction_id"
+                        ></nitrozen-input>
+                        <nitrozen-input
+                            @input="debouncedFetch"
+                            class="flex-1"
+                            placeholder="Search by Unique Transaction Reference(UTR)"
+                            :showSearchIcon="true"
+                            v-model="filters.search_unique_transaction_reference"
+                        ></nitrozen-input>
+                        <date-picker
+                            v-on:input="e => debouncedFetch()"
+                            class="flex-1"
+                            :useNitrozenTheme="true"
+                            :date_format="
+                                'YYYY-MM-DD'
+                            "
+                            :range="true"
+                            :picker_type="'datetime'"
+                            v-model="filters.transaction_date"
+                            :not_before="
+                                new Date(0).toISOString()
+                            "
+                            :not_after="
+                                new Date().toISOString()
+                            "
+                            :placeholder="
+                                'Enter transaction date range'
+                            "
+                        />
+                    </div>
+                    <shimmer v-if="isLoading" :count="4"></shimmer>
+                    <div v-if="creditTransactions && creditTransactions.items && creditTransactions.items.length">
+                        <div v-for="(creditTransaction,index) in creditTransactions.items" :key="index">
+                            <credit-transaction-card :creditTransaction="creditTransaction"></credit-transaction-card>
+                        </div>
+                        <nitrozen-pagination
+                            id="credit-transaction-pagination"
+                            name="Past transactions"
+                            v-model="creditTransactionPagination"
+                            @change="creditTransactionPaginationChange"
+                            :pageSizeOptions="[5, 10, 20, 50]"
+                        ></nitrozen-pagination>
+                    </div>
+                    <ukt-not-found v-else :title="'No results found'"></ukt-not-found>
+                </div>
+            </div>
+        </div>
+        <credit-balance-modal
+            ref="credit-balance-modal"
+            @closeCreditBalanceModal="closeCreditBalanceModal"
+        >
+
+        </credit-balance-modal>
     </div>
 </template>
 
 <script>
 import get from 'lodash/get';
 import set from 'lodash/set';
+import { debounce } from '@/helper/utils';
+import datePicker from '../../components/common/date-picker.vue';
 import { mapGetters } from 'vuex';
 import BillingSubscriptionService from '../../services/billing.service';
 import planRows from './plan-rows.vue';
 import { GET_CURRENT_ACTIVE_SUBSCRIPTION } from '@/store/getters.type';
-
+import CreditBalanceModal from '../../components/company-admin/subscription/credit-balance-modal.vue'
 import {
     FETCH_COMPANY_SUBSCRIPTION_LIMITS,
     FETCH_CURRENT_ACTIVE_SUBSCRIPTION
 } from '@/store/action.type';
 import {
     NitrozenButton,
+    NitrozenError,
     NitrozenDropdown,
     NitrozenInput,
     NitrozenRadio,
     NitrozenCheckBox,
     NitrozenDialog,
+    NitrozenPagination,
     flatBtn,
     strokeBtn
 } from '@gofynd/nitrozen-vue';
 import moment from 'moment';
+import CreditTransactionCard from "@/components/company-admin/subscription/credit-transaction-card.vue"
+import loader from '@/components/common/loader';
+import uktNotFound from '../../components/common/ukt-not-found.vue';
+import shimmer from '../../components/common/shimmer.vue';
 
 export default {
     name: 'adm-company-subscription',
     components: {
+        loader,
+        'nitrozen-error':NitrozenError,
         'nitrozen-input': NitrozenInput,
         'nitrozen-button': NitrozenButton,
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-radio': NitrozenRadio,
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-dialog': NitrozenDialog,
-        'plan-rows':planRows
+        'nitrozen-pagination':NitrozenPagination,
+        'credit-transaction-card':CreditTransactionCard,
+        'plan-rows':planRows,
+        'credit-balance-modal':CreditBalanceModal,
+        'date-picker':datePicker,
+        'shimmer':shimmer,
+        'ukt-not-found':uktNotFound
     },
     directives: {
         flatBtn,
@@ -303,14 +396,30 @@ export default {
     },
     data(){
         return {
+            isLoading:false,
             currentPlanDetailed: null,
             company_id: this.$route.params.companyId,
             collection_method: null,
             companyId: this.$route.params.companyId,
+            creditTransactions: null,
+            creditTransactionPagination:{
+                total: 0,
+                current: 1,
+                limit: 10
+            },
+            subscriber:null,
+            filters:{
+                search_unique_transaction_reference:"",
+                transaction_id:"",
+                transaction_date:null
+            }
         }
     },
     mounted(){
         let pArr = []
+        if(this.$route.query && this.$route.query.subscriptionFilters){
+            this.filters = JSON.parse(this.$route.query.subscriptionFilters)
+        }
         pArr.push(
             BillingSubscriptionService.getAvailablePlansDetailed(
                 'fynd-platform'
@@ -343,8 +452,64 @@ export default {
                     console.log(err)
                 })
         );
+
+        pArr.push(
+            this.fetchCreditTransactions()
+        )
+        pArr.push(
+            this.fetchCustomerDetails()
+            .then(({data})=>{
+                this.subscriber = data
+            })
+        )
+        
+
+        Promise.all(pArr)
+        .catch(err=>{
+            console.log(err)
+        })
     },
     methods:{
+        debouncedFetch: debounce(function(e) {
+            this.$router.replace({
+                name: 'company-details',
+                query: {
+                    ...this.$route.query,
+                    subscriptionFilters: JSON.stringify(this.filters)
+                }
+            }).catch(() => {});
+            
+            this.fetchCreditTransactions();
+        }, 700),
+        creditTransactionPaginationChange(e){
+            this.creditTransactionPagination.current = e.current
+            this.creditTransactionPagination.limit = e.limit
+            this.fetchCreditTransactions()
+        },
+        closeCreditBalanceModal(e){
+            if(e && e.creditAdjustment && e.creditAdjustment.success){
+                let pArr = []
+                pArr.push(
+                    this.fetchCreditTransactions()
+                )
+                pArr.push(
+                    this.fetchCustomerDetails()
+                    .then(({data})=>{
+                        this.subscriber = data
+                    })
+                )
+                
+
+                Promise.all(pArr)
+                .catch(err=>{
+                    console.log(err)
+                })
+                
+            }
+        },
+        openCreditAdjustmentModal(){
+            this.$refs["credit-balance-modal"].open()
+        },
         onOpenCancelSubscription() {
             this.$refs['confirm_cancel_subscription'].open({
                 width: '400px',
@@ -407,6 +572,60 @@ export default {
             })
             .catch(err=>{
                 this.$snackbar.global.showError('Failed to updated collection method',{duration: 2000});
+            })
+        },
+        fetchCreditTransactions(){
+            this.isLoading = true
+            let filters = {}
+            if(this.filters.search_unique_transaction_reference){
+                filters["$or"] = filters["$or"] || {}
+                filters["$or"] = [
+                    { "payment.unique_transaction_reference": { $regex:this.filters.search_unique_transaction_reference ,$options:"ig"}},
+                ]
+            }
+            if(this.filters.transaction_id && this.filters.transaction_id.length >= 24){
+                filters["$or"] = filters["$or"] || {}
+                filters["$or"] = [
+                    { "_id": this.filters.transaction_id},
+                ]
+            }
+            if(this.filters.transaction_date && this.filters.transaction_date.length == 2){
+                filters["$and"] = filters["$and"] || {}
+                filters["$and"] = [
+                    { "created_at": {
+                        $gte: this.filters.transaction_date[0],
+                        $lte: this.filters.transaction_date[1],
+                    }},
+                ]
+            }
+
+            return BillingSubscriptionService.getCreditTransactions({
+                params:{
+                    unique_id: this.company_id,
+                    product_suite: 'fynd-platform',
+                    type: 'company',
+                    page_size: this.creditTransactionPagination.limit,
+                    page_no: this.creditTransactionPagination.current,
+                    sort: JSON.stringify({ created_at: -1 }),
+                    query: JSON.stringify(filters)
+                }
+            })
+            .then((res)=>{
+                this.isLoading = false
+                this.creditTransactionPagination = {
+                    total: res.data.total,
+                    current: res.data.page,
+                    limit: res.data.limit
+                }
+                this.creditTransactions = res.data
+                return res
+            })
+        },
+        fetchCustomerDetails(){
+            return BillingSubscriptionService.getSubscriberDetails({
+                params:{
+                    unique_id: this.company_id
+                }
             })
         },
         fetchPlanDetailed(id) {
@@ -488,6 +707,14 @@ export default {
 <style lang="less" scoped>
 @import './../less/page-header.less';
 @import './../less/page-ui.less';
+.adjust-credit-btn{
+    width: 200px;
+}
+.balance-amount{
+    font-size: 30px;
+    font-weight: 900;
+    color: #2e35be;
+}
 .plan-info {
     padding: 14px;
     border-radius: 5px;
@@ -497,6 +724,7 @@ export default {
 .background-white{
     background: white;
 }
+
 .plan-bolder {
     font-weight: 500;
     font-size: 15px;
@@ -507,8 +735,8 @@ export default {
     -webkit-font-smoothing: antialiased;
     color: #696969;
 }
-.flex-direction-column{
-    flex-direction: column;
+.display-block{
+    display: block!important;
 }
 .page-container {
     display: flex;
@@ -589,6 +817,9 @@ export default {
 }
 .float-right{
     float:right;
+}
+.gap-24{
+    gap:24px;
 }
 .flex-end {
     align-items: flex-end;

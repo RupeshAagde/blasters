@@ -9,13 +9,13 @@
                 <div v-if="isInitialLoad" class="input-shimmer shimmer"></div>
                 <div v-else class="width-100">
                     <div class="width-100 flex">
-                        <div class="flex flex-2" style="margin-top:6px;">
+                        <div class="flex flex-2" style="margin-top:6px;min-width: 477px;">
                             <nitrozen-input
                                 :showSearchIcon="true"
                                 class="search flex-1"
                                 type="search"
                                 id="search-by-number"
-                                placeholder="Search by number..."
+                                placeholder="Search by invoice number..."
                                 v-model="searchText"
                                 @input="debounceInput({ number: searchText })"
                             ></nitrozen-input>
