@@ -2,6 +2,7 @@ import AdministratorBaseViewVue from './../../pages/administrator/baseview.vue';
 import PlanCreator from './plan-creator';
 import ExtensionRoutes from './extension';
 import CompanyListVue from './../../pages/company-admin/company-list.vue';
+import CbsApplicationDetailsVue from './../../pages/company-admin/cbs-application-details.vue';
 import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
 import BillingVue from './../../pages/company-admin/billing.vue';
 import InvoiceListingMain from './../../pages/company-admin/invoice-listing-main.vue';
@@ -105,6 +106,19 @@ export default [
                 name: 'billing-details',
                 path: 'company-details/:companyId/billing-details/:billingNo',
                 component: BillingVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'company-application-details',
+                path: 'company-details/:companyId/application/:appId',
+                component: CbsApplicationDetailsVue ,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(
                         to,

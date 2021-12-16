@@ -121,6 +121,24 @@
                     ></nitrozen-toggle-btn>
                 </div>
 
+                <!-- Expirable -->
+                <div class="mt-md inline apart">
+                    <div class="inline">
+                        <div class="cl-Mako dark-xxxs mr-xxxs">Expirable</div>
+                        <nitrozen-tooltip
+                            tooltipText="Enable it for expirable products or disable it for non-expirable products."
+                        ></nitrozen-tooltip>
+                    </div>
+
+                    <nitrozen-toggle-btn
+                        title="Expirable"
+                        v-model="template.is_expirable"
+                        :class="{
+                            'disable-btn': editMode
+                        }"
+                    ></nitrozen-toggle-btn>
+                </div>
+
                 <loader v-if="inProgress" class="loading"></loader>
             </div>
             <!-- ############################################# -->
@@ -552,7 +570,8 @@ export default {
                 departments: [],
                 categories: [],
                 attributes: [],
-                is_physical: true
+                is_physical: true,
+                is_expirable: false
             },
             attributes: [],
             departments: [],

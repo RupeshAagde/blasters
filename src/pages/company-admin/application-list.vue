@@ -7,7 +7,7 @@
             <div class="box-search">
                 <nitrozen-input
                     placeholder="Search by name or domain . . ."
-                    @input="searchChannels"
+                    @input="fetchApplication"
                     v-model="searchText"
                     :showSearchIcon="true"
                     type="search"
@@ -33,84 +33,91 @@
                 :key="index"
                 :title="item.name"
             >
-                <div class="line-1">
-                    <div class="cust-head">
-                        <a
-                            :href="
-                                `https://platform.${fyndPlatformDomain}/company/${companyId}/application/${item.id}`
-                            "
-                            target="_blank"
-                            >{{ item.name }}</a
+            <div @click="redirectToDetails(item)">
+                        <div class="line-1">
+                            <div class="cust-head">
+                                <a
+                                    :href="`https://platform.${fyndPlatformDomain}/company/${companyId}/application/${item.id}`"
+                                    target="_blank"
+                                    >{{ item.name }}</a
+                                >
+                            </div>
+                            <div class="cust-badge">
+                                <a
+                                    :href="`https://${item.domain.name}`"
+                                    target="_blank"
+                                >
+                                    <adm-inline-svg
+                                        class="cust-space"
+                                        :src="'eye-open'"
+                                        title="View"
+                                    ></adm-inline-svg>
+                                </a>
+                                <nitrozen-badge
+                                    :state="item.is_active ? 'success' : 'warn'"
+                                    >{{
+                                        item.is_active
+                                            ? 'Unarchived'
+                                            : 'Archived'
+                                    }}</nitrozen-badge
+                                >
+                            </div>
+                        </div>
+                        <div class="line-2" v-if="item.token">
+                            <div class="cust-head">Token</div>
+                            <div
+                                class="cust-pointer"
+                                :title="`${item.token} (Click to copy)`"
+                                @click="copy(item.token)"
+                            >
+                                {{ item.token }}
+                            </div>
+                        </div>
+                        <div class="line-2" v-if="item.id">
+                            <div class="cust-head">Application ID</div>
+                            <div
+                                class="cust-app cust-pointer"
+                                :title="`${item.id} (Click to copy)`"
+                                @click="copy(item.id)"
+                            >
+                                {{ item.id }}
+                            </div>
+                        </div>
+                        <div class="line-2" v-if="item.domain">
+                            <div class="cust-head" v-if="item.domain.name">
+                                Domain
+                            </div>
+                            <div
+                                v-if="item.domain.name"
+                                class="cust-domain"
+                                :title="item.domain.name"
+                            >
+                                <a
+                                    :href="`https://${item.domain.name}`"
+                                    target="_blank"
+                                    >{{ item.domain.name }}</a
+                                >
+                            </div>
+                        </div>
+                        <div
+                            class="line-4"
+                            v-if="!item.internal || item.is_internal"
                         >
-                    </div>
-                    <div class="cust-badge">
-                        <a
-                            :href="`https://${item.domain.name}`"
-                            target="_blank"
-                        >
-                            <adm-inline-svg
-                                class="cust-space"
-                                :src="'eye-open'"
-                                title="View"
-                            ></adm-inline-svg>
-                        </a>
-                        <nitrozen-badge
-                            :state="item.is_active ? 'success' : 'warn'"
-                            >{{
-                                item.is_active ? 'Unarchived' : 'Archived'
-                            }}</nitrozen-badge
-                        >
-                    </div>
-                </div>
-                <div class="line-2" v-if="item.token">
-                    <div class="cust-head">Token</div>
-                    <div
-                        class="cust-pointer"
-                        :title="`${item.token} (Click to copy)`"
-                        @click="copy(item.token)"
-                    >
-                        {{ item.token }}
-                    </div>
-                </div>
-                <div class="line-2" v-if="item.id">
-                    <div class="cust-head">Application ID</div>
-                    <div
-                        class="cust-app cust-pointer"
-                        :title="`${item.id} (Click to copy)`"
-                        @click="copy(item.id)"
-                    >
-                        {{ item.id }}
-                    </div>
-                </div>
-                <div class="line-2" v-if="item.domain">
-                    <div class="cust-head" v-if="item.domain.name">Domain</div>
-                    <div
-                        v-if="item.domain.name"
-                        class="cust-domain"
-                        :title="item.domain.name"
-                    >
-                        <a
-                            :href="`https://${item.domain.name}`"
-                            target="_blank"
-                            >{{ item.domain.name }}</a
-                        >
-                    </div>
-                </div>
-                <div class="line-4" v-if="!item.internal || item.is_internal">
-                    <nitrozen-button
-                        :theme="'secondary'"
-                        v-if="item.is_active"
-                        v-strokeBtn
-                        @click="openAdminDialog(item)"
-                        >Archive</nitrozen-button
-                    >
-                    <nitrozen-button
-                        :theme="'secondary'"
-                        v-if="!item.is_active"
-                        v-strokeBtn
-                        @click="openAdminDialog(item)"
-                        >Unarchive</nitrozen-button
-                    >
+                            <nitrozen-button
+                                :theme="'secondary'"
+                                v-if="item.is_active"
+                                v-strokeBtn
+                                @click="openAdminDialog(item)"
+                                >Archive</nitrozen-button
+                            >
+                            <nitrozen-button
+                                :theme="'secondary'"
+                                v-if="!item.is_active"
+                                v-strokeBtn
+                                @click="openAdminDialog(item)"
+                                >Unarchive</nitrozen-button
+                            >
+                        </div>
                 </div>
             </div>
         </div>
@@ -263,7 +270,7 @@
                 overflow: hidden;
                 line-height: 20px;
                 font-size: 14px;
-                color: #2E31BE;
+                color: #2e31be;
                 font-weight: bold;
                 cursor: pointer;
             }
@@ -295,7 +302,7 @@
                 max-width: 200px;
                 white-space: nowrap;
                 overflow: hidden;
-                color: #2E31BE;
+                color: #2e31be;
                 font-weight: bold;
                 cursor: pointer;
             }
@@ -324,7 +331,7 @@ import {
     NitrozenBadge,
     NitrozenPagination,
     flatBtn,
-    strokeBtn
+    strokeBtn,
 } from '@gofynd/nitrozen-vue';
 
 import root from 'window-or-global';
@@ -333,13 +340,13 @@ const env = root.env || {};
 const PAGINATION = {
     limit: 10,
     total: 0,
-    current: 1
+    current: 1,
 };
 
 const ROLE_FILTER = [
     { value: 'all', text: 'All' },
-    { value: 'inactive', text: 'Archived' },
-    { value: 'active', text: 'Unarchived' }
+    { value: 'false', text: 'Archived' },
+    { value: 'true', text: 'Unarchived' },
 ];
 
 export default {
@@ -356,16 +363,16 @@ export default {
         'nitrozen-pagination': NitrozenPagination,
         'adm-shimmer': admshimmer,
         'adm-no-content': admnocontent,
-        'page-error': pageerror
+        'page-error': pageerror,
     },
     directives: {
         strokeBtn,
-        flatBtn
+        flatBtn,
     },
     computed: {
         fyndPlatformDomain(type) {
             return env.FYND_PLATFORM_DOMAIN;
-        }
+        },
     },
     data() {
         return {
@@ -381,7 +388,7 @@ export default {
             applicationList: [],
             activeChannel: null,
             pagination: { ...PAGINATION },
-            pageId: ''
+            pageId: '',
         };
     },
     mounted() {
@@ -399,22 +406,17 @@ export default {
         requestQuery() {
             const temp = {
                 page_no: this.pagination.current,
-                page_size: this.pagination.limit
+                page_size: this.pagination.limit,
+                is_active: this.selectedFilter,
+                q:  this.searchText
             };
 
             // if (this.searchText) {
             //     query.name = this.searchText;
             // }
-
-            if (this.selectedFilter !== 'all') {
-                if (this.selectedFilter == 'active') {
-                    temp.query = JSON.stringify({ is_active: true });
-                }
-                if (this.selectedFilter == 'inactive') {
-                    temp.query = JSON.stringify({ is_active: false });
-                }
+            if(this.selectedFilter == 'all'){
+              temp.is_active = ''
             }
-
             return temp;
         },
         fetchApplication() {
@@ -423,15 +425,16 @@ export default {
                 .then((res) => {
                     this.inProgress = false;
                     this.pageError = false;
-                    this.pagination.total = res.data.total;
-                    this.totalApp = res.data.total;
-                    this.mainList = res.data.docs;
+                    this.pagination.total = res.data.page.item_total;
+                    this.totalApp = res.data.page.item_total;
+                    this.mainList = res.data.items;
                     this.applicationList = res.data.items;
                 })
                 .catch((error) => {
                     this.inProgress = false;
                     console.error(error);
                 });
+                this.searchChannels();
         },
         paginationChange(filter, action) {
             const { current, limit } = filter;
@@ -463,7 +466,7 @@ export default {
         archiveChannel() {
             if (this.activeChannel) {
                 let params = {
-                    is_active: false
+                    is_active: false,
                 };
 
                 this.inProgress = true;
@@ -479,7 +482,7 @@ export default {
                         this.$snackbar.global.showSuccess(
                             'Application archived successfully',
                             {
-                                duration: 2000
+                                duration: 2000,
                             }
                         );
                         setTimeout(() => {}, 2000);
@@ -490,7 +493,7 @@ export default {
                         this.$snackbar.global.showError(
                             `${error.response.data.message}`,
                             {
-                                duration: 2000
+                                duration: 2000,
                             }
                         );
                         this.closeAdminDialog();
@@ -501,7 +504,7 @@ export default {
         unarchiveChannel() {
             if (this.activeChannel) {
                 let params = {
-                    is_active: true
+                    is_active: true,
                 };
 
                 this.inProgress = true;
@@ -517,7 +520,7 @@ export default {
                         this.$snackbar.global.showSuccess(
                             'Application unarchived successfully',
                             {
-                                duration: 2000
+                                duration: 2000,
                             }
                         );
                         setTimeout(() => {}, 2000);
@@ -528,7 +531,7 @@ export default {
                         this.$snackbar.global.showError(
                             `${error.response.data.message}`,
                             {
-                                duration: 2000
+                                duration: 2000,
                             }
                         );
                         this.closeAdminDialog();
@@ -548,12 +551,19 @@ export default {
             this.$refs['channel_dialog'].open({
                 width: '500px',
                 showCloseButton: true,
-                dismissible: true
+                dismissible: true,
             });
         },
         closeAdminDialog() {
             this.$refs['channel_dialog'].close();
+        },
+        redirectToDetails(item) {
+            let appId = item.id;
+            if(appId)
+            {
+            this.$router.push({ path: `/administrator/company-details/${this.companyId}/application/${appId}` });
+            }
         }
-    }
+    },
 };
 </script>

@@ -88,9 +88,9 @@
                     line-height: 20px;
                     font-weight: 400;
                 }
-                .title {
-                    // margin-top: -5px;
-                }
+                // .title {
+                //     // margin-top: -5px;
+                // }
             }
         }
     }

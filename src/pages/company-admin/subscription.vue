@@ -103,6 +103,7 @@
                     <div class="flex">
                         <div class="flex-1 text-right">
                             <nitrozen-button
+                                v-if="currentActivePlan.is_enabled"
                                 id="side-link"
                                 :theme="'secondary'"
                                 @click="onOpenCancelSubscription"
@@ -537,7 +538,16 @@ export default {
             return BillingSubscriptionService.cancelSubscription(this.companyId,payload)
             .then(({data})=>{
                 if(data.success){
-                    this.$snackbar.global.showSuccess('Subscription has been cancelled successfully',{duration: 2000});
+                    return this.$store
+                    .dispatch(FETCH_CURRENT_ACTIVE_SUBSCRIPTION, {
+                        params: {
+                            unique_id: this.company_id,
+                            product_suite: 'fynd-platform',
+                            type: 'company'
+                        }
+                    }).then(()=>{
+                        this.$snackbar.global.showSuccess('Subscription has been cancelled successfully',{duration: 2000});
+                    })
                 }
                 else{
                     this.$snackbar.global.showError('Failed to cancel subscription',{duration: 2000});

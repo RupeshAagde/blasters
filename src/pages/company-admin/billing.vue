@@ -25,27 +25,49 @@
                     <div v-if="invoice && invoice.shopsense_details">
                         <div class="flex align-items-center">
                             <div class="m-r-24">
-                                <img class="shopsense_logo" src="/public/assets/pngs/platform-logo.png" />
+                                <img
+                                    class="shopsense_logo"
+                                    src="/public/assets/pngs/platform-logo.png"
+                                />
                             </div>
                             <div>
-                                <div v-if="invoice.shopsense_details.company_name"
+                                <div
+                                    v-if="
+                                        invoice.shopsense_details.company_name
+                                    "
                                     class="title m-b-12"
-                                >{{ invoice.shopsense_details.company_name }}</div>
-                                <div v-if="invoice.shopsense_details.address"
+                                >
+                                    {{ invoice.shopsense_details.company_name }}
+                                </div>
+                                <div
+                                    v-if="invoice.shopsense_details.address"
                                     class="line-height-24"
-                                >{{ invoice.shopsense_details.address }}</div>
-                                <div v-if="invoice.shopsense_details.gstin"
+                                >
+                                    {{ invoice.shopsense_details.address }}
+                                </div>
+                                <div
+                                    v-if="invoice.shopsense_details.gstin"
                                     class="line-height-24"
-                                >GSTIN : {{ invoice.shopsense_details.gstin }}</div>
-                                <div v-if="invoice.shopsense_details.pan"
+                                >
+                                    GSTIN :
+                                    {{ invoice.shopsense_details.gstin }}
+                                </div>
+                                <div
+                                    v-if="invoice.shopsense_details.pan"
                                     class="line-height-24"
-                                >PAN : {{ invoice.shopsense_details.pan }}</div>
-                                <div v-if="invoice.shopsense_details.email"
+                                >
+                                    PAN : {{ invoice.shopsense_details.pan }}
+                                </div>
+                                <div
+                                    v-if="invoice.shopsense_details.email"
                                     class="line-height-24"
-                                >Email : {{ invoice.shopsense_details.email }}</div>
+                                >
+                                    Email :
+                                    {{ invoice.shopsense_details.email }}
+                                </div>
                             </div>
                         </div>
-                        <hr>
+                        <hr />
                     </div>
                     <div v-if="invoice && invoice.invoice">
                         <div class="flex m-b-24">
@@ -56,14 +78,18 @@
                                     </tr>
                                 </table>
                                 <div class="line-height-24 bold">
-                                    {{
-                                        invoice.invoice.client.name
-                                    }}
+                                    {{ invoice.invoice.client.name }}
                                 </div>
-                                <div class="line-height-24" v-if="safeGet(invoice,'invoice.documents.gst')">
-                                    GSTIN: {{
-                                        invoice.invoice.documents.gst
-                                    }}
+                                <div
+                                    class="line-height-24"
+                                    v-if="
+                                        safeGet(
+                                            invoice,
+                                            'invoice.documents.gst'
+                                        )
+                                    "
+                                >
+                                    GSTIN: {{ invoice.invoice.documents.gst }}
                                 </div>
                                 <div class="line-height-24">
                                     {{
@@ -82,9 +108,7 @@
                                     <tr>
                                         <td>Date issued</td>
                                         <td>
-                                            {{
-                                                invoiceOpenDate
-                                            }}
+                                            {{ invoiceOpenDate }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -124,7 +148,11 @@
                                         <td>Status</td>
                                         <td>
                                             <div
-                                                v-if="invoice.invoice.current_status == 'void'"
+                                                v-if="
+                                                    invoice.invoice
+                                                        .current_status ==
+                                                    'void'
+                                                "
                                                 class="void-status"
                                             >
                                                 Void
@@ -136,7 +164,9 @@
                                                 Paid
                                             </div>
                                             <div
-                                                v-else-if="!invoice.invoice.paid"
+                                                v-else-if="
+                                                    !invoice.invoice.paid
+                                                "
                                                 class="paid-status unpaid"
                                             >
                                                 Unpaid
@@ -166,8 +196,17 @@
                                         ) in invoice.invoice_items"
                                     >
                                         <td>
-                                            <div class="invoice_item_name">{{ item.name }}</div>
-                                            <div class="invoice_item_description" v-if="item.type !== 'subscription'">{{ item.description }}</div>
+                                            <div class="invoice_item_name">
+                                                {{ item.name }}
+                                            </div>
+                                            <div
+                                                class="invoice_item_description"
+                                                v-if="
+                                                    item.type !== 'subscription'
+                                                "
+                                            >
+                                                {{ item.description }}
+                                            </div>
                                         </td>
                                         <td>
                                             <div>{{ item.quantity }}</div>
@@ -177,8 +216,7 @@
                                                 {{
                                                     amountFormat({
                                                         currency: item.currency,
-                                                        amount:
-                                                            item.unit_amount,
+                                                        amount: item.unit_amount,
                                                     })
                                                 }}
                                             </div>
@@ -197,12 +235,76 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="no-border-left no-border-right"></td>
-                                        <td class="no-border-left no-border-right"></td>
-                                        <td class="no-border-left no-border-right">
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        ></td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        ></td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        >
                                             <div class="bold">Sub Total</div>
                                         </td>
-                                        <td class="no-border-left no-border-right">
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        >
+                                            <div class="bold">
+                                                {{
+                                                    amountFormat({
+                                                        currency:
+                                                            invoice.invoice
+                                                                .currency,
+                                                        amount: invoice.invoice
+                                                            .subtotal,
+                                                    })
+                                                }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr
+                                        v-if="
+                                            !invoice.invoice
+                                                .is_pricing_gst_included &&
+                                            invoice.invoice.taxation.cgst
+                                        "
+                                    >
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        ></td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        ></td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        >
+                                            <div class="bold">
+                                                CGST
+                                                {{
+                                                    invoice.invoice.taxation
+                                                        .cgst * 100
+                                                }}%
+                                            </div>
+                                        </td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        >
                                             <div class="bold">
                                                 {{
                                                     amountFormat({
@@ -210,6 +312,8 @@
                                                             invoice.invoice
                                                                 .currency,
                                                         amount:
+                                                            invoice.invoice
+                                                                .taxation.cgst *
                                                             invoice.invoice
                                                                 .subtotal,
                                                     })
@@ -217,14 +321,41 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr v-if="!invoice.invoice.is_pricing_gst_included  && invoice.invoice.taxation.cgst">
-                                        <td class="no-border-left no-border-right"></td>
-                                        <td class="no-border-left no-border-right"></td>
-                                        <td class="no-border-left no-border-right">
-                                            <div class="bold ">CGST {{ invoice.invoice
-                                                                .taxation.cgst * 100 }}%</div>
+                                    <tr
+                                        v-if="
+                                            !invoice.invoice
+                                                .is_pricing_gst_included &&
+                                            invoice.invoice.taxation.sgst
+                                        "
+                                    >
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        ></td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        ></td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        >
+                                            <div class="bold">
+                                                SGST
+                                                {{
+                                                    invoice.invoice.taxation
+                                                        .sgst * 100
+                                                }}%
+                                            </div>
                                         </td>
-                                        <td class="no-border-left no-border-right">
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        >
                                             <div class="bold">
                                                 {{
                                                     amountFormat({
@@ -233,42 +364,49 @@
                                                                 .currency,
                                                         amount:
                                                             invoice.invoice
-                                                                .taxation.cgst*invoice.invoice.subtotal,
+                                                                .taxation.sgst *
+                                                            invoice.invoice
+                                                                .subtotal,
                                                     })
                                                 }}
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr v-if="!invoice.invoice.is_pricing_gst_included && invoice.invoice.taxation.sgst">
-                                        <td class="no-border-left no-border-right"></td>
-                                        <td class="no-border-left no-border-right"></td>
-                                        <td class="no-border-left no-border-right">
-                                            <div class="bold">SGST {{ invoice.invoice
-                                                                .taxation.sgst * 100 }}%</div>
-                                        </td>
-                                        <td class="no-border-left no-border-right">
+                                    <tr
+                                        v-if="
+                                            !invoice.invoice
+                                                .is_pricing_gst_included &&
+                                            invoice.invoice.taxation.igst
+                                        "
+                                    >
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        ></td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        ></td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        >
                                             <div class="bold">
+                                                IGST
                                                 {{
-                                                    amountFormat({
-                                                        currency:
-                                                            invoice.invoice
-                                                                .currency,
-                                                        amount:
-                                                            invoice.invoice
-                                                                .taxation.sgst*invoice.invoice.subtotal,
-                                                    })
-                                                }}
+                                                    invoice.invoice.taxation
+                                                        .igst * 100
+                                                }}%
                                             </div>
                                         </td>
-                                    </tr>
-                                    <tr v-if="!invoice.invoice.is_pricing_gst_included && invoice.invoice.taxation.igst">
-                                        <td class="no-border-left no-border-right"></td>
-                                        <td class="no-border-left no-border-right"></td>
-                                        <td class="no-border-left no-border-right">
-                                            <div class="bold">IGST {{ invoice.invoice
-                                                                .taxation.igst * 100 }}%</div>
-                                        </td>
-                                        <td class="no-border-left no-border-right">
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        >
                                             <div class="bold">
                                                 {{
                                                     amountFormat({
@@ -277,7 +415,9 @@
                                                                 .currency,
                                                         amount:
                                                             invoice.invoice
-                                                                .taxation.igst*invoice.invoice.subtotal,
+                                                                .taxation.igst *
+                                                            invoice.invoice
+                                                                .subtotal,
                                                     })
                                                 }}
                                             </div>
@@ -294,9 +434,8 @@
                                                         currency:
                                                             invoice.invoice
                                                                 .currency,
-                                                        amount:
-                                                            invoice.invoice
-                                                                .total,
+                                                        amount: invoice.invoice
+                                                            .total,
                                                     })
                                                 }}
                                             </div>
@@ -366,7 +505,10 @@
             </div>
         </div>
         <div class="main-container">
-            <div class="page-container" v-if="invoice && invoice.invoice_charges.length">
+            <div
+                class="page-container"
+                v-if="invoice && invoice.invoice_charges.length"
+            >
                 <div class="title">Payment Attempt</div>
                 <base-card-1
                     v-for="(item, index) in invoice.invoice_charges"
@@ -378,7 +520,11 @@
         </div>
 
         <transition name="modal">
-            <nitrozen-dialog ref="dialog" title="Add Offline Payment" @close="closePayOfflineModal">
+            <nitrozen-dialog
+                ref="dialog"
+                title="Add Offline Payment"
+                @close="closePayOfflineModal"
+            >
                 <template slot="body">
                     <div class="meta-container">
                         <nitrozen-input
@@ -388,7 +534,9 @@
                             placeholder="Enter Payment Intent Id"
                             v-model="offline_payment.payment_intent_id"
                         ></nitrozen-input>
-                        <nitrozen-error v-if="offline_payment.showError">This field is required</nitrozen-error>
+                        <nitrozen-error v-if="offline_payment.showError"
+                            >This field is required</nitrozen-error
+                        >
                         <nitrozen-input
                             class="search m-t-24"
                             type="textarea"
@@ -396,12 +544,14 @@
                             placeholder="Enter Comment"
                             v-model="offline_payment.comment"
                         ></nitrozen-input>
-                        <nitrozen-error v-if="offline_payment.showError">This field is required</nitrozen-error>
+                        <nitrozen-error v-if="offline_payment.showError"
+                            >This field is required</nitrozen-error
+                        >
                     </div>
                 </template>
                 <template slot="footer">
                     <nitrozen-button
-                        style="width:100%"
+                        style="width: 100%"
                         :theme="'secondary'"
                         v-strokeBtn
                         @click="addOfflinePayment"
@@ -411,7 +561,11 @@
             </nitrozen-dialog>
         </transition>
         <transition name="modal">
-            <nitrozen-dialog ref="confirm_void_invoice_dialog" title="Void Invoice" @close="onCloseVoidInvoiceDialog">
+            <nitrozen-dialog
+                ref="confirm_void_invoice_dialog"
+                title="Void Invoice"
+                @close="onCloseVoidInvoiceDialog"
+            >
                 <template slot="body">
                     <div class="meta-container">
                         <nitrozen-input
@@ -420,14 +574,18 @@
                             label="Password"
                             placeholder="Enter password to charge invoice"
                             v-model="void_invoice.password"
-                            @change="void_invoice.showError=false"
+                            @change="void_invoice.showError = false"
                         ></nitrozen-input>
-                        <nitrozen-error v-if="void_invoice.showError">This field is required</nitrozen-error>
+                        <nitrozen-error v-if="void_invoice.showError"
+                            >This field is required</nitrozen-error
+                        >
                     </div>
                 </template>
                 <template slot="footer">
                     <nitrozen-button
-                        :class="{'void-invoice-btn-loading':voidInvoiceLoading}"
+                        :class="{
+                            'void-invoice-btn-loading': voidInvoiceLoading,
+                        }"
                         class="void-invoice-btn"
                         :theme="'secondary'"
                         v-strokeBtn
@@ -439,7 +597,11 @@
             </nitrozen-dialog>
         </transition>
         <transition name="modal">
-            <nitrozen-dialog ref="charge_invoice_dialog" title="Charge Invoice" @close="closeChargeInvoiceModal">
+            <nitrozen-dialog
+                ref="charge_invoice_dialog"
+                title="Charge Invoice"
+                @close="closeChargeInvoiceModal"
+            >
                 <template slot="body">
                     <div class="meta-container">
                         <nitrozen-input
@@ -448,15 +610,19 @@
                             label="Password"
                             placeholder="Enter password to charge invoice"
                             v-model="charge_invoice.password"
-                            @change="chargeInvoice.password=false"
+                            @change="chargeInvoice.password = false"
                         ></nitrozen-input>
-                        <nitrozen-error v-if="charge_invoice.showError">This field is required</nitrozen-error>
+                        <nitrozen-error v-if="charge_invoice.showError"
+                            >This field is required</nitrozen-error
+                        >
                     </div>
                 </template>
                 <template slot="footer">
                     <nitrozen-button
                         class="charge-invoice-btn"
-                        :class="{'charge-invoice-btn-loading':chargeInvoiceLoading}"
+                        :class="{
+                            'charge-invoice-btn-loading': chargeInvoiceLoading,
+                        }"
                         :theme="'secondary'"
                         v-strokeBtn
                         :showProgress="chargeInvoiceLoading"
@@ -479,34 +645,34 @@
 .header-margin {
     margin-top: 56.5px;
 }
-.shopsense_logo{
+.shopsense_logo {
     width: 240px;
     margin-right: 12px;
 }
-.void-invoice-btn{
-    width:100%;
+.void-invoice-btn {
+    width: 100%;
     background-color: #fff;
-    color:#f33;
+    color: #f33;
     border: 1px solid #f33;
     border-radius: 3px;
 }
-.void-invoice-btn-loading{
-    width:100%;
+.void-invoice-btn-loading {
+    width: 100%;
     color: #fff;
-    background-color:#f33;
+    background-color: #f33;
     border-radius: 3px;
 }
-.charge-invoice-btn{
-    width:100%;
+.charge-invoice-btn {
+    width: 100%;
     background-color: #fff;
-    color:#2e31be;
+    color: #2e31be;
     border: 1px solid #2e31be;
     border-radius: 3px;
 }
-.charge-invoice-btn-loading{
-    width:100%;
+.charge-invoice-btn-loading {
+    width: 100%;
     color: #fff;
-    background-color:#2e31be;
+    background-color: #2e31be;
     border-radius: 3px;
 }
 .page-container {
@@ -527,7 +693,7 @@
             td {
                 padding: 6px 6px;
             }
-            .void-status{
+            .void-status {
                 border: 1px solid #f33;
                 color: #f33;
                 display: inline;
@@ -562,16 +728,16 @@
             text-align: left;
             border: 1px solid black;
         }
-        .invoice_item_name{
+        .invoice_item_name {
             font-weight: 600;
         }
-        .invoice_item_description{
+        .invoice_item_description {
             margin-top: 8px;
         }
-        .no-border-left{
+        .no-border-left {
             border-left: none;
         }
-        .no-border-right{
+        .no-border-right {
             border-right: none;
         }
         tr:nth-last-child(1) {
@@ -825,7 +991,7 @@ import {
     strokeBtn,
 } from '@gofynd/nitrozen-vue';
 import BaseCard1 from '../../components/common/base-card-1.vue';
-import { getAuthToken } from '../../services/utils.service'
+import { getAuthToken } from '../../services/utils.service';
 import GrindorService from '@/services/grindor.service';
 
 export default {
@@ -859,13 +1025,13 @@ export default {
             );
             return open_status;
         },
-        invoiceOpenDate(){
+        invoiceOpenDate() {
             let status_trail = get(this, 'invoice.invoice.status_trail', null);
             let open_status = status_trail.find(
                 (status) => status.value == 'open'
             );
-            if(!open_status){
-                return null
+            if (!open_status) {
+                return null;
             }
             return moment(open_status.timestamp).format('Do MMMM YYYY');
         },
@@ -923,81 +1089,104 @@ export default {
             voidInvoiceLoading: false,
             contextMenuItems: [
                 {
-                        text: 'Pay Offline',
-                        action: 'payOffline',
+                    text: 'Pay Offline',
+                    action: 'payOffline',
                 },
                 {
                     text: 'Charge Invoice',
-                    action: 'openChargeInvoiceModal'
+                    action: 'openChargeInvoiceModal',
                 },
                 {
                     text: 'Void Invoice',
-                    action: 'openVoiceInvoiceModal'
-                }
+                    action: 'openVoiceInvoiceModal',
+                },
             ],
-            offline_payment:{
-                showError:false,
-                payment_intent_id:'',
-                comment:''
+            offline_payment: {
+                showError: false,
+                payment_intent_id: '',
+                comment: '',
             },
-            charge_invoice:{
+            charge_invoice: {
                 password: '',
-                showError:false,
+                showError: false,
             },
-            void_invoice:{
+            void_invoice: {
                 password: '',
-                showError:false,
-            }
+                showError: false,
+            },
         };
     },
     mounted() {
-        this.fetchInvoiceDetail()
-        .then(()=>{
-            if(!this.invoiceOpen){
-                this.contextMenuItems = this.contextMenuItems.filter(a=>a.action != "payOffline")
+        this.fetchInvoiceDetail().then(() => {
+            if (!this.invoiceOpen) {
+                this.contextMenuItems = this.contextMenuItems.filter(
+                    (a) => a.action != 'payOffline'
+                );
             }
-            if(this.paidStatus){
-                this.contextMenuItems = this.contextMenuItems.filter(a=>a.action != "openChargeInvoiceModal")
+            if (this.paidStatus) {
+                this.contextMenuItems = this.contextMenuItems.filter(
+                    (a) => a.action != 'openChargeInvoiceModal'
+                );
             }
-            if(["open","draft"].indexOf(this.invoice.invoice.current_status) == -1){
-                this.contextMenuItems = this.contextMenuItems.filter(a=>a.action != "openVoiceInvoiceModal")
+            if (
+                ['open', 'draft'].indexOf(
+                    this.invoice.invoice.current_status
+                ) == -1
+            ) {
+                this.contextMenuItems = this.contextMenuItems.filter(
+                    (a) => a.action != 'openVoiceInvoiceModal'
+                );
             }
-        })
+        });
     },
     methods: {
-        chargeInvoice(){
-            this.charge_invoice.showError = false
-            if(!this.charge_invoice.password){
-                this.charge_invoice.showError = true
-                return
+        chargeInvoice() {
+            this.charge_invoice.showError = false;
+            if (!this.charge_invoice.password) {
+                this.charge_invoice.showError = true;
+                return;
             }
-            this.chargeInvoiceLoading = true
-            return BillingService.chargeInvoice({invoice_id:this.invoiceId, password: this.charge_invoice.password}).then(({ data }) => {
-                this.$snackbar.global.showSuccess(`Invoice charged successfully`, {
-                    duration: 2000
+            this.chargeInvoiceLoading = true;
+            return BillingService.chargeInvoice({
+                invoice_id: this.invoiceId,
+                password: this.charge_invoice.password,
+            })
+                .then(({ data }) => {
+                    this.$snackbar.global.showSuccess(
+                        `Invoice charged successfully`,
+                        {
+                            duration: 2000,
+                        }
+                    );
+                    this.$refs['charge_invoice_dialog'].close();
+                })
+                .catch((err) => {
+                    if (err.response.data && err.response.data.message) {
+                        this.$snackbar.global.showError(
+                            err.response.data.message,
+                            {
+                                duration: 3000,
+                            }
+                        );
+                    } else {
+                        this.$snackbar.global.showError(
+                            'Something went wrong',
+                            {
+                                duration: 2000,
+                            }
+                        );
+                    }
+                })
+                .finally(() => {
+                    this.chargeInvoiceLoading = false;
                 });
-                this.$refs['charge_invoice_dialog'].close()
-            })
-            .catch((err)=>{
-                if(err.response.data && err.response.data.message){
-                    this.$snackbar.global.showError(err.response.data.message, {
-                        duration: 3000
-                    });
-                }
-                else{
-                    this.$snackbar.global.showError("Something went wrong", {
-                        duration: 2000
-                    });
-                }
-            })
-            .finally(()=>{
-                this.chargeInvoiceLoading = false
-            })
         },
-        fetchInvoiceDetail(){
-            return BillingService.getInvoiceDetail(this.invoiceId).then(({ data }) => {
-                this.invoice = data;
-            });
+        fetchInvoiceDetail() {
+            return BillingService.getInvoiceDetail(this.invoiceId).then(
+                ({ data }) => {
+                    this.invoice = data;
+                }
+            );
         },
         redirectToListing() {
             this.$router.back();
@@ -1011,28 +1200,30 @@ export default {
         safeGet(obj, path, defaultValue) {
             return get(obj, path, defaultValue);
         },
-        getPublicUrl(urls,expiry){
-            return GrindorService.getPublicUrl(this.companyId,{
+        getPublicUrl(urls, expiry) {
+            return GrindorService.getPublicUrl(this.companyId, {
                 expiry,
-                urls
-            })
-            .then(res=>res.data)
+                urls,
+            }).then((res) => res.data);
         },
         downloadInvoice() {
             var link = document.createElement('a');
-            return this.getPublicUrl([this.invoice.invoice.pdf_url],20000)
-            .then((publicUrlResponse)=>{
-                let public_signed_url = get(publicUrlResponse,'urls.0.signed_url')
-                link.setAttribute('href', public_signed_url);
-                link.setAttribute('target', '_blank');
-                link.setAttribute('download', 'invoice.pdf');
-                document.body.appendChild(link); // Required for FF
-    
-                link.click();
-            })
-            .catch(err=>{
-                console.log(err)
-            })
+            return this.getPublicUrl([this.invoice.invoice.pdf_url], 20000)
+                .then((publicUrlResponse) => {
+                    let public_signed_url = get(
+                        publicUrlResponse,
+                        'urls.0.signed_url'
+                    );
+                    link.setAttribute('href', public_signed_url);
+                    link.setAttribute('target', '_blank');
+                    link.setAttribute('download', 'invoice.pdf');
+                    document.body.appendChild(link); // Required for FF
+
+                    link.click();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
         openPayOfflineModal() {
             this.$refs['dialog'].open({
@@ -1040,7 +1231,7 @@ export default {
                 height: '450px',
                 showCloseButton: true,
                 dismissible: false,
-                positiveButtonLabel: 'Add Payment'
+                positiveButtonLabel: 'Add Payment',
             });
         },
         openChargeInvoiceModal() {
@@ -1049,102 +1240,130 @@ export default {
                 height: '250px',
                 showCloseButton: true,
                 dismissible: true,
-                positiveButtonLabel: 'Charge Invoice'
+                positiveButtonLabel: 'Charge Invoice',
             });
         },
-        openVoiceInvoiceModal(){
+        openVoiceInvoiceModal() {
             this.$refs['confirm_void_invoice_dialog'].open({
                 width: '500px',
                 showCloseButton: true,
                 dismissible: true,
                 neutralButtonLabel: false,
                 positiveButtonLabel: 'Void Invoice',
-                negativeButtonLabel: 'Cancel'
+                negativeButtonLabel: 'Cancel',
             });
         },
-        onVoidInvoice(){
-            this.void_invoice.showError = false
-            if(!this.void_invoice.password){
-                this.void_invoice.showError = true
-                return
+        onVoidInvoice() {
+            this.void_invoice.showError = false;
+            if (!this.void_invoice.password) {
+                this.void_invoice.showError = true;
+                return;
             }
 
-            this.voidInvoiceLoading = true
-            let payload={
+            this.voidInvoiceLoading = true;
+            let payload = {
                 invoice_id: this.invoiceId,
-                password: this.void_invoice.password
-            }
+                password: this.void_invoice.password,
+            };
             BillingService.voidInvoice(payload)
-            .then(res=>{
-                this.$snackbar.global.showSuccess(`Invoice marked as void successfully`, {
-                    duration: 2000
-                });
-                return this.fetchInvoiceDetail()
-            })
-            .then(()=>{
-                this.$refs['confirm_void_invoice_dialog'].close()
-            })
-            .catch(err=>{
-                if(err && err.response && err.response.data && err.response.data.message){
-                    this.$snackbar.global.showError(err.response.data.message, {
-                        duration: 3000
-                    });
-                }
-                else{
-                    this.$snackbar.global.showError("Something went wrong", {
-                        duration: 2000
-                    });
-                }
-            })
-            .finally(()=>{
-                this.voidInvoiceLoading = false
-            })
-        },
-        onCloseVoidInvoiceDialog(meta){
-            
-        },
-        closeChargeInvoiceModal(meta){
-            this.refreshInvoiceDetailUntilPaid(1)
-        },
-        refreshInvoiceDetailUntilPaid(count=1){
-            setTimeout(() => {
-                this.fetchInvoiceDetail()
-                .then(()=>{
-                    if(count < 10 && this.invoice.invoice.current_status == 'paid' && !this.invoice.invoice.paid){
-                        this.refreshInvoiceDetailUntilPaid(count+1)
+                .then((res) => {
+                    this.$snackbar.global.showSuccess(
+                        `Invoice marked as void successfully`,
+                        {
+                            duration: 2000,
+                        }
+                    );
+                    return this.fetchInvoiceDetail();
+                })
+                .then(() => {
+                    this.$refs['confirm_void_invoice_dialog'].close();
+                })
+                .catch((err) => {
+                    if (
+                        err &&
+                        err.response &&
+                        err.response.data &&
+                        err.response.data.message
+                    ) {
+                        this.$snackbar.global.showError(
+                            err.response.data.message,
+                            {
+                                duration: 3000,
+                            }
+                        );
+                    } else {
+                        this.$snackbar.global.showError(
+                            'Something went wrong',
+                            {
+                                duration: 2000,
+                            }
+                        );
                     }
                 })
+                .finally(() => {
+                    this.voidInvoiceLoading = false;
+                });
+        },
+        onCloseVoidInvoiceDialog(meta) {},
+        closeChargeInvoiceModal(meta) {
+            this.refreshInvoiceDetailUntilPaid(1);
+        },
+        refreshInvoiceDetailUntilPaid(count = 1) {
+            setTimeout(() => {
+                this.fetchInvoiceDetail().then(() => {
+                    if (
+                        count < 10 &&
+                        this.invoice.invoice.current_status == 'paid' &&
+                        !this.invoice.invoice.paid
+                    ) {
+                        this.refreshInvoiceDetailUntilPaid(count + 1);
+                    }
+                });
             }, 1500);
         },
-        closePayOfflineModal(meta){
-            this.offline_payment.showError=false;
-            if(meta.offlinePaidSuccess){
-                this.fetchInvoiceDetail()
+        closePayOfflineModal(meta) {
+            this.offline_payment.showError = false;
+            if (meta.offlinePaidSuccess) {
+                this.fetchInvoiceDetail();
             }
         },
-        addOfflinePayment(){
-            if(!this.offline_payment.payment_intent_id || !this.offline_payment.comment){
-                this.offline_payment.showError=true;
-                return
-            }else{
-                let payload={
+        addOfflinePayment() {
+            if (
+                !this.offline_payment.payment_intent_id ||
+                !this.offline_payment.comment
+            ) {
+                this.offline_payment.showError = true;
+                return;
+            } else {
+                let payload = {
                     payment_intent_id: this.offline_payment.payment_intent_id,
-                    comment: this.offline_payment.comment
-                }
-                BillingService.updateOfflinePayment(this.invoiceId,payload).then(res=>{
-                    this.$refs['dialog'].close({offlinePaidSuccess:true})
-                    this.$snackbar.global.showSuccess(`Invoice marked paid as offline successfully`, {
-                        duration: 2000
+                    comment: this.offline_payment.comment,
+                };
+                BillingService.updateOfflinePayment(this.invoiceId, payload)
+                    .then((res) => {
+                        this.$refs['dialog'].close({
+                            offlinePaidSuccess: true,
+                        });
+                        this.$snackbar.global.showSuccess(
+                            `Invoice marked paid as offline successfully`,
+                            {
+                                duration: 2000,
+                            }
+                        );
+                    })
+                    .catch((err) => {
+                        this.$refs['dialog'].close({
+                            offlinePaidSuccess: true,
+                        });
+                        this.$snackbar.global.showError(
+                            `Failed to mark invoice as offline paid`,
+                            {
+                                duration: 2000,
+                            }
+                        );
                     });
-                })
-                .catch(err=>{
-                    this.$refs['dialog'].close({offlinePaidSuccess:true})
-                    this.$snackbar.global.showError(`Failed to mark invoice as offline paid`, {
-                        duration: 2000
-                    });
-                })
             }
-        }
+        },
     },
 };
 </script>
