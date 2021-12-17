@@ -280,7 +280,7 @@ export default {
     },
     methods: {
         pageTitle() {
-            console.log(this.editMode);
+            // console.log(this.editMode);
             if (!this.editMode) {
                 return 'Add HSN Code';
             } else if (!this.hsn.hsn_code) {
@@ -291,12 +291,12 @@ export default {
         },
         isEmpty: isEmpty,
         init() {
-            console.log('Checking edit mode', this.editMode, this.hsn);
+            // console.log('Checking edit mode', this.editMode, this.hsn);
             if (!this.editMode) {
                 return;
             }
             this.pageLoading = true;
-            console.log('I am here');
+            // console.log('I am here');
             this.getHSN()
                 // Promise.all([this.getHSN()])
                 .then(() => {
@@ -306,7 +306,7 @@ export default {
                     }
                 })
                 .catch((err) => {
-                    console.log('I am in error page', this.hsn);
+                    // console.log('I am in error page', this.hsn);
                     this.pageLoading = false;
                     this.pageError = true;
                 });
@@ -320,9 +320,9 @@ export default {
             return new Promise((resolve, reject) => {
                 AdminService.getAllHsnCodes(params)
                     .then(({ data }) => {
-                        console.log('Finally reached here', data);
+                        // console.log('Finally reached here', data);
                         this.hsn = data.items[0];
-                        console.log('HSN', this.hsn.slabs.length);
+                        // console.log('HSN', this.hsn.slabs.length);
                         this.hsn.threshold1 = this.hsn.slabs[0].threshold;
                         if (this.hsn.slabs.length > 1) {
                             this.showSlab2 = true;
@@ -346,7 +346,7 @@ export default {
                     effective_date: this.hsn.effective_date1,
                 },
             ];
-            console.log('Slabs', this.hsn.slabs);
+            // console.log('Slabs', this.hsn.slabs);
             if (this.hsn.threshold2) {
                 slabs.push({
                     tax: this.hsn.tax2,
@@ -378,7 +378,7 @@ export default {
             let call;
             const uid = this.$route.params.uid;
             let payload = { ...this.getFormData(), uid };
-            console.log('Form Data', payload);
+            // console.log('Form Data', payload);
             if (this.editMode) {
                 call = AdminService.updateHsnCode(payload);
             } else {
@@ -446,7 +446,8 @@ export default {
             return isValid;
         },
         redirectBack() {
-            this.$goBack(path.join(this.$route.path, '/list'));
+            this.$goBack();
+            //console.log("Path",path.join(this.$route.path, '/list'),this.$route.path)
         },
         enableSlab2() {
             this.showSlab2 = true;
