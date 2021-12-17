@@ -261,6 +261,7 @@
         <credit-balance-modal
             ref="credit-balance-modal"
             @closeCreditBalanceModal="closeCreditBalanceModal"
+            :subscriber="subscriber"
         >
 
         </credit-balance-modal>
@@ -589,7 +590,10 @@ export default {
                     { "_id": this.filters.transaction_id},
                 ]
             }
-            if(this.filters.transaction_date && this.filters.transaction_date.length == 2){
+
+            let transaction_dates = this.filters.transaction_date || []
+            transaction_dates = transaction_dates.filter(a=>!!a)
+            if(transaction_dates && transaction_dates.length == 2){
                 filters["$and"] = filters["$and"] || {}
                 filters["$and"] = [
                     { "created_at": {
