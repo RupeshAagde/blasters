@@ -1088,6 +1088,7 @@ export default {
                     this.fetchSubscriber(e.text);
                 }, 400)();
             }
+            this.fetchSubscriber('');
         },
         searchPlan(e) {
             if (e && e.text) {
@@ -1095,6 +1096,7 @@ export default {
                     this.fetchPlans(e.text);
                 }, 400)();
             }
+            this.fetchPlans('');
         },
         updateFields() {
             BillingService.getCouponId(this.$route.params.couponId).then(
