@@ -1347,8 +1347,6 @@ export default {
                 if (this.selected_plan.length === 0) {
                     this.selected_plan = ['all'];
                 }
-                
-
             }
 
             let selected_stores = this.selectPlan.map((it) => it.value);
