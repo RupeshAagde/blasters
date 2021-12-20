@@ -187,7 +187,7 @@ export default {
              BillingService.getCouponList( Object.assign({
                     page_no: this.pagination.current,
                     page_size: this.pagination.limit,
-                    "state.is_active" : this.query.is_active.value,
+                    published : this.query.is_active.value,
                     type: this.query.type,
                     code: this.searchText,
                 }))

@@ -81,7 +81,7 @@
                                 <div class="discount">
                                     <div class="half">
                                         <div
-                                            class="pair"
+                                            class="pair uni"
                                             v-if="couponType === 'amount_off'"
                                         >
                                             <nitrozen-input
@@ -96,7 +96,7 @@
                                             </nitrozen-error>
                                         </div>
                                         <div
-                                            class="pair"
+                                            class="pair uni"
                                             v-if="
                                                 couponType === 'percentage_off'
                                             "
@@ -137,7 +137,7 @@
                                         </div>
 
                                         <div
-                                            class="form-input-item"
+                                            class="form-input-item uni"
                                             style="margin-left: 24px"
                                         >
                                             <nitrozen-input
@@ -343,7 +343,7 @@
                                             </nitrozen-checkbox>
                                             <nitrozen-tooltip
                                                 :position="'top'"
-                                                :tooltipText="'Maximum Price per item'"
+                                                :tooltipText="'Maximum uses for coupon'"
                                             ></nitrozen-tooltip>
                                         </div>
                                         <div class="form-input-item res-inp">
@@ -372,7 +372,7 @@
                                             </nitrozen-checkbox>
                                             <nitrozen-tooltip
                                                 :position="'top'"
-                                                :tooltipText="'Maximum Price per item'"
+                                                :tooltipText="'Subscriber specific for coupon'"
                                             ></nitrozen-tooltip>
                                         </div>
                                         <div class="form-input-item res-inp">
@@ -1021,6 +1021,7 @@ export default {
             pageLoading: false,
             inProgress: false,
             unique: false,
+            remaining: '',
         };
     },
     mounted() {
@@ -1035,6 +1036,8 @@ export default {
 
         this.value_type = this.typeList[this.selectedType].value_type;
         this.pushPlan();
+        this.pushSubs();
+        
     },
     methods: {
         openModal: function () {
@@ -1118,6 +1121,9 @@ export default {
                         ? (this.discount.value =
                               data.rule_definition.max_discount)
                         : (this.discount.value = '');
+
+                    data.restrictions.uses.maximum.total!== -1 ? (this.maxUsesVal = data.restrictions.uses.maximum.total, this.maxUses = true)  : this.maxUsesVal = ''
+                    data.restrictions.uses.maximum.user!== -1 ? (this.subscriberSpecificVal = data.restrictions.uses.maximum.user, this.subscriberSpecific = true ) : this.subscriberSpecificVal = ''
                     data.code
                         ? (this.code.value = data.code)
                         : (this.code.value = '');
@@ -1135,20 +1141,28 @@ export default {
                             ? (this.amount.value = data.rule_definition.value)
                             : (this.amount.value = '');
                     }
-                    data.identifiers.plans.length === 0
+                     data.identifiers.plans.length === 0
                         ? (this.selected_plan = ['all'])
                         : (this.selected_plan = data.identifiers.plans);
-                    data.identifiers.subscribers.length === 0
+                      data.identifiers.subscribers.length === 0
                         ? (this.selected_Subs = ['all'])
                         : (this.selected_Subs = data.identifiers.subscribers);
-                    let currentplans = this.selectPlan.filter((it) =>
+                   let currentplans = this.selectPlan.filter((it) =>
                         this.selected_plan.includes(it.value)
                     );
                     this.selectedPlan.value = currentplans;
+                   
+
                     let currentsubs = this.selectSubscriber.filter((it) =>
                         this.selected_Subs.includes(it.value)
                     );
                     this.selectedSubs.value = currentsubs;
+
+                    this.remaining = data.restrictions.uses.remaining.total 
+                    console.log(this.remaining);
+
+                    this.pushPlan();
+                    this.pushSubs();
                 }
             );
         },
@@ -1222,7 +1236,7 @@ export default {
         },
         saveForm() {
             let val, plan, subscriber;
-            let maxuses,
+            let maxuses = '-1',
                 specific = '-1';
             this.value_type == 'absolute'
                 ? (val = this.amount.value)
@@ -1237,6 +1251,7 @@ export default {
             if (this.maxUses) {
                 maxuses = this.maxUsesVal;
             }
+            console.log(this.maxUses)
             if (this.subscriberSpecific) {
                 specific = this.subscriberSpecificVal;
             }
@@ -1246,8 +1261,8 @@ export default {
                 restrictions: {
                     uses: {
                         maximum: {
-                            user: maxuses,
-                            total: specific,
+                            user: specific ,
+                            total: maxuses ,
                         },
                         remaining: {},
                     },
@@ -1261,15 +1276,13 @@ export default {
                 },
                 display_meta: {
                     title: this.titleCoupon.value,
+                    description: this.descriptionCoupon
                 },
                 identifiers: {
-                    plans: plan,
-                    subscribers: subscriber,
+                    plans: plan ,
+                    subscribers: subscriber ,
                 },
-                state: {
-                    is_archived: false,
-                    is_active: this.published,
-                },
+                published: this.published,
                 author: {},
             };
 
@@ -1410,9 +1423,8 @@ export default {
                 this.inProgress = true;
                 let data = {
                     code: this.code.value,
-                    state: {
-                        is_active: this.published,
-                    },
+                    published: this.published,
+                    
                 };
                 BillingService.putCouponList(data, this.$route.params.couponId)
                     .then((res) => {
