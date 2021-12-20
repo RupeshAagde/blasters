@@ -129,7 +129,7 @@ export default {
         strokeBtn
     },
     props: {
-        
+        subscriber: null
     },
     computed:{
         getUTRDatePlaceholder(){
@@ -273,6 +273,14 @@ export default {
                 })
                 .then(()=>{
                     this.$refs["credit-balance-dialog"].close({"creditAdjustment":{success:true}})
+                })
+                .catch((error)=>{
+                    if(error && error.response && error.response.data && error.response.data.message){
+                        this.$snackbar.global.showError(error.response.data.message);    
+                    }
+                    else{
+                        this.$snackbar.global.showError(`Transaction failed`);
+                    }
                 })
             }
         },
