@@ -417,9 +417,9 @@ export default {
         },
         fetchcodconfig() {
             PaymentServices.getCOD(this.param).then((a) => {
-                //console.log(a);
-                this.typeSelectedCollect = a.data.delivery_config.cod.refund_by;
-                this.typeSelectedRefund = a.data.delivery_config.cod.collect_by;
+                
+                this.typeSelectedRefund = a.data.delivery_config.cod.refund_by;
+                this.typeSelectedCollect = a.data.delivery_config.cod.collect_by;
             })
             .catch(e=>{
                 console.log(e);
@@ -461,6 +461,7 @@ this.checkRequired()
     mounted() {
         //console.log("Mounting",this.$route.params)
         this.getReviewList();
+        //this.fetchcodconfig();
     },
 };
 </script>
