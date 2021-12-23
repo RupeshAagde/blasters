@@ -30,10 +30,22 @@
                     <label class="n-input-label">Invoice Id</label>
                     <div class="store-address-name">{{ (item.invoice_id) }}</div>
                 </div>
-                <div class="store-pincode" v-if="item">
+                <div class="store-pincode" v-if="item.payment_intent_id">
                     <label class="n-input-label">Payment Intent Id</label>
                     <div class="store-address-name">
-                        {{ item.payment_intent_id || 'NA' }}
+                        {{ item.payment_intent_id }}
+                    </div>
+                </div>
+                <div class="store-pincode" v-else-if="item.credit_transaction_id">
+                    <label class="n-input-label">Credit Transaction Id</label>
+                    <div class="store-address-name">
+                        {{ item.credit_transaction_id }}
+                    </div>
+                </div>
+                <div class="store-pincode" v-else>
+                    <label class="n-input-label">Payment Intent Id</label>
+                    <div class="store-address-name">
+                        NA
                     </div>
                 </div>
             </div>
