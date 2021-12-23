@@ -287,7 +287,6 @@ export default {
                     value: ele._id
                 }
             })
-            console.log(arr)
             return arr;
         },
         trialDaysLeftString() {
@@ -352,6 +351,7 @@ export default {
     },
     data(){
         return {
+            currentPlan:"",
             plansList: [],
             slectedForChange:"",
             planChangeComment:"",
@@ -362,6 +362,17 @@ export default {
         }
     },
     mounted(){
+        this.$store
+                .dispatch(FETCH_CURRENT_ACTIVE_SUBSCRIPTION, {
+                    params: {
+                        unique_id: this.company_id,
+                        product_suite: 'fynd-platform',
+                        type: 'company'
+                    }
+                }).then((val)=>{
+                    this.currentPlan=val.subscription;
+                    this.$snackbar.global.showSuccess('Subscription has been changed successfully',{duration: 2000});
+                })
         let pArr = []
         this.fetchPlans("");
         pArr.push(
@@ -422,7 +433,9 @@ export default {
         },
         onCloseChangePlan(optionSelected){
             if(optionSelected.toLowerCase().includes('activate')){
-                
+                if(this.currentPlan.plan_id===this.slectedForChange){
+                    return this.$snackbar.global.showError(`You are already subsribed to ${this.currentPlan.plan_data.name}`,{duration: 2000});
+                }
                 this.activatePlan(this.slectedForChange);    
             }
         },
@@ -499,7 +512,8 @@ export default {
                             product_suite: 'fynd-platform',
                             type: 'company'
                         }
-                    }).then(()=>{
+                    }).then((val)=>{
+                        this.currentPlan=val.subscription;
                         this.$snackbar.global.showSuccess('Subscription has been changed successfully',{duration: 2000});
                     })
                 }
@@ -515,7 +529,6 @@ export default {
         searchPlans(e){
             if (e && e.text) {
                 debounce(() => {
-                    console.log(this)
                     this.fetchPlans(e.text);
                 }, 400)();
             }else {
