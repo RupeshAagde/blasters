@@ -459,9 +459,7 @@ this.checkRequired()
         }),
     },
     mounted() {
-        //console.log("Mounting",this.$route.params)
         this.getReviewList();
-        //this.fetchcodconfig();
     },
 };
 </script>
