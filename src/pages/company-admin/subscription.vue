@@ -371,7 +371,6 @@ export default {
                     }
                 }).then((val)=>{
                     this.currentPlan=val.subscription;
-                    this.$snackbar.global.showSuccess('Subscription has been changed successfully',{duration: 2000});
                 })
         let pArr = []
         this.fetchPlans("");
@@ -434,9 +433,14 @@ export default {
         onCloseChangePlan(optionSelected){
             if(optionSelected.toLowerCase().includes('activate')){
                 if(this.currentPlan.plan_id===this.slectedForChange){
+                    this.slectedForChange="";
+                    this.planChangeComment="";
                     return this.$snackbar.global.showError(`You are already subsribed to ${this.currentPlan.plan_data.name}`,{duration: 2000});
                 }
                 this.activatePlan(this.slectedForChange);    
+            }else{
+                this.slectedForChange="";
+                this.planChangeComment="";
             }
         },
         cancelSubscription(company_id){
@@ -504,6 +508,8 @@ export default {
             
             return BillingSubscriptionService.activatePlan(this.companyId,payload)
             .then(({data})=>{
+                this.slectedForChange="";
+                this.planChangeComment="";
                 if(data.success){
                     return this.$store
                     .dispatch(FETCH_CURRENT_ACTIVE_SUBSCRIPTION, {
@@ -524,6 +530,7 @@ export default {
             .catch(err=>{
                 this.$snackbar.global.showError('Failed to change subscription',{duration: 2000});
             })
+            
 
         },
         searchPlans(e){
