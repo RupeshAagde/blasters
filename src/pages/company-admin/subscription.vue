@@ -283,7 +283,7 @@ export default {
             let arr = [];
             arr = this.plansList.map(ele=>{
                 return {
-                    text: `${ele.name} - ${this.amountFormatNoDecimal(ele)}`,
+                    text: `${ele.name} - ${this.amountFormatNoDecimal(ele)} / ${this.toTitleCase(ele.recurring.interval)}`,
                     value: ele._id
                 }
             })
@@ -503,7 +503,9 @@ export default {
                 "type": "company",
                 "product_suite": "fynd-platform",
                 "plan_id": plan_id,
-                "comment":this.planChangeComment
+                "meta":{
+                    "comment":this.planChangeComment
+                }
             }
             
             return BillingSubscriptionService.activatePlan(this.companyId,payload)
@@ -634,6 +636,14 @@ export default {
                     return this.$store.dispatch(FETCH_COMPANY_SUBSCRIPTION_LIMITS,{company_id:this.company_id});
                 });
         },
+        toTitleCase(str) {
+        return str.replace(
+            /\w\S*/g,
+            function(txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            }
+        );
+        }
     }
 }
 </script>
