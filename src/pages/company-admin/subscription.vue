@@ -101,6 +101,16 @@
                         Currently under the trial plan.
                     </div>
                     <div class="flex">
+                        <div class="flex-1">
+                            <nitrozen-button
+                                v-if="currentActivePlan.is_enabled"
+                                id="side-link"
+                                :theme="'secondary'"
+                                @click="onOpenChangePlanDialog"
+                            >
+                                Change Plan
+                            </nitrozen-button>
+                        </div>
                         <div class="flex-1 text-right">
                             <nitrozen-button
                                 v-if="currentActivePlan.is_enabled"
@@ -186,6 +196,33 @@
                     >Are you sure you want to cancel subscription?</template
                 >
             </nitrozen-dialog>
+
+            <nitrozen-dialog
+                ref="change_plan_dialog"
+                title="Change Plan"
+                :label="'Select Plan'"
+                @close="onCloseChangePlan"
+            >
+                <template slot="body" name="body"
+                    >
+                    <nitrozen-dropdown
+                        :searchable="true"
+                        class="datatype-dropdown"
+                        :items="plansListDropdownItems"
+                        v-model="slectedForChange"
+                        @searchInputChange="searchPlans"
+                        :placeholder="'Search Plans'"
+                    ></nitrozen-dropdown>  
+                    <nitrozen-input
+                        class="search m-t-24"
+                        type="textarea"
+                        label="Comment"
+                        placeholder="Enter Comment"
+                        v-model="planChangeComment"
+                    ></nitrozen-input>  
+                </template
+                >
+            </nitrozen-dialog>
         </div>
     </div>
 </template>
@@ -213,6 +250,7 @@ import {
     strokeBtn
 } from '@gofynd/nitrozen-vue';
 import moment from 'moment';
+import { debounce } from '../../helper/utils';
 
 export default {
     name: 'adm-company-subscription',
@@ -241,6 +279,17 @@ export default {
         ...mapGetters({
             currentActivePlan: GET_CURRENT_ACTIVE_SUBSCRIPTION
         }),
+        plansListDropdownItems(){
+            let arr = [];
+            arr = this.plansList.map(ele=>{
+                return {
+                    text: `${ele.name} - ${this.amountFormatNoDecimal(ele)}`,
+                    value: ele._id
+                }
+            })
+            console.log(arr)
+            return arr;
+        },
         trialDaysLeftString() {
             let currentActivePlan = this.currentActivePlan;
             if (
@@ -303,6 +352,9 @@ export default {
     },
     data(){
         return {
+            plansList: [],
+            slectedForChange:"",
+            planChangeComment:"",
             currentPlanDetailed: null,
             company_id: this.$route.params.companyId,
             collection_method: null,
@@ -311,6 +363,7 @@ export default {
     },
     mounted(){
         let pArr = []
+        this.fetchPlans("");
         pArr.push(
             BillingSubscriptionService.getAvailablePlansDetailed(
                 'fynd-platform'
@@ -353,9 +406,24 @@ export default {
                 neutralButtonLabel: false
             });
         },
+        onOpenChangePlanDialog() {
+            this.$refs['change_plan_dialog'].open({
+                width: '400px',
+                height: '420px',
+                positiveButtonLabel: 'Activate Plan',
+                negativeButtonLabel: 'Cancel',
+                neutralButtonLabel: false
+            });
+        },
         onCloseCancelSubscription(optionSelected) {
             if (optionSelected == 'Yes') {
                 this.cancelSubscription(this.company_id);
+            }
+        },
+        onCloseChangePlan(optionSelected){
+            if(optionSelected.toLowerCase().includes('activate')){
+                
+                this.activatePlan(this.slectedForChange);    
             }
         },
         cancelSubscription(company_id){
@@ -412,6 +480,63 @@ export default {
         fetchPlanDetailed(id) {
             return BillingSubscriptionService.getPlanDetailsById(id);
         },
+        activatePlan(plan_id){
+            let payload = {
+                "unique_id": this.companyId,
+                "type": "company",
+                "product_suite": "fynd-platform",
+                "plan_id": plan_id,
+                "comment":this.planChangeComment
+            }
+            
+            return BillingSubscriptionService.activatePlan(this.companyId,payload)
+            .then(({data})=>{
+                if(data.success){
+                    return this.$store
+                    .dispatch(FETCH_CURRENT_ACTIVE_SUBSCRIPTION, {
+                        params: {
+                            unique_id: this.company_id,
+                            product_suite: 'fynd-platform',
+                            type: 'company'
+                        }
+                    }).then(()=>{
+                        this.$snackbar.global.showSuccess('Subscription has been changed successfully',{duration: 2000});
+                    })
+                }
+                else{
+                    this.$snackbar.global.showError('Failed to change subscription',{duration: 2000});
+                }
+            })
+            .catch(err=>{
+                this.$snackbar.global.showError('Failed to change subscription',{duration: 2000});
+            })
+
+        },
+        searchPlans(e){
+            if (e && e.text) {
+                debounce(() => {
+                    console.log(this)
+                    this.fetchPlans(e.text);
+                }, 400)();
+            }else {
+                this.fetchPlans("")
+            }
+
+        },
+        fetchPlans(searchText){
+            return BillingSubscriptionService.getPlans({
+                name:searchText,
+                page_size: 50,
+            })
+                .then(({ data }) => {
+                    this.loading = false;
+                    this.plansList = data.items;
+                })
+                .catch((err) => {
+                    // console.log(err);
+                    this.pageError = true;
+                });
+        },
         openCurrentPlanDetailsModal() {
             this.$refs['view_plan_details'].open({
                 width: '750px',
@@ -424,6 +549,14 @@ export default {
             return new Intl.NumberFormat('en-IN', {
                 style: 'currency',
                 currency: plan.currency
+            }).format(plan.amount);
+        },
+        amountFormatNoDecimal(plan) {
+            return new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: plan.currency,
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
             }).format(plan.amount);
         },
         recurringText(interval_count, interval) {

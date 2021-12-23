@@ -1295,6 +1295,58 @@ export default {
             }
         ]
     },
+    changeSubscription:{
+        "success": true,
+        "data": {
+            "current_period": {
+                "start": "2021-12-23T10:10:46.111Z",
+                "end": "2022-01-23T10:10:46.111Z"
+            },
+            "pause_collection": {},
+            "invoice_settings": {
+                "generation": true,
+                "charging": true
+            },
+            "is_active": true,
+            "cancel_at_period_end": false,
+            "_id": "610d1a8e54fff161ee57f608",
+            "subscriber_id": "610d1a8254fff1207157f606",
+            "plan_id": "610d03f02decb20043dac5ab",
+            "product_suite_id": "610d03f02decb20043dac589",
+            "plan_data": {
+                "recurring": {
+                    "interval": "month",
+                    "interval_count": 1
+                },
+                "taxation": {
+                    "gst": 0.18
+                },
+                "is_trial_plan": false,
+                "plan_group": "default",
+                "tag_lines": [],
+                "currency": "INR",
+                "is_active": true,
+                "is_visible": true,
+                "trial_period": 0,
+                "addons": [],
+                "tags": [],
+                "type": "public",
+                "country": "IN",
+                "_id": "610d03f02decb20043dac5ab",
+                "name": "Ultra Premium",
+                "description": "Ultra Premium",
+                "amount": 2999,
+                "product_suite_id": "610d03f02decb20043dac589",
+                "created_at": "2021-08-06T09:42:08.877Z",
+                "modified_at": "2021-08-06T09:42:08.877Z"
+            },
+            "current_status": "active",
+            "collection_method": "charge_automatically",
+            "created_at": "2021-08-06T11:18:38.312Z",
+            "modified_at": "2021-12-23T10:10:46.123Z",
+            "latest_invoice": "615d8fd6a1e0951df496f612"
+        }
+    },
     invoicesListing: {
         items: [
             {
