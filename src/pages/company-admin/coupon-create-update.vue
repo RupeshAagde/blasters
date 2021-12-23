@@ -4,6 +4,14 @@
             :title="editMode ? 'Edit Page' : 'Create Page'"
             @backClick="$router.push({ name: 'coupons' })"
         >
+        <div
+                        v-if="editMode"
+                        class="pad-right"
+                        @click.stop="show_schedule_modal = true"
+                    >
+                        <adm-inline-svg :src="'schedule_'" class="schedule-btn">
+                        </adm-inline-svg>
+                    </div>
             <div>
                 <div
                     class="publish-status status-text bold-xs"
@@ -886,6 +894,17 @@
 .full {
     width: 100%;
 }
+.schedule-btn {
+    // width: 24px;
+    // height: 24px;
+    margin-top: 8.5px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+.pad-right{
+    width: 40px;
+    height: 30px;
+}
 </style>
 
 <script>
@@ -909,6 +928,7 @@ import { TYPE_DATA } from '@/helper/coupon-helper';
 //import { allowNumbersOnly } from '@/helper/utils'
 import { allowNumbersOnly, allowAlphaNumbericOnly } from '@/helper/utils';
 import inlinesvg from '@/components/common/ukt-inline-svg.vue';
+import admInlineSVG from '@/components/common/adm-inline-svg';
 import BillingService from '@/services/billing.service.js';
 import { debounce } from '../../helper/utils';
 
@@ -927,6 +947,7 @@ export default {
         'nitrozen-tooltip': NitrozenTooltip,
         'nitrozen-chip': NitrozenChips,
         'inline-svg': inlinesvg,
+        'adm-inline-svg': admInlineSVG,
         NitrozenError,
         Loader,
     },
@@ -1022,6 +1043,7 @@ export default {
             inProgress: false,
             unique: false,
             remaining: '',
+            show_schedule_modal: false,
         };
     },
     mounted() {

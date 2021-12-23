@@ -231,11 +231,11 @@
 
 <script>
 import admforminput from './form-input.vue';
-import uktmodal from './ukt-modal.vue';
+import uktmodal from './utk-modal.vue';
 import datePicker from './date-picker.vue';
 import uktinlinesvg from './ukt-inline-svg.vue';
 import cronstrue from 'cronstrue';
-import crongenerate from '@/components/admin/cron-generator/index.vue';
+import crongenerate from '@/components/common/cron-generator/index.vue';
 import {
     NitrozenButton,
     flatBtn,
