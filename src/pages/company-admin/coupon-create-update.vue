@@ -34,7 +34,7 @@
                     id="actions"
                     v-flatBtn
                     theme="secondary"
-                    @click="saveForm"
+                    @click.stop="show_schedule_modal = true"
                 >
                     {{ editMode ? 'Save' : 'Create' }}
                 </nitrozen-button></span
@@ -541,6 +541,18 @@
                 </template>
             </nitrozen-dialog>
         </div>
+         <adm-schedule-modal
+            v-if="show_schedule_modal"
+            :isEditMode="editMode"
+            :entity="'coupon'"
+            :schedule="schedule"
+            :scheduleActive="published"
+            :isOpen="show_schedule_modal"
+            :title="`${editMode ? 'Update' : 'Set'} Schedule`"
+            @closedialog="show_schedule_modal = false"
+            @saveSchedule="scheduleCoupon"
+            class="schedule"
+        ></adm-schedule-modal>
     </div>
 </template>
 
@@ -928,6 +940,7 @@ import { TYPE_DATA } from '@/helper/coupon-helper';
 //import { allowNumbersOnly } from '@/helper/utils'
 import { allowNumbersOnly, allowAlphaNumbericOnly } from '@/helper/utils';
 import inlinesvg from '@/components/common/ukt-inline-svg.vue';
+import schedulemodal from '@/components/common/schedule-modal.vue';
 import admInlineSVG from '@/components/common/adm-inline-svg';
 import BillingService from '@/services/billing.service.js';
 import { debounce } from '../../helper/utils';
@@ -948,6 +961,7 @@ export default {
         'nitrozen-chip': NitrozenChips,
         'inline-svg': inlinesvg,
         'adm-inline-svg': admInlineSVG,
+        'adm-schedule-modal': schedulemodal,
         NitrozenError,
         Loader,
     },
@@ -1044,6 +1058,7 @@ export default {
             unique: false,
             remaining: '',
             show_schedule_modal: false,
+            schedule: {}
         };
     },
     mounted() {
@@ -1057,8 +1072,8 @@ export default {
             : (this.selectedType = '0');
 
         this.value_type = this.typeList[this.selectedType].value_type;
-        this.pushPlan();
-        this.pushSubs();
+        //this.pushPlan();
+        //this.pushSubs();
         
     },
     methods: {
@@ -1127,7 +1142,7 @@ export default {
             BillingService.getCouponId(this.$route.params.couponId).then(
                 (res) => {
                     let data = res.data;
-                    this.published = data.state.is_active;
+                    this.published = data.published;
                     data.rule_definition.duration
                         ? (this.durationDrop.value =
                               data.rule_definition.duration)
@@ -1169,9 +1184,11 @@ export default {
                       data.identifiers.subscribers.length === 0
                         ? (this.selected_Subs = ['all'])
                         : (this.selected_Subs = data.identifiers.subscribers);
-                   let currentplans = this.selectPlan.filter((it) =>
+
+                     let currentplans = this.selectPlan.filter((it) =>
                         this.selected_plan.includes(it.value)
                     );
+                    console.log('current plan chip', currentplans);
                     this.selectedPlan.value = currentplans;
                    
 
@@ -1180,13 +1197,19 @@ export default {
                     );
                     this.selectedSubs.value = currentsubs;
 
-                    this.remaining = data.restrictions.uses.remaining.total 
-                    console.log(this.remaining);
 
-                    this.pushPlan();
-                    this.pushSubs();
+
+               
+
+                    this.remaining = data.restrictions.uses.remaining.total 
+                    //console.log(this.remaining);
+
+                   
                 }
             );
+               
+                this.pushPlan();
+                 this.pushSubs();
         },
         onCreate() {
             this.couponType = this.typeList[this.selectedType].value_title;
@@ -1306,6 +1329,7 @@ export default {
                 },
                 published: this.published,
                 author: {},
+                _schedule: this.schedule
             };
 
             if (!this.checkform()) {
@@ -1470,6 +1494,16 @@ export default {
                     });
             }
         },
+        scheduleCoupon(schedule){
+            // this._schedule.cron = schedule.cron || null;
+            // this._schedule.start = schedule.start;
+            // this._schedule.end = schedule.end || null;
+            // this._schedule.duration =
+            //     (schedule.duration && Number(schedule.duration)) || null;
+            this.schedule = schedule
+            console.log(this.schedule);
+            this.saveForm();
+        }
     },
 };
 </script>

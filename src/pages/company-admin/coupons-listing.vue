@@ -66,7 +66,7 @@
                     >Live</nitrozen-badge
                 >
                 <nitrozen-badge v-else>Not Live</nitrozen-badge> -->
-                <nitrozen-badge v-if="coupon.state.is_active" state="success"
+                <nitrozen-badge v-if="coupon.published" state="success"
                     >Active</nitrozen-badge
                 >
                 <nitrozen-badge v-else>Inactive</nitrozen-badge>

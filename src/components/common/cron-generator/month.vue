@@ -18,7 +18,7 @@
 
 <script>
 import uktselect from './../../common/ukt-select.vue';
-import admradiogroup from './../common/adm-radio-group.vue';
+import admradiogroup from './../radio-group.vue'
 export default {
     name: 'cron-hour',
     components: {

@@ -77,7 +77,8 @@
 <script>
 import { NitrozenRadio } from '@gofynd/nitrozen-vue';
 
-import uktinlinesvg from './../../common/ukt-inline-svg.vue';
+import uktinlinesvg from './ukt-inline-svg.vue';
+
 export const ALIGN = {
     VERTICLE: 1,
     HORIZONTAL: 2

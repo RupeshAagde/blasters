@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import uktselect from './../select.vue';
+import uktselect from './../ukt-select.vue';
 import admradiogroup from './../radio-group.vue';
 export default {
     name: 'cron-minute',

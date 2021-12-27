@@ -122,8 +122,8 @@
 </template>
 
 <style lang="less" scoped>
-@import '../../../pages/admin/less/form.less';
-@import '../../../pages/admin/less/page-ui.less';
+//@import '../../../pages/admin/less/form.less';
+//@import '../../../pages/admin/less/page-ui.less';
 .helper-text {
     line-height: 1.5;
 }
