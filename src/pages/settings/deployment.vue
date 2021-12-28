@@ -151,6 +151,7 @@ export default {
     
     .blaster-list-card-container{
         height: auto;
+        cursor: default;
     }
 
     .card-content-line-1 {
@@ -160,6 +161,10 @@ export default {
     .arrow-right {
         margin-left: 12px;
         margin-right: 12px;
+    }
+
+    .card-badge-section {
+        cursor: pointer;
     }
 }
 

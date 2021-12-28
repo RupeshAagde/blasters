@@ -12,20 +12,22 @@
                 <h2 class="deployment-form-title">Custom Deployment Form</h2>
                 <nitrozen-dropdown
                     class="company-name"
-                    label="Company*"
+                    label="Company"
                     :items="companyListFiltered"
                     v-model="selectedCompany"
                     :searchable="true"
                     placeholder="Company name"
                     @searchInputChange="onSearchInputUpdateList"
+                    required="true"
                 ></nitrozen-dropdown>
 
                 <nitrozen-input
                     class="deployment-name"
                     v-model="deploymentName"
-                    label="Deployment Name*"
+                    label="Deployment Name"
                     placeholder="Deployment name"
                     type="string"
+                    required="true"
                 >
                 </nitrozen-input>
             </div>
@@ -133,8 +135,8 @@ export default {
     }
 
     .deployment-form-title {
-        font-size: 20px;
-        font-weight: 500;
+        font-size: 18px;
+        font-weight: 600;
     }
 
     .deployment-name, .company-name {
