@@ -11,7 +11,8 @@
                 :desc="'Extensions for review'"
             ></jumbotron>
             <!--Search Baar-->
-            <div class="search-filter">
+           <template>
+                <div class="search-filter">
                 <nitrozen-input
                     :showSearchIcon="true"
                     class="search-box"
@@ -20,7 +21,20 @@
                     v-model="searchText"
                     @input="setRouteQuery({ search: searchText })"
                 ></nitrozen-input>
-            </div>
+            
+                    <div class="filter">
+                        <label class="label">Filter</label>
+                        <nitrozen-dropdown
+                            class="filter-dropdown"
+                            :items="filters"
+                            v-model="selectedFilter"
+                            @change="
+                                    setRouteQuery({ current_status : selectedFilter })
+                            "
+                        ></nitrozen-dropdown>
+                    </div>
+                </div>
+            </template>
 
             <!--Staff List-->
             <div class="extension-card-list">
@@ -30,15 +44,49 @@
                 ></list-shimmer>
                 <page-error
                     v-else-if="pageError && !pageLoading"
-                    @retry="fetchExtensions"
+                    @retry="fetchExtensions()"
                 ></page-error>
-                <list-card
-                    class="extension-card"
-                    v-for="extension in extensionList"
-                    :key="extension._id"
-                    :extension="extension"
-                    @click="edit(extension)"
-                ></list-card>
+
+               
+                    <div v-for="extension in extensionList"
+                        :key="extension._id" >
+                    
+                   <list-card
+                        :extension="extension"
+                        @click="edit(extension)"
+                    >
+                    </list-card>
+                    
+                    
+                    </div>
+                
+               <!-- <div
+                        v-for="extension in extensionList"
+                        :key="extension._id"
+                        class="bombshell-list-card-container"
+                        @click="edit(extension)"
+                    >
+                        <div class="card-avatar">
+                            <img
+                                :src="getIntegartionImage(integration)"
+                                alt="icon"
+                                @error="$set(integration, 'icon', default_img)"
+                            />
+                        </div>
+                        <div class="card-content-section">
+                            <div class="card-content-line-1 full-name">
+                                Requested By: {{ integration.name }}
+                            </div>
+                            <div class="card-content-line-2">
+                                Requested On: {{ integration.token }}
+                            </div>
+                            <div class="card-content-line-2">
+                                Owner: {{ integration.owner }}
+                            </div>
+                        </div>
+                    </div> -->
+
+                
             </div>
             <page-empty
                 v-if="extensionList.length == 0"
@@ -99,9 +147,11 @@
     }
 }
 
+
+
 .nitrozen-pagination-container,
 .extension-card-list {
-    margin-top: 24px;
+    margin-top: 20px;
 }
 .search-filter {
     display: flex;
@@ -113,7 +163,8 @@
         min-width: 400px;
     }
     .filter-dropdown {
-        width: 150px;
+        width: 200px;
+        margin-left: 12px;
     }
     .label {
         font-family: Inter;
@@ -172,7 +223,14 @@ import ExtensionService from '@/services/extension.service'
 const PAGINATION = {
     page: 1,
     limit: 10,
-}
+};
+
+const ROLE_FILTER = [
+    { value: 'pending', text: 'Pending' },
+    { value: 'rejected', text: 'Rejected' },
+    { value: 'approved', text: 'Approved' }
+];
+
 
 export default {
     name: 'extension-review-list',
@@ -203,28 +261,40 @@ export default {
                 current: 1,
                 total: 10,
             },
+            filters: [...ROLE_FILTER],
             pagination: { ...PAGINATION },
+            selectedFilter: 'pending',
         }
     },
     mounted() {
-        this.populateFromURL()
-        this.fetchExtensions()
+        this.populateFromURL()   
+         this.fetchExtensions()
     },
     methods: {
         populateFromURL() {
-            const { search, page, limit } = this.$route.query
+            const { search, page, limit, current_status } = this.$route.query
             this.searchText = search || this.searchText
             this.pagination.page = +page || this.pagination.page
             this.pagination.limit = +limit || this.pagination.limit
+            this.selectedFilter = current_status || 'pending';
         },
         chooseExtensionType() {
             this.$refs['type-modal'].open()
         },
         fetchExtensions() {
-            ExtensionService.getExtensionReviewList({})
+            let params = {
+                page_no : this.pagination.page,
+                page_size : this.pagination.limit,
+                current_status : this.selectedFilter,
+                q : this.searchText
+            };
+            
+            console.log(this.selectedFilter);
+             console.log(this.$route.query.current_status);
+            ExtensionService.getExtensionReviewList(params)
                 .then(({ data }) => {
                     this.extensionList = data.items
-                    this.paginationConfig.total = data.item_total
+                    this.paginationConfig.total = data.page.item_total
                 })
                 .catch((err) => {
                     console.log(err)
@@ -254,6 +324,15 @@ export default {
                     ...query,
                 },
             })
+            if (query.current_status) {
+                // clear pagination if search or filter applied
+                //this.selectedFilter=query.current_status;
+                this.pagination = { ...PAGINATION }
+                query.page = undefined
+                query.limit = undefined
+            }
+            
+            this.fetchExtensions();
         },
     },
 }
