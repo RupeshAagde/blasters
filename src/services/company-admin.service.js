@@ -109,6 +109,31 @@ const CompanyService = {
         return ApiService.get(URLS.GET_COMPANY_LIST(), axiosOptions);
     },
 
+    getDeploymentList() {
+        const axiosOptions = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+        );
+        return ApiService.get(URLS.GET_DEPLOYMENT_LIST(), axiosOptions);
+    },
+
+    createDeploymentMapping(body) {
+        const axiosOption = Object.assign(
+            {},
+            { data: body },
+            getCommonHeaderOptions()
+        );
+        return ApiService.post(URLS.CREATE_NEW_DEPLOYMENT_MAPPING(), axiosOption);
+    },
+
+    deleteDeploymentMappingById(id) {
+        const axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions()
+        );
+        return ApiService.del(URLS.DELETE_DEPLOYMENT_MAPPING_BY_ID(id), axiosOption);
+    },
+    
     adminActionCompany(body) {
         let axiosOption = Object.assign(
             {},
