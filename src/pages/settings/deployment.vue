@@ -193,12 +193,12 @@ export default {
     }
 
     .card-content__label {
-        font-size: 14px;
+        font-size: 12px;
         color: #aaa;
     }
 
     .card-content__timestamp {
-        font-size: 14px;
+        font-size: 12px;
         color: #aaa;
         margin-top: 12px;
     }
