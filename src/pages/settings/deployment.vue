@@ -5,7 +5,7 @@
                 <jumbotron
                     title="Deployments"
                     desc="By default, company will be in default deployment. Map company to custom dedployment."
-                    btnLabel="Custom Deployment"
+                    btnLabel="Assign Deployment"
                     @btnClick="createDeployment"
                 ></jumbotron>
             </div>
@@ -20,7 +20,7 @@
                                     src="arrow-right-black"
                                     class="arrow-right"
                                 ></ukt-inline-svg>
-                                <span class="cst-clr">{{deployment.deployment_ingress}}</span>
+                                <span class="cst-clr">{{deployment.deployment_name}}</span>
                             </div>
                         </div>
                         <div class="card-badge-section" :id="deployment._id" @click="openConfirmationDialog(deployment._id, $event)">
@@ -97,9 +97,10 @@ export default {
     },
     methods: {
         getDeployments() {
-            CompanyService.getDeploymentList()
+            CompanyService.getDeploymentMappings()
                 .then(({data}) => {
                     this.deploymentMapping = data;
+                    console.log(this.deploymentMapping);
                 });
         },
         createDeployment() {

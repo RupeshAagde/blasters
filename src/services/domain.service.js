@@ -170,10 +170,16 @@ const URLS = {
             '/v1.0/companies/'
         );
     },
-    GET_DEPLOYMENT_LIST: () => {
+    GET_DEPLOYMENT_MAPPING: () => {
         return urlJoin(
             SLINGSHOT_ADMIN_URL,
             '/v1.0/deployment_mapping/'
+        );
+    },
+    GET_DEPLOYMENT_LIST: () => {
+        return urlJoin(
+            SLINGSHOT_ADMIN_URL,
+            '/v1.0/deployment_mapping/deployments'
         );
     },
     CREATE_NEW_DEPLOYMENT_MAPPING: () => {

@@ -1,6 +1,6 @@
 <template>
     <div class="create-deployment-container">
-        <page-header title="Customize Deployment" @backClick="backClick">
+        <page-header title="Assign Deployment" @backClick="backClick">
             <nitrozen-button
                 :theme="'secondary'"
                 v-flatBtn
@@ -9,27 +9,29 @@
         </page-header>
         <div class="main-container">
             <div class="create-deployment-form">
-                <h2 class="deployment-form-title">Custom Deployment Form</h2>
+                <h2 class="deployment-form-title">Assign Deployment</h2>
                 <nitrozen-dropdown
                     class="company-name"
-                    label="Company"
+                    label="Company Name"
                     :items="companyListFiltered"
                     v-model="selectedCompany"
                     :searchable="true"
                     placeholder="Company name"
-                    @searchInputChange="onSearchInputUpdateList"
-                    required="true"
+                    @searchInputChange="onSearchInputUpdateCompanyList"
+                    :required="true"
                 ></nitrozen-dropdown>
 
-                <nitrozen-input
+                <nitrozen-dropdown
                     class="deployment-name"
-                    v-model="deploymentName"
                     label="Deployment Name"
+                    :items="deploymentListFiltered"
+                    v-model="selectedDeployment"
+                    :searchable="true"
                     placeholder="Deployment name"
-                    type="string"
-                    required="true"
+                    @searchInputChange="onSearchInputUpdateDeploymentList"
+                    :required="true"
                 >
-                </nitrozen-input>
+                </nitrozen-dropdown>
             </div>
         </div>
     </div>
@@ -53,17 +55,19 @@ export default {
     },
     data() {
         return {
-            deploymentList: [],
+            deploymentDetails: [],
             companyList: [],
             companyListFiltered: [],
+            deploymentList: [],
+            deploymentListFiltered: [],
             selectedCompany: '',
-            deploymentName: ''
+            selectedDeployment: ''
         }
     },
     beforeMount() {
         CompanyService.getCompanyList()
             .then(({data}) => {
-                this.deploymentList = data.items;
+                this.deploymentDetails = data.items;
                 this.companyList = data.items.map(element => {
                     return {
                         "text": element.name,
@@ -73,6 +77,19 @@ export default {
 
                 this.companyListFiltered = this.companyList;
             });
+
+        CompanyService.getDeploymentList()
+            .then(({data}) => {
+                this.deploymentList = data.map(element => {
+                    const deploymentName = Object.keys(element)[0];
+                    return {
+                        "text": deploymentName,
+                        "value": element[deploymentName]
+                    }
+                });
+                
+                this.deploymentListFiltered  = this.deploymentList;
+            });
     },
     methods: {
         backClick() {
@@ -80,24 +97,37 @@ export default {
                 path: '/administrator/settings/deployments'
             });
         },
-        onSearchInputUpdateList(e) {
+        onSearchInputUpdateCompanyList(e) {
             if (e && e.text) {
                 this.companyListFiltered = this.companyList.filter(x => {
                     let text = x.text.toLowerCase();
                     let searchText = e.text.toLowerCase()
                     return text.indexOf(searchText) > -1;
-                });                
+                });
             } else {
                 this.companyListFiltered = this.companyList;
             }
         },
+        onSearchInputUpdateDeploymentList(e) {
+            if (e && e.text) {
+                this.deploymentListFiltered = this.deploymentList.filter(x => {
+                    let text = x.text.toLowerCase();
+                    let searchText = e.text.toLowerCase()
+                    return text.indexOf(searchText) > -1;
+                });
+            } else {
+                this.deploymentListFiltered = this.deploymentList;
+            }
+        },
         onSave() {
-            const { uid: companyId } = this.deploymentList.find(element => element.name === this.selectedCompany);
+            const { uid: companyId } = this.deploymentDetails.find(element => element.name === this.selectedCompany);
+            const DEPLOYMENT_CONFIG = this.deploymentList.find(element => element.value === this.selectedDeployment);
 
             const payLoad = {
                 "company_id": companyId,
-                "deployment_ingress": this.deploymentName
-            };            
+                "deployment_ingress": DEPLOYMENT_CONFIG.value,
+                "deployment_name": DEPLOYMENT_CONFIG.text
+            };
 
             CompanyService.createDeploymentMapping(payLoad)
                 .then(() => {
