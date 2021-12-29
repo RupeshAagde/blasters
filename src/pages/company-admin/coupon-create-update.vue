@@ -4,14 +4,14 @@
             :title="editMode ? 'Edit Page' : 'Create Page'"
             @backClick="$router.push({ name: 'coupons' })"
         >
-        <div
-                        v-if="editMode"
-                        class="pad-right"
-                        @click.stop="show_schedule_modal = true"
-                    >
-                        <adm-inline-svg :src="'schedule_'" class="schedule-btn">
-                        </adm-inline-svg>
-                    </div>
+            <div
+                v-if="editMode"
+                class="pad-right"
+                @click.stop="show_schedule_modal = true"
+            >
+                <adm-inline-svg :src="'schedule_'" class="schedule-btn">
+                </adm-inline-svg>
+            </div>
             <div>
                 <div
                     class="publish-status status-text bold-xs"
@@ -34,7 +34,7 @@
                     id="actions"
                     v-flatBtn
                     theme="secondary"
-                    @click.stop="show_schedule_modal = true"
+                    @click.stop="onSaveCoupon"
                 >
                     {{ editMode ? 'Save' : 'Create' }}
                 </nitrozen-button></span
@@ -181,16 +181,14 @@
                                     <div class="form-row">
                                         <div class="form-input-item app-item">
                                             <nitrozen-dropdown
-                                             :searchable="true"
+                                                :searchable="true"
                                                 id="dropplan"
                                                 label="Plans"
                                                 :items="selectPlan"
                                                 v-model="selected_plan"
                                                 :multiple="true"
                                                 @change="pushPlan"
-                                                @searchInputChange="
-                                                    searchPlan
-                                                "
+                                                @searchInputChange="searchPlan"
                                             >
                                             </nitrozen-dropdown>
                                         </div>
@@ -541,7 +539,7 @@
                 </template>
             </nitrozen-dialog>
         </div>
-         <adm-schedule-modal
+        <adm-schedule-modal
             v-if="show_schedule_modal"
             :isEditMode="editMode"
             :entity="'coupon'"
@@ -913,7 +911,7 @@
     margin-right: 8px;
     cursor: pointer;
 }
-.pad-right{
+.pad-right {
     width: 40px;
     height: 30px;
 }
@@ -1058,23 +1056,30 @@ export default {
             unique: false,
             remaining: '',
             show_schedule_modal: false,
-            schedule: {}
+            schedule: {},
         };
     },
     mounted() {
-        this.fetchPlans();
-        this.fetchSubscriber();
-        if (this.editMode) {
-            this.updateFields();
-        }
-        this.couponType == 'amount_off'
-            ? (this.selectedType = '1')
-            : (this.selectedType = '0');
+        Promise.all([this.fetchPlans(), this.fetchSubscriber()]).then(() => {
+            if (this.editMode) {
+                this.updateFields();
+            }
+            this.couponType == 'amount_off'
+                ? (this.selectedType = '1')
+                : (this.selectedType = '0');
 
-        this.value_type = this.typeList[this.selectedType].value_type;
-        //this.pushPlan();
-        //this.pushSubs();
-        
+            this.value_type = this.typeList[this.selectedType].value_type;
+           
+
+            let currentplans = this.selectPlan.filter((it) =>
+                this.selected_plan.includes(it.value)
+            );
+            this.selectedPlan.value = currentplans;
+            let currentsubs = this.selectSubscriber.filter((it) =>
+                this.selected_Subs.includes(it.value)
+            );
+            this.selectedSubs.value = currentsubs;
+        });
     },
     methods: {
         openModal: function () {
@@ -1087,26 +1092,28 @@ export default {
             this.$refs['coupon_create_dialog'].close();
         },
         fetchPlans(plan) {
-            BillingService.getPlans({ name: plan, page_size: 50 }).then((res) => {
-                let docs = res.data.items;
-                let drop = [{ text: 'All', value: 'all' }];
-                for (let i = 0; i < docs.length; i++) {
-                    let abc = { text: '', value: '' };
-                    let name =
-                        docs[i].name +
-                        ' ' +
-                        docs[i].amount +
-                        ' per ' +
-                        docs[i].recurring.interval;
-                    abc.text = name;
-                    abc.value = docs[i]._id;
-                    drop.push(abc);
+            return BillingService.getPlans({ name: plan, page_size: 50 }).then(
+                (res) => {
+                    let docs = res.data.items;
+                    let drop = [{ text: 'All', value: 'all' }];
+                    for (let i = 0; i < docs.length; i++) {
+                        let abc = { text: '', value: '' };
+                        let name =
+                            docs[i].name +
+                            ' ' +
+                            docs[i].amount +
+                            ' per ' +
+                            docs[i].recurring.interval;
+                        abc.text = name;
+                        abc.value = docs[i]._id;
+                        drop.push(abc);
+                    }
+                    this.selectPlan = drop;
                 }
-                this.selectPlan = drop;
-            });
+            );
         },
         fetchSubscriber(subscriber) {
-            BillingService.getSubscribers({
+            return BillingService.getSubscribers({
                 name: subscriber,
                 page_size: 50,
             }).then((res) => {
@@ -1159,8 +1166,16 @@ export default {
                               data.rule_definition.max_discount)
                         : (this.discount.value = '');
 
-                    data.restrictions.uses.maximum.total!== -1 ? (this.maxUsesVal = data.restrictions.uses.maximum.total, this.maxUses = true)  : this.maxUsesVal = ''
-                    data.restrictions.uses.maximum.user!== -1 ? (this.subscriberSpecificVal = data.restrictions.uses.maximum.user, this.subscriberSpecific = true ) : this.subscriberSpecificVal = ''
+                    data.restrictions.uses.maximum.total !== -1
+                        ? ((this.maxUsesVal =
+                              data.restrictions.uses.maximum.total),
+                          (this.maxUses = true))
+                        : (this.maxUsesVal = '');
+                    data.restrictions.uses.maximum.user !== -1
+                        ? ((this.subscriberSpecificVal =
+                              data.restrictions.uses.maximum.user),
+                          (this.subscriberSpecific = true))
+                        : (this.subscriberSpecificVal = '');
                     data.code
                         ? (this.code.value = data.code)
                         : (this.code.value = '');
@@ -1178,38 +1193,31 @@ export default {
                             ? (this.amount.value = data.rule_definition.value)
                             : (this.amount.value = '');
                     }
-                     data.identifiers.plans.length === 0
+                    data.identifiers.plans.length === 0
                         ? (this.selected_plan = ['all'])
                         : (this.selected_plan = data.identifiers.plans);
-                      data.identifiers.subscribers.length === 0
+                    data.identifiers.subscribers.length === 0
                         ? (this.selected_Subs = ['all'])
                         : (this.selected_Subs = data.identifiers.subscribers);
 
-                     let currentplans = this.selectPlan.filter((it) =>
+                    let currentplans = this.selectPlan.filter((it) =>
                         this.selected_plan.includes(it.value)
                     );
-                    console.log('current plan chip', currentplans);
                     this.selectedPlan.value = currentplans;
-                   
 
+                    
                     let currentsubs = this.selectSubscriber.filter((it) =>
                         this.selected_Subs.includes(it.value)
                     );
                     this.selectedSubs.value = currentsubs;
 
-
-
-               
-
-                    this.remaining = data.restrictions.uses.remaining.total 
+                    //this.remaining = data.restrictions.uses.remaining.total;
                     //console.log(this.remaining);
-
-                   
                 }
             );
-               
-                this.pushPlan();
-                 this.pushSubs();
+
+            this.pushPlan();
+            this.pushSubs();
         },
         onCreate() {
             this.couponType = this.typeList[this.selectedType].value_title;
@@ -1296,7 +1304,6 @@ export default {
             if (this.maxUses) {
                 maxuses = this.maxUsesVal;
             }
-            console.log(this.maxUses)
             if (this.subscriberSpecific) {
                 specific = this.subscriberSpecificVal;
             }
@@ -1306,8 +1313,8 @@ export default {
                 restrictions: {
                     uses: {
                         maximum: {
-                            user: specific ,
-                            total: maxuses ,
+                            user: specific,
+                            total: maxuses,
                         },
                         remaining: {},
                     },
@@ -1321,15 +1328,15 @@ export default {
                 },
                 display_meta: {
                     title: this.titleCoupon.value,
-                    description: this.descriptionCoupon
+                    description: this.descriptionCoupon,
                 },
                 identifiers: {
-                    plans: plan ,
-                    subscribers: subscriber ,
+                    plans: plan,
+                    subscribers: subscriber,
                 },
                 published: this.published,
                 author: {},
-                _schedule: this.schedule
+                _schedule: this.schedule,
             };
 
             if (!this.checkform()) {
@@ -1398,10 +1405,13 @@ export default {
                     if (this.selected_plan[i] === 'all') {
                         this.selected_plan.splice(i, 1);
                     }
-                    if(this.selected_plan[this.selected_plan.length-1] === 'all'){
-                    this.selected_plan = ['all'];
-                    break;
-                }
+                    if (
+                        this.selected_plan[this.selected_plan.length - 1] ===
+                        'all'
+                    ) {
+                        this.selected_plan = ['all'];
+                        break;
+                    }
                 }
                 if (this.selected_plan.length === 0) {
                     this.selected_plan = ['all'];
@@ -1423,21 +1433,20 @@ export default {
         },
         pushSubs() {
             if (this.selected_Subs.includes('all')) {
-                
                 for (var i = 0; i < this.selected_Subs.length; i++) {
-                    
-                    if(this.selected_Subs[this.selected_Subs.length-1] === 'all'){
-                    this.selected_Subs = ['all'];
-                    break;
-                }
+                    if (
+                        this.selected_Subs[this.selected_Subs.length - 1] ===
+                        'all'
+                    ) {
+                        this.selected_Subs = ['all'];
+                        break;
+                    }
                     if (this.selected_Subs[i] === 'all') {
                         this.selected_Subs.splice(i, 1);
                     }
-                    
                 }
-                
             }
-           
+
             let selected_stores = this.selectSubscriber.map((it) => it.value);
             let newsubs = selected_stores.filter((item) =>
                 this.selected_Subs.includes(item)
@@ -1470,7 +1479,6 @@ export default {
                 let data = {
                     code: this.code.value,
                     published: this.published,
-                    
                 };
                 BillingService.putCouponList(data, this.$route.params.couponId)
                     .then((res) => {
@@ -1494,15 +1502,21 @@ export default {
                     });
             }
         },
-        scheduleCoupon(schedule){
+        scheduleCoupon(schedule) {
             // this._schedule.cron = schedule.cron || null;
             // this._schedule.start = schedule.start;
             // this._schedule.end = schedule.end || null;
             // this._schedule.duration =
             //     (schedule.duration && Number(schedule.duration)) || null;
-            this.schedule = schedule
-            console.log(this.schedule);
+            this.schedule = schedule;
             this.saveForm();
+        },
+        onSaveCoupon(){
+            if(this.editMode){
+                this.saveForm()
+                return;
+            }
+            show_schedule_modal = true;
         }
     },
 };
