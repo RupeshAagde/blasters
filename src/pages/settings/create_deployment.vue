@@ -65,7 +65,11 @@ export default {
         }
     },
     beforeMount() {
-        CompanyService.getCompanyList()
+        const REQUEST_PARAMS = {
+            page_size: 999
+        }
+
+        CompanyService.getCompanyList(REQUEST_PARAMS)
             .then(({data}) => {
                 this.deploymentDetails = data.items;
                 this.companyList = data.items.map(element => {
