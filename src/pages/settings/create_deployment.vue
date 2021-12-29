@@ -11,6 +11,7 @@
             <div class="create-deployment-form">
                 <h2 class="deployment-form-title">Assign Deployment</h2>
                 <nitrozen-dropdown
+                    id="companyName"
                     class="company-name"
                     label="Company Name"
                     :items="companyListFiltered"
@@ -22,6 +23,7 @@
                 ></nitrozen-dropdown>
 
                 <nitrozen-dropdown
+                    id="deploymentName"
                     class="deployment-name"
                     label="Deployment Name"
                     :items="deploymentListFiltered"

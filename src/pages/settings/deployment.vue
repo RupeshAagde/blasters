@@ -123,7 +123,6 @@ export default {
             CompanyService.getDeploymentMappings()
                 .then(({data}) => {
                     this.deploymentMapping = data;
-                    console.log(this.deploymentMapping);
                 })
                 .catch(err => {
                     this.pageError = true;
