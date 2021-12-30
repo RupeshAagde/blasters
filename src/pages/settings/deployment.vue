@@ -18,25 +18,56 @@
                 >
                 </page-error>
                 <ul v-else-if="deploymentMapping.length > 0">
-                    <li v-for="deployment in deploymentMapping" class="blaster-list-card-container" :key="deployment.name">
+                    <li
+                        v-for="deployment in deploymentMapping"
+                        class="blaster-list-card-container"
+                        :key="deployment.name"
+                    >
                         <div class="card-content-section">
                             <div class="card-content-line-1">
                                 <div class="card-content">
-                                    <span class="card-content__label">Company</span>
-                                    <span class="cst-clr">{{deployment.name}}</span>
-                                    <span class="card-content__timestamp">Created at: {{getDeploymentDate(deployment.created_at)}} - {{getDeploymentTime(deployment.created_at)}}</span>
+                                    <span class="card-content__label"
+                                        >Company</span
+                                    >
+                                    <span class="cst-clr">{{
+                                        deployment.name
+                                    }}</span>
+                                    <span class="card-content__timestamp"
+                                        >Created at:
+                                        {{
+                                            getDeploymentDate(
+                                                deployment.created_at
+                                            )
+                                        }}
+                                        -
+                                        {{
+                                            getDeploymentTime(
+                                                deployment.created_at
+                                            )
+                                        }}</span
+                                    >
                                 </div>
                                 <ukt-inline-svg
                                     src="arrow-right-black"
                                     class="arrow-right"
                                 ></ukt-inline-svg>
                                 <div class="card-content">
-                                    <span class="card-content__label">Deployment</span>
-                                    <span class="cst-clr">{{deployment.deployment_name}}</span>
+                                    <span class="card-content__label"
+                                        >Deployment</span
+                                    >
+                                    <span class="cst-clr">{{
+                                        deployment.deployment_name
+                                    }}</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-badge-section" :id="deployment._id" @click="openConfirmationDialog(deployment._id, $event)">
+                        <div
+                            class="card-badge-section"
+                            :id="deployment._id"
+                            @click="
+                                openConfirmationDialog(deployment._id, $event)
+                            "
+                        >
                             <ukt-inline-svg
                                 src="delete"
                                 class="delete-icon"
@@ -85,7 +116,7 @@ import {
     NitrozenButton,
     NitrozenDialog,
     strokeBtn,
-    flatBtn
+    flatBtn,
 } from '@gofynd/nitrozen-vue';
 import { PageHeader } from '@/components/common/';
 import CompanyService from '@/services/company-admin.service';
@@ -99,8 +130,8 @@ export default {
             deploymentMapping: [],
             deploymentMappingId: '',
             errorMessage: 'No deployment Mappings found.!',
-            pageError: false
-        }
+            pageError: false,
+        };
     },
     components: {
         'nitrozen-button': NitrozenButton,
@@ -109,63 +140,70 @@ export default {
         'adm-no-content': AdmNoContent,
         Jumbotron,
         PageHeader,
-        UktInlineSvg
+        UktInlineSvg,
     },
     directives: {
         strokeBtn,
-        flatBtn
+        flatBtn,
     },
     beforeMount() {
         this.getDeployments();
     },
     methods: {
         getDeployments() {
-            CompanyService.getDeploymentMappings()
-                .then(({data}) => {
-                    this.deploymentMapping = data;
+            CompanyService.getDeploymentMappings({ page_size: 100, page_no: 1 })
+                .then(({ data }) => {
+                    this.deploymentMapping = data.items;
                 })
-                .catch(err => {
+                .catch((err) => {
                     this.pageError = true;
-                })
+                });
         },
         createDeployment() {
             this.$router.push({
-                path: '/administrator/settings/deployments/create'
+                path: '/administrator/settings/deployments/create',
             });
         },
         deleteMapping() {
             CompanyService.deleteDeploymentMappingById(this.deploymentMappingId)
                 .then(() => {
-                    this.$snackbar.global.showSuccess('Deployment Mapping deleted successfully');
-                    
+                    this.$snackbar.global.showSuccess(
+                        'Deployment Mapping deleted successfully'
+                    );
+
                     this.closeConfirmationDialog();
                     this.getDeployments();
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.log('Error', err);
-                    this.$snackbar.global.showError('Error deleting deployment mapping');
+                    this.$snackbar.global.showError(
+                        'Error deleting deployment mapping'
+                    );
                 });
         },
         openConfirmationDialog(deploymentId, event) {
             this.deploymentMappingId = deploymentId;
-            
+
             this.$refs['confirm-dialog'].open({
                 width: '400px',
                 height: '215px',
-                showCloseButton: true
+                showCloseButton: true,
             });
         },
         closeConfirmationDialog() {
             this.$refs['confirm-dialog'].close();
         },
-        getDeploymentDate(dateString) { return dateString.split('T')[0]; },
-        getDeploymentTime(dateString) { return dateString.split('T')[1].slice(0, -1)}
-    }
+        getDeploymentDate(dateString) {
+            return dateString.split('T')[0];
+        },
+        getDeploymentTime(dateString) {
+            return dateString.split('T')[1].slice(0, -1);
+        },
+    },
 };
 </script>
 
 <style lang="less" scoped>
-
 .deployment-listing-container {
     height: 100%;
 
@@ -176,8 +214,8 @@ export default {
         position: relative;
         height: 100%;
     }
-    
-    .blaster-list-card-container{
+
+    .blaster-list-card-container {
         height: auto;
         cursor: default;
     }
@@ -211,5 +249,4 @@ export default {
         cursor: pointer;
     }
 }
-
 </style>

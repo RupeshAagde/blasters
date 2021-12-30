@@ -179,7 +179,7 @@ const URLS = {
     GET_DEPLOYMENT_LIST: () => {
         return urlJoin(
             SLINGSHOT_ADMIN_URL,
-            '/v1.0/deployment_mapping/jetfire_rs'
+            '/v1.0/deployment_mapping/repeat_servers'
         );
     },
     CREATE_NEW_DEPLOYMENT_MAPPING: () => {
