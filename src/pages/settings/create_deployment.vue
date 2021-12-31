@@ -20,7 +20,11 @@
                     placeholder="Company name"
                     @searchInputChange="onSearchInputUpdateCompanyList"
                     :required="true"
+                    showError="true"
                 ></nitrozen-dropdown>
+                <nitrozen-error v-if="isCompanyEmpty">
+                    <p class="form-error-text">Please select valid company</p>
+                </nitrozen-error>
 
                 <nitrozen-dropdown
                     id="deploymentName"
@@ -34,6 +38,9 @@
                     :required="true"
                 >
                 </nitrozen-dropdown>
+                <nitrozen-error v-if="isDeploymentEmpty">
+                    <p class="form-error-text">Please select deployment</p>
+                </nitrozen-error>
             </div>
         </div>
     </div>
@@ -41,7 +48,7 @@
 
 <script>
 import PageHeader from '@/components/common/layout/page-header';
-import { NitrozenButton, NitrozenDropdown, NitrozenInput, flatBtn } from '@gofynd/nitrozen-vue';
+import { NitrozenButton, NitrozenDropdown, NitrozenInput, NitrozenError, flatBtn } from '@gofynd/nitrozen-vue';
 import CompanyService from '@/services/company-admin.service';
 
 export default {
@@ -51,6 +58,7 @@ export default {
         'nitrozen-button': NitrozenButton,
         'nitrozen-dropdown' :NitrozenDropdown,
         'nitrozen-input': NitrozenInput,
+        'nitrozen-error': NitrozenError
     },
     directives: {
         flatBtn
@@ -63,7 +71,9 @@ export default {
             deploymentList: [],
             deploymentListFiltered: [],
             selectedCompany: '',
-            selectedDeployment: ''
+            selectedDeployment: '',
+            isCompanyEmpty: false,
+            isDeploymentEmpty: false
         }
     },
     beforeMount() {
@@ -125,7 +135,33 @@ export default {
                 this.deploymentListFiltered = this.deploymentList;
             }
         },
+        validateData() {
+            if(this.selectedCompany === '' || this.selectedCompany === undefined || this.selectedCompany === null) {
+                this.isCompanyEmpty = true;
+            }
+
+            if(this.selectedDeployment === '' || this.selectedDeployment === undefined || this.selectedDeployment === null) {
+                this.isDeploymentEmpty = true;
+            }
+
+            console.log('Deployment: ', this.isDeploymentEmpty);
+            console.log('Company: ', this.isCompanyEmpty);
+
+            console.log(this.isDeploymentEmpty || this.isCompanyEmpty);
+
+            return this.isDeploymentEmpty || this.isCompanyEmpty;
+        },
+        clearError() {
+            this.isCompanyEmpty = false;
+            this.isDeploymentEmpty = false;
+        },
         onSave() {
+            // Clear error.
+            this.clearError();
+
+            // Check for input validation.
+            if(this.validateData()) return;
+
             const { uid: companyId } = this.deploymentDetails.find(element => element.name === this.selectedCompany);
             const DEPLOYMENT_CONFIG = this.deploymentList.find(element => element.value === this.selectedDeployment);
 

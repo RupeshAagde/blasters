@@ -17,6 +17,7 @@
                     text="errorMessage"
                 >
                 </page-error>
+                <loader v-if="isLoading"></loader>
                 <ul v-else-if="deploymentMapping.length > 0">
                     <li
                         v-for="deployment in deploymentMapping"
@@ -112,6 +113,7 @@
 <script>
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import Jumbotron from '@/components/common/jumbotron';
+import loader from '@/components/common/loader';
 import {
     NitrozenButton,
     NitrozenDialog,
@@ -131,6 +133,7 @@ export default {
             deploymentMappingId: '',
             errorMessage: 'No deployment Mappings found.!',
             pageError: false,
+            isLoading: true
         };
     },
     components: {
@@ -141,6 +144,7 @@ export default {
         Jumbotron,
         PageHeader,
         UktInlineSvg,
+        loader
     },
     directives: {
         strokeBtn,
@@ -154,6 +158,7 @@ export default {
             CompanyService.getDeploymentMappings({ page_size: 100, page_no: 1 })
                 .then(({ data }) => {
                     this.deploymentMapping = data.items;
+                    this.isLoading = false;
                 })
                 .catch((err) => {
                     this.pageError = true;
