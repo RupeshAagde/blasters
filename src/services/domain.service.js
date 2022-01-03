@@ -87,15 +87,9 @@ const SKYWARP_ADMIN_BASE = isNode ?
     envVars.BROWSER_CONFIG.SKYWARP_ADMIN_URL :
     envVars.SKYWARP_ADMIN_URL;
 
-<<<<<<< HEAD
-const GRINGOTTS_ADMIN_URL = isNode ?
-    envVars.BROWSER_CONFIG.GRINGOTTS_ADMIN_URL :
-    envVars.GRINGOTTS_ADMIN_URL;
-=======
 const GRINGOTTS_ADMIN_URL = isNode
     ? envVars.BROWSER_CONFIG.GRINGOTTS_ADMIN_URL
     : envVars.GRINGOTTS_ADMIN_URL;
->>>>>>> comms-reports
 
 const COMMUNICATION_BASE_URL = isNode ?
     envVars.BROWSER_CONFIG.POINTBLANK_MAIN_URL :
@@ -508,13 +502,10 @@ const URLS = {
     PLATFORM_CUSTOM_FOOTER: (id = '') => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/footer', id);
     },
-<<<<<<< HEAD
-=======
     PLATFORM_CUSTOM_TAGS: (id = '') => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/', id);
     },
 
->>>>>>> comms-reports
     PLATFORM_PRICING_BANNER: () => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/pricing-banner');
     },
@@ -600,19 +591,6 @@ const URLS = {
     },
     //GRINGOTTS
     FETCH_REVIEW_LIST: (params, status) => {
-<<<<<<< HEAD
-        //console.log(urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/?action=reviewed&is_reviewed=${status}`))
-        return urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/?action=reviewed&is_reviewed=${status}`)
-    },
-    PG_REVIEWED: (params) => {
-        //console.log(urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/${params.paymentId}/?action=reviewed&email=${params.email}`));
-        return urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/${params.paymentId}/?action=reviewed&email=${params.email}`)
-    },
-    FETCH_COD_CONFIG: (params) => {
-        //console.log(urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/company/${params.companyId}/application/${params.app_id}/cod/delivery/`))
-        return urlJoin(GRINGOTTS_ADMIN_URL, `v1.0/config/company/${params.companyId}/application/${params.app_id}/cod/delivery/`)
-    }
-=======
         return urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/?action=reviewed&is_reviewed=${status}`)
     },
     PG_REVIEWED: (params) => {
@@ -626,7 +604,6 @@ const URLS = {
         console.log(params)
         return urlJoin(COMMUNICATION_BASE_URL, `v1.0/log/?page_size=${params.page_size}`)
     },
->>>>>>> comms-reports
 };
 
 export default URLS;
