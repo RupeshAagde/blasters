@@ -193,12 +193,64 @@ const BillingService = {
         });
         return ApiService.put(URLS.SUBSCRIPTION_UPDATE_BY_ID(company_id,subscription_id), axiosOptions);
     },
+    activatePlan(company_id,payload){
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
+            data: payload
+        });
+        return ApiService.post(URLS.SUBSCRIPTION_ACTIVATE(company_id), axiosOptions);
+    },
     cancelSubscription(company_id, payload) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{
             data: payload
         });
         return ApiService.post(URLS.SUBSCRIPTION_CANCEL(company_id), axiosOptions);
     },
+
+    getCouponList(params) {
+        const axiosOptions = Object.assign({},
+            { params: params },
+            getCommonHeaderOptions());
+        return ApiService.get(URLS.SUBSCRIPTION_COUPON(), axiosOptions);
+    },
+
+    getCouponId(id) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.SUBSCRIPTION_COUPON(id), axiosOptions);
+    },
+    
+
+    postCouponList(payload) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(),
+        { data: payload }
+        );
+        return ApiService.post(URLS.SUBSCRIPTION_COUPON(), axiosOptions);
+    },
+    putCouponList(payload,id) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(),
+        { data: payload }
+        );
+        return ApiService.put(URLS.SUBSCRIPTION_COUPON(id), axiosOptions);
+    },
+
+    getPlans(params) {
+        const axiosOptions = Object.assign({}, 
+            { params: params },
+            getCommonHeaderOptions());
+        return ApiService.get(URLS.FETCH_PLANS_LIST(), axiosOptions);
+    },
+    getSubscribers(params) {
+        const axiosOptions = Object.assign({},
+            { params: params },
+            getCommonHeaderOptions());
+        return ApiService.get(URLS.SUBSCRIBER_LIST(), axiosOptions);
+    },
+    getUniqueCoupon(code) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.SUBSCRIPTION_COUPON_UNIQUE(code), axiosOptions);
+    },
+
+
+
 };
 
 export default BillingService;

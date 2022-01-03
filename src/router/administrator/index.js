@@ -6,6 +6,12 @@ import CbsApplicationDetailsVue from './../../pages/company-admin/cbs-applicatio
 import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
 import BillingVue from './../../pages/company-admin/billing.vue';
 import InvoiceListingMain from './../../pages/company-admin/invoice-listing-main.vue';
+<<<<<<< HEAD
+import CouponListingMain from './../../pages/company-admin/coupon-listing-main.vue';
+import CouponCreateUpdate from './../../pages/company-admin/coupon-create-update.vue';
+=======
+import ReportListingMain from './../../pages/communication/reports.vue';
+>>>>>>> comms-reports
 import UserManagementVue from './../../pages/super-user/user-access.vue';
 import AddSuperUserVue from './../../pages/super-user/add-user.vue';
 import Tickets from './../../pages/tickets/index.vue';
@@ -22,7 +28,8 @@ import CreateCustomVue from './../../pages/settings/page-editor/create.vue';
 import NavbarSettingsVue from './../../pages/settings/navbar';
 import FooterSettingsVue from './../../pages/settings/footer';
 import PricingBannerVue from './../../pages/settings/pricing_banner.vue';
-
+import DeploymentSettingsVue from './../../pages/settings/deployment.vue';
+import CreateDeploymentVue from './../../pages/settings/create_deployment.vue'
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
@@ -40,12 +47,319 @@ import CategoryEdit from '@/pages/product/category/edit';
 import ProductVerificationCompanyList from '@/pages/product/verification/list';
 import ProductVerificationEdit from '@/pages/product/verification/edit';
 import ProductVerificationList from '@/pages/product/verification/productList';
-
+import ProductTaxationList from '@/pages/product/taxation/list';
+import ProductTaxationEdit from '@/pages/product/taxation/edit';
 import IntegrationsListVue from '@/pages/integration/list';
 import IntegrationsCreateVue from '@/pages/integration/create';
 
 import { authenticatedUser, checkUserPermission } from './../guards';
 
+<<<<<<< HEAD
+export default [{
+    path: '/administrator/',
+    beforeEnter: authenticatedUser,
+    component: AdministratorBaseViewVue,
+    children: [
+        //...PlanCreatorRoutes,
+        ...ExtensionRoutes,
+        {
+            name: 'company-list',
+            path: 'company-list',
+            component: CompanyListVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['company']);
+            }
+        },
+        {
+            name: 'company-details',
+            path: 'company-details/:companyId',
+            component: CbsDetailVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(
+                    to,
+                    from,
+                    next, ['company'],
+                    'companyId'
+                );
+            }
+        },
+        {
+            name: 'invoices',
+            path: 'subscription/invoices',
+            component: InvoiceListingMain,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(
+                    to,
+                    from,
+                    next, ['company']
+                );
+            }
+        },
+        {
+            name: 'coupons',
+            path: 'subscription/coupons',
+            component: CouponListingMain,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(
+                    to,
+                    from,
+                    next, ['company']
+                );
+            }
+        },
+        {
+            name: 'couponType',
+            path: 'subscription/coupons/create/:couponType',
+            component: CouponCreateUpdate,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(
+                    to,
+                    from,
+                    next, ['company']
+                );
+            }
+        },
+        {
+            name: 'couponType',
+            path: 'subscription/coupons/edit/:couponType/:couponId',
+            component: CouponCreateUpdate,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(
+                    to,
+                    from,
+                    next, ['company']
+                );
+            }
+        },
+        {
+            name: 'invoices details',
+            path: 'subscription/invoices/:billingNo',
+            component: BillingVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(
+                    to,
+                    from,
+                    next, ['company']
+                );
+            }
+        },
+        {
+            name: 'billing-details',
+            path: 'company-details/:companyId/billing-details/:billingNo',
+            component: BillingVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(
+                    to,
+                    from,
+                    next, ['company']
+                );
+            }
+        },
+        {
+            name: 'company-application-details',
+            path: 'company-details/:companyId/application/:appId',
+            component: CbsApplicationDetailsVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(
+                    to,
+                    from,
+                    next, ['company']
+                );
+            }
+        },
+        {
+            name: 'user-management',
+            path: 'user-management',
+            component: UserManagementVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, [
+                    'admin-access'
+                ]);
+            }
+        },
+        {
+            name: 'support',
+            path: 'support',
+            component: Tickets,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['support']);
+            }
+        },
+        {
+            name: 'support-edit',
+            path: 'support/ticket/:ticket_id/edit',
+            component: CreateTicket,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['support']);
+            }
+        },
+        {
+            name: 'support-video',
+            path: 'support/ticket/:ticket_id/video-room',
+            component: VideoRoom,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['support']);
+            }
+        },
+        {
+            name: 'support-category',
+            path: 'support/add-category',
+            component: AddCategory,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['support']);
+            }
+        },
+        {
+            name: 'add-user',
+            path: 'add-user',
+            component: AddSuperUserVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, [
+                    'admin-access'
+                ]);
+            }
+        },
+        {
+            name: 'add-dri',
+            path: 'company-details/:companyId/add-dri',
+            component: AddEditDri,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(
+                    to,
+                    from,
+                    next, ['company'],
+                    'companyId'
+                );
+            }
+        },
+        {
+            name: 'edit-dri',
+            path: 'company-details/:companyId/edit-dri/:uid',
+            component: AddEditDri,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(
+                    to,
+                    from,
+                    next, ['company'],
+                    'companyId'
+                );
+            }
+        },
+        //Catalog
+        {
+            name: 'department',
+            path: 'product/department',
+            component: ListDepartment
+        },
+        {
+            name: 'create',
+            path: 'product/department/create',
+            component: CreateUpdateDepartment
+        },
+        {
+            name: 'edit-department',
+            path: 'product/department/edit/:deptId',
+            component: CreateUpdateDepartment
+        },
+        {
+            name: 'variants',
+            path: 'product/variants',
+            component: ListVariants
+        },
+        {
+            name: 'create-variant',
+            path: 'product/variants/create',
+            component: CreateUpdateVariant
+        },
+        {
+            name: 'edit-variant',
+            path: 'product/variants/edit/:uid',
+            component: CreateUpdateVariant
+        },
+        // Product
+        {
+            name: 'product',
+            path: 'product',
+            component: Product,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        // attributes
+        {
+            name: 'attributes',
+            path: 'product/attributes',
+            component: ProductAttributesList,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'attributes-create',
+            path: 'product/attributes/create',
+            component: ProductAttributesEdit,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'attributes-edit',
+            path: 'product/attributes/edit/:slug',
+            component: ProductAttributesEdit,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'taxation',
+            path: 'product/taxation',
+            component: ProductTaxationList,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'add hsn',
+            path: 'product/taxation/add',
+            component: ProductTaxationEdit,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'edit hsn',
+            path: 'product/taxation/:uid/edit',
+            component: ProductTaxationEdit,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        // group-and-sequence
+        {
+            name: 'attributes-group',
+            path: 'product/attributes/group/:entity',
+            component: ProductAttributesGroup,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'attributes-group-settings',
+            path: 'product/attributes/group/:entity/:slug',
+            component: ProductAttributesGroup,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'attributes-sequence',
+            path: 'product/attributes/sequence/:entity',
+            component: ProductAttributesSequence,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+=======
 export default [
     {
         path: '/administrator/',
@@ -80,6 +394,19 @@ export default [
                 name: 'invoices',
                 path: 'subscription/invoices',
                 component: InvoiceListingMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'reports',
+                path: 'communication/reports',
+                component: ReportListingMain,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(
                         to,
@@ -298,6 +625,7 @@ export default [
                     return checkUserPermission(to, from, next, ['product']);
                 }
             },
+>>>>>>> comms-reports
 
             // templates
             {
@@ -451,6 +779,22 @@ export default [
                 name: 'pricing-banner',
                 path: 'settings/pricing-banner',
                 component: PricingBannerVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'deployment-setting',
+                path: 'settings/deployments',
+                component: DeploymentSettingsVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'create-deployment',
+                path: 'settings/deployments/create',
+                component: CreateDeploymentVue,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
                 }
