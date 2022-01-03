@@ -15,12 +15,12 @@
                     class="company-name"
                     label="Company Name"
                     :items="companyListFiltered"
-                    v-model="selectedCompany"
                     :searchable="true"
-                    placeholder="Company name"
-                    @searchInputChange="onSearchInputUpdateCompanyList"
+                    v-model="selectedCompany"
+                    placeholder="Company Name"
                     :required="true"
                     showError="true"
+                    @searchInputChange="onFilterFetch"
                 ></nitrozen-dropdown>
                 <nitrozen-error v-if="isCompanyEmpty">
                     <p class="form-error-text">Please select valid company</p>
@@ -50,6 +50,7 @@
 import PageHeader from '@/components/common/layout/page-header';
 import { NitrozenButton, NitrozenDropdown, NitrozenInput, NitrozenError, flatBtn } from '@gofynd/nitrozen-vue';
 import CompanyService from '@/services/company-admin.service';
+import { debounce } from '../../helper/utils';
 
 export default {
     name: 'create-deployment',
@@ -77,22 +78,7 @@ export default {
         }
     },
     beforeMount() {
-        const REQUEST_PARAMS = {
-            page_size: 999
-        }
-
-        CompanyService.getCompanyList(REQUEST_PARAMS)
-            .then(({data}) => {
-                this.deploymentDetails = data.items;
-                this.companyList = data.items.map(element => {
-                    return {
-                        "text": element.name,
-                        "value": element.name,
-                    }
-                });
-
-                this.companyListFiltered = this.companyList;
-            });
+        this.getCompanyList();
 
         CompanyService.getDeploymentList()
             .then(({data}) => {
@@ -108,21 +94,28 @@ export default {
             });
     },
     methods: {
+        getCompanyList(searchedValue = '') {
+            const REQUEST_PARAMS = {
+                q: searchedValue
+            }
+
+            CompanyService.getCompanyList(REQUEST_PARAMS)
+                .then(({data}) => {
+                    this.deploymentDetails = data.items;
+                    this.companyList = data.items.map(element => {
+                        return {
+                            "text": element.name,
+                            "value": element.name,
+                        }
+                    });
+
+                    this.companyListFiltered = this.companyList;
+                });
+        },
         backClick() {
             this.$router.push({
                 path: '/administrator/settings/deployments'
             });
-        },
-        onSearchInputUpdateCompanyList(e) {
-            if (e && e.text) {
-                this.companyListFiltered = this.companyList.filter(x => {
-                    let text = x.text.toLowerCase();
-                    let searchText = e.text.toLowerCase()
-                    return text.indexOf(searchText) > -1;
-                });
-            } else {
-                this.companyListFiltered = this.companyList;
-            }
         },
         onSearchInputUpdateDeploymentList(e) {
             if (e && e.text) {
@@ -143,11 +136,6 @@ export default {
             if(this.selectedDeployment === '' || this.selectedDeployment === undefined || this.selectedDeployment === null) {
                 this.isDeploymentEmpty = true;
             }
-
-            console.log('Deployment: ', this.isDeploymentEmpty);
-            console.log('Company: ', this.isCompanyEmpty);
-
-            console.log(this.isDeploymentEmpty || this.isCompanyEmpty);
 
             return this.isDeploymentEmpty || this.isCompanyEmpty;
         },
@@ -182,7 +170,10 @@ export default {
                 .catch(err => {
                     this.$snackbar.global.showError('Error creating deployment mapping');
                 });
-        }
+        },
+        onFilterFetch: debounce(function(e) {
+            this.getCompanyList(e.text);
+        }, 500)
     }
 }
 </script>
