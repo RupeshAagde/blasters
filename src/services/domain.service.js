@@ -330,6 +330,15 @@ const URLS = {
     SUBSCRIPTION_GET_ACTIVE_PLAN: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/subscription/current`);
     },
+    GET_CUSTOMER_DETAILS: (company_id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/customer`);
+    },
+    CREDIT_ADJUSTMENT: (company_id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/customer/credit-adjustment`);
+    },
+    GET_CREDIT_TRANSACTIONS: (company_id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/credit-transaction`);
+    },
     SUBSCRIPTION_MAX_APPLICATION_LIMIT: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/subscription/current-limit`);
     },

@@ -1,6 +1,6 @@
 <template>
     <div class="errorPage">
-        <img src="/public/admin/assets/admin/pngs/empty_state.png" />
+        <img src="/public/assets/admin/pngs/empty_state.png" />
         <div>{{ title }}</div>
     </div>
 </template>
