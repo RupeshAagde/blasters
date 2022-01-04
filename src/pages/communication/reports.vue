@@ -539,7 +539,7 @@ export default {
              .catch(()=>{})
             params.query = JSON.stringify(params.query);
 
-
+            console.log(params);
             CommunicationServices.getLog(params)
             .then(res=>{
                 console.log(res.data);

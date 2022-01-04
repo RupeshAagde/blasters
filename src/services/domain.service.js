@@ -601,7 +601,6 @@ const URLS = {
     },
     //POINTBLANK
     COMMUNICATION_LOG: (params) => {
-        console.log(params)
         return urlJoin(COMMUNICATION_BASE_URL, `v1.0/log/?page_size=${params.page_size}`)
     },
 };

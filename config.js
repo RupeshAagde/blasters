@@ -219,6 +219,13 @@ const conf = convict({
             env: 'GRINGOTTS_ADMIN_URL',
             arg: 'gringotts_admin_url'
         },
+        POINTBLANK_MAIN_URL: {
+            doc: 'Communication Custom Main Public URL to hit',
+            format: String,
+            default: '',
+            env: 'POINTBLANK_MAIN_URL',
+            arg: 'POINTBLANK_MAIN_URL'
+        },
         GRIMLOCK_MAIN_URL: {
             doc: 'GrimlockWeb Main URL',
             format: String,
