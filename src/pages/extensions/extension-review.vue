@@ -7,22 +7,33 @@
 
                 <div class="button-box">
                     <nitrozen-button
-                        v-if="extension_info.current_status==='pending'"
+                        v-if="extension_info.current_status === 'pending'"
                         :theme="'secondary'"
                         @click="saveForm(true)"
                         v-flatBtn
                         >Approve</nitrozen-button
                     >
                     <nitrozen-button
-                        v-if="extension_info.current_status==='pending'"
+                        v-if="extension_info.current_status === 'pending'"
                         :theme="'secondary'"
                         @click="saveForm(false)"
                         v-strokeBtn
                         >Reject</nitrozen-button
                     >
-                    <nitrozen-badge v-if="extension_info.current_status!=='pending'" :state="extension_info.current_status==='rejected'? 'error': 'success'">{{extension_info.current_status}}</nitrozen-badge>
+                    <nitrozen-badge
+                        v-if="extension_info.current_status !== 'pending'"
+                        :state="
+                            extension_info.current_status === 'rejected'
+                                ? 'error'
+                                : 'success'
+                        "
+                        >{{ extension_info.current_status }}</nitrozen-badge
+                    >
                 </div>
-                <template v-if="extension_info.current_status==='pending'" slot="page-slot-mobile-footer">
+                <template
+                    v-if="extension_info.current_status === 'pending'"
+                    slot="page-slot-mobile-footer"
+                >
                     <nitrozen-button
                         @click="saveForm(true)"
                         class="footer-actions"
@@ -72,22 +83,26 @@
                     </div>
                     <div
                         class="right-container"
-                        v-if="extension_info.current_status !== 'pending' && (reviewer_name && reviewer_email && reviewer_phone)"
+                        v-if="
+                            extension_info.current_status !== 'pending' &&
+                            reviewer_name &&
+                            reviewer_email &&
+                            reviewer_phone
+                        "
                     >
-                    <div class="cl-Mako bold-md">Reviewed By:</div>
+                        <div class="cl-Mako bold-md">Reviewed By:</div>
                         <div class="extension-info">
                             <span>Reviewer Name:</span>
                             {{ reviewer_name }}
                         </div>
-                        <div class="extension-info" >
+                        <div class="extension-info">
                             <span>Reviewer Email:</span>
                             {{ reviewer_email }}
                         </div>
-                        <div class="extension-info" >
+                        <div class="extension-info">
                             <span>Reviewer Phone:</span>
                             {{ reviewer_phone }}
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -122,11 +137,22 @@
                     v-model="extension_info.review_instructions"
                 >
                 </nitrozen-input>
+
                 <nitrozen-input
+                    v-if="extension_info.current_status !== 'pending'"
+                    :disabled="true"
                     class="nitrozen-form-input full-width"
                     :type="'textarea'"
                     :label="'Review Comments'"
-                    v-model="review_data.review_comments"
+                    v-model="extension_info.review_comments"
+                >
+                </nitrozen-input>
+                <nitrozen-input
+                    v-else
+                    class="nitrozen-form-input full-width"
+                    :type="'textarea'"
+                    :label="'Review Comments'"
+                    v-model="extension_info.review_comments"
                 >
                 </nitrozen-input>
                 <nitrozen-error :class="{ hidden: !error_comments }">
@@ -196,7 +222,7 @@ import {
     strokeBtn,
     NitrozenInput,
     NitrozenError,
-    NitrozenBadge
+    NitrozenBadge,
 } from '@gofynd/nitrozen-vue';
 
 import loader from '@/components/common/loader';
@@ -238,9 +264,9 @@ export default {
             },
             error_comments: '',
             fynd_platform_domain: 'fynd.com',
-            reviewer_name:'',
-            reviewer_email:'',
-            reviewer_phone:'',
+            reviewer_name: '',
+            reviewer_email: '',
+            reviewer_phone: '',
         };
     },
     computed: {
@@ -263,7 +289,6 @@ export default {
         this.fynd_platform_domain =
             env.FYND_PLATFORM_DOMAIN || this.fynd_platform_domain;
         this.fetchExtension();
-
     },
     methods: {
         fetchExtension() {
@@ -272,8 +297,7 @@ export default {
             ExtensionService.getExtensionReviewInfo(this.review_id)
                 .then(({ data }) => {
                     this.extension_info = data;
-                    if(this.extension_info.current_status!=='pending')
-                    {
+                    if (this.extension_info.current_status !== 'pending') {
                         this.getUserInfo(this.extension_info.reviewed_by);
                     }
                 })
@@ -331,28 +355,42 @@ export default {
             this.$emit('backClick');
         },
         getUserInfo(userId) {
-            
             CompanyService.searchUser({ query: userId })
-                .then((res) => { 
-
-                   if (res.data.users.length) {
-                    
-                            this.reviewer_name=res.data.users[0].first_name+" "+res.data.users[0].last_name;
-                        for(let i=0;i<res.data.users[0].emails.length;i++){
-                            if(res.data.users[0].emails[i].primary===true){
-                               this.reviewer_email=res.data.users[0].emails[i].email;
+                .then((res) => {
+                    if (res.data.users.length) {
+                        this.reviewer_name =
+                            res.data.users[0].first_name +
+                            ' ' +
+                            res.data.users[0].last_name;
+                        for (
+                            let i = 0;
+                            i < res.data.users[0].emails.length;
+                            i++
+                        ) {
+                            if (res.data.users[0].emails[i].primary === true) {
+                                this.reviewer_email =
+                                    res.data.users[0].emails[i].email;
                             }
-                            
                         }
-                        for(let i=0;i<res.data.users[0].phone_numbers.length;i++){
-                        
-                        if(res.data.users[0].phone_numbers[i].primary===true){
-                               this.reviewer_phone= "+"+res.data.users[0].phone_numbers[i].country_code+" "+res.data.users[0].phone_numbers[i].phone;
+                        for (
+                            let i = 0;
+                            i < res.data.users[0].phone_numbers.length;
+                            i++
+                        ) {
+                            if (
+                                res.data.users[0].phone_numbers[i].primary ===
+                                true
+                            ) {
+                                this.reviewer_phone =
+                                    '+' +
+                                    res.data.users[0].phone_numbers[i]
+                                        .country_code +
+                                    ' ' +
+                                    res.data.users[0].phone_numbers[i].phone;
                             }
                         }
-                    
                     }
-                    //   
+                    //
                     //     if (this.dateType) {
                     //         let dateString = new Date(this.date).toDateString();
                     //         this.userInfo.date = dateString
@@ -363,7 +401,6 @@ export default {
                     // }
                 })
                 .catch((err) => {
-                    
                     console.log(err);
                 });
         },
