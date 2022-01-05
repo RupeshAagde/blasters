@@ -92,8 +92,8 @@ const GRINGOTTS_ADMIN_URL = isNode
     : envVars.GRINGOTTS_ADMIN_URL;
 
 const COMMUNICATION_BASE_URL = isNode ?
-    envVars.BROWSER_CONFIG.POINTBLANK_MAIN_URL :
-    envVars.POINTBLANK_MAIN_URL;
+    envVars.BROWSER_CONFIG.POINTBLANK_ADMIN_URL :
+    envVars.POINTBLANK_ADMIN_URL;
 
 
 const URLS = {
@@ -601,7 +601,10 @@ const URLS = {
     },
     //POINTBLANK
     COMMUNICATION_LOG: (params) => {
-        return urlJoin(COMMUNICATION_BASE_URL, `v1.0/log/?page_size=${params.page_size}`)
+        return urlJoin(COMMUNICATION_BASE_URL, `v1.0/log`)
+    },
+    COMMUNICATION_CAMPAIGNS: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/campaigns/campaigns`)
     },
 };
 

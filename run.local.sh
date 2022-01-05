@@ -6,8 +6,7 @@ export PORT=8086
 
 #API's
 export FYND_PLATFORM_DOMAIN=fyndx0.de
-# https://api.fyndx0.de/service/___/administrator/communication/v1.0/log'
-export POINTBLANK_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/communication/
+export POINTBLANK_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/communication/
 export BLITZKRIEG_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/platform/theme/
 export GRINDOR_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/assets/
 export GRINGOTTS_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/payment/

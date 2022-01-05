@@ -13,7 +13,7 @@
                             class="input-shimmer shimmer"
                         ></div>
                         <template v-else>
-                            <div class="flex-1 flex">
+                            <div class="flex-1 flex search">
                                 <div class="search-box">
                                     <nitrozen-input
                                         class="search-input"
@@ -59,7 +59,7 @@
                             </div>
                         </template>
                     </div>
-                    <div class="flex flex-end">
+                    <div class="flex flex-end date">
                         <div
                             v-if="pageLoading && isInitialLoad && !pageError"
                             class="date-shimmer-wrapper date-wrapper"
@@ -336,39 +336,10 @@ export default {
             this.fetchCampaigns();
         },
         fetchCampaigns() {
-            // this.pageLoading = true;
-            // return this.$store
-            //     .dispatch(ADMIN_COMMS_FETCH_CAMPAIGNS, {
-            //         params: {
-            //             sort: JSON.stringify({ created_at: -1 }),
-            //             ...(this.campaignsText
-            //                 ? {
-            //                       query: JSON.stringify({
-            //                           $or: [
-            //                               {
-            //                                   name: {
-            //                                       $regex: this.campaignsText,
-            //                                       $options: 'ig'
-            //                                   }
-            //                               }
-            //                           ]
-            //                       })
-            //                   }
-            //                 : {})
-            //         }
-            //     })
-            //     .then(data => {
-            //         this.pageLoading = false;
-            //         this.pageError = false;
-            //         return data;
-            //     })
-            //     .catch(err => {
-            //         this.pageLoading = false;
-            //         this.pageError = true;
-            //     })
-            //     .finally(() => {
-            //         this.isInitialLoad && (this.isInitialLoad = false);
-            //     });
+           CommunicationServices.getCampaigns()
+           .then(res=>{
+               console.log(res)
+           })
         },
          validateDates() {
             var start,
@@ -568,7 +539,7 @@ export default {
     mounted() {
     //this.resetPagination();
 
-
+        this.fetchCampaigns()
         this.changePage()
     }
 }
@@ -576,11 +547,10 @@ export default {
 <style lang="less" scoped>
 //@import './../less/page-header.less';
 //@import './../less/page-ui.less';
-// ::v-deep .main-container {
-//     background-color: white;
-//     margin: 24px;
-//     padding: 24px;
-// }
+::v-deep .main-container {
+    margin-top: 14px;
+    
+}
 
 .custom-header {
     ::v-deep .n-flat-button-secondary {
@@ -720,12 +690,12 @@ export default {
                 width: 50%;
             }
             .search-box {
-                width: 100%;
+                width: 80%;
                 height: 40px;
-                display: flex;
+                
                 justify-content: space-between;
                 .search-input {
-                    width: 400px;
+                    width: 100px;
                 }
                 .filter {
                     display: flex;
@@ -761,6 +731,18 @@ export default {
 .date-container {
     @media @mobile {
         margin-bottom: 12px;
+    }
+}
+.search{
+
+    
+    /deep/.search-box {
+      width: 80%;
+    }
+}
+.date {
+    /deep/.date-wrapper{
+        max-width: 80%;
     }
 }
 </style>
