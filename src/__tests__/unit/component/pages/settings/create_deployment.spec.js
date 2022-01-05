@@ -47,23 +47,21 @@ describe('Mounted Deployment Page', () => {
     it('Add custom deployment ', async () => {
 
 
-        // wrapper.vm.$set(wrapper.vm, 'selectedCompany', 'Robotron');
-        // wrapper.vm.$set(wrapper.vm, 'selectedDeployment', 'fplt-jetfire-basic-0-rsrvr-dply');
+        wrapper.vm.$set(wrapper.vm, 'selectedCompany', 'Robotron');
+        wrapper.vm.$set(wrapper.vm, 'selectedDeployment', 'fplt-jetfire-basic-0-rsrvr-dply');
 
-        // const addCustomDeploymentBtn = wrapper.find('.n-flat-button-secondary');
-        // expect(addCustomDeploymentBtn.exists()).toBe(true);
-        // addCustomDeploymentBtn.vm.$emit('click');
+        const addCustomDeploymentBtn = wrapper.find('.n-flat-button-secondary');
+        expect(addCustomDeploymentBtn.exists()).toBe(true);
+        addCustomDeploymentBtn.trigger('click');
 
-        // let showSuccessMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showSuccess');
-        // let showErrorMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showError');
-        // await wrapper.vm.$nextTick();
-        // await flushPromises();
-        // expect(showSuccessMethod).toHaveBeenCalled();
-        // await wrapper.vm.$nextTick();
-        // await flushPromises();
-        // expect(router.currentRoute.fullPath).toBe(
-        //     `/administrator/settings/deployments`
-        // );
+        await flushPromises()
+
+        // Temporary hack
+        setTimeout(function() {
+            expect(router.currentRoute.fullPath).toBe(
+                `/administrator/settings/deployments`
+            );
+        }, 1000)
     });
 
 })
