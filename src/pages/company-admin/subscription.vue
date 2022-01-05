@@ -201,18 +201,21 @@
                 ref="change_plan_dialog"
                 title="Change Plan"
                 :label="'Select Plan'"
-                @close="onCloseChangePlan"
             >
                 <template slot="body" name="body"
                     >
                     <nitrozen-dropdown
+                        ref="type-search"
                         :searchable="true"
                         class="datatype-dropdown"
                         :items="plansListDropdownItems"
                         v-model="slectedForChange"
                         @searchInputChange="searchPlans"
                         :placeholder="'Search Plans'"
-                    ></nitrozen-dropdown>  
+                    ></nitrozen-dropdown>
+                    <nitrozen-error class="bottom-space" v-if="slectedForChangeError">
+                        Please select valid plan
+                    </nitrozen-error>  
                     <nitrozen-input
                         class="search m-t-24"
                         type="textarea"
@@ -220,8 +223,22 @@
                         placeholder="Enter Comment"
                         v-model="planChangeComment"
                     ></nitrozen-input>  
+
                 </template
                 >
+                <template slot="footer" name="footer">
+                    <nitrozen-button
+                        class="m-r-12"
+                        theme="secondary"
+                        v-flatBtn
+                        @click="onActivatePlan"
+                        >Activate Plan</nitrozen-button>
+                    <nitrozen-button
+                        theme="secondary"
+                        v-strokeBtn
+                        @click="onCancelActivatePlan"
+                        >Cancel</nitrozen-button>
+                </template>
             </nitrozen-dialog>
         </div>
         <div class="width-100">
@@ -447,6 +464,7 @@ export default {
             currentPlan:"",
             plansList: [],
             slectedForChange:"",
+            slectedForChangeError:false,
             planChangeComment:"",
             isLoading:false,
             currentPlanDetailed: null,
@@ -581,13 +599,34 @@ export default {
                 neutralButtonLabel: false
             });
         },
+        onActivatePlan(){
+            if(!this.slectedForChange){
+                return this.slectedForChangeError=true;
+            }else {
+                if(this.currentPlan.plan_id===this.slectedForChange){
+                    this.slectedForChange="";
+                    this.planChangeComment="";
+                    return this.$snackbar.global.showError(`You are already subsribed to ${this.currentPlan.plan_data.name}`,{duration: 2000});
+                }
+                this.activatePlan(this.slectedForChange);
+                this.$refs['change_plan_dialog'].close();    
+            }
+        },
+        onCancelActivatePlan(){
+            this.$refs['change_plan_dialog'].close()
+        },
         onOpenChangePlanDialog() {
-            this.$refs['change_plan_dialog'].open({
+            this.slectedForChangeError=false;
+            this.slectedForChange="";
+            this.$nextTick(()=>{
+                this.$refs['type-search'].selectItem(null, {})
+                this.$refs['change_plan_dialog'].open({
                 width: '400px',
                 height: '420px',
                 positiveButtonLabel: 'Activate Plan',
                 negativeButtonLabel: 'Cancel',
                 neutralButtonLabel: false
+            });
             });
         },
         onCloseCancelSubscription(optionSelected) {
@@ -596,7 +635,7 @@ export default {
             }
         },
         onCloseChangePlan(optionSelected){
-            if(optionSelected.toLowerCase().includes('activate')){
+            if(optionSelected.toLowerCase().includes('activate') && this.slectedForChange){
                 if(this.currentPlan.plan_id===this.slectedForChange){
                     this.slectedForChange="";
                     this.planChangeComment="";
@@ -604,6 +643,7 @@ export default {
                 }
                 this.activatePlan(this.slectedForChange);    
             }else{
+                this.slectedForChangeError=true;
                 this.slectedForChange="";
                 this.planChangeComment="";
             }
