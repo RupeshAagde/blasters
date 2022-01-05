@@ -210,6 +210,7 @@
                         class="datatype-dropdown"
                         :items="plansListDropdownItems"
                         v-model="slectedForChange"
+                        @change="slectedForChangeError=false;"
                         @searchInputChange="searchPlans"
                         :placeholder="'Search Plans'"
                     ></nitrozen-dropdown>
@@ -634,20 +635,6 @@ export default {
                 this.cancelSubscription(this.company_id);
             }
         },
-        onCloseChangePlan(optionSelected){
-            if(optionSelected.toLowerCase().includes('activate') && this.slectedForChange){
-                if(this.currentPlan.plan_id===this.slectedForChange){
-                    this.slectedForChange="";
-                    this.planChangeComment="";
-                    return this.$snackbar.global.showError(`You are already subsribed to ${this.currentPlan.plan_data.name}`,{duration: 2000});
-                }
-                this.activatePlan(this.slectedForChange);    
-            }else{
-                this.slectedForChangeError=true;
-                this.slectedForChange="";
-                this.planChangeComment="";
-            }
-        },
         cancelSubscription(company_id){
             let subscription_id = this.safeGet(this.currentActivePlan,'subscription._id')
             if(!subscription_id){
@@ -803,6 +790,7 @@ export default {
                     this.fetchPlans(e.text);
                 }, 400)();
             }else {
+                this.slectedForChange="";
                 this.fetchPlans("")
             }
 
