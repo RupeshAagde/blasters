@@ -3,11 +3,13 @@
         <div class="page-container">
             <jumbotron
                 class="extensions-jmbtrn"
-                :title="`Extensions ${
-                    extensionList && extensionList.length
-                        ? '(' + extensionList.length + ')'
-                        : ''
-                }`"
+                :title="
+                    `Extensions ${
+                        extensionList && extensionList.length
+                            ? '(' + extensionList.length + ')'
+                            : ''
+                    }`
+                "
                 :desc="'Extensions for review'"
             ></jumbotron>
             <!--Search Baar-->
@@ -18,8 +20,8 @@
                         class="search-box"
                         type="search"
                         placeholder="Search by name"
+                        ref="search-box"
                         v-model="searchText"
-                        @keyup.enter="setRouteQuery({ search: searchText })"
                         @input="debounceInput"
                     ></nitrozen-input>
 
@@ -29,9 +31,10 @@
                             class="filter-dropdown"
                             :items="filters"
                             v-model="selectedFilter"
+                            ref="filter-dropdown"
                             @change="
                                 setRouteQuery({
-                                    current_status: selectedFilter,
+                                    current_status: selectedFilter
                                 })
                             "
                         ></nitrozen-dropdown>
@@ -50,36 +53,17 @@
                     @retry="fetchExtensions()"
                 ></page-error>
 
-                <div v-for="extension in extensionList" :key="extension._id">
-                    <list-card :extension="extension" @click="edit(extension)">
-                    </list-card>
-                </div>
-
-                <!-- <div
-                        v-for="extension in extensionList"
-                        :key="extension._id"
-                        class="bombshell-list-card-container"
+                <div
+                    v-for="(extension, index) in extensionList"
+                    :key="extension._id"
+                >
+                    <list-card
+                        :extension="extension"
+                        :ref="'extension-' + index"
                         @click="edit(extension)"
                     >
-                        <div class="card-avatar">
-                            <img
-                                :src="getIntegartionImage(integration)"
-                                alt="icon"
-                                @error="$set(integration, 'icon', default_img)"
-                            />
-                        </div>
-                        <div class="card-content-section">
-                            <div class="card-content-line-1 full-name">
-                                Requested By: {{ integration.name }}
-                            </div>
-                            <div class="card-content-line-2">
-                                Requested On: {{ integration.token }}
-                            </div>
-                            <div class="card-content-line-2">
-                                Owner: {{ integration.owner }}
-                            </div>
-                        </div>
-                    </div> -->
+                    </list-card>
+                </div>
             </div>
             <page-empty
                 v-if="extensionList.length == 0"
@@ -89,6 +73,7 @@
                 <nitrozen-pagination
                     name="Extensions"
                     v-model="paginationConfig"
+                    ref="ext-paginagtion"
                     @change="paginationChange"
                     :pageSizeOptions="[5, 10, 20, 50]"
                 ></nitrozen-pagination>
@@ -201,7 +186,7 @@ import {
     NitrozenInput,
     NitrozenPagination,
     NitrozenBadge,
-    NitrozenDropdown,
+    NitrozenDropdown
 } from '@gofynd/nitrozen-vue';
 
 import pageEmpty from '@/components/common/page-empty.vue';
@@ -213,13 +198,13 @@ import ExtensionService from '@/services/extension.service';
 
 const PAGINATION = {
     page: 1,
-    limit: 10,
+    limit: 10
 };
 
 const ROLE_FILTER = [
     { value: 'pending', text: 'Pending' },
     { value: 'rejected', text: 'Rejected' },
-    { value: 'published', text: 'Published' },
+    { value: 'published', text: 'Published' }
 ];
 
 export default {
@@ -234,10 +219,10 @@ export default {
         'page-empty': pageEmpty,
         'page-error': pageError,
         'list-shimmer': listShimmer,
-        'list-card': listCard,
+        'list-card': listCard
     },
     directives: {
-        flatBtn,
+        flatBtn
     },
     data() {
         return {
@@ -249,11 +234,11 @@ export default {
             paginationConfig: {
                 limit: 10,
                 current: 1,
-                total: 10,
+                total: 10
             },
             filters: [...ROLE_FILTER],
             pagination: { ...PAGINATION },
-            selectedFilter: 'pending',
+            selectedFilter: 'pending'
         };
     },
     mounted() {
@@ -268,22 +253,18 @@ export default {
             this.pagination.limit = +limit || this.pagination.limit;
             this.selectedFilter = current_status || 'pending';
         },
-        debounceInput: debounce(function (e) {
-            if (e.length === 0) {
+        debounceInput: debounce(function(e) {
+            if (this.searchText.length === 0) {
                 this.setRouteQuery({ search: undefined });
             }
-
-            this.setRouteQuery({ search: e });
+            this.setRouteQuery({ search: this.searchText });
         }, 500),
-        chooseExtensionType() {
-            this.$refs['type-modal'].open();
-        },
         fetchExtensions() {
             let params = {
                 page_no: this.pagination.page,
                 page_size: this.pagination.limit,
                 current_status: this.selectedFilter,
-                name: this.searchText,
+                name: this.searchText
             };
 
             ExtensionService.getExtensionReviewList(params)
@@ -298,7 +279,7 @@ export default {
         edit(review) {
             const { params } = this.$route;
             this.$router.push({
-                path: `/administrator/extensions/review/${review._id}`,
+                path: `/administrator/extensions/review/${review._id}`
             });
         },
         paginationChange(e) {
@@ -306,7 +287,6 @@ export default {
             this.fetchExtensions();
         },
         setRouteQuery(query) {
-            console.log(query);
             if (query.search) {
                 // clear pagination if search or filter applied
                 this.pagination = { ...PAGINATION };
@@ -317,8 +297,8 @@ export default {
                 path: this.$route.path,
                 query: {
                     ...this.$route.query,
-                    ...query,
-                },
+                    ...query
+                }
             });
             if (query.current_status) {
                 // clear pagination if search or filter applied
@@ -329,7 +309,7 @@ export default {
             }
 
             this.fetchExtensions();
-        },
-    },
+        }
+    }
 };
 </script>

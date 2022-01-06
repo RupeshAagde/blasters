@@ -2,9 +2,6 @@
     <div class="panel">
         <div class="page-header-position">
             <page-header @backClick="onCancel" :title="getExtensionName">
-                <!--  <img  :src="extension_info.listing_info.icon"
-                class="default-image circle-clip" /> -->
-
                 <div class="button-box">
                     <nitrozen-button
                         v-if="extension_info.current_status === 'pending'"
@@ -80,14 +77,32 @@
                             <span>Organization Name:</span>
                             {{ extension_info.organization_name }}
                         </div>
+
+                        <div class="extension-info">
+                            <nitrozen-button
+                                v-if="!showScopes"
+                                theme="secondary"
+                                @click="showScopes = true"
+                                >View Requested Scopes</nitrozen-button
+                            >
+                            <div class="scope-listing" v-else>
+                                <ul
+                                    class="ext-scopes"
+                                >
+                                <li v-for="(scope,
+                                    index) in extension_info.scope"
+                                    :key="scope + index">{{scope}}</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <div
                         class="right-container"
                         v-if="
                             extension_info.current_status !== 'pending' &&
-                            reviewer_name &&
-                            reviewer_email &&
-                            reviewer_phone
+                                reviewer_name &&
+                                reviewer_email &&
+                                reviewer_phone
                         "
                     >
                         <div class="cl-Mako bold-md">Reviewed By:</div>
@@ -106,27 +121,13 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="left-container card-content-line-2">
-                <div>
-                    <div>{{ extension_info.listing_info.tagline }}</div>
-                    <div>{{ extension_info.contact_info.review_notification_email }}</div>
-                    {{ toDateTimeString(extension_info.created_at) }}
-                    {{ extension_info.organization_id }}
-                </div>
-
-                <div
-                    class="right-container card-content-line-2"
-                    v-if="extension_info.current_status !== 'pending'"
-                >
-                    {{ extension_info.reviewed_by }}
-                </div>
-                
-            </div> -->
 
             <div class="page-container">
                 <a
                     class="cl-RoyalBlue"
-                    :href="`https://partners.${fynd_platform_domain}/extensions/preview/${extension_id}`"
+                    :href="
+                        `https://partners.${fynd_platform_domain}/extensions/preview/${extension_id}`
+                    "
                     target="_blank"
                     >Link to extension</a
                 >
@@ -196,6 +197,15 @@
             span {
                 font-weight: bold;
             }
+            .scope-listing{
+                margin-left: 24px;
+                .ext-scopes{
+                    list-style: disc;
+                    li{
+                        margin-bottom: 12px;
+                    }
+                }
+            }
         }
     }
 }
@@ -222,7 +232,7 @@ import {
     strokeBtn,
     NitrozenInput,
     NitrozenError,
-    NitrozenBadge,
+    NitrozenBadge
 } from '@gofynd/nitrozen-vue';
 
 import loader from '@/components/common/loader';
@@ -246,11 +256,11 @@ export default {
         'page-empty': pageEmpty,
         'page-error': pageError,
         'page-header': pageHeader,
-        loader: loader,
+        loader: loader
     },
     directives: {
         flatBtn,
-        strokeBtn,
+        strokeBtn
     },
     data() {
         return {
@@ -260,13 +270,14 @@ export default {
             extension_info: {},
             review_data: {
                 review_comments: '',
-                current_status: '',
+                current_status: ''
             },
             error_comments: '',
             fynd_platform_domain: 'fynd.com',
             reviewer_name: '',
             reviewer_email: '',
             reviewer_phone: '',
+            showScopes: false
         };
     },
     computed: {
@@ -283,7 +294,7 @@ export default {
                     this.extension_info.listing_info.name) ||
                 'Extension Name'
             );
-        },
+        }
     },
     mounted() {
         this.fynd_platform_domain =
@@ -390,20 +401,11 @@ export default {
                             }
                         }
                     }
-                    //
-                    //     if (this.dateType) {
-                    //         let dateString = new Date(this.date).toDateString();
-                    //         this.userInfo.date = dateString
-                    //             .split(' ')
-                    //             .splice(1)
-                    //             .join(' ');
-                    //     }
-                    // }
                 })
                 .catch((err) => {
                     console.log(err);
                 });
-        },
-    },
+        }
+    }
 };
 </script>
