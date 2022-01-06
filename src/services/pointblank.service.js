@@ -10,8 +10,8 @@ const CommunicationServices = {
         return ApiService.get(URLS.COMMUNICATION_LOG(params) , axiosOptions);
     },
     getCampaigns(params){
-        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
-        return ApiService.get(URLS.COMMUNICATION_CAMPAIGNS(params) , axiosOptions);
+        const axiosOptions = Object.assign({params}, getCommonHeaderOptions());
+        return ApiService.get(URLS.COMMUNICATION_CAMPAIGNS() , axiosOptions);
     }
    
 

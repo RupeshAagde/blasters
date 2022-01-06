@@ -113,7 +113,7 @@
                                         class="campaign-dropdown"
                                         :items="campaigns"
                                         v-model="filters.campaign"
-                                        @change="fetchCampaigns"
+                                        @change="changePage"
                                         :searchable="true"
                                         @searchInputChange="
                                             campaignDropdownSearchInputChange
@@ -334,10 +334,12 @@ export default {
             this.fetchCampaigns(e.text);
         },
         fetchCampaigns(name='') {
-           CommunicationServices.getCampaigns(name)
+           CommunicationServices.getCampaigns({"name":name})
            .then(res=>{
              this.getCampaignDropdown(res.data.items)
         
+           }).catch(err=>{
+               console.log(err);
            })
         },
         getCampaignDropdown(data){
@@ -521,6 +523,7 @@ export default {
             this.pageLoading = true;
             CommunicationServices.getLog(params)
             .then(res=>{
+                console.log("1234567890",res,);
                 this.logs = res.data
                                  if (res.data.items.length == this.pagination.limit) {
                         this.pagination.total =

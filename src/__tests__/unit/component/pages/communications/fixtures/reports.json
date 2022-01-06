@@ -1,0 +1,379 @@
+{
+    "campaign": {"data": {
+        "items": [
+            {
+              "recipient_headers": {
+                "email": "email"
+              },
+              "email": {
+                "template": {
+                  "key": "_id",
+                  "value": "613f6cc36c46653962408608"
+                },
+                "provider": {
+                  "_id": "610d07c07b4750a8895c6cec",
+                  "from_name": "Fynd",
+                  "from_email": "hey@gofynd.com"
+                }
+              },
+              "description": "",
+              "tags": [],
+              "is_active": true,
+              "_id": "613f6cde6c466525e4408609",
+              "datasource": "613f6c566c4665c292408607",
+              "type": "email",
+              "name": "test email campaign",
+              "application": "000000000000000000000004",
+              "created_at": "2021-09-13T15:23:10.390Z",
+              "updated_at": "2021-09-13T15:23:10.390Z",
+              "slug": "test-email-campaign-4dYyM66KB",
+              "__v": 0
+            },
+            {
+              "recipient_headers": {
+                "email": "email"
+              },
+              "email": {
+                "template": {
+                  "key": "_id",
+                  "value": "615ae0760c9df8a82795540e"
+                },
+                "provider": {
+                  "_id": "610d07c07b4750a8895c6cec",
+                  "from_name": "Fynd",
+                  "from_email": "hey@gofynd.com"
+                }
+              },
+              "description": "This is for testing",
+              "tags": [],
+              "is_active": true,
+              "_id": "6144799222cdbcf7499e871e",
+              "datasource": "614473de22cdbc85369e8719",
+              "type": "email",
+              "name": "Email Campaign Test",
+              "application": "000000000000000000000001",
+              "created_at": "2021-09-17T11:18:42.790Z",
+              "updated_at": "2021-10-04T11:08:49.791Z",
+              "slug": "Email-Campaign-Test-fbhHErk5S",
+              "__v": 0,
+              "_schedule": {
+                "published": true,
+                "next_schedule": [],
+                "start": "2021-09-28T10:05:15.946Z",
+                "end": "2021-09-28T10:06:15.946Z"
+              },
+              "cron_id": "6152e8ef142cc06ff1b9c599",
+              "next_run": "2021-09-28T10:05:15.946Z"
+            },
+            {
+              "recipient_headers": {
+                "sms": "phone_number"
+              },
+              "sms": {
+                "template": {
+                  "key": "_id",
+                  "value": "615ae19b0c9df8abda955410"
+                },
+                "provider": {
+                  "_id": "610d07c07b47501b2b5c6cf2"
+                }
+              },
+              "description": "this is for testing purpose",
+              "tags": [
+                "test"
+              ],
+              "is_active": true,
+              "_id": "615ae1d70c9df80de6955411",
+              "datasource": "614473de22cdbc85369e8719",
+              "type": "sms",
+              "name": "Test Campaign 1",
+              "application": "000000000000000000000001",
+              "created_at": "2021-10-04T11:13:27.096Z",
+              "updated_at": "2021-10-04T11:13:27.096Z",
+              "slug": "Test-Campaign-1-So8Dt9d_D",
+              "__v": 0
+            },
+            {
+              "recipient_headers": {
+                "sms": "phone_number"
+              },
+              "sms": {
+                "template": {
+                  "key": "_id",
+                  "value": "615fd59f1d3fcb266e1c8170"
+                },
+                "provider": {
+                  "_id": "610d07c07b47501b2b5c6cf2"
+                }
+              },
+              "description": "",
+              "tags": [],
+              "is_active": true,
+              "_id": "615fd5d41d3fcb1ea41c8171",
+              "datasource": "613f6c566c4665c292408607",
+              "type": "sms",
+              "name": "test sms campaign",
+              "application": "000000000000000000000004",
+              "created_at": "2021-10-08T05:23:32.927Z",
+              "updated_at": "2021-10-08T05:23:32.927Z",
+              "slug": "test-sms-campaign-ZbdMf-GcI",
+              "__v": 0
+            },
+            {
+              "recipient_headers": {
+                "email": "total_articles"
+              },
+              "email": {
+                "template": {
+                  "key": "_id",
+                  "value": "61d53a92d1fc139905c13921"
+                },
+                "provider": {
+                  "_id": "610d07c07b4750a8895c6cec",
+                  "from_name": "Fynd",
+                  "from_email": "hey@gofynd.com"
+                }
+              },
+              "description": "",
+              "tags": [],
+              "is_active": true,
+              "_id": "61d53aefd1fc1377a3c13922",
+              "datasource": "619de81dd0b8932d30553138",
+              "type": "email",
+              "name": "test",
+              "application": "61260cf5c73632ec6149651c",
+              "created_at": "2022-01-05T06:30:07.912Z",
+              "updated_at": "2022-01-05T06:41:11.242Z",
+              "slug": "test-TZ8V2ZRvi",
+              "__v": 0
+            }
+          ],
+        "page": {
+            "type": "number",
+            "current": 1,
+            "size": 10,
+            "item_total": 5,
+            "has_next": false
+        }}
+},
+"LOGS": {"data": {
+    "items": [
+        {
+            "email": {
+                "to": "xyz@gmail.com",
+                "template": "sureshot-webhook-disable-internal-event",
+                "provider": "610d07c07b4750a8895c6cec"
+            },
+            "pushnotification": {
+                "pushtokens": []
+            },
+            "meta": {
+                "type": "event",
+                "identifier": "sureshot.756dffb5-8229-409a-8235-45ba4014c36b"
+            },
+            "_id": "61d68f77ce77d2b3f806b682",
+            "service": "email-consumer",
+            "step": "MSG_SENT",
+            "status": "success",
+            "pod": "fplt-pointblank-emailhigh-cnsmr-dply-54c8fbf747-8n6g7",
+            "expire_at": "2022-02-05T06:43:03.545Z",
+            "created_at": "2022-01-06T06:43:03.545Z"
+        },
+        {
+            "email": {
+                "to": "xyz@gmail.com",
+                "template": "sureshot-webhook-disable-internal-event",
+                "provider": "610d07c07b4750a8895c6cec"
+            },
+            "pushnotification": {
+                "pushtokens": []
+            },
+            "meta": {
+                "type": "event",
+                "identifier": "sureshot.e2bf1c62-36ba-41e4-88e6-5f20bcacd6c3"
+            },
+            "_id": "61d68f77ce77d2aafe06b683",
+            "service": "email-consumer",
+            "step": "MSG_SENT",
+            "status": "success",
+            "pod": "fplt-pointblank-emailhigh-cnsmr-dply-54c8fbf747-8n6g7",
+            "expire_at": "2022-02-05T06:43:03.553Z",
+            "created_at": "2022-01-06T06:43:03.554Z"
+        },
+        {
+            "email": {
+                "to": "xyz@gmail.com",
+                "template": "sureshot-webhook-disable-internal-event",
+                "provider": "610d07c07b4750a8895c6cec"
+            },
+            "pushnotification": {
+                "pushtokens": []
+            },
+            "meta": {
+                "type": "event",
+                "identifier": "sureshot.fb65079c-4d63-46ec-8064-faae2154b9e0"
+            },
+            "_id": "61d68f77ce77d28a9506b681",
+            "service": "email-consumer",
+            "step": "MSG_SENT",
+            "status": "success",
+            "pod": "fplt-pointblank-emailhigh-cnsmr-dply-54c8fbf747-8n6g7",
+            "expire_at": "2022-02-05T06:43:03.459Z",
+            "created_at": "2022-01-06T06:43:03.460Z"
+        },
+        {
+            "email": {
+                "to": "xyz@gmail.com",
+                "template": "sureshot-webhook-disable-internal-event",
+                "provider": "610d07c07b4750a8895c6cec"
+            },
+            "pushnotification": {
+                "pushtokens": []
+            },
+            "meta": {
+                "type": "event",
+                "identifier": "sureshot.3628498c-bd12-4895-8bca-40aa31292410"
+            },
+            "_id": "61d68f77ce77d277a606b678",
+            "service": "email-consumer",
+            "step": "MSG_SENT",
+            "status": "success",
+            "pod": "fplt-pointblank-emailhigh-cnsmr-dply-54c8fbf747-8n6g7",
+            "expire_at": "2022-02-05T06:43:03.068Z",
+            "created_at": "2022-01-06T06:43:03.070Z"
+        },
+        {
+            "email": {
+                "to": "xyz@gmail.com",
+                "template": "sureshot-webhook-disable-internal-event",
+                "provider": "610d07c07b4750a8895c6cec"
+            },
+            "pushnotification": {
+                "pushtokens": []
+            },
+            "meta": {
+                "type": "event",
+                "identifier": "sureshot.0ce59a03-c023-4b1d-838b-5ac9f4eb7351"
+            },
+            "_id": "61d68f77ce77d26fa506b67a",
+            "service": "email-consumer",
+            "step": "MSG_SENT",
+            "status": "success",
+            "pod": "fplt-pointblank-emailhigh-cnsmr-dply-54c8fbf747-8n6g7",
+            "expire_at": "2022-02-05T06:43:03.206Z",
+            "created_at": "2022-01-06T06:43:03.208Z"
+        },
+        {
+            "email": {
+                "to": "xyz@gmail.com",
+                "template": "sureshot-webhook-disable-internal-event",
+                "provider": "610d07c07b4750a8895c6cec"
+            },
+            "pushnotification": {
+                "pushtokens": []
+            },
+            "meta": {
+                "type": "event",
+                "identifier": "sureshot.8e7e149e-992e-403f-a199-e2a979c3e66f"
+            },
+            "_id": "61d68f77ce77d25f1b06b67f",
+            "service": "email-consumer",
+            "step": "MSG_SENT",
+            "status": "success",
+            "pod": "fplt-pointblank-emailhigh-cnsmr-dply-54c8fbf747-8n6g7",
+            "expire_at": "2022-02-05T06:43:03.412Z",
+            "created_at": "2022-01-06T06:43:03.413Z"
+        },
+        {
+            "email": {
+                "to": "xyz@gmail.com",
+                "template": "sureshot-webhook-disable-internal-event",
+                "provider": "610d07c07b4750a8895c6cec"
+            },
+            "pushnotification": {
+                "pushtokens": []
+            },
+            "meta": {
+                "type": "event",
+                "identifier": "sureshot.bd781bd0-a7cd-4066-a99b-5ddd37ebb953"
+            },
+            "_id": "61d68f77ce77d25a0406b686",
+            "service": "email-consumer",
+            "step": "MSG_SENT",
+            "status": "success",
+            "pod": "fplt-pointblank-emailhigh-cnsmr-dply-54c8fbf747-8n6g7",
+            "expire_at": "2022-02-05T06:43:03.657Z",
+            "created_at": "2022-01-06T06:43:03.658Z"
+        },
+        {
+            "email": {
+                "to": "xyz@gmail.com",
+                "template": "sureshot-webhook-disable-internal-event",
+                "provider": "610d07c07b4750a8895c6cec"
+            },
+            "pushnotification": {
+                "pushtokens": []
+            },
+            "meta": {
+                "type": "event",
+                "identifier": "sureshot.48274132-968a-47b7-86dd-b488f46145d3"
+            },
+            "_id": "61d68f77ce77d227bd06b67c",
+            "service": "email-consumer",
+            "step": "MSG_SENT",
+            "status": "success",
+            "pod": "fplt-pointblank-emailhigh-cnsmr-dply-54c8fbf747-8n6g7",
+            "expire_at": "2022-02-05T06:43:03.308Z",
+            "created_at": "2022-01-06T06:43:03.309Z"
+        },
+        {
+            "email": {
+                "to": "xyz@gmail.com",
+                "template": "sureshot-webhook-disable-internal-event",
+                "provider": "610d07c07b4750a8895c6cec"
+            },
+            "pushnotification": {
+                "pushtokens": []
+            },
+            "meta": {
+                "type": "event",
+                "identifier": "sureshot.65af327a-0b8c-4cad-ad80-d3f9be7a7384"
+            },
+            "_id": "61d68f77ce77d2268c06b684",
+            "service": "email-consumer",
+            "step": "MSG_SENT",
+            "status": "success",
+            "pod": "fplt-pointblank-emailhigh-cnsmr-dply-54c8fbf747-8n6g7",
+            "expire_at": "2022-02-05T06:43:03.580Z",
+            "created_at": "2022-01-06T06:43:03.580Z"
+        },
+        {
+            "email": {
+                "to": "xyz@gmail.com",
+                "template": "sureshot-webhook-disable-internal-event",
+                "provider": "610d07c07b4750a8895c6cec"
+            },
+            "pushnotification": {
+                "pushtokens": []
+            },
+            "meta": {
+                "type": "event",
+                "identifier": "sureshot.c1872c09-7c3b-4acf-8ca3-480730980730"
+            },
+            "_id": "61d68f77ce77d2252606b679",
+            "service": "email-consumer",
+            "step": "MSG_SENT",
+            "status": "success",
+            "pod": "fplt-pointblank-emailhigh-cnsmr-dply-54c8fbf747-8n6g7",
+            "expire_at": "2022-02-05T06:43:03.199Z",
+            "created_at": "2022-01-06T06:43:03.199Z"
+        }
+    ],
+    "page": {
+        "type": "cursor",
+        "next_id": "61d68f77ce77d2252606b679",
+        "has_previous": true,
+        "has_next": true
+    }
+} }
+}
