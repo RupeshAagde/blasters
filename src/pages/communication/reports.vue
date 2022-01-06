@@ -111,9 +111,9 @@
                                     <nitrozen-dropdown
                                         :label="'Campaign'"
                                         class="campaign-dropdown"
-                                        
+                                        :items="campaigns"
                                         v-model="filters.campaign"
-                                        @change="fieldChanged"
+                                        @change="fetchCampaigns"
                                         :searchable="true"
                                         @searchInputChange="
                                             campaignDropdownSearchInputChange
@@ -286,7 +286,7 @@ export default {
                 total: 11
             },
             description: 'Use this section to view logs of SMS and Email',
-            campaignsText: '',
+            campaigns: [],
             currentPage: 0,
             pageLoading: false,
             showPreviewModal: false,
@@ -329,17 +329,26 @@ export default {
             this.resetPagination();
             this.changePage();
         },
-        campaigns(){},
         campaignDropdownSearchInputChange(e) {
             this.filters.campaign = '';
-            this.campaignsText = e.text;
-            this.fetchCampaigns();
+            this.fetchCampaigns(e.text);
         },
-        fetchCampaigns() {
-           CommunicationServices.getCampaigns()
+        fetchCampaigns(name='') {
+           CommunicationServices.getCampaigns(name)
            .then(res=>{
-               console.log(res)
+             this.getCampaignDropdown(res.data.items)
+        
            })
+        },
+        getCampaignDropdown(data){
+                let dropdown = [];
+                for (let i = 0; i < data.length; i++) {
+                    let temp = { text: '', value: '' };
+                    temp.text = data[i].name;
+                    temp.value = data[i]._id;
+                    dropdown.push(temp);
+                }
+                this.campaigns = dropdown;
         },
          validateDates() {
             var start,
@@ -509,11 +518,9 @@ export default {
             })
              .catch(()=>{})
             params.query = JSON.stringify(params.query);
-
-            console.log(params);
+            this.pageLoading = true;
             CommunicationServices.getLog(params)
             .then(res=>{
-                console.log(res.data);
                 this.logs = res.data
                                  if (res.data.items.length == this.pagination.limit) {
                         this.pagination.total =
@@ -533,11 +540,18 @@ export default {
                     this.pageLoading = false;
                     this.pageError = false;
             })
+             .catch(err => {
+                    this.pageLoading = false;
+                    this.pageError = true;
+                })
+                .finally(() => {
+                    this.isInitialLoad && (this.isInitialLoad = false);
+                });
         }
 
     },
     mounted() {
-    //this.resetPagination();
+    this.resetPagination();
 
         this.fetchCampaigns()
         this.changePage()

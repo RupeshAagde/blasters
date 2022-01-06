@@ -603,8 +603,8 @@ const URLS = {
     COMMUNICATION_LOG: (params) => {
         return urlJoin(COMMUNICATION_BASE_URL, `v1.0/log`)
     },
-    COMMUNICATION_CAMPAIGNS: () => {
-        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/campaigns/campaigns`)
+    COMMUNICATION_CAMPAIGNS: (name) => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/campaign?name=${name}`)
     },
 };
 

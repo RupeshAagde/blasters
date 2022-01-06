@@ -1516,7 +1516,7 @@ export default {
                 this.saveForm()
                 return;
             }
-            show_schedule_modal = true;
+            this.show_schedule_modal = true;
         }
     },
 };
