@@ -127,6 +127,7 @@
                                             v-model="discount.value"
                                             @keydown.native="allowNumbers"
                                         />
+                                        
                                     </div>
 
                                     <div class="half base">
@@ -157,9 +158,9 @@
                                             />
 
                                             <nitrozen-error
-                                                v-if="duration.showerror"
+                                                v-if="durationDrop.showerror"
                                             >
-                                                {{ duration.errortext }}
+                                                {{ durationDrop.errortext }}
                                             </nitrozen-error>
                                         </div>
                                     </div>
@@ -1149,7 +1150,7 @@ export default {
             BillingService.getCouponId(this.$route.params.couponId).then(
                 (res) => {
                     let data = res.data;
-                    this.published = data.published;
+                    this.published = data._schedule.published;
                     data.rule_definition.duration
                         ? (this.durationDrop.value =
                               data.rule_definition.duration)
@@ -1334,9 +1335,8 @@ export default {
                     plans: plan,
                     subscribers: subscriber,
                 },
-                published: this.published,
                 author: {},
-                _schedule: this.schedule,
+                _schedule: { ...this.schedule , published: this.published },
             };
 
             if (!this.checkform()) {
@@ -1478,7 +1478,7 @@ export default {
                 this.inProgress = true;
                 let data = {
                     code: this.code.value,
-                    published: this.published,
+                    _schedule: {published: this.published},
                 };
                 BillingService.putCouponList(data, this.$route.params.couponId)
                     .then((res) => {
@@ -1512,11 +1512,14 @@ export default {
             this.saveForm();
         },
         onSaveCoupon(){
+            if(!this.checkform()){
+                return;
+            }
             if(this.editMode){
                 this.saveForm()
                 return;
             }
-            show_schedule_modal = true;
+            this.show_schedule_modal = true;
         }
     },
 };

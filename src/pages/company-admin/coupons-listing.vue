@@ -66,7 +66,7 @@
                     >Live</nitrozen-badge
                 >
                 <nitrozen-badge v-else>Not Live</nitrozen-badge> -->
-                <nitrozen-badge v-if="coupon.published" state="success"
+                <nitrozen-badge v-if="coupon._schedule.published" state="success"
                     >Active</nitrozen-badge
                 >
                 <nitrozen-badge v-else>Inactive</nitrozen-badge>
@@ -187,7 +187,7 @@ export default {
              BillingService.getCouponList( Object.assign({
                     page_no: this.pagination.current,
                     page_size: this.pagination.limit,
-                    published : this.query.is_active.value,
+                    "_schedule.published" : this.query.is_active.value,
                     type: this.query.type,
                     code: this.searchText,
                 }))
