@@ -6,7 +6,7 @@
                 :title="
                     `Extensions ${
                         extensionList && extensionList.length
-                            ? '(' + extensionList.length + ')'
+                            ? '(' + pagination.total + ')'
                             : ''
                     }`
                 "
@@ -72,7 +72,7 @@
             <div v-if="extensionList.length" class="pagination">
                 <nitrozen-pagination
                     name="Extensions"
-                    v-model="paginationConfig"
+                    v-model="pagination"
                     ref="ext-paginagtion"
                     @change="paginationChange"
                     :pageSizeOptions="[5, 10, 20, 50]"
@@ -197,8 +197,9 @@ import { debounce } from '@/helper/utils';
 import ExtensionService from '@/services/extension.service';
 
 const PAGINATION = {
-    page: 1,
-    limit: 10
+    current: 1,
+    limit: 10,
+    total: 0
 };
 
 const ROLE_FILTER = [
@@ -231,13 +232,12 @@ export default {
             pageLoading: false,
             searchText: '',
             extensionList: [],
-            paginationConfig: {
-                limit: 10,
-                current: 1,
-                total: 10
-            },
             filters: [...ROLE_FILTER],
-            pagination: { ...PAGINATION },
+            pagination: {
+                current: 1,
+                limit: 10,
+                total: 0
+            },
             selectedFilter: 'pending'
         };
     },
@@ -249,8 +249,8 @@ export default {
         populateFromURL() {
             const { search, page, limit, current_status } = this.$route.query;
             this.searchText = search || this.searchText;
-            this.pagination.page = +page || this.pagination.page;
-            this.pagination.limit = +limit || this.pagination.limit;
+            // this.pagination.page = +page || this.pagination.current;
+            // this.pagination.limit = +limit || this.pagination.limit;
             this.selectedFilter = current_status || 'pending';
         },
         debounceInput: debounce(function(e) {
@@ -261,18 +261,21 @@ export default {
         }, 500),
         fetchExtensions() {
             let params = {
-                page_no: this.pagination.page,
+                page_no: this.pagination.current,
                 page_size: this.pagination.limit,
                 current_status: this.selectedFilter,
                 name: this.searchText
             };
-
+            this.pageLoading = true;
+            this.pageError = false;
             ExtensionService.getExtensionReviewList(params)
                 .then(({ data }) => {
                     this.extensionList = data.items;
-                    this.paginationConfig.total = data.page.item_total;
+                    this.pagination.total = data.page.item_total;
+                    this.pageLoading = false;
                 })
                 .catch((err) => {
+                    this.pageError = true;
                     console.log(err);
                 });
         },
@@ -283,7 +286,7 @@ export default {
             });
         },
         paginationChange(e) {
-            this.paginationConfig = e;
+            this.pagination = e;
             this.fetchExtensions();
         },
         setRouteQuery(query) {
