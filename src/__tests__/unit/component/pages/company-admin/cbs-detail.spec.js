@@ -7,6 +7,8 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import flushPromises from 'flush-promises';
 import MOCK_DATA from './fixtures/cbs-mock.json';
+import MOCK_DATA_DEPL_MAP from "./fixtures/custom-deployment-mapping.json";
+import MOCK_DATA_DEPLMNTS from "./fixtures/custom-deployment-list.json";
 import AdminRoutes from '@/router/administrator/index.js';
 import URLS from '../../../../../services/domain.service.js';
 
@@ -49,7 +51,10 @@ describe('Mounted Company Detail Page', () => {
             200,
             MOCK_DATA.planDetails
         );
-        
+        mock.onGet(URLS.GET_DEPLOYMENT_MAPPING()).reply(200, MOCK_DATA_DEPL_MAP);
+        mock.onGet(URLS.GET_DEPLOYMENT_LIST()).reply(200, MOCK_DATA_DEPLMNTS);
+
+        MOCK_DATA_DEPLMNTS
         wrapper = mount(CbsDetail, {
             localVue,
             router
@@ -59,7 +64,6 @@ describe('Mounted Company Detail Page', () => {
         expect(wrapper.exists()).toBeTruthy();
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
-        mock.reset();
     });
 
     it('Get CBS detail page info. error', async () => {
@@ -88,9 +92,10 @@ describe('Mounted Company Detail Page', () => {
             200,
             MOCK_DATA.planDetails
         );
+        mock.onGet(URLS.GET_DEPLOYMENT_MAPPING()).reply(200, MOCK_DATA_DEPL_MAP);
+        mock.onGet(URLS.GET_DEPLOYMENT_LIST()).reply(200, MOCK_DATA_DEPLMNTS);
         await flushPromises();
         expect(wrapper.vm.inProgress).toBe(false);
-        mock.reset();
     });
 
     it('Check back arrow button', async () => {
@@ -118,6 +123,8 @@ describe('Mounted Company Detail Page', () => {
             200,
             MOCK_DATA.planDetails
         );
+        mock.onGet(URLS.GET_DEPLOYMENT_MAPPING()).reply(200, MOCK_DATA_DEPL_MAP);
+        mock.onGet(URLS.GET_DEPLOYMENT_LIST()).reply(200, MOCK_DATA_DEPLMNTS);
         wrapper = mount(CbsDetail, {
             localVue,
             router
@@ -131,6 +138,5 @@ describe('Mounted Company Detail Page', () => {
         expect(router.currentRoute.fullPath).toBe(
             `/administrator/company-list`
         );
-        mock.reset();
     });
 });

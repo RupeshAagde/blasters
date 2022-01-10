@@ -90,7 +90,8 @@
         </div>
         <div
             v-show="activeTabIndex === 2"
-            class="main-container profile-container">
+            class="main-container profile-container"
+        >
             <div class="full-width">
                 <div class="applications" style="width: 98%">
                     <!-- this is subscription -->
@@ -104,12 +105,90 @@
             v-if="activeTabIndex === 3"
             class="main-container profile-container"
         >
-            <invoice-listing/>
+            <!-- <div class="full-width">
+                <div class="applications" style="width: 98%">
+                    <div v-if="inProgress" class="shimmer"></div>
+                    <div
+                        v-if="
+                            !inProgress &&
+                            applicationList &&
+                            applicationList.length > 0
+                        "
+                    >
+                        <div
+                            class="container"
+                            v-for="(item, index) in applicationList"
+                            :key="index"
+                            :title="item.name"
+                            @click="goToBillingPage(item.id)"
+                        >
+                            <div class="line-1">
+                                <div class="cust-head">
+                                    <a>Payment Status</a>
+                                </div>
+                                <div class="cust-badge">
+                                    <a
+                                        :href="`https://${item.domain.name}`"
+                                        target="_blank"
+                                    >
+                                        <adm-inline-svg
+                                            class="cust-space"
+                                            :src="'eye-open'"
+                                            title="View"
+                                        ></adm-inline-svg>
+                                    </a>
+                                    <nitrozen-badge
+                                        :state="
+                                            item.payment_status === 'Paid'
+                                                ? 'success'
+                                                : 'warn'
+                                        "
+                                        >{{
+                                            item.payment_status
+                                        }}</nitrozen-badge
+                                    >
+                                </div>
+                            </div>
+                            <div class="line-2" v-if="item.number">
+                                <div class="cust-head">Number</div>
+                                <div
+                                    class="cust-pointer"
+                                    :title="`${item.number} (Click to copy)`"
+                                    @click="copy(item.number)"
+                                >
+                                    {{ item.number }}
+                                </div>
+                            </div>
+                            <div class="line-2" v-if="item.receipt_no">
+                                <div class="cust-head">Receipt No</div>
+                                <div
+                                    class="cust-app cust-pointer"
+                                    :title="`${item.receipt_no} (Click to copy)`"
+                                    @click="copy(item.receipt_no)"
+                                >
+                                    {{ item.receipt_no }}
+                                </div>
+                            </div>
+                            <div class="line-2" v-if="item.amount">
+                                <div class="cust-head" v-if="item.amount">
+                                    Amount
+                                </div>
+                                <div
+                                    v-if="item.amount"
+                                    class="cust-domain"
+                                    :title="item.amount"
+                                >
+                                    {{ item.amount }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <invoice-listing></invoice-listing>
         </div>
-        <div 
-            v-show="activeTabIndex === 4"
-        >
-            <list-deployment/>
+        <div v-show="activeTabIndex === 4">
+            <list-deployment />
         </div>
     </div>
 </template>
@@ -331,7 +410,13 @@ import root from 'window-or-global';
 import invert from 'lodash/invert';
 
 const env = root.env || {};
-const TAB_NAMES = ['Details', 'Marketplace Channels','Subscription', 'Invoices', 'Infra']
+const TAB_NAMES = [
+    'Details',
+    'Marketplace Channels',
+    'Subscription',
+    'Invoices',
+    'Infra',
+];
 export default {
     name: 'adm-company-profile',
     components: {
@@ -340,7 +425,7 @@ export default {
         'adm-stores': admstores,
         'adm-company-details': admcompanydetails,
         'list-dri': listdri,
-        'adm-company-subscription':admcompanysubscription,
+        'adm-company-subscription': admcompanysubscription,
         Shimmer,
         PageHeader,
         'nitrozen-badge': NitrozenBadge,
@@ -349,8 +434,8 @@ export default {
         'mkp-channels': marketplaceChannels,
         'ukt-inline-svg': uktInlineSVG,
         'adm-inline-svg': admInlineSVG,
-        'invoice-listing':invoiceListing,
-        'list-deployment': deploymentList
+        'invoice-listing': invoiceListing,
+        'list-deployment': deploymentList,
     },
     computed: {},
     data() {
@@ -370,18 +455,18 @@ export default {
         };
     },
     mounted() {
-        this.$refs.nit_tab.activeTab = 0
-        if(this.$route.query.tab){
-            let tab = this.$route.query.tab
-            let tabs = invert(TAB_NAMES)
+        this.$refs.nit_tab.activeTab = 0;
+        if (this.$route.query.tab) {
+            let tab = this.$route.query.tab;
+            let tabs = invert(TAB_NAMES);
             let obj = {
                 index: Number(tabs[tab]),
-                item: tab
-            }
-            this.$refs.nit_tab.activeTab = obj.index
-            this.onTabChange(obj)
+                item: tab,
+            };
+            this.$refs.nit_tab.activeTab = obj.index;
+            this.onTabChange(obj);
         }
-        
+
         this.getProfileDetails();
         this.fetchMetricsApi();
     },
@@ -391,31 +476,34 @@ export default {
         },
     },
     methods: {
-        onTabChange(obj){
-            if(this.$route.query.tab != obj.item){
-                this.$router.replace({
-                    name: this.$route.name,
-                    query: {
-                        tab: obj.item
-                    }
-                })
-                .catch(() => {});
-                this.activeTabIndex = obj.index
-            }
-            else{
-                this.$router.replace({
-                    name: this.$route.name,
-                    query: {
-                        ...this.$route.query,
-                        tab: obj.item
-                    }
-                })
-                .catch(() => {});
-                this.activeTabIndex = obj.index
+        onTabChange(obj) {
+            if (this.$route.query.tab != obj.item) {
+                this.$router
+                    .replace({
+                        name: this.$route.name,
+                        query: {
+                            tab: obj.item,
+                        },
+                    })
+                    .catch(() => {});
+                this.activeTabIndex = obj.index;
+            } else {
+                this.$router
+                    .replace({
+                        name: this.$route.name,
+                        query: {
+                            ...this.$route.query,
+                            tab: obj.item,
+                        },
+                    })
+                    .catch(() => {});
+                this.activeTabIndex = obj.index;
             }
         },
         goToBillingPage(id) {
-            this.$router.push({ path: `/administrator/company-details/${this.companyId}/billing-details/${id}` });
+            this.$router.push({
+                path: `/administrator/company-details/${this.companyId}/billing-details/${id}`,
+            });
         },
         fetchMetricsApi: function () {
             let params = {

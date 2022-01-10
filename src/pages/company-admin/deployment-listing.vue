@@ -3,6 +3,7 @@
         <div class="main-container">
             <div class="jumbotron-container">
                 <jumbotron
+                    class="assignment-btn"
                     title="Deployments"
                     desc="By default, company will be in default deployment. Map company to custom dedployment."
                     btnLabel="Assign Deployment"
@@ -221,11 +222,6 @@ export default {
             } else {
                 this.deploymentListFiltered = this.deploymentList;
             }
-        },
-        createDeployment() {
-            this.$router.push({
-                path: '/administrator/settings/deployments/create',
-            });
         },
         deleteMapping() {
             CompanyService.deleteDeploymentMappingById(this.deploymentMappingId)
