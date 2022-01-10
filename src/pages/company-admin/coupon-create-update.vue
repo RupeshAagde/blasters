@@ -1212,11 +1212,12 @@ export default {
                     );
                     this.selectedSubs.value = currentsubs;
 
+                    //this.remaining = data.restrictions.uses.remaining.total;
+                    //console.log(this.remaining);
                 }
             );
 
             this.pushPlan();
-            this.pushSubs();
         },
         onCreate() {
             this.couponType = this.typeList[this.selectedType].value_title;
@@ -1463,6 +1464,7 @@ export default {
             allowAlphaNumbericOnly(event);
         },
         checkUnique() {
+            this.code.value = this.code.value.toUpperCase()
             BillingService.getUniqueCoupon(this.code.value)
                 .then((res) => {
                     this.unique = !res.data.is_unique;
