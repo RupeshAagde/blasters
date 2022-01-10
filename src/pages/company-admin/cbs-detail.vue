@@ -104,87 +104,12 @@
             v-if="activeTabIndex === 3"
             class="main-container profile-container"
         >
-            <!-- <div class="full-width">
-                <div class="applications" style="width: 98%">
-                    <div v-if="inProgress" class="shimmer"></div>
-                    <div
-                        v-if="
-                            !inProgress &&
-                            applicationList &&
-                            applicationList.length > 0
-                        "
-                    >
-                        <div
-                            class="container"
-                            v-for="(item, index) in applicationList"
-                            :key="index"
-                            :title="item.name"
-                            @click="goToBillingPage(item.id)"
-                        >
-                            <div class="line-1">
-                                <div class="cust-head">
-                                    <a>Payment Status</a>
-                                </div>
-                                <div class="cust-badge">
-                                    <a
-                                        :href="`https://${item.domain.name}`"
-                                        target="_blank"
-                                    >
-                                        <adm-inline-svg
-                                            class="cust-space"
-                                            :src="'eye-open'"
-                                            title="View"
-                                        ></adm-inline-svg>
-                                    </a>
-                                    <nitrozen-badge
-                                        :state="
-                                            item.payment_status === 'Paid'
-                                                ? 'success'
-                                                : 'warn'
-                                        "
-                                        >{{
-                                            item.payment_status
-                                        }}</nitrozen-badge
-                                    >
-                                </div>
-                            </div>
-                            <div class="line-2" v-if="item.number">
-                                <div class="cust-head">Number</div>
-                                <div
-                                    class="cust-pointer"
-                                    :title="`${item.number} (Click to copy)`"
-                                    @click="copy(item.number)"
-                                >
-                                    {{ item.number }}
-                                </div>
-                            </div>
-                            <div class="line-2" v-if="item.receipt_no">
-                                <div class="cust-head">Receipt No</div>
-                                <div
-                                    class="cust-app cust-pointer"
-                                    :title="`${item.receipt_no} (Click to copy)`"
-                                    @click="copy(item.receipt_no)"
-                                >
-                                    {{ item.receipt_no }}
-                                </div>
-                            </div>
-                            <div class="line-2" v-if="item.amount">
-                                <div class="cust-head" v-if="item.amount">
-                                    Amount
-                                </div>
-                                <div
-                                    v-if="item.amount"
-                                    class="cust-domain"
-                                    :title="item.amount"
-                                >
-                                    {{ item.amount }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <invoice-listing></invoice-listing>
+            <invoice-listing/>
+        </div>
+        <div 
+            v-show="activeTabIndex === 4"
+        >
+            <list-deployment/>
         </div>
     </div>
 </template>
@@ -399,13 +324,14 @@ import {
 } from '@gofynd/nitrozen-vue';
 import { FETCH_METRICS } from '@/store/action.type';
 import marketplaceChannels from './mkp-channels.vue';
-import invoiceListing from './invoice-listing.vue'
-import admcompanysubscription from './subscription.vue'
+import invoiceListing from './invoice-listing.vue';
+import admcompanysubscription from './subscription.vue';
+import deploymentList from './deployment-listing.vue';
 import root from 'window-or-global';
 import invert from 'lodash/invert';
 
 const env = root.env || {};
-const TAB_NAMES = ['Details', 'Marketplace Channels','Subscription', 'Invoices']
+const TAB_NAMES = ['Details', 'Marketplace Channels','Subscription', 'Invoices', 'Infra']
 export default {
     name: 'adm-company-profile',
     components: {
@@ -424,6 +350,7 @@ export default {
         'ukt-inline-svg': uktInlineSVG,
         'adm-inline-svg': admInlineSVG,
         'invoice-listing':invoiceListing,
+        'list-deployment': deploymentList
     },
     computed: {},
     data() {

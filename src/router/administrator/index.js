@@ -22,8 +22,6 @@ import CreateCustomVue from './../../pages/settings/page-editor/create.vue';
 import NavbarSettingsVue from './../../pages/settings/navbar';
 import FooterSettingsVue from './../../pages/settings/footer';
 import PricingBannerVue from './../../pages/settings/pricing_banner.vue';
-import DeploymentSettingsVue from './../../pages/settings/deployment.vue';
-import CreateDeploymentVue from './../../pages/settings/create_deployment.vue'
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
@@ -452,22 +450,6 @@ export default [
                 name: 'pricing-banner',
                 path: 'settings/pricing-banner',
                 component: PricingBannerVue,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
-                }
-            },
-            {
-                name: 'deployment-setting',
-                path: 'settings/deployments',
-                component: DeploymentSettingsVue,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
-                }
-            },
-            {
-                name: 'create-deployment',
-                path: 'settings/deployments/create',
-                component: CreateDeploymentVue,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
                 }

@@ -6,7 +6,7 @@
                     title="Deployments"
                     desc="By default, company will be in default deployment. Map company to custom dedployment."
                     btnLabel="Assign Deployment"
-                    @btnClick="createDeployment"
+                    @btnClick="openDeploymentModal"
                 ></jumbotron>
             </div>
 
@@ -107,6 +107,36 @@
                 </div>
             </template>
         </nitrozen-dialog>
+        <nitrozen-dialog ref="assign-deplmnt-modal" title="Assign Deployment">
+            <template slot="body">
+                <div class="create-deployment-form">
+                    <nitrozen-dropdown
+                        id="deploymentName"
+                        class="deployment-name"
+                        label="Deployment Name"
+                        :items="deploymentListFiltered"
+                        v-model="selectedDeployment"
+                        :searchable="true"
+                        placeholder="Deployment name"
+                        @searchInputChange="onSearchInputUpdateDeploymentList"
+                        :required="true"
+                    >
+                    </nitrozen-dropdown>
+                </div>
+            </template>
+            <template slot="footer">
+                <div class="footer-actions-buttons">
+                    <nitrozen-button
+                        theme="secondary"
+                        class="mr-24"
+                        @click="onSave"
+                        v-flatBtn
+                        ref="delete-btn"
+                        >Save
+                    </nitrozen-button>
+                </div>
+            </template>
+        </nitrozen-dialog>
     </div>
 </template>
 
@@ -119,6 +149,7 @@ import {
     NitrozenDialog,
     strokeBtn,
     flatBtn,
+    NitrozenDropdown,
 } from '@gofynd/nitrozen-vue';
 import { PageHeader } from '@/components/common/';
 import CompanyService from '@/services/company-admin.service';
@@ -133,18 +164,21 @@ export default {
             deploymentMappingId: '',
             errorMessage: 'No deployment Mappings found.!',
             pageError: false,
-            isLoading: true
+            isLoading: true,
+            deploymentListFiltered: [],
+            selectedDeployment: '',
         };
     },
     components: {
         'nitrozen-button': NitrozenButton,
+        'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-dialog': NitrozenDialog,
         'page-error': PageError,
         'adm-no-content': AdmNoContent,
         Jumbotron,
         PageHeader,
         UktInlineSvg,
-        loader
+        loader,
     },
     directives: {
         strokeBtn,
@@ -152,6 +186,17 @@ export default {
     },
     beforeMount() {
         this.getDeployments();
+        CompanyService.getDeploymentList().then(({ data }) => {
+            this.deploymentList = data.map((element) => {
+                const deploymentName = Object.keys(element)[0];
+                return {
+                    text: deploymentName,
+                    value: element[deploymentName],
+                };
+            });
+
+            this.deploymentListFiltered = this.deploymentList;
+        });
     },
     methods: {
         getDeployments() {
@@ -163,6 +208,19 @@ export default {
                 .catch((err) => {
                     this.pageError = true;
                 });
+        },
+        onSearchInputUpdateDeploymentList(e) {
+            if (e && e.text) {
+                this.deploymentListFiltered = this.deploymentList.filter(
+                    (x) => {
+                        let text = x.text.toLowerCase();
+                        let searchText = e.text.toLowerCase();
+                        return text.indexOf(searchText) > -1;
+                    }
+                );
+            } else {
+                this.deploymentListFiltered = this.deploymentList;
+            }
         },
         createDeployment() {
             this.$router.push({
@@ -183,6 +241,38 @@ export default {
                     console.log('Error', err);
                     this.$snackbar.global.showError(
                         'Error deleting deployment mapping'
+                    );
+                });
+        },
+        openDeploymentModal() {
+            this.$refs['assign-deplmnt-modal'].open({
+                width: '600px',
+                height: '320px',
+                showCloseButton: true,
+            });
+        },
+        onSave() {
+            const DEPLOYMENT_CONFIG = this.deploymentList.find(
+                (element) => element.value === this.selectedDeployment
+            );
+
+            const payLoad = {
+                company_id: this.$route.params.companyId,
+                deployment_ingress: DEPLOYMENT_CONFIG.value,
+                deployment_name: DEPLOYMENT_CONFIG.text,
+            };
+
+            CompanyService.createDeploymentMapping(payLoad)
+                .then(() => {
+                    this.$snackbar.global.showSuccess(
+                        'Deployment Mapping created successfully'
+                    );
+                    this.getDeployments();
+                    this.$refs['assign-deplmnt-modal'].close();
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError(
+                        'Error creating deployment mapping'
                     );
                 });
         },
