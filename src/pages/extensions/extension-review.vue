@@ -138,22 +138,11 @@
                     v-model="extension_info.review_instructions"
                 >
                 </nitrozen-input>
-
                 <nitrozen-input
-                    v-if="extension_info.current_status !== 'pending'"
-                    :disabled="true"
                     class="nitrozen-form-input full-width"
                     :type="'textarea'"
                     :label="'Review Comments'"
-                    v-model="extension_info.review_comments"
-                >
-                </nitrozen-input>
-                <nitrozen-input
-                    v-else
-                    class="nitrozen-form-input full-width"
-                    :type="'textarea'"
-                    :label="'Review Comments'"
-                    v-model="extension_info.review_comments"
+                    v-model="review_data.review_comments"
                 >
                 </nitrozen-input>
                 <nitrozen-error :class="{ hidden: !error_comments }">
