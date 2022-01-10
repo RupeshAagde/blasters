@@ -142,7 +142,7 @@
                     class="nitrozen-form-input full-width"
                     :type="'textarea'"
                     :label="'Review Comments'"
-                    v-model="review_data.review_comments"
+                    v-model="extension_info.review_comments"
                 >
                 </nitrozen-input>
                 <nitrozen-error :class="{ hidden: !error_comments }">
