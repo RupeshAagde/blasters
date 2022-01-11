@@ -1211,9 +1211,6 @@ export default {
                         this.selected_Subs.includes(it.value)
                     );
                     this.selectedSubs.value = currentsubs;
-
-                    //this.remaining = data.restrictions.uses.remaining.total;
-                    //console.log(this.remaining);
                 }
             );
 
