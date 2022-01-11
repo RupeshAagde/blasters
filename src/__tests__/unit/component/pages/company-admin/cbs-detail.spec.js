@@ -54,7 +54,6 @@ describe('Mounted Company Detail Page', () => {
         mock.onGet(URLS.GET_DEPLOYMENT_MAPPING()).reply(200, MOCK_DATA_DEPL_MAP);
         mock.onGet(URLS.GET_DEPLOYMENT_LIST()).reply(200, MOCK_DATA_DEPLMNTS);
 
-        MOCK_DATA_DEPLMNTS
         wrapper = mount(CbsDetail, {
             localVue,
             router
