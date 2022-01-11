@@ -173,7 +173,7 @@ const URLS = {
     GET_DEPLOYMENT_MAPPING: () => {
         return urlJoin(
             SLINGSHOT_ADMIN_URL,
-            '/v1.0/deployment_mapping/'
+            '/v1.0/deployment_mapping'
         );
     },
     GET_DEPLOYMENT_LIST: () => {
