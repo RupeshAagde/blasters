@@ -37,7 +37,7 @@
             </div>
             <div class="darker-xs card-content-line-2 coupon-code">
                 {{ coupon.code.toUpperCase() }}
-                <span id="copycode" @click.stop="onCopyCode">
+                <span id="copycode" @click.stop="onCopyCode($event,coupon.code)">
                     <inline-svg
                         title="Click to copy"
                         :src="'copy'"
@@ -202,8 +202,8 @@ export default {
             this.loading = false;
             })
         },
-        onCopyCode(event) {
-            copyToClipboard(this.coupon.code);
+        onCopyCode(event,code) {
+            copyToClipboard(code);
             this.$snackbar.global.showInfo('Copied to clipboard', 1000);
             event.stopPropagation();
             event.preventDefault();

@@ -220,6 +220,42 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    <tr v-if="invoice.invoice.discount.amount && invoice.invoice.discount.coupon_code ">
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        ></td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        ></td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        >
+                                            <div class="bold">Discount</div>
+                                        </td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        >
+                                            <div class="bold">
+                                                {{
+                                                    amountFormat({
+                                                        currency:
+                                                            invoice.invoice
+                                                                .currency,
+                                                        amount: invoice.invoice
+                                                            .discount.amount,
+                                                    })
+                                                }}
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td
                                             class="
