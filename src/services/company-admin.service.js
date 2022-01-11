@@ -109,12 +109,12 @@ const CompanyService = {
         return ApiService.get(URLS.GET_COMPANY_LIST(), axiosOptions);
     },
 
-    getDeploymentMappings(params) {
+    getDeploymentMappings(companyId) {
         const axiosOptions = Object.assign(
-            { params },
+            {},
             getCommonHeaderOptions(),
         );
-        return ApiService.get(URLS.GET_DEPLOYMENT_MAPPING(), axiosOptions);
+        return ApiService.get(`${URLS.GET_DEPLOYMENT_MAPPING()}/${companyId}`, axiosOptions);
     },
 
     getDeploymentList() {

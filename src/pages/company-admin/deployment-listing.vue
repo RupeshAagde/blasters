@@ -186,7 +186,7 @@ export default {
         flatBtn,
     },
     beforeMount() {
-        this.getDeployments();
+        this.getDeploymentMappings();
         CompanyService.getDeploymentList().then(({ data }) => {
             this.deploymentList = data.map((element) => {
                 const deploymentName = Object.keys(element)[0];
@@ -200,10 +200,10 @@ export default {
         });
     },
     methods: {
-        getDeployments() {
-            CompanyService.getDeploymentMappings({ page_size: 100, page_no: 1 })
+        getDeploymentMappings() {
+            CompanyService.getDeploymentMappings(this.$route.params.companyId)
                 .then(({ data }) => {
-                    this.deploymentMapping = data.items;
+                    this.deploymentMapping = data;
                     this.isLoading = false;
                 })
                 .catch((err) => {
@@ -231,7 +231,7 @@ export default {
                     );
 
                     this.closeConfirmationDialog();
-                    this.getDeployments();
+                    this.getDeploymentMappings();
                 })
                 .catch((err) => {
                     console.log('Error', err);
@@ -263,7 +263,7 @@ export default {
                     this.$snackbar.global.showSuccess(
                         'Deployment Mapping created successfully'
                     );
-                    this.getDeployments();
+                    this.getDeploymentMappings();
                     this.$refs['assign-deplmnt-modal'].close();
                 })
                 .catch((err) => {
