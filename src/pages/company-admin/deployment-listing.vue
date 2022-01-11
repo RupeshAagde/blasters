@@ -19,11 +19,10 @@
                 >
                 </page-error>
                 <loader v-if="isLoading"></loader>
-                <ul v-else-if="deploymentMapping.length > 0">
+                <ul v-else-if="deploymentMapping">
                     <li
-                        v-for="deployment in deploymentMapping"
                         class="blaster-list-card-container"
-                        :key="deployment.name"
+                        :key="deploymentMapping.name"
                     >
                         <div class="card-content-section">
                             <div class="card-content-line-1">
@@ -37,14 +36,8 @@
                                     <span class="card-content__timestamp"
                                         >Created at:
                                         {{
-                                            getDeploymentDate(
-                                                deployment.created_at
-                                            )
-                                        }}
-                                        -
-                                        {{
-                                            getDeploymentTime(
-                                                deployment.created_at
+                                            toDateTimeString(
+                                                deploymentMapping.created_at
                                             )
                                         }}</span
                                     >
@@ -58,16 +51,19 @@
                                         >Deployment</span
                                     >
                                     <span class="cst-clr">{{
-                                        deployment.deployment_name
+                                        deploymentMapping.deployment_name
                                     }}</span>
                                 </div>
                             </div>
                         </div>
                         <div
                             class="card-badge-section"
-                            :id="deployment._id"
+                            :id="deploymentMapping._id"
                             @click="
-                                openConfirmationDialog(deployment._id, $event)
+                                openConfirmationDialog(
+                                    deploymentMapping._id,
+                                    $event
+                                )
                             "
                         >
                             <ukt-inline-svg
@@ -150,8 +146,9 @@ import {
     NitrozenDialog,
     strokeBtn,
     flatBtn,
-    NitrozenDropdown
+    NitrozenDropdown,
 } from '@gofynd/nitrozen-vue';
+import moment from 'moment';
 import { PageHeader } from '@/components/common/';
 import CompanyService from '@/services/company-admin.service';
 import PageError from '@/components/common/page-error';
@@ -160,17 +157,17 @@ import AdmNoContent from '@/components/common/page-empty';
 export default {
     name: 'deployment',
     props: {
-        company_name: String
+        company_name: String,
     },
     data() {
         return {
-            deploymentMapping: [],
+            deploymentMapping: '',
             deploymentMappingId: '',
             errorMessage: 'No deployment Mappings found.!',
             pageError: false,
             isLoading: true,
             deploymentListFiltered: [],
-            selectedDeployment: ''
+            selectedDeployment: '',
         };
     },
     components: {
@@ -182,38 +179,40 @@ export default {
         Jumbotron,
         PageHeader,
         UktInlineSvg,
-        loader
+        loader,
     },
     directives: {
         strokeBtn,
-        flatBtn
+        flatBtn,
     },
     beforeMount() {
         this.getDeploymentMappings();
-        CompanyService.getDeploymentList().then(({ data }) => {
-            this.deploymentList = data.map((element) => {
-                const deploymentName = Object.keys(element)[0];
-                return {
-                    text: deploymentName,
-                    value: element[deploymentName]
-                };
-            });
-
-            this.deploymentListFiltered = this.deploymentList;
-        });
     },
     methods: {
         getDeploymentMappings() {
             CompanyService.getDeploymentMappings({
-                company_id: this.$route.params.companyId
+                company_id: this.$route.params.companyId,
             })
                 .then(({ data }) => {
                     this.deploymentMapping = data;
+                    this.selectedDeployment = '';
                     this.isLoading = false;
                 })
                 .catch((err) => {
                     this.pageError = true;
                 });
+        },
+        getDeployments() {
+            CompanyService.getDeploymentList().then(({ data }) => {
+                this.deploymentList = data.map((element) => {
+                    const deploymentName = Object.keys(element)[0];
+                    return {
+                        text: deploymentName,
+                        value: element[deploymentName],
+                    };
+                });
+                this.deploymentListFiltered = this.deploymentList;
+            });
         },
         onSearchInputUpdateDeploymentList(e) {
             if (e && e.text) {
@@ -234,7 +233,6 @@ export default {
                     this.$snackbar.global.showSuccess(
                         'Deployment Mapping deleted successfully'
                     );
-
                     this.closeConfirmationDialog();
                     this.getDeploymentMappings();
                 })
@@ -246,10 +244,11 @@ export default {
                 });
         },
         openDeploymentModal() {
+            this.getDeployments();
             this.$refs['assign-deplmnt-modal'].open({
                 width: '600px',
                 height: '320px',
-                showCloseButton: true
+                showCloseButton: true,
             });
         },
         onSave() {
@@ -260,7 +259,7 @@ export default {
             const payLoad = {
                 company_id: this.$route.params.companyId,
                 deployment_ingress: DEPLOYMENT_CONFIG.value,
-                deployment_name: DEPLOYMENT_CONFIG.text
+                deployment_name: DEPLOYMENT_CONFIG.text,
             };
 
             CompanyService.createDeploymentMapping(payLoad)
@@ -283,19 +282,16 @@ export default {
             this.$refs['confirm-dialog'].open({
                 width: '400px',
                 height: '215px',
-                showCloseButton: true
+                showCloseButton: true,
             });
         },
         closeConfirmationDialog() {
             this.$refs['confirm-dialog'].close();
         },
-        getDeploymentDate(dateString) {
-            return dateString.split('T')[0];
+        toDateTimeString(date) {
+            return moment(date).format('MMMM Do YYYY, h:mm:ss a');
         },
-        getDeploymentTime(dateString) {
-            return dateString.split('T')[1].slice(0, -1);
-        }
-    }
+    },
 };
 </script>
 
