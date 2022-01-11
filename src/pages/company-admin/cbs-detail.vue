@@ -188,7 +188,7 @@
             <invoice-listing></invoice-listing>
         </div>
         <div v-show="activeTabIndex === 4">
-            <list-deployment />
+            <list-deployment :company_name="profileDetails.name" />
         </div>
     </div>
 </template>

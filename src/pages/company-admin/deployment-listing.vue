@@ -32,7 +32,7 @@
                                         >Company</span
                                     >
                                     <span class="cst-clr">{{
-                                        deployment.name
+                                        company_name
                                     }}</span>
                                     <span class="card-content__timestamp"
                                         >Created at:
@@ -79,7 +79,7 @@
                 </ul>
                 <adm-no-content
                     v-else
-                    text="No Deployment Mappings Available."
+                    text="Currently all traffic is routed to default deployment"
                 ></adm-no-content>
             </div>
         </div>
@@ -150,7 +150,7 @@ import {
     NitrozenDialog,
     strokeBtn,
     flatBtn,
-    NitrozenDropdown,
+    NitrozenDropdown
 } from '@gofynd/nitrozen-vue';
 import { PageHeader } from '@/components/common/';
 import CompanyService from '@/services/company-admin.service';
@@ -159,6 +159,9 @@ import AdmNoContent from '@/components/common/page-empty';
 
 export default {
     name: 'deployment',
+    props: {
+        company_name: String
+    },
     data() {
         return {
             deploymentMapping: [],
@@ -167,7 +170,7 @@ export default {
             pageError: false,
             isLoading: true,
             deploymentListFiltered: [],
-            selectedDeployment: '',
+            selectedDeployment: ''
         };
     },
     components: {
@@ -179,11 +182,11 @@ export default {
         Jumbotron,
         PageHeader,
         UktInlineSvg,
-        loader,
+        loader
     },
     directives: {
         strokeBtn,
-        flatBtn,
+        flatBtn
     },
     beforeMount() {
         this.getDeploymentMappings();
@@ -192,7 +195,7 @@ export default {
                 const deploymentName = Object.keys(element)[0];
                 return {
                     text: deploymentName,
-                    value: element[deploymentName],
+                    value: element[deploymentName]
                 };
             });
 
@@ -201,7 +204,9 @@ export default {
     },
     methods: {
         getDeploymentMappings() {
-            CompanyService.getDeploymentMappings(this.$route.params.companyId)
+            CompanyService.getDeploymentMappings({
+                company_id: this.$route.params.companyId
+            })
                 .then(({ data }) => {
                     this.deploymentMapping = data;
                     this.isLoading = false;
@@ -244,7 +249,7 @@ export default {
             this.$refs['assign-deplmnt-modal'].open({
                 width: '600px',
                 height: '320px',
-                showCloseButton: true,
+                showCloseButton: true
             });
         },
         onSave() {
@@ -255,7 +260,7 @@ export default {
             const payLoad = {
                 company_id: this.$route.params.companyId,
                 deployment_ingress: DEPLOYMENT_CONFIG.value,
-                deployment_name: DEPLOYMENT_CONFIG.text,
+                deployment_name: DEPLOYMENT_CONFIG.text
             };
 
             CompanyService.createDeploymentMapping(payLoad)
@@ -278,7 +283,7 @@ export default {
             this.$refs['confirm-dialog'].open({
                 width: '400px',
                 height: '215px',
-                showCloseButton: true,
+                showCloseButton: true
             });
         },
         closeConfirmationDialog() {
@@ -289,8 +294,8 @@ export default {
         },
         getDeploymentTime(dateString) {
             return dateString.split('T')[1].slice(0, -1);
-        },
-    },
+        }
+    }
 };
 </script>
 
