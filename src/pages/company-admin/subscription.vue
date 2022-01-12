@@ -101,6 +101,16 @@
                         Currently under the trial plan.
                     </div>
                     <div class="flex">
+                        <div class="flex-1">
+                            <nitrozen-button
+                                v-if="currentActivePlan.is_enabled"
+                                id="side-link"
+                                :theme="'secondary'"
+                                @click="onOpenChangePlanDialog"
+                            >
+                                Change Plan
+                            </nitrozen-button>
+                        </div>
                         <div class="flex-1 text-right">
                             <nitrozen-button
                                 v-if="currentActivePlan.is_enabled"
@@ -185,6 +195,51 @@
                 <template slot="body" name="body"
                     >Are you sure you want to cancel subscription?</template
                 >
+            </nitrozen-dialog>
+
+            <nitrozen-dialog
+                ref="change_plan_dialog"
+                title="Change Plan"
+                :label="'Select Plan'"
+            >
+                <template slot="body" name="body"
+                    >
+                    <nitrozen-dropdown
+                        ref="type-search"
+                        :searchable="true"
+                        class="datatype-dropdown"
+                        :items="plansListDropdownItems"
+                        v-model="selectedForChange"
+                        @change="selectedForChangeError=false;"
+                        @searchInputChange="searchPlans"
+                        :placeholder="'Search Plans'"
+                    ></nitrozen-dropdown>
+                    <nitrozen-error class="bottom-space" v-if="selectedForChangeError">
+                        Please select valid plan
+                    </nitrozen-error>  
+                    <nitrozen-input
+                        class="search m-t-24"
+                        type="textarea"
+                        label="Comment"
+                        placeholder="Enter Comment"
+                        v-model="planChangeComment"
+                    ></nitrozen-input>  
+
+                </template
+                >
+                <template slot="footer" name="footer">
+                    <nitrozen-button
+                        class="m-r-12"
+                        theme="secondary"
+                        v-flatBtn
+                        @click="onActivatePlan"
+                        >Activate Plan</nitrozen-button>
+                    <nitrozen-button
+                        theme="secondary"
+                        v-strokeBtn
+                        @click="onCancelActivatePlan"
+                        >Cancel</nitrozen-button>
+                </template>
             </nitrozen-dialog>
         </div>
         <div class="width-100">
@@ -335,6 +390,16 @@ export default {
         ...mapGetters({
             currentActivePlan: GET_CURRENT_ACTIVE_SUBSCRIPTION
         }),
+        plansListDropdownItems(){
+            let arr = [];
+            arr = this.plansList.map(ele=>{
+                return {
+                    text: `${ele.name} - ${this.amountFormatNoDecimal(ele)} / ${this.toTitleCase(ele.recurring.interval)}`,
+                    value: ele._id
+                }
+            })
+            return arr;
+        },
         trialDaysLeftString() {
             let currentActivePlan = this.currentActivePlan;
             if (
@@ -397,6 +462,11 @@ export default {
     },
     data(){
         return {
+            currentPlan:"",
+            plansList: [],
+            selectedForChange:"",
+            selectedForChangeError:false,
+            planChangeComment:"",
             isLoading:false,
             currentPlanDetailed: null,
             company_id: this.$route.params.companyId,
@@ -417,7 +487,18 @@ export default {
         }
     },
     mounted(){
+        this.$store
+                .dispatch(FETCH_CURRENT_ACTIVE_SUBSCRIPTION, {
+                    params: {
+                        unique_id: this.company_id,
+                        product_suite: 'fynd-platform',
+                        type: 'company'
+                    }
+                }).then((val)=>{
+                    this.currentPlan=val.subscription;
+                })
         let pArr = []
+        this.fetchPlans("");
         if(this.$route.query && this.$route.query.subscriptionFilters){
             this.filters = JSON.parse(this.$route.query.subscriptionFilters)
         }
@@ -517,6 +598,36 @@ export default {
                 positiveButtonLabel: 'Yes',
                 negativeButtonLabel: 'No',
                 neutralButtonLabel: false
+            });
+        },
+        onActivatePlan(){
+            if(!this.selectedForChange){
+                return this.selectedForChangeError=true;
+            }else {
+                if(this.currentPlan.plan_id===this.selectedForChange){
+                    this.selectedForChange="";
+                    this.planChangeComment="";
+                    return this.$snackbar.global.showError(`You are already subsribed to ${this.currentPlan.plan_data.name}`,{duration: 2000});
+                }
+                this.activatePlan(this.selectedForChange);
+                this.$refs['change_plan_dialog'].close();    
+            }
+        },
+        onCancelActivatePlan(){
+            this.$refs['change_plan_dialog'].close()
+        },
+        onOpenChangePlanDialog() {
+            this.selectedForChangeError=false;
+            this.selectedForChange="";
+            this.$nextTick(()=>{
+                this.$refs['type-search'].selectItem(null, {})
+                this.$refs['change_plan_dialog'].open({
+                width: '400px',
+                height: '420px',
+                positiveButtonLabel: 'Activate Plan',
+                negativeButtonLabel: 'Cancel',
+                neutralButtonLabel: false
+            });
             });
         },
         onCloseCancelSubscription(optionSelected) {
@@ -635,6 +746,69 @@ export default {
         fetchPlanDetailed(id) {
             return BillingSubscriptionService.getPlanDetailsById(id);
         },
+        activatePlan(plan_id){
+            let payload = {
+                "unique_id": this.companyId,
+                "type": "company",
+                "product_suite": "fynd-platform",
+                "plan_id": plan_id,
+                "meta":{
+                    "comment":this.planChangeComment
+                }
+            }
+            
+            return BillingSubscriptionService.activatePlan(this.companyId,payload)
+            .then(({data})=>{
+                this.selectedForChange="";
+                this.planChangeComment="";
+                if(data.success){
+                    return this.$store
+                    .dispatch(FETCH_CURRENT_ACTIVE_SUBSCRIPTION, {
+                        params: {
+                            unique_id: this.company_id,
+                            product_suite: 'fynd-platform',
+                            type: 'company'
+                        }
+                    }).then((val)=>{
+                        this.currentPlan=val.subscription;
+                        this.$snackbar.global.showSuccess('Subscription has been changed successfully',{duration: 2000});
+                    })
+                }
+                else{
+                    this.$snackbar.global.showError('Failed to change subscription',{duration: 2000});
+                }
+            })
+            .catch(err=>{
+                this.$snackbar.global.showError('Failed to change subscription',{duration: 2000});
+            })
+            
+
+        },
+        searchPlans(e){
+            if (e && e.text) {
+                debounce(() => {
+                    this.fetchPlans(e.text);
+                }, 400)();
+            }else {
+                this.selectedForChange="";
+                this.fetchPlans("")
+            }
+
+        },
+        fetchPlans(searchText){
+            return BillingSubscriptionService.getPlans({
+                name:searchText,
+                page_size: 50,
+            })
+                .then(({ data }) => {
+                    this.loading = false;
+                    this.plansList = data.items;
+                })
+                .catch((err) => {
+                    // console.log(err);
+                    this.pageError = true;
+                });
+        },
         openCurrentPlanDetailsModal() {
             this.$refs['view_plan_details'].open({
                 width: '750px',
@@ -647,6 +821,14 @@ export default {
             return new Intl.NumberFormat('en-IN', {
                 style: 'currency',
                 currency: plan.currency
+            }).format(plan.amount);
+        },
+        amountFormatNoDecimal(plan) {
+            return new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: plan.currency,
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
             }).format(plan.amount);
         },
         recurringText(interval_count, interval) {
@@ -704,6 +886,14 @@ export default {
                     return this.$store.dispatch(FETCH_COMPANY_SUBSCRIPTION_LIMITS,{company_id:this.company_id});
                 });
         },
+        toTitleCase(str) {
+        return str.replace(
+            /\w\S*/g,
+            function(txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            }
+        );
+        }
     }
 }
 </script>
