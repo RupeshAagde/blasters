@@ -209,12 +209,12 @@
                         :searchable="true"
                         class="datatype-dropdown"
                         :items="plansListDropdownItems"
-                        v-model="slectedForChange"
-                        @change="slectedForChangeError=false;"
+                        v-model="selectedForChange"
+                        @change="selectedForChangeError=false;"
                         @searchInputChange="searchPlans"
                         :placeholder="'Search Plans'"
                     ></nitrozen-dropdown>
-                    <nitrozen-error class="bottom-space" v-if="slectedForChangeError">
+                    <nitrozen-error class="bottom-space" v-if="selectedForChangeError">
                         Please select valid plan
                     </nitrozen-error>  
                     <nitrozen-input
@@ -464,8 +464,8 @@ export default {
         return {
             currentPlan:"",
             plansList: [],
-            slectedForChange:"",
-            slectedForChangeError:false,
+            selectedForChange:"",
+            selectedForChangeError:false,
             planChangeComment:"",
             isLoading:false,
             currentPlanDetailed: null,
@@ -601,15 +601,15 @@ export default {
             });
         },
         onActivatePlan(){
-            if(!this.slectedForChange){
-                return this.slectedForChangeError=true;
+            if(!this.selectedForChange){
+                return this.selectedForChangeError=true;
             }else {
-                if(this.currentPlan.plan_id===this.slectedForChange){
-                    this.slectedForChange="";
+                if(this.currentPlan.plan_id===this.selectedForChange){
+                    this.selectedForChange="";
                     this.planChangeComment="";
                     return this.$snackbar.global.showError(`You are already subsribed to ${this.currentPlan.plan_data.name}`,{duration: 2000});
                 }
-                this.activatePlan(this.slectedForChange);
+                this.activatePlan(this.selectedForChange);
                 this.$refs['change_plan_dialog'].close();    
             }
         },
@@ -617,8 +617,8 @@ export default {
             this.$refs['change_plan_dialog'].close()
         },
         onOpenChangePlanDialog() {
-            this.slectedForChangeError=false;
-            this.slectedForChange="";
+            this.selectedForChangeError=false;
+            this.selectedForChange="";
             this.$nextTick(()=>{
                 this.$refs['type-search'].selectItem(null, {})
                 this.$refs['change_plan_dialog'].open({
@@ -759,7 +759,7 @@ export default {
             
             return BillingSubscriptionService.activatePlan(this.companyId,payload)
             .then(({data})=>{
-                this.slectedForChange="";
+                this.selectedForChange="";
                 this.planChangeComment="";
                 if(data.success){
                     return this.$store
@@ -790,7 +790,7 @@ export default {
                     this.fetchPlans(e.text);
                 }, 400)();
             }else {
-                this.slectedForChange="";
+                this.selectedForChange="";
                 this.fetchPlans("")
             }
 
