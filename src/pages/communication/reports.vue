@@ -330,6 +330,7 @@ export default {
             this.changePage();
         },
         campaignDropdownSearchInputChange(e) {
+            console.log(e.text);
             this.filters.campaign = '';
             this.fetchCampaigns(e.text);
         },
@@ -337,6 +338,7 @@ export default {
            CommunicationServices.getCampaigns({"name":name})
            .then(res=>{
              this.getCampaignDropdown(res.data.items)
+             this.changePage()
         
            }).catch(err=>{
                console.log(err);
