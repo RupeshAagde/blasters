@@ -170,6 +170,30 @@ const URLS = {
             '/v1.0/companies/'
         );
     },
+    GET_DEPLOYMENT_MAPPING: () => {
+        return urlJoin(
+            SLINGSHOT_ADMIN_URL,
+            '/v1.0/deployment_mapping'
+        );
+    },
+    GET_DEPLOYMENT_LIST: () => {
+        return urlJoin(
+            SLINGSHOT_ADMIN_URL,
+            '/v1.0/deployment_mapping/repeat_servers'
+        );
+    },
+    CREATE_NEW_DEPLOYMENT_MAPPING: () => {
+        return urlJoin(
+            SLINGSHOT_ADMIN_URL,
+            '/v1.0/deployment_mapping/'
+        );
+    },
+    DELETE_DEPLOYMENT_MAPPING_BY_ID: (id) => {
+        return urlJoin(
+            SLINGSHOT_ADMIN_URL,
+            `/v1.0/deployment_mapping/${id}`
+        );
+    },
     VERIFY_COMPANY: (query_param) => {
         return urlJoin(
             SILVERBOLT_ACPR_URL,
