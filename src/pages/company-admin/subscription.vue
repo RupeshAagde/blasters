@@ -73,6 +73,12 @@
                             <div class="plan-thin" v-if="trialDaysLeftString">
                                 {{ trialDaysLeftString.text }}
                             </div>
+                            <div class="plan-thin" v-if="currentActivePlan.subscription.meta.comment">
+                                Comment:
+                                {{
+                                    currentActivePlan.subscription.meta.comment
+                                }}
+                            </div>
                         </div>
                     </div>
                     <div
