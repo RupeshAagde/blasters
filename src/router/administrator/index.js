@@ -22,6 +22,7 @@ import CreateCustomVue from './../../pages/settings/page-editor/create.vue';
 import NavbarSettingsVue from './../../pages/settings/navbar';
 import FooterSettingsVue from './../../pages/settings/footer';
 import PricingBannerVue from './../../pages/settings/pricing_banner.vue';
+
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';

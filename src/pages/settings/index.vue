@@ -154,41 +154,6 @@
                         </span>
                     </span>
                 </div>
-
-                <div class="settings-head">
-                    <inline-svg src="settings"></inline-svg>
-                    <span class="bold-xs cl-Mako title">Others</span>
-                </div>
-
-                <div class="settings-main">
-                    <span class="settings-menu">
-                        <router-link to="/administrator/settings/deployments">
-                            <span>
-                                <div class="settings-body">
-                                    <span class="settings-icon">
-                                        <inline-svg
-                                            src="settings"
-                                            class="feature-icon"
-                                        ></inline-svg>
-                                    </span>
-                                    <span class="settings-content">
-                                        <div>
-                                            <span class="bold-xs cl-Mako"
-                                                >Deployment</span
-                                            >
-                                        </div>
-                                        <div class="settings-detail">
-                                            <span class="cl-Mako">
-                                                Check deployments
-                                            </span>
-                                        </div>
-                                    </span>
-                                </div>
-                            </span>
-                        </router-link>
-                    </span>
-                </div>
-
             </section>
         </div>
         <home-page ref="custom-home-page"></home-page>
