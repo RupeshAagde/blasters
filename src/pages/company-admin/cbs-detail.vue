@@ -90,7 +90,8 @@
         </div>
         <div
             v-show="activeTabIndex === 2"
-            class="main-container profile-container">
+            class="main-container profile-container"
+        >
             <div class="full-width">
                 <div class="applications" style="width: 98%">
                     <!-- this is subscription -->
@@ -185,6 +186,9 @@
                 </div>
             </div> -->
             <invoice-listing></invoice-listing>
+        </div>
+        <div v-show="activeTabIndex === 4">
+            <list-deployment :company_name="profileDetails.name" />
         </div>
     </div>
 </template>
@@ -399,13 +403,20 @@ import {
 } from '@gofynd/nitrozen-vue';
 import { FETCH_METRICS } from '@/store/action.type';
 import marketplaceChannels from './mkp-channels.vue';
-import invoiceListing from './invoice-listing.vue'
-import admcompanysubscription from './subscription.vue'
+import invoiceListing from './invoice-listing.vue';
+import admcompanysubscription from './subscription.vue';
+import deploymentList from './deployment-listing.vue';
 import root from 'window-or-global';
 import invert from 'lodash/invert';
 
 const env = root.env || {};
-const TAB_NAMES = ['Details', 'Marketplace Channels','Subscription', 'Invoices']
+const TAB_NAMES = [
+    'Details',
+    'Marketplace Channels',
+    'Subscription',
+    'Invoices',
+    'Infra',
+];
 export default {
     name: 'adm-company-profile',
     components: {
@@ -414,7 +425,7 @@ export default {
         'adm-stores': admstores,
         'adm-company-details': admcompanydetails,
         'list-dri': listdri,
-        'adm-company-subscription':admcompanysubscription,
+        'adm-company-subscription': admcompanysubscription,
         Shimmer,
         PageHeader,
         'nitrozen-badge': NitrozenBadge,
@@ -423,7 +434,8 @@ export default {
         'mkp-channels': marketplaceChannels,
         'ukt-inline-svg': uktInlineSVG,
         'adm-inline-svg': admInlineSVG,
-        'invoice-listing':invoiceListing,
+        'invoice-listing': invoiceListing,
+        'list-deployment': deploymentList,
     },
     computed: {},
     data() {
@@ -443,18 +455,18 @@ export default {
         };
     },
     mounted() {
-        this.$refs.nit_tab.activeTab = 0
-        if(this.$route.query.tab){
-            let tab = this.$route.query.tab
-            let tabs = invert(TAB_NAMES)
+        this.$refs.nit_tab.activeTab = 0;
+        if (this.$route.query.tab) {
+            let tab = this.$route.query.tab;
+            let tabs = invert(TAB_NAMES);
             let obj = {
                 index: Number(tabs[tab]),
-                item: tab
-            }
-            this.$refs.nit_tab.activeTab = obj.index
-            this.onTabChange(obj)
+                item: tab,
+            };
+            this.$refs.nit_tab.activeTab = obj.index;
+            this.onTabChange(obj);
         }
-        
+
         this.getProfileDetails();
         this.fetchMetricsApi();
     },
@@ -464,31 +476,34 @@ export default {
         },
     },
     methods: {
-        onTabChange(obj){
-            if(this.$route.query.tab != obj.item){
-                this.$router.replace({
-                    name: this.$route.name,
-                    query: {
-                        tab: obj.item
-                    }
-                })
-                .catch(() => {});
-                this.activeTabIndex = obj.index
-            }
-            else{
-                this.$router.replace({
-                    name: this.$route.name,
-                    query: {
-                        ...this.$route.query,
-                        tab: obj.item
-                    }
-                })
-                .catch(() => {});
-                this.activeTabIndex = obj.index
+        onTabChange(obj) {
+            if (this.$route.query.tab != obj.item) {
+                this.$router
+                    .replace({
+                        name: this.$route.name,
+                        query: {
+                            tab: obj.item,
+                        },
+                    })
+                    .catch(() => {});
+                this.activeTabIndex = obj.index;
+            } else {
+                this.$router
+                    .replace({
+                        name: this.$route.name,
+                        query: {
+                            ...this.$route.query,
+                            tab: obj.item,
+                        },
+                    })
+                    .catch(() => {});
+                this.activeTabIndex = obj.index;
             }
         },
         goToBillingPage(id) {
-            this.$router.push({ path: `/administrator/company-details/${this.companyId}/billing-details/${id}` });
+            this.$router.push({
+                path: `/administrator/company-details/${this.companyId}/billing-details/${id}`,
+            });
         },
         fetchMetricsApi: function () {
             let params = {
