@@ -193,12 +193,13 @@ export default {
                 }))
         .then(res=>{
             this.coupon = res.data;
+            console.log(this.coupon);
             this.pagination = {
                 limit : res.data.page.size,
                 total : res.data.page.item_total,
                 current : res.data.page.current
             }
-            this.couponList = res.data.items;
+            this.couponList = res.data.items.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
             this.loading = false;
             })
         },
