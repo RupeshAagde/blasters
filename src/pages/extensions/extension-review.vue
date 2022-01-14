@@ -1,10 +1,7 @@
 <template>
     <div class="panel">
         <div class="page-header-position">
-            <page-header
-                @backClick="onCancel"
-                :title="'Review Extension'"
-            >
+            <page-header @backClick="onCancel" :title="'Review Extension'">
                 <div class="button-box">
                     <nitrozen-button
                         :theme="'secondary'"
@@ -43,7 +40,14 @@
         ></page-error>
         <div class="main-container" v-else>
             <div class="page-container">
-                <a class="cl-RoyalBlue" :href="`https://partners.${fynd_platform_domain}/extensions/preview/${extension_id}`" target="_blank" >Link to extension</a>
+                <a
+                    class="cl-RoyalBlue"
+                    :href="
+                        `https://partners.${fynd_platform_domain}/extensions/preview/${extension_id}`
+                    "
+                    target="_blank"
+                    >Link to extension</a
+                >
                 <nitrozen-input
                     :disabled="true"
                     :type="'textarea'"
@@ -58,8 +62,46 @@
                     v-model="review_data.review_comments"
                 >
                 </nitrozen-input>
-                <nitrozen-error :class="{'hidden': !error_comments}">
-                    {{ error_comments || "-" }}
+                <div class="category-display">
+                    <div class="category-display-label">Categories Level 1</div>
+                    <div>
+                        <nitrozen-chips
+                            class="nitrozen-form-input"
+                            state="selected"
+                            v-for="(item, index) in extension_info.category
+                                .categoriesL1"
+                            :key="'categoryL1' + index"
+                        >
+                            {{ item.display }}
+                            <nitrozen-inline
+                                :icon="'cross'"
+                                class="nitrozen-icon"
+                                v-on:click="removeSelectedCategory(index)"
+                            ></nitrozen-inline>
+                        </nitrozen-chips>
+                    </div>
+                </div>
+                <div class="category-display">
+                    <div class="category-display-label">Categories Level 2</div>
+                    <div>
+                        <nitrozen-chips
+                            class="nitrozen-form-input"
+                            state="selected"
+                            v-for="(item, index) in extension_info.category
+                                .categoriesL2"
+                            :key="'categoryL2' + index"
+                        >
+                            {{ item.display }}
+                            <nitrozen-inline
+                                :icon="'cross'"
+                                class="nitrozen-icon"
+                                v-on:click="removeSelectedCategory(index, true)"
+                            ></nitrozen-inline>
+                        </nitrozen-chips>
+                    </div>
+                </div>
+                <nitrozen-error :class="{ hidden: !error_comments }">
+                    {{ error_comments || '-' }}
                 </nitrozen-error>
             </div>
             <loader v-if="inProgress" class="loading"></loader>
@@ -82,6 +124,12 @@
     margin: 0;
     flex-direction: column;
 }
+.category-display {
+    margin-top: 12px;
+}
+.category-display-label {
+    font-size: 16px;
+}
 </style>
 
 <script>
@@ -90,7 +138,9 @@ import {
     flatBtn,
     strokeBtn,
     NitrozenInput,
-    NitrozenError
+    NitrozenError,
+    NitrozenChips,
+    NitrozenInline
 } from '@gofynd/nitrozen-vue';
 
 import loader from '@/components/common/loader';
@@ -102,15 +152,17 @@ import root from 'window-or-global';
 const env = root.env || {};
 
 export default {
-    name: "extension-review",
+    name: 'extension-review',
     components: {
         'nitrozen-button': NitrozenButton,
         'nitrozen-input': NitrozenInput,
         'nitrozen-error': NitrozenError,
+        'nitrozen-chips': NitrozenChips,
+        'nitrozen-inline': NitrozenInline,
         'page-empty': pageEmpty,
         'page-error': pageError,
         'page-header': pageHeader,
-        'loader': loader
+        loader: loader
     },
     directives: {
         flatBtn,
@@ -121,14 +173,16 @@ export default {
             inProgress: false,
             pageError: false,
             pageLoading: false,
-            extension_info: {},
-            review_data: {
-                review_comments: "",
-                current_status: "",
+            extension_info: {
+                category: {}
             },
-            error_comments:"",
-            fynd_platform_domain: 'fynd.com',
-        }
+            review_data: {
+                review_comments: '',
+                current_status: ''
+            },
+            error_comments: '',
+            fynd_platform_domain: 'fynd.com'
+        };
     },
     computed: {
         extension_id() {
@@ -139,53 +193,77 @@ export default {
         }
     },
     mounted() {
-        this.fynd_platform_domain = env.FYND_PLATFORM_DOMAIN || this.fynd_platform_domain;
+        this.fynd_platform_domain =
+            env.FYND_PLATFORM_DOMAIN || this.fynd_platform_domain;
         this.fetchExtension();
     },
     methods: {
-        fetchExtension(){
-            this.pageLoading=true;
-            this.pageError=false;
+        fetchExtension() {
+            this.pageLoading = true;
+            this.pageError = false;
             ExtensionService.getExtensionReviewInfo(this.review_id)
-            .then(({data})=>{
-                this.extension_info = data;
-            })
-            .catch(err=>{
-                this.pageError=true;
-                console.log(err);
-                this.$snackbar.global.showError(`Failed to load extension information`);
-            })
-            .finally(()=>{
-                this.pageLoading = false;
-            });
+                .then(({ data }) => {
+                    this.extension_info = data;
+                })
+                .catch((err) => {
+                    this.pageError = true;
+                    console.log(err);
+                    this.$snackbar.global.showError(
+                        `Failed to load extension information`
+                    );
+                })
+                .finally(() => {
+                    this.pageLoading = false;
+                });
         },
         saveForm(approve) {
-            this.error_comments = "";
-            this.review_data.current_status = approve? "published": "rejected";
-            if(!approve && !this.review_data.review_comments) {
-                this.error_comments = "Review comments required for rejecting extension changes"
-                this.$snackbar.global.showError("Missing required data");
+            this.error_comments = '';
+            this.review_data.current_status = approve
+                ? 'published'
+                : 'rejected';
+            if (!approve && !this.review_data.review_comments) {
+                this.error_comments =
+                    'Review comments required for rejecting extension changes';
+                this.$snackbar.global.showError('Missing required data');
                 return;
             }
             this.inProgress = true;
             //TODO: Add form dirty
-            ExtensionService.updateExtensionReviewInfo(this.review_id, this.review_data)
-            .then(({data})=>{
-                this.$snackbar.global.showSuccess("Updated extension status");
-                this.onCancel();
-            })
-            .catch(err=>{
-                console.log(err);
-                this.$snackbar.global.showError("Failed to update extension status");
-            })
-            .finally(()=>this.inProgress=false);
+            this.review_data.category = this.extension_info.category;
+            ExtensionService.updateExtensionReviewInfo(
+                this.review_id,
+                this.review_data
+            )
+                .then(({ data }) => {
+                    this.$snackbar.global.showSuccess(
+                        'Updated extension status'
+                    );
+                    this.onCancel();
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.$snackbar.global.showError(
+                        'Failed to update extension status'
+                    );
+                })
+                .finally(() => (this.inProgress = false));
         },
         onCancel() {
-            this.$router.push(
-                `/administrator/extensions/review`
-            )
-            .catch(()=>{});
+            this.$router
+                .push(`/administrator/extensions/review`)
+                .catch(() => {});
         },
+        removeSelectedCategory(index, isL2 = false) {
+            if (isL2) {
+                this.extension_info.category.categoriesL2 = this.extension_info.category.categoriesL2.filter(
+                    (x, i) => i !== index
+                );
+                return;
+            }
+            this.extension_info.category.categoriesL1 = this.extension_info.category.categoriesL1.filter(
+                (x, i) => i !== index
+            );
+        }
     }
-}
+};
 </script>
