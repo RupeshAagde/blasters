@@ -13,9 +13,12 @@ let MIXMASTER_ADMIN_BASE = isNode ?
     envVars.MIXMASTER_ADMIN_URL;
 
 const URLS = {
-    EXTENSION_REVIEW: (review_id='') => {
+    EXTENSION_REVIEW: (review_id = '') => {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/extension/review/${review_id}`);
-    }
+    },
+    EXTENSION_CATEGORIES_ADMIN: (organization_id) => {
+        return urlJoin(MIXMASTER_ADMIN_BASE + `/v1.0/extension/category/all`);
+    },
 };
 
 export default URLS;

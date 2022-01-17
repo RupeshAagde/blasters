@@ -63,12 +63,18 @@
                 >
                 </nitrozen-input>
                 <div class="category-display">
-                    <div class="category-display-label">Categories Level 1</div>
                     <div>
+                        <nitrozen-dropdown
+                            class="nitrozen-form-input"
+                            :label="'Category Level 1'"
+                            :items="categoryInfo.category_l1"
+                            v-model="categoryInfo.category_level_1"
+                            @change="onChangeCategory(1)"
+                        ></nitrozen-dropdown>
                         <nitrozen-chips
                             class="nitrozen-form-input"
                             state="selected"
-                            v-for="(item, index) in extension_info.category
+                            v-for="(item, index) in categoryInfo.category
                                 .categoriesL1"
                             :key="'categoryL1' + index"
                         >
@@ -76,18 +82,30 @@
                             <nitrozen-inline
                                 :icon="'cross'"
                                 class="nitrozen-icon"
-                                v-on:click="removeSelectedCategory(index)"
+                                v-on:click="
+                                    removeSelectedCategory(
+                                        index,
+                                        false,
+                                        item._id
+                                    )
+                                "
                             ></nitrozen-inline>
                         </nitrozen-chips>
                     </div>
                 </div>
                 <div class="category-display">
-                    <div class="category-display-label">Categories Level 2</div>
                     <div>
+                        <nitrozen-dropdown
+                            class="nitrozen-form-input"
+                            :label="'Category Level 2'"
+                            :items="selectedCategoryOptions"
+                            v-model="categoryInfo.category_level_2"
+                            @change="onChangeCategory(2)"
+                        ></nitrozen-dropdown>
                         <nitrozen-chips
                             class="nitrozen-form-input"
                             state="selected"
-                            v-for="(item, index) in extension_info.category
+                            v-for="(item, index) in categoryInfo.category
                                 .categoriesL2"
                             :key="'categoryL2' + index"
                         >
@@ -140,7 +158,8 @@ import {
     NitrozenInput,
     NitrozenError,
     NitrozenChips,
-    NitrozenInline
+    NitrozenInline,
+    NitrozenDropdown
 } from '@gofynd/nitrozen-vue';
 
 import loader from '@/components/common/loader';
@@ -158,6 +177,7 @@ export default {
         'nitrozen-input': NitrozenInput,
         'nitrozen-error': NitrozenError,
         'nitrozen-chips': NitrozenChips,
+        'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-inline': NitrozenInline,
         'page-empty': pageEmpty,
         'page-error': pageError,
@@ -173,7 +193,12 @@ export default {
             inProgress: false,
             pageError: false,
             pageLoading: false,
-            extension_info: {
+            extension_info: {},
+            categoryInfo: {
+                categoriesL1: [],
+                categoriesL2: [],
+                category_level_1: '',
+                category_level_2: '',
                 category: {}
             },
             review_data: {
@@ -190,6 +215,21 @@ export default {
         },
         review_id() {
             return this.$route.params.review_id;
+        },
+        selectedCategoryOptions() {
+            const {
+                category_l2,
+                category: { categoriesL1 }
+            } = this.categoryInfo;
+            const selectedParents = (categoriesL1 || []).map((ext) => ext._id);
+            const category_level2 = (category_l2 || []).filter((ext) =>
+                selectedParents.includes(ext.parent)
+            );
+            return category_level2.map((ext) => ({
+                value: ext._id,
+                text: ext.display,
+                parent: ext.parent
+            }));
         }
     },
     mounted() {
@@ -201,9 +241,26 @@ export default {
         fetchExtension() {
             this.pageLoading = true;
             this.pageError = false;
-            ExtensionService.getExtensionReviewInfo(this.review_id)
-                .then(({ data }) => {
+            let extensionCategories = ExtensionService.getAllExtensionCategories();
+            const getExtensionInfo = ExtensionService.getExtensionReviewInfo(
+                this.review_id
+            );
+            Promise.all([getExtensionInfo, extensionCategories])
+                .then(([{ data }, extensionCategoriesInfo]) => {
                     this.extension_info = data;
+                    this.categoryInfo.category_l1 = extensionCategoriesInfo.data.data.category_l1.map(
+                        (ext) => ({
+                            ...ext,
+                            text: ext.display
+                        })
+                    );
+                    this.categoryInfo.category_l2 = extensionCategoriesInfo.data.data.category_l2.map(
+                        (ext) => ({
+                            ...ext,
+                            text: ext.display
+                        })
+                    );
+                    this.categoryInfo.category = data.category;
                 })
                 .catch((err) => {
                     this.pageError = true;
@@ -229,7 +286,7 @@ export default {
             }
             this.inProgress = true;
             //TODO: Add form dirty
-            this.review_data.category = this.extension_info.category;
+            this.review_data.category = this.categoryInfo.category;
             ExtensionService.updateExtensionReviewInfo(
                 this.review_id,
                 this.review_data
@@ -253,16 +310,48 @@ export default {
                 .push(`/administrator/extensions/review`)
                 .catch(() => {});
         },
-        removeSelectedCategory(index, isL2 = false) {
+        removeSelectedCategory(index, isL2 = false, idL1) {
             if (isL2) {
-                this.extension_info.category.categoriesL2 = this.extension_info.category.categoriesL2.filter(
+                this.categoryInfo.category.categoriesL2 = this.categoryInfo.category.categoriesL2.filter(
                     (x, i) => i !== index
                 );
                 return;
             }
-            this.extension_info.category.categoriesL1 = this.extension_info.category.categoriesL1.filter(
+            this.categoryInfo.category.categoriesL1 = this.categoryInfo.category.categoriesL1.filter(
                 (x, i) => i !== index
             );
+            this.categoryInfo.category.categoriesL2 = this.categoryInfo.category.categoriesL2.filter(
+                (x, i) => x.parent !== idL1
+            );
+        },
+        onChangeCategory(level) {
+            let {
+                category_l1,
+                category_l2,
+                category_level_1,
+                category_level_2,
+                category: { categoriesL1, categoriesL2 }
+            } = this.categoryInfo;
+            let categories = level === 1 ? categoriesL1 : categoriesL2;
+            let category_values = level === 1 ? category_l1 : category_l2;
+            let category_level =
+                level === 1 ? category_level_1 : category_level_2;
+            if (categories.length >= 3) {
+                this.$snackbar.global.showError(`Maximum 3 Categories allowed`);
+                return;
+            }
+            let category_level_value = category_values.find(
+                (ext) =>
+                    ext.value === category_level || ext._id === category_level
+            );
+            if (
+                category_level_value &&
+                !categories
+                    .map((ext) => ext.text)
+                    .includes(category_level_value.text)
+            ) {
+                categories.push(category_level_value);
+            }
         }
     }
 };
