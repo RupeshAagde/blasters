@@ -110,7 +110,7 @@
     padding-top: 12px;
     .sidebar {
         position: fixed;
-        width: 13.9%;
+        width: 225px;
         
         .group {
             margin-bottom: 12px;

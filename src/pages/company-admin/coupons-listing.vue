@@ -199,7 +199,7 @@ export default {
                 total : res.data.page.item_total,
                 current : res.data.page.current
             }
-            this.couponList = res.data.items.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            this.couponList = res.data.items.sort((a, b) => new Date(b.modified_at) - new Date(a.modified_at));
             this.loading = false;
             })
         },

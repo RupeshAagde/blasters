@@ -126,6 +126,7 @@
                                             label="Max Discount"
                                             v-model="discount.value"
                                             @keydown.native="allowNumbers"
+                                            v-show="this.valuetype === 'percentage'"
                                         />
                                         
                                     </div>
@@ -152,15 +153,15 @@
                                             <nitrozen-input
                                                 label="Duration in Months*"
                                                 v-model="duration.value"
-                                                :disabled="
-                                                    durationDrop.value == 'once'
+                                                v-if="
+                                                    durationDrop.value !== 'once'
                                                 "
                                             />
 
                                             <nitrozen-error
-                                                v-if="durationDrop.showerror"
+                                                v-if="duration.showerror"
                                             >
-                                                {{ durationDrop.errortext }}
+                                                {{ duration.errortext }}
                                             </nitrozen-error>
                                         </div>
                                     </div>
@@ -350,7 +351,7 @@
                                             </nitrozen-checkbox>
                                             <nitrozen-tooltip
                                                 :position="'top'"
-                                                :tooltipText="'Maximum uses for coupon'"
+                                                :tooltipText="'Maximum number of times this coupon can be applied'"
                                             ></nitrozen-tooltip>
                                         </div>
                                         <div class="form-input-item res-inp">
@@ -379,7 +380,7 @@
                                             </nitrozen-checkbox>
                                             <nitrozen-tooltip
                                                 :position="'top'"
-                                                :tooltipText="'Subscriber specific for coupon'"
+                                                :tooltipText="'Number of times this coupon can be applied by one user'"
                                             ></nitrozen-tooltip>
                                         </div>
                                         <div class="form-input-item res-inp">
@@ -803,7 +804,7 @@
     padding-top: 12px;
     .sidebar {
         position: fixed;
-        width: 14.3%;
+        width: 2225px;
         .group {
             margin-bottom: 12px;
         }
@@ -978,6 +979,9 @@ export default {
         descriptions() {
             return TYPE_DATA[this.selectedType].description;
         },
+        valuetype(){
+            return TYPE_DATA[this.selectedType].value_type;
+        }
     },
     data() {
         return {
@@ -1051,13 +1055,13 @@ export default {
             subscriberSpecificVal: '',
             currency: 'INR',
             couponType: this.$route.params.couponType,
-            value_type: '',
             pageLoading: false,
             inProgress: false,
             unique: false,
             remaining: '',
             show_schedule_modal: false,
             schedule: {},
+            couponId : this.$route.params.couponId
         };
     },
     mounted() {
@@ -1069,7 +1073,7 @@ export default {
                 ? (this.selectedType = '1')
                 : (this.selectedType = '0');
 
-            this.value_type = this.typeList[this.selectedType].value_type;
+           
            
 
             let currentplans = this.selectPlan.filter((it) =>
@@ -1147,7 +1151,7 @@ export default {
             this.fetchPlans('');
         },
         updateFields() {
-            BillingService.getCouponId(this.$route.params.couponId).then(
+            BillingService.getCouponId(this.couponId).then(
                 (res) => {
                     let data = res.data;
                     this.published = data._schedule.published;
@@ -1220,7 +1224,7 @@ export default {
             this.couponType = this.typeList[this.selectedType].value_title;
             this.$router
                 .push({
-                    path: `/administrator/subscription/coupons/create/${this.couponType}`,
+                    path: `/administrator/subscription/coupons/edit/${this.couponType}/${this.couponId}`,
                 })
                 .catch(() => {});
             this.closeModal();
@@ -1256,7 +1260,8 @@ export default {
             }
             if (
                 this.durationDrop.value == 'repeating' &&
-                this.duration.value < 0
+                (this.duration.value <=0 )
+                
             ) {
                 this.duration.showerror = true;
                 isValid = false;
@@ -1288,7 +1293,7 @@ export default {
             let val, plan, subscriber;
             let maxuses = '-1',
                 specific = '-1';
-            this.value_type == 'absolute'
+            this.valuetype == 'absolute'
                 ? (val = this.amount.value)
                 : (val = this.percentage.value / 100);
             this.selected_plan == 'all'
@@ -1317,7 +1322,7 @@ export default {
                     },
                 },
                 rule_definition: {
-                    type: this.value_type,
+                    type: this.valuetype,
                     value: val,
                     duration: this.durationDrop.value,
                     duration_in_months: this.duration.value,
@@ -1368,7 +1373,7 @@ export default {
                     });
             }
             if (this.editMode) {
-                BillingService.putCouponList(data, this.$route.params.couponId)
+                BillingService.putCouponList(data, this.couponId)
                     .then((res) => {
                         this.pageLoading = false;
                         this.$snackbar.global.showSuccess(
@@ -1477,7 +1482,7 @@ export default {
                     code: this.code.value,
                     _schedule: {published: this.published},
                 };
-                BillingService.putCouponList(data, this.$route.params.couponId)
+                BillingService.putCouponList(data, this.couponId)
                     .then((res) => {
                         this.$snackbar.global.showSuccess(
                             this.published
