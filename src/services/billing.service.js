@@ -99,6 +99,20 @@ const BillingService = {
         );
         return ApiService.get(URLS.FETCH_INVOICE_LISTING(), axiosOptions);
     },
+    exportInvoiceListing(params){
+        const axiosOptions = Object.assign(
+            {},
+            { params: params },
+            // getCommonHeaderOptions(),
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-currency-code': 'INR'
+                }
+            }
+        );
+        return ApiService.get(URLS.EXPORT_INVOICE_LISTING(), axiosOptions);
+    },
     chargeInvoice(payload) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{
             data: payload
