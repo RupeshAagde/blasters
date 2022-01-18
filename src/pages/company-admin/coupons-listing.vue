@@ -190,6 +190,7 @@ export default {
                     "_schedule.published" : this.query.is_active.value,
                     type: this.query.type,
                     code: this.searchText,
+                    sort : JSON.stringify({"created_at":-1})
                 }))
         .then(res=>{
             this.coupon = res.data;
@@ -198,7 +199,7 @@ export default {
                 limit : res.data.page.size,
                 total : res.data.page.item_total,
                 current : res.data.page.current,
-                sort : JSON.stringify({"created_at":-1})
+                
             }
             this.couponList = res.data.items;
             this.loading = false;
