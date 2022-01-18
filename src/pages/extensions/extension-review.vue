@@ -42,9 +42,7 @@
             <div class="page-container">
                 <a
                     class="cl-RoyalBlue"
-                    :href="
-                        `https://partners.${fynd_platform_domain}/extensions/preview/${extension_id}`
-                    "
+                    :href="`https://partners.${fynd_platform_domain}/extensions/preview/${extension_id}`"
                     target="_blank"
                     >Link to extension</a
                 >
@@ -62,54 +60,39 @@
                     v-model="review_data.review_comments"
                 >
                 </nitrozen-input>
+                <nitrozen-error :class="{ hidden: !error_comments }">
+                    {{ error_comments || '-' }}
+                </nitrozen-error>
                 <div class="category-display">
                     <div>
                         <nitrozen-dropdown
                             class="nitrozen-form-input"
                             :label="'Category Level 1'"
                             :items="categoryInfo.category_l1"
-                            v-model="categoryInfo.category_level_1"
-                            @change="onChangeCategory(1)"
+                            multiple="true"
+                            v-model="categoryInfo.categoriesL1Array"
+                            :value="categoryInfo.categoriesL1Array"
+                            @change="onChangeCategoryL1()"
                         ></nitrozen-dropdown>
-                        <nitrozen-chips
-                            class="nitrozen-form-input"
-                            state="selected"
-                            v-for="(item, index) in categoryInfo.category
-                                .categoriesL1"
-                            :key="'categoryL1' + index"
-                        >
-                            {{ item.display }}
-                            <nitrozen-inline
-                                :icon="'cross'"
-                                class="nitrozen-icon"
-                                v-on:click="
-                                    removeSelectedCategory(
-                                        index,
-                                        false,
-                                        item._id
-                                    )
-                                "
-                            ></nitrozen-inline>
-                        </nitrozen-chips>
                     </div>
-                </div>
-                <div class="category-display">
                     <div>
                         <nitrozen-dropdown
                             class="nitrozen-form-input"
                             :label="'Category Level 2'"
-                            :items="selectedCategoryOptions"
-                            v-model="categoryInfo.category_level_2"
-                            @change="onChangeCategory(2)"
+                            multiple="true"
+                            :items="categoryInfo.categoriesL2Options"
+                            v-model="categoryInfo.categoriesL2Array"
+                            :value="categoryInfo.categoriesL2Array"
+                            @change="onChangeCategoryL2()"
                         ></nitrozen-dropdown>
                         <nitrozen-chips
                             class="nitrozen-form-input"
-                            state="selected"
                             v-for="(item, index) in categoryInfo.category
                                 .categoriesL2"
                             :key="'categoryL2' + index"
+                            multiple="true"
                         >
-                            {{ item.display }}
+                            {{ item.text_to_show }}
                             <nitrozen-inline
                                 :icon="'cross'"
                                 class="nitrozen-icon"
@@ -118,9 +101,6 @@
                         </nitrozen-chips>
                     </div>
                 </div>
-                <nitrozen-error :class="{ hidden: !error_comments }">
-                    {{ error_comments || '-' }}
-                </nitrozen-error>
             </div>
             <loader v-if="inProgress" class="loading"></loader>
         </div>
@@ -159,7 +139,7 @@ import {
     NitrozenError,
     NitrozenChips,
     NitrozenInline,
-    NitrozenDropdown
+    NitrozenDropdown,
 } from '@gofynd/nitrozen-vue';
 
 import loader from '@/components/common/loader';
@@ -182,11 +162,11 @@ export default {
         'page-empty': pageEmpty,
         'page-error': pageError,
         'page-header': pageHeader,
-        loader: loader
+        loader: loader,
     },
     directives: {
         flatBtn,
-        strokeBtn
+        strokeBtn,
     },
     data() {
         return {
@@ -195,18 +175,19 @@ export default {
             pageLoading: false,
             extension_info: {},
             categoryInfo: {
-                categoriesL1: [],
-                categoriesL2: [],
                 category_level_1: '',
                 category_level_2: '',
-                category: {}
+                category: { categoriesL1: [], categoriesL2: [] },
+                categoriesL1Array: [],
+                categoriesL2Array: [],
+                categoriesL2Options: [],
             },
             review_data: {
                 review_comments: '',
-                current_status: ''
+                current_status: '',
             },
             error_comments: '',
-            fynd_platform_domain: 'fynd.com'
+            fynd_platform_domain: 'fynd.com',
         };
     },
     computed: {
@@ -216,21 +197,6 @@ export default {
         review_id() {
             return this.$route.params.review_id;
         },
-        selectedCategoryOptions() {
-            const {
-                category_l2,
-                category: { categoriesL1 }
-            } = this.categoryInfo;
-            const selectedParents = (categoriesL1 || []).map((ext) => ext._id);
-            const category_level2 = (category_l2 || []).filter((ext) =>
-                selectedParents.includes(ext.parent)
-            );
-            return category_level2.map((ext) => ({
-                value: ext._id,
-                text: ext.display,
-                parent: ext.parent
-            }));
-        }
     },
     mounted() {
         this.fynd_platform_domain =
@@ -238,28 +204,81 @@ export default {
         this.fetchExtension();
     },
     methods: {
+        selectedCategoryOptions(categoriesL1, category_l2) {
+            const selectedParents = categoriesL1.map((ext) => ext._id);
+            const category_level2 = (category_l2 || []).filter((ext) =>
+                selectedParents.includes(ext.parent)
+            );
+            this.categoryInfo.category.categoriesL2 =
+                this.categoryInfo.category.categoriesL2.filter((ext) =>
+                    selectedParents.includes(ext.parent)
+                );
+            this.categoryInfo.categoriesL2Array =
+                this.categoryInfo.category.categoriesL2.map((x) => x.text);
+            this.categoryInfo.categoriesL2Options = category_level2.map(
+                (ext) => ({
+                    _id: ext._id,
+                    value: ext.display,
+                    text: ext.display + ' - ' + ext.parent_doc.display,
+                    parent: ext.parent,
+                })
+            );
+        },
         fetchExtension() {
             this.pageLoading = true;
             this.pageError = false;
-            let extensionCategories = ExtensionService.getAllExtensionCategories();
+            let extensionCategories =
+                ExtensionService.getAllExtensionCategories();
             const getExtensionInfo = ExtensionService.getExtensionReviewInfo(
                 this.review_id
             );
             Promise.all([getExtensionInfo, extensionCategories])
                 .then(([{ data }, extensionCategoriesInfo]) => {
                     this.extension_info = data;
-                    this.categoryInfo.category_l1 = extensionCategoriesInfo.data.data.category_l1.map(
-                        (ext) => ({
-                            ...ext,
-                            text: ext.display
-                        })
+                    this.categoryInfo.category_l1 =
+                        extensionCategoriesInfo.data.data.category_l1.map(
+                            (ext) => ({
+                                ...ext,
+                                text: ext.display,
+                            })
+                        );
+                    this.categoryInfo.category_l2 =
+                        extensionCategoriesInfo.data.data.category_l2.map(
+                            (ext) => ({
+                                ...ext,
+                                text: ext.display,
+                                parent_doc:
+                                    extensionCategoriesInfo.data.data.category_l1.find(
+                                        (catl1) => catl1._id === ext.parent
+                                    ),
+                                text_to_show: `${
+                                    extensionCategoriesInfo.data.data.category_l1.find(
+                                        (catl1) => catl1._id === ext.parent
+                                    ).display
+                                } - in ${ext.display}`,
+                            })
+                        );
+                    this.selectedCategoryOptions(
+                        data.category.categoriesL1,
+                        this.categoryInfo.category_l2
                     );
-                    this.categoryInfo.category_l2 = extensionCategoriesInfo.data.data.category_l2.map(
-                        (ext) => ({
-                            ...ext,
-                            text: ext.display
-                        })
+                    data.category.categoriesL2 = data.category.categoriesL2.map(
+                        (ext) => {
+                            return {
+                                ...ext,
+                                text_to_show: `${
+                                    data.category.categoriesL1.find(
+                                        (catl1) => catl1._id === ext.parent
+                                    ).display
+                                } - in ${ext.text}`,
+                            };
+                        }
                     );
+                    this.categoryInfo.categoriesL1Array =
+                        data.category.categoriesL1.map((x) => x.display);
+                    this.categoryInfo.categoriesL2Array =
+                        data.category.categoriesL2.map((x) => x.display);
+
                     this.categoryInfo.category = data.category;
                 })
                 .catch((err) => {
@@ -312,47 +331,58 @@ export default {
         },
         removeSelectedCategory(index, isL2 = false, idL1) {
             if (isL2) {
-                this.categoryInfo.category.categoriesL2 = this.categoryInfo.category.categoriesL2.filter(
-                    (x, i) => i !== index
-                );
+                this.categoryInfo.category.categoriesL2 =
+                    this.categoryInfo.category.categoriesL2.filter(
+                        (x, i) => i !== index
+                    );
+                this.categoryInfo.categoriesL2Array =
+                    this.categoryInfo.category.categoriesL2.map(
+                        (x) => x.display
+                    );
                 return;
             }
-            this.categoryInfo.category.categoriesL1 = this.categoryInfo.category.categoriesL1.filter(
-                (x, i) => i !== index
-            );
-            this.categoryInfo.category.categoriesL2 = this.categoryInfo.category.categoriesL2.filter(
-                (x, i) => x.parent !== idL1
-            );
+            this.categoryInfo.category.categoriesL1 =
+                this.categoryInfo.category.categoriesL1.filter(
+                    (x, i) => i !== index
+                );
+            this.categoryInfo.category.categoriesL2 =
+                this.categoryInfo.category.categoriesL2.filter(
+                    (x, i) => x.parent !== idL1
+                );
         },
-        onChangeCategory(level) {
+        onChangeCategoryL1() {
             let {
                 category_l1,
                 category_l2,
-                category_level_1,
-                category_level_2,
-                category: { categoriesL1, categoriesL2 }
+                category: { categoriesL1, categoriesL2 },
+                categoriesL1Array,
             } = this.categoryInfo;
-            let categories = level === 1 ? categoriesL1 : categoriesL2;
-            let category_values = level === 1 ? category_l1 : category_l2;
-            let category_level =
-                level === 1 ? category_level_1 : category_level_2;
-            if (categories.length >= 3) {
+            if (categoriesL1Array.length >= 4) {
                 this.$snackbar.global.showError(`Maximum 3 Categories allowed`);
+                categoriesL1Array = categoriesL1Array.pop();
                 return;
             }
-            let category_level_value = category_values.find(
-                (ext) =>
-                    ext.value === category_level || ext._id === category_level
+            this.categoryInfo.category.categoriesL1 = categoriesL1Array.map(
+                (ext) => category_l1.find((extVal) => extVal.display === ext)
             );
-            if (
-                category_level_value &&
-                !categories
-                    .map((ext) => ext.text)
-                    .includes(category_level_value.text)
-            ) {
-                categories.push(category_level_value);
+            this.selectedCategoryOptions(
+                this.categoryInfo.category.categoriesL1,
+                category_l2
+            );
+            categoriesL1Array = categoriesL1Array;
+        },
+        onChangeCategoryL2() {
+            let { category_l2, categoriesL2Array } = this.categoryInfo;
+            if (categoriesL2Array.length >= 4) {
+                this.$snackbar.global.showError(`Maximum 3 Categories allowed`);
+                categoriesL2Array = categoriesL2Array.pop();
+                return;
             }
-        }
-    }
+            let category_level_value = category_l2.filter((ext) =>
+                categoriesL2Array.includes(ext.text)
+            );
+            this.categoryInfo.category.categoriesL2 = category_level_value;
+        },
+    },
 };
 </script>
