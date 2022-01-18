@@ -804,7 +804,7 @@
     padding-top: 12px;
     .sidebar {
         position: fixed;
-        width: 2225px;
+        width: 225px;
         .group {
             margin-bottom: 12px;
         }
@@ -1191,7 +1191,7 @@ export default {
                     if (data.type == 'percentage_off') {
                         data.rule_definition.value
                             ? (this.percentage.value =
-                                  data.rule_definition.value * 100)
+                                  data.rule_definition.value )
                             : (this.percentage.value = '');
                     } else {
                         data.rule_definition.value
@@ -1219,6 +1219,7 @@ export default {
             );
 
             this.pushPlan();
+            this.pushSubs();
         },
         onCreate() {
             this.couponType = this.typeList[this.selectedType].value_title;
@@ -1295,7 +1296,7 @@ export default {
                 specific = '-1';
             this.valuetype == 'absolute'
                 ? (val = this.amount.value)
-                : (val = this.percentage.value / 100);
+                : (val = this.percentage.value);
             this.selected_plan == 'all'
                 ? (plan = [])
                 : (plan = this.selected_plan);

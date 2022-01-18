@@ -197,9 +197,10 @@ export default {
             this.pagination = {
                 limit : res.data.page.size,
                 total : res.data.page.item_total,
-                current : res.data.page.current
+                current : res.data.page.current,
+                sort : JSON.stringify({"created_at":-1})
             }
-            this.couponList = res.data.items.sort((a, b) => new Date(b.modified_at) - new Date(a.modified_at));
+            this.couponList = res.data.items;
             this.loading = false;
             })
         },
