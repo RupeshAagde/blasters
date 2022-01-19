@@ -1,4 +1,4 @@
-<template>
+ vc<template>
     <div class="panel">
         <div class="page-container">
             <div style="logs-container">
@@ -109,11 +109,11 @@
                             <div class="flex flex-1 flex-end">
                                 <div class="flex-1 m-r-24">
                                     <nitrozen-dropdown
-                                        :label="'Campaign'"
                                         class="campaign-dropdown"
+                                         placeholder="Search Campaign"
                                         :items="campaigns"
                                         v-model="filters.campaign"
-                                        @change="changePage"
+                                        @change="changeApplication"
                                         :searchable="true"
                                         @searchInputChange="
                                             campaignDropdownSearchInputChange
@@ -134,6 +134,18 @@
                             </div>
                         </template>
                     </div>
+                    <div class="application-dropdown">
+                     <nitrozen-dropdown
+                                        placeholder="Search Applications"
+                                        :items="application"
+                                        v-model="filters.application"
+                                        @change="changeApplication"
+                                        :searchable="true"
+                                        @searchInputChange="
+                                            applicationDropdownSearchInputChange
+                                        "
+                                    ></nitrozen-dropdown>
+                                    </div>
                     <adm-shimmer
                         v-if="pageLoading && !pageError"
                         :count="4"
@@ -203,6 +215,8 @@ import logsListingCard from './logs-listing-card.vue';
 import cloneDeep from 'lodash/cloneDeep';
 
 import CommunicationServices from '../../services/pointblank.service';
+import CompanyService from '@/services/company-admin.service';
+
 
 
 //import './less/common.less';
@@ -278,7 +292,8 @@ export default {
                     value: ''
                 },
                 job: '',
-                campaign: ''
+                campaign: '',
+                application: ''
             },
             pagination: {
                 limit: 10,
@@ -295,6 +310,7 @@ export default {
             isInitialLoad: false,
             pageError: false,
             logs: {},
+            application: []
         };
     },
     methods: {
@@ -330,12 +346,15 @@ export default {
             this.changePage();
         },
         campaignDropdownSearchInputChange(e) {
-            console.log(e.text);
             this.filters.campaign = '';
             this.fetchCampaigns(e.text);
         },
-        fetchCampaigns(name='') {
-           CommunicationServices.getCampaigns({"name":name})
+        applicationDropdownSearchInputChange(e) {
+            this.filters.application = '';
+            this.fetchApplication(e.text);
+        },
+        fetchCampaigns(name='',id='') {
+           CommunicationServices.getCampaigns({"name":name,"application": id})
            .then(res=>{
              this.getCampaignDropdown(res.data.items)
              this.changePage()
@@ -353,6 +372,16 @@ export default {
                     dropdown.push(temp);
                 }
                 this.campaigns = dropdown;
+        },
+        getApplicationDropdown(data){
+                let dropdown = [];
+                for (let i = 0; i < data.length; i++) {
+                    let temp = { text: '', value: '' };
+                    temp.text = data[i].name;
+                    temp.value = data[i]._id;
+                    dropdown.push(temp);
+                }
+                this.application = dropdown;
         },
          validateDates() {
             var start,
@@ -421,6 +450,9 @@ export default {
             }
             if (this.filters.campaign) {
                 params.query["meta.campaign"] = this.filters.campaign;
+            }
+             if (this.filters.application) {
+                params.query["application"] = this.filters.application;
             }
             if (this.filters.plainTextSearch) {
                 params.query.$or = params.query.$or || [];
@@ -525,7 +557,6 @@ export default {
             this.pageLoading = true;
             CommunicationServices.getLog(params)
             .then(res=>{
-                console.log("1234567890",res,);
                 this.logs = res.data
                                  if (res.data.items.length == this.pagination.limit) {
                         this.pagination.total =
@@ -552,6 +583,19 @@ export default {
                 .finally(() => {
                     this.isInitialLoad && (this.isInitialLoad = false);
                 });
+        },
+        fetchApplication(name=''){
+            CompanyService.fetchAllApplication({page_size: 50, q: name})
+            .then(res=>{
+                this.getApplicationDropdown(res.data.items)
+                this.changePage()
+
+            })
+        },
+        changeApplication(){
+        this.fetchCampaigns('',this.filters.application)
+        this.changePage()
+
         }
 
     },
@@ -560,6 +604,7 @@ export default {
 
         this.fetchCampaigns()
         this.changePage()
+        this.fetchApplication()
     }
 }
 </script>
@@ -604,7 +649,7 @@ export default {
     align-items: flex-end;
 }
 .m-b-24 {
-    margin-bottom: 24px;
+    margin-bottom: 14px;
 }
 .m-r-24 {
     margin-right: 24px;
@@ -763,5 +808,12 @@ export default {
     /deep/.date-wrapper{
         max-width: 80%;
     }
+    margin-top: 0px;
+    padding-top: 0px;
 }
+.application-dropdown{
+    margin-top: 14px;
+    width: 265px;
+}
+
 </style>

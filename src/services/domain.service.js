@@ -162,6 +162,10 @@ const URLS = {
     FETCH_APPLICATIONS: (uid) => {
         return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/company/${uid}/application`);
     },
+    FETCH_ALL_APPLICATIONS: (uid) => {
+        return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/application`);
+    },
+
 
     //archive unarchive sales channel
     ACTION_APPLICATIONS: (uid, appId) => {
