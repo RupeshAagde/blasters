@@ -859,7 +859,8 @@ export default {
             }
             if (this.orderDateRange[0] && this.orderDateRange[1]) {
                 let start = this.orderDateRange[0];
-                let end = this.orderDateRange[1];
+                let end = this.orderDateRange[1]
+                end = moment(end).add(1, 'd').utc().format()
                 if (start) {
                     filterQuery['period.start'] = { $gte: start };
                 }
