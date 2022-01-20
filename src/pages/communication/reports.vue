@@ -1,4 +1,4 @@
- vc<template>
+ <template>
     <div class="panel">
         <div class="page-container">
             <div style="logs-container">
@@ -7,14 +7,9 @@
                     :desc="'View All Reportss'"
                 ></jumbotron>
                  <div class="main-container">
-                    <div class="flex flex-end m-b-24">
-                        <div
-                            v-if="pageLoading && isInitialLoad && !pageError"
-                            class="input-shimmer shimmer"
-                        ></div>
-                        <template v-else>
-                            <div class="flex-1 flex search">
-                                <div class="search-box">
+                    <div class="flex flex-end" >
+                        <template class="flex fil-1" >
+                                <div class="search">
                                     <nitrozen-input
                                         class="search-input"
                                         :showSearchIcon="true"
@@ -24,10 +19,8 @@
                                         @keyup.enter="searchTemplate()"
                                         @input="debounceInput"
                                     ></nitrozen-input>
-                                </div>
                             </div>
-                            <div class="flex-1 flex flex-end">
-                                <div class="flex-1 m-r-24">
+                                <div class="flex drop">
                                     <nitrozen-dropdown
                                         :label="'Type'"
                                         class="filter-dropdown"
@@ -36,7 +29,7 @@
                                         @change="fieldChanged"
                                     ></nitrozen-dropdown>
                                 </div>
-                                <div class="flex-2 m-r-24">
+                                <div class="temp">
                                     <nitrozen-input
                                         class="search-input"
                                         :showSearchIcon="true"
@@ -47,7 +40,7 @@
                                         @input="debounceInput"
                                     ></nitrozen-input>
                                 </div>
-                                <div class="flex-1">
+                                <div class="drop">
                                     <nitrozen-dropdown
                                         :label="'Status'"
                                         class="filter-dropdown"
@@ -56,20 +49,51 @@
                                         @change="fieldChanged"
                                     ></nitrozen-dropdown>
                                 </div>
-                            </div>
                         </template>
                     </div>
                     <div class="flex flex-end date">
-                        <div
-                            v-if="pageLoading && isInitialLoad && !pageError"
-                            class="date-shimmer-wrapper date-wrapper"
-                        >
-                            <div class="input-shimmer-date-from shimmer"></div>
-                            <div class="input-shimmer-date-to shimmer"></div>
-                        </div>
-                        <template v-else>
-                            <div class="flex-1 flex">
-                                <div class="flex date-wrapper">
+                        <template class="fil-2">
+                                <div class="app">
+                                <nitrozen-dropdown
+                                        placeholder="Search Applications"
+                                        :items="application"
+                                        v-model="filters.application"
+                                        @change="changeApplication"
+                                        :searchable="true"
+                                        @searchInputChange="
+                                            applicationDropdownSearchInputChange
+                                        "
+                                    ></nitrozen-dropdown>
+                                    </div>
+                                     <div class="app">
+                                    <nitrozen-dropdown
+                                        class="campaign-dropdown"
+                                         placeholder="Search Campaign"
+                                        :items="campaigns"
+                                        v-model="filters.campaign"
+                                        @change="changeApplication"
+                                        :searchable="true"
+                                        @searchInputChange="
+                                            campaignDropdownSearchInputChange
+                                        "
+                                    ></nitrozen-dropdown>
+                                </div>
+                            
+                                <div class="job">
+                                    <nitrozen-input
+                                        class="search-input"
+                                        :showSearchIcon="true"
+                                        type="search"
+                                        placeholder="Search by job id"
+                                        v-model="filters.job"
+                                        @keyup.enter="fieldChanged()"
+                                        @input="debounceInput"
+                                    ></nitrozen-input>
+                                </div>
+                        </template>
+                    </div>
+                    <div>
+                                    <div class="flex date-wrapper">
                                     <div class="date-container m-r-24">
                                         <date-picker
                                             v-on:input="
@@ -105,46 +129,6 @@
                                         />
                                     </div>
                                 </div>
-                            </div>
-                            <div class="flex flex-1 flex-end">
-                                <div class="flex-1 m-r-24">
-                                    <nitrozen-dropdown
-                                        class="campaign-dropdown"
-                                         placeholder="Search Campaign"
-                                        :items="campaigns"
-                                        v-model="filters.campaign"
-                                        @change="changeApplication"
-                                        :searchable="true"
-                                        @searchInputChange="
-                                            campaignDropdownSearchInputChange
-                                        "
-                                    ></nitrozen-dropdown>
-                                </div>
-                                <div class="flex-1">
-                                    <nitrozen-input
-                                        class="search-input"
-                                        :showSearchIcon="true"
-                                        type="search"
-                                        placeholder="Search by job id"
-                                        v-model="filters.job"
-                                        @keyup.enter="fieldChanged()"
-                                        @input="debounceInput"
-                                    ></nitrozen-input>
-                                </div>
-                            </div>
-                        </template>
-                    </div>
-                    <div class="application-dropdown">
-                     <nitrozen-dropdown
-                                        placeholder="Search Applications"
-                                        :items="application"
-                                        v-model="filters.application"
-                                        @change="changeApplication"
-                                        :searchable="true"
-                                        @searchInputChange="
-                                            applicationDropdownSearchInputChange
-                                        "
-                                    ></nitrozen-dropdown>
                                     </div>
                     <adm-shimmer
                         v-if="pageLoading && !pageError"
@@ -719,7 +703,7 @@ export default {
                     display: flex;
 
                     .filter-dropdown {
-                        width: 130px;
+                        width: 230px;
                     }
                 }
                 .label {
@@ -808,12 +792,35 @@ export default {
     /deep/.date-wrapper{
         max-width: 80%;
     }
-    margin-top: 0px;
-    padding-top: 0px;
+    margin: 12px 0px;
 }
 .application-dropdown{
     margin-top: 14px;
     width: 265px;
 }
+.fil-1{
+    align-items: flex-end;
+}
+.temp{
+    margin-right: 1%;
+    margin-left: 1%;
+    width: 22.9%;
+}
+.drop{
+    width: 20%;
+}
+.app{
+     margin-right: 1.8% ;
+     width: 32.1%;
+}
+.search{
+width: 34%;
+margin-right: 1%;
+}
+.job{
+         width: 32%;
+
+}
+
 
 </style>
