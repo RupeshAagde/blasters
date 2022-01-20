@@ -329,6 +329,9 @@ const URLS = {
     FETCH_INVOICE_LISTING: () => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/listing`)
     },
+    EXPORT_INVOICE_LISTING: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/export`)
+    },
     CHARGE_INVOICE: () => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/charge-invoice`);
     },
