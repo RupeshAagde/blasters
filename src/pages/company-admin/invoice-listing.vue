@@ -98,7 +98,7 @@
                                 :theme="'secondary'"
                                 @click="exportInvoiceList()"
                                 >
-                                    Export
+                                    Export CSV
                                 </nitrozen-button>
                             </div>
                     </div>
@@ -846,7 +846,9 @@ export default {
                 page_no: this.pagination.current,
                 page_size: this.pagination.limit
             };
-            let filterQuery = {};
+            let filterQuery = {
+                total:{$gt:0}
+            };
             if (this.searchText) {
                 filterQuery.number = {
                     $regex: this.searchText,
