@@ -799,7 +799,6 @@ export default {
         },
         exportInvoiceList(query) {
             query = query || this.requestQuery();
-            this.inProgress = true;
             BillingService.exportInvoiceListing(query).then((res) => {
                 this.pageLoading = false;
                 this.inProgress = false;
