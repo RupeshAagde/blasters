@@ -1299,7 +1299,6 @@ export default {
             this.valuetype == 'absolute'
                 ? (val = this.amount.value, this.discount.value = null)
                 : (val = this.percentage.value);
-                console.log(this.discount.value);
             this.selected_plan == 'all'
                 ? (plan = [])
                 : (plan = this.selected_plan);

@@ -194,7 +194,6 @@ export default {
                 }))
         .then(res=>{
             this.coupon = res.data;
-            console.log(this.coupon);
             this.pagination = {
                 limit : res.data.page.size,
                 total : res.data.page.item_total,
