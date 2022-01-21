@@ -1215,6 +1215,8 @@ export default {
                         this.selected_Subs.includes(it.value)
                     );
                     this.selectedSubs.value = currentsubs;
+
+                    this.schedule = data._schedule;
                 }
             );
 
@@ -1223,11 +1225,11 @@ export default {
         },
         onCreate() {
             this.couponType = this.typeList[this.selectedType].value_title;
-            this.$router
-                .push({
-                    path: `/administrator/subscription/coupons/edit/${this.couponType}/${this.couponId}`,
-                })
-                .catch(() => {});
+            setTimeout(() => {
+             this.$router.push({
+                        path: `/administrator/subscription/coupons/edit/${this.couponType}/${this.couponId}`
+                        }).catch(()=>{})
+            })    
             this.closeModal();
         },
         checkform() {
@@ -1295,8 +1297,9 @@ export default {
             let maxuses = '-1',
                 specific = '-1';
             this.valuetype == 'absolute'
-                ? (val = this.amount.value)
+                ? (val = this.amount.value, this.discount.value = null)
                 : (val = this.percentage.value);
+                console.log(this.discount.value);
             this.selected_plan == 'all'
                 ? (plan = [])
                 : (plan = this.selected_plan);
@@ -1506,11 +1509,6 @@ export default {
             }
         },
         scheduleCoupon(schedule) {
-            // this._schedule.cron = schedule.cron || null;
-            // this._schedule.start = schedule.start;
-            // this._schedule.end = schedule.end || null;
-            // this._schedule.duration =
-            //     (schedule.duration && Number(schedule.duration)) || null;
             this.schedule = schedule;
             this.saveForm();
         },
