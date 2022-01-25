@@ -226,7 +226,7 @@
         align-items: center;
     }
     .label {
-        font-family: Poppins;
+        font-family: Inter;
         color: @Mako;
         font-size: 14px;
         line-height: 20px;
@@ -301,7 +301,7 @@
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
             line-height: 22px;
-            color: #5c6bdd;
+            color: #2E31BE;
         }
 
         .card-content-line-2 {
@@ -526,7 +526,7 @@ export default {
                         }
                     })
                     .catch((error) => {
-                        console.error(error);
+                        console.log(error);
                         this.$snackbar.global.showError(
                             `${
                                 error.response.data

@@ -27,6 +27,7 @@
                     :ticket="ticket"
                     :filters="filters"
                     :staff="staff"
+                    :feedbackList="feedbackList"
                 />
                 <detail-section
                     class="detail-section"
@@ -113,9 +114,10 @@
             }
         }
         .main-section {
-            flex: 1;
+            width: 70%;
         }
         .detail-section {
+            width: 25%;
             width: 368px;
             margin-left: 24px;
         }
@@ -140,9 +142,8 @@ import {
 } from '@gofynd/nitrozen-vue';
 
 import _ from 'lodash';
-import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
 
-import UserService from '@/services/user-access.service';
+import UserService from './../../services/user-access.service';
 import SupportService from './../../services/support.service';
 
 const PAGINATION = {
@@ -167,7 +168,6 @@ export default {
         flatBtn,
         strokeBtn
     },
-    mixins: [dirtyCheckMixin],
     mounted() {
         this.ticketID = this.$route.params.ticket_id;
         this.originalTicket = JSON.parse(JSON.stringify(this.ticket));
@@ -189,6 +189,7 @@ export default {
             loading: true,
             saving: false,
             filters: undefined,
+            feedbackList: [],
             contextMenu: [
                 // {
                 //     text: 'Delete',
@@ -209,6 +210,23 @@ export default {
         mainSectionchanged(content) {
             this.ticket.content = Object.assign(this.ticket.content, content);
         },
+        base64Encode(rawStr) {
+            var CryptoJS = require("crypto-js");
+            var wordArray = CryptoJS.enc.Utf8.parse(rawStr);
+            var base64 = CryptoJS.enc.Base64.stringify(wordArray);
+            return base64;
+        },
+        decode64Encode(base64Str) {
+            var CryptoJS = require("crypto-js");
+            try {
+                var parsedWordArray = CryptoJS.enc.Base64.parse(base64Str);
+                var parsedStr = parsedWordArray.toString(CryptoJS.enc.Utf8);
+                return parsedStr;
+            } catch(err) {
+                console.log(err);
+                return base64Str;
+            }
+        },
         sideSectionchanged(option) {
             if (option['status'] && option['status'] != '') {
                 this.ticket.status = option['status'];
@@ -220,6 +238,10 @@ export default {
 
             if (option['category'] && option['category'] != '') {
                 this.ticket.category = option['category'];
+            }
+
+            if (option['sub_category'] && option['sub_category'] != '') {
+                this.ticket.sub_category = option['sub_category'];
             }
 
             this.ticket.tags = option.tags;
@@ -238,16 +260,13 @@ export default {
         },
         loadEverything() {
             let promises = [];
-            promises.push(
-                SupportService.fetchOptions(this.$route.params.company_id)
-            );
-
+            promises.push(SupportService.fetchOptions());
             if (this.ticketID) {
                 promises.push(SupportService.getTicket(this.ticketID));
                 promises.push(SupportService.fetchHistory(this.ticketID));
+                promises.push(SupportService.fetchFeedbacks(this.ticketID));
+                promises.push(UserService.getUserList(this.requestQuery()));
             }
-
-            promises.push(UserService.getUserList(this.requestQuery()));
 
             Promise.all(promises)
                 .then((responses) => {
@@ -268,6 +287,10 @@ export default {
                     this.filters.categories.forEach((element) => {
                         element.text = element.display;
                         element.value = element.key;
+                        element.sub_categories.forEach((item) => {
+                            item.text = item.display;
+                            item.value = item.key;
+                        });
                     });
 
                     if (this.ticketID) {
@@ -276,8 +299,16 @@ export default {
                         const ticket = res.data;
                         this.ticketID = ticket._id;
                         this.ticket.content = ticket.content;
+                        if (this.ticket.content && this.ticket.content.description) {
+                            this.ticket.content.description = this.decode64Encode(this.ticket.content.description);
+                        }
                         this.ticket.status = ticket.status.key;
                         this.ticket.category = ticket.category.key;
+                        if (ticket.sub_category) {
+                            this.ticket.sub_category = ticket.sub_category.key;
+                        } else {
+                            this.ticket.sub_category = '';
+                        }
                         this.ticket.priority = ticket.priority.key;
                         this.ticket.assigned_to = ticket.assigned_to;
                         this.ticket.created_by = ticket.created_by;
@@ -290,12 +321,14 @@ export default {
                         this.ticket.context = ticket.context;
 
                         res = responses[2];
-                        this.ticket.history = res.data.docs;
+                        this.ticket.history = res.data.items;
+                        res = responses[3];
+                        this.feedbackList =  res.data.items || [];
                     }
 
                     res = responses[1];
                     if (this.ticketID) {
-                        res = responses[3];
+                        res = responses[4];
                     }
 
                     const array = [];
@@ -355,7 +388,8 @@ export default {
 
                                     if (attachment.type == 'shipment') {
                                         attachment.details =
-                                            responses[index].data.orders[0];
+                                            // responses[index].data.orders[0];
+                                            responses[index].data.items[0];
                                         index = index + 1;
                                     }
                                 }
@@ -404,8 +438,11 @@ export default {
             );
 
             this.ticket.context = undefined;
+            var payloadTicket = JSON.parse(JSON.stringify(this.ticket));
+            payloadTicket.content.description = this.base64Encode(payloadTicket.content.description|| '');
+            payloadTicket.history = null
             if (this.ticketID) {
-                SupportService.updateTicket(this.ticketID, this.ticket)
+                SupportService.updateTicket(this.ticketID, payloadTicket)
                     .then((res) => {
                         this.$snackbar.global.showSuccess(
                             'Ticket updated successfully'
@@ -419,7 +456,7 @@ export default {
                         this.saving = false;
                     });
             } else {
-                SupportService.saveTicket(this.ticket)
+                SupportService.saveTicket(payloadTicket)
                     .then((res) => {
                         this.$snackbar.global.showSuccess(
                             'Ticket created successfully'
@@ -452,26 +489,18 @@ export default {
                     this.saving = false;
                 });
         },
-        isFormDirty() {
-            if (this.saving) {
-                return false;
-            }
-            return (
-                JSON.stringify(this.originalTicket) !=
-                JSON.stringify(this.ticket)
-            );
-        },
         onCancel() {
-            const route = getRoute(this.$route);
-            if (route.includes('application')) {
-                this.$router.push({
-                    path: `${getRoute(this.$route)}/tickets`
-                });
-            } else {
-                this.$router.push({
-                    path: `${getRoute(this.$route)}/administrator/support`
-                });
-            }
+            // const route = getRoute(this.$route);
+            // if (route.includes('application')) {
+            //     this.$router.push({
+            //         path: `${getRoute(this.$route)}/tickets`
+            //     });
+            // } else {
+            //     this.$router.push({
+            //         path: `${getRoute(this.$route)}/administrator/support`
+            //     });
+            // }
+            this.$router.back();
         }
     }
 };

@@ -139,20 +139,19 @@
                         @click="openAdminDialog(item)"
                         >Verify</nitrozen-button
                     >
-                    <nitrozen-button
+                    <!-- <nitrozen-button
                         :theme="'secondary'"
                         v-flatBtn
                         v-if="item.stage === 'verified'"
                         @click="editIntegration(item)"
                         >Edit Integration</nitrozen-button
-                    >
+                    > -->
                     <nitrozen-button
                         class="left-space"
                         :theme="'secondary'"
                         v-strokeBtn
                         v-if="
-                            item.stage !== 'rejected' &&
-                                item.stage !== 'verified'
+                            item.stage == 'verified'
                         "
                         @click="openAdminDialog(item, true)"
                         >Disable</nitrozen-button
@@ -192,7 +191,10 @@
                             activeStore.address.city
                         }}
                     </div>
-                    <div class="cust-drop">
+                    <div class="cust-sent">
+                        Are you sure you want to {{ admin_action_text }} this store?
+                    </div>
+                    <!-- <div class="cust-drop">
                         <div class="left-drop">
                             <label class="cust-label">Order Integration*</label>
                             <nitrozen-dropdown
@@ -223,7 +225,7 @@
                                 {{ inventory_choice_error.errortext }}
                             </nitrozen-error>
                         </div>
-                    </div>
+                    </div> -->
                     <nitrozen-input
                         class="cust-margin"
                         type="textarea"
@@ -238,9 +240,7 @@
                         >{{ rejection_info.errortext }}</nitrozen-error
                     >
                 </div>
-                <div class="cust-sent">
-                    Are you sure you want to {{ admin_action_text }} this store?
-                </div>
+                
             </template>
             <template slot="footer">
                 <div>
@@ -250,9 +250,7 @@
                         @click="verifyStore"
                         v-flatBtn
                         :theme="'secondary'"
-                        >{{
-                            editIntegration ? 'Update' : 'Verify'
-                        }}</nitrozen-button
+                        >Verify</nitrozen-button
                     >
                     <nitrozen-button
                         v-if="!show_verify_button"
@@ -297,7 +295,7 @@
 }
 .cust-label {
     color: #9b9b9b;
-    font-family: Poppins, sans-serif;
+    font-family: Inter, sans-serif;
     font-size: 12px;
     font-weight: 500;
     line-height: 21px;
@@ -358,7 +356,7 @@
             }
         }
         .label {
-            font-family: Poppins;
+            font-family: Inter;
             color: @Mako;
             font-size: 14px;
             line-height: 20px;
@@ -481,12 +479,12 @@
         margin-left: 12px;
         cursor: pointer;
         ::v-deep svg {
-            color: #5c6bdd;
+            color: #2E31BE;
         }
     }
 
     .pic-col {
-        color: #5c6bdd;
+        color: #2E31BE;
     }
 }
 </style>
@@ -513,7 +511,7 @@ import {
     NitrozenInput,
     NitrozenError,
     flatBtn,
-    strokeBtn
+    strokeBtn,
 } from '@gofynd/nitrozen-vue';
 
 import root from 'window-or-global';
@@ -533,19 +531,19 @@ export default {
         'nitrozen-input': NitrozenInput,
         'nitrozen-dialog': NitrozenDialog,
         'nitrozen-error': NitrozenError,
-        'adm-inline-svg': admInlineSVG
+        'adm-inline-svg': admInlineSVG,
     },
     directives: {
         flatBtn,
-        strokeBtn
+        strokeBtn,
     },
     computed: {
         fyndPlatformDomain(type) {
             return env.FYND_PLATFORM_DOMAIN;
         },
         ...mapGetters({
-            metricsData: GET_METRICS
-        })
+            metricsData: GET_METRICS,
+        }),
     },
     data() {
         return {
@@ -556,7 +554,7 @@ export default {
             paginationConfig: {
                 current: 1,
                 total: 0,
-                limit: 10
+                limit: 10,
             },
             selectedChoice: '',
             selectedStoreType: '',
@@ -575,26 +573,26 @@ export default {
             rejection_info: {
                 showError: false,
                 errortext: 'Please explain reason properly.',
-                value: ''
+                value: '',
             },
             admin_action_text: '',
             show_verify_button: true,
             enableEditIntegration: false,
             order_choice_error: {
                 showerror: false,
-                errortext: 'Please select order integration type.'
+                errortext: 'Please select order integration type.',
             },
             inventory_choice_error: {
                 showerror: false,
-                errortext: 'Please select inventory integration type.'
-            }
+                errortext: 'Please select inventory integration type.',
+            },
         };
     },
     filters: {
-        dateFormatter: function(value) {
+        dateFormatter: function (value) {
             if (!value) return '';
             return dateFormat(value, 'dddd, mmmm dS, yyyy, h:MM TT');
-        }
+        },
     },
     mounted() {
         this.getStores();
@@ -602,7 +600,7 @@ export default {
         this.getChoiceType({ choice_type: 'store_type' });
     },
     methods: {
-        getParams: function() {
+        getParams: function () {
             const params = {
                 page_size:
                     this.$route.query.limit || this.paginationConfig.limit,
@@ -610,48 +608,33 @@ export default {
                     this.$route.query.current || this.paginationConfig.current,
                 name: this.searchText,
                 stage: this.selectedChoice,
-                store_type: this.selectedStoreType
+                store_type: this.selectedStoreType,
             };
-            if (this.$route.query.stage) {
-                this.selectedChoice = this.$route.query.stage;
-                params.stage = this.selectedChoice;
-            }
-
-            if (this.$route.query.store) {
-                this.selectedStoreType = this.$route.query.store;
-                params.store = this.selectedStoreType;
-            }
-
-            if (this.$route.query.search) {
-                this.$route.query.search = this.searchText;
-                params.name = this.searchText;
-            }
             return params;
         },
         getStores() {
             this.inProgress = true;
             this.pageError = false;
             let params = this.getParams();
-            params.company = this.companyId;
+            params.company_id = this.companyId;
             CompanyService.fetchStores(params)
                 .then((res) => {
                     this.inProgress = false;
                     this.pageError = false;
-                    res.data.data.map((ele) => {
+                    res.data.items.map((ele) => {
                         this.storeType.map((type) => {
                             if (ele.store_type == type.key) {
                                 ele.store_type_display = type.text;
                             }
                         });
                     });
-                    this.storesData = res.data.data;
-                    this.paginationConfig.total = res.data.total_count;
+                    this.storesData = res.data.items;
+                    this.paginationConfig.total = res.data.page.item_total;
                 })
                 .catch((err) => {
                     this.pageLoading = false;
                     this.pageError = true;
                     this.inProgress = false;
-                    console.log(err, 'error');
                 })
                 .finally(() => {
                     this.isInitialLoad && (this.isInitialLoad = false);
@@ -661,20 +644,20 @@ export default {
             CompanyService.fetchChoiceType(params)
                 .then((res) => {
                     if (params.choice_type == 'stage') {
-                        this.choiceType = res.data.data;
+                        this.choiceType = res.data.items;
                         this.choiceType.map((ele) => {
                             ele.text =
                                 ele.value == 'Complete' ? 'Pending' : ele.value;
                             ele.value = ele.key;
                         });
                     } else if (params.choice_type == 'store_type') {
-                        this.storeType = res.data.data;
+                        this.storeType = res.data.items;
                         this.storeType.map((ele) => {
                             ele.text = ele.value;
                             ele.value = ele.key;
                         });
                     } else if (params.choice_type == 'integration_type') {
-                        this.integrationType = res.data.data;
+                        this.integrationType = res.data.items;
                         // this.order_choice = res.data.data[0]['key'];
                         // this.inventory_choice = res.data.data[0]['key'];
                         this.integrationType.map((ele) => {
@@ -687,25 +670,25 @@ export default {
                     console.log(err, 'error');
                 });
         },
-        searchStores: debounce(function() {
+        searchStores: debounce(function () {
             let vm = this;
             let params = {
                 page_no: 1,
                 page_size: this.paginationConfig.limit,
-                name: this.searchText
+                name: this.searchText,
             };
             this.getStores(params);
         }, 1000),
-        changeStage: function() {
+        changeStage: function () {
             let params = {
                 page_no: 1,
                 page_size: this.paginationConfig.limit,
                 name: this.searchText,
-                stage: this.selectedChoice
+                stage: this.selectedChoice,
             };
             this.getStores(params);
         },
-        changeStore: function() {
+        changeStore: function () {
             this.getStores();
         },
         paginationChange(e) {
@@ -717,41 +700,24 @@ export default {
             this.paginationConfig = {
                 ...this.paginationConfig,
                 current,
-                limit
+                limit,
             };
             this.getStores();
-            // this.setRouteQuery({ current, limit });
         },
         editIntegration(item) {
             this.enableEditIntegration = true;
             this.openAdminDialog(item, false, false);
         },
-        setRouteQuery(query) {
-            if (query.search || query.stage) {
-                // clear pagination if search or filter applied
-                this.paginationConfig.current = 1;
-                this.paginationConfig.limit = 100;
-                query.current = 1;
-                query.limit = 100;
-            }
-            this.$router.push({
-                path: this.$route.path,
-                query: {
-                    ...this.$route.query,
-                    ...query
-                }
-            });
-            this.getStores();
-        },
         verifyStore() {
-            if (this.order_choice && this.inventory_choice) {
+            // if () {
                 const obj = {
                     uid: this.activeStore.uid,
                     stage: 'verified',
-                    integration_type: {
-                        order: this.order_choice,
-                        inventory: this.inventory_choice
-                    }
+                    // integration_type: {
+                    //     order: this.order_choice,
+                    //     inventory: this.inventory_choice,
+                    // },
+                    company: this.companyId
                 };
                 CompanyService.adminActionStore(obj)
                     .then((res) => {
@@ -760,7 +726,7 @@ export default {
                         this.$snackbar.global.showSuccess(
                             'Store Verified Successfully',
                             {
-                                duration: 2000
+                                duration: 2000,
                             }
                         );
                         setTimeout(() => {}, 2000);
@@ -770,14 +736,12 @@ export default {
                         this.$snackbar.global.showError(
                             `${
                                 error.response.data &&
-                                error.response.data.errors
-                                    ? error.response.data.errors.error
-                                        ? error.response.data.errors.error
-                                        : error.response.data.errors.company
+                                error.response.data.message
+                                    ? error.response.data.message
                                     : ''
                             }`,
                             {
-                                duration: 2000
+                                duration: 2000,
                             }
                         );
                         this.closeAdminDialog();
@@ -785,35 +749,36 @@ export default {
                     .finally(() => {
                         this.inProgress = false;
                     });
-            } else {
-                if (
-                    this.order_choice_error.showerror == false &&
-                    !this.order_choice
-                ) {
-                    this.order_choice_error.showerror = true;
-                }
-                if (
-                    this.inventory_choice_error.showerror == false &&
-                    !this.inventory_choice
-                ) {
-                    this.inventory_choice_error.showerror = true;
-                }
-            }
+            // } else {
+            //     if (
+            //         this.order_choice_error.showerror == false &&
+            //         !this.order_choice
+            //     ) {
+            //         this.order_choice_error.showerror = true;
+            //     }
+            //     if (
+            //         this.inventory_choice_error.showerror == false &&
+            //         !this.inventory_choice
+            //     ) {
+            //         this.inventory_choice_error.showerror = true;
+            //     }
+            // }
         },
         rejectStore() {
             if (
-                this.rejection_info.value.length > 0 &&
-                this.order_choice &&
-                this.inventory_choice
+                this.rejection_info.value.length > 0
+                // this.order_choice &&
+                // this.inventory_choice
             ) {
                 const obj = {
                     uid: this.activeStore.uid,
                     reject_reason: this.rejection_info.value,
                     stage: 'rejected',
-                    integration_type: {
-                        order: this.order_choice,
-                        inventory: this.inventory_choice
-                    }
+                    // integration_type: {
+                    //     order: this.order_choice,
+                    //     inventory: this.inventory_choice,
+                    // },
+                    company: this.companyId
                 };
                 CompanyService.adminActionStore(obj)
                     .then((res) => {
@@ -824,7 +789,7 @@ export default {
                         this.$snackbar.global.showSuccess(
                             'Store Disabled Successfully',
                             {
-                                duration: 2000
+                                duration: 2000,
                             }
                         );
                         setTimeout(() => {}, 2000);
@@ -839,7 +804,7 @@ export default {
                                     : ''
                             }`,
                             {
-                                duration: 2000
+                                duration: 2000,
                             }
                         );
                         this.closeAdminDialog();
@@ -866,7 +831,7 @@ export default {
             this.inventory_choice_error.showerror = false;
             this.order_choice = null;
             this.inventory_choice = null;
-            this.enableEditIntegration = !isReset;
+            // this.enableEditIntegration = !isReset;
             if (item.stage && isDisable) {
                 this.admin_action_text = 'disable';
                 this.show_verify_button = false;
@@ -874,10 +839,10 @@ export default {
                 this.admin_action_text = 'verify';
                 this.show_verify_button = true;
             }
-            if (this.enableEditIntegration) {
-                this.show_verify_button = true;
-                this.admin_action_text = 'update integration of';
-            }
+            // if (this.enableEditIntegration) {
+            //     this.show_verify_button = true;
+            //     this.admin_action_text = 'update integration of';
+            // }
 
             this.getChoiceType({ choice_type: 'integration_type' });
             if (item.integration_type) {
@@ -889,27 +854,9 @@ export default {
                     width: '600px',
                     height: '480px',
                     showCloseButton: true,
-                    dismissible: true
+                    dismissible: true,
                 });
             }
-            // if (item.stage && item.stage != 'verified') {
-            //     if (this.activeStore) {
-            //         this.$refs['store_admin_dialog'].open({
-            //             width: '600px',
-            //             height: '480px',
-            //             showCloseButton: true,
-            //             dismissible: true
-            //         });
-            //     }
-            // }
-            // else {
-            //     this.$refs['store_admin_dialog'].open({
-            //         width: '600px',
-            //         height: '480px',
-            //         showCloseButton: true,
-            //         dismissible: true
-            //     });
-            // }
         },
         changeDropDown() {
             if (this.order_choice) {
@@ -928,7 +875,7 @@ export default {
             window.open(
                 `https://platform.${this.fyndPlatformDomain}/company/${this.companyId}/profile/edit-store/${item.uid}`
             );
-        }
-    }
+        },
+    },
 };
 </script>

@@ -110,6 +110,7 @@ import InlineSvg from '@/components/common/inline-svg.vue';
 import { debounce } from '@/helper/utils';
 import { formatBytes } from '@/helper/digital-storage.util';
 import GrindorService from '@/services/grindor.service';
+import ApiService from '@/services/api.service';
 export default {
     name: 'image-uploader-panel',
     components: {
@@ -202,11 +203,23 @@ export default {
             }
         },
         src() {
+            // try {
+            //     // to bypass HDN CORS issue
+            //     const url = new URL(this.value);
+            //     if (this.hdns.includes(url.hostname)) {
+            //         return `${GrindorService.getProxyURL()}?url=${this.value}`;
+            //     }
+            //     return this.value;
+            // } catch (err) {
+            //     return this.value;
+            // }
             try {
                 // to bypass HDN CORS issue
                 const url = new URL(this.value);
                 if (this.hdns.includes(url.hostname)) {
-                    return `${GrindorService.getProxyURL()}?url=${this.value}`;
+                    ApiService.get(`${GrindorService.getProxyURL()}?url=${url}`,{}).then((res) => {
+                        return res.data
+                    });
                 }
                 return this.value;
             } catch (err) {

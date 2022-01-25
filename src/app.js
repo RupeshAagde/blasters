@@ -29,17 +29,9 @@ export function createApp() {
     if (isNode) {
       return next()
     }
-    window &&
-      window.loadGrimlock
-        .then(() => {
-          return store.dispatch(FETCH_USER_DATA)
-        })
-        .then((data) => {
-          next()
-        })
-        .catch(() => {
-          next()
-        })
+    store.dispatch(FETCH_USER_DATA).then(() => {
+      next()
+    })
   })
 
   const app = new Vue({

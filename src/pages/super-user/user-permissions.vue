@@ -204,16 +204,16 @@ export default {
         },
         fetchCompany(searchCompany) {
             const query = {
-                page_no: 0,
+                page_no: 1,
                 page_size: 10
             };
 
             if (searchCompany) {
-                query.name = searchCompany;
+                query.q = searchCompany;
             }
             return CompanyService.getCompanyList(query)
                 .then(({ data }) => {
-                    this.companies = data.data;
+                    this.companies = data.items;
                 })
                 .catch((err) => {
                     this.$snackbar.global.showError('Failed to load companies');

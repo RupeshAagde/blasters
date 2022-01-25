@@ -14,8 +14,6 @@ import { mapGetters } from 'vuex';
 import { IS_LOGGED_IN, IS_VALID_USER } from '@/store/getters.type';
 
 import {
-    SIGNOUT_USER,
-    OPEN_LOGIN_MODAL,
     VALIDATE_USER
 } from '@/store/action.type';
 import StaticHeaderVue from '@/components/header/static.vue';
@@ -42,15 +40,6 @@ export default {
         this.validateUser();
     },
     methods: {
-        signOut() {
-            this.$store.dispatch(SIGNOUT_USER);
-        },
-        openLogin() {
-            if (this.isLoggedIn) {
-                return this.$router.push({});
-            }
-            this.$store.dispatch(OPEN_LOGIN_MODAL);
-        },
         validateUser() {
             this.$store.dispatch(VALIDATE_USER);
         }

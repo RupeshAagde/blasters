@@ -38,7 +38,9 @@
 </template>
 
 <style lang="less" scoped>
-@import '../../pages/less/form.less';
+@import './../../pages/less/page-header.less';
+@import './../../pages/less/page-ui.less';
+@import './../../pages/less/form.less';
 
 .form .vue-date-picker > label {
     display: block;
@@ -46,7 +48,7 @@
 
 ::v-deep .mx-datepicker.global-font-family,
 ::v-deep .mx-calendar.mx-calendar-panel-date {
-    font-family: 'Poppins';
+    font-family: 'Inter';
 }
 ::v-deep.mx-input {
     box-shadow: none !important;
@@ -65,7 +67,7 @@ const VueDatePicker = () =>
 import NoSSR from 'vue-no-ssr';
 
 export default {
-    name: 'date-picker',
+    name: 'adm-date-picker',
     components: {
         VueDatePicker,
         'no-ssr': NoSSR
@@ -137,7 +139,7 @@ export default {
             if (date instanceof Date) {
                 return date.toISOString();
             } else if (date instanceof Array) {
-                return date.map((d) => {
+                return date.map(d => {
                     return d instanceof Date ? d.toISOString() : '';
                 });
             }

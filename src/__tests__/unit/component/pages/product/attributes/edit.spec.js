@@ -6,6 +6,8 @@ import mocks from "./mocks";
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import VueRouter from 'vue-router';
+import flushPromises from "flush-promises";
+
 const mock = new MockAdapter(axios);
 
 let localVue = createLocalVue()
@@ -17,6 +19,9 @@ describe('Create/Edit Attribute Page', () => {
         localVue.use(VueRouter);
         mock.reset();
     });
+    afterEach(async () => {
+        await flushPromises();
+    })
     it('should render to a snapshot', () => {
         const router = new VueRouter({
             routes: [
@@ -56,7 +61,7 @@ describe('Create/Edit Attribute Page', () => {
                 { path: '/administrator/product/attributes/edit/:slug', component: EditAttributes }]
         })
         router.push('/administrator/product/attributes/edit/size-of-helmet');
-        mock.onGet(URLS.FETCH_ATTRIBUTE() + "size-of-helmet").reply(200, mocks.attributeResponse);
+        mock.onGet(URLS.FETCH_ATTRIBUTE() + "size-of-helmet").reply(200, mocks.attributeSlugResponse);
         mock.onGet(URLS.DEPARTMENT()).reply(200, { data: mocks.departments });
         mock.onGet(URLS.UNITS()).reply(200, mocks.unitsResponse);
         mock.onPut().reply(200);
@@ -68,15 +73,18 @@ describe('Create/Edit Attribute Page', () => {
         })
         await new Promise(resolve => setTimeout(resolve, 10));
         expect(wrapper.element).toMatchSnapshot();
-        wrapper.vm.saveForm();
+        const saveComponent = wrapper.findComponent({ ref: 'save-button' });
+        saveComponent.vm.$emit('click');
+        // wrapper.vm.saveForm();
         wrapper.vm.setUnitsList({ text: "milli" })
-        expect(wrapper.vm.getFormData().details.displayType).toBe('text');
+        expect(wrapper.vm.getFormData().details.display_type).toBe('text');
         wrapper.vm.$set(wrapper.vm, 'attrType', 'html');
-        expect(wrapper.vm.getFormData().details.displayType).toBe('html');
+        expect(wrapper.vm.getFormData().details.display_type).toBe('html');
         wrapper.vm.$set(wrapper.vm, 'attrType', 'test');
         expect(wrapper.vm.getFormData().schema.type).toBe('test');
-        expect(wrapper.vm.getFormData().details.displayType).toBe('text');
-        await wrapper.vm.saveForm();
+        expect(wrapper.vm.getFormData().details.display_type).toBe('text');
+        saveComponent.vm.$emit('click');
+        // await wrapper.vm.saveForm();
         expect(wrapper.vm.inProgress).toBe(true);
         done();
     });

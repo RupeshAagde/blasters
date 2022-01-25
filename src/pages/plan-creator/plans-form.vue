@@ -13,7 +13,6 @@
                         : undefined
                 "
                 @backClick="onCancel"
-                @delete="onMenuAction('delete')"
                 @clone="onMenuAction('clone')"
                 @subscribe="onMenuAction('subscribe')"
                 @agreement="onMenuAction('agreement')"
@@ -32,17 +31,19 @@
                             'cl-RoyalBlue': formData.plan.is_active
                         }"
                         @click="
-                            formData.plan.is_active = !formData.plan.is_active
+                            () => {
+                                formData.is_active = !formData.is_active;
+                            }
                         "
                     >
                         {{ formData.plan.is_active ? 'Active' : 'Inactive' }}
                     </span>
                     <nitrozen-toggle
                         class="pad-right"
-                        v-model="formData.plan.is_active"
+                        v-model="formData.is_active"
                     ></nitrozen-toggle>
                     <nitrozen-button
-                        class="pad-right"
+                        class="createBtn"
                         :theme="'secondary'"
                         @click="previewPlan"
                         v-strokeBtn
@@ -726,7 +727,7 @@ export default {
                             );
 
                             this.$router.push({
-                                path: `/administrator/subscription-plans/`,
+                                path: `/administrator/subscription-plans/edit/${data.data._id}/`,
                                 query: {}
                             });
 
@@ -783,7 +784,7 @@ export default {
         onMenuAction(action) {
             if (action == 'clone') {
                 this.$router.push({
-                    path: `administrator/subscription-plans/edit/${this.planId}`,
+                    path: `/administrator/subscription-plans/edit/${this.planId}`,
                     query: {
                         clone: true
                     }

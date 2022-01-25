@@ -127,7 +127,7 @@ export default {
     height: 58.5px; //113px;
     position: fixed;
     width: calc(100% - 250px);
-    z-index: @header;
+    z-index: @header - 4;
     box-shadow: 0 1px 0px 0 rgba(0, 0, 0, 0.1);
     .page-nav {
         display: flex;

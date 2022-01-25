@@ -77,6 +77,7 @@
                     v-if="plansList.length"
                     name="plans"
                     v-model="filter_data.pagination"
+                    
                     :pageSizeOptions="perPageValues"
                     @change="pageOptionChange"
                 ></nitrozen-pagination>
@@ -109,6 +110,7 @@
     .plans-filters {
         display: flex;
         .dropdown-filters {
+            margin-top: 12px;
             display: flex;
             flex: 1;
             justify-content: flex-end;
@@ -196,7 +198,7 @@ export default {
                     total: 0
                 }
             },
-            perPageValues: [10, 25, 50, 100, 200],
+            perPageValues: [5,10, 25, 50, 100, 200],
             searchText: '',
             pageError: false
         };
@@ -206,44 +208,44 @@ export default {
         if (queryObj.query) {
             _.merge(this.filter_data.query, JSON.parse(queryObj.query));
         }
-        if (this.filter_data.query.name) {
+        if (this.filter_data.query && this.filter_data.query.name) {
+            this.filter_data.query.name = this.filter_data.query.name;
             this.searchText = this.filter_data.query.name.trim();
         }
-        if (queryObj.limit) {
-            this.filter_data.pagination.limit = queryObj.limit;
+        if (queryObj.page_size) {
+            this.filter_data.pagination.limit = parseInt(queryObj.page_size);
         }
-        if (queryObj.offset > 0) {
-            this.filter_data.pagination.current = parseInt(
-                queryObj.offset / queryObj.limit
-            );
+        if (parseInt(queryObj.page) > 0) {
+            this.filter_data.pagination.current = parseInt(queryObj.page);
         }
         this.fetchPlans();
-        LocationService.getCountries()
-            .then(({ data }) => {
-                this.countryList.push({ text: 'All', value: ' ' });
-                this.countryList.push(
-                    ...data.map((ctry) => {
-                        return {
-                            text: `${ctry.name} (${ctry.iso2})`,
-                            value: ctry.iso2
-                        };
-                    })
-                );
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        // LocationService.getCountries()
+        //     .then(({ data }) => {
+        //         this.countryList.push({ text: 'All', value: ' ' });
+        //         this.countryList.push(
+        //             ...data.items.map((ctry) => {
+        //                 return {
+        //                     text: `${ctry.name} (${ctry.iso2})`,
+        //                     value: ctry.iso2
+        //                 };
+        //             })
+        //         );
+        //     })
+        //     .catch((err) => {
+        //         this.$snackbar.global.showError('Failed to fetch country data');
+        //         console.log(err);
+        //     });
     },
     computed: {
-        countries() {
-            if (this.searchCountry) {
-                const regexSrch = new RegExp(this.searchCountry, 'gi');
-                return this.countryList.filter((it) => {
-                    return regexSrch.test(it.text);
-                });
-            }
-            return this.countryList;
-        }
+        // countries() {
+        //     if (this.searchCountry) {
+        //         const regexSrch = new RegExp(this.searchCountry, 'gi');
+        //         return this.countryList.filter((it) => {
+        //             return regexSrch.test(it.text);
+        //         });
+        //     }
+        //     return this.countryList;
+        // }
     },
     methods: {
         fetchPlans() {
@@ -259,10 +261,11 @@ export default {
             return BillingPlansService.getPlans(query, '')
                 .then(({ data }) => {
                     this.loading = false;
-                    this.filter_data.pagination.total = data.total;
-                    this.plansList = data.docs;
+                    this.filter_data.pagination.total = data.page.item_total;
+                    this.plansList = data.items;
                 })
                 .catch((err) => {
+                    // console.log(err);
                     this.pageError = true;
                 });
         },
@@ -273,18 +276,6 @@ export default {
         debounceInput: debounce(function(e) {
             this.onSearch();
         }, 500),
-        get_option_values(options) {
-            let option_map = [];
-            Object.keys(options).forEach((key) => {
-                option_map
-                    .push({
-                        id: key,
-                        text: options[key]
-                    })
-                    .catch((err) => {});
-            });
-            return option_map;
-        },
         choosePlanType() {
             this.$refs['plan-type-modal'].open();
         },
@@ -302,12 +293,6 @@ export default {
         editPlan(id, event) {
             this.$router.push({
                 path: `/administrator/subscription-plans/edit/${id}`
-            });
-        },
-        clonePlan(id, event) {
-            this.$router.replace({
-                path: `/administrator/subscription-plans/edit/${id}`,
-                query: { clone: true }
             });
         },
         pageOptionChange(pageOptions) {

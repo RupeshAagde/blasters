@@ -1,6 +1,8 @@
 import { isBrowser, isNode } from 'browser-or-node';
 import CompanyService from '@/services/company-admin.service';
-import { console } from 'window-or-global';
+import { Array, console } from 'window-or-global';
+import InputTypes from './NitrozenCustomFormInputTypes';
+
 export const debounce = (func, wait, immediate) => {
     var timeout;
 
@@ -255,20 +257,18 @@ export const moveArrayItem = (arr, oldIndex, newIndex) => {
 
 export const generateArrItem = (arr, filterKey) => {
     const tempArr = [];
-    if (arr.length > 1) {
-        arr.forEach((element) => {
-            if (element.hasOwnProperty('modified_by')) {
-                if (element['modified_by'] !== null) {
-                    tempArr.push(element['modified_by']);
-                }
+    arr.forEach((element) => {
+        if (element.hasOwnProperty('modified_by')) {
+            if (element['modified_by'] !== null) {
+                tempArr.push(element['modified_by']);
             }
-            if (element.hasOwnProperty('created_by')) {
-                if (element['created_by'] !== null) {
-                    tempArr.push(element['created_by']);
-                }
+        }
+        if (element.hasOwnProperty('created_by')) {
+            if (element['created_by'] !== null) {
+                tempArr.push(element['created_by']);
             }
-        });
-    }
+        }
+    });
     return tempArr;
 };
 
@@ -297,7 +297,7 @@ export const fetchUserMetaObjects = (arr) => {
     return new Promise((resolve, reject) => {
         CompanyService.searchUser(params)
             .then(({ data }) => {
-                return resolve(data);
+                return resolve(data.users);
             })
             .catch((err) => {
                 return reject(err);
@@ -319,3 +319,84 @@ export const validateEmail = (text) => {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(text).toLowerCase());
 };
+
+export const validateNitrozenCustomFormInputs = (inputs) =>{
+    try{
+        if(inputs && Array.isArray(inputs)){
+            if(inputs.length===0){
+                return true;
+            } 
+            for(let i of inputs){
+                if(!validateNitrozenCustomFormInput(i)){
+                    console.log('INPUT:::',i,inputs.length)
+                  throw 'Some input is invalid'; 
+                }
+            }
+            return true;
+        }else{
+            throw 'Inputs format invalid';
+        }
+    }catch(e){
+        console.log('ERROR',e)
+        return false
+    }
+}
+
+export const validateNitrozenCustomFormInput = (input, skipKey = false) => {
+    if (!input.type) {
+        return false
+    }
+
+    // if (!input.key && !skipKey) {
+    //     return false
+    // }
+
+    // if (skipKey && input.key) {
+    //     return false
+    // }
+
+    if (input.required != undefined && input.required != true && input.required != false) {
+        return false
+    }
+
+    switch (input.type) {
+        case InputTypes.text.key:
+        case InputTypes.textarea.key:
+        case InputTypes.email.key:
+            return true;
+        case InputTypes.number.key:
+            return true;
+        case InputTypes.radio.key:
+        case InputTypes.dropdown.key:
+        case InputTypes.checkbox.key:
+            if (!input.enum || input.enum.length == 0) {
+                return false;
+            }
+            return true;
+        case InputTypes.mobile.key:
+            return true;
+        case InputTypes.toggle.key:
+            return true;
+        case InputTypes.object.key:
+            if (!input.inputs || input.inputs.length == 0) {
+                return false;
+            }
+            let isValid = true
+            input.inputs.forEach(io => {
+                isValid = validateNitrozenCustomFormInput(io) && isValid;
+            });
+            return isValid;
+        case InputTypes.array.key:
+            return validateNitrozenCustomFormInput(input.input, true);
+        default:
+            console.log(input.type + 'Unknown input type detected')
+            return false
+    }
+}
+ export const validUrl = (url) => {
+     let regexp = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+     if (regexp.test(url)) {
+         return true;
+     }
+     return false
+ }

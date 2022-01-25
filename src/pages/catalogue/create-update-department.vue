@@ -31,6 +31,7 @@
                             <nitrozen-button
                                 class="left-space-txb"
                                 :theme="'secondary'"
+                                ref='save-button'
                                 @click="save"
                                 v-flatBtn
                                 >Save</nitrozen-button
@@ -100,7 +101,8 @@
                     @delete="logo.value = ''"
                     @save="logo.value = $event"
                     v-model="logo.value"
-                    :fileName="logo.value"
+                    fileName="department"
+                    :showGallery=true
                     namespace="department-square-logo"
                 ></image-uploader-tile>
                 <nitrozen-error v-if="logo.showerror">{{
@@ -146,7 +148,7 @@
     align-items: center;
 
     .active-dept {
-        color: #5c6bdd;
+        color: #2E31BE;
         cursor: pointer;
         display: flex;
         justify-content: flex-start;
@@ -187,7 +189,7 @@
     border-radius: 4px;
     margin: 85px 24px 24px 24px !important;
     padding: 24px;
-    font-family: Poppins;
+    font-family: Inter;
 
     .row-1 {
         width: 100%;
@@ -333,7 +335,7 @@ export default {
                 };
                 CatalogService.fetchDepartment(params)
                     .then((res) => {
-                        this.data = res.data.data;
+                        this.data = res.data.items;
                         this.is_active = this.data[0].is_active;
                         this.name.value = this.data[0].name
                             ? this.data[0].name
@@ -452,7 +454,7 @@ export default {
                 !this.logo.showerror
             ) {
                 this.pageLoading = true;
-                CatalogService.saveDepartment(postdata)
+                CatalogService.saveDepartment(postdata, this.uid)
                     .then((res) => {
                         this.pageLoading = false;
                         this.$snackbar.global.showSuccess(`${this.saveText}`, {
@@ -467,7 +469,9 @@ export default {
                         this.pageLoading = false;
                         console.error(error);
                         this.$snackbar.global.showError(
-                            `${error.response.data.errors.error}`
+                            error && error.response && error.response.data && error.response.data && `${error.response.data.error}` ||
+                            error && error.response && error.response.data && error.response.data && error.response.data.errors && `${error.response.data.errors.error}`||
+                            `Operation Failed !`
                         );
                     });
             }

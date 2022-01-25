@@ -1,6 +1,9 @@
 'use strict'
 
 const config = require('./../config')
+const packageJson = require('./../package.json');
+const fs = require("fs");
+
 if (config.get('NEW_RELIC_LICENSE_KEY')) {
   require('newrelic')
 }
@@ -9,10 +12,20 @@ const path = require('path')
 const express = require('express')
 const Sentry = require('@sentry/node')
 
+
+let releaseSHA = packageJson.version;
+
+if(fs.existsSync("gitsha"))
+{
+    releaseSHA = fs.readFileSync("gitsha").toString();
+}
+
+
 //Add sentry
 if (SENTRY_DSN) {
   const sentryOptions = {
     dsn: SENTRY_DSN,
+    release: releaseSHA,
     environment: SENTRY_ENVIRONMENT
   }
   Sentry.init(sentryOptions)
@@ -42,7 +55,7 @@ if (SENTRY_DSN) {
 //Handle uncaught exception
 process.on('uncaughtException', function(err) {
   logger.info('Caught exception: ')
-  logger.error(err)
+  logger.info(err)
   if (SENTRY_DSN) {
     Sentry.captureException(err)
   }
@@ -85,7 +98,7 @@ app.get('/swagger-public.json', async (req, res) => {
     )
     res.status(200).json(swaggerJson.data)
   } catch (err) {
-    logger.error(err)
+    logger.info(err)
     res.status(400).json(err)
   }
 })
@@ -112,7 +125,7 @@ process.on('exit', function() {
 
 const port = config.get('PORT')
 app.listen(port, async () => {
-  console.log(`Server started at localhost:${port}`)
+  logger.info(`Server started at localhost:${port}`)
 })
 
 module.exports = app

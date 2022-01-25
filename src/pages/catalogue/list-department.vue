@@ -44,7 +44,7 @@
                     :key="index"
                     class="container"
                     @click="editDepartment(item)"
-                >
+                >   
                     <div class="card-avatar">
                         <img
                             :src="getDepartmentImage(item)"
@@ -124,11 +124,11 @@
 }
 .left-space-co {
     margin-left: 16px;
-    color: #5c6bdd;
+    color: #2E31BE;
 }
 .left-space-mo {
     margin-left: 14px;
-    color: #5c6bdd;
+    color: #2E31BE;
 }
 .label {
     color: #9b9b9b;
@@ -215,7 +215,7 @@
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
             line-height: 24px;
-            color: #5c6bdd;
+            color: #2E31BE;
         }
 
         .card-content-line-2 {
@@ -323,7 +323,7 @@ export default {
             this.pageError = false;
             CatalogService.fetchDepartment(this.getQueryParam())
                 .then((res) => {
-                    this.tempList = generateArrItem(res.data.data);
+                    this.tempList = generateArrItem(res.data.items);
                     this.tempList = filterDuplicateObject(this.tempList);
                     fetchUserMetaObjects(this.tempList)
                         .then((response) => {
@@ -332,8 +332,8 @@ export default {
                                     this.userObj[element.uid] = element;
                                 }
                             });
-                            this.departmentList = res.data.data;
-                            this.pagination.total = res.data.total_count;
+                            this.departmentList = res.data.items;
+                            this.pagination.total = res.data.page.item_total;
                             this.isLoading = false;
                         })
                         .catch((err) => {

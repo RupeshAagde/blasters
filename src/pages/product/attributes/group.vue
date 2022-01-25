@@ -171,12 +171,46 @@
                             >Move to Position</nitrozen-button
                         >
                     </div>
+                    <div class="mt-sm inline v-center">
+                        <nitrozen-dropdown
+                                class="input w-l mr-md"
+                                label="Templates"
+                                :items="templatesList"
+                                v-model="groupDetails[entity].template_slugs"
+                                :required="true"
+                                :multiple="true"
+                                :searchable="true"
+                                @change="filterAttributes"
+                                @blur="checkRequired('template_slugs')"
+                                @searchInputChange="setTemplatesList"
+                         ></nitrozen-dropdown>
+                    </div>
+                    <nitrozen-error v-if="errors.template_slugs">
+                        {{ errors.template_slugs }}
+                    </nitrozen-error>
+                    <div class="chip-wrapper inline">
+                        <div
+                            v-for="(template,
+                            index) of groupDetails[entity].template_slugs"
+                            :key="index"
+                        >
+                            <nitrozen-chips class="chip">
+                                {{ template }}
+                                <nitrozen-inline
+                                    icon="cross"
+                                    class="nitrozen-icon"
+                                    @click="removeItem(entity, index)"
+                                ></nitrozen-inline>
+                            </nitrozen-chips>
+                        </div>
+                    </div>
                     <!-- Attributes -->
                     <div class="mt-sm inline v-center">
+                        
                         <nitrozen-dropdown
                             class="input w-l mr-md"
                             label="Attributes"
-                            :items="attributesList"
+                            :items="filteredAttributes"
                             v-model="groupDetails[entity].attributes"
                             :required="true"
                             :multiple="true"
@@ -328,7 +362,10 @@
         }
     }
 }
-
+.chip-wrapper {
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
 .toggle-display-txt {
     width: 60px;
 }
@@ -446,6 +483,10 @@ import InlineSvg from '@/components/common/ukt-inline-svg';
 import Draggable from 'vuedraggable';
 import slugify from 'slugify';
 import { moveArrayItem } from '../../../helper/utils';
+import {
+    generateArrItem,
+    filterDuplicateObject,
+} from '@/helper/utils';
 // import { dirtyCheckMixin } from '@/mixins/form.mixin';
 import root from 'window-or-global';
 import _ from 'lodash';
@@ -465,8 +506,8 @@ import {
 } from '@gofynd/nitrozen-vue';
 
 const EMPTY_GROUP_DETAILS = {
-    details: { attributes: [], display: false },
-    comparisons: { attributes: [], display: false }
+    details: { attributes: [],template_slugs: [], display: false },
+    comparisons: { attributes: [],template_slugs: [], display: false }
 };
 
 export default {
@@ -487,7 +528,8 @@ export default {
         NitrozenToggleBtn,
         NitrozenDropdown,
         NitrozenTooltip,
-        NitrozenBadge
+        NitrozenBadge,
+        'nitrozen-chips': NitrozenChips,
     },
     directives: {
         flatBtn,
@@ -502,7 +544,6 @@ export default {
             inProgress: false,
             pageError: false,
             formSaved: false,
-
             groups: [],
             hiddenList: [],
             selectedGroupSlug: '',
@@ -511,10 +552,12 @@ export default {
             groupDetails: { ...EMPTY_GROUP_DETAILS },
             departments: [],
             attributes: [],
+            templates:[],
             errors: {},
-
+            templatesList: [],
             departmentsList: [],
-            attributesList: []
+            attributesList: [],
+            filteredAttributes:[],
         };
     },
     mounted() {
@@ -555,7 +598,8 @@ export default {
                 this.fetchGroups(),
                 this.fetchGroupSequence(),
                 this.fetchDepartments(),
-                this.fetchAttributes()
+                this.fetchProductTemplates(),
+                this.fetchAttributes(), 
             ])
                 .then(() => {
                     this.pageLoading = false;
@@ -579,16 +623,33 @@ export default {
                 }
             });
         },
+        fetchProductTemplates() {
+            const query = {
+                page_size: 9999999,
+                sort: 'created_desc'
+            }
+                return CompanyService.fetchProductTemplates(query)
+                    .then(({ data }) => {
+                         this.templates = data.items;
+                         this.setTemplatesList();
+                    })
+                    .catch((err) => {
+                        this.pageLoading = false;
+                        this.pageError = true;
+                        console.log(err);
+                    });
+            
+        },
         fetchGroups() {
             const params = {
-                page: 1,
-                limit: 999,
-                sort: 'created_desc',
+                page_no: 1,
+                page_size: 999,
+                sort_on: 'created_desc',
                 type: this.entity
             };
             return CompanyService.fetchGroups(params)
                 .then(({ data }) => {
-                    this.groups = data.data;
+                    this.groups = data.items;
                 })
                 .catch((err) => {
                     return err;
@@ -619,6 +680,7 @@ export default {
                         ...EMPTY_GROUP_DETAILS,
                         ...data.data
                     };
+                    this.filterAttributes();
                 })
                 .catch((err) => {
                     this.inProgress = false;
@@ -627,12 +689,12 @@ export default {
         },
         fetchAttributes() {
             const params = {
-                limit: 999999,
+                page_size: 999999,
                 ca: true
             };
             return CompanyService.fetchAttributes(params)
                 .then(({ data }) => {
-                    this.attributes = data.data;
+                    this.attributes = data.items;
                     this.setAttributesList();
                 })
                 .catch((err) => {
@@ -643,7 +705,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchDepartments()
                     .then(({ data }) => {
-                        this.departments = data.data;
+                        this.departments = data.items;
                         return resolve();
                     })
                     .catch((err) => {
@@ -686,11 +748,13 @@ export default {
                     path: redirectPath
                 });
             this.fetchGroupDetails();
+            this.groupDetails[this.entity].template_slugs = [];
         },
         unselectGroup() {
             this.selectedGroupSlug = '';
             this.groupDetails = { ...EMPTY_GROUP_DETAILS, _new: true };
             this.groupDetails[this.entity].attributes = [];
+            this.groupDetails[this.entity].template_slugs = [];
         },
         toggleGroupDisplay(slug) {
             // this.$set(
@@ -704,6 +768,20 @@ export default {
             //     const index = this.groupSequence.indexOf(slug);
             //     this.groupSequence.splice(index, 1);
             // }
+        },
+        setTemplatesList(e = {}) {
+            this.templatesList = [];
+            this.templates.forEach((a) => {
+                if (
+                    !e.text ||
+                    a.name.toLowerCase().includes(e.text.toLowerCase())
+                ) {
+                    this.templatesList.push({
+                        text: a.name,
+                        value: a.slug
+                    });
+                }
+            });
         },
         setAttributesList(e = {}) {
             this.attributesList = [];
@@ -735,6 +813,15 @@ export default {
                 }
             });
         },
+        filterAttributes(){
+            let new_attributes = [];
+            const templates = this.groupDetails[this.entity].template_slugs ? this.groupDetails[this.entity].template_slugs : [];
+            const temp_templates = this.templates.filter((temp) => templates.some((slug) => slug === temp.slug))
+            temp_templates.forEach((temp) => {
+                new_attributes = new_attributes.concat(temp.attributes)
+            })
+            this.filteredAttributes = this.attributesList.filter((attrib) => new_attributes.some((slug) => slug === attrib.value) )
+        },
         updateSlug(str) {
             if (!this.groupDetails._new) return;
 
@@ -747,7 +834,10 @@ export default {
                 })
             );
         },
-
+        removeItem(entity, index) {
+            this.groupDetails[this.entity].template_slugs.splice(index,1);
+            this.filterAttributes();
+        },
         moveGroup() {
             if (
                 this.positionNumber < 1 ||
@@ -851,6 +941,10 @@ export default {
                 val = this.groupDetails[prop];
             }
 
+            if ( prop === 'template_slugs') {
+                val = this.groupDetails[this.entity][prop];
+            }
+
             if (!val || _.isEmpty(val)) {
                 isValid = false;
                 this.errors[prop] = 'field is required';
@@ -864,6 +958,7 @@ export default {
             formValid = this.checkRequired('name') && formValid;
             formValid = this.checkRequired('slug') && formValid;
             formValid = this.checkRequired('attributes') && formValid;
+            formValid = this.checkRequired('template_slugs') && formValid;
 
             return formValid;
         },

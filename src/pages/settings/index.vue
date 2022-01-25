@@ -47,8 +47,116 @@
                         </router-link>
                     </span>
                 </div>
+
+                <div class="settings-head">
+                    <inline-svg src="settings"></inline-svg>
+                    <span class="bold-xs cl-Mako title">Custom Page and Tag</span>
+                </div>
+
+                <div class="settings-main">
+                    <span
+                        class="settings-menu"
+                        v-for="(menu, index) in custom_menus"
+                        :key="'general' + index"
+                    >
+                        <router-link :to="menu.link">
+                            <div class="settings-body" @click="$emit('click')">
+                                <span class="settings-icon">
+                                    <inline-svg
+                                        v-if="menu.icon"
+                                        :src="menu.icon"
+                                        class="feature-icon"
+                                    ></inline-svg>
+                                </span>
+                                <span class="settings-content">
+                                    <div>
+                                        <span class="bold-xs cl-Mako">{{
+                                            menu.title
+                                        }}</span>
+                                    </div>
+                                    <div class="settings-detail">
+                                        <span class="cl-Mako">
+                                            {{
+                                                menu.desc ||
+                                                    'View and Update store details'
+                                            }}
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>
+                        </router-link>
+                    </span>
+                </div>
+
+                
+
+                <div class="settings-head">
+                    <inline-svg src="settings"></inline-svg>
+                    <span class="bold-xs cl-Mako title">Customize</span>
+                </div>
+
+                <div class="settings-main">
+                    <span
+                        class="settings-menu"
+                        v-for="(menu, index) in customize_menus"
+                        :key="'general' + index"
+                    >
+                        <router-link :to="menu.link">
+                            <div class="settings-body" @click="$emit('click')">
+                                <span class="settings-icon">
+                                    <inline-svg
+                                        v-if="menu.icon"
+                                        :src="menu.icon"
+                                        class="feature-icon"
+                                    ></inline-svg>
+                                </span>
+                                <span class="settings-content">
+                                    <div>
+                                        <span class="bold-xs cl-Mako">{{
+                                            menu.title
+                                        }}</span>
+                                    </div>
+                                    <div class="settings-detail">
+                                        <span class="cl-Mako">
+                                            {{
+                                                menu.desc ||
+                                                    'View and Update store details'
+                                            }}
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>
+                        </router-link>
+                    </span>
+
+                    <span class="settings-menu" @click="openHomePage" key="home-page">
+                        <span>
+                            <div class="settings-body">
+                                <span class="settings-icon">
+                                    <inline-svg
+                                        src="settings"
+                                        class="feature-icon"
+                                    ></inline-svg>
+                                </span>
+                                <span class="settings-content">
+                                    <div>
+                                        <span class="bold-xs cl-Mako"
+                                            >Home Page</span
+                                        >
+                                    </div>
+                                    <div class="settings-detail">
+                                        <span class="cl-Mako">
+                                            Update home page
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>
+                        </span>
+                    </span>
+                </div>
             </section>
         </div>
+        <home-page ref="custom-home-page"></home-page>
     </div>
 </template>
 
@@ -64,6 +172,7 @@ import {
     NitrozenBadge
 } from '@gofynd/nitrozen-vue';
 import _ from 'lodash';
+import HomePage from "./home-page"
 
 const GENERAL_MENUS = [
     {
@@ -81,8 +190,52 @@ const GENERAL_MENUS = [
         permissions: [],
         active: false,
         desc: 'Change platform features information'
-    }
+    },
+    {
+        title: 'Pricing Banner',
+        link: 'settings/pricing-banner',
+        icon: 'settings',
+        permissions: [],
+        active: false,
+        desc: 'Change platform pricing banner'
+    },
 ];
+const CUSTOM_MENUS = [
+    {
+        title: 'Custom Pages',
+        link: 'settings/pages',
+        icon: 'settings',
+        permissions: [],
+        active: false,
+        desc: 'Use this section to develop and manage custom webpages'
+    },
+     {
+        title: 'Custom Tags',
+        link: 'settings/list-tags',
+        icon: 'settings',
+        permissions: [],
+        active: false,
+        desc: 'Inject Script/CSS'
+    }
+]
+const CUSTOMIZE_MENUS = [
+{
+        title: 'Navbar',
+        link: 'settings/navbar',
+        icon: 'settings',
+        permissions: [],
+        active: false,
+        desc: 'Use this section to change platform navbar'
+    },
+    {
+        title: 'Footer',
+        link: 'settings/footer',
+        icon: 'settings',
+        permissions: [],
+        active: false,
+        desc: 'Use this section to change platform footer'
+    }
+]
 export default {
     name: 'settings',
     components: {
@@ -90,7 +243,8 @@ export default {
         NitrozenBadge,
         NitrozenDropdown,
         NitrozenButton,
-        Jumbotron
+        Jumbotron,
+        HomePage
     },
     directives: {
         strokeBtn,
@@ -100,13 +254,17 @@ export default {
         return {
             pageLoading: false,
             pageError: false,
-
-            general_menus: GENERAL_MENUS
+            general_menus: GENERAL_MENUS,
+            customize_menus: CUSTOMIZE_MENUS,
+            custom_menus: CUSTOM_MENUS
         };
     },
     mounted() {},
     methods: {
-        titleCase
+        titleCase,
+        openHomePage(){
+            this.$refs["custom-home-page"].open()
+        }
     }
 };
 </script>
@@ -136,6 +294,7 @@ export default {
         .settings-main {
             display: flex;
             flex-wrap: wrap;
+            margin-bottom: 48px;
             .settings-menu {
                 flex: 0 33.3%;
             }

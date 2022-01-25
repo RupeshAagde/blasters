@@ -6,6 +6,7 @@ import VueRouter from 'vue-router';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import mocks from "./mocks";
+import flushPromises from "flush-promises";
 
 describe('Mounted Department', () => {
 	let wrapper;
@@ -17,6 +18,11 @@ describe('Mounted Department', () => {
 		localVue.use(VueRouter);
 		mock.reset();
 	})
+
+	afterEach( async () => {
+		
+	});
+
 	test('Edit - empty department', async () => {
 		const router = new VueRouter({
 			routes: [
@@ -32,10 +38,10 @@ describe('Mounted Department', () => {
 		}
 		);
 		await new Promise(resolve => setTimeout(resolve, 10));
-		expect(wrapper.exists()).toBeTruthy()
-		expect(wrapper.element).toMatchSnapshot()
-		const div = wrapper.find('div')
-		expect(div.exists()).toBe(true)
+		expect(wrapper.exists()).toBeTruthy();
+		expect(wrapper.element).toMatchSnapshot();
+		const div = wrapper.find('div');
+		expect(div.exists()).toBe(true);
 	})
 	test('Edit - error response', async () => {
 		const router = new VueRouter({
@@ -61,7 +67,7 @@ describe('Mounted Department', () => {
 			]
 		})
 		router.push('/administrator/product/department/edit/1');
-		mock.onGet(URLS.DEPARTMENT()).reply(200, { data: mocks.departments });
+		mock.onGet(URLS.DEPARTMENT()).reply(200, { items: mocks.departments });
 
 		wrapper = mount(DeptComponent, {
 			localVue,
@@ -69,6 +75,8 @@ describe('Mounted Department', () => {
 		}
 		);
 		await new Promise(resolve => setTimeout(resolve, 10));
+		const saveComponent = wrapper.findComponent({ ref: 'save-button' });
+		saveComponent.vm.$emit('click');
 		wrapper.vm.save();
 		expect(wrapper.vm.pageLoading).toBe(true)
 		wrapper.vm.redirectToListing()

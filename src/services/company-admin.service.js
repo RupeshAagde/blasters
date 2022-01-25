@@ -10,7 +10,7 @@ const CompanyService = {
         let axiosOption = Object.assign({
             params
         });
-        return ApiService.get(URLS.FETCH_METRICS(), axiosOption);
+        return ApiService.get(URLS.FETCH_METRICS(params), axiosOption);
     },
     searchUser(params) {
         const axiosOption = Object.assign(
@@ -28,7 +28,7 @@ const CompanyService = {
             getCommonHeaderOptions()
         );
 
-        return ApiService.post(URLS.FETCH_DRI(), axiosOption);
+        return ApiService.post(URLS.FETCH_DRI(body), axiosOption);
     },
     removeDri(body) {
         const axiosOption = Object.assign(
@@ -41,11 +41,11 @@ const CompanyService = {
     },
     editDri(params) {
         const axiosOption = Object.assign(
-            { params: params },
+            { data: params },
             getCommonHeaderOptions()
         );
 
-        return ApiService.get(URLS.FETCH_DRI(), axiosOption);
+        return ApiService.put(URLS.FETCH_ONE_DRI(params), axiosOption);
     },
     fetchDesignation(params) {
         const axiosOption = Object.assign(
@@ -66,9 +66,15 @@ const CompanyService = {
             { params: params },
             getCommonHeaderOptions()
         );
-        return ApiService.get(URLS.FETCH_DRI(), axiosOption);
+        return ApiService.get(URLS.FETCH_DRI(params), axiosOption);
     },
-
+    fetchOneDri(params) {
+        const axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.FETCH_ONE_DRI(params), axiosOption);
+    },
     fetchApplication(uid, params) {
         const axiosOption = Object.assign(
             { params: params },
@@ -103,13 +109,46 @@ const CompanyService = {
         return ApiService.get(URLS.GET_COMPANY_LIST(), axiosOptions);
     },
 
+    getDeploymentMappings(params) {
+        const axiosOptions = Object.assign(
+            { params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(`${URLS.GET_DEPLOYMENT_MAPPING()}`, axiosOptions);
+    },
+
+    getDeploymentList() {
+        const axiosOptions = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+        );
+        return ApiService.get(URLS.GET_DEPLOYMENT_LIST(), axiosOptions);
+    },
+
+    createDeploymentMapping(body) {
+        const axiosOption = Object.assign(
+            {},
+            { data: body },
+            getCommonHeaderOptions()
+        );
+        return ApiService.post(URLS.CREATE_NEW_DEPLOYMENT_MAPPING(), axiosOption);
+    },
+
+    deleteDeploymentMappingById(id) {
+        const axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions()
+        );
+        return ApiService.del(URLS.DELETE_DEPLOYMENT_MAPPING_BY_ID(id), axiosOption);
+    },
+    
     adminActionCompany(body) {
         let axiosOption = Object.assign(
             {},
             { data: body },
             getCommonHeaderOptions()
         );
-        return ApiService.post(URLS.GET_COMPANY_LIST(), axiosOption);
+        return ApiService.post(URLS.VERIFY_COMPANY(body), axiosOption);
     },
 
     adminActionBrand(body) {
@@ -118,7 +157,7 @@ const CompanyService = {
             { data: body },
             getCommonHeaderOptions()
         );
-        return ApiService.post(URLS.BRAND_ADMIN_ACTION(), axiosOption);
+        return ApiService.post(URLS.BRAND_ADMIN_ACTION(body), axiosOption);
     },
     adminActionStore(body) {
         let axiosOption = Object.assign(
@@ -126,7 +165,7 @@ const CompanyService = {
             { data: body },
             getCommonHeaderOptions()
         );
-        return ApiService.post(URLS.STORE_ADMIN_ACTION(), axiosOption);
+        return ApiService.post(URLS.STORE_ADMIN_ACTION(body), axiosOption);
     },
     fetchBrands(params = {}) {
         let axiosOption = Object.assign(
@@ -135,7 +174,7 @@ const CompanyService = {
             },
             getCommonHeaderOptions()
         );
-        return ApiService.get(URLS.GET_COMPANY_BRANDS(), axiosOption);
+        return ApiService.get(URLS.GET_COMPANY_BRANDS(params), axiosOption);
     },
     fetchChoiceType(params = {}) {
         let axiosOption = Object.assign(
@@ -154,12 +193,12 @@ const CompanyService = {
             },
             getCommonHeaderOptions()
         );
-        return ApiService.get(URLS.COMPANY_STORES(), axiosOption);
+        return ApiService.get(URLS.COMPANY_STORES(params), axiosOption);
     },
     // Fetch Company Profile
     fetchCompanyProfile(params) {
         let axiosOption = Object.assign({ params });
-        return ApiService.get(URLS.COMPANY_PROFILE(), axiosOption);
+        return ApiService.get(URLS.COMPANY_PROFILE(params), axiosOption);
     },
     // List product attributes master
     fetchAttributes(params) {
@@ -178,7 +217,11 @@ const CompanyService = {
         let axiosOption = Object.assign({}, { data }, getCommonHeaderOptions());
         return ApiService.put(URLS.ATTRIBUTES_MASTER(), axiosOption);
     },
-
+    fetchProductDetails(data) {
+        const { companyId, itemId, ...params } = data;
+        let axiosOption = Object.assign({ params });
+        return ApiService.get(URLS.PRODUCT({ companyId, itemId }), axiosOption);
+    },
     fetchProductTemplates(params) {
         let axiosOption = Object.assign({ params });
         return ApiService.get(URLS.PRODUCT_TEMPLATES(), axiosOption);
@@ -194,9 +237,14 @@ const CompanyService = {
         let axiosOption = Object.assign({}, { data }, getCommonHeaderOptions());
         return ApiService.put(URLS.PRODUCT_TEMPLATES(slug), axiosOption);
     },
-
-    fetchDepartments() {
-        return ApiService.get(URLS.DEPARTMENT(), {});
+    fetchDepartments(params) {
+        let axiosOption = Object.assign(
+            {
+                params
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.DEPARTMENT(), axiosOption);
     },
     fetchUnits() {
         return ApiService.get(URLS.UNITS(), {});
@@ -239,9 +287,7 @@ const CompanyService = {
         return ApiService.post(URLS.ATTRIBUTE_SHUFFLE(entity), axiosOption);
     },
     productTemplateDownload(slug) {
-        return `${URLS.PRODUCT_TEMPLATE_DOWNLOAD(
-            slug
-        )}?company_id=1&set=false&type=excel`;
+        return ApiService.get(URLS.PRODUCT_TEMPLATE_DOWNLOAD(slug), {}, { 'responseType': 'blob' });
     },
     // Categories
     fetchCategory_v2(params) {
@@ -266,6 +312,42 @@ const CompanyService = {
             return ApiService.put(URLS.CATEGORY_v2(id), axiosOption);
         }
         return ApiService.post(URLS.CATEGORY_v2(), axiosOption);
+    },
+    // Fetch Company List
+    fetchCompanyList() {
+        let headers = {
+            'Content-Type': 'application/json'
+        };
+        let axiosOption = Object.assign(
+            {},
+            {
+                headers
+            }
+        );
+        return ApiService.get(URLS.FETCH_COMPANY_LIST(), axiosOption);
+    },
+    fetchTemplateSchema({companyId, slug, ...params}) {
+        let axiosOption = Object.assign(
+            {
+                params
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(
+            URLS.PRODUCT_TEMPLATE_VALIDATION({companyId, slug}),
+            axiosOption
+        );
+    },
+    getSizeGuide({companyId, ...params}) {
+        let axiosOption = Object.assign(
+            {},
+            {
+                params
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.SIZE_GUIDE_URL(companyId), axiosOption);
     }
+
 };
 export default CompanyService;

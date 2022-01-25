@@ -4,12 +4,8 @@ import _ from 'lodash';
 const getFilterToQuery = (filterObj) => {
     let filter_data = _.cloneDeep(filterObj);
     let query = {
-        offset: Math.max(
-            (filter_data.pagination.current - 1) *
-                parseInt(filter_data.pagination.limit),
-            0
-        ),
-        limit: filter_data.pagination.limit
+        page_no: filter_data.pagination.current,
+        page_size: filter_data.pagination.limit
     };
 
     // trim filter values
@@ -20,14 +16,14 @@ const getFilterToQuery = (filterObj) => {
         }
     });
 
-    if (filter_data.query.name) {
-        filter_data.query.name = {
-            $regex: filter_data.query.name,
-            $options: 'gi'
-        };
-    }
+    // if (filter_data.query.name) {
+    //     filter_data.query.name = {
+    //         $regex: filter_data.query.name,
+    //         $options: 'gi'
+    //     };
+    // }
     if (Object.keys(filter_data.query).length) {
-        query.query = JSON.stringify(filter_data.query);
+        query = {...query,...filter_data.query};
     }
     return query;
 };

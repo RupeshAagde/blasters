@@ -2,14 +2,6 @@
 
 export const getNavigations = () => {
     return [
-        // Home:{
-        //         display: 'Home',
-        //         link: `/administrator/home`,
-        //         title: 'Home',
-        //         icon: 'home',
-        //         highlightedIcon: 'home-highlighted'
-        //         children: []
-        // },
         {
             display: 'Company',
             link: '/administrator/company-list',
@@ -20,16 +12,7 @@ export const getNavigations = () => {
             permission: 'company',
             children: []
         },
-        {
-            display: 'Subscription Plans',
-            link: `/administrator/subscription-plans`,
-            title: 'Subscription Plans',
-            icon: 'home',
-            highlightedIcon: 'home-highlighted',
-            active: false,
-            permission: 'plans',
-            children: []
-        },
+        
         {
             display: 'Admin User Access',
             link: '/administrator/user-management',
@@ -88,8 +71,64 @@ export const getNavigations = () => {
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
+                },
+                {
+                    display: 'Verification',
+                    link: '/administrator/product/verification',
+                    title: 'verification',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
                 }
             ]
+        },
+        {
+            display: 'Integrations',
+            link: '/administrator/integrations/list',
+            title: 'integrations',
+            icon: 'team',
+            highlightedIcon: 'team-highlighted',
+            active: false,
+            permission: 'admin-access',
+            children: []
+        },
+        {
+            display: 'Subscription',
+            link: '/administrator/subscription/invoices',
+            title: 'invoice',
+            icon: 'settings',
+            highlightedIcon: 'home-highlighted',
+            active: false,
+            permission: 'admin-access',
+            children: [
+                {
+                    display: 'Invoices',
+                    link: '/administrator/subscription/invoices',
+                    title: 'invoice',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Plans',
+                    link: `/administrator/subscription-plans`,
+                    title: 'plan',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false,
+                    children: []
+                },
+            ]
+        },
+        {
+            display: 'Extension Review',
+            link: '/administrator/extensions/review',
+            title: 'extensons',
+            icon: 'settings',
+            highlightedIcon: 'settings-highlighted',
+            active: false,
+            permission: 'settings',
+            children: []
         },
         {
             display: 'Support Center',

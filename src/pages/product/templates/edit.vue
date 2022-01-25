@@ -17,6 +17,7 @@
                     <nitrozen-button
                         class="pad-left"
                         :theme="'secondary'"
+                        ref="save-button"
                         v-flatBtn
                         @click="saveForm"
                         >Save</nitrozen-button
@@ -114,6 +115,24 @@
                     <nitrozen-toggle-btn
                         title="Physical"
                         v-model="template.is_physical"
+                        :class="{
+                            'disable-btn': editMode
+                        }"
+                    ></nitrozen-toggle-btn>
+                </div>
+
+                <!-- Expirable -->
+                <div class="mt-md inline apart">
+                    <div class="inline">
+                        <div class="cl-Mako dark-xxxs mr-xxxs">Expirable</div>
+                        <nitrozen-tooltip
+                            tooltipText="Enable it for expirable products or disable it for non-expirable products."
+                        ></nitrozen-tooltip>
+                    </div>
+
+                    <nitrozen-toggle-btn
+                        title="Expirable"
+                        v-model="template.is_expirable"
                         :class="{
                             'disable-btn': editMode
                         }"
@@ -551,7 +570,8 @@ export default {
                 departments: [],
                 categories: [],
                 attributes: [],
-                is_physical: true
+                is_physical: true,
+                is_expirable: false
             },
             attributes: [],
             departments: [],
@@ -634,8 +654,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchProductTemplate(this.slug)
                     .then(({ data }) => {
-                        this.template = _.first(data.data);
-
+                        this.template = _.first(data.items);
                         return resolve();
                     })
                     .catch((err) => {
@@ -645,9 +664,13 @@ export default {
         },
         fetchDepartments() {
             return new Promise((resolve, reject) => {
-                CompanyService.fetchDepartments()
+                const query = {
+                    "page_size":9999,
+                    "page_no":1,
+                }
+                CompanyService.fetchDepartments(query)
                     .then(({ data }) => {
-                        this.departments = data.data;
+                        this.departments = data.items;
                         this.setDepartmentsList();
                         return resolve();
                     })
@@ -668,7 +691,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchCategory_v2(params)
                     .then(({ data }) => {
-                        this.categories = data.data;
+                        this.categories = data.items;
                         this.setCategoriesList();
                         return resolve();
                     })
@@ -683,12 +706,12 @@ export default {
                 return;
             }
             const params = {
-                limit: 999999,
+                page_size: 999999,
                 department: this.template.departments
             };
             return CompanyService.fetchAttributes(params)
                 .then(({ data }) => {
-                    this.attributes = data.data;
+                    this.attributes = data.items;
                     this.setAttributesList();
                 })
                 .catch((err) => {

@@ -7,6 +7,7 @@
                         class="pad-left"
                         :theme="'secondary'"
                         v-flatBtn
+                        ref='save-button'
                         @click="saveForm"
                         >Save</nitrozen-button
                     >
@@ -130,7 +131,7 @@
                         ></nitrozen-tooltip>
                     </div>
                     <nitrozen-toggle-btn
-                        v-model="attribute.variant_enabled"
+                        v-model="attribute.variant"
                     ></nitrozen-toggle-btn>
                 </div>
                 <loader v-if="inProgress" class="loading"></loader>
@@ -225,7 +226,7 @@
                     label="Allowed Values"
                     v-if="attrType === 'str'"
                     placeholder="For eg. Red, Blue, etc"
-                    v-model="attribute.schema.enum"
+                    v-model="attribute.schema.allowed_values"
                     :max-tags="200"
                 ></tags-input>
                 <!-- Range Min Max -->
@@ -508,7 +509,7 @@ export default {
 
             attrType: 'str',
             attribute: {
-                schema: { enum: [], range: {}, format: '', multi: false },
+                schema: { allowed_values: [], range: {}, format: '', multi: false },
                 details: {},
                 filters: { indexing: false },
                 meta: { enriched: false, mandatory_details: { l3_keys: [] } }
@@ -566,7 +567,7 @@ export default {
             return new Promise((resolve, reject) => {
                 CompanyService.fetchAttribute(this.slug)
                     .then(({ data }) => {
-                        this.attribute = this.sanitizeAttribute(data.data);
+                        this.attribute = this.sanitizeAttribute(data);
                         this.logo = this.attribute.logo
                             ? this.attribute.logo
                             : '';
@@ -580,9 +581,13 @@ export default {
         },
         fetchDepartments() {
             return new Promise((resolve, reject) => {
-                CompanyService.fetchDepartments()
+                const query = {
+                    "page_size":9999,
+                    "page_no":1,
+                }
+                CompanyService.fetchDepartments(query)
                     .then(({ data }) => {
-                        this.departments = data.data;
+                        this.departments = data.items;
                         return resolve();
                     })
                     .catch((err) => {
@@ -602,17 +607,17 @@ export default {
                     });
             });
         },
-        sanitizeAttribute(attributes = []) {
-            const attribute = _.first(attributes);
+        sanitizeAttribute(attribute) {
+            
             if (!attribute) return {};
 
-            if (attribute.details.displayType === 'text') {
+            if (attribute.details.display_type === 'text') {
                 this.attrType = attribute.schema.type;
             } else {
-                this.attrType = attribute.details.displayType;
+                this.attrType = attribute.details.display_type;
             }
 
-            attribute.schema.enum = attribute.schema.enum || [];
+            attribute.schema.allowed_values = attribute.schema.allowed_values || [];
             attribute.schema.range = attribute.schema.range || {};
             return attribute;
         },
@@ -682,13 +687,13 @@ export default {
                     ...this.attribute
                 };
                 if (this.attrType === 'str') {
-                    attribute.details.displayType = 'text';
+                    attribute.details.display_type = 'text';
                     attribute.schema.type = 'str';
                 } else if (this.attrType === 'html') {
-                    attribute.details.displayType = this.attrType;
+                    attribute.details.display_type = this.attrType;
                     attribute.schema.type = 'str';
                 } else {
-                    attribute.details.displayType = 'text';
+                    attribute.details.display_type = 'text';
                     attribute.schema.type = this.attrType;
                 }
                 return attribute;

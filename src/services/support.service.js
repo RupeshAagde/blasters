@@ -15,25 +15,31 @@ const SupportService = {
     },
     updateTicket(ticketID, ticket) {
         let axiosOption = { data: ticket };
-        return ApiService.patch(URLS.FETCH_TICKET(ticketID), axiosOption);
+        return ApiService.put(URLS.FETCH_TICKET(ticketID), axiosOption);
     },
-    createVideoRoom() {
-        let axiosOption = {};
+    createVideoRoom(data) {
+        let axiosOption = { data: data };
         return ApiService.post(URLS.CREATE_VIDEO_ROOM(), axiosOption);
+    },
+    getParticipantsForVideoRoom(ticketID) {
+        return ApiService.get(URLS.GET_VIDEO_PARTICIPANTS(ticketID), {});
+    },
+    getTokenForVideoRoom(ticketID) {
+        return ApiService.get(URLS.GET_VIDEO_ROOM_TOKEN(ticketID), {});
+    },
+    rateVideo(ticketID, ratingData) {
+        let axiosOption = { data: ratingData };
+        return ApiService.post(URLS.FETCH_HISTORY(ticketID), axiosOption);
     },
     fetchHistory(ticketID) {
         return ApiService.get(URLS.FETCH_HISTORY(ticketID), {});
     },
+    fetchFeedbacks(ticketID) {
+        return ApiService.get(URLS.FETCH_FEEDBACK(ticketID), {});
+    },
     addComment(ticketID, comment) {
         let axiosOption = { data: comment };
         return ApiService.post(URLS.ADD_COMMENT(ticketID), axiosOption);
-    },
-    getTokenForVideoRoom(uniqueName) {
-        let axiosOption = {};
-        return ApiService.get(
-            URLS.GET_VIDEO_ROOM_TOKEN(uniqueName),
-            axiosOption
-        );
     },
     deleteTicket(company_id, ticketID) {
         let axiosOption = {};
@@ -45,8 +51,8 @@ const SupportService = {
     getTicket(ticketID) {
         return ApiService.get(URLS.FETCH_TICKET(ticketID), {});
     },
-    fetchOptions(company_id) {
-        return ApiService.get(URLS.FETCH_TICKETS_OPTIONS(company_id), {
+    fetchOptions() {
+        return ApiService.get(URLS.FETCH_TICKETS_OPTIONS(), {
             params: {}
         });
     },
@@ -59,6 +65,15 @@ const SupportService = {
         return ApiService.get(URLS.FETCH_SHIPMENT_INFO(id, company_id), {
             params: {}
         });
+    },
+    fetchCategories() {
+        return ApiService.get(URLS.FETCH_CATEGORIES(), {
+            params: {}
+        });
+    },
+    addCategories(categories) {
+        let axiosOption = { data: categories };
+        return ApiService.post(URLS.FETCH_CATEGORIES(), axiosOption);
     }
     // Product Info
     // fetchProductInfo(slug) {

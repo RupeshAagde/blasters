@@ -4,10 +4,6 @@ import root from 'window-or-global';
 
 const envVars = root.env || {};
 
-const GRIMLOCKWEB_BASE = isNode
-    ? envVars.BROWSER_CONFIG.GRIMLOCKWEB_MAIN_DOMAIN
-    : envVars.GRIMLOCKWEB_MAIN_DOMAIN;
-
 const {
     BROWSER_CONFIG,
     SENTRY_DSN,
@@ -17,9 +13,10 @@ const {
 // entry-server.js
 import { createApp } from './app';
 import { ON_SERVER_DATA } from './store/action.type';
+import logger from '../server/utils/winston';
 
 export default (context) => {
-    console.log('Routes:', context.url);
+    logger.info('Routes:', context.url);
 
     //asynchronous component
     return new Promise((resolve, reject) => {
@@ -33,16 +30,7 @@ export default (context) => {
         Promise.all(appStatePromises)
             .then((data) => {
                 //add app styles and fonts
-                console.log('All promised');
-
-                //App grimlock JS
-                //TODO
-                const PLATFORM = 'partner';
-                context.appAuthJs = '';
-                if (PLATFORM) {
-                    context.appAuthJs = getAppAuthJs(PLATFORM);
-                    // store.commit(SET_APP_PLATFORM, PLATFORM)
-                }
+                logger.info('All promised');
 
                 //Attach App Env
                 context.appEnv = getAppEnv();
@@ -54,7 +42,7 @@ export default (context) => {
                 router.push(context.url);
             })
             .catch((err) => {
-                console.log('error:', err);
+                logger.info('error:', err);
             });
 
         // wait until router has resolved possible async components and hooks
@@ -95,7 +83,7 @@ export default (context) => {
                     // the initial data fetching on the client.
 
                     context.state = store.state;
-                    console.log(`Server data pre-fetch: ${Date.now() - s}ms`);
+                    logger.info(`Server data pre-fetch: ${Date.now() - s}ms`);
 
                     // the Promise should resolve to the app instance so it can be rendered
                     resolve(app);
@@ -103,23 +91,6 @@ export default (context) => {
                 .catch(reject);
         }, reject);
     });
-};
-const getAppAuthJs = (platform) => {
-    let strJs = '';
-    if (platform) {
-        strJs += `<script type="text/javascript">window.grimlock={ platform:"${platform}"}</script> `;
-        strJs += `<script type="text/javascript">window.loadGrimlock= new Promise(function(resolve,reject){ 
-            window.grimlock.onLibraryLoad=function(data){
-                resolve(data);
-            }
-         })  
-        </script>`;
-
-        //add grimlock
-        let scriptSrc = urlJoin(GRIMLOCKWEB_BASE, '/library_init.js');
-        strJs += `<script type="text/javascript" src="${scriptSrc}"></script> `;
-    }
-    return strJs;
 };
 
 const getAppEnv = () => {

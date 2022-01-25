@@ -36,7 +36,18 @@
                 class="type-filter"
                 :label="'Category'"
                 v-model="category"
-                :items="filters.categories"
+                :items="filteredCategory"
+                @searchInputChange="categorySearch"
+                @change="somethingChanged"
+            ></nitrozen-dropdown>
+        </div>
+        <div class="mt-sm" v-if="isPlatformTicket && subCategoryList && subCategoryList.length > 0">
+            <nitrozen-dropdown
+                :searchable="false"
+                class="type-filter"
+                :label="'Sub-category'"
+                v-model="sub_category"
+                :items="subCategoryList"
                 @change="somethingChanged"
             ></nitrozen-dropdown>
         </div>
@@ -182,7 +193,7 @@
 }
 .nitrozen-label {
     color: #9b9b9b;
-    font-family: Poppins, sans-serif;
+    font-family: Inter, sans-serif;
     font-size: 12px;
     font-weight: 500;
     line-height: 21px;
@@ -207,7 +218,7 @@
     .chip-input {
         width: 200px;
         border: none;
-        font-family: Poppins, sans-serif;
+        font-family: Inter, sans-serif;
         font-size: 11px;
         font-weight: 400;
         margin: 4px;
@@ -224,7 +235,7 @@
 
 ::v-deep .dark-xs {
     color: #9b9b9b;
-    font-family: Poppins, sans-serif;
+    font-family: Inter, sans-serif;
     font-size: 12px;
     font-weight: 500;
     line-height: 21px;
@@ -292,12 +303,15 @@ export default {
             agentName: undefined,
             priority: '',
             category: '',
+            sub_category: '',
             imageTemp: '',
             attachments: [],
             tags: [],
             chipInput: '',
             filteredStaff: [],
-            name: this.getInitialValue()
+            subCategoryList: [],
+            name: this.getInitialValue(),
+            filteredCategory: this.filters.categories
         };
     },
     computed: {
@@ -314,6 +328,11 @@ export default {
         this.filteredStaff = this.staff;
         this.status = this.ticket.status;
         this.category = this.ticket.category;
+        this.sub_category = this.ticket.sub_category;
+        const selectedCategory = this.filters.categories.find((el) => {
+            return (el.key == this.category);
+        });
+        this.subCategoryList = selectedCategory.sub_categories;
         this.priority = this.ticket.priority;
         this.attachments = this.ticket.content.attachments;
         this.tags = this.ticket.tags || [];
@@ -357,20 +376,59 @@ export default {
                 this.filteredStaff = this.staff;
             }
         },
+        categorySearch(e) {
+            if (e && e.text) {
+                this.filteredCategory = this.filters.categories.filter(
+                    (a) =>
+                        a.text.toLowerCase().indexOf(e.text.toLowerCase()) > -1
+                );
+            } else {
+                this.filteredCategory = this.filters.categories;
+            }
+        },
         somethingChanged() {
+            this.filteredCategory = this.filters.categories;
+            const selectedCategory = this.filters.categories.find((el) => {
+                return (el.key == this.category);
+            });
+            this.subCategoryList = selectedCategory.sub_categories;
+            if (this.subCategoryList && this.subCategoryList.length  > 0) {
+                var present = this.subCategoryList.find((el) => {
+                    return (el.key == this.sub_category);
+                });
+                if (present == undefined) {
+                    this.sub_category = '';
+                }
+            } else {
+                this.sub_category = '';
+            }
             this.$emit(`something-changed`, {
                 status: this.status,
                 priority: this.priority,
                 category: this.category,
+                sub_category: this.sub_category,
                 tags: this.tags,
                 assigned_to: this.agentID,
                 attachments: this.attachments
             });
         },
         openAddAttachmentDialogue() {
+            let isAvailable = false;
+            for(let i=0; i < this.attachments.length; i++){
+                if(this.attachments[i].type == 'shipment'){
+                    isAvailable = true;
+                    break;
+                }
+            }
+
+            if(isAvailable) {
+                this.$snackbar.global.showError("You have already added one shipment")
+                return;
+            }
             this.$refs.addAttachment.open();
         },
         $openAddAttachmentDialogueClosed(attachment) {
+            attachment.isSaved = false;
             this.attachments.push(attachment);
             this.somethingChanged();
         },

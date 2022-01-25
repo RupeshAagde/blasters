@@ -124,6 +124,7 @@
         ></edit-permissions>
     </div>
 </template>
+
 <style lang="less" scoped>
 .custom-space-ud {
     margin: 24px 0;
@@ -226,7 +227,7 @@
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
             line-height: 22px;
-            color: #5c6bdd;
+            color: #2E31BE;
         }
 
         .card-content-line-2 {
@@ -377,7 +378,7 @@ export default {
                         });
                     })
                     .catch((error) => {
-                        console.error(error);
+                        console.log(error);
                         this.$snackbar.global.showError(
                             `${error.response ? error.response.message : ''}`,
                             {
@@ -445,7 +446,7 @@ export default {
                             }
                         })
                         .catch((error) => {
-                            console.error(error);
+                            console.log(error);
                             this.$snackbar.global.showError(
                                 `${
                                     error.response.data
@@ -484,7 +485,7 @@ export default {
                                 }
                             })
                             .catch((error) => {
-                                console.error(error);
+                                console.log(error);
                                 this.$snackbar.global.showError(
                                     `${
                                         error.response.data
