@@ -107,14 +107,14 @@
                                 :theme="'secondary'"
                                 v-if="item.is_active"
                                 v-strokeBtn
-                                @click="openAdminDialog(item)"
+                                @click="openAdminDialog(item,$event)"
                                 >Archive</nitrozen-button
                             >
                             <nitrozen-button
                                 :theme="'secondary'"
                                 v-if="!item.is_active"
                                 v-strokeBtn
-                                @click="openAdminDialog(item)"
+                                @click="openAdminDialog(item,$event)"
                                 >Unarchive</nitrozen-button
                             >
                         </div>
@@ -539,7 +539,9 @@ export default {
                     });
             }
         },
-        openAdminDialog(item) {
+        openAdminDialog(item,event) {
+            event.stopPropagation();
+            event.preventDefault();
             this.activeChannel = item;
             if (item && item.is_active) {
                 this.archiveText = 'Archive';
