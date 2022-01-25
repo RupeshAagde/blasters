@@ -126,9 +126,10 @@
                                             label="Max Discount"
                                             v-model="discount.value"
                                             @keydown.native="allowNumbers"
-                                            v-show="this.valuetype === 'percentage'"
+                                            v-show="
+                                                this.valuetype === 'percentage'
+                                            "
                                         />
-                                        
                                     </div>
 
                                     <div class="half base">
@@ -154,7 +155,8 @@
                                                 label="Duration in Months*"
                                                 v-model="duration.value"
                                                 v-if="
-                                                    durationDrop.value !== 'once'
+                                                    durationDrop.value !==
+                                                        'once'
                                                 "
                                             />
 
@@ -199,9 +201,8 @@
                                         <div class="form-input-item">
                                             <div
                                                 class="chip-container"
-                                                v-for="(
-                                                    item, index
-                                                ) in selectedPlan.value"
+                                                v-for="(item,
+                                                index) in selectedPlan.value"
                                                 :key="index"
                                             >
                                                 <nitrozen-chip
@@ -220,21 +221,18 @@
                                                         @click="
                                                             () => {
                                                                 let selected = [
-                                                                    ...selectedPlan.value,
+                                                                    ...selectedPlan.value
                                                                 ];
                                                                 selected.splice(
                                                                     index,
                                                                     1
                                                                 );
-                                                                selectedPlan.value =
-                                                                    selected;
-                                                                let vm =
-                                                                    selectedPlan.value.map(
-                                                                        (i) =>
-                                                                            i.value
-                                                                    );
-                                                                selected_plan =
-                                                                    vm;
+                                                                selectedPlan.value = selected;
+                                                                let vm = selectedPlan.value.map(
+                                                                    (i) =>
+                                                                        i.value
+                                                                );
+                                                                selected_plan = vm;
                                                             }
                                                         "
                                                     >
@@ -271,9 +269,8 @@
                                         <div class="form-input-item">
                                             <div
                                                 class="chip-container"
-                                                v-for="(
-                                                    item, index
-                                                ) in selectedSubs.value"
+                                                v-for="(item,
+                                                index) in selectedSubs.value"
                                                 :key="index"
                                             >
                                                 <nitrozen-chip
@@ -292,21 +289,18 @@
                                                         @click="
                                                             () => {
                                                                 let selected = [
-                                                                    ...selectedSubs.value,
+                                                                    ...selectedSubs.value
                                                                 ];
                                                                 selected.splice(
                                                                     index,
                                                                     1
                                                                 );
-                                                                selectedSubs.value =
-                                                                    selected;
-                                                                let vm =
-                                                                    selectedSubs.value.map(
-                                                                        (i) =>
-                                                                            i.value
-                                                                    );
-                                                                selected_Subs =
-                                                                    vm;
+                                                                selectedSubs.value = selected;
+                                                                let vm = selectedSubs.value.map(
+                                                                    (i) =>
+                                                                        i.value
+                                                                );
+                                                                selected_Subs = vm;
                                                             }
                                                         "
                                                     >
@@ -351,7 +345,9 @@
                                             </nitrozen-checkbox>
                                             <nitrozen-tooltip
                                                 :position="'top'"
-                                                :tooltipText="'Maximum number of times this coupon can be applied'"
+                                                :tooltipText="
+                                                    'Maximum number of times this coupon can be applied'
+                                                "
                                             ></nitrozen-tooltip>
                                         </div>
                                         <div class="form-input-item res-inp">
@@ -380,7 +376,9 @@
                                             </nitrozen-checkbox>
                                             <nitrozen-tooltip
                                                 :position="'top'"
-                                                :tooltipText="'Number of times this coupon can be applied by one user'"
+                                                :tooltipText="
+                                                    'Number of times this coupon can be applied by one user'
+                                                "
                                             ></nitrozen-tooltip>
                                         </div>
                                         <div class="form-input-item res-inp">
@@ -481,7 +479,7 @@
                                 <div
                                     class="childNameContainer"
                                     v-bind:class="{
-                                        childSelected: selectedType == x.key,
+                                        childSelected: selectedType == x.key
                                     }"
                                     v-for="x in typeList"
                                     :key="x.key"
@@ -1061,10 +1059,12 @@ export default {
             remaining: '',
             show_schedule_modal: false,
             schedule: {},
-            couponId : this.$route.params.couponId
+            couponId : this.$route.params.couponId,
+            chipSubscriber: []
         };
     },
     mounted() {
+        this.pageLoading= true;
         Promise.all([this.fetchPlans(), this.fetchSubscriber()]).then(() => {
             if (this.editMode) {
                 this.updateFields();
@@ -1072,10 +1072,6 @@ export default {
             this.couponType == 'amount_off'
                 ? (this.selectedType = '1')
                 : (this.selectedType = '0');
-
-           
-           
-
             let currentplans = this.selectPlan.filter((it) =>
                 this.selected_plan.includes(it.value)
             );
@@ -1084,6 +1080,7 @@ export default {
                 this.selected_Subs.includes(it.value)
             );
             this.selectedSubs.value = currentsubs;
+            this.pageLoading = false;
         });
     },
     methods: {
@@ -1114,6 +1111,34 @@ export default {
                         drop.push(abc);
                     }
                     this.selectPlan = drop;
+
+                }
+            );
+        },
+        fetchPlansChips(chipsIds) {
+            return BillingService.getPlans({ $or:JSON.stringify([{"_id":{"$in": chipsIds }}]),  page_size: 50 }).then(
+                (res) => {
+                    let docs = res.data.items;
+                    let drop = [];
+                    for (let i = 0; i < docs.length; i++) {
+                        let abc = { text: '', value: '' };
+                        let name =
+                            docs[i].name +
+                            ' ' +
+                            docs[i].amount +
+                            ' per ' +
+                            docs[i].recurring.interval;
+                        abc.text = name;
+                        abc.value = docs[i]._id;
+                        drop.push(abc);
+                    }
+                    this.selectPlan = [...drop , ...this.selectPlan];
+                let jsonObject = this.selectPlan.map(JSON.stringify);      
+           let uniqueSet = new Set(jsonObject);
+            let uniqueArray = Array.from(uniqueSet).map(JSON.parse);      
+            this.selectPlan = uniqueArray
+            this.pushPlan()
+
                 }
             );
         },
@@ -1124,6 +1149,23 @@ export default {
             }).then((res) => {
                 let docs = res.data.items;
 
+                let drop = [];
+                for (let i = 0; i < docs.length; i++) {
+                    let abc = { text: '', value: '' };
+                    abc.text = docs[i].unique_id + ' ' + docs[i].name;
+                    abc.value = docs[i]._id;
+                    drop.push(abc);
+                }
+                  this.selectSubscriber = drop;
+            });
+        },
+         fetchSubscriberChips(chipsIds=[]) {
+            return BillingService.getSubscribers({
+                page_size: 50,
+                $or:JSON.stringify([{"_id":{"$in": chipsIds }}])
+            }).then((res) => {
+                let docs = res.data.items;
+
                 let drop = [{ text: 'All', value: 'all' }];
                 for (let i = 0; i < docs.length; i++) {
                     let abc = { text: '', value: '' };
@@ -1131,7 +1173,13 @@ export default {
                     abc.value = docs[i]._id;
                     drop.push(abc);
                 }
-                this.selectSubscriber = drop;
+                this.selectSubscriber = [...drop ,...this.selectSubscriber];
+                let jsonObject = this.selectSubscriber.map(JSON.stringify);      
+           let uniqueSet = new Set(jsonObject);
+            let uniqueArray = Array.from(uniqueSet).map(JSON.parse);      
+            this.selectSubscriber = uniqueArray
+            this.pushSubs()
+
             });
         },
         searchSubscriber(e) {
@@ -1200,17 +1248,17 @@ export default {
                     }
                     data.identifiers.plans.length === 0
                         ? (this.selected_plan = ['all'])
-                        : (this.selected_plan = data.identifiers.plans);
+                        : (this.selected_plan = data.identifiers.plans, this.fetchSubscriberChips(data.identifiers.plans));
                     data.identifiers.subscribers.length === 0
                         ? (this.selected_Subs = ['all'])
-                        : (this.selected_Subs = data.identifiers.subscribers);
+                        : (this.selected_Subs = data.identifiers.subscribers,this.fetchSubscriberChips(data.identifiers.subscribers) )
 
                     let currentplans = this.selectPlan.filter((it) =>
                         this.selected_plan.includes(it.value)
                     );
                     this.selectedPlan.value = currentplans;
 
-                    
+
                     let currentsubs = this.selectSubscriber.filter((it) =>
                         this.selected_Subs.includes(it.value)
                     );
@@ -1219,9 +1267,6 @@ export default {
                     this.schedule = data._schedule;
                 }
             );
-
-            this.pushPlan();
-            this.pushSubs();
         },
         onCreate() {
             this.couponType = this.typeList[this.selectedType].value_title;
@@ -1229,7 +1274,7 @@ export default {
              this.$router.push({
                         path: `/administrator/subscription/coupons/edit/${this.couponType}/${this.couponId}`
                         }).catch(()=>{})
-            })    
+            })
             this.closeModal();
         },
         checkform() {
@@ -1264,7 +1309,7 @@ export default {
             if (
                 this.durationDrop.value == 'repeating' &&
                 (this.duration.value <=0 )
-                
+
             ) {
                 this.duration.showerror = true;
                 isValid = false;
