@@ -358,6 +358,7 @@ export default {
                 this.campaigns = dropdown;
         },
         getApplicationDropdown(data){
+            console.log(data);
                 let dropdown = [];
                 for (let i = 0; i < data.length; i++) {
                     let temp = { text: '', value: '' };
@@ -571,6 +572,7 @@ export default {
         fetchApplication(name=''){
             CompanyService.fetchAllApplication({page_size: 50, q: name})
             .then(res=>{
+                console.log(res);
                 this.getApplicationDropdown(res.data.items)
                 this.changePage()
 
@@ -807,14 +809,14 @@ export default {
     width: 22.9%;
 }
 .drop{
-    width: 20%;
+    width: 18.5%;
 }
 .app{
      margin-right: 1.8% ;
      width: 32.1%;
 }
 .search{
-width: 34%;
+width: 37%;
 margin-right: 1%;
 }
 .job{

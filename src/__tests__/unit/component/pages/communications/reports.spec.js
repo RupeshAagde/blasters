@@ -22,8 +22,10 @@ describe('Mounted report logs', () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
         mock.reset();
-        mock.onGet(URLS.COMMUNICATION_CAMPAIGNS({"name":"test"})).reply(200, MOCK_DATA.campaign);
+        mock.onGet(URLS.COMMUNICATION_CAMPAIGNS({"name":"test"})).reply(200, MOCK_DATA.campaign.data);
         mock.onGet(URLS.COMMUNICATION_LOG()).reply(200, MOCK_DATA.LOGS );
+        mock.onGet(URLS.FETCH_ALL_APPLICATIONS()).reply(200, MOCK_DATA.Applications);
+
 
         router = new VueRouter({
             routes: [{
@@ -47,6 +49,11 @@ describe('Mounted report logs', () => {
 
         expect(wrapper.vm).toBeTruthy()
         expect(wrapper.element).toMatchSnapshot();
+        wrapper.vm.applicationDropdownSearchInputChange('e');
+        wrapper.vm.debounceInput();
+        wrapper.vm.campaignDropdownSearchInputChange('e');
+        wrapper.vm.changeApplication();
+
     })
    
    
