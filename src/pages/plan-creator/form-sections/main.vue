@@ -340,189 +340,33 @@ export default {
             ]
         };
     },
-    mounted() {
-        if (this.formData.plan.type === 'company-specific') {
-            this.fetchCompany().then(() => {
-                this.fetchBrands();
-            });
-        }
-        this.getDaytraderFilters();
-    },
-    computed: {
-        planComponentMap() {
-            return this.formData.components.reduce((map, item) => {
-                map[item.component_id] = item;
-                return map;
-            }, {});
-        },
-        dTComponentMap() {
-            return this.formData.dayTraderComponents.reduce((map, item) => {
-                map[item.component_id] = item;
-                return map;
-            }, {});
-        },
-        currentCurrency() {
-            if (!this.searchCurrency) {
-                return this.currencies;
-            }
-            const regex = new RegExp(this.searchCurrency, 'gi');
-            return this.currencies.filter((it) => regex.test(it.text));
-        },
-        currencyAmount() {
-            return Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: this.formData.plan.currency
-            }).format(this.formData.plan.amount);
-        },
-        currencies() {
-            return CURRENCIES.map((cur) => {
-                return {
-                    text: `${cur.code} - ${cur.symbol}`,
-                    value: cur.code
-                };
-            });
-        },
-        recurring_type() {
-            return this.formData.plan.recurring.interval;
-        },
-        recurring_time() {
-            return this.formData.plan.recurring.interval_count;
-        },
-        disabled() {
-            return this.formData.hasActiveSubscription;
-        },
-        cbs_opts() {
-            let opts = {
-                brands: this.brands,
-                locations: this.locations
-            };
-            if (this.formData.plan.company) {
-                opts['companies'] = [
-                    {
-                        value: this.formData.plan.company,
-                        text: ''
-                    }
-                ];
-            }
-            return opts;
-        }
-    },
-    methods: {
-        getComponents(type) {
-            return this.allComponents.filter((comp) => {
-                return comp.component_price_config.type === type;
-            });
-        },
-        validateData() {
-            let isValid = true;
-            this.clearErrors();
-            if (!this.formData.plan.name) {
-                this.errors['name'] = 'Required Field';
-                isValid = false;
-            }
-            if (!this.formData.plan.amount.toString().length) {
-                this.errors['amount'] = 'Required Field';
-                isValid = false;
-            } else if (this.formData.plan.amount < 0) {
-                this.errors['amount'] = 'Invalid amount';
-                isValid = false;
-            }
-            if (!this.formData.plan.currency.toString().length) {
-                this.errors['amount'] = 'Currency is required';
-                isValid = false;
-            }
-            if (this.recurring_time < 1) {
-                this.errors['recurr_period'] = 'Cannot be less than 1';
-                isValid = false;
-            }
-            if (
-                this.formData.plan.is_trial_plan &&
-                this.formData.plan.trial_period < 1
-            ) {
-                this.errors['trial_period'] = 'Cannot be less than 1';
-                isValid = false;
-            }
-            for (let component_key of Object.keys(this.$refs)) {
-                if (this.$refs[component_key][0].validateData) {
-                    isValid =
-                        this.$refs[component_key][0].validateData() && isValid;
-                }
-            }
-            return isValid;
-        },
-        clearErrors() {
-            this.errors = {};
-        },
-        companySearch(e) {
-            _.debounce((text) => {
-                this.fetchCompany(text);
-            }, 600)(e.text);
-        },
-        fetchBrands() {
-            return CompanyService.fetchBrands({
-                page_size: 1000,
-                page_no: 1,
-                company: this.formData.plan.company,
-                stage: 'verified'
-            })
-                .then(({ data }) => {
-                    this.brands = data.data.map((item) => {
-                        return {
-                            text: item.brand.name,
-                            value: item.brand.uid
-                        };
-                    });
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },
-        getDaytraderFilters() {
-            BillingService.getDaytraderFilters({
-                data: {
-                    table_name: 'config_fields_values',
-                    filters: {
-                        config_field: 'location_type'
-                    }
-                }
-            })
-                .then(({ data }) => {
-                    this.locations = data.data.map((item) => {
-                        return {
-                            value: item.name,
-                            text: item.display_name
-                        };
-                    });
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },
-        addNewRule(component) {
-            let dtId = `dt_comp_${component._id}`;
-            this.$refs[dtId][0].editDayTraderRule();
-        },
-        fetchCompany(searchCompany) {
-            const query = {
-                page_no: 0,
-                page_size: 10
-            };
+    // mounted() {
+    //     let pArr = [];
+    //     pArr.push(BillingService.getComponentWithPrices({ limit: 100 }));
 
-            if (searchCompany) {
-                query.name = searchCompany;
-            }
-            return CompanyService.getCompanyList(query)
-                .then(({ data }) => {
-                    this.companies = data.data;
-                    if (this.formData.plan.company === -1) {
-                        this.formData.plan.company = this.companies[0].uid;
-                    }
-                })
-                .catch((err) => {
-                    this.$snackbar.global.showError('Failed to load companies');
-                    console.log(err);
-                });
-        }
-    }
+    //     if (this.formData._id) {
+    //         pArr.push(BillingService.getPlanComponents({ limit: 100 }));
+    //     }
+
+    //     Promise.all(pArr)
+    //         .then((resArr) => {
+    //             this.allComponents = [...resArr[0].data];
+    //             if (resArr.length > 2) {
+    //                 this.planComponents = [...resArr[2].data.docs];
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // },
+    // computed: {
+    //     planComponentMap() {
+    //         return this.planComponents.reduce((map, item) => {
+    //             map[item.component_id] = item;
+    //             return map;
+    //         }, {});
+    //     }
+    // },
+    methods: {}
 };
 </script>

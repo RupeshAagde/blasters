@@ -39,14 +39,10 @@ const UNICRON_PUBLIC_URL = isNode ?
     envVars.BROWSER_CONFIG.UNICRON_PUBLIC_SVC :
     envVars.UNICRON_PUBLIC_URL;
 
-const DAYTRADER_BASE = isNode
-    ? envVars.BROWSER_CONFIG.DAYTRADER_MAIN_SVC
-    : envVars.DAYTRADER_MAIN_URL;
-
 const PLATFORM_LEADS_BASE = isNode ?
     envVars.BROWSER_CONFIG.HIGHBROW_ADMIN_SVC :
     envVars.HIGHBROW_ADMIN_URL;
-    
+
 const PLATFORM_ORDERS_BASE = isNode ?
     envVars.BROWSER_CONFIG.APEFACE_MAIN_SVC :
     envVars.APEFACE_MAIN_URL;
@@ -300,9 +296,6 @@ const URLS = {
     FETCH_SINGLE_PLAN: (planId) => {
         return urlJoin(UNICRON_BASE, `v1.0/plan-editor/${planId}`);
     },
-    FETCH_SINGLE_PLAN: (planId) => {
-        return urlJoin(UNICRON_BASE, `v1/plan-editor/${planId}`);
-    },
     FETCH_SUBSCRIPTION_COMPONENTS: () => {
         return urlJoin(UNICRON_BASE, 'v1.0//component');
     },
@@ -387,30 +380,6 @@ const URLS = {
     },
     SUBSCRIPTION_ACTIVATE: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/activate`)
-    },
-    FETCH_DAYTRADER_COMPONENT: () => {
-        return urlJoin(UNICRON_BASE, 'v1/daytrader-component');
-    },
-    FETCH_DAYTRADER_CONFIG: () => {
-        return urlJoin(DAYTRADER_BASE, 'api/v1/get-output-fields_v2');
-    },
-    FETCH_DAYTRADER_FILTERS: () => {
-        return urlJoin(DAYTRADER_BASE, 'api/v1/get-data');
-    },
-    CURRENT_SUBSCRIPTION_DETAILS: () => {
-        return urlJoin(UNICRON_BASE, 'v1/subscription/current');
-    },
-    SUBSCRIPTION_DAYTRADER_RULES: (subscriptionId) => {
-        return urlJoin(
-            UNICRON_BASE,
-            `v1/daytrader-rule/subscription/${subscriptionId}`
-        );
-    },
-    PLAN_DETAILS: (planId) => {
-        return urlJoin(UNICRON_BASE, `v1/plan/details/${planId}`);
-    },
-    AGREEMENT_PDF: () => {
-        return urlJoin(UNICRON_BASE, `v1/plan-pdf/generate-pdf/`);
     },
 
     //#########Tickets########
