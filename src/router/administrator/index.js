@@ -6,6 +6,7 @@ import CbsApplicationDetailsVue from './../../pages/company-admin/cbs-applicatio
 import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
 import BillingVue from './../../pages/company-admin/billing.vue';
 import InvoiceListingMain from './../../pages/company-admin/invoice-listing-main.vue';
+import ReportListingMain from './../../pages/communication/reports.vue';
 import UserManagementVue from './../../pages/super-user/user-access.vue';
 import AddSuperUserVue from './../../pages/super-user/add-user.vue';
 import Tickets from './../../pages/tickets/index.vue';
@@ -22,7 +23,8 @@ import CreateCustomVue from './../../pages/settings/page-editor/create.vue';
 import NavbarSettingsVue from './../../pages/settings/navbar';
 import FooterSettingsVue from './../../pages/settings/footer';
 import PricingBannerVue from './../../pages/settings/pricing_banner.vue';
-
+import DeploymentSettingsVue from './../../pages/settings/deployment.vue';
+import CreateDeploymentVue from './../../pages/settings/create_deployment.vue'
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
@@ -40,7 +42,8 @@ import CategoryEdit from '@/pages/product/category/edit';
 import ProductVerificationCompanyList from '@/pages/product/verification/list';
 import ProductVerificationEdit from '@/pages/product/verification/edit';
 import ProductVerificationList from '@/pages/product/verification/productList';
-
+import ProductTaxationList from '@/pages/product/taxation/list';
+import ProductTaxationEdit from '@/pages/product/taxation/edit';
 import IntegrationsListVue from '@/pages/integration/list';
 import IntegrationsCreateVue from '@/pages/integration/create';
 
@@ -80,6 +83,19 @@ export default [
                 name: 'invoices',
                 path: 'subscription/invoices',
                 component: InvoiceListingMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'reports',
+                path: 'communication/reports',
+                component: ReportListingMain,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(
                         to,
@@ -451,6 +467,22 @@ export default [
                 name: 'pricing-banner',
                 path: 'settings/pricing-banner',
                 component: PricingBannerVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'deployment-setting',
+                path: 'settings/deployments',
+                component: DeploymentSettingsVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'create-deployment',
+                path: 'settings/deployments/create',
+                component: CreateDeploymentVue,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
                 }

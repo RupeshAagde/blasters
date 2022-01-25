@@ -1,0 +1,3211 @@
+{
+    "campaign": {"data": {
+        "items": [
+            {
+              "recipient_headers": {
+                "email": "email"
+              },
+              "email": {
+                "template": {
+                  "key": "_id",
+                  "value": "613f6cc36c46653962408608"
+                },
+                "provider": {
+                  "_id": "610d07c07b4750a8895c6cec",
+                  "from_name": "Fynd",
+                  "from_email": "hey@gofynd.com"
+                }
+              },
+              "description": "",
+              "tags": [],
+              "is_active": true,
+              "_id": "613f6cde6c466525e4408609",
+              "datasource": "613f6c566c4665c292408607",
+              "type": "email",
+              "name": "test email campaign",
+              "application": "000000000000000000000004",
+              "created_at": "2021-09-13T15:23:10.390Z",
+              "updated_at": "2021-09-13T15:23:10.390Z",
+              "slug": "test-email-campaign-4dYyM66KB",
+              "__v": 0
+            },
+            {
+              "recipient_headers": {
+                "email": "email"
+              },
+              "email": {
+                "template": {
+                  "key": "_id",
+                  "value": "615ae0760c9df8a82795540e"
+                },
+                "provider": {
+                  "_id": "610d07c07b4750a8895c6cec",
+                  "from_name": "Fynd",
+                  "from_email": "hey@gofynd.com"
+                }
+              },
+              "description": "This is for testing",
+              "tags": [],
+              "is_active": true,
+              "_id": "6144799222cdbcf7499e871e",
+              "datasource": "614473de22cdbc85369e8719",
+              "type": "email",
+              "name": "Email Campaign Test",
+              "application": "000000000000000000000001",
+              "created_at": "2021-09-17T11:18:42.790Z",
+              "updated_at": "2021-10-04T11:08:49.791Z",
+              "slug": "Email-Campaign-Test-fbhHErk5S",
+              "__v": 0,
+              "_schedule": {
+                "published": true,
+                "next_schedule": [],
+                "start": "2021-09-28T10:05:15.946Z",
+                "end": "2021-09-28T10:06:15.946Z"
+              },
+              "cron_id": "6152e8ef142cc06ff1b9c599",
+              "next_run": "2021-09-28T10:05:15.946Z"
+            },
+            {
+              "recipient_headers": {
+                "sms": "phone_number"
+              },
+              "sms": {
+                "template": {
+                  "key": "_id",
+                  "value": "615ae19b0c9df8abda955410"
+                },
+                "provider": {
+                  "_id": "610d07c07b47501b2b5c6cf2"
+                }
+              },
+              "description": "this is for testing purpose",
+              "tags": [
+                "test"
+              ],
+              "is_active": true,
+              "_id": "615ae1d70c9df80de6955411",
+              "datasource": "614473de22cdbc85369e8719",
+              "type": "sms",
+              "name": "Test Campaign 1",
+              "application": "000000000000000000000001",
+              "created_at": "2021-10-04T11:13:27.096Z",
+              "updated_at": "2021-10-04T11:13:27.096Z",
+              "slug": "Test-Campaign-1-So8Dt9d_D",
+              "__v": 0
+            },
+            {
+              "recipient_headers": {
+                "sms": "phone_number"
+              },
+              "sms": {
+                "template": {
+                  "key": "_id",
+                  "value": "615fd59f1d3fcb266e1c8170"
+                },
+                "provider": {
+                  "_id": "610d07c07b47501b2b5c6cf2"
+                }
+              },
+              "description": "",
+              "tags": [],
+              "is_active": true,
+              "_id": "615fd5d41d3fcb1ea41c8171",
+              "datasource": "613f6c566c4665c292408607",
+              "type": "sms",
+              "name": "test sms campaign",
+              "application": "000000000000000000000004",
+              "created_at": "2021-10-08T05:23:32.927Z",
+              "updated_at": "2021-10-08T05:23:32.927Z",
+              "slug": "test-sms-campaign-ZbdMf-GcI",
+              "__v": 0
+            },
+            {
+              "recipient_headers": {
+                "email": "total_articles"
+              },
+              "email": {
+                "template": {
+                  "key": "_id",
+                  "value": "61d53a92d1fc139905c13921"
+                },
+                "provider": {
+                  "_id": "610d07c07b4750a8895c6cec",
+                  "from_name": "Fynd",
+                  "from_email": "hey@gofynd.com"
+                }
+              },
+              "description": "",
+              "tags": [],
+              "is_active": true,
+              "_id": "61d53aefd1fc1377a3c13922",
+              "datasource": "619de81dd0b8932d30553138",
+              "type": "email",
+              "name": "test",
+              "application": "61260cf5c73632ec6149651c",
+              "created_at": "2022-01-05T06:30:07.912Z",
+              "updated_at": "2022-01-05T06:41:11.242Z",
+              "slug": "test-TZ8V2ZRvi",
+              "__v": 0
+            }
+          ],
+        "page": {
+            "type": "number",
+            "current": 1,
+            "size": 10,
+            "item_total": 5,
+            "has_next": false
+        }}
+},
+"LOGS": {"items":[{"email":{"to":"sumitdafda@gofynd.com","template":"verify-otp-event-default","provider":"610d07c07b4750ba8c5c6cf7"},"pushnotification":{"pushtokens":[]},"meta":{"type":"event","identifier":"skywarp.794b5520-7ddc-11ec-822d-ddf4b8b737e7"},"_id":"61eff0939eae4557a512638f","service":"email-consumer","step":"MSG_SENT","status":"success","pod":"fplt-pointblank-main-srvr-dply-647bdb4497-cwtjz","expire_at":"2022-02-24T12:44:03.492Z","created_at":"2022-01-25T12:44:03.493Z"},{"email":{"to":"aayushvjain@gofynd.com","template":"extension-review-submit-event","provider":"610d07c07b4750a8895c6cec"},"pushnotification":{"pushtokens":[]},"meta":{"type":"event","identifier":"mixmaster.d1111995-18c9-4a7c-a17b-0e4f1d82672c"},"_id":"61efe9149eae45177412638e","service":"email-consumer","step":"MSG_SENT","status":"success","pod":"fplt-pointblank-emaillow-cnsmr-dply-7b44cd9d9c-rbmx5","expire_at":"2022-02-24T12:12:04.190Z","created_at":"2022-01-25T12:12:04.191Z"},{"email":{"to":"gauravkumarsharma@gofynd.com","template":"extension-review-initiated-event","provider":"610d07c07b4750a8895c6cec"},"pushnotification":{"pushtokens":[]},"meta":{"type":"event","identifier":"mixmaster.b9a84f70-1bd2-4046-94f3-1a1067e0b33f"},"_id":"61efe9119eae45083912638d","service":"email-consumer","step":"MSG_SENT","status":"success","pod":"fplt-pointblank-emaillow-cnsmr-dply-7b44cd9d9c-rbmx5","expire_at":"2022-02-24T12:12:01.968Z","created_at":"2022-01-25T12:12:01.969Z"},{"sms":{"phone_number":"7678880802","country_code":"91","template":"send-otp-event","provider":"610d07c07b4750580e5c6cf1"},"pushnotification":{"pushtokens":[]},"meta":{"type":"event","identifier":"pointblank.003a6003-86a1-b360-d6a0-600386a1d6a0"},"_id":"61efe50a9eae4528b212638c","service":"sms-consumer","step":"MSG_SENT","status":"success","pod":"fplt-pointblank-internl-srvr-dply-77c7bc6d5b-8t7zn","expire_at":"2022-02-24T11:54:50.959Z","created_at":"2022-01-25T11:54:50.960Z"},{"email":{"to":"harshshah@fynd-external.com","template":"verify-otp-event-default","provider":"610d07c07b4750ba8c5c6cf7"},"pushnotification":{"pushtokens":[]},"meta":{"type":"event","identifier":"skywarp.21d28920-7dd3-11ec-822d-ddf4b8b737e7"},"_id":"61efe0e79eae45379712638b","service":"email-consumer","step":"MSG_SENT","status":"success","pod":"fplt-pointblank-main-srvr-dply-647bdb4497-cwtjz","expire_at":"2022-02-24T11:37:11.100Z","created_at":"2022-01-25T11:37:11.102Z"},{"sms":{"phone_number":"7013470880","country_code":"91","template":"send-otp-event","provider":"610d07c07b4750580e5c6cf1"},"pushnotification":{"pushtokens":[]},"meta":{"type":"event","identifier":"pointblank.003a6000-0a23-6776-5dec-60000a235dec"},"_id":"61efdf319eae45331112638a","service":"sms-consumer","step":"MSG_SENT","status":"success","pod":"fplt-pointblank-internl-srvr-dply-77c7bc6d5b-8t7zn","expire_at":"2022-02-24T11:29:53.609Z","created_at":"2022-01-25T11:29:53.610Z"},{"sms":{"phone_number":"7013470880","country_code":"91","template":"send-otp-event","provider":"610d07c07b4750580e5c6cf1"},"pushnotification":{"pushtokens":[]},"meta":{"type":"event","identifier":"pointblank.003a5ffb-bc5f-b0f0-9ad0-5ffbbc5f9ad0"},"_id":"61efd7f99eae451853126389","service":"sms-consumer","step":"MSG_SENT","status":"success","pod":"fplt-pointblank-internl-srvr-dply-77c7bc6d5b-8t7zn","expire_at":"2022-02-24T10:59:05.155Z","created_at":"2022-01-25T10:59:05.156Z"},{"sms":{"phone_number":"7013470880","country_code":"91","template":"send-otp-event","provider":"610d07c07b4750580e5c6cf1"},"pushnotification":{"pushtokens":[]},"meta":{"type":"event","identifier":"pointblank.003a5ff5-9016-ec60-e3da-5ff59016e3da"},"_id":"61efcd9d9eae456c30126388","service":"sms-consumer","step":"MSG_SENT","status":"success","pod":"fplt-pointblank-internl-srvr-dply-77c7bc6d5b-8t7zn","expire_at":"2022-02-24T10:14:53.877Z","created_at":"2022-01-25T10:14:53.877Z"},{"sms":{"phone_number":"9265681103","country_code":"91","template":"send-otp-event","provider":"610d07c07b4750580e5c6cf1"},"pushnotification":{"pushtokens":[]},"meta":{"type":"event","identifier":"pointblank.003a5ff3-737a-a2e0-98c2-5ff3737a98c2"},"_id":"61efca129eae456bf8126387","service":"sms-consumer","step":"MSG_SENT","status":"success","pod":"fplt-pointblank-internl-srvr-dply-77c7bc6d5b-8t7zn","expire_at":"2022-02-24T09:59:46.872Z","created_at":"2022-01-25T09:59:46.873Z"},{"email":{"to":"gauravkumarsharma@gofynd.com","template":"extension-review-completed-event","provider":"610d07c07b4750a8895c6cec"},"pushnotification":{"pushtokens":[]},"meta":{"type":"event","identifier":"mixmaster.55471739-4413-487b-b35c-4e7031abe3cd"},"_id":"61efc9989eae457974126386","service":"email-consumer","step":"MSG_SENT","status":"success","pod":"fplt-pointblank-emaillow-cnsmr-dply-7b44cd9d9c-rbmx5","expire_at":"2022-02-24T09:57:44.487Z","created_at":"2022-01-25T09:57:44.488Z"}],"page":{"type":"cursor","next_id":"61efc9989eae457974126386","has_previous":true,"has_next":true}},
+"Applications": {
+ 
+    "items": [
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": false
+        },
+        "description": "Fresh Fashion. Straight from brand stores.",
+        "channel_type": "fynd",
+        "cache_ttl": -1,
+        "internal": true,
+        "is_active": true,
+        "mode": "live",
+        "_id": "000000000000000000000001",
+        "name": "Fynd",
+        "meta": [
+          {
+            "name": "fynd",
+            "value": "true"
+          }
+        ],
+        "owner": "d6da4dcc8fb0b8f20df44fa9",
+        "company_id": 1,
+        "token": "ZRoeLTbj8",
+        "tokens": [
+          {
+            "token": "ZRoeLTbj8",
+            "created_at": "2021-10-06T05:53:16.330Z"
+          },
+          {
+            "created_by": "3b809a0c024c487c4e438ee5",
+            "token": "snuleNKYm",
+            "created_at": "2022-01-04T04:16:07.543Z"
+          }
+        ],
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "610d45e1ebe60c0e2cee5ffb",
+            "name": "fynd.hostx0.de"
+          },
+          {
+            "verified": true,
+            "is_primary": false,
+            "is_shortlink": false,
+            "_id": "615ac560f0e277a17c18b2dd",
+            "name": "gaurav.hostx0.de"
+          },
+          {
+            "verified": true,
+            "is_primary": false,
+            "is_shortlink": false,
+            "_id": "619632596c726e31f9e31bac",
+            "name": "rahul.hostx0.de"
+          }
+        ],
+        "redirections": [],
+        "created_at": "2021-10-06T05:53:16.330Z",
+        "modified_at": "2022-01-04T04:16:07.543Z",
+        "__v": 209,
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/1/applications/000000000000000000000001/application/pictures/landscape-banner/original/3bbMp67Mz-Xe2epTuAe-bzedj5cuyulpviyvarwm.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/1/applications/000000000000000000000001/application/pictures/favicon/original/Yx1hrzu2B-v6YLFKFeJ-Fynd.jpeg"
+        },
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/1/applications/000000000000000000000001/application/pictures/free-logo/original/RAoXPgPSN-v6YLFKFeJ-Fynd.jpeg"
+        },
+        "mobile_logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/1/applications/000000000000000000000001/application/pictures/free-logo/original/9LXFD9xGm-v6YLFKFeJ-Fynd.jpeg"
+        },
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "610d45e1ebe60c0e2cee5ffb",
+          "name": "fynd.hostx0.de"
+        },
+        "id": "000000000000000000000001"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": false
+        },
+        "description": "000000000000000000000003 App",
+        "channel_type": "store",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": false,
+        "mode": "live",
+        "_id": "000000000000000000000003",
+        "name": "000000000000000000000003 App",
+        "meta": [],
+        "owner": "d6da4dcc8fb0b8f20df44fa9",
+        "company_id": 1,
+        "token": "5INHKlSQOC",
+        "tokens": [
+          {
+            "token": "5INHKlSQOC",
+            "created_at": "2021-08-06T11:40:12.624Z"
+          }
+        ],
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "610d1f9c16ee422ed5f632ce",
+            "name": "hab11nzs4.hostx0.de"
+          }
+        ],
+        "redirections": [],
+        "created_at": "2021-08-06T11:40:12.624Z",
+        "modified_at": "2021-08-24T07:15:57.050Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "610d1f9c16ee422ed5f632ce",
+          "name": "hab11nzs4.hostx0.de"
+        },
+        "id": "000000000000000000000003"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": false
+        },
+        "description": "000000000000000000000008 App",
+        "channel_type": "store",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": false,
+        "mode": "live",
+        "_id": "000000000000000000000008",
+        "name": "000000000000000000000008 App",
+        "meta": [],
+        "owner": "d6da4dcc8fb0b8f20df44fa9",
+        "company_id": 1,
+        "token": "E--exjPADM",
+        "tokens": [
+          {
+            "token": "E--exjPADM",
+            "created_at": "2021-08-06T11:40:13.196Z"
+          }
+        ],
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "610d1f9d16ee421d59f63306",
+            "name": "6pxv6bk8mn.hostx0.de"
+          }
+        ],
+        "redirections": [],
+        "created_at": "2021-08-06T11:40:13.196Z",
+        "modified_at": "2021-08-24T07:15:57.152Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "610d1f9d16ee421d59f63306",
+          "name": "6pxv6bk8mn.hostx0.de"
+        },
+        "id": "000000000000000000000008"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": false
+        },
+        "description": "000000000000000000000005 App",
+        "channel_type": "store",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": false,
+        "mode": "live",
+        "_id": "000000000000000000000005",
+        "name": "000000000000000000000005 App",
+        "meta": [],
+        "owner": "d6da4dcc8fb0b8f20df44fa9",
+        "company_id": 1,
+        "token": "okDMWNgBTd",
+        "tokens": [
+          {
+            "token": "okDMWNgBTd",
+            "created_at": "2021-08-06T11:40:12.795Z"
+          }
+        ],
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "610d1f9c16ee4243d5f632dc",
+            "name": "zqch7jb4w.hostx0.de"
+          }
+        ],
+        "redirections": [],
+        "created_at": "2021-08-06T11:40:12.795Z",
+        "modified_at": "2021-08-24T07:15:57.061Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "610d1f9c16ee4243d5f632dc",
+          "name": "zqch7jb4w.hostx0.de"
+        },
+        "id": "000000000000000000000005"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": false
+        },
+        "description": "Packaging App",
+        "channel_type": "store",
+        "cache_ttl": -1,
+        "internal": true,
+        "is_active": true,
+        "mode": "live",
+        "_id": "000000000000000000000007",
+        "name": "Packaging App",
+        "meta": [],
+        "owner": "d6da4dcc8fb0b8f20df44fa9",
+        "company_id": 1,
+        "token": "9Jo4BpDag",
+        "tokens": [
+          {
+            "token": "9Jo4BpDag",
+            "created_at": "2021-08-06T11:40:13.110Z"
+          }
+        ],
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "610d1f9d16ee422199f632f8",
+            "name": "h0fzueebdz.hostx0.de"
+          }
+        ],
+        "redirections": [],
+        "created_at": "2021-08-06T11:40:13.110Z",
+        "modified_at": "2021-08-24T07:15:57.085Z",
+        "__v": 0,
+        "banner": {
+          "secure_url": ""
+        },
+        "favicon": {
+          "secure_url": ""
+        },
+        "logo": {
+          "secure_url": ""
+        },
+        "mobile_logo": {
+          "secure_url": ""
+        },
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "610d1f9d16ee422199f632f8",
+          "name": "h0fzueebdz.hostx0.de"
+        },
+        "id": "000000000000000000000007"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": false
+        },
+        "description": "000000000000000000000009 App",
+        "channel_type": "store",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": false,
+        "mode": "live",
+        "_id": "000000000000000000000009",
+        "name": "000000000000000000000009 App",
+        "meta": [],
+        "owner": "d6da4dcc8fb0b8f20df44fa9",
+        "company_id": 1,
+        "token": "-c77l_Rd_4",
+        "tokens": [
+          {
+            "token": "-c77l_Rd_4",
+            "created_at": "2021-08-06T11:40:13.232Z"
+          }
+        ],
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "610d1f9d16ee42ea8ff63314",
+            "name": "yvugibrieb.hostx0.de"
+          }
+        ],
+        "redirections": [],
+        "created_at": "2021-08-06T11:40:13.232Z",
+        "modified_at": "2021-08-24T07:15:57.162Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "610d1f9d16ee42ea8ff63314",
+          "name": "yvugibrieb.hostx0.de"
+        },
+        "id": "000000000000000000000009"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": false
+        },
+        "description": "000000000000000000000006 App",
+        "channel_type": "store",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": false,
+        "mode": "live",
+        "_id": "000000000000000000000006",
+        "name": "000000000000000000000006 App",
+        "meta": [],
+        "owner": "d6da4dcc8fb0b8f20df44fa9",
+        "company_id": 1,
+        "token": "nJYZ1M-AhU",
+        "tokens": [
+          {
+            "token": "nJYZ1M-AhU",
+            "created_at": "2021-08-06T11:40:13.021Z"
+          }
+        ],
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "610d1f9d16ee4245e9f632ea",
+            "name": "wumoqexdsm.hostx0.de"
+          }
+        ],
+        "redirections": [],
+        "created_at": "2021-08-06T11:40:13.021Z",
+        "modified_at": "2021-08-24T07:15:57.074Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "610d1f9d16ee4245e9f632ea",
+          "name": "wumoqexdsm.hostx0.de"
+        },
+        "id": "000000000000000000000006"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": false
+        },
+        "description": "FyndStore APP",
+        "channel_type": "store",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": false,
+        "mode": "live",
+        "_id": "000000000000000000000002",
+        "name": "FyndStore",
+        "owner": "d6da4dcc8fb0b8f20df44fa9",
+        "company_id": 1,
+        "token": "DEo9bkZIg",
+        "tokens": [
+          {
+            "token": "DEo9bkZIg",
+            "created_at": "2021-08-06T11:40:12.361Z"
+          }
+        ],
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "610d1f9c16ee42a63cf632b2",
+            "name": "kbcty9kw1t.hostx0.de"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-06T11:40:12.361Z",
+        "modified_at": "2021-09-02T11:15:11.810Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "610d1f9c16ee42a63cf632b2",
+          "name": "kbcty9kw1t.hostx0.de"
+        },
+        "id": "000000000000000000000002"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": false
+        },
+        "description": "Uniket",
+        "channel_type": "uniket",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "000000000000000000000004",
+        "name": "Uniket B2B",
+        "owner": "d6da4dcc8fb0b8f20df44fa9",
+        "company_id": 1,
+        "token": "QK1xwP6bNW",
+        "tokens": [
+          {
+            "token": "QK1xwP6bNW",
+            "created_at": "2021-08-06T11:40:12.539Z"
+          }
+        ],
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "610d2187ebe60c11ebee5e4f",
+            "name": "uniket.hostx0.de"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-06T11:40:12.539Z",
+        "modified_at": "2021-09-28T14:56:03.792Z",
+        "__v": 3,
+        "banner": {
+          "secure_url": ""
+        },
+        "favicon": {
+          "secure_url": ""
+        },
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/1/applications/000000000000000000000004/application/pictures/free-logo/original/nrVlCrs5r-Uniket-B2B.png"
+        },
+        "mobile_logo": {
+          "secure_url": ""
+        },
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "610d2187ebe60c11ebee5e4f",
+          "name": "uniket.hostx0.de"
+        },
+        "id": "000000000000000000000004"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "61111fb9d4beb658ac8f8e05",
+        "company_id": 12,
+        "name": "rajubhava",
+        "owner": "de7ae4e7ba55d45c42327d70",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "61111fb9d4beb670358f8e06",
+            "name": "rajubhavadigital.hostx0.de"
+          }
+        ],
+        "token": "KsjpbxttV",
+        "tokens": [
+          {
+            "token": "KsjpbxttV",
+            "created_at": "2021-08-09T12:29:45.634Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-09T12:29:45.634Z",
+        "modified_at": "2021-08-24T07:15:57.471Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "61111fb9d4beb670358f8e06",
+          "name": "rajubhavadigital.hostx0.de"
+        },
+        "id": "61111fb9d4beb658ac8f8e05"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": false,
+        "mode": "live",
+        "_id": "6110bfb0d4beb6b2c08f8a79",
+        "company_id": 1,
+        "name": "Spacejam",
+        "owner": "0d33ae6fe30ad5778d7b8b37",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "6110bfb0d4beb6a8068f8a7a",
+            "name": "mridul-x0.hostx0.de"
+          },
+          {
+            "verified": true,
+            "is_primary": false,
+            "is_shortlink": false,
+            "_id": "615c244f29bcab1aefca734d",
+            "name": "spacejam.hostx0.de"
+          }
+        ],
+        "token": "QWnHldtU7",
+        "tokens": [
+          {
+            "token": "QWnHldtU7",
+            "created_at": "2021-08-09T05:40:00.999Z"
+          },
+          {
+            "created_by": "3b809a0c024c487c4e438ee5",
+            "token": "2D8Wp5M3L",
+            "created_at": "2022-01-04T04:26:24.778Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-09T05:40:01.000Z",
+        "modified_at": "2022-01-25T05:35:42.091Z",
+        "__v": 4,
+        "mobile_logo": {
+          "secure_url": ""
+        },
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "6110bfb0d4beb6a8068f8a7a",
+          "name": "mridul-x0.hostx0.de"
+        },
+        "id": "6110bfb0d4beb6b2c08f8a79"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": false,
+        "mode": "live",
+        "_id": "611113b5d4beb64b288f8d66",
+        "company_id": 1,
+        "name": "test-app-2",
+        "owner": "6e45afceb5ef3b9982505b40",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "611113b5d4beb6bd3f8f8d67",
+            "name": "test-app-2.hostx0.de"
+          }
+        ],
+        "token": "SlhlHoVv1",
+        "tokens": [
+          {
+            "token": "SlhlHoVv1",
+            "created_at": "2021-08-09T11:38:29.853Z"
+          },
+          {
+            "created_by": "265506cf33b80f6eb805d3dc",
+            "token": "ufqswG4Wy",
+            "created_at": "2021-12-30T11:59:08.748Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-09T11:38:29.853Z",
+        "modified_at": "2022-01-25T10:31:41.872Z",
+        "__v": 3,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "611113b5d4beb6bd3f8f8d67",
+          "name": "test-app-2.hostx0.de"
+        },
+        "id": "611113b5d4beb64b288f8d66"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "6110e87ad4beb6c9818f8bbd",
+        "company_id": 7,
+        "name": "Greenhonchos",
+        "owner": "3e8bbdd8e90a48445e2a3536",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "6110e87ad4beb65c8c8f8bbe",
+            "name": "greenhonchos.hostx0.de"
+          }
+        ],
+        "token": "m1bS-ZYzD",
+        "tokens": [
+          {
+            "token": "m1bS-ZYzD",
+            "created_at": "2021-08-09T08:34:02.868Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-09T08:34:02.869Z",
+        "modified_at": "2021-08-24T07:15:57.359Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "6110e87ad4beb65c8c8f8bbe",
+          "name": "greenhonchos.hostx0.de"
+        },
+        "id": "6110e87ad4beb6c9818f8bbd"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "6110ef0dd4beb652128f8c0a",
+        "company_id": 8,
+        "name": "Cakes N Bakes",
+        "owner": "4da62c996faec06428740f64",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/8/applications/6110ef0dd4beb652128f8c0a/application/pictures/free-logo/original/OeZHaDrel-1608714757404.jpeg"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/8/applications/6110ef0dd4beb652128f8c0a/application/pictures/favicon/original/efLd_38zh-1608714757404.jpeg"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "6110ef0dd4beb65d8a8f8c0b",
+            "name": "food.hostx0.de"
+          }
+        ],
+        "token": "SAH7HW4Ew",
+        "tokens": [
+          {
+            "token": "SAH7HW4Ew",
+            "created_at": "2021-08-09T09:02:05.396Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-09T09:02:05.396Z",
+        "modified_at": "2021-08-31T11:46:40.166Z",
+        "__v": 0,
+        "mobile_logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/8/applications/6110ef0dd4beb652128f8c0a/application/pictures/free-logo/original/t4vZMI2qE-1608714757404.jpeg"
+        },
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "6110ef0dd4beb65d8a8f8c0b",
+          "name": "food.hostx0.de"
+        },
+        "id": "6110ef0dd4beb652128f8c0a"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "6119e5cb24cd0ff212223fad",
+        "company_id": 18,
+        "name": "TestSubscription",
+        "owner": "e985237eef8d7a33f3d0ad36",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "6119e5cb24cd0f365c223fae",
+            "name": "testsubscription.hostx0.de"
+          }
+        ],
+        "token": "-ND7gEJgs",
+        "tokens": [
+          {
+            "token": "-ND7gEJgs",
+            "created_at": "2021-08-16T04:12:59.016Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-16T04:12:59.016Z",
+        "modified_at": "2021-08-24T07:15:57.655Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "6119e5cb24cd0f365c223fae",
+          "name": "testsubscription.hostx0.de"
+        },
+        "id": "6119e5cb24cd0ff212223fad"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "6116053224cd0f950122386e",
+        "company_id": 17,
+        "name": "XYZ",
+        "owner": "3005236e685b4527ab423fd8",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "6116053224cd0f009122386f",
+            "name": "apkextension.hostx0.de"
+          }
+        ],
+        "token": "0I5_uzaLL",
+        "tokens": [
+          {
+            "token": "0I5_uzaLL",
+            "created_at": "2021-08-13T05:37:54.213Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-13T05:37:54.213Z",
+        "modified_at": "2021-08-24T07:15:57.584Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "6116053224cd0f009122386f",
+          "name": "apkextension.hostx0.de"
+        },
+        "id": "6116053224cd0f950122386e"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "6130bdd4a928fb25f47963c0",
+        "company_id": 1,
+        "name": "Anuj",
+        "owner": "bfb9bdaab0adca68760e4c5d",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "6130bdd4a928fb6f297963c1",
+            "name": "test-channel.hostx0.de"
+          }
+        ],
+        "token": "HNkK-RISO",
+        "tokens": [
+          {
+            "token": "HNkK-RISO",
+            "created_at": "2021-09-02T12:04:36.490Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-09-02T12:04:36.490Z",
+        "modified_at": "2021-12-16T04:19:32.284Z",
+        "__v": 8,
+        "mobile_logo": {
+          "secure_url": ""
+        },
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "6130bdd4a928fb6f297963c1",
+          "name": "test-channel.hostx0.de"
+        },
+        "id": "6130bdd4a928fb25f47963c0"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "613f207e3006094498437acb",
+        "company_id": 3,
+        "name": "FashionHouse",
+        "owner": "6e76b2de43200cf30aa7f3dd",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "613f207e300609d999437acc",
+            "name": "fashionhouse.hostx0.de"
+          }
+        ],
+        "token": "XlMEWCxSR",
+        "tokens": [
+          {
+            "token": "XlMEWCxSR",
+            "created_at": "2021-09-13T09:57:18.326Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-09-13T09:57:18.326Z",
+        "modified_at": "2021-09-13T09:57:18.326Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "613f207e300609d999437acc",
+          "name": "fashionhouse.hostx0.de"
+        },
+        "id": "613f207e3006094498437acb"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "6113fa697e67ca2a9993e1c5",
+        "company_id": 1,
+        "name": "anilTest",
+        "owner": "ffe65592c760d3cbf9dfcc9a",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "6113fa697e67cafe9a93e1c6",
+            "name": "aniltest.hostx0.de"
+          }
+        ],
+        "token": "typIaE19j",
+        "tokens": [
+          {
+            "token": "typIaE19j",
+            "created_at": "2021-08-11T16:27:21.926Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-11T16:27:21.926Z",
+        "modified_at": "2021-08-24T07:15:57.565Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "6113fa697e67cafe9a93e1c6",
+          "name": "aniltest.hostx0.de"
+        },
+        "id": "6113fa697e67ca2a9993e1c5"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "611ba8ef24cd0f737d224c2e",
+        "company_id": 31,
+        "name": "Zip Fashion Pvt Ltd",
+        "owner": "6e76b2de43200cf30aa7f3dd",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "611ba8ef24cd0f3bc5224c2f",
+            "name": "zipfashionpvtltd.hostx0.de"
+          }
+        ],
+        "token": "TohdEBn6n",
+        "tokens": [
+          {
+            "token": "TohdEBn6n",
+            "created_at": "2021-08-17T12:17:51.425Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-17T12:17:51.425Z",
+        "modified_at": "2021-08-24T07:15:57.950Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "611ba8ef24cd0f3bc5224c2f",
+          "name": "zipfashionpvtltd.hostx0.de"
+        },
+        "id": "611ba8ef24cd0f737d224c2e"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "61236e71c736321c47495218",
+        "company_id": 14,
+        "name": "demo test",
+        "owner": "9c0999dd6867455c555a3227",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "61236e71c73632df29495219",
+            "name": "demo-test.hostx0.de"
+          }
+        ],
+        "token": "zLPjCKWnX",
+        "tokens": [
+          {
+            "token": "zLPjCKWnX",
+            "created_at": "2021-08-23T09:46:25.642Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-23T09:46:25.643Z",
+        "modified_at": "2021-08-23T09:46:25.643Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "61236e71c73632df29495219",
+          "name": "demo-test.hostx0.de"
+        },
+        "id": "61236e71c736321c47495218"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "612787b7c7363242c6496e4d",
+        "company_id": 1,
+        "name": "phoenix-test",
+        "owner": "558a90dc566b33724cdcb375",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "612787b7c73632da94496e4e",
+            "name": "phoenix-test.hostx0.de"
+          }
+        ],
+        "token": "xmEj6yZn0",
+        "tokens": [
+          {
+            "token": "xmEj6yZn0",
+            "created_at": "2021-08-26T12:23:19.696Z"
+          },
+          {
+            "created_by": "3b809a0c024c487c4e438ee5",
+            "token": "CDR5qeUFD",
+            "created_at": "2022-01-04T04:19:00.052Z"
+          }
+        ],
+        "redirections": [
+          {
+            "_id": "6188c05023f4c4816aca6906",
+            "redirect_from": "test-app-2.hostx0.de",
+            "redirect_to": "phoenix-test.hostx0.de",
+            "type": "permanent"
+          }
+        ],
+        "meta": [],
+        "created_at": "2021-08-26T12:23:19.696Z",
+        "modified_at": "2022-01-10T17:34:17.958Z",
+        "__v": 4,
+        "mobile_logo": {
+          "secure_url": ""
+        },
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "612787b7c73632da94496e4e",
+          "name": "phoenix-test.hostx0.de"
+        },
+        "id": "612787b7c7363242c6496e4d"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "612cf398c73632592d4979a9",
+        "company_id": 1,
+        "name": "test app artisan2",
+        "owner": "6e45afceb5ef3b9982505b40",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "612cf398c7363281b74979aa",
+            "name": "test-app-artisan2.hostx0.de"
+          }
+        ],
+        "token": "e8uAZ6Bzy",
+        "tokens": [
+          {
+            "token": "e8uAZ6Bzy",
+            "created_at": "2021-08-30T15:04:56.945Z"
+          },
+          {
+            "created_by": "efb878efceee63a777c97ceb",
+            "token": "ZIQAR2PbF",
+            "created_at": "2021-11-23T16:08:02.720Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-30T15:04:56.945Z",
+        "modified_at": "2021-11-23T16:08:02.720Z",
+        "__v": 1,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "612cf398c7363281b74979aa",
+          "name": "test-app-artisan2.hostx0.de"
+        },
+        "id": "612cf398c73632592d4979a9"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "6155588d40d75631e5e24f41",
+        "company_id": 71,
+        "name": "MAH Company Pvt Ltd",
+        "owner": "6e76b2de43200cf30aa7f3dd",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "6155588d40d7568605e24f42",
+            "name": "mahcompanypvtltd.hostx0.de"
+          }
+        ],
+        "token": "BHmYlOw07",
+        "tokens": [
+          {
+            "token": "BHmYlOw07",
+            "created_at": "2021-09-30T06:26:21.151Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-09-30T06:26:21.152Z",
+        "modified_at": "2021-09-30T06:26:21.152Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "6155588d40d7568605e24f42",
+          "name": "mahcompanypvtltd.hostx0.de"
+        },
+        "id": "6155588d40d75631e5e24f41"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "61122380d4beb621c48f9096",
+        "company_id": 14,
+        "name": "AUTOMOBILE",
+        "owner": "8bd832ba29e73c6e6c689d27",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "61122380d4beb6765d8f9097",
+            "name": "automobile.hostx0.de"
+          }
+        ],
+        "token": "QrCpIjEQD",
+        "tokens": [
+          {
+            "token": "QrCpIjEQD",
+            "created_at": "2021-08-10T06:58:08.868Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-10T06:58:08.869Z",
+        "modified_at": "2021-08-24T07:15:57.492Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "61122380d4beb6765d8f9097",
+          "name": "automobile.hostx0.de"
+        },
+        "id": "61122380d4beb621c48f9096"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "6119e97724cd0fd199223fde",
+        "company_id": 1,
+        "name": "test-app-jumpstart",
+        "owner": "6e45afceb5ef3b9982505b40",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "6119e97724cd0f4cb7223fdf",
+            "name": "test-app-jumpstart.hostx0.de"
+          }
+        ],
+        "token": "3PXiaCdEB",
+        "tokens": [
+          {
+            "token": "3PXiaCdEB",
+            "created_at": "2021-08-16T04:28:39.871Z"
+          },
+          {
+            "created_by": "3b809a0c024c487c4e438ee5",
+            "token": "arStsFBHS",
+            "created_at": "2022-01-04T04:19:16.293Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-16T04:28:39.871Z",
+        "modified_at": "2022-01-04T04:19:16.293Z",
+        "__v": 1,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "6119e97724cd0f4cb7223fdf",
+          "name": "test-app-jumpstart.hostx0.de"
+        },
+        "id": "6119e97724cd0fd199223fde"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "6141a5ca18f2c50b38003a81",
+        "company_id": 2,
+        "name": "hello",
+        "owner": "037286c5c9f9bcb7d8aa409d",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "6141a5ca18f2c5864e003a82",
+            "name": "hello.hostx0.de"
+          }
+        ],
+        "token": "UcVJLJD8h",
+        "tokens": [
+          {
+            "token": "UcVJLJD8h",
+            "created_at": "2021-09-15T07:50:34.160Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-09-15T07:50:34.161Z",
+        "modified_at": "2021-09-15T07:50:34.161Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "6141a5ca18f2c5864e003a82",
+          "name": "hello.hostx0.de"
+        },
+        "id": "6141a5ca18f2c50b38003a81"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "615bef9a3f504904d9a32149",
+        "company_id": 1,
+        "name": "foodgasm-test",
+        "owner": "430cac94caf5db3930907543",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "615bef9a3f50491016a3214a",
+            "name": "foodgasm-test.hostx0.de"
+          }
+        ],
+        "token": "hYso4RgcZ",
+        "tokens": [
+          {
+            "token": "hYso4RgcZ",
+            "created_at": "2021-10-05T06:24:26.329Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-10-05T06:24:26.329Z",
+        "modified_at": "2021-10-05T06:24:26.329Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "615bef9a3f50491016a3214a",
+          "name": "foodgasm-test.hostx0.de"
+        },
+        "id": "615bef9a3f504904d9a32149"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "6113931c7e67caa1a993df56",
+        "company_id": 15,
+        "name": "noman traders",
+        "owner": "8acedd2498953873207fcc37",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "6113931c7e67ca972293df57",
+            "name": "nomantraders.hostx0.de"
+          }
+        ],
+        "token": "2dXlAPUyU",
+        "tokens": [
+          {
+            "token": "2dXlAPUyU",
+            "created_at": "2021-08-11T09:06:36.956Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-11T09:06:36.956Z",
+        "modified_at": "2021-08-24T07:15:57.502Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "6113931c7e67ca972293df57",
+          "name": "nomantraders.hostx0.de"
+        },
+        "id": "6113931c7e67caa1a993df56"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "611a716b24cd0f2cd922482b",
+        "company_id": 20,
+        "name": "Demo Testing Vijay",
+        "owner": "3df62a554bc278f77cbcd03f",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "611a716b24cd0f2aaa22482c",
+            "name": "testingvijay.hostx0.de"
+          }
+        ],
+        "token": "4_2fWPLDj",
+        "tokens": [
+          {
+            "token": "4_2fWPLDj",
+            "created_at": "2021-08-16T14:08:43.612Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-16T14:08:43.612Z",
+        "modified_at": "2021-08-24T07:15:57.755Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "611a716b24cd0f2aaa22482c",
+          "name": "testingvijay.hostx0.de"
+        },
+        "id": "611a716b24cd0f2cd922482b"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "At KAARAH , we bring to you a fusion of traditional prints and contemporary designs.  \n\nWe believe simplicity and style can be mutually inclusive.",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "61276ddec736324db4496c5b",
+        "company_id": 1,
+        "name": "Phoenix",
+        "owner": "558a90dc566b33724cdcb375",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "61276ddec736324806496c5c",
+            "name": "phoenix.hostx0.de"
+          }
+        ],
+        "token": "9oQGRsyUV",
+        "tokens": [
+          {
+            "token": "9oQGRsyUV",
+            "created_at": "2021-08-26T10:33:02.810Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-26T10:33:02.811Z",
+        "modified_at": "2021-12-14T13:51:58.967Z",
+        "__v": 0,
+        "mobile_logo": {
+          "secure_url": ""
+        },
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "61276ddec736324806496c5c",
+          "name": "phoenix.hostx0.de"
+        },
+        "id": "61276ddec736324db4496c5b"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "615a9384e9433301a0c9814f",
+        "company_id": 76,
+        "name": "HAR Comp Pvt Ltd",
+        "owner": "496064d437668b88baa26eff",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "615a9384e943335806c98150",
+            "name": "har-comp-pvt-ltd.hostx0.de"
+          }
+        ],
+        "token": "EnUroweNh",
+        "tokens": [
+          {
+            "token": "EnUroweNh",
+            "created_at": "2021-10-04T05:39:16.900Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-10-04T05:39:16.900Z",
+        "modified_at": "2021-10-04T05:39:16.900Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "615a9384e943335806c98150",
+          "name": "har-comp-pvt-ltd.hostx0.de"
+        },
+        "id": "615a9384e9433301a0c9814f"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "6114a68424cd0ffc43223512",
+        "company_id": 1,
+        "name": "Namaste",
+        "owner": "558a90dc566b33724cdcb375",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "6114a68424cd0f6e40223513",
+            "name": "namaste.hostx0.de"
+          }
+        ],
+        "token": "lmMi0DvSl",
+        "tokens": [
+          {
+            "token": "lmMi0DvSl",
+            "created_at": "2021-08-12T04:41:40.957Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-12T04:41:40.958Z",
+        "modified_at": "2022-01-05T12:17:57.435Z",
+        "__v": 2,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "6114a68424cd0f6e40223513",
+          "name": "namaste.hostx0.de"
+        },
+        "id": "6114a68424cd0ffc43223512"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "611b8a3324cd0f2b7e224aed",
+        "company_id": 29,
+        "name": "Apparel",
+        "owner": "6e76b2de43200cf30aa7f3dd",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "611b8a3324cd0f1897224aee",
+            "name": "apparel.hostx0.de"
+          }
+        ],
+        "token": "gD8mdCPTL",
+        "tokens": [
+          {
+            "token": "gD8mdCPTL",
+            "created_at": "2021-08-17T10:06:43.077Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-17T10:06:43.077Z",
+        "modified_at": "2021-08-24T07:15:57.782Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "611b8a3324cd0f1897224aee",
+          "name": "apparel.hostx0.de"
+        },
+        "id": "611b8a3324cd0f2b7e224aed"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "611c9ea824cd0fffc2224ee9",
+        "company_id": 33,
+        "name": "Tradespark",
+        "owner": "30f7863eec6cf4828fdb8876",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "611c9ea824cd0fc5dd224eea",
+            "name": "tradespark.hostx0.de"
+          }
+        ],
+        "token": "dgtHF9xm5",
+        "tokens": [
+          {
+            "token": "dgtHF9xm5",
+            "created_at": "2021-08-18T05:46:16.018Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-18T05:46:16.019Z",
+        "modified_at": "2021-08-24T07:15:57.972Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "611c9ea824cd0fc5dd224eea",
+          "name": "tradespark.hostx0.de"
+        },
+        "id": "611c9ea824cd0fffc2224ee9"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "61320d03a928fb84b87968f5",
+        "company_id": 47,
+        "name": "testing company",
+        "owner": "572806472bb26f0506ea6acb",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "61320d03a928fb4ae67968f6",
+            "name": "testingcompany.hostx0.de"
+          }
+        ],
+        "token": "PdZWUVMdR",
+        "tokens": [
+          {
+            "token": "PdZWUVMdR",
+            "created_at": "2021-09-03T11:54:43.743Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-09-03T11:54:43.743Z",
+        "modified_at": "2021-09-03T11:54:43.743Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "61320d03a928fb4ae67968f6",
+          "name": "testingcompany.hostx0.de"
+        },
+        "id": "61320d03a928fb84b87968f5"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "615a9548e943338228c98194",
+        "company_id": 78,
+        "name": "shopify",
+        "owner": "92bea5cf704e222c9589f4c0",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "615a9548e943332824c98195",
+            "name": "shopify.hostx0.de"
+          }
+        ],
+        "token": "4fhpdUgo_",
+        "tokens": [
+          {
+            "token": "4fhpdUgo_",
+            "created_at": "2021-10-04T05:46:48.590Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-10-04T05:46:48.590Z",
+        "modified_at": "2021-10-04T05:46:48.590Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "615a9548e943332824c98195",
+          "name": "shopify.hostx0.de"
+        },
+        "id": "615a9548e943338228c98194"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "611b8a3b24cd0f18e7224b05",
+        "company_id": 30,
+        "name": "Imran",
+        "owner": "a06e4b8453afac7d6435267d",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "611b8a3b24cd0f3dbf224b06",
+            "name": "imran.hostx0.de"
+          }
+        ],
+        "token": "x24Oj6XMD",
+        "tokens": [
+          {
+            "token": "x24Oj6XMD",
+            "created_at": "2021-08-17T10:06:51.178Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-17T10:06:51.178Z",
+        "modified_at": "2021-08-24T07:15:57.857Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "611b8a3b24cd0f3dbf224b06",
+          "name": "imran.hostx0.de"
+        },
+        "id": "611b8a3b24cd0f18e7224b05"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "611df1051592d83597688976",
+        "company_id": 36,
+        "name": "abhinav test",
+        "owner": "fea05df36a63022ead5c2ae0",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "611df1051592d86487688977",
+            "name": "abhinavtest.hostx0.de"
+          }
+        ],
+        "token": "KvRlUej8z",
+        "tokens": [
+          {
+            "token": "KvRlUej8z",
+            "created_at": "2021-08-19T05:49:57.196Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-19T05:49:57.196Z",
+        "modified_at": "2021-08-24T07:15:58.076Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "611df1051592d86487688977",
+          "name": "abhinavtest.hostx0.de"
+        },
+        "id": "611df1051592d83597688976"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "61263f4ac736322c3e496789",
+        "company_id": 1,
+        "name": "test app namaste",
+        "owner": "6e45afceb5ef3b9982505b40",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "61263f4ac73632134149678a",
+            "name": "test-app-namaste.hostx0.de"
+          }
+        ],
+        "token": "7zXbihYu4",
+        "tokens": [
+          {
+            "token": "7zXbihYu4",
+            "created_at": "2021-08-25T13:02:02.089Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-25T13:02:02.090Z",
+        "modified_at": "2022-01-04T04:40:28.146Z",
+        "__v": 2,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "61263f4ac73632134149678a",
+          "name": "test-app-namaste.hostx0.de"
+        },
+        "id": "61263f4ac736322c3e496789"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "6153f8f10154f57b9c997379",
+        "company_id": 67,
+        "name": "WB Pvt Ltd",
+        "owner": "6e76b2de43200cf30aa7f3dd",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "6153f8f10154f5750299737a",
+            "name": "wbpvtltd.hostx0.de"
+          }
+        ],
+        "token": "zjrDOCGP4",
+        "tokens": [
+          {
+            "token": "zjrDOCGP4",
+            "created_at": "2021-09-29T05:26:09.665Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-09-29T05:26:09.665Z",
+        "modified_at": "2021-09-29T05:26:09.665Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "6153f8f10154f5750299737a",
+          "name": "wbpvtltd.hostx0.de"
+        },
+        "id": "6153f8f10154f57b9c997379"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "612e0bd8a928fb2fff7957d4",
+        "company_id": 1,
+        "name": "phoenix-test",
+        "owner": "558a90dc566b33724cdcb375",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "612e0bd8a928fb10887957d5",
+            "name": "phoenix-testhive.hostx0.de"
+          }
+        ],
+        "token": "CtjgJ3QcX",
+        "tokens": [
+          {
+            "token": "CtjgJ3QcX",
+            "created_at": "2021-08-31T11:00:40.235Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-31T11:00:40.235Z",
+        "modified_at": "2021-11-08T09:51:06.818Z",
+        "__v": 2,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "612e0bd8a928fb10887957d5",
+          "name": "phoenix-testhive.hostx0.de"
+        },
+        "id": "612e0bd8a928fb2fff7957d4"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "615319670154f5aabe997066",
+        "company_id": 66,
+        "name": "NSinc3",
+        "owner": "8acedd2498953873207fcc37",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "615319670154f5b611997067",
+            "name": "nsinc3.hostx0.de"
+          }
+        ],
+        "token": "lag9fBfg2",
+        "tokens": [
+          {
+            "token": "lag9fBfg2",
+            "created_at": "2021-09-28T13:32:23.031Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-09-28T13:32:23.031Z",
+        "modified_at": "2021-09-28T13:32:23.031Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "615319670154f5b611997067",
+          "name": "nsinc3.hostx0.de"
+        },
+        "id": "615319670154f5aabe997066"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "6155441c0154f57c49997c0d",
+        "company_id": 70,
+        "name": "WX International",
+        "owner": "037286c5c9f9bcb7d8aa409d",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "6155441c0154f507b6997c0e",
+            "name": "wxinternational.hostx0.de"
+          }
+        ],
+        "token": "2m3erodHE",
+        "tokens": [
+          {
+            "token": "2m3erodHE",
+            "created_at": "2021-09-30T04:59:08.534Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-09-30T04:59:08.534Z",
+        "modified_at": "2021-09-30T04:59:08.534Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "6155441c0154f507b6997c0e",
+          "name": "wxinternational.hostx0.de"
+        },
+        "id": "6155441c0154f57c49997c0d"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "6156f42fe943337619c97dc5",
+        "company_id": 72,
+        "name": "MX Company",
+        "owner": "037286c5c9f9bcb7d8aa409d",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "6156f42fe94333d5a9c97dc6",
+            "name": "mxcompany.hostx0.de"
+          }
+        ],
+        "token": "A4KsfoQvZ",
+        "tokens": [
+          {
+            "token": "A4KsfoQvZ",
+            "created_at": "2021-10-01T11:42:39.342Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-10-01T11:42:39.342Z",
+        "modified_at": "2021-10-01T11:42:39.342Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "6156f42fe94333d5a9c97dc6",
+          "name": "mxcompany.hostx0.de"
+        },
+        "id": "6156f42fe943337619c97dc5"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "615a915be9433353f3c980f7",
+        "company_id": 77,
+        "name": "Trizen Fit Private Limited",
+        "owner": "d6548fbe428b0ef7bd325736",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "615a915be9433363e1c980f8",
+            "name": "trizenfit.hostx0.de"
+          }
+        ],
+        "token": "0psQMxpRh",
+        "tokens": [
+          {
+            "token": "0psQMxpRh",
+            "created_at": "2021-10-04T05:30:03.060Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-10-04T05:30:03.060Z",
+        "modified_at": "2021-10-04T05:30:03.060Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "615a915be9433363e1c980f8",
+          "name": "trizenfit.hostx0.de"
+        },
+        "id": "615a915be9433353f3c980f7"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "6111fcb6d4beb60e228f8f84",
+        "company_id": 13,
+        "name": "ganesh cloth",
+        "owner": "e20894f8e95d5aeddc7c8798",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "6111fcb6d4beb6fbf78f8f85",
+            "name": "ganeshcloth.hostx0.de"
+          }
+        ],
+        "token": "LaKVxHz0Y",
+        "tokens": [
+          {
+            "token": "LaKVxHz0Y",
+            "created_at": "2021-08-10T04:12:38.942Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-10T04:12:38.943Z",
+        "modified_at": "2021-08-24T07:15:57.481Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "6111fcb6d4beb6fbf78f8f85",
+          "name": "ganeshcloth.hostx0.de"
+        },
+        "id": "6111fcb6d4beb60e228f8f84"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "611cecd245503bafb08d2033",
+        "company_id": 34,
+        "name": "UltraSuperFashion",
+        "owner": "6e76b2de43200cf30aa7f3dd",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "611cecd245503b8afe8d2034",
+            "name": "ultrasuperfashion.hostx0.de"
+          }
+        ],
+        "token": "Jd8Riu0xy",
+        "tokens": [
+          {
+            "token": "Jd8Riu0xy",
+            "created_at": "2021-08-18T11:19:47.061Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-18T11:19:47.062Z",
+        "modified_at": "2021-08-24T07:15:58.059Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "611cecd245503b8afe8d2034",
+          "name": "ultrasuperfashion.hostx0.de"
+        },
+        "id": "611cecd245503bafb08d2033"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "61263f5ac736326f534967ab",
+        "company_id": 1,
+        "name": "test app artisan",
+        "owner": "6e45afceb5ef3b9982505b40",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "61263f5ac736324c854967ac",
+            "name": "test-app-artisan.hostx0.de"
+          }
+        ],
+        "token": "-AXxMW6_s",
+        "tokens": [
+          {
+            "token": "-AXxMW6_s",
+            "created_at": "2021-08-25T13:02:18.491Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-25T13:02:18.492Z",
+        "modified_at": "2021-08-30T14:53:03.433Z",
+        "__v": 2,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "61263f5ac736324c854967ac",
+          "name": "test-app-artisan.hostx0.de"
+        },
+        "id": "61263f5ac736326f534967ab"
+      },
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "612477b3c73632bac94959cb",
+        "company_id": 1,
+        "name": "mavericks",
+        "owner": "5b2d4e85c8cb054593f30a24",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_shortlink": true,
+            "_id": "612477b3c73632fcdb4959cc",
+            "name": "mavericks.hostx0.de"
+          }
+        ],
+        "token": "EBTK9zmNi",
+        "tokens": [
+          {
+            "token": "EBTK9zmNi",
+            "created_at": "2021-08-24T04:38:11.453Z"
+          },
+          {
+            "created_by": "265506cf33b80f6eb805d3dc",
+            "token": "ryLXvWQ_H",
+            "created_at": "2021-12-30T05:52:54.127Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-24T04:38:11.454Z",
+        "modified_at": "2021-12-30T05:52:54.127Z",
+        "__v": 1,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_shortlink": true,
+          "_id": "612477b3c73632fcdb4959cc",
+          "name": "mavericks.hostx0.de"
+        },
+        "id": "612477b3c73632bac94959cb"
+      }
+    ],
+    "page": {
+      "type": "number",
+      "current": 1,
+      "size": 50,
+      "item_total": 172,
+      "has_next": true
+    }
+  }
+
+}

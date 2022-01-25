@@ -1,0 +1,657 @@
+{
+    "plans": {
+        "items": [
+            {
+                "recurring": {
+                    "interval": "month",
+                    "interval_count": 1
+                },
+                "taxation": {
+                    "gst": 0.18
+                },
+                "is_trial_plan": true,
+                "plan_group": "default",
+                "tag_lines": [],
+                "currency": "INR",
+                "is_active": true,
+                "is_visible": false,
+                "trial_period": 30,
+                "addons": [],
+                "tags": [],
+                "type": "public",
+                "country": "IN",
+                "_id": "610d03f02decb20043dac5ad",
+                "name": "30 day Trial",
+                "description": "30 day Trial",
+                "amount": 0,
+                "product_suite_id": "610d03f02decb20043dac589",
+                "created_at": "2021-08-06T09:42:08.885Z",
+                "modified_at": "2021-08-09T09:46:39.873Z"
+            },
+            {
+                "recurring": {
+                    "interval": "month",
+                    "interval_count": 1
+                },
+                "taxation": {
+                    "gst": 0.18
+                },
+                "is_trial_plan": false,
+                "plan_group": "default",
+                "tag_lines": [],
+                "currency": "INR",
+                "is_active": true,
+                "is_visible": true,
+                "trial_period": 0,
+                "addons": [],
+                "tags": [],
+                "type": "public",
+                "country": "IN",
+                "_id": "610d03f02decb20043dac5ac",
+                "name": "Professional",
+                "description": "For Growing business",
+                "amount": 1499,
+                "product_suite_id": "610d03f02decb20043dac589",
+                "created_at": "2021-08-06T09:42:08.882Z",
+                "modified_at": "2021-08-06T09:42:08.882Z"
+            },
+            {
+                "recurring": {
+                    "interval": "month",
+                    "interval_count": 1
+                },
+                "taxation": {
+                    "gst": 0.18
+                },
+                "is_trial_plan": false,
+                "plan_group": "default",
+                "tag_lines": [],
+                "currency": "INR",
+                "is_active": true,
+                "is_visible": false,
+                "trial_period": 0,
+                "addons": [],
+                "tags": [],
+                "type": "public",
+                "country": "IN",
+                "_id": "610d03f02decb20043dac5aa",
+                "name": "Basic",
+                "description": "Basic",
+                "amount": 250,
+                "product_suite_id": "610d03f02decb20043dac589",
+                "created_at": "2021-08-06T09:42:08.877Z",
+                "modified_at": "2021-08-09T09:46:39.873Z"
+            },
+            {
+                "recurring": {
+                    "interval": "month",
+                    "interval_count": 1
+                },
+                "taxation": {
+                    "gst": 0.18
+                },
+                "is_trial_plan": false,
+                "plan_group": "default",
+                "tag_lines": [],
+                "currency": "INR",
+                "is_active": true,
+                "is_visible": true,
+                "trial_period": 0,
+                "addons": [],
+                "tags": [],
+                "type": "public",
+                "country": "IN",
+                "_id": "610d03f02decb20043dac5ab",
+                "name": "Ultra Premium",
+                "description": "Ultra Premium",
+                "amount": 2999,
+                "product_suite_id": "610d03f02decb20043dac589",
+                "created_at": "2021-08-06T09:42:08.877Z",
+                "modified_at": "2021-08-06T09:42:08.877Z"
+            },
+            {
+                "recurring": {
+                    "interval": "month",
+                    "interval_count": 1
+                },
+                "taxation": {
+                    "gst": 0.18
+                },
+                "is_trial_plan": false,
+                "plan_group": "default",
+                "tag_lines": [],
+                "currency": "INR",
+                "is_active": true,
+                "is_visible": true,
+                "trial_period": 0,
+                "addons": [],
+                "tags": [
+                    "popular"
+                ],
+                "type": "public",
+                "country": "IN",
+                "_id": "610d03f02decb20043dac5ae",
+                "name": "Premium",
+                "description": "For scaled up businesses",
+                "amount": 2499,
+                "product_suite_id": "610d03f02decb20043dac589",
+                "created_at": "2021-08-06T09:42:08.885Z",
+                "modified_at": "2021-08-06T09:42:08.885Z"
+            },
+            {
+                "recurring": {
+                    "interval": "month",
+                    "interval_count": 1
+                },
+                "taxation": {
+                    "gst": 0.18
+                },
+                "is_trial_plan": false,
+                "plan_group": "default",
+                "tag_lines": [],
+                "currency": "INR",
+                "is_active": true,
+                "is_visible": true,
+                "trial_period": 0,
+                "addons": [],
+                "tags": [],
+                "type": "public",
+                "country": "IN",
+                "_id": "610d03f02decb20043dac5af",
+                "name": "Standard",
+                "description": "For entrepreneurs starting out",
+                "amount": 599,
+                "product_suite_id": "610d03f02decb20043dac589",
+                "created_at": "2021-08-06T09:42:08.888Z",
+                "modified_at": "2021-08-06T09:42:08.888Z"
+            },
+            {
+                "recurring": {
+                    "interval": "month",
+                    "interval_count": 1
+                },
+                "taxation": {
+                    "gst": 0.18
+                },
+                "is_trial_plan": false,
+                "plan_group": "default",
+                "tag_lines": [],
+                "currency": "INR",
+                "is_active": true,
+                "is_visible": false,
+                "trial_period": 0,
+                "addons": [],
+                "tags": [],
+                "type": "private",
+                "country": "IN",
+                "_id": "61110eef7303b1009dd7975f",
+                "product_suite_id": "610d03f02decb20043dac589",
+                "name": "21tadka",
+                "description": "21tadka",
+                "amount": 21,
+                "meta": {
+                    "tags": [
+                        "21tadka"
+                    ]
+                },
+                "created_at": "2021-08-09T11:18:07.394Z",
+                "modified_at": "2021-08-09T11:18:07.394Z"
+            },
+            {
+                "recurring": {
+                    "interval": "month",
+                    "interval_count": 1
+                },
+                "taxation": {
+                    "gst": 0.18
+                },
+                "is_trial_plan": false,
+                "plan_group": "default",
+                "tag_lines": [],
+                "currency": "INR",
+                "is_active": true,
+                "is_visible": false,
+                "trial_period": 0,
+                "addons": [],
+                "tags": [],
+                "type": "private",
+                "country": "IN",
+                "_id": "61a5d96bfb945d003a6a3a70",
+                "product_suite_id": "610d03f02decb20043dac589",
+                "name": "Developer preview plan",
+                "description": "Developer preview plan",
+                "amount": 0,
+                "meta": {
+                    "comment": "Developer preview plan"
+                },
+                "created_at": "2021-11-30T07:57:31.225Z",
+                "modified_at": "2021-11-30T07:57:31.225Z"
+            }
+        ],
+        "page": {
+            "type": "number",
+            "current": 1,
+            "size": 10,
+            "item_total": 8,
+            "has_next": false
+        }
+    }
+    ,
+    "subscriber": {
+        "items": [
+            {
+                "documents": {},
+                "phone": {
+                    "phone_number": "9876543210",
+                    "phone_country_code": "91"
+                },
+                "billing_address": {
+                    "line1": "YARI ROAD, ANDHERI WEST",
+                    "city": "Mumbai",
+                    "state": "Maharashtra",
+                    "country": "India",
+                    "country_iso2": "IN",
+                    "postal_code": "400061"
+                },
+                "_id": "610d1a8254fff1207157f606",
+                "unique_id": "1",
+                "type": "company",
+                "name": "Reliance Digital P. Ltd",
+                "email": "bb@a.com",
+                "created_at": "2021-08-06T11:18:26.921Z",
+                "modified_at": "2021-12-06T06:45:52.242Z",
+                "data": {
+                    "pg_user_exists": true,
+                    "id": 1321,
+                    "pg_customer_id": null
+                },
+                "credit_balance": 3707.3134343434344
+            },
+            {
+                "documents": {},
+                "phone": {},
+                "billing_address": {
+                    "country": "INDIA",
+                    "state": "MAHARASHTRA",
+                    "city": "NAGPUR",
+                    "line1": "ORANGE CITY",
+                    "line2": null,
+                    "postal_code": "440010"
+                },
+                "_id": "610ff032e6cfeb1a54ccacf3",
+                "unique_id": "4",
+                "type": "company",
+                "name": "Alwira ptv ltd",
+                "email": "alwirasheikh@gofynd.com",
+                "created_at": "2021-08-08T14:54:42.646Z",
+                "modified_at": "2021-11-19T05:20:22.670Z",
+                "data": {
+                    "pg_user_exists": true,
+                    "id": 1322,
+                    "pg_customer_id": null
+                },
+                "credit_balance": 0
+            },
+            {
+                "documents": {},
+                "phone": {},
+                "billing_address": {
+                    "country": "INDIA",
+                    "state": "MAHARASHTRA",
+                    "city": "MUMBAI",
+                    "line1": "MUMBAI",
+                    "line2": null,
+                    "postal_code": "400001"
+                },
+                "_id": "6110cd08e6cfeb0340ccae1a",
+                "unique_id": "5",
+                "type": "company",
+                "name": "GlamAR",
+                "email": "tusharmoraye@gofynd.com",
+                "created_at": "2021-08-09T06:36:56.095Z",
+                "modified_at": "2021-11-19T05:20:22.680Z",
+                "data": {
+                    "pg_user_exists": true,
+                    "id": 1323,
+                    "pg_customer_id": null
+                },
+                "credit_balance": 0
+            },
+            {
+                "documents": {},
+                "phone": {},
+                "billing_address": {
+                    "country": "INDIA",
+                    "state": "MAHARASHTRA",
+                    "city": "MUMBAI",
+                    "line1": "POLARIS 2ND FLOOR, ANDHERI",
+                    "line2": "",
+                    "postal_code": "400001"
+                },
+                "_id": "6110e61a6a4327b810c5f73f",
+                "type": "company",
+                "unique_id": "2",
+                "name": "Test",
+                "email": "parvezshaikh@gofynd.com",
+                "created_at": "2021-08-09T08:23:54.407Z",
+                "modified_at": "2021-11-19T05:20:22.689Z",
+                "data": {
+                    "pg_user_exists": true,
+                    "id": 1324,
+                    "pg_customer_id": null
+                },
+                "credit_balance": 0
+            },
+            {
+                "documents": {},
+                "phone": {},
+                "billing_address": {
+                    "country": "INDIA",
+                    "state": "MAHARASHTRA",
+                    "city": "MUMBAI",
+                    "line1": "POLARIS, 2ND FLOOR, ANDHERI",
+                    "line2": "",
+                    "postal_code": "400001"
+                },
+                "_id": "6110e68f6a4327a456c5f768",
+                "type": "company",
+                "unique_id": "3",
+                "name": "Test 2",
+                "email": "parvezshaikh@gofynd.com",
+                "created_at": "2021-08-09T08:25:51.971Z",
+                "modified_at": "2021-11-19T05:20:22.748Z",
+                "data": {
+                    "pg_user_exists": true,
+                    "id": 1325,
+                    "pg_customer_id": null
+                },
+                "credit_balance": 0
+            },
+            {
+                "documents": {},
+                "phone": {},
+                "billing_address": {
+                    "country": "INDIA",
+                    "state": "UTTAR PRADESH",
+                    "city": "NOIDA",
+                    "line1": "A 31 SECTOR 3",
+                    "line2": "",
+                    "postal_code": "201301"
+                },
+                "_id": "6110e87a6a4327a1bfc5f78e",
+                "type": "company",
+                "unique_id": "7",
+                "name": "Greenhonchos",
+                "email": "shekharkumar.gh@gmail.com",
+                "created_at": "2021-08-09T08:34:02.805Z",
+                "modified_at": "2021-11-19T05:20:22.759Z",
+                "data": {
+                    "pg_user_exists": true,
+                    "id": 1326,
+                    "pg_customer_id": null
+                },
+                "credit_balance": 0
+            },
+            {
+                "documents": {},
+                "phone": {},
+                "billing_address": {
+                    "country": "INDIA",
+                    "state": "MAHARASHTRA",
+                    "city": "MUMBAI",
+                    "line1": "VERONICA BUILDING VASANT OASIS",
+                    "line2": "",
+                    "postal_code": "400059"
+                },
+                "_id": "6110ef0d6a43271058c5f7b2",
+                "type": "company",
+                "unique_id": "8",
+                "name": "Food",
+                "email": "raginivarma@gofynd.com",
+                "created_at": "2021-08-09T09:02:05.289Z",
+                "modified_at": "2021-11-19T05:20:22.770Z",
+                "data": {
+                    "pg_user_exists": true,
+                    "id": 1327,
+                    "pg_customer_id": null
+                },
+                "credit_balance": 0
+            },
+            {
+                "documents": {},
+                "phone": {
+                    "phone_number": null,
+                    "phone_country_code": "91"
+                },
+                "billing_address": {
+                    "line1": "E 201 ASSOTECH THE NEST CROSSING REPUBLIC GHAZIABAD",
+                    "city": "Ghaziabad",
+                    "state": "Uttar Pradesh",
+                    "country": "India",
+                    "country_iso2": "IN",
+                    "postal_code": "201016"
+                },
+                "_id": "61110df56a43276ef6c5f7d7",
+                "type": "company",
+                "unique_id": "9",
+                "name": "ganesh clothing",
+                "email": "ganeshchaurasiya@gofynd.com",
+                "created_at": "2021-08-09T11:13:57.283Z",
+                "modified_at": "2021-11-19T05:20:22.780Z",
+                "data": {
+                    "pg_user_exists": true,
+                    "id": 1328,
+                    "pg_customer_id": null
+                },
+                "credit_balance": 0
+            },
+            {
+                "documents": {},
+                "phone": {},
+                "billing_address": {
+                    "country": "INDIA",
+                    "state": "UTTAR PRADESH",
+                    "city": "FATEHPUR",
+                    "line1": "MOHAMMAD PUR GAUNTI",
+                    "line2": "",
+                    "postal_code": "212260"
+                },
+                "_id": "611110586a43278942c5f7fa",
+                "type": "company",
+                "unique_id": "10",
+                "name": "raju bhava",
+                "email": "ganeshchaurasiya141@gmail.com",
+                "created_at": "2021-08-09T11:24:08.413Z",
+                "modified_at": "2021-11-19T05:20:22.788Z",
+                "data": {
+                    "pg_user_exists": true,
+                    "id": 1329,
+                    "pg_customer_id": null
+                },
+                "credit_balance": 0
+            },
+            {
+                "documents": {},
+                "phone": {},
+                "billing_address": {
+                    "country": "INDIA",
+                    "state": "MAHARASHTRA",
+                    "city": "MUMBAI",
+                    "line1": "POLARIS, SECOND FLOOR",
+                    "line2": "",
+                    "postal_code": "400001"
+                },
+                "_id": "6111165e6a4327f88fc5f81d",
+                "type": "company",
+                "unique_id": "11",
+                "name": "Test 3",
+                "email": "parvezshaikh@gofynd.com",
+                "created_at": "2021-08-09T11:49:50.058Z",
+                "modified_at": "2021-11-19T05:20:22.797Z",
+                "data": {
+                    "pg_user_exists": true,
+                    "id": 1330,
+                    "pg_customer_id": null
+                },
+                "credit_balance": 0
+            }
+        ],
+        "page": {
+            "type": "number",
+            "current": 1,
+            "size": 10,
+            "item_total": 76,
+            "has_next": true
+        }
+    },
+    "created": {
+        "data": {
+            "restrictions": {
+                "uses": {
+                    "maximum": {
+                        "total": -1,
+                        "user": -1
+                    },
+                    "remaining": {
+                        "user": -1,
+                        "total": -1
+                    }
+                }
+            },
+            "identifiers": {
+                "plans": [],
+                "subscribers": []
+            },
+            "author": {
+                "modified_by_details": {
+                    "first_name": "Omansh",
+                    "last_name": "Lavania"
+                },
+                "created_by": "6dea800ff2befc54a6342d52",
+                "modified_by": "6dea800ff2befc54a6342d52"
+            },
+            "_id": "61adb356ce8e08a8c27f9b06",
+            "code": "TEST22",
+            "type": "percentage_off",
+            "rule_definition": {
+                "type": "percentage",
+                "value": 0.5,
+                "duration": "once",
+                "duration_in_months": null,
+                "currency_code": "INR"
+            },
+            "display_meta": {
+                "title": "testing"
+            },
+            "state": {
+                "is_archived": false,
+                "is_active": true
+            },
+            "created_at": "2021-12-06T06:53:10.335Z",
+            "modified_at": "2021-12-06T06:53:10.335Z"
+        }
+    },
+    "list": {
+        "items": [
+            {
+                "restrictions": {
+                    "uses": {
+                        "maximum": {
+                            "user": -1,
+                            "total": -1
+                        },
+                        "remaining": {
+                            "user": -1,
+                            "total": -1
+                        }
+                    }
+                },
+                "rule_definition": {
+                    "type": "percentage",
+                    "value": 0.0001,
+                    "duration": "once",
+                    "currency_code": "INR",
+                    "duration_in_months": null
+                },
+                "display_meta": {
+                    "title": "First coupon"
+                },
+                "identifiers": {
+                    "plans": [],
+                    "subscribers": []
+                },
+                "state": {
+                    "is_archived": false,
+                    "is_active": false
+                },
+                "author": {
+                    "modified_by_details": {
+                        "first_name": "Omansh",
+                        "last_name": "Lavania"
+                    },
+                    "created_by": "6dea800ff2befc54a6342d52",
+                    "modified_by": "6dea800ff2befc54a6342d52"
+                },
+                "_id": "61a85e64dcff3cf4bf6ddb90",
+                "code": "FYND1",
+                "type": "percentage_off",
+                "created_at": "2021-12-02T05:49:24.496Z",
+                "modified_at": "2021-12-07T07:57:29.805Z"
+            },
+            {
+                "restrictions": {
+                    "uses": {
+                        "maximum": {
+                            "user": -1,
+                            "total": -1
+                        },
+                        "remaining": {
+                            "user": -1,
+                            "total": -1
+                        }
+                    }
+                },
+                "rule_definition": {
+                    "type": "percentage",
+                    "value": 0.01,
+                    "duration": "once",
+                    "currency_code": "INR",
+                    "duration_in_months": null
+                },
+                "display_meta": {
+                    "title": "First coupon"
+                },
+                "identifiers": {
+                    "plans": [],
+                    "subscribers": []
+                },
+                "state": {
+                    "is_archived": false,
+                    "is_active": false
+                },
+                "author": {
+                    "modified_by_details": {
+                        "first_name": "Omansh",
+                        "last_name": "Lavania"
+                    },
+                    "created_by": "6dea800ff2befc54a6342d52",
+                    "modified_by": "6dea800ff2befc54a6342d52"
+                },
+                "_id": "61a86701dcff3ccbfa6ddb93",
+                "code": "OMANSH22",
+                "type": "percentage_off",
+                "created_at": "2021-12-02T06:26:09.901Z",
+                "modified_at": "2021-12-07T05:50:10.765Z"
+            }
+            
+            
+        ],
+        "page": {
+            "type": "number",
+            "current": 1,
+            "size": 10,
+            "item_total": 7,
+            "has_next": false
+        }
+    }
+}

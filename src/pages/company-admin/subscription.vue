@@ -207,22 +207,18 @@
                 ref="change_plan_dialog"
                 title="Change Plan"
                 :label="'Select Plan'"
+                @close="onCloseChangePlan"
             >
                 <template slot="body" name="body"
                     >
                     <nitrozen-dropdown
-                        ref="type-search"
                         :searchable="true"
                         class="datatype-dropdown"
                         :items="plansListDropdownItems"
-                        v-model="selectedForChange"
-                        @change="selectedForChangeError=false;"
+                        v-model="slectedForChange"
                         @searchInputChange="searchPlans"
                         :placeholder="'Search Plans'"
-                    ></nitrozen-dropdown>
-                    <nitrozen-error class="bottom-space" v-if="selectedForChangeError">
-                        Please select valid plan
-                    </nitrozen-error>  
+                    ></nitrozen-dropdown>  
                     <nitrozen-input
                         class="search m-t-24"
                         type="textarea"
@@ -230,22 +226,8 @@
                         placeholder="Enter Comment"
                         v-model="planChangeComment"
                     ></nitrozen-input>  
-
                 </template
                 >
-                <template slot="footer" name="footer">
-                    <nitrozen-button
-                        class="m-r-12"
-                        theme="secondary"
-                        v-flatBtn
-                        @click="onActivatePlan"
-                        >Activate Plan</nitrozen-button>
-                    <nitrozen-button
-                        theme="secondary"
-                        v-strokeBtn
-                        @click="onCancelActivatePlan"
-                        >Cancel</nitrozen-button>
-                </template>
             </nitrozen-dialog>
         </div>
         <div class="width-100">
@@ -474,6 +456,10 @@ export default {
             selectedForChangeError:false,
             planChangeComment:"",
             isLoading:false,
+            currentPlan:"",
+            plansList: [],
+            slectedForChange:"",
+            planChangeComment:"",
             currentPlanDetailed: null,
             company_id: this.$route.params.companyId,
             collection_method: null,
@@ -508,6 +494,7 @@ export default {
         if(this.$route.query && this.$route.query.subscriptionFilters){
             this.filters = JSON.parse(this.$route.query.subscriptionFilters)
         }
+        this.fetchPlans("");
         pArr.push(
             BillingSubscriptionService.getAvailablePlansDetailed(
                 'fynd-platform'
@@ -606,39 +593,31 @@ export default {
                 neutralButtonLabel: false
             });
         },
-        onActivatePlan(){
-            if(!this.selectedForChange){
-                return this.selectedForChangeError=true;
-            }else {
-                if(this.currentPlan.plan_id===this.selectedForChange){
-                    this.selectedForChange="";
-                    this.planChangeComment="";
-                    return this.$snackbar.global.showError(`You are already subsribed to ${this.currentPlan.plan_data.name}`,{duration: 2000});
-                }
-                this.activatePlan(this.selectedForChange);
-                this.$refs['change_plan_dialog'].close();    
-            }
-        },
-        onCancelActivatePlan(){
-            this.$refs['change_plan_dialog'].close()
-        },
         onOpenChangePlanDialog() {
-            this.selectedForChangeError=false;
-            this.selectedForChange="";
-            this.$nextTick(()=>{
-                this.$refs['type-search'].selectItem(null, {})
-                this.$refs['change_plan_dialog'].open({
+            this.$refs['change_plan_dialog'].open({
                 width: '400px',
                 height: '420px',
                 positiveButtonLabel: 'Activate Plan',
                 negativeButtonLabel: 'Cancel',
                 neutralButtonLabel: false
             });
-            });
         },
         onCloseCancelSubscription(optionSelected) {
             if (optionSelected == 'Yes') {
                 this.cancelSubscription(this.company_id);
+            }
+        },
+        onCloseChangePlan(optionSelected){
+            if(optionSelected.toLowerCase().includes('activate')){
+                if(this.currentPlan.plan_id===this.slectedForChange){
+                    this.slectedForChange="";
+                    this.planChangeComment="";
+                    return this.$snackbar.global.showError(`You are already subsribed to ${this.currentPlan.plan_data.name}`,{duration: 2000});
+                }
+                this.activatePlan(this.slectedForChange);    
+            }else{
+                this.slectedForChange="";
+                this.planChangeComment="";
             }
         },
         cancelSubscription(company_id){
@@ -765,7 +744,7 @@ export default {
             
             return BillingSubscriptionService.activatePlan(this.companyId,payload)
             .then(({data})=>{
-                this.selectedForChange="";
+                this.slectedForChange="";
                 this.planChangeComment="";
                 if(data.success){
                     return this.$store
@@ -796,7 +775,6 @@ export default {
                     this.fetchPlans(e.text);
                 }, 400)();
             }else {
-                this.selectedForChange="";
                 this.fetchPlans("")
             }
 
