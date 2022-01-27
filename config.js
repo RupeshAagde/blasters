@@ -135,20 +135,6 @@ const conf = convict({
             env: 'HIGHBROW_ADMIN_SVC',
             arg: 'highbrow_admin_svc'
         },
-        APEFACE_MAIN_URL: {
-            doc: 'Platform Orders URL',
-            format: String,
-            default: '',
-            env: 'APEFACE_MAIN_URL',
-            arg: 'apeface_main_url'
-        },
-        APEFACE_MAIN_SVC: {
-            doc: 'Platform Orders Service',
-            format: String,
-            default: '',
-            env: 'APEFACE_MAIN_SVC',
-            arg: 'apeface_main_svc'
-        },
         APEFACE_ADMIN_URL: {
             doc: 'Admin Orders URL',
             format: String,
@@ -156,7 +142,7 @@ const conf = convict({
             env: 'APEFACE_ADMIN_URL',
             arg: 'apeface_admin_url'
         },
-        APEFACE_MAIN_SVC: {
+        APEFACE_ADMIN_SVC: {
             doc: 'Admin Orders Service',
             format: String,
             default: '',
@@ -324,14 +310,14 @@ const conf = convict({
             env: 'UNICRON_ADMIN_SVC',
             arg: 'UNICRON_ADMIN_SVC'
         },
-        UNICRON_PUBLIC_URL:{
+        UNICRON_PUBLIC_URL: {
             doc: 'Billing service API',
             format: String,
             default: 'https://api.fyndx0.de/service/public/billing',
             env: 'UNICRON_PUBLIC_URL',
             arg: 'UNICRON_PUBLIC_URL'
         },
-        UNICRON_PUBLIC_SVC:{
+        UNICRON_PUBLIC_SVC: {
             doc: 'Billing service API',
             format: String,
             default: 'https://api.fyndx0.de/service/public/billing',
