@@ -99,6 +99,20 @@ const BillingService = {
         );
         return ApiService.get(URLS.FETCH_INVOICE_LISTING(), axiosOptions);
     },
+    exportInvoiceListing(params){
+        const axiosOptions = Object.assign(
+            {},
+            { params: params },
+            // getCommonHeaderOptions(),
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-currency-code': 'INR'
+                }
+            }
+        );
+        return ApiService.get(URLS.EXPORT_INVOICE_LISTING(), axiosOptions);
+    },
     chargeInvoice(payload) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{
             data: payload
@@ -192,6 +206,12 @@ const BillingService = {
             data: payload
         });
         return ApiService.put(URLS.SUBSCRIPTION_UPDATE_BY_ID(company_id,subscription_id), axiosOptions);
+    },
+    activatePlan(company_id,payload){
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
+            data: payload
+        });
+        return ApiService.post(URLS.SUBSCRIPTION_ACTIVATE(company_id), axiosOptions);
     },
     cancelSubscription(company_id, payload) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{

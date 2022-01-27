@@ -170,6 +170,30 @@ const URLS = {
             '/v1.0/companies/'
         );
     },
+    GET_DEPLOYMENT_MAPPING: () => {
+        return urlJoin(
+            SLINGSHOT_ADMIN_URL,
+            '/v1.0/deployment_mapping'
+        );
+    },
+    GET_DEPLOYMENT_LIST: () => {
+        return urlJoin(
+            SLINGSHOT_ADMIN_URL,
+            '/v1.0/deployment_mapping/repeat_servers'
+        );
+    },
+    CREATE_NEW_DEPLOYMENT_MAPPING: () => {
+        return urlJoin(
+            SLINGSHOT_ADMIN_URL,
+            '/v1.0/deployment_mapping/'
+        );
+    },
+    DELETE_DEPLOYMENT_MAPPING_BY_ID: (id) => {
+        return urlJoin(
+            SLINGSHOT_ADMIN_URL,
+            `/v1.0/deployment_mapping/${id}`
+        );
+    },
     VERIFY_COMPANY: (query_param) => {
         return urlJoin(
             SILVERBOLT_ACPR_URL,
@@ -305,6 +329,9 @@ const URLS = {
     FETCH_INVOICE_LISTING: () => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/listing`)
     },
+    EXPORT_INVOICE_LISTING: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/export`)
+    },
     CHARGE_INVOICE: () => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/charge-invoice`);
     },
@@ -350,6 +377,9 @@ const URLS = {
     },
     SUBSCRIPTION_CANCEL: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/cancel`)
+    },
+    SUBSCRIPTION_ACTIVATE: (company_id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/activate`)
     },
 
     //#########Tickets########

@@ -118,4 +118,42 @@ describe('Load subscription', () => {
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
     });
+
+    test('Change subscription', async () => {
+        mock.onGet(URLS.SUBSCRIPTION_GET_AVAILABLE_PLANS_DETAILED()).reply(
+            200,
+            mocks.detailedList
+        );
+        mock.onGet(URLS.SUBSCRIPTION_GET_ACTIVE_PLAN("1")).reply(
+            200,
+            mocks.currentSubscription
+        );
+        mock.onGet(URLS.SUBSCRIPTION_MAX_APPLICATION_LIMIT("1")).reply(
+            200,
+            CBS_MOCK_DATA.currentLimit
+        );
+        mock.onGet(URLS.SUBSCRIPTION_GET_PLAN_DETAILS_BY_ID("5f3a8786c90d780037723a13")).reply(
+            200,
+            mocks.subscription
+        );
+
+        mock.onPost(URLS.SUBSCRIPTION_ACTIVATE("1")).reply(
+            200,
+            mocks.changeSubscription
+        );
+        
+        wrapper = shallowMount(Subscription, {
+            localVue,
+            router
+        });
+        await flushPromises();
+        let showSuccessMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showSuccess');
+        expect(wrapper.exists()).toBeTruthy();
+        expect(wrapper.element).toMatchSnapshot();
+        const div = wrapper.find('div');
+        expect(div.exists()).toBe(true);
+        const resp = wrapper.vm.activatePlan("610d03f02decb20043dac5ab")
+        await flushPromises();
+        expect(showSuccessMethod).toHaveBeenCalled();
+    });
 });
