@@ -220,42 +220,6 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr v-if="invoice.invoice.discount.amount && invoice.invoice.discount.coupon_code ">
-                                        <td
-                                            class="
-                                                no-border-left no-border-right
-                                            "
-                                        ></td>
-                                        <td
-                                            class="
-                                                no-border-left no-border-right
-                                            "
-                                        ></td>
-                                        <td
-                                            class="
-                                                no-border-left no-border-right
-                                            "
-                                        >
-                                            <div class="bold">Discount</div>
-                                        </td>
-                                        <td
-                                            class="
-                                                no-border-left no-border-right
-                                            "
-                                        >
-                                            <div class="bold">
-                                                {{
-                                                    amountFormat({
-                                                        currency:
-                                                            invoice.invoice
-                                                                .currency,
-                                                        amount: invoice.invoice
-                                                            .discount.amount,
-                                                    })
-                                                }}
-                                            </div>
-                                        </td>
-                                    </tr>
                                     <tr>
                                         <td
                                             class="
@@ -287,6 +251,42 @@
                                                                 .currency,
                                                         amount: invoice.invoice
                                                             .subtotal,
+                                                    })
+                                                }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                     <tr >
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        ></td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        ></td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        >
+                                            <div class="bold">Coupon ({{invoice.invoice.discount.coupon_code}})</div>
+                                        </td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        >
+                                            <div class="bold">
+                                                -{{
+                                                    amountFormat({
+                                                        currency:
+                                                            invoice.invoice
+                                                                .currency,
+                                                        amount: invoice.invoice
+                                                            .discount.amount,
                                                     })
                                                 }}
                                             </div>
@@ -336,8 +336,9 @@
                                                         amount:
                                                             invoice.invoice
                                                                 .taxation.cgst *
-                                                            invoice.invoice
-                                                                .subtotal,
+                                                            (invoice.invoice
+                                                                .subtotal- invoice.invoice
+                                                            .discount.amount),
                                                     })
                                                 }}
                                             </div>
@@ -387,8 +388,9 @@
                                                         amount:
                                                             invoice.invoice
                                                                 .taxation.sgst *
-                                                            invoice.invoice
-                                                                .subtotal,
+                                                            (invoice.invoice
+                                                                .subtotal - invoice.invoice
+                                                            .discount.amount),
                                                     })
                                                 }}
                                             </div>
