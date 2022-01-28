@@ -17,7 +17,7 @@ const URLS = {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/extension/review/${review_id}`);
     },
     EXTENSION_CATEGORIES_ADMIN: (organization_id) => {
-        return urlJoin(MIXMASTER_ADMIN_BASE + `/v1.0/extension/category/all`);
+        return urlJoin(MIXMASTER_ADMIN_BASE + `v1.0/extension/category/all`);
     },
 };
 

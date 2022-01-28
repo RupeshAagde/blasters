@@ -258,28 +258,29 @@ export default {
                                 } - in ${ext.display}`,
                             })
                         );
-                    this.selectedCategoryOptions(
-                        data.category.categoriesL1,
-                        this.categoryInfo.category_l2
-                    );
-                    data.category.categoriesL2 = data.category.categoriesL2.map(
-                        (ext) => {
-                            return {
-                                ...ext,
-                                text_to_show: `${
-                                    data.category.categoriesL1.find(
-                                        (catl1) => catl1._id === ext.parent
-                                    ).display
-                                } - in ${ext.text}`,
-                            };
-                        }
-                    );
-                    this.categoryInfo.categoriesL1Array =
-                        data.category.categoriesL1.map((x) => x.display);
-                    this.categoryInfo.categoriesL2Array =
-                        data.category.categoriesL2.map((x) => x.display);
+                    if (data.category) {
+                        this.selectedCategoryOptions(
+                            data.category.categoriesL1,
+                            this.categoryInfo.category_l2
+                        );
+                        data.category.categoriesL2 =
+                            data.category.categoriesL2.map((ext) => {
+                                return {
+                                    ...ext,
+                                    text_to_show: `${
+                                        data.category.categoriesL1.find(
+                                            (catl1) => catl1._id === ext.parent
+                                        ).display
+                                    } - in ${ext.text}`,
+                                };
+                            });
+                        this.categoryInfo.categoriesL1Array =
+                            data.category.categoriesL1.map((x) => x.display);
+                        this.categoryInfo.categoriesL2Array =
+                            data.category.categoriesL2.map((x) => x.display);
 
-                    this.categoryInfo.category = data.category;
+                        this.categoryInfo.category = data.category;
+                    }
                 })
                 .catch((err) => {
                     this.pageError = true;
