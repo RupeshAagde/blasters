@@ -256,7 +256,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                     <tr >
+                                     <tr v-if="invoice.invoice.discount.amount && invoice.invoice.discount.coupon_code " >
                                         <td
                                             class="
                                                 no-border-left no-border-right
@@ -285,8 +285,8 @@
                                                         currency:
                                                             invoice.invoice
                                                                 .currency,
-                                                        amount: invoice.invoice
-                                                            .discount.amount,
+                                                        amount: checkNan(invoice.invoice
+                                                            .discount.amount),
                                                     })
                                                 }}
                                             </div>
@@ -327,7 +327,7 @@
                                                 no-border-left no-border-right
                                             "
                                         >
-                                            <div class="bold">
+                                            <div  class="bold">
                                                 {{
                                                     amountFormat({
                                                         currency:
@@ -337,11 +337,12 @@
                                                             invoice.invoice
                                                                 .taxation.cgst *
                                                             (invoice.invoice
-                                                                .subtotal- invoice.invoice
-                                                            .discount.amount),
+                                                                .subtotal- checkNan(invoice.invoice
+                                                            .discount.amount)),
                                                     })
                                                 }}
                                             </div>
+                                            
                                         </td>
                                     </tr>
                                     <tr
@@ -389,8 +390,8 @@
                                                             invoice.invoice
                                                                 .taxation.sgst *
                                                             (invoice.invoice
-                                                                .subtotal - invoice.invoice
-                                                            .discount.amount),
+                                                                .subtotal - checkNan(invoice.invoice
+                                                            .discount.amount)),
                                                     })
                                                 }}
                                             </div>
@@ -1385,6 +1386,14 @@ export default {
                     });
             }
         },
+        checkNan(number){
+            if(isNaN(number)){
+                return 0;
+            }
+            else{
+                return number
+            }
+        }
     },
 };
 </script>
