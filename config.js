@@ -365,6 +365,13 @@ const conf = convict({
             default: 'https://api.fyndx0.de/service/___/administrator/partners/',
             env: 'MIXMASTER_ADMIN_SVC',
             arg: 'mixmaster_admin_svc'
+        },
+        POINTBLANK_ADMIN_URL: {
+            doc: 'Communication Custom Main Public URL to hit',
+            format: String,
+            default: '',
+            env: 'POINTBLANK_ADMIN_URL',
+            arg: 'POINTBLANK_ADMIN_URL'
         }
     },
 

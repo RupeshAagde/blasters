@@ -87,6 +87,10 @@ const GRINGOTTS_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.GRINGOTTS_ADMIN_URL :
     envVars.GRINGOTTS_ADMIN_URL;
 
+    const COMMUNICATION_BASE_URL = isNode ?
+    envVars.BROWSER_CONFIG.POINTBLANK_ADMIN_URL :
+    envVars.POINTBLANK_ADMIN_URL;    
+
 
 const URLS = {
     // User Profile API's
@@ -139,6 +143,9 @@ const URLS = {
     // fetch applications
     FETCH_APPLICATIONS: (uid) => {
         return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/company/${uid}/application`);
+    },
+    FETCH_ALL_APPLICATIONS: (uid) => {
+        return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/application`);
     },
 
     //archive unarchive sales channel
@@ -568,8 +575,20 @@ const URLS = {
     },
     FETCH_COD_CONFIG: (params) => {
         //console.log(urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/company/${params.companyId}/application/${params.app_id}/cod/delivery/`))
+<<<<<<< HEAD
         return urlJoin(GRINGOTTS_ADMIN_URL, `v1.0/config/company/${params.companyId}/application/${params.app_id}/cod/delivery/`)
     }
+=======
+        return urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/company/${params.companyId}/application/${params.app_id}/cod/delivery/`)
+    },
+     //POINTBLANK
+     COMMUNICATION_LOG: (params) => {
+        return urlJoin(COMMUNICATION_BASE_URL, `v1.0/log`)
+    },
+    COMMUNICATION_CAMPAIGNS: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/campaign`)
+    },
+>>>>>>> e147e2c6e8b7cc21c3c831d38c6a172ce10b2158
 };
 
 export default URLS;
