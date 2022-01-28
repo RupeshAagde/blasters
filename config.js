@@ -79,20 +79,6 @@ const conf = convict({
             env: 'BLITZKRIEG_MAIN_SVC',
             arg: 'BLITZKRIEG_MAIN_SVC'
         },
-        ULTRAMAGNUS_MAIN_URL: {
-            doc: 'Internal Settings API',
-            format: String,
-            default: '',
-            env: 'ULTRAMAGNUS_MAIN_URL',
-            arg: 'ULTRAMAGNUS_MAIN_URL'
-        },
-        ULTRAMAGNUS_MAIN_SVC: {
-            doc: 'Internal Settings API private',
-            format: String,
-            default: '',
-            env: 'ULTRAMAGNUS_MAIN_SVC',
-            arg: 'ULTRAMAGNUS_MAIN_SVC'
-        },
         ULTRAMAGNUS_PUBLIC_URL: {
             doc: 'Internal Settings API',
             format: String,
