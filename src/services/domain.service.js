@@ -571,11 +571,7 @@ const URLS = {
     },
     FETCH_COD_CONFIG: (params) => {
         //console.log(urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/company/${params.companyId}/application/${params.app_id}/cod/delivery/`))
-<<<<<<< HEAD
         return urlJoin(GRINGOTTS_ADMIN_URL, `v1.0/config/company/${params.companyId}/application/${params.app_id}/cod/delivery/`)
-    }
-=======
-        return urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/company/${params.companyId}/application/${params.app_id}/cod/delivery/`)
     },
      //POINTBLANK
      COMMUNICATION_LOG: (params) => {
@@ -584,7 +580,6 @@ const URLS = {
     COMMUNICATION_CAMPAIGNS: () => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/campaign`)
     },
->>>>>>> e147e2c6e8b7cc21c3c831d38c6a172ce10b2158
 };
 
 export default URLS;
