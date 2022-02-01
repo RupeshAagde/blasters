@@ -4,7 +4,7 @@
             <div style="logs-container">
                 <jumbotron
                     :title="'Reports'"
-                    :desc="'View All Reportss'"
+                    :desc="'View All Reports'"
                 ></jumbotron>
                 <div class="main-container">
                     <div class="flex flex-end">
@@ -12,9 +12,8 @@
                             
                             <div class="flex drop">
                                 <nitrozen-dropdown
-                                    :label="'Search For'"
+                                    :label="'Search Type'"
                                     class="filter-dropdown"
-                                    placeholder="Select"
                                     :items="typeFilterList"
                                     v-model="filters.type"
                                     @change="fieldChanged"
@@ -38,6 +37,7 @@
                                     type="search"
                                     placeholder="Search by template"
                                     v-model="filters.templateSearch"
+                                    @change="changePage"
                                     @keyup.enter="searchTemplate()"
                                     @input="debounceInput"
                                 ></nitrozen-input>
@@ -227,12 +227,12 @@ export default {
         return {
             typeFilterList: [
                  {
-                    text: 'Select',
-                    value: ''
+                    text: 'Auto',
+                    value: 'all'
                 },
                 {
                     text: 'SMS',
-                    value: 'sms'
+                    value: 'phone'
                 },
                 {
                     text: 'Email',
@@ -260,7 +260,7 @@ export default {
             ],
             filters: {
                 plainTextSearch: '',
-                type: '',
+                type: 'all',
                 status: 'all',
                 templateSearch: '',
                 start: {
@@ -289,7 +289,7 @@ export default {
             pageError: false,
             logs: {},
             application: [],
-            placeHolder: 'Search'
+            placeHolder: 'Search by phone and email'
         };
     },
     methods: {
@@ -298,7 +298,7 @@ export default {
                 this.resetPagination();
                 this.changePage();
             }
-        }, 200),
+        }, 400),
          resetPagination() {
             this.pagination = {
                 limit: 10,
@@ -310,7 +310,6 @@ export default {
         },
 
          onLogCardClicked(val) {
-
             this.previewData = val;
             this.showPreviewModal = true;
         },
@@ -322,11 +321,8 @@ export default {
         },
         searchTemplate() {
             this.placeHolder = 'Search by ' + this.filters.type
-            if(this.filters.type == ''){
-                this.$snackbar.global.showError('Please Select Search for');
-                this.placeHolder = 'Search';
-                return;
-
+            if(this.filters.type == 'all'){
+                this.placeHolder = 'Search by phone and email';
             }
             this.resetPagination();
             this.changePage();
@@ -410,52 +406,46 @@ export default {
                     }
                 }
             }
-            // if (this.filters.type != 'all') {
-            //     params.query[this.filters.type] = { $exists: true };
-            // }
-            // if (this.filters.status != 'all') {
-            //     params.query.status = this.filters.status;
-            // }
             if(this.filters.type == 'identifier'){
                               params.query["meta.identifier"] =   {
                             $regex: this.filters.plainTextSearch,
                             $options: 'ig'
                         }
                     };
-            if(this.filters.type == 'sms'){
+            if(this.filters.type == 'phone'){
                 params.query.sms = { $exists: true };
-                              params.query["sms.phone_number"] =   {
-                            $regex: this.filters.plainTextSearch,
-                            $options: 'ig'
-                        }
+                              params.query["sms.phone_number"] =    this.filters.plainTextSearch
                     };        
              if(this.filters.type == 'email'){
                 params.query.email = { $exists: true };
-                              params.query["email.to"] =   {
-                            $regex: this.filters.plainTextSearch,
-                            $options: 'ig'
-                        }
+                params.query["email.to"] = this.filters.plainTextSearch
                     }; 
-
-
-
-            
-
-
-            if (this.filters.templateSearch) {
+              if(this.filters.type == 'all'){
                 params.query.$or = params.query.$or || [];
                 params.query.$or.push({
-                    'email.template': {
-                        $regex: this.filters.templateSearch,
+                    'email.to': {
+                        $regex: this.filters.plainTextSearch,
                         $options: 'ig'
                     }
                 });
                 params.query.$or.push({
-                    'sms.template': {
-                        $regex: this.filters.templateSearch,
+                    'sms.phone_number': {
+                        $regex: this.filters.plainTextSearch,
                         $options: 'ig'
                     }
                 });
+                if(this.filters.templateSearch){
+                params.query.$and = params.query.$and || [];
+                params.query.$and.push({ $or :[{"sms.template": this.filters.templateSearch },{"email.template": this.filters.templateSearch  }]})
+                }
+               }      
+
+            if (this.filters.templateSearch && this.filters.type !== 'all') {
+                
+                  params.query.$or = params.query.$or || [];
+                  params.query.$or['email.template'] = this.filters.templateSearch
+                params.query.$or['sms.template'] = this.filters.templateSearch
+
             }
             if (this.filters.job) {
                 params.query["meta.job"] = this.filters.job;
@@ -466,63 +456,7 @@ export default {
              if (this.filters.application) {
                 params.query["application"] = this.filters.application;
             }
-            // if (this.filters.plainTextSearch) {
-            //     params.query.$or = params.query.$or || [];
-            //     if (this.filters.plainTextSearch.indexOf('email:') != -1) {
-            //         let email = this.filters.plainTextSearch.split('email:')[1];
-            //         params.query.$or.push({
-            //             'email.to': { $regex: email, $options: 'ig' }
-            //         });
-            //     } else if (
-            //         this.filters.plainTextSearch.indexOf('phone:') != -1
-            //     ) {
-            //         let phone = this.filters.plainTextSearch.split('phone:')[1];
-            //         params.query.$or.push({
-            //             'sms.phone_number': {
-            //                 $regex: phone,
-            //                 $options: 'ig'
-            //             }
-            //         });
-            //     } else {
-            //         params.query.$or.push({
-            //             'email.to': {
-            //                 $regex: this.filters.plainTextSearch,
-            //                 $options: 'ig'
-            //             }
-            //         });
-            //         params.query.$or.push({
-            //             'sms.phone_number': {
-            //                 $regex: this.filters.plainTextSearch,
-            //                 $options: 'ig'
-            //             }
-            //         });
-            //         params.query.$or.push({
-            //             step: {
-            //                 $regex: this.filters.plainTextSearch,
-            //                 $options: 'ig'
-            //             }
-            //         });
-            //         params.query.$or.push({
-            //             service: {
-            //                 $regex: this.filters.plainTextSearch,
-            //                 $options: 'ig'
-            //             }
-            //         });
-            //         params.query.$or.push({
-            //             status: {
-            //                 $regex: this.filters.plainTextSearch,
-            //                 $options: 'ig'
-            //             }
-            //         });
-
-            //         if (this.filters.job) {
-            //             params.query["meta.job"] = this.filters.job;
-            //         }
-            //         if (this.filters.campaign) {
-            //             params.query["meta.campaign"] = this.filters.campaign;
-            //         }
-            //     }
-            // }
+            
             if (this.validateDates() == 'valid') {
                 let start = this.filters.start.value;
                 let end = this.filters.end.value;
