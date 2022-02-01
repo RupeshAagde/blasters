@@ -1,4 +1,4 @@
- <template>
+<template>
     <div class="panel">
         <div class="page-container">
             <div style="logs-container">
@@ -6,130 +6,118 @@
                     :title="'Reports'"
                     :desc="'View All Reportss'"
                 ></jumbotron>
-                 <div class="main-container">
-                    <div class="flex flex-end" >
-                        <template class="flex fil-1" >
-                                <div class="search">
-                                    <nitrozen-input
-                                        class="search-input"
-                                        :showSearchIcon="true"
-                                        type="search"
-                                        placeholder="Search log by email, phone, type, step, template, identifier"
-                                        v-model="filters.plainTextSearch"
-                                        @keyup.enter="searchTemplate()"
-                                        @input="debounceInput"
-                                    ></nitrozen-input>
+                <div class="main-container">
+                    <div class="flex flex-end">
+                        <template class="flex fil-1">
+                            
+                            <div class="flex drop">
+                                <nitrozen-dropdown
+                                    :label="'Search For'"
+                                    class="filter-dropdown"
+                                    placeholder="Select"
+                                    :items="typeFilterList"
+                                    v-model="filters.type"
+                                    @change="fieldChanged"
+                                ></nitrozen-dropdown>
                             </div>
-                                <div class="flex drop">
-                                    <nitrozen-dropdown
-                                        :label="'Type'"
-                                        class="filter-dropdown"
-                                        :items="typeFilterList"
-                                        v-model="filters.type"
-                                        @change="fieldChanged"
-                                    ></nitrozen-dropdown>
-                                </div>
-                                <div class="temp">
-                                    <nitrozen-input
-                                        class="search-input"
-                                        :showSearchIcon="true"
-                                        type="search"
-                                        placeholder="Search by template"
-                                        v-model="filters.templateSearch"
-                                        @keyup.enter="searchTemplate()"
-                                        @input="debounceInput"
-                                    ></nitrozen-input>
-                                </div>
-                                <div class="drop">
-                                    <nitrozen-dropdown
-                                        :label="'Status'"
-                                        class="filter-dropdown"
-                                        :items="statusFilterList"
-                                        v-model="filters.status"
-                                        @change="fieldChanged"
-                                    ></nitrozen-dropdown>
-                                </div>
+                            <div class="search">
+                                <nitrozen-input
+                                    class="search-input"
+                                    :showSearchIcon="true"
+                                    type="search"
+                                    :placeholder="placeHolder"
+                                    v-model="filters.plainTextSearch"
+                                    @keyup.enter="searchTemplate()"
+                                    @input="debounceInput"
+                                ></nitrozen-input>
+                            </div>
+                            <div class="temp">
+                                <nitrozen-input
+                                    class="search-input"
+                                    :showSearchIcon="true"
+                                    type="search"
+                                    placeholder="Search by template"
+                                    v-model="filters.templateSearch"
+                                    @keyup.enter="searchTemplate()"
+                                    @input="debounceInput"
+                                ></nitrozen-input>
+                            </div>
+                            <div class="drop">
+                                <nitrozen-dropdown
+                                    :label="'Status'"
+                                    class="filter-dropdown"
+                                    :items="statusFilterList"
+                                    v-model="filters.status"
+                                    @change="fieldChanged"
+                                ></nitrozen-dropdown>
+                            </div>
                         </template>
                     </div>
                     <div class="flex flex-end date">
                         <template class="fil-2">
-                                <div class="app">
+                            <div class="app">
                                 <nitrozen-dropdown
-                                        placeholder="Search Applications"
-                                        :items="application"
-                                        v-model="filters.application"
-                                        @change="changeApplication"
-                                        :searchable="true"
-                                        @searchInputChange="
-                                            applicationDropdownSearchInputChange
-                                        "
-                                    ></nitrozen-dropdown>
-                                    </div>
-                                     <div class="app">
-                                    <nitrozen-dropdown
-                                        class="campaign-dropdown"
-                                         placeholder="Search Campaign"
-                                        :items="campaigns"
-                                        v-model="filters.campaign"
-                                        @change="changeApplication"
-                                        :searchable="true"
-                                        @searchInputChange="
-                                            campaignDropdownSearchInputChange
-                                        "
-                                    ></nitrozen-dropdown>
-                                </div>
-                            
-                                <div class="job">
-                                    <nitrozen-input
-                                        class="search-input"
-                                        :showSearchIcon="true"
-                                        type="search"
-                                        placeholder="Search by job id"
-                                        v-model="filters.job"
-                                        @keyup.enter="fieldChanged()"
-                                        @input="debounceInput"
-                                    ></nitrozen-input>
-                                </div>
+                                    placeholder="Search Applications"
+                                    :items="application"
+                                    v-model="filters.application"
+                                    @change="changeApplication"
+                                    :searchable="true"
+                                    @searchInputChange="
+                                        applicationDropdownSearchInputChange
+                                    "
+                                ></nitrozen-dropdown>
+                            </div>
+                            <div class="app">
+                                <nitrozen-dropdown
+                                    class="campaign-dropdown"
+                                    placeholder="Search Campaign"
+                                    :items="campaigns"
+                                    v-model="filters.campaign"
+                                    @change="changeApplication"
+                                    :searchable="true"
+                                    @searchInputChange="
+                                        campaignDropdownSearchInputChange
+                                    "
+                                ></nitrozen-dropdown>
+                            </div>
+
+                            <div class="job">
+                                <nitrozen-input
+                                    class="search-input"
+                                    :showSearchIcon="true"
+                                    type="search"
+                                    placeholder="Search by job id"
+                                    v-model="filters.job"
+                                    @keyup.enter="fieldChanged()"
+                                    @input="debounceInput"
+                                ></nitrozen-input>
+                            </div>
                         </template>
                     </div>
                     <div>
-                                    <div class="flex date-wrapper">
-                                    <div class="date-container m-r-24">
-                                        <date-picker
-                                            v-on:input="
-                                                e => dateChanged(e, 'start')
-                                            "
-                                            :date_format="
-                                                'YYYY-MM-DD hh:mm:ss a'
-                                            "
-                                            :picker_type="'datetime'"
-                                            v-model="filters.start.value"
-                                            :not_before="
-                                                new Date(0).toISOString()
-                                            "
-                                            :placeholder="
-                                                'Created at start date'
-                                            "
-                                        />
-                                    </div>
-                                    <div class="inner-container">
-                                        <date-picker
-                                            :date_format="
-                                                'YYYY-MM-DD hh:mm:ss a'
-                                            "
-                                            v-on:input="
-                                                e => dateChanged(e, 'end')
-                                            "
-                                            :picker_type="'datetime'"
-                                            v-model="filters.end.value"
-                                            :not_before="
-                                                new Date(0).toISOString()
-                                            "
-                                            :placeholder="'Created at end date'"
-                                        />
-                                    </div>
-                                </div>
-                                    </div>
+                        <div class="flex date-wrapper">
+                            <div class="date-container m-r-24">
+                                <date-picker
+                                    v-on:input="(e) => dateChanged(e, 'start')"
+                                    :date_format="'YYYY-MM-DD hh:mm:ss a'"
+                                    :picker_type="'datetime'"
+                                    v-model="filters.start.value"
+                                    :not_before="new Date(0).toISOString()"
+                                    :placeholder="'Created at start date'"
+                                />
+                            </div>
+                            <div class="inner-container">
+                                <date-picker
+                                    :date_format="'YYYY-MM-DD hh:mm:ss a'"
+                                    v-on:input="(e) => dateChanged(e, 'end')"
+                                    :picker_type="'datetime'"
+                                    v-model="filters.end.value"
+                                    :not_before="new Date(0).toISOString()"
+                                    :placeholder="'Created at end date'"
+                                />
+                            </div>
+                        </div>
+                    </div>
                     <adm-shimmer
                         v-if="pageLoading && !pageError"
                         :count="4"
@@ -156,7 +144,8 @@
                     <div
                         class="pagination"
                         v-if="
-                            !pageLoading && (logs.items && logs.items.length > 0)
+                            !pageLoading &&
+                                (logs.items && logs.items.length > 0)
                         "
                     >
                         <nitrozen-pagination
@@ -237,9 +226,9 @@ export default {
     data() {
         return {
             typeFilterList: [
-                {
-                    text: 'All',
-                    value: 'all'
+                 {
+                    text: 'Select',
+                    value: ''
                 },
                 {
                     text: 'SMS',
@@ -248,9 +237,14 @@ export default {
                 {
                     text: 'Email',
                     value: 'email'
+                },
+                 {
+                    text: 'Identifier',
+                    value: 'identifier'
                 }
             ],
             statusFilterList: [
+                
                 {
                     text: 'All',
                     value: 'all'
@@ -266,7 +260,7 @@ export default {
             ],
             filters: {
                 plainTextSearch: '',
-                type: 'all',
+                type: '',
                 status: 'all',
                 templateSearch: '',
                 start: {
@@ -294,7 +288,8 @@ export default {
             isInitialLoad: false,
             pageError: false,
             logs: {},
-            application: []
+            application: [],
+            placeHolder: 'Search'
         };
     },
     methods: {
@@ -313,7 +308,7 @@ export default {
             this.currentPage = 1;
             this.logIds = [];
         },
-        
+
          onLogCardClicked(val) {
 
             this.previewData = val;
@@ -326,6 +321,13 @@ export default {
             this.searchTemplate();
         },
         searchTemplate() {
+            this.placeHolder = 'Search by ' + this.filters.type
+            if(this.filters.type == ''){
+                this.$snackbar.global.showError('Please Select Search for');
+                this.placeHolder = 'Search';
+                return;
+
+            }
             this.resetPagination();
             this.changePage();
         },
@@ -342,7 +344,7 @@ export default {
            .then(res=>{
              this.getCampaignDropdown(res.data.items)
              this.changePage()
-        
+
            }).catch(err=>{
                console.log(err);
            })
@@ -408,12 +410,38 @@ export default {
                     }
                 }
             }
-            if (this.filters.type != 'all') {
-                params.query[this.filters.type] = { $exists: true };
-            }
-            if (this.filters.status != 'all') {
-                params.query.status = this.filters.status;
-            }
+            // if (this.filters.type != 'all') {
+            //     params.query[this.filters.type] = { $exists: true };
+            // }
+            // if (this.filters.status != 'all') {
+            //     params.query.status = this.filters.status;
+            // }
+            if(this.filters.type == 'identifier'){
+                              params.query["meta.identifier"] =   {
+                            $regex: this.filters.plainTextSearch,
+                            $options: 'ig'
+                        }
+                    };
+            if(this.filters.type == 'sms'){
+                params.query.sms = { $exists: true };
+                              params.query["sms.phone_number"] =   {
+                            $regex: this.filters.plainTextSearch,
+                            $options: 'ig'
+                        }
+                    };        
+             if(this.filters.type == 'email'){
+                params.query.email = { $exists: true };
+                              params.query["email.to"] =   {
+                            $regex: this.filters.plainTextSearch,
+                            $options: 'ig'
+                        }
+                    }; 
+
+
+
+            
+
+
             if (this.filters.templateSearch) {
                 params.query.$or = params.query.$or || [];
                 params.query.$or.push({
@@ -438,80 +466,63 @@ export default {
              if (this.filters.application) {
                 params.query["application"] = this.filters.application;
             }
-            if (this.filters.plainTextSearch) {
-                params.query.$or = params.query.$or || [];
-                if (this.filters.plainTextSearch.indexOf('email:') != -1) {
-                    let email = this.filters.plainTextSearch.split('email:')[1];
-                    params.query.$or.push({
-                        'email.to': { $regex: email, $options: 'ig' }
-                    });
-                } else if (
-                    this.filters.plainTextSearch.indexOf('phone:') != -1
-                ) {
-                    let phone = this.filters.plainTextSearch.split('phone:')[1];
-                    params.query.$or.push({
-                        'sms.phone_number': {
-                            $regex: phone,
-                            $options: 'ig'
-                        }
-                    });
-                } else {
-                    params.query.$or.push({
-                        'email.to': {
-                            $regex: this.filters.plainTextSearch,
-                            $options: 'ig'
-                        }
-                    });
-                    params.query.$or.push({
-                        'sms.phone_number': {
-                            $regex: this.filters.plainTextSearch,
-                            $options: 'ig'
-                        }
-                    });
-                    params.query.$or.push({
-                        'email.template': {
-                            $regex: this.filters.plainTextSearch,
-                            $options: 'ig'
-                        }
-                    });
-                    params.query.$or.push({
-                        'sms.template': {
-                            $regex: this.filters.plainTextSearch,
-                            $options: 'ig'
-                        }
-                    });
-                    params.query.$or.push({
-                        step: {
-                            $regex: this.filters.plainTextSearch,
-                            $options: 'ig'
-                        }
-                    });
-                    params.query.$or.push({
-                        service: {
-                            $regex: this.filters.plainTextSearch,
-                            $options: 'ig'
-                        }
-                    });
-                    params.query.$or.push({
-                        status: {
-                            $regex: this.filters.plainTextSearch,
-                            $options: 'ig'
-                        }
-                    });
-                    params.query.$or.push({
-                        'meta.identifier': {
-                            $regex: this.filters.plainTextSearch,
-                            $options: 'ig'
-                        }
-                    });
-                    if (this.filters.job) {
-                        params.query["meta.job"] = this.filters.job;
-                    }
-                    if (this.filters.campaign) {
-                        params.query["meta.campaign"] = this.filters.campaign;
-                    }
-                }
-            }
+            // if (this.filters.plainTextSearch) {
+            //     params.query.$or = params.query.$or || [];
+            //     if (this.filters.plainTextSearch.indexOf('email:') != -1) {
+            //         let email = this.filters.plainTextSearch.split('email:')[1];
+            //         params.query.$or.push({
+            //             'email.to': { $regex: email, $options: 'ig' }
+            //         });
+            //     } else if (
+            //         this.filters.plainTextSearch.indexOf('phone:') != -1
+            //     ) {
+            //         let phone = this.filters.plainTextSearch.split('phone:')[1];
+            //         params.query.$or.push({
+            //             'sms.phone_number': {
+            //                 $regex: phone,
+            //                 $options: 'ig'
+            //             }
+            //         });
+            //     } else {
+            //         params.query.$or.push({
+            //             'email.to': {
+            //                 $regex: this.filters.plainTextSearch,
+            //                 $options: 'ig'
+            //             }
+            //         });
+            //         params.query.$or.push({
+            //             'sms.phone_number': {
+            //                 $regex: this.filters.plainTextSearch,
+            //                 $options: 'ig'
+            //             }
+            //         });
+            //         params.query.$or.push({
+            //             step: {
+            //                 $regex: this.filters.plainTextSearch,
+            //                 $options: 'ig'
+            //             }
+            //         });
+            //         params.query.$or.push({
+            //             service: {
+            //                 $regex: this.filters.plainTextSearch,
+            //                 $options: 'ig'
+            //             }
+            //         });
+            //         params.query.$or.push({
+            //             status: {
+            //                 $regex: this.filters.plainTextSearch,
+            //                 $options: 'ig'
+            //             }
+            //         });
+
+            //         if (this.filters.job) {
+            //             params.query["meta.job"] = this.filters.job;
+            //         }
+            //         if (this.filters.campaign) {
+            //             params.query["meta.campaign"] = this.filters.campaign;
+            //         }
+            //     }
+            // }
             if (this.validateDates() == 'valid') {
                 let start = this.filters.start.value;
                 let end = this.filters.end.value;
@@ -536,7 +547,9 @@ export default {
                 path: this.$route.path,
                 query: { ...this.$route.query, ...filters }
             })
-             .catch(()=>{})
+             .catch((err)=>{
+                 console.log(err);
+             })
             params.query = JSON.stringify(params.query);
             this.pageLoading = true;
             CommunicationServices.getLog(params)
@@ -597,7 +610,6 @@ export default {
 //@import './../less/page-ui.less';
 ::v-deep .main-container {
     margin-top: 14px;
-    
 }
 
 .custom-header {
@@ -659,7 +671,7 @@ export default {
     }
     .logs-container {
         width: 100%;
-         .main-container {
+        .main-container {
             background-color: @White;
             display: block;
             margin: 24px 0px;
@@ -740,7 +752,7 @@ export default {
             .search-box {
                 width: 80%;
                 height: 40px;
-                
+
                 justify-content: space-between;
                 .search-input {
                     width: 100px;
@@ -781,46 +793,41 @@ export default {
         margin-bottom: 12px;
     }
 }
-.search{
-
-    
+.search {
     /deep/.search-box {
-      width: 80%;
+        width: 80%;
     }
 }
 .date {
-    /deep/.date-wrapper{
+    /deep/.date-wrapper {
         max-width: 80%;
     }
     margin: 12px 0px;
 }
-.application-dropdown{
+.application-dropdown {
     margin-top: 14px;
     width: 265px;
 }
-.fil-1{
+.fil-1 {
     align-items: flex-end;
 }
-.temp{
+.temp {
     margin-right: 1%;
     margin-left: 1%;
     width: 22.9%;
 }
-.drop{
+.drop {
     width: 18.5%;
 }
-.app{
-     margin-right: 1.8% ;
-     width: 32.1%;
+.app {
+    margin-right: 1.8%;
+    width: 32.1%;
 }
-.search{
-width: 37%;
-margin-right: 1%;
+.search {
+    width: 37%;
+    margin-left: 1%;
 }
-.job{
-         width: 32%;
-
+.job {
+    width: 32%;
 }
-
-
 </style>
