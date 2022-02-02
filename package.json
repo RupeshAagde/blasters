@@ -52,6 +52,7 @@
         "cheerio": "^1.0.0-rc.3",
         "convict": "^6.0.1",
         "cors": "^2.8.5",
+        "cronstrue": "^1.122.0",
         "crypto-js": "^4.0.0",
         "dateformat": "3.0.3",
         "email-validator": "^2.0.4",
