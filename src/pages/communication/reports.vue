@@ -388,7 +388,6 @@ export default {
         let params = {
                 query: {},
                 page_size: this.pagination.limit,
-                sort: '{"_id":-1}'
             };
             if (e && this.currentPage > 0) {
                 if (e.current > this.currentPage) {
@@ -406,6 +405,9 @@ export default {
                     }
                 }
             }
+            if (this.filters.status != 'all') {
+                params.query.status = this.filters.status;
+            }
             if(this.filters.type == 'identifier'){
                               params.query["meta.identifier"] =   {
                             $regex: this.filters.plainTextSearch,
@@ -416,11 +418,11 @@ export default {
                 params.query.sms = { $exists: true };
                               params.query["sms.phone_number"] =    this.filters.plainTextSearch
                     };        
-             if(this.filters.type == 'email'){
+             if(this.filters.type == 'email' ){
                 params.query.email = { $exists: true };
                 params.query["email.to"] = this.filters.plainTextSearch
                     }; 
-              if(this.filters.type == 'all'){
+              if(this.filters.type == 'all' && this.filters.plainTextSearch){
                 params.query.$or = params.query.$or || [];
                 params.query.$or.push({
                     'email.to': {
@@ -456,14 +458,30 @@ export default {
              if (this.filters.application) {
                 params.query["application"] = this.filters.application;
             }
+            if(this.filters.start.value == '' || this.filters.start.value == undefined ){
+                 params.sort = '{"_id":-1}'
+                }
             
             if (this.validateDates() == 'valid') {
                 let start = this.filters.start.value;
                 let end = this.filters.end.value;
-                params.query.created_at = {
+
+                if(this.filters.end.value !== ''){
+                    params.query.created_at = {
                     $gte: start,
                     $lte: end
-                };
+                }
+                }
+                else{
+                  params.query.created_at = {
+                    $gte: start
+                }
+                
+                }
+
+                    
+                
+               
             } else if (this.validateDates() == 'invalid') {
                 this.$snackbar.global.showError('Invalid dates provided');
                 return;
