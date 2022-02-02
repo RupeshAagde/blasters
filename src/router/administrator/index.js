@@ -8,6 +8,7 @@ import BillingVue from './../../pages/company-admin/billing.vue';
 import InvoiceListingMain from './../../pages/company-admin/invoice-listing-main.vue';
 import CouponListingMain from './../../pages/company-admin/coupon-listing-main.vue';
 import CouponCreateUpdate from './../../pages/company-admin/coupon-create-update.vue';
+import ReportListingMain from './../../pages/communication/reports.vue';
 import UserManagementVue from './../../pages/super-user/user-access.vue';
 import AddSuperUserVue from './../../pages/super-user/add-user.vue';
 import Tickets from './../../pages/tickets/index.vue';
@@ -121,6 +122,19 @@ export default [
                 name: 'couponType',
                 path: 'subscription/coupons/edit/:couponType/:couponId',
                 component: CouponCreateUpdate,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'reports',
+                path: 'communication/reports',
+                component: ReportListingMain,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(
                         to,

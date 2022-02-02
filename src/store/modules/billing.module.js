@@ -2,7 +2,8 @@ import BillingSubscriptionService from '@/services/billing.service';
 
 import {
     FETCH_CURRENT_ACTIVE_SUBSCRIPTION,
-    FETCH_COMPANY_SUBSCRIPTION_LIMITS
+    FETCH_COMPANY_SUBSCRIPTION_LIMITS,
+
 } from '../action.type';
 
 import {

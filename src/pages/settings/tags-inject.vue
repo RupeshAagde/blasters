@@ -50,7 +50,7 @@
                     ></nitrozen-pagination>
             </div>
         </div>
-        <nitrozen-dialog ref="tag_delete_dialog" :title="'Delete'">
+        <nitrozen-dialog ref="tag_delete_dialog" :title="'Delete'" @close="closeDeleteDialog">
             <template slot="body">
                 <div>Are you sure you want to delete this tag?</div>
             </template>
@@ -59,7 +59,7 @@
                     <nitrozen-button class="mr24" v-flatBtn :theme="'secondary'" id="del" @click="deleteTag"
                         >Delete</nitrozen-button
                     >
-                    <nitrozen-button v-strokeBtn :theme="'secondary'"
+                    <nitrozen-button v-strokeBtn :theme="'secondary'" @click="closeDeleteDialog"
                         >Cancel</nitrozen-button
                     >
                 </div>

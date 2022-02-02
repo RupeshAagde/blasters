@@ -99,6 +99,20 @@ const BillingService = {
         );
         return ApiService.get(URLS.FETCH_INVOICE_LISTING(), axiosOptions);
     },
+    exportInvoiceListing(params){
+        const axiosOptions = Object.assign(
+            {},
+            { params: params },
+            // getCommonHeaderOptions(),
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-currency-code': 'INR'
+                }
+            }
+        );
+        return ApiService.get(URLS.EXPORT_INVOICE_LISTING(), axiosOptions);
+    },
     chargeInvoice(payload) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{
             data: payload
@@ -129,6 +143,31 @@ const BillingService = {
             axiosOption
         );
     },
+    getSubscriberDetails(options) {
+        const { unique_id,product_suite,type } = options.params
+        const company_id = unique_id
+        const axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.GET_CUSTOMER_DETAILS(company_id), axiosOption);
+    },
+    creditAdjustment(params,payload) {
+        const { unique_id,product_suite,type } = params
+        const company_id = unique_id
+        const axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+            {
+                data: payload,
+                params:{
+                    product_suite,
+                    type
+                }
+            }
+        );
+        return ApiService.post(URLS.CREDIT_ADJUSTMENT(company_id), axiosOption);
+    },
     getCurrentActivePlan(options) {
         const { unique_id,product_suite,type } = options.params
         const company_id = unique_id
@@ -137,6 +176,16 @@ const BillingService = {
             getCommonHeaderOptions()
         );
         return ApiService.get(URLS.SUBSCRIPTION_GET_ACTIVE_PLAN(company_id), axiosOption);
+    },
+    getCreditTransactions(options) {
+        const { unique_id,product_suite,type } = options.params
+        const company_id = unique_id
+        const axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+            {params:options.params}
+        );
+        return ApiService.get(URLS.GET_CREDIT_TRANSACTIONS(company_id), axiosOption);
     },
     fetchCompanyMaxApplicationLimit({company_id}) {
         const axiosOption = Object.assign({}, getCommonHeaderOptions() );
@@ -157,6 +206,12 @@ const BillingService = {
             data: payload
         });
         return ApiService.put(URLS.SUBSCRIPTION_UPDATE_BY_ID(company_id,subscription_id), axiosOptions);
+    },
+    activatePlan(company_id,payload){
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
+            data: payload
+        });
+        return ApiService.post(URLS.SUBSCRIPTION_ACTIVATE(company_id), axiosOptions);
     },
     cancelSubscription(company_id, payload) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{

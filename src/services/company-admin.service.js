@@ -82,6 +82,12 @@ const CompanyService = {
         );
         return ApiService.get(URLS.FETCH_APPLICATIONS(uid), axiosOption);
     },
+    fetchAllApplication(params) {
+        const axiosOption = Object.assign({params: params},
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.FETCH_ALL_APPLICATIONS(), axiosOption);
+    },
 
     adminActionApplication(uid, appId, params) {
         const axiosOption = Object.assign(
@@ -109,6 +115,39 @@ const CompanyService = {
         return ApiService.get(URLS.GET_COMPANY_LIST(), axiosOptions);
     },
 
+    getDeploymentMappings(params) {
+        const axiosOptions = Object.assign(
+            { params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(`${URLS.GET_DEPLOYMENT_MAPPING()}`, axiosOptions);
+    },
+
+    getDeploymentList() {
+        const axiosOptions = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+        );
+        return ApiService.get(URLS.GET_DEPLOYMENT_LIST(), axiosOptions);
+    },
+
+    createDeploymentMapping(body) {
+        const axiosOption = Object.assign(
+            {},
+            { data: body },
+            getCommonHeaderOptions()
+        );
+        return ApiService.post(URLS.CREATE_NEW_DEPLOYMENT_MAPPING(), axiosOption);
+    },
+
+    deleteDeploymentMappingById(id) {
+        const axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions()
+        );
+        return ApiService.del(URLS.DELETE_DEPLOYMENT_MAPPING_BY_ID(id), axiosOption);
+    },
+    
     adminActionCompany(body) {
         let axiosOption = Object.assign(
             {},
