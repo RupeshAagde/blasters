@@ -94,12 +94,13 @@ export const getNavigations = () => {
         {
             display: 'Subscription',
             link: '/administrator/subscription/invoices',
-            title: 'invoice',
+            title: 'subscription',
             icon: 'settings',
             highlightedIcon: 'home-highlighted',
             active: false,
             permission: 'admin-access',
             children: [
+               
                 {
                     display: 'Invoices',
                     link: '/administrator/subscription/invoices',
@@ -107,7 +108,16 @@ export const getNavigations = () => {
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
-                }
+                }, 
+                {
+                    display: 'Coupons',
+                    link: '/administrator/subscription/coupons',
+                    title: 'coupons',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                
             ]
         },
         {

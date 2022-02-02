@@ -145,5 +145,6 @@ const InternalSettingsService = {
         );
         return ApiService.put(URLS.PLATFORM_PRICING_BANNER(), axiosOptions);
     }
+    
 };
 export default InternalSettingsService;
