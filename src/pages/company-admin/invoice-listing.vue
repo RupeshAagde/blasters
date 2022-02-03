@@ -236,6 +236,11 @@
                                 @change="uploadCSVChange"
                                 accept=".csv"
                             />
+                            <nitrozen-inline
+                                icon='cross'
+                                class='nitrozen-icon'
+                                @click="resetFileUploadInput"
+                            ></nitrozen-inline>
                         </div>
                         <nitrozen-button
                             style="margin-top:22px;"
@@ -297,6 +302,12 @@
             display: none;
         }
     }
+.file-upload-box {
+    ::v-deep .nitrozen-icon {
+        float: right;
+        cursor: pointer;
+    }
+}
 ::v-deep .page-slot {
     display: flex;
     flex: 1;
@@ -317,7 +328,7 @@
     margin-top: 12px;
 }
 .m-b-18 {
-    margin-top: 18px;
+    margin-bottom: 8px;
 }
 .m-t-24 {
     margin-top: 24px;
@@ -566,6 +577,7 @@ import {
     NitrozenDialog,
     strokeBtn,
     flatBtn,
+    NitrozenInline,
 } from '@gofynd/nitrozen-vue';
 import { FETCH_METRICS } from '@/store/action.type';
 import marketplaceChannels from './mkp-channels.vue';
@@ -601,6 +613,7 @@ export default {
         Loader,
         'date-picker': DatePicker,
         'nitrozen-dialog': NitrozenDialog,
+        NitrozenInline,
     },
     directives: {
         flatBtn,
@@ -1033,12 +1046,16 @@ export default {
         },
         close(e) {
             this.$emit('close');
-
+            this.resetFileUploadInput();
+        },
+        resetFileUploadInput(){
             document.querySelector('#csvFileInput').value=null;
             this.uploadedInvoices = [];
             this.updateProgressValue=0;
         },
         uploadCSVChange(e){
+            this.uploadedInvoices = [];
+            this.updateProgressValue=0;
             const file = e.target.files[0];
             const reader = new FileReader();
             reader.onload = (e) => {
