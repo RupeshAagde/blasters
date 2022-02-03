@@ -1081,6 +1081,8 @@ export default {
             );
             this.selectedSubs.value = currentsubs;
             this.pageLoading = false;
+            this.fetchSubscriberChips()
+            this.fetchPlansChips()
         });
     },
     methods: {
@@ -1115,7 +1117,7 @@ export default {
                 }
             );
         },
-        fetchPlansChips(chipsIds) {
+        fetchPlansChips(chipsIds=[]) {
             return BillingService.getPlans({ $or:JSON.stringify([{"_id":{"$in": chipsIds }}]),  page_size: 50 }).then(
                 (res) => {
                     let docs = res.data.items;
