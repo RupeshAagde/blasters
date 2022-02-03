@@ -459,6 +459,26 @@ export const allowNumbersOnly = function (event){
     return false;
 }
 
+export const DecimalNumbersOnly = function (event,el){
+    if (event.keyCode == 190) {
+        if (el.indexOf('.') === -1) {
+            return true;
+        }
+    }
+    if((event.ctrlKey || event.metaKey) && event.keyCode == 65){
+        return true; // allow control + A
+    }
+    if (!event.shiftKey && event.keyCode == 8 || event.keyCode == 46
+        || event.keyCode == 37 || event.keyCode == 39) {
+            return true;
+    }
+    else if ( (event.keyCode >= 48 && event.keyCode <= 57) && !event.shiftKey) {
+        return true;
+    }
+    event.preventDefault()
+    return false;
+}
+
 export const allowAlphaNumbericOnly = function(event){
     if((event.ctrlKey || event.metaKey) && event.keyCode == 65){
         return true; // allow control + A
