@@ -92,15 +92,24 @@
                             </div>
                         </div>
                         <div class="flex flex-2" style="margin-top:6px; justify-content:flex-end;">
-                                <nitrozen-button
-                                style="margin-top:22px;"
-                                v-strokeBtn
-                                :theme="'secondary'"
-                                @click="exportInvoiceList()"
-                                >
-                                    Export CSV
-                                </nitrozen-button>
-                            </div>
+                            <nitrozen-button
+                            style="margin-top:22px;"
+                            v-strokeBtn
+                            :theme="'secondary'"
+                            @click="exportInvoiceList()"
+                            >
+                                Export CSV
+                            </nitrozen-button>
+                            <nitrozen-button
+                            style="margin-top:22px; margin-left:22px"
+                            v-strokeBtn
+                            :theme="'secondary'"
+                            @click="openUploadCSVDialog()"
+                            >
+                                Upload CSV
+                            </nitrozen-button>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -211,6 +220,40 @@
             <div v-else>
                 <page-empty text="No invoices present"></page-empty>
             </div>
+
+            <nitrozen-dialog ref="dialog" class="csv-invoice-upload" title="Invoice Bulk Update" @close="close">
+                <template slot="body">
+                    <div v-if="this.uploadedInvoices.length" class="m-b-18">
+                        Total Records : {{this.uploadedInvoices.length}}
+                    </div>
+                    <div>
+                        <div class="file-upload-box">
+                            <input
+                                id="csvFileInput"
+                                class="unit-input"
+                                type="file"
+                                placeholder="auto"
+                                @change="uploadCSVChange"
+                                accept=".csv"
+                            />
+                        </div>
+                        <nitrozen-button
+                            style="margin-top:22px;"
+                            v-strokeBtn
+                            :theme="'secondary'"
+                            @click="uploadCSV()"
+                            >
+                                Upload
+                        </nitrozen-button>
+                    </div>
+                    <div class="mar-top">
+                        <label v-if="this.uploadedInvoices.length" for="file">Update progress: <b>{{showUpdateProgress}}</b></label>
+                        <progress v-if="this.uploadedInvoices.length" class="width-100" id="file" :value="showUpdateProgress" :max="this.uploadedInvoices.length-1"> {{showUpdateProgress}} </progress>
+                    </div>
+                </template>
+                <template slot="footer">
+            </template>
+            </nitrozen-dialog>
         </div>
     </div>
 </template>
@@ -241,11 +284,26 @@
         }
     }
 }
-
+.mar-top {
+    margin-top:22px
+}
+.file-upload-box {
+    border-radius: 3px;
+    border: 1px solid #e0e0e0;
+    padding: 8px 14px;
+}
+.csv-invoice-upload{
+        ::v-deep .nitrozen-dialog-footer{
+            display: none;
+        }
+    }
 ::v-deep .page-slot {
     display: flex;
     flex: 1;
     justify-content: flex-start !important;
+}
+::v-deep .n-input {
+    padding-top:7px;
 }
 .top-container {
     width: 100%;
@@ -257,6 +315,9 @@
 }
 .m-t-12 {
     margin-top: 12px;
+}
+.m-b-18 {
+    margin-top: 18px;
 }
 .m-t-24 {
     margin-top: 24px;
@@ -502,6 +563,7 @@ import {
     NitrozenPagination,
     NitrozenInput,
     NitrozenDropdown,
+    NitrozenDialog,
     strokeBtn,
     flatBtn,
 } from '@gofynd/nitrozen-vue';
@@ -512,6 +574,7 @@ import { titleCase, debounce } from '@/helper/utils';
 import pageempty from '@/components/common/page-empty.vue';
 import root from 'window-or-global';
 import companyListVue from './company-list.vue';
+import * as csv from "csvtojson";
 
 const env = root.env || {};
 
@@ -536,15 +599,19 @@ export default {
         'nitrozen-input': NitrozenInput,
         NitrozenDropdown,
         Loader,
-        'date-picker': DatePicker
+        'date-picker': DatePicker,
+        'nitrozen-dialog': NitrozenDialog,
     },
     directives: {
         flatBtn,
         strokeBtn
     },
-    computed: {},
     data() {
         return {
+            uploadedCsv:null,
+            uploadedInvoices:[],
+            updatedCSV:"",
+            updateProgressValue:0,
             companyList: [{value:'all',text:'All'}],
             attempList: [
                 {value:'all',text:'All'},
@@ -683,7 +750,11 @@ export default {
         this.fetchCompany();
         this.fetchInvoiceList(query)
     },
-    computed: {},
+    computed: {
+        showUpdateProgress(){
+            return this.updateProgressValue;
+        }
+    },
     filters: {
         formatDate(value) {
             if (value) {
@@ -951,7 +1022,79 @@ export default {
             } else {
                 return;
             }
-        }
+        },
+        openUploadCSVDialog() {
+            this.$refs['dialog'].open({
+                width: '700px',
+                height: '550px',
+                showCloseButton: true,
+                dismissible: false,
+            });
+        },
+        close(e) {
+            this.$emit('close');
+
+            document.querySelector('#csvFileInput').value=null;
+            this.uploadedInvoices = [];
+            this.updateProgressValue=0;
+        },
+        uploadCSVChange(e){
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const input=e.target.result;
+                csv()
+                .fromString(input)
+                .then((csvRow)=>{ 
+                    this.uploadedInvoices=csvRow
+                })
+            }
+            reader.readAsText(file);
+        },
+        updateInvoiceStatus(i){
+            if(this.uploadedInvoices.length){
+                if(i<this.uploadedInvoices.length){
+                        BillingService.bulkUpdateOfflinePayment({
+                            "invoice_id":this.uploadedInvoices[i].invoice_id,
+                            "payment_intent_id":this.uploadedInvoices[i].update_payment_intent_id || "",
+                            "status":this.uploadedInvoices[i].update_status || "",
+                            "comment":this.uploadedInvoices[i].update_comment,
+                            "invoice_number":this.uploadedInvoices[i].update_invoice_number,
+                        }).then(res=>{
+                            if(res.data.invoice_charge.status.toLowerCase()==='success'){
+                                this.uploadedInvoices[i].server_response="update successful"
+                            }
+                        }).catch(err=>{
+                            this.uploadedInvoices[i].server_response=err.response.data.message
+                        }).finally(()=>{
+                            i++;
+                            this.updateProgressValue++
+                            this.updateInvoiceStatus(i)
+
+                        })
+
+                }else{
+                    if(i>0){
+                        const items = this.uploadedInvoices
+                        const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
+                        const header = Object.keys(items[0])
+                        const csv = [
+                        header.join(','), // header row first
+                        ...items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
+                        ].join('\r\n')
+                        const anchor = document.createElement('a');
+                        anchor.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+                        anchor.target = '_blank';
+                        anchor.download = 'FP_Report_Invoices.csv';
+                        anchor.click();
+                    }
+                }
+            }
+        },
+        uploadCSV(){
+            this.updateProgressValue=0;
+            this.updateInvoiceStatus(0);
+        },
     }
 };
 </script>
