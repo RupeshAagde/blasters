@@ -95,7 +95,7 @@
                                             <nitrozen-input
                                                 label="Amount*"
                                                 v-model="amount.value"
-                                                @keydown.native="allowNumbers"
+                                                @keydown.native="decimalnumeric($event,amount.value)"
                                             />
                                             <nitrozen-error
                                                 v-if="amount.showerror"
@@ -112,7 +112,7 @@
                                             <nitrozen-input
                                                 label="Percentage*"
                                                 v-model="percentage.value"
-                                                @keydown.native="allowNumbers"
+                                                @keydown.native="decimalnumeric($event,percentage.value)"
                                             />
                                             <nitrozen-error
                                                 v-if="percentage.showerror"
@@ -125,7 +125,7 @@
                                             style="margin-left: 24px"
                                             label="Max Discount"
                                             v-model="discount.value"
-                                            @keydown.native="allowNumbers"
+                                            @keydown.native="decimalnumeric($event,discount.value)"
                                             v-show="
                                                 this.valuetype === 'percentage'
                                             "
@@ -936,7 +936,7 @@ import {
 import { PageHeader, Loader } from '@/components/common/';
 import { TYPE_DATA } from '@/helper/coupon-helper';
 //import { allowNumbersOnly } from '@/helper/utils'
-import { allowNumbersOnly, allowAlphaNumbericOnly } from '@/helper/utils';
+import { allowNumbersOnly, allowAlphaNumbericOnly, DecimalNumbersOnly } from '@/helper/utils';
 import inlinesvg from '@/components/common/ukt-inline-svg.vue';
 import schedulemodal from '@/components/common/schedule-modal.vue';
 import admInlineSVG from '@/components/common/adm-inline-svg';
@@ -1514,6 +1514,10 @@ export default {
         },
         alphanumric(event) {
             allowAlphaNumbericOnly(event);
+        },
+        decimalnumeric(event,variable){
+         DecimalNumbersOnly(event,variable)
+        event.target.value = (event.target.value.match(/^\d*(\.?\d{0,1})/g)[0]) || null
         },
         checkUnique() {
             this.code.value = this.code.value.toUpperCase()
