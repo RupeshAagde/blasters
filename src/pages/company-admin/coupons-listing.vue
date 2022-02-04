@@ -243,7 +243,6 @@ export default {
                     },
                 })
                 .catch(() => {});
-                console.log(this.pagination.current);
             this.get_coupons_list();
         },
         populateFromURL(){
