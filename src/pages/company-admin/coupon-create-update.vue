@@ -125,7 +125,7 @@
                                             style="margin-left: 24px"
                                             label="Max Discount"
                                             v-model="discount.value"
-                                            @keydown.native="allowNumbers"
+                                            @keydown.native="decimalnumeric($event,discount.value)"
                                             v-show="
                                                 this.valuetype === 'percentage'
                                             "
