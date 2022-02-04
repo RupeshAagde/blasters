@@ -223,12 +223,15 @@ export default {
         setRouteQuery(query) {
             if (query.code || query.published) {
                 // clear pagination if search or filter applied
-                this.pagination = { ...this.pagination, current: 0 };
-                query.page = undefined;
+                this.pagination.current = 1;
+                this.pagination = { ...this.pagination };
+                query.page = this.pagination.current;
                 query.limit = undefined;
                 query.published = this.query.is_active.value;
             }
             if(query.type){
+            this.pagination.current = 1;
+            query.page = this.pagination.current;
             query.type = this.query.type
             }
                 this.$router
@@ -240,6 +243,7 @@ export default {
                     },
                 })
                 .catch(() => {});
+                console.log(this.pagination.current);
             this.get_coupons_list();
         },
         populateFromURL(){
