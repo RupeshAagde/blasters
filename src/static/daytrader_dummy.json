@@ -1,0 +1,3592 @@
+[{
+    "success": true,
+    "data": {
+        "brand_payout": [
+            {
+                "id": "2f1bb3e6-4856-49fc-819e-81657254e5aa",
+                "created_at": 1584172367,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "brand_payout",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount",
+                "description": "Brand Payout (Unit Price/BCA)",
+                "display_name": "Brand Payout (Unit Price/BCA)",
+                "transactional_input_fields": [
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1584172367
+            },
+            {
+                "id": "92293812-db52-4e7e-bacf-16dc6148eea8",
+                "created_at": 1584961643,
+                "created_by": "oms_testing",
+                "name": "brand_payout",
+                "formula_type": "default",
+                "formula": "transfer_price + gst_fee",
+                "description": "Brand Payout for Transfer Price ",
+                "display_name": "Brand Payout for Transfer Price",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "gst_fee"
+                ],
+                "user_input_fields": [],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1584961643
+            }
+        ],
+        "cancellation_fee": [
+            {
+                "id": "2693db1a-a4e4-4dc7-ac16-c6c19d6298fd",
+                "created_at": 1599335100,
+                "created_by": "oms_testing",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "price_effective * (cancellation_fee/100)",
+                "description": "Cancellation charges on ESP",
+                "display_name": "Cancellation charges",
+                "transactional_input_fields": [
+                    "price_effective",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": "",
+                "updated_at": 1599335100
+            },
+            {
+                "id": "f8627518-0920-4f10-93ae-2e51af1df3c2",
+                "created_at": 1585030847,
+                "created_by": "oms_testing",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (cancellation_fee/100)",
+                "description": "Cancellation charges if stores cancel the order ",
+                "display_name": "Cancellation charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1585030847
+            },
+            {
+                "id": "38b2d931-ddf2-4594-89ee-0dd253367ae8",
+                "created_at": 1591270893,
+                "created_by": "mnavinashajith_gmail_com_68666",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "transfer_price*cancellation_fee/100",
+                "description": "Calculate TP Cancellation Fee",
+                "display_name": "TP Cancel fee",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1591270893
+            },
+            {
+                "id": "1e01d8c9-f6ef-4229-a975-b6dface95415",
+                "created_at": 1611776700,
+                "created_by": "oms_testing",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "value_of_good* (cancellation_fee/100)",
+                "description": "Cancellation charges on VOG",
+                "display_name": "Cancellation charges",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1611776700
+            }
+        ],
+        "closing_fee": [
+            {
+                "id": "ffa9a785-5f43-4ac6-aa29-aceb9d067e1d",
+                "created_at": 1583393804,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "closing_fee",
+                "formula_type": "default",
+                "formula": "closing_fee",
+                "description": "Flat Closing fee",
+                "display_name": "FLat Closing fee",
+                "transactional_input_fields": [
+                    "closing_fee"
+                ],
+                "user_input_fields": [
+                    "closing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583393804
+            }
+        ],
+        "closing_fee_return_charges": [
+            {
+                "id": "8df11cee-fe1d-411f-bd41-319007965456",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "closing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "closing_fee * (100 - return_closing_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "closing_fee_return_charges",
+                "transactional_input_fields": [
+                    "closing_fee",
+                    "return_closing_reversal"
+                ],
+                "user_input_fields": [
+                    "closing_fee",
+                    "return_closing_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "closing_fee_rto_charges": [
+            {
+                "id": "fd77bfca-99c1-4283-893a-c4da6d9de0b0",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "closing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "closing_fee * (100 - rto_closing_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "closing_fee_rto_charges",
+                "transactional_input_fields": [
+                    "closing_fee",
+                    "rto_closing_reversal"
+                ],
+                "user_input_fields": [
+                    "closing_fee",
+                    "rto_closing_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "commission": [
+            {
+                "id": "8f6539d9-b5bf-4fb6-b0f8-133644063b49",
+                "created_at": 1583393090,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "value_of_good * (commission/100.0)",
+                "description": "Calculate Commission value on ESP",
+                "display_name": "Commission Charge on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "commission"
+                ],
+                "user_input_fields": [
+                    "commission"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583393090
+            },
+            {
+                "id": "2172ba36-46cc-42cc-b91a-034075e4219f",
+                "created_at": 1586331147,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "(((brand_calculated_amount - (transfer_price + gst_fee))/1.18) - (brand_calculated_amount * (processing_fee/100.0))) if ((brand_calculated_amount * (processing_fee/100.0)) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) else ((brand_calculated_amount - (transfer_price + gst_fee))/1.18)",
+                "description": "Commission in case of TP",
+                "display_name": "TP Commission",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1586331147
+            },
+            {
+                "id": "248f0475-c840-408d-8db4-2ef27ec6635e",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (commission/100.0)",
+                "description": "Calculate Commission value",
+                "display_name": "Commission Amount",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "commission"
+                ],
+                "user_input_fields": [
+                    "commission"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            },
+            {
+                "id": "a56cf960-30c2-4c3d-9aba-9dae93e5b2af",
+                "created_at": 1584961502,
+                "created_by": "oms_testing",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "(brand_calculated_amount - (transfer_price + gst_fee))/1.18",
+                "description": "Net profit for Transfer Price which will get break into virtual commission and processing_fee",
+                "display_name": "Commission for Transfer Price",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "brand_calculated_amount",
+                    "gst_fee"
+                ],
+                "user_input_fields": [],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1584961502
+            }
+        ],
+        "commission_return_charges": [
+            {
+                "id": "e325592e-4a1c-4abc-9d54-9a01df1b620c",
+                "created_at": 1603887595,
+                "created_by": "tushar",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "((((brand_calculated_amount - (transfer_price + gst_fee))/1.18) - (brand_calculated_amount * (processing_fee/100.0))) * ((100 - return_comm_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0))*((100 - return_comm_reversal)/100.0) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18))*((100 - return_comm_reversal)/100.0)) else (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)* ((100 - return_comm_reversal)/100.0))",
+                "description": "Commission  return charges in case of TP",
+                "display_name": "TP Commission Return",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "aeb201e5-5b9d-4e9b-aca3-fdfd0cc517a0",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "return_comm_reversal",
+                "description": "Flat Commission  return charges",
+                "display_name": "Flat Commission  return charges",
+                "transactional_input_fields": [
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "5410fc0f-95a9-4aad-9206-071ff7a49a6c",
+                "created_at": 1583394652,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (commission/100) * (100 - return_comm_reversal)/100.0",
+                "description": "Commission return charges (on VOG)",
+                "display_name": "Commission return reversal charges on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583394652
+            },
+            {
+                "id": "6a55087f-f153-4731-b2bc-b07ac48d2b0c",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (commission/100.0)*(100 - return_comm_reversal)/100.0",
+                "description": "Commission return charges (on Unit Price/BCA)",
+                "display_name": "commission_amount_return_charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "commission_rto_charges": [
+            {
+                "id": "b8c62e9a-33a4-4522-bb46-c0a5f70f7192",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (commission/100.0) * (100 - rto_comm_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "commission_amount_rto_charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            },
+            {
+                "id": "6580c2ad-cb89-4baf-8432-6c98748dd1f4",
+                "created_at": 1583394670,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (commission/100) * (100 - rto_comm_reversal)/100.0",
+                "description": "Commission rto reversal charges on ESP",
+                "display_name": "Commission rto reversal charges on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583394670
+            },
+            {
+                "id": "3cb37e02-06e7-4fa1-b2e6-d1dfb2259cdd",
+                "created_at": 1603887595,
+                "created_by": "tushar",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "((((brand_calculated_amount - (transfer_price + gst_fee))/1.18) - (brand_calculated_amount * (processing_fee/100.0))) * ((100 - rto_comm_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0))*((100 - rto_comm_reversal)/100.0) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18))*((100 - rto_comm_reversal)/100.0)) else (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)* ((100 - rto_comm_reversal)/100.0))",
+                "description": "Commission RTO charges in case of TP",
+                "display_name": "TP Commission RTO",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "f25bd9fb-1dee-408b-872b-101bfc050003",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "rto_comm_reversal",
+                "description": "Flat Commission  RTO charges",
+                "display_name": "Flat Commission  RTO charges",
+                "transactional_input_fields": [
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            }
+        ],
+        "logistics_fee": [
+            {
+                "id": "972b1fed-2e06-4ad1-879e-c418416dc195",
+                "created_at": 1583395727,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "logistics_fee",
+                "formula_type": "default",
+                "formula": "logistics_fee",
+                "description": "Logistic fee",
+                "display_name": "Logistic fee",
+                "transactional_input_fields": [
+                    "logistics_fee"
+                ],
+                "user_input_fields": [
+                    "logistics_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583395727
+            }
+        ],
+        "packaging_fee": [
+            {
+                "id": "fee82514-c6c4-45e1-a459-80f049f13835",
+                "created_at": 1583393789,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "packaging_fee",
+                "formula_type": "default",
+                "formula": "packaging_fee",
+                "description": "Flat Packaging fee",
+                "display_name": "FLat Packaging fee",
+                "transactional_input_fields": [
+                    "packaging_fee"
+                ],
+                "user_input_fields": [
+                    "packaging_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583393789
+            }
+        ],
+        "packaging_fee_return_charges": [
+            {
+                "id": "f9de4b4f-f56f-4ae5-92af-cfafb303f58b",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "packaging_fee_return_charges",
+                "formula_type": "default",
+                "formula": "packaging_fee * (100 - return_closing_reversal)/100",
+                "description": "Calculate Processing value",
+                "display_name": "packaging_fee_return_charges",
+                "transactional_input_fields": [
+                    "packaging_fee",
+                    "return_closing_reversal"
+                ],
+                "user_input_fields": [
+                    "packaging_fee",
+                    "return_closing_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "packaging_fee_rto_charges": [
+            {
+                "id": "ed751b10-4a43-4fab-a4f5-b9ea77669808",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "packaging_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "packaging_fee * (100 - rto_closing_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "packaging_fee_rto_charges",
+                "transactional_input_fields": [
+                    "packaging_fee",
+                    "rto_closing_reversal"
+                ],
+                "user_input_fields": [
+                    "packaging_fee",
+                    "rto_closing_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "processing_fee": [
+            {
+                "id": "8cd15419-9bdd-4f0d-afea-75cc9675e9af",
+                "created_at": 1583393164,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "processing_fee",
+                "formula_type": "default",
+                "formula": "value_of_good * (processing_fee/100.0)",
+                "description": "Calculate Processing fee value on ESP",
+                "display_name": "Processing fee on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "processing_fee"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583393164
+            },
+            {
+                "id": "ae867a0b-d667-4910-be01-9ef9f6f4e780",
+                "created_at": 1586330506,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "processing_fee",
+                "formula_type": "default",
+                "formula": "(brand_calculated_amount * (processing_fee/100.0)) if ((brand_calculated_amount * (processing_fee/100.0)) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) else 0",
+                "description": "Processing fee in case of TP",
+                "display_name": "TP Processing Fee",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1586330506
+            },
+            {
+                "id": "cd31dee8-d3d2-4743-ad21-803389e7b554",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "processing_fee",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (processing_fee/100.0)",
+                "description": "Calculate Processing value",
+                "display_name": "Processing Fee",
+                "transactional_input_fields": [
+                    "processing_fee",
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "processing_fee_return_charges": [
+            {
+                "id": "40a981e9-81db-46b1-920d-9b7ce2cc437d",
+                "created_at": 1603887595,
+                "created_by": "tushar",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "((brand_calculated_amount * (processing_fee/100.0)) * ((100 - return_comm_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0)) * ((100 - return_comm_reversal)/100.0)) < (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) * ((100 - return_comm_reversal)/100.0)) else 0",
+                "description": "Processing fee Return Charge in case of TP",
+                "display_name": "TP Processing Fee Return Charges",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "5a951665-4705-4b80-b4b8-4d2b09c657d5",
+                "created_at": 1583394706,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (processing_fee/100) * (100 - return_comm_reversal)/100.0",
+                "description": "Processing fee reversal charges on ESP",
+                "display_name": "Processing fee reversal charges on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583394706
+            },
+            {
+                "id": "50811a1e-85fa-4b19-9330-efe2f8fe4c52",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (processing_fee/100) * (100 - return_comm_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "processing_fee_return_charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            },
+            {
+                "id": "8abc60a0-3f7f-47bb-a819-b3b82c9e6244",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (processing_fee/100) * (100 - return_processing_fee_reversal)/100.0",
+                "description": "Calculate Processing value on BCA",
+                "display_name": "Calculate Processing value BCA",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "processing_fee",
+                    "return_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_processing_fee_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "729d56cd-f6c6-4a96-861a-f230c6d9f11a",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (processing_fee/100) * (100 - return_processing_fee_reversal)/100.0",
+                "description": "Processing fee reversal charges on Value of Good",
+                "display_name": "Processing fee reversal charges on Value of Good",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "processing_fee",
+                    "return_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "27ace33b-cbff-4d80-b7a4-008d7d913a32",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "((brand_calculated_amount * (processing_fee/100.0)) * ((100 - return_processing_fee_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0)) * ((100 - return_processing_fee_reversal)/100.0)) < (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) * ((100 - return_processing_fee_reversal)/100.0)) else 0",
+                "description": "Processing fee Return Charge in case of TP",
+                "display_name": "Processing fee Return Charge in case of TP",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "return_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_processing_fee_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            }
+        ],
+        "processing_fee_rto_charges": [
+            {
+                "id": "cf298628-bdb1-48be-96a5-f153eb655199",
+                "created_at": 1583394690,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (processing_fee/100) * (100 - rto_comm_reversal)/100.0",
+                "description": "Processing fee rto reversal charges on ESP",
+                "display_name": "Processing fee rto reversal charges on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583394690
+            },
+            {
+                "id": "28df9904-6226-4c63-a8ed-a6062af6b866",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (processing_fee/100) * (100 - rto_comm_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "processing_fee_rto_charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            },
+            {
+                "id": "b36906ca-8d94-4f1f-8613-364a872557b0",
+                "created_at": 1603869964,
+                "created_by": "tushar",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "((brand_calculated_amount * (processing_fee/100.0)) * ((100 - rto_comm_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0)) * ((100 - rto_comm_reversal)/100.0)) < (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) * ((100 - rto_comm_reversal)/100.0)) else 0",
+                "description": "Processing fee RTO Charge in case of TP",
+                "display_name": "TP Processing Fee RTO Charges",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "43147318-8358-4994-b5c5-5f6b012cec74",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "((brand_calculated_amount * (processing_fee/100.0)) * ((100 - rto_processing_fee_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0)) * ((100 - rto_processing_fee_reversal)/100.0)) < (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) * ((100 - return_processing_fee_reversal)/100.0)) else 0",
+                "description": "Processing fee RTO Charge in case of TP",
+                "display_name": "Processing fee RTO Charge in case of TP",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "rto_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_processing_fee_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "2731c75a-cb85-4261-a70d-72b0fe83374a",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (processing_fee/100) * (100 - rto_processing_fee_reversal)/100.0",
+                "description": "Processing fee rto reversal charges on Value of Good",
+                "display_name": "Processing fee rto reversal charges on Value of Good",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "processing_fee",
+                    "rto_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "return_processing_fee_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "188d484d-bfe0-4b7a-986c-48998036ed2f",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (processing_fee/100) * (100 - rto_processing_fee_reversal)/100.0",
+                "description": "Calculate Processing value on BCA",
+                "display_name": "Calculate Processing value BCA",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "processing_fee",
+                    "rto_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_processing_fee_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            }
+        ]
+    }
+},{
+    "success": true,
+    "data": {
+        "brand_payout": [
+            {
+                "id": "2f1bb3e6-4856-49fc-819e-81657254e5aa",
+                "created_at": 1584172367,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "brand_payout",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount",
+                "description": "Brand Payout (Unit Price/BCA)",
+                "display_name": "Brand Payout (Unit Price/BCA)",
+                "transactional_input_fields": [
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1584172367
+            },
+            {
+                "id": "92293812-db52-4e7e-bacf-16dc6148eea8",
+                "created_at": 1584961643,
+                "created_by": "oms_testing",
+                "name": "brand_payout",
+                "formula_type": "default",
+                "formula": "transfer_price + gst_fee",
+                "description": "Brand Payout for Transfer Price ",
+                "display_name": "Brand Payout for Transfer Price",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "gst_fee"
+                ],
+                "user_input_fields": [],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1584961643
+            }
+        ],
+        "cancellation_fee": [
+            {
+                "id": "2693db1a-a4e4-4dc7-ac16-c6c19d6298fd",
+                "created_at": 1599335100,
+                "created_by": "oms_testing",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "price_effective * (cancellation_fee/100)",
+                "description": "Cancellation charges on ESP",
+                "display_name": "Cancellation charges",
+                "transactional_input_fields": [
+                    "price_effective",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": "",
+                "updated_at": 1599335100
+            },
+            {
+                "id": "f8627518-0920-4f10-93ae-2e51af1df3c2",
+                "created_at": 1585030847,
+                "created_by": "oms_testing",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (cancellation_fee/100)",
+                "description": "Cancellation charges if stores cancel the order ",
+                "display_name": "Cancellation charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1585030847
+            },
+            {
+                "id": "38b2d931-ddf2-4594-89ee-0dd253367ae8",
+                "created_at": 1591270893,
+                "created_by": "mnavinashajith_gmail_com_68666",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "transfer_price*cancellation_fee/100",
+                "description": "Calculate TP Cancellation Fee",
+                "display_name": "TP Cancel fee",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1591270893
+            },
+            {
+                "id": "1e01d8c9-f6ef-4229-a975-b6dface95415",
+                "created_at": 1611776700,
+                "created_by": "oms_testing",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "value_of_good* (cancellation_fee/100)",
+                "description": "Cancellation charges on VOG",
+                "display_name": "Cancellation charges",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1611776700
+            }
+        ],
+        "closing_fee": [
+            {
+                "id": "ffa9a785-5f43-4ac6-aa29-aceb9d067e1d",
+                "created_at": 1583393804,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "closing_fee",
+                "formula_type": "default",
+                "formula": "closing_fee",
+                "description": "Flat Closing fee",
+                "display_name": "FLat Closing fee",
+                "transactional_input_fields": [
+                    "closing_fee"
+                ],
+                "user_input_fields": [
+                    "closing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583393804
+            }
+        ],
+        "closing_fee_return_charges": [
+            {
+                "id": "8df11cee-fe1d-411f-bd41-319007965456",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "closing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "closing_fee * (100 - return_closing_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "closing_fee_return_charges",
+                "transactional_input_fields": [
+                    "closing_fee",
+                    "return_closing_reversal"
+                ],
+                "user_input_fields": [
+                    "closing_fee",
+                    "return_closing_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "closing_fee_rto_charges": [
+            {
+                "id": "fd77bfca-99c1-4283-893a-c4da6d9de0b0",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "closing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "closing_fee * (100 - rto_closing_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "closing_fee_rto_charges",
+                "transactional_input_fields": [
+                    "closing_fee",
+                    "rto_closing_reversal"
+                ],
+                "user_input_fields": [
+                    "closing_fee",
+                    "rto_closing_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "commission": [
+            {
+                "id": "8f6539d9-b5bf-4fb6-b0f8-133644063b49",
+                "created_at": 1583393090,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "value_of_good * (commission/100.0)",
+                "description": "Calculate Commission value on ESP",
+                "display_name": "Commission Charge on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "commission"
+                ],
+                "user_input_fields": [
+                    "commission"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583393090
+            },
+            {
+                "id": "2172ba36-46cc-42cc-b91a-034075e4219f",
+                "created_at": 1586331147,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "(((brand_calculated_amount - (transfer_price + gst_fee))/1.18) - (brand_calculated_amount * (processing_fee/100.0))) if ((brand_calculated_amount * (processing_fee/100.0)) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) else ((brand_calculated_amount - (transfer_price + gst_fee))/1.18)",
+                "description": "Commission in case of TP",
+                "display_name": "TP Commission",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1586331147
+            },
+            {
+                "id": "248f0475-c840-408d-8db4-2ef27ec6635e",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (commission/100.0)",
+                "description": "Calculate Commission value",
+                "display_name": "Commission Amount",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "commission"
+                ],
+                "user_input_fields": [
+                    "commission"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            },
+            {
+                "id": "a56cf960-30c2-4c3d-9aba-9dae93e5b2af",
+                "created_at": 1584961502,
+                "created_by": "oms_testing",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "(brand_calculated_amount - (transfer_price + gst_fee))/1.18",
+                "description": "Net profit for Transfer Price which will get break into virtual commission and processing_fee",
+                "display_name": "Commission for Transfer Price",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "brand_calculated_amount",
+                    "gst_fee"
+                ],
+                "user_input_fields": [],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1584961502
+            }
+        ],
+        "commission_return_charges": [
+            {
+                "id": "e325592e-4a1c-4abc-9d54-9a01df1b620c",
+                "created_at": 1603887595,
+                "created_by": "tushar",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "((((brand_calculated_amount - (transfer_price + gst_fee))/1.18) - (brand_calculated_amount * (processing_fee/100.0))) * ((100 - return_comm_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0))*((100 - return_comm_reversal)/100.0) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18))*((100 - return_comm_reversal)/100.0)) else (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)* ((100 - return_comm_reversal)/100.0))",
+                "description": "Commission  return charges in case of TP",
+                "display_name": "TP Commission Return",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "aeb201e5-5b9d-4e9b-aca3-fdfd0cc517a0",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "return_comm_reversal",
+                "description": "Flat Commission  return charges",
+                "display_name": "Flat Commission  return charges",
+                "transactional_input_fields": [
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "5410fc0f-95a9-4aad-9206-071ff7a49a6c",
+                "created_at": 1583394652,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (commission/100) * (100 - return_comm_reversal)/100.0",
+                "description": "Commission return charges (on VOG)",
+                "display_name": "Commission return reversal charges on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583394652
+            },
+            {
+                "id": "6a55087f-f153-4731-b2bc-b07ac48d2b0c",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (commission/100.0)*(100 - return_comm_reversal)/100.0",
+                "description": "Commission return charges (on Unit Price/BCA)",
+                "display_name": "commission_amount_return_charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "commission_rto_charges": [
+            {
+                "id": "b8c62e9a-33a4-4522-bb46-c0a5f70f7192",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (commission/100.0) * (100 - rto_comm_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "commission_amount_rto_charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            },
+            {
+                "id": "6580c2ad-cb89-4baf-8432-6c98748dd1f4",
+                "created_at": 1583394670,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (commission/100) * (100 - rto_comm_reversal)/100.0",
+                "description": "Commission rto reversal charges on ESP",
+                "display_name": "Commission rto reversal charges on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583394670
+            },
+            {
+                "id": "3cb37e02-06e7-4fa1-b2e6-d1dfb2259cdd",
+                "created_at": 1603887595,
+                "created_by": "tushar",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "((((brand_calculated_amount - (transfer_price + gst_fee))/1.18) - (brand_calculated_amount * (processing_fee/100.0))) * ((100 - rto_comm_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0))*((100 - rto_comm_reversal)/100.0) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18))*((100 - rto_comm_reversal)/100.0)) else (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)* ((100 - rto_comm_reversal)/100.0))",
+                "description": "Commission RTO charges in case of TP",
+                "display_name": "TP Commission RTO",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "f25bd9fb-1dee-408b-872b-101bfc050003",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "rto_comm_reversal",
+                "description": "Flat Commission  RTO charges",
+                "display_name": "Flat Commission  RTO charges",
+                "transactional_input_fields": [
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            }
+        ],
+        "logistics_fee": [
+            {
+                "id": "972b1fed-2e06-4ad1-879e-c418416dc195",
+                "created_at": 1583395727,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "logistics_fee",
+                "formula_type": "default",
+                "formula": "logistics_fee",
+                "description": "Logistic fee",
+                "display_name": "Logistic fee",
+                "transactional_input_fields": [
+                    "logistics_fee"
+                ],
+                "user_input_fields": [
+                    "logistics_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583395727
+            }
+        ],
+        "packaging_fee": [
+            {
+                "id": "fee82514-c6c4-45e1-a459-80f049f13835",
+                "created_at": 1583393789,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "packaging_fee",
+                "formula_type": "default",
+                "formula": "packaging_fee",
+                "description": "Flat Packaging fee",
+                "display_name": "FLat Packaging fee",
+                "transactional_input_fields": [
+                    "packaging_fee"
+                ],
+                "user_input_fields": [
+                    "packaging_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583393789
+            }
+        ],
+        "packaging_fee_return_charges": [
+            {
+                "id": "f9de4b4f-f56f-4ae5-92af-cfafb303f58b",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "packaging_fee_return_charges",
+                "formula_type": "default",
+                "formula": "packaging_fee * (100 - return_closing_reversal)/100",
+                "description": "Calculate Processing value",
+                "display_name": "packaging_fee_return_charges",
+                "transactional_input_fields": [
+                    "packaging_fee",
+                    "return_closing_reversal"
+                ],
+                "user_input_fields": [
+                    "packaging_fee",
+                    "return_closing_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "packaging_fee_rto_charges": [
+            {
+                "id": "ed751b10-4a43-4fab-a4f5-b9ea77669808",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "packaging_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "packaging_fee * (100 - rto_closing_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "packaging_fee_rto_charges",
+                "transactional_input_fields": [
+                    "packaging_fee",
+                    "rto_closing_reversal"
+                ],
+                "user_input_fields": [
+                    "packaging_fee",
+                    "rto_closing_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "processing_fee": [
+            {
+                "id": "8cd15419-9bdd-4f0d-afea-75cc9675e9af",
+                "created_at": 1583393164,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "processing_fee",
+                "formula_type": "default",
+                "formula": "value_of_good * (processing_fee/100.0)",
+                "description": "Calculate Processing fee value on ESP",
+                "display_name": "Processing fee on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "processing_fee"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583393164
+            },
+            {
+                "id": "ae867a0b-d667-4910-be01-9ef9f6f4e780",
+                "created_at": 1586330506,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "processing_fee",
+                "formula_type": "default",
+                "formula": "(brand_calculated_amount * (processing_fee/100.0)) if ((brand_calculated_amount * (processing_fee/100.0)) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) else 0",
+                "description": "Processing fee in case of TP",
+                "display_name": "TP Processing Fee",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1586330506
+            },
+            {
+                "id": "cd31dee8-d3d2-4743-ad21-803389e7b554",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "processing_fee",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (processing_fee/100.0)",
+                "description": "Calculate Processing value",
+                "display_name": "Processing Fee",
+                "transactional_input_fields": [
+                    "processing_fee",
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "processing_fee_return_charges": [
+            {
+                "id": "40a981e9-81db-46b1-920d-9b7ce2cc437d",
+                "created_at": 1603887595,
+                "created_by": "tushar",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "((brand_calculated_amount * (processing_fee/100.0)) * ((100 - return_comm_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0)) * ((100 - return_comm_reversal)/100.0)) < (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) * ((100 - return_comm_reversal)/100.0)) else 0",
+                "description": "Processing fee Return Charge in case of TP",
+                "display_name": "TP Processing Fee Return Charges",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "5a951665-4705-4b80-b4b8-4d2b09c657d5",
+                "created_at": 1583394706,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (processing_fee/100) * (100 - return_comm_reversal)/100.0",
+                "description": "Processing fee reversal charges on ESP",
+                "display_name": "Processing fee reversal charges on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583394706
+            },
+            {
+                "id": "50811a1e-85fa-4b19-9330-efe2f8fe4c52",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (processing_fee/100) * (100 - return_comm_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "processing_fee_return_charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            },
+            {
+                "id": "8abc60a0-3f7f-47bb-a819-b3b82c9e6244",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (processing_fee/100) * (100 - return_processing_fee_reversal)/100.0",
+                "description": "Calculate Processing value on BCA",
+                "display_name": "Calculate Processing value BCA",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "processing_fee",
+                    "return_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_processing_fee_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "729d56cd-f6c6-4a96-861a-f230c6d9f11a",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (processing_fee/100) * (100 - return_processing_fee_reversal)/100.0",
+                "description": "Processing fee reversal charges on Value of Good",
+                "display_name": "Processing fee reversal charges on Value of Good",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "processing_fee",
+                    "return_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "27ace33b-cbff-4d80-b7a4-008d7d913a32",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "((brand_calculated_amount * (processing_fee/100.0)) * ((100 - return_processing_fee_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0)) * ((100 - return_processing_fee_reversal)/100.0)) < (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) * ((100 - return_processing_fee_reversal)/100.0)) else 0",
+                "description": "Processing fee Return Charge in case of TP",
+                "display_name": "Processing fee Return Charge in case of TP",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "return_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_processing_fee_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            }
+        ],
+        "processing_fee_rto_charges": [
+            {
+                "id": "cf298628-bdb1-48be-96a5-f153eb655199",
+                "created_at": 1583394690,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (processing_fee/100) * (100 - rto_comm_reversal)/100.0",
+                "description": "Processing fee rto reversal charges on ESP",
+                "display_name": "Processing fee rto reversal charges on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583394690
+            },
+            {
+                "id": "28df9904-6226-4c63-a8ed-a6062af6b866",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (processing_fee/100) * (100 - rto_comm_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "processing_fee_rto_charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            },
+            {
+                "id": "b36906ca-8d94-4f1f-8613-364a872557b0",
+                "created_at": 1603869964,
+                "created_by": "tushar",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "((brand_calculated_amount * (processing_fee/100.0)) * ((100 - rto_comm_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0)) * ((100 - rto_comm_reversal)/100.0)) < (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) * ((100 - rto_comm_reversal)/100.0)) else 0",
+                "description": "Processing fee RTO Charge in case of TP",
+                "display_name": "TP Processing Fee RTO Charges",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "43147318-8358-4994-b5c5-5f6b012cec74",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "((brand_calculated_amount * (processing_fee/100.0)) * ((100 - rto_processing_fee_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0)) * ((100 - rto_processing_fee_reversal)/100.0)) < (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) * ((100 - return_processing_fee_reversal)/100.0)) else 0",
+                "description": "Processing fee RTO Charge in case of TP",
+                "display_name": "Processing fee RTO Charge in case of TP",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "rto_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_processing_fee_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "2731c75a-cb85-4261-a70d-72b0fe83374a",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (processing_fee/100) * (100 - rto_processing_fee_reversal)/100.0",
+                "description": "Processing fee rto reversal charges on Value of Good",
+                "display_name": "Processing fee rto reversal charges on Value of Good",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "processing_fee",
+                    "rto_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "return_processing_fee_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "188d484d-bfe0-4b7a-986c-48998036ed2f",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (processing_fee/100) * (100 - rto_processing_fee_reversal)/100.0",
+                "description": "Calculate Processing value on BCA",
+                "display_name": "Calculate Processing value BCA",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "processing_fee",
+                    "rto_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_processing_fee_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            }
+        ]
+    }
+},{
+    "success": true,
+    "data": {
+        "brand_payout": [
+            {
+                "id": "92293812-db52-4e7e-bacf-16dc6148eea8",
+                "created_at": 1584961643,
+                "created_by": "oms_testing",
+                "name": "brand_payout",
+                "formula_type": "default",
+                "formula": "transfer_price + gst_fee",
+                "description": "Brand Payout for Transfer Price ",
+                "display_name": "Brand Payout for Transfer Price",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "gst_fee"
+                ],
+                "user_input_fields": [],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1584961643
+            },
+            {
+                "id": "2f1bb3e6-4856-49fc-819e-81657254e5aa",
+                "created_at": 1584172367,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "brand_payout",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount",
+                "description": "Brand Payout (Unit Price/BCA)",
+                "display_name": "Brand Payout (Unit Price/BCA)",
+                "transactional_input_fields": [
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1584172367
+            }
+        ],
+        "cancellation_fee": [
+            {
+                "id": "38b2d931-ddf2-4594-89ee-0dd253367ae8",
+                "created_at": 1591270893,
+                "created_by": "mnavinashajith_gmail_com_68666",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "transfer_price*cancellation_fee/100",
+                "description": "Calculate TP Cancellation Fee",
+                "display_name": "TP Cancel fee",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1591270893
+            },
+            {
+                "id": "1e01d8c9-f6ef-4229-a975-b6dface95415",
+                "created_at": 1611776700,
+                "created_by": "oms_testing",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "value_of_good* (cancellation_fee/100)",
+                "description": "Cancellation charges on VOG",
+                "display_name": "Cancellation charges",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1611776700
+            },
+            {
+                "id": "2693db1a-a4e4-4dc7-ac16-c6c19d6298fd",
+                "created_at": 1599335100,
+                "created_by": "oms_testing",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "price_effective * (cancellation_fee/100)",
+                "description": "Cancellation charges on ESP",
+                "display_name": "Cancellation charges",
+                "transactional_input_fields": [
+                    "price_effective",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": "",
+                "updated_at": 1599335100
+            },
+            {
+                "id": "f8627518-0920-4f10-93ae-2e51af1df3c2",
+                "created_at": 1585030847,
+                "created_by": "oms_testing",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (cancellation_fee/100)",
+                "description": "Cancellation charges if stores cancel the order ",
+                "display_name": "Cancellation charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1585030847
+            }
+        ],
+        "cod_fees_from_brand": [
+            {
+                "id": "b6ea4eb8-f3f5-4c08-b3d9-d69160800b7c",
+                "created_at": 1589021794,
+                "created_by": "sohil_parikh",
+                "name": "cod_fees_from_brand",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount*(cod_fees_from_brand/100)",
+                "description": "COD fee taken from brand for cod order",
+                "display_name": "COD fee from Brand",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "cod_fees_from_brand"
+                ],
+                "user_input_fields": [
+                    "cod_fees_from_brand"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1589021794
+            },
+            {
+                "id": "ed134df6-0992-4220-9e1f-38e0c6f0e971",
+                "created_at": 1588426736,
+                "created_by": "sohil_parikh",
+                "name": "cod_fees_from_brand",
+                "formula_type": "default",
+                "formula": "cod_charges/1.18",
+                "description": "COD taken from brand",
+                "display_name": "Cod fee from Brand",
+                "transactional_input_fields": [
+                    "cod_charges"
+                ],
+                "user_input_fields": [],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1588426736
+            }
+        ],
+        "commission": [
+            {
+                "id": "2172ba36-46cc-42cc-b91a-034075e4219f",
+                "created_at": 1586331147,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "(((brand_calculated_amount - (transfer_price + gst_fee))/1.18) - (brand_calculated_amount * (processing_fee/100.0))) if ((brand_calculated_amount * (processing_fee/100.0)) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) else ((brand_calculated_amount - (transfer_price + gst_fee))/1.18)",
+                "description": "Commission in case of TP",
+                "display_name": "TP Commission",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1586331147
+            },
+            {
+                "id": "8f6539d9-b5bf-4fb6-b0f8-133644063b49",
+                "created_at": 1583393090,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "value_of_good * (commission/100.0)",
+                "description": "Calculate Commission value on ESP",
+                "display_name": "Commission Charge on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "commission"
+                ],
+                "user_input_fields": [
+                    "commission"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583393090
+            },
+            {
+                "id": "a56cf960-30c2-4c3d-9aba-9dae93e5b2af",
+                "created_at": 1584961502,
+                "created_by": "oms_testing",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "(brand_calculated_amount - (transfer_price + gst_fee))/1.18",
+                "description": "Net profit for Transfer Price which will get break into virtual commission and processing_fee",
+                "display_name": "Commission for Transfer Price",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "brand_calculated_amount",
+                    "gst_fee"
+                ],
+                "user_input_fields": [],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1584961502
+            },
+            {
+                "id": "248f0475-c840-408d-8db4-2ef27ec6635e",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (commission/100.0)",
+                "description": "Calculate Commission value",
+                "display_name": "Commission Amount",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "commission"
+                ],
+                "user_input_fields": [
+                    "commission"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "commission_return_charges": [
+            {
+                "id": "6a55087f-f153-4731-b2bc-b07ac48d2b0c",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (commission/100.0)*(100 - return_comm_reversal)/100.0",
+                "description": "Commission return charges (on Unit Price/BCA)",
+                "display_name": "commission_amount_return_charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            },
+            {
+                "id": "e325592e-4a1c-4abc-9d54-9a01df1b620c",
+                "created_at": 1603887595,
+                "created_by": "tushar",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "((((brand_calculated_amount - (transfer_price + gst_fee))/1.18) - (brand_calculated_amount * (processing_fee/100.0))) * ((100 - return_comm_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0))*((100 - return_comm_reversal)/100.0) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18))*((100 - return_comm_reversal)/100.0)) else (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)* ((100 - return_comm_reversal)/100.0))",
+                "description": "Commission  return charges in case of TP",
+                "display_name": "TP Commission Return",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "aeb201e5-5b9d-4e9b-aca3-fdfd0cc517a0",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "return_comm_reversal",
+                "description": "Flat Commission  return charges",
+                "display_name": "Flat Commission  return charges",
+                "transactional_input_fields": [
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "5410fc0f-95a9-4aad-9206-071ff7a49a6c",
+                "created_at": 1583394652,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (commission/100) * (100 - return_comm_reversal)/100.0",
+                "description": "Commission return charges (on VOG)",
+                "display_name": "Commission return reversal charges on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583394652
+            }
+        ],
+        "commission_rto_charges": [
+            {
+                "id": "b8c62e9a-33a4-4522-bb46-c0a5f70f7192",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (commission/100.0) * (100 - rto_comm_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "commission_amount_rto_charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            },
+            {
+                "id": "6580c2ad-cb89-4baf-8432-6c98748dd1f4",
+                "created_at": 1583394670,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (commission/100) * (100 - rto_comm_reversal)/100.0",
+                "description": "Commission rto reversal charges on ESP",
+                "display_name": "Commission rto reversal charges on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583394670
+            },
+            {
+                "id": "3cb37e02-06e7-4fa1-b2e6-d1dfb2259cdd",
+                "created_at": 1603887595,
+                "created_by": "tushar",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "((((brand_calculated_amount - (transfer_price + gst_fee))/1.18) - (brand_calculated_amount * (processing_fee/100.0))) * ((100 - rto_comm_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0))*((100 - rto_comm_reversal)/100.0) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18))*((100 - rto_comm_reversal)/100.0)) else (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)* ((100 - rto_comm_reversal)/100.0))",
+                "description": "Commission RTO charges in case of TP",
+                "display_name": "TP Commission RTO",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "f25bd9fb-1dee-408b-872b-101bfc050003",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "rto_comm_reversal",
+                "description": "Flat Commission  RTO charges",
+                "display_name": "Flat Commission  RTO charges",
+                "transactional_input_fields": [
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            }
+        ],
+        "logistics_fee": [
+            {
+                "id": "972b1fed-2e06-4ad1-879e-c418416dc195",
+                "created_at": 1583395727,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "logistics_fee",
+                "formula_type": "default",
+                "formula": "logistics_fee",
+                "description": "Logistic fee",
+                "display_name": "Logistic fee",
+                "transactional_input_fields": [
+                    "logistics_fee"
+                ],
+                "user_input_fields": [
+                    "logistics_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583395727
+            }
+        ],
+        "packaging_fee": [
+            {
+                "id": "fee82514-c6c4-45e1-a459-80f049f13835",
+                "created_at": 1583393789,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "packaging_fee",
+                "formula_type": "default",
+                "formula": "packaging_fee",
+                "description": "Flat Packaging fee",
+                "display_name": "FLat Packaging fee",
+                "transactional_input_fields": [
+                    "packaging_fee"
+                ],
+                "user_input_fields": [
+                    "packaging_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583393789
+            }
+        ],
+        "packaging_fee_return_charges": [
+            {
+                "id": "f9de4b4f-f56f-4ae5-92af-cfafb303f58b",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "packaging_fee_return_charges",
+                "formula_type": "default",
+                "formula": "packaging_fee * (100 - return_closing_reversal)/100",
+                "description": "Calculate Processing value",
+                "display_name": "packaging_fee_return_charges",
+                "transactional_input_fields": [
+                    "packaging_fee",
+                    "return_closing_reversal"
+                ],
+                "user_input_fields": [
+                    "packaging_fee",
+                    "return_closing_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "packaging_fee_rto_charges": [
+            {
+                "id": "ed751b10-4a43-4fab-a4f5-b9ea77669808",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "packaging_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "packaging_fee * (100 - rto_closing_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "packaging_fee_rto_charges",
+                "transactional_input_fields": [
+                    "packaging_fee",
+                    "rto_closing_reversal"
+                ],
+                "user_input_fields": [
+                    "packaging_fee",
+                    "rto_closing_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "processing_fee": [
+            {
+                "id": "ae867a0b-d667-4910-be01-9ef9f6f4e780",
+                "created_at": 1586330506,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "processing_fee",
+                "formula_type": "default",
+                "formula": "(brand_calculated_amount * (processing_fee/100.0)) if ((brand_calculated_amount * (processing_fee/100.0)) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) else 0",
+                "description": "Processing fee in case of TP",
+                "display_name": "TP Processing Fee",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1586330506
+            },
+            {
+                "id": "8cd15419-9bdd-4f0d-afea-75cc9675e9af",
+                "created_at": 1583393164,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "processing_fee",
+                "formula_type": "default",
+                "formula": "value_of_good * (processing_fee/100.0)",
+                "description": "Calculate Processing fee value on ESP",
+                "display_name": "Processing fee on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "processing_fee"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583393164
+            },
+            {
+                "id": "cd31dee8-d3d2-4743-ad21-803389e7b554",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "processing_fee",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (processing_fee/100.0)",
+                "description": "Calculate Processing value",
+                "display_name": "Processing Fee",
+                "transactional_input_fields": [
+                    "processing_fee",
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ]
+    }
+},{
+    "success": true,
+    "data": {
+        "brand_payout": [
+            {
+                "id": "92293812-db52-4e7e-bacf-16dc6148eea8",
+                "created_at": 1584961643,
+                "created_by": "oms_testing",
+                "name": "brand_payout",
+                "formula_type": "default",
+                "formula": "transfer_price + gst_fee",
+                "description": "Brand Payout for Transfer Price ",
+                "display_name": "Brand Payout for Transfer Price",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "gst_fee"
+                ],
+                "user_input_fields": [],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1584961643
+            },
+            {
+                "id": "2f1bb3e6-4856-49fc-819e-81657254e5aa",
+                "created_at": 1584172367,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "brand_payout",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount",
+                "description": "Brand Payout (Unit Price/BCA)",
+                "display_name": "Brand Payout (Unit Price/BCA)",
+                "transactional_input_fields": [
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1584172367
+            }
+        ],
+        "cancellation_fee": [
+            {
+                "id": "2693db1a-a4e4-4dc7-ac16-c6c19d6298fd",
+                "created_at": 1599335100,
+                "created_by": "oms_testing",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "price_effective * (cancellation_fee/100)",
+                "description": "Cancellation charges on ESP",
+                "display_name": "Cancellation charges",
+                "transactional_input_fields": [
+                    "price_effective",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": "",
+                "updated_at": 1599335100
+            },
+            {
+                "id": "f8627518-0920-4f10-93ae-2e51af1df3c2",
+                "created_at": 1585030847,
+                "created_by": "oms_testing",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (cancellation_fee/100)",
+                "description": "Cancellation charges if stores cancel the order ",
+                "display_name": "Cancellation charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1585030847
+            },
+            {
+                "id": "38b2d931-ddf2-4594-89ee-0dd253367ae8",
+                "created_at": 1591270893,
+                "created_by": "mnavinashajith_gmail_com_68666",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "transfer_price*cancellation_fee/100",
+                "description": "Calculate TP Cancellation Fee",
+                "display_name": "TP Cancel fee",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1591270893
+            },
+            {
+                "id": "1e01d8c9-f6ef-4229-a975-b6dface95415",
+                "created_at": 1611776700,
+                "created_by": "oms_testing",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "value_of_good* (cancellation_fee/100)",
+                "description": "Cancellation charges on VOG",
+                "display_name": "Cancellation charges",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1611776700
+            }
+        ],
+        "commission": [
+            {
+                "id": "8f6539d9-b5bf-4fb6-b0f8-133644063b49",
+                "created_at": 1583393090,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "value_of_good * (commission/100.0)",
+                "description": "Calculate Commission value on ESP",
+                "display_name": "Commission Charge on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "commission"
+                ],
+                "user_input_fields": [
+                    "commission"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583393090
+            },
+            {
+                "id": "a56cf960-30c2-4c3d-9aba-9dae93e5b2af",
+                "created_at": 1584961502,
+                "created_by": "oms_testing",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "(brand_calculated_amount - (transfer_price + gst_fee))/1.18",
+                "description": "Net profit for Transfer Price which will get break into virtual commission and processing_fee",
+                "display_name": "Commission for Transfer Price",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "brand_calculated_amount",
+                    "gst_fee"
+                ],
+                "user_input_fields": [],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1584961502
+            },
+            {
+                "id": "2172ba36-46cc-42cc-b91a-034075e4219f",
+                "created_at": 1586331147,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "(((brand_calculated_amount - (transfer_price + gst_fee))/1.18) - (brand_calculated_amount * (processing_fee/100.0))) if ((brand_calculated_amount * (processing_fee/100.0)) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) else ((brand_calculated_amount - (transfer_price + gst_fee))/1.18)",
+                "description": "Commission in case of TP",
+                "display_name": "TP Commission",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1586331147
+            },
+            {
+                "id": "248f0475-c840-408d-8db4-2ef27ec6635e",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (commission/100.0)",
+                "description": "Calculate Commission value",
+                "display_name": "Commission Amount",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "commission"
+                ],
+                "user_input_fields": [
+                    "commission"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "commission_return_charges": [
+            {
+                "id": "aeb201e5-5b9d-4e9b-aca3-fdfd0cc517a0",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "return_comm_reversal",
+                "description": "Flat Commission  return charges",
+                "display_name": "Flat Commission  return charges",
+                "transactional_input_fields": [
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "5410fc0f-95a9-4aad-9206-071ff7a49a6c",
+                "created_at": 1583394652,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (commission/100) * (100 - return_comm_reversal)/100.0",
+                "description": "Commission return charges (on VOG)",
+                "display_name": "Commission return reversal charges on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583394652
+            },
+            {
+                "id": "6a55087f-f153-4731-b2bc-b07ac48d2b0c",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (commission/100.0)*(100 - return_comm_reversal)/100.0",
+                "description": "Commission return charges (on Unit Price/BCA)",
+                "display_name": "commission_amount_return_charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            },
+            {
+                "id": "e325592e-4a1c-4abc-9d54-9a01df1b620c",
+                "created_at": 1603887595,
+                "created_by": "tushar",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "((((brand_calculated_amount - (transfer_price + gst_fee))/1.18) - (brand_calculated_amount * (processing_fee/100.0))) * ((100 - return_comm_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0))*((100 - return_comm_reversal)/100.0) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18))*((100 - return_comm_reversal)/100.0)) else (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)* ((100 - return_comm_reversal)/100.0))",
+                "description": "Commission  return charges in case of TP",
+                "display_name": "TP Commission Return",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            }
+        ],
+        "commission_rto_charges": [
+            {
+                "id": "3cb37e02-06e7-4fa1-b2e6-d1dfb2259cdd",
+                "created_at": 1603887595,
+                "created_by": "tushar",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "((((brand_calculated_amount - (transfer_price + gst_fee))/1.18) - (brand_calculated_amount * (processing_fee/100.0))) * ((100 - rto_comm_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0))*((100 - rto_comm_reversal)/100.0) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18))*((100 - rto_comm_reversal)/100.0)) else (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)* ((100 - rto_comm_reversal)/100.0))",
+                "description": "Commission RTO charges in case of TP",
+                "display_name": "TP Commission RTO",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "b8c62e9a-33a4-4522-bb46-c0a5f70f7192",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (commission/100.0) * (100 - rto_comm_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "commission_amount_rto_charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            },
+            {
+                "id": "f25bd9fb-1dee-408b-872b-101bfc050003",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "rto_comm_reversal",
+                "description": "Flat Commission  RTO charges",
+                "display_name": "Flat Commission  RTO charges",
+                "transactional_input_fields": [
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "6580c2ad-cb89-4baf-8432-6c98748dd1f4",
+                "created_at": 1583394670,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (commission/100) * (100 - rto_comm_reversal)/100.0",
+                "description": "Commission rto reversal charges on ESP",
+                "display_name": "Commission rto reversal charges on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583394670
+            }
+        ]
+    }
+},{
+    "success": true,
+    "data": {
+        "brand_payout": [
+            {
+                "id": "2f1bb3e6-4856-49fc-819e-81657254e5aa",
+                "created_at": 1584172367,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "brand_payout",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount",
+                "description": "Brand Payout (Unit Price/BCA)",
+                "display_name": "Brand Payout (Unit Price/BCA)",
+                "transactional_input_fields": [
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1584172367
+            },
+            {
+                "id": "92293812-db52-4e7e-bacf-16dc6148eea8",
+                "created_at": 1584961643,
+                "created_by": "oms_testing",
+                "name": "brand_payout",
+                "formula_type": "default",
+                "formula": "transfer_price + gst_fee",
+                "description": "Brand Payout for Transfer Price ",
+                "display_name": "Brand Payout for Transfer Price",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "gst_fee"
+                ],
+                "user_input_fields": [],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1584961643
+            }
+        ],
+        "cancellation_fee": [
+            {
+                "id": "2693db1a-a4e4-4dc7-ac16-c6c19d6298fd",
+                "created_at": 1599335100,
+                "created_by": "oms_testing",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "price_effective * (cancellation_fee/100)",
+                "description": "Cancellation charges on ESP",
+                "display_name": "Cancellation charges",
+                "transactional_input_fields": [
+                    "price_effective",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": "",
+                "updated_at": 1599335100
+            },
+            {
+                "id": "f8627518-0920-4f10-93ae-2e51af1df3c2",
+                "created_at": 1585030847,
+                "created_by": "oms_testing",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (cancellation_fee/100)",
+                "description": "Cancellation charges if stores cancel the order ",
+                "display_name": "Cancellation charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1585030847
+            },
+            {
+                "id": "38b2d931-ddf2-4594-89ee-0dd253367ae8",
+                "created_at": 1591270893,
+                "created_by": "mnavinashajith_gmail_com_68666",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "transfer_price*cancellation_fee/100",
+                "description": "Calculate TP Cancellation Fee",
+                "display_name": "TP Cancel fee",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1591270893
+            },
+            {
+                "id": "1e01d8c9-f6ef-4229-a975-b6dface95415",
+                "created_at": 1611776700,
+                "created_by": "oms_testing",
+                "name": "cancellation_fee",
+                "formula_type": "default",
+                "formula": "value_of_good* (cancellation_fee/100)",
+                "description": "Cancellation charges on VOG",
+                "display_name": "Cancellation charges",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "cancellation_fee"
+                ],
+                "user_input_fields": [
+                    "cancellation_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1611776700
+            }
+        ],
+        "closing_fee": [
+            {
+                "id": "ffa9a785-5f43-4ac6-aa29-aceb9d067e1d",
+                "created_at": 1583393804,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "closing_fee",
+                "formula_type": "default",
+                "formula": "closing_fee",
+                "description": "Flat Closing fee",
+                "display_name": "FLat Closing fee",
+                "transactional_input_fields": [
+                    "closing_fee"
+                ],
+                "user_input_fields": [
+                    "closing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583393804
+            }
+        ],
+        "closing_fee_return_charges": [
+            {
+                "id": "8df11cee-fe1d-411f-bd41-319007965456",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "closing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "closing_fee * (100 - return_closing_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "closing_fee_return_charges",
+                "transactional_input_fields": [
+                    "closing_fee",
+                    "return_closing_reversal"
+                ],
+                "user_input_fields": [
+                    "closing_fee",
+                    "return_closing_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "closing_fee_rto_charges": [
+            {
+                "id": "fd77bfca-99c1-4283-893a-c4da6d9de0b0",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "closing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "closing_fee * (100 - rto_closing_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "closing_fee_rto_charges",
+                "transactional_input_fields": [
+                    "closing_fee",
+                    "rto_closing_reversal"
+                ],
+                "user_input_fields": [
+                    "closing_fee",
+                    "rto_closing_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "commission": [
+            {
+                "id": "8f6539d9-b5bf-4fb6-b0f8-133644063b49",
+                "created_at": 1583393090,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "value_of_good * (commission/100.0)",
+                "description": "Calculate Commission value on ESP",
+                "display_name": "Commission Charge on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "commission"
+                ],
+                "user_input_fields": [
+                    "commission"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583393090
+            },
+            {
+                "id": "2172ba36-46cc-42cc-b91a-034075e4219f",
+                "created_at": 1586331147,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "(((brand_calculated_amount - (transfer_price + gst_fee))/1.18) - (brand_calculated_amount * (processing_fee/100.0))) if ((brand_calculated_amount * (processing_fee/100.0)) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) else ((brand_calculated_amount - (transfer_price + gst_fee))/1.18)",
+                "description": "Commission in case of TP",
+                "display_name": "TP Commission",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1586331147
+            },
+            {
+                "id": "248f0475-c840-408d-8db4-2ef27ec6635e",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (commission/100.0)",
+                "description": "Calculate Commission value",
+                "display_name": "Commission Amount",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "commission"
+                ],
+                "user_input_fields": [
+                    "commission"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            },
+            {
+                "id": "a56cf960-30c2-4c3d-9aba-9dae93e5b2af",
+                "created_at": 1584961502,
+                "created_by": "oms_testing",
+                "name": "commission",
+                "formula_type": "default",
+                "formula": "(brand_calculated_amount - (transfer_price + gst_fee))/1.18",
+                "description": "Net profit for Transfer Price which will get break into virtual commission and processing_fee",
+                "display_name": "Commission for Transfer Price",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "brand_calculated_amount",
+                    "gst_fee"
+                ],
+                "user_input_fields": [],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1584961502
+            }
+        ],
+        "commission_return_charges": [
+            {
+                "id": "e325592e-4a1c-4abc-9d54-9a01df1b620c",
+                "created_at": 1603887595,
+                "created_by": "tushar",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "((((brand_calculated_amount - (transfer_price + gst_fee))/1.18) - (brand_calculated_amount * (processing_fee/100.0))) * ((100 - return_comm_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0))*((100 - return_comm_reversal)/100.0) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18))*((100 - return_comm_reversal)/100.0)) else (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)* ((100 - return_comm_reversal)/100.0))",
+                "description": "Commission  return charges in case of TP",
+                "display_name": "TP Commission Return",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "aeb201e5-5b9d-4e9b-aca3-fdfd0cc517a0",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "return_comm_reversal",
+                "description": "Flat Commission  return charges",
+                "display_name": "Flat Commission  return charges",
+                "transactional_input_fields": [
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "5410fc0f-95a9-4aad-9206-071ff7a49a6c",
+                "created_at": 1583394652,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (commission/100) * (100 - return_comm_reversal)/100.0",
+                "description": "Commission return charges (on VOG)",
+                "display_name": "Commission return reversal charges on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583394652
+            },
+            {
+                "id": "6a55087f-f153-4731-b2bc-b07ac48d2b0c",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "commission_return_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (commission/100.0)*(100 - return_comm_reversal)/100.0",
+                "description": "Commission return charges (on Unit Price/BCA)",
+                "display_name": "commission_amount_return_charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "commission_rto_charges": [
+            {
+                "id": "b8c62e9a-33a4-4522-bb46-c0a5f70f7192",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (commission/100.0) * (100 - rto_comm_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "commission_amount_rto_charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            },
+            {
+                "id": "6580c2ad-cb89-4baf-8432-6c98748dd1f4",
+                "created_at": 1583394670,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (commission/100) * (100 - rto_comm_reversal)/100.0",
+                "description": "Commission rto reversal charges on ESP",
+                "display_name": "Commission rto reversal charges on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "commission",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583394670
+            },
+            {
+                "id": "3cb37e02-06e7-4fa1-b2e6-d1dfb2259cdd",
+                "created_at": 1603887595,
+                "created_by": "tushar",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "((((brand_calculated_amount - (transfer_price + gst_fee))/1.18) - (brand_calculated_amount * (processing_fee/100.0))) * ((100 - rto_comm_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0))*((100 - rto_comm_reversal)/100.0) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18))*((100 - rto_comm_reversal)/100.0)) else (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)* ((100 - rto_comm_reversal)/100.0))",
+                "description": "Commission RTO charges in case of TP",
+                "display_name": "TP Commission RTO",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "f25bd9fb-1dee-408b-872b-101bfc050003",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "commission_rto_charges",
+                "formula_type": "default",
+                "formula": "rto_comm_reversal",
+                "description": "Flat Commission  RTO charges",
+                "display_name": "Flat Commission  RTO charges",
+                "transactional_input_fields": [
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            }
+        ],
+        "logistics_fee": [
+            {
+                "id": "972b1fed-2e06-4ad1-879e-c418416dc195",
+                "created_at": 1583395727,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "logistics_fee",
+                "formula_type": "default",
+                "formula": "logistics_fee",
+                "description": "Logistic fee",
+                "display_name": "Logistic fee",
+                "transactional_input_fields": [
+                    "logistics_fee"
+                ],
+                "user_input_fields": [
+                    "logistics_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583395727
+            }
+        ],
+        "packaging_fee": [
+            {
+                "id": "fee82514-c6c4-45e1-a459-80f049f13835",
+                "created_at": 1583393789,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "packaging_fee",
+                "formula_type": "default",
+                "formula": "packaging_fee",
+                "description": "Flat Packaging fee",
+                "display_name": "FLat Packaging fee",
+                "transactional_input_fields": [
+                    "packaging_fee"
+                ],
+                "user_input_fields": [
+                    "packaging_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583393789
+            }
+        ],
+        "packaging_fee_return_charges": [
+            {
+                "id": "f9de4b4f-f56f-4ae5-92af-cfafb303f58b",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "packaging_fee_return_charges",
+                "formula_type": "default",
+                "formula": "packaging_fee * (100 - return_closing_reversal)/100",
+                "description": "Calculate Processing value",
+                "display_name": "packaging_fee_return_charges",
+                "transactional_input_fields": [
+                    "packaging_fee",
+                    "return_closing_reversal"
+                ],
+                "user_input_fields": [
+                    "packaging_fee",
+                    "return_closing_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "packaging_fee_rto_charges": [
+            {
+                "id": "ed751b10-4a43-4fab-a4f5-b9ea77669808",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "packaging_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "packaging_fee * (100 - rto_closing_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "packaging_fee_rto_charges",
+                "transactional_input_fields": [
+                    "packaging_fee",
+                    "rto_closing_reversal"
+                ],
+                "user_input_fields": [
+                    "packaging_fee",
+                    "rto_closing_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "processing_fee": [
+            {
+                "id": "8cd15419-9bdd-4f0d-afea-75cc9675e9af",
+                "created_at": 1583393164,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "processing_fee",
+                "formula_type": "default",
+                "formula": "value_of_good * (processing_fee/100.0)",
+                "description": "Calculate Processing fee value on ESP",
+                "display_name": "Processing fee on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "processing_fee"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583393164
+            },
+            {
+                "id": "ae867a0b-d667-4910-be01-9ef9f6f4e780",
+                "created_at": 1586330506,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "processing_fee",
+                "formula_type": "default",
+                "formula": "(brand_calculated_amount * (processing_fee/100.0)) if ((brand_calculated_amount * (processing_fee/100.0)) < ((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) else 0",
+                "description": "Processing fee in case of TP",
+                "display_name": "TP Processing Fee",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1586330506
+            },
+            {
+                "id": "cd31dee8-d3d2-4743-ad21-803389e7b554",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "processing_fee",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (processing_fee/100.0)",
+                "description": "Calculate Processing value",
+                "display_name": "Processing Fee",
+                "transactional_input_fields": [
+                    "processing_fee",
+                    "brand_calculated_amount"
+                ],
+                "user_input_fields": [
+                    "processing_fee"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            }
+        ],
+        "processing_fee_return_charges": [
+            {
+                "id": "40a981e9-81db-46b1-920d-9b7ce2cc437d",
+                "created_at": 1603887595,
+                "created_by": "tushar",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "((brand_calculated_amount * (processing_fee/100.0)) * ((100 - return_comm_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0)) * ((100 - return_comm_reversal)/100.0)) < (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) * ((100 - return_comm_reversal)/100.0)) else 0",
+                "description": "Processing fee Return Charge in case of TP",
+                "display_name": "TP Processing Fee Return Charges",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "5a951665-4705-4b80-b4b8-4d2b09c657d5",
+                "created_at": 1583394706,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (processing_fee/100) * (100 - return_comm_reversal)/100.0",
+                "description": "Processing fee reversal charges on ESP",
+                "display_name": "Processing fee reversal charges on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583394706
+            },
+            {
+                "id": "50811a1e-85fa-4b19-9330-efe2f8fe4c52",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (processing_fee/100) * (100 - return_comm_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "processing_fee_return_charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            },
+            {
+                "id": "8abc60a0-3f7f-47bb-a819-b3b82c9e6244",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (processing_fee/100) * (100 - return_processing_fee_reversal)/100.0",
+                "description": "Calculate Processing value on BCA",
+                "display_name": "Calculate Processing value BCA",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "processing_fee",
+                    "return_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_processing_fee_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "729d56cd-f6c6-4a96-861a-f230c6d9f11a",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (processing_fee/100) * (100 - return_processing_fee_reversal)/100.0",
+                "description": "Processing fee reversal charges on Value of Good",
+                "display_name": "Processing fee reversal charges on Value of Good",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "processing_fee",
+                    "return_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "return_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "27ace33b-cbff-4d80-b7a4-008d7d913a32",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_return_charges",
+                "formula_type": "default",
+                "formula": "((brand_calculated_amount * (processing_fee/100.0)) * ((100 - return_processing_fee_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0)) * ((100 - return_processing_fee_reversal)/100.0)) < (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) * ((100 - return_processing_fee_reversal)/100.0)) else 0",
+                "description": "Processing fee Return Charge in case of TP",
+                "display_name": "Processing fee Return Charge in case of TP",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "return_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "return_processing_fee_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            }
+        ],
+        "processing_fee_rto_charges": [
+            {
+                "id": "cf298628-bdb1-48be-96a5-f153eb655199",
+                "created_at": 1583394690,
+                "created_by": "sohilparikh_gofynd_com_59106",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (processing_fee/100) * (100 - rto_comm_reversal)/100.0",
+                "description": "Processing fee rto reversal charges on ESP",
+                "display_name": "Processing fee rto reversal charges on ESP",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1583394690
+            },
+            {
+                "id": "28df9904-6226-4c63-a8ed-a6062af6b866",
+                "created_at": 1581682795,
+                "created_by": "1",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (processing_fee/100) * (100 - rto_comm_reversal)/100.0",
+                "description": "Calculate Processing value",
+                "display_name": "processing_fee_rto_charges",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": 1581682795
+            },
+            {
+                "id": "b36906ca-8d94-4f1f-8613-364a872557b0",
+                "created_at": 1603869964,
+                "created_by": "tushar",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "((brand_calculated_amount * (processing_fee/100.0)) * ((100 - rto_comm_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0)) * ((100 - rto_comm_reversal)/100.0)) < (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) * ((100 - rto_comm_reversal)/100.0)) else 0",
+                "description": "Processing fee RTO Charge in case of TP",
+                "display_name": "TP Processing Fee RTO Charges",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "rto_comm_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_comm_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "43147318-8358-4994-b5c5-5f6b012cec74",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "((brand_calculated_amount * (processing_fee/100.0)) * ((100 - rto_processing_fee_reversal)/100.0)) if (((brand_calculated_amount * (processing_fee/100.0)) * ((100 - rto_processing_fee_reversal)/100.0)) < (((brand_calculated_amount - (transfer_price + gst_fee))/1.18)) * ((100 - return_processing_fee_reversal)/100.0)) else 0",
+                "description": "Processing fee RTO Charge in case of TP",
+                "display_name": "Processing fee RTO Charge in case of TP",
+                "transactional_input_fields": [
+                    "transfer_price",
+                    "processing_fee",
+                    "gst_fee",
+                    "brand_calculated_amount",
+                    "rto_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_processing_fee_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "2731c75a-cb85-4261-a70d-72b0fe83374a",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "value_of_good * (processing_fee/100) * (100 - rto_processing_fee_reversal)/100.0",
+                "description": "Processing fee rto reversal charges on Value of Good",
+                "display_name": "Processing fee rto reversal charges on Value of Good",
+                "transactional_input_fields": [
+                    "value_of_good",
+                    "processing_fee",
+                    "rto_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "return_processing_fee_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            },
+            {
+                "id": "188d484d-bfe0-4b7a-986c-48998036ed2f",
+                "created_at": 1613132395,
+                "created_by": "tushar",
+                "name": "processing_fee_rto_charges",
+                "formula_type": "default",
+                "formula": "brand_calculated_amount * (processing_fee/100) * (100 - rto_processing_fee_reversal)/100.0",
+                "description": "Calculate Processing value on BCA",
+                "display_name": "Calculate Processing value BCA",
+                "transactional_input_fields": [
+                    "brand_calculated_amount",
+                    "processing_fee",
+                    "rto_processing_fee_reversal"
+                ],
+                "user_input_fields": [
+                    "processing_fee",
+                    "rto_processing_fee_reversal"
+                ],
+                "status": "verified",
+                "updated_by": null,
+                "updated_at": null
+            }
+        ]
+    }
+}
+]

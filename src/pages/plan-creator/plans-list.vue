@@ -154,7 +154,7 @@ import {
     Shimmer,
     Jumbotron
 } from '../../components/common/';
-import LocationService from '../../services/location.service';
+// import LocationService from '../../services/location.service';
 
 export default {
     name: 'plans-list',
@@ -265,7 +265,7 @@ export default {
                     this.plansList = data.items;
                 })
                 .catch((err) => {
-                    // console.log(err);
+                    // console.log('err');
                     this.pageError = true;
                 });
         },

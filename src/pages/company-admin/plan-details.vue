@@ -209,6 +209,7 @@ import moment from 'moment';
 import { NitrozenButton, NitrozenDialog, flatBtn } from '@gofynd/nitrozen-vue';
 import daytraderComponent from './daytrader-rule-component.vue';
 import planRows from '../../components/plan-creator/plan-rows.vue';
+import dayTraderGetData from '@/static/daytrader_get_data'
 
 const channels = ['uniket', 'fynd', 'ecomm', 'marketplace', 'fynd_store'];
 
@@ -394,25 +395,32 @@ export default {
                 });
         },
         getDaytraderFilters() {
-            BillingService.getDaytraderFilters({
-                data: {
-                    table_name: 'config_fields_values',
-                    filters: {
-                        config_field: 'location_type'
-                    }
-                }
-            })
-                .then(({ data }) => {
-                    this.locations = data.data.map((item) => {
+            // BillingService.getDaytraderFilters({
+            //     data: {
+            //         table_name: 'config_fields_values',
+            //         filters: {
+            //             config_field: 'location_type'
+            //         }
+            //     }
+            // })
+            //     .then(({ data }) => {
+            //         this.locations = data.data.map((item) => {
+            //             return {
+            //                 value: item.name,
+            //                 text: item.display_name
+            //             };
+            //         });
+            //     })
+            //     .catch((err) => {
+            //         console.log(err);
+            //     });
+
+            this.locations = dayTraderGetData.data.map((item) => {
                         return {
                             value: item.name,
                             text: item.display_name
                         };
                     });
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
         }
     }
 };

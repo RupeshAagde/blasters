@@ -299,6 +299,7 @@ import detailSection from './form-sections/details.vue';
 import BillingService from '../../services/billing.service';
 import CompanyService from '../../services/company-admin.service';
 import previewModal from '../../components/plan-creator/preview-plan-modal.vue';
+import daytraderJsonData from '@/static/daytrader_dummy.json'
 import {
     NitrozenButton,
     NitrozenMenu,
@@ -341,7 +342,7 @@ export default {
     created() {
         let planId = this.$route.params.planId;
         let planPromise = Promise.resolve();
-        if (planId) {
+        if (planId) {   
             this.loading = true;
             planPromise = BillingService.getPlans({}, planId)
                 .then((response) => {
@@ -370,27 +371,42 @@ export default {
             .catch((err) => {
                 console.log(err);
             });
+// uncomment this code once the daytrader api is working
 
-        let pArr = [];
-        channels.forEach((channel) => {
-            let payload = {
-                data: { table_name: 'settlement_rule', channels: [channel] }
-            };
-            pArr.push(BillingService.getDaytraderConfig(payload));
-        });
-        let dtCompPromise = Promise.all(pArr)
-            .then((resArr) => {
-                resArr.forEach(({ data }, index) => {
+        // let pArr = [];
+        // channels.forEach((channel) => {
+        //     let payload = {
+        //         data: { table_name: 'settlement_rule', channels: [channel] }
+        //     };
+        //     pArr.push(BillingService.getDaytraderConfig(payload));
+        // });
+        // let dtCompPromise = Promise.all(pArr)
+        //     .then((resArr) => {
+        //         resArr.forEach(({ data }, index) => {
+        //             this.$set(
+        //                 this.daytraderConfigMap,
+        //                 channels[index],
+        //                 data.data
+        //             );
+        //         });
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     });
+        
+        // ends here
+
+        //  remove this code once above is uncommented 
+         let dtCompPromise = daytraderJsonData
+         daytraderJsonData.forEach(({ data }, index) => {
                     this.$set(
                         this.daytraderConfigMap,
                         channels[index],
-                        data.data
+                        data
                     );
                 });
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        // ends here 
+        
 
         let dtPlanCompPromise = BillingService.getDaytraderComponents()
             .then(({ data }) => {
@@ -842,7 +858,7 @@ export default {
             }
             return CompanyService.getCompanyList(query)
                 .then(({ data }) => {
-                    this.companies = data.data;
+                    this.companies = data.items;
                     if (this.selectedCompany === -1) {
                         this.selectedCompany = this.companies[0].uid;
                     }

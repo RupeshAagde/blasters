@@ -353,7 +353,7 @@ import {
     NitrozenInline
 } from '@gofynd/nitrozen-vue';
 
-import { DatePicker } from '../common/';
+import { DatePicker } from '@/components/common/date-picker.vue';
 
 import _ from 'lodash';
 

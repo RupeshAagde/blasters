@@ -38,6 +38,9 @@ const UNICRON_BASE = isNode ?
 const UNICRON_PUBLIC_URL = isNode ? 
     envVars.BROWSER_CONFIG.UNICRON_PUBLIC_SVC :
     envVars.UNICRON_PUBLIC_URL;
+    const DAYTRADER_BASE = isNode
+    ? envVars.BROWSER_CONFIG.DAYTRADER_MAIN_SVC
+    : envVars.DAYTRADER_MAIN_URL;
 
 const PLATFORM_LEADS_BASE = isNode ?
     envVars.BROWSER_CONFIG.HIGHBROW_ADMIN_SVC :
@@ -188,6 +191,9 @@ const URLS = {
             '/v1.0/deployment_mapping/'
         );
     },
+        FETCH_DAYTRADER_FILTERS: () => {
+        return urlJoin(DAYTRADER_BASE, 'api/v1/get-data');
+    },
     DELETE_DEPLOYMENT_MAPPING_BY_ID: (id) => {
         return urlJoin(
             SLINGSHOT_ADMIN_URL,
@@ -297,7 +303,7 @@ const URLS = {
         return urlJoin(UNICRON_BASE, `v1.0/plan-editor/${planId}`);
     },
     FETCH_SUBSCRIPTION_COMPONENTS: () => {
-        return urlJoin(UNICRON_BASE, 'v1.0//component');
+        return urlJoin(UNICRON_BASE, 'v1.0/component');
     },
     FETCH_COMPONENT_PRICES: (componentId) => {
         return urlJoin(UNICRON_BASE, `v1.0//component/${componentId}/prices`);
@@ -380,6 +386,9 @@ const URLS = {
     },
     SUBSCRIPTION_ACTIVATE: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/activate`)
+    },
+    FETCH_DAYTRADER_CONFIG: () => {
+        return urlJoin(DAYTRADER_BASE, 'api/v1/get-output-fields_v2');
     },
 
     //#########Tickets########
