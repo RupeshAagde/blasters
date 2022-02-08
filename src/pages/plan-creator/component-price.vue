@@ -224,6 +224,7 @@
             </div>
 
             <div
+            v-if="formData.free_tier"
                 style="max-width: 300px;"
                 class="form-row form-compact-items no-pad"
             >
@@ -609,11 +610,15 @@ export default {
                         }
                     });
                 }
-
-                if (this.formData.free_tier.value < 0) {
+                if (this.formData.free_tier) {
+                    if (this.formData.free_tier.value < 0) {
                     this.errors['Free usage cannot be less than 0'];
                     is_valid = false;
                 }
+                }
+
+
+                
 
                 if (
                     this.isRecurring &&

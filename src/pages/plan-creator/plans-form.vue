@@ -31,9 +31,7 @@
                             'cl-RoyalBlue': formData.plan.is_active
                         }"
                         @click="
-                            () => {
-                                formData.is_active = !formData.is_active;
-                            }
+                            toggleState
                         "
                     >
                         {{ formData.plan.is_active ? 'Active' : 'Inactive' }}
@@ -50,6 +48,7 @@
                         >Preview Plan</nitrozen-button
                     >
                     <nitrozen-button
+                     ref="createButton"
                         :disabled="formData.hasActiveSubscription"
                         :title="
                             `${
@@ -361,9 +360,16 @@ export default {
         }
         let compPromise = BillingService.getComponents({ limit: 100 })
             .then(({ data }) => {
-                this.allComponents = data.docs;
+                let validComponents = []
+                data.docs.forEach( comp => {
+                    if(!this.ignoreCompponents.includes(comp._id)) {
+                       validComponents.push(comp)
+                    }
+                })
+                
+                this.allComponents = validComponents;
                 if (!planId) {
-                    this.formData.components = data.docs.map((doc) => {
+                    this.formData.components = validComponents.map((doc) => {
                         return this.getCreateComponentData(doc);
                     });
                 }
@@ -435,6 +441,7 @@ export default {
     },
     data() {
         return {
+            ignoreCompponents: ['61029cfdd110f5003968a41f','61029cfdd110f5003968a41e','61029cfdd110f5003968a41d','61029cfdd110f5003968a41c','61029cfdd110f5003968a41b','61029cfdd110f5003968a418'],
             loading: false,
             pageOptions: [],
             allComponents: [],
@@ -501,6 +508,11 @@ export default {
         }
     },
     methods: {
+        toggleState () {
+            console.log('formData.is_active',this.formData.is_active);
+            this.formData.is_active = !this.formData.is_active;
+                            
+        },
         copyText() {
             var copyText = this.$refs['share-text'];
             if (copyText) {
