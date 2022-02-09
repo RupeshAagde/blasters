@@ -586,6 +586,7 @@ import { titleCase, debounce } from '@/helper/utils';
 import pageempty from '@/components/common/page-empty.vue';
 import root from 'window-or-global';
 import companyListVue from './company-list.vue';
+import * as BlueBird from 'bluebird';
 import * as csv from "csvtojson";
 
 const env = root.env || {};
@@ -621,6 +622,7 @@ export default {
     },
     data() {
         return {
+            bulkApiResponse:[],
             uploadedCsv:null,
             uploadedInvoices:[],
             updatedCSV:"",
@@ -1068,6 +1070,25 @@ export default {
             }
             reader.readAsText(file);
         },
+        makePromise(invoice){
+            return new Promise((resolve,reject)=>{
+                BillingService.bulkUpdateOfflinePayment({
+                    "invoice_id":invoice.invoice_id,
+                    "payment_intent_id":invoice.update_payment_intent_id || "",
+                    "status":invoice.update_status || "",
+                    "comment":invoice.update_comment,
+                    "invoice_number":invoice.update_invoice_number,
+                }).then(res=>{
+                    // if(res.data.invoice_charge.status.toLowerCase()==='success'){
+                    //     this.uploadedInvoices[i].server_response="update successful"
+                    // }
+                    resolve(res);
+                }).catch(err=>{
+                    // this.uploadedInvoices[i].server_response=err.response.data.message;
+                    resolve(err)
+                })
+            })
+        },
         updateInvoiceStatus(i){
             if(this.uploadedInvoices.length){
                 if(i<this.uploadedInvoices.length){
@@ -1110,7 +1131,45 @@ export default {
         },
         uploadCSV(){
             this.updateProgressValue=0;
-            this.updateInvoiceStatus(0);
+            // this.updateInvoiceStatus(0);
+            let arr = [];
+            if(this.uploadedInvoices.length){
+            this.uploadedInvoices.forEach((element)=>{
+                arr.push(this.makePromise(element));
+            })
+
+            let arrRes = BlueBird.map(arr, (res) => {
+                            return {
+                                status:res.status,
+                                ...res.response
+                            }
+                        },{concurrency: 100});
+
+            arrRes.then(res=>{
+                res.forEach((ele)=>{
+                    if(ele.status===200){
+                    this.uploadedInvoices[this.updateProgressValue].server_response="update successful"
+                    }else{
+                        this.uploadedInvoices[this.updateProgressValue].server_response=ele.data.message;
+                    }
+                    this.updateProgressValue++;
+                })
+                if(this.updateProgressValue>=this.uploadedInvoices.length){
+                    const items = this.uploadedInvoices
+                        const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
+                        const header = Object.keys(items[0])
+                        const csv = [
+                        header.join(','), // header row first
+                        ...items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
+                        ].join('\r\n')
+                        const anchor = document.createElement('a');
+                        anchor.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+                        anchor.target = '_blank';
+                        anchor.download = 'FP_Report_Invoices.csv';
+                        anchor.click();
+                }
+            })
+        }
         },
     }
 };
