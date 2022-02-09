@@ -223,7 +223,7 @@
 
             <nitrozen-dialog ref="dialog" class="csv-invoice-upload" title="Invoice Bulk Update" @close="close">
                 <template slot="body">
-                    <div v-if="this.uploadedInvoices.length" class="m-b-18">
+                    <div class="m-b-18">
                         Total Records : {{this.uploadedInvoices.length}}
                     </div>
                     <div>
@@ -252,8 +252,8 @@
                         </nitrozen-button>
                     </div>
                     <div class="mar-top">
-                        <label v-if="this.uploadedInvoices.length" for="file">Update progress: <b>{{showUpdateProgress}}</b></label>
-                        <progress v-if="this.uploadedInvoices.length" class="width-100" id="file" :value="showUpdateProgress" :max="this.uploadedInvoices.length-1"> {{showUpdateProgress}} </progress>
+                        <label v-if="this.uploadedInvoices.length" for="file">Update progress: <b>{{(showUpdateProgress*100/this.uploadedInvoices.length).toFixed(0)}}%</b></label>
+                        <progress v-if="this.uploadedInvoices.length" class="width-100" id="file" :value="showUpdateProgress" :max="this.uploadedInvoices.length-1"> {{showUpdateProgress*100/this.uploadedInvoices.length}} </progress>
                     </div>
                 </template>
                 <template slot="footer">
