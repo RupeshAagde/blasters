@@ -88,7 +88,7 @@
                         <nitrozen-chips
                             class="nitrozen-form-input"
                             v-for="(item, index) in categoryInfo.category
-                                .categoriesL2"
+                                .categories_l2"
                             :key="'categoryL2' + index"
                             multiple="true"
                         >
@@ -177,7 +177,7 @@ export default {
             categoryInfo: {
                 category_level_1: '',
                 category_level_2: '',
-                category: { categoriesL1: [], categoriesL2: [] },
+                category: { categories_l1: [], categories_l2: [] },
                 categoriesL1Array: [],
                 categoriesL2Array: [],
                 categoriesL2Options: [],
@@ -209,12 +209,12 @@ export default {
             const category_level2 = (category_l2 || []).filter((ext) =>
                 selectedParents.includes(ext.parent)
             );
-            this.categoryInfo.category.categoriesL2 =
-                this.categoryInfo.category.categoriesL2.filter((ext) =>
+            this.categoryInfo.category.categories_l2 =
+                this.categoryInfo.category.categories_l2.filter((ext) =>
                     selectedParents.includes(ext.parent)
                 );
             this.categoryInfo.categoriesL2Array =
-                this.categoryInfo.category.categoriesL2.map((x) => x.text);
+                this.categoryInfo.category.categories_l2.map((x) => x.text);
             this.categoryInfo.categoriesL2Options = category_level2.map(
                 (ext) => ({
                     _id: ext._id,
@@ -259,27 +259,48 @@ export default {
                             })
                         );
                     if (data.category) {
+                        data.category.categories_l1 =
+                            data.category.categories_l1.map((ext_category) => {
+                                const ext_category_info =
+                                    this.categoryInfo.category_l1.find(
+                                        (category) =>
+                                            category._id === ext_category._id
+                                    );
+                                return ext_category_info;
+                            });
+                        data.category.categories_l2 =
+                            data.category.categories_l2.map((ext_category) => {
+                                const ext_category_info =
+                                    this.categoryInfo.category_l2.find(
+                                        (category) =>
+                                            category._id === ext_category._id
+                                    );
+                                return ext_category_info;
+                            });
                         this.selectedCategoryOptions(
-                            data.category.categoriesL1,
+                            data.category.categories_l1,
                             this.categoryInfo.category_l2
                         );
-                        data.category.categoriesL2 =
-                            data.category.categoriesL2.map((ext) => {
+                        data.category.categories_l2 =
+                            data.category.categories_l2.map((ext) => {
                                 return {
                                     ...ext,
                                     text_to_show: `${
-                                        data.category.categoriesL1.find(
+                                        data.category.categories_l1.find(
                                             (catl1) => catl1._id === ext.parent
                                         ).display
                                     } - in ${ext.text}`,
                                 };
                             });
                         this.categoryInfo.categoriesL1Array =
-                            data.category.categoriesL1.map((x) => x.display);
+                            data.category.categories_l1.map((x) => x.display);
                         this.categoryInfo.categoriesL2Array =
-                            data.category.categoriesL2.map((x) => x.display);
+                            data.category.categories_l2.map((x) => x.display);
 
-                        this.categoryInfo.category = data.category;
+                        this.categoryInfo.category = {
+                            categories_l1: data.category.categories_l1,
+                            categories_l2: data.category.categories_l2,
+                        };
                     }
                 })
                 .catch((err) => {
@@ -306,7 +327,20 @@ export default {
             }
             this.inProgress = true;
             //TODO: Add form dirty
-            this.review_data.category = this.categoryInfo.category;
+            const { categories_l1, categories_l2 } = this.categoryInfo.category;
+            this.review_data.category = {
+                categories_l1: categories_l1.map((x) => ({
+                    id: x._id,
+                    slug: x.slug,
+                    _id: x._id,
+                })),
+                categories_l2: categories_l2.map((x) => ({
+                    id: x._id,
+                    slug: x.slug,
+                    _id: x._id,
+                    parent: x.parent,
+                })),
+            };
             ExtensionService.updateExtensionReviewInfo(
                 this.review_id,
                 this.review_data
@@ -332,22 +366,22 @@ export default {
         },
         removeSelectedCategory(index, isL2 = false, idL1) {
             if (isL2) {
-                this.categoryInfo.category.categoriesL2 =
-                    this.categoryInfo.category.categoriesL2.filter(
+                this.categoryInfo.category.categories_l2 =
+                    this.categoryInfo.category.categories_l2.filter(
                         (x, i) => i !== index
                     );
                 this.categoryInfo.categoriesL2Array =
-                    this.categoryInfo.category.categoriesL2.map(
+                    this.categoryInfo.category.categories_l2.map(
                         (x) => x.display
                     );
                 return;
             }
-            this.categoryInfo.category.categoriesL1 =
-                this.categoryInfo.category.categoriesL1.filter(
+            this.categoryInfo.category.categories_l1 =
+                this.categoryInfo.category.categories_l1.filter(
                     (x, i) => i !== index
                 );
-            this.categoryInfo.category.categoriesL2 =
-                this.categoryInfo.category.categoriesL2.filter(
+            this.categoryInfo.category.categories_l2 =
+                this.categoryInfo.category.categories_l2.filter(
                     (x, i) => x.parent !== idL1
                 );
         },
@@ -355,7 +389,7 @@ export default {
             let {
                 category_l1,
                 category_l2,
-                category: { categoriesL1, categoriesL2 },
+                category: { categories_l1, categories_l2 },
                 categoriesL1Array,
             } = this.categoryInfo;
             if (categoriesL1Array.length >= 4) {
@@ -363,11 +397,11 @@ export default {
                 categoriesL1Array = categoriesL1Array.pop();
                 return;
             }
-            this.categoryInfo.category.categoriesL1 = categoriesL1Array.map(
+            this.categoryInfo.category.categories_l1 = categoriesL1Array.map(
                 (ext) => category_l1.find((extVal) => extVal.display === ext)
             );
             this.selectedCategoryOptions(
-                this.categoryInfo.category.categoriesL1,
+                this.categoryInfo.category.categories_l1,
                 category_l2
             );
             categoriesL1Array = categoriesL1Array;
@@ -382,7 +416,7 @@ export default {
             let category_level_value = category_l2.filter((ext) =>
                 categoriesL2Array.includes(ext.text)
             );
-            this.categoryInfo.category.categoriesL2 = category_level_value;
+            this.categoryInfo.category.categories_l2 = category_level_value;
         },
     },
 };
