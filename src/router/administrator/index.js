@@ -380,6 +380,25 @@ export default [
                 return checkUserPermission(to, from, next, ['product']);
             }
         },
+
+        //Taxation
+        {
+            name: 'taxation',
+            path: 'product/taxation',
+            component: ProductTaxationList,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'taxation-add',
+            path: 'product/taxation/add',
+            component: ProductTaxationEdit,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+
         // Product Verification
         {
             name: 'verification',

@@ -446,7 +446,7 @@ export default {
             return isValid;
         },
         redirectBack() {
-            this.$goBack();
+            this.$goBack('/administrator/product/taxation');
             //console.log("Path",path.join(this.$route.path, '/list'),this.$route.path)
         },
         enableSlab2() {
