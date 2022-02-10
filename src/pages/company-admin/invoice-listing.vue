@@ -106,7 +106,7 @@
                             :theme="'secondary'"
                             @click="openUploadCSVDialog()"
                             >
-                                Upload CSV
+                                Bulk Update
                             </nitrozen-button>
                         </div>
 
@@ -228,9 +228,23 @@
                     </div>
                     <div>
                         <div class="file-upload-box">
+                            <nitrozen-button
+                                class="upload-button"
+                                v-stroke-btn
+                                :rounded="true"
+                                theme="secondary"
+                                @click="$refs.inputFile.click()"
+                            >
+                                Choose file
+                            </nitrozen-button>
+                            <span v-if="selectedFileName" class="file-name">
+                                File selected : {{selectedFileName}}
+                            </span>
                             <input
+                                style="display:none"
                                 id="csvFileInput"
                                 class="unit-input"
+                                ref="inputFile"
                                 type="file"
                                 placeholder="auto"
                                 @change="uploadCSVChange"
@@ -244,12 +258,19 @@
                         </div>
                         <nitrozen-button
                             style="margin-top:22px;"
-                            v-strokeBtn
                             :theme="'secondary'"
+                            v-flatBtn
                             @click="uploadCSV()"
                             >
                                 Upload
                         </nitrozen-button>
+                        <div class="csv-text-info regular-xxxs cl-DustyGray2">
+                            - CSV must contain columns invoice_id, update_payment_intent_id, update_status, update_comment
+                            <div style="text-align:center">
+                                Or
+                            </div>
+                            - You can export CSV File from panel it will have all field that can be updated with prefix "update" (eg. update_payment_intent_id)
+                        </div>
                     </div>
                     <div class="mar-top">
                         <label v-if="this.uploadedInvoices.length && showUpdateProgress>0" for="file">Update progress: <b>{{(showUpdateProgress*100/this.uploadedInvoices.length).toFixed(0)}}%</b></label>
@@ -279,6 +300,16 @@
 .width-100{
     width: 100%;
 }
+.csv-text-info {
+    padding: 24px;
+    border: 1px dashed #d7d7d7;
+    border-radius: 3px;
+    margin-top:22px;
+}
+.file-name {
+    color: #2E31BE;
+    font-size: 14px;
+}
 .date {
     display: flex;
     margin-bottom: 12px;
@@ -293,9 +324,7 @@
     margin-top:22px
 }
 .file-upload-box {
-    border-radius: 3px;
-    border: 1px solid #e0e0e0;
-    padding: 8px 14px;
+    padding: 8px 0px;
 }
 .csv-invoice-upload{
         ::v-deep .nitrozen-dialog-footer{
@@ -306,6 +335,7 @@
     ::v-deep .nitrozen-icon {
         float: right;
         cursor: pointer;
+        margin-top:5px;
     }
 }
 ::v-deep .page-slot {
@@ -624,6 +654,7 @@ export default {
         return {
             bulkApiResponse:[],
             uploadedCsv:null,
+            selectedFileName:"",
             uploadedInvoices:[],
             updatedCSV:"",
             updateProgressValue:0,
@@ -1054,10 +1085,12 @@ export default {
         resetFileUploadInput(){
             document.querySelector('#csvFileInput').value=null;
             this.uploadedInvoices = [];
+            this.selectedFileName="";
             this.updateProgressValue=0;
             this.updateProgressBarValue=0;
         },
         uploadCSVChange(e){
+            this.selectedFileName = e.target.files[0].name;
             this.uploadedInvoices = [];
             this.updateProgressValue=0;
             this.updateProgressBarValue=0;
@@ -1108,8 +1141,10 @@ export default {
             arrRes.then(res=>{
                 res.forEach((ele)=>{
                     if(ele.status===200){
-                    this.uploadedInvoices[this.updateProgressValue].server_response="update successful"
+                    this.uploadedInvoices[this.updateProgressValue].server_status="success";
+                    this.uploadedInvoices[this.updateProgressValue].server_response="update successful";
                     }else{
+                        this.uploadedInvoices[this.updateProgressValue].server_status="failure";
                         this.uploadedInvoices[this.updateProgressValue].server_response=ele.data.message;
                     }
                     this.updateProgressValue++;
