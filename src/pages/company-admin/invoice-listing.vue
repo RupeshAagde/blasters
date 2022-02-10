@@ -252,8 +252,8 @@
                         </nitrozen-button>
                     </div>
                     <div class="mar-top">
-                        <label v-if="this.uploadedInvoices.length" for="file">Update progress: <b>{{(showUpdateProgress*100/this.uploadedInvoices.length).toFixed(0)}}%</b></label>
-                        <progress v-if="this.uploadedInvoices.length" class="width-100" id="file" :value="showUpdateProgress" :max="this.uploadedInvoices.length-1"> {{showUpdateProgress*100/this.uploadedInvoices.length}} </progress>
+                        <label v-if="this.uploadedInvoices.length && showUpdateProgress>0" for="file">Update progress: <b>{{(showUpdateProgress*100/this.uploadedInvoices.length).toFixed(0)}}%</b></label>
+                        <progress v-if="this.uploadedInvoices.length && showUpdateProgress>0" class="width-100" id="file" :value="showUpdateProgress" :max="this.uploadedInvoices.length-1"> {{showUpdateProgress*100/this.uploadedInvoices.length}} </progress>
                     </div>
                 </template>
                 <template slot="footer">
@@ -627,6 +627,7 @@ export default {
             uploadedInvoices:[],
             updatedCSV:"",
             updateProgressValue:0,
+            updateProgressBarValue:0,
             companyList: [{value:'all',text:'All'}],
             attempList: [
                 {value:'all',text:'All'},
@@ -767,7 +768,7 @@ export default {
     },
     computed: {
         showUpdateProgress(){
-            return this.updateProgressValue;
+            return this.updateProgressBarValue;
         }
     },
     filters: {
@@ -1054,10 +1055,12 @@ export default {
             document.querySelector('#csvFileInput').value=null;
             this.uploadedInvoices = [];
             this.updateProgressValue=0;
+            this.updateProgressBarValue=0;
         },
         uploadCSVChange(e){
             this.uploadedInvoices = [];
             this.updateProgressValue=0;
+            this.updateProgressBarValue=0;
             const file = e.target.files[0];
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -1079,59 +1082,15 @@ export default {
                     "comment":invoice.update_comment,
                     "invoice_number":invoice.update_invoice_number,
                 }).then(res=>{
-                    // if(res.data.invoice_charge.status.toLowerCase()==='success'){
-                    //     this.uploadedInvoices[i].server_response="update successful"
-                    // }
                     resolve(res);
                 }).catch(err=>{
-                    // this.uploadedInvoices[i].server_response=err.response.data.message;
                     resolve(err)
                 })
             })
         },
-        updateInvoiceStatus(i){
-            if(this.uploadedInvoices.length){
-                if(i<this.uploadedInvoices.length){
-                        BillingService.bulkUpdateOfflinePayment({
-                            "invoice_id":this.uploadedInvoices[i].invoice_id,
-                            "payment_intent_id":this.uploadedInvoices[i].update_payment_intent_id || "",
-                            "status":this.uploadedInvoices[i].update_status || "",
-                            "comment":this.uploadedInvoices[i].update_comment,
-                            "invoice_number":this.uploadedInvoices[i].update_invoice_number,
-                        }).then(res=>{
-                            if(res.data.invoice_charge.status.toLowerCase()==='success'){
-                                this.uploadedInvoices[i].server_response="update successful"
-                            }
-                        }).catch(err=>{
-                            this.uploadedInvoices[i].server_response=err.response.data.message
-                        }).finally(()=>{
-                            i++;
-                            this.updateProgressValue++
-                            this.updateInvoiceStatus(i)
-
-                        })
-
-                }else{
-                    if(i>0){
-                        const items = this.uploadedInvoices
-                        const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
-                        const header = Object.keys(items[0])
-                        const csv = [
-                        header.join(','), // header row first
-                        ...items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
-                        ].join('\r\n')
-                        const anchor = document.createElement('a');
-                        anchor.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-                        anchor.target = '_blank';
-                        anchor.download = 'FP_Report_Invoices.csv';
-                        anchor.click();
-                    }
-                }
-            }
-        },
         uploadCSV(){
             this.updateProgressValue=0;
-            // this.updateInvoiceStatus(0);
+            this.updateProgressBarValue=0;
             let arr = [];
             if(this.uploadedInvoices.length){
             this.uploadedInvoices.forEach((element)=>{
@@ -1139,11 +1098,12 @@ export default {
             })
 
             let arrRes = BlueBird.map(arr, (res) => {
+                            this.updateProgressBarValue++
                             return {
                                 status:res.status,
                                 ...res.response
                             }
-                        },{concurrency: 100});
+                        },{concurrency: 1});
 
             arrRes.then(res=>{
                 res.forEach((ele)=>{
