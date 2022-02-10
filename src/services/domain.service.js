@@ -380,6 +380,14 @@ const URLS = {
     SUBSCRIPTION_CANCEL: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/cancel`)
     },
+    SUBSCRIPTION_COUPON: (id='') => {
+        return urlJoin(UNICRON_BASE, `/v1.0/coupon/`,id)
+    },
+    SUBSCRIPTION_COUPON_UNIQUE: (code) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/coupon/code_uniqueness/`,code)
+    },
+    SUBSCRIBER_LIST: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/customer`)},
     SUBSCRIPTION_ACTIVATE: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/activate`)
     },
@@ -480,6 +488,13 @@ const URLS = {
     PLATFORM_CUSTOM_FOOTER: (id = '') => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/footer', id);
     },
+    PLATFORM_PRICING_BANNER: () =>{
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/pricing-banner');
+    },
+    PLATFORM_CUSTOM_TAGS:(id='') =>{
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/',id);
+    },
+
     PLATFORM_CUSTOM_TAGS: (id = '') => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/', id);
     },
