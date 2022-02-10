@@ -71,7 +71,7 @@
                     </div>
                     <div v-if="invoice && invoice.invoice">
                         <div class="flex m-b-24">
-                            <div class="flex-2">
+                            <div class="flex-3">
                                 <table class="bold m-b-12 m-t-6 width-80">
                                     <tr>
                                         <td>Billing Address</td>
@@ -99,7 +99,7 @@
                                     }}
                                 </div>
                             </div>
-                            <div class="flex-1 invoice-number-wrapper">
+                            <div class="flex-2 invoice-number-wrapper">
                                 <table class="invoice-number-table width-100">
                                     <tr>
                                         <td>Invoice number</td>
@@ -128,6 +128,20 @@
                                                     | getDateString
                                             }}
                                         </td>
+                                    </tr>
+                                    
+                                    <tr v-if="invoice.invoice.paid">
+                                        <td>Payment method</td>
+                                        <td>{{paymentMethod | capitalize}}</td>
+                                    </tr>
+
+                                    <tr v-if="invoice.invoice.paid && paymentMethod == 'credits'">
+                                        <td>Credit Transaction Id</td>
+                                        <td>{{ safeGet(
+                                                    invoice,
+                                                    'invoice.payment.credit_transaction_id',
+                                                    ''
+                                                )}}</td>
                                     </tr>
 
                                     <tr>
@@ -256,6 +270,42 @@
                                             </div>
                                         </td>
                                     </tr>
+                                     <tr v-if="invoice.invoice.discount.amount && invoice.invoice.discount.coupon_code " >
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        ></td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        ></td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        >
+                                            <div class="bold">Coupon ({{invoice.invoice.discount.coupon_code}})</div>
+                                        </td>
+                                        <td
+                                            class="
+                                                no-border-left no-border-right
+                                            "
+                                        >
+                                            <div class="bold">
+                                                -{{
+                                                    amountFormat({
+                                                        currency:
+                                                            invoice.invoice
+                                                                .currency,
+                                                        amount: checkNan(invoice.invoice
+                                                            .discount.amount),
+                                                    })
+                                                }}
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <tr
                                         v-if="
                                             !invoice.invoice
@@ -291,7 +341,7 @@
                                                 no-border-left no-border-right
                                             "
                                         >
-                                            <div class="bold">
+                                            <div  class="bold">
                                                 {{
                                                     amountFormat({
                                                         currency:
@@ -300,11 +350,13 @@
                                                         amount:
                                                             invoice.invoice
                                                                 .taxation.cgst *
-                                                            invoice.invoice
-                                                                .subtotal,
+                                                            (invoice.invoice
+                                                                .subtotal- checkNan(invoice.invoice
+                                                            .discount.amount)),
                                                     })
                                                 }}
                                             </div>
+                                            
                                         </td>
                                     </tr>
                                     <tr
@@ -351,8 +403,9 @@
                                                         amount:
                                                             invoice.invoice
                                                                 .taxation.sgst *
-                                                            invoice.invoice
-                                                                .subtotal,
+                                                            (invoice.invoice
+                                                                .subtotal - checkNan(invoice.invoice
+                                                            .discount.amount)),
                                                     })
                                                 }}
                                             </div>
@@ -703,7 +756,7 @@
     .invoice-items-table {
         border-radius: 5px;
         .product-name {
-            width: 45%;
+            width: 49%;
         }
         th {
             font-weight: 600;
@@ -995,13 +1048,16 @@ export default {
         BaseCard1,
     },
     computed: {
-        invoiceOpen() {
-            let current_status = get(
-                this,
-                'invoice.invoice.current_status',
-                null
-            );
-            if (current_status != 'open') return null;
+        paymentMethod(){
+            return this.safeGet(
+                this.invoice,
+                'invoice.payment.credit_transaction_id',
+                ''
+            ) ? "credits" : "card"
+        },
+        invoiceOpen(){
+            let current_status = get(this, 'invoice.invoice.current_status', null);
+            if(current_status != "open") return null;
             let status_trail = get(this, 'invoice.invoice.status_trail', null);
             let open_status = status_trail.find(
                 (status) => status.value == 'open'
@@ -1347,6 +1403,14 @@ export default {
                     });
             }
         },
+        checkNan(number){
+            if(isNaN(number)){
+                return 0;
+            }
+            else{
+                return number
+            }
+        }
     },
 };
 </script>

@@ -43,17 +43,9 @@ const PLATFORM_LEADS_BASE = isNode ?
     envVars.BROWSER_CONFIG.HIGHBROW_ADMIN_SVC :
     envVars.HIGHBROW_ADMIN_URL;
 
-const PLATFORM_ORDERS_BASE = isNode ?
-    envVars.BROWSER_CONFIG.APEFACE_MAIN_SVC :
-    envVars.APEFACE_MAIN_URL;
-
 const ADMIN_ORDERS_BASE = isNode ?
     envVars.BROWSER_CONFIG.APEFACE_ADMIN_SVC :
     envVars.APEFACE_ADMIN_URL;
-
-const INTERNAL_SETTINGS_MAIN = isNode ?
-    envVars.BROWSER_CONFIG.ULTRAMAGNUS_MAIN_SVC :
-    envVars.ULTRAMAGNUS_MAIN_URL;
 
 const INTERNAL_SETTINGS = isNode ?
     envVars.BROWSER_CONFIG.ULTRAMAGNUS_PUBLIC_SVC :
@@ -87,9 +79,13 @@ const SKYWARP_ADMIN_BASE = isNode ?
     envVars.BROWSER_CONFIG.SKYWARP_ADMIN_URL :
     envVars.SKYWARP_ADMIN_URL;
 
-const GRINGOTTS_ADMIN_URL = isNode
-? envVars.BROWSER_CONFIG.GRINGOTTS_ADMIN_URL
-    : envVars.GRINGOTTS_ADMIN_URL;
+const GRINGOTTS_ADMIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.GRINGOTTS_ADMIN_URL :
+    envVars.GRINGOTTS_ADMIN_URL;
+
+    const COMMUNICATION_BASE_URL = isNode ?
+    envVars.BROWSER_CONFIG.POINTBLANK_ADMIN_URL :
+    envVars.POINTBLANK_ADMIN_URL;    
 
 
 const URLS = {
@@ -157,6 +153,9 @@ const URLS = {
     FETCH_APPLICATIONS: (uid) => {
         return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/company/${uid}/application`);
     },
+    FETCH_ALL_APPLICATIONS: (uid) => {
+        return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/application`);
+    },
 
     //archive unarchive sales channel
     ACTION_APPLICATIONS: (uid, appId) => {
@@ -181,6 +180,30 @@ const URLS = {
         return urlJoin(
             SILVERBOLT_ACPR_URL,
             '/v1.0/companies/'
+        );
+    },
+    GET_DEPLOYMENT_MAPPING: () => {
+        return urlJoin(
+            SLINGSHOT_ADMIN_URL,
+            '/v1.0/deployment_mapping'
+        );
+    },
+    GET_DEPLOYMENT_LIST: () => {
+        return urlJoin(
+            SLINGSHOT_ADMIN_URL,
+            '/v1.0/deployment_mapping/repeat_servers'
+        );
+    },
+    CREATE_NEW_DEPLOYMENT_MAPPING: () => {
+        return urlJoin(
+            SLINGSHOT_ADMIN_URL,
+            '/v1.0/deployment_mapping/'
+        );
+    },
+    DELETE_DEPLOYMENT_MAPPING_BY_ID: (id) => {
+        return urlJoin(
+            SLINGSHOT_ADMIN_URL,
+            `/v1.0/deployment_mapping/${id}`
         );
     },
     VERIFY_COMPANY: (query_param) => {
@@ -318,6 +341,9 @@ const URLS = {
     FETCH_INVOICE_LISTING: () => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/listing`)
     },
+    EXPORT_INVOICE_LISTING: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/export`)
+    },
     CHARGE_INVOICE: () => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/charge-invoice`);
     },
@@ -343,6 +369,15 @@ const URLS = {
     SUBSCRIPTION_GET_ACTIVE_PLAN: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/subscription/current`);
     },
+    GET_CUSTOMER_DETAILS: (company_id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/customer`);
+    },
+    CREDIT_ADJUSTMENT: (company_id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/customer/credit-adjustment`);
+    },
+    GET_CREDIT_TRANSACTIONS: (company_id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/credit-transaction`);
+    },
     SUBSCRIPTION_MAX_APPLICATION_LIMIT: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/subscription/current-limit`);
     },
@@ -354,6 +389,17 @@ const URLS = {
     },
     SUBSCRIPTION_CANCEL: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/cancel`)
+    },
+    SUBSCRIPTION_COUPON: (id='') => {
+        return urlJoin(UNICRON_BASE, `/v1.0/coupon/`,id)
+    },
+    SUBSCRIPTION_COUPON_UNIQUE: (code) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/coupon/code_uniqueness/`,code)
+    },
+    SUBSCRIBER_LIST: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/customer`)},
+    SUBSCRIPTION_ACTIVATE: (company_id) => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/activate`)
     },
 
     //#########Tickets########
@@ -452,6 +498,13 @@ const URLS = {
     PLATFORM_CUSTOM_FOOTER: (id = '') => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/footer', id);
     },
+    PLATFORM_PRICING_BANNER: () =>{
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/pricing-banner');
+    },
+    PLATFORM_CUSTOM_TAGS:(id='') =>{
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/',id);
+    },
+
     PLATFORM_CUSTOM_TAGS: (id = '') => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/', id);
     },
@@ -537,17 +590,21 @@ const URLS = {
     },
     //GRINGOTTS
     FETCH_REVIEW_LIST: (params,status) => {
-        //console.log(urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/?action=reviewed&is_reviewed=${status}`))
         return urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/?action=reviewed&is_reviewed=${status}`)
     },
     PG_REVIEWED: (params)=>{
-        //console.log(urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/${params.paymentId}/?action=reviewed&email=${params.email}`));
      return urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/${params.paymentId}/?action=reviewed&email=${params.email}`)
     },
     FETCH_COD_CONFIG: (params)=>{
-        //console.log(urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/company/${params.companyId}/application/${params.app_id}/cod/delivery/`))
         return urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/company/${params.companyId}/application/${params.app_id}/cod/delivery/`)
-    }
+    },
+     //POINTBLANK
+     COMMUNICATION_LOG: (params) => {
+        return urlJoin(COMMUNICATION_BASE_URL, `v1.0/log`)
+    },
+    COMMUNICATION_CAMPAIGNS: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/campaign`)
+    },
 };
 
 export default URLS;

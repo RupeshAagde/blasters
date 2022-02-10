@@ -72,6 +72,14 @@
                                         {{ item.reviewer }}
                                     </div>
                                 </div>
+                                 <div class="txt-arrange">
+                                    <div class="txt-description-heading column1">
+                                        Modified date :
+                                    </div>
+                                    <div class="txt-details-by capitalize column">
+                                        {{  new Date(item.modified_on).toDateString() }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div v-if="item.is_reviewed" class="card-badge-section">
@@ -151,7 +159,7 @@
                     </div>
                 </template>
                 <template slot="footer">
-                    <div>
+                    <div class="foot">
                         <nitrozen-button
                             v-flatBtn
                             class="mr24"
@@ -223,6 +231,7 @@
                 </template>
             </nitrozen-dialog>
         </div>
+
     </div>
 </template>
 <script>
@@ -232,6 +241,7 @@ import { GET_USER_INFO } from '../../store/getters.type';
 import Shimmer from '@/components/common/shimmer';
 import Jumbotron from '@/components/common/jumbotron';
 import PageEmpty from '@/components/common/page-empty';
+
 
 import PaymentServices from '../../services/gringotts.service';
 import {
@@ -244,7 +254,8 @@ import {
     NitrozenError,
     flatBtn,
     strokeBtn,
-    NitrozenTooltip
+    NitrozenTooltip,
+    loader
 } from '@gofynd/nitrozen-vue';
 
 const ROLE_FILTER = [
@@ -271,7 +282,8 @@ export default {
         'inline-svg': inlinesvg,
         Jumbotron,
         'page-empty' : PageEmpty,
-        NitrozenTooltip
+        NitrozenTooltip,
+        loader
     },
     directives: {
         flatBtn,
@@ -296,7 +308,9 @@ export default {
             typeList: [...TYPE_FILTER],
             typeSelectedCollect: '',
             typeSelectedRefund: '',
-            noContent: false
+            noContent: false,
+            
+            
         };
 
     },
@@ -309,10 +323,14 @@ export default {
                 width: '500px',
             });
             this.modalProps = item;
+            this.fyndSubAcc = this.modalProps.is_sub_fynd_account;
+            this.comments = this.modalProps.comments;
             this.getReviewerMail();
         },
         closeDialog: function () {
             this.$refs['company_reject_dialog'].close();
+            this.comments= '';
+            this.fyndSubAcc = false;
         },
         closeDialogCod() {
             this.$refs['cod_dialog'].close();
@@ -417,9 +435,9 @@ export default {
         },
         fetchcodconfig() {
             PaymentServices.getCOD(this.param).then((a) => {
-                //console.log(a);
-                this.typeSelectedCollect = a.data.delivery_config.cod.refund_by;
-                this.typeSelectedRefund = a.data.delivery_config.cod.collect_by;
+                
+                this.typeSelectedRefund = a.data.delivery_config.cod.refund_by;
+                this.typeSelectedCollect = a.data.delivery_config.cod.collect_by;
             })
             .catch(e=>{
                 console.log(e);
@@ -459,7 +477,6 @@ this.checkRequired()
         }),
     },
     mounted() {
-        //console.log("Mounting",this.$route.params)
         this.getReviewList();
     },
 };
@@ -717,6 +734,9 @@ this.checkRequired()
 }
 .column1{
     width: 15%
+}
+::v-deep .nitrozen-dialog-footer{
+    padding-bottom: 2px;
 }
 
 </style>

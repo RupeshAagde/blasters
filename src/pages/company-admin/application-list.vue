@@ -7,7 +7,7 @@
             <div class="box-search">
                 <nitrozen-input
                     placeholder="Search by name or domain . . ."
-                    @input="searchChannels"
+                    @input="fetchApplication"
                     v-model="searchText"
                     :showSearchIcon="true"
                     type="search"
@@ -107,14 +107,14 @@
                                 :theme="'secondary'"
                                 v-if="item.is_active"
                                 v-strokeBtn
-                                @click="openAdminDialog(item)"
+                                @click="openAdminDialog(item,$event)"
                                 >Archive</nitrozen-button
                             >
                             <nitrozen-button
                                 :theme="'secondary'"
                                 v-if="!item.is_active"
                                 v-strokeBtn
-                                @click="openAdminDialog(item)"
+                                @click="openAdminDialog(item,$event)"
                                 >Unarchive</nitrozen-button
                             >
                         </div>
@@ -345,8 +345,8 @@ const PAGINATION = {
 
 const ROLE_FILTER = [
     { value: 'all', text: 'All' },
-    { value: 'inactive', text: 'Archived' },
-    { value: 'active', text: 'Unarchived' },
+    { value: 'false', text: 'Archived' },
+    { value: 'true', text: 'Unarchived' },
 ];
 
 export default {
@@ -407,21 +407,16 @@ export default {
             const temp = {
                 page_no: this.pagination.current,
                 page_size: this.pagination.limit,
+                is_active: this.selectedFilter,
+                q:  this.searchText
             };
 
             // if (this.searchText) {
             //     query.name = this.searchText;
             // }
-
-            if (this.selectedFilter !== 'all') {
-                if (this.selectedFilter == 'active') {
-                    temp.query = JSON.stringify({ is_active: true });
-                }
-                if (this.selectedFilter == 'inactive') {
-                    temp.query = JSON.stringify({ is_active: false });
-                }
+            if(this.selectedFilter == 'all'){
+              temp.is_active = ''
             }
-
             return temp;
         },
         fetchApplication() {
@@ -430,15 +425,16 @@ export default {
                 .then((res) => {
                     this.inProgress = false;
                     this.pageError = false;
-                    this.pagination.total = res.data.total;
-                    this.totalApp = res.data.total;
-                    this.mainList = res.data.docs;
+                    this.pagination.total = res.data.page.item_total;
+                    this.totalApp = res.data.page.item_total;
+                    this.mainList = res.data.items;
                     this.applicationList = res.data.items;
                 })
                 .catch((error) => {
                     this.inProgress = false;
                     console.error(error);
                 });
+                this.searchChannels();
         },
         paginationChange(filter, action) {
             const { current, limit } = filter;
@@ -543,7 +539,9 @@ export default {
                     });
             }
         },
-        openAdminDialog(item) {
+        openAdminDialog(item,event) {
+            event.stopPropagation();
+            event.preventDefault();
             this.activeChannel = item;
             if (item && item.is_active) {
                 this.archiveText = 'Archive';

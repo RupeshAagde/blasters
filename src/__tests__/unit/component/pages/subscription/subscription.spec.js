@@ -22,12 +22,16 @@ describe('Load subscription', () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
         router = new VueRouter({
-            AdminRoutes
+            routes: [{
+                name: 'company-details',
+                path: '/company-details/:companyId',
+                component: Subscription
+            }]
         });
         router.push({
-            name:"company-details",
+            name: 'company-details',
             params:{
-                companyId: "1"
+                companyId:1
             }
         });
     });
@@ -37,6 +41,14 @@ describe('Load subscription', () => {
     });
     
     test('Load subscription', async () => {
+        mock.onGet(URLS.GET_CREDIT_TRANSACTIONS("1")).reply(
+            200,
+            mocks.creditTransactions
+        );
+        mock.onGet(URLS.GET_CUSTOMER_DETAILS("1")).reply(
+            200,
+            mocks.customerDetails
+        );
         mock.onGet(URLS.SUBSCRIPTION_GET_AVAILABLE_PLANS_DETAILED()).reply(
             200,
             mocks.detailedList
@@ -63,8 +75,22 @@ describe('Load subscription', () => {
         expect(wrapper.element).toMatchSnapshot();
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
+        const creditTransactionPagination = wrapper.find('#credit-transaction-pagination');
+        expect(creditTransactionPagination.exists()).toBe(true);
+        creditTransactionPagination.vm.$emit('change',{current:2,limit:10});
+        await wrapper.vm.$nextTick();
+        
+
     });
     test('Trial plan string', async () => {
+        mock.onGet(URLS.GET_CREDIT_TRANSACTIONS("1")).reply(
+            200,
+            mocks.creditTransactions
+        );
+        mock.onGet(URLS.GET_CUSTOMER_DETAILS("1")).reply(
+            200,
+            mocks.customerDetails
+        );
         mock.onGet(URLS.SUBSCRIPTION_GET_AVAILABLE_PLANS_DETAILED()).reply(
             200,
             mocks.detailedList
@@ -91,5 +117,43 @@ describe('Load subscription', () => {
         expect(wrapper.element).toMatchSnapshot();
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
+    });
+
+    test('Change subscription', async () => {
+        mock.onGet(URLS.SUBSCRIPTION_GET_AVAILABLE_PLANS_DETAILED()).reply(
+            200,
+            mocks.detailedList
+        );
+        mock.onGet(URLS.SUBSCRIPTION_GET_ACTIVE_PLAN("1")).reply(
+            200,
+            mocks.currentSubscription
+        );
+        mock.onGet(URLS.SUBSCRIPTION_MAX_APPLICATION_LIMIT("1")).reply(
+            200,
+            CBS_MOCK_DATA.currentLimit
+        );
+        mock.onGet(URLS.SUBSCRIPTION_GET_PLAN_DETAILS_BY_ID("5f3a8786c90d780037723a13")).reply(
+            200,
+            mocks.subscription
+        );
+
+        mock.onPost(URLS.SUBSCRIPTION_ACTIVATE("1")).reply(
+            200,
+            mocks.changeSubscription
+        );
+        
+        wrapper = shallowMount(Subscription, {
+            localVue,
+            router
+        });
+        await flushPromises();
+        let showSuccessMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showSuccess');
+        expect(wrapper.exists()).toBeTruthy();
+        expect(wrapper.element).toMatchSnapshot();
+        const div = wrapper.find('div');
+        expect(div.exists()).toBe(true);
+        const resp = wrapper.vm.activatePlan("610d03f02decb20043dac5ab")
+        await flushPromises();
+        expect(showSuccessMethod).toHaveBeenCalled();
     });
 });

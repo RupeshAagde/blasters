@@ -1295,6 +1295,58 @@ export default {
             }
         ]
     },
+    changeSubscription:{
+        "success": true,
+        "data": {
+            "current_period": {
+                "start": "2021-12-23T10:10:46.111Z",
+                "end": "2022-01-23T10:10:46.111Z"
+            },
+            "pause_collection": {},
+            "invoice_settings": {
+                "generation": true,
+                "charging": true
+            },
+            "is_active": true,
+            "cancel_at_period_end": false,
+            "_id": "610d1a8e54fff161ee57f608",
+            "subscriber_id": "610d1a8254fff1207157f606",
+            "plan_id": "610d03f02decb20043dac5ab",
+            "product_suite_id": "610d03f02decb20043dac589",
+            "plan_data": {
+                "recurring": {
+                    "interval": "month",
+                    "interval_count": 1
+                },
+                "taxation": {
+                    "gst": 0.18
+                },
+                "is_trial_plan": false,
+                "plan_group": "default",
+                "tag_lines": [],
+                "currency": "INR",
+                "is_active": true,
+                "is_visible": true,
+                "trial_period": 0,
+                "addons": [],
+                "tags": [],
+                "type": "public",
+                "country": "IN",
+                "_id": "610d03f02decb20043dac5ab",
+                "name": "Ultra Premium",
+                "description": "Ultra Premium",
+                "amount": 2999,
+                "product_suite_id": "610d03f02decb20043dac589",
+                "created_at": "2021-08-06T09:42:08.877Z",
+                "modified_at": "2021-08-06T09:42:08.877Z"
+            },
+            "current_status": "active",
+            "collection_method": "charge_automatically",
+            "created_at": "2021-08-06T11:18:38.312Z",
+            "modified_at": "2021-12-23T10:10:46.123Z",
+            "latest_invoice": "615d8fd6a1e0951df496f612"
+        }
+    },
     invoicesListing: {
         items: [
             {
@@ -2455,5 +2507,196 @@ export default {
             phone: '+91 9167474423',
             email: 'accounts@gofynd.com'
         }
+    },
+    customerDetails: {
+        "documents": {
+            "gst": "07AAACT4432E1ZP"
+        },
+        "phone": {},
+        "billing_address": {
+            "country": "INDIA",
+            "state": "DELHI",
+            "city": "DELHI",
+            "line1": "UNIT NO.112, RECTANGLE 1, 1ST FLOOR, D-4, SAKET, NEW DELHI -110007",
+            "line2": "",
+            "postal_code": "110007"
+        },
+        "_id": "5ee773e1351e5e84289ed9cf",
+        "type": "company",
+        "unique_id": "1",
+        "name": "Abc COMPANY PVT LTD",
+        "email": "niteenautade@gofynd.com",
+        "created_at": "2020-07-14T16:15:36.865Z",
+        "modified_at": "2021-06-07T16:36:16.736Z",
+        "data": {
+            "pg_user_exists": true,
+            "id": 6,
+            "pg_customer_id": null
+        }
+    },
+    creditTransactions:{
+        "total": 16,
+        "limit": 10,
+        "page": 1,
+        "pages": 2,
+        "items": [
+            {
+                "_id": "619b78cd0dad5f1975ba00d5",
+                "entity": {},
+                "author": {
+                    "modified_by_details": {
+                        "first_name": "Niteen",
+                        "last_name": "Autade",
+                        "is_admin": true
+                    },
+                    "created_by": "e985237eef8d7a33f3d0ad36",
+                    "modified_by": "e985237eef8d7a33f3d0ad36"
+                },
+                "amount": -1,
+                "currency": "INR",
+                "subscriber_id": "5ee773e1351e5e84289ed9cf",
+                "description": "cut",
+                "is_test": "false",
+                "ending_balance": {
+                    "amount": 6,
+                    "old_entry_ref": "619b75c20dad5fafc0ba00c7"
+                },
+                "type": "adjustment",
+                "created_at": "2021-11-22T11:02:37.278Z",
+                "modified_at": "2021-11-22T11:02:37.278Z",
+                "id": "619b78cd0dad5f1975ba00d5"
+            },
+            {
+                "_id": "619b75c20dad5fafc0ba00c7",
+                "entity": {},
+                "author": {
+                    "modified_by_details": {
+                        "first_name": "Niteen",
+                        "last_name": "Autade",
+                        "is_admin": true
+                    },
+                    "created_by": "e985237eef8d7a33f3d0ad36",
+                    "modified_by": "e985237eef8d7a33f3d0ad36"
+                },
+                "amount": 1,
+                "currency": "INR",
+                "subscriber_id": "5ee773e1351e5e84289ed9cf",
+                "description": "test",
+                "is_test": "false",
+                "ending_balance": {
+                    "amount": 5,
+                    "old_entry_ref": "619b51b37d19bc4ead6d063c"
+                },
+                "type": "top_up",
+                "created_at": "2021-11-22T10:49:38.067Z",
+                "modified_at": "2021-11-22T10:49:38.067Z",
+                "id": "619b75c20dad5fafc0ba00c7"
+            },
+            {
+                "_id": "619b51b37d19bc4ead6d063c",
+                "entity": {},
+                "author": {
+                    "modified_by_details": {}
+                },
+                "amount": 1,
+                "currency": "INR",
+                "subscriber_id": "5ee773e1351e5e84289ed9cf",
+                "description": "test",
+                "is_test": "false",
+                "ending_balance": {
+                    "amount": 4,
+                    "old_entry_ref": "619b2642f3f4d14a7f8447ea"
+                },
+                "type": "top_up",
+                "created_at": "2021-11-22T08:15:47.557Z",
+                "modified_at": "2021-11-22T08:15:47.557Z",
+                "id": "619b51b37d19bc4ead6d063c"
+            },
+            {
+                "_id": "619b2642f3f4d14a7f8447ea",
+                "entity": {},
+                "amount": 1,
+                "currency": "INR",
+                "subscriber_id": "5ee773e1351e5e84289ed9cf",
+                "description": "test",
+                "is_test": "false",
+                "ending_balance": {
+                    "amount": 3,
+                    "old_entry_ref": "619b25b7f3f4d114608447de"
+                },
+                "type": "top_up",
+                "created_at": "2021-11-22T05:10:26.834Z",
+                "modified_at": "2021-11-22T05:10:26.834Z",
+                "id": "619b2642f3f4d14a7f8447ea"
+            },
+            {
+                "_id": "619b25b7f3f4d114608447de",
+                "entity": {},
+                "amount": 1,
+                "currency": "INR",
+                "subscriber_id": "5ee773e1351e5e84289ed9cf",
+                "description": "test",
+                "is_test": "false",
+                "ending_balance": {
+                    "amount": 2,
+                    "old_entry_ref": "619b2568f3f4d1e7328447d9"
+                },
+                "type": "top_up",
+                "created_at": "2021-11-22T05:08:07.709Z",
+                "modified_at": "2021-11-22T05:08:07.709Z",
+                "id": "619b25b7f3f4d114608447de"
+            },
+            {
+                "_id": "619b2568f3f4d1e7328447d9",
+                "entity": {},
+                "amount": 1,
+                "currency": "INR",
+                "subscriber_id": "5ee773e1351e5e84289ed9cf",
+                "description": "test",
+                "is_test": "false",
+                "ending_balance": {
+                    "amount": 1,
+                    "old_entry_ref": "619b2533f3f4d1e5f28447d4"
+                },
+                "type": "top_up",
+                "created_at": "2021-11-22T05:06:48.293Z",
+                "modified_at": "2021-11-22T05:06:48.293Z",
+                "id": "619b2568f3f4d1e7328447d9"
+            },
+            {
+                "_id": "619b2533f3f4d1e5f28447d4",
+                "entity": {},
+                "amount": 1,
+                "currency": "INR",
+                "subscriber_id": "5ee773e1351e5e84289ed9cf",
+                "description": "test",
+                "is_test": "false",
+                "ending_balance": {
+                    "amount": 0,
+                    "old_entry_ref": "61973416f3c82a002d5d9f77"
+                },
+                "type": "top_up",
+                "created_at": "2021-11-22T05:05:55.687Z",
+                "modified_at": "2021-11-22T05:05:55.687Z",
+                "id": "619b2533f3f4d1e5f28447d4"
+            },
+            {
+                "_id": "61973416f3c82a002d5d9f77",
+                "entity": {},
+                "amount": 0,
+                "currency": "INR",
+                "subscriber_id": "5ee773e1351e5e84289ed9cf",
+                "description": "Credit balance initiated",
+                "is_test": "false",
+                "ending_balance": {
+                    "amount": 0,
+                    "old_entry_ref": null
+                },
+                "type": "initial",
+                "created_at": "2021-11-19T05:20:22.896Z",
+                "modified_at": "2021-11-19T05:20:22.896Z",
+                "id": "61973416f3c82a002d5d9f77"
+            }
+        ]
     }
 };
