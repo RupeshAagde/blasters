@@ -99,6 +99,20 @@ const BillingService = {
         );
         return ApiService.get(URLS.FETCH_INVOICE_LISTING(), axiosOptions);
     },
+    exportInvoiceListing(params){
+        const axiosOptions = Object.assign(
+            {},
+            { params: params },
+            // getCommonHeaderOptions(),
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-currency-code': 'INR'
+                }
+            }
+        );
+        return ApiService.get(URLS.EXPORT_INVOICE_LISTING(), axiosOptions);
+    },
     chargeInvoice(payload) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{
             data: payload
@@ -205,6 +219,52 @@ const BillingService = {
         });
         return ApiService.post(URLS.SUBSCRIPTION_CANCEL(company_id), axiosOptions);
     },
+
+    getCouponList(params) {
+        const axiosOptions = Object.assign({},
+            { params: params },
+            getCommonHeaderOptions());
+        return ApiService.get(URLS.SUBSCRIPTION_COUPON(), axiosOptions);
+    },
+
+    getCouponId(id) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.SUBSCRIPTION_COUPON(id), axiosOptions);
+    },
+    
+
+    postCouponList(payload) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(),
+        { data: payload }
+        );
+        return ApiService.post(URLS.SUBSCRIPTION_COUPON(), axiosOptions);
+    },
+    putCouponList(payload,id) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(),
+        { data: payload }
+        );
+        return ApiService.put(URLS.SUBSCRIPTION_COUPON(id), axiosOptions);
+    },
+
+    getPlans(params) {
+        const axiosOptions = Object.assign({}, 
+            { params: params },
+            getCommonHeaderOptions());
+        return ApiService.get(URLS.FETCH_PLANS_LIST(), axiosOptions);
+    },
+    getSubscribers(params) {
+        const axiosOptions = Object.assign({},
+            { params: params },
+            getCommonHeaderOptions());
+        return ApiService.get(URLS.SUBSCRIBER_LIST(), axiosOptions);
+    },
+    getUniqueCoupon(code) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.SUBSCRIPTION_COUPON_UNIQUE(code), axiosOptions);
+    },
+
+
+
 };
 
 export default BillingService;

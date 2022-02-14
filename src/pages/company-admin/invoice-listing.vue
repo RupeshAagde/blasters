@@ -91,6 +91,16 @@
                                 ></nitrozen-dropdown>
                             </div>
                         </div>
+                        <div class="flex flex-2" style="margin-top:6px; justify-content:flex-end;">
+                                <nitrozen-button
+                                style="margin-top:22px;"
+                                v-strokeBtn
+                                :theme="'secondary'"
+                                @click="exportInvoiceList()"
+                                >
+                                    Export CSV
+                                </nitrozen-button>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -491,7 +501,9 @@ import {
     NitrozenButton,
     NitrozenPagination,
     NitrozenInput,
-    NitrozenDropdown
+    NitrozenDropdown,
+    strokeBtn,
+    flatBtn,
 } from '@gofynd/nitrozen-vue';
 import { FETCH_METRICS } from '@/store/action.type';
 import marketplaceChannels from './mkp-channels.vue';
@@ -525,6 +537,10 @@ export default {
         NitrozenDropdown,
         Loader,
         'date-picker': DatePicker
+    },
+    directives: {
+        flatBtn,
+        strokeBtn
     },
     computed: {},
     data() {
@@ -781,6 +797,18 @@ export default {
                 this.inProgress = false;
             });
         },
+        exportInvoiceList(query) {
+            query = query || this.requestQuery();
+            BillingService.exportInvoiceListing(query).then((res) => {
+                this.pageLoading = false;
+                this.inProgress = false;
+                const anchor = document.createElement('a');
+                anchor.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(res.data);
+                anchor.target = '_blank';
+                anchor.download = 'FP_Report_Invoices.csv';
+                anchor.click();
+            });
+        },
         getProfileDetails: function() {
             let params = {
                 uid: this.companyId
@@ -818,7 +846,9 @@ export default {
                 page_no: this.pagination.current,
                 page_size: this.pagination.limit
             };
-            let filterQuery = {};
+            let filterQuery = {
+                total:{$gt:0}
+            };
             if (this.searchText) {
                 filterQuery.number = {
                     $regex: this.searchText,
@@ -830,7 +860,8 @@ export default {
             }
             if (this.orderDateRange[0] && this.orderDateRange[1]) {
                 let start = this.orderDateRange[0];
-                let end = this.orderDateRange[1];
+                let end = this.orderDateRange[1]
+                end = moment(end).add(1, 'd').utc().format()
                 if (start) {
                     filterQuery['period.start'] = { $gte: start };
                 }
