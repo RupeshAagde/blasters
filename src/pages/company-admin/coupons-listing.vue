@@ -37,7 +37,7 @@
             </div>
             <div class="darker-xs card-content-line-2 coupon-code">
                 {{ coupon.code.toUpperCase() }}
-                <span id="copycode" @click.stop="onCopyCode">
+                <span id="copycode" @click.stop="onCopyCode($event,coupon.code)">
                     <inline-svg
                         title="Click to copy"
                         :src="'copy'"
@@ -66,7 +66,7 @@
                     >Live</nitrozen-badge
                 >
                 <nitrozen-badge v-else>Not Live</nitrozen-badge> -->
-                <nitrozen-badge v-if="coupon.published" state="success"
+                <nitrozen-badge v-if="coupon._schedule.published" state="success"
                     >Active</nitrozen-badge
                 >
                 <nitrozen-badge v-else>Inactive</nitrozen-badge>
@@ -187,23 +187,25 @@ export default {
              BillingService.getCouponList( Object.assign({
                     page_no: this.pagination.current,
                     page_size: this.pagination.limit,
-                    published : this.query.is_active.value,
+                    "_schedule.published" : this.query.is_active.value,
                     type: this.query.type,
                     code: this.searchText,
+                    sort : JSON.stringify({"created_at":-1})
                 }))
         .then(res=>{
             this.coupon = res.data;
             this.pagination = {
                 limit : res.data.page.size,
                 total : res.data.page.item_total,
-                current : res.data.page.current
+                current : res.data.page.current,
+                
             }
             this.couponList = res.data.items;
             this.loading = false;
             })
         },
-        onCopyCode(event) {
-            copyToClipboard(this.coupon.code);
+        onCopyCode(event,code) {
+            copyToClipboard(code);
             this.$snackbar.global.showInfo('Copied to clipboard', 1000);
             event.stopPropagation();
             event.preventDefault();
@@ -221,12 +223,15 @@ export default {
         setRouteQuery(query) {
             if (query.code || query.published) {
                 // clear pagination if search or filter applied
-                this.pagination = { ...this.pagination, current: 0 };
-                query.page = undefined;
+                this.pagination.current = 1;
+                this.pagination = { ...this.pagination };
+                query.page = this.pagination.current;
                 query.limit = undefined;
                 query.published = this.query.is_active.value;
             }
             if(query.type){
+            this.pagination.current = 1;
+            query.page = this.pagination.current;
             query.type = this.query.type
             }
                 this.$router

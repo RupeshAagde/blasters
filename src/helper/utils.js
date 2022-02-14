@@ -394,15 +394,15 @@ export const validateNitrozenCustomFormInput = (input, skipKey = false) => {
             return false
     }
 }
-export const validUrl = (url) => {
-    let regexp = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
-    if (regexp.test(url)) {
-        return true;
-    }
-    return false
-}
+ export const validUrl = (url) => {
+     let regexp = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+     if (regexp.test(url)) {
+         return true;
+     }
+     return false
+ }
 
-export const isLive = schedule => {
+ export const isLive = schedule => {
     let isLive = false;
     const s = schedule.next_schedule; // next schedules
     if (!s) return false;
@@ -445,14 +445,15 @@ export const nextSchedule = schedule => {
     return ns.length > 0 ? ns[0] : null;
 };
 
-export const allowNumbersOnly = function(event) {
-    if ((event.ctrlKey || event.metaKey) && event.keyCode == 65) {
+export const allowNumbersOnly = function (event){
+    if((event.ctrlKey || event.metaKey) && event.keyCode == 65){
         return true; // allow control + A
     }
-    if (!event.shiftKey && event.keyCode == 8 || event.keyCode == 46 ||
-        event.keyCode == 37 || event.keyCode == 39) {
-        return true;
-    } else if ((event.keyCode >= 48 && event.keyCode <= 57) && !event.shiftKey) {
+    if (!event.shiftKey && event.keyCode == 8 || event.keyCode == 46
+        || event.keyCode == 37 || event.keyCode == 39) {
+            return true;
+    }
+    else if ( (event.keyCode >= 48 && event.keyCode <= 57) && !event.shiftKey) {
         return true;
     }
     event.preventDefault()
@@ -477,6 +478,25 @@ export const allowAlphaNumbericOnly = function(event) {
         return true;
     }
     event.preventDefault();
+    return false;
+}
+export const DecimalNumbersOnly = function (event,el){
+    if (event.keyCode == 190) {
+        if (el.indexOf('.') === -1) {
+            return true;
+        }
+    }
+    if((event.ctrlKey || event.metaKey) && event.keyCode == 65){
+        return true; // allow control + A
+    }
+    if (!event.shiftKey && event.keyCode == 8 || event.keyCode == 46
+        || event.keyCode == 37 || event.keyCode == 39) {
+            return true;
+    }
+    else if ( (event.keyCode >= 48 && event.keyCode <= 57) && !event.shiftKey) {
+        return true;
+    }
+    event.preventDefault()
     return false;
 }
 export const detectFPApp = () => {

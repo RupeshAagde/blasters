@@ -17,9 +17,9 @@ export const TYPE_DATA = [
         Coupon Discount = Min(MD, (CV*D/100))
         
         Where
-        CV = Cart value
+        CV = Cart Value
         D = Percent Discount
-        MD = Maximum discount limit
+        MD = Maximum Discount Limit
         
         Here
         CV = 1000
@@ -29,7 +29,7 @@ export const TYPE_DATA = [
         Therefore  
         Min(400, (1000* 30/ 1000)) = 300
         
-        Cart value				1000
+        Cart Value				1000
         Coupon Discount			-300
         ===========================
         TOTAL					700
@@ -64,7 +64,7 @@ export const TYPE_DATA = [
         Cart value = 3000
         D = 500
 
-        Cart value				3000
+        Cart Value				3000
         Coupon Discount			-500
         ===========================
         TOTAL					2500

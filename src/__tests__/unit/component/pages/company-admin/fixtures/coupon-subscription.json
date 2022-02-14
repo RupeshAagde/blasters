@@ -548,7 +548,17 @@
                 "is_active": true
             },
             "created_at": "2021-12-06T06:53:10.335Z",
-            "modified_at": "2021-12-06T06:53:10.335Z"
+            "modified_at": "2021-12-06T06:53:10.335Z",
+            "_schedule":{
+                "published": true,
+                "next_schedule": [
+                    {
+                        "start": "2022-01-06T18:02:27.076Z",
+                        "end": null
+                    }
+                ],
+                "start": "2022-01-06T18:02:27.076Z"
+            }
         }
     },
     "list": {
@@ -596,7 +606,16 @@
                 "code": "FYND1",
                 "type": "percentage_off",
                 "created_at": "2021-12-02T05:49:24.496Z",
-                "modified_at": "2021-12-07T07:57:29.805Z"
+                "modified_at": "2021-12-07T07:57:29.805Z","_schedule":{
+                    "published": true,
+                    "next_schedule": [
+                        {
+                            "start": "2022-01-06T18:02:27.076Z",
+                            "end": null
+                        }
+                    ],
+                    "start": "2022-01-06T18:02:27.076Z"
+                }
             },
             {
                 "restrictions": {
@@ -641,7 +660,17 @@
                 "code": "OMANSH22",
                 "type": "percentage_off",
                 "created_at": "2021-12-02T06:26:09.901Z",
-                "modified_at": "2021-12-07T05:50:10.765Z"
+                "modified_at": "2021-12-07T05:50:10.765Z",
+                "_schedule":{
+                    "published": true,
+                    "next_schedule": [
+                        {
+                            "start": "2022-01-06T18:02:27.076Z",
+                            "end": null
+                        }
+                    ],
+                    "start": "2022-01-06T18:02:27.076Z"
+                }
             }
             
             

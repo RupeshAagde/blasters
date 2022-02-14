@@ -47,10 +47,6 @@ const ADMIN_ORDERS_BASE = isNode ?
     envVars.BROWSER_CONFIG.APEFACE_ADMIN_SVC :
     envVars.APEFACE_ADMIN_URL;
 
-const INTERNAL_SETTINGS_MAIN = isNode ?
-    envVars.BROWSER_CONFIG.ULTRAMAGNUS_MAIN_SVC :
-    envVars.ULTRAMAGNUS_MAIN_URL;
-
 const INTERNAL_SETTINGS = isNode ?
     envVars.BROWSER_CONFIG.ULTRAMAGNUS_PUBLIC_SVC :
     envVars.ULTRAMAGNUS_PUBLIC_URL;
@@ -87,9 +83,9 @@ const GRINGOTTS_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.GRINGOTTS_ADMIN_URL :
     envVars.GRINGOTTS_ADMIN_URL;
 
-const COMMUNICATION_BASE_URL = isNode ?
+    const COMMUNICATION_BASE_URL = isNode ?
     envVars.BROWSER_CONFIG.POINTBLANK_ADMIN_URL :
-    envVars.POINTBLANK_ADMIN_URL;
+    envVars.POINTBLANK_ADMIN_URL;    
 
 
 const URLS = {
@@ -161,7 +157,6 @@ const URLS = {
     FETCH_ALL_APPLICATIONS: (uid) => {
         return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/application`);
     },
-
 
     //archive unarchive sales channel
     ACTION_APPLICATIONS: (uid, appId) => {
@@ -396,15 +391,14 @@ const URLS = {
     SUBSCRIPTION_CANCEL: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/cancel`)
     },
-    SUBSCRIPTION_COUPON: (id = '') => {
-        return urlJoin(UNICRON_BASE, `/v1.0/coupon/`, id)
+    SUBSCRIPTION_COUPON: (id='') => {
+        return urlJoin(UNICRON_BASE, `/v1.0/coupon/`,id)
     },
     SUBSCRIPTION_COUPON_UNIQUE: (code) => {
-        return urlJoin(UNICRON_BASE, `/v1.0/coupon/code_uniqueness/`, code)
+        return urlJoin(UNICRON_BASE, `/v1.0/coupon/code_uniqueness/`,code)
     },
     SUBSCRIBER_LIST: () => {
-        return urlJoin(UNICRON_BASE, `/v1.0/customer`)
-    },
+        return urlJoin(UNICRON_BASE, `/v1.0/customer`)},
     SUBSCRIPTION_ACTIVATE: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/activate`)
     },
@@ -505,6 +499,13 @@ const URLS = {
     PLATFORM_CUSTOM_FOOTER: (id = '') => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/footer', id);
     },
+    PLATFORM_PRICING_BANNER: () =>{
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/pricing-banner');
+    },
+    PLATFORM_CUSTOM_TAGS:(id='') =>{
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/',id);
+    },
+
     PLATFORM_CUSTOM_TAGS: (id = '') => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/', id);
     },
@@ -593,17 +594,17 @@ const URLS = {
         return urlJoin(SILVERBOLT_ACAT_URL, `/v1.0/company/${companyId}/sizeguide/`);
     },
     //GRINGOTTS
-    FETCH_REVIEW_LIST: (params, status) => {
+    FETCH_REVIEW_LIST: (params,status) => {
         return urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/?action=reviewed&is_reviewed=${status}`)
     },
-    PG_REVIEWED: (params) => {
-        return urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/${params.paymentId}/?action=reviewed&email=${params.email}`)
+    PG_REVIEWED: (params)=>{
+     return urlJoin(GRINGOTTS_ADMIN_URL, `/v1.0/config/company/${params.companyId}/application/${params.app_id}/aggregators/review/${params.paymentId}/?action=reviewed&email=${params.email}`)
     },
-    FETCH_COD_CONFIG: (params) => {
-        return urlJoin(GRINGOTTS_ADMIN_URL, `v1.0/config/company/${params.companyId}/application/${params.app_id}/cod/delivery/`)
+    FETCH_COD_CONFIG: (params)=>{
+        return urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/company/${params.companyId}/application/${params.app_id}/cod/delivery/`)
     },
-    //POINTBLANK
-    COMMUNICATION_LOG: (params) => {
+     //POINTBLANK
+     COMMUNICATION_LOG: (params) => {
         return urlJoin(COMMUNICATION_BASE_URL, `v1.0/log`)
     },
     COMMUNICATION_CAMPAIGNS: () => {

@@ -22,8 +22,6 @@ export SKYWARP_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/platform/authorizati
 export SKYWARP_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/platform/authorization/
 export SKYWARP_PNL_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/panel/authentication/
 export SKYWARP_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/authorization
-export ULTRAMAGNUS_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/internal/settings
-export ULTRAMAGNUS_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/internal/settings
 export ULTRAMAGNUS_PUBLIC_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/common/internal/settings
 export ULTRAMAGNUS_PUBLIC_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/common/internal/settings
 export ULTRAMAGNUS_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/internal/settings
@@ -61,4 +59,4 @@ export SENTRY_ENVIRONMENT=test
 export NEW_RELIC_APP_NAME=blaster
 export NEW_RELIC_LICENSE_KEY=''
 
-npm run test -- -u   
+npm run test -- -u
