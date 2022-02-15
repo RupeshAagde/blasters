@@ -213,6 +213,9 @@
     font-weight: 100;
 }
 .applications {
+    margin: 24px;
+    background-color: white;
+    padding: 24px;
     .text-heading {
         font-size: 18px;
         color: #41434c;
@@ -266,7 +269,6 @@
             .cust-head {
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                width: 160px;
                 overflow: hidden;
                 line-height: 20px;
                 font-size: 14px;
@@ -292,7 +294,6 @@
 
             .cust-app {
                 text-overflow: ellipsis;
-                max-width: 200px;
                 white-space: nowrap;
                 overflow: hidden;
             }

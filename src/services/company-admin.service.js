@@ -88,6 +88,13 @@ const CompanyService = {
         );
         return ApiService.get(URLS.FETCH_ALL_APPLICATIONS(), axiosOption);
     },
+    getApplication(appId) {
+        const axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.FETCH_ALL_APPLICATIONS(appId), axiosOption);
+    },
 
     adminActionApplication(uid, appId, params) {
         const axiosOption = Object.assign(
