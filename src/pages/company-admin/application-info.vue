@@ -1,11 +1,12 @@
 <template>
-<div class="top">
+<div>
+<loader v-if="loading"></loader>
+<div v-else class="top">
     <div>
         <div class="cust-head">{{appData.name}}</div>
         <div class="details">
-     <div class="brand-img-div" ref="adminDialog" >
+     <div class="brand-img-div" ref="adminDialog" v-if="appData.logo">
                     <img
-                        v-if="appData.logo.secure_url"
                         :src="appData.logo.secure_url | imagetransform({ width: 130 })"
                         class="brand-img"
                     />
@@ -57,6 +58,20 @@
                                 {{ appData.description }}
                             </div>
                         </div>
+                        <div class="card-content-line-3">
+                {{
+                    `Created on ${new Date(
+                        appData.created_at
+                    ).toDateString()}`
+                }}
+            </div>
+            <div class="card-content-line-3">
+                {{
+                    `Modified on ${new Date(
+                        appData.modified_at
+                    ).toDateString()}`
+                }}
+            </div>
                
                 </div>
                 </div>
@@ -64,38 +79,22 @@
 
     
 </div>
+</div>
     
 </template>
 <script>
 import CompanyService from '@/services/company-admin.service';
- import { copyToClipboard } from '@/helper/utils.js';
+import { copyToClipboard } from '@/helper/utils.js';
+import loader from '@/components/common/loader.vue';
 
 export default {
     name: "application-info",
+    components:{
+    loader,
+    },
     data(){
         return{
-    app: {
-  description: "this is spacejam",
-  channel_type: "website-and-mobile-apps",
-  
-  
-  namees: "Spacejam",
-
-  logo: "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png",
-  
-  domains: [
-    {
-      name: "mridul-x0.hostx0.de"
-    }
-  ],
-  token: "QWnHldtU7",
-  created_at: "2021-08-09T05:40:01.000Z",
-  modified_at: "2022-02-07T15:30:48.839Z",
-  domain: {
-    name: "mridul-x0.hostx0.de"
-  },
-  id: "6110bfb0d4beb6b2c08f8a79"
-},
+loading: false,
 appData: {}
         }
     },
@@ -104,11 +103,15 @@ appData: {}
     },
     methods: {
         getApplication(){
+            this.loading = true;
             let appId = this.$route.params.appId
            CompanyService.getApplication(appId)
            .then(res=>{
                this.appData = res.data
-               console.log(res)
+               this.loading = false
+           })
+           .catch(err=>{
+               console.log(err);
            })
         },
           copy(text) {
@@ -176,5 +179,12 @@ padding: 24px;
             justify-content: space-between;
             
              }
+             .card-content-line-3 {
+    color: #9B9B9B;
+    line-height: 22px;
+    font-size: 12px;
+    justify-content: flex-end;
+    display: flex;
+}
 
 </style>
