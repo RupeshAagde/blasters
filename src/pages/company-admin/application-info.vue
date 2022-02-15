@@ -174,6 +174,7 @@ padding: 24px;
             color: #41434c;
             font-weight: 200;
             justify-content: space-between;
+            
              }
 
 </style>
