@@ -4,19 +4,33 @@
             <page-header @backClick="onCancel" :title="'Review Extension'">
                 <div class="button-box">
                     <nitrozen-button
+                        v-if="extension_info.current_status === 'pending'"
                         :theme="'secondary'"
                         @click="saveForm(true)"
                         v-flatBtn
                         >Approve</nitrozen-button
                     >
                     <nitrozen-button
+                        v-if="extension_info.current_status === 'pending'"
                         :theme="'secondary'"
                         @click="saveForm(false)"
                         v-strokeBtn
                         >Reject</nitrozen-button
                     >
+                    <nitrozen-badge
+                        v-if="extension_info.current_status !== 'pending'"
+                        :state="
+                            extension_info.current_status === 'rejected'
+                                ? 'error'
+                                : 'success'
+                        "
+                        >{{ extension_info.current_status }}</nitrozen-badge
+                    >
                 </div>
-                <template slot="page-slot-mobile-footer">
+                <template
+                    v-if="extension_info.current_status === 'pending'"
+                    slot="page-slot-mobile-footer"
+                >
                     <nitrozen-button
                         @click="saveForm(true)"
                         class="footer-actions"
@@ -140,6 +154,7 @@ import {
     NitrozenChips,
     NitrozenInline,
     NitrozenDropdown,
+    NitrozenBadge,
 } from '@gofynd/nitrozen-vue';
 
 import loader from '@/components/common/loader';
@@ -159,6 +174,7 @@ export default {
         'nitrozen-chips': NitrozenChips,
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-inline': NitrozenInline,
+        'nitrozen-badge': NitrozenBadge,
         'page-empty': pageEmpty,
         'page-error': pageError,
         'page-header': pageHeader,

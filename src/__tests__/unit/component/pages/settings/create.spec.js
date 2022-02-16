@@ -97,7 +97,6 @@ describe('Mounted edit custom Page', () => {
 
     })
     it('publish', async ()=>{
-
         await flushPromises();
         const publishBtn = wrapper.find('#publish');
         expect(publishBtn.exists()).toBe(true)

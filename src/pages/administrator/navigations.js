@@ -94,16 +94,45 @@ export const getNavigations = () => {
         {
             display: 'Subscription',
             link: '/administrator/subscription/invoices',
-            title: 'invoice',
+            title: 'subscription',
+            icon: 'settings',
+            highlightedIcon: 'home-highlighted',
+            active: false,
+            permission: 'admin-access',
+            children: [
+               
+                {
+                    display: 'Invoices',
+                    link: '/administrator/subscription/invoices',
+                    title: 'invoice',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                }, 
+                {
+                    display: 'Coupons',
+                    link: '/administrator/subscription/coupons',
+                    title: 'coupons',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                
+            ]
+        },
+        {
+            display: 'Communication',
+            link: '/administrator/communication/reports',
+            title: 'reports',
             icon: 'settings',
             highlightedIcon: 'home-highlighted',
             active: false,
             permission: 'admin-access',
             children: [
                 {
-                    display: 'Invoices',
-                    link: '/administrator/subscription/invoices',
-                    title: 'invoice',
+                    display: 'Reports',
+                    link: '/administrator/communication/reports',
+                    title: 'reports',
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
