@@ -7,7 +7,7 @@
             <div class="box-search">
                 <nitrozen-input
                     placeholder="Search by name or domain . . ."
-                    @input="fetchApplication"
+                    @input="debounceInput"
                     v-model="searchText"
                     :showSearchIcon="true"
                     type="search"
@@ -334,6 +334,7 @@ import {
     flatBtn,
     strokeBtn,
 } from '@gofynd/nitrozen-vue';
+import { debounce } from '@/helper/utils';
 
 import root from 'window-or-global';
 const env = root.env || {};
@@ -396,6 +397,9 @@ export default {
         this.fetchApplication();
     },
     methods: {
+        debounceInput: debounce(function() {
+            this.fetchApplication()
+        }, 500),
         copy(text) {
             copyToClipboard(text);
             if (text) {
