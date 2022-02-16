@@ -41,7 +41,8 @@
                         v-model="formData.is_active"
                     ></nitrozen-toggle>
                     <nitrozen-button
-                        class="createBtn"
+                        ref="previewPlan"
+                        class="createBtn mr-1"
                         :theme="'secondary'"
                         @click="previewPlan"
                         v-strokeBtn
@@ -145,6 +146,7 @@
             </template>
             <template slot="footer">
                 <nitrozen-button
+                ref="savePlan"
                     :theme="'secondary'"
                     @click="
                         () => {
@@ -175,6 +177,9 @@
 }
 .page-header-position {
     margin-bottom: 60px;
+}
+.mr-1 {
+        margin-right: 10px;
 }
 .subscribe-modal {
     ::v-deep .nitrozen-dialog-body {
@@ -362,7 +367,7 @@ export default {
             .then(({ data }) => {
                 let validComponents = []
                 data.docs.forEach( comp => {
-                    if(!this.ignoreCompponents.includes(comp._id)) {
+                    if(!this.ignoreCompponents.includes(comp.name)) {
                        validComponents.push(comp)
                     }
                 })
@@ -426,6 +431,13 @@ export default {
             .catch((err) => {
                 console.log(err);
             });
+        // let dtPlanCompPromise = daytraderComponentsJson
+        // this.dtComponents = daytraderComponentsJson.docs;
+        //         if (!planId) {
+        //             this.formData.dayTraderComponents = daytraderComponentsJson.docs.map((doc) => {
+        //                 return this.getCreateDayTraderCompData(doc);
+        //             });
+        //         }
         this.fetchCompany();
 
         Promise.all([
@@ -441,7 +453,7 @@ export default {
     },
     data() {
         return {
-            ignoreCompponents: ['61029cfdd110f5003968a41f','61029cfdd110f5003968a41e','61029cfdd110f5003968a41d','61029cfdd110f5003968a41c','61029cfdd110f5003968a41b','61029cfdd110f5003968a418'],
+            ignoreCompponents: ['Pixel Integration','Abandoned Cart','Analytics Integration','Online Store Front','Coupons and Discounts','Number of Brands'],
             loading: false,
             pageOptions: [],
             allComponents: [],
@@ -750,17 +762,18 @@ export default {
                     });
                     BillingService.createPlan(this.formData)
                         .then(({ data }) => {
+                            
                             this.$snackbar.global.showSuccess(
                                 'Created successfully'
                             );
 
                             this.$router.push({
-                                path: `/administrator/subscription-plans/edit/${data.data._id}/`,
+                                path: `/administrator/subscription-plans/edit/${data.plan._id}/`,
                                 query: {}
                             });
 
-                            this.originalData = _.cloneDeep(data.data);
-                            this.formData = data.data;
+                            this.originalData = _.cloneDeep(data);
+                            this.formData = data;
                             this.saveInProgress = false;
                             this.$refs['agreement-modal'].close();
                         })

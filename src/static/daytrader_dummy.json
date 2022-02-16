@@ -10,7 +10,7 @@
                 "formula_type": "default",
                 "formula": "brand_calculated_amount",
                 "description": "Brand Payout (Unit Price/BCA)",
-                "display_name": "Brand Payout (Unit Price/BCA)",
+                "display_name": "Brand Payout (Unit Price/BCA)", 
                 "transactional_input_fields": [
                     "brand_calculated_amount"
                 ],

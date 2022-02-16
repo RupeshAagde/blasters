@@ -9,6 +9,7 @@ import { PageHeader } from '@/components/common/';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
 import URLS from '@/services//domain.service';
 import flushPromises from "flush-promises";
+import { form_data,components ,daytrader_components} from "./mocks";
 
 describe('Plans create form', () => {
 	let wrapper;
@@ -26,9 +27,11 @@ describe('Plans create form', () => {
 			]
 		})
 		router.push('/administrator/subscription-plans/create');
+        mock.onGet(URLS.FETCH_SUBSCRIPTION_COMPONENTS()).reply(200, components);
+        mock.onGet(URLS.FETCH_DAYTRADER_COMPONENT()).reply(200, daytrader_components);
         
 
-		wrapper = mount(PlansForm, {
+		wrapper = mount(PlansForm, { 
                 localVue,
                 router
             }
@@ -91,19 +94,61 @@ describe('Plans create form', () => {
         expect(showErrorMethod).toHaveBeenCalled();
 
     });
+    test('Preview Plan', async () => {
+        
+        let previewPlanBtn = wrapper.findComponent({ref:'previewPlan'});
+        previewPlanBtn.vm.$emit('click');
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.showPreview).toBeTruthy();
 
-    // test('Create plan successfully', async () => {
-    //     mock.onPost(URLS.FETCH_SINGLE_PLAN('')).reply(200, {"data": {"_id": "test-plan"}, "message": "success"});
-    //     wrapper.vm.$set(wrapper.vm.formData, 'name', 'test');
-    //     let showSuccessMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showSuccess');
-    //     let createBtn = wrapper.findComponent({ref:'createButton'});
-    //     createBtn.vm.$emit('click');
-    //     await wrapper.vm.$nextTick();
-    //     await flushPromises();
-    //     expect(showSuccessMethod).toHaveBeenCalled();
-    //     // console.log(wrapper.vm.formData);
+    });
+
+    test('Create plan successfully', async () => {
+        mock.onPost(URLS.FETCH_SINGLE_PLAN('')).reply(200, {"data": {"_id": "test-plan"}, "message": "success"});
+        wrapper.vm.formData = form_data
+        // wrapper.vm.$set(wrapper.vm.formData, 'name', 'test');
+        let showSuccessMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showSuccess');
+        let createBtn = wrapper.findComponent({ref:'createButton'});
+        createBtn.vm.$emit('click');
+        await wrapper.vm.$nextTick();
+        await flushPromises();
+        let saveBtn = wrapper.findComponent({ref:'savePlan'});
+        saveBtn.vm.$emit('click');
+        await wrapper.vm.$nextTick();
+        
+       setTimeout(() => {
+        expect(showSuccessMethod).toHaveBeenCalled();
+        
+       }, 1000);
+       
+        // console.log(wrapper.vm.formData);
     //     expect(router.currentRoute.path).toBe('/administrator/subscription-plans/edit/test-plan/');
     //     expect(wrapper.vm.saveInProgress).toBe(false);
+    });
+
+    test('Change menu action  to clone', async () => {
+        wrapper.vm.onMenuAction('clone');
+        let showSuccessMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showSuccess');
+            await wrapper.vm.$nextTick();
+            expect(showSuccessMethod).toHaveBeenCalled();
+           
+        });
+
+        // delete functionality has been removed
+
+    // test('Change menu action  to delete', async () => {
+    //         wrapper.vm.onMenuAction('delete');
+    //         let showSuccessMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showSuccess');
+    //             await wrapper.vm.$nextTick();
+    //             expect(showSuccessMethod).toHaveBeenCalled();
+               
+    // });
+    // test('Change menu action  to subcribe', async () => {
+    //     wrapper.vm.onMenuAction('subcribe');
+    //     let openModal = jest.spyOn(wrapper.vm.$refs['subscribe-modal'],'open');
+    //         await wrapper.vm.$nextTick();
+    //         expect(openModal).toHaveBeenCalled();
+           
     // });
 
     // test('Change active state', async () => {

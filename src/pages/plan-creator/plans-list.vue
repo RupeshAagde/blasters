@@ -258,6 +258,7 @@ export default {
                     .catch((err) => {});
             }
             this.loading = true;
+            query.sort = JSON.stringify({ created_at: -1 })
             return BillingPlansService.getPlans(query, '')
                 .then(({ data }) => {
                     this.loading = false;
