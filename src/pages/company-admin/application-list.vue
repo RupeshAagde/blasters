@@ -93,7 +93,7 @@
                                 :title="item.domain.name"
                             >
                                 <a
-                                    :href="`https://${item.domain.name}`"
+                                     @click="openDomain($event,item.domain.name)"
                                     target="_blank"
                                     >{{ item.domain.name }}</a
                                 >
@@ -566,6 +566,11 @@ export default {
             {
             this.$router.push({ path: `/administrator/company-details/${this.companyId}/application/${appId}` });
             }
+        },
+        openDomain(event,domain){
+            window.open(`https://${domain}`);
+            event.stopPropagation();
+            event.preventDefault();
         }
     },
 };
