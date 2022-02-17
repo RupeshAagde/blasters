@@ -1,71 +1,109 @@
 <template>
     <nitrozen-dialog ref="dialog" title="Add Tax Rate/GST">
         <template slot="body">
-            <div class="dialog-container">
-                <div class="row">
-                    <div class="input-box">
-                        <adm-date-picker
-                            label="Effective date *"
-                            required
-                            date_format="YYYY-MM-DD"
-                            :picker_type="'date'"
-                            class="st-date"
-                            v-model="effective_date.value"
-                            :not_before="new Date().toISOString()"
-                            :useNitrozenTheme="true"
-                        />
-                        <nitrozen-error v-if="effective_date.showerror">
-                            {{ effective_date.errortext }}
-                        </nitrozen-error>
+            <div>
+                <div class="dialog-container">
+                    <div class="row">
+                        <div class="input-box">
+                            <adm-date-picker
+                                label="Effective date *"
+                                required
+                                date_format="YYYY-MM-DD"
+                                :picker_type="'date'"
+                                class="st-date"
+                                v-model="effective_date.value"
+                                :not_before="new Date().toISOString()"
+                                :useNitrozenTheme="true"
+                            />
+                            <nitrozen-error v-if="effective_date.showerror">
+                                {{ effective_date.errortext }}
+                            </nitrozen-error>
+                        </div>
+                        <div class="input-box">
+                            <nitrozen-input
+                                label="Cess"
+                                type="number"
+                                placeholder="cess value (optional)"
+                                v-model="cess.value"
+                                @input=""
+                                :custom="true"
+                                :showPrefix="true"
+                            ></nitrozen-input>
+                        </div>
                     </div>
-                    <div class="input-box">
-                        <nitrozen-input
-                            label="Cess"
-                            type="number"
-                            placeholder="cess value (optional)"
-                            v-model="cess.value"
-                            @input=""
-                            :custom="true"
-                            :showPrefix="true"
-                        ></nitrozen-input>
+
+                    <div class="row">
+                        <div class="input-box">
+                            <nitrozen-input
+                                label="Thershold value"
+                                required
+                                type="number"
+                                placeholder="eg. 99999rs"
+                                v-model="threshold.value"
+                                @input=""
+                                :custom="true"
+                                :showPrefix="true"
+                            >
+                                <div
+                                    class=".
+                            custom-label"
+                                >
+                                    &#62;
+                                </div>
+                            </nitrozen-input>
+                            <nitrozen-error v-if="threshold.showerror">
+                                {{ threshold.errortext }}
+                            </nitrozen-error>
+                        </div>
+                        <div class="input-box left-space-txb">
+                            <nitrozen-dropdown
+                                label="Tax Rate (In percentage)"
+                                required
+                                placeholder="Choose Rate"
+                                :items="predefinedRateList"
+                                v-model="rate.value"
+                            ></nitrozen-dropdown>
+                            <nitrozen-error v-if="rate.showerror">
+                                {{ rate.errortext }}
+                            </nitrozen-error>
+                        </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="input-box">
-                        <nitrozen-input
-                            label="Thershold value"
-                            required
-                            type="number"
-                            placeholder="eg. 99999rs"
-                            v-model="threshold.value"
-                            @input=""
-                            :custom="true"
-                            :showPrefix="true"
-                        >
-                            <div
-                                class=".
-                            custom-label"
-                            >
-                                &#62;
+                <div v-if="newRates.length">
+                    <div class="rate-list-div " v-for="rate of newRates">
+                        <div class="rate-list-item">
+                            <div class="rate-list-name">
+                                <label class="n-input-label"
+                                    >Effective Date</label
+                                >
+                                {{ rate.effective_date }}
                             </div>
-                        </nitrozen-input>
-                        <nitrozen-error v-if="threshold.showerror">
-                            {{ threshold.errortext }}
-                        </nitrozen-error>
+                            <div>
+                                <label class="n-input-label">Cess</label>
+                                {{ rate.cess }} %
+                            </div>
+                        </div>
+                        <div class="rate-list-item">
+                            <div class="rate-list-name">
+                                <label class="n-input-label">Thershold</label>
+                                {{ rate.threshold }}
+                            </div>
+                            <div>
+                                <label class="n-input-label">Rate</label>
+                                {{ rate.rate }} %
+                            </div>
+                        </div>
                     </div>
-                    <div class="input-box left-space-txb">
-                        <nitrozen-dropdown
-                            label="Tax Rate (In percentage)"
-                            required
-                            placeholder="Choose Rate"
-                            :items="predefinedRateList"
-                            v-model="rate.value"
-                        ></nitrozen-dropdown>
-                        <nitrozen-error v-if="rate.showerror">
-                            {{ rate.errortext }}
-                        </nitrozen-error>
-                    </div>
+                </div>
+                <div v-if="!this.isEditRate">
+                    <NitrozenButton
+                        title="add new rate"
+                        theme="secondary"
+                        class="ml-sm"
+                        @click="validateNewRate"
+                    >
+                        + add rate
+                    </NitrozenButton>
                 </div>
             </div>
         </template>
@@ -135,6 +173,25 @@
         object-fit: contain;
     }
 }
+.rate-list-div {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid @Iron;
+    border-radius: 4px;
+    background-color: @White;
+    padding: 12px 24px;
+    margin-bottom: 10px;
+    .rate-list-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .rate-list-name {
+        color: @Mako;
+        font-size: 12px;
+
+    }
+}
 .footer {
     display: flex;
     justify-content: flex-end;
@@ -182,7 +239,8 @@ export default {
             default: 'Add Tax Rate/GST'
         },
         taxes: Array,
-        selectedRate: Object
+        selectedRate: Object,
+        isEditRate: Boolean
     },
     directives: {
         flatBtn,
@@ -215,10 +273,10 @@ export default {
                 showerror: false,
                 errortext: 'threshold is required'
             },
+            newRates: []
         };
     },
-    mounted() {
-    },
+    mounted() {},
     methods: {
         validate(data) {
             let isValid = true;
@@ -226,7 +284,6 @@ export default {
         },
         open(data) {
             this.$refs.dialog.open({
-                showCloseButton: true,
                 width: '600px',
                 height: '80%'
             });
@@ -243,40 +300,52 @@ export default {
             return isValid;
         },
         validateThreshold() {},
+        clearForm() {
+            this.cess.value = 0;
+            this.effective_date.value = '';
+            this.effective_date.showerror = false;
+            this.rate.value = 0;
+            this.rate.showerror = false;
+            this.threshold.value = 0;
+            this.threshold.showerror = false;
+        },
+        validateNewRate() {
+            //creating object for indivisual tax rate from inputs
+            let newRate = {};
+            newRate.cess = this.cess.value;
+            if (this.effective_date.value !== '') {
+                this.effective_date.showerror = false;
+                newRate.effective_date = this.effective_date.value;
+            } else this.effective_date.showerror = true;
+            if (this.validateRate()) {
+                newRate.rate = this.rate.value;
+            }
+            if (this.threshold.value !== '') {
+                this.threshold.showerror = false;
+                newRate.threshold = this.threshold.value;
+            } else this.threshold.showerror = true;
+            //below we are checking if all required field add
+            if (
+                !this.effective_date.showerror &&
+                !this.rate.showerror &&
+                !this.threshold.showerror &&
+                this.validate(newRate)
+            ) {
+                this.newRates.unshift(newRate);
+                this.clearForm();
+            } else {
+                this.$snackbar.global.showError(`Fill in the required fields`);
+            }
+        },
         close(action) {
             if (action === 'Saved') {
-                let newRate = {};
-                newRate.cess = this.cess.value;
-
-                if (this.effective_date.value !== '') {
-                    this.effective_date.showerror = false;
-                    newRate.effective_date = this.effective_date.value;
-                } else this.effective_date.showerror = true;
-
-                if (this.validateRate()) {
-                    newRate.rate = this.rate.value;
-                }
-
-                if (this.threshold.value !== '') {
-                    this.threshold.showerror = false;
-                    newRate.threshold = this.threshold.value;
-                } else this.threshold.showerror = true;
-
-                if (
-                    !this.effective_date.showerror &&
-                    !this.rate.showerror &&
-                    !this.threshold.showerror &&
-                    this.validate(newRate)
-                ) {
-                this.cess.value = 0;
-                this.effective_date.value = '';
-                this.effective_date.showerror = false;
-                this.rate.value = 0;
-                this.rate.showerror = false;
-                this.threshold.value = 0;
-                this.threshold.showerror = false;
+                this.validateNewRate();
+                const objectData = this.newRates;
+                if (objectData.length > 0) {
+                    this.clearForm();
+                    this.newRates = [];
                     this.$refs['dialog'].close();
-                    this.$emit('close', action, newRate);
+                    this.$emit('close', action, objectData);
                 } else
                     this.$snackbar.global.showError(
                         `Fill in the required fields`

@@ -3,14 +3,14 @@
         <table class="mirage-table" v-if="tableData && tableData.length">
             <tr>
                 <td v-for="(col, index) in tableColumns" :key="'col-' + index">
-                    {{ getColoumnName(col) }}
+                    {{ col }}
                 </td>
             </tr>
             <template>
                 <tr v-for="(tab, index) in tableData" :key="'tab-' + index">
                     <td>{{ tab.uid }}</td>
                     <td>{{ tab.hsn_code }}</td>
-                    <td>{{ tab.type }}</td>
+                    <td>{{ formatString(tab.type) }}</td>
 
                     <td>
                         {{ format_date(tab.taxes[0].effective_date) }}
@@ -31,6 +31,7 @@
                         </nitrozen-button>
                     </td>
                 </tr>
+
             </template>
         </table>
     </div>
@@ -85,25 +86,13 @@ export default {
         };
     },
     methods: {
-        getColoumnName(col) {
-            return col.toUpperCase();
-        },
-        selectItem: debounce(function(tab, index) {
-            this.$set(
-                this.tableData.items[index],
-                'isSelected',
-                !this.tableData.items[index].isSelected
-            );
-            this.$emit('itemClick', this.tableData.items[index]);
-        }, 150),
-        selectAllItem: debounce(function(tab, index) {
-            if (!this.isAllSelected) {
-                this.tableData.items.map((v) => (v.isSelected = true));
-            } else {
-                this.tableData.items.map((v) => (v.isSelected = false));
+        formatString(str){
+            if(str.length>0){
+                let tempStr = str;
+                return tempStr[0].toUpperCase() + tempStr.slice(1)
             }
-            this.$emit('allItemClick', this.tableData.items);
-        }, 150),
+            return 'type not found';
+        },
         format_date(value) {
             if (value) {
                 return moment(value);
@@ -120,45 +109,42 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.table-checkox {
-    position: relative;
-    bottom: 16px;
-    left: 12px;
-}
-
-/*
-    This class needs to use in listing pages
-*/
 .mirage-table {
     width: 100%;
     margin-bottom: 24px;
-    font-family: Inter, sans-serif;
+    font-family: Inter;
     font-size: 14px;
     border: 1px solid @Iron;
-    // ::v-deep .eye-icon > svg {
-    //     width: 16px;
-    //     height: 16px;
-    //     #prefix__Eye_Open {
-    //         stroke: @Mako;
-    //     }
-    //     &:hover {
-    //         box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.1);
-    //         #prefix__Eye_Open {
-    //             stroke: @RoyalBlue;
-    //         }
-    //     }
-    // }
+    border-radius:4px;
+
     tr:first-child {
-        background: @Alabaster2;
-        color: @Black;
-        border: 1px solid @Iron;
+        background: #f6f6f6;
+        border: 1px solid #e0e0e0;
+        box-sizing: border-box;
+        border-radius: 4px;
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 17px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #41434c;
     }
     tr:not(:first-child) {
         border-bottom: 1px solid @Iron;
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 17px;
+        letter-spacing: 0em;
+        text-align: left;
+        opacity:0.5;
     }
     td {
-        text-align: center;
-        padding: 16px 6px;
+        text-align: left;
+        padding: 16px 16px;
         .ml-sm {
             border: 1px solid @Iron;
             padding: 2px 8px 2px 8px;

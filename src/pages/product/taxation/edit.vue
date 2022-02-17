@@ -143,7 +143,6 @@
                                 }}</nitrozen-badge
                             >
                         </div>
-
                         <div class="tax-list-item">
                             <div class="tax-list-name">
                                 <label class="n-input-label">Threshold</label>
@@ -182,6 +181,7 @@
             :title="dialogTitle"
             :taxes="taxes.value"
             :selectedRate="selectedRate"
+            :isEditRate="isEditRate"
             @close="$closeAddTaxrateDialog"
         >
         </add-taxrate-dailog>
@@ -268,10 +268,9 @@ export default {
             editMode: false,
             uid: '',
             pageTitle: '',
-            dialogTitle:'Add Tax Rate/GST',
+            dialogTitle: 'Add Tax Rate/GST',
             saveText: '',
             formSaved: false,
-
             hsn_code: {
                 value: '',
                 showerror: false,
@@ -303,7 +302,21 @@ export default {
                 rate: 0,
                 threshold: 0
             },
-            newRate: {},
+            newRate: {
+                cess: 0,
+                effective_date: '',
+                rate: 0,
+                threshold: 0
+            },
+            newRates: [
+                {
+                    cess: 0,
+                    effective_date: '',
+                    rate: 0,
+                    threshold: 0
+                }
+            ],
+            isEditRate: false,
             errors: {}
         };
     },
@@ -434,16 +447,14 @@ export default {
                     .then(() => {
                         this.inProgress = false;
                         this.$snackbar.global.showSuccess('Saved successfully');
-                        this.newRate = {};
+                        this.clearSelectedRate();
                         this.redirectBack();
                     })
                     .catch((err) => {
                         this.inProgress = false;
                         this.$snackbar.global.showError('Failed to save');
-
-                        const index = this.taxes.value.indexOf(this.newRate);
-                        this.taxes.value.splice(index, 1);
-                        this.newRate={}
+                        this.clearUnsavedRates();
+                        this.clearSelectedRate();
                     });
             } else if (this.taxes.showerror) {
                 this.$snackbar.global.showError(this.taxes.errortext);
@@ -504,10 +515,39 @@ export default {
                 return moment(String(value));
             }
         },
+        clearUnsavedRates() {
+            for (let rate of this.newRates) {
+                if (rate.effective_date != '') {
+                    const index = this.taxes.value.indexOf(rate);
+                    if (index > 0) {
+                        this.taxes.value.splice(index, 1);
+                    }
+                }
+            }
+            this.newRates = [
+                {
+                    cess: 0,
+                    effective_date: '',
+                    rate: 0,
+                    threshold: 0
+                }
+            ];
+        },
+        clearSelectedRate() {
+            this.selectedRate = {
+                cess: 0,
+                effective_date: '',
+                rate: 0,
+                threshold: 0
+            };
+        },
         $openAddTaxrateDialog() {
+            this.clearUnsavedRates();
             this.$refs.addTaxrateDialog.open();
         },
         $openEditTaxrateDialog(code) {
+            this.isEditRate = true;
+            this.clearUnsavedRates();
             const index = this.taxes.value.indexOf(code);
             if (index > -1) {
                 this.selectedRate = code;
@@ -517,18 +557,14 @@ export default {
         },
         //once dailog is closed this method will run
         $closeAddTaxrateDialog(action, object) {
-            if (!!object) {
-                this.newRate = object;
-                this.taxes.value.push(this.newRate);
-                console.log(action, object);
-            } else {
+            this.isEditRate = false;
+            console.log(object);
+            if (object.length > 0) {
+                this.newRates = [...object];
+                this.taxes.value = [...this.newRates, ...this.taxes.value];
+            } else if (this.selectedRate.effective_date !== '') {
                 this.taxes.value.push(this.selectedRate);
-                this.selectedTax = {
-                    cess: 0,
-                    effective_date: '',
-                    rate: 0,
-                    threshold: 0
-                };
+                this.clearSelectedRate();
             }
         }
     }
@@ -536,9 +572,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-// @import '../less/page-header.less';
-// @import '../less/page-ui.less';
-
 .header-position {
     height: 58.5px;
     .button-box {
@@ -597,11 +630,11 @@ export default {
                     border: 1px solid @Iron;
                     padding: 2px 10px 2px 10px;
                 }
-                .tax-list-name {
-                    color: @Mako;
-                    font-size: 14px;
-                    margin-bottom: 14px;
-                }
+            }
+            .tax-list-name {
+                color: @Mako;
+                font-size: 14px;
+                margin-bottom: 14px;
             }
         }
     }
@@ -609,85 +642,5 @@ export default {
 
 .left-space-txb {
     margin-left: 12px;
-}
-
-.input-label {
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 21px;
-    color: @DustyGray2;
-    padding-right: 4px;
-}
-.input-value {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 21px;
-    color: @Mako;
-}
-.input {
-    &.md {
-        width: 200px;
-    }
-    &.mh {
-        width: 800px;
-    }
-    &.sm {
-        width: 100px;
-    }
-    &.mr-sm {
-        margin-right: 12px;
-    }
-    .custom-label {
-        padding: 12px;
-    }
-}
-.left-margin {
-    margin-left: 24px;
-}
-.line-height-sm {
-    line-height: 28px;
-}
-.inline {
-    display: flex;
-    &.align-bottom {
-        align-items: flex-end;
-    }
-}
-.mt-sm {
-    margin-top: 12px;
-}
-.mt-md {
-    margin-top: 24px;
-}
-.add-icon {
-    cursor: pointer;
-    &.disabled {
-        opacity: 0.3;
-        pointer-events: none;
-    }
-    ::v-deep {
-        svg {
-            width: 38px;
-            height: 38px;
-            border: 1px solid @Iron;
-            border-radius: 3px;
-            #prefix__Group {
-                stroke: @RoyalBlue;
-            }
-        }
-    }
-}
-::v-deep.remove-icon svg {
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    padding: 3px;
-    border: 1px solid @Iron;
-    border-radius: 3px;
-}
-.btn-container {
-    margin-right: 12px;
-    max-width: 200px;
-    line-height: 28px;
 }
 </style>

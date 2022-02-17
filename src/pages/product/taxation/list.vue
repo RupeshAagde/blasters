@@ -1,64 +1,57 @@
 <template>
-    <div class="panel">
-        <div class="main-container">
-            <div class="page-container">
-                <div class="full-width">
-                    <jumbotron
-                        class="jumbotron-h"
-                        :title="'Government Authorised HSN & GST Schedule'"
-                        :desc="'HSN list'"
-                        btnLabel="Add HSN"
-                        @btnClick="redirectEdit"
-                    ></jumbotron>
-                    <div class="search-filter">
-                        <div class="search-box">
-                            <nitrozen-input
-                                :showSearchIcon="true"
-                                class="search"
-                                type="search"
-                                :placeholder="'Search by HSN or Description'"
-                                v-model="searchText"
-                                @input="searchHSN"
-                            ></nitrozen-input>
-                        </div>
-                        <nitrozen-button
-                            theme="secondary"
-                            class="ml-sm"
-                            v-strokeBtn
-                            @click=""
-                            >Bulk Action</nitrozen-button
-                        >
-                    </div>
-                    <div class="hsn-code-list">
-                        <shimmer
-                            v-if="pageLoading && !pageError"
-                            :count="4"
-                        ></shimmer>
-                        <page-error
-                            v-else-if="pageError && !pageLoading"
-                            @tryAgain="init"
-                        ></page-error>
-                        <div v-else-if="hsnCodes && hsnCodes.length">
-                            <list-element
-                                class="mirage-table"
-                                :tableColumns="column"
-                                :tableData="hsnCodes"
-                            >
-                            </list-element>
-                        </div>
-                        <no-content
-                            v-else
-                            helperText="No HSN code available"
-                        ></no-content>
-                        <div class="pagination" v-if="hsnCodes.length > 0">
-                            <nitrozen-pagination
-                                name="HSN codes"
-                                v-model="pagination"
-                                @change="paginationChange"
-                                :pageSizeOptions="[5,10,20,50]"
-                            ></nitrozen-pagination>
-                        </div>
-                    </div>
+    <div>
+        <div class="panel">
+            <jumbotron
+                class="jumbotron-h"
+                :title="'Government Authorised HSN & GST Schedule'"
+                :desc="'HSN list'"
+                btnLabel="Add HSN"
+                @btnClick="redirectEdit"
+            ></jumbotron>
+            <div class="search-filter">
+                <div class="search-box">
+                    <nitrozen-input
+                        :showSearchIcon="true"
+                        class="search"
+                        type="search"
+                        :placeholder="'Search by HSN or Description'"
+                        v-model="searchText"
+                        @input="searchHSN"
+                    ></nitrozen-input>
+                </div>
+                <nitrozen-button
+                    theme="secondary"
+                    class="ml-sm"
+                    v-strokeBtn
+                    @click=""
+                    >Bulk Action</nitrozen-button
+                >
+            </div>
+            <div class="hsn-list-div">
+                <shimmer v-if="pageLoading && !pageError" :count="4"></shimmer>
+                <page-error
+                    v-else-if="pageError && !pageLoading"
+                    @tryAgain="init"
+                ></page-error>
+                <div v-else-if="hsnCodes && hsnCodes.length">
+                    <list-element
+                        class="mirage-table"
+                        :tableColumns="column"
+                        :tableData="hsnCodes"
+                    >
+                    </list-element>
+                </div>
+                <no-content
+                    v-else
+                    helperText="No HSN code available"
+                ></no-content>
+                <div class="pagination" v-if="hsnCodes.length > 0">
+                    <nitrozen-pagination
+                        name="HSN codes"
+                        v-model="pagination"
+                        @change="paginationChange"
+                        :pageSizeOptions="[5, 10, 20, 50]"
+                    ></nitrozen-pagination>
                 </div>
             </div>
         </div>
@@ -144,11 +137,11 @@ export default {
                 'Uid',
                 'HSN',
                 'Type',
-                'Effective_from',
-                'rate',
+                'Effective From',
+                'Rate',
                 'Country',
                 'Action'
-            ],
+            ]
         };
     },
     mounted() {
@@ -174,7 +167,7 @@ export default {
                         this.pageLoading = false;
                         this.pagination.total = data.page.item_total;
                         this.hsnCodes = data.items;
-                        console.log(this.hsnCodes)
+                        console.log(this.hsnCodes);
                         return resolve();
                     })
                     .catch((err) => {
@@ -240,33 +233,24 @@ export default {
 <style lang="less" scoped>
 // @import './../less/page-header.less';
 // @import './../less/page-ui.less';
-body .panel {
+.panel {
     font-family: Inter;
+    background: #ffffff;
+    min-height: 733px;
+    left: 271px;
+    border-radius: 6px;
+    margin: 20px;
+    padding: 20px;
 }
 .jumbotron-h {
-    margin-top: 0;
+    top: 1;
     box-sizing: border-box;
     min-height: 100px;
-    @media @mobile {
-        min-height: unset;
-    }
     .jumbotron-title ::v-deep {
         margin-left: 15px;
     }
 }
-.main-container {
-    height: 100%;
-    .page-container {
-        padding-bottom: 0px;
-        @media @mobile {
-            width: calc(100% - 48px);
-        }
-    }
-}
-.input-shimmer {
-    height: 40px;
-    width: 400px;
-}
+
 .search-filter {
     display: flex;
     justify-content: space-between;
@@ -274,119 +258,35 @@ body .panel {
     align-items: center;
 
     .search-box {
-        margin-top: 0px;
-        margin-bottom: 15px;
-        min-width: 400px;
+        min-width: 700px;
+        background: #f8f8f8;
+        padding: 12px;
+        border-radius: 4px;
+
         @media @mobile {
             min-width: 100%;
         }
     }
-    .filter-dropdown {
-        width: 100px;
-        margin-left: 12px;
-    }
-    .label {
-        font-family: Inter;
-        color: @Mako;
-        font-size: 14px;
-        line-height: 20px;
-        margin-top: 30px;
-        font-weight: 500;
-    }
-
-    .filter {
-        display: flex;
-        flex-direction: row;
-        .filter-text {
-            color: @Mako;
-            font-size: 14px;
-            line-height: 20px;
-            font-weight: 500;
-        }
-        select {
-            background-color: @White;
-            border: 1px solid @Iron;
-            border-radius: 3px;
-            height: 40px;
-            color: @Mako;
-            font-size: 14px;
-            padding: 5px 10px;
-        }
-    }
 }
-.hsn-code-list {
-    width: auto;
-    background-color: @White;
-    .mirage-list-card-container {
-        border: 1px solid #e4e5e6;
-        cursor: pointer;
-        min-height: 120px;
-        padding: px 24px;
-        border-radius: 3px;
-        margin-bottom: 16px;
-        display: flex;
-        align-items: center;
-    }
-}
-.inline {
-    display: flex;
-}
-.slab {
-    margin-left: 12px;
-    width: 180px;
-    &.border-right {
-        border-right: 1px solid @Iron;
-    }
-
-    &.mr-md {
-        margin-right: 24px;
-    }
-    .input-label {
-        font-size: 12px;
-        font-weight: 500;
-        line-height: 21px;
-        color: @DustyGray2;
-        padding-right: 20px;
-    }
-    .input-value {
-        font-size: 14px;
-        font-weight: 500;
-        line-height: 21px;
-        color: @Mako;
-    }
+// .hsn-code-list {
+//     width: auto;
+//     background-color: @White;
+//     .mirage-list-card-container {
+//         border: 1px solid #e4e5e6;
+//         cursor: pointer;
+//         min-height: 120px;
+//         padding: px 24px;
+//         border-radius: 3px;
+//         margin-bottom: 16px;
+//         display: flex;
+//         align-items: center;
+//     }
+// }
+.hsn-list-div {
+    margin-top:24px;
 }
 
-.card-content-line-3 {
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 21px;
-    max-width: 600px;
-    color: @DustyGray2;
-    padding-right: 4px;
-}
-.card-badge-section {
-    margin-left: 500px;
-    margin-right: 24px;
-    display: flex;
-    align-items: center;
-    @media @mobile {
-        min-height: unset;
-    }
-}
-.full-width {
-    width: 100%;
-}
 .pagination {
     margin-bottom: 24px;
-}
-.card-avatar {
-    margin-left: 24px;
-    margin-right: 12px;
-    min-height: 60px;
-    min-width: 60px;
-    max-height: 60px;
-    max-width: 60px;
-    display: flex;
-    align-items: center;
 }
 </style>
