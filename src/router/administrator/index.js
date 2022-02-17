@@ -398,6 +398,14 @@ export default [
                 return checkUserPermission(to, from, next, ['product']);
             }
         },
+        {
+            name: 'taxation-edit',
+            path: 'product/taxation/:uid/edit',
+            component: ProductTaxationEdit,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
 
         // Product Verification
         {

@@ -1,7 +1,7 @@
 <template>
     <div class="panel">
         <div class="header-position">
-            <adm-page-header :title="pageTitle()" @backClick="redirectBack">
+            <adm-page-header :title="pageTitle" @backClick="redirectBack">
                 <div class="button-box">
                     <nitrozen-button
                         class="pad-left"
@@ -24,162 +24,192 @@
         </div>
         <loader v-if="pageLoading" class="loading"></loader>
         <div v-else class="page-container">
-            <div class="form-container cl-Mako">
-                <nitrozen-input
-                    class="input md mt-md"
-                    label="HSN Code"
-                    type="text"
-                    placeholder="For eg. 61152010"
-                    :disabled="editMode"
-                    v-model="hsn.hsn_code"
-                    @input="validateHSNCode"
-                ></nitrozen-input>
-                <nitrozen-error v-if="errors.hsn_code">
-                    {{ errors.hsn_code }}
-                </nitrozen-error>
-                <nitrozen-input
-                    class="input mh mt-md"
-                    label="Description"
-                    type="text"
-                    placeholder="For eg.description about products"
-                    :disabled="false"
-                    v-model="hsn.description"
-                ></nitrozen-input>
-                <div class="mt-md">
-                    <div class="darker-md">Slab #1</div>
-                    <div class="inline align-bottom mt-sm">
-                        <nitrozen-input
-                            class="input md mr-sm"
-                            label="Threshold *"
-                            :disabled="!showSlab2"
-                            :showTooltip="!showSlab2"
-                            tooltipText="Threshold of Slab #1 is ₹9,99,999 and has a flat tax rate which you can choose from the drop-down"
-                            type="number"
-                            placeholder="For eg. 1000"
-                            v-model="hsn.threshold1"
-                            :custom="true"
-                            :showPrefix="true"
-                            @input="validateThreshold1"
-                        >
-                            <div class="custom-label">INR</div>
-                        </nitrozen-input>
-                        <nitrozen-dropdown
-                            class="input sm mr-sm"
-                            label="GST Rate"
-                            placeholder="None"
-                            :items="gstRatesListSlab1"
-                            v-model="hsn.tax1"
-                        ></nitrozen-dropdown>
-                        <div class="header mt-sm" >
-                            <div class="title bold">Effective Date</div>
-                            <div class="btn-container">
-                                <div class="date">
-                                    <adm-form-input
-                                        :custom="true"
-                                    >
-                                        <adm-date-picker
-                                            class="st-date"
-                                            :date_format="'YYYY-MM-DD hh:mm:ss a'"
-                                            :picker_type="'datetime'"
-                                            v-model="hsn.effective_date1"
-                                            :not_before="
-                                                new Date().toISOString()
-                                            "
-                                        />
-                                    </adm-form-input>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Add Button -->
-                        <ukt-inline-svg
-                            v-if="!showSlab2"
-                            title="add another slab"
-                            src="plus-black"
-                            class="add-icon"
-                            :class="{ disabled: hsn.tax1 == 28 }"
-                            @click.stop.native="enableSlab2"
-                        ></ukt-inline-svg>
-                    </div>
-                    <nitrozen-error v-if="errors.threshold1">
-                        {{ errors.threshold1 }}
+            <div class="cl-Mako bold-md form-head">Basic Details</div>
+            <div class="row">
+                <div class="input-box">
+                    <nitrozen-input
+                        label="HSN Code"
+                        required
+                        type="text"
+                        placeholder="For eg. 61152010"
+                        v-model="hsn_code.value"
+                        @input="validateHSNCode"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="hsn_code.showerror">
+                        {{ hsn_code.errortext }}
+                    </nitrozen-error>
+                    <nitrozen-error v-else-if="errors.hsn_code">
+                        {{ errors.hsn_code }}
                     </nitrozen-error>
                 </div>
-                <div class="mt-md" v-if="showSlab2">
-                    <div class="darker-md">Slab #2</div>
-                    <div class="inline align-bottom mt-sm">
-                        <nitrozen-input
-                            class="input md mr-sm"
-                            label="Threshold *"
-                            type="number"
-                            :showTooltip="true"
-                            tooltipText="Threshold of Slab #2 is ₹9,99,999 for accommodating any amount above the Slab #1 threshold, and it incurs a tax rate selected from the drop-down"
-                            :disabled="true"
-                            placeholder="For eg. 10000"
-                            v-model="hsn.threshold2"
-                            :custom="true"
-                            :showPrefix="true"
-                        >
-                            <div class="custom-label">INR</div>
-                        </nitrozen-input>
-                        <nitrozen-dropdown
-                            class="input sm mr-sm"
-                            label="GST Rate"
-                            placeholder="None"
-                            :items="gstRatesListSlab2"
-                            v-model="hsn.tax2"
-                        ></nitrozen-dropdown>
-                        <div class="header mt-sm" >
-                            <div class="title bold">Effective Date</div>
-                            <div class="btn-container">
-                                <div class="date">
-                                    <adm-form-input
-                                        :custom="true"
-                                    >
-                                        <adm-date-picker
-                                            class="st-date"
-                                            :date_format="'YYYY-MM-DD hh:mm:ss a'"
-                                            :picker_type="'datetime'"
-                                            v-model="hsn.effective_date2"
-                                            :not_before="
-                                                new Date().toISOString()
-                                            "
-                                        />
-                                    </adm-form-input>
-                                </div>
+                <div class="input-box left-space-txb">
+                    <nitrozen-input
+                        label="Reporting HSN Code"
+                        type="text"
+                        placeholder="For eg. 61152010"
+                        :disabled="true"
+                        @input="validateReportingHSNCode"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="errors.reporting_hsn_code">
+                        {{ errors.reporting_hsn_code }}
+                    </nitrozen-error>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-box">
+                    <nitrozen-dropdown
+                        label="Type"
+                        required
+                        placeholder="Choose Type"
+                        :items="getHSNType"
+                        v-model="type.value"
+                    ></nitrozen-dropdown>
+                    <nitrozen-error v-if="type.showerror">
+                        {{ type.errortext }}
+                    </nitrozen-error>
+                </div>
+                <div class="input-box left-space-txb">
+                    <nitrozen-dropdown
+                        label="Country"
+                        required
+                        placeholder="Choose Country"
+                        :items="getCountry"
+                        v-model="country_code.value"
+                    ></nitrozen-dropdown>
+                    <nitrozen-error v-if="country_code.showerror">
+                        {{ country_code.errortext }}
+                    </nitrozen-error>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-area">
+                    <nitrozen-input
+                        label="Description"
+                        type="textarea"
+                        required
+                        placeholder="some description"
+                        v-model="description.value"
+                        @input="validateDescription"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="description.showerror">
+                        {{ description.errortext }}
+                    </nitrozen-error>
+                    <nitrozen-error v-else-if="errors.description">
+                        {{ errors.description }}
+                    </nitrozen-error>
+                </div>
+            </div>
+        </div>
+
+        <div class="rate-container">
+            <div class="row">
+                <div class="cl-Mako bold-md form-head">
+                    Tax/GST Rate Configuration
+                </div>
+                <nitrozen-button
+                    v-strokeBtn
+                    theme="secondary"
+                    class="ml-sm"
+                    @click="$openAddTaxrateDialog"
+                    >Add Rate/GST
+                </nitrozen-button>
+            </div>
+            <!-- Here we will list pre saved tax rate -->
+            <div v-if="!!taxes.value.length">
+                <div
+                    class="tax-list-body"
+                    v-for="(tax, index) in taxes.value"
+                    :key="'tax-' + index"
+                >
+                    <div class="tax-list-div" :key="index">
+                        <div class="tax-list-item">
+                            <div class="tax-list-name">
+                                <label class="n-input-label"
+                                    >Effective Date</label
+                                >
+                                {{ format_date(tax.effective_date) }}
+                            </div>
+                            <nitrozen-badge
+                                :state="
+                                    isRateActive(tax.effective_date)
+                                        ? 'success'
+                                        : 'warn'
+                                "
+                                >{{
+                                    isRateActive(tax.effective_date)
+                                        ? 'Active'
+                                        : 'incoming'
+                                }}</nitrozen-badge
+                            >
+                        </div>
+
+                        <div class="tax-list-item">
+                            <div class="tax-list-name">
+                                <label class="n-input-label">Threshold</label>
+                                {{ tax.threshold }}
                             </div>
                         </div>
-                        <!-- Delete Button -->
-                        <ukt-inline-svg
-                            src="delete"
-                            title="remove slab"
-                            class="remove-icon"
-                            @click.stop.native="removeSlab2"
-                        ></ukt-inline-svg>
+
+                        <div class="tax-list-item">
+                            <div class="tax-list-name">
+                                Rate: {{ tax.rate }} %
+                            </div>
+                            <div>
+                                <nitrozen-button
+                                    theme="secondary"
+                                    class="ml-sm editButton"
+                                    v-strokeBtn
+                                    @click="$openEditTaxrateDialog(tax)"
+                                >
+                                    <inline-svg
+                                        class="nitrozen-icon"
+                                        src="edit"
+                                        title="edit rate"
+                                    ></inline-svg>
+                                </nitrozen-button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div v-if="!taxes.value.length">
+            <adm-no-content :helperText="'no rate available'"></adm-no-content>
+        </div>
+        <add-taxrate-dailog
+            ref="addTaxrateDialog"
+            :title="dialogTitle"
+            :taxes="taxes.value"
+            :selectedRate="selectedRate"
+            @close="$closeAddTaxrateDialog"
+        >
+        </add-taxrate-dailog>
+
         <loader v-if="inProgress" class="loading"></loader>
     </div>
 </template>
 
 <script>
 import path from 'path';
+import moment from 'moment';
 import pageerror from '@/components/common/page-error';
 import loader from '@/components/common/loader';
 import admpageheader from '@/components/common/layout/page-header';
-import admNoContent from '@/components/common/page-error.vue';
+import admnocontent from '@/components/common/adm-no-content.vue';
 import AdminService from '@/services/company-admin.service';
 import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import InlineSvg from '@/components/common/adm-inline-svg';
 import datePicker from '@/components/common/date-picker.vue';
 import admforminput from '@/components/common/form-input.vue';
+import AddTaxrateDailog from './add-taxrate-dialog';
 // import _ from 'lodash';
 import isEmpty from 'lodash/isEmpty';
 import {
     NitrozenToggleBtn,
     NitrozenButton,
+    NitrozenBadge,
     NitrozenCheckBox,
     NitrozenRadio,
     NitrozenInput,
@@ -189,47 +219,45 @@ import {
     NitrozenDialog,
     NitrozenTooltip,
     flatBtn,
-    strokeBtn,
+    strokeBtn
 } from '@gofynd/nitrozen-vue';
 
 const GST_RATES = [0, 3, 5, 10, 12, 18, 28];
-
-const EMPTY_HSN = {
-    description: '',
-    hsn_code: '',
-    effective_date1:'',
-    effective_date2:'',
-    hs2_code: '',
-    tax1: 0,
-    threshold1: 0,
-    tax2: 0,
-    threshold2: 0,
-    is_active: true,
-    tax_on_mrp: false,
-};
+const HSN_TYPE = ['Goods', 'Services'];
+const HSN_COUNTRY = [
+    { text: 'INDIA', value: 'IN' },
+    { text: 'AUSTRALIA', value: 'AU' },
+    { text: 'CHINA', value: 'CN' },
+    { text: 'GERMANY', value: 'DE' },
+    { text: 'SPAIN', value: 'ES' },
+    { text: 'SRI LANKA', value: 'LK' },
+    { text: 'UNITED STATE', value: 'US' }
+];
 
 export default {
     name: 'ProductTaxationEdit',
     components: {
         'page-error': pageerror,
         'adm-page-header': admpageheader,
-        'adm-no-content': admNoContent,
+        'adm-no-content': admnocontent,
         'ukt-inline-svg': UktInlineSvg,
         'inline-svg': InlineSvg,
         'adm-date-picker': datePicker,
-        'adm-form-input':admforminput,
+        'adm-form-input': admforminput,
         NitrozenInput,
         NitrozenCheckBox,
         NitrozenButton,
+        NitrozenBadge,
         NitrozenToggleBtn,
         NitrozenDropdown,
         NitrozenError,
         NitrozenTooltip,
         loader,
+        AddTaxrateDailog
     },
     directives: {
         flatBtn,
-        strokeBtn,
+        strokeBtn
     },
     mixins: [dirtyCheckMixin],
     data() {
@@ -237,97 +265,109 @@ export default {
             pageLoading: false,
             inProgress: false,
             pageError: false,
-            editMode: !!this.$route.params.uid,
-            uid: this.$route.params.uid,
+            editMode: false,
+            uid: '',
+            pageTitle: '',
+            dialogTitle:'Add Tax Rate/GST',
+            saveText: '',
             formSaved: false,
-            showSlab2: false,
-            hsn: { threshold1: 999999, tax1: 0, tax2: 0 },
-            errors: {},
+
+            hsn_code: {
+                value: '',
+                showerror: false,
+                errortext: 'HSN code is required'
+            },
+            type: {
+                value: '',
+                showerror: false,
+                errortext: 'Type is required'
+            },
+            country_code: {
+                value: '',
+                showerror: false,
+                errortext: 'Country is required'
+            },
+            description: {
+                value: '',
+                showerror: false,
+                errortext: 'Description is required'
+            },
+            taxes: {
+                value: [],
+                showerror: false,
+                errortext: 'Tax rate is required'
+            },
+            selectedRate: {
+                cess: 0,
+                effective_date: '',
+                rate: 0,
+                threshold: 0
+            },
+            newRate: {},
+            errors: {}
         };
     },
+    mounted() {
+        if (this.$route.params.uid) {
+            this.pageLoading = true;
+            this.uid = this.$route.params.uid;
+            this.pageTitle = 'Edit HSN Code';
+            this.saveText = 'HSN updated successfully';
+            this.editMode = this.$route.params.uid ? true : false;
+        } else {
+            this.pageTitle = 'Add HSN Code';
+        }
+        // console.log(this.$route.params)
+        this.init();
+    },
     computed: {
-        gstRatesListSlab1() {
-            return GST_RATES.map((rate) => {
-                if (rate === 0) {
-                    return {
-                        text: 'None',
-                        value: 0,
-                    };
-                }
+        getHSNType() {
+            return HSN_TYPE.map((type) => {
                 return {
-                    text: rate + '%',
-                    value: rate,
+                    text: type,
+                    value: type.toLowerCase()
                 };
             });
         },
-        gstRatesListSlab2() {
-            const rates = [];
-            GST_RATES.forEach((rate) => {
-                if (rate <= this.hsn.tax1) {
-                    return;
-                }
-                rates.push({
-                    text: rate + '%',
-                    value: rate,
-                });
-            });
-            return rates;
-        },
-    },
-    mounted() {
-        // console.log("I am inedit page")
-        this.init();
+        getCountry() {
+            return HSN_COUNTRY;
+        }
     },
     methods: {
-        pageTitle() {
-            // console.log(this.editMode);
-            if (!this.editMode) {
-                return 'Add HSN Code';
-            } else if (!this.hsn.hsn_code) {
-                return `Edit HSN Code`;
-            } else {
-                return `Edit HSN Code ${this.hsn.hsn_code}`;
-            }
-        },
         isEmpty: isEmpty,
         init() {
-            // console.log('Checking edit mode', this.editMode, this.hsn);
             if (!this.editMode) {
                 return;
             }
             this.pageLoading = true;
-            // console.log('I am here');
             this.getHSN()
-                // Promise.all([this.getHSN()])
                 .then(() => {
+                    console.log('step 3');
                     this.pageLoading = false;
-                    if (this.hsn.slabs.length > 1) {
-                        this.showSlab2 = true;
-                    }
                 })
                 .catch((err) => {
-                    // console.log('I am in error page', this.hsn);
                     this.pageLoading = false;
                     this.pageError = true;
                 });
         },
         getHSN() {
             const params = {
-                uid: this.uid,
+                uid: this.uid
             };
-            // console.log("Params",params)
+            console.log('step1');
             // BY passing uid we will get only one hsn code related data
             return new Promise((resolve, reject) => {
                 AdminService.getAllHsnCodes(params)
                     .then(({ data }) => {
-                        // console.log('Finally reached here', data);
-                        this.hsn = data.items[0];
-                        // console.log('HSN', this.hsn.slabs.length);
-                        this.hsn.threshold1 = this.hsn.slabs[0].threshold;
-                        if (this.hsn.slabs.length > 1) {
-                            this.showSlab2 = true;
-                            this.hsn.threshold2 = this.hsn.slabs[1].threshold;
-                        }
+                        console.log('step2', data);
+                        let hsn = data.items[0];
+                        this.hsn_code.value = hsn.hsn_code;
+                        this.type.value = hsn.type;
+                        this.country_code.value = hsn.country_code;
+                        this.description.value = hsn.description;
+                        hsn.taxes.forEach((tax) => {
+                            this.taxes.value.push(tax);
+                        });
                         resolve();
                     })
                     .catch((err) => {
@@ -336,131 +376,119 @@ export default {
                     });
             });
         },
-        getFormData() {
-            const hsn_code = this.hsn.hsn_code.toString();
-            const description = this.hsn.description;
-            const slabs = [
-                {
-                    tax: this.hsn.tax1,
-                    threshold: this.hsn.threshold1,
-                    effective_date: this.hsn.effective_date1,
-                },
-            ];
-            // console.log('Slabs', this.hsn.slabs);
-            if (this.hsn.threshold2) {
-                slabs.push({
-                    tax: this.hsn.tax2,
-                    threshold: this.hsn.threshold2,
-                    effective_date: this.hsn.effective_date2,
-                });
-            }
-            const hsn = {
-                ...EMPTY_HSN,
-                ...this.hsn,
-                ...{
-                    slabs,
-                    hsn_code,
-                    description,
-                    hs2_code: hsn_code.substring(0, 2),
-                },
-            };
-            return hsn;
+
+        validate() {
+            let isInvalid = false;
+            let message = 'Invalid Value';
+            return isInvalid;
         },
         saveForm() {
-            if (!this.validateForm()) {
-                this.$snackbar.global.showError(
-                    'Form validation failed. Please correct the form according to the error messages displayed in red'
-                );
-                return;
-            }
-            this.inProgress = true;
-
-            let call;
-            const uid = this.$route.params.uid;
-            let payload = { ...this.getFormData(), uid };
-            // console.log('Form Data', payload);
-            if (this.editMode) {
-                call = AdminService.updateHsnCode(payload);
+            let postData = {};
+            if (this.hsn_code.value !== '') {
+                this.hsn_code.showerror = false;
+                postData.hsn_code = this.hsn_code.value;
             } else {
-                call = AdminService.createHsnCode(payload);
+                this.hsn_code.showerror = true;
             }
-
-            return call
-                .then(() => {
-                    this.inProgress = false;
-                    this.formSaved = true;
-                    this.$snackbar.global.showSuccess('Saved successfully');
-                    this.redirectBack();
-                })
-                .catch((err) => {
-                    this.inProgress = false;
-                    this.$snackbar.global.showError('Failed to save');
-                });
-        },
-        validateRequired(prop) {
-            let isValid = true;
-
-            if (!this.hsn[prop]) {
-                isValid = false;
-                this.errors[prop] = 'field is required';
+            if (this.type.value !== '') {
+                this.type.showerror = false;
+                postData.type = this.type.value;
+            } else {
+                this.type.showerror = true;
             }
-            return isValid;
+            if (this.country_code.value !== '') {
+                this.country_code.showerror = false;
+                postData.country_code = this.country_code.value;
+            } else {
+                this.country_code.showerror = true;
+            }
+            if (this.description.value !== '') {
+                this.description.showerror = false;
+                postData.description = this.description.value;
+            } else {
+                this.description.showerror = true;
+            }
+            if (this.taxes.value.length > 0) {
+                postData.taxes = this.taxes.value;
+            } else {
+                this.taxes.showerror = true;
+            }
+            console.log(postData);
+            if (
+                !this.hsn_code.showerror &&
+                !this.type.showerror &&
+                !this.country_code.showerror &&
+                !this.description.showerror &&
+                !this.taxes.showerror &&
+                !this.validate()
+            ) {
+                let call;
+                if (this.editMode) {
+                    console.log('edit mode');
+                    call = AdminService.updateHsnCode(this.uid, postData);
+                } else {
+                    console.log('create mode');
+                    call = call = AdminService.createHsnCode(postData);
+                }
+                return call
+                    .then(() => {
+                        this.inProgress = false;
+                        this.$snackbar.global.showSuccess('Saved successfully');
+                        this.newRate = {};
+                        this.redirectBack();
+                    })
+                    .catch((err) => {
+                        this.inProgress = false;
+                        this.$snackbar.global.showError('Failed to save');
+
+                        const index = this.taxes.value.indexOf(this.newRate);
+                        this.taxes.value.splice(index, 1);
+                        this.newRate={}
+                    });
+            } else if (this.taxes.showerror) {
+                this.$snackbar.global.showError(this.taxes.errortext);
+            } else {
+                this.$snackbar.global.showError(`Fill in the required fields`);
+            }
         },
         validateHSNCode() {
             let isValid = true;
+            this.hsn_code.showerror = false;
             this.$set(this.errors, 'hsn_code', '');
 
-            isValid = this.validateRequired('hsn_code');
-            if (!isValid) {
-                return isValid;
-            }
-            
-            if (this.hsn.hsn_code.toString().length !== 8) {
+            if (this.hsn_code.value.toString().length !== 8) {
                 isValid = false;
                 this.errors.hsn_code = 'must be of 8 digits';
             }
             return isValid;
         },
-        validateThreshold1() {
+        validateReportingHSNCode() {
             let isValid = true;
-            this.$set(this.errors, 'threshold1', '');
-
-            isValid = this.validateRequired('threshold1');
-            if (!isValid) {
-                return isValid;
+            this.$set(this.errors, 'reporting_hsn_code', '');
+            if (this.reporting_hsn_code.value.toString().length !== 8) {
+                isValid = false;
+                this.errors.reporting_hsn_code = 'must be of 8 digits';
             }
-
-            if (this.showSlab2) {
-                if (this.hsn.threshold1 >= 999999) {
-                    isValid = false;
-                    this.errors.threshold1 = 'must be less than ₹9,99,999';
-                }
-            }
-
             return isValid;
         },
-        validateForm() {
+        validateDescription() {
             let isValid = true;
-            isValid = this.validateHSNCode() && isValid;
-            isValid = this.validateThreshold1() && isValid;
+            this.description.showerror = false;
+            this.$set(this.errors, 'description', '');
+            if (this.description.value.toString().length >= 101) {
+                isValid = false;
+                this.errors.description = 'maximum length allowed is 100 chars';
+            }
             return isValid;
         },
         redirectBack() {
             this.$goBack('/administrator/product/taxation');
             //console.log("Path",path.join(this.$route.path, '/list'),this.$route.path)
         },
-        enableSlab2() {
-            this.showSlab2 = true;
-            this.hsn.threshold1 = undefined;
-            this.hsn.threshold2 = 999999;
-            // asign tax2 with a value greater than tax1 by default
-            this.hsn.tax2 = GST_RATES[GST_RATES.indexOf(this.hsn.tax1) + 1];
-        },
-        removeSlab2() {
-            this.showSlab2 = false;
-            this.hsn.threshold1 = 999999;
-            this.hsn.threshold2 = 0;
-            this.hsn.tax2 = 0;
+        getselectedRate() {},
+        isRateActive(effectivedate) {
+            effectivedate = moment(String(effectivedate));
+            return effectivedate <= moment() ? true : false;
         },
         isFormDirty() {
             if (this.formSaved) {
@@ -471,10 +499,41 @@ export default {
 
             return !isClean;
         },
-    },
+        format_date(value) {
+            if (value) {
+                return moment(String(value));
+            }
+        },
+        $openAddTaxrateDialog() {
+            this.$refs.addTaxrateDialog.open();
+        },
+        $openEditTaxrateDialog(code) {
+            const index = this.taxes.value.indexOf(code);
+            if (index > -1) {
+                this.selectedRate = code;
+                this.taxes.value.splice(index, 1);
+            }
+            this.$refs.addTaxrateDialog.open();
+        },
+        //once dailog is closed this method will run
+        $closeAddTaxrateDialog(action, object) {
+            if (!!object) {
+                this.newRate = object;
+                this.taxes.value.push(this.newRate);
+                console.log(action, object);
+            } else {
+                this.taxes.value.push(this.selectedRate);
+                this.selectedTax = {
+                    cess: 0,
+                    effective_date: '',
+                    rate: 0,
+                    threshold: 0
+                };
+            }
+        }
+    }
 };
 </script>
-
 
 <style lang="less" scoped>
 // @import '../less/page-header.less';
@@ -492,45 +551,66 @@ export default {
 }
 
 .page-container {
-    flex-direction: row-reverse;
-    width: auto;
-    background-color: @Alabaster2;
-    @media @mobile {
-        width: 100%;
-        padding: 0;
-    }
-}
-.form-container {
-    width: 840px;
-    margin: 0 auto 24px;
+    background-color: #fff;
+    border-radius: 4px;
+    margin: 40px 24px 24px 24px !important;
     padding: 24px;
-    border: 1px solid @WhiteSmoke;
-    border-radius: 8px;
-    background-color: @White;
-    .disclaimer-container {
-        display: flex;
-        height: fit-content;
-        background-color: #fffaf0;
-        // border: 1px solid @Supernova;
-        color: #f5a300;
-        opacity: 0.9;
-        border-radius: 4px;
-        padding: 16px;
-        .warning-icon {
-            margin-right: 16px;
-        }
-        .title {
-            font-size: 16px;
-            line-height: 24px;
-            font-weight: 600;
-        }
-        .text {
-            font-size: 13px;
-            line-height: 18px;
-            text-align: justify;
+    font-family: Inter;
+}
+.form-head {
+    margin-bottom: 15px;
+}
+.row {
+    width: 100%;
+    margin: 0 0 24px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    .input-box {
+        width: 48%;
+    }
+    .input-area {
+        width: 100%;
+    }
+}
+.rate-container {
+    background-color: #fff;
+    border-radius: 4px;
+    margin: 40px 24px 24px 24px !important;
+    padding: 24px;
+    font-family: Inter;
+    .tax-list-body {
+        .tax-list-div {
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid @Iron;
+            border-radius: 4px;
+            background-color: @White;
+            padding: 24px;
+            margin-bottom: 10px;
+            .tax-list-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .editButton {
+                    border: 1px solid @Iron;
+                    padding: 2px 10px 2px 10px;
+                }
+                .tax-list-name {
+                    color: @Mako;
+                    font-size: 14px;
+                    margin-bottom: 14px;
+                }
+            }
         }
     }
 }
+
+.left-space-txb {
+    margin-left: 12px;
+}
+
 .input-label {
     font-size: 12px;
     font-weight: 500;
@@ -605,11 +685,9 @@ export default {
     border: 1px solid @Iron;
     border-radius: 3px;
 }
-.btn-container{
+.btn-container {
     margin-right: 12px;
     max-width: 200px;
     line-height: 28px;
-    
-    
 }
 </style>

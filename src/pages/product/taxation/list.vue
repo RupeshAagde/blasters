@@ -5,8 +5,8 @@
                 <div class="full-width">
                     <jumbotron
                         class="jumbotron-h"
-                        :title="'Product Taxation'"
-                        :desc="'Succeded'"
+                        :title="'Government Authorised HSN & GST Schedule'"
+                        :desc="'HSN list'"
                         btnLabel="Add HSN"
                         @btnClick="redirectEdit"
                     ></jumbotron>
@@ -16,11 +16,18 @@
                                 :showSearchIcon="true"
                                 class="search"
                                 type="search"
-                                :placeholder="'Search by Description'"
+                                :placeholder="'Search by HSN or Description'"
                                 v-model="searchText"
                                 @input="searchHSN"
                             ></nitrozen-input>
                         </div>
+                        <nitrozen-button
+                            theme="secondary"
+                            class="ml-sm"
+                            v-strokeBtn
+                            @click=""
+                            >Bulk Action</nitrozen-button
+                        >
                     </div>
                     <div class="hsn-code-list">
                         <shimmer
@@ -32,99 +39,12 @@
                             @tryAgain="init"
                         ></page-error>
                         <div v-else-if="hsnCodes && hsnCodes.length">
-                            <!-- new cards -->
-                            <div
-                                v-for="(hsn, index) of hsnCodes"
-                                :key="index"
-                                @click="redirectEdit(hsn.uid)"
-                                class="mirage-list-card-container"
+                            <list-element
+                                class="mirage-table"
+                                :tableColumns="column"
+                                :tableData="hsnCodes"
                             >
-                                <div class="card-avatar">
-                                    <text-avatar
-                                        :text="hsn.hsn_code"
-                                    ></text-avatar>
-                                </div>
-                                <div class="card-content-section">
-                                    <!-- 1st line -->
-                                    <div class="card-content-line-1">
-                                        {{ hsn.hsn_code }}
-                                    </div>
-                                    <!-- 2nd line -->
-                                    <!-- <div class="card-content-line-2">
-                                        <span
-                                            >Last modified by
-                                            {{ hsn.created_by }}</span
-                                        >
-                                    </div> -->
-                                    <!-- 3rd line -->
-                                    <div class="card-content-line-3">
-                                        <span>
-                                            On
-                                            {{ readableDate(hsn.modified_on) }}
-                                        </span>
-                                    </div>
-                                    <div class="card-content-line-3">
-                                        <span>
-                                            Description: 
-                                            {{ hsn.description }}
-                                        </span>
-                                    </div>      
-                                </div>
-                                <div class="card-badge-section">
-                                    <div
-                                        class="slab"
-                                        :class="{
-                                            'border-right':
-                                                hsn.slabs[0].threshold > 0,
-                                        }"
-                                    >
-                                        <div class="dark-xs">Slab #1</div>
-                                        <div class="values inline">
-                                            <div class="pair mr-md">
-                                                <div class="input-label">
-                                                    Threshold
-                                                </div>
-                                                <div class="input-value">
-                                                    {{ hsn.slabs[0].threshold }}
-                                                </div>
-                                            </div>
-                                            <div class="pair">
-                                                <div class="input-label">
-                                                    GST Rate
-                                                </div>
-                                                <div class="input-value">
-                                                    {{ hsn.slabs[0].tax }}%
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="slab"
-                                        v-if="hsn.slabs.length>1"
-                                    >
-                                        <div class="dark-xs">Slab #2</div>
-                                        <div class="values inline">
-                                            <div class="pair mr-md">
-                                                <div class="input-label">
-                                                    Threshold
-                                                </div>
-                                                <div class="input-value">
-                                                    {{ hsn.slabs[1].threshold }}
-                                                </div>
-                                            </div>
-                                            <div class="pair">
-                                                <div class="input-label">
-                                                    GST Rate
-                                                </div>
-                                                <div class="input-value">
-                                                    {{ hsn.slabs[1].tax }}%
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div></div>
-                                </div>
-                            </div>
+                            </list-element>
                         </div>
                         <no-content
                             v-else
@@ -135,7 +55,7 @@
                                 name="HSN codes"
                                 v-model="pagination"
                                 @change="paginationChange"
-                                :pageSizeOptions="[5, 10, 20, 50]"
+                                :pageSizeOptions="[5,10,20,50]"
                             ></nitrozen-pagination>
                         </div>
                     </div>
@@ -151,20 +71,21 @@ import { GET_HELP_SECTION_DATA } from '@/store/getters.type';
 import Loader from '@/components/common/loader';
 import Shimmer from '@/components/common/shimmer';
 import NoContent from '@/components/common/page-error';
+import ListElement from './list-element';
 import PageError from '@/components/common/page-error';
 import Jumbotron from '@/components/common/jumbotron';
-import TextAvatar from '@/components/common/text-avatar.vue';
 import { copyToClipboard, debounce, titleCase } from '@/helper/utils.js';
-import { LocalStorageService } from '@/services/localstorage.service'
+import { LocalStorageService } from '@/services/localstorage.service';
 // import { toCurrencyString } from '@/helper/currency.utils.js';
 import path from 'path';
 import {
-    NitrozenButton,
     flatBtn,
+    strokeBtn,
     NitrozenInput,
     NitrozenPagination,
     NitrozenBadge,
     NitrozenDropdown,
+    NitrozenButton
 } from '@gofynd/nitrozen-vue';
 import { mapGetters } from 'vuex';
 // import _ from 'lodash';
@@ -172,33 +93,34 @@ import moment from 'moment';
 const PAGINATION = {
     limit: 10,
     total: 0,
-    current: 1,
+    current: 1
 };
 export default {
     name: 'Taxation',
     props: {
-        msg: String,
+        msg: String
     },
     components: {
         PageError,
         NoContent,
+        ListElement,
         Shimmer,
         Jumbotron,
-        TextAvatar,
         Loader,
 
         NitrozenButton,
         NitrozenInput,
         NitrozenPagination,
         NitrozenBadge,
-        NitrozenDropdown,
+        NitrozenDropdown
     },
     directives: {
         flatBtn,
+        strokeBtn
     },
     computed: {
         ...mapGetters({
-            helpData: GET_HELP_SECTION_DATA,
+            helpData: GET_HELP_SECTION_DATA
         }),
         jumbotronData() {
             if (this.helpData && this.helpData.length) {
@@ -206,7 +128,7 @@ export default {
                     return this.$route.path.includes(it.path);
                 });
             }
-        },
+        }
     },
     data() {
         return {
@@ -217,6 +139,16 @@ export default {
             pagination: { ...PAGINATION },
             searchText: '',
             hsnCodes: [],
+            hsnCodeTest: [],
+            column: [
+                'Uid',
+                'HSN',
+                'Type',
+                'Effective_from',
+                'rate',
+                'Country',
+                'Action'
+            ],
         };
     },
     mounted() {
@@ -226,15 +158,15 @@ export default {
         init() {
             this.getHSNCodes();
         },
+
         getHSNCodes() {
             const params = {
                 page_no: this.pagination.current,
-                page_size: this.pagination.limit,
+                page_size: this.pagination.limit
             };
             if (this.searchText) {
                 params.q = this.searchText;
             }
-            console.log(params,this.pagination.current)
             this.pageLoading = true;
             return new Promise((resolve, reject) => {
                 AdminService.getAllHsnCodes(params)
@@ -242,10 +174,12 @@ export default {
                         this.pageLoading = false;
                         this.pagination.total = data.page.item_total;
                         this.hsnCodes = data.items;
+                        console.log(this.hsnCodes)
                         return resolve();
                     })
                     .catch((err) => {
                         this.pageLoading = false;
+                        this.pageError = true;
                         console.error(err);
                         return reject(err);
                     });
@@ -255,13 +189,9 @@ export default {
             this.searchText = '';
             this.setRouteQuery({ search: undefined });
         },
-        redirectEdit(code) {
+        redirectEdit() {
             // LocalStorageService.addOrUpdateItem('uid',code)
-            console.log("testing",code)
             let redirectPath = '/add';
-            if (code) {
-                redirectPath = `${code}/edit`;
-            }
             this.$router.push({
                 path: path.join(this.$route.path, redirectPath)
             });
@@ -272,7 +202,7 @@ export default {
             this.pagination = Object.assign({}, this.pagination, filter);
             let pageQuery = { pageId: current, limit };
             this.setRouteQuery(pageQuery);
-            console.log("Current",pageQuery)
+            console.log('Current', pageQuery);
             this.getHSNCodes();
         },
         setRouteQuery(query) {
@@ -293,9 +223,7 @@ export default {
         readableDate(date) {
             return moment(date).format('MMM Do YYYY, h:mm a');
         },
-        description(){
-
-        },
+        description() {},
         searchHSN: debounce(function() {
             if (this.searchText.length === 0) {
                 this.clearSearchFilter();
@@ -303,8 +231,8 @@ export default {
                 this.setRouteQuery({ search: this.searchText });
             }
             this.getHSNCodes();
-        }, 200),
-    },
+        }, 200)
+    }
 };
 </script>
 
@@ -346,8 +274,8 @@ body .panel {
     align-items: center;
 
     .search-box {
-        margin-top:0px;
-        margin-bottom:15px;
+        margin-top: 0px;
+        margin-bottom: 15px;
         min-width: 400px;
         @media @mobile {
             min-width: 100%;
@@ -411,7 +339,7 @@ body .panel {
     }
 
     &.mr-md {
-        margin-right:24px;
+        margin-right: 24px;
     }
     .input-label {
         font-size: 12px;
@@ -428,8 +356,7 @@ body .panel {
     }
 }
 
-
-.card-content-line-3{
+.card-content-line-3 {
     font-size: 12px;
     font-weight: 500;
     line-height: 21px;
@@ -439,13 +366,13 @@ body .panel {
 }
 .card-badge-section {
     margin-left: 500px;
-    margin-right:24px;
+    margin-right: 24px;
     display: flex;
-    align-items: center;  
+    align-items: center;
     @media @mobile {
         min-height: unset;
-    } 
-}           
+    }
+}
 .full-width {
     width: 100%;
 }
@@ -454,7 +381,7 @@ body .panel {
 }
 .card-avatar {
     margin-left: 24px;
-    margin-right:12px;
+    margin-right: 12px;
     min-height: 60px;
     min-width: 60px;
     max-height: 60px;
