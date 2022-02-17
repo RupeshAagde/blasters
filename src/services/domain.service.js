@@ -140,7 +140,7 @@ const URLS = {
     FETCH_APPLICATIONS: (uid) => {
         return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/company/${uid}/application`);
     },
-    FETCH_ALL_APPLICATIONS: (appId = '') => {
+    GET_APPLICATIONS: (appId = '') => {
         return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/application/${appId}`);
     },
 

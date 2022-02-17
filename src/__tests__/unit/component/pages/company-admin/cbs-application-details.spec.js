@@ -50,7 +50,7 @@ describe('Mounted Company Application Detail Page', () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
         mock.reset();
-           mock.onGet(URLS.FETCH_ALL_APPLICATIONS('6110bfb0d4beb6b2c08f8a79')).reply(200, MOCK_DATA['application-data'].data )
+           mock.onGet(URLS.GET_APPLICATIONS('6110bfb0d4beb6b2c08f8a79')).reply(200, MOCK_DATA['application-data'].data )
 
         router = new VueRouter({
             routes: [{
