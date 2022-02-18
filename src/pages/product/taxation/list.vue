@@ -167,7 +167,6 @@ export default {
                         this.pageLoading = false;
                         this.pagination.total = data.page.item_total;
                         this.hsnCodes = data.items;
-                        console.log(this.hsnCodes);
                         return resolve();
                     })
                     .catch((err) => {
@@ -195,7 +194,6 @@ export default {
             this.pagination = Object.assign({}, this.pagination, filter);
             let pageQuery = { pageId: current, limit };
             this.setRouteQuery(pageQuery);
-            console.log('Current', pageQuery);
             this.getHSNCodes();
         },
         setRouteQuery(query) {

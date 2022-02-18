@@ -115,7 +115,6 @@
                     >Add Rate/GST
                 </nitrozen-button>
             </div>
-            <!-- Here we will list pre saved tax rate -->
             <div v-if="!!taxes.value.length">
                 <div
                     class="tax-list-body"
@@ -355,7 +354,6 @@ export default {
             this.pageLoading = true;
             this.getHSN()
                 .then(() => {
-                    console.log('step 3');
                     this.pageLoading = false;
                 })
                 .catch((err) => {
@@ -367,12 +365,10 @@ export default {
             const params = {
                 uid: this.uid
             };
-            console.log('step1');
             // BY passing uid we will get only one hsn code related data
             return new Promise((resolve, reject) => {
                 AdminService.getAllHsnCodes(params)
                     .then(({ data }) => {
-                        console.log('step2', data);
                         let hsn = data.items[0];
                         this.hsn_code.value = hsn.hsn_code;
                         this.type.value = hsn.type;
@@ -426,7 +422,6 @@ export default {
             } else {
                 this.taxes.showerror = true;
             }
-            console.log(postData);
             if (
                 !this.hsn_code.showerror &&
                 !this.type.showerror &&
@@ -437,10 +432,8 @@ export default {
             ) {
                 let call;
                 if (this.editMode) {
-                    console.log('edit mode');
                     call = AdminService.updateHsnCode(this.uid, postData);
                 } else {
-                    console.log('create mode');
                     call = call = AdminService.createHsnCode(postData);
                 }
                 return call
@@ -558,7 +551,6 @@ export default {
         //once dailog is closed this method will run
         $closeAddTaxrateDialog(action, object) {
             this.isEditRate = false;
-            console.log(object);
             if (object.length > 0) {
                 this.newRates = [...object];
                 this.taxes.value = [...this.newRates, ...this.taxes.value];

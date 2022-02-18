@@ -116,7 +116,6 @@
                     @click.stop="close('Cancelled')"
                     >Cancel</nitrozen-button
                 >
-                <!--above we have to send empty object and below button will be disabled if form isnt valid-->
                 <nitrozen-button
                     class="footer-btn"
                     v-flatBtn
