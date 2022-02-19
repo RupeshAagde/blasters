@@ -26,8 +26,6 @@
                                 placeholder="cess value (optional)"
                                 v-model="cess.value"
                                 @input=""
-                                :custom="true"
-                                :showPrefix="true"
                             ></nitrozen-input>
                         </div>
                     </div>
@@ -55,7 +53,7 @@
                                 {{ threshold.errortext }}
                             </nitrozen-error>
                         </div>
-                        <div class="input-box left-space-txb">
+                        <div class="input-box">
                             <nitrozen-dropdown
                                 label="Tax Rate (In percentage)"
                                 required

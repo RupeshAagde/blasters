@@ -41,10 +41,11 @@
                     >
                     </list-element>
                 </div>
-                <no-content
-                    v-else
-                    helperText="No HSN code available"
-                ></no-content>
+                <div v-else>
+                    <adm-no-content
+                        :helperText="'no hsn code available '"
+                    ></adm-no-content>
+                </div>
                 <div class="pagination" v-if="hsnCodes.length > 0">
                     <nitrozen-pagination
                         name="HSN codes"
@@ -63,7 +64,7 @@ import AdminService from '@/services/company-admin.service';
 import { GET_HELP_SECTION_DATA } from '@/store/getters.type';
 import Loader from '@/components/common/loader';
 import Shimmer from '@/components/common/shimmer';
-import NoContent from '@/components/common/page-error';
+import AdmNoContent from '@/components/common/adm-no-content.vue';
 import ListElement from './list-element';
 import PageError from '@/components/common/page-error';
 import Jumbotron from '@/components/common/jumbotron';
@@ -95,7 +96,7 @@ export default {
     },
     components: {
         PageError,
-        NoContent,
+        AdmNoContent,
         ListElement,
         Shimmer,
         Jumbotron,
@@ -211,9 +212,6 @@ export default {
                 }
             });
         },
-        readableDate(date) {
-            return moment(date).format('MMM Do YYYY, h:mm a');
-        },
         description() {},
         searchHSN: debounce(function() {
             if (this.searchText.length === 0) {
@@ -227,7 +225,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
 // @import './../less/page-header.less';
 // @import './../less/page-ui.less';
@@ -281,10 +278,11 @@ export default {
 //     }
 // }
 .hsn-list-div {
-    margin-top:24px;
+    margin-top: 24px;
 }
 
 .pagination {
+    margin-top: 24px;
     margin-bottom: 24px;
 }
 </style>

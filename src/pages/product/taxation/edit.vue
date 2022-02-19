@@ -74,7 +74,7 @@
                         label="Country"
                         required
                         placeholder="Choose Country"
-                        :items="getCountry"
+                        :items="countryCodeList"
                         v-model="country_code.value"
                     ></nitrozen-dropdown>
                     <nitrozen-error v-if="country_code.showerror">
@@ -124,6 +124,15 @@
                     <div class="tax-list-div" :key="index">
                         <div class="tax-list-item">
                             <div class="tax-list-name">
+                                <label class="n-input-label">Threshold</label>
+                                {{ tax.threshold }}
+                            </div>
+                            <div class="tax-list-name">
+                                <label class="n-input-label">Rate</label>
+                                {{ tax.rate }}%
+                            </div>
+
+                            <div class="tax-list-name">
                                 <label class="n-input-label"
                                     >Effective Date</label
                                 >
@@ -143,21 +152,10 @@
                             >
                         </div>
                         <div class="tax-list-item">
-                            <div class="tax-list-name">
-                                <label class="n-input-label">Threshold</label>
-                                {{ tax.threshold }}
-                            </div>
-                        </div>
-
-                        <div class="tax-list-item">
-                            <div class="tax-list-name">
-                                Rate: {{ tax.rate }} %
-                            </div>
+                            <div class="tax-list-name"></div>
                             <div>
-                                <nitrozen-button
-                                    theme="secondary"
-                                    class="ml-sm editButton"
-                                    v-strokeBtn
+                                <!--<button
+                                    class="editButton"
                                     @click="$openEditTaxrateDialog(tax)"
                                 >
                                     <inline-svg
@@ -165,7 +163,15 @@
                                         src="edit"
                                         title="edit rate"
                                     ></inline-svg>
-                                </nitrozen-button>
+                                </button> -->
+                                <ukt-inline-svg
+                                    class="edit-btn"
+                                    title="edit rate"
+                                    src="image-edit"
+                                    @click.stop.native="
+                                        $openEditTaxrateDialog(tax)
+                                    "
+                                ></ukt-inline-svg>
                             </div>
                         </div>
                     </div>
@@ -201,6 +207,7 @@ import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import InlineSvg from '@/components/common/adm-inline-svg';
 import datePicker from '@/components/common/date-picker.vue';
+import LocationService from '@/services/location.service';
 import admforminput from '@/components/common/form-input.vue';
 import AddTaxrateDailog from './add-taxrate-dialog';
 // import _ from 'lodash';
@@ -223,15 +230,6 @@ import {
 
 const GST_RATES = [0, 3, 5, 10, 12, 18, 28];
 const HSN_TYPE = ['Goods', 'Services'];
-const HSN_COUNTRY = [
-    { text: 'INDIA', value: 'IN' },
-    { text: 'AUSTRALIA', value: 'AU' },
-    { text: 'CHINA', value: 'CN' },
-    { text: 'GERMANY', value: 'DE' },
-    { text: 'SPAIN', value: 'ES' },
-    { text: 'SRI LANKA', value: 'LK' },
-    { text: 'UNITED STATE', value: 'US' }
-];
 
 export default {
     name: 'ProductTaxationEdit',
@@ -261,6 +259,7 @@ export default {
     mixins: [dirtyCheckMixin],
     data() {
         return {
+            countryCodeList: [],
             pageLoading: false,
             inProgress: false,
             pageError: false,
@@ -330,6 +329,7 @@ export default {
             this.pageTitle = 'Add HSN Code';
         }
         // console.log(this.$route.params)
+        this.getCountryList();
         this.init();
     },
     computed: {
@@ -340,9 +340,6 @@ export default {
                     value: type.toLowerCase()
                 };
             });
-        },
-        getCountry() {
-            return HSN_COUNTRY;
         }
     },
     methods: {
@@ -361,6 +358,21 @@ export default {
                     this.pageError = true;
                 });
         },
+        getCountryList() {
+            LocationService.getCountries()
+                .then(({ data }) => {
+                    this.countryCodeList = data.items.map((country) => {
+                        return {
+                            text: country.name,
+                            value: country.iso2
+                        };
+                    });
+                    this.countryCodeList.sort((a, b) =>
+                        a.text.localeCompare(b.text)
+                    );
+                })
+                .catch((err) => {});
+        },
         getHSN() {
             const params = {
                 uid: this.uid
@@ -377,6 +389,9 @@ export default {
                         hsn.taxes.forEach((tax) => {
                             this.taxes.value.push(tax);
                         });
+                        this.taxes.value.sort(
+                            (current, next) => current.rate - next.rate
+                        );
                         resolve();
                     })
                     .catch((err) => {
@@ -505,7 +520,7 @@ export default {
         },
         format_date(value) {
             if (value) {
-                return moment(String(value));
+                return moment(String(value)).format('ll');
             }
         },
         clearUnsavedRates() {
@@ -555,6 +570,7 @@ export default {
                 this.newRates = [...object];
                 this.taxes.value = [...this.newRates, ...this.taxes.value];
             } else if (this.selectedRate.effective_date !== '') {
+                console.log('Added back');
                 this.taxes.value.push(this.selectedRate);
                 this.clearSelectedRate();
             }
@@ -578,12 +594,16 @@ export default {
 .page-container {
     background-color: #fff;
     border-radius: 4px;
-    margin: 40px 24px 24px 24px !important;
-    padding: 24px;
+    margin: 30px 24px 24px 24px !important;
+    padding: 24px 24px 0px 24px;
     font-family: Inter;
 }
 .form-head {
     margin-bottom: 15px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 19px;
 }
 .row {
     width: 100%;
@@ -602,8 +622,8 @@ export default {
 .rate-container {
     background-color: #fff;
     border-radius: 4px;
-    margin: 40px 24px 24px 24px !important;
-    padding: 24px;
+    margin: 24px 24px 24px 24px !important;
+    padding: 24px 24px 4px 24px;
     font-family: Inter;
     .tax-list-body {
         .tax-list-div {
@@ -612,21 +632,29 @@ export default {
             border: 1px solid @Iron;
             border-radius: 4px;
             background-color: @White;
-            padding: 24px;
+            padding: 12px 12px 12px 12px;
             margin-bottom: 10px;
             .tax-list-item {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                .editButton {
-                    border: 1px solid @Iron;
-                    padding: 2px 10px 2px 10px;
+                // .editButton {
+                //     border: 1px solid #2e31be;
+                //     border-radius: 4px;
+                //     background-color: white;
+                // }
+                .edit-btn {
+                    margin-top: 4px;
+                    color: @RoyalBlue;
+                    font-size: 14px;
+                    font-weight: 500;
+                    cursor: pointer;
                 }
             }
             .tax-list-name {
                 color: @Mako;
                 font-size: 14px;
-                margin-bottom: 14px;
+                margin-bottom: 12px;
             }
         }
     }

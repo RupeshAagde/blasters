@@ -298,7 +298,7 @@ const URLS = {
     },
 
     LOCATIONS: () => {
-        return urlJoin(SLINGSHOT_PUBLIC_URL, '/locations');
+        return urlJoin(SLINGSHOT_PUBLIC_URL, `v1.0/location`);
     },
 
     // Unicron/Daytrader - Plan creator

@@ -17,21 +17,24 @@
                     </td>
                     <td>{{ tab.taxes[0].rate }}%</td>
                     <td>{{ tab.country_code }}</td>
-                    <td>
-                        <nitrozen-button
-                            theme="secondary"
-                            class="ml-sm"
-                            @click="redirectEdit(tab.uid)"
-                        >
+                    <!--<td>
+                        <button class="ml-sm" @click="redirectEdit(tab.uid)">
                             <inline-svg
                                 class="nitrozen-icon"
                                 src="edit"
                                 title="edit hsn"
                             ></inline-svg>
-                        </nitrozen-button>
+                        </button>
+                    </td> -->
+                    <td>
+                        <inline-svg
+                            class="edit-btn"
+                            title="edit hsn"
+                            src="image-edit"
+                            @click.stop.native="redirectEdit(tab.uid)"
+                        ></inline-svg>
                     </td>
                 </tr>
-
             </template>
         </table>
     </div>
@@ -86,16 +89,16 @@ export default {
         };
     },
     methods: {
-        formatString(str){
-            if(str.length>0){
+        formatString(str) {
+            if (str.length > 0) {
                 let tempStr = str;
-                return tempStr[0].toUpperCase() + tempStr.slice(1)
+                return tempStr[0].toUpperCase() + tempStr.slice(1);
             }
             return 'type not found';
         },
         format_date(value) {
             if (value) {
-                return moment(value);
+                return moment(value).format('ll');
             }
         },
         redirectEdit(code) {
@@ -111,11 +114,10 @@ export default {
 <style lang="less" scoped>
 .mirage-table {
     width: 100%;
-    margin-bottom: 24px;
     font-family: Inter;
     font-size: 14px;
     border: 1px solid @Iron;
-    border-radius:4px;
+    border-radius: 4px;
 
     tr:first-child {
         background: #f6f6f6;
@@ -140,15 +142,26 @@ export default {
         line-height: 17px;
         letter-spacing: 0em;
         text-align: left;
-        opacity:0.5;
+        // opacity: 0.5;
+        color: grey;
     }
     td {
-        text-align: left;
+        vertical-align: middle;
+        text-align: center;
         padding: 16px 16px;
-        .ml-sm {
-            border: 1px solid @Iron;
-            padding: 2px 8px 2px 8px;
-        }
+        // .ml-sm {
+        //     border: 1px solid #2e31be;
+        //     border-radius: 4px;
+        //     background-color: white;
+        // }
+                    .edit-btn {
+                margin-top: 4px;
+                padding-left: 12px;
+                color: @RoyalBlue;
+                font-size: 14px;
+                font-weight: 500;
+                cursor: pointer;
+            }
     }
 }
 </style>
