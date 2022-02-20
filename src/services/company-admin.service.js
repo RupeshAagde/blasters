@@ -353,14 +353,14 @@ const CompanyService = {
         );
     },
 
-    updateHsnCode(uid, data) {
+    updateHsnCode(reporting_hsn, data) {
         let axiosOption = Object.assign({
                 data
             },
             getCommonHeaderOptions()
         );
         return ApiService.put(
-            URLS.HSN_CODE_RETRIVE_UPDATE_DELETE(uid),
+            URLS.HSN_CODE_RETRIVE_UPDATE_DELETE(reporting_hsn),
             axiosOption
         );
     },

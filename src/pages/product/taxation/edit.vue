@@ -42,11 +42,12 @@
                         {{ errors.hsn_code }}
                     </nitrozen-error>
                 </div>
-                <div class="input-box left-space-txb">
+                <div class="input-box left-space-txb" v-if="editMode">
                     <nitrozen-input
                         label="Reporting HSN Code"
                         type="text"
                         placeholder="For eg. 61152010"
+                        v-model="reporting_hsn"
                         :disabled="true"
                         @input="validateReportingHSNCode"
                     ></nitrozen-input>
@@ -183,13 +184,17 @@
         </div>
         <add-taxrate-dailog
             ref="addTaxrateDialog"
-            :title="dialogTitle"
             :taxes="taxes.value"
-            :selectedRate="selectedRate"
-            :isEditRate="isEditRate"
-            @close="$closeAddTaxrateDialog"
+            @close="$closeAddTaxRateDialog"
         >
         </add-taxrate-dailog>
+        <edit-taxrate-dailog
+            ref="editTaxrateDialog"
+            :taxes="taxes.value"
+            :selectedRate="selectedRate"
+            @close="$closeEditTaxrateDialog"
+        >
+        </edit-taxrate-dailog>
 
         <loader v-if="inProgress" class="loading"></loader>
     </div>
@@ -210,6 +215,7 @@ import datePicker from '@/components/common/date-picker.vue';
 import LocationService from '@/services/location.service';
 import admforminput from '@/components/common/form-input.vue';
 import AddTaxrateDailog from './add-taxrate-dialog';
+import EditTaxrateDailog from './edit-taxrate-dialog';
 // import _ from 'lodash';
 import isEmpty from 'lodash/isEmpty';
 import {
@@ -250,7 +256,8 @@ export default {
         NitrozenError,
         NitrozenTooltip,
         loader,
-        AddTaxrateDailog
+        AddTaxrateDailog,
+        EditTaxrateDailog
     },
     directives: {
         flatBtn,
@@ -264,9 +271,8 @@ export default {
             inProgress: false,
             pageError: false,
             editMode: false,
-            uid: '',
+            reporting_hsn: '',
             pageTitle: '',
-            dialogTitle: 'Add Tax Rate/GST',
             saveText: '',
             formSaved: false,
             hsn_code: {
@@ -314,17 +320,16 @@ export default {
                     threshold: 0
                 }
             ],
-            isEditRate: false,
             errors: {}
         };
     },
     mounted() {
-        if (this.$route.params.uid) {
+        if (this.$route.params.reporting_hsn) {
             this.pageLoading = true;
-            this.uid = this.$route.params.uid;
+            this.reporting_hsn = this.$route.params.reporting_hsn;
             this.pageTitle = 'Edit HSN Code';
             this.saveText = 'HSN updated successfully';
-            this.editMode = this.$route.params.uid ? true : false;
+            this.editMode = this.$route.params.reporting_hsn ? true : false;
         } else {
             this.pageTitle = 'Add HSN Code';
         }
@@ -375,7 +380,7 @@ export default {
         },
         getHSN() {
             const params = {
-                uid: this.uid
+                reporting_hsn: this.reporting_hsn
             };
             // BY passing uid we will get only one hsn code related data
             return new Promise((resolve, reject) => {
@@ -399,12 +404,6 @@ export default {
                         reject(err);
                     });
             });
-        },
-
-        validate() {
-            let isInvalid = false;
-            let message = 'Invalid Value';
-            return isInvalid;
         },
         saveForm() {
             let postData = {};
@@ -442,12 +441,14 @@ export default {
                 !this.type.showerror &&
                 !this.country_code.showerror &&
                 !this.description.showerror &&
-                !this.taxes.showerror &&
-                !this.validate()
+                !this.taxes.showerror
             ) {
                 let call;
                 if (this.editMode) {
-                    call = AdminService.updateHsnCode(this.uid, postData);
+                    call = AdminService.updateHsnCode(
+                        this.reporting_hsn,
+                        postData
+                    );
                 } else {
                     call = call = AdminService.createHsnCode(postData);
                 }
@@ -494,9 +495,13 @@ export default {
             let isValid = true;
             this.description.showerror = false;
             this.$set(this.errors, 'description', '');
-            if (this.description.value.toString().length >= 101) {
+            if (
+                this.description.value.toString().length >= 101 ||
+                this.description.value.toString().length < 10
+            ) {
                 isValid = false;
-                this.errors.description = 'maximum length allowed is 100 chars';
+                this.errors.description =
+                    'Description length must be between 10 to 100 chars ';
             }
             return isValid;
         },
@@ -504,7 +509,6 @@ export default {
             this.$goBack('/administrator/product/taxation');
             //console.log("Path",path.join(this.$route.path, '/list'),this.$route.path)
         },
-        getselectedRate() {},
         isRateActive(effectivedate) {
             effectivedate = moment(String(effectivedate));
             return effectivedate <= moment() ? true : false;
@@ -520,14 +524,14 @@ export default {
         },
         format_date(value) {
             if (value) {
-                return moment(String(value)).format('ll');
+                return moment(value).format('ll');
             }
         },
         clearUnsavedRates() {
             for (let rate of this.newRates) {
                 if (rate.effective_date != '') {
                     const index = this.taxes.value.indexOf(rate);
-                    if (index > 0) {
+                    if (index > -1) {
                         this.taxes.value.splice(index, 1);
                     }
                 }
@@ -553,24 +557,27 @@ export default {
             this.clearUnsavedRates();
             this.$refs.addTaxrateDialog.open();
         },
+        $closeAddTaxRateDialog(action, object) {
+            if (action === 'Saved') {
+                this.newRates = [...object];
+                this.taxes.value = [...this.newRates, ...this.taxes.value];
+            } else if (action === 'Cancelled') {
+            }
+        },
+
         $openEditTaxrateDialog(code) {
-            this.isEditRate = true;
-            this.clearUnsavedRates();
             const index = this.taxes.value.indexOf(code);
             if (index > -1) {
                 this.selectedRate = code;
                 this.taxes.value.splice(index, 1);
+            this.clearUnsavedRates();
             }
-            this.$refs.addTaxrateDialog.open();
+            this.$refs.editTaxrateDialog.open();
         },
-        //once dailog is closed this method will run
-        $closeAddTaxrateDialog(action, object) {
-            this.isEditRate = false;
-            if (object.length > 0) {
-                this.newRates = [...object];
-                this.taxes.value = [...this.newRates, ...this.taxes.value];
-            } else if (this.selectedRate.effective_date !== '') {
-                console.log('Added back');
+        $closeEditTaxrateDialog(action, object) {
+            if (!!object) {
+                this.taxes.value = [object, ...this.taxes.value];
+            } else {
                 this.taxes.value.push(this.selectedRate);
                 this.clearSelectedRate();
             }

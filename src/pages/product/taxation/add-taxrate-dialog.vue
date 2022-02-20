@@ -2,103 +2,92 @@
     <nitrozen-dialog ref="dialog" title="Add Tax Rate/GST">
         <template slot="body">
             <div>
-                <div class="dialog-container">
-                    <div class="row">
-                        <div class="input-box">
-                            <adm-date-picker
-                                label="Effective date *"
-                                required
-                                date_format="YYYY-MM-DD"
-                                :picker_type="'date'"
-                                class="st-date"
-                                v-model="effective_date.value"
-                                :not_before="new Date().toISOString()"
-                                :useNitrozenTheme="true"
-                            />
-                            <nitrozen-error v-if="effective_date.showerror">
-                                {{ effective_date.errortext }}
-                            </nitrozen-error>
+                <div v-if="newRates.length > 0">
+                    <div
+                        class="dialog-container"
+                        v-for="(form, i) in newRates"
+                        :key="i"
+                    >
+                        <div v-if="i != 0"><hr /></div>
+                        <ukt-inline-svg
+                            v-if="i != 0"
+                            class="edit-btn"
+                            title="delete rate"
+                            src="delete"
+                            @click.stop.native="removeRate(i)"
+                        ></ukt-inline-svg>
+                        <div class="row">
+                            <div class="input-box">
+                                <adm-date-picker
+                                    label="Effective date *"
+                                    required
+                                    date_format="YYYY-MM-DD"
+                                    :picker_type="'date'"
+                                    class="st-date"
+                                    v-model="form.effective_date.value"
+                                    :not_before="new Date().toISOString()"
+                                    :useNitrozenTheme="true"
+                                />
+                                <nitrozen-error
+                                    v-if="form.effective_date.showerror"
+                                >
+                                    {{ form.effective_date.errortext }}
+                                </nitrozen-error>
+                            </div>
+                            <div class="input-box">
+                                <nitrozen-input
+                                    label="Cess"
+                                    type="number"
+                                    placeholder="cess value (optional)"
+                                    v-model="form.cess.value"
+                                    @input=""
+                                ></nitrozen-input>
+                            </div>
                         </div>
-                        <div class="input-box">
-                            <nitrozen-input
-                                label="Cess"
-                                type="number"
-                                placeholder="cess value (optional)"
-                                v-model="cess.value"
-                                @input=""
-                            ></nitrozen-input>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="input-box">
-                            <nitrozen-input
-                                label="Thershold value"
-                                required
-                                type="number"
-                                placeholder="eg. 99999rs"
-                                v-model="threshold.value"
-                                @input=""
-                                :custom="true"
-                                :showPrefix="true"
-                            >
-                                <div
-                                    class=".
+                        <div class="row">
+                            <div class="input-box">
+                                <nitrozen-input
+                                    label="Thershold value"
+                                    required
+                                    type="number"
+                                    placeholder="eg. 99999rs"
+                                    v-model="form.threshold.value"
+                                    @input=""
+                                    :custom="true"
+                                    :showPrefix="true"
+                                >
+                                    <div
+                                        class=".
                             custom-label"
-                                >
-                                    &#62;
-                                </div>
-                            </nitrozen-input>
-                            <nitrozen-error v-if="threshold.showerror">
-                                {{ threshold.errortext }}
-                            </nitrozen-error>
-                        </div>
-                        <div class="input-box">
-                            <nitrozen-dropdown
-                                label="Tax Rate (In percentage)"
-                                required
-                                placeholder="Choose Rate"
-                                :items="predefinedRateList"
-                                v-model="rate.value"
-                            ></nitrozen-dropdown>
-                            <nitrozen-error v-if="rate.showerror">
-                                {{ rate.errortext }}
-                            </nitrozen-error>
-                        </div>
-                    </div>
-                </div>
-                <div v-if="newRates.length">
-                    <div class="rate-list-div " v-for="rate of newRates">
-                        <div class="rate-list-item">
-                            <div class="rate-list-name">
-                                <label class="n-input-label"
-                                    >Effective Date</label
-                                >
-                                {{ rate.effective_date }}
+                                    >
+                                        &#62;
+                                    </div>
+                                </nitrozen-input>
+                                <nitrozen-error v-if="form.threshold.showerror">
+                                    {{ form.threshold.errortext }}
+                                </nitrozen-error>
                             </div>
-                            <div>
-                                <label class="n-input-label">Cess</label>
-                                {{ rate.cess }} %
-                            </div>
-                        </div>
-                        <div class="rate-list-item">
-                            <div class="rate-list-name">
-                                <label class="n-input-label">Thershold</label>
-                                {{ rate.threshold }}
-                            </div>
-                            <div>
-                                <label class="n-input-label">Rate</label>
-                                {{ rate.rate }} %
+                            <div class="input-box">
+                                <nitrozen-dropdown
+                                    label="Tax Rate (In percentage)"
+                                    required
+                                    placeholder="Choose Rate"
+                                    :items="predefinedRateList"
+                                    v-model="form.rate.value"
+                                ></nitrozen-dropdown>
+                                <nitrozen-error v-if="form.rate.showerror">
+                                    {{ form.rate.errortext }}
+                                </nitrozen-error>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div v-if="!this.isEditRate">
+                <div>
                     <NitrozenButton
                         title="add new rate"
                         theme="secondary"
                         class="ml-sm"
-                        @click="validateNewRate"
+                        @click="addRate"
                     >
                         + add rate
                     </NitrozenButton>
@@ -151,6 +140,13 @@
         align-items: center;
         justify-content: center;
     }
+    .edit-btn {
+        float:right;
+        color: @RoyalBlue;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+    }
     @media screen and (max-height: 600px) {
         ::v-deep.not-found {
             width: auto;
@@ -186,7 +182,6 @@
     .rate-list-name {
         color: @Mako;
         font-size: 12px;
-
     }
 }
 .footer {
@@ -210,6 +205,7 @@ const RATE_LIST = [
 ];
 import { debounce } from '@/helper/utils';
 import AdmDatePicker from '@/components/common/date-picker.vue';
+import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import {
     NitrozenInput,
     NitrozenDropdown,
@@ -228,16 +224,15 @@ export default {
         NitrozenButton,
         NitrozenError,
         NitrozenDialog,
-        AdmDatePicker
+        AdmDatePicker,
+        UktInlineSvg
     },
     props: {
         description: {
             type: String,
             default: 'Add Tax Rate/GST'
         },
-        taxes: Array,
-        selectedRate: Object,
-        isEditRate: Boolean
+        taxes: Array
     },
     directives: {
         flatBtn,
@@ -250,113 +245,190 @@ export default {
     },
     data: function() {
         return {
-            cess: {
-                value: 0,
-                showerror: false,
-                errortext: ''
-            },
-            effective_date: {
-                value: '',
-                showerror: false,
-                errortext: 'Effective date is mandatory'
-            },
-            rate: {
-                value: 0,
-                showerror: false,
-                errortext: 'Rate is required'
-            },
-            threshold: {
-                value: 0,
-                showerror: false,
-                errortext: 'threshold is required'
-            },
-            newRates: []
+            newRates: [
+                {
+                    cess: {
+                        value: 0,
+                        showerror: false,
+                        errortext: ''
+                    },
+                    effective_date: {
+                        value: '',
+                        showerror: false,
+                        errortext: 'Effective date is mandatory'
+                    },
+                    rate: {
+                        value: 0,
+                        showerror: false,
+                        errortext: 'Rate is required'
+                    },
+                    threshold: {
+                        value: 0,
+                        showerror: false,
+                        errortext: 'threshold is required'
+                    }
+                }
+            ]
         };
     },
     mounted() {},
     methods: {
-        validate(data) {
-            let isValid = true;
-            return isValid;
-        },
         open(data) {
             this.$refs.dialog.open({
                 width: '600px',
                 height: '80%'
             });
         },
-        validateEffectiveDate() {},
-        validateRate() {
+        //Here new code
+        validate(data) {
             let isValid = true;
-            if (this.rate.value !== 0) {
-                this.rate.showerror = false;
+            return isValid;
+        },
+        removeRate(i) {
+            this.newRates.splice(i, 1);
+            this.$snackbar.global.showSuccess(`Rate removed`);
+        },
+        addRate() {
+            if (this.validateNewRates(this.newRates)) {
+                let emptyRate = {
+                    cess: {
+                        value: 0,
+                        showerror: false,
+                        errortext: ''
+                    },
+                    effective_date: {
+                        value: '',
+                        showerror: false,
+                        errortext: 'Effective date is mandatory'
+                    },
+                    rate: {
+                        value: 0,
+                        showerror: false,
+                        errortext: 'Rate is required'
+                    },
+                    threshold: {
+                        value: 0,
+                        showerror: false,
+                        errortext: 'threshold is required'
+                    }
+                };
+                this.newRates.push(emptyRate);
             } else {
-                this.rate.showerror = true;
+            }
+        },
+        validateNewRates(data) {
+            let isValid = true;
+            for (let item of data) {
+                let isTValid = this.validateThreshold(item);
+                let isRValid = this.validateRate(item);
+                let isEDValid = this.validateEffectiveDate(item);
+                let isCValid = this.validateCess(item);
+                if (!isTValid || !isRValid || !isEDValid || !isCValid) {
+                    isValid = false;
+                }
+            }
+            return isValid;
+        },
+        validateThreshold(data) {
+            let isValid = true;
+            if (data.threshold.value > 0) {
+                data.threshold.showerror = false;
+            } else {
+                data.threshold.showerror = true;
+                data.threshold.errortext = 'threshold is required';
                 isValid = false;
             }
             return isValid;
         },
-        validateThreshold() {},
-        clearForm() {
-            this.cess.value = 0;
-            this.effective_date.value = '';
-            this.effective_date.showerror = false;
-            this.rate.value = 0;
-            this.rate.showerror = false;
-            this.threshold.value = 0;
-            this.threshold.showerror = false;
-        },
-        validateNewRate() {
-            //creating object for indivisual tax rate from inputs
-            let newRate = {};
-            newRate.cess = this.cess.value;
-            if (this.effective_date.value !== '') {
-                this.effective_date.showerror = false;
-                newRate.effective_date = this.effective_date.value;
-            } else this.effective_date.showerror = true;
-            if (this.validateRate()) {
-                newRate.rate = this.rate.value;
+        validateRate(data) {
+            let isValid = true;
+            if (data.rate.value > 0) {
+                data.rate.showerror = false;
+            } else {
+                data.rate.showerror = true;
+                data.rate.errortext = 'rate is required';
+                isValid = false;
             }
-            if (this.threshold.value !== '') {
-                this.threshold.showerror = false;
-                newRate.threshold = this.threshold.value;
-            } else this.threshold.showerror = true;
-            //below we are checking if all required field add
-            if (
-                !this.effective_date.showerror &&
-                !this.rate.showerror &&
-                !this.threshold.showerror &&
-                this.validate(newRate)
-            ) {
-                this.newRates.unshift(newRate);
-                this.clearForm();
+            return isValid;
+        },
+        validateEffectiveDate(data) {
+            let isValid = true;
+            if (data.effective_date.value !== '') {
+                data.effective_date.showerror = false;
+            } else {
+                data.effective_date.showerror = true;
+                data.effective_date.errortext = 'Date is required';
+                isValid = false;
+            }
+            return isValid;
+        },
+        validateCess(data) {
+            let isValid = true;
+            if (data.cess.value >= 0) {
+                data.cess.showerror = false;
+            } else {
+                data.cess.showerror = true;
+                data.cess.errortext = 'Cess can not be lessser than 0';
+                isValid = false;
+            }
+            return isValid;
+        },
+        getFormValues() {
+            if (this.validateNewRates(this.newRates)) {
+                let objData = [];
+                for (let item of this.newRates) {
+                    let obj = {};
+                    obj.threshold = item.threshold.value;
+                    obj.rate = item.rate.value;
+                    obj.effective_date = item.effective_date.value;
+                    obj.cess = item.cess.value;
+                    objData.push(obj);
+                }
+                return objData;
             } else {
                 this.$snackbar.global.showError(`Fill in the required fields`);
+                return false;
             }
+        },
+        resetValues() {
+            this.newRates = [
+                {
+                    cess: {
+                        value: 0,
+                        showerror: false,
+                        errortext: ''
+                    },
+                    effective_date: {
+                        value: '',
+                        showerror: false,
+                        errortext: 'Effective date is mandatory'
+                    },
+                    rate: {
+                        value: 0,
+                        showerror: false,
+                        errortext: 'Rate is required'
+                    },
+                    threshold: {
+                        value: 0,
+                        showerror: false,
+                        errortext: 'threshold is required'
+                    }
+                }
+            ];
         },
         close(action) {
             if (action === 'Saved') {
-                this.validateNewRate();
-                const objectData = this.newRates;
-                if (objectData.length > 0) {
-                    this.clearForm();
-                    this.newRates = [];
+                let objectData = this.getFormValues();
+                if (objectData !== false) {
+                    this.resetValues();
                     this.$refs['dialog'].close();
                     this.$emit('close', action, objectData);
-                } else
-                    this.$snackbar.global.showError(
-                        `Fill in the required fields`
-                    );
-            } else {
-                this.cess.value = 0;
-                this.effective_date.value = '';
-                this.effective_date.showerror = false;
-                this.rate.value = 0;
-                this.rate.showerror = false;
-                this.threshold.value = 0;
-                this.threshold.showerror = false;
+                }
+            } else if (action === 'Cancelled') {
+                let objectData = [];
+                this.resetValues();
                 this.$refs['dialog'].close();
-                this.$emit('close', action);
+                this.$emit('close', action, objectData);
             }
         }
     }

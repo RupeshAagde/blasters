@@ -135,7 +135,7 @@ export default {
             hsnCodes: [],
             hsnCodeTest: [],
             column: [
-                'Uid',
+                'Reporting HSN',
                 'HSN',
                 'Type',
                 'Effective From',

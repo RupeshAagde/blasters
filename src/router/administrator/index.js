@@ -400,7 +400,7 @@ export default [
         },
         {
             name: 'taxation-edit',
-            path: 'product/taxation/:uid/edit',
+            path: 'product/taxation/:reporting_hsn/edit',
             component: ProductTaxationEdit,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['product']);

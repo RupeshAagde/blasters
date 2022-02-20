@@ -8,7 +8,7 @@
             </tr>
             <template>
                 <tr v-for="(tab, index) in tableData" :key="'tab-' + index">
-                    <td>{{ tab.uid }}</td>
+                    <td>{{ tab.reporting_hsn }}</td>
                     <td>{{ tab.hsn_code }}</td>
                     <td>{{ formatString(tab.type) }}</td>
 
@@ -17,21 +17,12 @@
                     </td>
                     <td>{{ tab.taxes[0].rate }}%</td>
                     <td>{{ tab.country_code }}</td>
-                    <!--<td>
-                        <button class="ml-sm" @click="redirectEdit(tab.uid)">
-                            <inline-svg
-                                class="nitrozen-icon"
-                                src="edit"
-                                title="edit hsn"
-                            ></inline-svg>
-                        </button>
-                    </td> -->
                     <td>
                         <inline-svg
                             class="edit-btn"
                             title="edit hsn"
                             src="image-edit"
-                            @click.stop.native="redirectEdit(tab.uid)"
+                            @click.stop.native="redirectEdit(tab.reporting_hsn)"
                         ></inline-svg>
                     </td>
                 </tr>

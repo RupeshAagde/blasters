@@ -106,9 +106,9 @@ const URLS = {
         console.log(SILVERBOLT_ACAT_URL)
         return urlJoin(SILVERBOLT_ACAT_URL, '/v2.0/hsn/');
     },
-    HSN_CODE_RETRIVE_UPDATE_DELETE: (uid) => {
+    HSN_CODE_RETRIVE_UPDATE_DELETE: (reporting_hsn) => {
         console.log(SILVERBOLT_ACAT_URL)
-        return urlJoin(SILVERBOLT_ACAT_URL, `/v2.0/hsn/${uid}`);
+        return urlJoin(SILVERBOLT_ACAT_URL, `/v2.0/hsn/${reporting_hsn}`);
     },
     //fetchVariant
     FETCH_VARIANT: (uid) => {
