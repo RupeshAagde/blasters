@@ -354,6 +354,9 @@ export default {
         validateEffectiveDate(data) {
             let isValid = true;
             if (data.effective_date.value !== '') {
+                let modifiedDate=new Date(data.effective_date.value)
+                modifiedDate.setMinutes(modifiedDate.getMinutes() + 331)
+                data.effective_date.value = new Date(modifiedDate).toISOString();
                 data.effective_date.showerror = false;
             } else {
                 data.effective_date.showerror = true;

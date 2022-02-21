@@ -271,6 +271,10 @@ export default {
         validateEffectiveDate() {
             let isValid = true;
             if (this.editedRate.effective_date !== '') {
+                let modifiedDate=new Date(this.editedRate.effective_date)
+                modifiedDate.setMinutes(modifiedDate.getMinutes() + 331)
+                this.editedRate.effective_date = new Date(modifiedDate).toISOString();
+
                 this.effective_date.showerror = false;
             } else {
                 this.effective_date.showerror = true;
