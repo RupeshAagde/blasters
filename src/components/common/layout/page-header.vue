@@ -7,6 +7,8 @@
                 @click.stop.native="backClick"
                 v-if="showBackButton"
             />
+            
+            
             <div v-if="title" class="page-title">{{ title }}</div>
             <div class="page-slot">
                 <slot></slot>
@@ -67,7 +69,7 @@ export default {
         InlineSvg,
         NitrozenMenu,
         NitrozenMenuItem,
-        CustomJsonDialog
+        CustomJsonDialog,
     },
     props: {
         title: {
