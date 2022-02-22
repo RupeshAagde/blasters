@@ -380,6 +380,9 @@ const URLS = {
     SUBSCRIPTION_COUPON: (id='') => {
         return urlJoin(UNICRON_BASE, `/v1.0/coupon/`,id)
     },
+    SUBSCRIPTION_VALIDITY_COUPON: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/coupon/check-validity`)
+    },
     SUBSCRIPTION_COUPON_UNIQUE: (code) => {
         return urlJoin(UNICRON_BASE, `/v1.0/coupon/code_uniqueness/`,code)
     },
