@@ -639,8 +639,8 @@ export default {
             this.$nextTick(()=>{
                 this.$refs['type-search'].selectItem(null, {})
                 this.$refs['change_plan_dialog'].open({
-                width: '620px',
-                height: '620px',
+                width: '650px',
+                height: '650px',
                 positiveButtonLabel: 'Activate Plan',
                 negativeButtonLabel: 'Cancel',
                 neutralButtonLabel: false
@@ -815,6 +815,7 @@ export default {
             }else {
                 this.selectedForChange="";
                 this.fetchPlans("")
+                this.$refs['add-coupon'].clearCoupon();
             }
 
         },
@@ -1178,8 +1179,6 @@ export default {
     font-weight: 700;
     font-size: 13px;
 }
-.datatype-dropdown{
-margin-bottom: 24px;
-}
+
 
 </style>
