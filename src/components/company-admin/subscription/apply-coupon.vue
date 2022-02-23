@@ -155,7 +155,6 @@ export default {
                     this.discountValue = data.data.discount_amount;
                     this.showError = false;
             this.validCoupon = true;
-            e.stopPropagation();
             this.$emit('emitCoupon', { coupon: this.couponCode });
                 })
                 .catch((res) => {
