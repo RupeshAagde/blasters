@@ -8,7 +8,8 @@
                         v-model="couponCode"
                         :label="'Have a coupon code?'"
                         placeholder="Enter Here"
-                        @input="checkCoupon"
+                        :disabled="selectedPlan== undefined"
+                        @input="inputCheck"
                     >
                     </nitrozen-input>
                 </div>
@@ -16,8 +17,8 @@
                     <nitrozen-button
                         theme="secondary"
                         v-strokeBtn
-                        :disabled="showError || !couponCode"
-                        @click="applyCoupon"
+                        @click="checkCoupon"
+                        :disabled="!couponCode"
                     >
                         Apply
                     </nitrozen-button>
@@ -71,8 +72,7 @@
                             style: 'currency',
                             currency: selectedPlan.currency,
                         }).format(
-                            gst ||
-                                selectedPlan.taxation.gst * selectedPlan.amount
+                            selectedPlan.taxation.gst *(selectedPlan.amount - discountValue)
                         )
                     }}
                 </div>
@@ -85,11 +85,8 @@
                         new Intl.NumberFormat('en-IN', {
                             style: 'currency',
                             currency: selectedPlan.currency,
-                        }).format(
-                            amount ||
-                                (1 + selectedPlan.taxation.gst) *
-                                    selectedPlan.amount
-                        )
+                        }).format((1 + selectedPlan.taxation.gst) *(selectedPlan.amount - discountValue))
+                                
                     }}
                 </div>
             </div>
@@ -138,15 +135,14 @@ export default {
         this.validCoupon = false;
     },
     methods: {
-        checkCoupon(e) {
-            if (this.couponCode == '') {
+        inputCheck(){
+         if (this.couponCode == '') {
                 this.showError = false;
                 return;
             }
             this.couponCode = this.couponCode.toUpperCase();
-            this.debounceInput();
         },
-        debounceInput: debounce(function () {
+        checkCoupon(e) {
             let plan_id = this.selectedPlan._id;
             let company_id = this.$route.params.companyId;
             BillingService.getApplyCoupon({
@@ -157,6 +153,10 @@ export default {
                 .then((data) => {
                     this.showError = !data.data.is_valid;
                     this.discountValue = data.data.discount_amount;
+                    this.showError = false;
+            this.validCoupon = true;
+            e.stopPropagation();
+            this.$emit('emitCoupon', { coupon: this.couponCode });
                 })
                 .catch((res) => {
                     if (this.couponCode == '') {
@@ -165,8 +165,9 @@ export default {
                     }
                     this.showError = true;
                 });
-        }, 500),
+        },
         clearCoupon(event) {
+            this.showError = false;
             this.couponCode = '';
             this.validCoupon = false;
             this.discountValue = 0;
@@ -175,16 +176,11 @@ export default {
             }
         },
         applyCoupon(event) {
-            this.gst =
-                this.selectedPlan.taxation.gst *
-                (this.selectedPlan.amount - this.discountValue);
-            this.amount =
-                (1 + this.selectedPlan.taxation.gst) *
-                (this.selectedPlan.amount - this.discountValue);
+            this.showError = false;
             this.validCoupon = true;
             event.stopPropagation();
             this.$emit('emitCoupon', { coupon: this.couponCode });
-        },
+        }
     },
 };
 </script>

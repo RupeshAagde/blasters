@@ -206,8 +206,15 @@
             <nitrozen-dialog
                 ref="change_plan_dialog"
                 title="Change Plan"
-                :label="'Select Plan'"
             >
+            <template slot="header">
+                    <div class="capitalize">Change Plan</div>
+                </template>
+               <template slot="header">
+                    <div class="cross" @click="onCancelActivatePlan">
+                        <inline-svg :src="'cross-black'"></inline-svg>
+                    </div>
+                </template>
 
                 <template slot="body" name="body"
                     >
@@ -217,7 +224,7 @@
                         class="datatype-dropdown"
                         :items="plansListDropdownItems"
                         v-model="selectedForChange"
-                        @change="selectedForChangeError=false;"
+                        @change="changePlanDropdown"
                         @searchInputChange="searchPlans"
                         :placeholder="'Search Plans'"
                     ></nitrozen-dropdown>
@@ -363,6 +370,7 @@ import loader from '@/components/common/loader';
 import uktNotFound from '../../components/common/ukt-not-found.vue';
 import shimmer from '../../components/common/shimmer.vue';
 import applyCoupon from '../../components/company-admin/subscription/apply-coupon.vue';
+import inlinesvg from '../../components/common/inline-svg.vue';
 
 export default {
     name: 'adm-company-subscription',
@@ -382,7 +390,8 @@ export default {
         'date-picker':datePicker,
         'shimmer':shimmer,
         'ukt-not-found':uktNotFound,
-        'apply-coupon': applyCoupon
+        'apply-coupon': applyCoupon,
+        'inline-svg': inlinesvg,
     },
     directives: {
         flatBtn,
@@ -569,6 +578,10 @@ export default {
         })
     },
     methods:{
+        changePlanDropdown(){
+        this.selectedForChangeError=false;
+        this.$refs['add-coupon'].clearCoupon();
+        },
         debouncedFetch: debounce(function(e) {
             this.$router.replace({
                 name: 'company-details',
