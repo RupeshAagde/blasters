@@ -226,6 +226,13 @@ const BillingService = {
             getCommonHeaderOptions());
         return ApiService.get(URLS.SUBSCRIPTION_COUPON(), axiosOptions);
     },
+    
+    getApplyCoupon(params) {
+        const axiosOptions = Object.assign({},
+            { params: params },
+             getCommonHeaderOptions());
+        return ApiService.get(URLS.SUBSCRIPTION_VALIDITY_COUPON(), axiosOptions);
+    },
 
     getCouponId(id) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());

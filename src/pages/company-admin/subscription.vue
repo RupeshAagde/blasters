@@ -206,19 +206,32 @@
             <nitrozen-dialog
                 ref="change_plan_dialog"
                 title="Change Plan"
-                :label="'Select Plan'"
-                @close="onCloseChangePlan"
             >
+            <template slot="header">
+                    <div class="capitalize">Change Plan</div>
+                </template>
+               <template slot="header">
+                    <div class="cross" @click="onCancelActivatePlan">
+                        <inline-svg :src="'cross-black'"></inline-svg>
+                    </div>
+                </template>
+
                 <template slot="body" name="body"
                     >
                     <nitrozen-dropdown
+                        ref="type-search"
                         :searchable="true"
                         class="datatype-dropdown"
                         :items="plansListDropdownItems"
-                        v-model="slectedForChange"
+                        v-model="selectedForChange"
+                        @change="changePlanDropdown"
                         @searchInputChange="searchPlans"
                         :placeholder="'Search Plans'"
-                    ></nitrozen-dropdown>  
+                    ></nitrozen-dropdown>
+                    <nitrozen-error class="bottom-space" v-if="selectedForChangeError">
+                        Please select valid plan
+                    </nitrozen-error> 
+                    <apply-coupon ref="add-coupon" :selectedPlan="selectedPlan" @emitCoupon="getCouponValue($event)" ></apply-coupon> 
                     <nitrozen-input
                         class="search m-t-24"
                         type="textarea"
@@ -226,8 +239,22 @@
                         placeholder="Enter Comment"
                         v-model="planChangeComment"
                     ></nitrozen-input>  
+
                 </template
                 >
+                <template slot="footer" name="footer">
+                    <nitrozen-button
+                        class="m-r-12"
+                        theme="secondary"
+                        v-flatBtn
+                        @click="onActivatePlan"
+                        >Activate Plan</nitrozen-button>
+                    <nitrozen-button
+                        theme="secondary"
+                        v-strokeBtn
+                        @click="onCancelActivatePlan"
+                        >Cancel</nitrozen-button>
+                </template>
             </nitrozen-dialog>
         </div>
         <div class="width-100">
@@ -342,6 +369,8 @@ import CreditTransactionCard from "@/components/company-admin/subscription/credi
 import loader from '@/components/common/loader';
 import uktNotFound from '../../components/common/ukt-not-found.vue';
 import shimmer from '../../components/common/shimmer.vue';
+import applyCoupon from '../../components/company-admin/subscription/apply-coupon.vue';
+import inlinesvg from '../../components/common/inline-svg.vue';
 
 export default {
     name: 'adm-company-subscription',
@@ -360,7 +389,9 @@ export default {
         'credit-balance-modal':CreditBalanceModal,
         'date-picker':datePicker,
         'shimmer':shimmer,
-        'ukt-not-found':uktNotFound
+        'ukt-not-found':uktNotFound,
+        'apply-coupon': applyCoupon,
+        'inline-svg': inlinesvg,
     },
     directives: {
         flatBtn,
@@ -441,7 +472,13 @@ export default {
             } else {
                 return null;
             }
-        },
+        }
+        ,
+        selectedPlan(){
+            let plan = this.plansList.find((obj)=>{ return obj._id == this.selectedForChange})
+            return plan;
+        }
+
     },
     filters: {
         getDateString: function(value) {
@@ -475,7 +512,8 @@ export default {
                 search_unique_transaction_reference:"",
                 transaction_id:"",
                 transaction_date:null
-            }
+            },
+            couponCode: '',
         }
     },
     mounted(){
@@ -545,6 +583,10 @@ export default {
         })
     },
     methods:{
+        changePlanDropdown(){
+        this.selectedForChangeError=false;
+        this.$refs['add-coupon'].clearCoupon();
+        },
         debouncedFetch: debounce(function(e) {
             this.$router.replace({
                 name: 'company-details',
@@ -593,14 +635,37 @@ export default {
                 neutralButtonLabel: false
             });
         },
+        onActivatePlan(){
+            if(!this.selectedForChange){
+                return this.selectedForChangeError=true;
+            }else {
+                if(this.currentPlan.plan_id===this.selectedForChange){
+                    this.selectedForChange="";
+                    this.planChangeComment="";
+                    return this.$snackbar.global.showError(`You are already subsribed to ${this.currentPlan.plan_data.name}`,{duration: 2000});
+                }
+                this.activatePlan(this.selectedForChange);
+                this.$refs['change_plan_dialog'].close();    
+            }
+        },
+        onCancelActivatePlan(){
+            this.$refs['change_plan_dialog'].close()
+        },
         onOpenChangePlanDialog() {
-            this.$refs['change_plan_dialog'].open({
-                width: '400px',
-                height: '420px',
+            this.selectedForChangeError=false;
+            this.selectedForChange="";
+            this.$nextTick(()=>{
+                this.$refs['type-search'].selectItem(null, {})
+                this.$refs['change_plan_dialog'].open({
+                width: '650px',
+                height: '650px',
                 positiveButtonLabel: 'Activate Plan',
                 negativeButtonLabel: 'Cancel',
                 neutralButtonLabel: false
             });
+            });
+            this.$refs['add-coupon'].clearCoupon();
+
         },
         onCloseCancelSubscription(optionSelected) {
             if (optionSelected == 'Yes') {
@@ -731,6 +796,9 @@ export default {
         fetchPlanDetailed(id) {
             return BillingSubscriptionService.getPlanDetailsById(id);
         },
+        getCouponValue({coupon}){
+        this.couponCode = coupon; 
+        },
         activatePlan(plan_id){
             let payload = {
                 "unique_id": this.companyId,
@@ -739,12 +807,13 @@ export default {
                 "plan_id": plan_id,
                 "meta":{
                     "comment":this.planChangeComment
-                }
+                },
+                "coupon": this.couponCode
             }
             
             return BillingSubscriptionService.activatePlan(this.companyId,payload)
             .then(({data})=>{
-                this.slectedForChange="";
+                this.selectedForChange="";
                 this.planChangeComment="";
                 if(data.success){
                     return this.$store
@@ -775,7 +844,9 @@ export default {
                     this.fetchPlans(e.text);
                 }, 400)();
             }else {
+                this.selectedForChange="";
                 this.fetchPlans("")
+                this.$refs['add-coupon'].clearCoupon();
             }
 
         },
@@ -1139,5 +1210,6 @@ export default {
     font-weight: 700;
     font-size: 13px;
 }
+
 
 </style>

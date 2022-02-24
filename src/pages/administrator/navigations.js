@@ -148,26 +148,6 @@ export const getNavigations = () => {
             ]
         },
         {
-            display: 'Communication',
-            link: '/administrator/communication/reports',
-            title: 'reports',
-            icon: 'settings',
-            highlightedIcon: 'home-highlighted',
-            active: false,
-            permission: 'admin-access',
-            children: [
-                {
-                    display: 'Reports',
-                    link: '/administrator/communication/reports',
-                    title: 'reports',
-                    icon: 'home',
-                    highlightedIcon: 'home-highlighted',
-                    active: false
-                }
-            ]
-        }
-        ,
-        {
             display: 'Extension Review',
             link: '/administrator/extensions/review',
             title: 'extensons',
