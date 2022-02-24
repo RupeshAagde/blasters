@@ -331,7 +331,7 @@ export default {
         },
         validateThreshold(data) {
             let isValid = true;
-            if (data.threshold.value > 0) {
+            if (data.threshold.value >= 0) {
                 data.threshold.showerror = false;
             } else {
                 data.threshold.showerror = true;

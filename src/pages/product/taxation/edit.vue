@@ -49,11 +49,8 @@
                         placeholder="For eg. 61152010"
                         v-model="reporting_hsn"
                         :disabled="true"
-                        @input="validateReportingHSNCode"
+                        @input=""
                     ></nitrozen-input>
-                    <nitrozen-error v-if="errors.reporting_hsn_code">
-                        {{ errors.reporting_hsn_code }}
-                    </nitrozen-error>
                 </div>
             </div>
 
@@ -75,8 +72,10 @@
                         label="Country"
                         required
                         placeholder="Choose Country"
-                        :items="countryCodeList"
+                        :items="filteredCountries"
                         v-model="country_code.value"
+                        searchable="true"
+                        @searchInputChange="$countrySearchInputChange"
                     ></nitrozen-dropdown>
                     <nitrozen-error v-if="country_code.showerror">
                         {{ country_code.errortext }}
@@ -89,7 +88,7 @@
                         label="Description"
                         type="textarea"
                         required
-                        placeholder="some description"
+                        placeholder="description of product"
                         v-model="description.value"
                         @input="validateDescription"
                     ></nitrozen-input>
@@ -116,59 +115,73 @@
                     >Add Rate/GST
                 </nitrozen-button>
             </div>
-            <div v-if="!!taxes.value.length">
+            <div v-if="!!Object.keys(datedTax).length">
                 <div
-                    class="tax-list-body"
-                    v-for="(tax, index) in taxes.value"
-                    :key="'tax-' + index"
+                    class="datedtax-body"
+                    v-for="(tax, index) in datedTax"
+                    :key="index"
                 >
-                    <div class="tax-list-div" :key="index">
-                        <div class="tax-list-item">
-                            <div class="tax-list-name">
-                                <label class="n-input-label">Threshold</label>
-                                {{ tax.threshold }}
+                    <div class="datedtax-div" :key="index">
+                        <div class="datedtax-row">
+                            <div class="datedtax-row-item">
+                                <label class="label-msg n-input-label"
+                                    >Effective Date:
+                                </label>
+                                <span>{{
+                                    format_date(tax[0].effective_date)
+                                }}</span>
                             </div>
-                            <div class="tax-list-name">
-                                <label class="n-input-label">Rate</label>
-                                {{ tax.rate }}%
-                            </div>
-
-                            <div class="tax-list-name">
-                                <label class="n-input-label"
-                                    >Effective Date</label
+                            <div class="datedtax-row-item">
+                                <nitrozen-badge
+                                    :state="isRateActive(tax[0].state)"
+                                    >{{ tax[0].state }}</nitrozen-badge
                                 >
-                                {{ format_date(tax.effective_date) }}
                             </div>
-                            <nitrozen-badge
-                                :state="
-                                    isRateActive(tax.effective_date)
-                                        ? 'success'
-                                        : 'warn'
-                                "
-                                >{{
-                                    isRateActive(tax.effective_date)
-                                        ? 'Active'
-                                        : 'incoming'
-                                }}</nitrozen-badge
-                            >
                         </div>
-                        <div class="tax-list-item">
-                            <div class="tax-list-name"></div>
-                            <div>
-                                <!--<button
-                                    class="editButton"
-                                    @click="$openEditTaxrateDialog(tax)"
-                                >
-                                    <inline-svg
-                                        class="nitrozen-icon"
-                                        src="edit"
-                                        title="edit rate"
-                                    ></inline-svg>
-                                </button> -->
+                        <div class="datedtax-row">
+                            <div class="sub-row">
+                                <div class="slab-1">
+                                    <label class="n-input-label"
+                                        >Slab #1
+                                    </label>
+                                    <div>
+                                        <label
+                                            class="label-msg n-input-label"
+                                            >{{ `Threshold>` }}</label
+                                        >
+                                        {{ tax[0].threshold }}
+                                    </div>
+                                    <div>
+                                        <label class="label-msg n-input-label"
+                                            >GST</label
+                                        >
+                                        {{ `: ${tax[0].rate}%` }}
+                                    </div>
+                                </div>
+                                <div class="slab-2" v-if="!!tax[1]">
+                                    <label class="n-input-label"
+                                        >Slab #2
+                                    </label>
+                                    <div>
+                                        <label
+                                            class="label-msg n-input-label"
+                                            >{{ `Threshold>` }}</label
+                                        >
+                                        {{ tax[1].threshold }}
+                                    </div>
+                                    <div>
+                                        <label class="label-msg n-input-label"
+                                            >GST</label
+                                        >
+                                        {{ `: ${tax[1].rate}%` }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sub-row">
                                 <ukt-inline-svg
                                     class="edit-btn"
                                     title="edit rate"
-                                    src="image-edit"
+                                    src="edit"
                                     @click.stop.native="
                                         $openEditTaxrateDialog(tax)
                                     "
@@ -178,10 +191,14 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <adm-no-content
+                    v-if="!taxes.value.length"
+                    :helperText="''"
+                ></adm-no-content>
+            </div>
         </div>
-        <div v-if="!taxes.value.length">
-            <adm-no-content :helperText="'no rate available'"></adm-no-content>
-        </div>
+
         <add-taxrate-dailog
             ref="addTaxrateDialog"
             :taxes="taxes.value"
@@ -190,7 +207,7 @@
         </add-taxrate-dailog>
         <edit-taxrate-dailog
             ref="editTaxrateDialog"
-            :taxes="taxes.value"
+            :taxes="datedTax"
             :selectedRate="selectedRate"
             @close="$closeEditTaxrateDialog"
         >
@@ -267,10 +284,13 @@ export default {
     data() {
         return {
             countryCodeList: [],
+            filteredCountries: [],
+            countrySearchInputText: '',
             pageLoading: false,
             inProgress: false,
             pageError: false,
             editMode: false,
+            soloHsn: {},
             reporting_hsn: '',
             pageTitle: '',
             saveText: '',
@@ -300,12 +320,14 @@ export default {
                 showerror: false,
                 errortext: 'Tax rate is required'
             },
-            selectedRate: {
-                cess: 0,
-                effective_date: '',
-                rate: 0,
-                threshold: 0
-            },
+            datedTax: {},
+            // selectedRate: {
+            //     cess: 0,
+            //     effective_date: '',
+            //     rate: 0,
+            //     threshold: 0
+            // },
+            selectedRate: [],
             newRate: {
                 cess: 0,
                 effective_date: '',
@@ -327,13 +349,14 @@ export default {
         if (this.$route.params.reporting_hsn) {
             this.pageLoading = true;
             this.reporting_hsn = this.$route.params.reporting_hsn;
-            this.pageTitle = 'Edit HSN Code';
-            this.saveText = 'HSN updated successfully';
+            this.pageTitle = 'Edit Tax Rate';
+            this.saveText = 'Tax Rate updated successfully';
             this.editMode = this.$route.params.reporting_hsn ? true : false;
         } else {
             this.pageTitle = 'Add HSN Code';
         }
         // console.log(this.$route.params)
+
         this.getCountryList();
         this.init();
     },
@@ -345,6 +368,23 @@ export default {
                     value: type.toLowerCase()
                 };
             });
+        }
+    },
+    watch: {
+        value() {
+            if (this.value) {
+                if (this.value.country) {
+                    if (this.filteredCountries.length) {
+                        let data = this.filteredCountries.filter((ele) => {
+                            return this.value.country
+                                .toLowerCase()
+                                .includes(ele.name.toLowerCase());
+                        })[0];
+                        this.country.value = data.uid || '';
+                        this.$countryChange(this.country.value);
+                    }
+                }
+            }
         }
     },
     methods: {
@@ -366,37 +406,55 @@ export default {
         getCountryList() {
             LocationService.getCountries()
                 .then(({ data }) => {
-                    this.countryCodeList = data.items.map((country) => {
+                    this.countryCodeList = data.items;
+                    this.filteredCountries = data.items.map((country) => {
                         return {
                             text: country.name,
                             value: country.iso2
                         };
                     });
-                    this.countryCodeList.sort((a, b) =>
+                    this.filteredCountries.sort((a, b) =>
                         a.text.localeCompare(b.text)
                     );
                 })
                 .catch((err) => {});
         },
+        $countrySearchInputChange(e) {
+            this.countrySearchInputText = e.text;
+            this.filteredCountries = [];
+            for (let i = 0; i < this.countryCodeList.length; i++) {
+                if (
+                    this.countryCodeList[i].name
+                        .toLowerCase()
+                        .includes(this.countrySearchInputText.toLowerCase())
+                ) {
+                    this.countryCodeList[i].text = this.countryCodeList[i].name;
+                    this.countryCodeList[i].value = this.countryCodeList[
+                        i
+                    ].iso2;
+                    this.filteredCountries.push(this.countryCodeList[i]);
+                }
+            }
+        },
         getHSN() {
             const params = {
                 reporting_hsn: this.reporting_hsn
             };
-            // BY passing uid we will get only one hsn code related data
             return new Promise((resolve, reject) => {
                 AdminService.getAllHsnCodes(params)
                     .then(({ data }) => {
-                        let hsn = data.items[0];
-                        this.hsn_code.value = hsn.hsn_code;
-                        this.type.value = hsn.type;
-                        this.country_code.value = hsn.country_code;
-                        this.description.value = hsn.description;
-                        hsn.taxes.forEach((tax) => {
+                        this.soloHsn = data.items[0];
+                        this.hsn_code.value = this.soloHsn.hsn_code;
+                        this.type.value = this.soloHsn.type;
+                        this.country_code.value = this.soloHsn.country_code;
+                        this.description.value = this.soloHsn.description;
+                        this.soloHsn.taxes.forEach((tax) => {
                             this.taxes.value.push(tax);
                         });
                         this.taxes.value.sort(
                             (current, next) => current.rate - next.rate
                         );
+                        this.getDatedTax();
                         resolve();
                     })
                     .catch((err) => {
@@ -404,6 +462,68 @@ export default {
                         reject(err);
                     });
             });
+        },
+        getDatedTax() {
+            //flatting array of taxes into object, where key will be dates and values will be array of object
+            let datedTax = {};
+            let activeDate = 0;
+            this.datedTax = {};
+            // console.log('taxes list before runing getDatedTax');
+            // console.log(this.taxes.value);
+
+            for (let item of this.taxes.value) {
+                let date_key = item.effective_date;
+                date_key = date_key.split('T')[0];
+                if (date_key in datedTax) {
+                    datedTax[date_key].push({ ...item });
+                } else {
+                    datedTax[date_key] = [{ ...item }];
+                }
+            }
+            // console.log(datedTax);
+            //to get latest active date
+            let currentDate = new Date().toISOString().split('T')[0];
+            currentDate = Number(currentDate.replaceAll('-', ''));
+            let allDates = Object.keys(datedTax);
+
+            allDates = allDates.map((item) => {
+                item = new Date(item).toISOString().split('T')[0];
+                item = Number(item.replaceAll('-', ''));
+                return item;
+            });
+            allDates = allDates.filter((item) => item <= currentDate);
+            activeDate = allDates.sort().reverse()[0];
+            //Setting state for each tax rate
+            for (let key in datedTax) {
+                // console.log(key);
+                let tempDate = String(key).split('T')[0];
+                tempDate = Number(tempDate.replaceAll('-', ''));
+                // console.log(tempDate, activeDate);
+                if (tempDate == activeDate) {
+                    for (let tax of datedTax[key]) {
+                        tax['state'] = 'Active';
+                    }
+                } else if (tempDate > activeDate) {
+                    for (let tax of datedTax[key]) {
+                        tax['state'] = 'Incoming';
+                    }
+                } else {
+                    for (let tax of datedTax[key]) {
+                        tax['state'] = 'Expired';
+                    }
+                }
+            }
+            //assigning the newUpdated object to global variable
+            this.datedTax = datedTax;
+
+            // console.log(this.datedTax);
+        },
+        isRateActive(state) {
+            if (state == 'Active') {
+                return 'success';
+            } else {
+                return 'warn';
+            }
         },
         saveForm() {
             let postData = {};
@@ -433,6 +553,7 @@ export default {
             }
             if (this.taxes.value.length > 0) {
                 postData.taxes = this.taxes.value;
+                console.log('Taxes which we are sending', postData.taxes);
             } else {
                 this.taxes.showerror = true;
             }
@@ -482,15 +603,6 @@ export default {
             }
             return isValid;
         },
-        validateReportingHSNCode() {
-            let isValid = true;
-            this.$set(this.errors, 'reporting_hsn_code', '');
-            if (this.reporting_hsn_code.value.toString().length !== 8) {
-                isValid = false;
-                this.errors.reporting_hsn_code = 'must be of 8 digits';
-            }
-            return isValid;
-        },
         validateDescription() {
             let isValid = true;
             this.description.showerror = false;
@@ -508,10 +620,6 @@ export default {
         redirectBack() {
             this.$goBack('/administrator/product/taxation');
             //console.log("Path",path.join(this.$route.path, '/list'),this.$route.path)
-        },
-        isRateActive(effectivedate) {
-            effectivedate = moment(String(effectivedate));
-            return effectivedate <= moment() ? true : false;
         },
         isFormDirty() {
             if (this.formSaved) {
@@ -546,12 +654,13 @@ export default {
             ];
         },
         clearSelectedRate() {
-            this.selectedRate = {
-                cess: 0,
-                effective_date: '',
-                rate: 0,
-                threshold: 0
-            };
+            // this.selectedRate = {
+            //     cess: 0,
+            //     effective_date: '',
+            //     rate: 0,
+            //     threshold: 0
+            // };
+            this.selectedRate = [];
         },
         $openAddTaxrateDialog() {
             this.clearUnsavedRates();
@@ -563,24 +672,45 @@ export default {
                 this.taxes.value = [...this.newRates, ...this.taxes.value];
             } else if (action === 'Cancelled') {
             }
+            this.getDatedTax();
         },
 
         $openEditTaxrateDialog(code) {
-            const index = this.taxes.value.indexOf(code);
-            if (index > -1) {
-                this.selectedRate = code;
-                this.taxes.value.splice(index, 1);
-            this.clearUnsavedRates();
+            this.selectedRate = [];
+
+            for (let c of code) {
+                let item = { ...c };
+                delete item.state;
+                this.selectedRate.push({ ...item });
             }
+            console.log('while opening selectedRate', this.selectedRate);
+            this.clearUnsavedRates();
             this.$refs.editTaxrateDialog.open();
         },
         $closeEditTaxrateDialog(action, object) {
             if (!!object) {
-                this.taxes.value = [object, ...this.taxes.value];
+                for (let i of this.taxes.value) {
+                    let tempdate = this.selectedRate[1].effective_date;
+                    if (
+                        tempdate.split('T')[0] == i.effective_date.split('T')[0]
+                    ) {
+                        const index = this.taxes.value.indexOf(i);
+                        this.taxes.value.splice(index, 1);
+                    }
+                }
+                console.log('after remove final array');
+                for (let i of this.taxes.value) {
+                    console.log(i.effective_date, i.threshold);
+                }
+                this.taxes.value = [...this.taxes.value];
+                for (let i = object.length - 1; i >= 0; i--) {
+                    this.taxes.value.unshift({ ...object[i] });
+                }
+                console.log('New array', this.taxes.value);
             } else {
-                this.taxes.value.push(this.selectedRate);
                 this.clearSelectedRate();
             }
+            this.getDatedTax();
         }
     }
 };
@@ -632,36 +762,85 @@ export default {
     margin: 24px 24px 24px 24px !important;
     padding: 24px 24px 4px 24px;
     font-family: Inter;
-    .tax-list-body {
-        .tax-list-div {
-            width: 100%;
-            box-sizing: border-box;
-            border: 1px solid @Iron;
-            border-radius: 4px;
-            background-color: @White;
-            padding: 12px 12px 12px 12px;
-            margin-bottom: 10px;
-            .tax-list-item {
+    // .tax-list-body {
+    //     .tax-list-div {
+    //         width: 100%;
+    //         box-sizing: border-box;
+    //         border: 1px solid @Iron;
+    //         border-radius: 4px;
+    //         background-color: @White;
+    //         padding: 12px 12px 12px 12px;
+    //         margin-bottom: 10px;
+    //         .tax-list-item {
+    //             display: flex;
+    //             justify-content: space-between;
+    //             align-items: center;
+    //             // .editButton {
+    //             //     border: 1px solid #2e31be;
+    //             //     border-radius: 4px;
+    //             //     background-color: white;
+    //             // }
+    //         }
+    //         .tax-list-name {
+    //             color: @Mako;
+    //             font-size: 14px;
+    //             margin-bottom: 12px;
+    //         }
+    //     }
+    // }
+    .datedtax-div {
+        box-sizing: border-box;
+        border: 1px solid @Iron;
+        border-radius: 4px;
+        background-color: @White;
+        padding: 12px 12px 12px 12px;
+        margin-bottom: 10px;
+        .datedtax-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .datedtax-row-item {
+                color: @Mako;
+                font-size: 12px;
+                margin-bottom: 12px;
+            }
+            .sub-row {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                // .editButton {
-                //     border: 1px solid #2e31be;
-                //     border-radius: 4px;
-                //     background-color: white;
-                // }
-                .edit-btn {
-                    margin-top: 4px;
-                    color: @RoyalBlue;
-                    font-size: 14px;
-                    font-weight: 500;
-                    cursor: pointer;
+                .slab-1 {
+                    color: @Mako;
+                    font-size: 12px;
+                }
+                .slab-2 {
+                    color: @Mako;
+                    font-size: 12px;
+                    margin-left: 24px;
                 }
             }
-            .tax-list-name {
-                color: @Mako;
+            .label-msg {
+                display: inline !important;
+            }
+            .edit-btn {
+                border: 1px solid @RoyalBlue;
+                margin-right:5px;
+                border-radius: 5px;
+                width: 25px;
+                height: 25px;
+                color: @RoyalBlue;
                 font-size: 14px;
-                margin-bottom: 12px;
+                font-weight: 500;
+                cursor: pointer;
+            }
+            .dlt-btn {
+                border: 1px solid Red;
+                border-radius: 5px;
+                width: 25px;
+                height: 25px;
+                color: @RoyalBlue;
+                font-size: 14px;
+                font-weight: 500;
+                cursor: pointer;
             }
         }
     }

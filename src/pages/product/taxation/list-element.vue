@@ -8,20 +8,32 @@
             </tr>
             <template>
                 <tr v-for="(tab, index) in tableData" :key="'tab-' + index">
-                    <td>{{ tab.reporting_hsn }}</td>
+                    <td class="first-col">{{ tab.reporting_hsn }}</td>
                     <td>{{ tab.hsn_code }}</td>
                     <td>{{ formatString(tab.type) }}</td>
 
                     <td>
                         {{ format_date(tab.taxes[0].effective_date) }}
                     </td>
-                    <td>{{ tab.taxes[0].rate }}%</td>
+                    <td>
+                        {{
+                            `>\u20B9${tab.taxes[0].threshold}  @${tab.taxes[0].rate}%`
+                        }}
+                    </td>
+                    <td>
+                        {{
+                            tab.taxes[1]
+                                ? `>\u20B9${tab.taxes[1].threshold} @${tab.taxes[1].rate}%`
+                                : '__'
+                        }}
+                    </td>
+
                     <td>{{ tab.country_code }}</td>
                     <td>
                         <inline-svg
                             class="edit-btn"
                             title="edit hsn"
-                            src="image-edit"
+                            src="edit"
                             @click.stop.native="redirectEdit(tab.reporting_hsn)"
                         ></inline-svg>
                     </td>
@@ -74,9 +86,13 @@ export default {
             return this.tableData.items.every((v) => v.isSelected);
         }
     },
+    mounted() {
+        // this.checkActiveTax();
+    },
     data() {
         return {
-            selectAll: false
+            selectAll: false,
+            hsnWithActivetaxes: []
         };
     },
     methods: {
@@ -97,7 +113,13 @@ export default {
             this.$router.push({
                 path: path.join(this.$route.path, redirectPath)
             });
-        }
+        },
+        // checkActiveTax() {
+        //     let today = new Date().toISOString().split('T')[0];
+        //     console.log(today);
+        //     for (let hsn of this.tableData) {
+        //     }
+        // }
     }
 };
 </script>
@@ -106,7 +128,7 @@ export default {
 .mirage-table {
     width: 100%;
     font-family: Inter;
-    font-size: 14px;
+    font-size: 12px;
     border: 1px solid @Iron;
     border-radius: 4px;
 
@@ -116,7 +138,7 @@ export default {
         box-sizing: border-box;
         border-radius: 4px;
         font-family: Inter;
-        font-size: 14px;
+        font-size: 12px;
         font-style: normal;
         font-weight: 500;
         line-height: 17px;
@@ -127,9 +149,9 @@ export default {
     tr:not(:first-child) {
         border-bottom: 1px solid @Iron;
         font-family: Inter;
-        font-size: 14px;
+        font-size: 12px;
         font-style: normal;
-        font-weight: 500;
+        font-weight: 400;
         line-height: 17px;
         letter-spacing: 0em;
         text-align: left;
@@ -138,21 +160,21 @@ export default {
     }
     td {
         vertical-align: middle;
-        text-align: center;
+        text-align: left;
         padding: 16px 16px;
-        // .ml-sm {
-        //     border: 1px solid #2e31be;
-        //     border-radius: 4px;
-        //     background-color: white;
-        // }
-                    .edit-btn {
-                margin-top: 4px;
-                padding-left: 12px;
-                color: @RoyalBlue;
-                font-size: 14px;
-                font-weight: 500;
-                cursor: pointer;
-            }
+        .edit-btn {
+            border:1px solid @RoyalBlue;
+            border-radius:5px;
+            width:30px;
+            height:30px;
+            color: @RoyalBlue;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+    }
+    .first-col {
+        font-weight: 500;
     }
 }
 </style>

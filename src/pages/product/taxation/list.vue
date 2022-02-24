@@ -5,19 +5,30 @@
                 class="jumbotron-h"
                 :title="'Government Authorised HSN & GST Schedule'"
                 :desc="'HSN list'"
-                btnLabel="Add HSN"
+                btnLabel="Add Tax Rate"
                 @btnClick="redirectEdit"
             ></jumbotron>
             <div class="search-filter">
                 <div class="search-box">
-                    <nitrozen-input
-                        :showSearchIcon="true"
-                        class="search"
-                        type="search"
-                        :placeholder="'Search by HSN or Description'"
-                        v-model="searchText"
-                        @input="searchHSN"
-                    ></nitrozen-input>
+                    <div>
+                        <nitrozen-input
+                            :showSearchIcon="true"
+                            class="search"
+                            type="search"
+                            :placeholder="'Search by HSN, Reporting HSN'"
+                            v-model="searchText"
+                            @input="searchHSN"
+                        ></nitrozen-input>
+                    </div>
+                    <div>
+                        <nitrozen-dropdown
+                            class="filter-dropdown"
+                            placeholder="Choose Type"
+                            v-model="selectedType"
+                            :items="typeList"
+                            @change=""
+                        ></nitrozen-dropdown>
+                    </div>
                 </div>
                 <nitrozen-button
                     theme="secondary"
@@ -43,7 +54,7 @@
                 </div>
                 <div v-else>
                     <adm-no-content
-                        :helperText="'no hsn code available '"
+                        :helperText="''"
                     ></adm-no-content>
                 </div>
                 <div class="pagination" v-if="hsnCodes.length > 0">
@@ -132,14 +143,19 @@ export default {
             isInitialLoad: true,
             pagination: { ...PAGINATION },
             searchText: '',
+            selectedType:'',
+            typeList:[
+                { value: 'goods', text: 'Goods' },
+                { value: 'services', text: 'Services' },
+            ],
             hsnCodes: [],
-            hsnCodeTest: [],
             column: [
                 'Reporting HSN',
                 'HSN',
                 'Type',
                 'Effective From',
-                'Rate',
+                'Slab #1',
+                'Slab #2',
                 'Country',
                 'Action'
             ]
@@ -168,6 +184,7 @@ export default {
                         this.pageLoading = false;
                         this.pagination.total = data.page.item_total;
                         this.hsnCodes = data.items;
+                        console.log(this.hsnCodes)
                         return resolve();
                     })
                     .catch((err) => {
@@ -212,7 +229,6 @@ export default {
                 }
             });
         },
-        description() {},
         searchHSN: debounce(function() {
             if (this.searchText.length === 0) {
                 this.clearSearchFilter();
@@ -249,17 +265,26 @@ export default {
 .search-filter {
     display: flex;
     justify-content: space-between;
+    width:100%;
     margin-top: 24px;
     align-items: center;
 
     .search-box {
-        min-width: 700px;
+        display: flex;
+        justify-content: space-between;
+        width:80%;
         background: #f8f8f8;
         padding: 12px;
         border-radius: 4px;
 
         @media @mobile {
             min-width: 100%;
+        }
+        .search {
+            width:500px;
+        }
+        .filter-dropdown{
+            width:200px;
         }
     }
 }
