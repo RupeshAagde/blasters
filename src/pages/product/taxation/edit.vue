@@ -105,14 +105,14 @@
         <div class="rate-container">
             <div class="row">
                 <div class="cl-Mako bold-md form-head">
-                    Tax/GST Rate Configuration
+                    GST Rate Configuration
                 </div>
                 <nitrozen-button
                     v-strokeBtn
                     theme="secondary"
                     class="ml-sm"
                     @click="$openAddTaxrateDialog"
-                    >Add Rate/GST
+                    >Add GST
                 </nitrozen-button>
             </div>
             <div v-if="!!Object.keys(datedTax).length">
@@ -201,7 +201,7 @@
 
         <add-taxrate-dailog
             ref="addTaxrateDialog"
-            :taxes="taxes.value"
+            :taxes="datedTax"
             @close="$closeAddTaxRateDialog"
         >
         </add-taxrate-dailog>
@@ -437,13 +437,12 @@ export default {
             }
         },
         getHSN() {
-            const params = {
-                reporting_hsn: this.reporting_hsn
-            };
+            const reporting_hsn = this.reporting_hsn
+
             return new Promise((resolve, reject) => {
-                AdminService.getAllHsnCodes(params)
+                AdminService.getSingleHsnCode(reporting_hsn)
                     .then(({ data }) => {
-                        this.soloHsn = data.items[0];
+                        this.soloHsn = data;
                         this.hsn_code.value = this.soloHsn.hsn_code;
                         this.type.value = this.soloHsn.type;
                         this.country_code.value = this.soloHsn.country_code;
@@ -468,8 +467,7 @@ export default {
             let datedTax = {};
             let activeDate = 0;
             this.datedTax = {};
-            // console.log('taxes list before runing getDatedTax');
-            // console.log(this.taxes.value);
+
 
             for (let item of this.taxes.value) {
                 let date_key = item.effective_date;
@@ -480,7 +478,6 @@ export default {
                     datedTax[date_key] = [{ ...item }];
                 }
             }
-            // console.log(datedTax);
             //to get latest active date
             let currentDate = new Date().toISOString().split('T')[0];
             currentDate = Number(currentDate.replaceAll('-', ''));
@@ -495,10 +492,8 @@ export default {
             activeDate = allDates.sort().reverse()[0];
             //Setting state for each tax rate
             for (let key in datedTax) {
-                // console.log(key);
                 let tempDate = String(key).split('T')[0];
                 tempDate = Number(tempDate.replaceAll('-', ''));
-                // console.log(tempDate, activeDate);
                 if (tempDate == activeDate) {
                     for (let tax of datedTax[key]) {
                         tax['state'] = 'Active';
@@ -553,7 +548,6 @@ export default {
             }
             if (this.taxes.value.length > 0) {
                 postData.taxes = this.taxes.value;
-                console.log('Taxes which we are sending', postData.taxes);
             } else {
                 this.taxes.showerror = true;
             }
@@ -663,13 +657,11 @@ export default {
             this.selectedRate = [];
         },
         $openAddTaxrateDialog() {
-            this.clearUnsavedRates();
             this.$refs.addTaxrateDialog.open();
         },
         $closeAddTaxRateDialog(action, object) {
             if (action === 'Saved') {
-                this.newRates = [...object];
-                this.taxes.value = [...this.newRates, ...this.taxes.value];
+                this.taxes.value = [...object, ...this.taxes.value];
             } else if (action === 'Cancelled') {
             }
             this.getDatedTax();
@@ -683,14 +675,12 @@ export default {
                 delete item.state;
                 this.selectedRate.push({ ...item });
             }
-            console.log('while opening selectedRate', this.selectedRate);
-            this.clearUnsavedRates();
             this.$refs.editTaxrateDialog.open();
         },
         $closeEditTaxrateDialog(action, object) {
             if (!!object) {
                 for (let i of this.taxes.value) {
-                    let tempdate = this.selectedRate[1].effective_date;
+                    let tempdate = this.selectedRate[0].effective_date;
                     if (
                         tempdate.split('T')[0] == i.effective_date.split('T')[0]
                     ) {
@@ -698,15 +688,10 @@ export default {
                         this.taxes.value.splice(index, 1);
                     }
                 }
-                console.log('after remove final array');
-                for (let i of this.taxes.value) {
-                    console.log(i.effective_date, i.threshold);
-                }
                 this.taxes.value = [...this.taxes.value];
                 for (let i = object.length - 1; i >= 0; i--) {
                     this.taxes.value.unshift({ ...object[i] });
                 }
-                console.log('New array', this.taxes.value);
             } else {
                 this.clearSelectedRate();
             }
@@ -762,32 +747,7 @@ export default {
     margin: 24px 24px 24px 24px !important;
     padding: 24px 24px 4px 24px;
     font-family: Inter;
-    // .tax-list-body {
-    //     .tax-list-div {
-    //         width: 100%;
-    //         box-sizing: border-box;
-    //         border: 1px solid @Iron;
-    //         border-radius: 4px;
-    //         background-color: @White;
-    //         padding: 12px 12px 12px 12px;
-    //         margin-bottom: 10px;
-    //         .tax-list-item {
-    //             display: flex;
-    //             justify-content: space-between;
-    //             align-items: center;
-    //             // .editButton {
-    //             //     border: 1px solid #2e31be;
-    //             //     border-radius: 4px;
-    //             //     background-color: white;
-    //             // }
-    //         }
-    //         .tax-list-name {
-    //             color: @Mako;
-    //             font-size: 14px;
-    //             margin-bottom: 12px;
-    //         }
-    //     }
-    // }
+
     .datedtax-div {
         box-sizing: border-box;
         border: 1px solid @Iron;

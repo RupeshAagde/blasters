@@ -1,5 +1,5 @@
 <template>
-    <nitrozen-dialog ref="dialog" title="Edit Tax Rate/GST">
+    <nitrozen-dialog ref="dialog" title="Edit GST">
         <template slot="body">
             <div>
                 <div
@@ -67,7 +67,8 @@
                                 label="Tax Rate (In percentage)"
                                 required
                                 placeholder="Choose Rate"
-                                :items="predefinedRateList"
+                                :items="rateList1"
+                                @change="getRateList2(editableRate[0].rate)"
                                 v-model="editableRate[0].rate"
                             ></nitrozen-dropdown>
                             <nitrozen-error v-if="slabOneErr.rate.showerror">
@@ -148,7 +149,7 @@
                                 label="Tax Rate (In percentage)"
                                 required
                                 placeholder="Choose Rate"
-                                :items="predefinedRateList"
+                                :items="rateList2"
                                 v-model="editableRate[1].rate"
                             ></nitrozen-dropdown>
                             <nitrozen-error v-if="slabTwoErr.rate.showerror">
@@ -164,7 +165,7 @@
                         class="ml-sm"
                         @click.stop="addRate()"
                     >
-                        + add rate
+                        + Add Slab
                     </NitrozenButton>
                 </div>
             </div>
@@ -326,34 +327,23 @@ export default {
                 showerror: false,
                 errortext: ''
             },
-            editedRate: {},
-            preSavedTax: [],
-
-            newRates: [
-                {
-                    cess: {
-                        value: 0,
-                        showerror: false,
-                        errortext: ''
-                    },
-                    effective_date: {
-                        value: '',
-                        showerror: false,
-                        errortext: 'Effective date is mandatory'
-                    },
-                    rate: {
-                        value: 0,
-                        showerror: false,
-                        errortext: 'Rate is required'
-                    },
-                    threshold: {
-                        value: 0,
-                        showerror: false,
-                        errortext: 'threshold is required'
-                    }
-                }
-            ],
             // writing new code here
+            rateList1: [
+                { text: '3%', value: 3 },
+                { text: '5%', value: 5 },
+                { text: '10%', value: 10 },
+                { text: '12%', value: 12 },
+                { text: '18%', value: 18 },
+                { text: '28%', value: 28 }
+            ],
+            rateList2: [
+                { text: '3%', value: 3 },
+                { text: '5%', value: 5 },
+                { text: '10%', value: 10 },
+                { text: '12%', value: 12 },
+                { text: '18%', value: 18 },
+                { text: '28%', value: 28 }
+            ],
             datedTax: {},
             editableRate: [],
             slabOneErr: {
@@ -440,6 +430,7 @@ export default {
             handler(newVal, oldVal) {
                 this.datedTax = { ...newVal };
             }
+
         },
         selectedRate: {
             immediate: true,
@@ -457,24 +448,6 @@ export default {
                 height: '80%'
             });
         },
-
-        // close(action) {
-        //     if (action === 'Saved') {
-        //         if (this.validateEditedRate()) {
-        //             let objectData = this.editedRate;
-        //             this.clearForm();
-        //             this.$refs['dialog'].close();
-        //             this.$emit('close', action, objectData);
-        //         } else
-        //             this.$snackbar.global.showError(
-        //                 `Fill in the required fields`
-        //             );
-        //     } else {
-        //         this.clearForm();
-        //         this.$refs['dialog'].close();
-        //         this.$emit('close', action);
-        //     }
-        // },
         close(action) {
             if (action === 'Saved') {
                 let isValid = this.validateBothSlab();
@@ -504,13 +477,24 @@ export default {
                     threshold: 0
                 };
                 this.editableRate.push(emptyRate);
-                console.log(this.editableRate);
             } else {
             }
         },
         removeRate() {
             this.editableRate.splice(1, 1);
             this.$snackbar.global.showSuccess(`Rate removed`);
+        },
+        getRateList2(data) {
+            let tempList = [
+                { text: '3%', value: 3 },
+                { text: '5%', value: 5 },
+                { text: '10%', value: 10 },
+                { text: '12%', value: 12 },
+                { text: '18%', value: 18 },
+                { text: '28%', value: 28 }
+            ];
+
+            this.rateList2 = tempList.filter((rate) => rate.value > data);
         },
         checkFirstSlab(data) {
             if (this.checkSlab1Required(data)) {
@@ -525,7 +509,6 @@ export default {
                 );
                 newdate = new Date(newdate).toISOString();
                 let selectedDate = newdate.split('T')[0];
-                console.log(newdate);
 
                 if (selectedDate in date_dict && selectedDate != initialdate) {
                     //got the tax array for selected date
@@ -551,11 +534,11 @@ export default {
                 this.slabOneErr.threshold.showerror = false;
             } else {
                 this.slabOneErr.threshold.showerror = true;
-                this.slabOneErr[i].threshold.errortext =
+                this.slabOneErr.threshold.errortext =
                     'threshold can not be blank';
                 isValid = false;
             }
-            if (data.rate >= 0) {
+            if (data.rate > 0) {
                 this.slabOneErr.rate.showerror = false;
             } else {
                 this.slabOneErr.rate.showerror = true;
@@ -592,7 +575,7 @@ export default {
                     'threshold can not be lesser than first threshold';
                 isValid = false;
             }
-            if (slab2.rate >= slab1.rate) {
+            if (slab2.rate >slab1.rate) {
                 this.slabTwoErr.rate.showerror = false;
             } else {
                 this.slabTwoErr.rate.showerror = true;
@@ -621,12 +604,9 @@ export default {
             return isValid;
         },
         validateBothSlab() {
-            console.log(this.editableRate);
-
             let isValid1 = this.checkSlab1Required(this.editableRate[0]);
             let isValid2 = true;
             if (this.editableRate.length > 1) {
-                console.log('line714');
                 isValid2 = this.checkSlab2Required(
                     this.editableRate[1],
                     this.editableRate[0]
@@ -658,9 +638,11 @@ export default {
                             'Select another date, two GST rate for selected dates already exist';
                         return false;
                     } else if (rateCount == 1) {
-                        let isValid = true
+                        let isValid = true;
                         //checking if new slab is greater than previous, compare to old slab
-                        if (this.editableRate[0].threshold > rates[0].threshold) {
+                        if (
+                            this.editableRate[0].threshold > rates[0].threshold
+                        ) {
                             this.slabOneErr.threshold.showerror = false;
                         } else {
                             this.slabOneErr.threshold.showerror = true;

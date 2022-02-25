@@ -25,8 +25,14 @@
                             class="filter-dropdown"
                             placeholder="Choose Type"
                             v-model="selectedType"
+                            searchable="true"
                             :items="typeList"
-                            @change=""
+                            @change="
+                                getHSNCodes(),
+                                    setRouteQuery({
+                                        type: selectedType
+                                    })
+                            "
                         ></nitrozen-dropdown>
                     </div>
                 </div>
@@ -53,9 +59,7 @@
                     </list-element>
                 </div>
                 <div v-else>
-                    <adm-no-content
-                        :helperText="''"
-                    ></adm-no-content>
+                    <adm-no-content :helperText="''"></adm-no-content>
                 </div>
                 <div class="pagination" v-if="hsnCodes.length > 0">
                     <nitrozen-pagination
@@ -143,10 +147,10 @@ export default {
             isInitialLoad: true,
             pagination: { ...PAGINATION },
             searchText: '',
-            selectedType:'',
-            typeList:[
+            selectedType: '',
+            typeList: [
                 { value: 'goods', text: 'Goods' },
-                { value: 'services', text: 'Services' },
+                { value: 'services', text: 'Services' }
             ],
             hsnCodes: [],
             column: [
@@ -184,7 +188,6 @@ export default {
                         this.pageLoading = false;
                         this.pagination.total = data.page.item_total;
                         this.hsnCodes = data.items;
-                        console.log(this.hsnCodes)
                         return resolve();
                     })
                     .catch((err) => {
@@ -197,7 +200,10 @@ export default {
         },
         clearSearchFilter() {
             this.searchText = '';
+            this.selectedType='';
             this.setRouteQuery({ search: undefined });
+            this.setRouteQuery({ type: undefined });
+
         },
         redirectEdit() {
             // LocalStorageService.addOrUpdateItem('uid',code)
@@ -215,7 +221,7 @@ export default {
             this.getHSNCodes();
         },
         setRouteQuery(query) {
-            if (query.search) {
+            if (query.search || query.type) {
                 // clear pagination if search or filter applied
                 this.pagination = { ...PAGINATION };
                 query.pageId = undefined;
@@ -228,6 +234,7 @@ export default {
                     ...query
                 }
             });
+            console.log(this.$router);
         },
         searchHSN: debounce(function() {
             if (this.searchText.length === 0) {
@@ -265,14 +272,14 @@ export default {
 .search-filter {
     display: flex;
     justify-content: space-between;
-    width:100%;
+    width: 100%;
     margin-top: 24px;
     align-items: center;
 
     .search-box {
         display: flex;
         justify-content: space-between;
-        width:80%;
+        width: 80%;
         background: #f8f8f8;
         padding: 12px;
         border-radius: 4px;
@@ -281,10 +288,10 @@ export default {
             min-width: 100%;
         }
         .search {
-            width:500px;
+            width: 500px;
         }
-        .filter-dropdown{
-            width:200px;
+        .filter-dropdown {
+            width: 200px;
         }
     }
 }

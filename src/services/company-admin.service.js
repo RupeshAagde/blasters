@@ -340,6 +340,15 @@ const CompanyService = {
             axiosOption
         );
     },
+    getSingleHsnCode(id) {
+        let axiosOption = Object.assign(
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(
+            URLS.FETCH_SINGLEHSN(id),
+            axiosOption
+        );
+    },
 
     createHsnCode(data) {
         let axiosOption = Object.assign({

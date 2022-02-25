@@ -7,24 +7,30 @@
                 </td>
             </tr>
             <template>
-                <tr v-for="(tab, index) in tableData" :key="'tab-' + index">
+                <tr v-for="(tab, index) in hsnWithActivetaxes" :key="index">
                     <td class="first-col">{{ tab.reporting_hsn }}</td>
                     <td>{{ tab.hsn_code }}</td>
                     <td>{{ formatString(tab.type) }}</td>
 
                     <td>
-                        {{ format_date(tab.taxes[0].effective_date) }}
-                    </td>
-                    <td>
                         {{
-                            `>\u20B9${tab.taxes[0].threshold}  @${tab.taxes[0].rate}%`
+                            tab.taxes.length
+                                ? format_date(tab.taxes[0].effective_date)
+                                : `No effective date`
                         }}
                     </td>
                     <td>
                         {{
-                            tab.taxes[1]
+                            tab.taxes.length
+                                ? `>\u20B9${tab.taxes[0].threshold}  @${tab.taxes[0].rate}%`
+                                : `No active rate available`
+                        }}
+                    </td>
+                    <td>
+                        {{
+                            tab.taxes.length>1
                                 ? `>\u20B9${tab.taxes[1].threshold} @${tab.taxes[1].rate}%`
-                                : '__'
+                                : '___'
                         }}
                     </td>
 
@@ -87,7 +93,7 @@ export default {
         }
     },
     mounted() {
-        // this.checkActiveTax();
+        this.hsnWithActivetaxes = this.getHsnWithActiveTax();
     },
     data() {
         return {
@@ -114,12 +120,52 @@ export default {
                 path: path.join(this.$route.path, redirectPath)
             });
         },
-        // checkActiveTax() {
-        //     let today = new Date().toISOString().split('T')[0];
-        //     console.log(today);
-        //     for (let hsn of this.tableData) {
-        //     }
-        // }
+        getHsnWithActiveTax() {
+            let currentDate = new Date().setHours(23);
+            currentDate = new Date(currentDate).toISOString();
+            currentDate = this.dateToComparableNumber(currentDate);
+            let hsnCodes = [];
+
+            for (let data of this.tableData) {
+                let activeDate = 0;
+                let hsn = { ...data };
+                let taxes = [];
+                let hsnWithActivetax = {};
+
+                let taxdict = {};
+                let dateArr = [];
+
+                for (let tax of data.taxes) {
+                    let tempdate = this.dateToComparableNumber(
+                        tax.effective_date
+                    );
+                    dateArr.push(tempdate);
+                }
+                let dateArrSet = new Set(dateArr);
+                dateArr = [...dateArrSet];
+                dateArr = dateArr.filter((item) => item <= currentDate);
+                activeDate = dateArr.sort().reverse()[0];
+                for (let tax of data.taxes) {
+                    let tax_date = this.dateToComparableNumber(
+                        tax.effective_date
+                    );
+                    if (tax_date == activeDate) {
+                        taxes.push(tax);
+                    }
+                }
+                taxes.sort(function(a, b) {
+                    return a.thresohld - b.threshold;
+                });
+                hsn.taxes = taxes;
+                hsnCodes.push(hsn);
+            }
+            return hsnCodes;
+        },
+        dateToComparableNumber(data) {
+            let temp = data.split('T')[0];
+            temp = Number(temp.replaceAll('-', ''));
+            return temp;
+        }
     }
 };
 </script>
@@ -163,10 +209,10 @@ export default {
         text-align: left;
         padding: 16px 16px;
         .edit-btn {
-            border:1px solid @RoyalBlue;
-            border-radius:5px;
-            width:30px;
-            height:30px;
+            border: 1px solid @RoyalBlue;
+            border-radius: 5px;
+            width: 25px;
+            height: 25px;
             color: @RoyalBlue;
             font-size: 14px;
             font-weight: 500;
