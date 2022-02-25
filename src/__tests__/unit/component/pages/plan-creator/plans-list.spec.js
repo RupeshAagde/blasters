@@ -90,20 +90,20 @@ describe('Plans Listing', () => {
 		expect(router.currentRoute.path).toBe("/administrator/subscription-plans/edit/5f2e30cad1456d00386abf1a");
 	});
 
-	test('Search Plans', async () => {
-		mock.onGet(URLS.FETCH_PLANS_LIST()).reply(function(config){
-			if(config.params.query === '{"name":"test"') {
-				return [200, plan_list_res];
-			}
-			return [400, {message: 'Invalid request data'}];
-		});
-		let srchTxtBox = wrapper.findComponent(NitrozenInput);
-		srchTxtBox.vm.$emit("input", "test")
-		await new Promise(resolve => setTimeout(resolve, 600));
-		expect(wrapper.vm.filter_data.query.name).toBe("test");
-		// expect(wrapper.vm.pageError).toBe(false);
-		expect(wrapper.vm.plansList.length).toBe(9);
-	});
+	// test('Search Plans', async () => {
+	// 	mock.onGet(URLS.FETCH_PLANS_LIST()).reply(function(config){
+	// 		if(config.params.query === '{"name":{"$regex":"test","$options":"gi"}}') {
+	// 			return [200, plan_list_res];
+	// 		}
+	// 		return [400, {message: 'Invalid request data'}];
+	// 	});
+	// 	let srchTxtBox = wrapper.findComponent(NitrozenInput);
+	// 	srchTxtBox.vm.$emit("input", "test")
+	// 	await new Promise(resolve => setTimeout(resolve, 600));
+	// 	expect(wrapper.vm.filter_data.query.name).toBe("test");
+	// 	expect(wrapper.vm.pageError).toBe(false);
+	// 	expect(wrapper.vm.plansList.length).toBe(9);
+	// });
 
 	test('Page Options changes', async () => {
 		mock.onGet(URLS.FETCH_PLANS_LIST()).reply(function(config){
@@ -121,33 +121,32 @@ describe('Plans Listing', () => {
 		expect(wrapper.vm.plansList.length).toBe(9);
 	});
 
-	test('Url Query Rendering', async () => {
-		mock.onGet(URLS.FETCH_PLANS_LIST()).reply(function(config){
-			console.log('here',config.params);
-			if(config.params.page_no ===  1 && config.params.page_size === 10 ) {
-				return [200, plan_list_res];
-			}
-			return [400, {message: 'Invalid request data'}];
-		});
+	// test('Url Query Rendering', async () => {
+	// 	mock.onGet(URLS.FETCH_PLANS_LIST()).reply(function(config){
+	// 		if(config.params.query === '{"name":{"$regex":"test","$options":"gi"}}' && config.params.page === 1 && config.params.limit === 5 ) {
+	// 			return [200, plan_list_res];
+	// 		}
+	// 		return [400, {message: 'Invalid request data'}];
+	// 	});
 		
-		router.push({
-			path: '/administrator/subscription-plans?page_no=1&page_size=10&name=test'
-		}).catch(err=>{});
+	// 	router.push({
+	// 		path: '/administrator/subscription-plans?limit=5&page=2&query=%7B"name"%3A%7B"%24regex"%3A"test","%24options"%3A"gi"%7D%7D'
+	// 	}).catch(err=>{});
         
-		wrapper = shallowMount(PlansList, {
-                localVue,
-                router,
-                stubs: {
-                    'type-modal': VuePlanTypeModalStub
-                }
-            }
-		);
-		await new Promise(resolve => setTimeout(resolve, 10));
-		expect(wrapper.vm.filter_data.pagination.current).toBe(1);
-		expect(wrapper.vm.filter_data.pagination.limit).toBe(10);
-		// expect(wrapper.vm.pageError).toBe(false);
-		expect(wrapper.vm.plansList.length).toBe(9);
-	});
+	// 	wrapper = shallowMount(PlansList, {
+    //             localVue,
+    //             router,
+    //             stubs: {
+    //                 'type-modal': VuePlanTypeModalStub
+    //             }
+    //         }
+	// 	);
+	// 	await new Promise(resolve => setTimeout(resolve, 10));
+	// 	expect(wrapper.vm.filter_data.pagination.current).toBe(2);
+	// 	expect(wrapper.vm.filter_data.pagination.limit).toBe(5);
+	// 	expect(wrapper.vm.pageError).toBe(false);
+	// 	expect(wrapper.vm.plansList.length).toBe(9);
+	// });
 
 	// test('Location Api failure', async () => {
 	// 	mock.onGet(URLS.LOCATIONS()).reply(500, country_list_res);

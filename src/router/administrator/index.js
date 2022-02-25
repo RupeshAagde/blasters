@@ -6,6 +6,9 @@ import CbsApplicationDetailsVue from './../../pages/company-admin/cbs-applicatio
 import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
 import BillingVue from './../../pages/company-admin/billing.vue';
 import InvoiceListingMain from './../../pages/company-admin/invoice-listing-main.vue';
+import CouponListingMain from './../../pages/company-admin/coupon-listing-main.vue';
+import CouponCreateUpdate from './../../pages/company-admin/coupon-create-update.vue';
+import ReportListingMain from './../../pages/communication/reports.vue';
 import UserManagementVue from './../../pages/super-user/user-access.vue';
 import AddSuperUserVue from './../../pages/super-user/add-user.vue';
 import Tickets from './../../pages/tickets/index.vue';
@@ -80,6 +83,58 @@ export default [
                 name: 'invoices',
                 path: 'subscription/invoices',
                 component: InvoiceListingMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'coupons',
+                path: 'subscription/coupons',
+                component: CouponListingMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'couponType',
+                path: 'subscription/coupons/create/:couponType',
+                component: CouponCreateUpdate,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'couponType',
+                path: 'subscription/coupons/edit/:couponType/:couponId',
+                component: CouponCreateUpdate,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'reports',
+                path: 'communication/reports',
+                component: ReportListingMain,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(
                         to,

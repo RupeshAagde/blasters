@@ -1,0 +1,229 @@
+{
+    "campaign": {
+        "data": {
+            "items": [
+                {
+                    "recipient_headers": {
+                        "email": "email"
+                    },
+                    "email": {
+                        "template": {
+                            "key": "_id",
+                            "value": "613f6cc36c46653962408608"
+                        },
+                        "provider": {
+                            "_id": "610d07c07b4750a8895c6cec",
+                            "from_name": "Fynd",
+                            "from_email": "hey@gofynd.com"
+                        }
+                    },
+                    "description": "",
+                    "tags": [],
+                    "is_active": true,
+                    "_id": "613f6cde6c466525e4408609",
+                    "datasource": "613f6c566c4665c292408607",
+                    "type": "email",
+                    "name": "test email campaign",
+                    "application": "000000000000000000000004",
+                    "created_at": "2021-09-13T15:23:10.390Z",
+                    "updated_at": "2021-09-13T15:23:10.390Z",
+                    "slug": "test-email-campaign-4dYyM66KB",
+                    "__v": 0
+                },
+                {
+                    "recipient_headers": {
+                        "email": "email"
+                    },
+                    "email": {
+                        "template": {
+                            "key": "_id",
+                            "value": "615ae0760c9df8a82795540e"
+                        },
+                        "provider": {
+                            "_id": "610d07c07b4750a8895c6cec",
+                            "from_name": "Fynd",
+                            "from_email": "hey@gofynd.com"
+                        }
+                    },
+                    "description": "This is for testing",
+                    "tags": [],
+                    "is_active": true,
+                    "_id": "6144799222cdbcf7499e871e",
+                    "datasource": "614473de22cdbc85369e8719",
+                    "type": "email",
+                    "name": "Email Campaign Test",
+                    "application": "000000000000000000000001",
+                    "created_at": "2021-09-17T11:18:42.790Z",
+                    "updated_at": "2021-10-04T11:08:49.791Z",
+                    "slug": "Email-Campaign-Test-fbhHErk5S",
+                    "__v": 0,
+                    "_schedule": {
+                        "published": true,
+                        "next_schedule": [],
+                        "start": "2021-09-28T10:05:15.946Z",
+                        "end": "2021-09-28T10:06:15.946Z"
+                    },
+                    "cron_id": "6152e8ef142cc06ff1b9c599",
+                    "next_run": "2021-09-28T10:05:15.946Z"
+                }
+            ],
+            "page": {
+                "type": "number",
+                "current": 1,
+                "size": 10,
+                "item_total": 5,
+                "has_next": false
+            }
+        }
+    },
+    "LOGS": {
+        "items": [
+            {
+                "email": {
+                    "to": "sumitdafda@gofynd.com",
+                    "template": "verify-otp-event-default",
+                    "provider": "610d07c07b4750ba8c5c6cf7"
+                },
+                "pushnotification": {
+                    "pushtokens": []
+                },
+                "meta": {
+                    "type": "event",
+                    "identifier": "skywarp.794b5520-7ddc-11ec-822d-ddf4b8b737e7"
+                },
+                "_id": "61eff0939eae4557a512638f",
+                "service": "email-consumer",
+                "step": "MSG_SENT",
+                "status": "success",
+                "pod": "fplt-pointblank-main-srvr-dply-647bdb4497-cwtjz",
+                "expire_at": "2022-02-24T12:44:03.492Z",
+                "created_at": "2022-01-25T12:44:03.493Z"
+            },
+            {
+                "email": {
+                    "to": "aayushvjain@gofynd.com",
+                    "template": "extension-review-submit-event",
+                    "provider": "610d07c07b4750a8895c6cec"
+                },
+                "pushnotification": {
+                    "pushtokens": []
+                },
+                "meta": {
+                    "type": "event",
+                    "identifier": "mixmaster.d1111995-18c9-4a7c-a17b-0e4f1d82672c"
+                },
+                "_id": "61efe9149eae45177412638e",
+                "service": "email-consumer",
+                "step": "MSG_SENT",
+                "status": "success",
+                "pod": "fplt-pointblank-emaillow-cnsmr-dply-7b44cd9d9c-rbmx5",
+                "expire_at": "2022-02-24T12:12:04.190Z",
+                "created_at": "2022-01-25T12:12:04.191Z"
+            }
+        ],
+        "page": {
+            "type": "cursor",
+            "next_id": "61efc9989eae457974126386",
+            "has_previous": true,
+            "has_next": true
+        }
+    },
+    "Applications": {
+        "items": [
+            {
+                "website": {
+                    "enabled": true,
+                    "basepath": "/"
+                },
+                "cors": {
+                    "domains": []
+                },
+                "auth": {
+                    "enabled": false
+                },
+                "description": "Fresh Fashion. Straight from brand stores.",
+                "channel_type": "fynd",
+                "cache_ttl": -1,
+                "internal": true,
+                "is_active": true,
+                "mode": "live",
+                "_id": "000000000000000000000001",
+                "name": "Fynd",
+                "meta": [
+                    {
+                        "name": "fynd",
+                        "value": "true"
+                    }
+                ],
+                "owner": "d6da4dcc8fb0b8f20df44fa9",
+                "company_id": 1,
+                "token": "ZRoeLTbj8",
+                "tokens": [
+                    {
+                        "token": "ZRoeLTbj8",
+                        "created_at": "2021-10-06T05:53:16.330Z"
+                    },
+                    {
+                        "created_by": "3b809a0c024c487c4e438ee5",
+                        "token": "snuleNKYm",
+                        "created_at": "2022-01-04T04:16:07.543Z"
+                    }
+                ],
+                "domains": [
+                    {
+                        "verified": true,
+                        "is_primary": true,
+                        "is_shortlink": true,
+                        "_id": "610d45e1ebe60c0e2cee5ffb",
+                        "name": "fynd.hostx0.de"
+                    },
+                    {
+                        "verified": true,
+                        "is_primary": false,
+                        "is_shortlink": false,
+                        "_id": "615ac560f0e277a17c18b2dd",
+                        "name": "gaurav.hostx0.de"
+                    },
+                    {
+                        "verified": true,
+                        "is_primary": false,
+                        "is_shortlink": false,
+                        "_id": "619632596c726e31f9e31bac",
+                        "name": "rahul.hostx0.de"
+                    }
+                ],
+                "redirections": [],
+                "created_at": "2021-10-06T05:53:16.330Z",
+                "modified_at": "2022-01-04T04:16:07.543Z",
+                "__v": 209,
+                "banner": {
+                    "secure_url": "https://hdn-1.addsale.com/x0/company/1/applications/000000000000000000000001/application/pictures/landscape-banner/original/3bbMp67Mz-Xe2epTuAe-bzedj5cuyulpviyvarwm.png"
+                },
+                "favicon": {
+                    "secure_url": "https://hdn-1.addsale.com/x0/company/1/applications/000000000000000000000001/application/pictures/favicon/original/Yx1hrzu2B-v6YLFKFeJ-Fynd.jpeg"
+                },
+                "logo": {
+                    "secure_url": "https://hdn-1.addsale.com/x0/company/1/applications/000000000000000000000001/application/pictures/free-logo/original/RAoXPgPSN-v6YLFKFeJ-Fynd.jpeg"
+                },
+                "mobile_logo": {
+                    "secure_url": "https://hdn-1.addsale.com/x0/company/1/applications/000000000000000000000001/application/pictures/free-logo/original/9LXFD9xGm-v6YLFKFeJ-Fynd.jpeg"
+                },
+                "domain": {
+                    "verified": true,
+                    "is_primary": true,
+                    "is_shortlink": true,
+                    "_id": "610d45e1ebe60c0e2cee5ffb",
+                    "name": "fynd.hostx0.de"
+                },
+                "id": "000000000000000000000001"
+            }
+        ],
+        "page": {
+            "type": "number",
+            "current": 1,
+            "size": 50,
+            "item_total": 172,
+            "has_next": true
+        }
+    }
+}

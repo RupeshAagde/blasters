@@ -1,0 +1,114 @@
+{
+    "application-data": {
+        "data": {
+            "website": {
+                "enabled": true,
+                "basepath": "/"
+            },
+            "cors": {
+                "domains": []
+            },
+            "auth": {
+                "enabled": true
+            },
+            "description": "",
+            "channel_type": "website-and-mobile-apps",
+            "cache_ttl": -1,
+            "internal": false,
+            "is_active": true,
+            "mode": "live",
+            "_id": "6110bfb0d4beb6b2c08f8a79",
+            "company_id": 1,
+            "name": "Spacejam",
+            "owner": "0d33ae6fe30ad5778d7b8b37",
+            "logo": {
+                "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+            },
+            "favicon": {
+                "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+            },
+            "banner": {
+                "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+            },
+            "domains": [
+                {
+                    "verified": true,
+                    "is_primary": true,
+                    "is_shortlink": true,
+                    "_id": "6110bfb0d4beb6a8068f8a7a",
+                    "name": "mridul-x0.hostx0.de"
+                },
+                {
+                    "verified": true,
+                    "is_primary": false,
+                    "is_shortlink": false,
+                    "_id": "615c244f29bcab1aefca734d",
+                    "name": "spacejam.hostx0.de"
+                }
+            ],
+            "token": "QWnHldtU7",
+            "tokens": [
+                {
+                    "token": "QWnHldtU7",
+                    "created_at": "2021-08-09T05:40:00.999Z"
+                },
+                {
+                    "created_by": "3b809a0c024c487c4e438ee5",
+                    "token": "2D8Wp5M3L",
+                    "created_at": "2022-01-04T04:26:24.778Z"
+                }
+            ],
+            "redirections": [],
+            "meta": [],
+            "created_at": "2021-08-09T05:40:01.000Z",
+            "modified_at": "2022-02-07T15:30:48.839Z",
+            "__v": 4,
+            "mobile_logo": {
+                "secure_url": ""
+            },
+            "domain": {
+                "verified": true,
+                "is_primary": true,
+                "is_shortlink": true,
+                "_id": "6110bfb0d4beb6a8068f8a7a",
+                "name": "mridul-x0.hostx0.de"
+            },
+            "id": "6110bfb0d4beb6b2c08f8a79"
+        },
+        "status": 200,
+        "statusText": "",
+        "headers": {
+            "content-type": "application/json; charset=utf-8"
+        },
+        "config": {
+            "url": "https://api.fyndx0.de/service/___/administrator/configuration/v1.0/application/6110bfb0d4beb6b2c08f8a79",
+            "method": "get",
+            "headers": {
+                "Accept": "application/json, text/plain, */*",
+                "x-currency-code": "INR",
+                "x-fp-date": "20220215T162240Z",
+                "x-fp-signature": "v1.1:6b4a8ac1981e434d73ede07e9c2164dd19bbee92cf150de6b8a1593ae35a2bd8"
+            },
+            "transformRequest": [
+                null
+            ],
+            "transformResponse": [
+                null
+            ],
+            "timeout": 0,
+            "withCredentials": true,
+            "xsrfCookieName": "XSRF-TOKEN",
+            "xsrfHeaderName": "X-XSRF-TOKEN",
+            "maxContentLength": -1,
+            "maxBodyLength": -1
+        },
+        "request": {
+            "headers": {
+                "Accept": "application/json, text/plain, */*",
+                "x-currency-code": "INR",
+                "x-fp-date": "20220215T162240Z",
+                "x-fp-signature": "v1.1:6b4a8ac1981e434d73ede07e9c2164dd19bbee92cf150de6b8a1593ae35a2bd8"
+            }
+        }
+    }
+}
