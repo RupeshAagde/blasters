@@ -37,7 +37,7 @@ describe('Product Taxation Edit', () => {
         expect(div.exists()).toBe(true);
         expect(wrapper.vm.$route.fullPath).toBe('/administrator/product/taxation/61152010-1/edit');
         expect(wrapper.vm.$route.params.uid).toBe('61152010-1')
-        expect(wrapper.vm.pageTitle()).toBe('Edit HSN Code 61152010')
+        expect(wrapper.vm.pageTitle()).toBe('Add Tax Rate')
 
     });
 

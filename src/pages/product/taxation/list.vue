@@ -27,12 +27,7 @@
                             v-model="selectedType"
                             searchable="true"
                             :items="typeList"
-                            @change="
-                                getHSNCodes(),
-                                    setRouteQuery({
-                                        type: selectedType
-                                    })
-                            "
+                            @change="applyFilter(selectedType)"
                         ></nitrozen-dropdown>
                     </div>
                 </div>
@@ -149,6 +144,7 @@ export default {
             searchText: '',
             selectedType: '',
             typeList: [
+                { value: '', text: 'All' },
                 { value: 'goods', text: 'Goods' },
                 { value: 'services', text: 'Services' }
             ],
@@ -181,6 +177,9 @@ export default {
             if (this.searchText) {
                 params.q = this.searchText;
             }
+            if (this.selectedType) {
+                params.type = this.selectedType;
+            }
             this.pageLoading = true;
             return new Promise((resolve, reject) => {
                 AdminService.getAllHsnCodes(params)
@@ -200,10 +199,7 @@ export default {
         },
         clearSearchFilter() {
             this.searchText = '';
-            this.selectedType='';
             this.setRouteQuery({ search: undefined });
-            this.setRouteQuery({ type: undefined });
-
         },
         redirectEdit() {
             // LocalStorageService.addOrUpdateItem('uid',code)
@@ -220,15 +216,22 @@ export default {
             this.setRouteQuery(pageQuery);
             this.getHSNCodes();
         },
+        applyFilter(type) {
+            if (type==''){
+                this.setRouteQuery({type:undefined});
+            } else {
+            this.setRouteQuery({type:type});
+            }
+            this.getHSNCodes();
+        },
         setRouteQuery(query) {
-            if (query.search || query.type) {
+            if (query.search) {
                 // clear pagination if search or filter applied
                 this.pagination = { ...PAGINATION };
                 query.pageId = undefined;
                 query.limit = PAGINATION.limit;
             }
             this.$router.push({
-                path: this.$route.path,
                 query: {
                     ...this.$route.query,
                     ...query
@@ -287,7 +290,7 @@ export default {
             min-width: 100%;
         }
         .search {
-            width: 500px;
+            width: 540px;
         }
         .filter-dropdown {
             width: 200px;

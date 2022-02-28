@@ -67,14 +67,14 @@
                         {{ type.errortext }}
                     </nitrozen-error>
                 </div>
-                <div class="input-box left-space-txb">
+                <div class="input-box left-space-txb" @click="setSearchable">
                     <nitrozen-dropdown
                         label="Country"
                         required
                         placeholder="Choose Country"
                         :items="filteredCountries"
                         v-model="country_code.value"
-                        searchable="true"
+                        :searchable="isSearchable"
                         @searchInputChange="$countrySearchInputChange"
                     ></nitrozen-dropdown>
                     <nitrozen-error v-if="country_code.showerror">
@@ -286,6 +286,7 @@ export default {
             countryCodeList: [],
             filteredCountries: [],
             countrySearchInputText: '',
+            isSearchable:false,
             pageLoading: false,
             inProgress: false,
             pageError: false,
@@ -423,6 +424,9 @@ export default {
                     );
                 })
                 .catch((err) => {});
+        },
+        setSearchable(){
+            this.isSearchable =true;
         },
         $countrySearchInputChange(e) {
             this.countrySearchInputText = e.text;
