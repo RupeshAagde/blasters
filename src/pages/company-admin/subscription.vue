@@ -637,6 +637,7 @@ export default {
                 if(this.currentPlan.plan_id===this.selectedForChange){
                     this.selectedForChange="";
                     this.planChangeComment="";
+                    this.$refs['add-coupon'].clearCoupon();
                     return this.$snackbar.global.showError(`You are already subsribed to ${this.currentPlan.plan_data.name}`,{duration: 2000});
                 }
                 this.activatePlan(this.selectedForChange);
@@ -816,6 +817,9 @@ export default {
             })
             .catch(err=>{
                 this.$snackbar.global.showError('Failed to change subscription',{duration: 2000});
+            })
+            .finally(()=>{
+            this.$refs['add-coupon'].clearCoupon();
             })
             
 
