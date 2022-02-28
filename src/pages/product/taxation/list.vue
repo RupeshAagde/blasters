@@ -234,7 +234,6 @@ export default {
                     ...query
                 }
             });
-            console.log(this.$router);
         },
         searchHSN: debounce(function() {
             if (this.searchText.length === 0) {

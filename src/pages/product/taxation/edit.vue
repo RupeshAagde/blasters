@@ -1,7 +1,7 @@
 <template>
     <div class="panel">
         <div class="header-position">
-            <adm-page-header :title="pageTitle" @backClick="redirectBack">
+            <adm-page-header :title="pageTitle()" @backClick="redirectBack">
                 <div class="button-box">
                     <nitrozen-button
                         class="pad-left"
@@ -181,7 +181,7 @@
                                 <ukt-inline-svg
                                     class="edit-btn"
                                     title="edit rate"
-                                    src="edit"
+                                    src="edit-blue"
                                     @click.stop.native="
                                         $openEditTaxrateDialog(tax)
                                     "
@@ -292,7 +292,6 @@ export default {
             editMode: false,
             soloHsn: {},
             reporting_hsn: '',
-            pageTitle: '',
             saveText: '',
             formSaved: false,
             hsn_code: {
@@ -349,11 +348,8 @@ export default {
         if (this.$route.params.reporting_hsn) {
             this.pageLoading = true;
             this.reporting_hsn = this.$route.params.reporting_hsn;
-            this.pageTitle = 'Edit Tax Rate';
             this.saveText = 'Tax Rate updated successfully';
             this.editMode = this.$route.params.reporting_hsn ? true : false;
-        } else {
-            this.pageTitle = 'Add HSN Code';
         }
         // console.log(this.$route.params)
 
@@ -388,6 +384,15 @@ export default {
         }
     },
     methods: {
+        pageTitle() {
+            // console.log(this.editMode);
+            if (!this.editMode) {
+                return 'Add Tax Rate';
+            
+            }else {
+                return `Edit Tax Rate`;
+            }
+        },
         isEmpty: isEmpty,
         init() {
             if (!this.editMode) {
@@ -782,12 +787,7 @@ export default {
                 display: inline !important;
             }
             .edit-btn {
-                border: 1px solid @RoyalBlue;
                 margin-right:5px;
-                border-radius: 5px;
-                width: 25px;
-                height: 25px;
-                color: @RoyalBlue;
                 font-size: 14px;
                 font-weight: 500;
                 cursor: pointer;

@@ -39,7 +39,7 @@
                         <inline-svg
                             class="edit-btn"
                             title="edit hsn"
-                            src="edit"
+                            src="edit-blue"
                             @click.stop.native="redirectEdit(tab.reporting_hsn)"
                         ></inline-svg>
                     </td>
@@ -209,11 +209,7 @@ export default {
         text-align: left;
         padding: 16px 16px;
         .edit-btn {
-            border: 1px solid @RoyalBlue;
-            border-radius: 5px;
-            width: 25px;
-            height: 25px;
-            color: @RoyalBlue;
+            float:left;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
