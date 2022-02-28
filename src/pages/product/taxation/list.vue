@@ -290,7 +290,7 @@ export default {
             min-width: 100%;
         }
         .search {
-            width: 540px;
+            width: 500px;
         }
         .filter-dropdown {
             width: 200px;
