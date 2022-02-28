@@ -84,8 +84,8 @@
                     <hr />
                     <ukt-inline-svg
                         class="edit-btn"
-                        title="delete rate"
-                        src="delete"
+                        title="delete gst"
+                        src="delete-red"
                         @click.stop.native="removeRate()"
                     ></ukt-inline-svg>
                     <div class="row">
@@ -234,6 +234,12 @@
         height: 200px;
         object-fit: contain;
     }
+}
+.edit-btn {
+    float: right;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
 }
 .rate-list-div {
     width: 100%;
@@ -430,7 +436,6 @@ export default {
             handler(newVal, oldVal) {
                 this.datedTax = { ...newVal };
             }
-
         },
         selectedRate: {
             immediate: true,
@@ -476,6 +481,7 @@ export default {
                     rate: 0,
                     threshold: 0
                 };
+                this.getRateList2(data.rate);
                 this.editableRate.push(emptyRate);
             } else {
             }
@@ -493,7 +499,6 @@ export default {
                 { text: '18%', value: 18 },
                 { text: '28%', value: 28 }
             ];
-
             this.rateList2 = tempList.filter((rate) => rate.value > data);
         },
         checkFirstSlab(data) {
@@ -530,8 +535,13 @@ export default {
         },
         checkSlab1Required(data) {
             let isValid = true;
-            if (data.threshold >= 0) {
+            if (data.threshold >= 0 && data.threshold <= 999999) {
                 this.slabOneErr.threshold.showerror = false;
+            } else if (data.threshold > 999999) {
+                this.slabOneErr.threshold.showerror = true;
+                this.slabOneErr.threshold.errortext =
+                    'threshold can not be greater than 999999';
+                isValid = false;
             } else {
                 this.slabOneErr.threshold.showerror = true;
                 this.slabOneErr.threshold.errortext =
@@ -567,15 +577,23 @@ export default {
         },
         checkSlab2Required(slab2, slab1) {
             let isValid = true;
-            if (slab2.threshold > slab1.threshold) {
+            if (
+                slab2.threshold > slab1.threshold &&
+                slab2.threshold <= 999999
+            ) {
                 this.slabTwoErr.threshold.showerror = false;
+            } else if (slab2.threshold > 999999) {
+                this.slabTwoErr.threshold.showerror = true;
+                this.slabTwoErr.threshold.errortext =
+                    'threshold can not be greater than 999999';
+                isValid = false;
             } else {
                 this.slabTwoErr.threshold.showerror = true;
                 this.slabTwoErr.threshold.errortext =
                     'threshold can not be lesser than first threshold';
                 isValid = false;
             }
-            if (slab2.rate >slab1.rate) {
+            if (slab2.rate > slab1.rate) {
                 this.slabTwoErr.rate.showerror = false;
             } else {
                 this.slabTwoErr.rate.showerror = true;

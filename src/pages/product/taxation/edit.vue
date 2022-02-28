@@ -191,11 +191,8 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <adm-no-content
-                    v-if="!taxes.value.length"
-                    :helperText="''"
-                ></adm-no-content>
+            <div v-if="!editMode && !taxes.value.length">
+                <adm-no-content :helperText="''"></adm-no-content>
             </div>
         </div>
 
@@ -286,8 +283,8 @@ export default {
             countryCodeList: [],
             filteredCountries: [],
             countrySearchInputText: '',
-            isSearchable:false,
-            pageLoading: false,
+            isSearchable: false,
+            pageLoading: true,
             inProgress: false,
             pageError: false,
             editMode: false,
@@ -351,6 +348,8 @@ export default {
             this.reporting_hsn = this.$route.params.reporting_hsn;
             this.saveText = 'Tax Rate updated successfully';
             this.editMode = this.$route.params.reporting_hsn ? true : false;
+        } else {
+            this.pageLoading = false;
         }
         // console.log(this.$route.params)
 
@@ -389,8 +388,7 @@ export default {
             // console.log(this.editMode);
             if (!this.editMode) {
                 return 'Add Tax Rate';
-            
-            }else {
+            } else {
                 return `Edit Tax Rate`;
             }
         },
@@ -425,8 +423,8 @@ export default {
                 })
                 .catch((err) => {});
         },
-        setSearchable(){
-            this.isSearchable =true;
+        setSearchable() {
+            this.isSearchable = true;
         },
         $countrySearchInputChange(e) {
             this.countrySearchInputText = e.text;
@@ -446,7 +444,7 @@ export default {
             }
         },
         getHSN() {
-            const reporting_hsn = this.reporting_hsn
+            const reporting_hsn = this.reporting_hsn;
 
             return new Promise((resolve, reject) => {
                 AdminService.getSingleHsnCode(reporting_hsn)
@@ -476,7 +474,6 @@ export default {
             let datedTax = {};
             let activeDate = 0;
             this.datedTax = {};
-
 
             for (let item of this.taxes.value) {
                 let date_key = item.effective_date;
@@ -508,6 +505,10 @@ export default {
                         tax['state'] = 'Active';
                     }
                 } else if (tempDate > activeDate) {
+                    for (let tax of datedTax[key]) {
+                        tax['state'] = 'Incoming';
+                    }
+                } else if (activeDate == undefined) {
                     for (let tax of datedTax[key]) {
                         tax['state'] = 'Incoming';
                     }
@@ -688,13 +689,16 @@ export default {
         },
         $closeEditTaxrateDialog(action, object) {
             if (!!object) {
-                for (let i of this.taxes.value) {
-                    let tempdate = this.selectedRate[0].effective_date;
-                    if (
-                        tempdate.split('T')[0] == i.effective_date.split('T')[0]
-                    ) {
-                        const index = this.taxes.value.indexOf(i);
-                        this.taxes.value.splice(index, 1);
+                for (let c = 0; c < this.selectedRate.length; c++) {
+                    for (let i of this.taxes.value) {
+                        let tempdate = this.selectedRate[0].effective_date;
+                        if (
+                            tempdate.split('T')[0] ==
+                            i.effective_date.split('T')[0]
+                        ) {
+                            const index = this.taxes.value.indexOf(i);
+                            this.taxes.value.splice(index, 1);
+                        }
                     }
                 }
                 this.taxes.value = [...this.taxes.value];
@@ -791,7 +795,7 @@ export default {
                 display: inline !important;
             }
             .edit-btn {
-                margin-right:5px;
+                margin-right: 5px;
                 font-size: 14px;
                 font-weight: 500;
                 cursor: pointer;

@@ -76,8 +76,8 @@
                     <hr />
                     <ukt-inline-svg
                         class="edit-btn"
-                        title="delete rate"
-                        src="delete"
+                        title="delete gst"
+                        src="delete-red"
                         @click.stop.native="removeRate()"
                     ></ukt-inline-svg>
                     <div class="row">
@@ -408,8 +408,13 @@ export default {
         },
         checkSlab1Required(data) {
             let isValid = true;
-            if (data.threshold.value >= 0) {
+            if (data.threshold.value >= 0 && data.threshold.value <= 999999) {
                 this.slab1.threshold.showerror = false;
+            } else if (data.threshold.value > 999999) {
+                this.slab1.threshold.showerror = true;
+                this.slab1.threshold.errortext =
+                    'threshold can not be greater than 999999';
+                isValid = false;
             } else {
                 this.slab1.threshold.showerror = true;
                 this.slab1.threshold.errortext = 'threshold can not be blank';
@@ -443,9 +448,15 @@ export default {
         },
         checkSlab2Required(slab2, slab1) {
             let isValid = true;
-            if (slab2.threshold.value > slab1.threshold.value) {
+            if (slab2.threshold.value > slab1.threshold.value && slab2.threshold.value <=999999) {
                 this.slab2.threshold.showerror = false;
-            } else {
+            } else if (slab2.threshold.value > 999999) {
+                this.slab2.threshold.showerror = true;
+                this.slab2.threshold.errortext =
+                    'threshold can not be greater than 999999';
+                isValid = false;
+            }
+            else {
                 this.slab2.threshold.showerror = true;
                 this.slab2.threshold.errortext =
                     'threshold can not be lesser than first threshold';
@@ -593,8 +604,7 @@ export default {
                     errortext: ''
                 }
             };
-        },
-
+        }
     }
 };
 </script>
@@ -626,7 +636,6 @@ export default {
     }
     .edit-btn {
         float: right;
-        color: @RoyalBlue;
         font-size: 14px;
         font-weight: 500;
         cursor: pointer;
