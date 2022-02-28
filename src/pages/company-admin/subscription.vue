@@ -818,9 +818,7 @@ export default {
             .catch(err=>{
                 this.$snackbar.global.showError('Failed to change subscription',{duration: 2000});
             })
-            .finally(()=>{
-            this.$refs['add-coupon'].clearCoupon();
-            })
+           
             
 
         },
