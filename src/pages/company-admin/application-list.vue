@@ -7,7 +7,7 @@
             <div class="box-search">
                 <nitrozen-input
                     placeholder="Search by name or domain . . ."
-                    @input="fetchApplication"
+                    @input="debounceInput"
                     v-model="searchText"
                     :showSearchIcon="true"
                     type="search"
@@ -93,7 +93,7 @@
                                 :title="item.domain.name"
                             >
                                 <a
-                                    :href="`https://${item.domain.name}`"
+                                     @click="openDomain($event,item.domain.name)"
                                     target="_blank"
                                     >{{ item.domain.name }}</a
                                 >
@@ -213,6 +213,9 @@
     font-weight: 100;
 }
 .applications {
+    margin: 24px;
+    background-color: white;
+    padding: 24px;
     .text-heading {
         font-size: 18px;
         color: #41434c;
@@ -266,7 +269,6 @@
             .cust-head {
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                width: 160px;
                 overflow: hidden;
                 line-height: 20px;
                 font-size: 14px;
@@ -292,7 +294,6 @@
 
             .cust-app {
                 text-overflow: ellipsis;
-                max-width: 200px;
                 white-space: nowrap;
                 overflow: hidden;
             }
@@ -333,6 +334,7 @@ import {
     flatBtn,
     strokeBtn,
 } from '@gofynd/nitrozen-vue';
+import { debounce } from '@/helper/utils';
 
 import root from 'window-or-global';
 const env = root.env || {};
@@ -395,6 +397,9 @@ export default {
         this.fetchApplication();
     },
     methods: {
+        debounceInput: debounce(function() {
+            this.fetchApplication()
+        }, 500),
         copy(text) {
             copyToClipboard(text);
             if (text) {
@@ -565,6 +570,11 @@ export default {
             {
             this.$router.push({ path: `/administrator/company-details/${this.companyId}/application/${appId}` });
             }
+        },
+        openDomain(event,domain){
+            window.open(`https://${domain}`);
+            event.stopPropagation();
+            event.preventDefault();
         }
     },
 };

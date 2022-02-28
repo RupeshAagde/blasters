@@ -59,10 +59,6 @@ const PLATFORM_ASSETS_ADMIN = isNode ?
     envVars.BROWSER_CONFIG.GRINDOR_ADMIN_URL :
     envVars.GRINDOR_ADMIN_URL;
 
-const SLINGSHOT_MAIN_URL = isNode ?
-    envVars.BROWSER_CONFIG.SLINGSHOT_MAIN_URL :
-    envVars.SLINGSHOT_MAIN_URL;
-
 const SLINGSHOT_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SLINGSHOT_ADMIN_URL :
     envVars.SLINGSHOT_ADMIN_URL;
@@ -140,8 +136,8 @@ const URLS = {
     FETCH_APPLICATIONS: (uid) => {
         return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/company/${uid}/application`);
     },
-    FETCH_ALL_APPLICATIONS: (uid) => {
-        return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/application`);
+    GET_APPLICATIONS: (appId = '') => {
+        return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/application/${appId}`);
     },
 
     //archive unarchive sales channel
