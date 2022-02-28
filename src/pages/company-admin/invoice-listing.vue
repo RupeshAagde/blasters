@@ -1146,6 +1146,9 @@ export default {
                     }else{
                         this.uploadedInvoices[this.updateProgressValue].server_status="failure";
                         this.uploadedInvoices[this.updateProgressValue].server_response=ele.data.message;
+                        if(!ele.data.message){
+                            this.uploadedInvoices[this.updateProgressValue].server_response="Something went wrong"
+                        }
                     }
                     this.updateProgressValue++;
                 })
