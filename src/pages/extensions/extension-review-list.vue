@@ -3,24 +3,44 @@
         <div class="page-container">
             <jumbotron
                 class="extensions-jmbtrn"
-                :title="`Extensions ${
-                    extensionList && extensionList.length
-                        ? '(' + extensionList.length + ')'
-                        : ''
-                }`"
+                :title="
+                    `Extensions ${
+                        extensionList && extensionList.length
+                            ? '(' + pagination.total + ')'
+                            : ''
+                    }`
+                "
                 :desc="'Extensions for review'"
             ></jumbotron>
             <!--Search Baar-->
-            <div class="search-filter">
-                <nitrozen-input
-                    :showSearchIcon="true"
-                    class="search-box"
-                    type="search"
-                    placeholder="Search by name"
-                    v-model="searchText"
-                    @input="setRouteQuery({ search: searchText })"
-                ></nitrozen-input>
-            </div>
+            <template>
+                <div class="search-filter">
+                    <nitrozen-input
+                        :showSearchIcon="true"
+                        class="search-box"
+                        type="search"
+                        placeholder="Search by name"
+                        ref="search-box"
+                        v-model="searchText"
+                        @input="debounceInput"
+                    ></nitrozen-input>
+
+                    <div class="filter">
+                        <label class="label">Filter</label>
+                        <nitrozen-dropdown
+                            class="filter-dropdown"
+                            :items="filters"
+                            v-model="selectedFilter"
+                            ref="filter-dropdown"
+                            @change="
+                                setRouteQuery({
+                                    current_status: selectedFilter
+                                })
+                            "
+                        ></nitrozen-dropdown>
+                    </div>
+                </div>
+            </template>
 
             <!--Staff List-->
             <div class="extension-card-list">
@@ -30,15 +50,20 @@
                 ></list-shimmer>
                 <page-error
                     v-else-if="pageError && !pageLoading"
-                    @retry="fetchExtensions"
+                    @retry="fetchExtensions()"
                 ></page-error>
-                <list-card
-                    class="extension-card"
-                    v-for="extension in extensionList"
+
+                <div
+                    v-for="(extension, index) in extensionList"
                     :key="extension._id"
-                    :extension="extension"
-                    @click="edit(extension)"
-                ></list-card>
+                >
+                    <list-card
+                        :extension="extension"
+                        :ref="'extension-' + index"
+                        @click="edit(extension)"
+                    >
+                    </list-card>
+                </div>
             </div>
             <page-empty
                 v-if="extensionList.length == 0"
@@ -47,7 +72,8 @@
             <div v-if="extensionList.length" class="pagination">
                 <nitrozen-pagination
                     name="Extensions"
-                    v-model="paginationConfig"
+                    v-model="pagination"
+                    ref="ext-paginagtion"
                     @change="paginationChange"
                     :pageSizeOptions="[5, 10, 20, 50]"
                 ></nitrozen-pagination>
@@ -72,7 +98,7 @@
     background-color: @White;
 
     .extension-card {
-        &+.extension-card {
+        & + .extension-card {
             margin-top: 24px;
         }
     }
@@ -101,7 +127,7 @@
 
 .nitrozen-pagination-container,
 .extension-card-list {
-    margin-top: 24px;
+    margin-top: 20px;
 }
 .search-filter {
     display: flex;
@@ -113,7 +139,8 @@
         min-width: 400px;
     }
     .filter-dropdown {
-        width: 150px;
+        width: 200px;
+        margin-left: 12px;
     }
     .label {
         font-family: Inter;
@@ -152,27 +179,34 @@
 </style>
 
 <script>
-import jumbotronVue from '@/components/common/jumbotron.vue'
+import jumbotronVue from '@/components/common/jumbotron.vue';
 import {
     NitrozenButton,
     flatBtn,
     NitrozenInput,
     NitrozenPagination,
     NitrozenBadge,
-    NitrozenDropdown,
+    NitrozenDropdown
 } from '@gofynd/nitrozen-vue';
 
 import pageEmpty from '@/components/common/page-empty.vue';
 import pageError from '@/components/common/page-error.vue';
 import listShimmer from '@/components/common/shimmer.vue';
 import listCard from '@/components/extension/extension-card.vue';
-
-import ExtensionService from '@/services/extension.service'
+import { debounce } from '@/helper/utils';
+import ExtensionService from '@/services/extension.service';
 
 const PAGINATION = {
-    page: 1,
+    current: 1,
     limit: 10,
-}
+    total: 0
+};
+
+const ROLE_FILTER = [
+    { value: 'pending', text: 'Pending' },
+    { value: 'rejected', text: 'Rejected' },
+    { value: 'published', text: 'Published' }
+];
 
 export default {
     name: 'extension-review-list',
@@ -189,7 +223,7 @@ export default {
         'list-card': listCard
     },
     directives: {
-        flatBtn,
+        flatBtn
     },
     data() {
         return {
@@ -198,63 +232,87 @@ export default {
             pageLoading: false,
             searchText: '',
             extensionList: [],
-            paginationConfig: {
-                limit: 10,
+            filters: [...ROLE_FILTER],
+            pagination: {
                 current: 1,
-                total: 10,
+                limit: 10,
+                total: 0
             },
-            pagination: { ...PAGINATION },
-        }
+            selectedFilter: 'pending'
+        };
     },
     mounted() {
-        this.populateFromURL()
-        this.fetchExtensions()
+        this.populateFromURL();
+        this.fetchExtensions();
     },
     methods: {
         populateFromURL() {
-            const { search, page, limit } = this.$route.query
-            this.searchText = search || this.searchText
-            this.pagination.page = +page || this.pagination.page
-            this.pagination.limit = +limit || this.pagination.limit
+            const { search, page, limit, current_status } = this.$route.query;
+            this.searchText = search || this.searchText;
+            // this.pagination.page = +page || this.pagination.current;
+            // this.pagination.limit = +limit || this.pagination.limit;
+            this.selectedFilter = current_status || 'pending';
         },
-        chooseExtensionType() {
-            this.$refs['type-modal'].open()
-        },
+        debounceInput: debounce(function(e) {
+            if (this.searchText.length === 0) {
+                this.setRouteQuery({ search: undefined });
+            }
+            this.setRouteQuery({ search: this.searchText });
+        }, 500),
         fetchExtensions() {
-            ExtensionService.getExtensionReviewList({})
+            let params = {
+                page_no: this.pagination.current,
+                page_size: this.pagination.limit,
+                current_status: this.selectedFilter,
+                name: this.searchText
+            };
+            this.pageLoading = true;
+            this.pageError = false;
+            ExtensionService.getExtensionReviewList(params)
                 .then(({ data }) => {
-                    this.extensionList = data.items
-                    this.paginationConfig.total = data.item_total
+                    this.extensionList = data.items;
+                    this.pagination.total = data.page.item_total;
+                    this.pageLoading = false;
                 })
                 .catch((err) => {
-                    console.log(err)
-                })
+                    this.pageError = true;
+                    console.log(err);
+                });
         },
-        edit(review){
-            const { params } = this.$route
+        edit(review) {
+            const { params } = this.$route;
             this.$router.push({
                 path: `/administrator/extensions/review/${review._id}`
-            })
+            });
         },
         paginationChange(e) {
-            this.paginationConfig = e
-            this.fetchExtensions()
+            this.pagination = e;
+            this.fetchExtensions();
         },
         setRouteQuery(query) {
             if (query.search) {
                 // clear pagination if search or filter applied
-                this.pagination = { ...PAGINATION }
-                query.page = undefined
-                query.limit = undefined
+                this.pagination = { ...PAGINATION };
+                query.page = undefined;
+                query.limit = undefined;
             }
             this.$router.push({
                 path: this.$route.path,
                 query: {
                     ...this.$route.query,
-                    ...query,
-                },
-            })
-        },
-    },
-}
+                    ...query
+                }
+            });
+            if (query.current_status) {
+                // clear pagination if search or filter applied
+                //this.selectedFilter=query.current_status;
+                this.pagination = { ...PAGINATION };
+                query.page = undefined;
+                query.limit = undefined;
+            }
+
+            this.fetchExtensions();
+        }
+    }
+};
 </script>
