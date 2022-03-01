@@ -267,6 +267,7 @@
                     :title="'Exntension List'"
                     v-on:onAddExtensions="addSelectedExtensions"
                     :selected_extensions="selected_extensions"
+                    v-on:closeModal="closeModal"
                 >
                 </item-drawer>
                 <div>

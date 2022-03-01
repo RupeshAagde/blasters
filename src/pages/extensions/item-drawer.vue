@@ -205,6 +205,9 @@ export default {
         onSelectExtensions() {
             this.$emit('onAddExtensions', this.extensions_selected);
         },
+        closeModal() {
+            this.$emit('closeModal');
+        },
     },
 };
 </script>
