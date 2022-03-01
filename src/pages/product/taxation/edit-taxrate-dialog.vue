@@ -522,11 +522,11 @@ export default {
                     if (rateCount >= 2) {
                         this.slabError[0].effective_date.showerror = true;
                         this.slabError[0].effective_date.errortext =
-                            'Select another date, two GST rate for selected dates already exist';
+                            'Select another date, two GST rate for selected date already exist';
                         return false;
                     } else if (rateCount == 1) {
                         this.$snackbar.global.showError(
-                            `One GST rate already exist can not add three GST rates`
+                            `One GST rate already exist, only two GST rates can be added for one date`
                         );
                         return false;
                     }
@@ -540,19 +540,19 @@ export default {
             } else if (data.threshold > 999999) {
                 this.slabOneErr.threshold.showerror = true;
                 this.slabOneErr.threshold.errortext =
-                    'threshold can not be greater than 999999';
+                    'Threshold should be lesser than 999999';
                 isValid = false;
             } else {
                 this.slabOneErr.threshold.showerror = true;
                 this.slabOneErr.threshold.errortext =
-                    'threshold can not be blank';
+                    'Threshold should be a number';
                 isValid = false;
             }
             if (data.rate > 0) {
                 this.slabOneErr.rate.showerror = false;
             } else {
                 this.slabOneErr.rate.showerror = true;
-                this.slabOneErr.rate.errortext = 'rate is required';
+                this.slabOneErr.rate.errortext = 'Rate is required';
                 isValid = false;
             }
             if (
@@ -570,7 +570,7 @@ export default {
             } else {
                 this.slabOneErr.cess.showerror = true;
                 this.slabOneErr.cess.errortext =
-                    'Cess can not be lessser than 0';
+                    'Cess should be a number';
                 isValid = false;
             }
             return isValid;
@@ -585,12 +585,12 @@ export default {
             } else if (slab2.threshold > 999999) {
                 this.slabTwoErr.threshold.showerror = true;
                 this.slabTwoErr.threshold.errortext =
-                    'threshold can not be greater than 999999';
+                    'Threshold should be lesser than 999999';
                 isValid = false;
             } else {
                 this.slabTwoErr.threshold.showerror = true;
                 this.slabTwoErr.threshold.errortext =
-                    'threshold can not be lesser than first threshold';
+                    'Threshold should be greater than first threshold';
                 isValid = false;
             }
             if (slab2.rate > slab1.rate) {
@@ -598,7 +598,7 @@ export default {
             } else {
                 this.slabTwoErr.rate.showerror = true;
                 this.slabTwoErr.rate.errortext =
-                    'rate is required and should be greater than first rate';
+                    'Rate is required';
                 isValid = false;
             }
             if (
@@ -616,7 +616,7 @@ export default {
             } else {
                 this.slabTwoErr.cess.showerror = true;
                 this.slabTwoErr.cess.errortext =
-                    'Cess can not be lessser than 0';
+                    'Cess should be a number';
                 isValid = false;
             }
             return isValid;

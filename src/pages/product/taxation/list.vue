@@ -4,40 +4,37 @@
             <jumbotron
                 class="jumbotron-h"
                 :title="'Government Authorised HSN & GST Schedule'"
-                :desc="'HSN list'"
+                :desc="'Government authorised HSN codes & scheduled gst'"
                 btnLabel="Add Tax Rate"
                 @btnClick="redirectEdit"
             ></jumbotron>
             <div class="search-filter">
                 <div class="search-box">
-                    <div>
+                    <div class="search">
                         <nitrozen-input
                             :showSearchIcon="true"
-                            class="search"
                             type="search"
                             :placeholder="'Search by HSN, Reporting HSN'"
                             v-model="searchText"
                             @input="searchHSN"
                         ></nitrozen-input>
                     </div>
-                    <div>
+                    <div class="filter-dropdown">
                         <nitrozen-dropdown
-                            class="filter-dropdown"
                             placeholder="Choose Type"
                             v-model="selectedType"
-                            searchable="true"
-                            :items="typeList"
+                            :items="getHSNType"
                             @change="applyFilter(selectedType)"
                         ></nitrozen-dropdown>
                     </div>
                 </div>
-                <nitrozen-button
+                <!--<nitrozen-button
                     theme="secondary"
                     class="ml-sm"
                     v-strokeBtn
                     @click=""
                     >Bulk Action</nitrozen-button
-                >
+                > -->
             </div>
             <div class="hsn-list-div">
                 <shimmer v-if="pageLoading && !pageError" :count="4"></shimmer>
@@ -99,6 +96,11 @@ const PAGINATION = {
     total: 0,
     current: 1
 };
+const TYPE = [
+    { value: 'all', text: 'All' },
+    { value: 'goods', text: 'Goods' },
+    { value: 'services', text: 'Services' }
+];
 export default {
     name: 'Taxation',
     props: {
@@ -132,6 +134,9 @@ export default {
                     return this.$route.path.includes(it.path);
                 });
             }
+        },
+        getHSNType(){
+            return TYPE;
         }
     },
     data() {
@@ -142,12 +147,7 @@ export default {
             isInitialLoad: true,
             pagination: { ...PAGINATION },
             searchText: '',
-            selectedType: '',
-            typeList: [
-                { value: '', text: 'All' },
-                { value: 'goods', text: 'Goods' },
-                { value: 'services', text: 'Services' }
-            ],
+            selectedType: 'all',
             hsnCodes: [],
             column: [
                 'Reporting HSN',
@@ -177,7 +177,7 @@ export default {
             if (this.searchText) {
                 params.q = this.searchText;
             }
-            if (this.selectedType) {
+            if (this.selectedType && this.selectedType!=='all') {
                 params.type = this.selectedType;
             }
             this.pageLoading = true;
@@ -217,10 +217,11 @@ export default {
             this.getHSNCodes();
         },
         applyFilter(type) {
-            if (type==''){
-                this.setRouteQuery({type:undefined});
+            console.log(type);
+            if (type == 'all') {
+                this.setRouteQuery({ type: undefined });
             } else {
-            this.setRouteQuery({type:type});
+                this.setRouteQuery({ type: type });
             }
             this.getHSNCodes();
         },
@@ -272,16 +273,16 @@ export default {
 }
 
 .search-filter {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+    // display: flex;
+    // justify-content: space-between;
+    // width: 100%;
     margin-top: 24px;
     align-items: center;
 
     .search-box {
         display: flex;
         justify-content: space-between;
-        width: 80%;
+        // width: 80%;
         background: #f8f8f8;
         padding: 12px;
         border-radius: 4px;
@@ -290,10 +291,10 @@ export default {
             min-width: 100%;
         }
         .search {
-            width: 500px;
+            width: 73%;
         }
         .filter-dropdown {
-            width: 200px;
+            width: 25%;
         }
     }
 }

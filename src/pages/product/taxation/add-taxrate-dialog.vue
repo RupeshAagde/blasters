@@ -395,11 +395,11 @@ export default {
                     if (rateCount >= 2) {
                         this.slab1.effective_date.showerror = true;
                         this.slab1.effective_date.errortext =
-                            'Select another date, two GST rate for selected dates already exist';
+                            'Select another date, two GST rate for selected date already exist';
                         return false;
                     } else if (rateCount == 1) {
                         this.$snackbar.global.showError(
-                            `One GST rate already exist can not add three GST rates`
+                            `One GST rate already exist, only two GST rates can be added for one date`
                         );
                         return false;
                     }
@@ -413,18 +413,18 @@ export default {
             } else if (data.threshold.value > 999999) {
                 this.slab1.threshold.showerror = true;
                 this.slab1.threshold.errortext =
-                    'threshold can not be greater than 999999';
+                    'Threshold should be lesser than 999999';
                 isValid = false;
             } else {
                 this.slab1.threshold.showerror = true;
-                this.slab1.threshold.errortext = 'threshold can not be blank';
+                this.slab1.threshold.errortext = 'Threshold should be a number';
                 isValid = false;
             }
             if (data.rate.value > 0) {
                 this.slab1.rate.showerror = false;
             } else {
                 this.slab1.rate.showerror = true;
-                this.slab1.rate.errortext = 'rate is required';
+                this.slab1.rate.errortext = 'Rate is required';
                 isValid = false;
             }
             if (
@@ -453,13 +453,13 @@ export default {
             } else if (slab2.threshold.value > 999999) {
                 this.slab2.threshold.showerror = true;
                 this.slab2.threshold.errortext =
-                    'threshold can not be greater than 999999';
+                    'Threshold should be lesser than 99999';
                 isValid = false;
             }
             else {
                 this.slab2.threshold.showerror = true;
                 this.slab2.threshold.errortext =
-                    'threshold can not be lesser than first threshold';
+                    'Threshold should be greater than first threshold';
                 isValid = false;
             }
             if (slab2.rate.value > slab1.rate.value) {
@@ -467,7 +467,7 @@ export default {
             } else {
                 this.slab2.rate.showerror = true;
                 this.slab2.rate.errortext =
-                    'rate is required and should be greater than first rate';
+                    'Rate is required';
                 isValid = false;
             }
             if (
@@ -484,7 +484,7 @@ export default {
                 this.slab2.cess.showerror = false;
             } else {
                 this.slab2.cess.showerror = true;
-                this.slab2.cess.errortext = 'Cess can not be lessser than 0';
+                this.slab2.cess.errortext = 'Cess should be a number';
                 isValid = false;
             }
             return isValid;
@@ -526,7 +526,7 @@ export default {
                         } else {
                             this.slabOneErr.threshold.showerror = true;
                             this.slabOneErr.threshold.errortext =
-                                'threshold can not be lesser than first threshold';
+                                'Threshold should be greater than first threshold';
                             isValid = false;
                         }
                         if (this.slab1.rate.value > rates[0].rate) {
@@ -534,7 +534,7 @@ export default {
                         } else {
                             this.slabOneErr.rate.showerror = true;
                             this.slabOneErr.rate.errortext =
-                                'rate should be greater than previous one';
+                                'Rate should be greater than previous one';
                             isValid = false;
                         }
                         return isValid;
