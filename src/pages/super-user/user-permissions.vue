@@ -13,6 +13,7 @@
             "
             v-model="userData.roles[0]"
         ></nitrozen-dropdown>
+
         <div class="title-label cl-DustyGray2 dark-xxs">Permissions</div>
         <permissions
             :permissionData="aclPermissions"
@@ -21,6 +22,7 @@
             :group="''"
             @permission-data="(value) => (this.userData.permissions = value)"
         ></permissions>
+
         <div class="title-label cl-DustyGray2 dark-xxs">
             Company Access
             <nitrozen-tooltip
@@ -92,6 +94,89 @@
         <div v-else-if="!userData.access.all" class="title-label dark-xxs">
             No company selected
         </div>
+
+        <div class="title-label cl-DustyGray2 dark-xxs">
+            Partner Access
+            <nitrozen-tooltip
+                :tooltipText= "
+                    'Allow partner access for all companies or specific or none on Fynd Platform'
+                "
+            ></nitrozen-tooltip>
+        </div>
+
+        <div style="display: flex;">
+            <nitrozen-radio
+                class="radio-btn"
+                :radioValue="'false'"
+                :name="'partner_selection'"
+                :value="partnerData.access.all.toString()"
+                @input="
+                    (value) => {
+                        partnerData.access.all = value === 'true';
+                        if(partnerData.access.all) {
+                            partnerData.access.company = [];
+                        }
+                    }
+                "
+            >All</nitrozen-radio>
+            <nitrozen-radio
+                class="radio-btn"
+                :radioValue="'false'"
+                :name="'partner_selection'"
+                :value="partnerData.access.all.toString()"
+                @input ="
+                    (value) => (partnerData.access.all = value === 'true')
+                "
+            >Specific Companies</nitrozen-radio>
+            <nitrozen-radio
+                class="radio-btn"
+                :radioValue="'true'"
+                :name="'partner_selection'"
+                :value="partnerData.access.all.toString()"
+                @input="(value) => (partnerData.access.all = value)"
+            >None</nitrozen-radio>
+
+            <nitrozen-dropdown
+                v-show="!partnerData.access.all"
+                class="title-label"
+                :searchable="true"
+                :multiple="true"
+                :placeholder="'Search partner organisations'"
+                style="width: 300px"
+                @searchInputChange="partnerSearch"
+                :value="partnerData.access.company"
+                :items="
+                    partnerCompanies.map(item => {
+                        return {
+                            text: `${item.name} (${item.uid})`,
+                            value: item.uid
+                        };
+                    })
+                "
+                @input="updatedSelectedPartners"
+            ></nitrozen-dropdown>
+
+            <div
+                class="title-label"
+                v-if="!partnerData.access.all && selectedPartners"
+            >
+                <nitrozen-chips
+                    style="margin-bottom: 8px;"
+                    v-for="(partner, index) in selectedPartners" 
+                    :key="index"
+                >
+                    {{ partner.name }}
+                    <nitrozen-inline
+                        :icon="'cross'"
+                        class="nitrozen-icon"
+                        v-on:click="removePartner(index)"
+                    ></nitrozen-inline>
+                </nitrozen-chips>
+            </div>
+            <div v-else-if="!partnerData.access.all" class="title-label dark-xxs">
+                No company selected
+            </div>
+        </div>
     </div>
 </template>
 
@@ -148,7 +233,8 @@ export default {
         return {
             companies: [],
             selectedCompany: [],
-            userData: null
+            userData: null,
+            partnerData: {}
         };
     },
     created() {
@@ -157,6 +243,13 @@ export default {
         }
         this.fetchCompany();
         this.userData = _.cloneDeep(this.user_data);
+        this.partnerData = {
+            access: {
+                all: false,
+                partners: [],
+                none: true
+            }
+        }
     },
     computed: {
         userPermissions() {
