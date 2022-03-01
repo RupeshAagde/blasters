@@ -95,6 +95,7 @@
             No company selected
         </div>
 
+
         <div class="title-label cl-DustyGray2 dark-xxs">
             Partner Access
             <nitrozen-tooltip
@@ -114,7 +115,7 @@
                     (value) => {
                         partnerData.access.all = value === 'true';
                         if(partnerData.access.all) {
-                            partnerData.access.company = [];
+                            partnerData.access.partners = [];
                         }
                     }
                 "
@@ -123,42 +124,53 @@
                 class="radio-btn"
                 :radioValue="'false'"
                 :name="'partner_selection'"
-                :value="partnerData.access.all.toString()"
+                :value="partnerData.access.selected.toString()"
                 @input ="
-                    (value) => (partnerData.access.all = value === 'true')
+                    (value) => {
+                        partnerData.access.all = value === 'true';
+                        partnerData.access.selected = 'false';
+                        partnerData.access.none = 'false';
+                    }
                 "
             >Specific Companies</nitrozen-radio>
             <nitrozen-radio
                 class="radio-btn"
                 :radioValue="'true'"
                 :name="'partner_selection'"
-                :value="partnerData.access.all.toString()"
-                @input="(value) => (partnerData.access.all = value)"
+                :value="partnerData.access.none.toString()"
+                @input="(value) => {
+                    partnerData.access.all = 'false';
+                    partnerData.access.selected = 'false';
+                    partnerData.access.none = value === 'true';
+                    if(partnerData.access.none) {
+                        partnerData.access.partners = [];
+                    }
+                }"
             >None</nitrozen-radio>
 
             <nitrozen-dropdown
-                v-show="!partnerData.access.all"
+                v-show="!partnerData.access.all && !partnerData.access.none"
                 class="title-label"
                 :searchable="true"
                 :multiple="true"
                 :placeholder="'Search partner organisations'"
                 style="width: 300px"
                 @searchInputChange="partnerSearch"
-                :value="partnerData.access.company"
+                :value="partnerData.access.partners"
                 :items="
-                    partnerCompanies.map(item => {
+                    partners.map(item => {
                         return {
                             text: `${item.name} (${item.uid})`,
                             value: item.uid
                         };
                     })
                 "
-                @input="updatedSelectedPartners"
+                @input="updateSelectedPartners"
             ></nitrozen-dropdown>
 
             <div
                 class="title-label"
-                v-if="!partnerData.access.all && selectedPartners"
+                v-if="!partnerData.access.all && !partnerData.access.none && selectedPartners"
             >
                 <nitrozen-chips
                     style="margin-bottom: 8px;"
@@ -174,7 +186,7 @@
                 </nitrozen-chips>
             </div>
             <div v-else-if="!partnerData.access.all" class="title-label dark-xxs">
-                No company selected
+                No partner organisation selected
             </div>
         </div>
     </div>
@@ -234,7 +246,9 @@ export default {
             companies: [],
             selectedCompany: [],
             userData: null,
-            partnerData: {}
+            partners: [],
+            partnerData: {},
+            selectedPartners: []
         };
     },
     created() {
@@ -246,6 +260,7 @@ export default {
         this.partnerData = {
             access: {
                 all: false,
+                selected: false,
                 partners: [],
                 none: true
             }
@@ -269,6 +284,10 @@ export default {
             this.selectedCompany.splice(index, 1);
             this.userData.access.company.splice(index, 1);
         },
+        removePartner(index) {
+            this.selectedPartners.splice(index, 1);
+            this.partnerData.access.partners.splice(index, 1);
+        },
         updateSelectedCompany(value) {
             let selectedCompany = this.userData.access.company;
             this.userData.access.company = value;
@@ -290,9 +309,37 @@ export default {
                 }
             }
         },
+        updateSelectedPartners(value) {
+            let selectedPartners = this.partnerData.access.partners;
+            this.partnerData.access.partners = value;
+
+            for(let partnerId of selectedPartners) {
+                let itemIndex = value.findIndex(uid => uid === partnerId);
+                if(itemIndex < 0) {
+                    let index = selectedPartners.indexOf(partnerId);
+                    this.selectedPartners.splice(index, 1);
+                }
+            }
+
+            for(let partnerId of value) {
+                let itemIndex = selectedPartners.findIndex(
+                    uid => uid === partnerId
+                );
+                if(itemIndex < 0) {
+                    this.selectedPartners.push(
+                        this.partners.find(comp => comp.uid === partnerId)
+                    )
+                }
+            }
+        },
         companySearch(e) {
             _.debounce((text) => {
                 this.fetchCompany(text);
+            }, 600)(e.text);
+        },
+        partnerSearch(e) {
+            _.debounce(text => {
+                console.log(text);
             }, 600)(e.text);
         },
         fetchCompany(searchCompany) {
