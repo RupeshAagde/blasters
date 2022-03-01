@@ -22,19 +22,19 @@
                     <td>
                         {{
                             tab.taxes.length
-                                ? `>\u20B9${tab.taxes[0].threshold}  @${tab.taxes[0].rate}%`
+                                ? `>\u20B9${tab.taxes[0].threshold}  @ ${tab.taxes[0].rate}%`
                                 : `No active rate available`
                         }}
                     </td>
                     <td>
                         {{
                             tab.taxes.length>1
-                                ? `>\u20B9${tab.taxes[1].threshold} @${tab.taxes[1].rate}%`
-                                : '___'
+                                ? `>\u20B9${tab.taxes[1].threshold} @ ${tab.taxes[1].rate}%`
+                                : '—'
                         }}
                     </td>
 
-                    <td>{{ tab.country_code }}</td>
+                    <td>{{ format_country(tab.country_code) }}</td>
                     <td>
                         <inline-svg
                             class="edit-btn"
@@ -76,6 +76,10 @@ export default {
             type: Array,
             default: () => []
         },
+        countryList:{
+            type: Array,
+            default: () => []
+        },
         selectedIds: {
             type: Array,
             default: () => []
@@ -88,9 +92,6 @@ export default {
         }
     },
     computed: {
-        isAllSelected() {
-            return this.tableData.items.every((v) => v.isSelected);
-        }
     },
     mounted() {
         this.hsnWithActivetaxes = this.getHsnWithActiveTax();
@@ -111,8 +112,16 @@ export default {
         },
         format_date(value) {
             if (value) {
-                return moment(value).format('ll');
+                return moment(value).format('D MMM, YYYY');
             }
+        },
+        format_country(value){
+            for (let country of this.countryList){
+                if(country.value==value){
+                    return country.text
+                }
+            }
+            return value
         },
         redirectEdit(code) {
             let redirectPath = `${code}/edit`;

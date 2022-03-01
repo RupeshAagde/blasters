@@ -43,7 +43,7 @@
                                 label="Threshold value"
                                 required
                                 type="number"
-                                placeholder="eg. 99999rs"
+                                placeholder="eg. 99999"
                                 v-model="editableRate[0].threshold"
                                 @input=""
                                 :custom="true"

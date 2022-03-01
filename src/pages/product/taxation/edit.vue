@@ -84,11 +84,12 @@
             </div>
             <div class="row">
                 <div class="input-area">
+                    <span class="char-count">{{`${description.value.length} / 100 Characters`}}</span>
                     <nitrozen-input
                         label="Description"
                         type="textarea"
                         required
-                        placeholder="description of product"
+                        placeholder="Description of product"
                         v-model="description.value"
                         @input="validateDescription"
                     ></nitrozen-input>
@@ -506,11 +507,11 @@ export default {
                     }
                 } else if (tempDate > activeDate) {
                     for (let tax of datedTax[key]) {
-                        tax['state'] = 'Incoming';
+                        tax['state'] = 'Upcoming';
                     }
                 } else if (activeDate == undefined) {
                     for (let tax of datedTax[key]) {
-                        tax['state'] = 'Incoming';
+                        tax['state'] = 'Upcoming';
                     }
                 } else {
                     for (let tax of datedTax[key]) {
@@ -550,7 +551,7 @@ export default {
             } else {
                 this.country_code.showerror = true;
             }
-            if (this.description.value !== '') {
+            if (this.description.value !== '' && this.description.value.length>9 && this.description.value.length<=100) {
                 this.description.showerror = false;
                 postData.description = this.description.value;
             } else {
@@ -753,6 +754,14 @@ export default {
     .input-area {
         width: 100%;
     }
+}
+.char-count{
+    float:right;
+    color: #9b9b9b;
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 21px;
 }
 .rate-container {
     background-color: #fff;

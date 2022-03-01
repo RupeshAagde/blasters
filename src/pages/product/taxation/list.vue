@@ -1,13 +1,25 @@
 <template>
     <div>
         <div class="panel">
-            <jumbotron
-                class="jumbotron-h"
-                :title="'Government Authorised HSN & GST Schedule'"
-                :desc="'Government authorised HSN codes & scheduled gst'"
-                btnLabel="Add Tax Rate"
-                @btnClick="redirectEdit"
-            ></jumbotron>
+            <div class="header-cls">
+                <div>
+                    <div class="main-hdr">
+                        Government Authorised HSN & GST Schedule
+                    </div>
+                    <div class="hdr-desc">
+                        Government authorised HSN codes and gst rates are
+                        defined as per product category.
+                    </div>
+                </div>
+                <nitrozen-button
+                    :theme="'secondary'"
+                    class="rdr-btn"
+                    v-flatBtn
+                    @click="redirectEdit"
+                >
+                    Add Tax Rate
+                </nitrozen-button>
+            </div>
             <div class="search-filter">
                 <div class="search-box">
                     <div class="search">
@@ -47,6 +59,7 @@
                         class="mirage-table"
                         :tableColumns="column"
                         :tableData="hsnCodes"
+                        :countryList="countryList"
                     >
                     </list-element>
                 </div>
@@ -77,6 +90,7 @@ import PageError from '@/components/common/page-error';
 import Jumbotron from '@/components/common/jumbotron';
 import { copyToClipboard, debounce, titleCase } from '@/helper/utils.js';
 import { LocalStorageService } from '@/services/localstorage.service';
+import LocationService from '@/services/location.service';
 // import { toCurrencyString } from '@/helper/currency.utils.js';
 import path from 'path';
 import {
@@ -135,7 +149,7 @@ export default {
                 });
             }
         },
-        getHSNType(){
+        getHSNType() {
             return TYPE;
         }
     },
@@ -158,11 +172,13 @@ export default {
                 'Slab #2',
                 'Country',
                 'Action'
-            ]
+            ],
+            countryList: []
         };
     },
     mounted() {
         this.init();
+        this.getCountryList();
     },
     methods: {
         init() {
@@ -177,7 +193,7 @@ export default {
             if (this.searchText) {
                 params.q = this.searchText;
             }
-            if (this.selectedType && this.selectedType!=='all') {
+            if (this.selectedType && this.selectedType !== 'all') {
                 params.type = this.selectedType;
             }
             this.pageLoading = true;
@@ -217,7 +233,6 @@ export default {
             this.getHSNCodes();
         },
         applyFilter(type) {
-            console.log(type);
             if (type == 'all') {
                 this.setRouteQuery({ type: undefined });
             } else {
@@ -246,7 +261,19 @@ export default {
                 this.setRouteQuery({ search: this.searchText });
             }
             this.getHSNCodes();
-        }, 200)
+        }, 200),
+        getCountryList() {
+            LocationService.getCountries()
+                .then(({ data }) => {
+                    this.countryList = data.items.map((country) => {
+                        return {
+                            text: country.name,
+                            value: country.iso2
+                        };
+                    });
+                })
+                .catch((err) => {});
+        }
     }
 };
 </script>
@@ -263,12 +290,31 @@ export default {
     margin: 20px;
     padding: 20px;
 }
-.jumbotron-h {
-    top: 1;
-    box-sizing: border-box;
-    min-height: 100px;
-    .jumbotron-title ::v-deep {
-        margin-left: 15px;
+.header-cls {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #e4e5e6;
+    radius: 6px;
+    padding: 30px 24px 30px 24px;
+    font-family: Inter;
+    color: #41434c;
+    .main-hdr {
+        font-size: 24px;
+        font-style: normal;
+        font-weight: bold;
+        line-height: 40px;
+        letter-spacing: 0em;
+        text-align: left;
+    }
+    .hdr-desc {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 17px;
+        letter-spacing: 0em;
+        text-align: left;
+    }
+    .rdr-btn {
     }
 }
 

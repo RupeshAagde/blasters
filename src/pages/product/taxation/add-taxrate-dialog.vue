@@ -40,7 +40,7 @@
                                 label="Threshold value"
                                 required
                                 type="number"
-                                placeholder="eg. 99999rs"
+                                placeholder="eg. 99999"
                                 v-model="slab1.threshold.value"
                                 @input=""
                                 :custom="true"
@@ -408,6 +408,7 @@ export default {
         },
         checkSlab1Required(data) {
             let isValid = true;
+            console.log(data)
             if (data.threshold.value >= 0 && data.threshold.value <= 999999) {
                 this.slab1.threshold.showerror = false;
             } else if (data.threshold.value > 999999) {
