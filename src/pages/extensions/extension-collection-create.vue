@@ -234,14 +234,106 @@
                     </div>
                 </div>
                 <div class="input">
-                    <tags-input
-                        class="nitrozen-form-input"
-                        v-model="collection_data.tags"
-                        label="Search Keywords"
-                    ></tags-input>
+                    <div class="input-text tags" ref="tagScroll">
+                        <tags-input
+                            ref="chipInput"
+                            class="nitrozen-form-input"
+                            @keydown.enter="addChip"
+                            @keydown.tab="addChip"
+                            v-model="tags"
+                            label="Tags"
+                        ></tags-input>
+                    </div>
+                </div>
+                <div class="input">
+                    <div class="item-catelogue">
+                        <div class="cl-Mako bold-md">Extensions</div>
+                        <div>
+                            <nitrozen-button
+                                class="save-btn"
+                                :theme="'secondary'"
+                                v-flatBtn
+                                @click="addProducts"
+                            >
+                                Add Extensions
+                            </nitrozen-button>
+                        </div>
+                    </div>
+                </div>
+                <item-drawer
+                    v-if="showExntensionModal"
+                    :isOpen="showExntensionModal"
+                    :isCancelable="true"
+                    :title="'Exntension List'"
+                    v-on:onAddExtensions="addSelectedExtensions"
+                    :selected_extensions="selected_extensions"
+                >
+                </item-drawer>
+                <div>
+                    <page-empty
+                        :text="'No Extension selected for this Collection'"
+                        v-if="!selected_extensions.length"
+                    >
+                    </page-empty>
+                    <div
+                        v-if="selected_extensions.length"
+                        class="extension-list-container"
+                    >
+                        <div
+                            class="extension-card"
+                            v-for="(extension, index) in selected_extensions"
+                            :key="index"
+                            :ref="'extension-' + index"
+                        >
+                            <nitrozen-checkbox
+                                v-on:input="selectExtension($event, extension)"
+                                v-model="extension.is_selected"
+                            >
+                            </nitrozen-checkbox>
+                            <div class="base-card-left">
+                                <img
+                                    class="ext-icon"
+                                    :src="extension.listing_info.icon"
+                                />
+                            </div>
+                            <div class="base-card-right">
+                                <div class="extension-name">
+                                    {{ extension.listing_info.name }}
+                                </div>
+                                <div class="extension-creator">
+                                    by {{ extension.organization.name }}
+                                </div>
+                                <div class="extension-tag-line">
+                                    {{ extension.listing_info.tagline }}
+                                </div>
+                                <div class="extension-price">
+                                    <span
+                                        v-if="
+                                            extension.plans &&
+                                            extension.plans.length &&
+                                            extension.plans[0].price.amount
+                                        "
+                                        >{{
+                                            extension.plans[0].price.amount
+                                                | currencyformat
+                                        }}
+                                        <span class="capitalize">
+                                            /
+                                            {{
+                                                extension.plans[0].recurring
+                                                    .type
+                                            }}</span
+                                        ></span
+                                    >
+                                    <span v-else>Free</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
         <loader v-if="pageLoading && !pageError"></loader>
         <page-error
             v-else-if="pageError && !pageLoading"
@@ -277,7 +369,12 @@ import {
     strokeBtn,
     NitrozenInput,
     NitrozenError,
+    NitrozenTooltip,
+    NitrozenChips,
+    NitrozenInline,
 } from '@gofynd/nitrozen-vue';
+import ItemDrawer from './item-drawer.vue';
+import { BaseModal } from '../../components/common/';
 
 import loader from '@/components/common/loader';
 import pageEmpty from '@/components/common/page-empty.vue';
@@ -287,12 +384,13 @@ import imageUploader from '@/components/common/image-uploader/index.vue';
 import root from 'window-or-global';
 import { formatBytes } from '@/helper/digital-storage.util';
 const env = root.env || {};
-import uktinlinesvg from '@/components/common/ukt-inline-svg.vue';
 import tagsInput from '@/components/common/tags-input.vue';
 
 export default {
     name: 'extension-review',
     components: {
+        'item-drawer': ItemDrawer,
+        'base-modal': BaseModal,
         'nitrozen-button': NitrozenButton,
         'nitrozen-input': NitrozenInput,
         'nitrozen-error': NitrozenError,
@@ -300,9 +398,13 @@ export default {
         'page-error': pageError,
         'page-header': pageHeader,
         'image-uploader': imageUploader,
-        'ukt-inline-svg': uktinlinesvg,
         'tags-input': tagsInput,
         loader: loader,
+        'nitrozen-inline': NitrozenInline,
+
+        'nitrozen-chips': NitrozenChips,
+
+        'nitrozen-tooltip': NitrozenTooltip,
     },
     directives: {
         flatBtn,
@@ -310,6 +412,7 @@ export default {
     },
     data() {
         return {
+            showExntensionModal: false,
             inProgress: false,
             pageError: false,
             pageLoading: false,
@@ -327,7 +430,10 @@ export default {
             errors: {
                 name: '',
             },
+            tags: [],
+            chipInput: '',
             fynd_platform_domain: 'fynd.com',
+            selected_extensions: [],
         };
     },
     computed: {},
@@ -337,6 +443,20 @@ export default {
         this.fetchExtension();
     },
     methods: {
+        addSelectedExtensions(selected_extensions) {
+            this.selected_extensions = selected_extensions;
+            this.showExntensionModal = false;
+        },
+        addProducts() {
+            this.showExntensionModal = true;
+        },
+        closeModal() {
+            this.showExntensionModal = false;
+        },
+        onSelectedFilters() {},
+        focusOnChipInput() {
+            this.$refs['chipInput'].focus();
+        },
         onChangeImage(event, name) {
             this.collection_data.imageObj[name] = event;
             console.log('>>event', event);
@@ -362,11 +482,41 @@ export default {
                 .push(`/administrator/extensions/review`)
                 .catch(() => {});
         },
+        removeChip(index) {
+            this.tags.splice(index, 1);
+        },
+        addChip(event) {
+            console.log('>>this.tags', this.tags);
+            if (this.chipInput) {
+                if (
+                    this.tags &&
+                    this.tags.filter((tag) => tag.display === this.chipInput)
+                        .length === 0
+                )
+                    this.tags.push({ display: this.chipInput });
+                this.chipInput = '';
+            }
+            setTimeout(() => {
+                this.$refs.tagScroll &&
+                    (this.$refs.tagScroll.scrollTop =
+                        this.$refs.tagScroll.scrollHeight);
+            }, 20);
+            event.preventDefault();
+        },
     },
 };
 </script>
 
 <style lang="less">
+.img-cls {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px 0px;
+}
 .create-extension-collection {
     .new-main-container {
         width: 60%;
@@ -380,6 +530,11 @@ export default {
             .image-uploader {
                 display: flex;
                 justify-content: space-between;
+            }
+            .item-catelogue {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 20px;
             }
             .image-uploader-container {
                 max-width: 200px;
@@ -409,6 +564,63 @@ export default {
                     font-size: 12px;
                 }
             }
+        }
+    }
+}
+.extension-list-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    .extension-card {
+        min-width: 200px;
+        display: flex;
+        align-items: center;
+        margin: 10px;
+        padding: 10px;
+        transition: all 0.5s ease;
+        border: 1px solid #e0e0e0;
+        &:hover {
+            transition: all 0.5s ease;
+            box-shadow: 0 9px 13px 0 rgb(221 221 221);
+        }
+    }
+    .base-card-left {
+        .ext-icon {
+            width: 100px;
+        }
+    }
+    .base-card-right {
+        flex: 1;
+        padding-left: 24px;
+        word-break: break-all;
+        .extension-name {
+            color: @RoyalBlue;
+            font-weight: 500;
+            margin-bottom: 6px;
+            line-height: 1.5;
+            font-size: 16px;
+            // white-space: nowrap;
+        }
+        .extension-creator {
+            color: @Mako;
+            margin-bottom: 12px;
+            font-size: 12px;
+            font-weight: 400;
+        }
+        .extension-tag-line {
+            color: @Mako;
+            margin-bottom: 18px;
+            line-height: 19px;
+            font-size: 14px;
+            font-weight: 300;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+        }
+        .extension-price {
+            color: @Mako;
+            font-weight: 300;
+            margin-bottom: 6px;
         }
     }
 }
