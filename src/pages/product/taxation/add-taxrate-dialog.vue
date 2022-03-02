@@ -38,11 +38,10 @@
                         <div class="input-box">
                             <nitrozen-input
                                 label="Threshold value"
-                                required
+                                :required="true"
                                 type="number"
                                 placeholder="eg. 99999"
                                 v-model="slab1.threshold.value"
-                                @input=""
                                 :custom="true"
                                 :showPrefix="true"
                             >
@@ -408,8 +407,7 @@ export default {
         },
         checkSlab1Required(data) {
             let isValid = true;
-            console.log(data)
-            if (data.threshold.value >= 0 && data.threshold.value <= 999999) {
+            if (data.threshold.value >=0 && data.threshold.value <= 999999) {
                 this.slab1.threshold.showerror = false;
             } else if (data.threshold.value > 999999) {
                 this.slab1.threshold.showerror = true;

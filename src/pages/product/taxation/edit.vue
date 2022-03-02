@@ -84,7 +84,9 @@
             </div>
             <div class="row">
                 <div class="input-area">
-                    <span class="char-count">{{`${description.value.length} / 100 Characters`}}</span>
+                    <span class="char-count">{{
+                        `${description.value.length} / 100 Characters`
+                    }}</span>
                     <nitrozen-input
                         label="Description"
                         type="textarea"
@@ -187,6 +189,15 @@
                                         $openEditTaxrateDialog(tax)
                                     "
                                 ></ukt-inline-svg>
+                                <ukt-inline-svg
+                                    v-if="tax[0].state != 'Active'"
+                                    class="dlt-btn"
+                                    title="delete rate"
+                                    src="delete-red"
+                                    @click.stop.native="
+                                        openConfirmationDialog(tax)
+                                    "
+                                ></ukt-inline-svg>
                             </div>
                         </div>
                     </div>
@@ -210,6 +221,30 @@
             @close="$closeEditTaxrateDialog"
         >
         </edit-taxrate-dailog>
+        <!--Confirmation dailog -->
+        <nitrozen-dialog ref="confirm-dialog" title="Confirmation">
+            <template slot="body">
+                <p>Are you sure you want to delete Rate</p>
+            </template>
+            <template slot="footer">
+                <div class="footer-actions-buttons">
+                    <nitrozen-button
+                        theme="secondary"
+                        @click="closeConfirmationDialog"
+                        v-strokeBtn
+                        >Cancel
+                    </nitrozen-button>
+                    <nitrozen-button
+                        theme="secondary"
+                        class="mr-24"
+                        @click="removeGst()"
+                        v-flatBtn
+                        ref="delete-btn"
+                        >Delete
+                    </nitrozen-button>
+                </div>
+            </template>
+        </nitrozen-dialog>
 
         <loader v-if="inProgress" class="loading"></loader>
     </div>
@@ -232,6 +267,7 @@ import admforminput from '@/components/common/form-input.vue';
 import AddTaxrateDailog from './add-taxrate-dialog';
 import EditTaxrateDailog from './edit-taxrate-dialog';
 // import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import {
     NitrozenToggleBtn,
@@ -272,7 +308,8 @@ export default {
         NitrozenTooltip,
         loader,
         AddTaxrateDailog,
-        EditTaxrateDailog
+        EditTaxrateDailog,
+        NitrozenDialog
     },
     directives: {
         flatBtn,
@@ -340,6 +377,7 @@ export default {
                     threshold: 0
                 }
             ],
+            markedForDelete: [],
             errors: {}
         };
     },
@@ -486,7 +524,8 @@ export default {
                 }
             }
             //to get latest active date
-            let currentDate = new Date().toISOString().split('T')[0];
+            let currentDate = new Date().setHours(23)
+            currentDate = new Date(currentDate).toISOString().split('T')[0];
             currentDate = Number(currentDate.replaceAll('-', ''));
             let allDates = Object.keys(datedTax);
 
@@ -551,7 +590,11 @@ export default {
             } else {
                 this.country_code.showerror = true;
             }
-            if (this.description.value !== '' && this.description.value.length>9 && this.description.value.length<=100) {
+            if (
+                this.description.value !== '' &&
+                this.description.value.length > 9 &&
+                this.description.value.length <= 100
+            ) {
                 this.description.showerror = false;
                 postData.description = this.description.value;
             } else {
@@ -581,9 +624,20 @@ export default {
                 return call
                     .then(() => {
                         this.inProgress = false;
-                        this.$snackbar.global.showSuccess('Saved successfully');
+                        if (this.editMode) {
+                            this.$snackbar.global.showSuccess(
+                                'Tax Rate Updated successfully'
+                            );
+                        } else {
+                            this.$snackbar.global.showSuccess(
+                                'Saved successfully'
+                            );
+                        }
                         this.clearSelectedRate();
-                        this.redirectBack();
+                        if (this.markedForDelete.length <= 0) {
+                            this.redirectBack();
+                            this.markedForDelete=[]
+                        }
                     })
                     .catch((err) => {
                         this.inProgress = false;
@@ -637,7 +691,7 @@ export default {
         },
         format_date(value) {
             if (value) {
-                return moment(value).format('ll');
+                return moment(value).format('D MMM, YYYY');
             }
         },
         clearUnsavedRates() {
@@ -710,6 +764,40 @@ export default {
                 this.clearSelectedRate();
             }
             this.getDatedTax();
+        },
+        //
+
+        //Need to set marked for deletion and proceed further
+        //
+        removeGst() {
+            let rateList = [];
+            for (let temp of this.markedForDelete) {
+                delete temp.state;
+                rateList.push(temp);
+            }
+            let tempdate = this.markedForDelete[0].effective_date.split('T')[0];
+            this.taxes.value = this.taxes.value.filter((rate) => {
+                let efdate = rate.effective_date.split('T')[0];
+                if (efdate == tempdate) {
+                    return false;
+                } else return true;
+            });
+            this.saveForm();
+            this.getDatedTax();
+            this.$refs['confirm-dialog'].close();
+        },
+        //confirm dialog
+        openConfirmationDialog(data) {
+            this.markedForDelete = cloneDeep(data);
+            this.$refs['confirm-dialog'].open({
+                width: '400px',
+                height: '215px',
+                showCloseButton: true
+            });
+        },
+        closeConfirmationDialog() {
+            this.markedForDelete=[];
+            this.$refs['confirm-dialog'].close();
         }
     }
 };
@@ -755,8 +843,8 @@ export default {
         width: 100%;
     }
 }
-.char-count{
-    float:right;
+.char-count {
+    float: right;
     color: #9b9b9b;
     font-family: Inter;
     font-size: 12px;
@@ -804,19 +892,10 @@ export default {
                 display: inline !important;
             }
             .edit-btn {
-                margin-right: 5px;
-                font-size: 14px;
-                font-weight: 500;
+                margin-right: 4px;
                 cursor: pointer;
             }
             .dlt-btn {
-                border: 1px solid Red;
-                border-radius: 5px;
-                width: 25px;
-                height: 25px;
-                color: @RoyalBlue;
-                font-size: 14px;
-                font-weight: 500;
                 cursor: pointer;
             }
         }
