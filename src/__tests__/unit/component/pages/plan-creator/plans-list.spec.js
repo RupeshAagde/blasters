@@ -120,7 +120,7 @@ describe('Plans Listing', () => {
 		// expect(wrapper.vm.pageError).toBe(false);
 		expect(wrapper.vm.plansList.length).toBe(9);
 	});
-
+ 
 	// test('Url Query Rendering', async () => {
 	// 	mock.onGet(URLS.FETCH_PLANS_LIST()).reply(function(config){
 	// 		if(config.params.query === '{"name":{"$regex":"test","$options":"gi"}}' && config.params.page === 1 && config.params.limit === 5 ) {
