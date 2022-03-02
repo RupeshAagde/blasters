@@ -573,9 +573,12 @@ export default {
         },
         saveForm() {
             let postData = {};
-            if (this.hsn_code.value !== '') {
+            if (this.hsn_code.value !== '' && this.hsn_code.value.length==8) {
                 this.hsn_code.showerror = false;
                 postData.hsn_code = this.hsn_code.value;
+            } else if (this.hsn_code.value !== '' && this.hsn_code.value.length!=8){
+                this.hsn_code.showerror = true;
+                this.hsn_code.errortext = "HSN code must be of 8 digits";
             } else {
                 this.hsn_code.showerror = true;
             }
@@ -646,10 +649,27 @@ export default {
                         this.clearUnsavedRates();
                         this.clearSelectedRate();
                     });
-            } else if (this.taxes.showerror) {
+            } else if (
+                this.hsn_code.showerror ||
+                this.type.showerror ||
+                this.country_code.showerror ||
+                this.description.showerror
+            ) {
+                this.$snackbar.global.showError(
+                    `Form validation failed. Please correct the form accordingly to the error message displayed in red`
+                );
+            } else if (
+                !this.hsn_code.showerror &&
+                !this.type.showerror &&
+                !this.country_code.showerror &&
+                !this.description.showerror &&
+                this.taxes.showerror
+            ) {
                 this.$snackbar.global.showError(this.taxes.errortext);
             } else {
-                this.$snackbar.global.showError(`Fill in the required fields`);
+                this.$snackbar.global.showError(
+                    `Form validation failed. Please correct the form accordingly to the error message displayed in red`
+                );
             }
         },
         validateHSNCode() {
@@ -659,7 +679,7 @@ export default {
 
             if (this.hsn_code.value.toString().length !== 8) {
                 isValid = false;
-                this.errors.hsn_code = 'must be of 8 digits';
+                this.errors.hsn_code = 'HSN code must be of 8 digits';
             }
             return isValid;
         },
