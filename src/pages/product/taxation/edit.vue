@@ -348,7 +348,8 @@ export default {
             description: {
                 value: '',
                 showerror: false,
-                errortext: 'Description is required'
+                errortext:
+                    "Description is required and it's length should be between 10 to 100 chars"
             },
             taxes: {
                 value: [],
@@ -524,7 +525,7 @@ export default {
                 }
             }
             //to get latest active date
-            let currentDate = new Date().setHours(23)
+            let currentDate = new Date().setHours(23);
             currentDate = new Date(currentDate).toISOString().split('T')[0];
             currentDate = Number(currentDate.replaceAll('-', ''));
             let allDates = Object.keys(datedTax);
@@ -636,7 +637,7 @@ export default {
                         this.clearSelectedRate();
                         if (this.markedForDelete.length <= 0) {
                             this.redirectBack();
-                            this.markedForDelete=[]
+                            this.markedForDelete = [];
                         }
                     })
                     .catch((err) => {
@@ -672,7 +673,7 @@ export default {
             ) {
                 isValid = false;
                 this.errors.description =
-                    'Description length must be between 10 to 100 chars ';
+                    "Description is required and it's length should be between 10 to 100 chars";
             }
             return isValid;
         },
@@ -775,15 +776,32 @@ export default {
                 delete temp.state;
                 rateList.push(temp);
             }
-            let tempdate = this.markedForDelete[0].effective_date.split('T')[0];
-            this.taxes.value = this.taxes.value.filter((rate) => {
-                let efdate = rate.effective_date.split('T')[0];
-                if (efdate == tempdate) {
-                    return false;
-                } else return true;
-            });
-            this.saveForm();
-            this.getDatedTax();
+            if (this.taxes.value.length == 1) {
+                this.$snackbar.global.showError(
+                    'HSN has only one tax slab, it should not be deleted'
+                );
+            } else if (
+                this.taxes.value.length == 2 &&
+                this.taxes.value[0].effective_date ==
+                    this.taxes.value[1].effective_date
+            ) {
+                this.$snackbar.global.showError(
+                    'HSN has only one tax slab, it should not be deleted'
+                );
+            } else {
+                let tempdate = this.markedForDelete[0].effective_date.split(
+                    'T'
+                )[0];
+                this.taxes.value = this.taxes.value.filter((rate) => {
+                    let efdate = rate.effective_date.split('T')[0];
+                    if (efdate == tempdate) {
+                        return false;
+                    } else return true;
+                });
+                this.saveForm();
+                this.getDatedTax();
+            }
+
             this.$refs['confirm-dialog'].close();
         },
         //confirm dialog
@@ -796,7 +814,7 @@ export default {
             });
         },
         closeConfirmationDialog() {
-            this.markedForDelete=[];
+            this.markedForDelete = [];
             this.$refs['confirm-dialog'].close();
         }
     }

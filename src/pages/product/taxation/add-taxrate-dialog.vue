@@ -513,26 +513,26 @@ export default {
                     let rates = this.datedTax[date_dict[selectedDate]];
                     let rateCount = rates.length;
                     if (rateCount >= 2) {
-                        this.slabOneErr.effective_date.showerror = true;
-                        this.slabOneErr.effective_date.errortext =
+                        this.slab1.effective_date.showerror = true;
+                        this.slab1.effective_date.errortext =
                             'Select another date, two GST rate for selected dates already exist';
                         return false;
                     } else if (rateCount == 1) {
                         let isValid = true;
                         //checking if new slab is greater than previous, compare to old slab
                         if (this.slab1.threshold.value > rates[0].threshold) {
-                            this.slabOneErr.threshold.showerror = false;
+                            this.slab1.threshold.showerror = false;
                         } else {
-                            this.slabOneErr.threshold.showerror = true;
-                            this.slabOneErr.threshold.errortext =
+                            this.slab1.threshold.showerror = true;
+                            this.slab1.threshold.errortext =
                                 'Threshold should be greater than first threshold';
                             isValid = false;
                         }
                         if (this.slab1.rate.value > rates[0].rate) {
-                            this.slabOneErr.rate.showerror = false;
+                            this.slab1.rate.showerror = false;
                         } else {
-                            this.slabOneErr.rate.showerror = true;
-                            this.slabOneErr.rate.errortext =
+                            this.slab1.rate.showerror = true;
+                            this.slab1.rate.errortext =
                                 'Rate should be greater than previous one';
                             isValid = false;
                         }

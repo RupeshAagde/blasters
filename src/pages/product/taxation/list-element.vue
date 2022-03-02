@@ -28,7 +28,7 @@
                     </td>
                     <td>
                         {{
-                            tab.taxes.length>1
+                            tab.taxes.length > 1
                                 ? `>\u20B9${tab.taxes[1].threshold} @ ${tab.taxes[1].rate}%`
                                 : '—'
                         }}
@@ -76,7 +76,7 @@ export default {
             type: Array,
             default: () => []
         },
-        countryList:{
+        countryList: {
             type: Array,
             default: () => []
         },
@@ -91,8 +91,7 @@ export default {
             type: Number
         }
     },
-    computed: {
-    },
+    computed: {},
     mounted() {
         this.hsnWithActivetaxes = this.getHsnWithActiveTax();
     },
@@ -115,13 +114,13 @@ export default {
                 return moment(value).format('D MMM, YYYY');
             }
         },
-        format_country(value){
-            for (let country of this.countryList){
-                if(country.value==value){
-                    return country.text
+        format_country(value) {
+            for (let country of this.countryList) {
+                if (country.value == value) {
+                    return country.text;
                 }
             }
-            return value
+            return value;
         },
         redirectEdit(code) {
             let redirectPath = `${code}/edit`;
@@ -143,6 +142,8 @@ export default {
 
                 let taxdict = {};
                 let dateArr = [];
+                let upcomingDateArr = [];
+                let upcomingDate =0;
 
                 for (let tax of data.taxes) {
                     let tempdate = this.dateToComparableNumber(
@@ -154,12 +155,26 @@ export default {
                 dateArr = [...dateArrSet];
                 dateArr = dateArr.filter((item) => item <= currentDate);
                 activeDate = dateArr.sort().reverse()[0];
+                upcomingDateArr = [...dateArrSet];
+                upcomingDateArr = upcomingDateArr.filter((item) => item > currentDate);
+                upcomingDate = upcomingDateArr.sort()[0];
+
                 for (let tax of data.taxes) {
                     let tax_date = this.dateToComparableNumber(
                         tax.effective_date
                     );
                     if (tax_date == activeDate) {
                         taxes.push(tax);
+                    }
+                }
+                if (taxes.length < 1) {
+                    for (let tax of data.taxes) {
+                        let tax_date = this.dateToComparableNumber(
+                            tax.effective_date
+                        );
+                        if (tax_date == upcomingDate) {
+                            taxes.push(tax);
+                        }
                     }
                 }
                 taxes.sort(function(a, b) {
@@ -218,7 +233,7 @@ export default {
         text-align: left;
         padding: 16px 16px;
         .edit-btn {
-            float:left;
+            float: left;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
