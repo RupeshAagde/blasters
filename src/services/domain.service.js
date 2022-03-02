@@ -342,6 +342,9 @@ const URLS = {
     UPDATE_OFFLINE_PAYMENT: (id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/mark-offline-paid/${id}`);
     },
+    BULK_UPDATE_OFFLINE_PAYMENT: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/bulk/update`);
+    },
     VOID_INVOICE: () => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/void-invoice`);
     },
