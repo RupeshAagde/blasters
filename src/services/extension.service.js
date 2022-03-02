@@ -12,13 +12,13 @@ const UserService = {
         );
         return ApiService.get(URLS.EXTENSION_REVIEW(), axiosOptions);
     },
-    getExtensionReviewInfo(review_id='') {
+    getExtensionReviewInfo(review_id = '') {
         const axiosOptions = Object.assign(
             getCommonHeaderOptions()
         );
         return ApiService.get(URLS.EXTENSION_REVIEW(review_id), axiosOptions);
     },
-    updateExtensionReviewInfo(review_id='', data) {
+    updateExtensionReviewInfo(review_id = '', data) {
         const axiosOptions = Object.assign(
             getCommonHeaderOptions(),
             {
@@ -27,5 +27,18 @@ const UserService = {
         );
         return ApiService.patch(URLS.EXTENSION_REVIEW(review_id), axiosOptions);
     },
+    getPublicExtensions(slug = "", params = {}) {
+        let axiosOption = Object.assign({
+            params: params
+        })
+        return ApiService.get('http://localdev.fyndx0.de:7084/v1.0/extensions', axiosOption)
+    },
+    getAllPublicExtensionCategories(params) {
+        let axiosOption = Object.assign({
+            params: params
+        })
+        return ApiService.get('http://localdev.fyndx0.de:7084/v1.0/extensions/category/all', axiosOption)
+    },
+
 };
 export default UserService;

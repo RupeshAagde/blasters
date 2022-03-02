@@ -373,6 +373,7 @@ import {
     NitrozenTooltip,
     NitrozenChips,
     NitrozenInline,
+    NitrozenCheckbox,
 } from '@gofynd/nitrozen-vue';
 import ItemDrawer from './item-drawer.vue';
 import { BaseModal } from '../../components/common/';
@@ -402,10 +403,9 @@ export default {
         'tags-input': tagsInput,
         loader: loader,
         'nitrozen-inline': NitrozenInline,
-
         'nitrozen-chips': NitrozenChips,
-
         'nitrozen-tooltip': NitrozenTooltip,
+        'nitrozen-checkbox': NitrozenCheckbox,
     },
     directives: {
         flatBtn,
