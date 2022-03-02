@@ -265,12 +265,7 @@ const BillingService = {
         return ApiService.put(URLS.SUBSCRIPTION_COUPON(id), axiosOptions);
     },
 
-    getPlans(params) {
-        const axiosOptions = Object.assign({}, 
-            { params: params },
-            getCommonHeaderOptions());
-        return ApiService.get(URLS.FETCH_PLANS_LIST(), axiosOptions);
-    },
+   
     getSubscribers(params) {
         const axiosOptions = Object.assign({},
             { params: params },

@@ -9,7 +9,7 @@ import { PageHeader } from '@/components/common/';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
 import URLS from '@/services//domain.service';
 import flushPromises from "flush-promises";
-import { form_data,components ,daytrader_components} from "./mocks";
+import { form_data,components ,daytrader_components,companies} from "./mocks";
 
 describe('Plans create form', () => {
 	let wrapper;
@@ -28,6 +28,7 @@ describe('Plans create form', () => {
 		})
 		router.push('/administrator/subscription-plans/create');
         mock.onGet(URLS.FETCH_SUBSCRIPTION_COMPONENTS()).reply(200, components);
+        mock.onGet(URLS.GET_COMPANY_LIST()).reply(200, companies);
         mock.onGet(URLS.FETCH_DAYTRADER_COMPONENT()).reply(200, daytrader_components);
         
 
@@ -126,13 +127,13 @@ describe('Plans create form', () => {
     //     expect(wrapper.vm.saveInProgress).toBe(false);
     });
 
-    test('Change menu action  to clone', async () => {
-        wrapper.vm.onMenuAction('clone');
-        let showSuccessMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showSuccess');
-            await wrapper.vm.$nextTick();
-            expect(showSuccessMethod).toHaveBeenCalled();
+    // test('Change menu action  to clone', async () => {
+    //     wrapper.vm.onMenuAction('clone');
+    //     let showSuccessMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showSuccess');
+    //         await wrapper.vm.$nextTick();
+    //         expect(showSuccessMethod).toHaveBeenCalled();
            
-        });
+    //     });
 
         // delete functionality has been removed
 

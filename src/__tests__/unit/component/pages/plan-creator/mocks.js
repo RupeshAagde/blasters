@@ -2181,4 +2181,531 @@ module.exports.daytrader_components = {
     "page": 1,
     "pages": 1
 }
+module.exports.companies = {
+    "items": [
+        {
+            "addresses": [
+                {
+                    "pincode": 442701,
+                    "country": "INDIA",
+                    "address1": "31-214,BALLARSHAH,WCL COLONY",
+                    "address_type": "office",
+                    "longitude": 79.2961468,
+                    "state": "MAHARASHTRA",
+                    "country_code": "IN",
+                    "city": "CHANDRAPUR",
+                    "latitude": 19.9615398
+                },
+                {
+                    "pincode": 442701,
+                    "country": "INDIA",
+                    "address1": "31-214,BALLARSHAH,WCL COLONY",
+                    "address_type": "registered",
+                    "longitude": 79.2961468,
+                    "state": "MAHARASHTRA",
+                    "country_code": "IN",
+                    "city": "CHANDRAPUR",
+                    "latitude": 19.9615398
+                }
+            ],
+            "notification_emails": [
+                "shravansingarao@fynd-external.com"
+            ],
+            "created_on": "2022-02-28T05:41:50.126000Z",
+            "verified_on": "2022-02-28T05:41:52.126000Z",
+            "company_type": "mbo",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "modified_by": {
+                "username": "shravansingarao_fynd_external_com_70033",
+                "user_id": "2cf67a6eb2c7c334073e73b0"
+            },
+            "uid": 11332,
+            "name": "shravan test",
+            "stage": "verified",
+            "verified_by": {
+                "username": "Silverbolt",
+                "user_id": "0"
+            },
+            "created_by": {
+                "username": "shravansingarao_fynd_external_com_70033",
+                "user_id": "2cf67a6eb2c7c334073e73b0"
+            },
+            "modified_on": "2022-02-28T05:41:50.126000Z"
+        },
+        {
+            "addresses": [
+                {
+                    "pincode": 600001,
+                    "country": "INDIA",
+                    "address1": "OWN",
+                    "address_type": "office",
+                    "longitude": 80.2707184,
+                    "state": "TAMIL NADU",
+                    "country_code": "IN",
+                    "city": "CHENNAI",
+                    "latitude": 13.0826802
+                },
+                {
+                    "pincode": 600001,
+                    "country": "INDIA",
+                    "address1": "OWN",
+                    "address_type": "registered",
+                    "longitude": 80.2707184,
+                    "state": "TAMIL NADU",
+                    "country_code": "IN",
+                    "city": "CHENNAI",
+                    "latitude": 13.0826802
+                }
+            ],
+            "notification_emails": [
+                "sivasubramani.612@gmail.com"
+            ],
+            "created_on": "2022-02-25T11:59:02.387000Z",
+            "company_type": "mbo",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "modified_by": {
+                "username": "sivasubramani_612_gmail_com_25270",
+                "user_id": "04dc5eb857aed8a48647b47d"
+            },
+            "uid": 11331,
+            "name": "Own",
+            "stage": "complete",
+            "created_by": {
+                "username": "sivasubramani_612_gmail_com_25270",
+                "user_id": "04dc5eb857aed8a48647b47d"
+            },
+            "modified_on": "2022-02-25T11:59:02.387000Z"
+        },
+        {
+            "addresses": [
+                {
+                    "pincode": 421306,
+                    "country": "INDIA",
+                    "address1": "WE WORK",
+                    "address_type": "office",
+                    "longitude": 72.9780897,
+                    "state": "MAHARASHTRA",
+                    "country_code": "IN",
+                    "city": "THANE",
+                    "latitude": 19.2183307
+                },
+                {
+                    "pincode": 421306,
+                    "country": "INDIA",
+                    "address1": "WE WORK",
+                    "address_type": "registered",
+                    "longitude": 72.9780897,
+                    "state": "MAHARASHTRA",
+                    "country_code": "IN",
+                    "city": "THANE",
+                    "latitude": 19.2183307
+                }
+            ],
+            "notification_emails": [
+                "ankitakotawdekar@gofynd.com"
+            ],
+            "created_on": "2022-02-25T10:47:55.898000Z",
+            "verified_on": "2022-02-25T10:47:57.384000Z",
+            "company_type": "mbo",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "modified_by": {
+                "username": "ankitakotawdekar_gofynd_com_94255",
+                "user_id": "322670e6aa605cd8b7c0c0be"
+            },
+            "uid": 11330,
+            "name": "sales_channel_4",
+            "stage": "verified",
+            "verified_by": {
+                "username": "Silverbolt",
+                "user_id": "0"
+            },
+            "created_by": {
+                "username": "ankitakotawdekar_gofynd_com_94255",
+                "user_id": "322670e6aa605cd8b7c0c0be"
+            },
+            "modified_on": "2022-02-25T10:47:55.898000Z"
+        },
+        {
+            "addresses": [
+                {
+                    "pincode": 421306,
+                    "country": "INDIA",
+                    "address1": "WE WORK",
+                    "address_type": "office",
+                    "longitude": 72.8776559,
+                    "state": "MAHARASHTRA",
+                    "country_code": "IN",
+                    "city": "MUMBAI",
+                    "latitude": 19.0759837
+                },
+                {
+                    "pincode": 421306,
+                    "country": "INDIA",
+                    "address1": "WE WORK",
+                    "address_type": "registered",
+                    "longitude": 72.8776559,
+                    "state": "MAHARASHTRA",
+                    "country_code": "IN",
+                    "city": "MUMBAI",
+                    "latitude": 19.0759837
+                }
+            ],
+            "notification_emails": [
+                "ankitakotawdekar@gofynd.com"
+            ],
+            "created_on": "2022-02-25T10:18:10.852000Z",
+            "verified_on": "2022-02-25T10:18:12.511000Z",
+            "company_type": "mbo",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "modified_by": {
+                "username": "ankitakotawdekar_gofynd_com_94255",
+                "user_id": "322670e6aa605cd8b7c0c0be"
+            },
+            "uid": 11329,
+            "name": "sales_channel_3",
+            "stage": "verified",
+            "verified_by": {
+                "username": "Silverbolt",
+                "user_id": "0"
+            },
+            "created_by": {
+                "username": "ankitakotawdekar_gofynd_com_94255",
+                "user_id": "322670e6aa605cd8b7c0c0be"
+            },
+            "modified_on": "2022-02-25T10:18:10.852000Z"
+        },
+        {
+            "addresses": [
+                {
+                    "pincode": 421306,
+                    "country": "INDIA",
+                    "address1": "WEWORK",
+                    "address_type": "office",
+                    "longitude": 72.9780897,
+                    "state": "MAHARASHTRA",
+                    "country_code": "IN",
+                    "city": "THANE",
+                    "latitude": 19.2183307
+                },
+                {
+                    "pincode": 421306,
+                    "country": "INDIA",
+                    "address1": "WEWORK",
+                    "address_type": "registered",
+                    "longitude": 72.9780897,
+                    "state": "MAHARASHTRA",
+                    "country_code": "IN",
+                    "city": "THANE",
+                    "latitude": 19.2183307
+                }
+            ],
+            "notification_emails": [
+                "ankitakotawdekar@gofynd.com"
+            ],
+            "created_on": "2022-02-25T09:12:11.059000Z",
+            "verified_on": "2022-02-25T09:12:12.703000Z",
+            "company_type": "mbo",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "modified_by": {
+                "username": "ankitakotawdekar_gofynd_com_94255",
+                "user_id": "322670e6aa605cd8b7c0c0be"
+            },
+            "uid": 11328,
+            "name": "sales_channel_2",
+            "stage": "verified",
+            "verified_by": {
+                "username": "Silverbolt",
+                "user_id": "0"
+            },
+            "created_by": {
+                "username": "ankitakotawdekar_gofynd_com_94255",
+                "user_id": "322670e6aa605cd8b7c0c0be"
+            },
+            "modified_on": "2022-02-25T09:12:11.059000Z"
+        },
+        {
+            "addresses": [
+                {
+                    "pincode": 400071,
+                    "country": "INDIA",
+                    "address1": "NA",
+                    "address_type": "office",
+                    "longitude": 72.8423802,
+                    "state": "MAHARASHTRA",
+                    "country_code": "IN",
+                    "city": "MUMBAI",
+                    "latitude": 19.0653252
+                },
+                {
+                    "pincode": 400071,
+                    "country": "INDIA",
+                    "address1": "NA",
+                    "address_type": "registered",
+                    "longitude": 72.8423802,
+                    "state": "MAHARASHTRA",
+                    "country_code": "IN",
+                    "city": "MUMBAI",
+                    "latitude": 19.0653252
+                }
+            ],
+            "notification_emails": [
+                "kedarkulkarni@gofynd.com"
+            ],
+            "created_on": "2022-02-21T11:13:52.996000Z",
+            "verified_on": "2022-02-24T06:07:49.091000Z",
+            "company_type": "mbo",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "modified_by": {
+                "username": "kedarkulkarni_gofynd_com_77775",
+                "user_id": "4853a4e97a6808ba5faad372"
+            },
+            "uid": 11325,
+            "name": "KBC stores",
+            "stage": "verified",
+            "verified_by": {
+                "username": "Silverbolt",
+                "user_id": "0"
+            },
+            "created_by": {
+                "username": "kedarkulkarni_gofynd_com_77775",
+                "user_id": "4853a4e97a6808ba5faad372"
+            },
+            "modified_on": "2022-02-24T06:07:48.714000Z"
+        },
+        {
+            "addresses": [
+                {
+                    "pincode": 563125,
+                    "country": "INDIA",
+                    "address1": "2ND CROSS , SLN SHOP",
+                    "address_type": "office",
+                    "longitude": 78.0551384,
+                    "state": "KARNATAKA",
+                    "country_code": "IN",
+                    "city": "CHINTAMANI",
+                    "latitude": 13.4019689
+                },
+                {
+                    "pincode": 563125,
+                    "country": "INDIA",
+                    "address1": "2ND CROSS , SLN SHOP",
+                    "address_type": "registered",
+                    "longitude": 78.0551384,
+                    "state": "KARNATAKA",
+                    "country_code": "IN",
+                    "city": "CHINTAMANI",
+                    "latitude": 13.4019689
+                }
+            ],
+            "notification_emails": [
+                "kishorbr831@gmail.com"
+            ],
+            "created_on": "2022-02-22T12:01:35.371000Z",
+            "verified_on": "2022-02-22T12:01:37.095000Z",
+            "company_type": "mbo",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "modified_by": {
+                "username": "kishorbr831_gmail_com_98430",
+                "user_id": "bfa785c073f6b5b28d83db5d"
+            },
+            "uid": 11327,
+            "name": "Kishor Test",
+            "stage": "verified",
+            "verified_by": {
+                "username": "Silverbolt",
+                "user_id": "0"
+            },
+            "created_by": {
+                "username": "kishorbr831_gmail_com_98430",
+                "user_id": "bfa785c073f6b5b28d83db5d"
+            },
+            "modified_on": "2022-02-22T12:01:35.371000Z"
+        },
+        {
+            "addresses": [
+                {
+                    "pincode": 400605,
+                    "country": "INDIA",
+                    "address1": "A/002 DSGDI",
+                    "address_type": "office",
+                    "longitude": 72.88261,
+                    "state": "MAHARASHTRA",
+                    "country_code": "IN",
+                    "city": "MUMBAI",
+                    "latitude": 19.07283
+                },
+                {
+                    "pincode": 400605,
+                    "country": "INDIA",
+                    "address1": "A/002 DSGDI",
+                    "address_type": "registered",
+                    "longitude": 72.88261,
+                    "state": "MAHARASHTRA",
+                    "country_code": "IN",
+                    "city": "MUMBAI",
+                    "latitude": 19.07283
+                }
+            ],
+            "notification_emails": [
+                "ankitakotawdekar@gofynd.com"
+            ],
+            "created_on": "2022-02-22T09:22:36.062000Z",
+            "verified_on": "2022-02-22T09:22:37.928000Z",
+            "company_type": "mbo",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "modified_by": {
+                "username": "ankitakotawdekar_gofynd_com_94255",
+                "user_id": "322670e6aa605cd8b7c0c0be"
+            },
+            "uid": 11326,
+            "name": "abcd",
+            "stage": "verified",
+            "verified_by": {
+                "username": "Silverbolt",
+                "user_id": "0"
+            },
+            "created_by": {
+                "username": "ankitakotawdekar_gofynd_com_94255",
+                "user_id": "322670e6aa605cd8b7c0c0be"
+            },
+            "modified_on": "2022-02-22T09:22:36.062000Z"
+        },
+        {
+            "addresses": [
+                {
+                    "pincode": 400053,
+                    "country": "INDIA",
+                    "address1": "TEST TEST TEST",
+                    "address_type": "office",
+                    "longitude": 72.8776559,
+                    "state": "MAHARASHTRA",
+                    "country_code": "IN",
+                    "city": "MUMBAI",
+                    "latitude": 19.0759837
+                },
+                {
+                    "pincode": 400053,
+                    "country": "INDIA",
+                    "address1": "TEST TEST TEST",
+                    "address_type": "registered",
+                    "longitude": 72.8776559,
+                    "state": "MAHARASHTRA",
+                    "country_code": "IN",
+                    "city": "MUMBAI",
+                    "latitude": 19.0759837
+                }
+            ],
+            "notification_emails": [
+                "ronakmodi@uniket.store"
+            ],
+            "created_on": "2022-02-16T07:32:47.025000Z",
+            "verified_on": "2022-02-16T07:32:49.078000Z",
+            "company_type": "mbo",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "modified_by": {
+                "username": "919376670622_07719",
+                "user_id": "db86a3724e497590bd3a9ccb"
+            },
+            "uid": 11324,
+            "name": "Harshil Test Account",
+            "stage": "verified",
+            "verified_by": {
+                "username": "Silverbolt",
+                "user_id": "0"
+            },
+            "created_by": {
+                "username": "919376670622_07719",
+                "user_id": "db86a3724e497590bd3a9ccb"
+            },
+            "modified_on": "2022-02-16T07:32:47.025000Z"
+        },
+        {
+            "addresses": [
+                {
+                    "pincode": 788710,
+                    "country": "INDIA",
+                    "address1": "KARIMGANJ",
+                    "address_type": "office",
+                    "longitude": 92.3591531,
+                    "state": "ASSAM",
+                    "country_code": "IN",
+                    "city": "KARIMGANJ",
+                    "latitude": 24.8649128
+                },
+                {
+                    "pincode": 788710,
+                    "country": "INDIA",
+                    "address1": "KARIMGANJ",
+                    "address_type": "registered",
+                    "longitude": 92.3591531,
+                    "state": "ASSAM",
+                    "country_code": "IN",
+                    "city": "KARIMGANJ",
+                    "latitude": 24.8649128
+                }
+            ],
+            "notification_emails": [
+                "reeturajbaidya@gofynd.com"
+            ],
+            "created_on": "2022-02-16T07:06:26.965000Z",
+            "verified_on": "2022-02-16T07:06:28.790000Z",
+            "company_type": "mbo",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "modified_by": {
+                "username": "reeturajbaidya_gofynd_com_84916",
+                "user_id": "5ebc82e2a74508d9a2664c88"
+            },
+            "uid": 11323,
+            "name": "ABC Fashion",
+            "stage": "verified",
+            "verified_by": {
+                "username": "Silverbolt",
+                "user_id": "0"
+            },
+            "created_by": {
+                "username": "reeturajbaidya_gofynd_com_84916",
+                "user_id": "5ebc82e2a74508d9a2664c88"
+            },
+            "modified_on": "2022-02-16T07:06:26.965000Z"
+        }
+    ],
+    "page": {
+        "current": 1,
+        "type": "number",
+        "size": 130,
+        "has_previous": false,
+        "has_next": true,
+        "item_total": 1293
+    }
+}
 module.exports.country_list_res = {"items":[{"_id":"5ec50c613c403900600fcdec","type":"country","name":"Afghanistan","iso3":"AFG","iso2":"AF","phone_code":"93","capital":"Kabul","currency":"AFN","parent":null,"uid":1,"__v":0},{"_id":"5ec50c613c403900600fcded","type":"country","name":"Aland Islands","iso3":"ALA","iso2":"AX","phone_code":"+358-18","capital":"Mariehamn","currency":"EUR","parent":null,"uid":2,"__v":0},{"_id":"5ec50c613c403900600fcdee","type":"country","name":"Albania","iso3":"ALB","iso2":"AL","phone_code":"355","capital":"Tirana","currency":"ALL","parent":null,"uid":3,"__v":0},{"_id":"5ec50c613c403900600fcdef","type":"country","name":"Algeria","iso3":"DZA","iso2":"DZ","phone_code":"213","capital":"Algiers","currency":"DZD","parent":null,"uid":4,"__v":0},{"_id":"5ec50c613c403900600fcdf0","type":"country","name":"American Samoa","iso3":"ASM","iso2":"AS","phone_code":"+1-684","capital":"Pago Pago","currency":"USD","parent":null,"uid":5,"__v":0},{"_id":"5ec50c613c403900600fcdf1","type":"country","name":"Andorra","iso3":"AND","iso2":"AD","phone_code":"376","capital":"Andorra la Vella","currency":"EUR","parent":null,"uid":6,"__v":0},{"_id":"5ec50c613c403900600fcdf2","type":"country","name":"Angola","iso3":"AGO","iso2":"AO","phone_code":"244","capital":"Luanda","currency":"AOA","parent":null,"uid":7,"__v":0},{"_id":"5ec50c613c403900600fcdf3","type":"country","name":"Anguilla","iso3":"AIA","iso2":"AI","phone_code":"+1-264","capital":"The Valley","currency":"XCD","parent":null,"uid":8,"__v":0},{"_id":"5ec50c613c403900600fcdf4","type":"country","name":"Antarctica","iso3":"ATA","iso2":"AQ","phone_code":"","capital":"","currency":"","parent":null,"uid":9,"__v":0},{"_id":"5ec50c613c403900600fcdf5","type":"country","name":"Antigua And Barbuda","iso3":"ATG","iso2":"AG","phone_code":"+1-268","capital":"St. John's","currency":"XCD","parent":null,"uid":10,"__v":0}]}
