@@ -129,6 +129,12 @@ const BillingService = {
         });
         return ApiService.put(URLS.UPDATE_OFFLINE_PAYMENT(InvoiceId), axiosOptions);
     },
+    bulkUpdateOfflinePayment(payload) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{
+            data: payload
+        });
+        return ApiService.put(URLS.BULK_UPDATE_OFFLINE_PAYMENT(), axiosOptions);
+    },
     voidInvoice(payload) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{
             data: payload
