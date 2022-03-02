@@ -57,6 +57,14 @@ export const getNavigations = () => {
                     active: false
                 },
                 {
+                    display: 'Taxation',
+                    link: '/administrator/product/taxation',
+                    title: 'taxation',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
                     display: 'Departments',
                     link: '/administrator/product/department',
                     title: 'department',

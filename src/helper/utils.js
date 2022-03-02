@@ -68,9 +68,9 @@ export const getUpdatedQueryParamVal = (router, key, value) => {
     if (Array.isArray(currentValue)) {
         currentValue = currentValue.map(String);
         let isAlready = currentValue.indexOf(value.toString());
-        isAlready === -1
-            ? currentValue.push(value)
-            : currentValue.splice(isAlready, 1);
+        isAlready === -1 ?
+            currentValue.push(value) :
+            currentValue.splice(isAlready, 1);
     }
     return currentValue;
 };
@@ -143,8 +143,10 @@ export const copyToClipboard = (str) => {
     document.body.appendChild(el); // Append the <textarea> element to the HTML document
     const selected =
         document.getSelection().rangeCount > 0 // Check if there is any content selected previously
-            ? document.getSelection().getRangeAt(0) // Store selection if found
-            : false; // Mark as false to know no selection existed before
+        ?
+        document.getSelection().getRangeAt(0) // Store selection if found
+        :
+        false; // Mark as false to know no selection existed before
     el.select(); // Select the <textarea> content
     document.execCommand('copy'); // Copy - only works as a result of a user action (e.g. click events)
     document.body.removeChild(el); // Remove the <textarea> element
@@ -164,8 +166,7 @@ export const convertToSlug = (text) => {
 
 export const getQueryObj = (searchURL) => {
     return Array.from(new URLSearchParams(searchURL)).reduce(
-        (o, i) => ({ ...o, [i[0]]: i[1] }),
-        {}
+        (o, i) => ({...o, [i[0]]: i[1] }), {}
     );
 };
 export const getURLSearchParams = (url) => {
@@ -190,7 +191,7 @@ export const normalizeAPIError = (error) => {
         if (data !== Object(data)) {
             obj = { message: data, code: status };
         } else {
-            obj = { ...data, message: data.message, code: status };
+            obj = {...data, message: data.message, code: status };
         }
         return obj;
     } else if (error.request) {
@@ -320,24 +321,24 @@ export const validateEmail = (text) => {
     return re.test(String(text).toLowerCase());
 };
 
-export const validateNitrozenCustomFormInputs = (inputs) =>{
-    try{
-        if(inputs && Array.isArray(inputs)){
-            if(inputs.length===0){
+export const validateNitrozenCustomFormInputs = (inputs) => {
+    try {
+        if (inputs && Array.isArray(inputs)) {
+            if (inputs.length === 0) {
                 return true;
-            } 
-            for(let i of inputs){
-                if(!validateNitrozenCustomFormInput(i)){
-                    console.log('INPUT:::',i,inputs.length)
-                  throw 'Some input is invalid'; 
+            }
+            for (let i of inputs) {
+                if (!validateNitrozenCustomFormInput(i)) {
+                    console.log('INPUT:::', i, inputs.length)
+                    throw 'Some input is invalid';
                 }
             }
             return true;
-        }else{
+        } else {
             throw 'Inputs format invalid';
         }
-    }catch(e){
-        console.log('ERROR',e)
+    } catch (e) {
+        console.log('ERROR', e)
         return false
     }
 }
