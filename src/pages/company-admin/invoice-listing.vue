@@ -100,14 +100,14 @@
                             >
                                 Export CSV
                             </nitrozen-button>
-                            <nitrozen-button
+                            <!-- <nitrozen-button
                             style="margin-top:22px; margin-left:22px"
                             v-strokeBtn
                             :theme="'secondary'"
                             @click="openUploadCSVDialog()"
                             >
                                 Bulk Update
-                            </nitrozen-button>
+                            </nitrozen-button> -->
                         </div>
 
                     </div>
@@ -1136,7 +1136,7 @@ export default {
                                 status:res.status,
                                 ...res.response
                             }
-                        },{concurrency: 1});
+                        },{concurrency: 50});
 
             arrRes.then(res=>{
                 res.forEach((ele)=>{
