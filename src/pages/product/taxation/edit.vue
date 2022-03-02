@@ -656,7 +656,7 @@ export default {
                 this.description.showerror
             ) {
                 this.$snackbar.global.showError(
-                    `Form validation failed. Please correct the form accordingly to the error message displayed in red`
+                    `Form validation failed. Please correct the form according to the error messages displayed in red`
                 );
             } else if (
                 !this.hsn_code.showerror &&
@@ -668,7 +668,7 @@ export default {
                 this.$snackbar.global.showError(this.taxes.errortext);
             } else {
                 this.$snackbar.global.showError(
-                    `Form validation failed. Please correct the form accordingly to the error message displayed in red`
+                    `Form validation failed. Please correct the form according to the error messages displayed in red`
                 );
             }
         },
