@@ -14,7 +14,7 @@
                                 :theme="'secondary'"
                                 @click="openCurrentPlanDetailsModal"
                             >
-                                View details
+                                View Details
                             </nitrozen-button>
                         </div>
                     </div>
@@ -88,13 +88,22 @@
                                 currentActivePlan.subscription &&
                                 !currentActivePlan.subscription.is_active
                         "
-                        class="flex"
+                        class="activation"
                     >
+                    <div>
+                         <nitrozen-button
+                                :theme="'secondary'"
+                                @click="onOpenChangePlanDialog"
+                            >
+                                Change Plan
+                            </nitrozen-button>
+                        </div>
                         <div class="flex-1 current-inactive-plan">
                             Your current subscription for the
                             {{ currentActivePlan.subscription.plan_data.name }}
                             plan is inactive.
                         </div>
+                        
                     </div>
                     <div
                         v-if="
@@ -135,12 +144,12 @@
                 <nitrozen-dialog
                     id="view-plan-details"
                     ref="view_plan_details"
-                    title="Plan details"
+                    title="Plan Details"
                 >
                     <template slot="body" name="body">
                         <div class="plan-info m-b-24" v-if="currentPlanDetailed">
                             <div class="plan-bolder">
-                                Plan name: {{ currentPlanDetailed.name }}
+                                Plan Name: {{ currentPlanDetailed.name }}
                             </div>
                             <div class="plan-thin">
                                 Pricing:
@@ -1004,7 +1013,6 @@ export default {
     .current-inactive-plan {
         color: #fa3f4d;
         border: 1px solid #fa3f4d;
-        margin-bottom: 24px;
         padding: 14px;
         border-radius: 5px;
         display: inline-block;
@@ -1209,6 +1217,11 @@ export default {
     margin-top: 12px;
     font-weight: 700;
     font-size: 13px;
+}
+.activation{
+    display: flex;
+    flex-direction: column-reverse;
+    
 }
 
 
