@@ -340,6 +340,15 @@ const CompanyService = {
             axiosOption
         );
     },
+    getSingleHsnCode(id) {
+        let axiosOption = Object.assign(
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(
+            URLS.FETCH_SINGLEHSN(id),
+            axiosOption
+        );
+    },
 
     createHsnCode(data) {
         let axiosOption = Object.assign({
@@ -353,14 +362,14 @@ const CompanyService = {
         );
     },
 
-    updateHsnCode(data) {
+    updateHsnCode(reporting_hsn, data) {
         let axiosOption = Object.assign({
                 data
             },
             getCommonHeaderOptions()
         );
         return ApiService.put(
-            URLS.HSN_CODE_RETRIVE_UPDATE_DELETE(),
+            URLS.HSN_CODE_RETRIVE_UPDATE_DELETE(reporting_hsn),
             axiosOption
         );
     },

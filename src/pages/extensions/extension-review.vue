@@ -317,6 +317,7 @@ export default {
             this.review_data.current_status = approve
                 ? 'published'
                 : 'rejected';
+            this.review_data.review_comments = this.extension_info.review_comments
             if (!approve && !this.review_data.review_comments) {
                 this.error_comments =
                     'Review comments required for rejecting extension changes';

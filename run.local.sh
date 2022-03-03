@@ -1,11 +1,11 @@
 # server
 export NODE_ENV=development
 export ENV=development
-export PORT=8086
+export PORT=8087
 
 
 #API's
-export FYND_PLATFORM_DOMAIN=fyndx0.de
+export FYND_PLATFORM_DOMAIN=fyndx1.de
 export POINTBLANK_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/communication/
 export BLITZKRIEG_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/platform/theme/
 export GRINDOR_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/assets/
@@ -37,8 +37,6 @@ export UNICRON_PUBLIC_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/public/bil
 export UNICRON_PUBLIC_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/public/billing
 export HIGHBROW_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/lead
 export HIGHBROW_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/lead
-export SLINGSHOT_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/slingshot/
-export SLINGSHOT_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/slingshot/
 export SLINGSHOT_PUBLIC_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/common/configuration/
 export SLINGSHOT_PUBLIC_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/common/configuration/
 export SLINGSHOT_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/configuration
