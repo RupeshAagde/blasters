@@ -95,7 +95,7 @@
                                 :theme="'secondary'"
                                 @click="onOpenChangePlanDialog"
                             >
-                                Change Plan
+                                Activate Plan
                             </nitrozen-button>
                         </div>
                         <div class="flex-1 current-inactive-plan">
@@ -967,11 +967,11 @@ export default {
         padding: 14px;
         border-radius: 5px;
         display: inline-block;
+        margin-bottom: 24px;
     }
     .under-trial-plan {
         color: #2E31BE;
         border: 1px solid #2E31BE;
-        margin-bottom: 24px;
         padding: 14px;
         border-radius: 5px;
         display: inline-block;
@@ -980,6 +980,7 @@ export default {
         padding: 14px;
         border-radius: 5px;
         border: 1px solid lightgray;
+        margin-bottom: 24px;
     }
     .plan-container {
         line-height: 24px;
