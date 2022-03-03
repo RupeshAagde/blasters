@@ -92,6 +92,12 @@
                 <!-- Image Upload -->
                 <div class="image-uploader">
                     <div class="no-image-container">
+                        <div class="main-label">
+                            <div class="sub-label-top">Icon</div>
+                            <div class="sub-label-bottom">
+                                (Web &amp; Mobile)
+                            </div>
+                        </div>
                         <div class="inline">
                             <div class="no-image right-gutter">
                                 <div v-if="collection_data.imageObj.logo == ''">
@@ -131,6 +137,11 @@
                         </div>
                     </div>
                     <div class="no-image-container">
+                        <div class="main-label">
+                            <div class="sub-label-top">Landscape Banner</div>
+                            <div class="sub-label-bottom">{Web}</div>
+                        </div>
+
                         <div class="inline">
                             <div class="no-image right-gutter">
                                 <div
@@ -181,6 +192,11 @@
                         </div>
                     </div>
                     <div class="no-image-container">
+                        <div class="main-label">
+                            <div class="sub-label-top">Portrait Banner</div>
+                            <div class="sub-label-bottom">{Web}</div>
+                        </div>
+
                         <div class="inline">
                             <div class="no-image right-gutter">
                                 <div
@@ -261,13 +277,14 @@
                     </div>
                 </div>
                 <item-drawer
-                    v-if="showExntensionModal"
-                    :isOpen="showExntensionModal"
+                    v-show="showExtensionModal"
+                    :isOpen="showExtensionModal"
                     :isCancelable="true"
                     :title="'Exntension List'"
                     v-on:onAddExtensions="addSelectedExtensions"
                     :selected_extensions="selected_extensions"
                     v-on:closeModal="closeModal"
+                    @handleModalRef="setModalRef"
                 >
                 </item-drawer>
                 <div>
@@ -321,6 +338,7 @@
                                         <span class="capitalize">
                                             /
                                             {{
+                                                extension.plans[0].recurring &&
                                                 extension.plans[0].recurring
                                                     .type
                                             }}</span
@@ -373,7 +391,7 @@ import {
     NitrozenTooltip,
     NitrozenChips,
     NitrozenInline,
-    NitrozenCheckbox,
+    NitrozenCheckBox,
 } from '@gofynd/nitrozen-vue';
 import ItemDrawer from './item-drawer.vue';
 import { BaseModal } from '../../components/common/';
@@ -405,7 +423,7 @@ export default {
         'nitrozen-inline': NitrozenInline,
         'nitrozen-chips': NitrozenChips,
         'nitrozen-tooltip': NitrozenTooltip,
-        'nitrozen-checkbox': NitrozenCheckbox,
+        'nitrozen-checkbox': NitrozenCheckBox,
     },
     directives: {
         flatBtn,
@@ -413,7 +431,7 @@ export default {
     },
     data() {
         return {
-            showExntensionModal: false,
+            showExtensionModal: false,
             inProgress: false,
             pageError: false,
             pageLoading: false,
@@ -435,6 +453,7 @@ export default {
             chipInput: '',
             fynd_platform_domain: 'fynd.com',
             selected_extensions: [],
+            modalRef: null,
         };
     },
     computed: {},
@@ -444,15 +463,20 @@ export default {
         this.fetchExtension();
     },
     methods: {
+        setModalRef(modalRef) {
+            this.modalRef = modalRef;
+        },
         addSelectedExtensions(selected_extensions) {
             this.selected_extensions = selected_extensions;
-            this.showExntensionModal = false;
+            this.showExtensionModal = false;
         },
         addProducts() {
-            this.showExntensionModal = true;
+            this.modalRef && this.modalRef.open();
+            this.showExtensionModal = true;
         },
         closeModal() {
-            this.showExntensionModal = false;
+            this.showExtensionModal = false;
+            this.modalRef && this.modalRef.close();
         },
         onSelectedFilters() {},
         focusOnChipInput() {
@@ -460,7 +484,10 @@ export default {
         },
         onChangeImage(event, name) {
             this.collection_data.imageObj[name] = event;
-            console.log('>>event', event);
+            document.body.style = {
+                ...document.body.style,
+                position: 'relative',
+            };
         },
         formatBytes,
         fetchExtension() {},
@@ -487,7 +514,6 @@ export default {
             this.tags.splice(index, 1);
         },
         addChip(event) {
-            console.log('>>this.tags', this.tags);
             if (this.chipInput) {
                 if (
                     this.tags &&
@@ -531,6 +557,21 @@ export default {
             .image-uploader {
                 display: flex;
                 justify-content: space-between;
+                margin-top: 20px;
+            }
+            .main-label {
+                margin-bottom: -30px;
+                .sub-label-top {
+                    color: #9b9b9b;
+                    font-size: 12px;
+                    line-height: 18px;
+                }
+                .sub-label-bottom {
+                    color: #9b9b9b;
+                    font-size: 12px;
+                    font-weight: 500;
+                    line-height: 22px;
+                }
             }
             .item-catelogue {
                 display: flex;

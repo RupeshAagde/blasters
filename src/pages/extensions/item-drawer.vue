@@ -1,6 +1,6 @@
 <template>
     <div class="item-drawer">
-        <base-modal
+        <item-dialog
             class="drawer-modal"
             :isOpen="isOpen"
             :isCancelable="true"
@@ -8,6 +8,7 @@
             @closedialog="closeModal"
             @onSubmit="onSelectExtensions"
             :footerTitle="'Add ' + extensions_selected.length + ' Extensions'"
+            @modalRef="saveModalRef"
         >
             <div class="main-body">
                 <div class="filter-list left">
@@ -32,6 +33,7 @@
                                     @input="
                                         checkPriceFilter($event, filterValue)
                                     "
+                                    :name="filterValue.slug"
                                     v-model="filterValue.is_selected"
                                 >
                                     {{ filterValue.display }}
@@ -49,11 +51,7 @@
                                         onChangeFilter($event, filterValue)
                                     "
                                     :value="filterValue.slug"
-                                    :radioValue="
-                                        filterValue.is_selected
-                                            ? filterValue.slug
-                                            : ''
-                                    "
+                                    :radioValue="getRadioValue(filterValue)"
                                     :name="filterValue.type"
                                 >
                                     {{ filterValue.display }}
@@ -140,7 +138,8 @@
                             ></nitrozen-inline>
                         </nitrozen-chips>
                         <div
-                            v-if="getChipsData().length > 0"
+                            class="clear-filter"
+                            v-show="getChipsData().length > 0"
                             @click="clearFilter"
                         >
                             Clear Filter
@@ -154,6 +153,7 @@
                             :ref="'extension-' + index"
                         >
                             <nitrozen-checkbox
+                                :name="extension.slug"
                                 v-on:input="selectExtension($event, extension)"
                                 v-model="extension.is_selected"
                             >
@@ -218,7 +218,7 @@
                     </page-empty>
                 </div>
             </div>
-        </base-modal>
+        </item-dialog>
     </div>
 </template>
 <script>
@@ -251,7 +251,7 @@ export default {
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-input': NitrozenInput,
         'nitrozen-pagination': NitrozenPagination,
-        'base-modal': itemDialog,
+        'item-dialog': itemDialog,
         'list-shimmer': listShimmer,
         'page-empty': pageEmpty,
         'nitrozen-button': NitrozenButton,
@@ -296,15 +296,15 @@ export default {
             if (!this.paginationConfig) {
                 return '';
             }
-            const { current, item_total, has_next } = this.paginationConfig;
-            if (!current || !item_total) {
+            const { current, total, has_next } = this.paginationConfig;
+            if (!current || !total) {
                 return '';
             }
             return `${
                 current > 1 ? (current - 1) * PAGINATION.limit + 1 : current
             } - ${
-                has_next ? PAGINATION.limit * current : item_total
-            }  of ${item_total} Extensions`;
+                has_next ? PAGINATION.limit * current : total
+            }  of ${total} Extensions`;
         },
         clearFilter() {
             this.slugsL2 = [];
@@ -335,7 +335,6 @@ export default {
             let query = {
                 ...this.query,
             };
-            console.log('>>item', item);
             if (item.type === 'price_filter') {
                 this.priceSlug = this.priceSlug.filter(
                     (priece_filter) => priece_filter.slug !== item.slug
@@ -373,8 +372,6 @@ export default {
             this.query = query;
         },
         checkPriceFilter(event, value) {
-            console.log('>>event', event);
-            console.log('>>value', value);
             this.categoryFilters = this.categoryFilters.map((filteObj) => {
                 filteObj.values = filteObj.values.map((category) => {
                     if (category.slug === value.slug) {
@@ -402,10 +399,11 @@ export default {
             };
             this.fetchExtensions(1, '', this.query);
         },
+        getRadioValue(filterValue) {
+            return filterValue.is_selected ? filterValue.slug : '';
+        },
         onChangeFilter(event, value) {
             this.whichOpen = value.slug;
-            console.log('>>value', value);
-            console.log('>>this.query', this.query);
             let parentData = null;
             this.categoryFilters = this.categoryFilters.map((filteObj) => {
                 filteObj.values = filteObj.values.map((category) => {
@@ -442,7 +440,6 @@ export default {
             if (!value.parent && value.type !== 'price_filter') {
                 this.toggleArrow(value);
             }
-            console.log('>>this.query', this.query);
             this.fetchExtensions(1, '', this.query);
         },
         toggleArrow(value, isArrow) {
@@ -500,7 +497,6 @@ export default {
                     this.paginationInfo = data.data.page;
                     this.inProgress = false;
                     this.categoryFilters = category.data.filters;
-                    console.log('>>this.categoryFilters', this.categoryFilters);
                 }
             );
         },
@@ -515,13 +511,20 @@ export default {
         },
         debounceInput: debounce(function (e) {
             this.searchText = e;
-            this.fetchExtensions('', e);
+            this.query = {
+                ...this.query,
+                name: e,
+            };
+            this.fetchExtensions(1, '', this.query);
         }),
         onSelectExtensions() {
             this.$emit('onAddExtensions', this.extensions_selected);
         },
         closeModal() {
             this.$emit('closeModal');
+        },
+        saveModalRef(modalRef) {
+            this.$emit('handleModalRef', modalRef);
         },
     },
 };
@@ -590,6 +593,26 @@ export default {
             position: sticky;
             top: 0;
             z-index: 1;
+        }
+        .top-chips {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            position: sticky;
+            top: 59px;
+            height: 40px;
+            z-index: 1;
+            background: white;
+            .result-count {
+                padding-right: 20px;
+            }
+            .clear-filter {
+                margin-left: 10px;
+                font-weight: bold;
+                &:hover {
+                    cursor: pointer;
+                }
+            }
         }
         .extension-list-search-input {
             min-width: 300px;

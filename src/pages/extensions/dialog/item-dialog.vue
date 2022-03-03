@@ -1,5 +1,5 @@
 <template>
-    <nitrozen-dialog ref="products-data" :title="title" @close="closeDialog">
+    <nitrozen-dialog ref="products-data" :title="title">
         <template slot="body">
             <slot />
         </template>
@@ -141,7 +141,6 @@ export default {
         flatBtn,
     },
     updated() {
-        console.log('>>this.isOpen', this.isOpen);
         if (this.isOpen) {
             this.$refs['products-data'].open({
                 width: '80%',
@@ -153,18 +152,16 @@ export default {
         }
     },
     methods: {
-        closeDialog() {
-            if (this.isCancelable) {
-                this.$emit('closedialog');
-            }
-            document.body.style.overflowY = 'scroll';
-        },
         onSubmit() {
             this.$emit('onSubmit');
+            const modal = this.$refs['products-data'];
+            modal && modal.close();
+            document.body.style.position = 'relative';
         },
     },
     mounted() {
         this.$root.$el.append(this.$el);
+        this.$emit('modalRef', this.$refs['products-data']);
     },
     destroyed() {
         if (
