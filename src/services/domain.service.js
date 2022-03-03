@@ -93,6 +93,24 @@ const URLS = {
     FETCH_ATTRIBUTE: () => {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/product-attributes/');
     },
+    //fetch all hsn codes
+    FETCH_HSNCODES: () => {
+        return urlJoin(SILVERBOLT_ACAT_URL, '/v2.0/hsn/');
+    },
+    //fetch single hsn code
+    FETCH_SINGLEHSN: (reporting_hsn) => {
+        return urlJoin(SILVERBOLT_ACAT_URL, `/v2.0/hsn/${reporting_hsn}`);
+    },
+
+    //Create Hsn codes
+    HSN_CODE_LIST_CREATE: () => {
+        console.log(SILVERBOLT_ACAT_URL)
+        return urlJoin(SILVERBOLT_ACAT_URL, '/v2.0/hsn/');
+    },
+    HSN_CODE_RETRIVE_UPDATE_DELETE: (reporting_hsn) => {
+        console.log(SILVERBOLT_ACAT_URL)
+        return urlJoin(SILVERBOLT_ACAT_URL, `/v2.0/hsn/${reporting_hsn}`);
+    },
     //fetchVariant
     FETCH_VARIANT: (uid) => {
         if (uid) {
@@ -281,7 +299,7 @@ const URLS = {
     },
 
     LOCATIONS: () => {
-        return urlJoin(SLINGSHOT_PUBLIC_URL, '/locations');
+        return urlJoin(SLINGSHOT_PUBLIC_URL, `v1.0/location`);
     },
 
     // Unicron/Daytrader - Plan creator
@@ -335,6 +353,9 @@ const URLS = {
     },
     UPDATE_OFFLINE_PAYMENT: (id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/mark-offline-paid/${id}`);
+    },
+    BULK_UPDATE_OFFLINE_PAYMENT: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/bulk/update`);
     },
     VOID_INVOICE: () => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/void-invoice`);
