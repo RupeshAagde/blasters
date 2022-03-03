@@ -90,7 +90,7 @@
                         "
                         class="activation"
                     >
-                    <div>
+                    <div class="activate-but">
                          <nitrozen-button
                                 :theme="'secondary'"
                                 @click="onOpenChangePlanDialog"
@@ -619,11 +619,11 @@ export default {
             if(!this.selectedForChange){
                 return this.selectedForChangeError=true;
             }else {
-                if(this.currentPlan.plan_id===this.selectedForChange){
-                    this.selectedForChange="";
-                    this.planChangeComment="";
-                    return this.$snackbar.global.showError(`You are already subsribed to ${this.currentPlan.plan_data.name}`,{duration: 2000});
-                }
+                // if(this.currentPlan.plan_id===this.selectedForChange){
+                //     this.selectedForChange="";
+                //     this.planChangeComment="";
+                //     return this.$snackbar.global.showError(`You are already subsribed to ${this.currentPlan.plan_data.name}`,{duration: 2000});
+                // }
                 this.activatePlan(this.selectedForChange);
                 this.$refs['change_plan_dialog'].close();    
             }
@@ -967,7 +967,6 @@ export default {
         padding: 14px;
         border-radius: 5px;
         display: inline-block;
-        margin-bottom: 24px;
     }
     .under-trial-plan {
         color: #2E31BE;
@@ -980,7 +979,6 @@ export default {
         padding: 14px;
         border-radius: 5px;
         border: 1px solid lightgray;
-        margin-bottom: 24px;
     }
     .plan-container {
         line-height: 24px;
@@ -1175,5 +1173,7 @@ export default {
     flex-direction: column-reverse;
     
 }
-
+.activate-but{
+margin-top: 24px;
+}
 </style>
