@@ -88,13 +88,21 @@
                                 currentActivePlan.subscription &&
                                 !currentActivePlan.subscription.is_active
                         "
-                        class="flex"
+                        class="activation"
                     >
+                    <div>
+                        <nitrozen-button
+                        theme="secondary"
+                        v-flatBtn
+                        @click="activatePlan(currentActivePlan.subscription.plan_id)"
+                        >Activate Plan</nitrozen-button>
+                        </div>
                         <div class="flex-1 current-inactive-plan">
                             Your current subscription for the
                             {{ currentActivePlan.subscription.plan_data.name }}
                             plan is inactive.
                         </div>
+                        
                     </div>
                     <div
                         v-if="
@@ -1160,6 +1168,10 @@ export default {
     margin-top: 12px;
     font-weight: 700;
     font-size: 13px;
+}
+.activation{
+    display: flex;
+    
 }
 
 </style>
