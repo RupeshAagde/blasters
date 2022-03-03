@@ -1171,6 +1171,7 @@ export default {
 }
 .activation{
     display: flex;
+    flex-direction: column-reverse;
     
 }
 
