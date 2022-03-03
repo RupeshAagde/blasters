@@ -14,7 +14,7 @@
                                 :theme="'secondary'"
                                 @click="openCurrentPlanDetailsModal"
                             >
-                                View details
+                                View Details
                             </nitrozen-button>
                         </div>
                     </div>
@@ -91,11 +91,12 @@
                         class="activation"
                     >
                     <div>
-                        <nitrozen-button
-                        theme="secondary"
-                        v-flatBtn
-                        @click="activatePlan(currentActivePlan.subscription.plan_id)"
-                        >Activate Plan</nitrozen-button>
+                         <nitrozen-button
+                                :theme="'secondary'"
+                                @click="onOpenChangePlanDialog"
+                            >
+                                Change Plan
+                            </nitrozen-button>
                         </div>
                         <div class="flex-1 current-inactive-plan">
                             Your current subscription for the
@@ -143,12 +144,12 @@
                 <nitrozen-dialog
                     id="view-plan-details"
                     ref="view_plan_details"
-                    title="Plan details"
+                    title="Plan Details"
                 >
                     <template slot="body" name="body">
                         <div class="plan-info m-b-24" v-if="currentPlanDetailed">
                             <div class="plan-bolder">
-                                Plan name: {{ currentPlanDetailed.name }}
+                                Plan Name: {{ currentPlanDetailed.name }}
                             </div>
                             <div class="plan-thin">
                                 Pricing:
@@ -963,7 +964,6 @@ export default {
     .current-inactive-plan {
         color: #fa3f4d;
         border: 1px solid #fa3f4d;
-        margin-bottom: 24px;
         padding: 14px;
         border-radius: 5px;
         display: inline-block;
