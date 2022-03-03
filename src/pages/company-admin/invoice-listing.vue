@@ -751,11 +751,11 @@ export default {
         let query = null;
         if (this.$route.query && this.$route.query.query) {
             query = JSON.parse(this.$route.query.query);
-            if (query.searchText) {
-                this.searchText = query.searchText;
-            }
             if (query.query) {
                 let api_query = JSON.parse(query.query);
+                if (api_query.number && api_query.number.$regex) {
+                    this.searchText = api_query.number.$regex;
+                }   
                 if (
                     api_query.current_status &&
                     api_query.current_status.$regex
