@@ -23,7 +23,7 @@
         </div>
         <div class="new-main-container">
             <div class="new-page-container">
-                <div class="section">
+                <div class="section p-24-bg-white">
                     <div class="cl-Mako bold-md">Basic Details</div>
                     <loader v-if="inProgress" class="loading"></loader>
                     <!-- Name -->
@@ -90,7 +90,7 @@
                     </div>
                 </div>
                 <!-- Image Upload -->
-                <div class="image-uploader">
+                <div class="image-uploader p-24-bg-white">
                     <div class="no-image-container">
                         <div class="main-label">
                             <div class="sub-label-top">Icon</div>
@@ -249,7 +249,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="input">
+                <div class="input p-24-bg-white">
                     <div class="input-text tags" ref="tagScroll">
                         <tags-input
                             ref="chipInput"
@@ -261,7 +261,7 @@
                         ></tags-input>
                     </div>
                 </div>
-                <div class="input">
+                <div class="input p-24-bg-white m-top">
                     <div class="item-catelogue">
                         <div class="cl-Mako bold-md">Extensions</div>
                         <div>
@@ -287,7 +287,7 @@
                     @handleModalRef="setModalRef"
                 >
                 </item-drawer>
-                <div>
+                <div class="p-24-bg-white">
                     <page-empty
                         :text="'No Extension selected for this Collection'"
                         v-if="!selected_extensions.length"
@@ -350,6 +350,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="input p-24-bg-white m-top">
+                    <nitrozen-button
+                        class="button"
+                        theme="secondary"
+                        @click.stop="isCollapsed = !isCollapsed"
+                    >
+                        Edit website SEO
+                    </nitrozen-button>
+                    <seo-component
+                        v-model="seoObj"
+                        :isCollapsed="isCollapsed"
+                        :url="`https://test-app-2.hostx0.de/collection/`"
+                    />
+                </div>
             </div>
         </div>
 
@@ -395,7 +409,6 @@ import {
 } from '@gofynd/nitrozen-vue';
 import ItemDrawer from './item-drawer.vue';
 import { BaseModal } from '../../components/common/';
-
 import loader from '@/components/common/loader';
 import pageEmpty from '@/components/common/page-empty.vue';
 import pageError from '@/components/common/page-error.vue';
@@ -405,10 +418,11 @@ import root from 'window-or-global';
 import { formatBytes } from '@/helper/digital-storage.util';
 const env = root.env || {};
 import tagsInput from '@/components/common/tags-input.vue';
-
+import seoComponent from './seo-component.vue';
 export default {
     name: 'extension-review',
     components: {
+        'seo-component': seoComponent,
         'item-drawer': ItemDrawer,
         'base-modal': BaseModal,
         'nitrozen-button': NitrozenButton,
@@ -431,6 +445,11 @@ export default {
     },
     data() {
         return {
+            isCollapsed: true,
+            seoObj: {
+                title: 'Title',
+                description: 'Breif description about the',
+            },
             showExtensionModal: false,
             inProgress: false,
             pageError: false,
@@ -548,16 +567,19 @@ export default {
     .new-main-container {
         width: 60%;
         margin: 0 auto;
-
-        .new-page-container {
+        .p-24-bg-white {
             padding: 24px;
-            margin: 24px 0;
             background-color: #fff;
+        }
+        .m-top {
+            margin-top: 30px;
+        }
+        .new-page-container {
+            margin: 24px 0;
             border-radius: 6px;
             .image-uploader {
                 display: flex;
                 justify-content: space-between;
-                margin-top: 20px;
             }
             .main-label {
                 margin-bottom: -30px;
