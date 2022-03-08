@@ -21,7 +21,7 @@
                 </template>
             </page-header>
         </div>
-        <div class="new-main-container">
+        <div v-if="isEditMode()" class="new-main-container">
             <div class="new-page-container">
                 <div class="section p-24-bg-white">
                     <div class="cl-Mako bold-md">Basic Details</div>
@@ -100,7 +100,7 @@
                         </div>
                         <div class="inline">
                             <div class="no-image right-gutter">
-                                <div v-if="collection_data.imageObj.logo == ''">
+                                <div v-if="collection_data.banner.logo == ''">
                                     <image-uploader
                                         :showGallery="false"
                                         class="
@@ -118,10 +118,10 @@
                                             height: 256,
                                         }"
                                         @delete="
-                                            collection_data.imageObj.logo = ''
+                                            collection_data.banner.logo = ''
                                         "
                                         @save="onChangeImage($event, 'logo')"
-                                        v-model="collection_data.imageObj.logo"
+                                        v-model="collection_data.banner.logo"
                                         :mediaFolder="collection_data.slug"
                                         :fileName="'logo'"
                                         :namespace="'icon'"
@@ -130,7 +130,7 @@
                                 <div v-else>
                                     <img
                                         class="img-cls"
-                                        :src="collection_data.imageObj.logo"
+                                        :src="collection_data.banner.logo"
                                     />
                                 </div>
                             </div>
@@ -145,9 +145,7 @@
                         <div class="inline">
                             <div class="no-image right-gutter">
                                 <div
-                                    v-if="
-                                        collection_data.imageObj.portrait == ''
-                                    "
+                                    v-if="collection_data.banner.portrait == ''"
                                 >
                                     <image-uploader
                                         :showGallery="false"
@@ -166,17 +164,16 @@
                                             height: 480,
                                         }"
                                         @delete="
-                                            collection_data.imageObj.portrait =
-                                                ''
+                                            collection_data.banner.portrait = ''
                                         "
                                         @save="
                                             onChangeImage($event, 'portrait')
                                         "
                                         v-model="
-                                            collection_data.imageObj.portrait
+                                            collection_data.banner.portrait
                                         "
                                         :mediaFolder="
-                                            collection_data.imageObj.portrait
+                                            collection_data.banner.portrait
                                         "
                                         :fileName="'logo'"
                                         :namespace="'icon'"
@@ -185,7 +182,7 @@
                                 <div v-else>
                                     <img
                                         class="img-cls"
-                                        :src="collection_data.imageObj.portrait"
+                                        :src="collection_data.banner.portrait"
                                     />
                                 </div>
                             </div>
@@ -201,7 +198,7 @@
                             <div class="no-image right-gutter">
                                 <div
                                     v-if="
-                                        collection_data.imageObj.landscape == ''
+                                        collection_data.banner.landscape == ''
                                     "
                                 >
                                     <image-uploader
@@ -221,17 +218,17 @@
                                             height: 920,
                                         }"
                                         @delete="
-                                            collection_data.imageObj.landscape =
+                                            collection_data.banner.landscape =
                                                 ''
                                         "
                                         @save="
                                             onChangeImage($event, 'landscape')
                                         "
                                         v-model="
-                                            collection_data.imageObj.landscape
+                                            collection_data.banner.landscape
                                         "
                                         :mediaFolder="
-                                            collection_data.imageObj.landscape
+                                            collection_data.banner.landscape
                                         "
                                         :fileName="'logo'"
                                         :namespace="'icon'"
@@ -240,9 +237,7 @@
                                 <div v-else>
                                     <img
                                         class="img-cls"
-                                        :src="
-                                            collection_data.imageObj.landscape
-                                        "
+                                        :src="collection_data.banner.landscape"
                                     />
                                 </div>
                             </div>
@@ -256,7 +251,7 @@
                             class="nitrozen-form-input"
                             @keydown.enter="addChip"
                             @keydown.tab="addChip"
-                            v-model="tags"
+                            v-model="collection_data.tags"
                             label="Tags"
                         ></tags-input>
                     </div>
@@ -282,7 +277,7 @@
                     :isCancelable="true"
                     :title="'Exntension List'"
                     v-on:onAddExtensions="addSelectedExtensions"
-                    :selected_extensions="selected_extensions"
+                    :selected_extensions="collection_data.selected_extensions"
                     v-on:closeModal="closeModal"
                     @handleModalRef="setModalRef"
                 >
@@ -290,16 +285,18 @@
                 <div class="p-24-bg-white">
                     <page-empty
                         :text="'No Extension selected for this Collection'"
-                        v-if="!selected_extensions.length"
+                        v-if="!collection_data.selected_extensions.length"
                     >
                     </page-empty>
                     <div
-                        v-if="selected_extensions.length"
+                        v-if="collection_data.selected_extensions.length"
                         class="extension-list-container"
                     >
                         <div
                             class="extension-card"
-                            v-for="(extension, index) in selected_extensions"
+                            v-for="(
+                                extension, index
+                            ) in collection_data.selected_extensions"
                             :key="index"
                             :ref="'extension-' + index"
                         >
@@ -359,7 +356,7 @@
                         Edit website SEO
                     </nitrozen-button>
                     <seo-component
-                        v-model="seoObj"
+                        v-model="collection_data.seo"
                         :isCollapsed="isCollapsed"
                         :url="`https://test-app-2.hostx0.de/collection/`"
                     />
@@ -419,6 +416,8 @@ import { formatBytes } from '@/helper/digital-storage.util';
 const env = root.env || {};
 import tagsInput from '@/components/common/tags-input.vue';
 import seoComponent from './seo-component.vue';
+import dummy from './dummy_ext_collection.json';
+
 export default {
     name: 'extension-review',
     components: {
@@ -446,23 +445,27 @@ export default {
     data() {
         return {
             isCollapsed: true,
-            seoObj: {
-                title: 'Title',
-                description: 'Breif description about the',
-            },
             showExtensionModal: false,
             inProgress: false,
             pageError: false,
             pageLoading: false,
+            isPageLoading: true,
             collection_data: {
-                imageObj: {
+                collection_category: 'extension',
+                collection_type: 'handpicked',
+                seo: {
+                    title: 'Title',
+                    description: 'Breif description about the',
+                },
+                banner: {
                     logo: '',
                     portrait: '',
                     landscape: '',
                 },
                 name: '',
-                tags: '',
+                tags: [],
                 current_status: '',
+                selected_extensions: [],
                 icon: '',
             },
             errors: {
@@ -479,14 +482,32 @@ export default {
     mounted() {
         this.fynd_platform_domain =
             env.FYND_PLATFORM_DOMAIN || this.fynd_platform_domain;
+        if (this.$route.query.id) {
+            this.fetchExtensionCollectionDetails(this.$route.query.id);
+            console.log('>>this.$route.query', this.$route.query);
+        }
         this.fetchExtension();
     },
     methods: {
+        isEditMode() {
+            if (this.$route.query.id) {
+                return !this.isPageLoading;
+            }
+            return true;
+        },
+        fetchExtensionCollectionDetails(id) {
+            this.isPageLoading = true;
+            this.collection_data = dummy.find((x) => x._id === id);
+            this.isPageLoading = false;
+            this.$set(this.collection_data, 'tags', this.collection_data.tags);
+            console.log('>>this.collection_data', this.collection_data);
+        },
         setModalRef(modalRef) {
             this.modalRef = modalRef;
         },
         addSelectedExtensions(selected_extensions) {
             this.selected_extensions = selected_extensions;
+            this.collection_data.selected_extensions = selected_extensions;
             this.showExtensionModal = false;
         },
         addProducts() {
@@ -502,7 +523,7 @@ export default {
             this.$refs['chipInput'].focus();
         },
         onChangeImage(event, name) {
-            this.collection_data.imageObj[name] = event;
+            this.collection_data.banner[name] = event;
             document.body.style = {
                 ...document.body.style,
                 position: 'relative',
@@ -511,17 +532,18 @@ export default {
         formatBytes,
         fetchExtension() {},
         saveForm(approve) {
-            this.error_comments = '';
-            this.review_data.current_status = approve
-                ? 'published'
-                : 'rejected';
-            if (!approve && !this.review_data.review_comments) {
-                this.error_comments =
-                    'Review comments required for rejecting extension changes';
-                this.$snackbar.global.showError('Missing required data');
-                return;
-            }
-            this.inProgress = true;
+            console.log('>>this', this);
+            // this.error_comments = '';
+            // this.review_data.current_status = approve
+            //     ? 'published'
+            //     : 'rejected';
+            // if (!approve && !this.review_data.review_comments) {
+            //     this.error_comments =
+            //         'Review comments required for rejecting extension changes';
+            //     this.$snackbar.global.showError('Missing required data');
+            //     return;
+            // }
+            // this.inProgress = true;
             //TODO: Add form dirty
         },
         onCancel() {
@@ -530,16 +552,17 @@ export default {
                 .catch(() => {});
         },
         removeChip(index) {
-            this.tags.splice(index, 1);
+            this.collection_data.tags.splice(index, 1);
         },
         addChip(event) {
             if (this.chipInput) {
                 if (
-                    this.tags &&
-                    this.tags.filter((tag) => tag.display === this.chipInput)
-                        .length === 0
+                    this.collection_data.tags &&
+                    this.collection_data.tags.filter(
+                        (tag) => tag.display === this.chipInput
+                    ).length === 0
                 )
-                    this.tags.push({ display: this.chipInput });
+                    this.collection_data.tags.push({ display: this.chipInput });
                 this.chipInput = '';
             }
             setTimeout(() => {

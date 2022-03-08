@@ -1,0 +1,356 @@
+[
+    {
+        "_id": "1",
+        "collection_category": "extension",
+        "collection_type": "handpicked",
+        "seo": {
+            "title": "Title New",
+            "description": "Breif description about the asdsdsds"
+        },
+        "banner": {
+            "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/nY2oSjuUw-logo.png",
+            "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/Zz_WCtL3Q-logo.png",
+            "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/vS2Ejt-iE-logo.png"
+        },
+        "name": "qwewqewqwe",
+        "tags": ["adsd", "asdasd", "asda"],
+        "current_status": "",
+        "icon": "",
+        "slug": "wewqew",
+        "desc": "ewqeew",
+        "selected_extensions": [
+            {
+                "_id": "60bf7f734fe0a3c8e90e5b83",
+                "listing_info": {
+                    "keywords": [],
+                    "name": "Newsletter Subscription",
+                    "tagline": "dsvsv",
+                    "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/F9IzVxMC2-logo.png"
+                },
+                "details": {
+                    "screenshots": {
+                        "desktop": [
+                            "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/nKlrV_01V-desk-sc-1.png"
+                        ],
+                        "mobile": []
+                    },
+                    "integrations": [],
+                    "benefits": [
+                        {
+                            "_id": "621d99a006962857b3cd784e",
+                            "title": "dsvsv",
+                            "description": "dvssdvdvdv"
+                        }
+                    ],
+                    "description": "<p>Now you can run referral campaigns that lets you and your existing customers refer their friends and family to register on your website.<br /><br />Features<br />&bull; Configure reward for the referrer<br />&bull; Configure reward for the one being referred<br />&bull; Set validity of referral and the reward<br />&bull; Enable/Disable referral campaigns</p>",
+                    "demo_url": "",
+                    "video_url": []
+                },
+                "contact_info": {
+                    "support": {
+                        "email": "regrowth@gofynd.com",
+                        "phone": "8767087087",
+                        "website_url": "",
+                        "faq_url": "",
+                        "privacy_policy_url": ""
+                    }
+                },
+                "scope": [
+                    "company/saleschannel",
+                    "company/application/settings"
+                ],
+                "plans": [
+                    {
+                        "name": "dbfd",
+                        "features": "ngfnfgm",
+                        "type": "free",
+                        "price": {
+                            "amount": 0,
+                            "currency": "INR"
+                        },
+                        "trial_days": 0,
+                        "additional_charges": ""
+                    }
+                ],
+                "extension_id": "609400409d0dcbdc2e6b76a5",
+                "slug": "newsletter-subscription",
+                "plan_type": "free",
+                "current_status": "active",
+                "organization_id": "610d178e2ab8f356aa98481b",
+                "created_at": "2021-06-08T14:32:19.574Z",
+                "modified_at": "2022-03-08T10:01:51.545Z",
+                "plans_url": "",
+                "coming_soon": {
+                    "upvote_count": 0,
+                    "is_coming_soon": false
+                },
+                "category": {
+                    "categories_l1": [
+                        {
+                            "id": "61e7d060bdc32b002e950cb8",
+                            "slug": "marketing",
+                            "_id": "61e7d060bdc32b002e950cb8"
+                        }
+                    ],
+                    "categories_l2": [
+                        {
+                            "id": "61e1138cc8f04d4be53f0e8c",
+                            "slug": "advertisement",
+                            "_id": "61e1138cc8f04d4be53f0e8c",
+                            "parent": "61e7d060bdc32b002e950cb8"
+                        },
+                        {
+                            "id": "61e1138cc8f04d4be53f0e87",
+                            "slug": "notification",
+                            "_id": "61e1138cc8f04d4be53f0e87",
+                            "parent": "61e7d060bdc32b002e950cb8"
+                        },
+                        {
+                            "id": "61e1138cc8f04d4be53f0e8b",
+                            "slug": "email-marketing",
+                            "_id": "61e1138cc8f04d4be53f0e8b",
+                            "parent": "61e7d060bdc32b002e950cb8"
+                        }
+                    ]
+                },
+                "organization": {
+                    "name": "Fynd",
+                    "slug": "Fynd-s8f-32"
+                },
+                "is_selected": true
+            },
+            {
+                "_id": "61109ded41dc073111c38f59",
+                "listing_info": {
+                    "keywords": [],
+                    "name": "Tag Manager Local",
+                    "tagline": "Google Tag Manager",
+                    "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/St-C8mG8_-logo.png"
+                },
+                "details": {
+                    "screenshots": {
+                        "desktop": [
+                            "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/bNNRnl-IE-desk-sc-1.png",
+                            "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/P0IcHYNbA-desk-sc-2.png",
+                            "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/PlY2R2xgo-desk-sc-3.png"
+                        ],
+                        "mobile": [
+                            "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/30gIT73MK-mob-sc-1.png",
+                            "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/XoAtVMhIn-mob-sc-2.png",
+                            "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/XoAtVMhIn-mob-sc-2.png"
+                        ]
+                    },
+                    "integrations": [],
+                    "benefits": [
+                        {
+                            "_id": "61109ded41dc072bf4c38f5a",
+                            "title": "Feature 1",
+                            "description": "Description 1"
+                        }
+                    ],
+                    "description": "Local tag manager",
+                    "demo_url": "https://honest-rattlesnake-7.loca.lt/",
+                    "video_url": []
+                },
+                "contact_info": {
+                    "support": {
+                        "email": "akashmane@gofynd.com",
+                        "phone": "8652523958",
+                        "website_url": "https://honest-rattlesnake-7.loca.lt/",
+                        "faq_url": "https://honest-rattlesnake-7.loca.lt/",
+                        "privacy_policy_url": "https://honest-rattlesnake-7.loca.lt/"
+                    }
+                },
+                "scope": [
+                    "company/saleschannel",
+                    "company/application/settings"
+                ],
+                "plans": [
+                    {
+                        "name": "Basic",
+                        "features": "Basic ",
+                        "type": "recurring",
+                        "price": {
+                            "amount": 99,
+                            "currency": "INR"
+                        },
+                        "trial_days": 0,
+                        "additional_charges": "",
+                        "recurring": {
+                            "type": "month",
+                            "recurring_time": 30,
+                            "yearly_amount": 1188
+                        }
+                    }
+                ],
+                "extension_id": "61109c6795dcfa38cb408c70",
+                "slug": "tag-manager-local",
+                "plan_type": "recurring",
+                "plans_url": "https://honest-rattlesnake-7.loca.lt/company/1/pricing",
+                "current_status": "active",
+                "organization_id": "6110967d95dcfaf485408c60",
+                "created_at": "2021-08-09T03:15:57.074Z",
+                "modified_at": "2022-03-08T10:01:51.545Z",
+                "coming_soon": {
+                    "upvote_count": 0
+                },
+                "category": {
+                    "categories_l1": [
+                        {
+                            "_id": "61e7d060bdc32b002e950cb7",
+                            "slug": "conversion",
+                            "display": "Conversion",
+                            "value": "Conversion",
+                            "parent": null,
+                            "__v": 0
+                        }
+                    ],
+                    "categories_l2": [
+                        {
+                            "_id": "61e110e9d62ec94b1fcb6890",
+                            "slug": "recovering-orders",
+                            "display": "Recovering orders",
+                            "value": "Recovering orders",
+                            "parent": "61e7d060bdc32b002e950cb7",
+                            "__v": 0
+                        },
+                        {
+                            "_id": "61e110e9d62ec94b1fcb6893",
+                            "slug": "customer-feedback",
+                            "display": "Customer feedback",
+                            "value": "Customer feedback",
+                            "parent": "61e7d060bdc32b002e950cb7",
+                            "__v": 0
+                        }
+                    ]
+                },
+                "organization": {
+                    "name": "Akash Organization",
+                    "slug": "AkashO-2xk-98"
+                },
+                "is_selected": true
+            },
+            {
+                "_id": "6111fc5841dc070042c38f5d",
+                "listing_info": {
+                    "keywords": ["bulk", "multi", "locations"],
+                    "name": "Multi Location Manager",
+                    "tagline": "Create and update multiple selling locations at once using Excel and CSV",
+                    "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/RUnu34gmJ-logo.png"
+                },
+                "details": {
+                    "screenshots": {
+                        "desktop": [
+                            "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/Og8k9HyMY-desk-sc-1.png",
+                            "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/M5VGePGD7-desk-sc-2.png"
+                        ],
+                        "mobile": [
+                            "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/NMZQDEpZN-mob-sc-1.png"
+                        ]
+                    },
+                    "integrations": [],
+                    "benefits": [
+                        {
+                            "_id": "6111fc5841dc0705d7c38f5e",
+                            "title": "Location Management",
+                            "description": "Download our Excel or CSV template to add and update selling locations"
+                        }
+                    ],
+                    "description": "Create and update multiple selling locations at once using Excel and CSV",
+                    "demo_url": "",
+                    "video_url": []
+                },
+                "contact_info": {
+                    "support": {
+                        "email": "abhinavmaurya@gofynd.com",
+                        "phone": "7905339667",
+                        "website_url": "",
+                        "faq_url": "",
+                        "privacy_policy_url": ""
+                    }
+                },
+                "scope": ["company/profile"],
+                "plans": [
+                    {
+                        "name": "Standard",
+                        "features": "Create and update multiple selling locations at once using Excel and CSV",
+                        "type": "recurring",
+                        "price": {
+                            "amount": 99,
+                            "currency": "INR"
+                        },
+                        "trial_days": 0,
+                        "additional_charges": "",
+                        "recurring": {
+                            "type": "month",
+                            "recurring_time": 30,
+                            "yearly_amount": 1188
+                        }
+                    }
+                ],
+                "extension_id": "61117dab95dcfa5db7408dba",
+                "slug": "multi-location-manager",
+                "plan_type": "recurring",
+                "plans_url": "",
+                "current_status": "active",
+                "organization_id": "61117d3295dcfa7f9a408db3",
+                "created_at": "2021-08-10T04:11:04.509Z",
+                "modified_at": "2022-03-08T10:01:51.545Z",
+                "coming_soon": {
+                    "upvote_count": 0
+                },
+                "category": {
+                    "categories_l1": [
+                        {
+                            "_id": "61e6e6c6175e011eac74f0d6",
+                            "slug": "customer-supoort",
+                            "display": "Customer Supoort",
+                            "value": "Customer Supoort",
+                            "parent": null,
+                            "__v": 0
+                        },
+                        {
+                            "_id": "61e7d060bdc32b002e950cb8",
+                            "slug": "marketing",
+                            "display": "Marketing",
+                            "value": "Marketing",
+                            "parent": null,
+                            "__v": 0
+                        }
+                    ],
+                    "categories_l2": [
+                        {
+                            "_id": "61e1138cc8f04d4be53f0e86",
+                            "slug": "page-enchancement",
+                            "display": "Page enchancement",
+                            "value": "Page enchancement",
+                            "parent": "61e7d060bdc32b002e950cb8",
+                            "__v": 0
+                        },
+                        {
+                            "_id": "61e1138cc8f04d4be53f0e8c",
+                            "slug": "advertisement",
+                            "display": "Advertisement",
+                            "value": "Advertisement",
+                            "parent": "61e7d060bdc32b002e950cb8",
+                            "__v": 0
+                        },
+                        {
+                            "_id": "61e1138cc8f04d4be53f0e8d",
+                            "slug": "marketing-analytics",
+                            "display": "Marketing Analytics",
+                            "value": "Marketing Analytics",
+                            "parent": "61e7d060bdc32b002e950cb8",
+                            "__v": 0
+                        }
+                    ]
+                },
+                "organization": {
+                    "name": "Abhinav",
+                    "slug": "MultiL-fnm-55"
+                },
+                "is_selected": true
+            }
+        ]
+    }
+]

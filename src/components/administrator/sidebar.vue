@@ -17,7 +17,7 @@
                     src="arrow-dropdown-black"
                     class="dropdown-icon"
                     :class="{
-                        'rotate-arrow': currentPath.includes(item.title)
+                        'rotate-arrow': currentPath.includes(item.title),
                     }"
                     v-if="item.children.length > 0"
                 ></inline-svg>
@@ -26,7 +26,7 @@
                 class="sub-menu"
                 :class="{
                     'toggle-dropdown':
-                        item.children && currentPath.includes(item.title)
+                        item.children && currentPath.includes(item.title),
                 }"
             >
                 <div
@@ -141,16 +141,16 @@
 .link-exact-active {
     background-color: rgba(92, 107, 221, 0.12);
     .title {
-        color: #2E31BE;
+        color: #2e31be;
     }
     .icon {
-        color: #2E31BE;
+        color: #2e31be;
     }
 }
 .link-active {
     background-color: #ffffff;
     .title {
-        color: #2E31BE;
+        color: #2e31be;
     }
 }
 .blaster-scrollbar {
@@ -181,7 +181,7 @@ import { GET_USER_PERMISSIONS } from '../../store/getters.type';
 export default {
     name: 'sidebar',
     components: {
-        'inline-svg': inlineSvgVue
+        'inline-svg': inlineSvgVue,
     },
     props: {},
     computed: {
@@ -194,28 +194,29 @@ export default {
             );
         },
         currentPath() {
+            console.log('>>this.$route.path', this.$route.path);
             return this.$route.path;
         },
         ...mapGetters({
-            userPermissions: GET_USER_PERMISSIONS
-        })
+            userPermissions: GET_USER_PERMISSIONS,
+        }),
     },
     methods: {
-        beforeEnter: function(el) {
+        beforeEnter: function (el) {
             el.style.height = '0';
         },
-        enter: function(el) {
+        enter: function (el) {
             el.style.height = el.scrollHeight + 'px';
         },
-        beforeLeave: function(el) {
+        beforeLeave: function (el) {
             el.style.height = el.scrollHeight + 'px';
         },
-        leave: function(el) {
+        leave: function (el) {
             el.style.height = '0';
         },
-        toggle: function() {
+        toggle: function () {
             this.$emit('click');
-        }
-    }
+        },
+    },
 };
 </script>

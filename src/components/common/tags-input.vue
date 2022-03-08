@@ -79,34 +79,37 @@ export default {
     name: 'tags-input',
     props: {
         value: {
-            type: Array
+            type: Array,
         },
         label: {
             type: String,
-            default: 'Tags'
+            default: 'Tags',
         },
         maxTags: {
             type: Number,
-            default: 2
+            default: 2,
         },
         placeholder: {
             type: String,
-            default: 'For e.g. order'
-        }
+            default: 'For e.g. order',
+        },
     },
     components: {
         'nitrozen-chip': NitrozenChips,
-        'nitrozen-inline': NitrozenInline
+        'nitrozen-inline': NitrozenInline,
     },
     data() {
         return {
             tags: this.value,
-            chipInput: ''
+            chipInput: '',
         };
+    },
+    mounted() {
+        console.log('>>this.value', this.value);
     },
     computed: {},
     methods: {
-        handleKeyDown(evt) {
+        handleKeyDown(event) {
             if (
                 event.keyCode == 32 ||
                 event.keyCode == 13 ||
@@ -114,7 +117,7 @@ export default {
                 event.keyCode == 9 ||
                 event.keyCode == 188
             ) {
-                this.addChip(evt);
+                this.addChip(event);
             }
             if (event.keyCode == 8 && !this.chipInput) {
                 if (this.tags.length) {
@@ -141,7 +144,7 @@ export default {
         },
         focusTextbox(e) {
             this.$refs['chipInput'].focus();
-        }
-    }
+        },
+    },
 };
 </script>

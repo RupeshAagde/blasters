@@ -130,14 +130,31 @@ export const getNavigations = () => {
             ]
         },
         {
-            display: 'Extension Review',
+            display: 'Extension',
             link: '/administrator/extensions/review',
-            title: 'extensons',
+            title: 'extensions',
             icon: 'settings',
             highlightedIcon: 'settings-highlighted',
             active: false,
             permission: 'settings',
-            children: []
+            children: [
+                {
+                    display: 'Review',
+                    link: '/administrator/extensions/review',
+                    title: 'extensions',
+                    icon: 'settings',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Collection',
+                    link: '/administrator/extensions/collection',
+                    title: 'extensions',
+                    icon: 'settings',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                }
+            ]
         },
         {
             display: 'Support Center',

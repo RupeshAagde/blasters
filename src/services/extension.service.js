@@ -31,13 +31,13 @@ const UserService = {
         let axiosOption = Object.assign({
             params: params
         })
-        return ApiService.get('http://localdev.fyndx0.de:7084/v1.0/extensions', axiosOption)
+        return ApiService.get('https://api.fyndx0.de/service/panel/partners/v1.0/extensions', axiosOption)
     },
     getAllPublicExtensionCategories(params) {
         let axiosOption = Object.assign({
             params: params
         })
-        return ApiService.get('http://localdev.fyndx0.de:7084/v1.0/extensions/category/all', axiosOption)
+        return ApiService.get('https://api.fyndx0.de/service/panel/partners/v1.0/extensions/category/all', axiosOption)
     },
 
 };

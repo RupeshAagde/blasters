@@ -11,12 +11,10 @@ if (root && root.process && root.process.env && root.process.env.NODE_ENV == 'te
 let MIXMASTER_ADMIN_BASE = isNode ?
     envVars.BROWSER_CONFIG.MIXMASTER_ADMIN_URL :
     envVars.MIXMASTER_ADMIN_URL;
-    
-const MIXMASTER_PARTNER = 'http://localhost:7084'
 
 const URLS = {
     EXTENSION_REVIEW: (review_id = '') => {
-        return urlJoin(MIXMASTER_PARTNER, `/v1.0/extension/review/${review_id}`);
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/extension/review/${review_id}`);
     }
 };
 

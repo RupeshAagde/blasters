@@ -28,6 +28,13 @@ export default [
         }
     },
     {
+        path: 'extensions/collection/edit',
+        component: ExtensionCollectionForm,
+        beforeEnter: (to, from, next) => {
+            return next(); // checkUserPermission(to, from, next, ['plans']);
+        }
+    },
+    {
         path: 'extensions/review/:review_id',
         component: ExtensionReview,
         beforeEnter: (to, from, next) => {
