@@ -39,6 +39,15 @@ const UserService = {
         })
         return ApiService.get('https://api.fyndx0.de/service/panel/partners/v1.0/extensions/category/all', axiosOption)
     },
+    saveExtensionCollection(data) {
+        const axiosOption = Object.assign(
+            getCommonHeaderOptions(),
+            {
+                data: data
+            }
+        )
+        return ApiService.post('http://localdev.fyndx0.de:7084/collection/extensions', axiosOption)
+    }
 
 };
 export default UserService;

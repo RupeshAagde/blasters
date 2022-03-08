@@ -417,6 +417,7 @@ const env = root.env || {};
 import tagsInput from '@/components/common/tags-input.vue';
 import seoComponent from './seo-component.vue';
 import dummy from './dummy_ext_collection.json';
+import ExtensionService from '@/services/extension.service';
 
 export default {
     name: 'extension-review',
@@ -467,6 +468,7 @@ export default {
                 current_status: '',
                 selected_extensions: [],
                 icon: '',
+                desc: '',
             },
             errors: {
                 name: '',
@@ -532,18 +534,18 @@ export default {
         formatBytes,
         fetchExtension() {},
         saveForm(approve) {
-            console.log('>>this', this);
-            // this.error_comments = '';
-            // this.review_data.current_status = approve
-            //     ? 'published'
-            //     : 'rejected';
-            // if (!approve && !this.review_data.review_comments) {
-            //     this.error_comments =
-            //         'Review comments required for rejecting extension changes';
-            //     this.$snackbar.global.showError('Missing required data');
-            //     return;
-            // }
-            // this.inProgress = true;
+            ExtensionService.saveExtensionCollection(this.collection_data);
+            this.error_comments = '';
+            this.review_data.current_status = approve
+                ? 'published'
+                : 'rejected';
+            if (!approve && !this.review_data.review_comments) {
+                this.error_comments =
+                    'Review comments required for rejecting extension changes';
+                this.$snackbar.global.showError('Missing required data');
+                return;
+            }
+            this.inProgress = true;
             //TODO: Add form dirty
         },
         onCancel() {
