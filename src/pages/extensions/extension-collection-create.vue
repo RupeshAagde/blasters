@@ -419,6 +419,7 @@ import { formatBytes } from '@/helper/digital-storage.util';
 const env = root.env || {};
 import tagsInput from '@/components/common/tags-input.vue';
 import seoComponent from './seo-component.vue';
+import ExtensionService from '@/services/extension.service';
 export default {
     name: 'extension-review',
     components: {
@@ -464,6 +465,7 @@ export default {
                 tags: '',
                 current_status: '',
                 icon: '',
+                desc: '',
             },
             errors: {
                 name: '',
@@ -511,6 +513,9 @@ export default {
         formatBytes,
         fetchExtension() {},
         saveForm(approve) {
+            let merged = {...this.collection_data, selected: this.selected_extensions, seoObj: this.seoObj, tags: this.tags}
+
+            ExtensionService.savePublicExtension(merged);
             this.error_comments = '';
             this.review_data.current_status = approve
                 ? 'published'
