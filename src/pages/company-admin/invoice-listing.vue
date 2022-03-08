@@ -100,14 +100,14 @@
                             >
                                 Export CSV
                             </nitrozen-button>
-                            <!-- <nitrozen-button
+                            <nitrozen-button
                             style="margin-top:22px; margin-left:22px"
                             v-strokeBtn
                             :theme="'secondary'"
                             @click="openUploadCSVDialog()"
                             >
                                 Bulk Update
-                            </nitrozen-button> -->
+                            </nitrozen-button>
                         </div>
 
                     </div>
@@ -618,6 +618,7 @@ import root from 'window-or-global';
 import companyListVue from './company-list.vue';
 import * as BlueBird from 'bluebird';
 import * as csv from "csvtojson";
+import * as _ from 'lodash';
 
 const env = root.env || {};
 
@@ -750,11 +751,11 @@ export default {
         let query = null;
         if (this.$route.query && this.$route.query.query) {
             query = JSON.parse(this.$route.query.query);
-            if (query.searchText) {
-                this.searchText = query.searchText;
-            }
             if (query.query) {
                 let api_query = JSON.parse(query.query);
+                if (api_query.number && api_query.number.$regex) {
+                    this.searchText = api_query.number.$regex;
+                }   
                 if (
                     api_query.current_status &&
                     api_query.current_status.$regex
@@ -1134,19 +1135,24 @@ export default {
                             this.updateProgressBarValue++
                             return {
                                 status:res.status,
-                                ...res.response
+                                body:res
                             }
                         },{concurrency: 50});
 
             arrRes.then(res=>{
                 res.forEach((ele)=>{
                     if(ele.status===200){
-                    this.uploadedInvoices[this.updateProgressValue].server_status="success";
-                    this.uploadedInvoices[this.updateProgressValue].server_response="update successful";
+                    if(String(_.get(ele,"body.data.message")).toLowerCase()==="invoice skipped"){
+                        this.uploadedInvoices[this.updateProgressValue].server_status="skipped";
+                        this.uploadedInvoices[this.updateProgressValue].server_response="Invoice Skipped";                        
+                    }else{
+                        this.uploadedInvoices[this.updateProgressValue].server_status="success";
+                        this.uploadedInvoices[this.updateProgressValue].server_response="update successful";
+                    }
                     }else{
                         this.uploadedInvoices[this.updateProgressValue].server_status="failure";
-                        this.uploadedInvoices[this.updateProgressValue].server_response=ele.data.message;
-                        if(!ele.data.message){
+                        this.uploadedInvoices[this.updateProgressValue].server_response=ele.body.response.data.message;
+                        if(!ele.body.response.data.message){
                             this.uploadedInvoices[this.updateProgressValue].server_response="Something went wrong"
                         }
                     }
