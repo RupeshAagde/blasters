@@ -277,9 +277,6 @@ const URLS = {
     DEPARTMENT: () => {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/departments');
     },
-    CATEGORY: () => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/category');
-    },
     CATEGORY_v2: (id = '') => {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/category', id);
     },
@@ -585,9 +582,6 @@ const URLS = {
     },
     ADD_INTEGRATION: () => {
         return urlJoin(SLINGSHOT_ADMIN_URL, '/v1.0/integration');
-    },
-    FETCH_COMPANY_LIST: () => {
-        return urlJoin(SILVERBOLT_MAIN_URL, 'v1/onboarding/company/info-view');
     },
     // Product Verification
     FETCH_VERIFICATION_COMPANY_LIST: (companyId) => {
