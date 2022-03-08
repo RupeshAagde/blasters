@@ -90,12 +90,12 @@
                         "
                         class="activation"
                     >
-                    <div>
+                    <div class="activate-but">
                          <nitrozen-button
                                 :theme="'secondary'"
                                 @click="onOpenChangePlanDialog"
                             >
-                                Change Plan
+                                Activate Plan
                             </nitrozen-button>
                         </div>
                         <div class="flex-1 current-inactive-plan">
@@ -648,11 +648,11 @@ export default {
             if(!this.selectedForChange){
                 return this.selectedForChangeError=true;
             }else {
-                if(this.currentPlan.plan_id===this.selectedForChange){
-                    this.selectedForChange="";
-                    this.planChangeComment="";
-                    return this.$snackbar.global.showError(`You are already subsribed to ${this.currentPlan.plan_data.name}`,{duration: 2000});
-                }
+                // if(this.currentPlan.plan_id===this.selectedForChange){
+                //     this.selectedForChange="";
+                //     this.planChangeComment="";
+                //     return this.$snackbar.global.showError(`You are already subsribed to ${this.currentPlan.plan_data.name}`,{duration: 2000});
+                // }
                 this.activatePlan(this.selectedForChange);
                 this.$refs['change_plan_dialog'].close();    
             }
@@ -844,6 +844,7 @@ export default {
             .catch(err=>{
                 this.$snackbar.global.showError('Failed to change subscription',{duration: 2000});
             })
+           
             
 
         },
@@ -1020,7 +1021,6 @@ export default {
     .under-trial-plan {
         color: #2E31BE;
         border: 1px solid #2E31BE;
-        margin-bottom: 24px;
         padding: 14px;
         border-radius: 5px;
         display: inline-block;
@@ -1218,11 +1218,14 @@ export default {
     font-weight: 700;
     font-size: 13px;
 }
+
+
 .activation{
     display: flex;
     flex-direction: column-reverse;
     
 }
-
-
+.activate-but{
+margin-top: 24px;
+}
 </style>
