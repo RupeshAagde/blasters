@@ -324,14 +324,14 @@ const conf = convict({
             env: 'UNICRON_ADMIN_SVC',
             arg: 'UNICRON_ADMIN_SVC'
         },
-        UNICRON_PUBLIC_URL:{
+        UNICRON_PUBLIC_URL: {
             doc: 'Billing service API',
             format: String,
             default: 'https://api.fyndx0.de/service/public/billing',
             env: 'UNICRON_PUBLIC_URL',
             arg: 'UNICRON_PUBLIC_URL'
         },
-        UNICRON_PUBLIC_SVC:{
+        UNICRON_PUBLIC_SVC: {
             doc: 'Billing service API',
             format: String,
             default: 'https://api.fyndx0.de/service/public/billing',
@@ -372,6 +372,13 @@ const conf = convict({
             default: 'https://api.fyndx0.de/service/___/administrator/partners/',
             env: 'MIXMASTER_ADMIN_URL',
             arg: 'mixmaster_admin_url'
+        },
+        MIXMASTER_PARTNER_URL: {
+            doc: 'Mixmaster Partner URL',
+            format: String,
+            default: 'https://api.fyndx0.de/service/panel/partners/',
+            env: 'MIXMASTER_PARTNER_URL',
+            arg: 'MIXMASTER_PARTNER_URL'
         },
         MIXMASTER_ADMIN_SVC: {
             doc: 'Mixmaster Kube Service',
