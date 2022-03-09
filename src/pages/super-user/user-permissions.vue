@@ -105,89 +105,61 @@
             ></nitrozen-tooltip>
         </div>
 
-        <div style="display: flex;">
+        <div style="display:flex">
             <nitrozen-radio
-                class="radio-btn"
-                :radioValue="'false'"
+                class="radio-btn partner-radio"
+                :radioValue="type.value"
                 :name="'partner_selection'"
-                :value="partnerData.access.all.toString()"
-                @input="
-                    (value) => {
-                        partnerData.access.all = value === 'true';
-                        if(partnerData.access.all) {
-                            partnerData.access.partners = [];
-                        }
-                    }
-                "
-            >All</nitrozen-radio>
-            <nitrozen-radio
-                class="radio-btn"
-                :radioValue="'false'"
-                :name="'partner_selection'"
-                :value="partnerData.access.selected.toString()"
-                @input ="
-                    (value) => {
-                        partnerData.access.all = value === 'true';
-                        partnerData.access.selected = 'false';
-                        partnerData.access.none = 'false';
-                    }
-                "
-            >Specific Companies</nitrozen-radio>
-            <nitrozen-radio
-                class="radio-btn"
-                :radioValue="'true'"
-                :name="'partner_selection'"
-                :value="partnerData.access.none.toString()"
-                @input="(value) => {
-                    partnerData.access.all = 'false';
-                    partnerData.access.selected = 'false';
-                    partnerData.access.none = value === 'true';
-                    if(partnerData.access.none) {
-                        partnerData.access.partners = [];
-                    }
-                }"
-            >None</nitrozen-radio>
-
-            <nitrozen-dropdown
-                v-show="!partnerData.access.all && !partnerData.access.none"
-                class="title-label"
-                :searchable="true"
-                :multiple="true"
-                :placeholder="'Search partner organisations'"
-                style="width: 300px"
-                @searchInputChange="partnerSearch"
-                :value="partnerData.access.partners"
-                :items="
-                    partners.map(item => {
-                        return {
-                            text: `${item.name} (${item.uid})`,
-                            value: item.uid
-                        };
-                    })
-                "
-                @input="updateSelectedPartners"
-            ></nitrozen-dropdown>
-
-            <div
-                class="title-label"
-                v-if="!partnerData.access.all && !partnerData.access.none && selectedPartners"
+                v-model="partnerData.currentAccess"
+                v-for="(type, index) in partnerAccess"
+                :key="type+index"
+                @input="updateUserData"
             >
-                <nitrozen-chips
-                    style="margin-bottom: 8px;"
-                    v-for="(partner, index) in selectedPartners" 
-                    :key="index"
-                >
-                    {{ partner.name }}
-                    <nitrozen-inline
-                        :icon="'cross'"
-                        class="nitrozen-icon"
-                        v-on:click="removePartner(index)"
-                    ></nitrozen-inline>
-                </nitrozen-chips>
-            </div>
-            <div v-else-if="!partnerData.access.all" class="title-label dark-xxs">
-                No partner organisation selected
-            </div>
+                {{ type.text }}
+            </nitrozen-radio>
+        </div>
+
+        <nitrozen-dropdown
+            v-if="partnerData.currentAccess === 'specific'"
+            class="title-label partners-dropdown"
+            :searchable="true"
+            :multiple="true"
+            :placeholder="'Search partner organisations'"
+            style="width: 300px"
+            @searchInputChange="partnerSearch"
+            :value="partnerData.partners"
+            :items="
+                partners.map(item => {
+                    return {
+                        text: `${item.name}`,
+                        value: item._id
+                    };
+                })
+            "
+            @input="updateSelectedPartners"
+        ></nitrozen-dropdown>
+
+        <div
+            class="title-label"
+            v-if="partnerData.currentAccess === 'specific' && selectedPartners"
+        >
+            <nitrozen-chips
+                style="margin-bottom: 8px;"
+                v-for="(partner, index) in selectedPartners" 
+                :key="index"
+            >
+                {{ partner.name }}
+                <nitrozen-inline
+                    :icon="'cross'"
+                    class="nitrozen-icon partner-chip-remove"
+                    v-on:click="removePartner(index)"
+                ></nitrozen-inline>
+            </nitrozen-chips>
+        </div>
+        <div 
+            v-else-if="partnerData.currentAccess === 'specific' && selectedPartners.length === 0"
+            class="title-label dark-xxs">
+            No partner organisation selected
         </div>
     </div>
 </template>
@@ -216,6 +188,7 @@ import {
 } from '@gofynd/nitrozen-vue';
 import AuthService from '../../services/auth.service';
 import CompanyService from '../../services/company-admin.service';
+import PartnersService from './../../services/partners.service';
 import { ADMIN_PERMISSIONS } from '../../store/getters.type';
 import { FETCH_ADMIN_PERMISSIONS } from '../../store/action.type';
 import { mapGetters } from 'vuex';
@@ -247,7 +220,24 @@ export default {
             selectedCompany: [],
             userData: null,
             partners: [],
-            partnerData: {},
+            partnerData: {
+                currentAccess: 'none',
+                partners: []
+            },
+            partnerAccess: [
+                {
+                    text: 'All',
+                    value: 'all'
+                },
+                {
+                    text: 'Specific Organizations',
+                    value: 'specific'
+                },
+                {
+                    text: 'None',
+                    value: 'none'
+                }
+            ],
             selectedPartners: []
         };
     },
@@ -256,14 +246,15 @@ export default {
             this.$store.dispatch(FETCH_ADMIN_PERMISSIONS);
         }
         this.fetchCompany();
+        this.fetchPartnerOrgs();
         this.userData = _.cloneDeep(this.user_data);
-        this.partnerData = {
-            access: {
-                all: false,
-                selected: false,
-                partners: [],
-                none: true
-            }
+
+        if(this.user_data.partner_access.all === true) {
+            this.partnerData.currentAccess = 'all';
+        } else {
+            if(this.user_data.partner_access.organization.length > 0) {
+                this.partnerData.currentAccess = 'specific';
+            } else this.partnerData.currentAccess = 'none';
         }
     },
     computed: {
@@ -286,7 +277,7 @@ export default {
         },
         removePartner(index) {
             this.selectedPartners.splice(index, 1);
-            this.partnerData.access.partners.splice(index, 1);
+            this.partnerData.partners.splice(index, 1);
         },
         updateSelectedCompany(value) {
             let selectedCompany = this.userData.access.company;
@@ -310,8 +301,8 @@ export default {
             }
         },
         updateSelectedPartners(value) {
-            let selectedPartners = this.partnerData.access.partners;
-            this.partnerData.access.partners = value;
+            let selectedPartners = this.partnerData.partners;
+            this.partnerData.partners = value;
 
             for(let partnerId of selectedPartners) {
                 let itemIndex = value.findIndex(uid => uid === partnerId);
@@ -327,10 +318,12 @@ export default {
                 );
                 if(itemIndex < 0) {
                     this.selectedPartners.push(
-                        this.partners.find(comp => comp.uid === partnerId)
+                        this.partners.find(comp => comp._id === partnerId)
                     )
                 }
             }
+
+            this.userData.partner_access.organization = this.partnerData.partners;
         },
         companySearch(e) {
             _.debounce((text) => {
@@ -339,7 +332,7 @@ export default {
         },
         partnerSearch(e) {
             _.debounce(text => {
-                console.log(text);
+                this.fetchPartnerOrgs(text);
             }, 600)(e.text);
         },
         fetchCompany(searchCompany) {
@@ -359,6 +352,36 @@ export default {
                     this.$snackbar.global.showError('Failed to load companies');
                     console.log(err);
                 });
+        },
+        fetchPartnerOrgs(searchPartnerTerm) {
+            const query = {
+                page_no: 1,
+                page_size: 10
+            };
+
+            if(searchPartnerTerm) {
+                query.q = {
+                    name: searchPartnerTerm
+                }
+            }
+
+            return PartnersService.fetchPartnerOrganizations(query)
+            .then(response => {
+                this.partners = response.data.items;
+            })
+            .catch(error => {
+                this.$snackbar.global.showError('Failed to fetch the partner organisations.');
+                console.log(error);
+            })
+        },
+        updateUserData(value) {
+            if(value == 'all') {
+                this.userData.partner_access.all = true;
+                this.userData.partner_access.organization = [];
+            } else {
+                this.userData.partner_access.all = false;
+                this.userData.partner_access.organization = this.selectedPartners;
+            }
         }
     }
 };
