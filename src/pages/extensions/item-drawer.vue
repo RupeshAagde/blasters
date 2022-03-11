@@ -44,14 +44,13 @@
                                         ({{ filterValue.count }})
                                     </span>
                                 </nitrozen-checkbox>
-
                                 <nitrozen-radio
                                     v-if="filterData.key.display !== 'Price'"
                                     @change="
                                         onChangeFilter($event, filterValue)
                                     "
-                                    :value="filterValue.slug"
-                                    :radioValue="getRadioValue(filterValue)"
+                                    :value="whichOpen"
+                                    :radioValue="filterValue.slug"
                                     :name="filterValue.type"
                                 >
                                     {{ filterValue.display }}
@@ -88,12 +87,8 @@
                                                 )
                                             "
                                             class="l2-radio"
-                                            :value="childValue.slug"
-                                            :radioValue="
-                                                childValue.is_selected
-                                                    ? childValue.slug
-                                                    : ''
-                                            "
+                                            :value="whichOpen"
+                                            :radioValue="childValue.slug"
                                             :name="filterValue.type"
                                         >
                                             {{ childValue.display }}
@@ -152,12 +147,16 @@
                             :key="index"
                             :ref="'extension-' + index"
                         >
-                            <nitrozen-checkbox
-                                :name="extension.slug"
-                                v-on:input="selectExtension($event, extension)"
-                                v-model="extension.is_selected"
-                            >
-                            </nitrozen-checkbox>
+                            <div class="extension-checkbox">
+                                <nitrozen-checkbox
+                                    :name="extension.slug"
+                                    v-on:input="
+                                        selectExtension($event, extension)
+                                    "
+                                    v-model="extension.is_selected"
+                                >
+                                </nitrozen-checkbox>
+                            </div>
                             <div class="base-card-left">
                                 <img
                                     class="ext-icon"
@@ -171,9 +170,9 @@
                                 <div class="extension-creator">
                                     by {{ extension.organization.name }}
                                 </div>
-                                <div class="extension-tag-line">
+                                <!-- <div class="extension-tag-line">
                                     {{ extension.listing_info.tagline }}
-                                </div>
+                                </div> -->
                                 <div class="extension-price">
                                     <span
                                         v-if="
@@ -370,6 +369,11 @@ export default {
                 this.fetchExtensions(1, '', query);
             }
             this.query = query;
+            if (this.query.l2) {
+                this.whichOpen = this.query.l2;
+            } else if (this.query.l1 && !this.query.l2) {
+                this.whichOpen = this.query.l1;
+            }
         },
         checkPriceFilter(event, value) {
             this.categoryFilters = this.categoryFilters.map((filteObj) => {
@@ -377,10 +381,6 @@ export default {
                     if (category.slug === value.slug) {
                         category.is_selected = true;
                     }
-                    console.log(
-                        'category',
-                        category.is_selected + ' ' + category.slug
-                    );
                     return category;
                 });
                 return filteObj;
@@ -483,6 +483,7 @@ export default {
                 ExtensionService.getAllPublicExtensionCategories(params);
             Promise.all([getAllPulblicExtension, getExtnesionCategory]).then(
                 ([data, category]) => {
+                    this.extensions_selected = this.selected_extensions;
                     const all_selected = [
                         ...this.selected_extensions,
                         ...this.extensions_selected,
@@ -496,7 +497,30 @@ export default {
                     this.paginationConfig.total = data.data.page.item_total;
                     this.paginationInfo = data.data.page;
                     this.inProgress = false;
-                    this.categoryFilters = category.data.filters;
+                    this.categoryFilters = category.data.filters
+                        .map((filter) => {
+                            filter.values = filter.values.sort(
+                                (filter_one, filter_two) => {
+                                    return filter_one.slug.localeCompare(
+                                        filter_two.slug
+                                    );
+                                }
+                            );
+                            filter.values = filter.values.map((category) => {
+                                if (category.childs) {
+                                    category.childs = category.childs.sort(
+                                        (filter_one, filter_two) => {
+                                            return filter_one.slug.localeCompare(
+                                                filter_two.slug
+                                            );
+                                        }
+                                    );
+                                }
+                                return category;
+                            });
+                            return filter;
+                        })
+                        .reverse();
                 }
             );
         },
@@ -628,14 +652,20 @@ export default {
                 min-width: 200px;
                 display: flex;
                 align-items: center;
-                margin: 10px;
+                margin: 25px;
                 padding: 10px;
                 border: 1px solid #e0e0e0;
                 max-height: 150px;
+                position: relative;
+                .extension-checkbox {
+                    position: absolute;
+                    top: -10px;
+                    left: -10px;
+                }
             }
             .base-card-left {
                 .ext-icon {
-                    width: 100px;
+                    width: 48px;
                 }
             }
             .base-card-right {

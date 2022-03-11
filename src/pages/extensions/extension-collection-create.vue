@@ -7,21 +7,15 @@
                         :theme="'secondary'"
                         @click="saveForm(true)"
                         v-flatBtn
-                        >Create</nitrozen-button
+                        >{{
+                            isEditForm() ? 'Update' : 'Create'
+                        }}</nitrozen-button
                     >
                 </div>
-                <template slot="page-slot-mobile-footer">
-                    <nitrozen-button
-                        @click="saveForm(true)"
-                        class="footer-actions"
-                        v-flatBtn
-                        theme="secondary"
-                        >Create</nitrozen-button
-                    >
-                </template>
             </page-header>
         </div>
-        <div v-if="isEditMode()" class="new-main-container">
+
+        <div v-if="isEditModeLoading()" class="new-main-container">
             <div class="new-page-container">
                 <div class="section p-24-bg-white">
                     <div class="cl-Mako bold-md">Basic Details</div>
@@ -77,7 +71,7 @@
                             label="Description"
                             :maxlength="150"
                             placeholder="For eg. Slay in style with our cool summer collection"
-                            v-model="collection_data.desc"
+                            v-model="collection_data.description"
                             :showSuffix="true"
                             :custom="true"
                         >
@@ -100,7 +94,7 @@
                         </div>
                         <div class="inline">
                             <div class="no-image right-gutter">
-                                <div v-if="collection_data.banner.logo == ''">
+                                <div v-if="!collection_data.banner.logo">
                                     <image-uploader
                                         :showGallery="false"
                                         class="
@@ -300,11 +294,13 @@
                             :key="index"
                             :ref="'extension-' + index"
                         >
-                            <nitrozen-checkbox
-                                v-on:input="selectExtension($event, extension)"
-                                v-model="extension.is_selected"
-                            >
-                            </nitrozen-checkbox>
+                            <div class="cross-icon">
+                                <nitrozen-inline
+                                    :icon="'cross'"
+                                    class="nitrozen-icon"
+                                    @click="removeExtnesion(extension)"
+                                ></nitrozen-inline>
+                            </div>
                             <div class="base-card-left">
                                 <img
                                     class="ext-icon"
@@ -318,9 +314,9 @@
                                 <div class="extension-creator">
                                     by {{ extension.organization.name }}
                                 </div>
-                                <div class="extension-tag-line">
+                                <!-- <div class="extension-tag-line">
                                     {{ extension.listing_info.tagline }}
-                                </div>
+                                </div> -->
                                 <div class="extension-price">
                                     <span
                                         v-if="
@@ -468,7 +464,7 @@ export default {
                 current_status: '',
                 selected_extensions: [],
                 icon: '',
-                desc: '',
+                description: '',
             },
             errors: {
                 name: '',
@@ -486,12 +482,23 @@ export default {
             env.FYND_PLATFORM_DOMAIN || this.fynd_platform_domain;
         if (this.$route.query.id) {
             this.fetchExtensionCollectionDetails(this.$route.query.id);
-            console.log('>>this.$route.query', this.$route.query);
         }
         this.fetchExtension();
     },
     methods: {
-        isEditMode() {
+        removeExtnesion(item) {
+            this.collection_data.selected_extensions =
+                this.collection_data.selected_extensions.filter(
+                    (x) => x._id !== item._id
+                );
+        },
+        isEditForm() {
+            if (this.$route.query.id) {
+                return true;
+            }
+            return false;
+        },
+        isEditModeLoading() {
             if (this.$route.query.id) {
                 return !this.isPageLoading;
             }
@@ -499,10 +506,15 @@ export default {
         },
         fetchExtensionCollectionDetails(id) {
             this.isPageLoading = true;
-            this.collection_data = dummy.find((x) => x._id === id);
-            this.isPageLoading = false;
-            this.$set(this.collection_data, 'tags', this.collection_data.tags);
-            console.log('>>this.collection_data', this.collection_data);
+            ExtensionService.getExtensionCollectionDetails(id).then((res) => {
+                this.collection_data = res.data;
+                this.isPageLoading = false;
+                this.$set(
+                    this.collection_data,
+                    'tags',
+                    this.collection_data.tags
+                );
+            });
         },
         setModalRef(modalRef) {
             this.modalRef = modalRef;
@@ -534,23 +546,47 @@ export default {
         formatBytes,
         fetchExtension() {},
         saveForm(approve) {
-            ExtensionService.saveExtensionCollection(this.collection_data);
-            this.error_comments = '';
-            this.review_data.current_status = approve
-                ? 'published'
-                : 'rejected';
-            if (!approve && !this.review_data.review_comments) {
-                this.error_comments =
-                    'Review comments required for rejecting extension changes';
-                this.$snackbar.global.showError('Missing required data');
+            if (this.$route.query.id) {
+                ExtensionService.updateExtensionCollection(
+                    this.collection_data,
+                    this.$route.query.id
+                )
+                    .then((res) => {
+                        this.$snackbar.global.showSuccess(
+                            'Extension Updated successfully',
+                            1000
+                        );
+                        return this.$router.push({
+                            path: '/administrator/extensions/collection',
+                        });
+                    })
+                    .catch((err) => {
+                        this.$snackbar.global.showError(
+                            'Error occured! Extension could not be saved'
+                        );
+                    });
                 return;
             }
-            this.inProgress = true;
+            ExtensionService.saveExtensionCollection(this.collection_data)
+                .then((res) => {
+                    this.$snackbar.global.showSuccess(
+                        'Extension saved successfully',
+                        1000
+                    );
+                    return this.$router.push({
+                        path: '/administrator/extensions/collection',
+                    });
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError(
+                        'Error occured! Extension could not be saved'
+                    );
+                });
             //TODO: Add form dirty
         },
         onCancel() {
             this.$router
-                .push(`/administrator/extensions/review`)
+                .push(`/administrator/extensions/collection`)
                 .catch(() => {});
         },
         removeChip(index) {
@@ -667,14 +703,39 @@ export default {
         padding: 10px;
         transition: all 0.5s ease;
         border: 1px solid #e0e0e0;
-        &:hover {
+        position: relative;
+        .cross-icon {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 30px;
+            height: 29px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 100%;
+            opacity: 1;
             transition: all 0.5s ease;
+            cursor: pointer;
+            .nitrozen-icon {
+                top: -5px;
+                position: relative;
+            }
+        }
+        &:hover {
+            .cross-icon {
+                transition: all 0.5s ease;
+                opacity: 1;
+            }
             box-shadow: 0 9px 13px 0 rgb(221 221 221);
+            transition: all 0.5s ease;
         }
     }
     .base-card-left {
         .ext-icon {
-            width: 100px;
+            width: 48px;
         }
     }
     .base-card-right {

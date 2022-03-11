@@ -1,7 +1,7 @@
 <template>
     <div class="panel extension-collection-list">
         <div class="main-container">
-            <div class="page-container">
+            <div class="page-container-main">
                 <jumbotron
                     :title="'Extension Collection'"
                     btnLabel="Create"
@@ -16,10 +16,24 @@
                     type="search"
                     placeholder="Search Collection"
                     v-model="searchText"
-                    @input="debounceInput()"
+                    @input="debounceInput"
                 ></nitrozen-input>
             </div>
-            <div class="extension-collection-cards">
+            <page-empty
+                :text="'No Collection Created'"
+                v-if="!extension_collections.length"
+            >
+            </page-empty>
+            <list-shimmer
+                v-if="inProgressSearch"
+                :count="5"
+                class="extension-collection-cards"
+                :paginationShimmer="false"
+            ></list-shimmer>
+            <div
+                v-if="extension_collections.length > 0"
+                class="extension-collection-cards"
+            >
                 <div
                     class="mirage-list-card-container"
                     v-for="(extension, index) in extension_collections"
@@ -29,7 +43,10 @@
                 >
                     <div class="card-avatar">
                         <img
-                            :src="extension.banner.logo"
+                            :src="
+                                extension.banner.logo ||
+                                'https://res.cloudinary.com/dwzm9bysq/image/upload/v1588857854/production/applications/app_000000000000000000000001/media/collection/logo/w9ns7nfgv7fk45xqrpoh.png'
+                            "
                             alt="collection logo"
                         />
                     </div>
@@ -41,7 +58,8 @@
                             {{ extension.desc }}
                         </div>
                         <div class="card-content-line-3">
-                            Type: {{ capitalizeStr(extension.collection_type) }}
+                            Type:
+                            {{ capitalizeStr(extension.collection_type) }}
                         </div>
                     </div>
                 </div>
@@ -50,6 +68,16 @@
                     v-else-if="pageError && !pageLoading"
                     @tryAgain="fetchExtension"
                 ></page-error>
+            </div>
+            <div class="pagination-div">
+                <nitrozen-pagination
+                    name="Extensions"
+                    v-model="paginationConfig"
+                    ref="extension-pagination"
+                    class="extension-list-pagination"
+                    @change="paginationChange"
+                    :pageSizeOptions="[20, 50, 100, 200]"
+                ></nitrozen-pagination>
             </div>
         </div>
     </div>
@@ -65,9 +93,20 @@
 .hidden {
     visibility: hidden;
 }
-.page-container {
+.page-container-main {
     margin: 0;
     flex-direction: column;
+    display: block;
+    flex-wrap: wrap;
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    .jumbotron-container {
+        // width: 100%;
+    }
+}
+.pagination-div {
+    padding: 0px 24px;
 }
 </style>
 
@@ -78,17 +117,28 @@ import {
     strokeBtn,
     NitrozenInput,
     NitrozenError,
+    NitrozenPagination,
 } from '@gofynd/nitrozen-vue';
 import jumbotronVue from '@/components/common/jumbotron.vue';
-
 import loader from '@/components/common/loader';
 import pageEmpty from '@/components/common/page-empty.vue';
 import pageError from '@/components/common/page-error.vue';
 import pageHeader from '@/components/common/layout/page-header.vue';
 import root from 'window-or-global';
-const env = root.env || {};
+import listShimmer from './list-shimmer.vue';
 import dummy from './dummy_ext_collection.json';
+import { debounce } from '@/helper/utils';
 import { capitalize } from 'lodash';
+import ExtensionService from '@/services/extension.service';
+
+const env = root.env || {};
+
+const PAGINATION = {
+    limit: 20,
+    current: 1,
+    total: 0,
+};
+
 export default {
     name: 'extension-review',
     components: {
@@ -98,8 +148,10 @@ export default {
         'page-empty': pageEmpty,
         'page-error': pageError,
         'page-header': pageHeader,
+        'list-shimmer': listShimmer,
         jumbotron: jumbotronVue,
         loader: loader,
+        NitrozenPagination,
     },
     directives: {
         flatBtn,
@@ -118,7 +170,9 @@ export default {
             },
             error_comments: '',
             fynd_platform_domain: 'fynd.com',
-            extension_collections: dummy,
+            extension_collections: [],
+            inProgressSearch: false,
+            paginationConfig: { ...PAGINATION },
         };
     },
     computed: {},
@@ -128,11 +182,31 @@ export default {
         this.fetchExtension();
     },
     methods: {
-        debounceInput() {},
+        paginationChange() {},
+
+        debounceInput: debounce(function (e) {
+            this.paginationConfig = { ...PAGINATION };
+            this.fetchExtension(e);
+        }, 500),
         capitalizeStr(str) {
             return capitalize(str);
         },
-        fetchExtension() {},
+        fetchExtension(name = '') {
+            this.inProgressSearch = true;
+            let params = {
+                page_size: this.paginationConfig.limit,
+                page_no: this.paginationConfig.current,
+                name,
+            };
+
+            ExtensionService.getExtensionCollections(params).then((res) => {
+                this.extension_collections = res.data.items;
+                this.paginationConfig = res.data.page;
+                this.paginationConfig.total = res.data.page.item_total;
+                this.paginationConfig.limit = res.data.page.size;
+                this.inProgressSearch = false;
+            });
+        },
         createExtensionCollection() {
             this.$router
                 .push(`/administrator/extensions/collection/create`)
