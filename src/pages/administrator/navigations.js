@@ -141,7 +141,7 @@ export const getNavigations = () => {
                 {
                     display: 'Review',
                     link: '/administrator/extensions/review',
-                    title: 'extensions',
+                    title: 'review',
                     icon: 'settings',
                     highlightedIcon: 'home-highlighted',
                     active: false
@@ -149,7 +149,7 @@ export const getNavigations = () => {
                 {
                     display: 'Collection',
                     link: '/administrator/extensions/collection',
-                    title: 'extensions',
+                    title: 'collection',
                     icon: 'settings',
                     highlightedIcon: 'home-highlighted',
                     active: false
