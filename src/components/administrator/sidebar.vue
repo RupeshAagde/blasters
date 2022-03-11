@@ -194,7 +194,6 @@ export default {
             );
         },
         currentPath() {
-            console.log('>>this.$route.path', this.$route.path);
             return this.$route.path;
         },
         ...mapGetters({
