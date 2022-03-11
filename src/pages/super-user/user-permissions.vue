@@ -229,10 +229,10 @@ export default {
                     text: 'All',
                     value: 'all'
                 },
-                {
-                    text: 'Specific Organizations',
-                    value: 'specific'
-                },
+                // {
+                //     text: 'Specific Organizations',
+                //     value: 'specific'
+                // },
                 {
                     text: 'None',
                     value: 'none'
