@@ -104,9 +104,6 @@ export default {
             chipInput: '',
         };
     },
-    mounted() {
-        console.log('>>this.value', this.value);
-    },
     computed: {},
     methods: {
         handleKeyDown(event) {
