@@ -3,6 +3,7 @@ curl -s "https://gitlab.com/api/v4/projects/9905046/repository/files/gitlab%2Fse
 ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
 npm install --only=dev
 
+
 source run.local.test.sh
 
 node tools/coverage_output.js
