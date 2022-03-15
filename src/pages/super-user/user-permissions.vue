@@ -92,7 +92,7 @@
             </nitrozen-chips>
         </div>
         <div v-else-if="!userData.access.all" class="title-label dark-xxs">
-            No company selected
+            No Company Selected
         </div>
 
 
@@ -159,7 +159,7 @@
         <div 
             v-else-if="partnerData.currentAccess === 'specific' && selectedPartners.length === 0"
             class="title-label dark-xxs">
-            No partner organisation selected
+            No Partner Organisation Selected
         </div>
     </div>
 </template>
