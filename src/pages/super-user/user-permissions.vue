@@ -12,6 +12,7 @@
                 })
             "
             v-model="userData.roles[0]"
+            @change="changeRole"
         ></nitrozen-dropdown>
 
         <div class="title-label cl-DustyGray2 dark-xxs">Permissions</div>
@@ -271,6 +272,12 @@ export default {
         }
     },
     methods: {
+        changeRole(event) {
+            if(event === 'admin') {
+                this.partnerData.currentAccess = 'all';
+                this.updateUserData('all');
+            }
+        },
         removeChip(index) {
             this.selectedCompany.splice(index, 1);
             this.userData.access.company.splice(index, 1);
