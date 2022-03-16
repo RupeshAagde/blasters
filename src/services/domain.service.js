@@ -59,10 +59,6 @@ const PLATFORM_ASSETS_ADMIN = isNode ?
     envVars.BROWSER_CONFIG.GRINDOR_ADMIN_URL :
     envVars.GRINDOR_ADMIN_URL;
 
-const SLINGSHOT_MAIN_URL = isNode ?
-    envVars.BROWSER_CONFIG.SLINGSHOT_MAIN_URL :
-    envVars.SLINGSHOT_MAIN_URL;
-
 const SLINGSHOT_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SLINGSHOT_ADMIN_URL :
     envVars.SLINGSHOT_ADMIN_URL;
@@ -96,6 +92,24 @@ const URLS = {
     //fetch attributes
     FETCH_ATTRIBUTE: () => {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/product-attributes/');
+    },
+    //fetch all hsn codes
+    FETCH_HSNCODES: () => {
+        return urlJoin(SILVERBOLT_ACAT_URL, '/v2.0/hsn/');
+    },
+    //fetch single hsn code
+    FETCH_SINGLEHSN: (reporting_hsn) => {
+        return urlJoin(SILVERBOLT_ACAT_URL, `/v2.0/hsn/${reporting_hsn}`);
+    },
+
+    //Create Hsn codes
+    HSN_CODE_LIST_CREATE: () => {
+        console.log(SILVERBOLT_ACAT_URL)
+        return urlJoin(SILVERBOLT_ACAT_URL, '/v2.0/hsn/');
+    },
+    HSN_CODE_RETRIVE_UPDATE_DELETE: (reporting_hsn) => {
+        console.log(SILVERBOLT_ACAT_URL)
+        return urlJoin(SILVERBOLT_ACAT_URL, `/v2.0/hsn/${reporting_hsn}`);
     },
     //fetchVariant
     FETCH_VARIANT: (uid) => {
@@ -140,8 +154,8 @@ const URLS = {
     FETCH_APPLICATIONS: (uid) => {
         return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/company/${uid}/application`);
     },
-    FETCH_ALL_APPLICATIONS: (uid) => {
-        return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/application`);
+    GET_APPLICATIONS: (appId = '') => {
+        return urlJoin(SLINGSHOT_ADMIN_URL, `/v1.0/application/${appId}`);
     },
 
     //archive unarchive sales channel
@@ -285,7 +299,7 @@ const URLS = {
     },
 
     LOCATIONS: () => {
-        return urlJoin(SLINGSHOT_PUBLIC_URL, '/locations');
+        return urlJoin(SLINGSHOT_PUBLIC_URL, `v1.0/location`);
     },
 
     // Unicron/Daytrader - Plan creator
@@ -340,6 +354,9 @@ const URLS = {
     UPDATE_OFFLINE_PAYMENT: (id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/mark-offline-paid/${id}`);
     },
+    BULK_UPDATE_OFFLINE_PAYMENT: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/bulk/update`);
+    },
     VOID_INVOICE: () => {
         return urlJoin(UNICRON_BASE, `/v1.0/company-invoice/void-invoice`);
     },
@@ -379,6 +396,9 @@ const URLS = {
     },
     SUBSCRIPTION_COUPON: (id='') => {
         return urlJoin(UNICRON_BASE, `/v1.0/coupon/`,id)
+    },
+    SUBSCRIPTION_VALIDITY_COUPON: () => {
+        return urlJoin(UNICRON_BASE, `/v1.0/coupon/check-validity`)
     },
     SUBSCRIPTION_COUPON_UNIQUE: (code) => {
         return urlJoin(UNICRON_BASE, `/v1.0/coupon/code_uniqueness/`,code)

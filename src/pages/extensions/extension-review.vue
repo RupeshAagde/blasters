@@ -52,7 +52,8 @@
             v-else-if="pageError && !pageLoading"
             @tryAgain="fetchExtension"
         ></page-error>
-        <div class="main-container" v-else>
+
+        <div class="main-container" v-if="extension_info.listing_info">
             <div class="page-container">
                 <a
                     class="cl-RoyalBlue"
@@ -71,7 +72,7 @@
                     class="nitrozen-form-input full-width"
                     :type="'textarea'"
                     :label="'Review Comments'"
-                    v-model="review_data.review_comments"
+                    v-model="extension_info.review_comments"
                 >
                 </nitrozen-input>
                 <nitrozen-error :class="{ hidden: !error_comments }">
@@ -133,7 +134,50 @@
     visibility: hidden;
 }
 .page-container {
-    margin: 0;
+    margin: 0 0 24px 0;
+    flex-direction: column;
+    width: calc(100% - 48px);
+    .content-container {
+        display: flex;
+
+        .left-container {
+            width: 50%;
+        }
+        .right-container {
+            flex: 1;
+            margin-left: 24px;
+        }
+        .extension-info {
+            margin-top: 24px;
+            font-size: 14px;
+            color: @Mako;
+            span {
+                font-weight: bold;
+            }
+            .scope-listing{
+                margin-left: 24px;
+                .ext-scopes{
+                    list-style: disc;
+                    li{
+                        margin-bottom: 12px;
+                    }
+                }
+            }
+        }
+    }
+}
+.default-image {
+    width: auto;
+    height: 60px;
+    position: absolute;
+    left: -10px;
+    top: 0px;
+}
+.circle-clip {
+    clip-path: circle(30px at center);
+}
+
+.main-container {
     flex-direction: column;
 }
 .category-display {
@@ -163,6 +207,9 @@ import pageError from '@/components/common/page-error.vue';
 import pageHeader from '@/components/common/layout/page-header.vue';
 import ExtensionService from '@/services/extension.service';
 import root from 'window-or-global';
+import moment from 'moment';
+import CompanyService from '@/services/company-admin.service';
+
 const env = root.env || {};
 
 export default {
@@ -178,7 +225,7 @@ export default {
         'page-empty': pageEmpty,
         'page-error': pageError,
         'page-header': pageHeader,
-        loader: loader,
+        loader: loader
     },
     directives: {
         flatBtn,
@@ -335,6 +382,7 @@ export default {
             this.review_data.current_status = approve
                 ? 'published'
                 : 'rejected';
+            this.review_data.review_comments = this.extension_info.review_comments
             if (!approve && !this.review_data.review_comments) {
                 this.error_comments =
                     'Review comments required for rejecting extension changes';
@@ -434,6 +482,53 @@ export default {
             );
             this.categoryInfo.category.categories_l2 = category_level_value;
         },
-    },
+        toDateTimeString(date) {
+            return moment(date).format('MMMM Do YYYY, h:mm a');
+        },
+        backClick() {
+            this.$emit('backClick');
+        },
+        getUserInfo(userId) {
+            CompanyService.searchUser({ query: userId })
+                .then((res) => {
+                    if (res.data.users.length) {
+                        this.reviewer_name =
+                            res.data.users[0].first_name +
+                            ' ' +
+                            res.data.users[0].last_name;
+                        for (
+                            let i = 0;
+                            i < res.data.users[0].emails.length;
+                            i++
+                        ) {
+                            if (res.data.users[0].emails[i].primary === true) {
+                                this.reviewer_email =
+                                    res.data.users[0].emails[i].email;
+                            }
+                        }
+                        for (
+                            let i = 0;
+                            i < res.data.users[0].phone_numbers.length;
+                            i++
+                        ) {
+                            if (
+                                res.data.users[0].phone_numbers[i].primary ===
+                                true
+                            ) {
+                                this.reviewer_phone =
+                                    '+' +
+                                    res.data.users[0].phone_numbers[i]
+                                        .country_code +
+                                    ' ' +
+                                    res.data.users[0].phone_numbers[i].phone;
+                            }
+                        }
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    }
 };
 </script>

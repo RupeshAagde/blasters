@@ -24,7 +24,7 @@ describe('Mounted report logs', () => {
         mock.reset();
         mock.onGet(URLS.COMMUNICATION_CAMPAIGNS({"name":"test"})).reply(200, MOCK_DATA.campaign.data);
         mock.onGet(URLS.COMMUNICATION_LOG()).reply(200, MOCK_DATA.LOGS );
-        mock.onGet(URLS.FETCH_ALL_APPLICATIONS()).reply(200, MOCK_DATA.Applications);
+        mock.onGet(URLS.GET_APPLICATIONS()).reply(200, MOCK_DATA.Applications);
 
 
         router = new VueRouter({
