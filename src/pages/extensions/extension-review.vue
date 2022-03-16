@@ -86,12 +86,15 @@
                                 >View Requested Scopes</nitrozen-button
                             >
                             <div class="scope-listing" v-else>
-                                <ul
-                                    class="ext-scopes"
-                                >
-                                <li v-for="(scope,
-                                    index) in extension_info.scope"
-                                    :key="scope + index">{{scope}}</li>
+                                <ul class="ext-scopes">
+                                    <li
+                                        v-for="(
+                                            scope, index
+                                        ) in extension_info.scope"
+                                        :key="scope + index"
+                                    >
+                                        {{ scope }}
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -100,9 +103,9 @@
                         class="right-container"
                         v-if="
                             extension_info.current_status !== 'pending' &&
-                                reviewer_name &&
-                                reviewer_email &&
-                                reviewer_phone
+                            reviewer_name &&
+                            reviewer_email &&
+                            reviewer_phone
                         "
                     >
                         <div class="cl-Mako bold-md">Reviewed By:</div>
@@ -125,9 +128,7 @@
             <div class="page-container">
                 <a
                     class="cl-RoyalBlue"
-                    :href="
-                        `https://partners.${fynd_platform_domain}/extensions/preview/${extension_id}`
-                    "
+                    :href="`https://partners.${fynd_platform_domain}/extensions/preview/${extension_id}`"
                     target="_blank"
                     >Link to extension</a
                 >
@@ -148,6 +149,44 @@
                 <nitrozen-error :class="{ hidden: !error_comments }">
                     {{ error_comments || '-' }}
                 </nitrozen-error>
+                <div class="category-display">
+                    <div>
+                        <nitrozen-dropdown
+                            class="nitrozen-form-input"
+                            :label="'Category Level 1'"
+                            :items="categoryInfo.category_l1"
+                            multiple="true"
+                            v-model="categoryInfo.categoriesL1Array"
+                            :value="categoryInfo.categoriesL1Array"
+                            @change="onChangeCategoryL1()"
+                        ></nitrozen-dropdown>
+                    </div>
+                    <div>
+                        <nitrozen-dropdown
+                            class="nitrozen-form-input"
+                            :label="'Category Level 2'"
+                            multiple="true"
+                            :items="categoryInfo.categoriesL2Options"
+                            v-model="categoryInfo.categoriesL2Array"
+                            :value="categoryInfo.categoriesL2Array"
+                            @change="onChangeCategoryL2()"
+                        ></nitrozen-dropdown>
+                        <nitrozen-chips
+                            class="nitrozen-form-input"
+                            v-for="(item, index) in categoryInfo.category
+                                .categories_l2"
+                            :key="'categoryL2' + index"
+                            multiple="true"
+                        >
+                            {{ item.text_to_show }}
+                            <nitrozen-inline
+                                :icon="'cross'"
+                                class="nitrozen-icon"
+                                v-on:click="removeSelectedCategory(index, true)"
+                            ></nitrozen-inline>
+                        </nitrozen-chips>
+                    </div>
+                </div>
             </div>
             <loader v-if="inProgress" class="loading"></loader>
         </div>
@@ -186,11 +225,11 @@
             span {
                 font-weight: bold;
             }
-            .scope-listing{
+            .scope-listing {
                 margin-left: 24px;
-                .ext-scopes{
+                .ext-scopes {
                     list-style: disc;
-                    li{
+                    li {
                         margin-bottom: 12px;
                     }
                 }
@@ -212,6 +251,12 @@
 .main-container {
     flex-direction: column;
 }
+.category-display {
+    margin-top: 12px;
+}
+.category-display-label {
+    font-size: 16px;
+}
 </style>
 
 <script>
@@ -221,7 +266,10 @@ import {
     strokeBtn,
     NitrozenInput,
     NitrozenError,
-    NitrozenBadge
+    NitrozenChips,
+    NitrozenInline,
+    NitrozenDropdown,
+    NitrozenBadge,
 } from '@gofynd/nitrozen-vue';
 
 import loader from '@/components/common/loader';
@@ -241,15 +289,18 @@ export default {
         'nitrozen-button': NitrozenButton,
         'nitrozen-input': NitrozenInput,
         'nitrozen-error': NitrozenError,
+        'nitrozen-chips': NitrozenChips,
+        'nitrozen-dropdown': NitrozenDropdown,
+        'nitrozen-inline': NitrozenInline,
         'nitrozen-badge': NitrozenBadge,
         'page-empty': pageEmpty,
         'page-error': pageError,
         'page-header': pageHeader,
-        loader: loader
+        loader: loader,
     },
     directives: {
         flatBtn,
-        strokeBtn
+        strokeBtn,
     },
     data() {
         return {
@@ -257,16 +308,24 @@ export default {
             pageError: false,
             pageLoading: false,
             extension_info: {},
+            categoryInfo: {
+                category_level_1: '',
+                category_level_2: '',
+                category: { categories_l1: [], categories_l2: [] },
+                categoriesL1Array: [],
+                categoriesL2Array: [],
+                categoriesL2Options: [],
+            },
             review_data: {
                 review_comments: '',
-                current_status: ''
+                current_status: '',
             },
             error_comments: '',
             fynd_platform_domain: 'fynd.com',
             reviewer_name: '',
             reviewer_email: '',
             reviewer_phone: '',
-            showScopes: false
+            showScopes: false,
         };
     },
     computed: {
@@ -283,7 +342,7 @@ export default {
                     this.extension_info.listing_info.name) ||
                 'Extension Name'
             );
-        }
+        },
     },
     mounted() {
         this.fynd_platform_domain =
@@ -291,14 +350,103 @@ export default {
         this.fetchExtension();
     },
     methods: {
+        selectedCategoryOptions(categoriesL1, category_l2) {
+            const selectedParents = categoriesL1.map((ext) => ext._id);
+            const category_level2 = (category_l2 || []).filter((ext) =>
+                selectedParents.includes(ext.parent)
+            );
+            this.categoryInfo.category.categories_l2 =
+                this.categoryInfo.category.categories_l2.filter((ext) =>
+                    selectedParents.includes(ext.parent)
+                );
+            this.categoryInfo.categoriesL2Array =
+                this.categoryInfo.category.categories_l2.map((x) => x.text);
+            this.categoryInfo.categoriesL2Options = category_level2.map(
+                (ext) => ({
+                    _id: ext._id,
+                    value: ext.display,
+                    text: ext.display + ' - ' + ext.parent_doc.display,
+                    parent: ext.parent,
+                })
+            );
+        },
         fetchExtension() {
             this.pageLoading = true;
             this.pageError = false;
-            ExtensionService.getExtensionReviewInfo(this.review_id)
-                .then(({ data }) => {
+            let extensionCategories =
+                ExtensionService.getAllExtensionCategories();
+            const getExtensionInfo = ExtensionService.getExtensionReviewInfo(
+                this.review_id
+            );
+            Promise.all([getExtensionInfo, extensionCategories])
+                .then(([{ data }, extensionCategoriesInfo]) => {
                     this.extension_info = data;
-                    if (this.extension_info.current_status !== 'pending') {
-                        this.getUserInfo(this.extension_info.reviewed_by);
+                    this.categoryInfo.category_l1 =
+                        extensionCategoriesInfo.data.data.category_l1.map(
+                            (ext) => ({
+                                ...ext,
+                                text: ext.display,
+                            })
+                        );
+                    this.categoryInfo.category_l2 =
+                        extensionCategoriesInfo.data.data.category_l2.map(
+                            (ext) => ({
+                                ...ext,
+                                text: ext.display,
+                                parent_doc:
+                                    extensionCategoriesInfo.data.data.category_l1.find(
+                                        (catl1) => catl1._id === ext.parent
+                                    ),
+                                text_to_show: `${
+                                    extensionCategoriesInfo.data.data.category_l1.find(
+                                        (catl1) => catl1._id === ext.parent
+                                    ).display
+                                } - in ${ext.display}`,
+                            })
+                        );
+                    if (data.category) {
+                        data.category.categories_l1 =
+                            data.category.categories_l1.map((ext_category) => {
+                                const ext_category_info =
+                                    this.categoryInfo.category_l1.find(
+                                        (category) =>
+                                            category._id === ext_category._id
+                                    );
+                                return ext_category_info;
+                            });
+                        data.category.categories_l2 =
+                            data.category.categories_l2.map((ext_category) => {
+                                const ext_category_info =
+                                    this.categoryInfo.category_l2.find(
+                                        (category) =>
+                                            category._id === ext_category._id
+                                    );
+                                return ext_category_info;
+                            });
+                        this.selectedCategoryOptions(
+                            data.category.categories_l1,
+                            this.categoryInfo.category_l2
+                        );
+                        data.category.categories_l2 =
+                            data.category.categories_l2.map((ext) => {
+                                return {
+                                    ...ext,
+                                    text_to_show: `${
+                                        data.category.categories_l1.find(
+                                            (catl1) => catl1._id === ext.parent
+                                        ).display
+                                    } - in ${ext.text}`,
+                                };
+                            });
+                        this.categoryInfo.categoriesL1Array =
+                            data.category.categories_l1.map((x) => x.display);
+                        this.categoryInfo.categoriesL2Array =
+                            data.category.categories_l2.map((x) => x.display);
+
+                        this.categoryInfo.category = {
+                            categories_l1: data.category.categories_l1,
+                            categories_l2: data.category.categories_l2,
+                        };
                     }
                 })
                 .catch((err) => {
@@ -317,7 +465,8 @@ export default {
             this.review_data.current_status = approve
                 ? 'published'
                 : 'rejected';
-            this.review_data.review_comments = this.extension_info.review_comments
+            this.review_data.review_comments =
+                this.extension_info.review_comments;
             if (!approve && !this.review_data.review_comments) {
                 this.error_comments =
                     'Review comments required for rejecting extension changes';
@@ -326,6 +475,20 @@ export default {
             }
             this.inProgress = true;
             //TODO: Add form dirty
+            const { categories_l1, categories_l2 } = this.categoryInfo.category;
+            this.review_data.category = {
+                categories_l1: categories_l1.map((x) => ({
+                    id: x._id,
+                    slug: x.slug,
+                    _id: x._id,
+                })),
+                categories_l2: categories_l2.map((x) => ({
+                    id: x._id,
+                    slug: x.slug,
+                    _id: x._id,
+                    parent: x.parent,
+                })),
+            };
             ExtensionService.updateExtensionReviewInfo(
                 this.review_id,
                 this.review_data
@@ -395,7 +558,61 @@ export default {
                 .catch((err) => {
                     console.log(err);
                 });
-        }
-    }
+        },
+        removeSelectedCategory(index, isL2 = false, idL1) {
+            if (isL2) {
+                this.categoryInfo.category.categories_l2 =
+                    this.categoryInfo.category.categories_l2.filter(
+                        (x, i) => i !== index
+                    );
+                this.categoryInfo.categoriesL2Array =
+                    this.categoryInfo.category.categories_l2.map(
+                        (x) => x.display
+                    );
+                return;
+            }
+            this.categoryInfo.category.categories_l1 =
+                this.categoryInfo.category.categories_l1.filter(
+                    (x, i) => i !== index
+                );
+            this.categoryInfo.category.categories_l2 =
+                this.categoryInfo.category.categories_l2.filter(
+                    (x, i) => x.parent !== idL1
+                );
+        },
+        onChangeCategoryL1() {
+            let {
+                category_l1,
+                category_l2,
+                category: { categories_l1, categories_l2 },
+                categoriesL1Array,
+            } = this.categoryInfo;
+            if (categoriesL1Array.length >= 4) {
+                this.$snackbar.global.showError(`Maximum 3 Categories allowed`);
+                categoriesL1Array = categoriesL1Array.pop();
+                return;
+            }
+            this.categoryInfo.category.categories_l1 = categoriesL1Array.map(
+                (ext) => category_l1.find((extVal) => extVal.display === ext)
+            );
+            this.selectedCategoryOptions(
+                this.categoryInfo.category.categories_l1,
+                category_l2
+            );
+            categoriesL1Array = categoriesL1Array;
+        },
+        onChangeCategoryL2() {
+            let { category_l2, categoriesL2Array } = this.categoryInfo;
+            if (categoriesL2Array.length >= 4) {
+                this.$snackbar.global.showError(`Maximum 3 Categories allowed`);
+                categoriesL2Array = categoriesL2Array.pop();
+                return;
+            }
+            let category_level_value = category_l2.filter((ext) =>
+                categoriesL2Array.includes(ext.text)
+            );
+            this.categoryInfo.category.categories_l2 = category_level_value;
+        },
+    },
 };
 </script>
