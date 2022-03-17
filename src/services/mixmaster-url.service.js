@@ -19,6 +19,9 @@ const URLS = {
     EXTENSION_CATEGORIES_ADMIN: (organization_id) => {
         return urlJoin(MIXMASTER_ADMIN_BASE + `/v1.0/extension/category/all`);
     },
+    FETCH_PARTNER_ORGANIZATIONS: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/organization/`);
+    }
 };
 
 export default URLS;

@@ -1,7 +1,7 @@
 <template>
     <div class="panel">
         <div class="page-header-position">
-            <page-header @backClick="onCancel" :title="'Review Extension'">
+            <page-header @backClick="onCancel" :title="getExtensionName">
                 <div class="button-box">
                     <nitrozen-button
                         v-if="extension_info.current_status === 'pending'"
@@ -52,7 +52,76 @@
             v-else-if="pageError && !pageLoading"
             @tryAgain="fetchExtension"
         ></page-error>
-        <div class="main-container" v-else>
+
+        <div class="main-container" v-if="extension_info.listing_info">
+            <div class="page-container">
+                <div class="content-container">
+                    <div class="left-container">
+                        <div class="cl-Mako bold-md">Extension Info</div>
+                        <div class="extension-info">
+                            <span>Extension Tagline:</span>
+                            {{ extension_info.listing_info.tagline }}
+                        </div>
+                        <div class="extension-info">
+                            <span>Requsted By:</span>
+                            {{
+                                extension_info.contact_info
+                                    .review_notification_email
+                            }}
+                        </div>
+                        <div class="extension-info">
+                            <span>Requested On:</span>
+                            {{ toDateTimeString(extension_info.created_at) }}
+                        </div>
+                        <div class="extension-info">
+                            <span>Organization Name:</span>
+                            {{ extension_info.organization_name }}
+                        </div>
+
+                        <div class="extension-info">
+                            <nitrozen-button
+                                v-if="!showScopes"
+                                theme="secondary"
+                                @click="showScopes = true"
+                                >View Requested Scopes</nitrozen-button
+                            >
+                            <div class="scope-listing" v-else>
+                                <ul
+                                    class="ext-scopes"
+                                >
+                                <li v-for="(scope,
+                                    index) in extension_info.scope"
+                                    :key="scope + index">{{scope}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="right-container"
+                        v-if="
+                            extension_info.current_status !== 'pending' &&
+                                reviewer_name &&
+                                reviewer_email &&
+                                reviewer_phone
+                        "
+                    >
+                        <div class="cl-Mako bold-md">Reviewed By:</div>
+                        <div class="extension-info">
+                            <span>Reviewer Name:</span>
+                            {{ reviewer_name }}
+                        </div>
+                        <div class="extension-info">
+                            <span>Reviewer Email:</span>
+                            {{ reviewer_email }}
+                        </div>
+                        <div class="extension-info">
+                            <span>Reviewer Phone:</span>
+                            {{ reviewer_phone }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="page-container">
                 <a
                     class="cl-RoyalBlue"
@@ -71,7 +140,7 @@
                     class="nitrozen-form-input full-width"
                     :type="'textarea'"
                     :label="'Review Comments'"
-                    v-model="review_data.review_comments"
+                    v-model="extension_info.review_comments"
                 >
                 </nitrozen-input>
                 <nitrozen-error :class="{ hidden: !error_comments }">
@@ -133,7 +202,50 @@
     visibility: hidden;
 }
 .page-container {
-    margin: 0;
+    margin: 0 0 24px 0;
+    flex-direction: column;
+    width: calc(100% - 48px);
+    .content-container {
+        display: flex;
+
+        .left-container {
+            width: 50%;
+        }
+        .right-container {
+            flex: 1;
+            margin-left: 24px;
+        }
+        .extension-info {
+            margin-top: 24px;
+            font-size: 14px;
+            color: @Mako;
+            span {
+                font-weight: bold;
+            }
+            .scope-listing{
+                margin-left: 24px;
+                .ext-scopes{
+                    list-style: disc;
+                    li{
+                        margin-bottom: 12px;
+                    }
+                }
+            }
+        }
+    }
+}
+.default-image {
+    width: auto;
+    height: 60px;
+    position: absolute;
+    left: -10px;
+    top: 0px;
+}
+.circle-clip {
+    clip-path: circle(30px at center);
+}
+
+.main-container {
     flex-direction: column;
 }
 .category-display {
@@ -163,6 +275,9 @@ import pageError from '@/components/common/page-error.vue';
 import pageHeader from '@/components/common/layout/page-header.vue';
 import ExtensionService from '@/services/extension.service';
 import root from 'window-or-global';
+import moment from 'moment';
+import CompanyService from '@/services/company-admin.service';
+
 const env = root.env || {};
 
 export default {
@@ -200,10 +315,14 @@ export default {
             },
             review_data: {
                 review_comments: '',
-                current_status: '',
+                current_status: ''
             },
             error_comments: '',
             fynd_platform_domain: 'fynd.com',
+            reviewer_name: '',
+            reviewer_email: '',
+            reviewer_phone: '',
+            showScopes: false
         };
     },
     computed: {
@@ -213,6 +332,14 @@ export default {
         review_id() {
             return this.$route.params.review_id;
         },
+        getExtensionName() {
+            return (
+                (this.extension_info &&
+                    this.extension_info.listing_info &&
+                    this.extension_info.listing_info.name) ||
+                'Extension Name'
+            );
+        }
     },
     mounted() {
         this.fynd_platform_domain =
@@ -251,6 +378,9 @@ export default {
             Promise.all([getExtensionInfo, extensionCategories])
                 .then(([{ data }, extensionCategoriesInfo]) => {
                     this.extension_info = data;
+                    if (this.extension_info.current_status !== 'pending') {
+                        this.getUserInfo(this.extension_info.reviewed_by);
+                    }
                     this.categoryInfo.category_l1 =
                         extensionCategoriesInfo.data.data.category_l1.map(
                             (ext) => ({
@@ -335,6 +465,7 @@ export default {
             this.review_data.current_status = approve
                 ? 'published'
                 : 'rejected';
+            this.review_data.review_comments = this.extension_info.review_comments
             if (!approve && !this.review_data.review_comments) {
                 this.error_comments =
                     'Review comments required for rejecting extension changes';
@@ -434,6 +565,53 @@ export default {
             );
             this.categoryInfo.category.categories_l2 = category_level_value;
         },
-    },
+        toDateTimeString(date) {
+            return moment(date).format('MMMM Do YYYY, h:mm a');
+        },
+        backClick() {
+            this.$emit('backClick');
+        },
+        getUserInfo(userId) {
+            CompanyService.searchUser({ query: userId })
+                .then((res) => {
+                    if (res.data.users.length) {
+                        this.reviewer_name =
+                            res.data.users[0].first_name +
+                            ' ' +
+                            res.data.users[0].last_name;
+                        for (
+                            let i = 0;
+                            i < res.data.users[0].emails.length;
+                            i++
+                        ) {
+                            if (res.data.users[0].emails[i].primary === true) {
+                                this.reviewer_email =
+                                    res.data.users[0].emails[i].email;
+                            }
+                        }
+                        for (
+                            let i = 0;
+                            i < res.data.users[0].phone_numbers.length;
+                            i++
+                        ) {
+                            if (
+                                res.data.users[0].phone_numbers[i].primary ===
+                                true
+                            ) {
+                                this.reviewer_phone =
+                                    '+' +
+                                    res.data.users[0].phone_numbers[i]
+                                        .country_code +
+                                    ' ' +
+                                    res.data.users[0].phone_numbers[i].phone;
+                            }
+                        }
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    }
 };
 </script>

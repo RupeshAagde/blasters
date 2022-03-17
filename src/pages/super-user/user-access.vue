@@ -567,7 +567,7 @@ export default {
                     .then(() => {
                         this.fetchUsers();
                         this.$snackbar.global.showSuccess(
-                            'Successfully update user data'
+                            'Successfully updated user data'
                         );
                         if (this.currentUserPermission.user === userId) {
                             this.$store.dispatch(VALIDATE_USER);

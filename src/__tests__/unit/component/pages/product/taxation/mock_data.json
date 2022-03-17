@@ -1,0 +1,25 @@
+{
+    "items": [{
+        "hsn_code": "61152010",
+        "tax_on_esp": false,
+        "hs2_code": "61",
+        "modified_on": "2021-12-15T16:08:30.442000Z",
+        "slabs": [{
+            "tax": 10.0,
+            "threshold": 999999.0,
+            "effective_date": "2021-12-20T23:55:00+00:00"
+        }],
+        "tax_on_mrp": true,
+        "uid": "61152010-1",
+        "description": "This is sample long description which is created to test the CSS. Ignore this and move forward",
+        "id": "61ba12fef276b13738ee297a"
+    }],
+    "page": {
+        "current": 1,
+        "type": "number",
+        "size": 1,
+        "has_previous": false,
+        "has_next": false,
+        "item_total": 1
+    }
+}

@@ -75,21 +75,31 @@
                         </div>
                     </div>
                     <!-- Application List Section -->
-                    <div class="page-container common-container">
+                    <!-- <div class="page-container common-container">
                         <div class="left-container">
                             <adm-application-list></adm-application-list>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
         <div v-show="activeTabIndex === 1">
+            <div class="full-width">
+                <div  >
+                    <!-- this is application-list -->
+                   <adm-application-list ></adm-application-list>
+                </div>
+            </div>
+                                        
+
+        </div>
+        <div v-show="activeTabIndex === 2">
             <mkp-channels
                 class="page-container common-container"
             ></mkp-channels>
         </div>
         <div
-            v-show="activeTabIndex === 2"
+            v-show="activeTabIndex === 3"
             class="main-container profile-container"
         >
             <div class="full-width">
@@ -102,7 +112,7 @@
             </div>
         </div>
         <div
-            v-if="activeTabIndex === 3"
+            v-if="activeTabIndex === 4"
             class="main-container profile-container"
         >
             <!-- <div class="full-width">
@@ -187,7 +197,7 @@
             </div> -->
             <invoice-listing></invoice-listing>
         </div>
-        <div v-show="activeTabIndex === 4">
+        <div v-show="activeTabIndex === 5">
             <list-deployment :company_name="profileDetails.name" />
         </div>
     </div>
@@ -412,6 +422,7 @@ import invert from 'lodash/invert';
 const env = root.env || {};
 const TAB_NAMES = [
     'Details',
+    'Sales Channels',
     'Marketplace Channels',
     'Subscription',
     'Invoices',

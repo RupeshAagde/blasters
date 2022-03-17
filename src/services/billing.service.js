@@ -129,6 +129,12 @@ const BillingService = {
         });
         return ApiService.put(URLS.UPDATE_OFFLINE_PAYMENT(InvoiceId), axiosOptions);
     },
+    bulkUpdateOfflinePayment(payload) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{
+            data: payload
+        });
+        return ApiService.put(URLS.BULK_UPDATE_OFFLINE_PAYMENT(), axiosOptions);
+    },
     voidInvoice(payload) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(),{
             data: payload
@@ -225,6 +231,13 @@ const BillingService = {
             { params: params },
             getCommonHeaderOptions());
         return ApiService.get(URLS.SUBSCRIPTION_COUPON(), axiosOptions);
+    },
+    
+    getApplyCoupon(params) {
+        const axiosOptions = Object.assign({},
+            { params: params },
+             getCommonHeaderOptions());
+        return ApiService.get(URLS.SUBSCRIPTION_VALIDITY_COUPON(), axiosOptions);
     },
 
     getCouponId(id) {
