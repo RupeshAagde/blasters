@@ -225,11 +225,11 @@
             span {
                 font-weight: bold;
             }
-            .scope-listing {
+            .scope-listing{
                 margin-left: 24px;
-                .ext-scopes {
+                .ext-scopes{
                     list-style: disc;
-                    li {
+                    li{
                         margin-bottom: 12px;
                     }
                 }
@@ -296,7 +296,7 @@ export default {
         'page-empty': pageEmpty,
         'page-error': pageError,
         'page-header': pageHeader,
-        loader: loader,
+        loader: loader
     },
     directives: {
         flatBtn,
@@ -465,8 +465,7 @@ export default {
             this.review_data.current_status = approve
                 ? 'published'
                 : 'rejected';
-            this.review_data.review_comments =
-                this.extension_info.review_comments;
+            this.review_data.review_comments = this.extension_info.review_comments
             if (!approve && !this.review_data.review_comments) {
                 this.error_comments =
                     'Review comments required for rejecting extension changes';
@@ -613,6 +612,53 @@ export default {
             );
             this.categoryInfo.category.categories_l2 = category_level_value;
         },
-    },
+        toDateTimeString(date) {
+            return moment(date).format('MMMM Do YYYY, h:mm a');
+        },
+        backClick() {
+            this.$emit('backClick');
+        },
+        getUserInfo(userId) {
+            CompanyService.searchUser({ query: userId })
+                .then((res) => {
+                    if (res.data.users.length) {
+                        this.reviewer_name =
+                            res.data.users[0].first_name +
+                            ' ' +
+                            res.data.users[0].last_name;
+                        for (
+                            let i = 0;
+                            i < res.data.users[0].emails.length;
+                            i++
+                        ) {
+                            if (res.data.users[0].emails[i].primary === true) {
+                                this.reviewer_email =
+                                    res.data.users[0].emails[i].email;
+                            }
+                        }
+                        for (
+                            let i = 0;
+                            i < res.data.users[0].phone_numbers.length;
+                            i++
+                        ) {
+                            if (
+                                res.data.users[0].phone_numbers[i].primary ===
+                                true
+                            ) {
+                                this.reviewer_phone =
+                                    '+' +
+                                    res.data.users[0].phone_numbers[i]
+                                        .country_code +
+                                    ' ' +
+                                    res.data.users[0].phone_numbers[i].phone;
+                            }
+                        }
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    }
 };
 </script>
