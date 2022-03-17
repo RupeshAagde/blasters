@@ -17,8 +17,19 @@
         ></nitrozen-tab>
         <!-- <nitrozen-badge>profileDetails.stage</nitrozen-badge>
                        {{activeTabIndex}}  -->
-        <div
+         <div
             v-show="activeTabIndex === 0"
+            class="main-container profile-container"
+        >
+            <div class="full-width">
+                <div class="applications" style="width: 98%">
+                    <!-- this is Application info -->
+                    <application-info></application-info>
+                </div>
+            </div>
+        </div>               
+        <div
+            v-show="activeTabIndex === 1"
             class="main-container profile-container"
         >
             <div class="full-width">
@@ -171,7 +182,7 @@
 
 </style>
 <script>
-const TAB_NAMES = ['PG Cred Review',];
+const TAB_NAMES = ['Application Info','PG Cred Review'];
 import invert from 'lodash/invert';
 import {
     NitrozenBadge,
@@ -180,6 +191,7 @@ import {
 } from '@gofynd/nitrozen-vue';
 import PageHeader from '@/components/common/layout/page-header';
 import admpgconfiguration from './pgconfig.vue'
+import applicationinfo from './application-info.vue'
 
 export default {
     name: 'application-deatails',
@@ -187,7 +199,8 @@ export default {
         PageHeader,
         'nitrozen-tab': NitrozenTab,
         'nitrozen-badge': NitrozenBadge,
-        'adm-pg-configuration' : admpgconfiguration
+        'adm-pg-configuration' : admpgconfiguration,
+        'application-info' : applicationinfo
     },
     data() {
         return {

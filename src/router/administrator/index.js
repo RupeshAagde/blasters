@@ -6,6 +6,8 @@ import CbsApplicationDetailsVue from './../../pages/company-admin/cbs-applicatio
 import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
 import BillingVue from './../../pages/company-admin/billing.vue';
 import InvoiceListingMain from './../../pages/company-admin/invoice-listing-main.vue';
+import CouponListingMain from './../../pages/company-admin/coupon-listing-main.vue';
+import CouponCreateUpdate from './../../pages/company-admin/coupon-create-update.vue';
 import ReportListingMain from './../../pages/communication/reports.vue';
 import UserManagementVue from './../../pages/super-user/user-access.vue';
 import AddSuperUserVue from './../../pages/super-user/add-user.vue';
@@ -41,7 +43,8 @@ import CategoryEdit from '@/pages/product/category/edit';
 import ProductVerificationCompanyList from '@/pages/product/verification/list';
 import ProductVerificationEdit from '@/pages/product/verification/edit';
 import ProductVerificationList from '@/pages/product/verification/productList';
-
+import ProductTaxationList from '@/pages/product/taxation/list';
+import ProductTaxationEdit from '@/pages/product/taxation/edit';
 import IntegrationsListVue from '@/pages/integration/list';
 import IntegrationsCreateVue from '@/pages/integration/create';
 
@@ -81,6 +84,45 @@ export default [
                 name: 'invoices',
                 path: 'subscription/invoices',
                 component: InvoiceListingMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'coupons',
+                path: 'subscription/coupons',
+                component: CouponListingMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'couponType',
+                path: 'subscription/coupons/create/:couponType',
+                component: CouponCreateUpdate,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'couponType',
+                path: 'subscription/coupons/edit/:couponType/:couponId',
+                component: CouponCreateUpdate,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(
                         to,
@@ -313,211 +355,236 @@ export default [
                 }
             },
 
-            // templates
-            {
-                name: 'templates',
-                path: 'product/templates',
-                component: ProductTemplatesList,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['product']);
-                }
-            },
-            {
-                name: 'templates-create',
-                path: 'product/templates/create',
-                component: ProductTemplatesEdit,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['product']);
-                }
-            },
-            {
-                name: 'templates-edit',
-                path: 'product/templates/:slug',
-                component: ProductTemplatesEdit,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['product']);
-                }
-            },
-            // Product Verification
-            {
-                name: 'verification',
-                path: 'product/verification',
-                component: ProductVerificationCompanyList,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['product']);
-                }
-            },
-            {
-                name: 'verification-edit',
-                path: 'product/verification/edit/:id',
-                component: ProductVerificationEdit,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['product']);
-                }
-            },
-            {
-                name: 'verification-edit',
-                path: 'product/verification/:id/products/edit/:productId',
-                component: ProductVerificationEdit,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['product']);
-                }
-            },
-            {
-                name: 'verification',
-                path: 'product/verification/:companyId/products',
-                component: ProductVerificationList,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['product']);
-                }
-            },
-            // Settings
-            {
-                name: 'settings',
-                path: 'settings',
-                component: SettingsVue,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
-                }
-            },
-            {
-                name: 'basic-details-setting',
-                path: 'settings/basic',
-                component: BasicDetailSettingsVue,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
-                }
-            },
-            {
-                name: 'features-setting',
-                path: 'settings/features',
-                component: FeaturesSettingsVue,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
-                }
-            },
-            {
-                name: 'pages-setting',
-                path: 'settings/pages',
-                component: PagesSettingsVue,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
-                }
-            },
-            {
-                name: 'list-tags',
-                path: 'settings/list-tags',
-                component: TagsInjectVue,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
-                }
+        // templates
+        {
+            name: 'templates',
+            path: 'product/templates',
+            component: ProductTemplatesList,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
             }
-            ,
-            {
-                name: 'create-tag',
-                path: 'settings/create-tag',
-                component: TagsCreateUpdateVue,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
-                }
-            },
-            {
-                name: 'update-tag',
-                path: 'settings/update-tag/:tagId',
-                component: TagsCreateUpdateVue,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
-                }
-            },
-            {
-                name: 'create-custom',
-                path: 'settings/pages/:pagetype/create',
-                component: CreateCustomVue ,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
-                }
-            },
-            {
-                name: 'navbar-setting',
-                path: 'settings/navbar',
-                component: NavbarSettingsVue,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
-                }
-            },
-            {
-                name: 'edit-custom',
-                path: 'settings/pages/:pagetype/:slug/edit',
-                component: CreateCustomVue ,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
-                }
-            },
-            {
-                name: 'footer-setting',
-                path: 'settings/footer',
-                component: FooterSettingsVue,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
-                }
-            },
-            {
-                name: 'pricing-banner',
-                path: 'settings/pricing-banner',
-                component: PricingBannerVue,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
-                }
-            },
-            // Category
-            {
-                name: 'category',
-                path: 'product/category',
-                component: CategoryList,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['product']);
-                }
-            },
-            {
-                name: 'category-create',
-                path: 'product/category/create',
-                component: CategoryEdit,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['product']);
-                }
-            },
-            {
-                name: 'category-edit',
-                path: 'product/category/edit/:id',
-                component: CategoryEdit,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['product']);
-                }
-            },
-            {
-                name: 'integrations-list',
-                path: 'integrations/list',
-                component: IntegrationsListVue,
-                // beforeEnter: (to, from, next) => {
-                //     return checkUserPermission(to, from, next, ['admin-access']);
-                // }
-            },
-            {
-                name: 'integration-edit',
-                path: 'integration/edit/:integrationId',
-                component: IntegrationsCreateVue,
-                // beforeEnter: (to, from, next) => {
-                //     return checkUserPermission(to, from, next, ['admin-access']);
-                // }
-            },
-            {
-                name: 'integration-create',
-                path: 'integration/create',
-                component: IntegrationsCreateVue,
-                // beforeEnter: (to, from, next) => {
-                //     return checkUserPermission(to, from, next, ['admin-access']);
-                // }
-            },
-        ]
-    }
-];
+        },
+        {
+            name: 'templates-create',
+            path: 'product/templates/create',
+            component: ProductTemplatesEdit,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'templates-edit',
+            path: 'product/templates/:slug',
+            component: ProductTemplatesEdit,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+
+        //Taxation
+        {
+            name: 'taxation',
+            path: 'product/taxation',
+            component: ProductTaxationList,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'taxation-add',
+            path: 'product/taxation/add',
+            component: ProductTaxationEdit,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'taxation-edit',
+            path: 'product/taxation/:reporting_hsn/edit',
+            component: ProductTaxationEdit,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+
+        // Product Verification
+        {
+            name: 'verification',
+            path: 'product/verification',
+            component: ProductVerificationCompanyList,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'verification-edit',
+            path: 'product/verification/edit/:id',
+            component: ProductVerificationEdit,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'verification-edit',
+            path: 'product/verification/:id/products/edit/:productId',
+            component: ProductVerificationEdit,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'verification',
+            path: 'product/verification/:companyId/products',
+            component: ProductVerificationList,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        // Settings
+        {
+            name: 'settings',
+            path: 'settings',
+            component: SettingsVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        {
+            name: 'basic-details-setting',
+            path: 'settings/basic',
+            component: BasicDetailSettingsVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        {
+            name: 'features-setting',
+            path: 'settings/features',
+            component: FeaturesSettingsVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        {
+            name: 'pages-setting',
+            path: 'settings/pages',
+            component: PagesSettingsVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        {
+            name: 'list-tags',
+            path: 'settings/list-tags',
+            component: TagsInjectVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        {
+            name: 'create-tag',
+            path: 'settings/create-tag',
+            component: TagsCreateUpdateVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        {
+            name: 'update-tag',
+            path: 'settings/update-tag/:tagId',
+            component: TagsCreateUpdateVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        {
+            name: 'create-custom',
+            path: 'settings/pages/:pagetype/create',
+            component: CreateCustomVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        {
+            name: 'navbar-setting',
+            path: 'settings/navbar',
+            component: NavbarSettingsVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        {
+            name: 'edit-custom',
+            path: 'settings/pages/:pagetype/:slug/edit',
+            component: CreateCustomVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        {
+            name: 'footer-setting',
+            path: 'settings/footer',
+            component: FooterSettingsVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        {
+            name: 'pricing-banner',
+            path: 'settings/pricing-banner',
+            component: PricingBannerVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        // Category
+        {
+            name: 'category',
+            path: 'product/category',
+            component: CategoryList,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'category-create',
+            path: 'product/category/create',
+            component: CategoryEdit,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'category-edit',
+            path: 'product/category/edit/:id',
+            component: CategoryEdit,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'integrations-list',
+            path: 'integrations/list',
+            component: IntegrationsListVue,
+            // beforeEnter: (to, from, next) => {
+            //     return checkUserPermission(to, from, next, ['admin-access']);
+            // }
+        },
+        {
+            name: 'integration-edit',
+            path: 'integration/edit/:integrationId',
+            component: IntegrationsCreateVue,
+            // beforeEnter: (to, from, next) => {
+            //     return checkUserPermission(to, from, next, ['admin-access']);
+            // }
+        },
+        {
+            name: 'integration-create',
+            path: 'integration/create',
+            component: IntegrationsCreateVue,
+            // beforeEnter: (to, from, next) => {
+            //     return checkUserPermission(to, from, next, ['admin-access']);
+            // }
+        },
+    ]
+}];

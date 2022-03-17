@@ -23,20 +23,6 @@ const conf = convict({
             env: 'FYND_PLATFORM_DOMAIN',
             arg: 'fynd_platform_domain'
         },
-        SLINGSHOT_MAIN_URL: {
-            doc: 'Slingshot Public URL',
-            format: String,
-            default: '',
-            env: 'SLINGSHOT_MAIN_URL',
-            arg: 'slingshot_main_url'
-        },
-        SLINGSHOT_MAIN_SVC: {
-            doc: 'Slingshot Kube Service',
-            format: String,
-            default: '',
-            env: 'SLINGSHOT_MAIN_SVC',
-            arg: 'slingshot_main_svc'
-        },
         SLINGSHOT_ADMIN_URL: {
             doc: 'Slingshot Admin URL',
             format: String,
@@ -78,20 +64,6 @@ const conf = convict({
             default: '',
             env: 'BLITZKRIEG_MAIN_SVC',
             arg: 'BLITZKRIEG_MAIN_SVC'
-        },
-        ULTRAMAGNUS_MAIN_URL: {
-            doc: 'Internal Settings API',
-            format: String,
-            default: '',
-            env: 'ULTRAMAGNUS_MAIN_URL',
-            arg: 'ULTRAMAGNUS_MAIN_URL'
-        },
-        ULTRAMAGNUS_MAIN_SVC: {
-            doc: 'Internal Settings API private',
-            format: String,
-            default: '',
-            env: 'ULTRAMAGNUS_MAIN_SVC',
-            arg: 'ULTRAMAGNUS_MAIN_SVC'
         },
         ULTRAMAGNUS_PUBLIC_URL: {
             doc: 'Internal Settings API',
@@ -135,20 +107,6 @@ const conf = convict({
             env: 'HIGHBROW_ADMIN_SVC',
             arg: 'highbrow_admin_svc'
         },
-        APEFACE_MAIN_URL: {
-            doc: 'Platform Orders URL',
-            format: String,
-            default: '',
-            env: 'APEFACE_MAIN_URL',
-            arg: 'apeface_main_url'
-        },
-        APEFACE_MAIN_SVC: {
-            doc: 'Platform Orders Service',
-            format: String,
-            default: '',
-            env: 'APEFACE_MAIN_SVC',
-            arg: 'apeface_main_svc'
-        },
         APEFACE_ADMIN_URL: {
             doc: 'Admin Orders URL',
             format: String,
@@ -156,7 +114,7 @@ const conf = convict({
             env: 'APEFACE_ADMIN_URL',
             arg: 'apeface_admin_url'
         },
-        APEFACE_MAIN_SVC: {
+        APEFACE_ADMIN_SVC: {
             doc: 'Admin Orders Service',
             format: String,
             default: '',

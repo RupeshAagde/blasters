@@ -27,7 +27,12 @@ const URLS = {
     PUBLIC_EXTENSION_CATEGORIES: () => {
         return urlJoin(MIXMASTER_PARTNER_URL, `/v1.0/extensions/category/all`);
     },
-
+    EXTENSION_CATEGORIES_ADMIN: (organization_id) => {
+        return urlJoin(MIXMASTER_ADMIN_BASE + `/v1.0/extension/category/all`);
+    },
+    FETCH_PARTNER_ORGANIZATIONS: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/organization/`);
+    }
 };
 
 export default URLS;
