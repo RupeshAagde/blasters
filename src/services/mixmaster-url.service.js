@@ -21,6 +21,18 @@ const URLS = {
     EXTENSION_REVIEW: (review_id = '') => {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/extension/review/${review_id}`);
     },
+    GET_EXTENSION_COLLECTIONS: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection/extensions`);
+    },
+    GET_EXTENSION_COLLECTIONS_DETAILS: (id = "") => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection/extensions/${id}`);
+    },
+    SAVE_EXTENSION_COLLECTION: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection/extensions`);
+    },
+    UPDATE_EXTENSION_COLLECTION: (id = '') => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection/extensions/${id}`);
+    },
     PUBLIC_EXTENSIONS: () => {
         return urlJoin(MIXMASTER_PARTNER_URL, `/v1.0/extensions`);
     },
