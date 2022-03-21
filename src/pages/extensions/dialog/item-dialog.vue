@@ -141,6 +141,7 @@ export default {
         flatBtn,
     },
     updated() {
+        console.log('>>this.isOpen', this.isOpen);
         if (this.isOpen) {
             this.$refs['products-data'].open({
                 width: '80%',

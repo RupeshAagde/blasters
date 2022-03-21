@@ -37,11 +37,8 @@
                                     v-model="filterValue.is_selected"
                                 >
                                     {{ filterValue.display }}
-                                    <span
-                                        v-if="filterValue.count > -1"
-                                        class="extension-count"
-                                    >
-                                        ({{ filterValue.count }})
+                                    <span class="extension-count">
+                                        ({{ filterValue.count || '0' }})
                                     </span>
                                 </nitrozen-checkbox>
                                 <nitrozen-radio
@@ -54,12 +51,9 @@
                                     :name="filterValue.type"
                                 >
                                     {{ filterValue.display }}
-                                    <!-- <span
-                                        v-if="filterValue.count"
-                                        class="extension-count"
-                                    >
-                                        ({{ filterValue.count }})
-                                    </span> -->
+                                    <span class="extension-count">
+                                        ({{ filterValue.count || '0' }})
+                                    </span>
                                 </nitrozen-radio>
                                 <div
                                     v-if="mainIndex > 0"
@@ -92,11 +86,8 @@
                                             :name="filterValue.type"
                                         >
                                             {{ childValue.display }}
-                                            <span
-                                                v-if="childValue.count"
-                                                class="extension-count"
-                                            >
-                                                ({{ childValue.count }})
+                                            <span class="extension-count">
+                                                ({{ childValue.count || '0' }})
                                             </span>
                                         </nitrozen-radio>
                                     </div>
@@ -593,6 +584,11 @@ export default {
                 padding-bottom: 10px;
                 border-bottom: 1px solid;
                 margin-bottom: 10px;
+            }
+            .extension-count {
+                margin-left: 5px;
+                color: #535353;
+                font-weight: 300;
             }
         }
         .filter-child {

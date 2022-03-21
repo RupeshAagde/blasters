@@ -31,13 +31,13 @@ const UserService = {
         let axiosOption = Object.assign({
             params: params
         })
-        return ApiService.get(URLS.PUBLIC_EXTENSIONS(), axiosOption)
+        return ApiService.get('https://api.fyndx0.de/service/panel/partners/v1.0/extensions', axiosOption)
     },
     getAllPublicExtensionCategories(params) {
         let axiosOption = Object.assign({
             params: params
         })
-        return ApiService.get(URLS.PUBLIC_EXTENSION_CATEGORIES(), axiosOption)
+        return ApiService.get('https://api.fyndx0.de/service/panel/partners/v1.0/extensions/category/all', axiosOption)
     },
     saveExtensionCollection(data) {
         const axiosOption = Object.assign(
@@ -46,10 +46,38 @@ const UserService = {
                 data: data
             }
         )
-        return ApiService.post('http://localdev.fyndx0.de:7084/collection/extensions', axiosOption)
+        return ApiService.post('http://localdev.fyndx0.de:7084/v1.0/collection/extensions', axiosOption)
+    },
+    getExtensionCollectionDetails(id) {
+        return ApiService.get(`http://localdev.fyndx0.de:7084/v1.0/collection/extensions/${id}`)
+    },
+    getExtensionCollections(params) {
+        const axiosOptions = Object.assign(
+            params,
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(`http://localdev.fyndx0.de:7084/v1.0/collection/extensions`, axiosOptions)
+    },
+    updateExtensionCollection(data, id) {
+        const axiosOption = Object.assign(
+            getCommonHeaderOptions(),
+            {
+                data: data
+            }
+        )
+        return ApiService.put(`http://localdev.fyndx0.de:7084/v1.0/collection/extensions/${id}`, axiosOption)
     },
     getAllExtensionCategories() {
         return ApiService.get(URLS.EXTENSION_CATEGORIES_ADMIN())
     }
+
 };
 export default UserService;
+
+
+
+
+
+
+
+
