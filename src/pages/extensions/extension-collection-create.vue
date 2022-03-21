@@ -84,17 +84,22 @@
                     </div>
                 </div>
                 <!-- Image Upload -->
+                <div class="image-error" v-if="errors.logo">
+                    <nitrozen-error class="nitrozen-error" v-if="errors.logo">{{
+                        errors.logo
+                    }}</nitrozen-error>
+                </div>
                 <div class="image-uploader p-24-bg-white">
                     <div class="no-image-container">
                         <div class="main-label">
-                            <div class="sub-label-top">Icon</div>
+                            <div class="sub-label-top">Icon *</div>
                             <div class="sub-label-bottom">
                                 (Web &amp; Mobile)
                             </div>
                         </div>
                         <div class="inline">
                             <div class="no-image right-gutter">
-                                <div v-if="!collection_data.banner.logo">
+                                <div>
                                     <image-uploader
                                         :showGallery="false"
                                         class="
@@ -115,32 +120,24 @@
                                             collection_data.banner.logo = ''
                                         "
                                         @save="onChangeImage($event, 'logo')"
-                                        v-model="collection_data.banner.logo"
+                                        :value="collection_data.banner.logo"
                                         :mediaFolder="collection_data.slug"
                                         :fileName="'logo'"
                                         :namespace="'icon'"
                                     ></image-uploader>
-                                </div>
-                                <div v-else>
-                                    <img
-                                        class="img-cls"
-                                        :src="collection_data.banner.logo"
-                                    />
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="no-image-container">
                         <div class="main-label">
-                            <div class="sub-label-top">Landscape Banner</div>
-                            <div class="sub-label-bottom">{Web}</div>
+                            <div class="sub-label-top">Landscape Banner *</div>
+                            <div class="sub-label-bottom">(Web)</div>
                         </div>
 
                         <div class="inline">
                             <div class="no-image right-gutter">
-                                <div
-                                    v-if="collection_data.banner.portrait == ''"
-                                >
+                                <div>
                                     <image-uploader
                                         :showGallery="false"
                                         class="
@@ -163,9 +160,7 @@
                                         @save="
                                             onChangeImage($event, 'portrait')
                                         "
-                                        v-model="
-                                            collection_data.banner.portrait
-                                        "
+                                        :value="collection_data.banner.portrait"
                                         :mediaFolder="
                                             collection_data.banner.portrait
                                         "
@@ -173,28 +168,18 @@
                                         :namespace="'icon'"
                                     ></image-uploader>
                                 </div>
-                                <div v-else>
-                                    <img
-                                        class="img-cls"
-                                        :src="collection_data.banner.portrait"
-                                    />
-                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="no-image-container">
                         <div class="main-label">
-                            <div class="sub-label-top">Portrait Banner</div>
-                            <div class="sub-label-bottom">{Web}</div>
+                            <div class="sub-label-top">Portrait Banner *</div>
+                            <div class="sub-label-bottom">(Web)</div>
                         </div>
 
                         <div class="inline">
                             <div class="no-image right-gutter">
-                                <div
-                                    v-if="
-                                        collection_data.banner.landscape == ''
-                                    "
-                                >
+                                <div>
                                     <image-uploader
                                         :showGallery="false"
                                         class="
@@ -218,7 +203,7 @@
                                         @save="
                                             onChangeImage($event, 'landscape')
                                         "
-                                        v-model="
+                                        :value="
                                             collection_data.banner.landscape
                                         "
                                         :mediaFolder="
@@ -227,12 +212,6 @@
                                         :fileName="'logo'"
                                         :namespace="'icon'"
                                     ></image-uploader>
-                                </div>
-                                <div v-else>
-                                    <img
-                                        class="img-cls"
-                                        :src="collection_data.banner.landscape"
-                                    />
                                 </div>
                             </div>
                         </div>
@@ -246,13 +225,16 @@
                             @keydown.enter="addChip"
                             @keydown.tab="addChip"
                             v-model="collection_data.tags"
-                            label="Tags"
+                            label="Tags *"
                         ></tags-input>
                     </div>
+                    <nitrozen-error class="nitrozen-error" v-if="errors.tags"
+                        >{{ errors.tags }}
+                    </nitrozen-error>
                 </div>
                 <div class="input p-24-bg-white m-top">
                     <div class="item-catelogue">
-                        <div class="cl-Mako bold-md">Extensions</div>
+                        <div class="cl-Mako bold-md">Extensions *</div>
                         <div>
                             <nitrozen-button
                                 class="save-btn"
@@ -264,6 +246,11 @@
                             </nitrozen-button>
                         </div>
                     </div>
+                    <nitrozen-error
+                        class="nitrozen-error"
+                        v-if="errors.extensions"
+                        >{{ errors.extensions }}
+                    </nitrozen-error>
                 </div>
                 <item-drawer
                     v-show="showExtensionModal"
@@ -412,8 +399,39 @@ import { formatBytes } from '@/helper/digital-storage.util';
 const env = root.env || {};
 import tagsInput from '@/components/common/tags-input.vue';
 import seoComponent from './seo-component.vue';
-import dummy from './dummy_ext_collection.json';
 import ExtensionService from '@/services/extension.service';
+import { isEmpty } from 'lodash';
+
+const RequiredFields = [
+    { key: 'name', message: 'Required field' },
+    { key: 'slug', message: 'Required field' },
+    {
+        key: 'tags',
+        message: 'Required field',
+        validator: (data) => data.tags.length,
+    },
+    {
+        key: 'logo',
+        message: 'Logo and Banner(s) are required',
+        validator: (data) => {
+            if (data.logo && data.portrait && data.landscape) {
+                return true;
+            }
+            return false;
+        },
+    },
+    {
+        key: 'extensions',
+        message: 'Select mininum 1 extension',
+        validator: (data) => {
+            console.log('>>data.selected_extensions', data.selected_extensions);
+            if (data.selected_extensions.length) {
+                return true;
+            }
+            return false;
+        },
+    },
+];
 
 export default {
     name: 'extension-review',
@@ -486,6 +504,20 @@ export default {
         this.fetchExtension();
     },
     methods: {
+        checkRequiredFields() {
+            RequiredFields.map(({ key, message, validator }) => {
+                this.$set(this.errors, key, '');
+                if (validator && !validator(this.collection_data)) {
+                    const a = validator(this.collection_data);
+                    console.log(`${a} => ${key}`);
+                    this.$set(this.errors, key, message);
+                }
+                if (!validator && !this.collection_data[key]) {
+                    this.$set(this.errors, key, message);
+                }
+            });
+            return !isEmpty(this.errors);
+        },
         removeExtnesion(item) {
             this.collection_data.selected_extensions =
                 this.collection_data.selected_extensions.filter(
@@ -546,6 +578,9 @@ export default {
         formatBytes,
         fetchExtension() {},
         saveForm(approve) {
+            if (this.checkRequiredFields()) {
+                return;
+            }
             if (this.$route.query.id) {
                 ExtensionService.updateExtensionCollection(
                     this.collection_data,
@@ -615,6 +650,12 @@ export default {
 </script>
 
 <style lang="less">
+.image-error {
+    .nitrozen-error-visible {
+        background: white;
+        padding-left: 24px;
+    }
+}
 .img-cls {
     width: 200px;
     height: 200px;
@@ -638,6 +679,7 @@ export default {
         .new-page-container {
             margin: 24px 0;
             border-radius: 6px;
+
             .image-uploader {
                 display: flex;
                 justify-content: space-between;
@@ -661,6 +703,11 @@ export default {
                 justify-content: space-between;
                 margin-top: 20px;
             }
+            .no-image-container {
+                .inline {
+                    margin-top: 35px;
+                }
+            }
             .image-uploader-container {
                 max-width: 200px;
                 flex-direction: column;
@@ -675,6 +722,10 @@ export default {
                     .image {
                         width: 200px;
                         height: 200px;
+                        text-align: center;
+                        .edit-image {
+                            left: 0;
+                        }
                     }
                     img {
                         width: 200px;

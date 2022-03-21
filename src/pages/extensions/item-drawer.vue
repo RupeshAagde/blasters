@@ -56,7 +56,7 @@
                                     </span>
                                 </nitrozen-radio>
                                 <div
-                                    v-if="mainIndex > 0"
+                                    v-if="mainIndex === 0"
                                     @click="toggleArrow(filterValue, true)"
                                     :ref="filterValue.slug + 'arrow'"
                                     class="arrow"
@@ -138,21 +138,23 @@
                             :key="index"
                             :ref="'extension-' + index"
                         >
-                            <div class="extension-checkbox">
-                                <nitrozen-checkbox
-                                    :name="extension.slug"
-                                    v-on:input="
-                                        selectExtension($event, extension)
-                                    "
-                                    v-model="extension.is_selected"
-                                >
-                                </nitrozen-checkbox>
-                            </div>
-                            <div class="base-card-left">
-                                <img
-                                    class="ext-icon"
-                                    :src="extension.listing_info.icon"
-                                />
+                            <div>
+                                <div class="extension-checkbox">
+                                    <nitrozen-checkbox
+                                        :name="extension.slug"
+                                        v-on:input="
+                                            selectExtension($event, extension)
+                                        "
+                                        v-model="extension.is_selected"
+                                    >
+                                    </nitrozen-checkbox>
+                                </div>
+                                <div class="base-card-left">
+                                    <img
+                                        class="ext-icon"
+                                        :src="extension.listing_info.icon"
+                                    />
+                                </div>
                             </div>
                             <div class="base-card-right">
                                 <div class="extension-name">
@@ -437,7 +439,7 @@ export default {
             const [childRef] = this.$refs['category-' + value.slug];
             if (childRef) {
                 childRef.classList.add('filter-child-visible');
-                childRef.style.height = `${childRef.scrollHeight}px`;
+                childRef.style.height = `${childRef.scrollHeight - 10}px`;
             }
             const [arrowElement] = this.$refs[value.slug + 'arrow'];
             if (arrowElement) {
@@ -445,7 +447,7 @@ export default {
                     ![...arrowElement.classList].includes('down') ||
                     (value.is_selected && !isArrow)
                 ) {
-                    childRef.style.height = `${childRef.scrollHeight}px`;
+                    childRef.style.height = `${childRef.scrollHeight - 10}px`;
                     arrowElement.classList.add('down');
                 } else {
                     childRef.style.height = `0px`;
@@ -458,6 +460,7 @@ export default {
             this.paginationInfo.page_no = current;
             this.fetchExtensions(current);
         },
+
         fetchExtensions(pageNumber = 1, searchText = '', query) {
             const params = {
                 page_size: 20,
@@ -466,13 +469,13 @@ export default {
                 ...query,
             };
             this.inProgress = true;
-            const getAllPulblicExtension = ExtensionService.getPublicExtensions(
+            const getAllPublicExtension = ExtensionService.getPublicExtensions(
                 '',
                 params
             );
             const getExtnesionCategory =
                 ExtensionService.getAllPublicExtensionCategories(params);
-            Promise.all([getAllPulblicExtension, getExtnesionCategory]).then(
+            Promise.all([getAllPublicExtension, getExtnesionCategory]).then(
                 ([data, category]) => {
                     this.extensions_selected = this.selected_extensions;
                     const all_selected = [
@@ -590,6 +593,9 @@ export default {
                 color: #535353;
                 font-weight: 300;
             }
+            .nitrozen-radio-group {
+                max-width: 221px;
+            }
         }
         .filter-child {
             height: 0px;
@@ -648,15 +654,13 @@ export default {
                 min-width: 200px;
                 display: flex;
                 align-items: center;
-                margin: 25px;
+                margin: 10px;
                 padding: 10px;
                 border: 1px solid #e0e0e0;
                 max-height: 150px;
                 position: relative;
                 .extension-checkbox {
-                    position: absolute;
-                    top: -10px;
-                    left: -10px;
+                    padding-bottom: 30px;
                 }
             }
             .base-card-left {
