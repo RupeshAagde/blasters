@@ -12,13 +12,13 @@ const UserService = {
         );
         return ApiService.get(URLS.EXTENSION_REVIEW(), axiosOptions);
     },
-    getExtensionReviewInfo(review_id='') {
+    getExtensionReviewInfo(review_id = '') {
         const axiosOptions = Object.assign(
             getCommonHeaderOptions()
         );
         return ApiService.get(URLS.EXTENSION_REVIEW(review_id), axiosOptions);
     },
-    updateExtensionReviewInfo(review_id='', data) {
+    updateExtensionReviewInfo(review_id = '', data) {
         const axiosOptions = Object.assign(
             getCommonHeaderOptions(),
             {
@@ -27,5 +27,8 @@ const UserService = {
         );
         return ApiService.patch(URLS.EXTENSION_REVIEW(review_id), axiosOptions);
     },
+    getAllExtensionCategories() {
+        return ApiService.get(URLS.EXTENSION_CATEGORIES_ADMIN())
+    }
 };
 export default UserService;
