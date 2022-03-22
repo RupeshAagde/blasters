@@ -53,7 +53,7 @@ const UserService = {
     },
     getExtensionCollections(params) {
         const axiosOptions = Object.assign(
-            params,
+            { params },
             getCommonHeaderOptions()
         );
         return ApiService.get(URLS.GET_EXTENSION_COLLECTIONS(), axiosOptions)

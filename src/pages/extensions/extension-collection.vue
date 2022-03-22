@@ -179,6 +179,9 @@ export default {
     mounted() {
         this.fynd_platform_domain =
             env.FYND_PLATFORM_DOMAIN || this.fynd_platform_domain;
+        if (this.$route.query.name) {
+            this.searchText = this.$route.query.name;
+        }
         this.fetchExtension();
     },
     methods: {
@@ -191,14 +194,18 @@ export default {
         capitalizeStr(str) {
             return capitalize(str);
         },
-        fetchExtension(name = '') {
+        fetchExtension(name = this.$route.query.name) {
             this.inProgressSearch = true;
             let params = {
                 page_size: this.paginationConfig.limit,
                 page_no: this.paginationConfig.current,
                 name,
             };
-
+            this.$router
+                .push({
+                    query: { name },
+                })
+                .catch((err) => {});
             ExtensionService.getExtensionCollections(params).then((res) => {
                 this.extension_collections = res.data.items;
                 this.paginationConfig = res.data.page;
