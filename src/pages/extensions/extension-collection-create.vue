@@ -27,6 +27,7 @@
                             placeholder="For eg. Summer Styles, Suit Up, etc."
                             v-model="collection_data.name"
                             :showSuffix="true"
+                            @input="handleNameChange"
                             :custom="true"
                         >
                         </nitrozen-input>
@@ -45,6 +46,7 @@
                             v-model="collection_data.slug"
                             tooltipText="Part of the URL that explains the page’s content. Allowed characters are alphabets, numbers and hyphens."
                             :showTooltip="true"
+                            @input="handleSlugChange"
                         ></nitrozen-input>
                         <nitrozen-error
                             class="nitrozen-error"
@@ -121,7 +123,9 @@
                                         "
                                         @save="onChangeImage($event, 'logo')"
                                         :value="collection_data.banner.logo"
-                                        :mediaFolder="collection_data.slug"
+                                        :mediaFolder="
+                                            collection_data.banner.logo
+                                        "
                                         :fileName="'logo'"
                                         :namespace="'icon'"
                                     ></image-uploader>
@@ -341,7 +345,9 @@
                     <seo-component
                         v-model="collection_data.seo"
                         :isCollapsed="isCollapsed"
-                        :url="`https://test-app-2.hostx0.de/collection/`"
+                        :url="`https://${fynd_platform_domain}/collection/${
+                            collection_data.slug || '{slug}'
+                        }`"
                     />
                 </div>
             </div>
@@ -414,7 +420,11 @@ const RequiredFields = [
         key: 'logo',
         message: 'Logo and Banner(s) are required',
         validator: (data) => {
-            if (data.logo && data.portrait && data.landscape) {
+            if (
+                data.banner.logo &&
+                data.banner.portrait &&
+                data.banner.landscape
+            ) {
                 return true;
             }
             return false;
@@ -484,9 +494,7 @@ export default {
                 icon: '',
                 description: '',
             },
-            errors: {
-                name: '',
-            },
+            errors: {},
             tags: [],
             chipInput: '',
             fynd_platform_domain: 'fynd.com',
@@ -506,7 +514,6 @@ export default {
     methods: {
         checkRequiredFields() {
             RequiredFields.map(({ key, message, validator }) => {
-                this.$set(this.errors, key, '');
                 if (validator && !validator(this.collection_data)) {
                     const a = validator(this.collection_data);
                     console.log(`${a} => ${key}`);
@@ -516,6 +523,7 @@ export default {
                     this.$set(this.errors, key, message);
                 }
             });
+            console.log('>>this.errors', this.errors);
             return !isEmpty(this.errors);
         },
         removeExtnesion(item) {
@@ -623,6 +631,15 @@ export default {
             this.$router
                 .push(`/administrator/extensions/collection`)
                 .catch(() => {});
+        },
+        nameToSlug(str) {
+            return str.toLowerCase().trim().replace(/\s/gi, '-');
+        },
+        handleNameChange(value) {
+            this.collection_data.slug = this.nameToSlug(value);
+        },
+        handleSlugChange(slug) {
+            this.collection_data.slug = slug.toLowerCase();
         },
         removeChip(index) {
             this.collection_data.tags.splice(index, 1);

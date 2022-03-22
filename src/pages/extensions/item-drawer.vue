@@ -188,7 +188,7 @@
                     </div>
                     <div class="pagination">
                         <nitrozen-pagination
-                            name="item-pagination"
+                            name="Extensions"
                             class="item-pagination"
                             v-model="paginationConfig"
                             @change="paginationChange"
@@ -197,7 +197,7 @@
                         ></nitrozen-pagination>
                     </div>
                     <list-shimmer
-                        v-if="inProgress || !extension_data"
+                        v-if="inProgress || isPageChange || !extension_data"
                         :count="20"
                         class="extension-list-container"
                         :paginationShimmer="false"
@@ -277,6 +277,7 @@ export default {
             slugsL1: [],
             priceSlug: [],
             query: {},
+            isPageChange: false,
         };
     },
     mounted() {
@@ -285,10 +286,14 @@ export default {
     computed: {},
     methods: {
         getCounts() {
-            if (!this.paginationConfig) {
+            if (!this.paginationInfo) {
                 return '';
             }
-            const { current, total, has_next } = this.paginationConfig;
+            const {
+                current,
+                item_total: total,
+                has_next,
+            } = this.paginationInfo;
             if (!current || !total) {
                 return '';
             }
@@ -458,24 +463,29 @@ export default {
         paginationChange(filter, action) {
             const { current, limit } = filter;
             this.paginationInfo.page_no = current;
-            this.fetchExtensions(current);
+            this.fetchExtensions(current, '', this.query, false);
         },
-
-        fetchExtensions(pageNumber = 1, searchText = '', query) {
+        fetchExtensions(
+            pageNumber = 1,
+            searchText = '',
+            query,
+            inProgress = true
+        ) {
             const params = {
                 page_size: 20,
                 page_no: pageNumber,
                 name: searchText,
                 ...query,
             };
-            this.inProgress = true;
-            const getAllPublicExtension = ExtensionService.getPublicExtensions(
+            this.inProgress = inProgress;
+            this.isPageChange = !inProgress;
+            const getAllPulblicExtension = ExtensionService.getPublicExtensions(
                 '',
                 params
             );
             const getExtnesionCategory =
                 ExtensionService.getAllPublicExtensionCategories(params);
-            Promise.all([getAllPublicExtension, getExtnesionCategory]).then(
+            Promise.all([getAllPulblicExtension, getExtnesionCategory]).then(
                 ([data, category]) => {
                     this.extensions_selected = this.selected_extensions;
                     const all_selected = [
@@ -491,6 +501,7 @@ export default {
                     this.paginationConfig.total = data.data.page.item_total;
                     this.paginationInfo = data.data.page;
                     this.inProgress = false;
+                    this.isPageChange = false;
                     this.categoryFilters = category.data.filters
                         .map((filter) => {
                             filter.values = filter.values.sort(
