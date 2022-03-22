@@ -346,7 +346,7 @@
                         v-model="collection_data.seo"
                         :isCollapsed="isCollapsed"
                         :url="`https://${fynd_platform_domain}/collection/${
-                            collection_data.slug || '{slug}'
+                            collection_data.slug || ':slug'
                         }`"
                     />
                 </div>
@@ -434,7 +434,6 @@ const RequiredFields = [
         key: 'extensions',
         message: 'Select mininum 1 extension',
         validator: (data) => {
-            console.log('>>data.selected_extensions', data.selected_extensions);
             if (data.selected_extensions.length) {
                 return true;
             }
