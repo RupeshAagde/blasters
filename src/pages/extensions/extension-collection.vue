@@ -20,7 +20,11 @@
                 ></nitrozen-input>
             </div>
             <page-empty
-                :text="'No Collection Created'"
+                :text="
+                    searchText
+                        ? `No Collection found with name ${searchText}`
+                        : 'No Collection Created'
+                "
                 v-if="!extension_collections.length"
             >
             </page-empty>
