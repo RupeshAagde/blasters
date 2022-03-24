@@ -436,11 +436,11 @@ export default {
                         $options: 'ig'
                     }
                 });
-                if(this.filters.templateSearch){
+               } 
+               if(this.filters.templateSearch){
                 params.query.$and = params.query.$and || [];
                 params.query.$and.push({ $or :[{"sms.template": this.filters.templateSearch },{"email.template": this.filters.templateSearch  }]})
-                }
-               }      
+                }     
 
             if (this.filters.templateSearch && this.filters.type !== 'all') {
                 
