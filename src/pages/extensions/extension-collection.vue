@@ -25,7 +25,7 @@
                         ? `No Collection found with name ${searchText}`
                         : 'No Collection Created'
                 "
-                v-if="!extension_collections.length"
+                v-if="!extension_collections.length && !inProgressSearch"
             >
             </page-empty>
             <list-shimmer
@@ -49,7 +49,7 @@
                         <img
                             :src="
                                 extension.banner.logo ||
-                                'https://res.cloudinary.com/dwzm9bysq/image/upload/v1588857854/production/applications/app_000000000000000000000001/media/collection/logo/w9ns7nfgv7fk45xqrpoh.png'
+                                    'https://res.cloudinary.com/dwzm9bysq/image/upload/v1588857854/production/applications/app_000000000000000000000001/media/collection/logo/w9ns7nfgv7fk45xqrpoh.png'
                             "
                             alt="collection logo"
                         />
@@ -121,7 +121,7 @@ import {
     strokeBtn,
     NitrozenInput,
     NitrozenError,
-    NitrozenPagination,
+    NitrozenPagination
 } from '@gofynd/nitrozen-vue';
 import jumbotronVue from '@/components/common/jumbotron.vue';
 import loader from '@/components/common/loader';
@@ -140,7 +140,7 @@ const env = root.env || {};
 const PAGINATION = {
     limit: 20,
     current: 1,
-    total: 0,
+    total: 0
 };
 
 export default {
@@ -155,11 +155,11 @@ export default {
         'list-shimmer': listShimmer,
         jumbotron: jumbotronVue,
         loader: loader,
-        NitrozenPagination,
+        NitrozenPagination
     },
     directives: {
         flatBtn,
-        strokeBtn,
+        strokeBtn
     },
     data() {
         return {
@@ -170,13 +170,13 @@ export default {
             extension_info: {},
             review_data: {
                 review_comments: '',
-                current_status: '',
+                current_status: ''
             },
             error_comments: '',
             fynd_platform_domain: 'fynd.com',
             extension_collections: [],
             inProgressSearch: false,
-            paginationConfig: { ...PAGINATION },
+            paginationConfig: { ...PAGINATION }
         };
     },
     computed: {},
@@ -191,7 +191,7 @@ export default {
     methods: {
         paginationChange() {},
 
-        debounceInput: debounce(function (e) {
+        debounceInput: debounce(function(e) {
             this.paginationConfig = { ...PAGINATION };
             this.fetchExtension(e);
         }, 500),
@@ -203,11 +203,11 @@ export default {
             let params = {
                 page_size: this.paginationConfig.limit,
                 page_no: this.paginationConfig.current,
-                name,
+                name
             };
             this.$router
                 .push({
-                    query: { name },
+                    query: { name }
                 })
                 .catch((err) => {});
             ExtensionService.getExtensionCollections(params).then((res) => {
@@ -228,16 +228,16 @@ export default {
             this.$router.push({
                 path: '/administrator/extensions/collection/edit',
                 query: {
-                    id,
-                },
+                    id
+                }
             });
         },
         onCancel() {
             this.$router
                 .push(`/administrator/extensions/review`)
                 .catch(() => {});
-        },
-    },
+        }
+    }
 };
 </script>
 <style lang="less" scoped>

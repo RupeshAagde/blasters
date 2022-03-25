@@ -7,13 +7,17 @@
             :title="title"
             @closedialog="closeModal"
             @onSubmit="onSelectExtensions"
-            :footerTitle="'Add ' + extensions_selected.length + ' Extensions'"
+            :footerTitle="
+                `Add ${extensions_selected.length} ${
+                    extensions_selected.length > 1 ? 'Extensions' : 'Extension'
+                }`
+            "
             @modalRef="saveModalRef"
         >
             <div class="main-body">
                 <div class="filter-list left">
                     <div
-                        class="filter-section"
+                        class="filter-section filter-head"
                         v-for="(filterData, mainIndex) in categoryFilters"
                         :key="mainIndex"
                         :ref="'extension-' + mainIndex"
@@ -68,9 +72,8 @@
                                 >
                                     <div
                                         class="filter-section"
-                                        v-for="(
-                                            childValue, index
-                                        ) in filterValue.childs"
+                                        v-for="(childValue,
+                                        index) in filterValue.childs"
                                         :key="index"
                                     >
                                         <nitrozen-radio
@@ -133,55 +136,70 @@
                     </div>
                     <div v-if="!inProgress" class="extension-list-container">
                         <div
-                            class="extension-card"
                             v-for="(extension, index) in extension_data"
                             :key="index"
                             :ref="'extension-' + index"
                         >
-                            <div>
-                                <div class="extension-checkbox">
-                                    <nitrozen-checkbox
-                                        :name="extension.slug"
-                                        v-on:input="
-                                            selectExtension($event, extension)
-                                        "
-                                        v-model="extension.is_selected"
-                                    >
-                                    </nitrozen-checkbox>
+                            <div class="extension-card">
+                                <div>
+                                    <div class="extension-checkbox">
+                                        <nitrozen-checkbox
+                                            v-on:input="
+                                                selectExtension(
+                                                    $event,
+                                                    extension,
+                                                    $event
+                                                )
+                                            "
+                                            :name="extension.slug"
+                                            v-model="extension.is_selected"
+                                        >
+                                        </nitrozen-checkbox>
+                                    </div>
                                 </div>
-                                <div class="base-card-left">
-                                    <img
-                                        class="ext-icon"
-                                        :src="extension.listing_info.icon"
-                                    />
-                                </div>
-                            </div>
-                            <div class="base-card-right">
-                                <div class="extension-name">
-                                    {{ extension.listing_info.name }}
-                                </div>
-                                <div class="extension-creator">
-                                    by {{ extension.organization.name }}
-                                </div>
-                                <!-- <div class="extension-tag-line">
+                                <div
+                                    class="extension-inner"
+                                    v-on:click="
+                                        selectExtension(
+                                            !extension.is_selected,
+                                            extension,
+                                            $event
+                                        )
+                                    "
+                                >
+                                    <div class="base-card-left">
+                                        <img
+                                            class="ext-icon"
+                                            :src="extension.listing_info.icon"
+                                        />
+                                    </div>
+                                    <div class="base-card-right">
+                                        <div class="extension-name">
+                                            {{ extension.listing_info.name }}
+                                        </div>
+                                        <div class="extension-creator">
+                                            by {{ extension.organization.name }}
+                                        </div>
+                                        <!-- <div class="extension-tag-line">
                                     {{ extension.listing_info.tagline }}
                                 </div> -->
-                                <div class="extension-price">
-                                    <span
-                                        v-if="
-                                            extension.plans &&
-                                            extension.plans.length &&
-                                            extension.plans[0].price.amount
-                                        "
-                                        >{{
-                                            extension.plans[0].price.amount
-                                                | currencyformat
-                                        }}
-                                        <span class="capitalize">
-                                            ''
-                                        </span></span
-                                    >
-                                    <span v-else>Free</span>
+                                        <div class="extension-price">
+                                            <span
+                                                v-if="
+                                                    extension.plans &&
+                                                        extension.plans
+                                                            .length &&
+                                                        extension.plans[0].price
+                                                            .amount
+                                                "
+                                                >{{
+                                                    extension.plans[0].price
+                                                        .amount | currencyformat
+                                                }}
+                                            </span>
+                                            <span v-else>Free</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -190,7 +208,7 @@
                         <nitrozen-pagination
                             name="Extensions"
                             class="item-pagination"
-                            v-model="paginationConfig"
+                            v-model="paginationInfo"
                             @change="paginationChange"
                             :pageSizeOptions="[5, 10, 20, 50]"
                             v-if="!inProgress && extension_data.length"
@@ -227,15 +245,29 @@ import {
     NitrozenRadio,
     NitrozenButton,
     NitrozenChips,
-    NitrozenInline,
+    NitrozenInline
 } from '@gofynd/nitrozen-vue';
 import { isEmpty, uniqBy } from 'lodash';
 
 const PAGINATION = {
     limit: 20,
     total: 0,
-    current: 1,
+    current: 1
 };
+
+const ALL_OPTION = (all_count) => ({
+    count: all_count,
+    display: 'All',
+    display_type: 'radio',
+    key: 'all',
+    kind: 'single',
+    slug: 'all',
+    type: 'category_filter_l1',
+    value: 'All',
+    state: 'all',
+    is_selected: true,
+    childs: []
+});
 
 export default {
     name: 'item-drawer',
@@ -249,35 +281,35 @@ export default {
         'nitrozen-button': NitrozenButton,
         'nitrozen-radio': NitrozenRadio,
         'nitrozen-chips': NitrozenChips,
-        'nitrozen-inline': NitrozenInline,
+        'nitrozen-inline': NitrozenInline
     },
     directives: {
-        flatBtn,
+        flatBtn
     },
 
     props: {
         isOpen: { type: Boolean, default: false },
         title: {
-            type: String,
+            type: String
         },
         selected_extensions: {
-            default: [],
-        },
+            default: []
+        }
     },
     data() {
         return {
-            paginationConfig: { ...PAGINATION },
+            paginationInfo: { ...PAGINATION },
             extension_data: [],
             inProgress: true,
             extensions_selected: [],
             searchText: '',
             categoryFilters: [],
-            whichOpen: '',
+            whichOpen: 'all',
             slugsL2: [],
             slugsL1: [],
             priceSlug: [],
             query: {},
-            isPageChange: false,
+            isPageChange: false
         };
     },
     mounted() {
@@ -292,7 +324,7 @@ export default {
             const {
                 current,
                 item_total: total,
-                has_next,
+                has_next
             } = this.paginationInfo;
             if (!current || !total) {
                 return '';
@@ -308,6 +340,7 @@ export default {
             this.slugsL1 = [];
             this.priceSlug = [];
             this.query = {};
+            this.whichOpen = 'all';
             this.fetchExtensions();
         },
 
@@ -322,15 +355,12 @@ export default {
             if (!isEmpty(this.priceSlug)) {
                 this.priceSlug.map((price_slug) => arr.push(price_slug));
             }
-            return uniqBy(
-                arr.filter((x) => x.display !== 'All'),
-                'slug'
-            );
+            return uniqBy(arr.filter((x) => x.display !== 'All'), 'slug');
         },
         removeFilter(item) {
-            this.paginationConfig = { ...PAGINATION };
+            this.paginationInfo = { ...PAGINATION };
             let query = {
-                ...this.query,
+                ...this.query
             };
             if (item.type === 'price_filter') {
                 this.priceSlug = this.priceSlug.filter(
@@ -338,7 +368,7 @@ export default {
                 );
                 query = {
                     ...this.query,
-                    price: this.priceSlug.map((x) => x.slug),
+                    price: this.priceSlug.map((x) => x.slug)
                 };
                 this.categoryFilters = this.categoryFilters.map((filteObj) => {
                     filteObj.values = filteObj.values.map((category) => {
@@ -371,6 +401,8 @@ export default {
                 this.whichOpen = this.query.l2;
             } else if (this.query.l1 && !this.query.l2) {
                 this.whichOpen = this.query.l1;
+            } else {
+                this.whichOpen = 'all';
             }
         },
         checkPriceFilter(event, value) {
@@ -393,12 +425,9 @@ export default {
             }
             this.query = {
                 ...this.query,
-                price: this.priceSlug.map((x) => x.slug),
+                price: this.priceSlug.map((x) => x.slug)
             };
             this.fetchExtensions(1, '', this.query);
-        },
-        getRadioValue(filterValue) {
-            return filterValue.is_selected ? filterValue.slug : '';
         },
         onChangeFilter(event, value) {
             this.whichOpen = value.slug;
@@ -421,7 +450,7 @@ export default {
             });
             this.query = {
                 ...this.query,
-                [value.key]: value.slug,
+                [value.key]: value.slug
             };
             if (value.key === 'l1') {
                 this.slugsL1 = value;
@@ -468,14 +497,14 @@ export default {
         fetchExtensions(
             pageNumber = 1,
             searchText = '',
-            query,
+            query = this.query,
             inProgress = true
         ) {
             const params = {
                 page_size: 20,
                 page_no: pageNumber,
                 name: searchText,
-                ...query,
+                ...query
             };
             this.inProgress = inProgress;
             this.isPageChange = !inProgress;
@@ -483,14 +512,15 @@ export default {
                 '',
                 params
             );
-            const getExtnesionCategory =
-                ExtensionService.getAllPublicExtensionCategories(params);
+            const getExtnesionCategory = ExtensionService.getAllPublicExtensionCategories(
+                params
+            );
             Promise.all([getAllPulblicExtension, getExtnesionCategory]).then(
                 ([data, category]) => {
                     this.extensions_selected = this.selected_extensions;
                     const all_selected = [
                         ...this.selected_extensions,
-                        ...this.extensions_selected,
+                        ...this.extensions_selected
                     ].map((ext_selected) => ext_selected._id);
                     this.extension_data = data.data.items.map((ext) => {
                         if (all_selected.includes(ext._id)) {
@@ -498,12 +528,19 @@ export default {
                         }
                         return ext;
                     });
-                    this.paginationConfig.total = data.data.page.item_total;
+                    this.$emit('getExtensionData', this.extension_data);
                     this.paginationInfo = data.data.page;
+                    this.paginationInfo.total = data.data.page.item_total;
+                    this.paginationInfo.limit = data.data.page.size;
                     this.inProgress = false;
                     this.isPageChange = false;
                     this.categoryFilters = category.data.filters
                         .map((filter) => {
+                            if (filter.key.display === 'Category') {
+                                filter.values.push(
+                                    ALL_OPTION(filter.all_count)
+                                );
+                            }
                             filter.values = filter.values.sort(
                                 (filter_one, filter_two) => {
                                     return filter_one.slug.localeCompare(
@@ -529,20 +566,32 @@ export default {
                 }
             );
         },
-        selectExtension(state, data) {
+        selectExtension(state, data, source) {
             if (state) {
                 this.extensions_selected.push(data);
+                this.extension_data = this.extension_data.map((ext) => {
+                    if (data._id === ext._id) {
+                        ext.is_selected = true;
+                    }
+                    return ext;
+                });
             } else {
                 this.extensions_selected = this.extensions_selected.filter(
                     (extension) => extension._id !== data._id
                 );
+                this.extension_data = this.extension_data.map((ext) => {
+                    if (data._id === ext._id) {
+                        ext.is_selected = false;
+                    }
+                    return ext;
+                });
             }
         },
-        debounceInput: debounce(function (e) {
+        debounceInput: debounce(function(e) {
             this.searchText = e;
             this.query = {
                 ...this.query,
-                name: e,
+                name: e
             };
             this.fetchExtensions(1, '', this.query);
         }),
@@ -554,8 +603,8 @@ export default {
         },
         saveModalRef(modalRef) {
             this.$emit('handleModalRef', modalRef);
-        },
-    },
+        }
+    }
 };
 </script>
 <style lang="less" scoped>
@@ -570,7 +619,11 @@ export default {
 }
 .item-pagination {
     ::v-deep .nitrozen-pagination {
+        .nitrozen-pagination__left {
+            padding-left: 10px;
+        }
         .nitrozen-pagination__right {
+            padding-right: 10px;
             .nitrozen-pagination__select {
                 display: none;
             }
@@ -589,15 +642,19 @@ export default {
         min-width: 280px;
         max-height: calc(82vh - 100px);
         overflow-y: scroll;
+        .filter-head {
+            margin-right: 15px;
+        }
         .filter-section {
             padding: 10px 0px;
             position: relative;
             .filter-item {
                 font-size: 16px;
-                font-weight: bold;
+                font-weight: 400;
                 padding-bottom: 10px;
-                border-bottom: 1px solid;
+                border-bottom: 1px solid #dcd7d7;
                 margin-bottom: 10px;
+                color: #898989;
             }
             .extension-count {
                 margin-left: 5px;
@@ -644,9 +701,11 @@ export default {
                 padding-right: 20px;
             }
             .clear-filter {
+                color: #2e31be;
                 margin-left: 10px;
                 font-weight: bold;
                 &:hover {
+                    text-decoration: underline;
                     cursor: pointer;
                 }
             }
@@ -661,10 +720,10 @@ export default {
             display: grid;
             // grid-template-columns: 33.33% 33.33% 33.33%;
             // margin-top: 50px;
+            padding-right: 15px;
             .extension-card {
                 min-width: 200px;
                 display: flex;
-                align-items: center;
                 margin: 10px;
                 padding: 10px;
                 border: 1px solid #e0e0e0;
@@ -672,6 +731,13 @@ export default {
                 position: relative;
                 .extension-checkbox {
                     padding-bottom: 30px;
+                }
+                .extension-inner {
+                    min-width: calc(100% - 20px);
+                    display: flex;
+                }
+                &:hover {
+                    cursor: pointer;
                 }
             }
             .base-card-left {
@@ -686,7 +752,6 @@ export default {
                 .extension-name {
                     color: @RoyalBlue;
                     font-weight: 500;
-                    margin-bottom: 6px;
                     line-height: 1.5;
                     font-size: 16px;
                     // white-space: nowrap;
@@ -719,7 +784,7 @@ export default {
 }
 .arrow {
     position: absolute;
-    right: 10px;
+    right: 0px;
     top: 15px;
     border: solid #333333;
     opacity: 0.75;
@@ -736,5 +801,5 @@ export default {
 .arrow.down {
     transform: rotate(-135deg);
     transition: transform 0.25s;
-}
-</style>;
+}</style
+>;

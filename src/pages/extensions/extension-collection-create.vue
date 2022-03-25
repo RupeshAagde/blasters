@@ -27,7 +27,6 @@
                             placeholder="For eg. Summer Styles, Suit Up, etc."
                             v-model="collection_data.name"
                             :showSuffix="true"
-                            @input="handleNameChange"
                             :custom="true"
                         >
                         </nitrozen-input>
@@ -47,6 +46,8 @@
                             tooltipText="Part of the URL that explains the page’s content. Allowed characters are alphabets, numbers and hyphens."
                             :showTooltip="true"
                             @input="handleSlugChange"
+                            :maxlength="24"
+                            :disabled="checkSlugDisable()"
                         ></nitrozen-input>
                         <nitrozen-error
                             class="nitrozen-error"
@@ -55,11 +56,17 @@
                             {{ errors.slug }}
                         </nitrozen-error>
                         <nitrozen-error
+                            class="nitrozen-error"
+                            v-if="duplicate_slug.error"
+                        >
+                            {{ duplicate_slug.error }}
+                        </nitrozen-error>
+                        <nitrozen-error
                             v-else-if="
                                 errors.invalid_slug &&
-                                !/^[a-z0-9]+(?:--?[a-z0-9]+)*$/.test(
-                                    slug.value.trim()
-                                )
+                                    !/^[a-z0-9]+(?:--?[a-z0-9]+)*$/.test(
+                                        slug.value.trim()
+                                    )
                             "
                         >
                             Slug Invalid
@@ -70,7 +77,7 @@
                         <nitrozen-input
                             type="textarea"
                             class="suffix-top"
-                            label="Description"
+                            label="Description *"
                             :maxlength="150"
                             placeholder="For eg. Slay in style with our cool summer collection"
                             v-model="collection_data.description"
@@ -80,8 +87,8 @@
                         </nitrozen-input>
                         <nitrozen-error
                             class="nitrozen-error"
-                            v-if="errors.desc"
-                            >{{ errors.desc }}</nitrozen-error
+                            v-if="errors.description"
+                            >{{ errors.description }}</nitrozen-error
                         >
                     </div>
                 </div>
@@ -104,19 +111,16 @@
                                 <div>
                                     <image-uploader
                                         :showGallery="false"
-                                        class="
-                                            nitrozen-form-input
-                                            logo-container
-                                        "
+                                        class="nitrozen-form-input logo-container"
                                         label="Icon*"
                                         aspectRatio="1:1"
                                         :minimumResolution="{
                                             width: 200,
-                                            height: 200,
+                                            height: 200
                                         }"
                                         :maximumResolution="{
                                             width: 256,
-                                            height: 256,
+                                            height: 256
                                         }"
                                         @delete="
                                             collection_data.banner.logo = ''
@@ -135,8 +139,8 @@
                     </div>
                     <div class="no-image-container">
                         <div class="main-label">
-                            <div class="sub-label-top">Landscape Banner *</div>
-                            <div class="sub-label-bottom">(Web)</div>
+                            <div class="sub-label-top">Portrait Banner *</div>
+                            <div class="sub-label-bottom">(Mobile)</div>
                         </div>
 
                         <div class="inline">
@@ -144,19 +148,16 @@
                                 <div>
                                     <image-uploader
                                         :showGallery="false"
-                                        class="
-                                            nitrozen-form-input
-                                            logo-container
-                                        "
+                                        class="nitrozen-form-input logo-container"
                                         label="Icon*"
                                         aspectRatio="13:20"
                                         :minimumResolution="{
                                             width: 130,
-                                            height: 200,
+                                            height: 200
                                         }"
                                         :maximumResolution="{
                                             width: 312,
-                                            height: 480,
+                                            height: 480
                                         }"
                                         @delete="
                                             collection_data.banner.portrait = ''
@@ -177,7 +178,7 @@
                     </div>
                     <div class="no-image-container">
                         <div class="main-label">
-                            <div class="sub-label-top">Portrait Banner *</div>
+                            <div class="sub-label-top">Landscape Banner *</div>
                             <div class="sub-label-bottom">(Web)</div>
                         </div>
 
@@ -186,19 +187,16 @@
                                 <div>
                                     <image-uploader
                                         :showGallery="false"
-                                        class="
-                                            nitrozen-form-input
-                                            logo-container
-                                        "
+                                        class="nitrozen-form-input logo-container land"
                                         label="Icon*"
                                         aspectRatio="27:20"
                                         :minimumResolution="{
                                             width: 540,
-                                            height: 400,
+                                            height: 400
                                         }"
                                         :maximumResolution="{
                                             width: 1242,
-                                            height: 920,
+                                            height: 920
                                         }"
                                         @delete="
                                             collection_data.banner.landscape =
@@ -228,8 +226,10 @@
                             class="nitrozen-form-input"
                             @keydown.enter="addChip"
                             @keydown.tab="addChip"
+                            @keydown.space="addChip"
                             v-model="collection_data.tags"
-                            label="Tags *"
+                            label="Tags"
+                            :maxTags="3"
                         ></tags-input>
                     </div>
                     <nitrozen-error class="nitrozen-error" v-if="errors.tags"
@@ -238,7 +238,11 @@
                 </div>
                 <div class="input p-24-bg-white m-top">
                     <div class="item-catelogue">
-                        <div class="cl-Mako bold-md">Extensions *</div>
+                        <div class="cl-Mako bold-md">
+                            Extensions ({{
+                                collection_data.selected_extensions.length
+                            }})
+                        </div>
                         <div>
                             <nitrozen-button
                                 class="save-btn"
@@ -260,16 +264,17 @@
                     v-show="showExtensionModal"
                     :isOpen="showExtensionModal"
                     :isCancelable="true"
-                    :title="'Exntension List'"
-                    v-on:onAddExtensions="addSelectedExtensions"
+                    :title="'Extension List'"
+                    @onAddExtensions="addSelectedExtensions"
                     :selected_extensions="collection_data.selected_extensions"
-                    v-on:closeModal="closeModal"
+                    @closeModal="closeModal"
                     @handleModalRef="setModalRef"
+                    @getExtensionData="setExtensionData"
                 >
                 </item-drawer>
                 <div class="p-24-bg-white">
                     <page-empty
-                        :text="'No Extension selected for this Collection'"
+                        :text="'No Extension selected for this collection'"
                         v-if="!collection_data.selected_extensions.length"
                     >
                     </page-empty>
@@ -279,9 +284,8 @@
                     >
                         <div
                             class="extension-card"
-                            v-for="(
-                                extension, index
-                            ) in collection_data.selected_extensions"
+                            v-for="(extension,
+                            index) in collection_data.selected_extensions"
                             :key="index"
                             :ref="'extension-' + index"
                         >
@@ -303,7 +307,12 @@
                                     {{ extension.listing_info.name }}
                                 </div>
                                 <div class="extension-creator">
-                                    by {{ extension.organization.name }}
+                                    by
+                                    {{
+                                        extension.organization
+                                            ? extension.organization.name
+                                            : ''
+                                    }}
                                 </div>
                                 <!-- <div class="extension-tag-line">
                                     {{ extension.listing_info.tagline }}
@@ -312,8 +321,8 @@
                                     <span
                                         v-if="
                                             extension.plans &&
-                                            extension.plans.length &&
-                                            extension.plans[0].price.amount
+                                                extension.plans.length &&
+                                                extension.plans[0].price.amount
                                         "
                                         >{{
                                             extension.plans[0].price.amount
@@ -323,8 +332,8 @@
                                             /
                                             {{
                                                 extension.plans[0].recurring &&
-                                                extension.plans[0].recurring
-                                                    .type
+                                                    extension.plans[0].recurring
+                                                        .type
                                             }}</span
                                         ></span
                                     >
@@ -345,9 +354,10 @@
                     <seo-component
                         v-model="collection_data.seo"
                         :isCollapsed="isCollapsed"
-                        :url="`https://${fynd_platform_domain}/collection/${
-                            collection_data.slug || ':slug'
-                        }`"
+                        :url="
+                            `https://partners.${fynd_platform_domain}/collection/${collection_data.slug ||
+                                ':slug'}`
+                        "
                     />
                 </div>
             </div>
@@ -391,7 +401,7 @@ import {
     NitrozenTooltip,
     NitrozenChips,
     NitrozenInline,
-    NitrozenCheckBox,
+    NitrozenCheckBox
 } from '@gofynd/nitrozen-vue';
 import ItemDrawer from './item-drawer.vue';
 import { BaseModal } from '../../components/common/';
@@ -407,15 +417,16 @@ import tagsInput from '@/components/common/tags-input.vue';
 import seoComponent from './seo-component.vue';
 import ExtensionService from '@/services/extension.service';
 import { isEmpty } from 'lodash';
-
+import { debounce } from '@/helper/utils';
 const RequiredFields = [
     { key: 'name', message: 'Required field' },
     { key: 'slug', message: 'Required field' },
-    {
-        key: 'tags',
-        message: 'Required field',
-        validator: (data) => data.tags.length,
-    },
+    { key: 'description', message: 'Required field' },
+    // {
+    //     key: 'tags',
+    //     message: 'Required field',
+    //     validator: (data) => data.tags.length,
+    // },
     {
         key: 'logo',
         message: 'Logo and Banner(s) are required',
@@ -428,7 +439,7 @@ const RequiredFields = [
                 return true;
             }
             return false;
-        },
+        }
     },
     {
         key: 'extensions',
@@ -438,8 +449,8 @@ const RequiredFields = [
                 return true;
             }
             return false;
-        },
-    },
+        }
+    }
 ];
 
 export default {
@@ -460,11 +471,11 @@ export default {
         'nitrozen-inline': NitrozenInline,
         'nitrozen-chips': NitrozenChips,
         'nitrozen-tooltip': NitrozenTooltip,
-        'nitrozen-checkbox': NitrozenCheckBox,
+        'nitrozen-checkbox': NitrozenCheckBox
     },
     directives: {
         flatBtn,
-        strokeBtn,
+        strokeBtn
     },
     data() {
         return {
@@ -479,19 +490,19 @@ export default {
                 collection_type: 'handpicked',
                 seo: {
                     title: 'Title',
-                    description: 'Breif description about the',
+                    description: 'Breif description about the'
                 },
                 banner: {
                     logo: '',
                     portrait: '',
-                    landscape: '',
+                    landscape: ''
                 },
                 name: '',
                 tags: [],
                 current_status: '',
                 selected_extensions: [],
                 icon: '',
-                description: '',
+                description: ''
             },
             errors: {},
             tags: [],
@@ -499,6 +510,8 @@ export default {
             fynd_platform_domain: 'fynd.com',
             selected_extensions: [],
             modalRef: null,
+            extension_data: [],
+            duplicate_slug: { error: '' }
         };
     },
     computed: {},
@@ -511,25 +524,29 @@ export default {
         this.fetchExtension();
     },
     methods: {
+        checkSlugDisable() {
+            return !!this.$route.query.id;
+        },
+        setExtensionData(extension_data) {
+            this.extension_data = extension_data;
+            this.$set(this.extension_data, extension_data);
+        },
         checkRequiredFields() {
+            this.errors = {};
             RequiredFields.map(({ key, message, validator }) => {
                 if (validator && !validator(this.collection_data)) {
-                    const a = validator(this.collection_data);
-                    console.log(`${a} => ${key}`);
                     this.$set(this.errors, key, message);
                 }
                 if (!validator && !this.collection_data[key]) {
                     this.$set(this.errors, key, message);
                 }
             });
-            console.log('>>this.errors', this.errors);
             return !isEmpty(this.errors);
         },
         removeExtnesion(item) {
-            this.collection_data.selected_extensions =
-                this.collection_data.selected_extensions.filter(
-                    (x) => x._id !== item._id
-                );
+            this.collection_data.selected_extensions = this.collection_data.selected_extensions.filter(
+                (x) => x._id !== item._id
+            );
         },
         isEditForm() {
             if (this.$route.query.id) {
@@ -579,18 +596,34 @@ export default {
             this.collection_data.banner[name] = event;
             document.body.style = {
                 ...document.body.style,
-                position: 'relative',
+                position: 'relative'
             };
         },
         formatBytes,
         fetchExtension() {},
         saveForm(approve) {
             if (this.checkRequiredFields()) {
+                this.$snackbar.global.showError('Missing required fields');
                 return;
             }
+            if (this.duplicate_slug.error) {
+                this.$snackbar.global.showError(
+                    'Please use different slug for the collection'
+                );
+                return;
+            }
+            this.collection_data.collection_items = this.collection_data.selected_extensions.map(
+                (selceted_ext) => {
+                    return {
+                        entity_id: selceted_ext._id,
+                        entity_type: 'extension'
+                    };
+                }
+            );
+            const { selected_extensions, ...postObject } = this.collection_data;
             if (this.$route.query.id) {
                 ExtensionService.updateExtensionCollection(
-                    this.collection_data,
+                    postObject,
                     this.$route.query.id
                 )
                     .then((res) => {
@@ -599,7 +632,7 @@ export default {
                             1000
                         );
                         return this.$router.push({
-                            path: '/administrator/extensions/collection',
+                            path: '/administrator/extensions/collection'
                         });
                     })
                     .catch((err) => {
@@ -609,14 +642,15 @@ export default {
                     });
                 return;
             }
-            ExtensionService.saveExtensionCollection(this.collection_data)
+
+            ExtensionService.saveExtensionCollection(postObject)
                 .then((res) => {
                     this.$snackbar.global.showSuccess(
                         'Extension saved successfully',
                         1000
                     );
                     return this.$router.push({
-                        path: '/administrator/extensions/collection',
+                        path: '/administrator/extensions/collection'
                     });
                 })
                 .catch((err) => {
@@ -632,14 +666,29 @@ export default {
                 .catch(() => {});
         },
         nameToSlug(str) {
-            return str.toLowerCase().trim().replace(/\s/gi, '-');
+            return str
+                .toLowerCase()
+                .trim()
+                .replace(/\s/gi, '-');
         },
-        handleNameChange(value) {
-            this.collection_data.slug = this.nameToSlug(value);
-        },
-        handleSlugChange(slug) {
-            this.collection_data.slug = slug.toLowerCase();
-        },
+        handleSlugChange: debounce(function(slug) {
+            if (slug.length) {
+                ExtensionService.checkDuplicateSlug(slug).then((res) => {
+                    if (res.data.slug_exist) {
+                        this.$set(
+                            this.duplicate_slug,
+                            'error',
+                            'Slug is already in use, please use different one'
+                        );
+                    } else {
+                        this.$set(this.duplicate_slug, 'error', null);
+                        this.collection_data.slug = this.nameToSlug(slug);
+                    }
+                });
+            } else {
+                this.$set(this.duplicate_slug, 'error', null);
+            }
+        }),
         removeChip(index) {
             this.collection_data.tags.splice(index, 1);
         },
@@ -656,12 +705,11 @@ export default {
             }
             setTimeout(() => {
                 this.$refs.tagScroll &&
-                    (this.$refs.tagScroll.scrollTop =
-                        this.$refs.tagScroll.scrollHeight);
+                    (this.$refs.tagScroll.scrollTop = this.$refs.tagScroll.scrollHeight);
             }, 20);
             event.preventDefault();
-        },
-    },
+        }
+    }
 };
 </script>
 
@@ -717,7 +765,6 @@ export default {
             .item-catelogue {
                 display: flex;
                 justify-content: space-between;
-                margin-top: 20px;
             }
             .no-image-container {
                 .inline {
@@ -735,17 +782,37 @@ export default {
                     justify-content: center;
                     flex-direction: column;
                     align-items: center;
+                    background-color: #f8f8f8;
+                    border: 1px dashed #2e31be;
+                    border-radius: 3px;
+                    box-sizing: border-box;
+                    cursor: pointer;
+                    text-align: center;
+                    position: relative;
                     .image {
-                        width: 200px;
-                        height: 200px;
-                        text-align: center;
+                        height: auto;
+                        width: auto;
+                        max-height: 200px;
                         .edit-image {
+                            position: absolute;
+                            display: flex;
+                            width: 100%;
+                            height: 100%;
+                            z-index: 1;
+                            bottom: 0px;
+                            top: 10px;
                             left: 0;
+                            justify-content: center;
+                            align-items: flex-end;
+                            &:hover {
+                                cursor: pointer;
+                            }
                         }
                     }
                     img {
-                        width: 200px;
-                        height: 200px;
+                        width: 100%;
+                        height: 100%;
+                        max-height: 200px;
                     }
                 }
             }

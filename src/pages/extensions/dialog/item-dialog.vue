@@ -1,5 +1,9 @@
 <template>
-    <nitrozen-dialog ref="products-data" :title="title">
+    <nitrozen-dialog
+        ref="products-data"
+        class="item-collection-dialog"
+        :title="title"
+    >
         <template slot="body">
             <slot />
         </template>
@@ -19,6 +23,15 @@
 </template>
 
 <style lang="less" scoped>
+.nitrozen-dialog-backdrop {
+    .nitrozen-dialog {
+        ::v-deep .nitrozen-dialog-footer {
+            margin: 0;
+            padding: 24px;
+            border-top: 1px solid #dcd7d7;
+        }
+    }
+}
 .modal {
     position: fixed;
     top: 0;
@@ -103,52 +116,51 @@ import {
     NitrozenInline,
     NitrozenButton,
     NitrozenDialog,
-    flatBtn,
+    flatBtn
 } from '@gofynd/nitrozen-vue';
 export default {
     name: 'item-dialog',
     components: {
         'nitrozen-button': NitrozenButton,
         'inline-svg': NitrozenInline,
-        'nitrozen-dialog': NitrozenDialog,
+        'nitrozen-dialog': NitrozenDialog
     },
     props: {
         isOpen: {
             type: Boolean,
-            default: false,
+            default: false
         },
         title: {
-            type: String,
+            type: String
         },
         modalClass: {
             type: String,
             default: null,
-            required: false,
+            required: false
         },
         isCancelable: {
             type: Boolean,
-            default: true,
+            default: true
         },
         childHandleFocus: {
             type: Boolean,
-            default: false,
+            default: false
         },
         footerTitle: {
-            type: String,
-        },
+            type: String
+        }
     },
     directives: {
-        flatBtn,
+        flatBtn
     },
     updated() {
-        console.log('>>this.isOpen', this.isOpen);
         if (this.isOpen) {
             this.$refs['products-data'].open({
                 width: '80%',
                 height: '89%',
                 showCloseButton: true,
                 dismissible: true,
-                neutralButtonLabel: '',
+                neutralButtonLabel: ''
             });
         }
     },
@@ -158,7 +170,7 @@ export default {
             const modal = this.$refs['products-data'];
             modal && modal.close();
             document.body.style.position = 'relative';
-        },
+        }
     },
     mounted() {
         this.$root.$el.append(this.$el);
@@ -173,6 +185,6 @@ export default {
             this.$el.parentNode.removeChild(this.$el);
         }
         document.body.style.overflowY = 'scroll';
-    },
+    }
 };
 </script>
