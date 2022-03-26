@@ -688,7 +688,7 @@ export default {
             } else {
                 this.$set(this.duplicate_slug, 'error', null);
             }
-        }),
+        }, 500),
         removeChip(index) {
             this.collection_data.tags.splice(index, 1);
         },

@@ -51,7 +51,7 @@ const URLS = {
     },
     CHECK_DUPLICATE_SLUG: (slug) => {
         return urlJoin(
-            MIXMASTER_PARTNER_URL,
+            MIXMASTER_ADMIN_BASE,
             `/v1.0/collection/extensions/check-slug/${slug}`
         );
     },
