@@ -189,7 +189,10 @@ export default {
         this.fetchExtension();
     },
     methods: {
-        paginationChange() {},
+        paginationChange(config) {
+            this.paginationConfig = config
+            this.fetchExtension()
+        },
 
         debounceInput: debounce(function(e) {
             this.paginationConfig = { ...PAGINATION };
