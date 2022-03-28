@@ -36,7 +36,6 @@
                                     type="search"
                                     placeholder="Search by template"
                                     v-model="filters.templateSearch"
-                                    @change="changePage"
                                     @keyup.enter="searchTemplate()"
                                     @input="debounceInput"
                                 ></nitrozen-input>
@@ -417,23 +416,36 @@ export default {
                 params.query['email.to'] = this.filters.plainTextSearch;
             }
             if (this.filters.type == 'all' && this.filters.plainTextSearch) {
-                params.query.$or = params.query.$or || [];
+                let validEmail = validateEmail(this.filters.plainTextSearch);
+                console.log("email",validEmail);
+                let validPhone = validatePhone(this.filters.plainTextSearch);
+               
+                if(validPhone){
+                params.query.$or = [];    
                 params.query.$or.push({
-                    'email.to': {
-                        $regex: this.filters.plainTextSearch,
-                        $options: 'ig',
-                    },
+                    'sms.phone_number' : this.filters.plainTextSearch
                 });
+                }
+                else if(validEmail){
+                params.query.$or = [];
                 params.query.$or.push({
-                    'sms.phone_number': {
-                        $regex: this.filters.plainTextSearch,
-                    },
+                    'email.to': this.filters.plainTextSearch
                 });
+                }
+                else{
+                    params.query.$or = [];
+                    params.query.$or.push({
+                    'email.to': this.filters.plainTextSearch
+                });
+                 params.query.$or.push({
+                    'sms.phone_number': this.filters.plainTextSearch
+                });
+
+                }
             }
             if (this.filters.templateSearch) {
                 let validPhone = validatePhone(this.filters.plainTextSearch);
                 let validEmail = validateEmail(this.filters.plainTextSearch);
-                console.log("phone",validPhone);
                 if (validPhone) {
                     params.query.$and = params.query.$and || [];
                     params.query.$and.push({
