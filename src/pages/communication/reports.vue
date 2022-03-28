@@ -9,7 +9,6 @@
                 <div class="main-container">
                     <div class="flex flex-end">
                         <template class="flex fil-1">
-                            
                             <div class="flex drop">
                                 <nitrozen-dropdown
                                     :label="'Search Type'"
@@ -144,8 +143,7 @@
                     <div
                         class="pagination"
                         v-if="
-                            !pageLoading &&
-                                (logs.items && logs.items.length > 0)
+                            !pageLoading && logs.items && logs.items.length > 0
                         "
                     >
                         <nitrozen-pagination
@@ -186,30 +184,27 @@ import uktModal from '@/components/common/utk-modal.vue';
 import { debounce } from '@/helper/utils';
 import logsListingCard from './logs-listing-card.vue';
 import cloneDeep from 'lodash/cloneDeep';
-
+import { validatePhone, validateEmail } from '../../helper/utils';
 import CommunicationServices from '../../services/pointblank.service';
 import CompanyService from '@/services/company-admin.service';
 
-
-
 //import './less/common.less';
-
 
 import {
     NitrozenPagination,
     NitrozenDropdown,
     NitrozenInput,
-    NitrozenBadge
+    NitrozenBadge,
 } from '@gofynd/nitrozen-vue';
 const VueJsonPretty = () =>
     import(/*webpackChunkName:"vue-json-pretty" */ 'vue-json-pretty');
-import NoSSR from 'vue-no-ssr'
+import NoSSR from 'vue-no-ssr';
 
 export default {
     name: 'report-listing',
-     components:{
+    components: {
         jumbotron: Jumbotron,
-         loader,
+        loader,
         'ukt-modal': uktModal,
         'vue-json-pretty': VueJsonPretty,
         'no-ssr': NoSSR,
@@ -226,37 +221,36 @@ export default {
     data() {
         return {
             typeFilterList: [
-                 {
+                {
                     text: 'Auto',
-                    value: 'all'
+                    value: 'all',
                 },
                 {
                     text: 'SMS',
-                    value: 'phone'
+                    value: 'phone',
                 },
                 {
                     text: 'Email',
-                    value: 'email'
+                    value: 'email',
                 },
-                 {
+                {
                     text: 'Identifier',
-                    value: 'identifier'
-                }
+                    value: 'identifier',
+                },
             ],
             statusFilterList: [
-                
                 {
                     text: 'All',
-                    value: 'all'
+                    value: 'all',
                 },
                 {
                     text: 'Success',
-                    value: 'success'
+                    value: 'success',
                 },
                 {
                     text: 'Error',
-                    value: 'error'
-                }
+                    value: 'error',
+                },
             ],
             filters: {
                 plainTextSearch: '',
@@ -264,19 +258,19 @@ export default {
                 status: 'all',
                 templateSearch: '',
                 start: {
-                    value: ''
+                    value: '',
                 },
                 end: {
-                    value: ''
+                    value: '',
                 },
                 job: '',
                 campaign: '',
-                application: ''
+                application: '',
             },
             pagination: {
                 limit: 10,
                 current: 1,
-                total: 11
+                total: 11,
             },
             description: 'Use this section to view logs of SMS and Email',
             campaigns: [],
@@ -289,39 +283,39 @@ export default {
             pageError: false,
             logs: {},
             application: [],
-            placeHolder: 'Search by phone and email'
+            placeHolder: 'Search by phone and email',
         };
     },
     methods: {
-         debounceInput: debounce(function(e) {
+        debounceInput: debounce(function (e) {
             if (this.filters.plainTextSearch.length === 0) {
                 this.resetPagination();
                 this.changePage();
             }
         }, 400),
-         resetPagination() {
+        resetPagination() {
             this.pagination = {
                 limit: 10,
                 current: 1,
-                total: 11
+                total: 11,
             };
             this.currentPage = 1;
             this.logIds = [];
         },
 
-         onLogCardClicked(val) {
+        onLogCardClicked(val) {
             this.previewData = val;
             this.showPreviewModal = true;
         },
-         fieldChanged() {
+        fieldChanged() {
             this.searchTemplate();
         },
         dateChanged() {
             this.searchTemplate();
         },
         searchTemplate() {
-            this.placeHolder = 'Search by ' + this.filters.type
-            if(this.filters.type == 'all'){
+            this.placeHolder = 'Search by ' + this.filters.type;
+            if (this.filters.type == 'all') {
                 this.placeHolder = 'Search by phone and email';
             }
             this.resetPagination();
@@ -335,37 +329,37 @@ export default {
             this.filters.application = '';
             this.fetchApplication(e.text);
         },
-        fetchCampaigns(name='',id='') {
-           CommunicationServices.getCampaigns({"name":name,"application": id})
-           .then(res=>{
-             this.getCampaignDropdown(res.data.items)
-             this.changePage()
-
-           }).catch(err=>{
-               console.log(err);
-           })
+        fetchCampaigns(name = '', id = '') {
+            CommunicationServices.getCampaigns({ name: name, application: id })
+                .then((res) => {
+                    this.getCampaignDropdown(res.data.items);
+                    this.changePage();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
-        getCampaignDropdown(data){
-                let dropdown = [];
-                for (let i = 0; i < data.length; i++) {
-                    let temp = { text: '', value: '' };
-                    temp.text = data[i].name;
-                    temp.value = data[i]._id;
-                    dropdown.push(temp);
-                }
-                this.campaigns = dropdown;
+        getCampaignDropdown(data) {
+            let dropdown = [];
+            for (let i = 0; i < data.length; i++) {
+                let temp = { text: '', value: '' };
+                temp.text = data[i].name;
+                temp.value = data[i]._id;
+                dropdown.push(temp);
+            }
+            this.campaigns = dropdown;
         },
-        getApplicationDropdown(data){
-                let dropdown = [];
-                for (let i = 0; i < data.length; i++) {
-                    let temp = { text: '', value: '' };
-                    temp.text = data[i].name;
-                    temp.value = data[i]._id;
-                    dropdown.push(temp);
-                }
-                this.application = dropdown;
+        getApplicationDropdown(data) {
+            let dropdown = [];
+            for (let i = 0; i < data.length; i++) {
+                let temp = { text: '', value: '' };
+                temp.text = data[i].name;
+                temp.value = data[i]._id;
+                dropdown.push(temp);
+            }
+            this.application = dropdown;
         },
-         validateDates() {
+        validateDates() {
             var start,
                 end = null;
             if (this.filters.start.value) {
@@ -384,8 +378,8 @@ export default {
                 return;
             }
         },
-        changePage(e){
-        let params = {
+        changePage(e) {
+            let params = {
                 query: {},
                 page_size: this.pagination.limit,
             };
@@ -393,7 +387,7 @@ export default {
                 if (e.current > this.currentPage) {
                     let last = this.logIds[this.logIds.length - 1];
                     this.currentPage++;
-                    params.page_id = last
+                    params.page_id = last;
                 } else if (e.current < this.currentPage) {
                     this.logIds.pop();
                     this.logIds.pop();
@@ -401,87 +395,105 @@ export default {
 
                     this.currentPage--;
                     if (last) {
-                        params.page_id = last
+                        params.page_id = last;
                     }
                 }
             }
             if (this.filters.status != 'all') {
                 params.query.status = this.filters.status;
             }
-            if(this.filters.type == 'identifier'){
-                              params.query["meta.identifier"] =   {
-                            $regex: this.filters.plainTextSearch,
-                            $options: 'ig'
-                        }
-                    };
-            if(this.filters.type == 'phone'){
+            if (this.filters.type == 'identifier') {
+                params.query['meta.identifier'] = {
+                    $regex: this.filters.plainTextSearch,
+                    $options: 'ig',
+                };
+            }
+            if (this.filters.type == 'phone') {
                 params.query.sms = { $exists: true };
-                              params.query["sms.phone_number"] =    this.filters.plainTextSearch
-                    };        
-             if(this.filters.type == 'email' ){
+                params.query['sms.phone_number'] = this.filters.plainTextSearch;
+            }
+            if (this.filters.type == 'email') {
                 params.query.email = { $exists: true };
-                params.query["email.to"] = this.filters.plainTextSearch
-                    }; 
-              if(this.filters.type == 'all' && this.filters.plainTextSearch){
+                params.query['email.to'] = this.filters.plainTextSearch;
+            }
+            if (this.filters.type == 'all' && this.filters.plainTextSearch) {
                 params.query.$or = params.query.$or || [];
                 params.query.$or.push({
                     'email.to': {
                         $regex: this.filters.plainTextSearch,
-                        $options: 'ig'
-                    }
+                        $options: 'ig',
+                    },
                 });
                 params.query.$or.push({
                     'sms.phone_number': {
                         $regex: this.filters.plainTextSearch,
-                        $options: 'ig'
-                    }
+                    },
                 });
-               } 
-               if(this.filters.templateSearch){
-                params.query.$and = params.query.$and || [];
-                params.query.$and.push({ $or :[{"sms.template": this.filters.templateSearch },{"email.template": this.filters.templateSearch  }]})
-                }     
+            }
+            if (this.filters.templateSearch) {
+                let validPhone = validatePhone(this.filters.plainTextSearch);
+                let validEmail = validateEmail(this.filters.plainTextSearch);
 
-            if (this.filters.templateSearch && this.filters.type !== 'all') {
-                
-                  params.query.$or = params.query.$or || [];
-                  params.query.$or['email.template'] = this.filters.templateSearch
-                params.query.$or['sms.template'] = this.filters.templateSearch
+                if (validPhone) {
+                    params.query.$and = params.query.$and || [];
+                    params.query.$and.push({
+                        'sms.template': this.filters.templateSearch,
+                    });
+                }
 
+                if (validEmail) {
+                    params.query.$and = params.query.$and || [];
+                    params.query.$and.push({
+                        'email.template': this.filters.templateSearch,
+                    });
+                } else {
+                    params.query.$and = params.query.$and || [];
+                    params.query.$and.push({
+                        $or: [
+                            { 'sms.template': this.filters.templateSearch },
+                            { 'email.template': this.filters.templateSearch },
+                        ],
+                    });
+                }
+
+                // if (this.filters.templateSearch && this.filters.type !== 'all') {
+                //     let validPhone = validatePhone(this.searchText);
+                //     if(validPhone){
+                //        params.query.$or = params.query.$or || [];
+                //       //params.query.$or['email.template'] = this.filters.templateSearch
+                //     params.query.$or['sms.template'] = this.filters.templateSearch
+                //     }
             }
             if (this.filters.job) {
-                params.query["meta.job"] = this.filters.job;
+                params.query['meta.job'] = this.filters.job;
             }
             if (this.filters.campaign) {
-                params.query["meta.campaign"] = this.filters.campaign;
+                params.query['meta.campaign'] = this.filters.campaign;
             }
-             if (this.filters.application) {
-                params.query["application"] = this.filters.application;
+            if (this.filters.application) {
+                params.query['application'] = this.filters.application;
             }
-            if(this.filters.start.value == '' || this.filters.start.value == undefined ){
-                 params.sort = '{"_id":-1}'
-                }
-            
+            if (
+                this.filters.start.value == '' ||
+                this.filters.start.value == undefined
+            ) {
+                params.sort = '{"_id":-1}';
+            }
+
             if (this.validateDates() == 'valid') {
                 let start = this.filters.start.value;
                 let end = this.filters.end.value;
 
-                if(this.filters.end.value !== ''){
+                if (this.filters.end.value !== '') {
                     params.query.created_at = {
-                    $gte: start,
-                    $lte: end
+                        $gte: start,
+                        $lte: end,
+                    };
+                } else {
+                    params.query.created_at = {
+                        $gte: start,
+                    };
                 }
-                }
-                else{
-                  params.query.created_at = {
-                    $gte: start
-                }
-                
-                }
-
-                    
-                
-               
             } else if (this.validateDates() == 'invalid') {
                 this.$snackbar.global.showError('Invalid dates provided');
                 return;
@@ -495,19 +507,20 @@ export default {
             let filters = cloneDeep(this.filters);
             filters.start = JSON.stringify(filters.start);
             filters.end = JSON.stringify(filters.end);
-            this.$router.push({
-                path: this.$route.path,
-                query: { ...this.$route.query, ...filters }
-            })
-             .catch((err)=>{
-                 console.log(err);
-             })
+            this.$router
+                .push({
+                    path: this.$route.path,
+                    query: { ...this.$route.query, ...filters },
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
             params.query = JSON.stringify(params.query);
             this.pageLoading = true;
             CommunicationServices.getLog(params)
-            .then(res=>{
-                this.logs = res.data
-                                 if (res.data.items.length == this.pagination.limit) {
+                .then((res) => {
+                    this.logs = res.data;
+                    if (res.data.items.length == this.pagination.limit) {
                         this.pagination.total =
                             this.pagination.limit * this.pagination.current +
                             this.pagination.limit;
@@ -518,14 +531,15 @@ export default {
                             res.data.items.length;
                     }
                     if (res.data.items && res.data.items.length > 0) {
-                        let last = res.data.items[res.data.items.length - 1]._id;
+                        let last =
+                            res.data.items[res.data.items.length - 1]._id;
                         this.logIds.push(last);
                     }
                     this.currentPage = this.pagination.current;
                     this.pageLoading = false;
                     this.pageError = false;
-            })
-             .catch(err => {
+                })
+                .catch((err) => {
                     this.pageLoading = false;
                     this.pageError = true;
                 })
@@ -533,29 +547,27 @@ export default {
                     this.isInitialLoad && (this.isInitialLoad = false);
                 });
         },
-        fetchApplication(name=''){
-            CompanyService.fetchAllApplication({page_size: 50, q: name})
-            .then(res=>{
-                this.getApplicationDropdown(res.data.items)
-                this.changePage()
-
-            })
+        fetchApplication(name = '') {
+            CompanyService.fetchAllApplication({ page_size: 50, q: name }).then(
+                (res) => {
+                    this.getApplicationDropdown(res.data.items);
+                    this.changePage();
+                }
+            );
         },
-        changeApplication(){
-        this.fetchCampaigns('',this.filters.application)
-        this.changePage()
-
+        changeApplication() {
+            this.fetchCampaigns('', this.filters.application);
+            this.changePage();
         }
-
     },
     mounted() {
-    this.resetPagination();
+        this.resetPagination();
 
-        this.fetchCampaigns()
-        this.changePage()
-        this.fetchApplication()
-    }
-}
+        this.fetchCampaigns();
+        this.changePage();
+        this.fetchApplication();
+    },
+};
 </script>
 <style lang="less" scoped>
 //@import './../less/page-header.less';
