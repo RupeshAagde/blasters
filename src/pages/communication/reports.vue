@@ -433,7 +433,7 @@ export default {
             if (this.filters.templateSearch) {
                 let validPhone = validatePhone(this.filters.plainTextSearch);
                 let validEmail = validateEmail(this.filters.plainTextSearch);
-
+                console.log("phone",validPhone);
                 if (validPhone) {
                     params.query.$and = params.query.$and || [];
                     params.query.$and.push({
@@ -441,12 +441,13 @@ export default {
                     });
                 }
 
-                if (validEmail) {
+               else if (validEmail) {
                     params.query.$and = params.query.$and || [];
                     params.query.$and.push({
                         'email.template': this.filters.templateSearch,
                     });
-                } else {
+                } 
+                else {
                     params.query.$and = params.query.$and || [];
                     params.query.$and.push({
                         $or: [
@@ -455,14 +456,6 @@ export default {
                         ],
                     });
                 }
-
-                // if (this.filters.templateSearch && this.filters.type !== 'all') {
-                //     let validPhone = validatePhone(this.searchText);
-                //     if(validPhone){
-                //        params.query.$or = params.query.$or || [];
-                //       //params.query.$or['email.template'] = this.filters.templateSearch
-                //     params.query.$or['sms.template'] = this.filters.templateSearch
-                //     }
             }
             if (this.filters.job) {
                 params.query['meta.job'] = this.filters.job;
