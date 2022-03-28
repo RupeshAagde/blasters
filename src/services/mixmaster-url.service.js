@@ -16,12 +16,12 @@ const URLS = {
     EXTENSION_REVIEW: (review_id = '') => {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/extension/review/${review_id}`);
     },
-    FETCH_PARTNER_ORGANIZATIONS: () => {
-        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/organization/`);
-    },
     EXTENSION_CATEGORIES_ADMIN: (organization_id) => {
         return urlJoin(MIXMASTER_ADMIN_BASE + `/v1.0/extension/category/all`);
     },
+    FETCH_PARTNER_ORGANIZATIONS: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/organization/`);
+    }
 };
 
 export default URLS;

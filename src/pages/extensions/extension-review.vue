@@ -318,14 +318,14 @@ export default {
             },
             review_data: {
                 review_comments: '',
-                current_status: '',
+                current_status: ''
             },
             error_comments: '',
             fynd_platform_domain: 'fynd.com',
             reviewer_name: '',
             reviewer_email: '',
             reviewer_phone: '',
-            showScopes: false,
+            showScopes: false
         };
     },
     computed: {
@@ -342,7 +342,7 @@ export default {
                     this.extension_info.listing_info.name) ||
                 'Extension Name'
             );
-        },
+        }
     },
     mounted() {
         this.fynd_platform_domain =
@@ -381,6 +381,9 @@ export default {
             Promise.all([getExtensionInfo, extensionCategories])
                 .then(([{ data }, extensionCategoriesInfo]) => {
                     this.extension_info = data;
+                    if (this.extension_info.current_status !== 'pending') {
+                        this.getUserInfo(this.extension_info.reviewed_by);
+                    }
                     this.categoryInfo.category_l1 =
                         extensionCategoriesInfo.data.data.category_l1.map(
                             (ext) => ({
