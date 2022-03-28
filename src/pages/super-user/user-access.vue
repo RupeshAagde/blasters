@@ -473,6 +473,7 @@ export default {
                     .finally(() => {
                         if (this.userId !== searchUserId) {
                             this.userId = searchUserId;
+                            this.pagination.current = 1;
                             this.fetchUsers();
                         }
                     });
