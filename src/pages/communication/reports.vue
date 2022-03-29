@@ -301,8 +301,7 @@ export default {
             this.currentPage = 1;
             this.logIds = [];
         },
-
-        onLogCardClicked(val) {
+         onLogCardClicked(val) {
             this.previewData = val;
             this.showPreviewModal = true;
         },
@@ -328,15 +327,14 @@ export default {
             this.filters.application = '';
             this.fetchApplication(e.text);
         },
-        fetchCampaigns(name = '', id = '') {
-            CommunicationServices.getCampaigns({ name: name, application: id })
-                .then((res) => {
-                    this.getCampaignDropdown(res.data.items);
-                    this.changePage();
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+        fetchCampaigns(name='',id='') {
+           CommunicationServices.getCampaigns({"name":name,"application": id})
+           .then(res=>{
+             this.getCampaignDropdown(res.data.items)
+             this.changePage()
+           }).catch(err=>{
+               console.log(err);
+           })
         },
         getCampaignDropdown(data) {
             let dropdown = [];
@@ -369,11 +367,17 @@ export default {
             }
             if ((start && end && start < end) || (start && !end)) {
                 return 'valid';
-            } else if (start && end && start > end) {
+            } else if (start && end && start > end ) {
                 return 'invalid';
             } else if (end && !start) {
                 return 'notProvidedStart';
-            } else {
+            } 
+            else if (start){
+                if(this.filters.start.value == this.filters.end.value){
+                    return "same"
+                }
+            }
+            else {
                 return;
             }
         },
@@ -511,6 +515,10 @@ export default {
                 return;
             } else if (this.validateDates() == 'notProvidedEnd') {
                 this.$snackbar.global.showError('Please provide end date');
+                return;
+            }
+            else if (this.validateDates() == 'same') {
+                this.$snackbar.global.showError('Dates cannot be same');
                 return;
             }
             let filters = cloneDeep(this.filters);
@@ -725,7 +733,6 @@ export default {
             .search-box {
                 width: 80%;
                 height: 40px;
-
                 justify-content: space-between;
                 .search-input {
                     width: 100px;
