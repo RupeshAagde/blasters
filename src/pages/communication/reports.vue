@@ -401,7 +401,7 @@ export default {
             if (this.filters.status != 'all') {
                 params.query.status = this.filters.status;
             }
-            if (this.filters.type == 'identifier') {
+            if (this.filters.type == 'identifier' && this.filters.plainTextSearch) {
                 params.query['meta.identifier'] = {
                     $regex: this.filters.plainTextSearch,
                     $options: 'ig',
@@ -409,15 +409,18 @@ export default {
             }
             if (this.filters.type == 'phone') {
                 params.query.sms = { $exists: true };
+                if(this.filters.plainTextSearch){
                 params.query['sms.phone_number'] = this.filters.plainTextSearch;
+                }
             }
             if (this.filters.type == 'email') {
                 params.query.email = { $exists: true };
+                if(this.filters.plainTextSearch){
                 params.query['email.to'] = this.filters.plainTextSearch;
+                }
             }
             if (this.filters.type == 'all' && this.filters.plainTextSearch) {
                 let validEmail = validateEmail(this.filters.plainTextSearch);
-                console.log("email",validEmail);
                 let validPhone = validatePhone(this.filters.plainTextSearch);
                
                 if(validPhone){
@@ -443,7 +446,7 @@ export default {
 
                 }
             }
-            if (this.filters.templateSearch) {
+            if (this.filters.templateSearch ) {
                 let validPhone = validatePhone(this.filters.plainTextSearch);
                 let validEmail = validateEmail(this.filters.plainTextSearch);
                 if (validPhone) {
@@ -469,6 +472,7 @@ export default {
                     });
                 }
             }
+
             if (this.filters.job) {
                 params.query['meta.job'] = this.filters.job;
             }
