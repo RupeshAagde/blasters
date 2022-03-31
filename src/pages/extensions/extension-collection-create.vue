@@ -3,6 +3,19 @@
         <div class="page-header-position">
             <page-header @backClick="onCancel" :title="'Extension Collection'">
                 <div class="button-box">
+                    <div
+                        class="cursor-pointer cl-RoyalBlue bold-xs status-text"
+                    >
+                        {{
+                            collection_data.published
+                                ? 'Published'
+                                : 'Unpublished'
+                        }}
+                    </div>
+                    <nitrozen-toggle-btn
+                        v-model="collection_data.published"
+                        @input="changeStatus"
+                    ></nitrozen-toggle-btn>
                     <nitrozen-button
                         :theme="'secondary'"
                         @click="saveForm(true)"
@@ -261,7 +274,7 @@
                     </nitrozen-error>
                 </div>
                 <item-drawer
-                    v-show="showExtensionModal"
+                    v-if="showExtensionModal"
                     :isOpen="showExtensionModal"
                     :isCancelable="true"
                     :title="'Extension List'"
@@ -289,11 +302,13 @@
                             :key="index"
                             :ref="'extension-' + index"
                         >
-                            <div class="cross-icon">
+                            <div
+                                @click="removeExtension(extension)"
+                                class="cross-icon"
+                            >
                                 <nitrozen-inline
                                     :icon="'cross'"
                                     class="nitrozen-icon"
-                                    @click="removeExtnesion(extension)"
                                 ></nitrozen-inline>
                             </div>
                             <div class="base-card-left">
@@ -401,7 +416,8 @@ import {
     NitrozenTooltip,
     NitrozenChips,
     NitrozenInline,
-    NitrozenCheckBox
+    NitrozenCheckBox,
+    NitrozenToggleBtn
 } from '@gofynd/nitrozen-vue';
 import ItemDrawer from './item-drawer.vue';
 import { BaseModal } from '../../components/common/';
@@ -456,6 +472,7 @@ const RequiredFields = [
 export default {
     name: 'extension-review',
     components: {
+        'nitrozen-toggle-btn': NitrozenToggleBtn,
         'seo-component': seoComponent,
         'item-drawer': ItemDrawer,
         'base-modal': BaseModal,
@@ -502,7 +519,8 @@ export default {
                 current_status: '',
                 selected_extensions: [],
                 icon: '',
-                description: ''
+                description: '',
+                published: true
             },
             errors: {},
             tags: [],
@@ -524,6 +542,9 @@ export default {
         this.fetchExtension();
     },
     methods: {
+        changeStatus(value) {
+            this.collection_data.published = value;
+        },
         checkSlugDisable() {
             return !!this.$route.query.id;
         },
@@ -543,9 +564,15 @@ export default {
             });
             return !isEmpty(this.errors);
         },
-        removeExtnesion(item) {
-            this.collection_data.selected_extensions = this.collection_data.selected_extensions.filter(
+        removeExtension(item) {
+            const selected_extensions = this.collection_data.selected_extensions.filter(
                 (x) => x._id !== item._id
+            );
+            this.collection_data.selected_extensions = selected_extensions;
+            this.$set(
+                this.collection_data,
+                'selected_extensions',
+                selected_extensions
             );
         },
         isEditForm() {
@@ -730,6 +757,10 @@ export default {
     margin: 40px 0px;
 }
 .create-extension-collection {
+    .button-box {
+        display: flex;
+        align-items: center;
+    }
     .new-main-container {
         width: 60%;
         margin: 0 auto;

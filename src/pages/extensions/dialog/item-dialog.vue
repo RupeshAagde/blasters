@@ -22,6 +22,84 @@
     </nitrozen-dialog>
 </template>
 
+<script>
+import {
+    NitrozenInline,
+    NitrozenButton,
+    NitrozenDialog,
+    flatBtn
+} from '@gofynd/nitrozen-vue';
+export default {
+    name: 'item-dialog',
+    components: {
+        'nitrozen-button': NitrozenButton,
+        'inline-svg': NitrozenInline,
+        'nitrozen-dialog': NitrozenDialog
+    },
+    props: {
+        isOpen: {
+            type: Boolean,
+            default: false
+        },
+        title: {
+            type: String
+        },
+        modalClass: {
+            type: String,
+            default: null,
+            required: false
+        },
+        isCancelable: {
+            type: Boolean,
+            default: true
+        },
+        childHandleFocus: {
+            type: Boolean,
+            default: false
+        },
+        footerTitle: {
+            type: String
+        }
+    },
+    directives: {
+        flatBtn
+    },
+    updated() {
+        if (this.isOpen) {
+            this.$refs['products-data'].open({
+                width: '80%',
+                height: '89%',
+                showCloseButton: true,
+                dismissible: false,
+                neutralButtonLabel: ''
+            });
+        }
+    },
+    methods: {
+        onSubmit() {
+            const modal = this.$refs['products-data'];
+            modal && modal.close();
+            this.$emit('onSubmit');
+            document.body.style.position = 'relative';
+        }
+    },
+    mounted() {
+        this.$root.$el.append(this.$el);
+        this.$emit('modalRef', this.$refs['products-data']);
+    },
+    destroyed() {
+        if (
+            this.$el &&
+            this.$el.parentNode &&
+            this.$el.nodeName !== '#comment'
+        ) {
+            this.$el.parentNode.removeChild(this.$el);
+        }
+        document.body.style.overflowY = 'scroll';
+    }
+};
+</script>
+
 <style lang="less" scoped>
 .nitrozen-dialog-backdrop {
     .nitrozen-dialog {
@@ -110,81 +188,3 @@
     transform: unset;
 }
 </style>
-
-<script>
-import {
-    NitrozenInline,
-    NitrozenButton,
-    NitrozenDialog,
-    flatBtn
-} from '@gofynd/nitrozen-vue';
-export default {
-    name: 'item-dialog',
-    components: {
-        'nitrozen-button': NitrozenButton,
-        'inline-svg': NitrozenInline,
-        'nitrozen-dialog': NitrozenDialog
-    },
-    props: {
-        isOpen: {
-            type: Boolean,
-            default: false
-        },
-        title: {
-            type: String
-        },
-        modalClass: {
-            type: String,
-            default: null,
-            required: false
-        },
-        isCancelable: {
-            type: Boolean,
-            default: true
-        },
-        childHandleFocus: {
-            type: Boolean,
-            default: false
-        },
-        footerTitle: {
-            type: String
-        }
-    },
-    directives: {
-        flatBtn
-    },
-    updated() {
-        if (this.isOpen) {
-            this.$refs['products-data'].open({
-                width: '80%',
-                height: '89%',
-                showCloseButton: true,
-                dismissible: true,
-                neutralButtonLabel: ''
-            });
-        }
-    },
-    methods: {
-        onSubmit() {
-            this.$emit('onSubmit');
-            const modal = this.$refs['products-data'];
-            modal && modal.close();
-            document.body.style.position = 'relative';
-        }
-    },
-    mounted() {
-        this.$root.$el.append(this.$el);
-        this.$emit('modalRef', this.$refs['products-data']);
-    },
-    destroyed() {
-        if (
-            this.$el &&
-            this.$el.parentNode &&
-            this.$el.nodeName !== '#comment'
-        ) {
-            this.$el.parentNode.removeChild(this.$el);
-        }
-        document.body.style.overflowY = 'scroll';
-    }
-};
-</script>

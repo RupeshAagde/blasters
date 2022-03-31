@@ -40,30 +40,42 @@
             >
                 <div
                     class="mirage-list-card-container"
-                    v-for="(extension, index) in extension_collections"
+                    v-for="(collection, index) in extension_collections"
                     :key="index"
                     :ref="'extension-' + index"
-                    @click="redirectTo(extension._id)"
+                    @click="redirectTo(collection._id)"
                 >
                     <div class="card-avatar">
                         <img
                             :src="
-                                extension.banner.logo ||
+                                collection.banner.logo ||
                                     'https://res.cloudinary.com/dwzm9bysq/image/upload/v1588857854/production/applications/app_000000000000000000000001/media/collection/logo/w9ns7nfgv7fk45xqrpoh.png'
                             "
                             alt="collection logo"
                         />
                     </div>
-                    <div class="card-content-section">
-                        <div class="card-content-line-1">
-                            {{ extension.name }}
+                    <div class="card-content">
+                        <div class="card-content-section">
+                            <div class="card-content-line-1">
+                                {{ collection.name }}
+                            </div>
+                            <div class="card-content-line-2">
+                                {{ collection.desc }}
+                            </div>
+                            <div class="card-content-line-3">
+                                Type:
+                                {{ capitalizeStr(collection.collection_type) }}
+                            </div>
                         </div>
-                        <div class="card-content-line-2">
-                            {{ extension.desc }}
-                        </div>
-                        <div class="card-content-line-3">
-                            Type:
-                            {{ capitalizeStr(extension.collection_type) }}
+                        <div class="status">
+                            <nitrozen-badge
+                                state="success"
+                                v-if="collection.published"
+                                >PUBLISHED</nitrozen-badge
+                            >
+                            <nitrozen-badge state="warn" v-else
+                                >PENDING</nitrozen-badge
+                            >
                         </div>
                     </div>
                 </div>
@@ -121,7 +133,8 @@ import {
     strokeBtn,
     NitrozenInput,
     NitrozenError,
-    NitrozenPagination
+    NitrozenPagination,
+    NitrozenBadge
 } from '@gofynd/nitrozen-vue';
 import jumbotronVue from '@/components/common/jumbotron.vue';
 import loader from '@/components/common/loader';
@@ -146,6 +159,7 @@ const PAGINATION = {
 export default {
     name: 'extension-review',
     components: {
+        'nitrozen-badge': NitrozenBadge,
         'nitrozen-button': NitrozenButton,
         'nitrozen-input': NitrozenInput,
         'nitrozen-error': NitrozenError,
@@ -190,8 +204,8 @@ export default {
     },
     methods: {
         paginationChange(config) {
-            this.paginationConfig = config
-            this.fetchExtension()
+            this.paginationConfig = config;
+            this.fetchExtension();
         },
 
         debounceInput: debounce(function(e) {
@@ -279,6 +293,12 @@ export default {
                 width: 100%;
                 height: 100%;
             }
+        }
+        .card-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
         }
         .card-content-section {
             display: flex;
