@@ -101,15 +101,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.nitrozen-dialog-backdrop {
-    .nitrozen-dialog {
-        ::v-deep .nitrozen-dialog-footer {
-            margin: 0;
-            padding: 24px;
-            border-top: 1px solid #dcd7d7;
-        }
+.item-collection-dialog {
+    ::v-deep .nitrozen-dialog-body {
+        border-bottom: 1px solid #e1e1e1;
     }
 }
+
 .modal {
     position: fixed;
     top: 0;

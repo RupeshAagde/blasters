@@ -39,7 +39,9 @@
                             label="Name *"
                             placeholder="For eg. Summer Styles, Suit Up, etc."
                             v-model="collection_data.name"
-                            :showSuffix="true"
+                            @input="onNameInput"
+                            @change="onNameChange"
+                            @blur="onNameBlur"
                             :custom="true"
                         >
                         </nitrozen-input>
@@ -502,12 +504,13 @@ export default {
             pageError: false,
             pageLoading: false,
             isPageLoading: true,
+            slug_name: '',
             collection_data: {
                 collection_category: 'extension',
                 collection_type: 'handpicked',
                 seo: {
                     title: 'Title',
-                    description: 'Breif description about the'
+                    description: 'Breif description about the collection'
                 },
                 banner: {
                     logo: '',
@@ -520,7 +523,8 @@ export default {
                 selected_extensions: [],
                 icon: '',
                 description: '',
-                published: true
+                published: true,
+                slug: ''
             },
             errors: {},
             tags: [],
@@ -542,6 +546,26 @@ export default {
         this.fetchExtension();
     },
     methods: {
+        onNameChange(event) {},
+        onNameBlur() {
+            this.handleSlugChange(this.collection_data.slug);
+        },
+        onNameInput(slug) {
+            if (slug.length > 24) {
+                this.$set(
+                    this.duplicate_slug,
+                    'error',
+                    'Maximum length for slug is 24'
+                );
+                return;
+            }
+
+            // To append the last typed charater into the slug field
+            this.slug_name = slug.split('');
+            this.collection_data.slug =
+                (this.collection_data.slug || '') +
+                this.slug_name[this.slug_name.length - 1];
+        },
         changeStatus(value) {
             this.collection_data.published = value;
         },
@@ -699,6 +723,14 @@ export default {
                 .replace(/\s/gi, '-');
         },
         handleSlugChange: debounce(function(slug) {
+            if (slug.length > 24) {
+                this.$set(
+                    this.duplicate_slug,
+                    'error',
+                    'Maximum length for slug is 24'
+                );
+                return;
+            }
             if (slug.length) {
                 ExtensionService.checkDuplicateSlug(slug).then((res) => {
                     if (res.data.slug_exist) {
