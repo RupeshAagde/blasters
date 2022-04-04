@@ -79,10 +79,13 @@ const GRINGOTTS_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.GRINGOTTS_ADMIN_URL :
     envVars.GRINGOTTS_ADMIN_URL;
 
-    const COMMUNICATION_BASE_URL = isNode ?
+const COMMUNICATION_BASE_URL = isNode ?
     envVars.BROWSER_CONFIG.POINTBLANK_ADMIN_URL :
     envVars.POINTBLANK_ADMIN_URL;    
 
+const PLATFORM_ORDERS_BASE = isNode ?
+    envVars.BROWSER_CONFIG.APEFACE_ADMIN_URL :
+    envVars.APEFACE_ADMIN_SVC;
 
 const URLS = {
     // User Profile API's
@@ -612,6 +615,61 @@ const URLS = {
     COMMUNICATION_CAMPAIGNS: () => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/campaign`)
     },
+
+
+    // ============= Order Service Endpoints ============
+    ORDERS_LIST: () => {
+        return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/orders');
+    },
+    ORDER_LANES_COUNT: () => {
+        return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/company/', companyId, 'orders/lane-count');
+    },
+    ORDER_DETAILS: () => {
+        return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/orders/details');
+    },
+    ORDERS_PICKLIST: () => {
+        return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/company/', companyId, 'orders/picklist');
+    },
+    ORDER_SHIPMENTS_STATUS_UPDATE: companyId => {
+        return urlJoin(
+            PLATFORM_ORDERS_BASE,
+            `/v1.0/company/${companyId}/actions/status`
+        );
+    },
+    ORDER_SHIPMENTS_ADDRESS: (company_id, shipment_id, address_type) => {
+        return urlJoin(
+            PLATFORM_ORDERS_BASE,
+            `/v1.0/company/${company_id}/orders/shipments/${shipment_id}/address/${address_type}`
+        );
+    },
+    BAG_ACTIVITY_STATUS: () => {
+        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/company/${getCompInfo()}/actions/activity/status`);
+    },
+    STORE_PROCESS_SHIPMENTS: () => {
+        return urlJoin(
+            PLATFORM_ORDERS_BASE,
+            `/v1.0/company/${getCompInfo()}/actions/store/process-shipments`
+        );
+    },
+
+    //shipment breakable
+    SHIPMENT_CAN_BREAK_OR_NOT: () => {
+        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/company/${getCompInfo()}/actions/can-break`)
+    },
+
+    // shipment check refund
+    SHIPMENT_CHECK_REFUND: (shipmentId) => {
+        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/company/${getCompInfo()}/actions/check-refund/${shipmentId}`);
+    },
+    // shipment save bank details
+    SAVE_BANK_DETAILS: (appId) => {
+        return urlJoin(GRINGOTTS_BASE, `/v1.0/company/${getCompInfo()}/application/${appId}/refund/account`);
+    },
+    // shipment get bank details
+    GET_BANK_DETAILS: (appId) => {
+        return urlJoin(GRINGOTTS_BASE, `/v1.0/company/${getCompInfo()}/application/${appId}/refund/accounts/order`);
+    },
+    // ==================================================
 };
 
 export default URLS;
