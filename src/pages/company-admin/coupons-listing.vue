@@ -250,6 +250,9 @@ export default {
         this.searchText = code || this.searchText;
         this.pagination.current = +page || this.pagination.current;
         this.pagination.limit = +limit || this.pagination.limit;
+        },
+        audit(){
+            
         }
        
         
@@ -260,6 +263,7 @@ export default {
 
     },
     mounted(){
+        this.audit()
         this.populateFromURL()
        this.get_coupons_list()
 

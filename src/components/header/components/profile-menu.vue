@@ -49,6 +49,11 @@
             My Profile
           </span>
         </div>
+        <div @click="naviagteToAuditTrail" class="profile-dropdown-option">
+          <span class="new-org">
+            Audit Trail
+          </span>
+        </div>
         <div class="profile-dropdown-option" @click="signOut()">Logout</div>
       </div>
     </transition>
@@ -128,6 +133,9 @@ export default {
     },
     navigateToUserProfile() {
       window.open(`https://platform.${env.FYND_PLATFORM_DOMAIN}/user-profile`,'_blank')
+    },
+    naviagteToAuditTrail(){
+      this.$router.push('/administrator/audit-trail')
     },
     changeOrganization(slug) {
       this.$router.go(`partner/${slug}/home`)
