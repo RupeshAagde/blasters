@@ -86,10 +86,7 @@ const COMMUNICATION_BASE_URL = isNode ?
 const PINPOINTER_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.PINPOINTER_ADMIN_URL :
     envVars.PINPOINTER_ADMIN_URL;    
-
-const SKYWARP_ADMIN_URL = isNode ?
-    envVars.BROWSER_CONFIG.SKYWARP_ADMIN_URL :
-    envVars.SKYWARP_ADMIN_URL;     
+     
 
 
 const URLS = {
@@ -623,8 +620,12 @@ const URLS = {
     //PINPOINTER
     AUDIT_TRAIL: (id='') => {
         return urlJoin(PINPOINTER_ADMIN_URL, 'v1.0/logs/',id)
-    }
+    },
     //SKYWARP
+    // CHECK_USER: () => {
+    //     return urlJoin(SKYWARP_ADMIN_BASE, '')
+    // }
+
     
 };
 

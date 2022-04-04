@@ -351,13 +351,6 @@ const conf = convict({
             default: '',
             env: 'PINPOINTER_ADMIN_URL',
             arg: 'PINPOINTER_ADMIN_URL'
-        },
-        SKYWARP_ADMIN_URL: {
-            doc: 'Skywarp Admin Url',
-            format: String,
-            default: '',
-            env: 'SKYWARP_ADMIN_URL',
-            arg: 'SKYWARP_ADMIN_URL'
         }
     },
 

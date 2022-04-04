@@ -154,11 +154,6 @@ export default {
         'adm-no-content': PageEmpty,
         'shimmer': Shimmer,
     },
-    //  watch: {
-    //     $route() {
-    //         this.mapQueryParams();
-    //     },
-    // },
     computed: {
      
     },
@@ -259,6 +254,7 @@ export default {
             this.updateQueryParams({ [type]: e });
         },
         updateQueryParams(queryObj, resetPage = true) {
+            console.log(queryObj);
             let query = { ...this.$route.query };
             if (resetPage) {
                 query.nxt = undefined;
