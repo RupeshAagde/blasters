@@ -40,8 +40,6 @@
                             placeholder="For eg. Summer Styles, Suit Up, etc."
                             v-model="collection_data.name"
                             @input="onNameInput"
-                            @change="onNameChange"
-                            @blur="onNameBlur"
                             :custom="true"
                         >
                         </nitrozen-input>
@@ -504,7 +502,7 @@ export default {
             pageError: false,
             pageLoading: false,
             isPageLoading: true,
-            slug_name: '',
+            is_slug_dirty: false,
             collection_data: {
                 collection_category: 'extension',
                 collection_type: 'handpicked',
@@ -546,28 +544,11 @@ export default {
         this.fetchExtension();
     },
     methods: {
-        onNameChange(event) {},
-        onNameBlur() {
-            this.handleSlugChange(this.collection_data.slug);
-        },
         onNameInput(slug) {
-            if (slug.length > 24) {
-                this.$set(
-                    this.duplicate_slug,
-                    'error',
-                    'Maximum length for slug is 24'
-                );
+            if (this.is_slug_dirty) {
                 return;
             }
-
-            // To append the last typed charater into the slug field
-            if (this.slug_name.length > slug.length) {
-                return;
-            }
-            this.slug_name = slug.split('');
-            this.collection_data.slug =
-                (this.collection_data.slug || '') +
-                this.slug_name[this.slug_name.length - 1];
+            this.handleSlugChange(slug, true);
         },
         changeStatus(value) {
             this.collection_data.published = value;
@@ -725,7 +706,8 @@ export default {
                 .trim()
                 .replace(/\s/gi, '-');
         },
-        handleSlugChange: debounce(function(slug) {
+        handleSlugChange: debounce(function(slug, is_not_dirty) {
+            this.is_slug_dirty = !is_not_dirty;
             if (slug.length > 24) {
                 this.$set(
                     this.duplicate_slug,
