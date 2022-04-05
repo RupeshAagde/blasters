@@ -290,6 +290,9 @@ const URLS = {
     LIST_USERS: (userId = '') => {
         return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/admin/staff/${userId}`);
     },
+    CHECK_USER: () => {
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/user-info/search')
+    },
 
     DELETE_USERS: (uid) => {
         return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/admin/staff/${uid}`);
@@ -620,11 +623,8 @@ const URLS = {
     //PINPOINTER
     AUDIT_TRAIL: (id='') => {
         return urlJoin(PINPOINTER_ADMIN_URL, 'v1.0/logs/',id)
-    },
-    //SKYWARP
-    // CHECK_USER: () => {
-    //     return urlJoin(SKYWARP_ADMIN_BASE, '')
-    // }
+    }
+    
 
     
 };

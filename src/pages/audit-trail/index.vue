@@ -47,41 +47,27 @@
                                         :showSearchIcon="true"
                                         type="search"
                                         placeholder="Email or phone"
-                                        
+                                        v-model="filters.emailOrPhone.value"
+                                        @input="changeUserInfo"
                                         
                                     ></nitrozen-input>
-                                    <!-- <nitrozen-error
+                                    <nitrozen-error
                                         v-if="filters.emailOrPhone.showerror"
                                     >
                                         {{ filters.emailOrPhone.errortext }}
-                                    </nitrozen-error> -->
+                                    </nitrozen-error>
                                 </div>
                             </div>
-                            <div class="flex flex-start width-100 options-row">
-                                <div class="flex-1">
-                                    <nitrozen-dropdown
-                                    id="sales-channel"
-                                        label="Sales channel"
-                                        :searchable="true"
-                                        
-                                        :items="salesChannelsFiltered"
-                                        
-                                        placeholder="Sales channel"
-                                    ></nitrozen-dropdown>
-                                </div>
-                                <div class="flex-1 m-l-24">
+                                <div class="flex-1 entity">
                                     <nitrozen-dropdown
                                     id="entity-types"
                                         label="Entity types"
-                                        :searchable="true"
                                         v-model="filters.entityType"
                                         :items="entityTypes"
-                                        @change="entityTypeSelect"
+                                        @change="entityTypeSelect($event)"
                                         placeholder="Entity types"
                                     ></nitrozen-dropdown>
                                 </div>
-                               
-                            </div>
                         </div>
                     </div>
 
@@ -105,9 +91,11 @@
                         <nitrozen-pagination
                             name="Logs"
                             mode="cursor"
-                          
+                            @previousClick="paginationClick('prev')"
+                            @nextClick="paginationClick('next')"
                             v-model="pagination"
                             :pageSizeOptions="[5, 10, 20, 50]"
+                            @change="setPagination"
                         >
                         </nitrozen-pagination>
                     </div>
@@ -121,17 +109,12 @@
 
 <script>
 import Jumbotron from '@/components/common/jumbotron';
-
-
-
+import UserAccessService from './../../services/user-access.service';
 import logsListingCard from './logs-listing-card.vue';
 import DatePicker from '../../components/common/date-picker.vue';
-
-//import { debounce } from '../../../helper/utils';
-import { mapGetters } from 'vuex';
+import { debounce } from '../../helper/utils';
 import Shimmer from '@/components/common/shimmer';
 import AuditTrailServices from '../../services/pinpointer.service'
-
 import PageEmpty from '@/components/common/page-empty.vue';
 
 import {
@@ -155,7 +138,6 @@ export default {
         'shimmer': Shimmer,
     },
     computed: {
-     
     },
     data() {
         return {
@@ -163,7 +145,7 @@ export default {
             pagination: {
                 limit: 10,
                 nextPage: false,
-                prevPage: false,
+                prevPage: false, 
             },
 
             pageLoading: false,
@@ -171,7 +153,9 @@ export default {
             showPreviewModal: false,
             salesChannels: [],
             salesChannelsFiltered: [],
-            entityTypes: [{ text: 'Charge-Invoice', value: 'charge-invoice' },
+            entityTypes: [
+            { text: 'All', value: 'all'},    
+            { text: 'Charge-Invoice', value: 'charge-invoice' },
             { text: 'Invoices-Bulk-Update', value: 'invoices-bulk-update' },
             { text: 'Offline-paid', value: 'offline-paid' },
             { text: 'Subscription', value: 'subscription' },
@@ -180,7 +164,7 @@ export default {
             previewData: {},
             filters: {
                 salesChannel: this.getInitialValue(''),
-                entityType: this.getInitialValue(''),
+                entityType: 'all',
                 entityId: this.getInitialValue(''),
                 emailOrPhone: this.getInitialValue(''),
                 start: this.getInitialValue(''),
@@ -196,9 +180,18 @@ export default {
         };
     },
     mounted() {
-        this.mapQueryParams()
+        this.mapQueryParams();
     },
     methods: {
+         paginationClick(type) {
+            if (type == 'next') {
+                const index_id = this.logs[this.logs.length - 1]._id;
+                this.updateQueryParams({ nxt: index_id, prev: null });
+            } else if (type == 'prev') {
+                const index_id = this.logs[0]._id;
+                this.updateQueryParams({ nxt: null, prev: index_id });
+            }
+        },
         getLogs(params = {}) {
             this.pageLoading = true;
             params.limit = params.limit + 1;
@@ -254,7 +247,6 @@ export default {
             this.updateQueryParams({ [type]: e });
         },
         updateQueryParams(queryObj, resetPage = true) {
-            console.log(queryObj);
             let query = { ...this.$route.query };
             if (resetPage) {
                 query.nxt = undefined;
@@ -262,25 +254,27 @@ export default {
             }
             for (let type of Object.keys(queryObj)) {
                 query[type] = queryObj[type] ? queryObj[type] : undefined;
+               
             }
-            console.log(query);
             this.setUrlQueryParams(query);
         },
          setUrlQueryParams(query) {
             this.$router
                 .push({ name: 'audit-trail', query: query })
+                .then(()=>this.mapQueryParams())
                 .catch((rr) => {
                     console.log('ERROR', rr);
                 });
-                this.mapQueryParams()
+                
 
         },
          mapQueryParams() {
-            let query = { ...this.$route.query };
+          
+             let query = { ...this.$route.query };
             let db_query = {};
             let direction = null;
 
-            if (query.enttyp) {
+            if (query.enttyp && this.filters.entityType !== 'all') {
                 this.filters.entityType = query.enttyp;
                 db_query['entity.type'] = query.enttyp;
                 // const type = this.entityTypes.filter(
@@ -298,10 +292,6 @@ export default {
                 db_query['entity.id'] = query.entid;
             }
 
-            if (query.appid) {
-                this.filters.salesChannel.value = query.appid;
-                db_query['application'] = query.appid;
-            }
 
             if (query.usrid && query.usrval) {
                 this.filters.emailOrPhone.id = query.usrid;
@@ -366,387 +356,64 @@ export default {
                 
             });
         },
-         entityTypeSelect(value) {
-             console.log(value);
-            this.updateQueryParams({ enttyp: value, entid: null });
+        getUserFromEmailOrPhone(emailOrPhone) {
+            return UserAccessService.userSearch({query: emailOrPhone})
+                .then((data) => {
+                    if (data.data) {
+                        
+                        return data.data[0];
+                    } else {
+                        return null;
+                    }
+                });
+        },
+         entityTypeSelect(e) {
+            this.updateQueryParams({ enttyp: this.filters.entityType, entid: null });
+        },
+        getUserIdByEmailPhone() {
+            return new Promise((resolve, reject) => {
+                this.filters.emailOrPhone.id = '';
+                const param = this.filters.emailOrPhone.value;
+                if (param) {
+                    this.getUserFromEmailOrPhone(param)
+                        .then((user) => {
+                            if (user) {
+                                this.filters.emailOrPhone.showerror = false;
+                                this.filters.emailOrPhone.id = user._id;
+                                this.updateQueryParams({
+                                    usrid: user._id,
+                                    usrval: param,
+                                });
+                                resolve(user._id);
+                            } else {
+                                this.filters.emailOrPhone.errortext =
+                                    'User not found';
+                                this.filters.emailOrPhone.showerror = true;
+                                reject(null);
+                            }
+                        })
+                        .catch((err) => {
+                            console.log('Error in getUserIdByEmailPhone', err);
+                            reject(null);
+                        });
+                } else {
+                    reject(null);
+                }
+            });
+        },
+        changeUserInfo: debounce(function (e) {
+            if (e) {
+                this.getUserIdByEmailPhone();
+            } else {
+                this.updateQueryParams({ usrval: null, usrid: null });
+            }
+        }, 500),
+        setPagination(){
+            this.updateQueryParams({limit: this.pagination.limit})
         }
+        
     }
-    // methods: {
-    //     getInitialValue(val = '') {
-    //         return {
-    //             showerror: false,
-    //             value: val,
-    //             text: '',
-    //             errortext: '',
-    //         };
-    //     },
-    //     setUrlQueryParams(query) {
-    //         this.$router
-    //             .push({ name: 'audit-trail', query: query })
-    //             .catch((rr) => {
-    //                 console.log('ERROR', rr);
-    //             });
-    //     },
-    //     updateQueryParams(queryObj, resetPage = true) {
-    //         let query = { ...this.$route.query };
-    //         if (resetPage) {
-    //             query.nxt = undefined;
-    //             query.prev = undefined;
-    //         }
-    //         for (let type of Object.keys(queryObj)) {
-    //             query[type] = queryObj[type] ? queryObj[type] : undefined;
-    //         }
-    //         this.setUrlQueryParams(query);
-    //     },
-    //     mapQueryParams() {
-    //         let query = { ...this.$route.query };
-    //         let db_query = {};
-    //         let direction = null;
-
-    //         if (query.enttyp) {
-    //             this.filters.entityType.value = query.enttyp;
-    //             db_query['entity.type'] = query.enttyp;
-    //             const type = this.entityTypes.filter(
-    //                 (e) => e.value == query.enttyp
-    //             );
-    //             if (type.length) {
-    //                 this.filters.entityType.text = type[0].text;
-    //             }
-
-    //             this.handleEntityDataFetch();
-    //         }
-
-    //         if (query.entid) {
-    //             this.filters.entityId.value = Number(query.entid);
-    //             db_query['entity.id'] = query.entid;
-    //         }
-
-    //         if (query.appid) {
-    //             this.filters.salesChannel.value = query.appid;
-    //             db_query['application'] = query.appid;
-    //         }
-
-    //         if (query.usrid && query.usrval) {
-    //             this.filters.emailOrPhone.id = query.usrid;
-    //             this.filters.emailOrPhone.value = query.usrval;
-    //             db_query['modifier.user_id'] = query.usrid;
-    //         }
-
-    //         if (query.sdate) {
-    //             this.filters.start.value = query.sdate;
-    //             db_query.date = db_query.date || {};
-    //             db_query.date['$gte'] = query.sdate;
-    //         }
-
-    //         if (query.edate) {
-    //             this.filters.end.value = query.edate;
-    //             db_query.date = db_query.date || {};
-    //             db_query.date['$lte'] = query.edate;
-    //         }
-
-    //         if (query.nxt) {
-    //             db_query._id = { $lt: query.nxt };
-    //             direction = 'forward';
-    //         }
-
-    //         if (query.prev) {
-    //             db_query._id = { $gt: query.prev };
-    //             direction = 'backward';
-    //             query.sort = JSON.stringify({ _id: 1 });
-    //         }
-
-    //         query.limit =
-    //             query.limit && !isNaN(query.limit) ? Number(query.limit) : 10;
-
-    //         let _params = {
-    //             qs: JSON.stringify(db_query),
-    //             limit: query.limit,
-    //             company: this.$route.params.company_id,
-    //             sort: query.sort || JSON.stringify({ _id: -1 }),
-    //         };
-    //         const org_limit = _params.limit;
-    //         this.getLogs(_params).then((logs) => {
-    //             const lastLog = logs.splice(org_limit, 1);
-    //             const hasLast = lastLog.length ? true : false;
-
-    //             if (direction == 'forward') {
-    //                 this.pagination.nextPage = hasLast ? true : false;
-    //                 this.pagination.prevPage = true;
-    //                 this.logs = logs;
-    //             } else if (direction == 'backward') {
-    //                 logs = logs.reverse();
-    //                 this.pagination.nextPage = true;
-    //                 this.pagination.prevPage = hasLast ? true : false;
-    //                 let new_logs = [...logs, ...this.logs];
-    //                 if (new_logs.length > org_limit) {
-    //                     new_logs.length = org_limit;
-    //                 }
-    //                 this.logs = new_logs;
-    //             } else {
-    //                 this.pagination.nextPage = hasLast ? true : false;
-    //                 this.pagination.prevPage = false;
-    //                 this.logs = logs;
-    //             }
-    //         });
-    //     },
-    //     filterSalesChannel(e) {
-    //         if (!e.text) {
-    //             this.salesChannelsFiltered = Object.assign(
-    //                 [],
-    //                 this.salesChannels
-    //             );
-    //             this.updateQueryParams({ appid: null });
-    //             return;
-    //         }
-    //         this.salesChannelsFiltered = this.salesChannels.filter(
-    //             (channel) => channel.text.indexOf(e.text) > -1
-    //         );
-    //         return;
-    //     },
-    //     filterEntityTypes(e) {
-    //         if (!e.text) {
-    //             this.entityTypesFiltered = Object.assign([], this.entityTypes);
-    //             this.updateQueryParams({ enttyp: null, entid: null });
-    //             return;
-    //         }
-    //         this.entityTypesFiltered = this.entityTypes.filter(
-    //             (entity) =>
-    //                 entity.text.toLowerCase().indexOf(e.text.toLowerCase()) > -1
-    //         );
-    //         return;
-    //     },
-    //     changeUserInfo: debounce(function (e) {
-    //         if (e) {
-    //             this.getUserIdByEmailPhone();
-    //         } else {
-    //             this.updateQueryParams({ usrval: null, usrid: null });
-    //         }
-    //     }, 500),
-    //     getUserIdByEmailPhone() {
-    //         return new Promise((resolve, reject) => {
-    //             this.filters.emailOrPhone.id = '';
-    //             const param = this.filters.emailOrPhone.value;
-    //             if (param) {
-    //                 this.getUserFromEmailOrPhone(param)
-    //                     .then((user) => {
-    //                         if (user) {
-    //                             this.filters.emailOrPhone.showerror = false;
-    //                             this.filters.emailOrPhone.id = user._id;
-    //                             this.updateQueryParams({
-    //                                 usrid: user._id,
-    //                                 usrval: param,
-    //                             });
-    //                             resolve(user._id);
-    //                         } else {
-    //                             this.filters.emailOrPhone.errortext =
-    //                                 'User not found';
-    //                             this.filters.emailOrPhone.showerror = true;
-    //                             reject(null);
-    //                         }
-    //                     })
-    //                     .catch((err) => {
-    //                         console.log('Error in getUserIdByEmailPhone', err);
-    //                         reject(null);
-    //                     });
-    //             } else {
-    //                 reject(null);
-    //             }
-    //         });
-    //     },
-    //     getUserFromEmailOrPhone(emailOrPhone) {
-    //         return this.$store
-    //             .dispatch(PLATFORM_SEARCH_USER, {
-    //                 query: emailOrPhone,
-    //             })
-    //             .then((data) => {
-    //                 if (data.users && data.users.length > 0) {
-    //                     return data.users[0];
-    //                 } else {
-    //                     return null;
-    //                 }
-    //             });
-    //     },
-    //     onLogCardClicked(val) {
-    //         this.$router
-    //             .push(
-    //                 `${getCompanyBasePath(this.$route)}/audit-trail/logs/${
-    //                     val._id
-    //                 }`
-    //             )
-    //             .catch(() => {});
-    //     },
-    //     dateChanged(e, type) {
-    //         if (this.filters.start.value && this.filters.end.value) {
-    //             if (
-    //                 new Date(this.filters.start.value) >
-    //                 new Date(this.filters.end.value)
-    //             ) {
-    //                 if (type == 'sdate') {
-    //                     this.filters.start.value = '';
-    //                     this.$snackbar.global.showWarning(
-    //                         `Start Date should be less than End Date`
-    //                     );
-    //                 } else {
-    //                     this.filters.end.value = '';
-    //                     this.$snackbar.global.showWarning(
-    //                         `End Date should be greater than Start Date`
-    //                     );
-    //                 }
-    //                 return;
-    //             }
-    //         }
-    //         this.updateQueryParams({ [type]: e });
-    //     },
-    //     changeSalesChannel(value) {
-    //         this.updateQueryParams({ appid: value });
-    //     },
-    //     entityTypeSelect(value) {
-    //         this.updateQueryParams({ enttyp: value, entid: null });
-    //     },
-    //     entityItemSelect(value) {
-    //         this.updateQueryParams({ entid: value });
-    //     },
-    //     paginationClick(type) {
-    //         if (type == 'next') {
-    //             const index_id = this.logs[this.logs.length - 1]._id;
-    //             this.updateQueryParams({ nxt: index_id, prev: null });
-    //         } else if (type == 'prev') {
-    //             const index_id = this.logs[0]._id;
-    //             this.updateQueryParams({ nxt: null, prev: index_id });
-    //         }
-    //     },
-    //     getLogs(params = {}) {
-    //         this.pageLoading = true;
-    //         params.limit = params.limit + 1;
-    //         return AuditTrailService.getLogs(params)
-    //             .then((res) => res.data)
-    //             .then((data) => {
-    //                 return data && data.docs && data.docs.length
-    //                     ? data.docs
-    //                     : [];
-    //             })
-    //             .catch(console.log)
-    //             .finally(() => {
-    //                 this.pageLoading = false;
-    //             });
-    //     },
-    //     getStores(e = {}) {
-    //         const params = {
-    //             company: this.$route.params.company_id,
-    //             page_no: e.page_no || 1,
-    //             page_size: e.page_no || 50,
-    //         };
-    //         if (this.selectedEntityData.keyword) {
-    //             params.q = this.selectedEntityData.keyword;
-    //         }
-    //         return AdminSellerService.fetchStores(params)
-    //             .then(({ data }) => {
-    //                 const _data = data;
-    //                 if (params.page_no === 1) {
-    //                     this.selectedEntityData.items = _data.items.map(
-    //                         (e) => ({
-    //                             text: `${e.name} (${e.code})`,
-    //                             value: e.uid,
-    //                             ...e,
-    //                         })
-    //                     );
-    //                 } else {
-    //                     this.selectedEntityData.items = [
-    //                         ...this.selectedEntityData.items,
-    //                         ..._data.items.map((e) => ({
-    //                             text: `${e.name} (${e.code})`,
-    //                             value: e.uid,
-    //                             ...e,
-    //                         })),
-    //                     ];
-    //                 }
-    //                 this.selectedEntityData.page = _data.page;
-    //             })
-    //             .catch((err) => {
-    //                 console.log(err, 'error');
-    //             });
-    //     },
-    //     getBrands(e = {}) {
-    //         const params = {
-    //             page_no: e.page_no || 1,
-    //             page_size: e.page_size || 500,
-    //         };
-    //         if (this.selectedEntityData.keyword) {
-    //             // @TODO Check if q is added to API
-    //             params.q = this.selectedEntityData.keyword;
-    //         }
-    //         return AdminSellerService.fetchBrands(params)
-    //             .then(({ data }) => {
-    //                 const _data = data;
-    //                 if (params.page_no === 1) {
-    //                     this.selectedEntityData.items = _data.items.map(
-    //                         (e) => ({
-    //                             text: `${e.brand.name}`,
-    //                             value: e.brand.uid,
-    //                             ...e,
-    //                         })
-    //                     );
-    //                 } else {
-    //                     this.selectedEntityData.items = [
-    //                         ...this.selectedEntityData.items,
-    //                         ..._data.items.map((e) => ({
-    //                             text: `${e.brand.name}`,
-    //                             value: e.brand.uid,
-    //                             ...e,
-    //                         })),
-    //                     ];
-    //                 }
-    //                 this.selectedEntityData.page = _data.page;
-    //             })
-    //             .catch((err) => {
-    //                 console.log(err);
-    //             });
-    //     },
-    //     entityItemSearchChange: debounce(function (event) {
-    //         if (!event.text) {
-    //             this.updateQueryParams({ entid: null });
-    //         } else {
-    //             this.selectedEntityData.keyword = event.text;
-    //             this.handleEntityDataFetch();
-    //         }
-    //     }, 200),
-    //     entityItemsScroll(event) {
-    //         if (
-    //             this.selectedEntityData.page.has_next &&
-    //             event.scrollHeight - event.scrollTop <= 200
-    //         ) {
-    //             let params = {
-    //                 page_no: this.selectedEntityData.page.current + 1,
-    //             };
-    //             this.handleEntityDataFetch(params);
-    //         }
-    //     },
-    //     handleEntityDataFetch(params) {
-    //         const type =
-    //             this.filters.entityType && this.filters.entityType.value
-    //                 ? this.filters.entityType.value
-    //                 : null;
-    //         switch (type) {
-    //             case 'Brand':
-    //                 return this.getBrands(params);
-    //             case 'Store':
-    //                 return this.getStores(params);
-    //             default:
-    //                 return;
-    //         }
-    //     },
-    //     showEntityItems() {
-    //         return Boolean(
-    //             this.filters.entityType &&
-    //                 this.filters.entityType.value &&
-    //                 this.entityTypeDrillCases.includes(
-    //                     this.filters.entityType.value
-    //                 ) &&
-    //                 this.selectedEntityData.items
-    //         );
-    //     },
-    // },
-};
+}
 </script>
 
 <style lang="less" scoped>
@@ -816,5 +483,8 @@ export default {
             margin: 24px 0px;
         }
     }
+}
+.entity{
+    width: 32%;
 }
 </style>
