@@ -26,7 +26,7 @@
                             {{ filterData.key.display }}
                         </div>
                         <div
-                            class="filter-section"
+                            class="filter-section-item"
                             v-for="(filterValue, index) in filterData.values"
                             :key="index"
                             :ref="'extension-' + index"
@@ -659,12 +659,13 @@ export default {
         min-width: 280px;
         max-height: calc(82vh - 100px);
         overflow-y: scroll;
-        .filter-head {
-            margin-right: 15px;
-        }
         .filter-section {
             padding: 10px 0px;
             position: relative;
+            .filter-section-item {
+                position: relative;
+                padding: 10px 15px;
+            }
             .filter-item {
                 font-size: 16px;
                 font-weight: 400;
@@ -672,6 +673,7 @@ export default {
                 border-bottom: 1px solid #dcd7d7;
                 margin-bottom: 10px;
                 color: #898989;
+                padding-left: 15px;
             }
             .extension-count {
                 margin-left: 5px;
@@ -810,7 +812,7 @@ export default {
 }
 .arrow {
     position: absolute;
-    right: 0px;
+    right: 10px;
     top: 15px;
     border: solid #333333;
     opacity: 0.75;

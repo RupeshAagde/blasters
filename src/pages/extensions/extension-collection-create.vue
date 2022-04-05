@@ -561,6 +561,9 @@ export default {
             }
 
             // To append the last typed charater into the slug field
+            if (this.slug_name.length > slug.length) {
+                return;
+            }
             this.slug_name = slug.split('');
             this.collection_data.slug =
                 (this.collection_data.slug || '') +

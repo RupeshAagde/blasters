@@ -103,6 +103,7 @@ export default {
 <style lang="less" scoped>
 .item-collection-dialog {
     ::v-deep .nitrozen-dialog-body {
+        padding-left: 0px;
         border-bottom: 1px solid #e1e1e1;
     }
 }
