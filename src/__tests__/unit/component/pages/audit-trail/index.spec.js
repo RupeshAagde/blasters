@@ -48,7 +48,7 @@ describe('Mounted audit logs', () => {
     });
     it('exists wrapper and div', async () => {
 
-        await new Promise(resolve => setTimeout(resolve, 600));
+        await new Promise(resolve => setTimeout(resolve, 10));
 
         expect(wrapper.vm).toBeTruthy()
         expect(wrapper.element).toMatchSnapshot();

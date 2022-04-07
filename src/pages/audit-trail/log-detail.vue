@@ -414,23 +414,11 @@ export default {
             }
             window.open(link, '_blank');
         },
-        goToLogDetails(log_id, newTab = false) {
-            if (newTab) {
-                let routePath = this.$router.resolve({
-                    name: 'audit-trail-details',
-                    params: {
-                        id: log_id,
-                    },
-                });
-                window.open(routePath.href, '_blank');
-            } else {
-                let routePath = this.$router.push({
-                    name: 'audit-trail-details',
-                    params: {
-                        id: log_id,
-                    },
-                });
-            }
+        goToLogDetails(log_id) {
+        this.$router.push({
+                        path: `/administrator/audit-trail/logs/${log_id}`
+                        }).catch(()=>{})
+        this.init()                
         },
         dateFormatter(value) {
             if (!value) return '';
@@ -496,7 +484,7 @@ export default {
         goToOldLogDetails() {
             let old_log_id = this.auditLog.old_logs._id;
             if (old_log_id) {
-                this.goToLogDetails(old_log_id, true);
+                this.goToLogDetails(old_log_id);
             }
         },
     },

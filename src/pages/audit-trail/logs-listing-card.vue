@@ -54,21 +54,6 @@ import get from 'lodash/get';
 export default {
     name: 'log-listing-card',
     props: ['log', 'truncateTitle'],
-    computed: {
-        // application() {
-        //     if (!this.companyApplications) {
-        //         return;
-        //     }
-        //     if (this.companyApplications.length == 0) {
-        //         return;
-        //     }
-        //     if (this.log.application) {
-        //         return this.companyApplications.find((app) => {
-        //             return app._id == this.log.application;
-        //         });
-        //     }
-        //}
-    },
     components: {
         'nitrozen-badge': NitrozenBadge,
         'adm-text-avatar': admTextAvatar,
