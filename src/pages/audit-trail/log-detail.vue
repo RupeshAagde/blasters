@@ -104,7 +104,7 @@
                             @openLog="goToLogDetails(log._id)"
                         ></logs-listing-card>
                     </div>
-                    <div class="view-more" @click="viewMoreLogs('past')">
+                    <div class="view-more" id="view" @click="viewMoreLogs('past')">
                         View more
                     </div>
                 </div>
@@ -657,10 +657,6 @@ export default {
         .log-json.old-log {
             background: rgba(243, 31, 116, 0.04);
         }
-    }
-
-    .audit-details {
-        // max-height: 400px;
     }
 
     .details-container {

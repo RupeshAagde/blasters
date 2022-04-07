@@ -15,7 +15,7 @@
             </div>
             <div class="flex card-content-line-2">
                 <div>
-                    {{ safeGet(log, 'modifier.user_details.first_name') }}
+                    {{ safeGet(log, 'modifier.user_details.first_name') }} {{ safeGet(log, 'modifier.user_details.last_name') }}
                 </div>
                 <div v-if="safeGet(log, 'modifier.as_administrator')">
                     &nbsp;(as administrator)

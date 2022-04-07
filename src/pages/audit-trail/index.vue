@@ -277,14 +277,6 @@ export default {
             if (query.enttyp && this.filters.entityType !== 'all') {
                 this.filters.entityType = query.enttyp;
                 db_query['entity.type'] = query.enttyp;
-                // const type = this.entityTypes.filter(
-                //     (e) => e.value == query.enttyp
-                // );
-                // if (type.length) {
-                //     this.filters.entityType.text = type[0].text;
-                // }
-
-                // this.handleEntityDataFetch();
             }
 
             if (query.entid) {
@@ -303,6 +295,7 @@ export default {
                 this.filters.start.value = query.sdate;
                 db_query.date = db_query.date || {};
                 db_query.date['$gte'] = query.sdate;
+                query.sort = JSON.stringify({ _id: 1 });
             }
 
             if (query.edate) {
@@ -319,7 +312,6 @@ export default {
             if (query.prev) {
                 db_query._id = { $gt: query.prev };
                 direction = 'backward';
-                query.sort = JSON.stringify({ _id: 1 });
             }
 
             query.limit =
@@ -401,8 +393,8 @@ export default {
                 }
             });
         },
-        changeUserInfo: debounce(function (e) {
-            if (e) {
+        changeUserInfo: debounce(function () {
+            if (this.filters.emailOrPhone.value) {
                 this.getUserIdByEmailPhone();
             } else {
                 this.updateQueryParams({ usrval: null, usrid: null });

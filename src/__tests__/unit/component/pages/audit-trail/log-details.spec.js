@@ -8,7 +8,7 @@ import MockAdapter from 'axios-mock-adapter';
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import URLS from "./../../../../../services/domain.service"
-//import MOCK_DATA from "./fixtures/reports.json";
+import MOCK_DATA from "./fixtures.json";
 import flushPromises from "flush-promises";
 
 const mock = new MockAdapter(axios);
@@ -23,11 +23,8 @@ describe('Mounted audit logs', () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
         mock.reset();
-        mock.onGet(URLS.AUDIT_TRAIL('62333580ac555e84959b9835')).reply(200, {});
-        mock.onGet(URLS.AUDIT_TRAIL()).reply(200, {});
-
-    
-
+        mock.onGet(URLS.AUDIT_TRAIL('62333580ac555e84959b9835')).reply(200, MOCK_DATA.audit_by_id );
+        mock.onGet(URLS.AUDIT_TRAIL()).reply(200, MOCK_DATA.audit_log);
 
         router = new VueRouter({
             routes: [{
@@ -53,8 +50,10 @@ describe('Mounted audit logs', () => {
         expect(wrapper.element).toMatchSnapshot();
         wrapper.vm.auditLog = {entity: {type:'subscription'}}
         wrapper.vm.backRedirect();
-        //wrapper.vm.updateQueryParams({sdate: '2022-04-11T18:30:00.000Z'},true);
-        //wrapper.vm.setUrlQueryParams()
+       
+        const viewMore = wrapper.find('#view')
+       expect(viewMore.exists()).toBe(true);
+       viewMore.trigger('click')
 
 
     })

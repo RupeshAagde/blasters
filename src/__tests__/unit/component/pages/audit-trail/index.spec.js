@@ -8,7 +8,7 @@ import MockAdapter from 'axios-mock-adapter';
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import URLS from "./../../../../../services/domain.service"
-//import MOCK_DATA from "./fixtures/reports.json";
+import MOCK_DATA from "./fixtures.json";
 import flushPromises from "flush-promises";
 
 const mock = new MockAdapter(axios);
@@ -18,12 +18,15 @@ let wrapper, router
 
 
 
+
 describe('Mounted audit logs', () => {
     beforeEach(async () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
         mock.reset();
-        mock.onGet(URLS.AUDIT_TRAIL()).reply(200, {});
+        mock.onGet(URLS.AUDIT_TRAIL()).reply(200, MOCK_DATA.audit_log);
+        mock.onGet(URLS.SEARCH_USER()).reply(200, MOCK_DATA.user_info);
+
     
 
 
@@ -33,7 +36,7 @@ describe('Mounted audit logs', () => {
                 component: AuditPage
             }]
         })
-        router.push('/administrator/audit-trail');
+        router.push('/administrator/audit-trail?sdate=2022-02-28T18%3A30%3A00.000Z&edate=2022-03-24T18%3A30%3A00.000Z&usrid=6dea800ff2befc54a6342d52&usrval=9557999334&enttyp=subscription');
         wrapper = mount( AuditPage , {
             localVue,
             router,
@@ -45,19 +48,19 @@ describe('Mounted audit logs', () => {
     });
     it('exists wrapper and div', async () => {
 
-        await new Promise(resolve => setTimeout(resolve, 10));
+        await new Promise(resolve => setTimeout(resolve, 600));
 
         expect(wrapper.vm).toBeTruthy()
         expect(wrapper.element).toMatchSnapshot();
         wrapper.vm.dateChanged();
-        wrapper.vm.updateQueryParams({sdate: '2022-04-11T18:30:00.000Z'},true);
-        wrapper.vm.setUrlQueryParams()
+    
+        wrapper.vm.filters.emailOrPhone.value = "9557999334"
+        wrapper.vm.getUserIdByEmailPhone()
+
+        wrapper.vm.paginationClick('next')
+
+        
 
 
     })
-   
-   
-
-    
-
 })

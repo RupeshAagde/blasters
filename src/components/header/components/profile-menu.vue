@@ -135,7 +135,9 @@ export default {
       window.open(`https://platform.${env.FYND_PLATFORM_DOMAIN}/user-profile`,'_blank')
     },
     naviagteToAuditTrail(){
+      this.closeProfileDropdown()
       this.$router.push('/administrator/audit-trail')
+
     },
     changeOrganization(slug) {
       this.$router.go(`partner/${slug}/home`)
