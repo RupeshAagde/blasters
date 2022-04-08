@@ -553,7 +553,7 @@ export default {
         //     this.fetchDeploymentStores();
         // }
         this.populateFilters();
-       // this.fetchOrders();
+        this.fetchOrders();
         
         // this.fetchOrderLaneCount(true);
         const auto_refresh = LocalStorageService.getItem(

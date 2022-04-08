@@ -108,21 +108,43 @@ export const getSelectedCurrencyPrice = (amount, exchangeRate) => {
     return amount;
 };
 
-// export const detectMobile = () => {
-//   if (
-//     navigator.userAgent.match(/Android/i) ||
-//     navigator.userAgent.match(/webOS/i) ||
-//     navigator.userAgent.match(/iPhone/i) ||
-//     navigator.userAgent.match(/iPad/i) ||
-//     navigator.userAgent.match(/iPod/i) ||
-//     navigator.userAgent.match(/BlackBerry/i) ||
-//     navigator.userAgent.match(/Windows Phone/i)
-//   ) {
-//     return true
-//   } else {
-//     return false
-//   }
-// }
+export const detectMobile = () => {
+  if (
+    navigator.userAgent.match(/Android/i) ||
+    navigator.userAgent.match(/webOS/i) ||
+    navigator.userAgent.match(/iPhone/i) ||
+    navigator.userAgent.match(/iPad/i) ||
+    navigator.userAgent.match(/iPod/i) ||
+    navigator.userAgent.match(/BlackBerry/i) ||
+    navigator.userAgent.match(/Windows Phone/i)
+  ) {
+    return true
+  } else {
+    return false
+  }
+}
+
+export const detectFPApp = () => {
+    // return  {
+    //     "user_agent": "fyndplatform",
+    //     "navigation_bar": {
+    //       "font-size": 22,
+    //       "font-weight": 600,
+    //       "height": 14,
+    //       "title-alignment": "left"
+    //     },
+    //     "footer": {
+    //       "font-size": 113,
+    //       "font-weight": 400,
+    //       "height": 54,
+    //       "title-alignment": "center"
+    //     }
+    // };
+    if (isBrowser) {
+        return window.__fpAppDetails;
+    };
+    return false;
+};
 
 export const detectMobileWidth = () => {
     if (isBrowser) {

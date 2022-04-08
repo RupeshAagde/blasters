@@ -47,6 +47,7 @@ import ProductTaxationEdit from '@/pages/product/taxation/edit';
 import IntegrationsListVue from '@/pages/integration/list';
 import IntegrationsCreateVue from '@/pages/integration/create';
 const OrdersPage =()=>import('@/pages/orders');
+const OrderDetails = () => import('@/pages/orders/order-details.vue');
 
 import { authenticatedUser, checkUserPermission } from './../guards';
 
@@ -570,6 +571,17 @@ export default [
             component: OrdersPage,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'application-order-details',
+            path: '/order/:orderId/shipments',
+            component: OrderDetails,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            },
+            meta: {
+                name: 'Application Order Details'
             }
         },
         // =============================================================
