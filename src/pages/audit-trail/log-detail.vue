@@ -323,6 +323,11 @@ export default {
                 : null;
         },
     },
+     watch: {
+        $route() {
+            this.init();
+        },
+    },
     components: {
         'nitrozen-badge': NitrozenBadge,
         'adm-text-avatar': admTextAvatar,
@@ -349,13 +354,17 @@ export default {
         };
     },
     methods: {
-        init() {
-            this.id = this.$route.params.id;
+        init(id = null) {
+            if(id) {
+                this.id = id
+            } else {
+                this.id = this.$route.params.id;
+            }
+            
             this.pageLoading = true;
             this.fetchLogDetails()
                 .then(({ data }) => {
                     this.auditLog = data;
-
                     // Configure Log Diff
                     const leftJSON = this.getOldLogsJSON() || {};
                     const rightJSON = this.getLogsJSON() || {};
@@ -415,10 +424,13 @@ export default {
             window.open(link, '_blank');
         },
         goToLogDetails(log_id) {
-        this.$router.push({
-                        path: `/administrator/audit-trail/logs/${log_id}`
-                        }).catch(()=>{})
-        this.init()                
+            this.$router.push({
+                        name: 'audit-trail-detail',
+                        params: {
+                        id: log_id,
+                     },
+                        })
+            this.init(log_id)              
         },
         dateFormatter(value) {
             if (!value) return '';
