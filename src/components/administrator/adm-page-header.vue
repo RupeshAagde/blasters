@@ -3,7 +3,7 @@
         <div class="page-header" :class="{'width-100':!showSidebar}">
             <div class="page-nav" :class="{'page-nav-fullscreen':!showSidebar}" :style="fpAppHeaderStyle.headerHeight || {}">
                 <div class="back-button-title">
-                    <adm-inline-svg
+                    <inline-svg
                         class="page-nav-back-text"
                         :src="'arrow-nitrozen'"
                         @click.stop.native="backClick"
@@ -14,7 +14,7 @@
                         v-if="showBackButton"
                         @click="backClick"
                     >
-                        <adm-inline-svg src="arrow-dropdown-black"></adm-inline-svg>
+                        <inline-svg src="arrow-dropdown-black"></inline-svg>
                     </span>
                     <div
                         v-if="title"
@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import adminlinesvg from '@/components/common/adm-inline-svg';
+import inlinesvg from '@/components/common/inline-svg';
 import admMetaDialog from '@/components/common/adm-meta-dialog';
 import admCustomJsonDialog from '@/components/common/custom-json-dialog';
 import { detectFPApp, detectMobile, detectMobileWidth } from '@/helper/utils';
@@ -100,7 +100,7 @@ export default {
         'nitrozen-badge': NitrozenBadge,
         'adm-meta-dialog': admMetaDialog,
         'nitrozen-button': NitrozenButton,
-        'adm-inline-svg': adminlinesvg,
+        'inline-svg': inlinesvg,
         'nitrozen-menu': NitrozenMenu,
         'nitrozen-menu-item': NitrozenMenuItem,
         'adm-custom-json-dialog': admCustomJsonDialog

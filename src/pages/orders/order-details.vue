@@ -50,7 +50,7 @@
             </adm-page-header>
         </div>
         <div class="main-container">
-            <mirage-alert
+            <!-- <mirage-alert
                 :dismissible="true"
                 ref="intro"
                 class="intro"
@@ -87,8 +87,8 @@
                         Got it!
                     </nitrozen-button>
                 </div>
-            </mirage-alert>
-            <mirage-alert class="support-alert">
+            </mirage-alert> -->
+            <!-- <mirage-alert class="support-alert">
                 <div class="support-container">
                     <div class="email">
                         Email:
@@ -107,7 +107,7 @@
                         </a>
                     </div>
                 </div>
-            </mirage-alert>
+            </mirage-alert> -->
             <!-- 
                 TODO: think on it, do not delete
                 <mirage-alert
@@ -128,7 +128,7 @@
                     </span>
                 </div>
             </mirage-alert> -->
-            <mirage-alert
+            <!-- <mirage-alert
                 :dismissible="errorAlert.dismissable"
                 type="error"
                 ref="errorAlert"
@@ -141,7 +141,7 @@
                         {{ item }}
                     </li>
                 </div>
-            </mirage-alert>
+            </mirage-alert> -->
             <div v-if="orderFilters.length" class="order-filters">
                 <nitrozen-badge
                     v-for="(f, i) in orderFilters"
@@ -367,7 +367,7 @@ export default {
         NitrozenDropdown,
         // ClickToCallDialog,
         // ShipmentCancellationDialog,
-        // MirageAlert,
+        // MirageAlert
     },
     directives: {
         flatBtn,
@@ -822,9 +822,10 @@ export default {
         goToOrderList: function () {
             this.$router
                 .push({
-                    name: this.applicationId
-                        ? 'application-orders'
-                        : 'company-orders',
+                    // name: this.applicationId
+                    //     ? 'application-orders'
+                    //     : 'company-orders',
+                    name: 'orders',
                     query: { ...this.$route.query },
                 })
                 .catch(() => {});
