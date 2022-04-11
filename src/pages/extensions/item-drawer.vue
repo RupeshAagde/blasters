@@ -5,7 +5,7 @@
             :isOpen="isOpen"
             :isCancelable="true"
             :title="title"
-            @closedialog="closeModal"
+            @closeModal="closeModalDialog"
             @onSubmit="onSelectExtensions"
             :footerTitle="
                 `Add ${extensions_selected.length} ${
@@ -117,7 +117,7 @@
                     </div>
                     <div class="modal-overflow-y">
                         <div class="top-chips">
-                            <div v-show="!inProgress" class="result-count">
+                            <div class="result-count">
                                 {{ getCounts() }}
                             </div>
                             <nitrozen-chips
@@ -149,6 +149,16 @@
                                 :ref="'extension-' + index"
                             >
                                 <div class="extension-card">
+                                    <div
+                                        class="extension-overlay"
+                                        v-on:click="
+                                            selectExtension(
+                                                !extension.is_selected,
+                                                extension,
+                                                $event
+                                            )
+                                        "
+                                    ></div>
                                     <div>
                                         <div class="extension-checkbox">
                                             <nitrozen-checkbox
@@ -264,7 +274,7 @@ import {
     NitrozenChips,
     NitrozenInline
 } from '@gofynd/nitrozen-vue';
-import { isEmpty, uniqBy } from 'lodash';
+import { isEmpty, uniqBy, cloneDeep } from 'lodash';
 
 const PAGINATION = {
     limit: 20,
@@ -319,6 +329,8 @@ export default {
             extension_data: [],
             inProgress: true,
             extensions_selected: [],
+            extensions_selected_ids: [],
+            previous_state: [],
             searchText: '',
             categoryFilters: [],
             whichOpen: 'all',
@@ -331,12 +343,14 @@ export default {
     },
     mounted() {
         this.fetchExtensions();
+        this.previous_state = cloneDeep(this.selected_extensions);
+        this.extensions_selected_ids = [];
     },
     computed: {},
     methods: {
         getCounts() {
             if (!this.paginationInfo) {
-                return '';
+                return '0 - 0 of 0 Extensions';
             }
             const {
                 current,
@@ -534,7 +548,9 @@ export default {
             );
             Promise.all([getAllPulblicExtension, getExtnesionCategory]).then(
                 ([data, category]) => {
-                    this.extensions_selected = this.selected_extensions;
+                    this.extensions_selected = cloneDeep(
+                        this.selected_extensions
+                    );
                     const all_selected = [
                         ...this.selected_extensions,
                         ...this.extensions_selected
@@ -586,6 +602,7 @@ export default {
         selectExtension(state, data, source) {
             if (state) {
                 this.extensions_selected.push(data);
+                this.extensions_selected_ids.push(data._id);
                 this.extension_data = this.extension_data.map((ext) => {
                     if (data._id === ext._id) {
                         ext.is_selected = true;
@@ -593,6 +610,7 @@ export default {
                     return ext;
                 });
             } else {
+                this.extensions_selected_ids.filter((x) => x === data._id);
                 this.extensions_selected = this.extensions_selected.filter(
                     (extension) => extension._id !== data._id
                 );
@@ -615,8 +633,8 @@ export default {
         onSelectExtensions() {
             this.$emit('onAddExtensions', this.extensions_selected);
         },
-        closeModal() {
-            this.$emit('closeModal');
+        closeModalDialog() {
+            this.$emit('closeProductModal');
         },
         saveModalRef(modalRef) {
             this.$emit('handleModalRef', modalRef);
@@ -753,6 +771,13 @@ export default {
                 max-height: 150px;
                 position: relative;
                 align-items: start;
+                .extension-overlay {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+                }
                 .extension-checkbox {
                     padding-bottom: 30px;
                     padding-top: 5px;

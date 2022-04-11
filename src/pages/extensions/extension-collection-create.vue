@@ -280,7 +280,7 @@
                     :title="'Extension List'"
                     @onAddExtensions="addSelectedExtensions"
                     :selected_extensions="collection_data.selected_extensions"
-                    @closeModal="closeModal"
+                    @closeProductModal="closeModal"
                     @handleModalRef="setModalRef"
                     @getExtensionData="setExtensionData"
                 >
@@ -545,7 +545,7 @@ export default {
     },
     methods: {
         onNameInput(slug) {
-            if (this.is_slug_dirty) {
+            if (this.is_slug_dirty || this.checkSlugDisable()) {
                 return;
             }
             this.handleSlugChange(slug, true);
@@ -621,7 +621,6 @@ export default {
         },
         closeModal() {
             this.showExtensionModal = false;
-            this.modalRef && this.modalRef.close();
         },
         onSelectedFilters() {},
         focusOnChipInput() {

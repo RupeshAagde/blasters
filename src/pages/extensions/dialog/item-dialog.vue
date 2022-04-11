@@ -3,6 +3,7 @@
         ref="products-data"
         class="item-collection-dialog"
         :title="title"
+        @close="closedialog"
     >
         <template slot="body">
             <slot />
@@ -76,6 +77,9 @@ export default {
         }
     },
     methods: {
+        closedialog() {
+            this.$emit('closeModal');
+        },
         onSubmit() {
             const modal = this.$refs['products-data'];
             modal && modal.close();
@@ -105,6 +109,7 @@ export default {
     ::v-deep .nitrozen-dialog-body {
         padding-left: 0px;
         border-bottom: 1px solid #e1e1e1;
+        margin-top: -24px;
     }
 }
 
