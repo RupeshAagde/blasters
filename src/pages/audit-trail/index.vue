@@ -159,9 +159,8 @@ export default {
             { text: 'Invoices-Bulk-Update', value: 'invoices-bulk-update' },
             { text: 'Offline-paid', value: 'offline-paid' },
             { text: 'Subscription', value: 'subscription' },
-            
+            { text: 'HSN Code', value: 'hsn_code' },
             ],
-            previewData: {},
             filters: {
                 salesChannel: this.getInitialValue(''),
                 entityType: 'all',
@@ -169,14 +168,7 @@ export default {
                 emailOrPhone: this.getInitialValue(''),
                 start: this.getInitialValue(''),
                 end: this.getInitialValue(''),
-            },
-
-            entityTypeDrillCases: ['Brand', 'Store'],
-            selectedEntityData: {
-                items: [],
-                page: {},
-                keyword: '',
-            },
+            }
         };
     },
     mounted() {
@@ -397,6 +389,7 @@ export default {
             if (this.filters.emailOrPhone.value) {
                 this.getUserIdByEmailPhone();
             } else {
+                this.filters.emailOrPhone.showerror = false;
                 this.updateQueryParams({ usrval: null, usrid: null });
             }
         }, 500),
