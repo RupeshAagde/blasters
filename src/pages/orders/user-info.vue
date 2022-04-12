@@ -42,6 +42,7 @@
 <script>
 import AdmInlineSvg from '@/components/common/adm-inline-svg.vue';
 // import { GET_EMPLOYEE_ACCESS_DETAIL } from '@/store/getters.type';
+import { IS_VALID_USER } from '@/store/getters.type';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -58,7 +59,11 @@ export default {
         },
         ...mapGetters({
             // accessDetail: GET_EMPLOYEE_ACCESS_DETAIL
+            accessDetail: IS_VALID_USER
         }),
+    },
+    mounted() {
+        console.log("Here");
     },
     data() {
         return {};
