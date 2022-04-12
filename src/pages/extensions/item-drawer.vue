@@ -358,7 +358,7 @@ export default {
                 has_next
             } = this.paginationInfo;
             if (!current || !total) {
-                return '';
+                return '0 - 0 of 0 Extensions';
             }
             return `${
                 current > 1 ? (current - 1) * PAGINATION.limit + 1 : current
@@ -494,6 +494,13 @@ export default {
                     this.query.l1 = parentData.slug;
                 }
                 this.slugsL2 = value;
+            }
+            if(value.key  === 'all'){
+                this.slugsL1 = {}
+                this.slugsL2 = {}
+                this.query = {};
+                this.fetchExtensions(1, '', this.query);
+                return;
             }
             if (!value.parent && value.type !== 'price_filter') {
                 this.toggleArrow(value);
@@ -744,7 +751,6 @@ export default {
             .clear-filter {
                 color: #2e31be;
                 margin-left: 10px;
-                font-weight: bold;
                 &:hover {
                     text-decoration: underline;
                     cursor: pointer;

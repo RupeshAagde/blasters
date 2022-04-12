@@ -287,7 +287,7 @@
                 </item-drawer>
                 <div class="p-24-bg-white">
                     <page-empty
-                        :text="'No Extension selected for this collection'"
+                        :text="'No Extensions selected for this collection'"
                         v-if="!collection_data.selected_extensions.length"
                     >
                     </page-empty>
