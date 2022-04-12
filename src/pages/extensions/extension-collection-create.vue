@@ -703,9 +703,14 @@ export default {
             return str
                 .toLowerCase()
                 .trim()
-                .replace(/\s/gi, '-');
+                .replace(/\s/gi, '-')
+                .replace(/[&\/\\#!,+()$@~%./^/&'":*?<>{}]/g,'');
         },
         handleSlugChange: debounce(function(slug, is_not_dirty) {
+            if(slug.includes('&') || slug.includes('%')){
+                this.collection_data.slug = this.collection_data.slug.replace(/[&,%]/g,'')
+                return;
+            }
             this.is_slug_dirty = !is_not_dirty;
             if (slug.length > 24) {
                 this.$set(
