@@ -59,9 +59,13 @@
                             tooltipText="Part of the URL that explains the page’s content. Allowed characters are alphabets, numbers and hyphens."
                             :showTooltip="true"
                             @input="handleSlugChange"
+                            @blur="handleDuplicateSlug"
                             :maxlength="24"
                             :disabled="checkSlugDisable()"
                         ></nitrozen-input>
+                        <div class="three col" v-if="is_slug_loading">
+                            <div class="loader-main" id="loader-1"></div>
+                        </div>
                         <nitrozen-error
                             class="nitrozen-error"
                             v-if="errors.slug"
@@ -531,7 +535,8 @@ export default {
             selected_extensions: [],
             modalRef: null,
             extension_data: [],
-            duplicate_slug: { error: '' }
+            duplicate_slug: { error: '' },
+            is_slug_loading: false
         };
     },
     computed: {},
@@ -554,7 +559,7 @@ export default {
             this.collection_data.published = value;
         },
         checkSlugDisable() {
-            return !!this.$route.query.id;
+            return !!this.$route.query.id || this.is_slug_loading;
         },
         setExtensionData(extension_data) {
             this.extension_data = extension_data;
@@ -704,14 +709,17 @@ export default {
                 .toLowerCase()
                 .trim()
                 .replace(/\s/gi, '-')
-                .replace(/[&\/\\#!,+()$@~%./^/&'":*?<>{}]/g,'');
+                .replace(/[&\/\\#!,+()$@~%./^/&'":*?<>{}]/g, '');
         },
         handleSlugChange: debounce(function(slug, is_not_dirty) {
-            if(slug.includes('&') || slug.includes('%')){
-                this.collection_data.slug = this.collection_data.slug.replace(/[&,%]/g,'')
+            this.is_slug_dirty = !is_not_dirty;
+            if (slug.includes('&') || slug.includes('%')) {
+                this.collection_data.slug = this.collection_data.slug.replace(
+                    /[&,%]/g,
+                    ''
+                );
                 return;
             }
-            this.is_slug_dirty = !is_not_dirty;
             if (slug.length > 24) {
                 this.$set(
                     this.duplicate_slug,
@@ -720,6 +728,13 @@ export default {
                 );
                 return;
             }
+            if (slug.length) {
+                this.collection_data.slug = this.nameToSlug(slug);
+            }
+        }, 100),
+        handleDuplicateSlug() {
+            const { slug } = this.collection_data;
+            this.is_slug_loading = true;
             if (slug.length) {
                 ExtensionService.checkDuplicateSlug(slug).then((res) => {
                     if (res.data.slug_exist) {
@@ -732,11 +747,12 @@ export default {
                         this.$set(this.duplicate_slug, 'error', null);
                         this.collection_data.slug = this.nameToSlug(slug);
                     }
+                    this.is_slug_loading = false;
                 });
             } else {
                 this.$set(this.duplicate_slug, 'error', null);
             }
-        }, 500),
+        },
         removeChip(index) {
             this.collection_data.tags.splice(index, 1);
         },
@@ -768,6 +784,62 @@ export default {
         padding-left: 24px;
     }
 }
+.three.col {
+    position: absolute;
+    right: 5px;
+    top: 37px;
+}
+.input {
+    position: relative;
+}
+.loader-main {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    position: relative;
+    margin: 0 auto;
+}
+
+/* LOADER 1 */
+
+#loader-1:before,
+#loader-1:after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    border: 4px solid transparent;
+    border-top-color: #2e31be;
+}
+
+#loader-1:before {
+    z-index: 100;
+    animation: spin 0.5s infinite;
+}
+
+#loader-1:after {
+    border: 4px solid #ccc;
+}
+
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
 .img-cls {
     width: 200px;
     height: 200px;
