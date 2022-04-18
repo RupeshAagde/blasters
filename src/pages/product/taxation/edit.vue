@@ -29,6 +29,7 @@
                 <div class="input-box">
                     <nitrozen-input
                         label="HSN Code"
+                        :disabled="editMode"
                         required
                         type="text"
                         placeholder="For eg. 61152010"
