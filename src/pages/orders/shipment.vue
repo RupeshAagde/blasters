@@ -4,7 +4,7 @@
         <slot></slot>
         <loader v-if="inProgress" class="loading"></loader>
         <div class="title-row">
-            <nitrozen-check-box
+            <!-- <nitrozen-check-box
                 ref="shipment-selector"
                 class="shipment-selector"
                 v-if="
@@ -16,25 +16,28 @@
                 "
                 v-model="isSelected"
                 @input="selectShipment"
-            ></nitrozen-check-box>
-            <div>Shipment ID:</div>
-            <div
-                class="shipment-id-value"
-                @click="copyURLToClipboard(shipment.id)"
-                title="Click to copy"
-            >
-                {{ shipment.id }}
-            </div>            
-            <div class="action-items">
-                <div class="shipment-lock" v-if="shipment.lock_status && shipment.ordering_channel == 'MARKETPLACE'">
-                    <adm-inline-svg src="lock" title="Shipment is locked"></adm-inline-svg>
+            ></nitrozen-check-box> -->
+            <div class="shipment-title-header">
+                <div>Shipment ID:</div>
+                <div
+                    class="shipment-id-value"
+                    @click="copyURLToClipboard(shipment.id)"
+                    title="Click to copy"
+                >
+                    {{ shipment.id }}
                 </div>
+            </div>        
+
+            <!-- <div class="action-items"> -->
+                <!-- <div class="shipment-lock" v-if="shipment.lock_status && shipment.ordering_channel == 'MARKETPLACE'">
+                    <adm-inline-svg src="lock" title="Shipment is locked"></adm-inline-svg>
+                </div> -->
                 <!-- shipment actions start -->
 
                 <!-- Bag Confirm/Cancel Order -->
-                <template v-if="isNew && !isClosed && !readOnlyMode">
+                <!-- <template v-if="isNew && !isClosed && !readOnlyMode"> -->
                     <!-- Bag Confirm -->
-                    <nitrozen-button
+                    <!-- <nitrozen-button
                         :disabled="
                             shipment.lock_status &&
                             shipment.ordering_channel == 'MARKETPLACE'
@@ -51,10 +54,10 @@
                                     : 'Confirm Selected'
                                 : 'Confirm'
                         }}
-                    </nitrozen-button>
+                    </nitrozen-button> -->
 
                     <!-- Cancel Order -->
-                    <nitrozen-button
+                    <!-- <nitrozen-button
                         v-if="checkReadRole"
                         v-strokeBtn
                         theme="secondary"
@@ -62,11 +65,11 @@
                         :disabled="!selectedBags.every((v) => v)"
                     >
                         Cancel
-                    </nitrozen-button>
-                </template>
+                    </nitrozen-button> -->
+                <!-- </template> -->
 
                 <!-- Bag Packed -->
-                <template v-if="isConfirmed && !isClosed && checkUpdateRole && !readOnlyMode">
+                <!-- <template v-if="isConfirmed && !isClosed && checkUpdateRole && !readOnlyMode">
                     <nitrozen-button
                     :disabled="
                                 shipment.lock_status &&
@@ -78,11 +81,11 @@
                     >
                         {{ shipment.bags.length > 1 ? 'All Packed' : 'Packed' }}
                     </nitrozen-button>
-                </template>
+                </template> -->
 
 
                 <!-- DP Assign -->
-                <template v-if="isDpAssign && !isClosed && checkUpdateRole&& !readOnlyMode">
+                <!-- <template v-if="isDpAssign && !isClosed && checkUpdateRole&& !readOnlyMode">
                     <nitrozen-button
                         v-flatBtn
                         theme="secondary"
@@ -90,11 +93,11 @@
                     >
                         Assign DP
                     </nitrozen-button>
-                </template>
+                </template> -->
 
 
                 <!-- Dispatch -->
-                <template v-if="isPacked && !isClosed && checkUpdateRole&& !readOnlyMode">
+                <!-- <template v-if="isPacked && !isClosed && checkUpdateRole&& !readOnlyMode">
                     <nitrozen-button
                     :disabled="
                                 shipment.lock_status &&
@@ -110,10 +113,10 @@
                                 : 'Dispatched'
                         }}
                     </nitrozen-button>
-                </template>
+                </template> -->
 
                 <!-- Return Initiated -->
-                <template
+                <!-- <template
                     v-if="
                         isReturnInitiated &&
                         !isClosed &&
@@ -129,10 +132,10 @@
                     >
                         Return Initiated
                     </nitrozen-button>
-                </template>
+                </template> -->
 
                 <!-- Return Accepted -->
-                <template
+                <!-- <template
                     v-if="
                         isReturnDelivered &&
                         !isClosed &&
@@ -148,7 +151,7 @@
                     >
                         Return Accepted
                     </nitrozen-button>
-                </template>
+                </template> -->
 
                 <!-- Bank Details -->
                 <!-- DO NOT DELETE  -->
@@ -172,9 +175,9 @@
 
                 <!-- shipment actions end -->
 
-                <div class="print-actions">
+                <!-- <div class="print-actions"> -->
                     <!-- Update Invoice Number -->
-                    <template
+                    <!-- <template
                         v-if="
                             shipment &&
                             shipment.status &&
@@ -199,9 +202,9 @@
                         >
                             Update Invoice
                         </nitrozen-button>
-                    </template>
+                    </template> -->
 
-                    <template v-if="viewPrescription.length">
+                    <!-- <template v-if="viewPrescription.length">
                         <nitrozen-button
                             theme="secondary"
                             title="View Prescription"
@@ -210,10 +213,10 @@
                         >
                             View Prescription
                         </nitrozen-button>
-                    </template>
+                    </template> -->
 
                     <!-- Print Invoice -->
-                    <template
+                    <!-- <template
                         v-if="
                             shipment &&
                             shipment.invoice &&
@@ -252,10 +255,10 @@
                                 ></invoice-label-menu>
                             </span>
                         </div>
-                    </template>
+                    </template> -->
 
                     <!-- Shipment Activity and Report Issues -->
-                    <template>
+                    <!-- <template>
                         <div
                             class="activity-log"
                             v-if="shipment && firstBag"
@@ -282,9 +285,10 @@
                                 {{ issues.length }}
                             </span>
                         </span>
-                    </template>
-                </div>
-            </div>
+                    </template> -->
+                <!-- </div> -->
+            <!-- </div> -->
+
         </div>
 
         <div class="sub-row">
@@ -707,7 +711,7 @@ export default {
         },
         validActions: {
             type: Object,
-            required: true,
+            // required: true,
             default: () => {}
         },
         isDrawerView: {
@@ -915,14 +919,16 @@ export default {
             const prescription = [];
             if (this.shipment && this.shipment.bags.length) {
                 this.shipment.bags.map((ele) => {
-                    ele.files.map((file) => {
-                        if (file.key === 'prescription') {
-                            prescription.push({
-                                id: ele.id,
-                                file,
-                            });
-                        }
-                    });
+                    if(ele.files) {
+                        ele.files.map((file) => {
+                            if (file.key === 'prescription') {
+                                prescription.push({
+                                    id: ele.id,
+                                    file,
+                                });
+                            }
+                        });
+                    }
                 });
             }
             return prescription;
@@ -1319,6 +1325,11 @@ export default {
         box-shadow: 0 9px 13px 0 rgba(221, 221, 221, 0.5);
     }
 }
+
+.shipment-title-header {
+    display: flex;
+}
+
 .shipment-card {
     display: flex;
     flex-direction: column;
