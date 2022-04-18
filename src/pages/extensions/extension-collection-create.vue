@@ -675,6 +675,12 @@ export default {
                         });
                     })
                     .catch((err) => {
+                        if (err.response.data.message) {
+                            this.$snackbar.global.showError(
+                                err.response.data.message
+                            );
+                            return;
+                        }
                         this.$snackbar.global.showError(
                             'Error occured! Extension could not be saved'
                         );
@@ -693,6 +699,12 @@ export default {
                     });
                 })
                 .catch((err) => {
+                    if (err.response.data.message) {
+                        this.$snackbar.global.showError(
+                            err.response.data.message
+                        );
+                        return;
+                    }
                     this.$snackbar.global.showError(
                         'Error occured! Extension could not be saved'
                     );
