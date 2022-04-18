@@ -81,6 +81,7 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="sub-card" v-if="order.delivery_address">
                 <delievery-address

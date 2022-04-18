@@ -22,6 +22,8 @@
     margin-bottom: 12px;
 }
 .user {
+    display: initial;
+
     .user-info {
         color: @DustyGray2;
         font-size: 14px;
@@ -43,6 +45,7 @@
 import AdmInlineSvg from '@/components/common/adm-inline-svg.vue';
 // import { GET_EMPLOYEE_ACCESS_DETAIL } from '@/store/getters.type';
 import { IS_VALID_USER } from '@/store/getters.type';
+import { VALIDATE_USER } from '@/store/action.type';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -63,7 +66,7 @@ export default {
         }),
     },
     mounted() {
-        console.log("Here");
+        this.validateUser();
     },
     data() {
         return {};
@@ -79,6 +82,9 @@ export default {
                 // (this.accessDetail.order_role != 'read_only');
             return role;
         },
+        validateUser() {
+            this.$store.dispatch(VALIDATE_USER);
+        }
     }
 };
 </script>
