@@ -39,6 +39,11 @@ const UserService = {
             getCommonHeaderOptions()
         );
         return ApiService.get(URLS.SEARCH_USER(), axiosOptions);
-    }
+    },
+    userSearch(params) {
+        const axiosOptions = Object.assign({params}, getCommonHeaderOptions());
+        return ApiService.get(URLS.CHECK_USER(), axiosOptions);
+    },
+
 };
 export default UserService;
