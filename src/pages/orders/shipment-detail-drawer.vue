@@ -64,7 +64,7 @@
         </div>
         <loader v-if="pageLoading" class="shipment-loading"></loader>
 
-        <!-- <shipment
+        <shipment
             ref="shipment"
             v-if="!pageLoading && orderData"
             :shipment="activeShipment"
@@ -81,7 +81,7 @@
             :readOnlyMode="readOnlyMode"
         >
             <loader v-if="inProgress" class="shipment-loading"></loader>
-        </shipment> -->
+        </shipment>
 
         <adm-page-error 
             v-if="!pageLoading && !orderData" 
@@ -324,7 +324,11 @@ export default {
                 this.nextDisabled = true;
                 this.prevDisabled = true;
             }
-           // this.activeShipment = this.orderData?.shipments[index];
+
+            if(this.orderData.shipments) {
+                this.activeShipment = this.orderData.shipments[index];
+            }
+            // this.activeShipment = this.orderData?.shipments[index];
             // this.isNew = ["placed","store_reassigned"].includes(this.activeShipment.status.current_shipment_status);
             // if(this.$refs.shipment && this.$refs.shipment.selectedBags){
             //     this.$refs.shipment.selectedBags = new Array(this.activeShipment.bags.length).fill(true)

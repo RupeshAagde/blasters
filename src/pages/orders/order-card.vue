@@ -258,9 +258,12 @@ export default {
                 return [];
             }
         },
-        ...mapGetters({
-            companyApplications: []//GET_COMPANY_APPLICATIONS
-        }),
+        companyApplications() { 
+            return [];
+        },
+        // ...mapGetters({
+        //     companyApplications: []//GET_COMPANY_APPLICATIONS
+        // }),
         created_at() {
              // @NOTE: Converting GMT to Current Timezone Date value
             return moment(this.order.created_at).add(new Date().getTimezoneOffset(), 'minutes').format('LT, MMM Do, YY');
