@@ -85,13 +85,13 @@
                         :tabItem="stages.map((s) => getTabText(s))"
                         :active-index="selectedStageTabIndex"
                     ></nitrozen-tab>
-                    <div
+                    <!-- <div
                         class="refresh-icon"
                         @click="searchOrders"
                         title="Refresh Orders"
                     >
                         <inline-svg src="refresh"></inline-svg>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="content-container">
                     <div class="search-box" v-show="!pageError">
@@ -1381,5 +1381,6 @@ export default {
     text-transform: capitalize;
     position: initial;
     width: auto;
+    z-index: 6;
 }
 </style>

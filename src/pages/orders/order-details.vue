@@ -50,7 +50,7 @@
             </adm-page-header>
         </div>
         <div class="main-container">
-            <!-- <mirage-alert
+            <mirage-alert
                 :dismissible="true"
                 ref="intro"
                 class="intro"
@@ -87,8 +87,8 @@
                         Got it!
                     </nitrozen-button>
                 </div>
-            </mirage-alert> -->
-            <!-- <mirage-alert class="support-alert">
+            </mirage-alert>
+            <mirage-alert class="support-alert">
                 <div class="support-container">
                     <div class="email">
                         Email:
@@ -107,7 +107,7 @@
                         </a>
                     </div>
                 </div>
-            </mirage-alert> -->
+            </mirage-alert>
             <!-- 
                 TODO: think on it, do not delete
                 <mirage-alert
@@ -128,7 +128,7 @@
                     </span>
                 </div>
             </mirage-alert> -->
-            <!-- <mirage-alert
+            <mirage-alert
                 :dismissible="errorAlert.dismissable"
                 type="error"
                 ref="errorAlert"
@@ -141,7 +141,7 @@
                         {{ item }}
                     </li>
                 </div>
-            </mirage-alert> -->
+            </mirage-alert>
             <div v-if="orderFilters.length" class="order-filters">
                 <nitrozen-badge
                     v-for="(f, i) in orderFilters"
@@ -258,7 +258,7 @@ import AdmPageHeader from '@/components/administrator/adm-page-header.vue';
 import loader from '@/components/common/loader';
 import uktnotfound from '@/components/common/ukt-not-found.vue';
 import InlineSvg from '@/components/common/adm-inline-svg.vue';
-// import MirageAlert from '@/components/alert/index.vue';
+import MirageAlert from '@/components/orders/alert.vue';
 
 import Shipment from './shipment.vue';
 import shipmentActions from './shipment-actions';
@@ -367,7 +367,7 @@ export default {
         NitrozenDropdown,
         // ClickToCallDialog,
         // ShipmentCancellationDialog,
-        // MirageAlert
+        MirageAlert
     },
     directives: {
         flatBtn,
@@ -1190,5 +1190,9 @@ export default {
             transform: rotate(120deg);
         }
     }
+}
+
+.page-header-position {
+    margin-bottom: 24px;
 }
 </style>
