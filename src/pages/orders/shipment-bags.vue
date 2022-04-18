@@ -11,6 +11,7 @@
                     :disabled = !canBreak
                     @change="selectionChange(value)"
                 ></nitrozen-check-box>
+
                 <div class="bag-img">
                     <a
                         v-if="orderDomain"
@@ -37,14 +38,14 @@
                                 <span>
                                    Size: {{ bag.item.size }}
                                 </span>
-                                <span>|</span>
-                                <!-- <span>
+                                <span v-if="bag.prices">|</span>
+                                <span v-if="bag.prices">
                                     {{
                                         bag.prices.price_effective
                                             | currencyformat
                                     }}
-                                </span> -->
-                                <span>
+                                </span>
+                                <span v-if="bag.gst_details">
                                     Price: {{
                                         bag.gst_details.brand_calculated_amount
                                             | currencyformat
@@ -52,13 +53,15 @@
                                 </span>
                             </div>
                         </div>
+
                         <div class="shipment-line-1">
                             <div class="shipment-stats">
-                                <span>
+                                <span v-if="bag.gst_details">
                                     {{ bag.gst_details.gst_tag }}: {{ bag.gst_details.gst_tax_percentage }}%
                                 </span>
                             </div>
                         </div>
+
                         <div class="shipment-line-1" v-if="bag.article">
                             <div class="shipment-stats">
                                 <span class="margin">
@@ -66,6 +69,7 @@
                                 </span>
                             </div>
                         </div>
+
                         <div
                             class="shipment-line-1"
                             v-if="bag.item && bag.item.code"
@@ -76,6 +80,7 @@
                                 </span>
                             </div>
                         </div>
+
                         <div
                             class="shipment-line-1"
                             v-if="
@@ -90,6 +95,7 @@
                                 </span>
                             </div>
                         </div>
+
                         <div
                             class="shipment-line-1"
                             v-if="
@@ -105,6 +111,7 @@
                                 </span>
                             </div>
                         </div>
+
                         <div class="shipment-line-1" v-if="bag.article">
                             <div class="shipment-stats">
                                 <span class="margin">
@@ -112,11 +119,14 @@
                                 </span>
                             </div>
                         </div>
+
+
                         <div
                             class="shipment-line-1"
                             v-if="
-                                bag.prices.price_marked !=
-                                bag.prices.price_effective
+                                bag.prices &&
+                                (bag.prices.price_marked !=
+                                bag.prices.price_effective)
                             "
                         >
                             <div class="shipment-stats">
@@ -132,6 +142,7 @@
                                 </span>
                             </div>
                         </div>
+
                         <div
                             class="shipment-line-1"
                             v-if="
@@ -151,6 +162,7 @@
                                 </span>
                             </div>
                         </div>
+
                         <div
                             class="return-label"
                             v-if="
@@ -165,13 +177,14 @@
                                 }}{{ bag.article.return_config.unit }})
                             </div>
                         </div>
-                        <!-- <div class="shipment-line-1">
-                        <div class="shipment-stats">
-                            Sold by: {{ bag.seller_name }}
-                        </div>
-                    </div> -->
+
+                        <div class="shipment-line-1">
+                            <div class="shipment-stats">
+                                Sold by: {{ bag.seller_name }}
+                            </div>
+                        </div> 
                     </div>
-                </div>
+                </div> 
             </div>
         </div>
     </div>
@@ -326,6 +339,10 @@ export default {
                 'input',
                 this.bags.map(() => true)
             );
+        }
+
+        for(let bag of this.bags) {
+            console.log("bag:   ", bag);
         }
     },
     methods: {

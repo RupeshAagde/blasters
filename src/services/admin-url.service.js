@@ -3,7 +3,7 @@ import { isBrowser, isNode } from 'browser-or-node';
 import root, { console } from 'window-or-global';
 import _ from 'lodash';
 import {  } from '@/services/utils.service';
-const getCompInfo = ()=>1;
+const getCompInfo = () => 1;
 
 let envVars = root.env || {};
 if (root && root.process && root.process.env && root.process.env.NODE_ENV == 'test') {
