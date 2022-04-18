@@ -13,7 +13,7 @@
             <div class="page-slot">
                 <slot></slot>
             </div>
-            <nitrozen-menu class="menu" mode="vertical">
+            <nitrozen-menu class="menu" mode="vertical" v-if="!noContextMenu">
                 <nitrozen-menu-item
                     v-for="(item, index) in contextMenuItems"
                     @click="$emit(item.action)"
@@ -98,6 +98,10 @@ export default {
         showBackButton: {
             type: Boolean,
             default: true
+        },
+        noContextMenu: {
+            type: Boolean,
+            default: false
         }
     },
     data: function() {
@@ -106,7 +110,6 @@ export default {
             tags: []
         };
     },
-    computed: {},
     methods: {
         backClick() {
             this.$emit('backClick');

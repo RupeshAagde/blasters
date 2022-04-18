@@ -1179,6 +1179,8 @@ export default {
 }
 .page-container {
     // margin-top: 56.5px;
+    margin: 0;
+
     @media @mobile {
         width: calc(100% - 48px);
         margin-top: 48px;
@@ -1376,6 +1378,8 @@ export default {
     }
 }
 ::v-deep .titlize{
-     text-transform: capitalize
+    text-transform: capitalize;
+    position: initial;
+    width: auto;
 }
 </style>
