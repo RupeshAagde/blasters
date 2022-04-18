@@ -190,14 +190,14 @@
                 </order-card>
 
                 <!-- Shipments Actions -->
-                <shipment-actions
+                <!-- <shipment-actions
                     v-if="isNew && !isClosed && !applicationId"
                     :shipments="orderData.shipments"
                     :shipmentBagCount="shipmentBagCount"
                     @selectAllShipments="selectAllShipments"
                     @unselectAllShipments="unselectAllShipments"
                     @updateMultipleShipment="updateMultipleShipment($event)"
-                ></shipment-actions>
+                ></shipment-actions> -->
                 <!-- @cancelMultipleOrder="cancelMultipleOrder" -->
 
                 <!-- Shipments list -->
