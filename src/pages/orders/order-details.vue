@@ -564,7 +564,8 @@ export default {
                 };
             }
 
-            OrderService.fetchOrderDetails(this.companyId,this.applicationId, params)
+            // OrderService.fetchOrderDetails(this.companyId,this.applicationId, params)
+            OrderService.fetchOrderDetails(params)
                 .then(({ data }) => {
                     this.pageError = false;
                     this.errorText = undefined;

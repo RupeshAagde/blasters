@@ -340,10 +340,6 @@ export default {
                 this.bags.map(() => true)
             );
         }
-
-        for(let bag of this.bags) {
-            console.log("bag:   ", bag);
-        }
     },
     methods: {
         toDateTimeString(date) {

@@ -350,7 +350,8 @@ export default {
             let params = {
                 order_id: this.order_id,
             };
-            OrderService.fetchOrderDetails(this.companyId,this.applicationId, params)
+            // OrderService.fetchOrderDetails(this.companyId,this.applicationId, params)
+            OrderService.fetchOrderDetails(params)
                 .then(({ data }) => {
                     this.pageError = false;
                     this.errorText = undefined;

@@ -646,7 +646,8 @@ const URLS = {
     },
     BAG_ACTIVITY_STATUS: () => {
         // return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/company/${getCompInfo()}/actions/activity/status`);
-        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/orders/actions/activity/status`);
+        // return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/orders/actions/activity/status`);
+        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/orders/activity/status`);
     },
     STORE_PROCESS_SHIPMENTS: () => {
         return urlJoin(
