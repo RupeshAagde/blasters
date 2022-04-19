@@ -339,6 +339,7 @@
                 </div>
             </div>
         </div>
+
         <div class="shipment-card-content">
             <mirage-alert
                 v-if="shipment.bags.length > 1 && !selectedBags.every((v) => v)"
@@ -350,6 +351,7 @@
                     >Unselected bags will not get returned</span
                 >
             </mirage-alert>
+
             <div class="sub-card" v-if="shipment">
                 <shipment-bags 
                     :bags="shipment.bags"
@@ -788,7 +790,8 @@ export default {
             );
         },
         dueDate(){
-            return "due date"//this.shipment?.affiliate_details?.affiliate_meta?.due_date;
+            // return "due date"//this.shipment?.affiliate_details?.affiliate_meta?.due_date;
+            return false;
         },
         pickedDate() {
             return (

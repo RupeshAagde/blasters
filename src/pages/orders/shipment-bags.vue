@@ -38,13 +38,13 @@
                                 <span>
                                    Size: {{ bag.item.size }}
                                 </span>
-                                <span v-if="bag.prices">|</span>
-                                <span v-if="bag.prices">
+                                <span>|</span>
+                                <!-- <span v-if="bag.prices">
                                     {{
                                         bag.prices.price_effective
                                             | currencyformat
                                     }}
-                                </span>
+                                </span> -->
                                 <span v-if="bag.gst_details">
                                     Price: {{
                                         bag.gst_details.brand_calculated_amount
@@ -178,11 +178,11 @@
                             </div>
                         </div>
 
-                        <div class="shipment-line-1">
+                        <!-- <div class="shipment-line-1">
                             <div class="shipment-stats">
                                 Sold by: {{ bag.seller_name }}
                             </div>
-                        </div> 
+                        </div>  -->
                     </div>
                 </div> 
             </div>

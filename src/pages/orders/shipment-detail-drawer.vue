@@ -375,14 +375,20 @@ export default {
                                 return shipment;
                             }
                         );
-                        // this.totalShipmentLength = this.orderData.shipments.length
-                        // this.currentIndex = index ? parseInt(index) : this.orderData?.shipments.findIndex(shipment => shipment.id == this.shipment_id);
-                        // if(this.currentIndex === 0){
-                        //     this.prevDisabled = true;
-                        // }
-                        // if(this.currentIndex === this.totalShipmentLength-1){
-                        //     this.nextDisabled = true;
-                        // }
+                        this.totalShipmentLength = this.orderData.shipments.length;
+
+                        if(index !== undefined) {
+                            this.currentIndex = parseInt(index);
+                        } else {
+                            this.currentIndex = this.orderData.shipments.findIndex((shipment) => shipment.id == this.shipment_id);
+                        }
+
+                        if(this.currentIndex === 0){
+                            this.prevDisabled = true;
+                        }
+                        if(this.currentIndex === this.totalShipmentLength-1){
+                            this.nextDisabled = true;
+                        }
                         this.getSingleShipment(this.currentIndex)
                     } else {
                         throw new Error({response:{data:"order not found"}})
