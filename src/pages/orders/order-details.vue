@@ -88,7 +88,7 @@
                     </nitrozen-button>
                 </div>
             </mirage-alert>
-            <mirage-alert class="support-alert">
+            <!-- <mirage-alert class="support-alert">
                 <div class="support-container">
                     <div class="email">
                         Email:
@@ -107,7 +107,7 @@
                         </a>
                     </div>
                 </div>
-            </mirage-alert>
+            </mirage-alert> -->
             <!-- 
                 TODO: think on it, do not delete
                 <mirage-alert

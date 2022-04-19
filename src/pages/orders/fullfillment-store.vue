@@ -17,14 +17,18 @@
         <div class="address-info">
             <span>Contact Name: </span>{{ address.contact_person }}
         </div>
-        <div
+        <!-- <div
             v-if="address.phone && checkReadRole()"
             class="address-info"
             @click="makeACall(address.phone)"
             title="Click to call"
+        > -->
+        <div
+            v-if="address.phone && checkReadRole()"
+            class="address-info"
         >
             <span>Contact Phone: </span>{{ address.phone }}
-            <adm-inline-svg class="make-a-call" src="call"></adm-inline-svg>
+            <!-- <adm-inline-svg class="make-a-call" src="call"></adm-inline-svg> -->
         </div>
         <div class="address-info store-address">
             <span>Address: </span>{{ store_address }}
@@ -116,9 +120,9 @@ export default {
         return {};
     },
     methods: {
-        makeACall(phone) {
-                this.$emit('call', { receiver: phone, title: 'Call Store' });
-        },
+        // makeACall(phone) {
+        //         this.$emit('call', { receiver: phone, title: 'Call Store' });
+        // },
         checkReadRole() {
             const role = true
                 // this.accessDetail &&

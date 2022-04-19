@@ -2,14 +2,18 @@
     <div class="address">
         <div class="title bold-sm">Shipping Information</div>
         <div class="address-info">{{ address.name }}</div>
-        <div
+        <!-- <div
             v-if="address.phone && checkReadRole()"
             class="address-info"
             @click="makeACall(address.phone)"
             title="Click to call"
+        > -->
+        <div
+            v-if="address.phone && checkReadRole()"
+            class="address-info"
         >
             {{ address.phone }}
-            <adm-inline-svg class="make-a-call" src="call"></adm-inline-svg>
+            <!-- <adm-inline-svg class="make-a-call" src="call"></adm-inline-svg> -->
         </div>
         <div class="address-info">{{ customer_address }}</div>
     </div>
@@ -73,9 +77,9 @@ export default {
         return {};
     },
     methods: {
-        makeACall(phone) {
-                this.$emit('call', { receiver: phone, title: 'Call Customer' });
-        },
+        // makeACall(phone) {
+        //         this.$emit('call', { receiver: phone, title: 'Call Customer' });
+        // },
         checkReadRole() {
             const role = true;
                 // this.accessDetail &&

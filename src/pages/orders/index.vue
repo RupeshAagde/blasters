@@ -8,7 +8,7 @@
             :noContextMenu="true"
         >
             <div class="button-box">
-                <label class="toggle-label">
+                <!-- <label class="toggle-label">
                     <div class="cl-RoyalBlue bold-xxxs toggle-label-div">
                         Auto Refresh
                     </div>
@@ -17,7 +17,7 @@
                         @change="setAutoRefresh"
                         v-model="autoRefresh"
                     ></nitrozen-toggle-btn>
-                </label>
+                </label> -->
                 <label class="toggle-label">
                     <div
                         class="cl-RoyalBlue bold-xxxs status-text toggle-label-div"
