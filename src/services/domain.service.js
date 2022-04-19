@@ -623,13 +623,13 @@ const URLS = {
     ORDERS_LIST: () => {
         return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/orders');
     },
-    ORDER_LANES_COUNT: () => {
+    ORDER_LANES_COUNT: (companyId) => {
         return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/company/', companyId, 'orders/lane-count');
     },
     ORDER_DETAILS: () => {
         return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/orders/details');
     },
-    ORDERS_PICKLIST: () => {
+    ORDERS_PICKLIST: companyId => {
         return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/company/', companyId, 'orders/picklist');
     },
     ORDER_SHIPMENTS_STATUS_UPDATE: companyId => {
