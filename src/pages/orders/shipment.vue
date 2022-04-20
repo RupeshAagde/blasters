@@ -28,7 +28,7 @@
                 </div>
             </div>        
 
-            <!-- <div class="action-items"> -->
+            <div class="action-items">
                 <!-- <div class="shipment-lock" v-if="shipment.lock_status && shipment.ordering_channel == 'MARKETPLACE'">
                     <adm-inline-svg src="lock" title="Shipment is locked"></adm-inline-svg>
                 </div> -->
@@ -175,7 +175,7 @@
 
                 <!-- shipment actions end -->
 
-                <!-- <div class="print-actions"> -->
+                <div class="print-actions">
                     <!-- Update Invoice Number -->
                     <!-- <template
                         v-if="
@@ -258,7 +258,7 @@
                     </template> -->
 
                     <!-- Shipment Activity and Report Issues -->
-                    <!-- <template>
+                    <template>
                         <div
                             class="activity-log"
                             v-if="shipment && firstBag"
@@ -285,9 +285,9 @@
                                 {{ issues.length }}
                             </span>
                         </span>
-                    </template> -->
-                <!-- </div> -->
-            <!-- </div> -->
+                    </template>
+                </div>
+            </div>
 
         </div>
         <div class="sub-row" v-if="shipment && shipment.affiliate_details && shipment.affiliate_details.config">
