@@ -623,14 +623,14 @@ const URLS = {
     ORDERS_LIST: () => {
         return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/orders');
     },
-    ORDER_LANES_COUNT: (companyId) => {
-        return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/company/', companyId, 'orders/lane-count');
+    ORDER_LANES_COUNT: () => {
+        return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/orders/lane-count');
     },
     ORDER_DETAILS: () => {
         return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/orders/details');
     },
-    ORDERS_PICKLIST: companyId => {
-        return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/company/', companyId, 'orders/picklist');
+    ORDERS_PICKLIST: () => {
+        return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/orders/picklist');
     },
     ORDER_SHIPMENTS_STATUS_UPDATE: () => {
         return urlJoin(
@@ -652,18 +652,18 @@ const URLS = {
     STORE_PROCESS_SHIPMENTS: () => {
         return urlJoin(
             PLATFORM_ORDERS_BASE,
-            `/v1.0/company/${getCompInfo()}/actions/store/process-shipments`
+            `/v1.0/actions/store/process-shipments`
         );
     },
 
     //shipment breakable
     SHIPMENT_CAN_BREAK_OR_NOT: () => {
-        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/company/${getCompInfo()}/actions/can-break`)
+        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/actions/can-break`)
     },
 
     // shipment check refund
     SHIPMENT_CHECK_REFUND: (shipmentId) => {
-        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/company/${getCompInfo()}/actions/check-refund/${shipmentId}`);
+        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/actions/check-refund/${shipmentId}`);
     },
 
     // shipment dp tracking

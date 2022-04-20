@@ -15,7 +15,6 @@ import flushPromises from "flush-promises";
 let localVue;
 const mock = new MockAdapter(axios);
 let wrapper, router
-const companyId = '1';
 
 const $route = {
     params: {
@@ -40,8 +39,8 @@ describe('Order List Page', () => {
         localVue.use(VueRouter);
         mock.reset();
         mock.onGet(ADMIN_URLS.STORE_DETAILS()).reply(200, mockData.opt_in_stores);
-        mock.onGet(URLS.ORDERS_LIST(companyId)).reply(200, ORDER_LIST_DATA)
-        mock.onGet(URLS.ORDER_LANES_COUNT(companyId)).reply(200, ORDER_LANES_COUNT_DATA)
+        mock.onGet(URLS.ORDERS_LIST()).reply(200, ORDER_LIST_DATA)
+        mock.onGet(URLS.ORDER_LANES_COUNT()).reply(200, ORDER_LANES_COUNT_DATA)
 
         router = new VueRouter({
             routes: [
@@ -77,7 +76,7 @@ describe('Order List Page', () => {
     });
 
     it('listing fails data', async() => {
-        mock.onGet(URLS.ORDERS_LIST(companyId)).reply(500, {});
+        mock.onGet(URLS.ORDERS_LIST()).reply(500, {});
         await flushPromises();
         expect(wrapper.vm.orders.length).toBeGreaterThanOrEqual(0);
     });

@@ -31,14 +31,14 @@ const OrderService = {
             );
             return ApiService.get(URLS.ORDERS_LIST(), axiosOption);
         },
-        fetchOrderLanesCount(comapnyId, params) {
-            let axiosOption = Object.assign({},
-                getCommonHeaderOptions(!!params.app_id), {
-                    params: params
-                }
-            );
-            return ApiService.get(URLS.ORDER_LANES_COUNT(comapnyId), axiosOption);
-        },
+        // fetchOrderLanesCount(comapnyId, params) {
+        //     let axiosOption = Object.assign({},
+        //         getCommonHeaderOptions(!!params.app_id), {
+        //             params: params
+        //         }
+        //     );
+        //     return ApiService.get(URLS.ORDER_LANES_COUNT(), axiosOption);
+        // },
         fetchOrderDetails(params) {
             let axiosOption = Object.assign({},
                 getCommonHeaderOptions(), {

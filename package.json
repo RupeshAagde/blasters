@@ -16,7 +16,7 @@
         "build:serverprod": "webpack --config build/webpack.server.config.js --progress --env=production",
         "pretty": "./node_modules/.bin/prettier --config ./.prettierrc --write",
         "precommit": "lint-staged",
-        "test": "jest --updateSnapshot --projects  src server --no-cache --detectOpenHandles --json --outputFile=./coverage/coverage.json src/__tests__/unit/component/pages/orders/shipment.spec.js"
+        "test": "jest --updateSnapshot --projects  src server --no-cache --detectOpenHandles --json --outputFile=./coverage/coverage.json"
     },
     "jest": {
         "projects": [

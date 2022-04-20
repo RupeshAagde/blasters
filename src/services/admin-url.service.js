@@ -1588,15 +1588,6 @@ const ADMIN_URLS = {
         );
     },
 
-    // Tickets/Dri
-    FETCH_TICKETS: (company_id = '', applicationId = '') => {
-        if (applicationId && applicationId != '') {
-            return urlJoin(PLATFORM_LEADS_BASE, `v1.0/company/${company_id}/application/${applicationId}/ticket`);
-        } else {
-            return urlJoin(PLATFORM_LEADS_BASE, `v1.0/company/${company_id}/ticket`);
-        }
-    },
-
     TICKET_FEEDBACK: (company_id, applicationId = '', ticket_id) => {
         if (applicationId && applicationId != '') {
             return urlJoin(PLATFORM_LEADS_BASE, `v1.0/company/${company_id}/application/${applicationId}/ticket/${ticket_id}/feedback`);
@@ -1618,30 +1609,6 @@ const ADMIN_URLS = {
             return urlJoin(PLATFORM_LEADS_BASE, `v1.0/company/${company_id}/application/${applicationId}/video/room/${unique_name}/token`);
         } else {
             return urlJoin(PLATFORM_LEADS_BASE, `v1.0/company/${company_id}/video/room/${unique_name}/token`);
-        }
-    },
-
-    FETCH_TICKET: (company_id = '', applicationId = '', ticket_id) => {
-        if (applicationId && applicationId != '') {
-            return urlJoin(PLATFORM_LEADS_BASE, `v1.0/company/${company_id}/application/${applicationId}/ticket/${ticket_id}`);
-        } else {
-            return urlJoin(PLATFORM_LEADS_BASE, `v1.0/company/${company_id}/ticket/${ticket_id}`);
-        }
-    },
-
-    FETCH_HISTORY: (company_id = '', applicationId = '', ticket_id) => {
-        if (applicationId && applicationId != '') {
-            return urlJoin(PLATFORM_LEADS_BASE, `v1.0/company/${company_id}/application/${applicationId}/ticket/${ticket_id}/history`);
-        } else {
-            return urlJoin(PLATFORM_LEADS_BASE, `v1.0/company/${company_id}/ticket/${ticket_id}/history`);
-        }
-    },
-
-    FETCH_TICKETS_OPTIONS: (company_id = '', applicationId) => {
-        if (applicationId && applicationId != '') {
-            return urlJoin(PLATFORM_LEADS_BASE, `v1.0/company/${company_id}/application/${applicationId}/ticket?items=false`);
-        } else {
-            return urlJoin(PLATFORM_LEADS_BASE, `v1.0/company/${company_id}/ticket?items=false`);
         }
     },
 
