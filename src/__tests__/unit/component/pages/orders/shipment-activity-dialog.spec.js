@@ -26,12 +26,13 @@ describe('Shipment Activity Dialog', () => {
         router.push(`/orders/list/`);
         const shipment_id = ORDER_LIST_DATA.items[0].shipments[0].id;
         const bag_id = ORDER_LIST_DATA.items[0].shipments[0].bags[0].id.toString();
-        wrapper = shallowMount(ShipmentActivityDialog, {
+        wrapper = mount(ShipmentActivityDialog, {
             localVue,
             router,
             propsData: { shipment_id, bag_id },
         });
         await flushPromises();
+        wrapper.vm.open();
     });
 
     it('should render to a snapshot', () => {
@@ -47,4 +48,8 @@ describe('Shipment Activity Dialog', () => {
         expect(wrapper.vm.activity_history.length).toBe(2)
     });
 
+    it('should emit close when the dialog is closed', async() => {
+        wrapper.vm.close();
+        expect(wrapper.emitted()).toHaveProperty('close');
+    })
 });

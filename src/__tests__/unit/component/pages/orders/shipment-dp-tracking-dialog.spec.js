@@ -21,13 +21,14 @@ describe('ShipmentDpTracking', () => {
             ]
         })
         router.push(`/orders/list/`);
-        // mock.onGet(URLS.SHIPMENT_DP_TRACKING()).reply(200, TRACKING_DATA)
+        mock.onGet(URLS.SHIPMENT_DP_TRACKING()).reply(200, TRACKING_DATA)
         const shipment_id = ORDER_LIST_DATA.items[0].shipments[0].id;
-        wrapper = shallowMount(ShipmentDpTracking, {
+        wrapper = mount(ShipmentDpTracking, {
             localVue,
             router,
             propsData: { shipment_id },
         });
+        wrapper.vm.open();
     });
 
     it('should render to a snapshot', () => {
@@ -39,9 +40,14 @@ describe('ShipmentDpTracking', () => {
         expect(div.exists()).toBe(true)
     });
 
-    // it('ShipmentDpTracking api', async() => {
-    //     wrapper.vm.shipmentDPTracking();
-    //     await flushPromises();
-    //     expect(wrapper.vm.isLoading).toBe(false)
-    // });
+    it('ShipmentDpTracking api', async() => {
+        wrapper.vm.shipmentDPTracking(ORDER_LIST_DATA.items[0].shipments[0].id);
+        await flushPromises();
+        expect(wrapper.vm.isLoading).toBe(false)
+    });
+
+    it('should emit close when the dialog is closed', async() => {
+        wrapper.vm.close();
+        expect(wrapper.emitted()).toHaveProperty('close');
+    })
 });

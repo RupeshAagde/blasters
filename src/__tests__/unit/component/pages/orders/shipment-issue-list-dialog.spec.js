@@ -36,4 +36,14 @@ describe('ShipmentIssueListDialog', () => {
         const div = wrapper.find('div')
         expect(div.exists()).toBe(true)
     });
+
+    it('should emit close when the dialog is closed', async() => {
+        wrapper.vm.close();
+        expect(wrapper.emitted()).toHaveProperty('close');
+    });
+
+    it('should return grey if no priority color is provided', async() => {
+        expect(wrapper.vm.getPriorityColor({priority: {color: null}}))
+        .toEqual({"border-left": "5px solid gray"});
+    })
 });
