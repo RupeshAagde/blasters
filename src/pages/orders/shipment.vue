@@ -554,14 +554,6 @@
             </template>
         </nitrozen-dialog>
 
-        <!-- Bank Details Dialog -->
-        <!-- <bank-details-dialog
-            ref="bankDetailsDialog"
-            title="Bank Details"
-            v-if="shipment"
-        >
-        </bank-details-dialog> -->
-
         <!-- shipment qc dialog -->
         <shipment-qc-dialog
             ref="shipmentQCDialog"
@@ -642,7 +634,6 @@ import ShipmentActivityDialog from './shipment-activity-dialog.vue';
 import ShipmentIssueListDialog from './shipment-issue-list-dialog.vue';
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import AdmInlineSvg from '@/components/common/adm-inline-svg.vue';
-import BankDetailsDialog from './bank-details-dialog';
 import ShipmentQcDialog from './shipment-qc-dialog';
 // import ViewPrescription from './view-prescription-dialog';
 import InvoiceLabelMenu from './invoice-label-menu.vue';
@@ -838,46 +829,46 @@ export default {
                 return false;
             }
         },
-        isConfirmed() {
-            try {
-                return [
-                    'dp_assigned',
-                    'dp_reassigned',
-                    'out_for_pickup',
-                ].includes(this.shipment.status.current_shipment_status);
-            } catch (e) {
-                return false;
-            }
-        },
-        isDpAssign() {
-            try {
-                return [
-                    'bag_invoiced'
-                ].includes(this.shipment.status.current_shipment_status) && !this.shipment.auto_trigger_dp_assignment;
-            } catch (e) {
-                return false;
-            }
-        },
-        isPacked() {
-            try {
-                return [
-                    'bag_packed',
-                    'bag_not_picked',
-                    'bag_not_packed',
-                ].includes(this.shipment.status.current_shipment_status);
-            } catch (e) {
-                return false;
-            }
-        },
-        isReturnDelivered() {
-            try {
-                return ['return_bag_delivered', 'rto_bag_delivered'].includes(
-                    this.shipment.status.status // status => operational status, current_shipment_status => financial status
-                );
-            } catch (e) {
-                return false;
-            }
-        },
+        // isConfirmed() {
+        //     try {
+        //         return [
+        //             'dp_assigned',
+        //             'dp_reassigned',
+        //             'out_for_pickup',
+        //         ].includes(this.shipment.status.current_shipment_status);
+        //     } catch (e) {
+        //         return false;
+        //     }
+        // },
+        // isDpAssign() {
+        //     try {
+        //         return [
+        //             'bag_invoiced'
+        //         ].includes(this.shipment.status.current_shipment_status) && !this.shipment.auto_trigger_dp_assignment;
+        //     } catch (e) {
+        //         return false;
+        //     }
+        // },
+        // isPacked() {
+        //     try {
+        //         return [
+        //             'bag_packed',
+        //             'bag_not_picked',
+        //             'bag_not_packed',
+        //         ].includes(this.shipment.status.current_shipment_status);
+        //     } catch (e) {
+        //         return false;
+        //     }
+        // },
+        // isReturnDelivered() {
+        //     try {
+        //         return ['return_bag_delivered', 'rto_bag_delivered'].includes(
+        //             this.shipment.status.status // status => operational status, current_shipment_status => financial status
+        //         );
+        //     } catch (e) {
+        //         return false;
+        //     }
+        // },
         isReturnInitiated() {
             try {
                 return ['delivery_done'].includes(
@@ -984,79 +975,79 @@ export default {
         toDateTimeString(date) {
             return moment(date).format('LT, MMM Do, YY');
         },
-        getShipmentPayload(nextStatus, reason, reason_text) {
-            // shipment bags
-            let bags;
-            const shipmentBagIds = this.shipment.bags.map((b) => b.id);
-            if (this.isNew || this.isReturnInitiated) {
-                const selectedBags = shipmentBagIds.filter(
-                    (d, i) => this.selectedBags[i]
-                );
-                const isAllBags =
-                    selectedBags.length == this.shipment.bags.length;
-                bags = isAllBags ? shipmentBagIds : selectedBags;
-            } else {
-                bags = shipmentBagIds;
-            }
+        // getShipmentPayload(nextStatus, reason, reason_text) {
+        //     // shipment bags
+        //     let bags;
+        //     const shipmentBagIds = this.shipment.bags.map((b) => b.id);
+        //     if (this.isNew || this.isReturnInitiated) {
+        //         const selectedBags = shipmentBagIds.filter(
+        //             (d, i) => this.selectedBags[i]
+        //         );
+        //         const isAllBags =
+        //             selectedBags.length == this.shipment.bags.length;
+        //         bags = isAllBags ? shipmentBagIds : selectedBags;
+        //     } else {
+        //         bags = shipmentBagIds;
+        //     }
 
-            let payload = {
-                status_update: {
-                    bags,
-                    status: nextStatus,
-                    reason,
-                    reason_text,
-                },
-            };
-            // partial confirmation of bags withing shipment leads to remaining bags to get cancelled
-            if (
-                nextStatus == 'bag_confirmed' &&
-                !this.selectedBags.every((s) => s)
-            ) {
-                const unselectedBags = shipmentBagIds.filter(
-                    (d, i) => !this.selectedBags[i]
-                );
-                payload['exclude_shipments_pending'] = true;
-                payload['exclude_shipments'] = [
-                    {
-                        status_update: {
-                            bags: unselectedBags,
-                            status: 'bag_not_confirmed',
-                            reason: {
-                                90: unselectedBags,
-                            },
-                            reason_text:
-                                'Unselected bags get cancelled from Fynd Platform',
-                        },
-                    },
-                ];
-            }
-            return payload;
-        },
-        updateShipmentStatus(nextStatus, reason, reason_text) {
-            // final shipment payload
-            const shipments = {
-                [this.shipment.id]: this.getShipmentPayload(
-                    nextStatus,
-                    reason,
-                    reason_text
-                ),
-            };
-            if (this.store_invoice_id.value) {
-                shipments[this.shipment.id].status_update[
-                    'store_invoice_id'
-                ] = this.store_invoice_id.value;
-            }
-            this.$emit('update', shipments, nextStatus);
+        //     let payload = {
+        //         status_update: {
+        //             bags,
+        //             status: nextStatus,
+        //             reason,
+        //             reason_text,
+        //         },
+        //     };
+        //     // partial confirmation of bags withing shipment leads to remaining bags to get cancelled
+        //     if (
+        //         nextStatus == 'bag_confirmed' &&
+        //         !this.selectedBags.every((s) => s)
+        //     ) {
+        //         const unselectedBags = shipmentBagIds.filter(
+        //             (d, i) => !this.selectedBags[i]
+        //         );
+        //         payload['exclude_shipments_pending'] = true;
+        //         payload['exclude_shipments'] = [
+        //             {
+        //                 status_update: {
+        //                     bags: unselectedBags,
+        //                     status: 'bag_not_confirmed',
+        //                     reason: {
+        //                         90: unselectedBags,
+        //                     },
+        //                     reason_text:
+        //                         'Unselected bags get cancelled from Fynd Platform',
+        //                 },
+        //             },
+        //         ];
+        //     }
+        //     return payload;
+        // },
+        // updateShipmentStatus(nextStatus, reason, reason_text) {
+        //     // final shipment payload
+        //     const shipments = {
+        //         [this.shipment.id]: this.getShipmentPayload(
+        //             nextStatus,
+        //             reason,
+        //             reason_text
+        //         ),
+        //     };
+        //     if (this.store_invoice_id.value) {
+        //         shipments[this.shipment.id].status_update[
+        //             'store_invoice_id'
+        //         ] = this.store_invoice_id.value;
+        //     }
+        //     this.$emit('update', shipments, nextStatus);
 
-            // event tracking
-            const gaEventName = nextStatus.toUpperCase();
-            const gaEventProperty = {
-                shipment_ids:`${this.shipment.id}`,
-                order_id: this.orderId,
-                source: this.isDrawerView ? 'quick_view' : 'order_details_view'
-            }
-           // eventHelper.trackOrderUpdateEvent(EVENTS[gaEventName], getUserInfo(this.userinfo, this.accessDetail), gaEventProperty)
-        },
+        //     // event tracking
+        //     const gaEventName = nextStatus.toUpperCase();
+        //     const gaEventProperty = {
+        //         shipment_ids:`${this.shipment.id}`,
+        //         order_id: this.orderId,
+        //         source: this.isDrawerView ? 'quick_view' : 'order_details_view'
+        //     }
+        //    // eventHelper.trackOrderUpdateEvent(EVENTS[gaEventName], getUserInfo(this.userinfo, this.accessDetail), gaEventProperty)
+        // },
         getReportedIssues() {
             return SupportService.fetchTickets({
                 limit: 200,
@@ -1071,35 +1062,35 @@ export default {
                     console.error(err);
                 });
         },
-        cancelOrder() {
-            this.$refs.shipmentCancellationDialog.open({
-                shipments: [
-                    {
-                        id: this.shipment.id,
-                        bags: this.shipment.bags,
-                    },
-                ],
-            });
-        },
-        openQCDialog() {
-            this.$refs.shipmentQCDialog.open(this.shipment.bags);
-        },
+        // cancelOrder() {
+        //     this.$refs.shipmentCancellationDialog.open({
+        //         shipments: [
+        //             {
+        //                 id: this.shipment.id,
+        //                 bags: this.shipment.bags,
+        //             },
+        //         ],
+        //     });
+        // },
+        // openQCDialog() {
+        //     this.$refs.shipmentQCDialog.open(this.shipment.bags);
+        // },
         $shipmentQcDialogClosed(data) {
             if (data && data.action == 'submit') {
-                this.updateShipmentStatus(
-                    'return_accepted',
-                    data.reason,
-                    data.reason_text
-                );
+                // this.updateShipmentStatus(
+                //     'return_accepted',
+                //     data.reason,
+                //     data.reason_text
+                // );
             }
         },
         $shipmentCancellationDialogClosed(data) {
             if (data && data.cancel) {
-                this.updateShipmentStatus(
-                    'bag_not_confirmed',
-                    data.shipments[this.shipment.id].reason,
-                    data.shipments[this.shipment.id].reason_text
-                );
+                // this.updateShipmentStatus(
+                //     'bag_not_confirmed',
+                //     data.shipments[this.shipment.id].reason,
+                //     data.shipments[this.shipment.id].reason_text
+                // );
             }
         },
         shipmentActivity() {
@@ -1183,19 +1174,19 @@ export default {
                     });
             }
         },
-        openBankDetails() {
-            const data = {
-                shipment: this.shipment,
-                order_id: this.orderId,
-                application_id: this.applicationId,
-                delivery_address: this.deliveryAddress,
-                user: this.user,
-            };
-            this.$refs.bankDetailsDialog.open(data);
-        },
-        $openPrescriptionDialog() {
-            this.$refs.prescriptionDialog.open(this.viewPrescription);
-        },
+        // openBankDetails() {
+        //     const data = {
+        //         shipment: this.shipment,
+        //         order_id: this.orderId,
+        //         application_id: this.applicationId,
+        //         delivery_address: this.deliveryAddress,
+        //         user: this.user,
+        //     };
+        //     this.$refs.bankDetailsDialog.open(data);
+        // },
+        // $openPrescriptionDialog() {
+        //     this.$refs.prescriptionDialog.open(this.viewPrescription);
+        // },
         // getShipmentAddress() {
         //     if(this.isShipmentReturnable() && this.shipmentDetailsModifiable()){
         //         this.shipmentAddressLoading = true;

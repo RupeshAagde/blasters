@@ -1095,8 +1095,8 @@ export default {
         //         this.clearAutoRefresh();
         //     }            
         // },
-        handleNewOrderUpdates(){
-            const params = this.getOrderRequestParams();
+        // handleNewOrderUpdates(){
+            // const params = this.getOrderRequestParams();
             // OrderService.fetchOrderLanesCount(this.companyId, params)
             //     .then(({ data }) => {
             //         this.stages = data.stages;
@@ -1104,7 +1104,7 @@ export default {
             //             this.fetchOrders();
             //         }
             //     })
-        },
+        // },
         // activateAutoRefresh() {
         //     this.clearAutoRefresh();
         //     this.autoRefreshId = setInterval(() => {

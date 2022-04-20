@@ -216,7 +216,6 @@
                     "
                     ref="shipment"
                     :showConfirm="!isNew"
-                    @update="updateShipment"
                     @call="clickToCall($event)"
                     @calculateShipmentBag="calculateShipmentBag"
                     :readOnlyMode="!!applicationId"
@@ -678,109 +677,109 @@ export default {
         //     }
         //     this.updateShipment(shipments, nextStatus);
         // },
-        updateShipment(shipments, nextStatus) {
-            const payload = {
-                shipments,
-                force_transition: false,
-                task: false,
-            };
+        // updateShipment(shipments, nextStatus) {
+        //     const payload = {
+        //         shipments,
+        //         force_transition: false,
+        //         task: false,
+        //     };
 
-            this.inProgress = true;
-            OrderService.updateShipmentStatus(payload)
-                .then(({ data }) => {
-                    const processShipmentPayload = {
-                        shipment_ids: keys(shipments),
-                        expected_status: nextStatus,
-                    };
-                    if (
-                        data.error_shipments &&
-                        data.error_shipments.length == 0
-                    ) {
-                        this.inProgress = true;
-                        OrderService.processShipments(processShipmentPayload)
-                            .then((ps_response) => {
-                                // this.inProgress = false;
-                                this.setSuccessAlert(
-                                    true,
-                                    'Shipments status updated successfully it might get sometime.',
-                                    true,
-                                    this.orderData.id
-                                );
-                                this.$snackbar.global.showSuccess(
-                                    `Shipments status updated successfully it might get sometime.`,
-                                    {
-                                        duration: 2000,
-                                    }
-                                );
-                                /* Google anaytics events start */
-                                const gaEventName = nextStatus.toUpperCase();
-                                const gaEventProperty = {
-                                    shipment_ids: keys(shipments).map(i => `${i}`).join(","),
-                                    order_id: this.orderId,
-                                    source: 'order_details_view'
-                                }
-                                console.log(gaEventProperty)
-                               // eventHelper.trackOrderUpdateEvent(EVENTS[gaEventName], getUserInfo(this.userinfo, this.accessDetail), gaEventProperty)
-                                /* Google anaytics events end*/
+        //     this.inProgress = true;
+        //     OrderService.updateShipmentStatus(payload)
+        //         .then(({ data }) => {
+        //             const processShipmentPayload = {
+        //                 shipment_ids: keys(shipments),
+        //                 expected_status: nextStatus,
+        //             };
+        //             if (
+        //                 data.error_shipments &&
+        //                 data.error_shipments.length == 0
+        //             ) {
+        //                 this.inProgress = true;
+        //                 OrderService.processShipments(processShipmentPayload)
+        //                     .then((ps_response) => {
+        //                         // this.inProgress = false;
+        //                         this.setSuccessAlert(
+        //                             true,
+        //                             'Shipments status updated successfully it might get sometime.',
+        //                             true,
+        //                             this.orderData.id
+        //                         );
+        //                         this.$snackbar.global.showSuccess(
+        //                             `Shipments status updated successfully it might get sometime.`,
+        //                             {
+        //                                 duration: 2000,
+        //                             }
+        //                         );
+        //                         /* Google anaytics events start */
+        //                         const gaEventName = nextStatus.toUpperCase();
+        //                         const gaEventProperty = {
+        //                             shipment_ids: keys(shipments).map(i => `${i}`).join(","),
+        //                             order_id: this.orderId,
+        //                             source: 'order_details_view'
+        //                         }
+        //                         console.log(gaEventProperty)
+        //                        // eventHelper.trackOrderUpdateEvent(EVENTS[gaEventName], getUserInfo(this.userinfo, this.accessDetail), gaEventProperty)
+        //                         /* Google anaytics events end*/
 
-                                setTimeout(() => {
-                                    this.inProgress = false;
-                                });
-                                setTimeout(() => {
-                                    this.isStatusChange = true;
-                                    this.goToOrder(this.orderData.id, true);
-                                }, 500);
+        //                         setTimeout(() => {
+        //                             this.inProgress = false;
+        //                         });
+        //                         setTimeout(() => {
+        //                             this.isStatusChange = true;
+        //                             this.goToOrder(this.orderData.id, true);
+        //                         }, 500);
 
-                                // @NOTE Below logic is to compensate for syncing inconsistency
-                                const hash_algo = 'sha1';
-                                const output_format = 'hex';
-                                const _old_route_state_hash = crypto
-                                    .createHash(hash_algo)
-                                    .update(JSON.stringify(this.$route.params))
-                                    .digest(output_format);
-                                setTimeout(() => {
-                                    const old_state = _old_route_state_hash;
-                                    const new_state = crypto
-                                        .createHash(hash_algo)
-                                        .update(
-                                            JSON.stringify(this.$route.params)
-                                        )
-                                        .digest(output_format);
-                                    if (old_state == new_state) {
-                                        this.reloadPage();
-                                    }
-                                }, 10000);
-                            })
-                            .catch((err) => {
-                                this.inProgress = false;
-                                // this.setErrorAlert(
-                                //     true,
-                                //     'Unable to update status',
-                                //     true
-                                // );
-                                this.$snackbar.global.showError(
-                                    'Unable to update status'
-                                );
-                                console.error(err);
-                            });
-                    } else {
-                        console.error('error in status update', data);
-                        this.inProgress = false;
-                        this.$snackbar.global.showError(
-                            'ERROR: ' + data.message
-                        );
-                    }
-                })
-                .catch((err) => {
-                    console.error(err);
-                    this.inProgress = false;
-                    // this.setErrorAlert(true, 'Unable to update status', true);
-                    this.$snackbar.global.showError('Unable to update status');
-                })
-                .finally(() => {
-                    this.inProgress = false;
-                });
-        },
+        //                         // @NOTE Below logic is to compensate for syncing inconsistency
+        //                         const hash_algo = 'sha1';
+        //                         const output_format = 'hex';
+        //                         const _old_route_state_hash = crypto
+        //                             .createHash(hash_algo)
+        //                             .update(JSON.stringify(this.$route.params))
+        //                             .digest(output_format);
+        //                         setTimeout(() => {
+        //                             const old_state = _old_route_state_hash;
+        //                             const new_state = crypto
+        //                                 .createHash(hash_algo)
+        //                                 .update(
+        //                                     JSON.stringify(this.$route.params)
+        //                                 )
+        //                                 .digest(output_format);
+        //                             if (old_state == new_state) {
+        //                                 this.reloadPage();
+        //                             }
+        //                         }, 10000);
+        //                     })
+        //                     .catch((err) => {
+        //                         this.inProgress = false;
+        //                         // this.setErrorAlert(
+        //                         //     true,
+        //                         //     'Unable to update status',
+        //                         //     true
+        //                         // );
+        //                         this.$snackbar.global.showError(
+        //                             'Unable to update status'
+        //                         );
+        //                         console.error(err);
+        //                     });
+        //             } else {
+        //                 console.error('error in status update', data);
+        //                 this.inProgress = false;
+        //                 this.$snackbar.global.showError(
+        //                     'ERROR: ' + data.message
+        //                 );
+        //             }
+        //         })
+        //         .catch((err) => {
+        //             console.error(err);
+        //             this.inProgress = false;
+        //             // this.setErrorAlert(true, 'Unable to update status', true);
+        //             this.$snackbar.global.showError('Unable to update status');
+        //         })
+        //         .finally(() => {
+        //             this.inProgress = false;
+        //         });
+        // },
         loadLatest() {
             let direction;
             if (
@@ -863,27 +862,27 @@ export default {
                 bagIds.includes(bag.id)
             );
         },
-        $shipmentCancellationDialogClosed(data) {
-            if (data && data.cancel) {
-                const shipments = data.originalData;
-                const shipmentIds = keys(shipments);
-                for (let i = 0; i < shipmentIds.length; i++) {
-                    const shipmentId = shipmentIds[i];
-                    // load reason data selected in dialog
-                    try {
-                        shipments[
-                            shipmentId
-                        ].exclude_shipments[0].status_update.reason =
-                            data.shipments[shipmentId].reason;
-                        shipments[
-                            shipmentId
-                        ].exclude_shipments[0].status_update.reason_text =
-                            data.shipments[shipmentId].reason_text;
-                    } catch (error) {}
-                }
-                this.updateShipment(shipments, 'bag_confirmed');
-            }
-        },
+        // $shipmentCancellationDialogClosed(data) {
+        //     if (data && data.cancel) {
+        //         const shipments = data.originalData;
+        //         const shipmentIds = keys(shipments);
+        //         for (let i = 0; i < shipmentIds.length; i++) {
+        //             const shipmentId = shipmentIds[i];
+        //             // load reason data selected in dialog
+        //             try {
+        //                 shipments[
+        //                     shipmentId
+        //                 ].exclude_shipments[0].status_update.reason =
+        //                     data.shipments[shipmentId].reason;
+        //                 shipments[
+        //                     shipmentId
+        //                 ].exclude_shipments[0].status_update.reason_text =
+        //                     data.shipments[shipmentId].reason_text;
+        //             } catch (error) {}
+        //         }
+        //         this.updateShipment(shipments, 'bag_confirmed');
+        //     }
+        // },
         introShown() {
             LocalStorageService.addOrUpdateItem(
                 STORAGE_KEYS.USER_ORDER_INTRO_SHOWN,
