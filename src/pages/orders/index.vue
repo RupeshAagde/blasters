@@ -181,7 +181,7 @@
                                  <nitrozen-dropdown
                                     v-if="isApplicationLevel && deploymentStoreList.length"
                                     label="Deployment Store"
-                                    class="filter-dropdown filter-input-sm"
+                                    class="filter-dropdown filter-input-sm deployment-dropdown"
                                     :searchable="true"
                                     :items="filteredDeploymentStores"
                                     v-model="selectedDeploymentStore"

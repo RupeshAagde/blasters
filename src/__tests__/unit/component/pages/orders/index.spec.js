@@ -10,6 +10,7 @@ import URLS from '@/services/domain.service';
 import mockData from './fixtures/marketplaces-mock.json';
 import ORDER_LIST_DATA from './fixtures/orders-list.json';
 import ORDER_LANES_COUNT_DATA from './fixtures/order-lanes-count.json';
+import { NitrozenButton } from '@gofynd/nitrozen-vue';
 
 import flushPromises from "flush-promises";
 let localVue;
@@ -110,4 +111,27 @@ describe('Order List Page', () => {
         wrapper.vm.selectStageTab({ index: 1 });
         await wrapper.vm.$nextTick();
     });
+
+    it('should reset terms if reset button is clicked', async() => {
+        let element = wrapper.findComponent(NitrozenButton);
+        element.vm.$emit('click');
+
+        expect(wrapper.vm.search).toBe("");
+    });
+
+    it('should return filtered results', async() => {
+        wrapper.setData({
+            applicationId: 1,
+            deploymentStoreList: [2, 3]
+        });
+
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+        let element = wrapper.find('.deployment-dropdown');
+
+        element.vm.$emit('searchInputChange', {text: ''});
+
+        expect(wrapper.vm.selectedDeploymentStore).toBe('');
+    })
 });
