@@ -56,7 +56,7 @@
                 </div>
             </template>
             <nitrozen-menu class="order-menu" mode="vertical">
-                <template v-if="!isApplicationLevel && storeList.length > 0">
+                <!-- <template v-if="!isApplicationLevel && storeList.length > 0">
                     <nitrozen-menu-item @click="goToPicklist">
                         Picklist
                     </nitrozen-menu-item>
@@ -69,7 +69,7 @@
                     <nitrozen-menu-item @click="goToExportList">
                         Exports
                     </nitrozen-menu-item>
-                </template>
+                </template> -->
                 <nitrozen-menu-item @click="$root.$emit('openHelp')">
                     Help
                 </nitrozen-menu-item>
@@ -963,112 +963,112 @@ export default {
             }
             this.fetchOrders();
         },
-        goToPicklist() {
-            const { from_date, to_date, stage, stores } = this.$route.query;
-            this.$router.push({
-                name: this.applicationId
-                    ? 'application-order-picklist'
-                    : 'company-order-picklist',
-                query: { from_date, to_date, stage, stores },
-            });
-        },
-        goToExportList() {
-            let store;
-            try {
-                store = find(this.storeList, {
-                    uid: parseInt(this.selectedStore),
-                });
-                if (!store) {
-                    throw 'select store';
-                }
-            } catch (e) {
-                this.$snackbar.global.showInfo(
-                    'Please select store to export data'
-                );
-                return;
-            }
-            const params = {
-                storeCode: store.store_code,
-                type: 0,
-            };
-            this.$router.push({
-                name: this.applicationId
-                    ? 'application-order-export-list'
-                    : 'company-order-export-list',
-                params: params,
-            });
-        },
-        closeMoreFilters() {
-            this.viewMoreFilters = false;
-        },
-        getUid() {
-            return new Date().valueOf().toString(36);
-        },
-        getExportPayload(store_code, store_id) {
-            let payload = {
-                filters: {
-                    from_date: moment(this.orderDateRange[0]).toISOString(),
-                    to_date: moment(this.orderDateRange[1]).toISOString(),
-                    page_no: this.pagination.current,
-                    page_size: this.pagination.limit,
-                    store_id,
-                    stage: this.selectedStageTab,
-                    company_id: this.companyId,
-                },
-                is_fplt: true,
-                document_type: "a4",
-                uid: this.getUid(),
-                store_code,
-            };
-            if(this.stagesSubFilter['status'].length > 0){
-                payload['filters']['status'] = this.stagesSubFilter['status'];
-            }
-            return payload;
-        },
-        exportOrders(type) {
-            if(this.selectedStageTab == 'processing' || this.selectedStageTab == 'processed') {
-                // check whenther store is selected before exporting data
-                let store;
-                try {
-                    store = find(this.storeList, {
-                        uid: parseInt(this.selectedStore),
-                    });
-                    if (!store) {
-                        throw 'select store';
-                    }
-                } catch (e) {
-                    this.$snackbar.global.showInfo(
-                        'Please select store to export data'
-                    );
-                    return;
-                }
-                const payload = this.getExportPayload(store.store_code, store.uid);
-                this.showExportSuccessMessage(type, store.store_code, payload);
-            } else {
-                this.$snackbar.global.showInfo(
-                    `Please go to Processing or Processed tab for ${type}`
-                );
-                return;
-            }
-        },
-        showExportSuccessMessage(type, storeCode, payload) {
-            if (type == 'invoices') {
-                this.$refs.exporting.open({
-                    kind: 'Bulk Invoice',
-                    storeCode: storeCode,
-                    payload: payload,
-                });
-            } else {
-                this.$refs.exporting.open({
-                    kind: 'Manifest',
-                    storeCode: storeCode,
-                    payload: payload,
-                });
-            }
-        },
-        $exportingDialogClose(reason) {
-            console.log(reason);
-        },
+        // goToPicklist() {
+        //     const { from_date, to_date, stage, stores } = this.$route.query;
+        //     this.$router.push({
+        //         name: this.applicationId
+        //             ? 'application-order-picklist'
+        //             : 'company-order-picklist',
+        //         query: { from_date, to_date, stage, stores },
+        //     });
+        // },
+        // goToExportList() {
+        //     let store;
+        //     try {
+        //         store = find(this.storeList, {
+        //             uid: parseInt(this.selectedStore),
+        //         });
+        //         if (!store) {
+        //             throw 'select store';
+        //         }
+        //     } catch (e) {
+        //         this.$snackbar.global.showInfo(
+        //             'Please select store to export data'
+        //         );
+        //         return;
+        //     }
+        //     const params = {
+        //         storeCode: store.store_code,
+        //         type: 0,
+        //     };
+        //     this.$router.push({
+        //         name: this.applicationId
+        //             ? 'application-order-export-list'
+        //             : 'company-order-export-list',
+        //         params: params,
+        //     });
+        // },
+        // closeMoreFilters() {
+        //     this.viewMoreFilters = false;
+        // },
+        // getUid() {
+        //     return new Date().valueOf().toString(36);
+        // },
+        // getExportPayload(store_code, store_id) {
+        //     let payload = {
+        //         filters: {
+        //             from_date: moment(this.orderDateRange[0]).toISOString(),
+        //             to_date: moment(this.orderDateRange[1]).toISOString(),
+        //             page_no: this.pagination.current,
+        //             page_size: this.pagination.limit,
+        //             store_id,
+        //             stage: this.selectedStageTab,
+        //             company_id: this.companyId,
+        //         },
+        //         is_fplt: true,
+        //         document_type: "a4",
+        //         uid: this.getUid(),
+        //         store_code,
+        //     };
+        //     if(this.stagesSubFilter['status'].length > 0){
+        //         payload['filters']['status'] = this.stagesSubFilter['status'];
+        //     }
+        //     return payload;
+        // },
+        // exportOrders(type) {
+        //     if(this.selectedStageTab == 'processing' || this.selectedStageTab == 'processed') {
+        //         // check whenther store is selected before exporting data
+        //         let store;
+        //         try {
+        //             store = find(this.storeList, {
+        //                 uid: parseInt(this.selectedStore),
+        //             });
+        //             if (!store) {
+        //                 throw 'select store';
+        //             }
+        //         } catch (e) {
+        //             this.$snackbar.global.showInfo(
+        //                 'Please select store to export data'
+        //             );
+        //             return;
+        //         }
+        //         const payload = this.getExportPayload(store.store_code, store.uid);
+        //         this.showExportSuccessMessage(type, store.store_code, payload);
+        //     } else {
+        //         this.$snackbar.global.showInfo(
+        //             `Please go to Processing or Processed tab for ${type}`
+        //         );
+        //         return;
+        //     }
+        // },
+        // showExportSuccessMessage(type, storeCode, payload) {
+        //     if (type == 'invoices') {
+        //         this.$refs.exporting.open({
+        //             kind: 'Bulk Invoice',
+        //             storeCode: storeCode,
+        //             payload: payload,
+        //         });
+        //     } else {
+        //         this.$refs.exporting.open({
+        //             kind: 'Manifest',
+        //             storeCode: storeCode,
+        //             payload: payload,
+        //         });
+        //     }
+        // },
+        // $exportingDialogClose(reason) {
+        //     console.log(reason);
+        // },
         onAppBack() {
             this.$goBack('/administrator/orders/list');
         },
@@ -1083,18 +1083,18 @@ export default {
                 this.searchPlaceholder = filterData.text;
             }
         },
-        setAutoRefresh() {
-            if (this.autoRefresh) {
-                LocalStorageService.addOrUpdateItem(
-                    STORAGE_KEYS.AUTO_REFRESH_ORDER,
-                    this.autoRefresh
-                );
-                this.activateAutoRefresh();
-            } else {
-                LocalStorageService.removeItem(STORAGE_KEYS.AUTO_REFRESH_ORDER);
-                this.clearAutoRefresh();
-            }            
-        },
+        // setAutoRefresh() {
+        //     if (this.autoRefresh) {
+        //         LocalStorageService.addOrUpdateItem(
+        //             STORAGE_KEYS.AUTO_REFRESH_ORDER,
+        //             this.autoRefresh
+        //         );
+        //         this.activateAutoRefresh();
+        //     } else {
+        //         LocalStorageService.removeItem(STORAGE_KEYS.AUTO_REFRESH_ORDER);
+        //         this.clearAutoRefresh();
+        //     }            
+        // },
         handleNewOrderUpdates(){
             const params = this.getOrderRequestParams();
             // OrderService.fetchOrderLanesCount(this.companyId, params)
@@ -1105,15 +1105,15 @@ export default {
             //         }
             //     })
         },
-        activateAutoRefresh() {
-            this.clearAutoRefresh();
-            this.autoRefreshId = setInterval(() => {
-                this.handleNewOrderUpdates()
-            }, AUTO_REFRESH_TIME);
-        },
-        clearAutoRefresh() {
-            clearInterval(this.autoRefreshId);
-        },
+        // activateAutoRefresh() {
+        //     this.clearAutoRefresh();
+        //     this.autoRefreshId = setInterval(() => {
+        //         this.handleNewOrderUpdates()
+        //     }, AUTO_REFRESH_TIME);
+        // },
+        // clearAutoRefresh() {
+        //     clearInterval(this.autoRefreshId);
+        // },
         resetFilter(){  // function to reset search,date range,store,sales channel,status to empty
             this.search='';
             this.selectedStore='';
@@ -1123,9 +1123,9 @@ export default {
             this.fetchOrders();
         },
     },
-    beforeDestroy: function () {
-        this.clearAutoRefresh();
-    },
+    // beforeDestroy: function () {
+    //     // this.clearAutoRefresh();
+    // },
 };
 </script>
 
