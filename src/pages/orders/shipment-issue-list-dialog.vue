@@ -31,7 +31,8 @@
                         {{ issue.ticket_id }}
                     </div>
                     <div class="title">
-                        <span class="link" @click="goToTicket(issue._id)">
+                        <!-- <span class="link" @click="goToTicket(issue._id)"> -->
+                        <span class="link">
                             {{ issue.content.title || "No title"}}
                         </span>
                     </div>
@@ -112,8 +113,8 @@ export default {
                 "border-left": `5px solid ${issue.priority.color || "gray"}`
             }
         },
-        goToTicket(ticket_id) {
-            return null;
+        // goToTicket(ticket_id) {
+            // return null;
             // this.close();
             // this.$router.push({
             //     name: 'company-support-view',
@@ -122,18 +123,18 @@ export default {
             //     },
             //     params: { ticket_id }
             // });
-        },
-        reportAnIssue() {
-            this.close('');
-            let routeData = this.$router.resolve({ name: 'company-support-create', query: { redirect_url: this.$route.fullPath, shipment: this.shipment_id } }); 
-            if(this.isDrawerView){
-                window.open(routeData.href, '_blank')
-            }else{
-                setTimeout(() => {
-                    this.$router.push(routeData.location)
-                });
-            }
-        }
+        // },
+        // reportAnIssue() {
+        //     this.close('');
+        //     let routeData = this.$router.resolve({ name: 'company-support-create', query: { redirect_url: this.$route.fullPath, shipment: this.shipment_id } }); 
+        //     if(this.isDrawerView){
+        //         window.open(routeData.href, '_blank')
+        //     }else{
+        //         setTimeout(() => {
+        //             this.$router.push(routeData.location)
+        //         });
+        //     }
+        // }
     }
 };
 </script>
