@@ -290,7 +290,9 @@
             <!-- </div> -->
 
         </div>
-
+        <div class="sub-row" v-if="shipment && shipment.affiliate_details && shipment.affiliate_details.config">
+            <div class="application-name">Application Name: {{shipment.affiliate_details.config.name}}</div>
+        </div>
         <div class="sub-row">
             <div class="shipment-id">
                 <nitrozen-badge
@@ -1059,7 +1061,7 @@ export default {
            // eventHelper.trackOrderUpdateEvent(EVENTS[gaEventName], getUserInfo(this.userinfo, this.accessDetail), gaEventProperty)
         },
         getReportedIssues() {
-            SupportService.fetchTickets(this.company_id, {
+            return SupportService.fetchTickets({
                 limit: 200,
                 page: 1,
                 attachment_type: 'shipment',
@@ -1421,6 +1423,12 @@ export default {
     .sub-row {
         display: flex;
         margin-top: 6px;
+        .application-name{
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 25px;
+        color: @Mako;
+        }
         & > button {
             height: auto;
         }

@@ -866,7 +866,7 @@ export default {
 
             this.pagination.current = +page || this.pagination.current;
             this.pagination.limit = +limit || this.pagination.limit;
-            this.selectedStageTab = stage || 'all';
+            this.selectedStageTab = stage || 'new';
             this.search = search || this.search;
             this.filterType = filterType || 'auto';
             this.prioritySort = is_priority_sort || true;

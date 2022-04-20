@@ -52,11 +52,11 @@
             <div class="platform-logo">
                 <div class="application-info">
                     <img
-                        :title="application.name"
-                        :alt="application.name"
-                        :src="application.logo"
+                        :title="data.channel.name"
+                        :alt="data.channel.name"
+                        :src="data.channel.logo"
                     />
-                    <div class="application-name">{{ application.name }}</div>
+                    <div class="application-name">{{ data.channel.name }}</div>
                 </div>
             </div>
         </div>
@@ -228,34 +228,6 @@ export default {
         }
     },
     computed: {
-        ...mapGetters({
-            // companyApplications: GET_COMPANY_APPLICATIONS,
-            // registeredMarketplaces: ADMIN_GET_REGISTERED_MARKETPLACES,
-        }),
-        application() {
-            let result = {};
-            // result = find(this.companyApplications, {
-            //     id: this.data.application.id,
-            // });
-            // if (!result) {
-            //     let temp_result = null;
-            //     for (let mkp in this.registeredMarketplaces) {
-            //         if (
-            //             this.registeredMarketplaces[mkp].app_id ==
-            //             this.data.application.id
-            //         ) {
-            //             temp_result = this.registeredMarketplaces[mkp];
-            //             temp_result.name = mkp;
-            //             temp_result.id = this.data.application.id;
-            //         }
-            //     }
-            //     result = temp_result ? temp_result : this.data.application;
-            //     result.logo = this.data.channel && this.data.channel.logo;
-            //     // if(!result.name)
-            //     //     result.name = this.data.channel && this.data.channel.name;
-            // }
-            return result;
-        },
         created_at() {
             // @NOTE: Converting GMT to Current Timezone Date value
             return moment(this.data.created_at)
