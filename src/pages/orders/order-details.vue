@@ -470,7 +470,6 @@ export default {
             inProgress: false,
             orderData: null,
             shipmentList: [],
-            companyId: this.$route.params.company_id,
             applicationId: this.$route.params.applicationId,
 
             errorAlert: {
@@ -687,7 +686,7 @@ export default {
             };
 
             this.inProgress = true;
-            OrderService.updateShipmentStatus(payload, this.companyId)
+            OrderService.updateShipmentStatus(payload)
                 .then(({ data }) => {
                     const processShipmentPayload = {
                         shipment_ids: keys(shipments),

@@ -250,8 +250,6 @@ export default {
     },
     data() {
         return {
-            companyId: this.$route.params.company_id,
-            applicationId: this.$route.params.applicationId,
             errorText: undefined,
             pageLoading: false,
             inProgress: false,
@@ -350,7 +348,6 @@ export default {
             let params = {
                 order_id: this.order_id,
             };
-            // OrderService.fetchOrderDetails(this.companyId,this.applicationId, params)
             OrderService.fetchOrderDetails(params)
                 .then(({ data }) => {
                     this.pageError = false;
@@ -465,7 +462,7 @@ export default {
             };
 
             this.inProgress = true;
-            OrderService.updateShipmentStatus(payload, this.companyId)
+            OrderService.updateShipmentStatus(payload)
                 .then(({ data }) => {
                     const processShipmentPayload = {
                         shipment_ids: keys(shipments),
