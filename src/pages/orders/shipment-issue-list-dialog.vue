@@ -7,11 +7,11 @@
     >
         <template slot="body">
             <div class="issue-list">
-                <div class="top-row">
+                <!-- <div class="top-row">
                     <nitrozen-button theme="secondary" @click="reportAnIssue">
                         Create New
                     </nitrozen-button>
-                </div>
+                </div> -->
                 <div class="issue-list-header">
                     <div class="ticket-id">Ticket #</div>
                     <div class="title">Title</div>
@@ -113,14 +113,15 @@ export default {
             }
         },
         goToTicket(ticket_id) {
-            this.close();
-            this.$router.push({
-                name: 'company-support-view',
-                query: {
-                    redirect_url: this.$route.fullPath
-                },
-                params: { ticket_id }
-            });
+            return null;
+            // this.close();
+            // this.$router.push({
+            //     name: 'company-support-view',
+            //     query: {
+            //         redirect_url: this.$route.fullPath
+            //     },
+            //     params: { ticket_id }
+            // });
         },
         reportAnIssue() {
             this.close('');
@@ -202,11 +203,11 @@ export default {
                         word-break: break-word;
                         padding-right: 5px;
                         .link {
-                            cursor: pointer;
-                            color: @RoyalBlue;
-                            &:hover {
-                                text-decoration: underline;
-                            }
+                            // cursor: pointer;
+                            // color: @RoyalBlue;
+                            // &:hover {
+                            //     text-decoration: underline;
+                            // }
                         }
                     }
                     .status {
