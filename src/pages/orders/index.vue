@@ -583,80 +583,80 @@ export default {
                 this.setRouteQuery({lock_status: status})
             },500)
         },
-        fetchStores() {
-            this.inProgress = true;
-            const params = {
-                company_id: this.companyId,
-                sku_opt_details: false,
-                page_no: 1,
-                page_size: 10000, // support of all or search required
-                image_size: 'large',
-            };
-            const caller = AdminMarketplacesService.getStoreDetails(params);
-            caller
-                .then(({ data }) => {
-                    this.filteredStores = this.storeList = data.items.map(
-                        (store) => {
-                            store.text = store.name;
-                            store.value = store.uid;
-                            store.store_code=store.store_code;
+        // fetchStores() {
+        //     this.inProgress = true;
+        //     const params = {
+        //         company_id: this.companyId,
+        //         sku_opt_details: false,
+        //         page_no: 1,
+        //         page_size: 10000, // support of all or search required
+        //         image_size: 'large',
+        //     };
+        //     const caller = AdminMarketplacesService.getStoreDetails(params);
+        //     caller
+        //         .then(({ data }) => {
+        //             this.filteredStores = this.storeList = data.items.map(
+        //                 (store) => {
+        //                     store.text = store.name;
+        //                     store.value = store.uid;
+        //                     store.store_code=store.store_code;
                             
-                            return store;
-                        }
-                    );
+        //                     return store;
+        //                 }
+        //             );
 
-                    this.filteredStores = accessibleStoreIds
+        //             this.filteredStores = accessibleStoreIds
 
 
-                    this.filteredStores = this.storeList = sortBy(
-                        this.filteredStores,
-                        ['text']
-                    );
-                    this.populateFilters();
-                    this.fetchOrders();
-                })
-                .catch((err) => {
-                    console.error(err);
-                })
-                .finally(() => {
-                    // this.inProgress = false;
-                });
-        },
-        fetchDeploymentStores() {
-            this.inProgress = true;
-            const params = {
-                only_deployed:true,
-                page_no: 1,
-                page_size: 10000, // support of all or search required
+        //             this.filteredStores = this.storeList = sortBy(
+        //                 this.filteredStores,
+        //                 ['text']
+        //             );
+        //             this.populateFilters();
+        //             this.fetchOrders();
+        //         })
+        //         .catch((err) => {
+        //             console.error(err);
+        //         })
+        //         .finally(() => {
+        //             // this.inProgress = false;
+        //         });
+        // },
+        // fetchDeploymentStores() {
+        //     this.inProgress = true;
+        //     const params = {
+        //         only_deployed:true,
+        //         page_no: 1,
+        //         page_size: 10000, // support of all or search required
                
-            };
-            const app_details ={_id:this.applicationId};
-            APP_SERVICE_API.fetchfilteredDeploymentStoresStaffAccessible(params,app_details)
-            .then(({ data }) => {
-                    this.filteredDeploymentStores = this.deploymentStoreList = data.items.map(
-                        (store) => {
-                            store.text = store.name;
-                            store.value = store.uid;
-                            store.store_code=store.store_code;
-                            return store;
-                        }
-                    );
+        //     };
+        //     const app_details ={_id:this.applicationId};
+        //     APP_SERVICE_API.fetchfilteredDeploymentStoresStaffAccessible(params,app_details)
+        //     .then(({ data }) => {
+        //             this.filteredDeploymentStores = this.deploymentStoreList = data.items.map(
+        //                 (store) => {
+        //                     store.text = store.name;
+        //                     store.value = store.uid;
+        //                     store.store_code=store.store_code;
+        //                     return store;
+        //                 }
+        //             );
 
 
-                    this.filteredDeploymentStores = this.deploymentStoreList = sortBy(
-                        this.filteredDeploymentStores,
-                        ['text']
-                    );
-                    this.populateFilters();
-                    this.fetchOrders();
-                })
-                .catch((err) => {
-                    console.error(err);
-                })
-                .finally(() => {
-                    // this.inProgress = false;
-                });
-        },
+        //             this.filteredDeploymentStores = this.deploymentStoreList = sortBy(
+        //                 this.filteredDeploymentStores,
+        //                 ['text']
+        //             );
+        //             this.populateFilters();
+        //             this.fetchOrders();
+        //         })
+        //         .catch((err) => {
+        //             console.error(err);
+        //         })
+        //         .finally(() => {
+        //             // this.inProgress = false;
+        //         });
+        // },
         searchStore(text) {
             text = text ? text.toLowerCase():text;
             if (text) {

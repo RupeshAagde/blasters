@@ -115,4 +115,16 @@ describe('Shipment Page', () => {
         wrapper.vm.selectShipment()
         await wrapper.vm.$nextTick()
     });
+
+    it('call-update-invoice-with-blank-invoice', async() => {
+        wrapper.vm.store_invoice_id.value = '';
+        await wrapper.vm.submitInvoiceId();
+        expect(wrapper.vm.store_invoice_id.showError).toBe(true);
+    });
+    
+    it('call-update-invoice-with-invalid-invoice', async () => {
+        wrapper.vm.store_invoice_id.value = '***12345';
+        await wrapper.vm.submitInvoiceId();
+        expect(wrapper.vm.store_invoice_id.showError).toBe(true);
+    });
 });

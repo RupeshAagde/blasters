@@ -634,51 +634,51 @@ export default {
                 });
         },
 
-        updateMultipleShipment(nextStatus, reason, reason_text) {
-            const shipments = {};
+        // updateMultipleShipment(nextStatus, reason, reason_text) {
+        //     const shipments = {};
 
-            this.$refs.shipment.map((s) => {
-                if (s.isSelected && s.isNew) {
-                    shipments[s.shipment.id] = s.getShipmentPayload(
-                        nextStatus,
-                        reason,
-                        reason_text
-                    );
-                }
-            });
-            const shipmentIds = keys(shipments);
-            if (shipmentIds.length == 0) {
-                this.$snackbar.global.showWarning('No Shipment/Bag Selected');
-                return;
-            }
-            // partial confirmation of bags withing shipment leads to remaining bags to get cancelled
-            if (nextStatus == 'bag_confirmed') {
-                const cancellingShipments = [];
-                for (let i = 0; i < shipmentIds.length; i++) {
-                    const shipmentId = shipmentIds[i];
-                    const shipment = shipments[shipmentId];
+        //     this.$refs.shipment.map((s) => {
+        //         if (s.isSelected && s.isNew) {
+        //             shipments[s.shipment.id] = s.getShipmentPayload(
+        //                 nextStatus,
+        //                 reason,
+        //                 reason_text
+        //             );
+        //         }
+        //     });
+        //     const shipmentIds = keys(shipments);
+        //     if (shipmentIds.length == 0) {
+        //         this.$snackbar.global.showWarning('No Shipment/Bag Selected');
+        //         return;
+        //     }
+        //     // partial confirmation of bags withing shipment leads to remaining bags to get cancelled
+        //     if (nextStatus == 'bag_confirmed') {
+        //         const cancellingShipments = [];
+        //         for (let i = 0; i < shipmentIds.length; i++) {
+        //             const shipmentId = shipmentIds[i];
+        //             const shipment = shipments[shipmentId];
 
-                    if (shipment.exclude_shipments_pending) {
-                        delete shipment.exclude_shipments_pending;
-                        cancellingShipments.push({
-                            id: shipmentId,
-                            bags: this.getShipmentBags(
-                                shipmentId,
-                                shipment.exclude_shipments[0].status_update.bags
-                            ),
-                        });
-                    }
-                }
-                if (cancellingShipments.length > 0) {
-                    this.cancelledBagReasonDialog(
-                        cancellingShipments,
-                        shipments
-                    );
-                    return;
-                }
-            }
-            this.updateShipment(shipments, nextStatus);
-        },
+        //             if (shipment.exclude_shipments_pending) {
+        //                 delete shipment.exclude_shipments_pending;
+        //                 cancellingShipments.push({
+        //                     id: shipmentId,
+        //                     bags: this.getShipmentBags(
+        //                         shipmentId,
+        //                         shipment.exclude_shipments[0].status_update.bags
+        //                     ),
+        //                 });
+        //             }
+        //         }
+        //         if (cancellingShipments.length > 0) {
+        //             this.cancelledBagReasonDialog(
+        //                 cancellingShipments,
+        //                 shipments
+        //             );
+        //             return;
+        //         }
+        //     }
+        //     this.updateShipment(shipments, nextStatus);
+        // },
         updateShipment(shipments, nextStatus) {
             const payload = {
                 shipments,
@@ -811,14 +811,14 @@ export default {
         //     this.pageLoading = false;
         //     this.inProgress = false;
         // },
-        clickToCall({ receiver, title }) {
-            this.$refs.clickToCallDialog.open({ receiver, title });
-        },
-        $clickToCallDialogClosed(reason) {
-            if (reason == 'success') {
-                console.log(reason);
-            }
-        },
+        // clickToCall({ receiver, title }) {
+        //     this.$refs.clickToCallDialog.open({ receiver, title });
+        // },
+        // $clickToCallDialogClosed(reason) {
+        //     if (reason == 'success') {
+        //         console.log(reason);
+        //     }
+        // },
 
         goToOrderList: function () {
             this.$router
@@ -921,18 +921,18 @@ export default {
                 this.getOrder('next');
             }
         },
-        selectAllShipments() {
-            this.$refs.shipment.map((s) => {
-                s.selectAllBags();
-            });
-            this.calculateShipmentBag();
-        },
-        unselectAllShipments() {
-            this.$refs.shipment.map((s) => {
-                s.unselectAllBags();
-            });
-            this.calculateShipmentBag();
-        },
+        // selectAllShipments() {
+        //     this.$refs.shipment.map((s) => {
+        //         s.selectAllBags();
+        //     });
+        //     this.calculateShipmentBag();
+        // },
+        // unselectAllShipments() {
+        //     this.$refs.shipment.map((s) => {
+        //         s.unselectAllBags();
+        //     });
+        //     this.calculateShipmentBag();
+        // },
         calculateShipmentBag(init = false) {
             let count = {
                 bag: 0,
