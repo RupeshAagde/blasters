@@ -20,11 +20,12 @@ describe('ShipmentIssueListDialog', () => {
         const issues = TICKET_LIST.items;
         const shipment_id = ORDER_LIST_DATA.items[0].shipments[0].id;
         const isDrawerView = false
-        wrapper = shallowMount(ShipmentIssueListDialog, {
+        wrapper = mount(ShipmentIssueListDialog, {
             localVue,
             router,
             propsData: { issues, shipment_id, isDrawerView},
         });
+        wrapper.vm.open();
     });
 
     it('should render to a snapshot', () => {
