@@ -42,7 +42,7 @@
     "license": "ISC",
     "dependencies": {
         "@formschema/native": "^1.1.1",
-        "@gofynd/nitrozen-vue": "0.0.30",
+        "@gofynd/nitrozen-vue": "0.0.37",
         "@google/model-viewer": "^1.4.1",
         "@sentry/node": "^5.27.3",
         "ajv": "^6.12.6",
@@ -63,6 +63,7 @@
         "humanize-duration": "^3.27.0",
         "js2xmlparser": "4.0.1",
         "jsbarcode": "^3.11.5",
+        "jsondiffpatch": "^0.4.1",
         "lodash": "4.17.21",
         "lru-cache": "^5.1.1",
         "mavon-editor": "^2.9.1",

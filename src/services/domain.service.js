@@ -83,7 +83,12 @@ const GRINGOTTS_ADMIN_URL = isNode ?
 
 const COMMUNICATION_BASE_URL = isNode ?
     envVars.BROWSER_CONFIG.POINTBLANK_ADMIN_URL :
-    envVars.POINTBLANK_ADMIN_URL;    
+    envVars.POINTBLANK_ADMIN_URL;   
+    
+const PINPOINTER_ADMIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.PINPOINTER_ADMIN_URL :
+    envVars.PINPOINTER_ADMIN_URL;    
+     
 
 const PLATFORM_ORDERS_BASE = isNode ?
     envVars.BROWSER_CONFIG.APEFACE_ADMIN_URL :
@@ -289,6 +294,9 @@ const URLS = {
     //SKYWRAP
     LIST_USERS: (userId = '') => {
         return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/admin/staff/${userId}`);
+    },
+    CHECK_USER: () => {
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/user-info/search')
     },
 
     DELETE_USERS: (uid) => {
@@ -679,6 +687,13 @@ const URLS = {
         return urlJoin(GRINGOTTS_BASE, `/v1.0/company/${getCompInfo()}/application/${appId}/refund/accounts/order`);
     },
     // ==================================================
+    //PINPOINTER
+    AUDIT_TRAIL: (id='') => {
+        return urlJoin(PINPOINTER_ADMIN_URL, 'v1.0/logs/',id)
+    }
+    
+
+    
 };
 
 export default URLS;

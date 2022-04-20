@@ -26,6 +26,8 @@ import NavbarSettingsVue from './../../pages/settings/navbar';
 import FooterSettingsVue from './../../pages/settings/footer';
 import PricingBannerVue from './../../pages/settings/pricing_banner.vue';
 import CategoryList from '@/pages/product/category/list';
+import AuditLogs from './../../pages/audit-trail/index.vue';
+import AuditLogsDetails from './../../pages/audit-trail/log-detail.vue';
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
@@ -255,6 +257,35 @@ export default [
                 name: 'edit-dri',
                 path: 'company-details/:companyId/edit-dri/:uid',
                 component: AddEditDri,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company'],
+                        'companyId'
+                    );
+                }
+            },
+            //Audit Trail
+            {
+                name: 'audit-trail',
+                path: 'audit-trail',
+                component: AuditLogs,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company'],
+                        'companyId'
+                    );
+                }
+            },
+            {
+                name: 'audit-trail-detail',
+                path: 'audit-trail/logs/:id',
+                component: AuditLogsDetails,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(
                         to,
