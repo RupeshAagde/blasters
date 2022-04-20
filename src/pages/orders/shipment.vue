@@ -261,7 +261,7 @@
                     <template>
                         <div
                             class="activity-log"
-                            v-if="shipment && firstBag"
+                            v-if="firstBag"
                             title="View Shipment Activity"
                         >
                             <div @click="shipmentActivity">
@@ -271,7 +271,6 @@
                             </div>
                         </div>
                         <span
-                            v-if="checkUpdateRole || checkReadRole"
                             class="report-an-issue"
                             @click="$openIssueList"
                             title="Report an Issue"
