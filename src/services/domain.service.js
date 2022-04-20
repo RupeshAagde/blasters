@@ -623,25 +623,25 @@ const URLS = {
     ORDERS_LIST: () => {
         return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/orders');
     },
-    ORDER_LANES_COUNT: (companyId) => {
-        return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/company/', companyId, 'orders/lane-count');
+    ORDER_LANES_COUNT: () => {
+        return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/orders/lane-count');
     },
     ORDER_DETAILS: () => {
         return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/orders/details');
     },
-    ORDERS_PICKLIST: companyId => {
-        return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/company/', companyId, 'orders/picklist');
+    ORDERS_PICKLIST: () => {
+        return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/orders/picklist');
     },
-    ORDER_SHIPMENTS_STATUS_UPDATE: companyId => {
+    ORDER_SHIPMENTS_STATUS_UPDATE: () => {
         return urlJoin(
             PLATFORM_ORDERS_BASE,
-            `/v1.0/company/${companyId}/actions/status`
+            `/v1.0/actions/status`
         );
     },
-    ORDER_SHIPMENTS_ADDRESS: (company_id, shipment_id, address_type) => {
+    ORDER_SHIPMENTS_ADDRESS: (shipment_id, address_type) => {
         return urlJoin(
             PLATFORM_ORDERS_BASE,
-            `/v1.0/company/${company_id}/orders/shipments/${shipment_id}/address/${address_type}`
+            `/v1.0/orders/shipments/${shipment_id}/address/${address_type}`
         );
     },
     BAG_ACTIVITY_STATUS: () => {
@@ -652,18 +652,23 @@ const URLS = {
     STORE_PROCESS_SHIPMENTS: () => {
         return urlJoin(
             PLATFORM_ORDERS_BASE,
-            `/v1.0/company/${getCompInfo()}/actions/store/process-shipments`
+            `/v1.0/actions/store/process-shipments`
         );
     },
 
     //shipment breakable
     SHIPMENT_CAN_BREAK_OR_NOT: () => {
-        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/company/${getCompInfo()}/actions/can-break`)
+        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/actions/can-break`)
     },
 
     // shipment check refund
     SHIPMENT_CHECK_REFUND: (shipmentId) => {
-        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/company/${getCompInfo()}/actions/check-refund/${shipmentId}`);
+        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/actions/check-refund/${shipmentId}`);
+    },
+
+    // shipment dp tracking
+    SHIPMENT_DP_TRACKING: (shipmentId) => {
+        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/orders/shipments/${shipmentId}/track`);
     },
     // shipment save bank details
     SAVE_BANK_DETAILS: (appId) => {

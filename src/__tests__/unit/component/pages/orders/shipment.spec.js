@@ -18,7 +18,6 @@ import VALID_ACTIONS from "./fixtures/can-shipment-break.json";
 let localVue;
 const mock = new MockAdapter(axios);
 let wrapper, router;
-const companyId = '1';
 
 describe('Shipment Page', () => {
     beforeEach(async() => {
@@ -26,9 +25,8 @@ describe('Shipment Page', () => {
         localVue.use(VueRouter);
         mock.reset();
 
-        mock.onGet(URLS.ORDERS_LIST(companyId)).reply(200, ORDER_LIST_DATA);
-        mock.onGet(URLS.ORDER_LANES_COUNT(companyId)).reply(200, ORDER_LANES_COUNT_DATA);
-        // mock.onGet(ADMIN_URLS.FETCH_TICKETS(companyId)).reply(200, TICKET_LIST_DATA);
+        mock.onGet(URLS.ORDERS_LIST()).reply(200, ORDER_LIST_DATA);
+        mock.onGet(URLS.ORDER_LANES_COUNT()).reply(200, ORDER_LANES_COUNT_DATA);
         mock.onGet(URLS.FETCH_TICKETS()).reply(200, TICKET_LIST_DATA);
 
         router = new VueRouter({

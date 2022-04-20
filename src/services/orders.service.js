@@ -31,14 +31,14 @@ const OrderService = {
             );
             return ApiService.get(URLS.ORDERS_LIST(), axiosOption);
         },
-        fetchOrderLanesCount(comapnyId, params) {
-            let axiosOption = Object.assign({},
-                getCommonHeaderOptions(!!params.app_id), {
-                    params: params
-                }
-            );
-            return ApiService.get(URLS.ORDER_LANES_COUNT(comapnyId), axiosOption);
-        },
+        // fetchOrderLanesCount(comapnyId, params) {
+        //     let axiosOption = Object.assign({},
+        //         getCommonHeaderOptions(!!params.app_id), {
+        //             params: params
+        //         }
+        //     );
+        //     return ApiService.get(URLS.ORDER_LANES_COUNT(), axiosOption);
+        // },
         fetchOrderDetails(params) {
             let axiosOption = Object.assign({},
                 getCommonHeaderOptions(), {
@@ -55,28 +55,28 @@ const OrderService = {
         //     );
         //     return ApiService.get(URLS.ORDERS_PICKLIST(comapnyId), axiosOption);
         // },
-        getShipmentAddress(companyId, params) {
+        getShipmentAddress(params) {
             const { shipment_id, address_category } = params;
             let axiosOption = Object.assign({}, getCommonHeaderOptions());
             return ApiService.get(
-                URLS.ORDER_SHIPMENTS_ADDRESS(companyId, shipment_id, address_category),
+                URLS.ORDER_SHIPMENTS_ADDRESS(shipment_id, address_category),
                 axiosOption
             );
         },
-        updateShipmentAddress(companyId, params, data) {
+        updateShipmentAddress(params, data) {
             const { shipment_id, address_category } = params;
             let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { data });
             return ApiService.post(
-                URLS.ORDER_SHIPMENTS_ADDRESS(companyId, shipment_id, address_category),
+                URLS.ORDER_SHIPMENTS_ADDRESS(shipment_id, address_category),
                 axiosOption
             );
         },
-        updateShipmentStatus(data, companyId) {
+        updateShipmentStatus(data) {
             let axiosOption = Object.assign({}, getCommonHeaderOptions(false), {
                 data
             });
             return ApiService.post(
-                URLS.ORDER_SHIPMENTS_STATUS_UPDATE(companyId),
+                URLS.ORDER_SHIPMENTS_STATUS_UPDATE(),
                 axiosOption
             );
         },
@@ -199,15 +199,6 @@ const OrderService = {
         } else {
             return 'SLA Breached';
         }
-    },
-    // Ninja
-
-    // Failed orders
-    failedOrders(appId, companyId) {
-        return ApiService.get(URLS.FAILED_ORDERS(appId, companyId), {});
-    },
-    reprocessOrder(appId, companyId, orderId) {
-        return ApiService.post(URLS.REPROCESS_ORDERS(appId, companyId, orderId), {});
     },
     // DP Tracking
     shipmentDPTracking(shipment_id) {
