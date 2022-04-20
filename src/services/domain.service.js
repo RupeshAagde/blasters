@@ -632,16 +632,16 @@ const URLS = {
     ORDERS_PICKLIST: companyId => {
         return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/company/', companyId, 'orders/picklist');
     },
-    ORDER_SHIPMENTS_STATUS_UPDATE: companyId => {
+    ORDER_SHIPMENTS_STATUS_UPDATE: () => {
         return urlJoin(
             PLATFORM_ORDERS_BASE,
-            `/v1.0/company/${companyId}/actions/status`
+            `/v1.0/actions/status`
         );
     },
-    ORDER_SHIPMENTS_ADDRESS: (company_id, shipment_id, address_type) => {
+    ORDER_SHIPMENTS_ADDRESS: (shipment_id, address_type) => {
         return urlJoin(
             PLATFORM_ORDERS_BASE,
-            `/v1.0/company/${company_id}/orders/shipments/${shipment_id}/address/${address_type}`
+            `/v1.0/orders/shipments/${shipment_id}/address/${address_type}`
         );
     },
     BAG_ACTIVITY_STATUS: () => {
@@ -664,6 +664,11 @@ const URLS = {
     // shipment check refund
     SHIPMENT_CHECK_REFUND: (shipmentId) => {
         return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/company/${getCompInfo()}/actions/check-refund/${shipmentId}`);
+    },
+
+    // shipment dp tracking
+    SHIPMENT_DP_TRACKING: (shipmentId) => {
+        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/orders/shipments/${shipmentId}/track`);
     },
     // shipment save bank details
     SAVE_BANK_DETAILS: (appId) => {

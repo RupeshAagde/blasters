@@ -386,14 +386,13 @@
                             <span class="desc-title">Refund By: </span>
                             <span class="desc-value">{{shipment.refund_by}}</span>
                         </div>
-                        <span
-                            v-if="shipmentDetailsModifiable()"
+                        <!-- <span
                             href="#"
                             class="desc-link"
                             @click="editShipmentAddressDialog('delivery')"
                         >
                             {{`View${!readOnlyMode?'/Edit':''} Pickup Address`}}
-                        </span>
+                        </span> -->
                     </div>
                     <div v-if="pickedDate">
                         <div class="desc-row">
@@ -578,7 +577,7 @@
         >
         </view-prescription> -->
 
-        <nitrozen-dialog
+        <!-- <nitrozen-dialog
             class="shipment-address-dialog"
             ref="addressDialog"
             :title="shipmentAddressCategory=='delivery' ? `Return Pickup Address` : `Billing Address`"
@@ -621,13 +620,13 @@
                         {{ shipmentAddressPhone.errortext }}
                     </nitrozen-error>
                 </div>
-                <!-- <adm-address 
+                <adm-address 
                     ref="address" 
                     v-model="formattedShipmentAddress"
                     :showMap="false"
-                ></adm-address> -->
+                ></adm-address>
             </template>
-        </nitrozen-dialog>
+        </nitrozen-dialog> -->
     </div>
 </template>
 
@@ -755,7 +754,6 @@ export default {
         return {
             inProgress: false,
             isSelected: true, //false
-            company_id: this.$route.params.company_id,
             selectedBags: [],
 
             issues: [],
@@ -1170,9 +1168,6 @@ export default {
         isShipmentReturnable(){
             return this.shipment && this.shipment.status && SHIPMENT_RETURNABLE_STAGES.includes(this.shipment.status.status);
         },
-        shipmentDetailsModifiable(){
-            return this.accessDetail && this.accessDetail.order_role && ['customer_care','full_access'].includes(this.accessDetail.order_role);
-        },
         checkShipmentRefund() {
             if (
                 this.shipment &&
@@ -1201,91 +1196,91 @@ export default {
         $openPrescriptionDialog() {
             this.$refs.prescriptionDialog.open(this.viewPrescription);
         },
-        getShipmentAddress() {
-            if(this.isShipmentReturnable() && this.shipmentDetailsModifiable()){
-                this.shipmentAddressLoading = true;
-                const params = {
-                    shipment_id:this.shipment.id,
-                    address_category:this.shipmentAddressCategory
-                }
-                OrderService.getShipmentAddress(this.company_id,params)
-                    .then(({ data }) => {
-                        let address = data.data;
-                        this.shipmentAddress = address;
-                        this.formattedShipmentAddress = {
-                            address1: address.address,
-                            address2: address.area,
-                            landmark: address.landmark,
-                            city: address.city,
-                            state:address.state,
-                            country:address.country,
-                            pincode: address.pincode,
-                        }
-                        this.shipmentAddressName.value = address.name;
-                        this.shipmentAddressEmail.value = address.email;
-                        this.shipmentAddressPhone.value = address.phone;
-                        this.shipmentAddressLoading = false;
-                    })
-                    .catch((err) => {
-                        console.error(err);
-                        this.$refs.addressDialog.close();
-                    });
-            }
-        },
-        updateShipmentAddress() {
-            if(this.isShipmentReturnable() && this.shipmentDetailsModifiable()){
-                this.shipmentAddressLoading = true;
+        // getShipmentAddress() {
+        //     if(this.isShipmentReturnable() && this.shipmentDetailsModifiable()){
+        //         this.shipmentAddressLoading = true;
+        //         const params = {
+        //             shipment_id:this.shipment.id,
+        //             address_category:this.shipmentAddressCategory
+        //         }
+        //         OrderService.getShipmentAddress(params)
+        //             .then(({ data }) => {
+        //                 let address = data.data;
+        //                 this.shipmentAddress = address;
+        //                 this.formattedShipmentAddress = {
+        //                     address1: address.address,
+        //                     address2: address.area,
+        //                     landmark: address.landmark,
+        //                     city: address.city,
+        //                     state:address.state,
+        //                     country:address.country,
+        //                     pincode: address.pincode,
+        //                 }
+        //                 this.shipmentAddressName.value = address.name;
+        //                 this.shipmentAddressEmail.value = address.email;
+        //                 this.shipmentAddressPhone.value = address.phone;
+        //                 this.shipmentAddressLoading = false;
+        //             })
+        //             .catch((err) => {
+        //                 console.error(err);
+        //                 this.$refs.addressDialog.close();
+        //             });
+        //     }
+        // },
+        // updateShipmentAddress() {
+        //     if(this.isShipmentReturnable() && this.shipmentDetailsModifiable()){
+        //         this.shipmentAddressLoading = true;
                 
-                const params = {
-                    shipment_id:this.shipment.id,
-                    address_category:this.shipmentAddressCategory
-                }
-                const a = this.$refs.address.getAddress();
-                const body = {
-                    name:this.shipmentAddressName.value,
-                    email:this.shipmentAddressEmail.value,
-                    phone:this.shipmentAddressPhone.value,
-                    address: a.address1,
-                    area: a.address2,
-                    landmark: a.landmark,
-                    city: a.city && a.city.text,
-                    state:a.state && a.state.text,
-                    country:a.country && a.country.text,
-                    pincode: a.pincode
-                }
+        //         const params = {
+        //             shipment_id:this.shipment.id,
+        //             address_category:this.shipmentAddressCategory
+        //         }
+        //         const a = this.$refs.address.getAddress();
+        //         const body = {
+        //             name:this.shipmentAddressName.value,
+        //             email:this.shipmentAddressEmail.value,
+        //             phone:this.shipmentAddressPhone.value,
+        //             address: a.address1,
+        //             area: a.address2,
+        //             landmark: a.landmark,
+        //             city: a.city && a.city.text,
+        //             state:a.state && a.state.text,
+        //             country:a.country && a.country.text,
+        //             pincode: a.pincode
+        //         }
 
-                OrderService.updateShipmentAddress(this.company_id,params,body)
-                    .then(({ data }) => {
-                        this.shipmentAddress = {};
-                        this.formattedShipmentAddress = {}
-                        this.shipmentAddressLoading = false;
-                        this.$snackbar.global.showSuccess('Pickup Address updated successfully');
-                        this.$refs.addressDialog.close();
-                    })
-                    .catch((err) => {
-                        console.error(err);
-                        this.$snackbar.global.showError('Something went wrong!');
-                    });
-            }
-        },
-        editShipmentAddressDialog(address_category) {
-            this.shipmentAddressCategory = address_category;
-            this.getShipmentAddress();
-            if(this.isShipmentReturnable()){
-                this.$refs.addressDialog.open({
-                    width: '700px',
-                    height:'600px',
-                    showCloseButton: true,
-                    positiveButtonLabel:!this.readOnlyMode&&'Update',
-                    neutralButtonLabel:'Cancel'
-                });   
-            }
-        },
-        closeAddressDialog(value){
-            if(value==='Update'){
-                this.updateShipmentAddress()
-            }
-        },
+        //         OrderService.updateShipmentAddress(params,body)
+        //             .then(({ data }) => {
+        //                 this.shipmentAddress = {};
+        //                 this.formattedShipmentAddress = {}
+        //                 this.shipmentAddressLoading = false;
+        //                 this.$snackbar.global.showSuccess('Pickup Address updated successfully');
+        //                 this.$refs.addressDialog.close();
+        //             })
+        //             .catch((err) => {
+        //                 console.error(err);
+        //                 this.$snackbar.global.showError('Something went wrong!');
+        //             });
+        //     }
+        // },
+        // editShipmentAddressDialog(address_category) {
+        //     this.shipmentAddressCategory = address_category;
+        //     this.getShipmentAddress();
+        //     if(this.isShipmentReturnable()){
+        //         this.$refs.addressDialog.open({
+        //             width: '700px',
+        //             height:'600px',
+        //             showCloseButton: true,
+        //             positiveButtonLabel:!this.readOnlyMode&&'Update',
+        //             neutralButtonLabel:'Cancel'
+        //         });   
+        //     }
+        // },
+        // closeAddressDialog(value){
+        //     if(value==='Update'){
+        //         this.updateShipmentAddress()
+        //     }
+        // },
         smoothScroll() {
             if(this.$route.query.shipment_id){
             let target = document.getElementById(this.$route.query.shipment_id)

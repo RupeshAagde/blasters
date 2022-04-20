@@ -63,18 +63,16 @@
                             "
                             class="track-shipment-link"
                         >
-                            <a
+                            <!-- <a
                                 v-if="false"
                                 :href="''"
                                 target="_blank"
                                 rel="noopener"
                             >
                                 Track Shipment
-                            </a>
+                            </a> -->
                             <span
-                                href="#"
                                 class="opener"
-                                v-else
                                 @click="openShipmentTracking"
                             >
                                 Track Shipment
