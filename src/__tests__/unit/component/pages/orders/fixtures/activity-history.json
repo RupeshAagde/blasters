@@ -1,0 +1,28 @@
+{
+    "activity_history": [
+        {
+            "message": "{\"message\": \"Bag status changed to pending\", \"store_id\": 11674, \"store_code\": \"SSS007\", \"store_name\": \"HEY TESTING STORE\", \"reason\": {}, \"type\": \"activity_status\"}",
+            "createdat": "03 Dec 2020, 17:05:PM",
+            "user": "system",
+            "type": "activity_status",
+            "l1_detail": null,
+            "l2_detail": null,
+            "l3_detail": null,
+            "ticket_id": null,
+            "ticket_url": null,
+            "assigned_agent": null
+        },
+        {
+            "message": "{\"message\": \"Bag status changed to placed\", \"store_id\": 11674, \"store_code\": \"SSS007\", \"store_name\": \"HEY TESTING STORE\", \"reason\": {}, \"type\": \"activity_status\"}",
+            "createdat": "03 Dec 2020, 17:05:PM",
+            "user": "system",
+            "type": "activity_status",
+            "l1_detail": null,
+            "l2_detail": null,
+            "l3_detail": null,
+            "ticket_id": null,
+            "ticket_url": null,
+            "assigned_agent": null
+        }
+    ]
+}

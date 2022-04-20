@@ -28,7 +28,8 @@ describe('Shipment Page', () => {
 
         mock.onGet(URLS.ORDERS_LIST(companyId)).reply(200, ORDER_LIST_DATA);
         mock.onGet(URLS.ORDER_LANES_COUNT(companyId)).reply(200, ORDER_LANES_COUNT_DATA);
-        mock.onGet(ADMIN_URLS.FETCH_TICKETS(companyId)).reply(200, TICKET_LIST_DATA);
+        // mock.onGet(ADMIN_URLS.FETCH_TICKETS(companyId)).reply(200, TICKET_LIST_DATA);
+        mock.onGet(URLS.FETCH_TICKETS()).reply(200, TICKET_LIST_DATA);
 
         router = new VueRouter({
             routes: [
@@ -82,5 +83,38 @@ describe('Shipment Page', () => {
 
     it('should render to a snapshot', () => {
         expect(wrapper.element).toMatchSnapshot();
+    });
+
+    it('is a Vue instance', () => {
+        expect(wrapper.exists()).toBeTruthy();
+        const div = wrapper.find('div');
+        expect(div.exists()).toBe(true);
+    });
+
+    it('set data', async() => {
+        expect(wrapper.vm.issues.length).toBeGreaterThanOrEqual(0)
+    });
+
+    it('selectAllBags', async() => {
+        wrapper.vm.selectAllBags()
+        await wrapper.vm.$nextTick()
+        expect(wrapper.emitted().calculateShipmentBag).toBeTruthy()
+    });
+
+    it('unselectAllBags', async() => {
+        wrapper.vm.unselectAllBags()
+        await wrapper.vm.$nextTick()
+        expect(wrapper.emitted().calculateShipmentBag).toBeTruthy()
+    });
+
+    it('selectBag', async() => {
+        wrapper.vm.selectBag()
+        await wrapper.vm.$nextTick()
+        expect(wrapper.emitted().calculateShipmentBag).toBeTruthy()
+    });
+
+    it('selectBag', async() => {
+        wrapper.vm.selectShipment()
+        await wrapper.vm.$nextTick()
     });
 });
