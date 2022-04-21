@@ -46,7 +46,7 @@ const PLATFORM_LEADS_BASE = isNode ?
     envVars.HIGHBROW_ADMIN_URL;
 
 const ADMIN_ORDERS_BASE = isNode ?
-    envVars.BROWSER_CONFIG.APEFACE_ADMIN_SVC :
+    envVars.BROWSER_CONFIG.APEFACE_ADMIN_URL :
     envVars.APEFACE_ADMIN_URL;
 
 const INTERNAL_SETTINGS = isNode ?
@@ -90,9 +90,9 @@ const PINPOINTER_ADMIN_URL = isNode ?
     envVars.PINPOINTER_ADMIN_URL;    
      
 
-const PLATFORM_ORDERS_BASE = isNode ?
+const ADMIN_ORDER_BASE = isNode ?
     envVars.BROWSER_CONFIG.APEFACE_ADMIN_URL :
-    envVars.APEFACE_ADMIN_SVC;
+    envVars.APEFACE_ADMIN_URL;
 
 const URLS = {
     // User Profile API's
@@ -629,54 +629,54 @@ const URLS = {
 
     // ============= Order Service Endpoints ============
     ORDERS_LIST: () => {
-        return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/orders');
+        return urlJoin(ADMIN_ORDER_BASE, '/v1.0/orders');
     },
     ORDER_LANES_COUNT: () => {
-        return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/orders/lane-count');
+        return urlJoin(ADMIN_ORDER_BASE, '/v1.0/orders/lane-count');
     },
     ORDER_DETAILS: () => {
-        return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/orders/details');
+        return urlJoin(ADMIN_ORDER_BASE, '/v1.0/orders/details');
     },
     ORDERS_PICKLIST: () => {
-        return urlJoin(PLATFORM_ORDERS_BASE, '/v1.0/orders/picklist');
+        return urlJoin(ADMIN_ORDER_BASE, '/v1.0/orders/picklist');
     },
     ORDER_SHIPMENTS_STATUS_UPDATE: () => {
         return urlJoin(
-            PLATFORM_ORDERS_BASE,
+            ADMIN_ORDER_BASE,
             `/v1.0/actions/status`
         );
     },
     ORDER_SHIPMENTS_ADDRESS: (shipment_id, address_type) => {
         return urlJoin(
-            PLATFORM_ORDERS_BASE,
+            ADMIN_ORDER_BASE,
             `/v1.0/orders/shipments/${shipment_id}/address/${address_type}`
         );
     },
     BAG_ACTIVITY_STATUS: () => {
-        // return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/company/${getCompInfo()}/actions/activity/status`);
-        // return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/orders/actions/activity/status`);
-        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/orders/activity/status`);
+        // return urlJoin(ADMIN_ORDER_BASE, `/v1.0/company/${getCompInfo()}/actions/activity/status`);
+        // return urlJoin(ADMIN_ORDER_BASE, `/v1.0/orders/actions/activity/status`);
+        return urlJoin(ADMIN_ORDER_BASE, `/v1.0/orders/activity/status`);
     },
     STORE_PROCESS_SHIPMENTS: () => {
         return urlJoin(
-            PLATFORM_ORDERS_BASE,
+            ADMIN_ORDER_BASE,
             `/v1.0/actions/store/process-shipments`
         );
     },
 
     //shipment breakable
     SHIPMENT_CAN_BREAK_OR_NOT: () => {
-        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/actions/can-break`)
+        return urlJoin(ADMIN_ORDER_BASE, `/v1.0/actions/can-break`)
     },
 
     // shipment check refund
     SHIPMENT_CHECK_REFUND: (shipmentId) => {
-        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/actions/check-refund/${shipmentId}`);
+        return urlJoin(ADMIN_ORDER_BASE, `/v1.0/actions/check-refund/${shipmentId}`);
     },
 
     // shipment dp tracking
     SHIPMENT_DP_TRACKING: (shipmentId) => {
-        return urlJoin(PLATFORM_ORDERS_BASE, `/v1.0/orders/shipments/${shipmentId}/track`);
+        return urlJoin(ADMIN_ORDER_BASE, `/v1.0/orders/shipments/${shipmentId}/track`);
     },
     // shipment save bank details
     SAVE_BANK_DETAILS: (appId) => {
