@@ -721,18 +721,12 @@ export default {
                 .toLowerCase()
                 .trim()
                 .replace(/\s/gi, '-')
-                .replace(/[&\/\\#!,+()$@~%./^/&'":*?<>{}]/g, '');
+                .replace(/[&\/\\#!,+()$@~%./^/&'":*?<>{}]/g, '')
+                .replace(/[&,%]/g, '');
         },
-        handleSlugChange: debounce(function(slug, is_not_dirty) {
+        handleSlugChange(slug, is_not_dirty) {
             this.is_slug_dirty = !is_not_dirty;
-            if (slug.includes('&') || slug.includes('%')) {
-                this.collection_data.slug = this.collection_data.slug.replace(
-                    /[&,%]/g,
-                    ''
-                );
-                return;
-            }
-            if (slug.length > 24) {
+            if (this.collection_data.slug.length > 23) {
                 this.$set(
                     this.duplicate_slug,
                     'error',
@@ -743,7 +737,7 @@ export default {
             if (slug.length) {
                 this.collection_data.slug = this.nameToSlug(slug);
             }
-        }, 100),
+        },
         handleDuplicateSlug() {
             const { slug } = this.collection_data;
             this.is_slug_loading = true;
@@ -762,6 +756,7 @@ export default {
                     this.is_slug_loading = false;
                 });
             } else {
+                this.is_slug_loading = false;
                 this.$set(this.duplicate_slug, 'error', null);
             }
         },
