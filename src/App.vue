@@ -2,7 +2,7 @@
     <div id="app" ref="app" class="main-app">
         <template>
             <transition name="fade" mode="out-in">
-                <router-view></router-view>
+                <router-view ></router-view>
             </transition>
         </template>
     </div>

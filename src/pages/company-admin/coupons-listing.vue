@@ -251,13 +251,6 @@ export default {
         this.pagination.current = +page || this.pagination.current;
         this.pagination.limit = +limit || this.pagination.limit;
         }
-       
-        
-    },
-    computed: {
-       
-         
-
     },
     mounted(){
         this.populateFromURL()
