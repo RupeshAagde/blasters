@@ -12,6 +12,7 @@
                         <div
                             class="refresh-icon"
                             @click="reloadPage"
+                            ref="reload-order"
                             title="Refresh Order Details"
                         >
                             <inline-svg src="refresh"></inline-svg>
@@ -88,26 +89,6 @@
                     </nitrozen-button>
                 </div>
             </mirage-alert>
-            <!-- <mirage-alert class="support-alert">
-                <div class="support-container">
-                    <div class="email">
-                        Email:
-                        <a
-                            target="_blank"
-                            href="mailto:${storesupport@gofynd.com}"
-                            class="contact-text"
-                        >
-                            storesupport@gofynd.com
-                        </a>
-                    </div>
-                    <div class="phone">
-                        Contact No.:
-                        <a href="tel:+918879975431" class="contact-text">
-                            +91-8879975431
-                        </a>
-                    </div>
-                </div>
-            </mirage-alert> -->
             <!-- 
                 TODO: think on it, do not delete
                 <mirage-alert
@@ -166,7 +147,6 @@
                 <order-card
                     :order="orderData"
                     :orderDomain="orderDomain"
-                    @call="clickToCall($event)"
                 >
                     <!-- bulk shipment operations -->
                     <!-- <div
@@ -216,7 +196,6 @@
                     "
                     ref="shipment"
                     :showConfirm="!isNew"
-                    @call="clickToCall($event)"
                     @calculateShipmentBag="calculateShipmentBag"
                     :readOnlyMode="!!applicationId"
                 >

@@ -110,10 +110,10 @@ describe('Shipment Drawer Page', () => {
     //     wrapper.vm.$clickToCallDialogClosed('success')
     // })
 
-    it('updateShipmentStatus', async () => {
-        mock.onPost(URLS.ORDER_SHIPMENTS_STATUS_UPDATE(companyId)).reply(200, GET_STATUS);
-        wrapper.vm.updateShipment()
-        await wrapper.vm.$nextTick()
-        mock.onPost(URLS.STORE_PROCESS_SHIPMENTS()).reply(200, POST_DATA)
-    })
+    // it('updateShipmentStatus', async () => {
+    //     mock.onPost(URLS.ORDER_SHIPMENTS_STATUS_UPDATE(companyId)).reply(200, GET_STATUS);
+    //     wrapper.vm.updateShipment()
+    //     await wrapper.vm.$nextTick()
+    //     mock.onPost(URLS.STORE_PROCESS_SHIPMENTS()).reply(200, POST_DATA)
+    // })
 });

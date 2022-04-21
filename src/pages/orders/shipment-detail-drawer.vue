@@ -43,11 +43,11 @@
             </span>
         </div>
         <div class="header-section">
+            <!-- @call="clickToCall($event)" -->
             <order-card
                 v-if="!pageLoading && orderData"
                 :order="orderData"
                 :orderDomain="orderDomain"
-                @call="clickToCall($event)"
                 :isDrawerView='true'
             >
                 <template slot="action-button">
@@ -76,10 +76,10 @@
             :currentStateShipmentCount='1'
             :showConfirm="isNew"
             :isDrawerView='true'
-            @call="clickToCall($event)"
-            @update="updateShipment"
             :readOnlyMode="readOnlyMode"
         >
+            <!-- @call="clickToCall($event)" -->
+            <!-- @update="updateShipment" -->
             <loader v-if="inProgress" class="shipment-loading"></loader>
         </shipment>
 
@@ -333,9 +333,9 @@ export default {
             // }
         },
 
-        clickToCall({ receiver, title }) {
-            this.$refs.clickToCallDialog.open({ receiver, title });
-        },
+        // clickToCall({ receiver, title }) {
+        //     this.$refs.clickToCallDialog.open({ receiver, title });
+        // },
 
         $clickToCallDialogClosed(reason) {
             if (reason == 'success') {
@@ -454,72 +454,72 @@ export default {
             }
         },
 
-        updateShipment(shipments, nextStatus) {
-            const payload = {
-                shipments,
-                force_transition: false,
-                task: false,
-            };
+        // updateShipment(shipments, nextStatus) {
+        //     const payload = {
+        //         shipments,
+        //         force_transition: false,
+        //         task: false,
+        //     };
 
-            this.inProgress = true;
-            OrderService.updateShipmentStatus(payload)
-                .then(({ data }) => {
-                    const processShipmentPayload = {
-                        shipment_ids: keys(shipments),
-                        expected_status: nextStatus,
-                    };
-                    if (
-                        data.error_shipments &&
-                        data.error_shipments.length == 0
-                    ) {
-                        this.inProgress = true;
-                        OrderService.processShipments(processShipmentPayload)
-                            .then((ps_response) => {
-                                // this.inProgress = false;
-                                this.$snackbar.global.showSuccess(
-                                    `Shipments status updated successfully it might get sometime.`,
-                                    {
-                                        duration: 2000,
-                                    }
-                                );
-                                setTimeout(() => {
-                                    this.inProgress = false;
-                                });
-                                setTimeout(() => {
-                                    this.isStatusChange = true;
-                                    if(nextStatus === 'bag_not_confirmed'){
-                                        this.getOrder("0");
-                                        this.status = "bag_not_confirmed"
-                                    }else{
-                                        this.getOrder();
-                                    }
+        //     this.inProgress = true;
+        //     OrderService.updateShipmentStatus(payload)
+        //         .then(({ data }) => {
+        //             const processShipmentPayload = {
+        //                 shipment_ids: keys(shipments),
+        //                 expected_status: nextStatus,
+        //             };
+        //             if (
+        //                 data.error_shipments &&
+        //                 data.error_shipments.length == 0
+        //             ) {
+        //                 this.inProgress = true;
+        //                 OrderService.processShipments(processShipmentPayload)
+        //                     .then((ps_response) => {
+        //                         // this.inProgress = false;
+        //                         this.$snackbar.global.showSuccess(
+        //                             `Shipments status updated successfully it might get sometime.`,
+        //                             {
+        //                                 duration: 2000,
+        //                             }
+        //                         );
+        //                         setTimeout(() => {
+        //                             this.inProgress = false;
+        //                         });
+        //                         setTimeout(() => {
+        //                             this.isStatusChange = true;
+        //                             if(nextStatus === 'bag_not_confirmed'){
+        //                                 this.getOrder("0");
+        //                                 this.status = "bag_not_confirmed"
+        //                             }else{
+        //                                 this.getOrder();
+        //                             }
                                     
-                                }, 1000);
-                            })
-                            .catch((err) => {
-                                this.inProgress = false;
-                                this.$snackbar.global.showError(
-                                    'Unable to update status'
-                                );
-                                console.error(err);
-                            });
-                    } else {
-                        console.error('error in status update', data);
-                        this.inProgress = false;
-                        this.$snackbar.global.showError(
-                            'ERROR: ' + data.message
-                        );
-                    }
-                })
-                .catch((err) => {
-                    console.error(err);
-                    this.inProgress = false;
-                    this.$snackbar.global.showError('Unable to update status');
-                })
-                .finally(() => {
-                    this.inProgress = false;
-                });
-        },
+        //                         }, 1000);
+        //                     })
+        //                     .catch((err) => {
+        //                         this.inProgress = false;
+        //                         this.$snackbar.global.showError(
+        //                             'Unable to update status'
+        //                         );
+        //                         console.error(err);
+        //                     });
+        //             } else {
+        //                 console.error('error in status update', data);
+        //                 this.inProgress = false;
+        //                 this.$snackbar.global.showError(
+        //                     'ERROR: ' + data.message
+        //                 );
+        //             }
+        //         })
+        //         .catch((err) => {
+        //             console.error(err);
+        //             this.inProgress = false;
+        //             this.$snackbar.global.showError('Unable to update status');
+        //         })
+        //         .finally(() => {
+        //             this.inProgress = false;
+        //         });
+        // },
 
     }
 };

@@ -55,31 +55,31 @@ const OrderService = {
         //     );
         //     return ApiService.get(URLS.ORDERS_PICKLIST(comapnyId), axiosOption);
         // },
-        getShipmentAddress(params) {
-            const { shipment_id, address_category } = params;
-            let axiosOption = Object.assign({}, getCommonHeaderOptions());
-            return ApiService.get(
-                URLS.ORDER_SHIPMENTS_ADDRESS(shipment_id, address_category),
-                axiosOption
-            );
-        },
-        updateShipmentAddress(params, data) {
-            const { shipment_id, address_category } = params;
-            let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { data });
-            return ApiService.post(
-                URLS.ORDER_SHIPMENTS_ADDRESS(shipment_id, address_category),
-                axiosOption
-            );
-        },
-        updateShipmentStatus(data) {
-            let axiosOption = Object.assign({}, getCommonHeaderOptions(false), {
-                data
-            });
-            return ApiService.post(
-                URLS.ORDER_SHIPMENTS_STATUS_UPDATE(),
-                axiosOption
-            );
-        },
+        // getShipmentAddress(params) {
+        //     const { shipment_id, address_category } = params;
+        //     let axiosOption = Object.assign({}, getCommonHeaderOptions());
+        //     return ApiService.get(
+        //         URLS.ORDER_SHIPMENTS_ADDRESS(shipment_id, address_category),
+        //         axiosOption
+        //     );
+        // },
+        // updateShipmentAddress(params, data) {
+        //     const { shipment_id, address_category } = params;
+        //     let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { data });
+        //     return ApiService.post(
+        //         URLS.ORDER_SHIPMENTS_ADDRESS(shipment_id, address_category),
+        //         axiosOption
+        //     );
+        // },
+        // updateShipmentStatus(data) {
+        //     let axiosOption = Object.assign({}, getCommonHeaderOptions(false), {
+        //         data
+        //     });
+        //     return ApiService.post(
+        //         URLS.ORDER_SHIPMENTS_STATUS_UPDATE(),
+        //         axiosOption
+        //     );
+        // },
         bagActivityStatus(bag_id) {
             let axiosOption = Object.assign({},
                 getCommonHeaderOptions(), {

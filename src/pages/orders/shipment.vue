@@ -511,7 +511,7 @@
         </shipment-issue-list-dialog>
 
         <!-- Enter Invoice Number -->
-        <nitrozen-dialog
+        <!-- <nitrozen-dialog
             v-if="
                 shipment &&
                 shipment.status &&
@@ -552,7 +552,7 @@
                     >
                 </div>
             </template>
-        </nitrozen-dialog>
+        </nitrozen-dialog> -->
 
         <!-- shipment qc dialog -->
         <shipment-qc-dialog
@@ -908,29 +908,29 @@ export default {
                 //     this.accessDetail.order_role == 'full_access');
             return role;
         },
-        viewPrescription() {
-            const prescription = [];
-            if (this.shipment && this.shipment.bags.length) {
-                this.shipment.bags.map((ele) => {
-                    if(ele.files) {
-                        ele.files.map((file) => {
-                            if (file.key === 'prescription') {
-                                prescription.push({
-                                    id: ele.id,
-                                    file,
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-            return prescription;
-        },
+        // viewPrescription() {
+        //     const prescription = [];
+        //     if (this.shipment && this.shipment.bags.length) {
+        //         this.shipment.bags.map((ele) => {
+        //             if(ele.files) {
+        //                 ele.files.map((file) => {
+        //                     if (file.key === 'prescription') {
+        //                         prescription.push({
+        //                             id: ele.id,
+        //                             file,
+        //                         });
+        //                     }
+        //                 });
+        //             }
+        //         });
+        //     }
+        //     return prescription;
+        // },
 
     },
     mounted() {
         this.getReportedIssues();
-        this.checkShipmentRefund();
+        // this.checkShipmentRefund();
         this.smoothScroll()
     },
     methods: {
@@ -1129,17 +1129,17 @@ export default {
         selectShipment(e) {
             this.isSelected ? this.selectAllBags() : this.unselectAllBags();
         },
-        enterInvoiceId() {
-            this.store_invoice_id.showError = false; 
-            this.$refs.enterInvoiceId.open({
-                width: '550px',
-                height: '300px',
-                showCloseButton: true,
-            });
-        },
-        closeInvoiceDialog: function () {
-            this.$refs.enterInvoiceId.close();
-        },
+        // enterInvoiceId() {
+        //     this.store_invoice_id.showError = false; 
+        //     this.$refs.enterInvoiceId.open({
+        //         width: '550px',
+        //         height: '300px',
+        //         showCloseButton: true,
+        //     });
+        // },
+        // closeInvoiceDialog: function () {
+        //     this.$refs.enterInvoiceId.close();
+        // },
         submitInvoiceId() {
              let regex = new RegExp(/^([a-zA-Z1-9]{1}[a-zA-Z0-9\/-]{0,15})$/);
             if (!this.store_invoice_id.value) {
@@ -1159,21 +1159,21 @@ export default {
         isShipmentReturnable(){
             return this.shipment && this.shipment.status && SHIPMENT_RETURNABLE_STAGES.includes(this.shipment.status.status);
         },
-        checkShipmentRefund() {
-            if (
-                this.shipment &&
-                this.shipment.status &&
-                RETURN_ORDER_STATUS.includes(this.shipment.status.status)
-            ) {
-                OrderService.checkShipmentRefund(this.shipment.id)
-                    .then(({ data }) => {
-                        this.checkRefundObj = data;
-                    })
-                    .catch((err) => {
-                        console.error(err);
-                    });
-            }
-        },
+        // checkShipmentRefund() {
+        //     if (
+        //         this.shipment &&
+        //         this.shipment.status &&
+        //         RETURN_ORDER_STATUS.includes(this.shipment.status.status)
+        //     ) {
+        //         OrderService.checkShipmentRefund(this.shipment.id)
+        //             .then(({ data }) => {
+        //                 this.checkRefundObj = data;
+        //             })
+        //             .catch((err) => {
+        //                 console.error(err);
+        //             });
+        //     }
+        // },
         // openBankDetails() {
         //     const data = {
         //         shipment: this.shipment,

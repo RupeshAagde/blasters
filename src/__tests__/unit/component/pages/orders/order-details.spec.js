@@ -110,4 +110,10 @@ describe('Order Details Page', () => {
     it('Get Shipment Bags', () => {
         wrapper.vm.getShipmentBags('16141714058381943588', ['343784'])
     });
+    it('Reload Order', async() => {
+        const reloadButton = wrapper.findComponent({ ref: 'reload-order' });
+        reloadButton.trigger('click');
+        await flushPromises();
+        expect(wrapper.vm.orderData.id).toBe(ORDER_LIST_DATA.items[0].id)
+    });
 })
