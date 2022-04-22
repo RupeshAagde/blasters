@@ -495,9 +495,9 @@ export default {
                 }
                 this.slugsL2 = value;
             }
-            if(value.key  === 'all'){
-                this.slugsL1 = {}
-                this.slugsL2 = {}
+            if (value.key === 'all') {
+                this.slugsL1 = {};
+                this.slugsL2 = {};
                 this.query = {};
                 this.fetchExtensions(1, '', this.query);
                 return;
@@ -555,9 +555,10 @@ export default {
             );
             Promise.all([getAllPulblicExtension, getExtnesionCategory]).then(
                 ([data, category]) => {
-                    this.extensions_selected = cloneDeep(
-                        this.selected_extensions
-                    );
+                    this.extensions_selected = cloneDeep([
+                        ...this.selected_extensions,
+                        ...this.extensions_selected
+                    ]);
                     const all_selected = [
                         ...this.selected_extensions,
                         ...this.extensions_selected

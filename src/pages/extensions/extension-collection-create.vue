@@ -734,9 +734,7 @@ export default {
                 );
                 return;
             }
-            if (slug.length) {
-                this.collection_data.slug = this.nameToSlug(slug);
-            }
+            this.collection_data.slug = this.nameToSlug(slug);
         },
         handleDuplicateSlug() {
             const { slug } = this.collection_data;
