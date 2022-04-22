@@ -722,9 +722,10 @@ export default {
                 .trim()
                 .replace(/\s/gi, '-')
                 .replace(/[&\/\\#!,+()$@~%./^/&'":*?<>{}]/g, '')
-                .replace(/[&,%]/g, '');
+                .replace(/[&,%]/g, '')
+                .replace(/[\[\]']+/g, '');
         },
-        handleSlugChange(slug, is_not_dirty) {
+        handleSlugChange: debounce(function(slug, is_not_dirty) {
             this.is_slug_dirty = !is_not_dirty;
             if (this.collection_data.slug.length > 23 && slug.length > 23) {
                 this.$set(
@@ -735,7 +736,7 @@ export default {
                 return;
             }
             this.collection_data.slug = this.nameToSlug(slug);
-        },
+        }, 100),
         handleDuplicateSlug() {
             const { slug } = this.collection_data;
             this.is_slug_loading = true;
