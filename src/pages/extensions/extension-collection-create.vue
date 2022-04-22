@@ -726,7 +726,7 @@ export default {
         },
         handleSlugChange(slug, is_not_dirty) {
             this.is_slug_dirty = !is_not_dirty;
-            if (this.collection_data.slug.length > 23) {
+            if (this.collection_data.slug.length > 23 && slug.length > 23) {
                 this.$set(
                     this.duplicate_slug,
                     'error',
