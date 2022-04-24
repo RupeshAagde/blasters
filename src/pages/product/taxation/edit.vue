@@ -225,7 +225,7 @@
         <!--Confirmation dailog -->
         <nitrozen-dialog ref="confirm-dialog" title="Confirmation">
             <template slot="body">
-                <p>Are you sure you want to delete Rate</p>
+                <p>Are you sure you want to delete rate</p>
             </template>
             <template slot="footer">
                 <div class="footer-actions-buttons">
@@ -517,6 +517,7 @@ export default {
             this.datedTax = {};
 
             for (let item of this.taxes.value) {
+                const a = item.effective_date
                 let date_key = item.effective_date;
                 date_key = date_key.split('T')[0];
                 if (date_key in datedTax) {
@@ -526,7 +527,7 @@ export default {
                 }
             }
             //to get latest active date
-            let currentDate = new Date().setHours(23);
+            let currentDate = new Date().setHours(1);
             currentDate = new Date(currentDate).toISOString().split('T')[0];
             currentDate = Number(currentDate.replaceAll('-', ''));
             let allDates = Object.keys(datedTax);
@@ -562,8 +563,6 @@ export default {
             }
             //assigning the newUpdated object to global variable
             this.datedTax = datedTax;
-
-            // console.log(this.datedTax);
         },
         isRateActive(state) {
             if (state == 'Active') {
@@ -713,6 +712,9 @@ export default {
         },
         format_date(value) {
             if (value) {
+                if(!value.includes(".000Z")){
+                    value = new Date(value+".000Z").toLocaleString('sv').replace(' ', 'T')
+                }
                 return moment(value).format('D MMM, YYYY');
             }
         },
