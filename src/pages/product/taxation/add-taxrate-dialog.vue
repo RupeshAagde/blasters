@@ -81,23 +81,7 @@
                         @click.stop.native="removeRate()"
                     ></ukt-inline-svg>
                     <div class="row">
-                        <div class="input-box">
-                            <adm-date-picker
-                                label="Effective date *"
-                                required
-                                date_format="YYYY-MM-DD"
-                                :picker_type="'date'"
-                                class="st-date"
-                                v-model="slab1.effective_date.value"
-                                :useNitrozenTheme="true"
-                            />
-                            <nitrozen-error
-                                v-if="slab1.effective_date.showerror"
-                            >
-                                {{ slab1.effective_date.errortext }}
-                            </nitrozen-error>
-                        </div>
-                        <div class="input-box">
+                        <div class="input-box2">
                             <nitrozen-input
                                 label="Cess"
                                 type="number"
@@ -635,6 +619,9 @@ export default {
 
         .input-box {
             width: 48%;
+        }
+        .input-box2 {
+            width: 100%;
         }
         .input-date {
             width: 100%;

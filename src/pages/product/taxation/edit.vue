@@ -350,7 +350,7 @@ export default {
                 value: '',
                 showerror: false,
                 errortext:
-                    "Description is required and it's length should be between 10 to 100 chars"
+                    "Description is required and it's length should be between 4 to 100 chars"
             },
             taxes: {
                 value: [],
@@ -596,7 +596,7 @@ export default {
             }
             if (
                 this.description.value !== '' &&
-                this.description.value.length > 9 &&
+                this.description.value.length > 3 &&
                 this.description.value.length <= 100
             ) {
                 this.description.showerror = false;
@@ -689,11 +689,11 @@ export default {
             this.$set(this.errors, 'description', '');
             if (
                 this.description.value.toString().length >= 101 ||
-                this.description.value.toString().length < 10
+                this.description.value.toString().length < 4
             ) {
                 isValid = false;
                 this.errors.description =
-                    "Description is required and it's length should be between 10 to 100 chars";
+                    "Description is required and it's length should be between 4 to 100 chars";
             }
             return isValid;
         },
