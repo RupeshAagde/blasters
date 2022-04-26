@@ -142,7 +142,7 @@ export default {
         }),
     },
     methods: {
-        printInvoice(status, type, viewOption,event) {
+        printInvoice(status, type, viewOption, event) {
             if(event){
                 event.stopPropagation();
             }
@@ -215,7 +215,7 @@ export default {
                     default:
                         return;
                 }
-            }else{
+            } else{
                 switch (status) {
                     case 'a4':
                         invoiceTemplate = new InvoiceA4TemplateService(

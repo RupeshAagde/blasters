@@ -67,6 +67,10 @@ if (!(config.get('env') !== 'development')) {
 
 app.use('/public', express.static('public', { maxAge: 30 * 86400000 }))
 
+app.get('/montserrat', (req, res) => {
+  res.sendFile(path.join(__dirname, './montserrat.json'));
+});
+
 app.get('/favicon.ico', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/assets/favicon.png'))
 })

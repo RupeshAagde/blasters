@@ -1,4 +1,4 @@
-// import GrindorService from '../admin/grindor.service';
+import GrindorService from '../grindor.service';
 import ApiService from '../api.service';
 
 function getBase64DataURL(url) {
@@ -15,16 +15,15 @@ function getBase64DataURL(url) {
                 var dataURL = canvas.toDataURL('image/png');
                 resolve(dataURL);
             };
-            // ApiService.get(`${GrindorService.getProxyURL()}?url=${url}`, {}, { responseType: 'arraybuffer' })
-            //     .then(res => {
-            //         let image = btoa(
-            //             new Uint8Array(res.data)
-            //             .reduce((data, byte) => data + String.fromCharCode(byte), '')
-            //         );
-            //         img.src = `data:image/png;base64,${image}`;
-            //     });
+            ApiService.get(`${GrindorService.getProxyURL()}?url=${url}`, {}, { responseType: 'arraybuffer' })
+                .then(res => {
+                    let image = btoa(
+                        new Uint8Array(res.data)
+                        .reduce((data, byte) => data + String.fromCharCode(byte), '')
+                    );
+                    img.src = `data:image/png;base64,${image}`;
+                });
         } catch (e) {
-            console.log(e);
             resolve(false);
         }
     });

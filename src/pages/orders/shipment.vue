@@ -216,7 +216,7 @@
                     </template> -->
 
                     <!-- Print Invoice -->
-                    <!-- <template
+                    <template
                         v-if="
                             shipment &&
                             shipment.invoice &&
@@ -255,7 +255,7 @@
                                 ></invoice-label-menu>
                             </span>
                         </div>
-                    </template> -->
+                    </template>
 
                     <!-- Shipment Activity and Report Issues -->
                     <template>
@@ -931,7 +931,7 @@ export default {
     mounted() {
         this.getReportedIssues();
         // this.checkShipmentRefund();
-        this.smoothScroll()
+        this.smoothScroll();
     },
     methods: {
         getInitialValue(value) {

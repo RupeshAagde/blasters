@@ -1085,7 +1085,10 @@ export class InvoiceA4TemplateService {
         }));
 
         if (this.isGstinAvailable) {
-            if (this.shipment.bags[0].financial_breakup[0].gst_tag === 'IGST') {
+            if (
+                this.shipment.bags[0].financial_breakup.length > 0 && 
+                this.shipment.bags[0].financial_breakup[0].gst_tag === 'IGST'
+            ) {
                 this.header_arr.push({
                     text: 'IGST',
                     style: 'tableHeader',
