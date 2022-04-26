@@ -73,7 +73,9 @@ export default {
             }
         },
         close(clickBtn) {
-            this.$emit('close', clickBtn, this.$refs['permissions'].userData);
+            setTimeout(() => {
+                this.$emit('close', clickBtn, this.$refs['permissions'].userData);
+            });
         },
         getFullName() {
             return (

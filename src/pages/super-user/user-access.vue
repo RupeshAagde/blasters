@@ -473,6 +473,7 @@ export default {
                     .finally(() => {
                         if (this.userId !== searchUserId) {
                             this.userId = searchUserId;
+                            this.pagination.current = 1;
                             this.fetchUsers();
                         }
                     });
@@ -567,7 +568,7 @@ export default {
                     .then(() => {
                         this.fetchUsers();
                         this.$snackbar.global.showSuccess(
-                            'Successfully update user data'
+                            'Successfully updated user data'
                         );
                         if (this.currentUserPermission.user === userId) {
                             this.$store.dispatch(VALIDATE_USER);
