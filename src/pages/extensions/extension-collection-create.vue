@@ -553,7 +553,7 @@ export default {
             if (this.is_slug_dirty || this.checkSlugDisable()) {
                 return;
             }
-            this.handleSlugChange(slug, true);
+            this.handleSlugChange(this.nameToSlug(slug).substr(0, 24), true);
         },
         changeStatus(value) {
             this.collection_data.published = value;
@@ -722,7 +722,7 @@ export default {
                 .trim()
                 .replace(/\s/gi, '-')
                 .replace(/[&\/\\#!,+()$@~%./^/&'":*?<>{}]/g, '')
-                .replace(/[&,%]/g, '')
+                .replace(/[&,%,_]/g, '')
                 .replace(/[\[\]']+/g, '');
         },
         handleSlugChange: debounce(function(slug, is_not_dirty) {

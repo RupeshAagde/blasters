@@ -194,9 +194,21 @@
                                             />
                                         </div>
                                         <div class="base-card-right">
-                                            <div class="extension-name">
+                                            <div
+                                                class="extension-name"
+                                                :title="
+                                                    extension.listing_info.name
+                                                "
+                                            >
                                                 {{
                                                     extension.listing_info.name
+                                                        .length > 28
+                                                        ? extension.listing_info.name.substr(
+                                                              0,
+                                                              28
+                                                          ) + '...'
+                                                        : extension.listing_info
+                                                              .name
                                                 }}
                                             </div>
                                             <div class="extension-creator">
@@ -274,7 +286,7 @@ import {
     NitrozenChips,
     NitrozenInline
 } from '@gofynd/nitrozen-vue';
-import { isEmpty, uniqBy, cloneDeep } from 'lodash';
+import { isEmpty, uniqBy, uniq, cloneDeep } from 'lodash';
 
 const PAGINATION = {
     limit: 20,
@@ -372,6 +384,7 @@ export default {
             this.priceSlug = [];
             this.query = {};
             this.whichOpen = 'all';
+            this.searchText = '';
             this.fetchExtensions();
         },
 
@@ -555,10 +568,12 @@ export default {
             );
             Promise.all([getAllPulblicExtension, getExtnesionCategory]).then(
                 ([data, category]) => {
-                    this.extensions_selected = cloneDeep([
-                        ...this.selected_extensions,
-                        ...this.extensions_selected
-                    ]);
+                    this.extensions_selected = cloneDeep(
+                        uniq([
+                            ...this.selected_extensions,
+                            ...this.extensions_selected
+                        ])
+                    );
                     const all_selected = [
                         ...this.selected_extensions,
                         ...this.extensions_selected
