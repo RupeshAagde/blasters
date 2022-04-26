@@ -240,6 +240,34 @@
                                     ></nitrozen-dropdown>
                                 </div>
                             </div>
+
+                            <div class="filter-row">
+                                <nitrozen-dropdown
+                                    v-if="allCompanies"
+                                    label="Company"
+                                    class="filter-dropdown filter-input-sm company-dropdown"
+                                    :searchable="true"
+                                    :items="allCompanies"
+                                    v-model="selectedCompany"
+                                    @change="companyChange"
+                                    @searchInputChange="searchCompany($event.text)"
+                                >
+                                </nitrozen-dropdown>
+                                <nitrozen-error v-if="noCompanyFound">
+                                    No companies found with {{ searchCompanyText }}
+                                </nitrozen-error>
+
+                                <nitrozen-dropdown
+                                    v-if="selectedCompany && allSalesChannels.length"
+                                    label="Sales Channel"
+                                    class="filter-dropdown filter-input-sm apps-dropdown"
+                                    :items="allSalesChannels"
+                                    v-model="selectedSalesChannels"
+                                    @change="filterChange"
+                                    :multiple="true"
+                                ></nitrozen-dropdown>
+                            </div>
+
                             <!-- Adding reset btn to clear search field,sales channel,status-->
                             <div class="filter-row">
                                  <nitrozen-button :theme="'secondary'" @click="resetFilter">Reset Filter</nitrozen-button>
@@ -305,6 +333,7 @@ import OrderListItem from './order-list-item.vue';
 import DatePicker from '@/components/common/date-picker.vue';
 import OrderService from '@/services/orders.service';
 import AdminMarketplacesService from '@/services/admin-marketplaces.service'; // why its in marketplace?
+import CompanyService from '@/services/company-admin.service';
 import AdmPageHeader from '@/components/common/layout/page-header.vue';
 import { dateRangeShortcuts } from '@/helper/datetime.util';
 import InlineSvg from '@/components/common/adm-inline-svg.vue';
@@ -341,6 +370,7 @@ import {
     NitrozenTab,
     NitrozenMenu,
     NitrozenMenuItem,
+    NitrozenError
 } from '@gofynd/nitrozen-vue';
 
 const PAGINATION = {
@@ -367,6 +397,7 @@ export default {
         DatePicker,
         AdmPageHeader,
         NitrozenButton,
+        NitrozenError,
         NitrozenDropdown,
         NitrozenInput,
         NitrozenPagination,
@@ -388,31 +419,30 @@ export default {
             applicationId: this.$route.params.applicationId,
             lockShipment: false,
             stages: [{
-        "text": "All",
-        "value": "all",
-        "count": 0
-    }, {
-        "text": "New",
-        "value": "new",
-        "count": 0
-    }, {
-        "text": "Processing",
-        "value": "processing",
-        "count": 0
-    }, {
-        "text": "Processed",
-        "value": "processed",
-        "count": 0
-    }, {
-        "text": "Returns",
-        "value": "returns",
-        "count": 0
-    }, {
-        "text": "Escalations",
-        "value": "escalations",
-        "count": 0
-    }],
-
+                "text": "All",
+                "value": "all",
+                "count": 0
+            }, {
+                "text": "New",
+                "value": "new",
+                "count": 0
+            }, {
+                "text": "Processing",
+                "value": "processing",
+                "count": 0
+            }, {
+                "text": "Processed",
+                "value": "processed",
+                "count": 0
+            }, {
+                "text": "Returns",
+                "value": "returns",
+                "count": 0
+            }, {
+                "text": "Escalations",
+                "value": "escalations",
+                "count": 0
+            }],
             filters: null,
             applied_filters: null,
             stagesSubFilter: {},
@@ -443,6 +473,10 @@ export default {
                 {
                     text: 'Auto',
                     value: 'auto',
+                },
+                {
+                    text: 'Company',
+                    value: 'value'
                 },
                 {
                     text: 'Fynd Order ID',
@@ -495,7 +529,14 @@ export default {
                 },
             ],
             autoRefresh: false,
-            autoRefreshId: null
+            autoRefreshId: null,
+            allCompaniesInfo: [],
+            allCompanies: null,
+            selectedCompany: null,
+            noCompanyFound: false,
+            searchCompanyText: '',
+            allSalesChannels: [],
+            selectedSalesChannels: []
         };
     },
     computed: {
@@ -548,12 +589,13 @@ export default {
 
     mounted() {
         this.populateFromURL();
-        //this.fetchStores();
+        this.fetchStores();
         // if(this.applicationId){
         //     this.fetchDeploymentStores();
         // }
         this.populateFilters();
         this.fetchOrders();
+        this.fetchCompanyList();
         
         // this.fetchOrderLaneCount(true);
         const auto_refresh = LocalStorageService.getItem(
@@ -565,6 +607,44 @@ export default {
         }
     },
     methods: {
+        fetchCompanyList(query) {
+            return CompanyService.getCompanyList(query)
+            .then(response => {
+                if(response.data.items.length === 0) {
+                    this.noCompanyFound = true;
+                    this.allCompaniesInfo = [];
+                    this.allCompanies = [];
+                } else {
+                    this.noCompanyFound = false;
+                    this.allCompaniesInfo = response.data.items;
+                    this.allCompanies = response.data.items.map(item => {
+                        return {
+                            text: item.name,
+                            value: item.uid
+                        }
+                    });
+                }
+            })
+        },
+        fetchApplications() {
+            return CompanyService.fetchApplication(this.selectedCompany, {page_size: 150})
+            .then(response => {
+                this.allSalesChannels = response.data.items.map(item => {
+                    return {
+                        text: item.name,
+                        value: item.id
+                    }
+                });
+            })
+        },
+        companyChange() {
+            this.fetchApplications();
+            this.filterChange();
+        },
+        searchCompany(e) {
+            this.searchCompanyText = e;
+            this.fetchCompanyList({q: e});
+        },
         getTabText(stage) {
             return stage && stage.text
             let tabText = stage && stage.text ? `${stage.text} ` : '';
@@ -583,45 +663,45 @@ export default {
                 this.setRouteQuery({lock_status: status})
             },500)
         },
-        // fetchStores() {
-        //     this.inProgress = true;
-        //     const params = {
-        //         company_id: this.companyId,
-        //         sku_opt_details: false,
-        //         page_no: 1,
-        //         page_size: 10000, // support of all or search required
-        //         image_size: 'large',
-        //     };
-        //     const caller = AdminMarketplacesService.getStoreDetails(params);
-        //     caller
-        //         .then(({ data }) => {
-        //             this.filteredStores = this.storeList = data.items.map(
-        //                 (store) => {
-        //                     store.text = store.name;
-        //                     store.value = store.uid;
-        //                     store.store_code=store.store_code;
+        fetchStores() {
+            this.inProgress = true;
+            const params = {
+                company_id: this.companyId,
+                sku_opt_details: false,
+                page_no: 1,
+                page_size: 10000, // support of all or search required
+                image_size: 'large',
+            };
+            // const caller = AdminMarketplacesService.getStoreDetails(params);
+            // caller
+            //     .then(({ data }) => {
+            //         this.filteredStores = this.storeList = data.items.map(
+            //             (store) => {
+            //                 store.text = store.name;
+            //                 store.value = store.uid;
+            //                 store.store_code=store.store_code;
                             
-        //                     return store;
-        //                 }
-        //             );
+            //                 return store;
+            //             }
+            //         );
 
-        //             this.filteredStores = accessibleStoreIds
+            //         this.filteredStores = accessibleStoreIds
 
 
-        //             this.filteredStores = this.storeList = sortBy(
-        //                 this.filteredStores,
-        //                 ['text']
-        //             );
-        //             this.populateFilters();
-        //             this.fetchOrders();
-        //         })
-        //         .catch((err) => {
-        //             console.error(err);
-        //         })
-        //         .finally(() => {
-        //             // this.inProgress = false;
-        //         });
-        // },
+            //         this.filteredStores = this.storeList = sortBy(
+            //             this.filteredStores,
+            //             ['text']
+            //         );
+            //         this.populateFilters();
+            //         this.fetchOrders();
+            //     })
+            //     .catch((err) => {
+            //         console.error(err);
+            //     })
+            //     .finally(() => {
+            //         // this.inProgress = false;
+            //     });
+        },
         // fetchDeploymentStores() {
         //     this.inProgress = true;
         //     const params = {
@@ -692,6 +772,8 @@ export default {
                 lock_status: this.lockShipment,
                 q: this.search,
                 filter_type: this.filterType,
+                company_id: this.selectedCompany,
+                sales_channels: this.selectedSalesChannels,
                 ...this.stagesSubFilter,
             };
 
@@ -1118,6 +1200,7 @@ export default {
             this.search='';
             this.selectedStore='';
             this.selectedDeploymentStore='';
+            this.selectedCompany = null;
             this.stagesSubFilter={};
             this.filterChange();
             this.fetchOrders();
