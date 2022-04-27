@@ -225,7 +225,7 @@
         <!--Confirmation dailog -->
         <nitrozen-dialog ref="confirm-dialog" title="Confirmation">
             <template slot="body">
-                <p>Are you sure you want to delete rate</p>
+                <p>Are you sure you want to delete rate?</p>
             </template>
             <template slot="footer">
                 <div class="footer-actions-buttons">
