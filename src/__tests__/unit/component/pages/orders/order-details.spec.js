@@ -11,6 +11,7 @@ import mockData from './fixtures/order-details.json';
 import APPLICATION_LIST_MOCK_DATA from './fixtures/application-list.json';
 import flushPromises from "flush-promises";
 import ACCESS_MOCK_DATA from './fixtures/access-data.json';
+import AdmPageHeader from '@/components/administrator/adm-page-header.vue';
 
 let localVue;
 const mock = new MockAdapter(axios);
@@ -68,6 +69,8 @@ describe('Order Details Page', () => {
                 'shipment': shipmentActions
             }
         });
+
+        wrapper.vm.getInitialValue();
         await flushPromises();
     });
 
@@ -82,10 +85,6 @@ describe('Order Details Page', () => {
         expect(wrapper.html()).toContain('Order Details');
     });
 
-    it('Get Order Data', () => {
-        wrapper.vm.getInitialValue('');
-        wrapper.vm.getOrder();
-    });
 
     it('Set Success Message', () => {
         wrapper.vm.setSuccessAlert();
@@ -107,13 +106,19 @@ describe('Order Details Page', () => {
         wrapper.vm.setRouteParams({})
     });
 
-    it('Get Shipment Bags', () => {
-        wrapper.vm.getShipmentBags('16141714058381943588', ['343784'])
-    });
     it('Reload Order', async() => {
         const reloadButton = wrapper.findComponent({ ref: 'reload-order' });
         reloadButton.trigger('click');
         await flushPromises();
         expect(wrapper.vm.orderData.id).toBe(ORDER_LIST_DATA.items[0].id)
+    });
+
+    it('should change the router path when user clicks back on the header', async() => {
+        let routerPushMethod = jest.spyOn(wrapper.vm.$router, 'push');
+        
+        let element = wrapper.findComponent(AdmPageHeader);
+        element.vm.$emit('backClick');
+
+        expect(routerPushMethod).toHaveBeenCalled();
     });
 })

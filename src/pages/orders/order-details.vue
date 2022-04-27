@@ -825,22 +825,22 @@ export default {
                 this.setSuccessAlert(false);
             }
         },
-        cancelledBagReasonDialog(shipments, originalData) {
-            this.$refs.shipmentCancellationDialog.open({
-                shipments,
-                originalData,
-            });
-        },
-        getShipmentBags(shipmentId, bagIds = []) {
-            if (!shipmentId || bagIds.length == 0) return [];
-            const shipmentComponent = find(
-                this.$refs.shipment,
-                (item) => item.shipment.id == shipmentId
-            );
-            return shipmentComponent.shipment.bags.filter((bag) =>
-                bagIds.includes(bag.id)
-            );
-        },
+        // cancelledBagReasonDialog(shipments, originalData) {
+        //     this.$refs.shipmentCancellationDialog.open({
+        //         shipments,
+        //         originalData,
+        //     });
+        // },
+        // getShipmentBags(shipmentId, bagIds = []) {
+        //     if (!shipmentId || bagIds.length == 0) return [];
+        //     const shipmentComponent = find(
+        //         this.$refs.shipment,
+        //         (item) => item.shipment.id == shipmentId
+        //     );
+        //     return shipmentComponent.shipment.bags.filter((bag) =>
+        //         bagIds.includes(bag.id)
+        //     );
+        // },
         // $shipmentCancellationDialogClosed(data) {
         //     if (data && data.cancel) {
         //         const shipments = data.originalData;

@@ -52,4 +52,31 @@ describe('OrderListItem', () => {
         await wrapper.vm.$nextTick();
         expect(router.currentRoute.path).toBe('/order/FY60364D0D01DC690BD6/shipments');
     });
+
+    it('should alert the user that order ID has been copied', async() => {
+        let showInfoMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showInfo');
+
+        let element = wrapper.find('.order-id');
+        element.trigger('click');
+
+        expect(showInfoMethod).toHaveBeenCalled();
+    });
+
+    it('should turn the quick view on with the correct ID when the user clicks on it', async() => {
+        let element = wrapper.find('.shipment-data');
+        element.trigger('click');
+
+        let firstShipmentId = wrapper.vm.data.shipments[0].id;
+
+        expect(wrapper.vm.shipmentId).toBe(firstShipmentId);
+    });
+
+    it('should close the quick shipment view if user clicks on Esc key', async() => {
+        let closeMethod = jest.spyOn(wrapper.vm, 'close');
+        
+        wrapper.vm.detectKeyboardEvent({keyCode: 27, stopPropagation: jest.fn()});
+
+        expect(closeMethod).toHaveBeenCalled();
+        expect(wrapper.vm.quickShipmentView).toBe(false);
+    })
 });

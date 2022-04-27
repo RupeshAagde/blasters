@@ -56,4 +56,8 @@ describe('ShipmentBags', () => {
         await wrapper.vm.$nextTick()
         expect(wrapper.emitted().selectionChange).toBeTruthy()
     });
+
+    it('should return the correct time', async() => {
+        expect(wrapper.vm.toDateTimeString('4/12/2022')).toBe('16 days ago');
+    })
 });
