@@ -589,7 +589,7 @@ export default {
 
     mounted() {
         this.populateFromURL();
-        this.fetchStores();
+        // this.fetchStores();
         // if(this.applicationId){
         //     this.fetchDeploymentStores();
         // }
@@ -663,15 +663,15 @@ export default {
                 this.setRouteQuery({lock_status: status})
             },500)
         },
-        fetchStores() {
-            this.inProgress = true;
-            const params = {
-                company_id: this.companyId,
-                sku_opt_details: false,
-                page_no: 1,
-                page_size: 10000, // support of all or search required
-                image_size: 'large',
-            };
+        // fetchStores() {
+        //     this.inProgress = true;
+        //     const params = {
+        //         company_id: this.companyId,
+        //         sku_opt_details: false,
+        //         page_no: 1,
+        //         page_size: 10000, // support of all or search required
+        //         image_size: 'large',
+        //     };
             // const caller = AdminMarketplacesService.getStoreDetails(params);
             // caller
             //     .then(({ data }) => {
@@ -701,7 +701,7 @@ export default {
             //     .finally(() => {
             //         // this.inProgress = false;
             //     });
-        },
+        // },
         // fetchDeploymentStores() {
         //     this.inProgress = true;
         //     const params = {
