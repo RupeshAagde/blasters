@@ -18,6 +18,9 @@
                     </div>
                     <div class="user">{{ activity.user }}</div>
                 </div>
+                <div v-if="activity_history.length === 0" class="no-activity">
+                    No activity found
+                </div>
             </div>
         </template>
     </nitrozen-dialog>
@@ -123,6 +126,14 @@ export default {
                         width: 15%;
                         word-break: break-all;
                     }
+                }
+
+                .no-activity {
+                    border: 1px solid @Iron;
+                    border-radius: 3px;
+                    background-color: @WhiteSmoke;
+                    padding: 6px;
+                    text-align: center;
                 }
             }
         }

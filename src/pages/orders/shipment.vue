@@ -204,7 +204,7 @@
                         </nitrozen-button>
                     </template> -->
 
-                    <!-- <template v-if="viewPrescription.length">
+                    <template v-if="viewPrescription.length">
                         <nitrozen-button
                             theme="secondary"
                             title="View Prescription"
@@ -213,7 +213,7 @@
                         >
                             View Prescription
                         </nitrozen-button>
-                    </template> -->
+                    </template>
 
                     <!-- Print Invoice -->
                     <template
@@ -555,19 +555,19 @@
         </nitrozen-dialog> -->
 
         <!-- shipment qc dialog -->
-        <shipment-qc-dialog
+        <!-- <shipment-qc-dialog
             ref="shipmentQCDialog"
             v-if="shipment"
             @close="$shipmentQcDialogClosed"
         >
-        </shipment-qc-dialog>
+        </shipment-qc-dialog> -->
 
         <!-- view prescription dialog -->
-        <!-- <view-prescription
+        <view-prescription
             ref="prescriptionDialog"
             v-if="shipment && viewPrescription.length"
         >
-        </view-prescription> -->
+        </view-prescription>
 
         <!-- <nitrozen-dialog
             class="shipment-address-dialog"
@@ -634,8 +634,8 @@ import ShipmentActivityDialog from './shipment-activity-dialog.vue';
 import ShipmentIssueListDialog from './shipment-issue-list-dialog.vue';
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import AdmInlineSvg from '@/components/common/adm-inline-svg.vue';
-import ShipmentQcDialog from './shipment-qc-dialog';
-// import ViewPrescription from './view-prescription-dialog';
+// import ShipmentQcDialog from './shipment-qc-dialog';
+import ViewPrescription from './view-prescription-dialog';
 import InvoiceLabelMenu from './invoice-label-menu.vue';
 
 import {
@@ -735,8 +735,8 @@ export default {
         NitrozenError,
         AdmInlineSvg,
         // BankDetailsDialog,
-        ShipmentQcDialog,
-        // ViewPrescription,
+        // ShipmentQcDialog,
+        ViewPrescription,
         // 'adm-address':admaddress,
         InvoiceLabelMenu,
     },
@@ -908,24 +908,24 @@ export default {
                 //     this.accessDetail.order_role == 'full_access');
             return role;
         },
-        // viewPrescription() {
-        //     const prescription = [];
-        //     if (this.shipment && this.shipment.bags.length) {
-        //         this.shipment.bags.map((ele) => {
-        //             if(ele.files) {
-        //                 ele.files.map((file) => {
-        //                     if (file.key === 'prescription') {
-        //                         prescription.push({
-        //                             id: ele.id,
-        //                             file,
-        //                         });
-        //                     }
-        //                 });
-        //             }
-        //         });
-        //     }
-        //     return prescription;
-        // },
+        viewPrescription() {
+            const prescription = [];
+            if (this.shipment && this.shipment.bags.length) {
+                this.shipment.bags.map((ele) => {
+                    if(ele.files) {
+                        ele.files.map((file) => {
+                            if (file.key === 'prescription') {
+                                prescription.push({
+                                    id: ele.id,
+                                    file,
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            return prescription;
+        },
 
     },
     mounted() {
@@ -1075,15 +1075,15 @@ export default {
         // openQCDialog() {
         //     this.$refs.shipmentQCDialog.open(this.shipment.bags);
         // },
-        $shipmentQcDialogClosed(data) {
-            if (data && data.action == 'submit') {
-                // this.updateShipmentStatus(
-                //     'return_accepted',
-                //     data.reason,
-                //     data.reason_text
-                // );
-            }
-        },
+        // $shipmentQcDialogClosed(data) {
+        //     if (data && data.action == 'submit') {
+        //         // this.updateShipmentStatus(
+        //         //     'return_accepted',
+        //         //     data.reason,
+        //         //     data.reason_text
+        //         // );
+        //     }
+        // },
         $shipmentCancellationDialogClosed(data) {
             if (data && data.cancel) {
                 // this.updateShipmentStatus(
@@ -1184,9 +1184,9 @@ export default {
         //     };
         //     this.$refs.bankDetailsDialog.open(data);
         // },
-        // $openPrescriptionDialog() {
-        //     this.$refs.prescriptionDialog.open(this.viewPrescription);
-        // },
+        $openPrescriptionDialog() {
+            this.$refs.prescriptionDialog.open(this.viewPrescription);
+        },
         // getShipmentAddress() {
         //     if(this.isShipmentReturnable() && this.shipmentDetailsModifiable()){
         //         this.shipmentAddressLoading = true;
