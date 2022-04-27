@@ -58,4 +58,4 @@ export SENTRY_ENVIRONMENT=test
 export NEW_RELIC_APP_NAME=blaster
 export NEW_RELIC_LICENSE_KEY=''
 
-npm run test -- -u  
+npm run test -- -u

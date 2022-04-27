@@ -4,6 +4,7 @@ import './pipes';
 import { createApp } from './app';
 import { FETCH_USER_DATA } from './store/action.type';
 import dirtyFormDialog from '@/components/common/dialogs/dirty-form.vue';
+import urljoin from 'url-join';
 
 // global form dirty check
 const dirtyCheck = (Vue.prototype.$__dirtyFormDialog = new Vue(
@@ -25,6 +26,7 @@ router.onReady(() => {
 
 router.beforeResolve((to, from, next) => {
     /* must call `next` */
+    Vue.prototype.$basePath = getBasePath(to);
 
     Vue.prototype.$goBack = goBack;
     next();
@@ -118,6 +120,18 @@ function goBack(path) {
     } else {
         window && window.history && history.back();
     }
+}
+
+function getBasePath(route) {
+    const { company_id, applicationId } = route.params;
+    if (!company_id) return '';
+
+    let basePath = urljoin('/company', company_id);
+    if(applicationId) {
+        basePath = urljoin(basePath, '/application', applicationId);
+    }
+
+    return basePath;
 }
 
 export const getAppStore = () => {

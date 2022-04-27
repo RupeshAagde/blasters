@@ -2,6 +2,8 @@ import urlJoin from 'url-join';
 import { isBrowser, isNode } from 'browser-or-node';
 import root from 'window-or-global';
 
+const getCompInfo = () => 1;
+
 const envVars = root.env || {};
 
 if (root && root.process && root.process.env && root.process.env.NODE_ENV == 'test') {
@@ -47,7 +49,7 @@ const PLATFORM_LEADS_BASE = isNode ?
     envVars.HIGHBROW_ADMIN_URL;
 
 const ADMIN_ORDERS_BASE = isNode ?
-    envVars.BROWSER_CONFIG.APEFACE_ADMIN_SVC :
+    envVars.BROWSER_CONFIG.APEFACE_ADMIN_URL :
     envVars.APEFACE_ADMIN_URL;
 
 const INTERNAL_SETTINGS = isNode ?
@@ -91,6 +93,9 @@ const PINPOINTER_ADMIN_URL = isNode ?
     envVars.PINPOINTER_ADMIN_URL;    
      
 
+const ADMIN_ORDER_BASE = isNode ?
+    envVars.BROWSER_CONFIG.APEFACE_ADMIN_URL :
+    envVars.APEFACE_ADMIN_URL;
 
 const URLS = {
     // User Profile API's
@@ -627,6 +632,68 @@ const URLS = {
     COMMUNICATION_CAMPAIGNS: () => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/campaign`)
     },
+
+
+    // ============= Order Service Endpoints ============
+    ORDERS_LIST: () => {
+        return urlJoin(ADMIN_ORDER_BASE, '/v1.0/orders');
+    },
+    ORDER_LANES_COUNT: () => {
+        return urlJoin(ADMIN_ORDER_BASE, '/v1.0/orders/lane-count');
+    },
+    ORDER_DETAILS: () => {
+        return urlJoin(ADMIN_ORDER_BASE, '/v1.0/orders/details');
+    },
+    ORDERS_PICKLIST: () => {
+        return urlJoin(ADMIN_ORDER_BASE, '/v1.0/orders/picklist');
+    },
+    ORDER_SHIPMENTS_STATUS_UPDATE: () => {
+        return urlJoin(
+            ADMIN_ORDER_BASE,
+            `/v1.0/actions/status`
+        );
+    },
+    ORDER_SHIPMENTS_ADDRESS: (shipment_id, address_type) => {
+        return urlJoin(
+            ADMIN_ORDER_BASE,
+            `/v1.0/orders/shipments/${shipment_id}/address/${address_type}`
+        );
+    },
+    BAG_ACTIVITY_STATUS: () => {
+        // return urlJoin(ADMIN_ORDER_BASE, `/v1.0/company/${getCompInfo()}/actions/activity/status`);
+        // return urlJoin(ADMIN_ORDER_BASE, `/v1.0/orders/actions/activity/status`);
+        return urlJoin(ADMIN_ORDER_BASE, `/v1.0/orders/activity/status`);
+    },
+    STORE_PROCESS_SHIPMENTS: () => {
+        return urlJoin(
+            ADMIN_ORDER_BASE,
+            `/v1.0/actions/store/process-shipments`
+        );
+    },
+
+    //shipment breakable
+    SHIPMENT_CAN_BREAK_OR_NOT: () => {
+        return urlJoin(ADMIN_ORDER_BASE, `/v1.0/actions/can-break`)
+    },
+
+    // shipment check refund
+    SHIPMENT_CHECK_REFUND: (shipmentId) => {
+        return urlJoin(ADMIN_ORDER_BASE, `/v1.0/actions/check-refund/${shipmentId}`);
+    },
+
+    // shipment dp tracking
+    SHIPMENT_DP_TRACKING: (shipmentId) => {
+        return urlJoin(ADMIN_ORDER_BASE, `/v1.0/orders/shipments/${shipmentId}/track`);
+    },
+    // shipment save bank details
+    SAVE_BANK_DETAILS: (appId) => {
+        return urlJoin(GRINGOTTS_BASE, `/v1.0/company/${getCompInfo()}/application/${appId}/refund/account`);
+    },
+    // shipment get bank details
+    GET_BANK_DETAILS: (appId) => {
+        return urlJoin(GRINGOTTS_BASE, `/v1.0/company/${getCompInfo()}/application/${appId}/refund/accounts/order`);
+    },
+    // ==================================================
     //PINPOINTER
     AUDIT_TRAIL: (id='') => {
         return urlJoin(PINPOINTER_ADMIN_URL, 'v1.0/logs/',id)

@@ -74,22 +74,22 @@
 </template>
 
 <script>
+/* File imports */
 import uktinlinesvg from '@/components/common/ukt-inline-svg';
-import NoSSR from 'vue-no-ssr';
 
-// import _ from 'lodash';
+/* Package imports */
+import NoSSR from 'vue-no-ssr';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
+import {
+    NitrozenDialog, NitrozenButton, NitrozenDropdown ,
+    NitrozenInput, NitrozenRadio, strokeBtn
+} from '@gofynd/nitrozen-vue';
+
 const VJsoneditor = () => import('v-jsoneditor');
 
-import {
-    NitrozenDialog,
-    NitrozenButton,
-    NitrozenDropdown,
-    NitrozenInput,
-    NitrozenRadio,
-    strokeBtn
-} from '@gofynd/nitrozen-vue';
+
+
 export default {
     name: 'adm-meta-dialog',
     components: {
@@ -201,7 +201,7 @@ export default {
         },
         onError() {}
     }
-};
+}
 </script>
 
 <style lang="less" scoped>

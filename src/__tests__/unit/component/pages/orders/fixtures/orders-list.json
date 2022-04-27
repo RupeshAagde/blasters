@@ -1,0 +1,1096 @@
+{
+    "items": [{
+        "id": "FY60364D0D01DC690BD6",
+        "application": {
+            "id": "000000000000000000000001",
+            "meta": [{ "name": "fynd", "value": "true" }],
+            "name": "Fynd",
+            "owner": "5e04a5e6220bc17bc8ad9bc2",
+            "token": "BSBXcYPP",
+            "secret": "oU-2Au6jd",
+            "createdAt": "2019-12-26T13:22:22.962Z",
+            "updatedAt": "2021-02-22T15:49:16.111Z",
+            "description": "Fresh Fashion. Straight from brand stores.",
+            "dp_assignment": true,
+            "article_assignment": {
+                "level": "multi-companies",
+                "strategy": "optimal"
+            },
+            "force_reassignment": false,
+            "post_order_reassignment": true
+        },
+        "user": {
+            "uid": 17180549,
+            "avis_user_id": "2",
+            "mobile": "8844884488",
+            "first_name": "Brijesh",
+            "gender": "male",
+            "email": "brijeshgajjar@gofynd.com",
+            "last_name": "Mahidhariya",
+            "is_anonymous_user": false
+        },
+        "delivery_address": {
+            "area": "TEST",
+            "city": "Mumbai",
+            "email": "",
+            "phone": "8844884488",
+            "state": "Maharashtra",
+            "country": "India",
+            "pincode": "400093",
+            "version": "1.0",
+            "address1": "Test",
+            "address2": "",
+            "landmark": "test",
+            "latitude": 19.1151282,
+            "longitude": 72.8613275,
+            "created_at": "2021-02-24T18:26:45+00:00",
+            "updated_at": "2021-02-24T18:26:45+00:00",
+            "address_type": "home",
+            "contact_person": "Brijesh Mahidhariya",
+            "address_category": "delivery",
+            "name": "Brijesh Mahidhariya",
+            "address": "Test"
+        },
+        "channel": {
+            "name": "FYND",
+            "logo": "https://fynd-static.s3.amazonaws.com/mode_of_payment/fynd_logo.png"
+        },
+        "shipments": [{
+            "id": "16141714058381943588",
+            "user": {
+                "email": "brijeshgajjar@gofynd.com",
+                "gender": "male",
+                "mobile": "8844884488",
+                "last_name": "Mahidhariya",
+                "id": 17180549,
+                "first_name": "Brijesh",
+                "mongo_user_id": "2",
+                "is_anonymous_user": false
+            },
+            "can_break": {
+                "cancelled_customer": {
+                    "can_break_entity": true
+                },
+                "bag_not_confirmed": {
+                    "can_break_entity": true
+                },
+                "product_not_available": {
+                    "can_break_entity": false
+                },
+                "bag_not_verified": {
+                    "can_break_entity": false
+                },
+                "cancelled_fynd": {
+                    "can_break_entity": true
+                },
+                "bag_confirmed": {
+                    "can_break_entity": true
+                }
+            },
+            "affiliate_details": {
+                "id": "000000000000000000000001",
+                "affiliate_bag_id": "354772",
+                "affiliate_order_id": "FY6094EA8D014624E593",
+                "company_affiliate_tag": "Fynd",
+                "affiliate_id": "000000000000000000000001",
+                "affiliate_shipment_id": "16203721099581945027",
+                "shipment_meta": {
+                    "dp_id": "29",
+                    "weight": 950,
+                    "external": {},
+                    "formatted": {
+                        "max": "Sat, 15 May",
+                        "min": "Mon, 10 May"
+                    },
+                    "timestamp": {
+                        "max": 1621074106,
+                        "min": 1620634906
+                    },
+                    "bag_weight": {
+                        "354772": 950
+                    },
+                    "debug_info": {
+                        "stormbreaker_uuid": "0bd87841-31c5-4884-8a82-7e6a94030cc0"
+                    },
+                    "dp_options": {
+                        "4": {
+                            "area_code": {
+                                "to_pincode": null,
+                                "from_pincode": null
+                            },
+                            "f_priority": 8,
+                            "operations": "inter_city",
+                            "r_priority": 8,
+                            "fm_priority": 8,
+                            "lm_priority": 1,
+                            "payment_mode": "all",
+                            "rvp_priority": 8,
+                            "assign_dp_from_sb": true
+                        },
+                        "7": {
+                            "area_code": {
+                                "to_pincode": null,
+                                "from_pincode": null
+                            },
+                            "f_priority": 6,
+                            "operations": "inter_city",
+                            "r_priority": 6,
+                            "fm_priority": 6,
+                            "lm_priority": 2,
+                            "payment_mode": "all",
+                            "rvp_priority": 6,
+                            "assign_dp_from_sb": true
+                        },
+                        "27": {
+                            "area_code": {
+                                "to_pincode": null,
+                                "from_pincode": null
+                            },
+                            "f_priority": 5,
+                            "operations": "inter_city",
+                            "r_priority": 5,
+                            "fm_priority": 5,
+                            "lm_priority": 3,
+                            "payment_mode": "all",
+                            "rvp_priority": 5,
+                            "assign_dp_from_sb": true
+                        },
+                        "28": {
+                            "area_code": {
+                                "to_pincode": null,
+                                "from_pincode": null
+                            },
+                            "f_priority": 2,
+                            "operations": "inter_city",
+                            "r_priority": 2,
+                            "fm_priority": 2,
+                            "lm_priority": 4,
+                            "payment_mode": "all",
+                            "rvp_priority": 2,
+                            "assign_dp_from_sb": true
+                        },
+                        "29": {
+                            "area_code": {
+                                "to_pincode": null,
+                                "from_pincode": null
+                            },
+                            "f_priority": 1,
+                            "operations": "inter_city",
+                            "r_priority": 1,
+                            "fm_priority": 1,
+                            "lm_priority": 5,
+                            "payment_mode": "all",
+                            "rvp_priority": 1,
+                            "assign_dp_from_sb": true
+                        },
+                        "32": {
+                            "area_code": {
+                                "to_pincode": null,
+                                "from_pincode": null
+                            },
+                            "f_priority": 7,
+                            "operations": "inter_city",
+                            "r_priority": 7,
+                            "fm_priority": 7,
+                            "lm_priority": 7,
+                            "payment_mode": "all",
+                            "rvp_priority": 7,
+                            "assign_dp_from_sb": true
+                        },
+                        "34": {
+                            "area_code": {
+                                "to_pincode": null,
+                                "from_pincode": null
+                            },
+                            "f_priority": 4,
+                            "operations": "inter_city",
+                            "r_priority": 4,
+                            "fm_priority": 4,
+                            "lm_priority": 9,
+                            "payment_mode": "all",
+                            "rvp_priority": 4,
+                            "assign_dp_from_sb": true
+                        }
+                    },
+                    "order_type": "HomeDelivery",
+                    "dp_sort_key": "fm_priority",
+                    "packaging_name": "61143020DJD",
+                    "assign_dp_from_sb": true,
+                    "same_store_available": true
+                },
+                "affiliate_meta": {
+                    "fynd": {
+                        "fulfilment_identifier": "browntape"
+                    },
+                    "channel_shipment_id": null,
+                    "channel_order_id": null,
+                    "due_date": null,
+                    "is_priority": false,
+                    "box_type": null,
+                    "coupon_code": null,
+                    "size_level_total_qty": 9995,
+                    "loyalty_discount": 0,
+                    "employee_discount": 0
+                },
+                "affiliate_store_id": "48",
+                "pdf_links": {
+                    "label_type": "fynd",
+                    "invoice_type": "fynd"
+                },
+                "config": {
+                    "id": "000000000000000000000001",
+                    "meta": [{
+                        "name": "fynd",
+                        "value": "true"
+                    }],
+                    "name": "Fynd",
+                    "owner": "5e04a5e6220bc17bc8ad9bc2",
+                    "token": "BSBXcYPP",
+                    "secret": "oU-2Au6jd",
+                    "createdAt": null,
+                    "updatedAt": null,
+                    "description": "Fresh Fashion. Straight from brand stores.",
+                    "dp_assignment": true,
+                    "article_assignment": {
+                        "level": "multi-companies",
+                        "strategy": "optimal"
+                    },
+                    "force_reassignment": false,
+                    "post_order_reassignment": true
+                }
+            },
+            "comment": "",
+            "status": {
+                "shipment_id": "16141714058381943588",
+                "created_at": "2021-02-24T18:26:51.000Z",
+                "bag_list": ["343784", "343785"],
+                "id": 23171,
+                "status": "placed",
+                "current_shipment_status": "placed",
+                "name": "Placed",
+                "color_code": "#008000",
+                "progress": 0
+            },
+            "gst": {
+                "value_of_good": 1714.28,
+                "gst_fee": 85.7,
+                "brand_calculated_amount": 1800,
+                "gstin_code": null
+            },
+            "dp_details": {
+                "id": null,
+                "name": null,
+                "awb_no": null,
+                "eway_bill_id": null,
+                "track_url": null,
+                "gst_tag": "sgst"
+            },
+            "invoice": {
+                "updated_date": "1970-01-01T00:00:00.000Z",
+                "store_invoice_id": null,
+                "invoice_url": "",
+                "label_url": "",
+                "payment_mode": "Prepaid",
+                "amount_to_collect": 0,
+                "rto_address": {
+                    "company_id": 1,
+                    "latitude": null,
+                    "name": "RRL01",
+                    "longitude": null,
+                    "store_address_json": {
+                        "area": "",
+                        "city": "MUMBAI",
+                        "email": "ASHISHCHANDORKAR@FYND.COM",
+                        "phone": "918369782851",
+                        "state": "MAHARASHTRA",
+                        "country": "INDIA",
+                        "pincode": "400059",
+                        "version": "1.0",
+                        "address1": "SHOPSENSE RETAIL TECHNOLOGIES PRIVATE LIMITED 1ST FLOOR WEWORK VIJAY DIAMOND, CROSS RD B, AJIT NAGAR,",
+                        "address2": "KONDIVITA, ANDHERI EAST, MUMBAI, MAHARASHTRA 400069",
+                        "landmark": "",
+                        "latitude": 19.1174114,
+                        "longitude": 72.8691788,
+                        "created_at": "2020-10-09 14:28:39",
+                        "updated_at": "2020-10-09 14:28:39",
+                        "address_type": "store",
+                        "contact_person": "ASHISH CHANDORKAR",
+                        "address_category": "store"
+                    },
+                    "location_type": "warehouse",
+                    "id": 1,
+                    "code": "WH_8513",
+                    "address1": "SHOPSENSE RETAIL TECHNOLOGIES PRIVATE LIMITED 1ST FLOOR WEWORK VIJAY DIAMOND, CROSS RD B, AJIT NAGAR,",
+                    "address2": "KONDIVITA, ANDHERI EAST, MUMBAI, MAHARASHTRA 400069",
+                    "city": "MUMBAI",
+                    "state": "MAHARASHTRA",
+                    "country": "INDIA",
+                    "pincode": "400059",
+                    "store_email": "ASHISHCHANDORKAR@FYND.COM",
+                    "contact_person": "ASHISH CHANDORKAR",
+                    "phone": "918369782851"
+                },
+                "payment_type": "fynd"
+            },
+            "promise": {
+                "timestamp": {
+                    "min": "2021-02-27T13:56:43+00:00",
+                    "max": "2021-03-03T15:56:43+00:00"
+                }
+            },
+            "company": {
+                "modified_on": "2021-02-03T12:03:32.000Z",
+                "id": 1,
+                "fynd_a_fit_available": false,
+                "gst_number": null,
+                "exchange_allowed": false,
+                "company_type": "distributor",
+                "pan_no": "AALCA0442L",
+                "return_allowed": false,
+                "meta": "{'stage': 'verified', 'address': [{'city': 'Mumbai', 'state': 'Maharashtra', 'country': 'India', 'pincode': 400050, 'address1': 'Bandra,Bandra East to West Railway Foot-Bridge,Bairam Naupada,Bandra East ', 'address2': 'Bandra Terminus, Naupada, Bandra East', 'latitude': 19.0548399, 'longitude': 72.8406903, 'address_type': 'office', 'country_code': 'IN'}, {'city': 'Mira Bhayandar', 'state': 'Maharashtra', 'country': 'India', 'pincode': 401105, 'address1': 'WING-C,Navghar Rd,Bashikali Nagar,Shiv Kripa Chawl,Bhayandar East ', 'address2': 'tof', 'latitude': 19.303474, 'longitude': 72.862951, 'address_type': 'registered', 'country_code': 'IN'}], 'documents': {'cin': {'type': 'cin', 'value': 'L21091KA2019OPC141331', 'verified': True, 'legal_name': 'RELIANCE RETAIL LTD'}, 'pan': {'url': 'https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/LOmpjCMKn-1602237550732.jpeg?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1612353860&Signature=s%2Frr3B2Lz1j0BVKXlwmUdjprpKo%3D', 'type': 'pan', 'value': 'AALCA0442L', 'verified': True, 'legal_name': 'SHOPSENSE RETAIL TECHNOLOGIES PRIVATE LIMITED'}, 'digital_signature': {'url': 'https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/Rtn1DzmQb-Screenshot-2020-10-19-at-3.38.19-PM.png?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1612353860&Signature=0ulW8JEy2lHIwub1Y7wfIm5pd6o%3D', 'type': 'digital_signature', 'value': 'asdasdsad', 'verified': True, 'legal_name': 'asdasdsad'}}, 'business_info': 'this is description.. TEST IT PROPERLY', 'contact_details': {'phone': [{'number': '1234567890', 'country_code': 91}, {'number': '1234567894', 'country_code': 91}, {'number': '7506875588', 'country_code': 91}], 'emails': ['abc@gmail.com', 'abc2@gmail.com', 'asmakhan@gofynd.com', 'asmaidris1994@gmail.com']}, 'business_details': {'website': {'url': 'https://fynd.hostx0.de/'}}, 'notification_emails': ['ZAK@GMAIL.COM', 'zak1@gmail.com']}",
+                "commission": null,
+                "cst": null,
+                "business_type": "ltd/pvt ltd",
+                "company_name": "RELIANCE RETAIL LTD",
+                "payment_type": null,
+                "tan_no": null,
+                "return_within_days": 0,
+                "exchange_within_days": 0,
+                "vat_no": null,
+                "created_on": "2020-05-18T16:16:08.000Z",
+                "payment_procesing_charge": 0,
+                "agreement_start_date": "1970-01-01T00:00:00.000Z"
+            },
+            "fulfilling_store": {
+                "fulfillment_channel": "browntape",
+                "name": "RRL01",
+                "store_active_from": null,
+                "longitude": null,
+                "id": 1,
+                "packaging_material_count": 0,
+                "mall_name": null,
+                "meta": {
+                    "stage": "verified",
+                    "timing": [{
+                            "open": true,
+                            "closing": { "hour": 17, "minute": 0 },
+                            "opening": { "hour": 10, "minute": 0 },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "closing": { "hour": 17, "minute": 0 },
+                            "opening": { "hour": 10, "minute": 0 },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "closing": { "hour": 17, "minute": 0 },
+                            "opening": { "hour": 10, "minute": 0 },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": true,
+                            "closing": { "hour": 23, "minute": 11 },
+                            "opening": { "hour": 10, "minute": 0 },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": true,
+                            "closing": { "hour": 17, "minute": 0 },
+                            "opening": { "hour": 10, "minute": 0 },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": true,
+                            "closing": { "hour": 17, "minute": 0 },
+                            "opening": { "hour": 10, "minute": 0 },
+                            "weekday": "saturday"
+                        },
+                        { "open": false, "weekday": "sunday" }
+                    ],
+                    "documents": {
+                        "gst": {
+                            "type": "gst",
+                            "value": "27AABCR1718E1ZP",
+                            "verified": true,
+                            "legal_name": "ABC"
+                        }
+                    },
+                    "gst_number": "27AABCR1718E1ZP",
+                    "display_name": "RRL01",
+                    "notification_emails": ["ASHISHCHANDORKAR@FYND.COM"],
+                    "product_return_config": { "on_same_store": true },
+                    "additional_contact_details": { "number": ["91 - 8369782851"] },
+                    "allow_dp_assignment_from_fynd": false,
+                    "ewaybill_portal_details": null
+                },
+                "parent_store_id": null,
+                "is_active": false,
+                "company_id": 1,
+                "latitude": null,
+                "created_at": "2020-05-18T16:16:09+00:00",
+                "location_type": "warehouse",
+                "login_username": "ASHISHCHANDORKAR_WH_8513_1",
+                "brand_id": null,
+                "code": "WH_8513",
+                "updated_at": "2020-10-09T14:28:40+00:00",
+                "is_enabled_for_recon": false,
+                "mall_area": null,
+                "store_address_json": {
+                    "area": "",
+                    "city": "MUMBAI",
+                    "email": "ASHISHCHANDORKAR@FYND.COM",
+                    "phone": "918369782851",
+                    "state": "MAHARASHTRA",
+                    "country": "INDIA",
+                    "pincode": "400059",
+                    "version": "1.0",
+                    "address1": "SHOPSENSE RETAIL TECHNOLOGIES PRIVATE LIMITED 1ST FLOOR WEWORK VIJAY DIAMOND, CROSS RD B, AJIT NAGAR,",
+                    "address2": "KONDIVITA, ANDHERI EAST, MUMBAI, MAHARASHTRA 400069",
+                    "landmark": "",
+                    "latitude": 19.1174114,
+                    "longitude": 72.8691788,
+                    "created_at": "2020-10-09 14:28:39",
+                    "updated_at": "2020-10-09 14:28:39",
+                    "address_type": "store",
+                    "contact_person": "ASHISH CHANDORKAR",
+                    "address_category": "store"
+                },
+                "alohomora_user_id": null,
+                "vat_no": null,
+                "is_archived": false,
+                "address1": "SHOPSENSE RETAIL TECHNOLOGIES PRIVATE LIMITED 1ST FLOOR WEWORK VIJAY DIAMOND, CROSS RD B, AJIT NAGAR,",
+                "address2": "KONDIVITA, ANDHERI EAST, MUMBAI, MAHARASHTRA 400069",
+                "city": "MUMBAI",
+                "state": "MAHARASHTRA",
+                "country": "INDIA",
+                "pincode": "400059",
+                "store_email": "ASHISHCHANDORKAR@FYND.COM",
+                "contact_person": "ASHISH CHANDORKAR",
+                "phone": "918369782851",
+                "brand_store_tags": ["browntape"]
+            },
+            "brand": {
+                "pickup_location": null,
+                "modified_on": "2021-02-03T08:59:55.000Z",
+                "created_on": "2020-05-18T16:16:11.000Z",
+                "id": 13,
+                "credit_note_allowed": false,
+                "script_last_ran": null,
+                "is_virtual_invoice": false,
+                "start_date": null,
+                "logo": "https://hdn-1.jiox0.de/jioecomm/seller/pictures/logo/original/apple-7f951c/logo_apple.png",
+                "credit_note_expiry_days": null,
+                "brand_name": "Apple",
+                "company": null,
+                "invoice_prefix": null
+            },
+            "coupon": {},
+            "order_source": "mobile",
+            "tracking_details": [{
+                    "status": "Order Placed",
+                    "time": "2021-02-24T18:26:51.000Z",
+                    "is_passed": true,
+                    "is_current": true
+                },
+                {
+                    "status": "Order Confirmed",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                },
+                {
+                    "status": "Delivery Partner Assigned",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                },
+                {
+                    "status": "In Transit",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                },
+                {
+                    "status": "Out For Delivery",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                },
+                {
+                    "status": "Delivered",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                }
+            ],
+            "bags": [{
+                    "id": 343784,
+                    "prices": {
+                        "price_effective": 900,
+                        "discount": 100,
+                        "amount_paid": 939.5,
+                        "coupon_effective_discount": 0,
+                        "delivery_charge": 39.5,
+                        "fynd_credits": 0,
+                        "cod_charges": 0,
+                        "refund_credit": 0,
+                        "cashback": 0,
+                        "refund_amount": 939.5,
+                        "added_to_fynd_cash": false,
+                        "cashback_applied": 0,
+                        "gst_tax_percentage": 5,
+                        "value_of_good": 857.14,
+                        "price_marked": 1000,
+                        "transfer_price": 0,
+                        "brand_calculated_amount": 900,
+                        "promotion_effective_discount": 0,
+                        "coupon_value": 0,
+                        "amount_paid_roundoff": 940
+                    },
+                    "gst_details": {
+                        "gstin_code": null,
+                        "gst_tag": "SGST",
+                        "hsn_code": "62040000",
+                        "value_of_good": 857.14,
+                        "gst_tax_percentage": 5,
+                        "is_default_hsn_code": true,
+                        "brand_calculated_amount": 900,
+                        "gst_fee": "42.85"
+                    },
+                    "financial_breakup": [{
+                        "price_effective": 900,
+                        "discount": 100,
+                        "amount_paid": 939.5,
+                        "coupon_effective_discount": 0,
+                        "delivery_charge": 39.5,
+                        "fynd_credits": 0,
+                        "cod_charges": 0,
+                        "refund_credit": 0,
+                        "cashback": 0,
+                        "refund_amount": 939.5,
+                        "added_to_fynd_cash": false,
+                        "cashback_applied": 0,
+                        "gst_tax_percentage": 5,
+                        "value_of_good": 857.14,
+                        "price_marked": 1000,
+                        "transfer_price": 0,
+                        "brand_calculated_amount": 900,
+                        "promotion_effective_discount": 0,
+                        "coupon_value": 0,
+                        "amount_paid_roundoff": 940,
+                        "size": "XS",
+                        "total_units": 1,
+                        "hsn_code": "62040000",
+                        "identifiers": { "ean": "1234567654000" },
+                        "item_name": "Track Inventory Product 2",
+                        "gst_fee": "42.85",
+                        "gst_tag": "SGST"
+                    }],
+                    "breakup_values": [
+                        { "name": "sub_total", "display": "Sub Total", "value": 900 },
+                        { "name": "coupon", "display": "Coupon", "value": 0 },
+                        {
+                            "name": "referral_applied",
+                            "display": "Referral Applied",
+                            "value": 0
+                        },
+                        {
+                            "name": "cashback_applied",
+                            "display": "Cashback Applied",
+                            "value": 0
+                        },
+                        {
+                            "name": "delivery_charges",
+                            "display": "Delivery Charges",
+                            "value": 39.5
+                        },
+                        { "name": "cod_charges", "display": "Cod Charges", "value": 0 },
+                        { "name": "total", "display": "Total", "value": 939.5 }
+                    ],
+                    "update_time": 1614171411.9845035,
+                    "status": {
+                        "is_returnable": true,
+                        "can_be_cancelled": true,
+                        "enable_tracking": false,
+                        "is_customer_return_allowed": false,
+                        "is_active": true
+                    },
+                    "current_status": {
+                        "status": "placed",
+                        "delivery_awb_number": null,
+                        "state_type": "operational",
+                        "updated_at": "2021-02-24T18:26:51.000Z",
+                        "bag_state_mapper": {
+                            "is_active": true,
+                            "display_name": "Placed",
+                            "name": "placed",
+                            "app_display_name": "Processing",
+                            "app_state_name": "processing"
+                        }
+                    },
+                    "item": {
+                        "webstore_product_url": null,
+                        "l2_category": ["Batteries & Power Banks"],
+                        "gender": null,
+                        "name": "Track Inventory Product 2",
+                        "can_cancel": true,
+                        "l3_category_name": "Batteries",
+                        "attributes": {
+                            "item_code": "RANDOMPROD",
+                            "brand_name": "Apple",
+                            "country_of_origin": "India"
+                        },
+                        "color": null,
+                        "branch_url": null,
+                        "id": 7500999,
+                        "can_return": true,
+                        "slug_key": "track-inventory-product-adm7tzz_p",
+                        "l3_category": 25,
+                        "l1_category": ["Category L2"],
+                        "brand_id": 13,
+                        "code": "RANDOMPROD",
+                        "last_updated_at": "2021-02-24T18:26:46.000Z",
+                        "brand": "Apple",
+                        "size": "XS",
+                        "image": [
+                            "https://hdn-1.fynd.com/media/fynd_store_items/l2_category/720x0/2830_c5bb5fc02f414307a828c4c56483c30a.jpg"
+                        ]
+                    },
+                    "article": {
+                        "identifiers": { "ean": "1234567654000" },
+                        "esp_modified": false,
+                        "size": "XS",
+                        "code": "",
+                        "raw_meta": null,
+                        "set": {},
+                        "is_set": false,
+                        "seller_identifier": "1234567654000",
+                        "return_config": {
+                            "time": 30,
+                            "unit": "days",
+                            "returnable": true
+                        },
+                        "_id": "5f2a6a7d9aa2bb00016634ce",
+                        "uid": "5f2a6a7d9aa2bb00016634ce",
+                        "child_details": {}
+                    },
+                    "bag_status": [{
+                            "status": "pending",
+                            "delivery_awb_number": null,
+                            "state_type": "operational",
+                            "updated_at": "2021-02-24T18:26:46.000Z",
+                            "bag_state_mapper": {
+                                "is_active": true,
+                                "display_name": "Pending",
+                                "name": "pending",
+                                "app_display_name": "Pending",
+                                "app_state_name": "pending"
+                            }
+                        },
+                        {
+                            "status": "placed",
+                            "delivery_awb_number": null,
+                            "state_type": "operational",
+                            "updated_at": "2021-02-24T18:26:51.000Z",
+                            "bag_state_mapper": {
+                                "is_active": true,
+                                "display_name": "Placed",
+                                "name": "placed",
+                                "app_display_name": "Processing",
+                                "app_state_name": "processing"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": 343785,
+                    "prices": {
+                        "price_effective": 900,
+                        "discount": 100,
+                        "amount_paid": 939.5,
+                        "coupon_effective_discount": 0,
+                        "delivery_charge": 39.5,
+                        "fynd_credits": 0,
+                        "cod_charges": 0,
+                        "refund_credit": 0,
+                        "cashback": 0,
+                        "refund_amount": 939.5,
+                        "added_to_fynd_cash": false,
+                        "cashback_applied": 0,
+                        "gst_tax_percentage": 5,
+                        "value_of_good": 857.14,
+                        "price_marked": 1000,
+                        "transfer_price": 0,
+                        "brand_calculated_amount": 900,
+                        "promotion_effective_discount": 0,
+                        "coupon_value": 0,
+                        "amount_paid_roundoff": 940
+                    },
+                    "gst_details": {
+                        "gstin_code": null,
+                        "gst_tag": "SGST",
+                        "hsn_code": "62040000",
+                        "value_of_good": 857.14,
+                        "gst_tax_percentage": 5,
+                        "is_default_hsn_code": true,
+                        "brand_calculated_amount": 900,
+                        "gst_fee": "42.85"
+                    },
+                    "financial_breakup": [{
+                        "price_effective": 900,
+                        "discount": 100,
+                        "amount_paid": 939.5,
+                        "coupon_effective_discount": 0,
+                        "delivery_charge": 39.5,
+                        "fynd_credits": 0,
+                        "cod_charges": 0,
+                        "refund_credit": 0,
+                        "cashback": 0,
+                        "refund_amount": 939.5,
+                        "added_to_fynd_cash": false,
+                        "cashback_applied": 0,
+                        "gst_tax_percentage": 5,
+                        "value_of_good": 857.14,
+                        "price_marked": 1000,
+                        "transfer_price": 0,
+                        "brand_calculated_amount": 900,
+                        "promotion_effective_discount": 0,
+                        "coupon_value": 0,
+                        "amount_paid_roundoff": 940,
+                        "size": "XS",
+                        "total_units": 1,
+                        "hsn_code": "62040000",
+                        "identifiers": { "ean": "1234567654000" },
+                        "item_name": "Track Inventory Product 2",
+                        "gst_fee": "42.85",
+                        "gst_tag": "SGST"
+                    }],
+                    "breakup_values": [
+                        { "name": "sub_total", "display": "Sub Total", "value": 900 },
+                        { "name": "coupon", "display": "Coupon", "value": 0 },
+                        {
+                            "name": "referral_applied",
+                            "display": "Referral Applied",
+                            "value": 0
+                        },
+                        {
+                            "name": "cashback_applied",
+                            "display": "Cashback Applied",
+                            "value": 0
+                        },
+                        {
+                            "name": "delivery_charges",
+                            "display": "Delivery Charges",
+                            "value": 39.5
+                        },
+                        { "name": "cod_charges", "display": "Cod Charges", "value": 0 },
+                        { "name": "total", "display": "Total", "value": 939.5 }
+                    ],
+                    "update_time": 1614171411.9845035,
+                    "status": {
+                        "is_returnable": true,
+                        "can_be_cancelled": true,
+                        "enable_tracking": false,
+                        "is_customer_return_allowed": false,
+                        "is_active": true
+                    },
+                    "current_status": {
+                        "status": "placed",
+                        "delivery_awb_number": null,
+                        "state_type": "operational",
+                        "updated_at": "2021-02-24T18:26:51.000Z",
+                        "bag_state_mapper": {
+                            "is_active": true,
+                            "display_name": "Placed",
+                            "name": "placed",
+                            "app_display_name": "Processing",
+                            "app_state_name": "processing"
+                        }
+                    },
+                    "item": {
+                        "webstore_product_url": null,
+                        "l2_category": ["Batteries & Power Banks"],
+                        "gender": null,
+                        "name": "Track Inventory Product 2",
+                        "can_cancel": true,
+                        "l3_category_name": "Batteries",
+                        "attributes": {
+                            "item_code": "RANDOMPROD",
+                            "brand_name": "Apple",
+                            "country_of_origin": "India"
+                        },
+                        "color": null,
+                        "branch_url": null,
+                        "id": 7500999,
+                        "can_return": true,
+                        "slug_key": "track-inventory-product-adm7tzz_p",
+                        "l3_category": 25,
+                        "l1_category": ["Category L2"],
+                        "brand_id": 13,
+                        "code": "RANDOMPROD",
+                        "last_updated_at": "2021-02-24T18:26:46.000Z",
+                        "brand": "Apple",
+                        "size": "XS",
+                        "image": [
+                            "https://hdn-1.fynd.com/media/fynd_store_items/l2_category/720x0/2830_c5bb5fc02f414307a828c4c56483c30a.jpg"
+                        ]
+                    },
+                    "article": {
+                        "identifiers": { "ean": "1234567654000" },
+                        "esp_modified": false,
+                        "size": "XS",
+                        "code": "",
+                        "raw_meta": null,
+                        "set": {},
+                        "is_set": false,
+                        "seller_identifier": "1234567654000",
+                        "return_config": {
+                            "time": 30,
+                            "unit": "days",
+                            "returnable": true
+                        },
+                        "_id": "5f2a6a7d9aa2bb00016634ce",
+                        "uid": "5f2a6a7d9aa2bb00016634ce",
+                        "child_details": {}
+                    },
+                    "bag_status": [{
+                            "status": "pending",
+                            "delivery_awb_number": null,
+                            "state_type": "operational",
+                            "updated_at": "2021-02-24T18:26:46.000Z",
+                            "bag_state_mapper": {
+                                "is_active": true,
+                                "display_name": "Pending",
+                                "name": "pending",
+                                "app_display_name": "Pending",
+                                "app_state_name": "pending"
+                            }
+                        },
+                        {
+                            "status": "placed",
+                            "delivery_awb_number": null,
+                            "state_type": "operational",
+                            "updated_at": "2021-02-24T18:26:51.000Z",
+                            "bag_state_mapper": {
+                                "is_active": true,
+                                "display_name": "Placed",
+                                "name": "placed",
+                                "app_display_name": "Processing",
+                                "app_state_name": "processing"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "prices": {
+                "amount_paid": 1879,
+                "refund_amount": 1879,
+                "price_marked": 2000,
+                "cod_charges": 0,
+                "discount": 200,
+                "cashback_applied": 0,
+                "delivery_charge": 79,
+                "fynd_credits": 0,
+                "cashback": 0,
+                "price_effective": 1800,
+                "refund_credit": 0,
+                "value_of_good": 1714.28,
+                "coupon_value": 0,
+                "amount_paid_roundoff": 1879
+            },
+            "breakup_values": [
+                { "name": "sub_total", "display": "Sub Total", "value": 1800 },
+                { "name": "coupon", "display": "Coupon", "value": 0 },
+                {
+                    "name": "referral_applied",
+                    "display": "Referral Applied",
+                    "value": 0
+                },
+                {
+                    "name": "cashback_applied",
+                    "display": "Cashback Applied",
+                    "value": 0
+                },
+                {
+                    "name": "delivery_charges",
+                    "display": "Delivery Charges",
+                    "value": 79
+                },
+                { "name": "cod_charges", "display": "Cod Charges", "value": 0 },
+                { "name": "total", "display": "Total", "value": 1879 }
+            ],
+            "payments": {
+                "display_name": "Net Banking",
+                "mode": "NB",
+                "id": 4,
+                "display_priority": 3,
+                "is_active": true,
+                "logo": "https://hdn-1.fynd.com/payment/default_card.png",
+                "source": "Net Banking",
+                "payment_identifier": "KKBK",
+                "source_nickname": ""
+            },
+            "is_not_fynd_source": false,
+            "is_fynd_coupon": false,
+            "order_type": "HomeDelivery"
+        }],
+        "created_at": "2021-02-24T18:26:46+00:00",
+        "total_shipments_in_order": 1,
+        "payments": {
+            "display_name": "Net Banking",
+            "mode": "NB",
+            "id": 4,
+            "display_priority": 3,
+            "is_active": true,
+            "logo": "https://hdn-1.fynd.com/payment/default_card.png",
+            "source": "Net Banking",
+            "payment_identifier": "KKBK",
+            "source_nickname": ""
+        },
+        "breakup_values": [
+            { "name": "sub_total", "display": "Sub Total", "value": 1800 },
+            { "name": "coupon", "display": "Coupon", "value": 0 },
+            {
+                "name": "referral_applied",
+                "display": "Referral Applied",
+                "value": 0
+            },
+            {
+                "name": "cashback_applied",
+                "display": "Cashback Applied",
+                "value": 0
+            },
+            {
+                "name": "delivery_charges",
+                "display": "Delivery Charges",
+                "value": 79
+            },
+            { "name": "cod_charges", "display": "Cod Charges", "value": 0 },
+            { "name": "total", "display": "Total", "value": 1879 }
+        ]
+    }],
+    "filters": {
+        "stage": {
+            "text": "New",
+            "value": "new",
+            "is_default": true,
+            "filters": [{
+                    "text": "Status",
+                    "value": "status",
+                    "type": "multi_select",
+                    "options": [
+                        { "text": "Placed", "value": "placed" },
+                        { "text": "Store reassigned", "value": "store_reassigned" }
+                    ]
+                },
+                {
+                    "text": "Sales channel",
+                    "value": "sales_channels",
+                    "type": "multi_select",
+                    "options": [
+                        { "text": "Sales Channels", "isGroupLabel": true },
+                        { "text": "Fynd", "value": "000000000000000000000001" },
+                        { "text": "Artisan Theme", "value": "000000000000000000000002" },
+                        {
+                            "text": "000000000000000000000003 App",
+                            "value": "000000000000000000000003"
+                        },
+                        {
+                            "text": "000000000000000000000005 App",
+                            "value": "000000000000000000000005"
+                        },
+                        {
+                            "text": "000000000000000000000006 App",
+                            "value": "000000000000000000000006"
+                        },
+                        {
+                            "text": "000000000000000000000007 App",
+                            "value": "000000000000000000000007"
+                        },
+                        {
+                            "text": "000000000000000000000008 App",
+                            "value": "000000000000000000000008"
+                        },
+                        {
+                            "text": "000000000000000000000009 App",
+                            "value": "000000000000000000000009"
+                        },
+                        { "text": "fyndstore", "value": "5e5f856af9153595e7bc17ca" },
+                        { "text": "Burberry Theme", "value": "5ecf4454ff339ee1a43a166a" },
+                        { "text": "hwandoo", "value": "5f004ed5f019af9ad98897f0" },
+                        { "text": "hwandoo", "value": "5f004ed8f019af61378897f4" },
+                        { "text": "Uniket B2B", "value": "000000000000000000000004" },
+                        { "text": "diesel-test", "value": "5ec3725b848a0048e8acb304" },
+                        { "text": "diesel-test", "value": "5ec39447848a0027faacb445" },
+                        { "text": "jc-test", "value": "5ec3d45d848a00328cacb59f" },
+                        { "text": "Jumpstart", "value": "5e732e3afa2d63271d7b6e30" },
+                        { "text": "Akash", "value": "5e737afb97e0f586bf9d04db" },
+                        { "text": "new", "value": "5ed0a68c3e8303d95ec89e65" },
+                        { "text": "Zaid", "value": "5ed0a8203e83030c18c89e6c" },
+                        {
+                            "text": "atmanirbhar app",
+                            "value": "5ede24f0e330881c605d6219"
+                        },
+                        { "text": "testing33", "value": "5ef721fabeeb99a11b3711f3" },
+                        { "text": "testing44", "value": "5ef72251beeb99cf303711f5" },
+                        { "text": "test55", "value": "5ef72552546e8e8669871419" },
+                        { "text": "Dummy", "value": "5ff6fac2413a9fca1b5d48ff" },
+                        { "text": "Marketplaces", "isGroupLabel": true },
+                        { "text": "Ajio", "value": "5e145da26470cffad8ff869d" },
+                        { "text": "Tatacliq", "value": "5e04b9c063ef814059c7b25b" }
+                    ]
+                }
+            ]
+        }
+    },
+    "next_order_status": {
+        "pending": [{ "text": "Placed", "value": "placed" }],
+        "placed": [{ "text": "Bag Confirmed", "value": "bag_confirmed" }],
+        "bag_confirmed": [{ "text": "Bag Invoiced", "value": "bag_invoiced" }],
+        "dp_assigned": [{ "text": "Bag Packed", "value": "bag_packed" }],
+        "bag_packed": [
+            { "text": "Handed Over to DP", "value": "handed_over_to_dp" }
+        ],
+        "bag_invoiced": [],
+        "store_reassigned": [],
+        "bag_not_confirmed": [],
+        "handed_over_to_dp": [],
+        "bag_picked": [],
+        "out_for_delivery": [],
+        "delivery_done": [
+            { "text": "Refund Initiated", "value": "refund_initiated" }
+        ],
+        "refund_initiated": [],
+        "return_bag_delivered": [
+            { "text": "Return Bag Accepted", "value": "return_bag_accepted" },
+            { "text": "Return Accepted", "value": "return_accepted" },
+            { "text": "Deadstock", "value": "deadstock" }
+        ],
+        "return_bag_accepted": [],
+        "deadstock": [],
+        "return_dp_assigned": [],
+        "return_bag_out_for_pickup": [],
+        "return_bag_in_transit": [],
+        "return_bag_out_for_delivery": [],
+        "return_accepted": [],
+        "refund_approved": []
+    },
+    "page": {
+        "type": "number",
+        "size": 10,
+        "current": 1,
+        "has_next": false,
+        "total": 1,
+        "next": "60364d158dfe710f0ac9519d",
+        "previous": "60364d158dfe710f0ac9519d"
+    },
+    "applied_filters": {
+        "stage": "new",
+        "order_id": "FY60364D0D01DC690BD6",
+        "stores": ["all"],
+        "from_date": "02-03-2021",
+        "to_date": "02-24-2021"
+    }
+}
