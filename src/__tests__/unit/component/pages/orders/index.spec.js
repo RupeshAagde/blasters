@@ -11,6 +11,7 @@ import mockData from './fixtures/marketplaces-mock.json';
 import ORDER_LIST_DATA from './fixtures/orders-list.json';
 import ORDER_LANES_COUNT_DATA from './fixtures/order-lanes-count.json';
 import COMPANY_LIST from './fixtures/company-list.json';
+import APPLICATIONS_LIST from './fixtures/application-list.json';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
 
 import flushPromises from "flush-promises";
@@ -44,6 +45,7 @@ describe('Order List Page', () => {
         mock.onGet(URLS.ORDERS_LIST()).reply(200, ORDER_LIST_DATA);
         mock.onGet(URLS.ORDER_LANES_COUNT()).reply(200, ORDER_LANES_COUNT_DATA);
         mock.onGet(URLS.GET_COMPANY_LIST()).reply(200, COMPANY_LIST);
+        mock.onGet(URLS.FETCH_APPLICATIONS(1)).reply(200, APPLICATIONS_LIST);
 
         router = new VueRouter({
             routes: [
@@ -135,5 +137,31 @@ describe('Order List Page', () => {
         element.vm.$emit('searchInputChange', {text: ''});
 
         expect(wrapper.vm.selectedDeploymentStore).toBe('');
+    });
+
+    it('should fetch the applications/sales channels when user selects a company', async() => {
+        let fetchApplicationsMethods = jest.spyOn(wrapper.vm, 'fetchApplications');
+
+        wrapper.setData({
+            selectedCompany: 1
+        });
+
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+        let element = wrapper.find('.company-dropdown');
+        element.vm.$emit('change');
+
+        expect(fetchApplicationsMethods).toHaveBeenCalled();
+    });
+
+    it('should fetch filtered companies when user searches for a company', async() => {
+        let fetchCompaniesMethod = jest.spyOn(wrapper.vm, 'fetchCompanyList');
+
+        let element = wrapper.find('.company-dropdown');
+        element.vm.$emit('searchInputChange', {text: 'Rel'});
+
+        expect(wrapper.vm.searchCompanyText).toBe('Rel');
+        expect(fetchCompaniesMethod).toHaveBeenCalled();
     })
 });
