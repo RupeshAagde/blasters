@@ -9,7 +9,7 @@
                 <div class="main-container">
                     <div class="flex flex-end">
                         <template class="flex fil-1">
-                            <div class="flex drop">
+                            <div class="flex app">
                                 <nitrozen-dropdown
                                     :label="'Search Type'"
                                     class="filter-dropdown"
@@ -18,7 +18,7 @@
                                     @change="fieldChanged"
                                 ></nitrozen-dropdown>
                             </div>
-                            <div class="search">
+                            <div class="app">
                                 <nitrozen-input
                                     class="search-input"
                                     :showSearchIcon="true"
@@ -29,18 +29,7 @@
                                     @input="debounceInput"
                                 ></nitrozen-input>
                             </div>
-                            <!-- <div class="temp">
-                                <nitrozen-input
-                                    class="search-input"
-                                    :showSearchIcon="true"
-                                    type="search"
-                                    placeholder="Search by template"
-                                    v-model="filters.templateSearch"
-                                    @keyup.enter="searchTemplate()"
-                                    @input="debounceInput"
-                                ></nitrozen-input>
-                            </div> -->
-                            <div class="drop">
+                            <div class="app ex-app">
                                 <nitrozen-dropdown
                                     :label="'Status'"
                                     class="filter-dropdown"
@@ -125,25 +114,26 @@
                             </div>
                         </template>
                     </div>
-                    <div>
-                        <div>
-                            <div>
-                                <date-picker
-                                    label="Select Date Range"
-                                    class="date-picker filter-input-sm"
-                                    picker_type="date"
-                                    date_format="MMM Do, YY"
-                                    v-model="orderDateRange"
-                                    :clearable="false"
-                                    :range="true"
-                                    :not_before="notBefore"
-                                    :shortcuts="dateRangeShortcuts"
-                                    :not_after="new Date().toISOString()"
-                                    :useNitrozenTheme="true"
-                                    @input="changePage"
-                                />
-                            </div>
-                        </div>
+                    <div class="third-row">
+                        <date-picker
+                            label="Select Date Range"
+                            class="date-picker filter-input-sm"
+                            picker_type="date"
+                            date_format="MMM Do, YY"
+                            v-model="orderDateRange"
+                            :clearable="false"
+                            :range="true"
+                            :not_before="notBefore"
+                            :shortcuts="dateRangeShortcuts"
+                            :not_after="new Date().toISOString()"
+                            :useNitrozenTheme="true"
+                            @input="changePage"
+                        />
+                        <nitrozen-button
+                            :theme="'secondary'"
+                            @click="resetfilters"
+                            >Reset Filters</nitrozen-button
+                        >
                     </div>
                     <adm-shimmer
                         v-if="pageLoading && !pageError"
@@ -224,6 +214,7 @@ import {
     NitrozenDropdown,
     NitrozenInput,
     NitrozenBadge,
+    NitrozenButton,
 } from '@gofynd/nitrozen-vue';
 const VueJsonPretty = () =>
     import(/*webpackChunkName:"vue-json-pretty" */ 'vue-json-pretty');
@@ -246,6 +237,7 @@ export default {
         'adm-no-content': PageEmpty,
         'adm-shimmer': shimmer,
         'logs-listing-card': logsListingCard,
+        'nitrozen-button': NitrozenButton,
     },
     data() {
         return {
@@ -299,7 +291,7 @@ export default {
                 templateSearch: '',
                 job: '',
                 campaign: '',
-                application: this.$route.query.application ,
+                application: this.$route.query.application,
             },
             pagination: {
                 limit: 10,
@@ -318,7 +310,7 @@ export default {
             logs: {},
             application: [],
             placeHolder: 'Search ',
-            notBefore: moment().subtract(3, 'months').toISOString(),
+            notBefore: moment().subtract(1, 'months').toISOString(),
             dateRangeShortcuts: [
                 {
                     text: 'Today',
@@ -404,11 +396,19 @@ export default {
             this.application = dropdown;
         },
         validateDates() {
-            if(this.orderDateRange[0] && this.orderDateRange[1]){
-                return 'valid';
+            var date1 = new Date(this.orderDateRange[0]);
+            var date2 = new Date(this.orderDateRange[1]);
+            var diffDays = parseInt(
+                (date2 - date1) / (1000 * 60 * 60 * 24),
+                10
+            );
+            if (diffDays > 3) {
+                return 'outRange';
             }
-            else {
-                return 
+            if (this.orderDateRange[0] && this.orderDateRange[1]) {
+                return 'valid';
+            } else {
+                return;
             }
         },
         changePage(e) {
@@ -432,78 +432,76 @@ export default {
                     }
                 }
             }
-           
+            if (this.filters.status != 'all') {
+                params.query.status = this.filters.status;
+            }
+
             if (
                 this.filters.type == 'identifier' &&
                 this.filters.plainTextSearch
             ) {
-                params.query['meta.identifier'] = {
-                    $regex: this.filters.plainTextSearch,
-                    $options: 'ig',
-                };
+                params.query['meta.identifier'] = this.filters.plainTextSearch;
             }
             if (this.filters.type == 'phone') {
                 params.query.sms = { $exists: true };
-                if (this.filters.plainTextSearch) {
+                if (validatePhone(this.filters.plainTextSearch)) {
                     params.query['sms.phone_number'] =
                         this.filters.plainTextSearch;
                 }
             }
             if (this.filters.type == 'email') {
                 params.query.email = { $exists: true };
-                if (this.filters.plainTextSearch) {
+                if (validateEmail(this.filters.plainTextSearch)) {
                     params.query['email.to'] = this.filters.plainTextSearch;
                 }
             }
 
-            if (this.filters.templateSearch) {
+            if (
+                this.filters.templateSearch &&
+                this.filters.entity == 'template'
+            ) {
                 let validPhone = validatePhone(this.filters.plainTextSearch);
                 let validEmail = validateEmail(this.filters.plainTextSearch);
                 if (validPhone) {
-                    params.query.$and = params.query.$and || [];
-                    params.query.$and.push({
-                        'sms.template': this.filters.templateSearch,
-                    });
+                    delete params.query.sms;
+                    params.query['sms.template'] = this.filters.templateSearch;
                 } else if (validEmail) {
-                    params.query.$and = params.query.$and || [];
-                    params.query.$and.push({
-                        'email.template': this.filters.templateSearch,
-                    });
-                } else {
-                    params.query.$and = params.query.$and || [];
-                    params.query.$and.push({
-                        $or: [
-                            { 'sms.template': this.filters.templateSearch },
-                            { 'email.template': this.filters.templateSearch },
-                        ],
-                    });
+                    delete params.query.email;
+                    params.query['email.template'] =
+                        this.filters.templateSearch;
                 }
             }
 
-            if (this.filters.job) {
+            if (this.filters.job && this.filters.entity == 'jobid') {
                 params.query['meta.job'] = this.filters.job;
             }
-            if (this.filters.campaign) {
+            if (this.filters.campaign && this.filters.entity == 'campaign') {
                 params.query['meta.campaign'] = this.filters.campaign;
             }
             if (this.filters.application) {
                 params.query['application'] = this.filters.application;
             }
-
-
+            if (this.validateDates() == 'outRange') {
+                this.$snackbar.global.showError(
+                    'Date range is more than 3 days'
+                );
+                return;
+            }
             if (this.validateDates() == 'valid') {
                 params.query.created_at = {
-                        $gte: this.orderDateRange[0],
-                        $lte: this.orderDateRange[1],
-                    };
+                    $gte: this.orderDateRange[0],
+                    $lte: this.orderDateRange[1],
+                };
+            }
 
-            } 
             let filters = cloneDeep(this.filters);
+
             this.$router
                 .push({
                     path: this.$route.path,
-                    query: { ...this.$route.query, ...filters,  },
-                }).catch(err => {})
+                    query: { ...this.$route.query, ...filters },
+                })
+                .catch((err) => {})
                 .catch((err) => {
                     console.log(err);
                 });
@@ -551,29 +549,50 @@ export default {
             this.fetchCampaigns('', this.filters.application);
             this.changePage();
         },
-        updatefilters(){
-            let q = this.$route.query
-            this.filters.entity = q.entity
-            this.filters.templateSearch = q.templateSearch
-            if(q.type){
-            this.filters.type = q.type;
+        updatefilters() {
+            let q = this.$route.query;
+            this.filters.entity = q.entity;
+            this.filters.templateSearch = q.templateSearch;
+            if (q.type) {
+                this.filters.type = q.type;
             }
             this.filters.campaign = q.campaign;
             this.filters.job = q.job;
-            this.filters.plainTextSearch = q.plainTextSearch
-            this.filters.application = q.application
-            this.filters.status = q.status
+            this.filters.plainTextSearch = q.plainTextSearch;
+            this.filters.application = q.application;
+            if (q.type) {
+                this.filters.status = q.status;
+            }
         },
-        updateEntity(){
-            // this.$router
-            //     .push({
-            //         path: this.$route.path,
-            //         query: { ...this.$route.query, entity  },
-            //     }).catch(err => {})
-        }
+        updateEntity() {
+            this.$router
+                .push({
+                    path: this.$route.path,
+                    query: {
+                        ...this.$route.query,
+                        ...{ entity: this.filters.entity },
+                    },
+                })
+                .catch((err) => {});
+        },
+        resetfilters() {
+            this.filters.application = '';
+            this.filters.entity = '';
+            this.filters.templateSearch = '';
+            this.filters.job = '';
+            this.filters.plainTextSearch = '';
+            this.filters.status = 'all';
+            this.filters.type = 'phone';
+            this.orderDateRange = [
+                moment().subtract(3, 'days').toISOString(),
+                moment().toISOString(),
+            ];
+            this.filters.campaign = '';
+            this.changePage();
+        },
     },
     mounted() {
-        this.updatefilters()
+        this.updatefilters();
         this.resetPagination();
         this.fetchCampaigns();
         this.changePage();
@@ -584,9 +603,15 @@ export default {
 <style lang="less" scoped>
 //@import './../less/page-header.less';
 //@import './../less/page-ui.less';
+.third-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 .filter-input-sm {
-    min-width: 250px;
-    width: 250px;
+    width: 32.1%;
+    margin-right: 1.8%;
+    margin-bottom: 12px;
 
     @media @mobile {
         width: 100%;
@@ -804,17 +829,9 @@ export default {
     margin-left: 1%;
     width: 22.9%;
 }
-.drop {
-    width: 25%;
-}
 .app {
     margin-right: 1.8%;
     width: 32.1%;
-}
-.search {
-    width: 49%;
-    margin-left: 2%;
-    margin-right: 2%;
 }
 .job {
     width: 32%;
