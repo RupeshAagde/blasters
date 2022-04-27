@@ -10,6 +10,7 @@ import URLS from '@/services/domain.service';
 import mockData from './fixtures/marketplaces-mock.json';
 import ORDER_LIST_DATA from './fixtures/orders-list.json';
 import ORDER_LANES_COUNT_DATA from './fixtures/order-lanes-count.json';
+import COMPANY_LIST from './fixtures/company-list.json';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
 
 import flushPromises from "flush-promises";
@@ -40,8 +41,9 @@ describe('Order List Page', () => {
         localVue.use(VueRouter);
         mock.reset();
         mock.onGet(ADMIN_URLS.STORE_DETAILS()).reply(200, mockData.opt_in_stores);
-        mock.onGet(URLS.ORDERS_LIST()).reply(200, ORDER_LIST_DATA)
-        mock.onGet(URLS.ORDER_LANES_COUNT()).reply(200, ORDER_LANES_COUNT_DATA)
+        mock.onGet(URLS.ORDERS_LIST()).reply(200, ORDER_LIST_DATA);
+        mock.onGet(URLS.ORDER_LANES_COUNT()).reply(200, ORDER_LANES_COUNT_DATA);
+        mock.onGet(URLS.GET_COMPANY_LIST()).reply(200, COMPANY_LIST);
 
         router = new VueRouter({
             routes: [

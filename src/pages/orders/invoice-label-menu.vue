@@ -27,12 +27,14 @@
                         <span 
                             @click="printInvoice('a4', toggleMenu,'',$event)"
                             :title="`Preview ${toggleMenu}`"
+                            class="preview-a4"
                         >
                             <adm-inline-svg src="eye-open"></adm-inline-svg>
                         </span>
                         <span 
                             @click="printInvoice('a4', toggleMenu, 'download')"
                             :title="`Download ${toggleMenu}`"
+                            class="download-a4"
                         >
                             <ukt-inline-svg src="download"></ukt-inline-svg>
                         </span>
@@ -44,12 +46,14 @@
                         <span 
                             @click="printInvoice('a6', toggleMenu,'',$event)"
                             :title="`Preview ${toggleMenu}`"
+                            class="preview-a6"
                         >
                             <adm-inline-svg src="eye-open"></adm-inline-svg>
                         </span>
                         <span 
                             @click="printInvoice('a6', toggleMenu, 'download')"
                             :title="`Download ${toggleMenu}`"
+                            class="download-a6"
                         >
                             <ukt-inline-svg src="download"></ukt-inline-svg>
                         </span>
@@ -61,12 +65,14 @@
                         <span 
                             @click="printInvoice('pos', toggleMenu,'',$event)"
                             :title="`Preview ${toggleMenu}`"
+                            class="preview-pos"
                         >
                             <adm-inline-svg src="eye-open"></adm-inline-svg>
                         </span>
                         <span 
                             @click="printInvoice('pos', toggleMenu, 'download')"
                             :title="`Download ${toggleMenu}`"
+                            class="download-pos"
                         >
                             <ukt-inline-svg src="download"></ukt-inline-svg>
                         </span>
@@ -187,6 +193,7 @@ export default {
             //     );
             //     return;
             // }
+
             if (!this.shipment.dp_details.awb_no) {
                 this.$snackbar.global.showInfo(
                     'AWB no is not generated for this shipment yet'
