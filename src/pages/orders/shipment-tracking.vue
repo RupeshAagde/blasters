@@ -4,10 +4,10 @@
             <div class="bold-xs">Tracking Details</div>
             <div v-if="awb" class="bold-xs awb flex-item">
                 AWB:
-                <span @click="copyURLToClipboard(awb)" title="Click to copy">
+                <span @click="copyURLToClipboard(awb)" title="Click to copy" class="awb-text">
                     {{ awb }}
                 </span>
-                <span @click="openDPTrackingPage(track_url)" title="Open DP Page">
+                <span @click="openDPTrackingPage(track_url)" title="Open DP Page" class="dp-tracking">
                     <ukt-inline-svg src="track"></ukt-inline-svg>
                 </span>
             </div>

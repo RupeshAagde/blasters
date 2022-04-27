@@ -116,4 +116,40 @@ describe('Shipment Drawer Page', () => {
     //     await wrapper.vm.$nextTick()
     //     mock.onPost(URLS.STORE_PROCESS_SHIPMENTS()).reply(200, POST_DATA)
     // })
+
+    it('should alert the user when text is copied', async() => {
+        let showInfoMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showInfo');
+
+        wrapper.vm.copyURLToClipboard('https://www.google.com');
+        expect(showInfoMethod).toHaveBeenCalled();
+    });
+
+    it('should stop click if user clicks on it', async() => {
+        let stopClickMethod = jest.spyOn(wrapper.vm, 'stopClick');
+
+        let element = wrapper.find('.quick-view-section');
+        element.trigger('click');
+
+        expect(stopClickMethod).toHaveBeenCalled();
+    });
+
+    it('should call the previous/next shipment according to the key pressed by the user', async() => {
+        let getShipmentMethod = jest.spyOn(wrapper.vm, 'getShipment');
+
+        wrapper.setData({
+            prevDisabled: false,
+            nextDisabled: false
+        });
+
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+        wrapper.vm.detectKeyboardNavigation({keyCode: 37, preventDefault: jest.fn(), stopPropagation: jest.fn()});
+        expect(getShipmentMethod).toHaveBeenCalledWith('previous');
+
+        await wrapper.vm.$nextTick();
+
+        wrapper.vm.detectKeyboardNavigation({keyCode: 39, preventDefault: jest.fn(), stopPropagation: jest.fn()});
+        expect(getShipmentMethod).toHaveBeenCalledWith('next');
+    })
 });

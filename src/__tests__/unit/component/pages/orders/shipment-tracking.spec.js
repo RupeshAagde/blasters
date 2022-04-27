@@ -21,7 +21,7 @@ describe('Fullfilment Store', () => {
         wrapper = shallowMount(ShipmentTracking, {
             localVue,
             router,
-            propsData: { tracking, shipment_id },
+            propsData: { tracking, shipment_id, awb: '5046512003245'},
         });
     });
 
@@ -33,4 +33,22 @@ describe('Fullfilment Store', () => {
         const div = wrapper.find('div')
         expect(div.exists()).toBe(true)
     });
+
+    it('will alert the user if AWB is copied', async() => {
+        let showInfoMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showInfo');
+
+        let element = wrapper.find('.awb-text');
+        element.trigger('click');
+
+        expect(showInfoMethod).toHaveBeenCalled();
+    });
+
+    it('should open the shipment tracking', async() => {
+        window.open = jest.fn();
+
+        let element = wrapper.find('.dp-tracking');
+        element.trigger('click');
+
+        expect(window.open).toHaveBeenCalled();
+    })
 });

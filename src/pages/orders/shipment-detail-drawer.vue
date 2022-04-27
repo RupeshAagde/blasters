@@ -337,11 +337,11 @@ export default {
         //     this.$refs.clickToCallDialog.open({ receiver, title });
         // },
 
-        $clickToCallDialogClosed(reason) {
-            if (reason == 'success') {
-                console.log(reason);
-            }
-        },
+        // $clickToCallDialogClosed(reason) {
+        //     if (reason == 'success') {
+        //         console.log(reason);
+        //     }
+        // },
 
         getOrder(index) {
             this.pageLoading = true;         
