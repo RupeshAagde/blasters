@@ -7,7 +7,7 @@
                     :desc="'View All Reports'"
                 ></jumbotron>
                 <div class="main-container">
-                    <div class="flex flex-end">
+                    <div class="flex">
                         <template class="flex fil-1">
                             <div class="flex app">
                                 <nitrozen-dropdown
@@ -15,7 +15,7 @@
                                     class="filter-dropdown"
                                     :items="typeFilterList"
                                     v-model="filters.type"
-                                    @change="fieldChanged"
+                                    @change="changeType"
                                 ></nitrozen-dropdown>
                             </div>
                             <div class="app">
@@ -23,11 +23,14 @@
                                     class="search-input"
                                     :showSearchIcon="true"
                                     type="search"
+                                    :label="searchLabel"
                                     :placeholder="placeHolder"
                                     v-model="filters.plainTextSearch"
-                                    @keyup.enter="searchTemplate()"
-                                    @input="debounceInput"
+                                    @input="changeSearch"
                                 ></nitrozen-input>
+                                <nitrozen-error v-if="emailphoneErr.showerror">
+                                    {{ emailphoneErr.value }}
+                                </nitrozen-error>
                             </div>
                             <div class="app ex-app">
                                 <nitrozen-dropdown
@@ -40,7 +43,7 @@
                             </div>
                         </template>
                     </div>
-                    <div class="flex flex-end date">
+                    <div class="flex date">
                         <template class="fil-2">
                             <div class="app">
                                 <nitrozen-dropdown
@@ -65,6 +68,7 @@
                                     @change="updateEntity"
                                 ></nitrozen-dropdown>
                             </div>
+                            
 
                             <div
                                 v-if="filters.entity == 'template'"
@@ -74,12 +78,16 @@
                                     class="search-input"
                                     :showSearchIcon="true"
                                     type="search"
+                                    :label="'Template'"
                                     placeholder="Search by template"
                                     v-model="filters.templateSearch"
-                                    @keyup.enter="searchTemplate()"
-                                    @input="debounceInput"
+                                    @keyup.enter="fieldChanged"
                                 ></nitrozen-input>
+                                  <nitrozen-error v-if="!filters.templateSearch">
+                                    This is mandatory field
+                            </nitrozen-error>
                             </div>
+                          
 
                             <div
                                 v-if="filters.entity == 'campaign'"
@@ -89,6 +97,7 @@
                                     class="campaign-dropdown"
                                     placeholder="Search Campaign"
                                     :items="campaigns"
+                                    :label="'Campaign'"
                                     v-model="filters.campaign"
                                     @change="changeApplication"
                                     :searchable="true"
@@ -96,6 +105,9 @@
                                         campaignDropdownSearchInputChange
                                     "
                                 ></nitrozen-dropdown>
+                                <nitrozen-error v-if="!filters.campaign">
+                                    This is mandatory field
+                            </nitrozen-error>
                             </div>
 
                             <div
@@ -106,11 +118,14 @@
                                     class="search-input"
                                     :showSearchIcon="true"
                                     type="search"
+                                    :label="'JobId'"
                                     placeholder="Search by job id"
                                     v-model="filters.job"
                                     @keyup.enter="fieldChanged()"
-                                    @input="debounceInput"
                                 ></nitrozen-input>
+                                <nitrozen-error v-if="!filters.job">
+                                    This is mandatory field
+                            </nitrozen-error>
                             </div>
                         </template>
                     </div>
@@ -125,7 +140,6 @@
                             :range="true"
                             :not_before="notBefore"
                             :shortcuts="dateRangeShortcuts"
-                            :not_after="new Date().toISOString()"
                             :useNitrozenTheme="true"
                             @input="changePage"
                         />
@@ -215,6 +229,7 @@ import {
     NitrozenInput,
     NitrozenBadge,
     NitrozenButton,
+    NitrozenError
 } from '@gofynd/nitrozen-vue';
 const VueJsonPretty = () =>
     import(/*webpackChunkName:"vue-json-pretty" */ 'vue-json-pretty');
@@ -238,6 +253,7 @@ export default {
         'adm-shimmer': shimmer,
         'logs-listing-card': logsListingCard,
         'nitrozen-button': NitrozenButton,
+        NitrozenError,
     },
     data() {
         return {
@@ -256,6 +272,10 @@ export default {
                 },
             ],
             typeFilterList2: [
+                {
+                    text: 'Choose Search Entity',
+                    value: ''
+                },
                 {
                     text: 'Template',
                     value: 'template',
@@ -309,7 +329,7 @@ export default {
             pageError: false,
             logs: {},
             application: [],
-            placeHolder: 'Search ',
+            placeHolder: 'Search by Phone',
             notBefore: moment().subtract(1, 'months').toISOString(),
             dateRangeShortcuts: [
                 {
@@ -327,15 +347,14 @@ export default {
                 moment().subtract(3, 'days').toISOString(),
                 moment().toISOString(),
             ],
+            emailphoneErr:{
+                value: '',
+                showerror: false,
+            },
+            searchLabel: "Phone",
         };
     },
     methods: {
-        debounceInput: debounce(function (e) {
-            if (this.filters.plainTextSearch.length === 0) {
-                this.resetPagination();
-                this.changePage();
-            }
-        }, 400),
         resetPagination() {
             this.pagination = {
                 limit: 10,
@@ -351,6 +370,29 @@ export default {
         },
         fieldChanged() {
             this.searchTemplate();
+        },
+        changeType(){
+            if(this.filters.type == 'email' || this.filters.type == 'phone'){
+              this.filters.plainTextSearch = ''
+              this.emailphoneErr.showerror = false;
+            }
+            this.searchLabel = this.filters.type.charAt(0).toUpperCase() + this.filters.type.slice(1);
+            this.fieldChanged()
+        },
+        changeSearch(){
+             if (this.filters.type == 'email' && !validateEmail(this.filters.plainTextSearch)) {
+                    this.emailphoneErr.showerror = true;
+                    this.emailphoneErr.value = "Enter Valid Email"
+                }
+            else if(this.filters.type == 'phone' && !validatePhone(this.filters.plainTextSearch)){
+                this.emailphoneErr.showerror = true;
+                this.emailphoneErr.value = "Enter Valid Phone"
+            }
+           
+            else{
+               this.emailphoneErr.showerror = false;
+               this.changePage(); 
+            }    
         },
         searchTemplate() {
             this.placeHolder = 'Search by ' + this.filters.type;
@@ -443,15 +485,16 @@ export default {
                 params.query['meta.identifier'] = this.filters.plainTextSearch;
             }
             if (this.filters.type == 'phone') {
-                params.query.sms = { $exists: true };
+                params.query["sms.phone_number"] = {"$ne":null} 
                 if (validatePhone(this.filters.plainTextSearch)) {
-                    params.query['sms.phone_number'] =
-                        this.filters.plainTextSearch;
+                    delete params.query.sms;
+                    params.query['sms.phone_number'] = this.filters.plainTextSearch;
                 }
             }
             if (this.filters.type == 'email') {
-                params.query.email = { $exists: true };
+                params.query["email.to"] = {"$ne":null} 
                 if (validateEmail(this.filters.plainTextSearch)) {
+                    delete params.query.email;
                     params.query['email.to'] = this.filters.plainTextSearch;
                 }
             }
@@ -588,6 +631,7 @@ export default {
                 moment().toISOString(),
             ];
             this.filters.campaign = '';
+            this.emailphoneErr.showerror = false;
             this.changePage();
         },
     },
