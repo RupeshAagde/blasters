@@ -58,6 +58,6 @@ describe('ShipmentBags', () => {
     });
 
     it('should return the correct time', async() => {
-        expect(wrapper.vm.toDateTimeString('4/12/2022')).toBe('16 days ago');
+        expect(wrapper.vm.toDateTimeString(new Date())).not.toBe('2 days ago');
     })
 });
