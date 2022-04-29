@@ -27,6 +27,7 @@
                                     :placeholder="placeHolder"
                                     v-model="filters.plainTextSearch"
                                     @input="changeSearch"
+                                    @change="changeSearch"
                                 ></nitrozen-input>
                                 <nitrozen-error v-if="emailphoneErr.showerror">
                                     {{ emailphoneErr.value }}
@@ -380,7 +381,12 @@ export default {
             this.fieldChanged()
         },
         changeSearch(){
-             if (this.filters.type == 'email' && !validateEmail(this.filters.plainTextSearch)) {
+            if(this.filters.plainTextSearch == ''){
+               this.emailphoneErr.showerror = false;
+               this.changePage();
+               return; 
+            }
+             else if (this.filters.type == 'email' && !validateEmail(this.filters.plainTextSearch)) {
                     this.emailphoneErr.showerror = true;
                     this.emailphoneErr.value = "Enter Valid Email"
                 }
@@ -388,7 +394,6 @@ export default {
                 this.emailphoneErr.showerror = true;
                 this.emailphoneErr.value = "Enter Valid Phone"
             }
-           
             else{
                this.emailphoneErr.showerror = false;
                this.changePage(); 
@@ -503,15 +508,12 @@ export default {
                 this.filters.templateSearch &&
                 this.filters.entity == 'template'
             ) {
-                let validPhone = validatePhone(this.filters.plainTextSearch);
-                let validEmail = validateEmail(this.filters.plainTextSearch);
-                if (validPhone) {
+                if (this.filters.type == 'phone') {
                     delete params.query.sms;
                     params.query['sms.template'] = this.filters.templateSearch;
-                } else if (validEmail) {
+                } else if (this.filters.type == 'email') {
                     delete params.query.email;
-                    params.query['email.template'] =
-                        this.filters.templateSearch;
+                    params.query['email.template'] = this.filters.templateSearch;
                 }
             }
 
