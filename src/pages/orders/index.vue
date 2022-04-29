@@ -608,6 +608,7 @@ export default {
     },
     methods: {
         fetchCompanyList(query) {
+            console.log("query:   ", query);
             return CompanyService.getCompanyList(query)
             .then(response => {
                 if(response.data.items.length === 0) {
@@ -638,24 +639,33 @@ export default {
             })
         },
         companyChange() {
+            console.log("companyChange is called");
             this.fetchApplications();
             this.filterChange();
         },
         searchCompany(e) {
+            console.log("Inside searchCompany", e);
+            if(e.length === 0) {
+                this.selectedCompany = null;
+                this.setRouteQuery({
+                    sales_channels: null
+                });
+                // this.companyChange();
+            }
             this.searchCompanyText = e;
             this.fetchCompanyList({q: e});
         },
         getTabText(stage) {
-            return stage && stage.text
-            let tabText = stage && stage.text ? `${stage.text} ` : '';
-            if (stage.count) {
-                let count = Number(stage.count) / 1000;
-                tabText =
-                    count >= 1
-                        ? `${stage.text} (${count.toFixed(2)}K)`
-                        : `${stage.text} (${stage.count})`;
-            }
-            return tabText;
+            return stage && stage.text;
+            // let tabText = stage && stage.text ? `${stage.text} ` : '';
+            // if (stage.count) {
+            //     let count = Number(stage.count) / 1000;
+            //     tabText =
+            //         count >= 1
+            //             ? `${stage.text} (${count.toFixed(2)}K)`
+            //             : `${stage.text} (${stage.count})`;
+            // }
+            // return tabText;
         },
         setLockShipment() {
             const status = this.lockShipment;
@@ -786,11 +796,13 @@ export default {
             return params;
         },
         fetchOrders() {
+            console.log("fetchOrders");
             this.inProgress = true;
             const params = this.getOrderRequestParams();
             
             const get_order_promise = OrderService.fetchOrders(params)
                 get_order_promise.then(({ data }) => {
+                    console.log("data:   ", data);
                     this.pageError = false;
                     this.errorText = undefined;
                     this.orders = data.items;
@@ -1024,6 +1036,7 @@ export default {
             }
         },
         setRouteQuery: function (query) {
+            console.log("query:   ", query);
             if (
                 query.search ||
                 query.status ||
