@@ -24,7 +24,7 @@
             <div class="full-width">
                 <div class="applications" style="width: 98%">
                     <!-- this is Application info -->
-                    <application-info></application-info>
+                    <application-info @emitApplication="getApplicationName($event)"></application-info>
                 </div>
             </div>
         </div>               
@@ -194,7 +194,7 @@ import admpgconfiguration from './pgconfig.vue'
 import applicationinfo from './application-info.vue'
 
 export default {
-    name: 'application-deatails',
+    name: 'application-details',
     components: {
         PageHeader,
         'nitrozen-tab': NitrozenTab,
@@ -223,6 +223,9 @@ export default {
         }
     },
     methods: {
+        getApplicationName({appName}){
+        this.title = this.title + " - "+appName
+        },
         redirectToListing() {
             this.$router.go(-1);
         },
