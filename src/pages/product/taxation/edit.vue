@@ -86,7 +86,7 @@
             <div class="row">
                 <div class="input-area">
                     <span class="char-count">{{
-                        `${description.value.length} / 100 Characters`
+                        `${description.value.length} / 500 Characters`
                     }}</span>
                     <nitrozen-input
                         label="Description"
@@ -225,7 +225,7 @@
         <!--Confirmation dailog -->
         <nitrozen-dialog ref="confirm-dialog" title="Confirmation">
             <template slot="body">
-                <p>Are you sure you want to delete rate</p>
+                <p>Are you sure you want to delete rate?</p>
             </template>
             <template slot="footer">
                 <div class="footer-actions-buttons">
@@ -350,7 +350,7 @@ export default {
                 value: '',
                 showerror: false,
                 errortext:
-                    "Description is required and it's length should be between 4 to 100 chars"
+                    "Description is required and it's length should be between 4 to 500 chars"
             },
             taxes: {
                 value: [],
@@ -597,7 +597,7 @@ export default {
             if (
                 this.description.value !== '' &&
                 this.description.value.length > 3 &&
-                this.description.value.length <= 100
+                this.description.value.length <= 500
             ) {
                 this.description.showerror = false;
                 postData.description = this.description.value;
@@ -688,12 +688,12 @@ export default {
             this.description.showerror = false;
             this.$set(this.errors, 'description', '');
             if (
-                this.description.value.toString().length >= 101 ||
+                this.description.value.toString().length >= 501 ||
                 this.description.value.toString().length < 4
             ) {
                 isValid = false;
                 this.errors.description =
-                    "Description is required and it's length should be between 4 to 100 chars";
+                    "Description is required and it's length should be between 4 to 500 chars";
             }
             return isValid;
         },
