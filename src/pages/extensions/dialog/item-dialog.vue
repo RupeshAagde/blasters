@@ -110,6 +110,8 @@ export default {
         padding-left: 0px;
         border-bottom: 1px solid #e1e1e1;
         margin-top: -24px;
+        padding-right: 0px;
+        overflow-x: hidden;
     }
 }
 
