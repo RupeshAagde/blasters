@@ -155,11 +155,11 @@ export default {
             salesChannelsFiltered: [],
             entityTypes: [
             { text: 'All', value: 'all'},    
-            { text: 'Charge-Invoice', value: 'charge-invoice' },
-            { text: 'Invoices-Bulk-Update', value: 'invoices-bulk-update' },
-            { text: 'Offline-paid', value: 'offline-paid' },
-            { text: 'Subscription', value: 'subscription' },
-            { text: 'HSN Code', value: 'hsn_code' },
+            // { text: 'Charge-Invoice', value: 'charge-invoice' },
+            // { text: 'Invoices-Bulk-Update', value: 'invoices-bulk-update' },
+            // { text: 'Offline-paid', value: 'offline-paid' },
+            // { text: 'Subscription', value: 'subscription' },
+            // { text: 'HSN Code', value: 'hsn_code' },
             ],
             filters: {
                 salesChannel: this.getInitialValue(''),
@@ -183,6 +183,21 @@ export default {
                 const index_id = this.logs[0]._id;
                 this.updateQueryParams({ nxt: null, prev: index_id });
             }
+        },
+        initEntityTypes() {
+            this.pageLoading = true;
+            return AuditTrailService.getEntityTypes()
+                .then((res) => {
+                    let data =res.data;
+                    let entity_types = data && data.items && data.items.length ? data.items : [];
+                    entity_types = entity_types.map((ent_typ) => ({ text: ent_typ.display_name, value: ent_typ.entity_value }));
+                    this.entityTypes = entity_types;
+                    this.entityTypesFiltered = entity_types;
+                })
+                .catch(console.log)
+                .finally(() => {
+                    this.pageLoading = false;
+                });
         },
         getLogs(params = {}) {
             this.pageLoading = true;

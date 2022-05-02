@@ -623,10 +623,10 @@ const URLS = {
     //PINPOINTER
     AUDIT_TRAIL: (id='') => {
         return urlJoin(PINPOINTER_ADMIN_URL, 'v1.0/logs/',id)
+    },
+    GET_AUDIT_TRAIL_ENTITY_TYPES:()=>{
+        return urlJoin(PLATFORM_AUDIT_TRAIL_BASE, `/v1.0/entity-types`);
     }
-    
-
-    
 };
 
 export default URLS;
