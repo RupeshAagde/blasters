@@ -383,5 +383,6 @@
             "version": "98.0.4758.102"
           }
         }
-      }
+      },
+    "entity_types":{"items":[{"_id":"62729a9fe6bf3c5f043c329f","entity_value":"hsn_code","display_name":"HSN Code"}]}
 }
