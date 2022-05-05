@@ -955,7 +955,9 @@ export default {
                 stage,
                 filterType,
                 is_priority_sort,
-                lock_status
+                lock_status,
+                company_id,
+                sales_channels
             } = this.$route.query;
 
             this.pagination.current = +page || this.pagination.current;
@@ -964,7 +966,11 @@ export default {
             this.search = search || this.search;
             this.filterType = filterType || 'auto';
             this.prioritySort = is_priority_sort || true;
-            this.lockShipment = lock_status === "true"
+            this.lockShipment = lock_status === "true";
+            this.selectedCompany = company_id;
+            if(company_id) {
+                this.selectedSalesChannels = sales_channels || [];
+            }
             this.changeFilterType();
             this.populateFilters();
             // if (from_date && moment(from_date, 'MM-DD-YYYY').isValid()) {
@@ -995,7 +1001,7 @@ export default {
 
             // TODO: make it dynamic
             // @NOTE Plan to cache from Backend
-            const { sales_channels, status, dp } = this.$route.query;
+            const { status, dp } = this.$route.query;
             if (sales_channels) {
                 this.stagesSubFilter['sales_channels'] = sales_channels.split(
                     ','
@@ -1010,7 +1016,7 @@ export default {
             }
         },
         populateFilters() {
-            const { stores,deployment_stores } = this.$route.query;
+            const { stores, deployment_stores, sales_channels } = this.$route.query;
 
             // store state manage for filter preference: query over localstorage
             const ls_stores = LocalStorageService.getItem(
@@ -1026,6 +1032,13 @@ export default {
                 storesValueArray.includes(ls_stores.toString())
             ) {
                 this.selectedStore = ls_stores.toString();
+            }
+
+            if(this.selectedCompany) {
+                this.fetchApplications()
+                .then(() => {
+                    this.selectedSalesChannels = sales_channels.split(',');
+                })
             }
 
             const deploymentStoresValueArray = this.deploymentStoreList.map((f) =>
