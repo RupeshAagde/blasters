@@ -606,9 +606,15 @@ export default {
             this.activateAutoRefresh();
         }
     },
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            if(from.name !== 'application-order-details') {
+                vm.resetFilter();
+            }
+        })
+    },
     methods: {
         fetchCompanyList(query) {
-            console.log("query:   ", query);
             return CompanyService.getCompanyList(query)
             .then(response => {
                 if(response.data.items.length === 0) {
@@ -639,18 +645,14 @@ export default {
             })
         },
         companyChange() {
-            console.log("companyChange is called");
             this.fetchApplications();
             this.filterChange();
         },
         searchCompany(e) {
-            console.log("Inside searchCompany", e);
             if(e.length === 0) {
                 this.selectedCompany = null;
-                this.setRouteQuery({
-                    sales_channels: null
-                });
-                // this.companyChange();
+                this.selectedSalesChannels = [];
+                this.fetchOrders();
             }
             this.searchCompanyText = e;
             this.fetchCompanyList({q: e});
@@ -796,13 +798,11 @@ export default {
             return params;
         },
         fetchOrders() {
-            console.log("fetchOrders");
             this.inProgress = true;
             const params = this.getOrderRequestParams();
             
             const get_order_promise = OrderService.fetchOrders(params)
                 get_order_promise.then(({ data }) => {
-                    console.log("data:   ", data);
                     this.pageError = false;
                     this.errorText = undefined;
                     this.orders = data.items;
@@ -1036,7 +1036,6 @@ export default {
             }
         },
         setRouteQuery: function (query) {
-            console.log("query:   ", query);
             if (
                 query.search ||
                 query.status ||
@@ -1214,6 +1213,7 @@ export default {
             this.selectedStore='';
             this.selectedDeploymentStore='';
             this.selectedCompany = null;
+            this.selectedSalesChannels = [];
             this.stagesSubFilter={};
             this.filterChange();
             this.fetchOrders();
