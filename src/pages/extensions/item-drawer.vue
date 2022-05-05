@@ -569,15 +569,18 @@ export default {
             Promise.all([getAllPulblicExtension, getExtnesionCategory]).then(
                 ([data, category]) => {
                     this.extensions_selected = cloneDeep(
-                        uniq([
-                            ...this.selected_extensions,
-                            ...this.extensions_selected
-                        ])
+                        uniqBy(
+                            [
+                                ...this.selected_extensions,
+                                ...this.extensions_selected
+                            ],
+                            'slug'
+                        )
                     );
-                    const all_selected = [
+                    const all_selected = uniq([
                         ...this.selected_extensions,
                         ...this.extensions_selected
-                    ].map((ext_selected) => ext_selected._id);
+                    ]).map((ext_selected) => ext_selected._id);
                     this.extension_data = data.data.items.map((ext) => {
                         if (all_selected.includes(ext._id)) {
                             ext.is_selected = true;
