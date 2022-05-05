@@ -308,7 +308,7 @@ export const fetchUserMetaObjects = (arr) => {
 export const validatePhone = (text) => {
     let check = Number(text);
     if (!isNaN(check)) {
-        let regex = new RegExp('^[6-9][0-9]{9}$');
+        let regex = new RegExp('^[0-9]{10}$');
         if (regex.test(text)) {
             return true;
         }

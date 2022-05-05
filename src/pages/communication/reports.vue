@@ -49,7 +49,7 @@
                             <div class="app">
                                 <nitrozen-dropdown
                                     :label="'Sales Channels'"
-                                    placeholder="Search Sales Channels"
+                                    placeholder="Search sales channels"
                                     :items="application"
                                     v-model="filters.application"
                                     @change="changeApplication"
@@ -83,6 +83,7 @@
                                     placeholder="Search by template"
                                     v-model="filters.templateSearch"
                                     @keyup.enter="fieldChanged"
+                                    @input="inputEntity"
                                 ></nitrozen-input>
                                   <nitrozen-error v-if="!filters.templateSearch">
                                     This is mandatory field
@@ -96,7 +97,7 @@
                             >
                                 <nitrozen-dropdown
                                     class="campaign-dropdown"
-                                    placeholder="Search Campaign"
+                                    placeholder="Search campaign"
                                     :items="campaigns"
                                     :label="'Campaign'"
                                     v-model="filters.campaign"
@@ -123,6 +124,7 @@
                                     placeholder="Search by job id"
                                     v-model="filters.job"
                                     @keyup.enter="fieldChanged()"
+                                    @input="inputEntity"
                                 ></nitrozen-input>
                                 <nitrozen-error v-if="!filters.job">
                                     This is mandatory field
@@ -330,7 +332,7 @@ export default {
             pageError: false,
             logs: {},
             application: [],
-            placeHolder: 'Search by Phone',
+            placeHolder: 'Search by phone',
             notBefore: moment().subtract(1, 'months').toISOString(),
             dateRangeShortcuts: [
                 {
@@ -371,6 +373,14 @@ export default {
         },
         fieldChanged() {
             this.searchTemplate();
+        },
+        inputEntity(){
+             if(this.filters.entity == 'template' && this.filters.templateSearch== ''){
+                this.changePage()
+            }
+            if(this.filters.entity == 'jobid' && this.filters.job == ''){
+                this.changePage()
+            }
         },
         changeType(){
             if(this.filters.type == 'email' || this.filters.type == 'phone'){
@@ -600,6 +610,8 @@ export default {
             this.filters.templateSearch = q.templateSearch;
             if (q.type) {
                 this.filters.type = q.type;
+                this.searchLabel = this.filters.type.charAt(0).toUpperCase() + this.filters.type.slice(1);
+                this.placeHolder = 'Search by ' + this.filters.type;
             }
             this.filters.campaign = q.campaign;
             this.filters.job = q.job;
