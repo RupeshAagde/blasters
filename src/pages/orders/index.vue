@@ -1040,6 +1040,7 @@ export default {
                     this.selectedSalesChannels = sales_channels.split(',');
                 })
             }
+            
 
             const deploymentStoresValueArray = this.deploymentStoreList.map((f) =>
                 f.value.toString()
