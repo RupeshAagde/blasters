@@ -536,7 +536,8 @@ export default {
             noCompanyFound: false,
             searchCompanyText: '',
             allSalesChannels: [],
-            selectedSalesChannels: []
+            selectedSalesChannels: [],
+            pageRefresh: false
         };
     },
     computed: {
@@ -588,13 +589,17 @@ export default {
     },
 
     mounted() {
-        this.populateFromURL();
         // this.fetchStores();
         // if(this.applicationId){
         //     this.fetchDeploymentStores();
         // }
+        if(!this.pageRefresh) {
+            this.populateFromURL();
+            this.fetchOrders();
+        } else {
+            this.pageRefresh = false;
+        }
         this.populateFilters();
-        this.fetchOrders();
         this.fetchCompanyList();
         
         // this.fetchOrderLaneCount(true);
@@ -608,7 +613,9 @@ export default {
     },
     beforeRouteEnter(to, from, next) {
         next(vm => {
-            if(from.name !== 'application-order-details') {
+            /* In case of refresh button being clicked */
+            if(from.path === '/') {
+                vm.pageRefresh = true;
                 vm.resetFilter();
             }
         })
@@ -1040,7 +1047,6 @@ export default {
                     this.selectedSalesChannels = sales_channels.split(',');
                 })
             }
-            
 
             const deploymentStoresValueArray = this.deploymentStoreList.map((f) =>
                 f.value.toString()
@@ -1223,6 +1229,8 @@ export default {
         //     clearInterval(this.autoRefreshId);
         // },
         resetFilter(){  // function to reset search,date range,store,sales channel,status to empty
+            this.filterType = 'auto';
+            this.changeFilterType();
             this.search='';
             this.selectedStore='';
             this.selectedDeploymentStore='';
