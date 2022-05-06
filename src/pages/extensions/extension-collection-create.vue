@@ -721,7 +721,7 @@ export default {
                 .toLowerCase()
                 .trim()
                 .replace(/\s/gi, '-')
-                .replace(/[&\/\\#!,+()$@~%./^/&'":*?<>{}]/g, '')
+                .replace(/[&\/\\#!,+()$@~%./^/&'":;`*?<>{}]/g, '')
                 .replace(/[&,%,_]/g, '')
                 .replace(/[\[\]']+/g, '');
         },
