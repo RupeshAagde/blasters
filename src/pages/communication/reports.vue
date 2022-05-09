@@ -416,7 +416,6 @@ export default {
             }
         },
         searchTemplate() {
-            console.log('Search by ' + this.filters.type);
             this.placeHolder = 'Search by ' + this.filters.type;
             this.resetPagination();
             this.changePage();
