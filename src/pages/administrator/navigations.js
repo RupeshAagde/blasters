@@ -96,7 +96,7 @@ export const getNavigations = () => {
             icon: 'orders-cart',
             highlightedIcon: 'orders-cart-highlighted',
             active: false,
-            permission: 'product', //@TODO to change order permission basedon orders
+            permission: 'order',
             children: []
             //     {
             //         display: 'Orders',
