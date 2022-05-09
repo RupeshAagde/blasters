@@ -26,7 +26,7 @@
                                     :label="searchLabel"
                                     :placeholder="placeHolder"
                                     v-model="filters.plainTextSearch"
-                                    @keyup="changeSearch"
+                                    @input="changeSearch"
                                 ></nitrozen-input>
                                 <nitrozen-error v-if="emailphoneErr.showerror">
                                     {{ emailphoneErr.value }}
@@ -559,7 +559,8 @@ export default {
             }
 
             let filters = cloneDeep(this.filters);
-
+            filters.start = JSON.stringify(this.orderDateRange[0]);
+            filters.end = JSON.stringify(this.orderDateRange[1]);
             this.$router
                 .push({
                     path: this.$route.path,
@@ -631,6 +632,13 @@ export default {
             if (q.type) {
                 this.filters.status = q.status;
             }
+            
+        if (q.start) {
+            this.orderDateRange[0] = JSON.parse(q.start);
+        }
+        if (q.end) {
+            this.orderDateRange[1] = JSON.parse(q.end);
+        }
         },
         updateEntity() {
             this.$router
@@ -661,6 +669,13 @@ export default {
         },
     },
     mounted() {
+        let filters = cloneDeep(this.$route.query);
+        if (filters.start) {
+            this.orderDateRange[0] = JSON.parse(filters.start);
+        }
+        if (filters.end) {
+            this.orderDateRange[1] = JSON.parse(filters.end);
+        }
         this.updatefilters();
         this.resetPagination();
         this.fetchCampaigns();
