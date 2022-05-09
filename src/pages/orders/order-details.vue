@@ -1014,6 +1014,8 @@ export default {
 }
 .main-container {
     flex-direction: column;
+    margin-top: 82.5px;
+
     .intro {
         margin-bottom: 24px;
         .intro-list {
