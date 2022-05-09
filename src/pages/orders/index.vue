@@ -2,8 +2,7 @@
     <div class="panel">
         <adm-page-header
             class="titlize"
-            :showBackButton="isFPApp"
-            @backClick="isFPApp ? onAppBack() : () => {}"
+            :showBackButton="false"
             :title="'Orders'"
             :noContextMenu="true"
         >
