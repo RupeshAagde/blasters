@@ -26,8 +26,7 @@
                                     :label="searchLabel"
                                     :placeholder="placeHolder"
                                     v-model="filters.plainTextSearch"
-                                    @input="changeSearch"
-                                    @change="changeSearch"
+                                    @keyup="changeSearch"
                                 ></nitrozen-input>
                                 <nitrozen-error v-if="emailphoneErr.showerror">
                                     {{ emailphoneErr.value }}
@@ -69,7 +68,6 @@
                                     @change="updateEntity"
                                 ></nitrozen-dropdown>
                             </div>
-                            
 
                             <div
                                 v-if="filters.entity == 'template'"
@@ -85,11 +83,10 @@
                                     @keyup.enter="fieldChanged"
                                     @input="inputEntity"
                                 ></nitrozen-input>
-                                  <nitrozen-error v-if="!filters.templateSearch">
+                                <nitrozen-error v-if="!filters.templateSearch">
                                     This is mandatory field
-                            </nitrozen-error>
+                                </nitrozen-error>
                             </div>
-                          
 
                             <div
                                 v-if="filters.entity == 'campaign'"
@@ -109,7 +106,7 @@
                                 ></nitrozen-dropdown>
                                 <nitrozen-error v-if="!filters.campaign">
                                     This is mandatory field
-                            </nitrozen-error>
+                                </nitrozen-error>
                             </div>
 
                             <div
@@ -128,7 +125,7 @@
                                 ></nitrozen-input>
                                 <nitrozen-error v-if="!filters.job">
                                     This is mandatory field
-                            </nitrozen-error>
+                                </nitrozen-error>
                             </div>
                         </template>
                     </div>
@@ -162,6 +159,7 @@
                     ></page-error>
                     <ul
                         class="logs-lists-container"
+                        ref="searchbar"
                         v-else-if="logs.items && logs.items.length > 0"
                     >
                         <li v-for="(log, index) in logs.items" :key="index">
@@ -232,7 +230,7 @@ import {
     NitrozenInput,
     NitrozenBadge,
     NitrozenButton,
-    NitrozenError
+    NitrozenError,
 } from '@gofynd/nitrozen-vue';
 const VueJsonPretty = () =>
     import(/*webpackChunkName:"vue-json-pretty" */ 'vue-json-pretty');
@@ -277,7 +275,7 @@ export default {
             typeFilterList2: [
                 {
                     text: 'Choose Search Entity',
-                    value: ''
+                    value: '',
                 },
                 {
                     text: 'Template',
@@ -350,11 +348,11 @@ export default {
                 moment().subtract(3, 'days').toISOString(),
                 moment().toISOString(),
             ],
-            emailphoneErr:{
+            emailphoneErr: {
                 value: '',
                 showerror: false,
             },
-            searchLabel: "Phone",
+            searchLabel: 'Phone',
         };
     },
     methods: {
@@ -374,42 +372,51 @@ export default {
         fieldChanged() {
             this.searchTemplate();
         },
-        inputEntity(){
-             if(this.filters.entity == 'template' && this.filters.templateSearch== ''){
-                this.changePage()
+        inputEntity() {
+            if (
+                this.filters.entity == 'template' &&
+                this.filters.templateSearch == ''
+            ) {
+                this.changePage();
             }
-            if(this.filters.entity == 'jobid' && this.filters.job == ''){
-                this.changePage()
+            if (this.filters.entity == 'jobid' && this.filters.job == '') {
+                this.changePage();
             }
         },
-        changeType(){
-            if(this.filters.type == 'email' || this.filters.type == 'phone'){
-              this.filters.plainTextSearch = ''
-              this.emailphoneErr.showerror = false;
+        changeType() {
+            if (this.filters.type == 'email' || this.filters.type == 'phone') {
+                this.filters.plainTextSearch = '';
+                this.emailphoneErr.showerror = false;
             }
-            this.searchLabel = this.filters.type.charAt(0).toUpperCase() + this.filters.type.slice(1);
-            this.fieldChanged()
+            this.searchLabel =
+                this.filters.type.charAt(0).toUpperCase() +
+                this.filters.type.slice(1);
+            this.fieldChanged();
         },
-        changeSearch(){
-            if(this.filters.plainTextSearch == ''){
-               this.emailphoneErr.showerror = false;
-               this.changePage();
-               return; 
-            }
-             else if (this.filters.type == 'email' && !validateEmail(this.filters.plainTextSearch)) {
-                    this.emailphoneErr.showerror = true;
-                    this.emailphoneErr.value = "Enter Valid Email"
-                }
-            else if(this.filters.type == 'phone' && !validatePhone(this.filters.plainTextSearch)){
+        changeSearch() {
+            if (this.filters.plainTextSearch == '') {
+                this.emailphoneErr.showerror = false;
+                this.changePage();
+                return;
+            } else if (
+                this.filters.type == 'email' &&
+                !validateEmail(this.filters.plainTextSearch)
+            ) {
                 this.emailphoneErr.showerror = true;
-                this.emailphoneErr.value = "Enter Valid Phone"
+                this.emailphoneErr.value = 'Enter Valid Email';
+            } else if (
+                this.filters.type == 'phone' &&
+                !validatePhone(this.filters.plainTextSearch)
+            ) {
+                this.emailphoneErr.showerror = true;
+                this.emailphoneErr.value = 'Enter Valid Phone';
+            } else {
+                this.emailphoneErr.showerror = false;
+                this.changePage();
             }
-            else{
-               this.emailphoneErr.showerror = false;
-               this.changePage(); 
-            }    
         },
         searchTemplate() {
+            console.log('Search by ' + this.filters.type);
             this.placeHolder = 'Search by ' + this.filters.type;
             this.resetPagination();
             this.changePage();
@@ -500,14 +507,15 @@ export default {
                 params.query['meta.identifier'] = this.filters.plainTextSearch;
             }
             if (this.filters.type == 'phone') {
-                params.query["sms.phone_number"] = {"$ne":null} 
+                params.query['sms.phone_number'] = { $ne: null };
                 if (validatePhone(this.filters.plainTextSearch)) {
                     delete params.query.sms;
-                    params.query['sms.phone_number'] = this.filters.plainTextSearch;
+                    params.query['sms.phone_number'] =
+                        this.filters.plainTextSearch;
                 }
             }
             if (this.filters.type == 'email') {
-                params.query["email.to"] = {"$ne":null} 
+                params.query['email.to'] = { $ne: null };
                 if (validateEmail(this.filters.plainTextSearch)) {
                     delete params.query.email;
                     params.query['email.to'] = this.filters.plainTextSearch;
@@ -523,7 +531,8 @@ export default {
                     params.query['sms.template'] = this.filters.templateSearch;
                 } else if (this.filters.type == 'email') {
                     delete params.query.email;
-                    params.query['email.template'] = this.filters.templateSearch;
+                    params.query['email.template'] =
+                        this.filters.templateSearch;
                 }
             }
 
@@ -610,7 +619,9 @@ export default {
             this.filters.templateSearch = q.templateSearch;
             if (q.type) {
                 this.filters.type = q.type;
-                this.searchLabel = this.filters.type.charAt(0).toUpperCase() + this.filters.type.slice(1);
+                this.searchLabel =
+                    this.filters.type.charAt(0).toUpperCase() +
+                    this.filters.type.slice(1);
                 this.placeHolder = 'Search by ' + this.filters.type;
             }
             this.filters.campaign = q.campaign;
