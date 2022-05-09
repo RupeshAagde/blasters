@@ -286,8 +286,6 @@
 
 <script>
 import { NitrozenCheckBox } from '@gofynd/nitrozen-vue';
-import { getPrimaryDomain } from '@/helper/domains.util';
-import { getAppInfo } from '@/services/utils.service';
 import root from 'window-or-global';
 import moment from 'moment';
 
@@ -329,9 +327,6 @@ export default {
         return {};
     },
     computed: {
-        productLink() {
-            return ""// `${getPrimaryDomain(getAppInfo().domains)}/product/${ this.bag.item.slug_key }`;
-        }
     },
     mounted() {
         if (this.value.length == 0 && (this.isNew || this.isReturnInitiated)) {

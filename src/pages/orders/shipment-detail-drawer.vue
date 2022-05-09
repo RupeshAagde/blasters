@@ -47,7 +47,6 @@
             <order-card
                 v-if="!pageLoading && orderData"
                 :order="orderData"
-                :orderDomain="orderDomain"
                 :isDrawerView='true'
             >
                 <template slot="action-button">
@@ -191,7 +190,6 @@ import { mapGetters } from 'vuex';
 //     GET_COMPANY_APPLICATIONS,
 //     GET_EMPLOYEE_ACCESS_DETAIL,
 // } from '@/store/getters.type';
-import { getPrimaryDomain } from '@/helper/domains.util';
 import { strokeBtn, NitrozenButton } from '@gofynd/nitrozen-vue';
 import OrderService from '@/services/orders.service';
 import loader from '@/components/common/loader';
@@ -265,24 +263,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-           // companyApplications: GET_COMPANY_APPLICATIONS,
-           // accessDetail: GET_EMPLOYEE_ACCESS_DETAIL,
-        }),
-        orderApplication() {
-            // if (this.orderData) {
-            //     return find(this.companyApplications, {
-            //         id: this.orderData.application.id,
-            //     });
-            // }
-            return;
-        },
-        orderDomain() {
-            if (this.orderApplication) {
-                return `https://${getPrimaryDomain(
-                    this.orderApplication.domains
-                )}`;
-            }
-        },
+        })
     },
     methods: {
         loadData() {
@@ -356,7 +337,6 @@ export default {
                         this.orderData = data.items[0];
                         this.orderData.shipments = this.orderData.shipments.map(
                             (shipment) => {
-                                shipment.orderDomain = this.orderDomain;
                                 shipment.order = {
                                     delivery_address: this.orderData
                                         .delivery_address,
