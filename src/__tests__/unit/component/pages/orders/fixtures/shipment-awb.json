@@ -1,0 +1,1060 @@
+{
+    "id": "16444677962261176095",
+    "comment": "",
+    "status": {
+      "id": 49226,
+      "shipment_id": "16444677962261176095",
+      "status": "return_accepted",
+      "created_at": "2022-02-10T10:08:11.000Z",
+      "bag_list": [
+        "395995"
+      ],
+      "current_shipment_status": "return_accepted",
+      "status_created_at": "2022-02-10T10:08:11.000Z",
+      "name": "Return Completed",
+      "color_code": "#62B134",
+      "progress": 1
+    },
+    "gst": {
+      "value_of_good": 1799,
+      "gst_fee": 0,
+      "brand_calculated_amount": 1799,
+      "tax_collected_at_source": 0,
+      "gstin_code": "27AALCA0442L1ZM"
+    },
+    "payment_methods": {},
+    "dp_details": {
+      "id": 29,
+      "name": "delhivery_surface_II",
+      "awb_no": "5046512003245",
+      "eway_bill_id": null,
+      "track_url": "https://www.delhivery.com/track/package/5046512003245",
+      "dp_charges": 110,
+      "dp_return_charges": 70,
+      "amount_handling_charges": 15,
+      "gst_tag": "sgst",
+      "track_url_awb": "https://www.delhivery.com/track/package/5046512003245"
+    },
+    "invoice": {
+      "updated_date": "2022-02-10T10:04:36.000Z",
+      "store_invoice_id": "1644467676119327",
+      "invoice_url": "https://ops-engg.s3.amazonaws.com/invoice_labels/16444673967041460782_invoice_a4.pdf",
+      "label_url": "https://ops-engg.s3.amazonaws.com/invoice_labels/16444673967041460782_invoice_pos.pdf",
+      "payment_mode": "COD",
+      "amount_to_collect": 1849,
+      "rto_address": {
+        "store_address_json": {
+          "area": "",
+          "city": "MUMBAI SUBURBAN",
+          "email": "vaishakhshetty@gofynd.com",
+          "phone": "919827645366",
+          "state": "MAHARASHTRA",
+          "country": "INDIA",
+          "pincode": "400089",
+          "version": "1.0",
+          "address1": "VASHI FIREBRIGADE STAFF QUARTERS, JUHU NAGAR",
+          "address2": "SECTOR-16, VASHI, ",
+          "landmark": "",
+          "latitude": 19.0766546,
+          "longitude": 72.99844019999999,
+          "created_at": "2022-01-18 19:37:08",
+          "updated_at": "2022-01-18 19:37:08",
+          "address_type": "store",
+          "contact_person": "Muthu",
+          "address_category": "store"
+        },
+        "id": 394,
+        "longitude": null,
+        "code": "NMV-7632",
+        "latitude": null,
+        "name": "Vashi 1",
+        "company_id": 1,
+        "location_type": "high_street",
+        "address1": "VASHI FIREBRIGADE STAFF QUARTERS, JUHU NAGAR",
+        "address2": "SECTOR-16, VASHI, ",
+        "city": "MUMBAI SUBURBAN",
+        "state": "MAHARASHTRA",
+        "country": "INDIA",
+        "pincode": "400089",
+        "store_email": "vaishakhshetty@gofynd.com",
+        "contact_person": "Muthu",
+        "phone": "919827645366"
+      },
+      "payment_type": "fynd"
+    },
+    "affiliate_details": {
+      "id": "000000000000000000000004",
+      "affiliate_bag_id": "395995",
+      "affiliate_order_id": "FY620494C3012351077C",
+      "company_affiliate_tag": "Uniket B2B",
+      "affiliate_id": "000000000000000000000004",
+      "affiliate_shipment_id": "16444673967041460782",
+      "shipment_meta": {
+        "dp_id": "29",
+        "weight": 0,
+        "external": {},
+        "dimension": {
+          "width": 25,
+          "height": 20,
+          "length": 30
+        },
+        "formatted": {
+          "max": "Thu, 17 Feb",
+          "min": "Sun, 13 Feb"
+        },
+        "timestamp": {
+          "max": 1645082993,
+          "min": 1644730193
+        },
+        "bag_weight": {},
+        "debug_info": {
+          "stormbreaker_uuid": "a41c5ef4-173a-4afb-8f17-29336ae97643"
+        },
+        "dp_options": {
+          "4": {
+            "area_code": {
+              "to_pincode": null,
+              "from_pincode": null
+            },
+            "f_priority": 4,
+            "operations": [
+              "inter_city"
+            ],
+            "r_priority": 3,
+            "fm_priority": 4,
+            "lm_priority": 4,
+            "payment_mode": "all",
+            "rvp_priority": 3,
+            "assign_dp_from_sb": true
+          },
+          "27": {
+            "area_code": {
+              "to_pincode": null,
+              "from_pincode": null
+            },
+            "f_priority": 3,
+            "operations": [
+              "inter_city"
+            ],
+            "r_priority": 2,
+            "fm_priority": 3,
+            "lm_priority": 3,
+            "payment_mode": "all",
+            "rvp_priority": 2,
+            "assign_dp_from_sb": true
+          },
+          "29": {
+            "area_code": {
+              "to_pincode": null,
+              "from_pincode": null
+            },
+            "f_priority": 1,
+            "operations": [
+              "inter_city"
+            ],
+            "r_priority": 1,
+            "fm_priority": 1,
+            "lm_priority": 1,
+            "payment_mode": "all",
+            "rvp_priority": 1,
+            "assign_dp_from_sb": true
+          }
+        },
+        "order_type": "HomeDelivery",
+        "dp_sort_key": "rvp_priority",
+        "ewaybill_info": {},
+        "packaging_name": "vaibhav-test-box-1",
+        "shipment_weight": 0.25,
+        "assign_dp_from_sb": true,
+        "same_store_available": true,
+        "fulfilment_priority_text": "Same Day Delivery",
+        "shipment_volumetric_weight": 0.1810770572,
+        "store_invoice_updated_date": "2022-02-10T10:04:36+00:00",
+        "auto_trigger_dp_assignment_ACF": true
+      },
+      "affiliate_meta": {
+        "fynd": {
+          "fulfilment_identifier": "pulse"
+        },
+        "channel_shipment_id": null,
+        "channel_order_id": null,
+        "due_date": null,
+        "is_priority": false,
+        "box_type": null,
+        "coupon_code": null,
+        "size_level_total_qty": 99,
+        "loyalty_discount": 0,
+        "employee_discount": 0
+      },
+      "affiliate_store_id": "394",
+      "pdf_links": {
+        "label_type": "fynd",
+        "invoice_type": "fynd"
+      },
+      "config": {
+        "id": "000000000000000000000004",
+        "meta": [],
+        "name": "Uniket B2B",
+        "owner": "d6da4dcc8fb0b8f20df44fa9",
+        "token": "QK1xwP6bNW",
+        "secret": "VNC1mSRCNk",
+        "createdAt": null,
+        "updatedAt": null,
+        "description": "Uniket",
+        "dp_assignment": true,
+        "app_company_id": 1,
+        "article_assignment": {
+          "level": "multi-companies",
+          "strategy": "optimal"
+        },
+        "force_reassignment": false,
+        "post_order_reassignment": true
+      }
+    },
+    "promise": {
+      "timestamp": {
+        "min": "2022-02-13T05:29:53+00:00",
+        "max": "2022-02-17T07:29:53+00:00"
+      }
+    },
+    "company": {
+      "id": 1,
+      "modified_on": "2022-01-18T14:04:47.000Z",
+      "return_within_days": 0,
+      "created_on": "2021-08-06T10:58:03.000Z",
+      "tan_no": null,
+      "cst": null,
+      "exchange_within_days": 0,
+      "company_type": "mbo",
+      "payment_procesing_charge": 0,
+      "return_allowed": false,
+      "meta": {
+        "stage": "verified",
+        "address": [
+          {
+            "city": "MUMBAI",
+            "state": "MAHARASHTRA",
+            "country": "INDIA",
+            "pincode": 400061,
+            "address1": "YARI ROAD, ANDHERI WEST",
+            "address2": "YARI ROAD",
+            "landmark": "andheri yari road",
+            "latitude": 19.138787,
+            "longitude": 72.809786,
+            "address_type": "office",
+            "country_code": "IN"
+          },
+          {
+            "city": "MUMBAI",
+            "state": "MAHARASHTRA",
+            "country": "INDIA",
+            "pincode": 400061,
+            "address1": "YARI ROAD, ANDHERI WEST",
+            "address2": "YARI ROAD",
+            "landmark": "andheri yari road",
+            "latitude": 19.138787,
+            "longitude": 72.809786,
+            "address_type": "registered",
+            "country_code": "IN"
+          }
+        ],
+        "documents": {
+          "cin": {
+            "type": "cin",
+            "value": "U45200MH1992PTC066474",
+            "verified": true,
+            "legal_name": "FUCHSIA VINE DESIGNS PRIVATE LIMITED"
+          },
+          "gst": {
+            "type": "gst",
+            "value": "27AALCA0442L1ZM",
+            "verified": true,
+            "legal_name": "SHOPSENSE RETAIL TECHNOLOGIES PRIVATE LIMITED"
+          },
+          "pan": {
+            "type": "pan",
+            "value": "AALCA0442L",
+            "verified": true,
+            "legal_name": "SHOPSENSE RETAIL TECHNOLOGIES PRIVATE LIMITED"
+          },
+          "digital_signature": {
+            "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/company/1/self/legal/documents/free/original/UXnBjJib_-image-%25252525252525252525252525252525252525252525282%2525252525252525252525252525252525252525252529.png?AWSAccessKeyId=AKIAJUADR2WMPQT6ZJ2Q&Expires=1642514724&Signature=kaZMxuxf4zv0As7zRkBYSRqxf%2Fc%3D",
+            "type": "digital_signature",
+            "value": "ABC",
+            "verified": true,
+            "legal_name": "ABC"
+          }
+        },
+        "business_info": "This is test",
+        "contact_details": {
+          "phone": [
+            {
+              "number": "9999999999",
+              "country_code": 91
+            }
+          ],
+          "emails": [
+            "hr@gofynd.com",
+            "123@gmail.com"
+          ]
+        },
+        "business_details": {},
+        "notification_emails": [
+          "fahimsakri@gmail.com"
+        ]
+      },
+      "exchange_allowed": false,
+      "gst_number": "27AALCA0442L1ZM",
+      "commission": null,
+      "vat_no": null,
+      "pan_no": "AALCA0442L",
+      "company_name": "Reliance Digital P. Ltd",
+      "fynd_a_fit_available": false,
+      "business_type": "ltd/pvt ltd",
+      "payment_type": null,
+      "agreement_start_date": "1970-01-01T00:00:00.000Z"
+    },
+    "fulfilling_store": {
+      "id": 394,
+      "is_active": false,
+      "is_archived": false,
+      "created_at": "2021-10-21T12:25:04+00:00",
+      "parent_store_id": null,
+      "updated_at": "2022-01-18T14:07:08+00:00",
+      "store_address_json": {
+        "area": "",
+        "city": "MUMBAI SUBURBAN",
+        "email": "vaishakhshetty@gofynd.com",
+        "phone": "919827645366",
+        "state": "MAHARASHTRA",
+        "country": "INDIA",
+        "pincode": "400089",
+        "version": "1.0",
+        "address1": "VASHI FIREBRIGADE STAFF QUARTERS, JUHU NAGAR",
+        "address2": "SECTOR-16, VASHI, ",
+        "landmark": "",
+        "latitude": 19.0766546,
+        "longitude": 72.99844019999999,
+        "created_at": "2022-01-18 19:37:08",
+        "updated_at": "2022-01-18 19:37:08",
+        "address_type": "store",
+        "contact_person": "Muthu",
+        "address_category": "store"
+      },
+      "longitude": null,
+      "code": "NMV-7632",
+      "mall_area": null,
+      "latitude": null,
+      "meta": {
+        "stage": "verified",
+        "timing": [
+          {
+            "open": true,
+            "closing": {
+              "hour": 22,
+              "minute": 0
+            },
+            "opening": {
+              "hour": 11,
+              "minute": 0
+            },
+            "weekday": "monday"
+          },
+          {
+            "open": true,
+            "closing": {
+              "hour": 22,
+              "minute": 0
+            },
+            "opening": {
+              "hour": 11,
+              "minute": 0
+            },
+            "weekday": "tuesday"
+          },
+          {
+            "open": true,
+            "closing": {
+              "hour": 22,
+              "minute": 0
+            },
+            "opening": {
+              "hour": 11,
+              "minute": 0
+            },
+            "weekday": "wednesday"
+          },
+          {
+            "open": true,
+            "closing": {
+              "hour": 22,
+              "minute": 0
+            },
+            "opening": {
+              "hour": 11,
+              "minute": 0
+            },
+            "weekday": "thursday"
+          },
+          {
+            "open": true,
+            "closing": {
+              "hour": 22,
+              "minute": 0
+            },
+            "opening": {
+              "hour": 11,
+              "minute": 0
+            },
+            "weekday": "friday"
+          },
+          {
+            "open": true,
+            "closing": {
+              "hour": 22,
+              "minute": 0
+            },
+            "opening": {
+              "hour": 11,
+              "minute": 0
+            },
+            "weekday": "saturday"
+          },
+          {
+            "open": true,
+            "closing": {
+              "hour": 22,
+              "minute": 0
+            },
+            "opening": {
+              "hour": 11,
+              "minute": 0
+            },
+            "weekday": "sunday"
+          }
+        ],
+        "documents": {
+          "gst": {
+            "type": "gst",
+            "value": "27AALCA0442L1ZM",
+            "verified": true,
+            "legal_name": "SHOPSENSE RETAIL TECHNOLOGIES PRIVATE LIMITED"
+          }
+        },
+        "gst_number": "27AALCA0442L1ZM",
+        "display_name": "Vashi 1",
+        "gst_credentials": {
+          "e_invoice": {
+            "enabled": false
+          },
+          "e_waybill": {
+            "enabled": false
+          }
+        },
+        "notification_emails": null,
+        "product_return_config": {
+          "on_same_store": true
+        },
+        "additional_contact_details": {
+          "number": [
+            "91 - 9827453655"
+          ]
+        },
+        "ewaybill_portal_details": null
+      },
+      "alohomora_user_id": null,
+      "packaging_material_count": 0,
+      "store_active_from": null,
+      "fulfillment_channel": "pulse",
+      "order_integration_id": null,
+      "brand_id": null,
+      "vat_no": null,
+      "is_enabled_for_recon": false,
+      "mall_name": null,
+      "company_id": 1,
+      "login_username": null,
+      "name": "Vashi 1",
+      "location_type": "high_street",
+      "address1": "VASHI FIREBRIGADE STAFF QUARTERS, JUHU NAGAR",
+      "address2": "SECTOR-16, VASHI, ",
+      "city": "MUMBAI SUBURBAN",
+      "state": "MAHARASHTRA",
+      "country": "INDIA",
+      "pincode": "400089",
+      "store_email": "vaishakhshetty@gofynd.com",
+      "contact_person": "Muthu",
+      "phone": "919827645366"
+    },
+    "brand": {
+      "company": null,
+      "id": 1,
+      "is_virtual_invoice": false,
+      "pickup_location": null,
+      "credit_note_allowed": false,
+      "modified_on": "2021-11-26T05:54:58.000Z",
+      "invoice_prefix": null,
+      "start_date": null,
+      "logo": "https://hdn-1.addsale.com/x0/brands/pictures/square-logo/original/sfppG2mhZ-Catalogue-logo.png",
+      "created_on": "2021-08-06T11:03:14.000Z",
+      "brand_name": "Being Human",
+      "credit_note_expiry_days": null,
+      "script_last_ran": null
+    },
+    "coupon": {},
+    "order_source": "uniket-desktop",
+    "tracking_details": [
+      {
+        "status": "Return Initiated",
+        "time": "2022-02-10T10:06:36.000Z",
+        "is_passed": true,
+        "is_current": false
+      },
+      {
+        "status": "Return Bag In Transit",
+        "time": "",
+        "is_passed": false,
+        "is_current": false
+      },
+      {
+        "status": "Return Completed",
+        "time": "2022-02-10T10:08:11.000Z",
+        "is_passed": true,
+        "is_current": true
+      }
+    ],
+    "bags": [
+      {
+        "id": 395995,
+        "prices": {
+          "price_effective": 1799,
+          "discount": 0,
+          "amount_paid": 1849,
+          "coupon_effective_discount": 0,
+          "delivery_charge": 0,
+          "fynd_credits": 0,
+          "cod_charges": 50,
+          "refund_credit": 0,
+          "cashback": 0,
+          "refund_amount": 1849,
+          "added_to_fynd_cash": false,
+          "cashback_applied": 0,
+          "gst_tax_percentage": 0,
+          "value_of_good": 1799,
+          "price_marked": 1799,
+          "transfer_price": 0,
+          "brand_calculated_amount": 1799,
+          "tax_collected_at_source": 0,
+          "tcs_percentage": 0,
+          "coupon_value": 0,
+          "amount_paid_roundoff": 1849
+        },
+        "gst_details": {
+          "gstin_code": "27AALCA0442L1ZM",
+          "gst_tag": "SGST",
+          "hsn_code": "42023120",
+          "value_of_good": 1799,
+          "gst_tax_percentage": 0,
+          "is_default_hsn_code": true,
+          "brand_calculated_amount": 1799,
+          "tax_collected_at_source": 0,
+          "gst_fee": "0.0"
+        },
+        "financial_breakup": [
+          {
+            "price_effective": 1799,
+            "discount": 0,
+            "amount_paid": 1849,
+            "coupon_effective_discount": 0,
+            "delivery_charge": 0,
+            "fynd_credits": 0,
+            "cod_charges": 50,
+            "refund_credit": 0,
+            "cashback": 0,
+            "refund_amount": 1849,
+            "added_to_fynd_cash": false,
+            "cashback_applied": 0,
+            "gst_tax_percentage": 0,
+            "value_of_good": 1799,
+            "price_marked": 1799,
+            "transfer_price": 0,
+            "brand_calculated_amount": 1799,
+            "tax_collected_at_source": 0,
+            "tcs_percentage": 0,
+            "coupon_value": 0,
+            "amount_paid_roundoff": 1849,
+            "size": "OS",
+            "total_units": 1,
+            "hsn_code": "42023120",
+            "identifiers": {
+              "ean": "8903861397734"
+            },
+            "item_name": "Tan Wallet",
+            "gst_fee": "0.0",
+            "gst_tag": "SGST"
+          }
+        ],
+        "breakup_values": [
+          {
+            "name": "sub_total",
+            "display": "Sub Total",
+            "value": 1799
+          },
+          {
+            "name": "coupon",
+            "display": "Coupon",
+            "value": 0
+          },
+          {
+            "name": "reward_points",
+            "display": "Reward Points",
+            "value": 0
+          },
+          {
+            "name": "cashback_applied",
+            "display": "Cashback Applied",
+            "value": 0
+          },
+          {
+            "name": "delivery_charges",
+            "display": "Delivery Charges",
+            "value": 0
+          },
+          {
+            "name": "cod_charges",
+            "display": "COD Charges",
+            "value": 50
+          },
+          {
+            "name": "total",
+            "display": "Total",
+            "value": 1849
+          }
+        ],
+        "update_time": 1644467891.3662055,
+        "status": {
+          "is_returnable": false,
+          "can_be_cancelled": true,
+          "enable_tracking": true,
+          "is_customer_return_allowed": false,
+          "is_active": false
+        },
+        "current_status": {
+          "status": "return_accepted",
+          "delivery_awb_number": "5046512003245",
+          "state_type": "operational",
+          "updated_at": "2022-02-10T10:08:11.000Z",
+          "bag_state_mapper": {
+            "is_active": true,
+            "display_name": "Return Accepted",
+            "name": "return_accepted",
+            "app_display_name": "Return Accepted",
+            "app_state_name": "return_accepted"
+          }
+        },
+        "item": {
+          "id": 7500008,
+          "last_updated_at": "2022-02-10T09:59:57.000Z",
+          "attributes": {
+            "color": "Tan",
+            "gender": [
+              "Men"
+            ],
+            "material": "100% Leather",
+            "occasion": "Casual",
+            "essential": "Yes",
+            "brand_name": "Being Human",
+            "marketer-name": "Reliance Digital",
+            "primary_color": "Brown",
+            "marketer-address": "Ghansoli",
+            "primary_material": "Leather",
+            "primary_color_hex": "8B572A"
+          },
+          "slug_key": "tan-wallet-iexzg3gqdd6",
+          "l2_category": [
+            "Bags, Wallets and Luggages"
+          ],
+          "gender": null,
+          "l3_category": 196,
+          "brand_id": 1,
+          "code": "BHMW6504@TAN",
+          "can_return": true,
+          "brand": "Being Human",
+          "color": null,
+          "can_cancel": true,
+          "webstore_product_url": null,
+          "l3_category_name": "Wallets",
+          "branch_url": null,
+          "name": "Tan Wallet",
+          "l1_category": [
+            "Accessories"
+          ],
+          "department_id": 21,
+          "size": "OS",
+          "image": [
+            "https://hdn-1.fynd.com/media/pictures/tagged_items/270x0/1_BHMW6504@TAN/1_1528447819917.jpg"
+          ]
+        },
+        "article": {
+          "identifiers": {
+            "ean": "8903861397734"
+          },
+          "esp_modified": false,
+          "size": "OS",
+          "code": "",
+          "raw_meta": null,
+          "set": {},
+          "is_set": false,
+          "seller_identifier": "8903861397734",
+          "return_config": {
+            "time": 0,
+            "unit": "days",
+            "returnable": false
+          },
+          "_id": "61ee196c7a2ad75479bd25f7",
+          "uid": "61ee196c7a2ad75479bd25f7",
+          "child_details": {}
+        },
+        "can_cancel": false,
+        "can_return": false,
+        "bag_status": [
+          {
+            "status": "pending",
+            "delivery_awb_number": null,
+            "state_type": "operational",
+            "updated_at": "2022-02-10T09:59:57.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "Pending",
+              "name": "pending",
+              "app_display_name": "Pending",
+              "app_state_name": "pending"
+            }
+          },
+          {
+            "status": "placed",
+            "delivery_awb_number": null,
+            "state_type": "operational",
+            "updated_at": "2022-02-10T09:59:57.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "Placed",
+              "name": "placed",
+              "app_display_name": "Processing",
+              "app_state_name": "processing"
+            }
+          },
+          {
+            "status": "bag_confirmed",
+            "delivery_awb_number": null,
+            "state_type": "operational",
+            "updated_at": "2022-02-10T10:04:29.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "Confirmed",
+              "name": "bag_confirmed",
+              "app_display_name": "Confirmed",
+              "app_state_name": "confirmed"
+            }
+          },
+          {
+            "status": "bag_invoiced",
+            "delivery_awb_number": null,
+            "state_type": "operational",
+            "updated_at": "2022-02-10T10:04:37.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "Bag Invoiced",
+              "name": "bag_invoiced",
+              "app_display_name": "Bag Invoiced",
+              "app_state_name": "bag_invoiced"
+            }
+          },
+          {
+            "status": "ready_for_dp_assignment",
+            "delivery_awb_number": null,
+            "state_type": "operational",
+            "updated_at": "2022-02-10T10:04:37.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "Ready For Dp Assignment",
+              "name": "ready_for_dp_assignment",
+              "app_display_name": "Ready For Dp Assignment",
+              "app_state_name": null
+            }
+          },
+          {
+            "status": "dp_assigned",
+            "delivery_awb_number": "5046512003234",
+            "state_type": "operational",
+            "updated_at": "2022-02-10T10:04:42.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "DP Assigned",
+              "name": "dp_assigned",
+              "app_display_name": "DP Assigned",
+              "app_state_name": "dp_assigned"
+            }
+          },
+          {
+            "status": "bag_packed",
+            "delivery_awb_number": "5046512003234",
+            "state_type": "operational",
+            "updated_at": "2022-02-10T10:05:20.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "Bag Packed",
+              "name": "bag_packed",
+              "app_display_name": "Bag Packed",
+              "app_state_name": "bag_packed"
+            }
+          },
+          {
+            "status": "bag_picked",
+            "delivery_awb_number": "5046512003234",
+            "state_type": "operational",
+            "updated_at": "2022-02-10T10:05:20.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "In Transit",
+              "name": "bag_picked",
+              "app_display_name": "In Transit",
+              "app_state_name": "in_transit"
+            }
+          },
+          {
+            "status": "out_for_delivery",
+            "delivery_awb_number": "5046512003234",
+            "state_type": "operational",
+            "updated_at": "2022-02-10T10:05:44.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "Out For Delivery",
+              "name": "out_for_delivery",
+              "app_display_name": "Out For Delivery",
+              "app_state_name": "out_for_delivery"
+            }
+          },
+          {
+            "status": "delivery_done",
+            "delivery_awb_number": "5046512003234",
+            "state_type": "operational",
+            "updated_at": "2022-02-10T10:05:56.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "Delivery Done",
+              "name": "delivery_done",
+              "app_display_name": "Delivered",
+              "app_state_name": "delivered"
+            }
+          },
+          {
+            "status": "return_initiated",
+            "delivery_awb_number": "5046512003234",
+            "state_type": "operational",
+            "updated_at": "2022-02-10T10:06:36.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "Return Initiated",
+              "name": "return_initiated",
+              "app_display_name": "Return Processing",
+              "app_state_name": "return_processing"
+            }
+          },
+          {
+            "status": "return_dp_assigned",
+            "delivery_awb_number": "5046512003245",
+            "state_type": "operational",
+            "updated_at": "2022-02-10T10:06:38.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "Return DP Assigned",
+              "name": "return_dp_assigned",
+              "app_display_name": "Return DP Assigned",
+              "app_state_name": "return_dp_assigned"
+            }
+          },
+          {
+            "status": "return_bag_picked",
+            "delivery_awb_number": "5046512003245",
+            "state_type": "operational",
+            "updated_at": "2022-02-10T10:07:06.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "Return Bag Picked",
+              "name": "return_bag_picked",
+              "app_display_name": "Return Product Picked",
+              "app_state_name": "return_product_picked"
+            }
+          },
+          {
+            "status": "refund_pending_for_approval",
+            "delivery_awb_number": "5046512003245",
+            "state_type": "financial",
+            "updated_at": "2022-02-10T10:07:06.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "Refund pending for Approval",
+              "name": "refund_pending_for_approval",
+              "app_display_name": "Refund pending for Approval",
+              "app_state_name": "refund_pending_for_approval"
+            }
+          },
+          {
+            "status": "refund_approved",
+            "delivery_awb_number": "5046512003245",
+            "state_type": "financial",
+            "updated_at": "2022-02-10T10:07:21.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "Refund Approved",
+              "name": "refund_approved",
+              "app_display_name": "Refund Initiated",
+              "app_state_name": "refund_initiated"
+            }
+          },
+          {
+            "status": "return_bag_delivered",
+            "delivery_awb_number": "5046512003245",
+            "state_type": "operational",
+            "updated_at": "2022-02-10T10:07:58.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "Delivery Done to store",
+              "name": "return_bag_delivered",
+              "app_display_name": " ",
+              "app_state_name": "_"
+            }
+          },
+          {
+            "status": "return_accepted",
+            "delivery_awb_number": "5046512003245",
+            "state_type": "operational",
+            "updated_at": "2022-02-10T10:08:11.000Z",
+            "bag_state_mapper": {
+              "is_active": true,
+              "display_name": "Return Accepted",
+              "name": "return_accepted",
+              "app_display_name": "Return Accepted",
+              "app_state_name": "return_accepted"
+            }
+          }
+        ],
+        "files": []
+      }
+    ],
+    "prices": {
+      "amount_paid": 1849,
+      "refund_amount": 1849,
+      "price_marked": 1799,
+      "cod_charges": 50,
+      "coupon_value": 0,
+      "discount": 0,
+      "cashback_applied": 0,
+      "delivery_charge": 0,
+      "fynd_credits": 0,
+      "cashback": 0,
+      "price_effective": 1799,
+      "refund_credit": 0,
+      "value_of_good": 1799
+    },
+    "picked_date": "2022-02-10T10:05:00+00:00",
+    "breakup_values": [
+      {
+        "name": "sub_total",
+        "display": "Sub Total",
+        "value": 1799
+      },
+      {
+        "name": "coupon",
+        "display": "Coupon",
+        "value": 0
+      },
+      {
+        "name": "reward_points",
+        "display": "Reward Points",
+        "value": 0
+      },
+      {
+        "name": "cashback_applied",
+        "display": "Cashback Applied",
+        "value": 0
+      },
+      {
+        "name": "delivery_charges",
+        "display": "Delivery Charges",
+        "value": 0
+      },
+      {
+        "name": "cod_charges",
+        "display": "COD Charges",
+        "value": 50
+      },
+      {
+        "name": "total",
+        "display": "Total",
+        "value": 1849
+      }
+    ],
+    "payments": {
+      "display_priority": 1,
+      "id": 2,
+      "is_active": true,
+      "display_name": "Cash on Delivery",
+      "mode": "COD",
+      "logo": "https://hdn-1.fynd.com/payment/default_card.png",
+      "source": "Cash on Delivery",
+      "payment_identifier": "11",
+      "source_nickname": ""
+    },
+    "is_not_fynd_source": true,
+    "is_fynd_coupon": false,
+    "order_type": "HomeDelivery",
+    "total_shipment_bags": 1,
+    "pod": {},
+    "lock_status": false,
+    "priority": 1,
+    "priority_text": "Same Day Delivery",
+    "ordering_channel": "UNIKET",
+    "credit_note_id": "1644467877118813",
+    "auto_trigger_dp_assignment": true,
+    "packaging_type": "Default",
+    "dates": {},
+    "can_break": {
+      "refund_completed": {
+        "can_break_entity": false
+      },
+      "refund_approved": {
+        "can_break_entity": false
+      },
+      "refund_failed": {
+        "can_break_entity": false
+      },
+      "deadstock": {
+        "can_break_entity": false
+      },
+      "refund_initiated": {
+        "can_break_entity": false
+      },
+      "deadstock_defective": {
+        "can_break_entity": false
+      },
+      "deadstock_defective_lost": {
+        "can_break_entity": false
+      },
+      "refund_pending_for_approval": {
+        "can_break_entity": false
+      },
+      "refund_on_hold": {
+        "can_break_entity": false
+      },
+      "refund_retry": {
+        "can_break_entity": false
+      },
+      "refund_acknowledged": {
+        "can_break_entity": false
+      },
+      "return_bag_lost": {
+        "can_break_entity": false
+      }
+    }
+  }
