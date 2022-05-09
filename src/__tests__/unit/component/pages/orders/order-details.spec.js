@@ -11,7 +11,7 @@ import mockData from './fixtures/order-details.json';
 import APPLICATION_LIST_MOCK_DATA from './fixtures/application-list.json';
 import flushPromises from "flush-promises";
 import ACCESS_MOCK_DATA from './fixtures/access-data.json';
-import AdmPageHeader from '@/components/administrator/adm-page-header.vue';
+import AdmPageHeader from '@/components/common/layout/page-header.vue';
 
 let localVue;
 const mock = new MockAdapter(axios);

@@ -328,7 +328,6 @@ import loader from '@/components/common/loader.vue';
 import AdmShimmer from '@/components/common/shimmer.vue';
 import PageError from '@/components/common/page-error';
 import AdmNoContent from '@/components/common/adm-no-content.vue';
-import uktinfinitescrolling from '@/components/common/ukt-infinite-loading.vue';
 import OrderListItem from './order-list-item.vue';
 import DatePicker from '@/components/common/date-picker.vue';
 import OrderService from '@/services/orders.service';
@@ -388,7 +387,6 @@ const PAGINATION = {
 const AUTO_REFRESH_TIME = 10 * 60 * 1000; // 10 mins
 export default {
     components: {
-        'ukt-infinite-scrolling': uktinfinitescrolling,
         AdmShimmer,
         AdmNoContent,
         OrderListItem,

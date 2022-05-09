@@ -229,9 +229,8 @@ import {
     GET_USER_INFO
 } from '@/store/getters.type';
 import { getPrimaryDomain } from '@/helper/domains.util';
-// import pageerror from '@/components/admin/common/adm-page-error';
-import pageerror from '@/components/administrator/adm-page-error';
-import AdmPageHeader from '@/components/administrator/adm-page-header.vue';
+import pageerror from '@/components/common/page-error';
+import AdmPageHeader from '@/components/common/layout/page-header.vue';
 // import ShipmentCancellationDialog from './shipment-cancellation-dialog.vue';
 import loader from '@/components/common/loader';
 import uktnotfound from '@/components/common/ukt-not-found.vue';
