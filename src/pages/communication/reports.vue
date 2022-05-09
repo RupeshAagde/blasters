@@ -659,6 +659,8 @@ export default {
             this.filters.plainTextSearch = '';
             this.filters.status = 'all';
             this.filters.type = 'phone';
+            this.searchLabel = 'Phone',
+            this.placeHolder = 'Search by phone'
             this.orderDateRange = [
                 moment().subtract(3, 'days').toISOString(),
                 moment().toISOString(),
