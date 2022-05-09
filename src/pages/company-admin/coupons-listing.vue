@@ -132,7 +132,7 @@ const PAGE_FILTERS = [
 export default {
     name: 'coupon-listing' ,
     components: {
-         'nitrozen-dropdown': NitrozenDropdown,
+        'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-button': NitrozenButton,
         'nitrozen-input': NitrozenInput,
         'nitrozen-pagination': NitrozenPagination,

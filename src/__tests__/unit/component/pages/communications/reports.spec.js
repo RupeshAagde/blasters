@@ -50,9 +50,12 @@ describe('Mounted report logs', () => {
         expect(wrapper.vm).toBeTruthy()
         expect(wrapper.element).toMatchSnapshot();
         wrapper.vm.applicationDropdownSearchInputChange('e');
-        wrapper.vm.debounceInput();
+        wrapper.vm.changeSearch();
+        wrapper.vm.fieldChanged();
         wrapper.vm.campaignDropdownSearchInputChange('e');
         wrapper.vm.changeApplication();
+        wrapper.vm.updateEntity();
+        wrapper.vm.resetfilters();
 
     })
    
