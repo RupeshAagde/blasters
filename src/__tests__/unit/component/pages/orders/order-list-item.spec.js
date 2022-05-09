@@ -28,7 +28,6 @@ describe('OrderListItem', () => {
                 registeredMarketplaces: () => MARKETPLACE_DATA
             },
             mocks: {
-                $basePath: ''
             }
         });
     });

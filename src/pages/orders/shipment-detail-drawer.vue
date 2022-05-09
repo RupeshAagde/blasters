@@ -282,7 +282,7 @@ export default {
             window.open(routeData.href, '_blank')
         },
         getShipmentLink(shipment_id = '') {
-            let link = `${this.$basePath}/order/${this.order_id}/shipments`;
+            let link = `/order/${this.order_id}/shipments`;
             if (shipment_id) {
                 link = `${link}?shipment_id=${shipment_id}`;
             }
