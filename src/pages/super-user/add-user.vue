@@ -100,16 +100,15 @@
                             ></adm-inline-svg>
                         </div>
                     </div>
-                    <div class="cust-button" v-if="!exist">
+                    <div class="cust-button" v-if="!pageLoading">
                         <nitrozen-button
+                            v-if="!exist"
                             @click="openAddDialog(user)"
                             v-strokeBtn
                             :theme="'secondary'"
                             >Add as Super User</nitrozen-button
                         >
-                    </div>
-                    <div class="cust-button" v-if="exist">
-                        <nitrozen-badge :state="'info'"
+                        <nitrozen-badge v-else :state="'info'"
                             >Already a Super User</nitrozen-badge
                         >
                     </div>
@@ -445,7 +444,7 @@ export default {
                             if (res.data.length > 0) {
                                 this.userList = res.data;
                                 this.userId = res.data[0]._id;
-                                this.checkExist();
+                                return this.checkExist();
                             } else {
                                 this.noUserFound = true;
                             }
@@ -486,7 +485,7 @@ export default {
                                         this.userList.length > 0
                                     ) {
                                         this.userId = res.data[0]._id;
-                                        this.checkExist();
+                                        return this.checkExist();
                                     }
                                 } else {
                                     this.noUserFound = true;
