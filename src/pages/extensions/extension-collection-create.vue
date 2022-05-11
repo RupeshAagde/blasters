@@ -79,6 +79,12 @@
                             {{ duplicate_slug.error }}
                         </nitrozen-error>
                         <nitrozen-error
+                            class="nitrozen-error"
+                            v-if="slug_length.error"
+                        >
+                            {{ slug_length.error }}
+                        </nitrozen-error>
+                        <nitrozen-error
                             v-else-if="
                                 errors.invalid_slug &&
                                     !/^[a-z0-9]+(?:--?[a-z0-9]+)*$/.test(
@@ -536,6 +542,7 @@ export default {
             modalRef: null,
             extension_data: [],
             duplicate_slug: { error: '' },
+            slug_length: { error: '' },
             is_slug_loading: false
         };
     },
@@ -727,14 +734,15 @@ export default {
         },
         handleSlugChange: debounce(function(slug, is_not_dirty) {
             this.is_slug_dirty = !is_not_dirty;
-            if (this.collection_data.slug.length > 23 && slug.length > 23) {
+            if (this.collection_data.slug.length > 24 && slug.length > 24) {
                 this.$set(
-                    this.duplicate_slug,
+                    this.slug_length,
                     'error',
                     'Maximum length for slug is 24'
                 );
                 return;
             }
+            this.$set(this.slug_length, 'error', null);
             this.collection_data.slug = this.nameToSlug(slug);
         }, 100),
         handleDuplicateSlug() {
