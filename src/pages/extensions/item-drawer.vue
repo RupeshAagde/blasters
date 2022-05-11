@@ -511,7 +511,7 @@ export default {
             if (value.key === 'all') {
                 this.slugsL1 = {};
                 this.slugsL2 = {};
-                this.query = {};
+                this.query = { name: this.searchText };
                 this.fetchExtensions(1, '', this.query);
                 return;
             }
