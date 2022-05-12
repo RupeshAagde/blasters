@@ -26,7 +26,7 @@ import CreateCustomVue from './../../pages/settings/page-editor/create.vue';
 import NavbarSettingsVue from './../../pages/settings/navbar';
 import FooterSettingsVue from './../../pages/settings/footer';
 import PricingBannerVue from './../../pages/settings/pricing_banner.vue';
-import ExtensionsListingVue from './../../pages/settings/extensions-listing.vue';
+import ExtensionsListingVue from './../../pages/settings/extensions-listing/index.vue';
 import CategoryList from '@/pages/product/category/list';
 import AuditLogs from './../../pages/audit-trail/index.vue';
 import AuditLogsDetails from './../../pages/audit-trail/log-detail.vue';
