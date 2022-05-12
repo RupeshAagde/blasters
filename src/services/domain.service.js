@@ -137,7 +137,7 @@ const URLS = {
     },
     //Company Metrics
     FETCH_METRICS: (params) => {
-        return urlJoin(WHEELJACK_ACPR_URL, `/v1.0/company/${params.company}/metrics`);
+        return urlJoin(WHEELJACK_ACPR_URL, `/v1.0/company/${params.company}/metrics/`);
     },
 
     //search dri
@@ -149,7 +149,7 @@ const URLS = {
     FETCH_DRI: (params) => {
         return urlJoin(
             WHEELJACK_ACPR_URL,
-            `/v1.0/company/${params.company_id}/poc`
+            `/v1.0/company/${params.company_id}/poc/`
         );
     },
 
@@ -242,7 +242,7 @@ const URLS = {
         return urlJoin(WHEELJACK_PNLCPR_URL, '/v1.0/choices/');
     },
     COMPANY_STORES: (params) => {
-        return urlJoin(WHEELJACK_ACPR_URL, `/v1.0/company/${params.company_id}/location/`);
+        return urlJoin(WHEELJACK_ACPR_URL, `/v1.0/company/${params.company_id}/location`);
     },
     COMPANY_PROFILE: (params) => {
         return urlJoin(WHEELJACK_ACPR_URL, `/v1.0/company/${params.uid}`);
