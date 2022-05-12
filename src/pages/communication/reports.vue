@@ -401,7 +401,7 @@ export default {
         changeSearch() {
             if (this.filters.plainTextSearch == '') {
                 this.emailphoneErr.showerror = false;
-                this.changeSearch();
+                this.changePage();
                 return;
             } else if (
                 this.filters.type == 'email' &&
@@ -711,7 +711,8 @@ export default {
     }
 }
 .search-but{
-    margin-right: 20px
+    margin-right: 20px;
+    margin-top: 20px;
 }
 
 ::v-deep .vue-date-picker {
@@ -935,6 +936,6 @@ export default {
 .ex-app {
     margin-right: 0px;
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
 }
 </style>
