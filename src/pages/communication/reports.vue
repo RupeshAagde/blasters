@@ -401,6 +401,7 @@ export default {
         changeSearch() {
             if (this.filters.plainTextSearch == '') {
                 this.emailphoneErr.showerror = false;
+                this.changeSearch();
                 return;
             } else if (
                 this.filters.type == 'email' &&
