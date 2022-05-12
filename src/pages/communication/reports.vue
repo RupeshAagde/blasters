@@ -33,6 +33,7 @@
                                 </nitrozen-error>
                             </div>
                             <div class="app ex-app">
+                                <nitrozen-button :theme="'secondary'" v-strokeBtn class="search-but" @click="changePage">Search</nitrozen-button>
                                 <nitrozen-dropdown
                                     :label="'Status'"
                                     class="filter-dropdown"
@@ -231,6 +232,7 @@ import {
     NitrozenBadge,
     NitrozenButton,
     NitrozenError,
+    strokeBtn
 } from '@gofynd/nitrozen-vue';
 const VueJsonPretty = () =>
     import(/*webpackChunkName:"vue-json-pretty" */ 'vue-json-pretty');
@@ -255,6 +257,9 @@ export default {
         'logs-listing-card': logsListingCard,
         'nitrozen-button': NitrozenButton,
         NitrozenError,
+    },
+    directives: {
+        strokeBtn
     },
     data() {
         return {
@@ -396,7 +401,6 @@ export default {
         changeSearch() {
             if (this.filters.plainTextSearch == '') {
                 this.emailphoneErr.showerror = false;
-                this.changePage();
                 return;
             } else if (
                 this.filters.type == 'email' &&
@@ -412,7 +416,6 @@ export default {
                 this.emailphoneErr.value = 'Enter Valid Phone';
             } else {
                 this.emailphoneErr.showerror = false;
-                this.changePage();
             }
         },
         searchTemplate() {
@@ -706,6 +709,9 @@ export default {
         width: 100%;
     }
 }
+.search-but{
+    margin-right: 20px
+}
 
 ::v-deep .vue-date-picker {
     display: flex;
@@ -927,5 +933,7 @@ export default {
 }
 .ex-app {
     margin-right: 0px;
+    display: flex;
+    align-items: flex-end;
 }
 </style>
