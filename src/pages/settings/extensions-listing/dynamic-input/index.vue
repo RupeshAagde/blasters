@@ -1,0 +1,58 @@
+<template>
+    <div class="section-prop-container">
+        <component
+            v-bind:is="require(`./${prop_schema.type}`).default"
+            @change="onChange($event)"
+            v-bind="{ prop_schema, prop, name, page }"
+        ></component>
+    </div>
+</template>
+
+<script>
+export default {
+    props: {
+        prop_schema: {
+            type: Object,
+            default: () => {}
+        },
+        prop: {
+            type: Object,
+            default: () => {}
+        },
+        page: {
+            type: Object,
+            default: () => {}
+        },
+        name: ''
+    },
+    components: {},
+    methods: {
+        onChange(e) {
+            this.$emit('change', e);
+        }
+    }
+}
+</script>
+
+<style lang="less" scoped>
+.section-prop-container {
+    .sections {
+        width: 100%;
+        .section {
+            align-items: center;
+            display: flex;
+            padding: 15px 10px;
+            height: 64px;
+            box-sizing: border-box;
+            border-bottom: 1px #dadada solid;
+            .handle {
+                height: 31px;
+                cursor: grab;
+            }
+            .title {
+                cursor: pointer;
+            }
+        }
+    }
+}
+</style>
