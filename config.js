@@ -334,7 +334,7 @@ const conf = convict({
         MIXMASTER_PARTNER_URL: {
             doc: 'Mixmaster Partner URL',
             format: String,
-            default: 'https://api.fyndx0.de/service/panel/partners/',
+            default: '',
             env: 'MIXMASTER_PARTNER_URL',
             arg: 'MIXMASTER_PARTNER_URL'
         },
