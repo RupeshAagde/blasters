@@ -331,13 +331,6 @@ const conf = convict({
             env: 'MIXMASTER_ADMIN_URL',
             arg: 'mixmaster_admin_url'
         },
-        MIXMASTER_PARTNER_URL: {
-            doc: 'Mixmaster Partner URL',
-            format: String,
-            default: '',
-            env: 'MIXMASTER_PARTNER_URL',
-            arg: 'MIXMASTER_PARTNER_URL'
-        },
         MIXMASTER_ADMIN_SVC: {
             doc: 'Mixmaster Kube Service',
             format: String,

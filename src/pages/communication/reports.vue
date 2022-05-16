@@ -98,7 +98,7 @@
                                     :items="campaigns"
                                     :label="'Campaign'"
                                     v-model="filters.campaign"
-                                    @change="changeApplication"
+                                    @input="changeApplication"
                                     :searchable="true"
                                     @searchInputChange="
                                         campaignDropdownSearchInputChange
@@ -416,7 +416,6 @@ export default {
             }
         },
         searchTemplate() {
-            console.log('Search by ' + this.filters.type);
             this.placeHolder = 'Search by ' + this.filters.type;
             this.resetPagination();
             this.changePage();
@@ -424,16 +423,17 @@ export default {
         campaignDropdownSearchInputChange(e) {
             this.filters.campaign = '';
             this.fetchCampaigns(e.text);
+            this.changePage()
         },
         applicationDropdownSearchInputChange(e) {
             this.filters.application = '';
             this.fetchApplication(e.text);
+            this.changePage()
         },
         fetchCampaigns(name = '', id = '') {
             CommunicationServices.getCampaigns({ name: name, application: id })
                 .then((res) => {
                     this.getCampaignDropdown(res.data.items);
-                    this.changePage();
                 })
                 .catch((err) => {
                     console.log(err);
@@ -478,6 +478,7 @@ export default {
         changePage(e) {
             let params = {
                 query: {},
+                sort : JSON.stringify({"created_at":-1}),
                 page_size: this.pagination.limit,
             };
             if (e && this.currentPage > 0) {
@@ -606,7 +607,9 @@ export default {
             CompanyService.fetchAllApplication({ page_size: 50, q: name }).then(
                 (res) => {
                     this.getApplicationDropdown(res.data.items);
-                    this.changePage();
+                    // if(name == ''){
+                    // this.changePage();
+                    // }
                 }
             );
         },
@@ -681,8 +684,8 @@ export default {
         this.updatefilters();
         this.resetPagination();
         this.fetchCampaigns();
-        this.changePage();
         this.fetchApplication();
+        this.changePage();
     },
 };
 </script>

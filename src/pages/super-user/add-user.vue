@@ -313,7 +313,8 @@ export default {
             exist: false,
             pageLoading: false,
             enterValidText: false,
-            enterValidTextValue: 'Please enter valid number or email . . .'
+            enterValidTextValue: 'Please enter valid number or email . . .',
+            userId: null
         };
     },
     directives: {
@@ -338,7 +339,11 @@ export default {
                 page: this.current,
                 limit: this.limit
             };
-
+            if (this.userId) {
+                query['query'] = JSON.stringify({
+                    user: this.userId
+                });
+            }
             return query;
         },
         fetchUsers() {
@@ -436,7 +441,6 @@ export default {
                         .then((res) => {
                             this.enterValidText = false;
                             this.noUserFound = false;
-                            this.pageLoading = false;
                             if (res.data.length > 0) {
                                 this.userList = res.data;
                                 this.userId = res.data[0]._id;
@@ -459,6 +463,9 @@ export default {
                             );
                             this.noUserFound = true;
                             this.enterValidText = false;
+                        }).finally(()=>{
+                            this.userId = null;
+                            this.pageLoading = false;
                         });
                 } else {
                     if (validEmail) {
@@ -471,7 +478,6 @@ export default {
                             .then((res) => {
                                 this.enterValidText = false;
                                 this.noUserFound = false;
-                                this.pageLoading = false;
                                 if (res.data.length > 0) {
                                     this.userList = res.data;
                                     if (
@@ -499,6 +505,9 @@ export default {
                                 );
                                 this.noUserFound = true;
                                 this.enterValidText = false;
+                            }).finally(()=>{
+                                this.userId = null;
+                                this.pageLoading = false;
                             });
                     } else {
                         this.enterValidText = true;

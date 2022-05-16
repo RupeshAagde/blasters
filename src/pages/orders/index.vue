@@ -2,9 +2,8 @@
     <div class="panel">
         <adm-page-header
             class="titlize"
-            :showBackButton="isFPApp"
-            @backClick="isFPApp ? onAppBack() : () => {}"
-            :title="isApplicationLevel ? `${applicationName} Orders` :'Orders'"
+            :showBackButton="false"
+            :title="'Orders'"
             :noContextMenu="true"
         >
             <div class="button-box">
@@ -179,7 +178,7 @@
                                 
 
                                  <nitrozen-dropdown
-                                    v-if="isApplicationLevel && deploymentStoreList.length"
+                                    v-if="deploymentStoreList.length"
                                     label="Deployment Store"
                                     class="filter-dropdown filter-input-sm deployment-dropdown"
                                     :searchable="true"
@@ -295,7 +294,6 @@
                             :key="order.id + index"
                             class="item"
                             :data="order"
-                            :readOnlyMode="!!isApplicationLevel"
                         ></order-list-item>
                     </div>
                     <div v-else class="empty-state">
@@ -328,7 +326,6 @@ import loader from '@/components/common/loader.vue';
 import AdmShimmer from '@/components/common/shimmer.vue';
 import PageError from '@/components/common/page-error';
 import AdmNoContent from '@/components/common/adm-no-content.vue';
-import uktinfinitescrolling from '@/components/common/ukt-infinite-loading.vue';
 import OrderListItem from './order-list-item.vue';
 import DatePicker from '@/components/common/date-picker.vue';
 import OrderService from '@/services/orders.service';
@@ -353,10 +350,6 @@ import findIndex from 'lodash/findIndex';
 import sortBy from 'lodash/sortBy';
 import mapValues from 'lodash/mapValues';
 import find from 'lodash/find';
-import { detectFPApp } from '@/helper/utils';
-
-import { getAppInfo } from '@/services/utils.service';
-
 
 import {
     NitrozenButton,
@@ -388,7 +381,6 @@ const PAGINATION = {
 const AUTO_REFRESH_TIME = 10 * 60 * 1000; // 10 mins
 export default {
     components: {
-        'ukt-infinite-scrolling': uktinfinitescrolling,
         AdmShimmer,
         AdmNoContent,
         OrderListItem,
@@ -574,18 +566,6 @@ export default {
                 return [];
             }
         },
-        isFPApp() {
-            // if (detectFPApp()) {
-            //     return true;
-            // }
-            return false;
-        },
-        isApplicationLevel(){
-            return this.applicationId ? true :false;
-        },
-        applicationName(){
-            return //getAppInfo()?.name || 'Application';
-        }
     },
 
     mounted() {

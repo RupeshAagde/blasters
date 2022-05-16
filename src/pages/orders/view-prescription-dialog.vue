@@ -28,7 +28,7 @@ import {
     flatBtn,
     strokeBtn,
 } from '@gofynd/nitrozen-vue';
-import loader from '@/components/common/adm-loader.vue';
+import loader from '@/components/common/loader.vue';
 import ApiService from '@/services/api.service';
 import GrindorService from '@/services/grindor.service';
 

@@ -3,7 +3,7 @@
         <div class="page-header-position">
             <adm-page-header
                 @backClick="goToOrderList"
-                :title="`${applicationName} Order Details`"
+                :title="`Order Details`"
                 :contextMenuItems="contextMenuItems"
                 @refresh="loadData"
             >
@@ -146,7 +146,6 @@
                 <!-- order details -->
                 <order-card
                     :order="orderData"
-                    :orderDomain="orderDomain"
                 >
                     <!-- bulk shipment operations -->
                     <!-- <div
@@ -228,10 +227,8 @@ import {
     // GET_EMPLOYEE_ACCESS_DETAIL,
     GET_USER_INFO
 } from '@/store/getters.type';
-import { getPrimaryDomain } from '@/helper/domains.util';
-// import pageerror from '@/components/admin/common/adm-page-error';
-import pageerror from '@/components/administrator/adm-page-error';
-import AdmPageHeader from '@/components/administrator/adm-page-header.vue';
+import pageerror from '@/components/common/page-error';
+import AdmPageHeader from '@/components/common/layout/page-header.vue';
 // import ShipmentCancellationDialog from './shipment-cancellation-dialog.vue';
 import loader from '@/components/common/loader';
 import uktnotfound from '@/components/common/ukt-not-found.vue';
@@ -252,7 +249,6 @@ import moment from 'moment';
 import find from 'lodash/find';
 import keys from 'lodash/keys';
 import crypto from 'crypto';
-import { getAppInfo } from '@/services/utils.service';
 // import { eventHelper } from '../../../analytics/helpers';
 // import { EVENTS, getUserInfo } from "../../../analytics/index"
 
@@ -365,13 +361,6 @@ export default {
             }
             return;
         },
-        orderDomain() {
-            if (this.orderApplication) {
-                return `https://${getPrimaryDomain(
-                    this.orderApplication.domains
-                )}`;
-            }
-        },
         orderId() {
             return this.$route.params.orderId;
         },
@@ -434,9 +423,6 @@ export default {
             } catch (e) {
                 return [];
             }
-        },
-        applicationName(){
-            return "" //getAppInfo()?.name || '';
         }
     },
     data() {
@@ -558,7 +544,6 @@ export default {
                         this.calculateShipmentBag(true);
                         this.orderData.shipments = this.orderData.shipments.map(
                             (shipment) => {
-                                shipment.orderDomain = this.orderDomain;
                                 shipment.order = {
                                     delivery_address: this.orderData
                                         .delivery_address,
@@ -1015,6 +1000,8 @@ export default {
 }
 .main-container {
     flex-direction: column;
+    margin-top: 82.5px;
+
     .intro {
         margin-bottom: 24px;
         .intro-list {
