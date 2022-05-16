@@ -128,11 +128,11 @@
                             :shortcuts="dateRangeShortcuts"
                             :useNitrozenTheme="true"
                         />
-                        <nitrozen-button :theme="'secondary'" v-strokeBtn class="search-but" @click="changePage">Search</nitrozen-button>
+                        <nitrozen-button :disabled="emailphoneErr.showerror" :theme="'secondary'" v-strokeBtn class="search-but" @click="changePage">Search</nitrozen-button>
                         <nitrozen-button
                             :theme="'secondary'"
                             @click="resetfilters"
-                            :disabled="emailphoneErr.showerror "
+                            class="search-but"
                             >Reset Filters</nitrozen-button
                         >
                     </div>
@@ -340,7 +340,7 @@ export default {
                 moment().toISOString(),
             ],
             emailphoneErr: {
-                value: '',
+                value: false,
                 showerror: false,
             },
             searchLabel: 'Phone',
