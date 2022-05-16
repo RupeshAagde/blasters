@@ -280,7 +280,7 @@ export default [
                         from,
                         next,
                         ['company'],
-                        'companyId'
+                        ['audit-trail']
                     );
                 }
             },
@@ -294,7 +294,7 @@ export default [
                         from,
                         next,
                         ['company'],
-                        'companyId'
+                        ['audit-trail']
                     );
                 }
             },
