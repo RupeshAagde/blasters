@@ -96,58 +96,58 @@ export default {
         NitrozenDialog,
         ImageUploaderPanel,
         ImageUploaderList,
-        loader
+        loader,
     },
     directives: {
-        flatBtn
+        flatBtn,
     },
     props: {
         label: {
             type: String,
-            default: 'image'
+            default: 'image',
         },
         fileTypes: {
             type: Array,
             default: () => {
                 return ['png', 'jpeg'];
-            }
+            },
         },
         fileDomain: {
             type: String,
-            default: 'image'
+            default: 'image',
         },
         maxSize: {
             type: Number, // in KB
-            default: 2048
+            default: 2048,
         },
         aspectRatio: {
-            type: String
+            type: String,
         },
         minimumResolution: {
-            type: Object
+            type: Object,
         },
         maximumResolution: {
-            type: Object
+            type: Object,
         },
         recommendedResolution: {
-            type: Object
+            type: Object,
         },
         value: {
-            type: String
+            type: String,
         },
         mediaFolder: {
-            type: String
+            type: String,
         },
         namespace: {
-            type: String
+            type: String,
         },
         fileName: {
-            type: String
+            type: String,
         },
         showGallery: {
             type: Boolean,
-            default: true
-        }
+            default: true,
+        },
     },
     computed: {
         title() {
@@ -161,21 +161,21 @@ export default {
             const x = +splitted[0];
             const y = +splitted[1];
             return { x, y };
-        }
+        },
     },
     mounted() {
         this.$refs['dialog'].$on('close', (e) => {
             this.visible = false;
         });
     },
-    data: function() {
+    data: function () {
         return {
             loading: false,
             data: null, // use for data transfer
             imageURL: '',
             initialImageURL: '',
             edit: false,
-            visible: false
+            visible: false,
         };
     },
     methods: {
@@ -186,11 +186,11 @@ export default {
                 width: '950px',
                 height: '632px',
                 showCloseButton: true,
-                dismissible: false
+                dismissible: false,
             });
         },
         close(e) {
-            this.$refs['dialog'].close(e);
+            this.$refs['dialog'] && this.$refs['dialog'].close(e);
         },
         $saveImage() {
             const imagePath =
@@ -306,12 +306,12 @@ export default {
             return axios({
                 type: 'get',
                 url: nonCORSURL,
-                responseType: 'blob'
+                responseType: 'blob',
             })
                 .then((response) => {
                     const f = response.data;
                     return new File([f], fileName, {
-                        type: mime.contentType(fileName)
+                        type: mime.contentType(fileName),
                     });
                 })
                 .catch((err) => {
@@ -395,7 +395,7 @@ export default {
                 let body = {
                     file_name: file.name,
                     content_type: file.type,
-                    size: file.size
+                    size: file.size,
                 };
                 let request = { body };
                 this.loading = true;
@@ -420,8 +420,8 @@ export default {
                         this.loading = false;
                     });
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
