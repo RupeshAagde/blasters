@@ -288,19 +288,10 @@
 </style>
 <script>
 import {
-    NitrozenInput,
-    NitrozenError,
-    NitrozenDropdown,
-    NitrozenCheckBox,
-    NitrozenChips,
     NitrozenInline
 } from '@gofynd/nitrozen-vue';
 
-import { getRoute } from '@/helper/get-route';
-import { getAppInfo } from '@/services/utils.service';
 import admInlineSvg from '@/components/common/adm-inline-svg.vue';
-// import { getPrimaryDomain } from '@/helper/domains.util';
-import path from 'path';
 
 export default {
     name: 'attachment',

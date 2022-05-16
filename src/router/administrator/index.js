@@ -25,10 +25,9 @@ import CreateCustomVue from './../../pages/settings/page-editor/create.vue';
 import NavbarSettingsVue from './../../pages/settings/navbar';
 import FooterSettingsVue from './../../pages/settings/footer';
 import PricingBannerVue from './../../pages/settings/pricing_banner.vue';
+import CategoryList from '@/pages/product/category/list';
 import AuditLogs from './../../pages/audit-trail/index.vue';
 import AuditLogsDetails from './../../pages/audit-trail/log-detail.vue';
-
-
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
@@ -41,7 +40,6 @@ import ProductAttributesGroup from '@/pages/product/attributes/group';
 import ProductAttributesSequence from '@/pages/product/attributes/sequence';
 import ProductTemplatesList from '@/pages/product/templates/list';
 import ProductTemplatesEdit from '@/pages/product/templates/edit';
-import CategoryList from '@/pages/product/category/list';
 import CategoryEdit from '@/pages/product/category/edit';
 import ProductVerificationCompanyList from '@/pages/product/verification/list';
 import ProductVerificationEdit from '@/pages/product/verification/edit';
@@ -50,6 +48,8 @@ import ProductTaxationList from '@/pages/product/taxation/list';
 import ProductTaxationEdit from '@/pages/product/taxation/edit';
 import IntegrationsListVue from '@/pages/integration/list';
 import IntegrationsCreateVue from '@/pages/integration/create';
+const OrdersPage =()=>import('@/pages/orders');
+const OrderDetails = () => import('@/pages/orders/order-details.vue');
 
 import { authenticatedUser, checkUserPermission } from './../guards';
 
@@ -278,7 +278,7 @@ export default [
                         from,
                         next,
                         ['company'],
-                        'companyId'
+                        ['audit-trail']
                     );
                 }
             },
@@ -292,7 +292,7 @@ export default [
                         from,
                         next,
                         ['company'],
-                        'companyId'
+                        ['audit-trail']
                     );
                 }
             },
@@ -594,6 +594,29 @@ export default [
                 return checkUserPermission(to, from, next, ['product']);
             }
         },
+
+        // ========================== Orders ==========================
+        {
+            name: 'orders',
+            path: 'orders/list',
+            component: OrdersPage,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            }
+        },
+        {
+            name: 'application-order-details',
+            path: '/order/:orderId/shipments',
+            component: OrderDetails,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['product']);
+            },
+            meta: {
+                name: 'Application Order Details'
+            }
+        },
+        // =============================================================
+
         {
             name: 'integrations-list',
             path: 'integrations/list',
