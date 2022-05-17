@@ -38,7 +38,6 @@
                                     class="filter-dropdown"
                                     :items="statusFilterList"
                                     v-model="filters.status"
-                                    @change="fieldChanged"
                                 ></nitrozen-dropdown>
                             </div>
                         </template>
@@ -81,11 +80,7 @@
                                     placeholder="Search by template"
                                     v-model="filters.templateSearch"
                                     @keyup.enter="fieldChanged"
-                                    @input="inputEntity"
                                 ></nitrozen-input>
-                                <nitrozen-error v-if="!filters.templateSearch">
-                                    This is mandatory field
-                                </nitrozen-error>
                             </div>
 
                             <div
@@ -98,15 +93,11 @@
                                     :items="campaigns"
                                     :label="'Campaign'"
                                     v-model="filters.campaign"
-                                    @input="changeApplication"
                                     :searchable="true"
                                     @searchInputChange="
                                         campaignDropdownSearchInputChange
                                     "
                                 ></nitrozen-dropdown>
-                                <nitrozen-error v-if="!filters.campaign">
-                                    This is mandatory field
-                                </nitrozen-error>
                             </div>
 
                             <div
@@ -120,12 +111,7 @@
                                     :label="'JobId'"
                                     placeholder="Search by job id"
                                     v-model="filters.job"
-                                    @keyup.enter="fieldChanged()"
-                                    @input="inputEntity"
                                 ></nitrozen-input>
-                                <nitrozen-error v-if="!filters.job">
-                                    This is mandatory field
-                                </nitrozen-error>
                             </div>
                         </template>
                     </div>
@@ -141,11 +127,12 @@
                             :not_before="notBefore"
                             :shortcuts="dateRangeShortcuts"
                             :useNitrozenTheme="true"
-                            @input="changePage"
                         />
+                        <nitrozen-button :disabled="emailphoneErr.showerror" :theme="'secondary'" v-strokeBtn class="search-but" @click="changePage">Search</nitrozen-button>
                         <nitrozen-button
                             :theme="'secondary'"
                             @click="resetfilters"
+                            class="search-but"
                             >Reset Filters</nitrozen-button
                         >
                     </div>
@@ -231,6 +218,7 @@ import {
     NitrozenBadge,
     NitrozenButton,
     NitrozenError,
+    strokeBtn
 } from '@gofynd/nitrozen-vue';
 const VueJsonPretty = () =>
     import(/*webpackChunkName:"vue-json-pretty" */ 'vue-json-pretty');
@@ -255,6 +243,9 @@ export default {
         'logs-listing-card': logsListingCard,
         'nitrozen-button': NitrozenButton,
         NitrozenError,
+    },
+    directives: {
+        strokeBtn
     },
     data() {
         return {
@@ -349,7 +340,7 @@ export default {
                 moment().toISOString(),
             ],
             emailphoneErr: {
-                value: '',
+                value: false,
                 showerror: false,
             },
             searchLabel: 'Phone',
@@ -372,17 +363,17 @@ export default {
         fieldChanged() {
             this.searchTemplate();
         },
-        inputEntity() {
-            if (
-                this.filters.entity == 'template' &&
-                this.filters.templateSearch == ''
-            ) {
-                this.changePage();
-            }
-            if (this.filters.entity == 'jobid' && this.filters.job == '') {
-                this.changePage();
-            }
-        },
+        // inputEntity() {
+        //     if (
+        //         this.filters.entity == 'template' &&
+        //         this.filters.templateSearch == ''
+        //     ) {
+        //         this.changePage();
+        //     }
+        //     if (this.filters.entity == 'jobid' && this.filters.job == '') {
+        //         this.changePage();
+        //     }
+        // },
         changeType() {
             if (this.filters.type == 'email' || this.filters.type == 'phone') {
                 this.filters.plainTextSearch = '';
@@ -391,12 +382,11 @@ export default {
             this.searchLabel =
                 this.filters.type.charAt(0).toUpperCase() +
                 this.filters.type.slice(1);
-            this.fieldChanged();
+            //this.fieldChanged();
         },
         changeSearch() {
             if (this.filters.plainTextSearch == '') {
                 this.emailphoneErr.showerror = false;
-                this.changePage();
                 return;
             } else if (
                 this.filters.type == 'email' &&
@@ -412,7 +402,6 @@ export default {
                 this.emailphoneErr.value = 'Enter Valid Phone';
             } else {
                 this.emailphoneErr.showerror = false;
-                this.changePage();
             }
         },
         searchTemplate() {
@@ -423,12 +412,10 @@ export default {
         campaignDropdownSearchInputChange(e) {
             this.filters.campaign = '';
             this.fetchCampaigns(e.text);
-            this.changePage()
         },
         applicationDropdownSearchInputChange(e) {
             this.filters.application = '';
             this.fetchApplication(e.text);
-            this.changePage()
         },
         fetchCampaigns(name = '', id = '') {
             CommunicationServices.getCampaigns({ name: name, application: id })
@@ -607,15 +594,11 @@ export default {
             CompanyService.fetchAllApplication({ page_size: 50, q: name }).then(
                 (res) => {
                     this.getApplicationDropdown(res.data.items);
-                    // if(name == ''){
-                    // this.changePage();
-                    // }
                 }
             );
         },
         changeApplication() {
             this.fetchCampaigns('', this.filters.application);
-            this.changePage();
         },
         updatefilters() {
             let q = this.$route.query;
@@ -705,6 +688,10 @@ export default {
     @media @mobile {
         width: 100%;
     }
+}
+.search-but{
+    margin-right: 12px;
+    margin-top: 6px;
 }
 
 ::v-deep .vue-date-picker {
