@@ -2,6 +2,24 @@
     <div class="container">
         <div class="sidebar" :class="{ 'hide-sidebar': !showSidebar }">
             <loader v-if="loading || !selectedPage" class="loading"></loader>
+            <!-- <sections-list
+                ref="section_list"
+                :available_sections="available_sections"
+                :sections="sections"
+                :page="selectedPage"
+                :pages="pages"
+                :previewUrl="previewUrl"
+                :pageObject="getCurrentPage"
+                @save="onSave(selectedPage, $event)"
+                @post-message="onPostMessage($event)"
+                @reset="resetSections()"
+                @zoom-out="zoomOut = true"
+                @zoom-in="
+                    zoomOut = false;
+                    hideRect();
+                "
+                :inProgress="loading"
+            /> -->
             <sections-list
                 ref="section_list"
                 :available_sections="available_sections"
@@ -151,7 +169,8 @@ import {
     NitrozenDropdown, NitrozenDialog, NitrozenButton,
     NitrozenInput, flatBtn, strokeBtn
 } from '@gofynd/nitrozen-vue';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, get } from 'lodash';
+import urlJoin from 'url-join';
 
 /* Component imports */
 import Loader from '@/components/common/loader.vue';
@@ -197,7 +216,8 @@ export default {
         NitrozenInput,
         Loader,
         'adm-inline-svg': AdmInlineSvg,
-        SectionsList
+        SectionsList,
+        // SectionsList
     },
     directives: {
         flatBtn,
@@ -242,6 +262,7 @@ export default {
     },
     mounted() {
         this.getAvailablePages();
+        this.getAvailableSections();
         window.addEventListener('message', event => {
             if (
                 event.data.event ===
@@ -467,6 +488,8 @@ export default {
                     : cloneDeep(this.pages[this.selectedPageIndex])
                     ? cloneDeep(this.pages[this.selectedPageIndex])
                     : '';
+
+                console.log("this.selectedPage:   ", this.selectedPage);
                 if(this.selectedPage.type) {
                     this.getSectionsForPage(this.selectedPage.type);
                     this.iframeUrl = this.previewUrl;
@@ -564,73 +587,73 @@ export default {
             e.stopPropagation();
             e.preventDefault();
             this.pageToEdit = item;
-            this.$refs['edit_page_dialog'].open({
-                width: '650px',
-                neutralButtonLabel: 'Ok',
-                showCloseButton: true,
-                // dismissible: false
-            });
+            // this.$refs['edit_page_dialog'].open({
+            //     width: '650px',
+            //     neutralButtonLabel: 'Ok',
+            //     showCloseButton: true,
+            //     // dismissible: false
+            // });
         },
         $openPageBuilder(e, item) {
             e.stopPropagation();
             e.preventDefault();
-            this.$refs['page_builder_dialog'].open({
-                width: '650px',
-                neutralButtonLabel: 'Ok',
-                showCloseButton: true,
-                // dismissible: false
-            });
-            this.$refs['page_builder'].init({
-                item,
-                pages: this.getGroupByPages,
-                sections: cloneDeep(this.sections),
-                selectedPage: item ? item.value : '',
-            });
+            // this.$refs['page_builder_dialog'].open({
+            //     width: '650px',
+            //     neutralButtonLabel: 'Ok',
+            //     showCloseButton: true,
+            //     // dismissible: false
+            // });
+            // this.$refs['page_builder'].init({
+            //     item,
+            //     pages: this.getGroupByPages,
+            //     sections: cloneDeep(this.sections),
+            //     selectedPage: item ? item.value : '',
+            // });
         },
         $openRemovePage(item, e) {
             e.stopPropagation();
             e.preventDefault();
-            this.$refs['page_remove_dialog'].open({
-                neutralButtonLabel: 'Ok',
-                showCloseButton: true,
-            });
+            // this.$refs['page_remove_dialog'].open({
+            //     neutralButtonLabel: 'Ok',
+            //     showCloseButton: true,
+            // });
             this.pageToDelete = item;
         },
-        $openURLBuilder(page) {
-            if (
-                !get(page, 'params.length', 0) &&
-                !get(page, 'query.length', 0)
-            ) {
-                return Promise.resolve(
-                    urlJoin(`https://${this.primaryDomainName}`, page.path)
-                );
-            }
-            this.$refs['url_builder'].init({
-                pageType: page.value,
-            });
-            this.$refs['url_builder_dialog'].open({
-                width: '650px',
-                height: '400px',
-                neutralButtonLabel: 'Ok',
-                showCloseButton: true,
-                // dismissible: false
-            });
-            return new Promise((resolve, reject) => {
-                urlBuilderResolveFunc = resolve;
-                urlBuilderRejectFunc = reject;
-            });
-        },
-        $urlBuilderDialogClose(e) {
-            if (e == 'Ok') {
-                return this.$refs['url_builder']
-                    .get()
-                    .then((obj) => {
-                        urlBuilderResolveFunc(obj.url);
-                    })
-                    .catch(urlBuilderRejectFunc);
-            }
-            return urlBuilderRejectFunc();
-        },
+        // $openURLBuilder(page) {
+        //     if (
+        //         !get(page, 'params.length', 0) &&
+        //         !get(page, 'query.length', 0)
+        //     ) {
+        //         return Promise.resolve(
+        //             urlJoin(`https://${this.primaryDomainName}`, page.path)
+        //         );
+        //     }
+        //     this.$refs['url_builder'].init({
+        //         pageType: page.value,
+        //     });
+        //     this.$refs['url_builder_dialog'].open({
+        //         width: '650px',
+        //         height: '400px',
+        //         neutralButtonLabel: 'Ok',
+        //         showCloseButton: true,
+        //         // dismissible: false
+        //     });
+        //     return new Promise((resolve, reject) => {
+        //         urlBuilderResolveFunc = resolve;
+        //         urlBuilderRejectFunc = reject;
+        //     });
+        // },
+        // $urlBuilderDialogClose(e) {
+        //     if (e == 'Ok') {
+        //         return this.$refs['url_builder']
+        //             .get()
+        //             .then((obj) => {
+        //                 urlBuilderResolveFunc(obj.url);
+        //             })
+        //             .catch(urlBuilderRejectFunc);
+        //     }
+        //     return urlBuilderRejectFunc();
+        // },
     }
 }
 </script>
