@@ -7,13 +7,10 @@
                 :available_sections="available_sections"
                 :sections="sections"
                 :page="selectedPage"
-                :config="config"
                 :pages="pages"
-                :currentfont="font"
                 :previewUrl="previewUrl"
-                :pageObject="getCuurentPage"
+                :pageObject="getCurrentPage"
                 @save="onSave(selectedPage, $event)"
-                @change-font="onFontChange($event)"
                 @post-message="onPostMessage($event)"
                 @reset="resetSections()"
                 @zoom-out="zoomOut = true"
@@ -154,16 +151,42 @@ import {
     NitrozenDropdown, NitrozenDialog, NitrozenButton,
     NitrozenInput, flatBtn, strokeBtn
 } from '@gofynd/nitrozen-vue';
+import { cloneDeep } from 'lodash';
 
 /* Component imports */
 import Loader from '@/components/common/loader.vue';
+import AdmInlineSvg from '@/components/common/adm-inline-svg.vue';
 import SectionsList from './sections-list.vue';
+
+/* Helper imports */
+import { PREVIEW_EVENTS } from '@/helper/constants.js';
+
+/* Mock imports */
+import available_sections from './data/available_sections.json';
+import pages from './data/pages.json';
+
+// import { getAppInfo } from '@/services/utils.service';
 
 const devicesViewport = {
     desktop: { maxWidth: 1024 },
     tablet: { maxWidth: 1023 },
     mobile: { maxWidth: 480 },
 };
+
+const PAGE_GROUP_INFO = [
+    {
+        text: 'SYSTEM PAGES',
+        type: 'system',
+    },
+    {
+        text: 'SECTION PAGES',
+        type: 'sections',
+    },
+    {
+        text: 'CUSTOM PAGES',
+        type: 'custom',
+    },
+];
 
 export default {
     name: 'listing-container',
@@ -173,6 +196,7 @@ export default {
         NitrozenDropdown,
         NitrozenInput,
         Loader,
+        'adm-inline-svg': AdmInlineSvg,
         SectionsList
     },
     directives: {
@@ -186,36 +210,42 @@ export default {
             dragging: false,
             pageToDelete: null,
             pageToEdit: null,
+            iframeUrl: '',
+            selectedPage: null,
             selectedViewport: 'desktop',
             showSidebar: true,
             available_sections: [],
             available_pages: [],
             sections: [],
+            pages: [],
             viewports: [
                 {
                     value: 'desktop',
-                    image_url: '/public/admin/assets/admin/pngs/monitor.png',
+                    image_url: '/public/assets/admin/pngs/monitor.png',
                 },
                 {
                     value: 'tablet',
-                    image_url: '/public/admin/assets/admin/pngs/tablet.png',
+                    image_url: '/public/assets/admin/pngs/tablet.png',
                 },
                 {
                     value: 'mobile',
-                    image_url: '/public/admin/assets/admin/pngs/phone.png',
+                    image_url: '/public/assets/admin/pngs/phone.png',
                 },
                 {
                     value: 'expand',
-                    image_url: '/public/admin/assets/admin/pngs/expand.png',
+                    image_url: '/public/assets/admin/pngs/expand.png',
                 },
             ],
+            upgrade: this.$route.query.upgrade,
+            isIframeLoaded: false
         }
     },
     mounted() {
+        this.getAvailablePages();
         window.addEventListener('message', event => {
             if (
                 event.data.event ===
-                THEME_PREVIEW_EVENTS.SECTIONS_FILTER_PREDICATE
+                PREVIEW_EVENTS.SECTIONS_FILTER_PREDICATE
             ) {
                 this.sections = event.data.sections;
             }
@@ -245,8 +275,52 @@ export default {
             });
             return arrPages;
         },
+        primaryDomainName() {
+            return {};
+            // let application = getAppInfo();
+            // application.domains = application.domains || [];
+            // let primaryDomain =
+            //     application.domains.find((d) => d.is_primary) || {};
+            // let primaryDomainName = primaryDomain.name;
+            // return primaryDomainName;
+        },
+        previewUrl() {
+            let selectedPageoObj = this.pages.find((it) => {
+                return it.value === this.selectedPage && this.selectedPage.value;
+            });
+            if (!selectedPageoObj) {
+                return;
+            }
+            let query = {
+                __nocache: true,
+                isPreview: true,
+            };
+            if (this.preview) {
+                query = {
+                    ...query,
+                    themeId: this.themeId,
+                    preview: this.preview,
+                };
+            }
+            return (
+                this.iframeUrl ||
+                URI(
+                    urlJoin(
+                        `https://${this.primaryDomainName}`,
+                        selectedPageoObj.path
+                    )
+                )
+                    .query(query)
+                    .toString()
+            );
+        },
     },
     methods: {
+        getAvailableSections() {
+            setTimeout(() => {
+                this.available_sections = cloneDeep(available_sections);
+            }, 1000);
+        },
         setRectSize(rect) {
             if (this.$refs['preview-outline'] && this.zoomOut) {
                 this.$refs['preview-outline'].style.height = rect.height + 'px';
@@ -282,13 +356,13 @@ export default {
             };
             this.onPostMessage(postdata);
         },
-        onFontChange(font) {
-            this.font = font;
-            const postdata = {
-                font: this.font,
-            };
-            this.onPostMessage(postdata);
-        },
+        // onFontChange(font) {
+        //     this.font = font;
+        //     const postdata = {
+        //         font: this.font,
+        //     };
+        //     this.onPostMessage(postdata);
+        // },
         getSelectedPageObj(selectedPage) {
             return this.pages.find((it) => {
                 return it.value === selectedPage;
@@ -303,28 +377,62 @@ export default {
                 : this.pages.find((it) => {
                       return it.value === page;
                   });
-            this.$openURLBuilder(page)
-                .then((url) => {
-                    this.selectedPage = page;
-                    this.selectedPageIndex = this.pages.findIndex(p => p.value === this.selectedPage.value)
-                    let query = {
-                        __nocache: true,
-                        isPreview: true,
-                    };
-                    if (this.preview) {
-                        query = {
-                            ...query,
-                            themeId: this.themeId,
-                            preview: this.preview,
-                        };
-                    }
-                    this.postMessageUrl = URI(url).query(query).toString();
-                    this.$refs.iframe.src = URI(url).query(query).toString();
-                    this.getSectionsForPage(this.selectedPage.value);
-                })
-                .catch(() => {});
+            // this.$openURLBuilder(page)
+            //     .then((url) => {
+            //         this.selectedPage = page;
+            //         this.selectedPageIndex = this.pages.findIndex(p => p.value === this.selectedPage.value)
+            //         let query = {
+            //             __nocache: true,
+            //             isPreview: true,
+            //         };
+            //         if (this.preview) {
+            //             query = {
+            //                 ...query,
+            //                 themeId: this.themeId,
+            //                 preview: this.preview,
+            //             };
+            //         }
+            //         this.postMessageUrl = URI(url).query(query).toString();
+            //         this.$refs.iframe.src = URI(url).query(query).toString();
+            //         this.getSectionsForPage(this.selectedPage.value);
+            //     })
+            //     .catch(() => {});
         },
-        getAvailablePages(themeId) {
+        getSectionsForPage(pageType) {
+            this.loading = true
+            let pageIndex = this.pages.findIndex((it) => {
+                return it.type == pageType;
+            });
+            if(this.pages[pageIndex].sections) {
+                console.log("[getSectionsForPage]  Here");
+                this.sections = this.pages[pageIndex].sections;
+                setTimeout(() => {
+                    this.onPostMessage({
+                        sections: this.sections
+                    })
+                }, 50)
+                this.loading = false;
+            } else {
+                console.log("[getSectionsForPage]   There");
+            //     AdminThemeService.getPage(this.$route.params.themeId, page).then(
+            //     ({ data }) => {
+            //             this.selectedPage = data
+            //             this.sections = data.sections;
+            //             this.pages[pageIndex].sections = data.sections;
+            //             this.pages[pageIndex].props = data.props;
+            //             this.loading = false;
+            //         }
+            //     ).catch(err => {
+            //         this.loading = false;
+            //         console.log(err)
+            //         this.$snackbar.global.showError(err?.response?.data?.message || 'Something went wrong');
+            //     }).finally(() => {
+            //         this.loading = false;
+            //     })
+            // }
+            }
+        },
+        getAvailablePages() {
             this.iframeUrl = '';
             // AdminThemeService.fetchAllPages(themeId).then(({ data }) => {
             //     this.pages = this.mergePageParams(data.pages);
@@ -343,6 +451,27 @@ export default {
             //         this.iframeUrl = this.previewUrl;
             //     }
             // });
+
+            setTimeout(() => {
+                this.pages = cloneDeep(pages);
+                let pageVal = 'extension';
+                if(this.selectedPage && this.selectedPage.type) {
+                    pageVal = this.selectedPage.type;
+                };
+                let pageConfigIdx = this.pages.findIndex((it) => {
+                    return it.type === pageVal;
+                });
+                this.selectedPageIndex = pageConfigIdx;
+                this.selectedPage = this.selectedPage
+                    ? cloneDeep(this.selectedPage)
+                    : cloneDeep(this.pages[this.selectedPageIndex])
+                    ? cloneDeep(this.pages[this.selectedPageIndex])
+                    : '';
+                if(this.selectedPage.type) {
+                    this.getSectionsForPage(this.selectedPage.type);
+                    this.iframeUrl = this.previewUrl;
+                }
+            }, 1000);
         },
         mergePageParams(pages) {
             //merge both objects having same page key of  different array with all properties
@@ -394,17 +523,17 @@ export default {
             });
         },
         onPostMessage(e) {
-            // this.$refs.iframe.postMessage()
-            // if(e?.updated) {
-            //     this.pages[this.selectedPageIndex].updated = true;
-            //     delete e.updated
-            // }
-            // e.page = this.selectedPage?.value
-            // e.platform_event = true;
+            // this.$refs.iframe.postMessage();
+            if(e && e.updated) {
+                this.pages[this.selectedPageIndex].updated = true;
+                delete e.updated
+            }
+            e.page = this.selectedPage && this.selectedPage.value
+            e.platform_event = true;
             
-            // if (this.$refs.iframe && this.$refs.iframe.contentWindow) {
-            //     this.$refs.iframe.contentWindow.postMessage(e, '*');
-            // }
+            if (this.$refs.iframe && this.$refs.iframe.contentWindow) {
+                this.$refs.iframe.contentWindow.postMessage(e, '*');
+            }
         },
         resetSections() {
             // this.getThemeDetails(this.$route.params.themeId);
@@ -430,7 +559,78 @@ export default {
         },
         onIframeLoaded() {
             this.isIframeLoaded = false;
-        }
+        },
+        $openEditPage(e, item) {
+            e.stopPropagation();
+            e.preventDefault();
+            this.pageToEdit = item;
+            this.$refs['edit_page_dialog'].open({
+                width: '650px',
+                neutralButtonLabel: 'Ok',
+                showCloseButton: true,
+                // dismissible: false
+            });
+        },
+        $openPageBuilder(e, item) {
+            e.stopPropagation();
+            e.preventDefault();
+            this.$refs['page_builder_dialog'].open({
+                width: '650px',
+                neutralButtonLabel: 'Ok',
+                showCloseButton: true,
+                // dismissible: false
+            });
+            this.$refs['page_builder'].init({
+                item,
+                pages: this.getGroupByPages,
+                sections: cloneDeep(this.sections),
+                selectedPage: item ? item.value : '',
+            });
+        },
+        $openRemovePage(item, e) {
+            e.stopPropagation();
+            e.preventDefault();
+            this.$refs['page_remove_dialog'].open({
+                neutralButtonLabel: 'Ok',
+                showCloseButton: true,
+            });
+            this.pageToDelete = item;
+        },
+        $openURLBuilder(page) {
+            if (
+                !get(page, 'params.length', 0) &&
+                !get(page, 'query.length', 0)
+            ) {
+                return Promise.resolve(
+                    urlJoin(`https://${this.primaryDomainName}`, page.path)
+                );
+            }
+            this.$refs['url_builder'].init({
+                pageType: page.value,
+            });
+            this.$refs['url_builder_dialog'].open({
+                width: '650px',
+                height: '400px',
+                neutralButtonLabel: 'Ok',
+                showCloseButton: true,
+                // dismissible: false
+            });
+            return new Promise((resolve, reject) => {
+                urlBuilderResolveFunc = resolve;
+                urlBuilderRejectFunc = reject;
+            });
+        },
+        $urlBuilderDialogClose(e) {
+            if (e == 'Ok') {
+                return this.$refs['url_builder']
+                    .get()
+                    .then((obj) => {
+                        urlBuilderResolveFunc(obj.url);
+                    })
+                    .catch(urlBuilderRejectFunc);
+            }
+            return urlBuilderRejectFunc();
+        },
     }
 }
 </script>
@@ -494,7 +694,7 @@ export default {
             .viewport-icons {
                 width: 100%;
                 height: 100%;
-                margin-left: -100px;
+                // margin-left: -100px;
                 .flex-center();
                 .viewport-icon {
                     height: 100%;

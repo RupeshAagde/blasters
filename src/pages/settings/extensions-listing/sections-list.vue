@@ -1,7 +1,7 @@
 <template>
     <div class="sections-container">
         <!-- Section Settings Builder -->
-        <nitrozen-dialog
+        <!-- <nitrozen-dialog
             class="section-settings-dialog"
             ref="section_settings_dialog"
             title="Settings"
@@ -50,13 +50,13 @@
                 removeSectionFromPreview();
             "
             :page="page"
-        />
+        /> -->
 
         <div class="heading">
             <p>Sections</p>
         </div>
 
-        <div class="tabs">
+        <!-- <div class="tabs">
             <p 
                 v-for="(tab,index) in tabs"
                 :key="index"
@@ -64,10 +64,10 @@
                 :class="{ 'active-tab': activeTab === tab }">
                 {{ tab }}
             </p>
-        </div>
+        </div> -->
 
-        <div class="draggable-items nitrozen-scrollbar">
-            <div class="sections-tab" v-if="activeTab === 'Sections'">
+        <!-- <div class="draggable-items nitrozen-scrollbar"> -->
+            <!-- <div class="sections-tab" v-if="activeTab === 'Sections'">
                 <div v-if="pageSectionsMeta">
                     <draggable
                         :list="mSections"
@@ -184,9 +184,9 @@
                 >
                     <p>No Sections Available</p>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="page-settings-tab" v-if="activeTab === 'Page'">
+            <!-- <div class="page-settings-tab" v-if="activeTab === 'Page'"> -->
                 <!-- <div v-if="getPageConfigSchema(page).length">
                     <dynamic-input
                         v-for="(prop_schema, i) in getPageConfigSchema(page)"
@@ -204,14 +204,14 @@
                 <div class="no-config" v-else>
                     <p>No Page Configuration Available</p>
                 </div> -->
-            </div>
+            <!-- </div> -->
 
-            <div class="settings-tab" v-if="activeTab === 'Page'">
-                Settings
-            </div>
-        </div>
+            <!-- <div class="settings-tab" v-if="activeTab === 'Page'"> -->
+                <!-- Settings -->
+            <!-- </div> -->
+        <!-- </div> -->
 
-        <div class="actions">
+        <!-- <div class="actions">
             <nitrozen-button 
                 :theme="'secondary'" 
                 v-flatBtn 
@@ -225,7 +225,7 @@
                     Reset
                 </nitrozen-menu-item>
             </nitrozen-menu>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -242,9 +242,9 @@ import { PREVIEW_EVENTS } from '@/helper/constants.js';
 
 /* Component imports */
 import AdmInlineSVG from '@/components/common/adm-inline-svg.vue';
-import SectionPredicate from './section-predicate.vue';
-import SectionForm from './section-form.vue';
-import AvailableSectionsList from './available-sections-list.vue';
+// import SectionPredicate from './section-predicate.vue';
+// import SectionForm from './section-form.vue';
+// import AvailableSectionsList from './available-sections-list.vue';
 
 const defaultPredicate = {
     screen: {
@@ -274,15 +274,14 @@ export default {
         NitrozenMenu,
         NitrozenMenuItem,
         'adm-inline-svg': AdmInlineSVG,
-        'section-predicate': SectionPredicate,
-        'section-form': SectionForm,
-        'available-sections-list': AvailableSectionsList
+        // 'section-predicate': SectionPredicate,
+        // 'section-form': SectionForm,
+        // 'available-sections-list': AvailableSectionsList
     },
     props: [
         'sections',
         'available_sections',
         'page',
-        'config',
         'pages',
         'currentfont',
         'previewUrl',
@@ -303,7 +302,7 @@ export default {
             selectedSectionSchema: {},
             selectedSectionIndex: -1,
             selectedSection: {},
-            tabs: ['Sections', 'Page', 'Settings'],
+            tabs: ['Sections', 'Settings'],
             activeTab: 'Sections',
             loading: false,
             dragging: false,
@@ -317,252 +316,253 @@ export default {
         }
     },
     computed: {
-        pageSectionsMeta() {
-            if(this.page && this.page.type === 'sections') {
-                return true;
-            }
-            return ((this.page && this.page.sections_meta) || []).length;
-        }
+        // pageSectionsMeta() {
+        //     if(this.page && this.page.type === 'sections') {
+        //         return true;
+        //     }
+        //     return ((this.page && this.page.sections_meta) || []).length;
+        // }
     },
     mounted() {
-        const sectionSchema = this.sections ? this.sections : undefined;
-        this.mSections = sectionSchema ? sectionSchema : [];
-        this.sectionSchemaMap = (this.available_sections || []).reduce(
-            (a, s) => {
-                a[s.name] = s;
-                return a;
-            },
-            {}
-        );
+        console.log("this.sections:   ", this.sections);
+        // const sectionSchema = this.sections ? this.sections : undefined;
+        // this.mSections = sectionSchema ? sectionSchema : [];
+        // this.sectionSchemaMap = (this.available_sections || []).reduce(
+        //     (a, s) => {
+        //         a[s.name] = s;
+        //         return a;
+        //     },
+        //     {}
+        // );
     },
     watch: {
-        sections: {
-            deep: true,
-            handler() {
-                const sectionSchema = this.sections ? this.sections : undefined;
-                this.mSections = sectionSchema ? sectionSchema : [];
-            }
-        },
-        available_sections: {
-            deep: true,
-            handler() {
-                this.sectionSchemaMap = (this.available_sections || []).reduce(
-                    (a, s) => {
-                        a[s.name] = s;
-                        return a;
-                    },
-                    {}
-                );
-            },
-        },
-        page: {
-            deep: true,
-            handler(n, o) {
-                if(isEqual(n,o)) return;
-                const sectionSchema = this.sections
-                    ? this.sections
-                    : undefined;
-                this.mSections = sectionSchema
-                    ? sectionSchema
-                    : [];
-                this.sectionSchemaMap = (this.available_sections || []).reduce(
-                    (a, s) => {
-                        a[s.name] = s;
-                        return a;
-                    },
-                    {}
-                );
-                this.showAvailableSections = false;
-                this.showSectionForm = false;
-                this.selectedSectionSchema = {};
-                this.selectedSection = {};
-            },
-        },
+        // sections: {
+        //     deep: true,
+        //     handler() {
+        //         const sectionSchema = this.sections ? this.sections : undefined;
+        //         this.mSections = sectionSchema ? sectionSchema : [];
+        //     }
+        // },
+        // available_sections: {
+        //     deep: true,
+        //     handler() {
+        //         this.sectionSchemaMap = (this.available_sections || []).reduce(
+        //             (a, s) => {
+        //                 a[s.name] = s;
+        //                 return a;
+        //             },
+        //             {}
+        //         );
+        //     },
+        // },
+        // page: {
+        //     deep: true,
+        //     handler(n, o) {
+        //         if(isEqual(n,o)) return;
+        //         const sectionSchema = this.sections
+        //             ? this.sections
+        //             : undefined;
+        //         this.mSections = sectionSchema
+        //             ? sectionSchema
+        //             : [];
+        //         this.sectionSchemaMap = (this.available_sections || []).reduce(
+        //             (a, s) => {
+        //                 a[s.name] = s;
+        //                 return a;
+        //             },
+        //             {}
+        //         );
+        //         this.showAvailableSections = false;
+        //         this.showSectionForm = false;
+        //         this.selectedSectionSchema = {};
+        //         this.selectedSection = {};
+        //     },
+        // },
     },
     methods: {
-        dragStart(index) {
-            this.$emit('zoom-out');
-            setTimeout(() => {
-                this.postMessageToIframe(
-                    PREVIEW_EVENTS.DRAG_SECTION_START,
-                    {
-                        index,
-                    }
-                );
-            }, 100);
-        },
-        updateSection(e) {
-            this.$refs['section_settings']
-                .get()
-                .then((config) => {
-                    this.postMessageToIframe(
-                        PREVIEW_EVENTS.UPDATE_SECTION,
-                        {
-                            section: config.section,
-                            index: config.index,
-                        }
-                    );
-                    this.$refs['section_settings_dialog'].close();
-                })
-                .catch((err) => {});
-        },
-        onMove(e) {
-            //check if first move
-            //track temperory position of the element being dragged
-            //if first move then original index
-            //else use index stored
-            this.movingIndex =
-                this.movingIndex === -1
-                    ? e.draggedContext.index
-                    : this.movingIndex;
-            const data = {
-                index: this.movingIndex,
-                newIndex: e.draggedContext.futureIndex,
-            };
-            this.postMessageToIframe(
-                PREVIEW_EVENTS.DRAGGING_SECTION,
-                data
-            );
-            //assign temp moving index
-            this.movingIndex = e.draggedContext.futureIndex;
-        },
-        $sectionSettingsBuilder(config, e) {
-            e.stopPropagation();
-            e.preventDefault();
-            this.$refs['section_settings_dialog'].open({
-                width: '650px',
-                height: '450px',
-                neutralButtonLabel: 'Ok',
-                showCloseButton: true,
-                // dismissible: false
-            });
-            this.$refs['section_settings'].init(cloneDeep(config));
-            this.selectedSectionIndex = config.index;
-        },
-        onChange(d) {
-            let { added, removed, moved } = d;
-        },
-        onEnd(e) {},
-        dragStop() {
-            this.dragging = false;
-            this.postMessageToIframe(PREVIEW_EVENTS.DRAG_SECTION_END, {
-                index: this.movingIndex
-            });
-            this.movingIndex = -1;
-            this.$emit('zoom-in');
-        },
-        onSectionClick(section, idx) {
-            this.showSectionForm = true;
-            this.selectedSectionSchema = this.available_sections.find(
-                (s) => s.name == section.name
-            );
-            this.selectedSectionIndex = idx;
-            this.selectedSection = section;
-            this.postMessageToIframe(PREVIEW_EVENTS.SELECT_SECTION, {
-                index: idx,
-            });
-        },
-        onAddButtonClick(e) {
-            this.showAvailableSections = true;
-        },
-        onSaveButtonClick(e) {
-            let t = cloneDeep(this.mSections);
-            t.forEach((s) => {
-                s.blocks = s.blocks || [];
-                delete s.isVisible;
-                s.blocks.forEach((b) => {
-                    delete b.expand;
-                });
-            });
-            this.$emit('save', {
-                config: this.config,
-                sections: t
-            });
-        },
-        removeSection(index) {
-            this.mSections.splice(index, 1)
-            this.selectedSectionIndex = -1;
-            this.postMessageToIframe(PREVIEW_EVENTS.REMOVE_SECTION, {
-                removedIndex: index,
-            });
-        },
-        copySection(section) {
-            this.postMessageToIframe(PREVIEW_EVENTS.ADD_SECTION, section);
-            this.mSections.push(section);
-            const sectionIndex = this.mSections
-                ? this.mSections.length - 1
-                : -1;
-            this.onSectionClick(section, sectionIndex);
-        },
-        addSectionToPreview(sectionSchema) {
-            this.addedSection = {
-                name: sectionSchema.name,
-                props: (sectionSchema.props || []).reduce((a, p) => {
-                    //check if preset available
-                    a[p.id] = {
-                        value:
-                            sectionSchema.preset &&
-                            sectionSchema.preset.props &&
-                            sectionSchema.preset.props[p.id]
-                                ? sectionSchema.preset.props[p.id]
-                                : p.default,
-                        type: p.type,
-                    };
+        // dragStart(index) {
+        //     this.$emit('zoom-out');
+        //     setTimeout(() => {
+        //         this.postMessageToIframe(
+        //             PREVIEW_EVENTS.DRAG_SECTION_START,
+        //             {
+        //                 index,
+        //             }
+        //         );
+        //     }, 100);
+        // },
+        // updateSection(e) {
+        //     this.$refs['section_settings']
+        //         .get()
+        //         .then((config) => {
+        //             this.postMessageToIframe(
+        //                 PREVIEW_EVENTS.UPDATE_SECTION,
+        //                 {
+        //                     section: config.section,
+        //                     index: config.index,
+        //                 }
+        //             );
+        //             this.$refs['section_settings_dialog'].close();
+        //         })
+        //         .catch((err) => {});
+        // },
+        // onMove(e) {
+        //     //check if first move
+        //     //track temperory position of the element being dragged
+        //     //if first move then original index
+        //     //else use index stored
+        //     this.movingIndex =
+        //         this.movingIndex === -1
+        //             ? e.draggedContext.index
+        //             : this.movingIndex;
+        //     const data = {
+        //         index: this.movingIndex,
+        //         newIndex: e.draggedContext.futureIndex,
+        //     };
+        //     this.postMessageToIframe(
+        //         PREVIEW_EVENTS.DRAGGING_SECTION,
+        //         data
+        //     );
+        //     //assign temp moving index
+        //     this.movingIndex = e.draggedContext.futureIndex;
+        // },
+        // $sectionSettingsBuilder(config, e) {
+        //     e.stopPropagation();
+        //     e.preventDefault();
+        //     this.$refs['section_settings_dialog'].open({
+        //         width: '650px',
+        //         height: '450px',
+        //         neutralButtonLabel: 'Ok',
+        //         showCloseButton: true,
+        //         // dismissible: false
+        //     });
+        //     this.$refs['section_settings'].init(cloneDeep(config));
+        //     this.selectedSectionIndex = config.index;
+        // },
+        // onChange(d) {
+        //     let { added, removed, moved } = d;
+        // },
+        // onEnd(e) {},
+        // dragStop() {
+        //     this.dragging = false;
+        //     this.postMessageToIframe(PREVIEW_EVENTS.DRAG_SECTION_END, {
+        //         index: this.movingIndex
+        //     });
+        //     this.movingIndex = -1;
+        //     this.$emit('zoom-in');
+        // },
+        // onSectionClick(section, idx) {
+        //     this.showSectionForm = true;
+        //     this.selectedSectionSchema = this.available_sections.find(
+        //         (s) => s.name == section.name
+        //     );
+        //     this.selectedSectionIndex = idx;
+        //     this.selectedSection = section;
+        //     this.postMessageToIframe(PREVIEW_EVENTS.SELECT_SECTION, {
+        //         index: idx,
+        //     });
+        // },
+        // onAddButtonClick(e) {
+        //     this.showAvailableSections = true;
+        // },
+        // onSaveButtonClick(e) {
+        //     let t = cloneDeep(this.mSections);
+        //     t.forEach((s) => {
+        //         s.blocks = s.blocks || [];
+        //         delete s.isVisible;
+        //         s.blocks.forEach((b) => {
+        //             delete b.expand;
+        //         });
+        //     });
+        //     this.$emit('save', {
+        //         config: this.config,
+        //         sections: t
+        //     });
+        // },
+        // removeSection(index) {
+        //     this.mSections.splice(index, 1)
+        //     this.selectedSectionIndex = -1;
+        //     this.postMessageToIframe(PREVIEW_EVENTS.REMOVE_SECTION, {
+        //         removedIndex: index,
+        //     });
+        // },
+        // copySection(section) {
+        //     this.postMessageToIframe(PREVIEW_EVENTS.ADD_SECTION, section);
+        //     this.mSections.push(section);
+        //     const sectionIndex = this.mSections
+        //         ? this.mSections.length - 1
+        //         : -1;
+        //     this.onSectionClick(section, sectionIndex);
+        // },
+        // addSectionToPreview(sectionSchema) {
+        //     this.addedSection = {
+        //         name: sectionSchema.name,
+        //         props: (sectionSchema.props || []).reduce((a, p) => {
+        //             //check if preset available
+        //             a[p.id] = {
+        //                 value:
+        //                     sectionSchema.preset &&
+        //                     sectionSchema.preset.props &&
+        //                     sectionSchema.preset.props[p.id]
+        //                         ? sectionSchema.preset.props[p.id]
+        //                         : p.default,
+        //                 type: p.type,
+        //             };
 
-                    return a;
-                }, {}),
-                blocks: [],
-                index: sectionSchema.index,
-                preview: true,
-                preset: sectionSchema.preset || {},
-                predicate: defaultPredicate,
-            };
-            this.postMessageToIframe(
-                PREVIEW_EVENTS.ADD_SECTION,
-                this.addedSection
-            );
-        },
-        addSection(sectionSchema) {
-            this.showAvailableSections = false;
-            this.mSections.push(this.addedSection);
-            this.selectedSectionSchema = sectionSchema;
-            this.selectedSection = this.addedSection;
-            this.selectedSectionIndex = this.mSections.length - 1;
-            //clear added section
-            this.addedSection = {};
+        //             return a;
+        //         }, {}),
+        //         blocks: [],
+        //         index: sectionSchema.index,
+        //         preview: true,
+        //         preset: sectionSchema.preset || {},
+        //         predicate: defaultPredicate,
+        //     };
+        //     this.postMessageToIframe(
+        //         PREVIEW_EVENTS.ADD_SECTION,
+        //         this.addedSection
+        //     );
+        // },
+        // addSection(sectionSchema) {
+        //     this.showAvailableSections = false;
+        //     this.mSections.push(this.addedSection);
+        //     this.selectedSectionSchema = sectionSchema;
+        //     this.selectedSection = this.addedSection;
+        //     this.selectedSectionIndex = this.mSections.length - 1;
+        //     //clear added section
+        //     this.addedSection = {};
 
-            this.showSectionForm = true;
-        },
-        removeSectionFromPreview() {
-            if (this.addedSection.name) {
-                this.postMessageToIframe(THEME_PREVIEW_EVENTS.REMOVE_SECTION, {
-                    removedIndex: this.mSections.length,
-                });
-            }
-        },
-        updateBlocks(section) {
-            if (this.selectedSectionIndex !== -1) {
-                this.mSections[this.selectedSectionIndex] = section;
-                this.postMessageToIframe(PREVIEW_EVENTS.UPDATE_SECTION, {
-                    section: this.mSections[this.selectedSectionIndex],
-                    index: this.selectedSectionIndex,
-                });
-            }
-            // this.$emit('post-message',this.mSections);
-        },
-        postMessageToIframe(eventType, data) {
-            this.$emit('post-message', {
-                event: eventType,
-                data: data,
-                updated: true
-            });
-        },
-        scrollToBottom() {
-            var container = this.$el.querySelector('.nitrozen-dialog-body');
-            setTimeout(function () {
-                container.scrollTop = container.scrollHeight;
-            }, 0);
-        },
+        //     this.showSectionForm = true;
+        // },
+        // removeSectionFromPreview() {
+        //     if (this.addedSection.name) {
+        //         this.postMessageToIframe(THEME_PREVIEW_EVENTS.REMOVE_SECTION, {
+        //             removedIndex: this.mSections.length,
+        //         });
+        //     }
+        // },
+        // updateBlocks(section) {
+        //     if (this.selectedSectionIndex !== -1) {
+        //         this.mSections[this.selectedSectionIndex] = section;
+        //         this.postMessageToIframe(PREVIEW_EVENTS.UPDATE_SECTION, {
+        //             section: this.mSections[this.selectedSectionIndex],
+        //             index: this.selectedSectionIndex,
+        //         });
+        //     }
+        //     // this.$emit('post-message',this.mSections);
+        // },
+        // postMessageToIframe(eventType, data) {
+        //     this.$emit('post-message', {
+        //         event: eventType,
+        //         data: data,
+        //         updated: true
+        //     });
+        // },
+        // scrollToBottom() {
+        //     var container = this.$el.querySelector('.nitrozen-dialog-body');
+        //     setTimeout(function () {
+        //         container.scrollTop = container.scrollHeight;
+        //     }, 0);
+        // },
     }
 }
 </script>
