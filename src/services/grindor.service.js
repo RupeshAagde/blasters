@@ -6,10 +6,11 @@ import _ from 'lodash';
 import axios from 'axios';
 
 import root from 'window-or-global';
+const env = root.env || {};
 const config = root.config || {};
 
 const GrindorService = {
-    hdns: ['hdn-1.fynd.com', 'hdn-1.addsale.com', 'hdn-1.jiox0.de', 'hdn-1.jiomarketx0.de'],
+    hdns: [env.CDN_ITEM_DOMAINS],
     isHDNPath(path) {
         const url = new URL(path);
         return this.hdns.includes(url.hostname);
