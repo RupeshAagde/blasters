@@ -376,7 +376,13 @@ const conf = convict({
         env: 'SENTRY_ENVIRONMENT',
         arg: 'sentry_environment'
     },
-
+    CDN_ITEM_DOMAINS: {
+        doc: 'CDN host url',
+        format: String,
+        default: 'hdn-1.addsale.com',
+        env: 'CDN_ITEM_DOMAINS',
+        arg: 'cdn_item_domains'
+      },
     // New Relic
     NEW_RELIC_APP_NAME: {
         doc: 'newrelic app name.',

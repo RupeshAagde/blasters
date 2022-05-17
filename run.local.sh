@@ -55,7 +55,7 @@ export MIXMASTER_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/admin
 #ENV's
 export SENTRY_DSN=''
 export SENTRY_ENVIRONMENT=development
-
+export CDN_ITEM_DOMAINS=https://hdn-1.addsale.com
 export NEW_RELIC_APP_NAME=blaster
 export NEW_RELIC_LICENSE_KEY=''
 npm run start
