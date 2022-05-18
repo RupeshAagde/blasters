@@ -55,7 +55,7 @@ export SILVERBOLT_PCAT_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/
 #ENV's
 export SENTRY_DSN=''
 export SENTRY_ENVIRONMENT=test
-
+export CDN_ITEM_DOMAINS=https://hdn-1.addsale.com
 export NEW_RELIC_APP_NAME=blaster
 export NEW_RELIC_LICENSE_KEY=''
 
