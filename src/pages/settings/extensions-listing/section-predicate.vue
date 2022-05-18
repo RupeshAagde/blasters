@@ -37,7 +37,7 @@ export default {
     name: 'section-predicate',
     components: {
         'accordion': Accordion,
-        NitrozenToggleBtn
+        'nitrozen-toggle': NitrozenToggleBtn
     },
     data() {
         return {

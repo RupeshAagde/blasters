@@ -172,6 +172,7 @@ import {
 import { cloneDeep, get } from 'lodash';
 import urlJoin from 'url-join';
 import URI from 'urijs';
+import root from 'window-or-global';
 
 /* Component imports */
 import Loader from '@/components/common/loader.vue';
@@ -207,6 +208,8 @@ const PAGE_GROUP_INFO = [
         type: 'custom',
     },
 ];
+
+const env = root.env || {};
 
 export default {
     name: 'listing-container',
@@ -317,37 +320,39 @@ export default {
             // return primaryDomainName;
         },
         previewUrl() {
-            let selectedPageObj = this.pages.find((it) => {
-                // return it.value === this.selectedPage && this.selectedPage.value;
-                return it.type === this.selectedPage && this.selectedPage.type;
-            });
-            if (!selectedPageObj) {
-                return;
-            }
-            let query = {
-                __nocache: true,
-                isPreview: true,
-            };
-            if (this.preview) {
-                query = {
-                    ...query,
-                    preview: this.preview,
-                };
-            }
+            // let selectedPageObj = this.pages.find((it) => {
+            //     // return it.value === this.selectedPage && this.selectedPage.value;
+            //     return it.type === this.selectedPage && this.selectedPage.type;
+            // });
+            // if (!selectedPageObj) {
+            //     return;
+            // }
+            // let query = {
+            //     __nocache: true,
+            //     isPreview: true,
+            // };
+            // if (this.preview) {
+            //     query = {
+            //         ...query,
+            //         preview: this.preview,
+            //     };
+            // }
 
-            console.log(this.iframeUrl);
+            // console.log("this.iframeUrl:   ", this.iframeUrl);
 
-            return (
-                this.iframeUrl ||
-                URI(
-                    urlJoin(
-                        `https://${this.primaryDomainName}`,
-                        selectedPageObj.path
-                    )
-                )
-                    .query(query)
-                    .toString()
-            );
+            // return (
+            //     this.iframeUrl ||
+            //     URI(
+            //         urlJoin(
+            //             `https://${this.primaryDomainName}`,
+            //             selectedPageObj.path
+            //         )
+            //     )
+            //         .query(query)
+            //         .toString()
+            // );
+
+            return `https://partners.${env.FYND_PLATFORM_DOMAIN}/extensions`;
         },
     },
     methods: {

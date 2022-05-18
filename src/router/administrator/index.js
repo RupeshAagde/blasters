@@ -579,14 +579,6 @@ export default [
                 return checkUserPermission(to, from, next, ['settings']);
             }
         },
-        {
-            name: 'partners',
-            path: 'settings/partners/extensions-listing',
-            component: ExtensionsListingVue,
-            beforeEnter: (to, from, next) => {
-                return checkUserPermission(to, from, next, ['settings']);
-            }
-        },
         // Category
         {
             name: 'category',
@@ -659,5 +651,14 @@ export default [
             //     return checkUserPermission(to, from, next, ['admin-access']);
             // }
         },
-    ]
-}];
+        ]
+    },
+    {
+        name: 'partners',
+        path: '/administrator/settings/partners/extensions-listing',
+        component: ExtensionsListingVue,
+        beforeEnter: (to, from, next) => {
+            return checkUserPermission(to, from, next, ['settings']);
+        }
+    },
+];
