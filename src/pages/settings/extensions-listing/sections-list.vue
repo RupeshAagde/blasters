@@ -1,5 +1,31 @@
 <template>
     <div class="sections-container">
+        <!-- Section Settings Builder -->
+        <nitrozen-dialog
+            class="section-settings-dialog"
+            ref="section_settings_dialog"
+            title="Settings"
+            @close="selectedSectionIndex = -1"
+        >
+            <template slot="body">
+                <section-predicate
+                    ref="section_settings"
+                    v-if="previewUrl !== undefined"
+                    :navigationOnly="true"
+                    :previewUrl="previewUrl"
+                    @scrollBottom="scrollToBottom"
+                ></section-predicate>
+            </template>
+            <template slot="footer">
+                <nitrozen-button
+                    :theme="'secondary'"
+                    v-flatBtn
+                    @click="updateSection"
+                    >Update Preview
+                </nitrozen-button>
+            </template>
+        </nitrozen-dialog>
+
         <available-sections-list
             :available_sections="available_sections"
             @select="addSectionToPreview($event)"
@@ -44,7 +70,107 @@
             <div class="sections-tab" v-if="activeTab === 'Sections'">
                 <!-- <div v-if="pageSectionsMeta"> -->
                 <div>
-                    <!-- draggable will come here -->    
+                    <!-- draggable will come here --> 
+                    <draggable
+                        :list="mSections"
+                        :move="onMove"
+                        v-bind="dragOptions"
+                        class="sections"
+                        @change="onChange"
+                        handle=".handle"
+                        @start="
+                            dragging = true;
+                            $emit('zoom-out');
+                        "
+                        @end="dragStop"
+                        v-if="available_sections.length > 0"
+                    >
+                        <transition-group
+                            type="transition"
+                            :name="!dragging ? 'flip-list' : null"
+                        >
+                            <div
+                                v-for="(section, i) in mSections"
+                                :key="`${i}`"
+                                class="section"
+                            >
+                                <div
+                                    @mouseup="dragStop"
+                                    @mousedown="dragStart(i)"
+                                >
+                                    <adm-inline-svg
+                                        class="handle"
+                                        :src="'move'"
+                                        :class="{ grabbable: dragging }"
+                                    />
+                                </div>
+
+                                <div
+                                    class="title-container"
+                                    :class="{
+                                        hide_section:
+                                            section.isVisible === undefined ||
+                                            section.isVisible
+                                                ? false
+                                                : true,
+                                    }"
+                                >
+                                    <span
+                                        @click.stop="onSectionClick(section, i)"
+                                        class="title"
+                                        :class="{
+                                            active_title:
+                                                selectedSectionIndex === i,
+                                        }"
+                                        v-if="sectionSchemaMap[section.name]"
+                                    >
+                                        {{
+                                            sectionSchemaMap[section.name].label
+                                        }}
+                                    </span>
+                                </div>
+
+                                <span
+                                    @click="
+                                        $sectionSettingsBuilder(
+                                            {
+                                                section: section,
+                                                index: i,
+                                            },
+                                            $event
+                                        )
+                                    "
+                                    class="section-settings"
+                                >
+                                    <adm-inline-svg
+                                        :src="
+                                            section.isVisible === undefined ||
+                                            section.isVisible
+                                                ? 'eye-open'
+                                                : 'eye-close'
+                                        "
+                                    ></adm-inline-svg>
+                                </span>
+
+                                <span
+                                    @click="copySection(section)"
+                                    class="section-settings"
+                                >
+                                    <adm-inline-svg
+                                        class="copy_icon"
+                                        :src="'copy'"
+                                    />
+                                </span>
+
+                                <span
+                                    @click="removeSection(i)"
+                                    class="section-settings"
+                                >
+                                    <adm-inline-svg :src="'cross-black'" />
+                                </span>
+                            </div>
+                        </transition-group>
+                    </draggable>   
 
                     <div 
                         class="add-section"
@@ -98,14 +224,17 @@
 /* Package imports */
 import {
     strokeBtn, flatBtn, NitrozenButton,
-    NitrozenMenu, NitrozenMenuItem
+    NitrozenMenu, NitrozenMenuItem, 
+    NitrozenDialog
 } from '@gofynd/nitrozen-vue';
 import { cloneDeep } from 'lodash';
+import draggable from 'vuedraggable';
 
 /* Component imports */
 import AdmInlineSVG from '@/components/common/adm-inline-svg.vue';
 import AvailableSectionsList from './available-sections-list.vue';
 import SectionForm from './section-form.vue';
+import SectionPredicate from './section-predicate.vue';
 
 /* Constants and Helpers */
 import { PREVIEW_EVENTS } from '@/helper/constants.js';
@@ -144,8 +273,11 @@ export default {
         NitrozenButton,
         NitrozenMenu, 
         NitrozenMenuItem,
+        NitrozenDialog,
         'available-sections-list': AvailableSectionsList,
-        'section-form': SectionForm
+        'section-form': SectionForm,
+        'section-predicate': SectionPredicate,
+        draggable
     },
     directives: {
         strokeBtn,
@@ -162,7 +294,16 @@ export default {
             mSections: [],
             selectedSectionSchema: {},
             selectedSection: {},
-            showSectionForm: false
+            showSectionForm: false,
+            movingIndex: -1,
+            dragOptions: {
+                animation: 200,
+                group: 'description',
+                disabled: false,
+                ghostClass: 'ghost',
+            },
+            dragging: false,
+            sectionSchemaMap: {}
         }
     },
     computed: {
@@ -293,7 +434,118 @@ export default {
                 );
             }
             // this.$emit('post-message',this.mSections);
-        }
+        },
+        scrollToBottom() {
+            var container = this.$el.querySelector('.nitrozen-dialog-body');
+            setTimeout(function () {
+                container.scrollTop = container.scrollHeight;
+            }, 0);
+        },
+        updateSection(e) {
+            this.$refs['section_settings']
+                .get()
+                .then((config) => {
+                    this.postMessageToIframe(
+                        PREVIEW_EVENTS.UPDATE_SECTION,
+                        {
+                            section: config.section,
+                            index: config.index,
+                        }
+                    );
+                    this.$refs['section_settings_dialog'].close();
+                })
+                .catch((err) => {});
+        },
+        onMove(e) {
+            //check if first move
+            //track temperory position of the element being dragged
+            //if first move then original index
+            //else use index stored
+            this.movingIndex =
+                this.movingIndex === -1
+                    ? e.draggedContext.index
+                    : this.movingIndex;
+            const data = {
+                index: this.movingIndex,
+                newIndex: e.draggedContext.futureIndex,
+            };
+            this.postMessageToIframe(
+                THEME_PREVIEW_EVENTS.DRAGGING_SECTION,
+                data
+            );
+            //assign temp moving index
+            this.movingIndex = e.draggedContext.futureIndex;
+        },
+        onChange(d) {
+            let { added, removed, moved } = d;
+        },
+        dragStop() {
+            this.dragging = false;
+            this.postMessageToIframe(
+                PREVIEW_EVENTS.DRAG_SECTION_END, 
+                {
+                    index: this.movingIndex,
+                }
+            );
+            this.movingIndex = -1;
+            this.$emit('zoom-in');
+        },
+        dragStart(index) {
+            this.$emit('zoom-out');
+            setTimeout(() => {
+                this.postMessageToIframe(
+                    PREVIEW_EVENTS.DRAG_SECTION_START,
+                    {
+                        index,
+                    }
+                );
+            }, 100);
+        },
+        onSectionClick(section, idx) {
+            this.showSectionForm = true;
+            this.selectedSectionSchema = this.available_sections.find(
+                (s) => s.name == section.name
+            );
+            this.selectedSectionIndex = idx;
+            this.selectedSection = section;
+            this.postMessageToIframe(
+                PREVIEW_EVENTS.SELECT_SECTION, 
+                {
+                    index: idx,
+                }
+            );
+        },
+        $sectionSettingsBuilder(config, e) {
+            e.stopPropagation();
+            e.preventDefault();
+            this.$refs['section_settings_dialog'].open({
+                width: '650px',
+                height: '450px',
+                neutralButtonLabel: 'Ok',
+                showCloseButton: true,
+                // dismissible: false
+            });
+            this.$refs['section_settings'].init(cloneDeep(config));
+            this.selectedSectionIndex = config.index;
+        },
+        copySection(section) {
+            this.postMessageToIframe(PREVIEW_EVENTS.ADD_SECTION, section);
+            this.mSections.push(section);
+            const sectionIndex = this.mSections
+                ? this.mSections.length - 1
+                : -1;
+            this.onSectionClick(section, sectionIndex);
+        },
+        removeSection(index) {
+            this.mSections.splice(index, 1)
+            this.selectedSectionIndex = -1;
+            this.postMessageToIframe(
+                PREVIEW_EVENTS.REMOVE_SECTION, 
+                {
+                    removedIndex: index,
+                }
+            );
+        },
     }
 }
 </script>
@@ -343,6 +595,75 @@ export default {
 
     .active-tab {
         box-shadow: inset 0 -4px 0 0 #4f5ecc !important;
+    }
+
+    .draggable-items {
+        overflow: hidden;
+        overflow-y: scroll;
+        height: calc(100vh - 180px);
+        position: relative;
+    }
+
+    .sections {
+        width: 100%;
+        
+        .hide_section {
+            opacity: 0.4;
+        }
+
+        .section {
+            align-items: center;
+            justify-content: space-between;
+            display: flex;
+            padding: 0px 10px;
+            height: 64px;
+            box-sizing: border-box;
+            background: #fff;
+            border-bottom: 1px #dadada solid;
+
+            &:first-of-type {
+                border-top: 1px #dadada solid;
+            }
+
+            .handle {
+                height: 24px;
+                cursor: grab;
+                margin-right: 10px;
+            }
+
+            .title-container {
+                display: flex;
+                flex: 1;
+                justify-content: center;
+                align-items: center;
+                min-width: 0;
+                .title {
+                    cursor: pointer;
+                    height: 17px;
+                    // text-overflow: ellipsis;
+                    // overflow-x: hidden;
+                    // overflow-y: visible;
+                    // white-space: nowrap;
+                }
+                .active_title {
+                    color: @RoyalBlue;
+                }
+            }
+
+            .section-settings {
+                margin: 0px 3px;
+                cursor: pointer;
+            }
+
+            .copy_icon {
+                ::v-deep svg {
+                    height: 20px;
+                    g {
+                        fill: #8c8f9d;
+                    }
+                }
+            }
+        }
     }
 
     .add-section {
