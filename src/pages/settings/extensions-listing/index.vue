@@ -14,10 +14,7 @@ import NoSSR from 'vue-no-ssr';
 import Container from './container.vue';
 
 export default {
-    name: 'extensions-listing',
-    mounted() {
-        console.log("Here");
-    },
+    name: 'extensions-listing', 
     components: {
         'no-ssr': NoSSR,
         'container': Container

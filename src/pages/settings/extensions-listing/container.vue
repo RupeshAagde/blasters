@@ -171,6 +171,7 @@ import {
 } from '@gofynd/nitrozen-vue';
 import { cloneDeep, get } from 'lodash';
 import urlJoin from 'url-join';
+import URI from 'urijs';
 
 /* Component imports */
 import Loader from '@/components/common/loader.vue';
@@ -264,6 +265,15 @@ export default {
         this.getAvailablePages();
         this.getAvailableSections();
         window.addEventListener('message', event => {
+            if (event.data.event === PREVIEW_EVENTS.THEME_MOUNTED) {
+                this.onPostMessage({
+                    config: this.config,
+                    viewport: this.selectedViewport,
+                    send_predicate: true
+                });
+                this.setIframeViewport();
+            }
+
             if (
                 event.data.event ===
                 PREVIEW_EVENTS.SECTIONS_FILTER_PREDICATE
@@ -297,7 +307,8 @@ export default {
             return arrPages;
         },
         primaryDomainName() {
-            return {};
+            // return {};
+            return 'partners.fyndx0.de';
             // let application = getAppInfo();
             // application.domains = application.domains || [];
             // let primaryDomain =
@@ -306,10 +317,11 @@ export default {
             // return primaryDomainName;
         },
         previewUrl() {
-            let selectedPageoObj = this.pages.find((it) => {
-                return it.value === this.selectedPage && this.selectedPage.value;
+            let selectedPageObj = this.pages.find((it) => {
+                // return it.value === this.selectedPage && this.selectedPage.value;
+                return it.type === this.selectedPage && this.selectedPage.type;
             });
-            if (!selectedPageoObj) {
+            if (!selectedPageObj) {
                 return;
             }
             let query = {
@@ -319,16 +331,18 @@ export default {
             if (this.preview) {
                 query = {
                     ...query,
-                    themeId: this.themeId,
                     preview: this.preview,
                 };
             }
+
+            console.log(this.iframeUrl);
+
             return (
                 this.iframeUrl ||
                 URI(
                     urlJoin(
                         `https://${this.primaryDomainName}`,
-                        selectedPageoObj.path
+                        selectedPageObj.path
                     )
                 )
                     .query(query)
@@ -425,7 +439,6 @@ export default {
                 return it.type == pageType;
             });
             if(this.pages[pageIndex].sections) {
-                console.log("[getSectionsForPage]  Here");
                 this.sections = this.pages[pageIndex].sections;
                 setTimeout(() => {
                     this.onPostMessage({
@@ -434,7 +447,6 @@ export default {
                 }, 50)
                 this.loading = false;
             } else {
-                console.log("[getSectionsForPage]   There");
             //     AdminThemeService.getPage(this.$route.params.themeId, page).then(
             //     ({ data }) => {
             //             this.selectedPage = data
@@ -489,7 +501,6 @@ export default {
                     ? cloneDeep(this.pages[this.selectedPageIndex])
                     : '';
 
-                console.log("this.selectedPage:   ", this.selectedPage);
                 if(this.selectedPage.type) {
                     this.getSectionsForPage(this.selectedPage.type);
                     this.iframeUrl = this.previewUrl;
@@ -525,6 +536,7 @@ export default {
             }, 1000);
         },
         updateViewport(viewport) {
+            console.log("Here");
             this.isIframeLoaded = true;
 
             if (viewport === 'expand') {
@@ -537,7 +549,9 @@ export default {
                 this.pages[this.selectedPageIndex].sections = this.sections;
             }
 
-            this.$refs.iframe.src = this.postMessageUrl || this.previewUrl;
+            console.log(this.$refs);
+
+            this.$refs['iframe'].src = this.postMessageUrl || this.previewUrl;
             this.setIframeViewport();
         },
         closeEditor() {
