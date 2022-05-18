@@ -124,28 +124,6 @@ export const detectMobile = () => {
   }
 }
 
-export const detectFPApp = () => {
-    // return  {
-    //     "user_agent": "fyndplatform",
-    //     "navigation_bar": {
-    //       "font-size": 22,
-    //       "font-weight": 600,
-    //       "height": 14,
-    //       "title-alignment": "left"
-    //     },
-    //     "footer": {
-    //       "font-size": 113,
-    //       "font-weight": 400,
-    //       "height": 54,
-    //       "title-alignment": "center"
-    //     }
-    // };
-    if (isBrowser) {
-        return window.__fpAppDetails;
-    };
-    return false;
-};
-
 export const detectMobileWidth = () => {
     if (isBrowser) {
         if (window && window.screen.width <= 768) {

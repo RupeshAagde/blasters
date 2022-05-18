@@ -26,8 +26,6 @@ router.onReady(() => {
 
 router.beforeResolve((to, from, next) => {
     /* must call `next` */
-    Vue.prototype.$basePath = getBasePath(to);
-
     Vue.prototype.$goBack = goBack;
     next();
 });
@@ -120,18 +118,6 @@ function goBack(path) {
     } else {
         window && window.history && history.back();
     }
-}
-
-function getBasePath(route) {
-    const { company_id, applicationId } = route.params;
-    if (!company_id) return '';
-
-    let basePath = urljoin('/company', company_id);
-    if(applicationId) {
-        basePath = urljoin(basePath, '/application', applicationId);
-    }
-
-    return basePath;
 }
 
 export const getAppStore = () => {

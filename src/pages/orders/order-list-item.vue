@@ -258,7 +258,7 @@ export default {
             this.$router.push({ path, query: { ...this.$route.query } });
         },
         getShipmentLink(shipment_id = '') {
-            let link = `${this.$basePath}/order/${this.data.id}/shipments`;
+            let link = `/order/${this.data.id}/shipments`;
             if (shipment_id) {
                 link = `${link}?shipment_id=${shipment_id}`;
             }
