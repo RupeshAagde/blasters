@@ -9,112 +9,112 @@
                     :src="'arrow-nitrozen'"
                     @click.stop.native="onCloseClick($event)"
                 />
-                <h3 class="title">{{section_schema.label}}</h3>
+                <h3 class="title">{{section_schema.name}}</h3>
             </div>
-        </div>
 
-        <div class="form-body nitrozen-scrollbar">
-            <h2 class="heading">Settings</h2>
-            <div class="settings-form">
-                <dynamic-input
-                    v-for="(prop_schema, i) in section_schema.props"
-                    :key="i"
-                    :prop_schema="prop_schema"
-                    :prop="section.props[prop_schema.id]"
-                    :name="`section-${section.name}-${i}`"
-                    :page="page"
-                    @change="onSectionInputChange(prop_schema, $event)"
-                />
-            </div>
-            <div 
-                class="blocks-form"
-                v-if="section_schema.blocks && section_schema.blocks.length">
-                <h2 class="heading">Blocks</h2>
-                <draggable
-                    :list="section.blocks"
-                    v-bind="dragOptions"
-                    @start="dragging = true"
-                    @end="dragging = false"
-                    class="blocks"
-                    @change="onBlocksListChange($event)"
-                    handle=".handle">
-                    <transition-group
-                        type="transition"
-                        :name="!dragging ? 'flip-list' : null"
+            <div class="form-body nitrozen-scrollbar">
+                <h2 class="heading">Settings</h2>
+                <div class="settings-form">
+                    <dynamic-input
+                        v-for="(prop_schema, i) in section_schema.props"
+                        :key="i"
+                        :prop_schema="prop_schema"
+                        :prop="section.props[prop_schema.id]"
+                        :name="`section-${section.name}-${i}`"
+                        :page="page"
+                        @change="onSectionInputChange(prop_schema, $event)"
+                    />
+                </div>
+                <div 
+                    class="blocks-form"
+                    v-if="section_schema.blocks && section_schema.blocks.length">
+                    <h2 class="heading">Blocks</h2>
+                    <draggable
+                        :list="section.blocks"
+                        v-bind="dragOptions"
+                        @start="dragging = true"
+                        @end="dragging = false"
+                        class="blocks"
+                        @change="onBlocksListChange($event)"
+                        handle=".handle">
+                        <transition-group
+                            type="transition"
+                            :name="!dragging ? 'flip-list' : null"
+                        >
+                            <div
+                                v-for="(block, i) in section.blocks"
+                                :key="`${i}`"
+                            >
+                                <div class="block">
+                                    <adm-inline-svg
+                                        class="handle"
+                                        :src="'move'"
+                                    />
+                                    <span
+                                        @click.stop="onBlockClick(block)"
+                                        class="title">
+                                        {{ block.name }}
+                                    </span>
+                                    <span @click="removeBlock(i)">
+                                        <adm-inline-svg
+                                            class="remove-block"
+                                            :src="'cross-black'"
+                                        />
+                                    </span>
+                                </div>
+
+                                <div class="block-inputs" v-if="block.expand">
+                                    <dynamic-input
+                                        v-for="(prop_schema,
+                                        j) in section_schema.blocks.find(
+                                            (b) => b.type == block.type
+                                        ).props"
+                                        :key="j"
+                                        :prop_schema="prop_schema"
+                                        :prop="block.props[prop_schema.id]"
+                                        :name="`block-${block.name}-${i}-${j}`"
+                                        :page="page"
+                                        @change="
+                                            onBlockInputChange(
+                                                block,
+                                                prop_schema,
+                                                $event
+                                            )
+                                        "
+                                    />
+                                </div>
+                            </div>
+                        </transition-group>
+                    </draggable>
+
+                    <div
+                        class="add-block"
+                        role="group"
+                        slot="footer"
+                        key="footer"
+                        @click.stop="onAddButtonClick($event)"
+                    >
+                        <adm-inline-svg
+                            class="add-block-icon"
+                            :src="'add-icon'"
+                        />
+                        <span>Add Block</span>
+                    </div>
+
+                    <div
+                        slot="footer"
+                        v-click-outside="onBlockSelectionOutsideClick"
+                        v-if="showAvailableBlocksSelectionPopup"
+                        class="block-options"
                     >
                         <div
-                            v-for="(block, i) in section.blocks"
-                            :key="`${i}`"
+                            class="option"
+                            @click="onBlockOptionClick(blockSchema)"
+                            v-for="(blockSchema, i) in section_schema.blocks"
+                            :key="`${i}-${blockSchema.name}`"
                         >
-                            <div class="block">
-                                <adm-inline-svg
-                                    class="handle"
-                                    :src="'move'"
-                                />
-                                <span
-                                    @click.stop="onBlockClick(block)"
-                                    class="title">
-                                    {{ block.name }}
-                                </span>
-                                <span @click="removeBlock(i)">
-                                    <adm-inline-svg
-                                        class="remove-block"
-                                        :src="'cross-black'"
-                                    />
-                                </span>
-                            </div>
-
-                             <div class="block-inputs" v-if="block.expand">
-                                <dynamic-input
-                                    v-for="(prop_schema,
-                                    j) in section_schema.blocks.find(
-                                        (b) => b.type == block.type
-                                    ).props"
-                                    :key="j"
-                                    :prop_schema="prop_schema"
-                                    :prop="block.props[prop_schema.id]"
-                                    :name="`block-${block.name}-${i}-${j}`"
-                                    :page="page"
-                                    @change="
-                                        onBlockInputChange(
-                                            block,
-                                            prop_schema,
-                                            $event
-                                        )
-                                    "
-                                />
-                            </div>
+                            <span class="title">{{ blockSchema.name }}</span>
                         </div>
-                    </transition-group>
-                </draggable>
-
-                <div
-                    class="add-block"
-                    role="group"
-                    slot="footer"
-                    key="footer"
-                    @click.stop="onAddButtonClick($event)"
-                >
-                    <adm-inline-svg
-                        class="add-block-icon"
-                        :src="'add-icon'"
-                    />
-                    <span>Add Block</span>
-                </div>
-
-                <div
-                    slot="footer"
-                    v-click-outside="onBlockSelectionOutsideClick"
-                    v-if="showAvailableBlocksSelectionPopup"
-                    class="block-options"
-                >
-                    <div
-                        class="option"
-                        @click="onBlockOptionClick(blockSchema)"
-                        v-for="(blockSchema, i) in section_schema.blocks"
-                        :key="`${i}-${blockSchema.name}`"
-                    >
-                        <span class="title">{{ blockSchema.name }}</span>
                     </div>
                 </div>
             </div>
@@ -258,7 +258,7 @@ export default {
         box-sizing: border-box;
         background: #fff;
         position: fixed;
-        top: 0;
+        // top: 0;
         width: 300px;
         z-index: 5;
         display: flex;

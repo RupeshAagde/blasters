@@ -7,9 +7,9 @@
         >
             <img
                 class="handle"
-                src="/public/admin/assets/admin/pngs/category.png"
+                src="/public/assets/admin/pngs/category.png"
             />
-            <span class="title">{{ section.label }}</span>
+            <span class="title">{{ section.name }}</span>
             <nitrozen-button
                 v-if="show_add"
                 theme="secondary"

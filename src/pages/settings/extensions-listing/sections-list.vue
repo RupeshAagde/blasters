@@ -1,5 +1,31 @@
 <template>
     <div class="sections-container">
+        <available-sections-list
+            :available_sections="available_sections"
+            @select="addSectionToPreview($event)"
+            @add-section="addSection($event)"
+            @remove_preview="removeSectionFromPreview()"
+            :show="showAvailableSections"
+            @close="
+                selectedSectionIndex = -1;
+                showAvailableSections = false;
+                removeSectionFromPreview();
+            "
+            :page="page"
+        />
+
+        <section-form
+            :section="selectedSection"
+            :section_schema="selectedSectionSchema"
+            :show="showSectionForm"
+            :page="page"
+            @close="
+                selectedSectionIndex = -1;
+                showSectionForm = false;
+            "
+            @update-block="updateBlocks"
+        ></section-form>
+
         <div class="heading">
             <p>Sections</p>
         </div>
@@ -78,6 +104,28 @@ import { cloneDeep } from 'lodash';
 
 /* Component imports */
 import AdmInlineSVG from '@/components/common/adm-inline-svg.vue';
+import AvailableSectionsList from './available-sections-list.vue';
+import SectionForm from './section-form.vue';
+
+/* Constants and Helpers */
+import { PREVIEW_EVENTS } from '@/helper/constants.js';
+
+const defaultPredicate = {
+    screen: {
+        mobile: true,
+        desktop: true,
+        tablet: true,
+    },
+    user: {
+        authenticated: true,
+        anonymous: true,
+    },
+    route: {
+        selected: 'none',
+        exact_url: '',
+        query: {},
+    },
+};
 
 export default {
     name: 'sections-list',
@@ -95,7 +143,9 @@ export default {
         'adm-inline-svg': AdmInlineSVG,
         NitrozenButton,
         NitrozenMenu, 
-        NitrozenMenuItem
+        NitrozenMenuItem,
+        'available-sections-list': AvailableSectionsList,
+        'section-form': SectionForm
     },
     directives: {
         strokeBtn,
@@ -106,7 +156,13 @@ export default {
             tabs: ['Sections', 'Settings'],
             activeTab: 'Sections',
             preview: this.$route.query.preview,
-            showAvailableSections: false
+            showAvailableSections: false,
+            addedSection: {},
+            selectedSectionIndex: -1,
+            mSections: [],
+            selectedSectionSchema: {},
+            selectedSection: {},
+            showSectionForm: false
         }
     },
     computed: {
@@ -167,6 +223,76 @@ export default {
         },
         onAddButtonClick() {
             this.showAvailableSections = true;
+        },
+        addSectionToPreview(sectionSchema) {
+            this.addedSection = {
+                name: sectionSchema.name,
+                props: (sectionSchema.props || []).reduce((a, p) => {
+                    //check if preset available
+                    a[p.id] = {
+                        value:
+                            sectionSchema.preset &&
+                            sectionSchema.preset.props &&
+                            sectionSchema.preset.props[p.id]
+                                ? sectionSchema.preset.props[p.id]
+                                : p.default,
+                        type: p.type,
+                    };
+
+                    return a;
+                }, {}),
+                blocks: [],
+                index: sectionSchema.index,
+                preview: true,
+                preset: sectionSchema.preset || {},
+                predicate: defaultPredicate,
+            };
+
+            this.postMessageToIframe(
+                PREVIEW_EVENTS.ADD_SECTION,
+                this.addedSection
+            )
+        },
+        addSection(sectionSchema) {
+            this.showAvailableSections = false;
+            this.mSections.push(this.addedSection);
+            this.selectedSectionSchema = sectionSchema;
+            this.selectedSection = this.addedSection;
+            this.selectedSectionIndex = this.mSections.length - 1;
+            //clear added section
+            this.addedSection = {};
+
+            this.showSectionForm = true;
+        },
+        removeSectionFromPreview() {
+            if (this.addedSection.name) {
+                this.postMessageToIframe(
+                    PREVIEW_EVENTS.REMOVE_SECTION, 
+                    {
+                        removedIndex: this.mSections.length,
+                    }
+                );
+            }
+        },
+        postMessageToIframe(eventType, data) {
+            this.$emit('post-message', {
+                event: eventType,
+                data: data,
+                updated: true
+            })
+        },
+        updateBlocks(section) {
+            if(this.selectedSectionIndex !== -1) {
+                this.mSections[this.selectedSectionIndex] = section;
+                this.postMessageToIframe(
+                    PREVIEW_EVENTS.UPDATE_SECTION,
+                    {
+                        section: this.mSections[this.selectedSectionIndex],
+                        index: this.selectedSectionIndex
+                    }
+                );
+            }
+            // this.$emit('post-message',this.mSections);
         }
     }
 }
