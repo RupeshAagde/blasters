@@ -697,16 +697,6 @@ const URLS = {
     },
     GET_AUDIT_TRAIL_ENTITY_TYPES:()=>{
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
-    },
-
-    // ==================================================
-    // Extension
-    GET_AVAILABLE_SECTIONS: () => {
-        return urlJoin(EXTENSION_PAGE_URL, `/v1.0/section/available`);
-    },
-
-    UPDATE_EXTENSION_SECTIONS: (config) => {
-        return urlJoin(EXTENSION_PAGE_URL, `/v1.0/page/extension-home`);
     }
 };
 

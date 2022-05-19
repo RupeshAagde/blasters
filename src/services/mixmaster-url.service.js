@@ -21,6 +21,15 @@ const URLS = {
     },
     FETCH_PARTNER_ORGANIZATIONS: () => {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/organization/`);
+    },
+    // ==================================================
+    // Extension
+    GET_AVAILABLE_SECTIONS: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/section/available`);
+    },
+
+    UPDATE_EXTENSION_SECTIONS: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/page/extension-home`);
     }
 };
 

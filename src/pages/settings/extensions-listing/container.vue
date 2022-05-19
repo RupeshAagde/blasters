@@ -283,16 +283,16 @@ export default {
     methods: {
         getAvailableSections() {
             ExtensionPageService.getAvailableSections()
-            .then(response => {
-                console.log(response);
+            .then(({ data }) => {
+                this.available_sections = cloneDeep(data.data);
             })
             .catch(err => {
                 console.log(err);
             })
 
-            setTimeout(() => {
-                this.available_sections = cloneDeep(available_sections);
-            }, 1000);
+            // setTimeout(() => {
+            //     this.available_sections = cloneDeep(available_sections);
+            // }, 1000);
         },
         setRectSize(rect) {
             if (this.$refs['preview-outline'] && this.zoomOut) {

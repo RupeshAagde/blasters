@@ -1,6 +1,6 @@
 'use strict';
 
-import URLS from './domain.service';
+import URLS from './mixmaster-url.service';
 import ApiService from './api.service';
 import { getCommonHeaderOptions } from './utils.service';
 
