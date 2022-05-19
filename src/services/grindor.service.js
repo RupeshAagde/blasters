@@ -11,8 +11,13 @@ const config = root.config || {};
 const GrindorService = {
     hdns: ['hdn-1.fynd.com', 'hdn-1.addsale.com', 'hdn-1.jiox0.de', 'hdn-1.jiomarketx0.de'],
     isHDNPath(path) {
-        const url = new URL(path);
-        return this.hdns.includes(url.hostname);
+        try {
+            const url = new URL(path);
+            return this.hdns.includes(url.hostname);
+
+        } catch (err) {
+            return false
+        }
     },
     getPublicUrl(companyId, data = {}) {
         let axiosOption = Object.assign(

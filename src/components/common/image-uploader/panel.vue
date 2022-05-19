@@ -55,6 +55,7 @@
         >
             <div class="dimensions">
                 {{ dimensions.x }} x {{ dimensions.y }}
+                {{ getMIMEType(value) == 'image/svg+xml' ? '(SVG)' : '' }}
             </div>
             <img
                 :src="croppedImageFile || value"
@@ -76,7 +77,7 @@
                 :rounded="true"
                 theme="secondary"
                 @click="$refs.inputFile.click()"
-                >Upload</nitrozen-button
+                >Select File</nitrozen-button
             >
             <span>Or upload via URL</span>
             <nitrozen-input
@@ -107,10 +108,11 @@ import { NitrozenButton, NitrozenInput, strokeBtn } from '@gofynd/nitrozen-vue';
 import { Cropper } from 'vue-advanced-cropper';
 import loader from '@/components/common/loader';
 import InlineSvg from '@/components/common/inline-svg.vue';
-import { debounce } from '@/helper/utils';
 import { formatBytes } from '@/helper/digital-storage.util';
 import GrindorService from '@/services/grindor.service';
 import ApiService from '@/services/api.service';
+import mime from 'mime-types';
+
 export default {
     name: 'image-uploader-panel',
     components: {
@@ -118,52 +120,52 @@ export default {
         NitrozenInput,
         Cropper,
         InlineSvg,
-        loader
+        loader,
     },
     props: {
         label: {
             type: String,
-            default: 'image'
+            default: 'image',
         },
         fileTypes: {
             type: Array,
             default: () => {
                 return ['png', 'jpeg'];
-            }
+            },
         },
         fileDomain: {
             type: String,
-            default: 'image'
+            default: 'image',
         },
         maxSize: {
             type: Number, // in KB
-            default: 2048
+            default: 2048,
         },
         aspectRatio: {
             type: String,
-            default: '1:1'
+            default: '1:1',
         },
         minimumResolution: {
-            type: Object
+            type: Object,
         },
         maximumResolution: {
-            type: Object
+            type: Object,
         },
         recommendedResolution: {
-            type: Object
+            type: Object,
         },
         showGallery: {
             type: Boolean,
-            default: true
+            default: true,
         },
         value: {
-            type: String
-        }
+            type: String,
+        },
     },
     directives: {
-        strokeBtn
+        strokeBtn,
     },
-    data: function() {
+    data: function () {
         return {
             loading: false,
             cropping: false,
@@ -175,6 +177,7 @@ export default {
             imageURL: '',
             dimensions: { x: 0, y: 0 },
             hdns: GrindorService.hdns,
+            mimeType: '',
         };
     },
     computed: {
@@ -196,23 +199,13 @@ export default {
         stencilProps() {
             if (this.aspectR)
                 return {
-                    aspectRatio: this.aspectR.x / this.aspectR.y
+                    aspectRatio: this.aspectR.x / this.aspectR.y,
                 };
             else {
                 return {};
             }
         },
         src() {
-            // try {
-            //     // to bypass HDN CORS issue
-            //     const url = new URL(this.value);
-            //     if (this.hdns.includes(url.hostname)) {
-            //         return `${GrindorService.getProxyURL()}?url=${this.value}`;
-            //     }
-            //     return this.value;
-            // } catch (err) {
-            //     return this.value;
-            // }
             try {
                 // to bypass HDN CORS issue
                 const url = new URL(this.value);
@@ -225,7 +218,7 @@ export default {
             } catch (err) {
                 return this.value;
             }
-        }
+        },
     },
     watch: {
         value(newVal, oldVal) {
@@ -241,14 +234,31 @@ export default {
                 };
                 img.src = newVal;
             }
-        }
+        },
+        cropping(newVal, oldVal) {
+            // to find out image extension from url
+            if (newVal && this.value.startsWith('http')) {
+                if (
+                    this.value.endsWith('.jpeg') ||
+                    this.value.endsWith('.jpg')
+                ) {
+                    this.mimeType = 'image/jpeg';
+                } else if (this.value.endsWith('.png')) {
+                    this.mimeType = 'image/png';
+                } else {
+                    this.mimeType = '';
+                }
+            }
+        },
     },
     mounted() {},
     methods: {
         formatBytes,
         crop() {
             let image = new Image();
-            image.src = this.$refs.cropper.getResult().canvas.toDataURL();
+            image.src = this.$refs.cropper
+                .getResult()
+                .canvas.toDataURL(this.mimeType);
             image.onload = () => {
                 if (!this.validateDimensions(image)) {
                     this.$snackbar.global.showError(
@@ -297,6 +307,8 @@ export default {
             reader.onload = () => {
                 // convert image file to base64 string
                 this.$emit('input', reader.result);
+                this.mimeType = file.type;
+                this.file = null;
             };
             if (file) {
                 reader.readAsDataURL(file);
@@ -305,7 +317,7 @@ export default {
         $cropperChange(e) {
             this.dimensions = {
                 x: Math.floor(e.coordinates.width),
-                y: Math.floor(e.coordinates.height)
+                y: Math.floor(e.coordinates.height),
             };
         },
         getValidFile(files) {
@@ -334,6 +346,7 @@ export default {
         validateDimensions(img) {
             if (
                 this.minimumResolution &&
+                this.getMIMEType(img.src) != 'image/svg+xml' &&
                 (img.width < this.minimumResolution.width ||
                     img.height < this.minimumResolution.height)
             ) {
@@ -344,8 +357,21 @@ export default {
         showDimensions(e) {
             this.dimensions = {
                 x: e.target.naturalWidth,
-                y: e.target.naturalHeight
+                y: e.target.naturalHeight,
             };
+        },
+        getMIMEType(imageURL) {
+            try {
+                const url = new URL(imageURL);
+                let mimeString = mime.lookup(url.toString());
+                if (mimeString) {
+                    return mimeString;
+                }
+                mimeString = imageURL.split(',')[0].split(':')[1].split(';')[0];
+                return mimeString;
+            } catch (e) {
+                return '';
+            }
         },
         $onInpurURLChange(e) {
             this.$emit('input', e.target.value);
@@ -353,27 +379,36 @@ export default {
         $imagePreviewError(e) {
             this.$snackbar.global.showError('Not a valid image URL');
             this.$emit('input', '');
-        }
-    }
+        },
+    },
 };
 </script>
 
 <style lang="less" scoped>
 .image-uploader-panel {
     display: flex;
+    justify-content: center;
     width: auto;
     height: 480px;
     background-color: @Alabaster2;
     border: 1px dashed @Iron;
     border-radius: @BorderRadius;
+    @media @mobile {
+        height: auto;
+        min-height: 240px;
+    }
     .dimensions {
         display: inline-block;
         position: absolute;
         bottom: 25px;
         left: 26px;
-        background: white;
+        // background: @White;
         padding: 0 6px;
         z-index: 1;
+        @media @mobile {
+            left: 40px;
+            top: 200px;
+        }
     }
     .image-cropper {
         display: flex;
