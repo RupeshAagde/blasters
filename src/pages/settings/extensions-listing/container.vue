@@ -2,24 +2,6 @@
     <div class="container">
         <div class="sidebar" :class="{ 'hide-sidebar': !showSidebar }">
             <loader v-if="loading || !selectedPage" class="loading"></loader>
-            <!-- <sections-list
-                ref="section_list"
-                :available_sections="available_sections"
-                :sections="sections"
-                :page="selectedPage"
-                :pages="pages"
-                :previewUrl="previewUrl"
-                :pageObject="getCurrentPage"
-                @save="onSave(selectedPage, $event)"
-                @post-message="onPostMessage($event)"
-                @reset="resetSections()"
-                @zoom-out="zoomOut = true"
-                @zoom-in="
-                    zoomOut = false;
-                    hideRect();
-                "
-                :inProgress="loading"
-            /> -->
             <sections-list
                 ref="section_list"
                 :available_sections="available_sections"
@@ -57,17 +39,12 @@
                                     :value="slotProps.item.value">
                                     {{ slotProps.item.text }}
                                 </div>
-                                <div
+                                <!-- <div
                                     class="page-options"
                                     v-if="slotProps.item.type === 'sections'">
                                     <span
                                         class="page-options icon-space"
-                                        @click="
-                                            $openEditPage(
-                                                $event,
-                                                slotProps.item
-                                            )
-                                        "
+                                        @click="$openEditPage($event, slotProps.item)"
                                     >
                                          <adm-inline-svg
                                             class="page-options-button"
@@ -77,12 +54,7 @@
 
                                      <span
                                         class="page-options"
-                                        @click="
-                                            $openPageBuilder(
-                                                $event,
-                                                slotProps.item
-                                            )
-                                        "
+                                        @click="$openPageBuilder($event, slotProps.item)"
                                     >
                                         <adm-inline-svg
                                             class="page-options-button"
@@ -92,22 +64,17 @@
 
                                      <span
                                         class="page-options"
-                                        @click="
-                                            $openRemovePage(
-                                                slotProps.item,
-                                                $event
-                                            )
-                                        "
+                                        @click="$openRemovePage(slotProps.item, $event)"
                                     >
                                         <adm-inline-svg
                                             class="page-options-button"
                                             :src="'delete'"
                                         />
                                     </span>
-                                </div>
+                                </div> -->
                             </div>
 
-                            <nitrozen-button
+                            <!-- <nitrozen-button
                                 :theme="'secondary'"
                                 class="add-btn"
                                 v-if="slotProps.item.value === '__add_page'"
@@ -118,7 +85,7 @@
                                     :src="'add-icon'"
                                 ></adm-inline-svg
                                 >{{ slotProps.item.text }}
-                            </nitrozen-button>
+                            </nitrozen-button> -->
                         </template>
                     </nitrozen-dropdown>
                 </div>
@@ -186,8 +153,6 @@ import { PREVIEW_EVENTS } from '@/helper/constants.js';
 import available_sections from './data/available_sections.json';
 import pages from './data/pages.json';
 
-// import { getAppInfo } from '@/services/utils.service';
-
 const devicesViewport = {
     desktop: { maxWidth: 1024 },
     tablet: { maxWidth: 1023 },
@@ -220,8 +185,7 @@ export default {
         NitrozenInput,
         Loader,
         'adm-inline-svg': AdmInlineSvg,
-        SectionsList,
-        // SectionsList
+        SectionsList
     },
     directives: {
         flatBtn,
@@ -277,10 +241,7 @@ export default {
                 this.setIframeViewport();
             }
 
-            if (
-                event.data.event ===
-                PREVIEW_EVENTS.SECTIONS_FILTER_PREDICATE
-            ) {
+            if (event.data.event === PREVIEW_EVENTS.SECTIONS_FILTER_PREDICATE) {
                 this.sections = event.data.sections;
             }
         })
@@ -310,48 +271,9 @@ export default {
             return arrPages;
         },
         primaryDomainName() {
-            // return {};
             return 'partners.fyndx0.de';
-            // let application = getAppInfo();
-            // application.domains = application.domains || [];
-            // let primaryDomain =
-            //     application.domains.find((d) => d.is_primary) || {};
-            // let primaryDomainName = primaryDomain.name;
-            // return primaryDomainName;
         },
         previewUrl() {
-            // let selectedPageObj = this.pages.find((it) => {
-            //     // return it.value === this.selectedPage && this.selectedPage.value;
-            //     return it.type === this.selectedPage && this.selectedPage.type;
-            // });
-            // if (!selectedPageObj) {
-            //     return;
-            // }
-            // let query = {
-            //     __nocache: true,
-            //     isPreview: true,
-            // };
-            // if (this.preview) {
-            //     query = {
-            //         ...query,
-            //         preview: this.preview,
-            //     };
-            // }
-
-            // console.log("this.iframeUrl:   ", this.iframeUrl);
-
-            // return (
-            //     this.iframeUrl ||
-            //     URI(
-            //         urlJoin(
-            //             `https://${this.primaryDomainName}`,
-            //             selectedPageObj.path
-            //         )
-            //     )
-            //         .query(query)
-            //         .toString()
-            // );
-
             return `https://partners.${env.FYND_PLATFORM_DOMAIN}/extensions`;
         },
     },
@@ -396,13 +318,6 @@ export default {
             };
             this.onPostMessage(postdata);
         },
-        // onFontChange(font) {
-        //     this.font = font;
-        //     const postdata = {
-        //         font: this.font,
-        //     };
-        //     this.onPostMessage(postdata);
-        // },
         getSelectedPageObj(selectedPage) {
             return this.pages.find((it) => {
                 return it.value === selectedPage;
@@ -417,26 +332,6 @@ export default {
                 : this.pages.find((it) => {
                       return it.value === page;
                   });
-            // this.$openURLBuilder(page)
-            //     .then((url) => {
-            //         this.selectedPage = page;
-            //         this.selectedPageIndex = this.pages.findIndex(p => p.value === this.selectedPage.value)
-            //         let query = {
-            //             __nocache: true,
-            //             isPreview: true,
-            //         };
-            //         if (this.preview) {
-            //             query = {
-            //                 ...query,
-            //                 themeId: this.themeId,
-            //                 preview: this.preview,
-            //             };
-            //         }
-            //         this.postMessageUrl = URI(url).query(query).toString();
-            //         this.$refs.iframe.src = URI(url).query(query).toString();
-            //         this.getSectionsForPage(this.selectedPage.value);
-            //     })
-            //     .catch(() => {});
         },
         getSectionsForPage(pageType) {
             this.loading = true
@@ -541,7 +436,6 @@ export default {
             }, 1000);
         },
         updateViewport(viewport) {
-            console.log("Here");
             this.isIframeLoaded = true;
 
             if (viewport === 'expand') {
@@ -554,14 +448,12 @@ export default {
                 this.pages[this.selectedPageIndex].sections = this.sections;
             }
 
-            console.log(this.$refs);
-
             this.$refs['iframe'].src = this.postMessageUrl || this.previewUrl;
             this.setIframeViewport();
         },
         closeEditor() {
             this.$router.push({
-                path: `..`,
+                path: `/administrator/settings/partners`,
             });
         },
         onPostMessage(e) {
@@ -602,20 +494,20 @@ export default {
         onIframeLoaded() {
             this.isIframeLoaded = false;
         },
-        $openEditPage(e, item) {
-            e.stopPropagation();
-            e.preventDefault();
-            this.pageToEdit = item;
+        // $openEditPage(e, item) {
+        //     e.stopPropagation();
+        //     e.preventDefault();
+        //     this.pageToEdit = item;
             // this.$refs['edit_page_dialog'].open({
             //     width: '650px',
             //     neutralButtonLabel: 'Ok',
             //     showCloseButton: true,
             //     // dismissible: false
             // });
-        },
-        $openPageBuilder(e, item) {
-            e.stopPropagation();
-            e.preventDefault();
+        // },
+        // $openPageBuilder(e, item) {
+            // e.stopPropagation();
+            // e.preventDefault();
             // this.$refs['page_builder_dialog'].open({
             //     width: '650px',
             //     neutralButtonLabel: 'Ok',
@@ -628,16 +520,16 @@ export default {
             //     sections: cloneDeep(this.sections),
             //     selectedPage: item ? item.value : '',
             // });
-        },
-        $openRemovePage(item, e) {
-            e.stopPropagation();
-            e.preventDefault();
-            // this.$refs['page_remove_dialog'].open({
-            //     neutralButtonLabel: 'Ok',
-            //     showCloseButton: true,
-            // });
-            this.pageToDelete = item;
-        },
+        // },
+        // $openRemovePage(item, e) {
+        //     e.stopPropagation();
+        //     e.preventDefault();
+        //     // this.$refs['page_remove_dialog'].open({
+        //     //     neutralButtonLabel: 'Ok',
+        //     //     showCloseButton: true,
+        //     // });
+        //     this.pageToDelete = item;
+        // },
         // $openURLBuilder(page) {
         //     if (
         //         !get(page, 'params.length', 0) &&
