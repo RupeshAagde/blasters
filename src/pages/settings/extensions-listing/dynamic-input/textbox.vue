@@ -8,7 +8,7 @@
                 </nitrozen-tooltip>
             </span>
         </span>
-        <textarea
+        <input
             type="text"
             class="n-input input-text"
             :value="mValue"
