@@ -9,6 +9,7 @@
             </span>
         </span>
         <nitrozen-radio
+            :class="'radio-input'"
             :name="name"
             v-model="mValue"
             :radioValue="option.value"
@@ -16,9 +17,9 @@
             :title="option.text"
             v-for="(option, index) in prop_schema.options"
             :key="index"
-            @change="onChange($event)"
-            >{{ option.text }}</nitrozen-radio
-        >
+            @change="onChange($event)">
+            {{ option.text }}
+        </nitrozen-radio>
     </div>
 </template>
 
@@ -65,5 +66,13 @@ export default {
         display: inline-block;
     }
     padding: 15px 7px;
+
+    .radio-input {
+        margin-bottom: 8px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
 }
 </style>
