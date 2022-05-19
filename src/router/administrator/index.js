@@ -59,7 +59,7 @@ export default [
         beforeEnter: authenticatedUser,
         component: AdministratorBaseViewVue,
         children: [
-            //...PlanCreatorRoutes,
+            // ...PlanCreator,
             ...ExtensionRoutes,
             {
                 name: 'company-list',

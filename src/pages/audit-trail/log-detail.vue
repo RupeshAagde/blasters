@@ -123,7 +123,6 @@ import { copyToClipboard } from '@/helper/utils.js';
 import AuditTrailService from '../../services/pinpointer.service';
 import inlineSvg from '@/components/common/adm-inline-svg';
 import PageHeader from '@/components/common/layout/page-header';
-import { getRoute, getCompanyBasePath } from '@/helper/get-route';
 import logsListingCard from './logs-listing-card.vue';
 
 

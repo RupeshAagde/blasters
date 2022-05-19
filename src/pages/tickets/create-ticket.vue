@@ -126,7 +126,6 @@
 </style>
 
 <script>
-import { getRoute } from '@/helper/get-route';
 import PageHeader from '@/components/common/layout/page-header';
 import Loader from '@/components/common/loader';
 import mainSection from './form-sections/main.vue';
@@ -490,16 +489,6 @@ export default {
                 });
         },
         onCancel() {
-            // const route = getRoute(this.$route);
-            // if (route.includes('application')) {
-            //     this.$router.push({
-            //         path: `${getRoute(this.$route)}/tickets`
-            //     });
-            // } else {
-            //     this.$router.push({
-            //         path: `${getRoute(this.$route)}/administrator/support`
-            //     });
-            // }
             this.$router.back();
         }
     }
