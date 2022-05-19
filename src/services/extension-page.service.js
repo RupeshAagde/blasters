@@ -11,6 +11,16 @@ const ExtensionPageService = {
             getCommonHeaderOptions()
         );
         return ApiService.get(URLS.GET_AVAILABLE_SECTIONS(), axiosOptions);
+    },
+    updateSections(payload, params) {
+        const axiosOptions = Object.assign(
+            { params },
+            getCommonHeaderOptions(),
+            {
+                data: payload
+            }
+        );
+        return ApiService.put(URLS.UPDATE_EXTENSION_SECTIONS(), axiosOptions);
     }
 }
 

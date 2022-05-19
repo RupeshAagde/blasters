@@ -702,11 +702,12 @@ const URLS = {
     // ==================================================
     // Extension
     GET_AVAILABLE_SECTIONS: () => {
-        console.log(EXTENSION_PAGE_URL);
-        return urlJoin(EXTENSION_PAGE_URL, `v1.0/section/available`);
+        return urlJoin(EXTENSION_PAGE_URL, `/v1.0/section/available`);
+    },
+
+    UPDATE_EXTENSION_SECTIONS: (config) => {
+        return urlJoin(EXTENSION_PAGE_URL, `/v1.0/page/extension-home`);
     }
-
-
 };
 
 export default URLS;
