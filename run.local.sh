@@ -50,6 +50,7 @@ export MARKETPLACES_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/ad
 export MARKETPLACES_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/marketplaces/
 export MIXMASTER_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/partners/
 export MIXMASTER_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/partners/
+export EXTENSION_PAGE_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/partner/partners
 
 #ENV's
 export SENTRY_DSN=''

@@ -94,6 +94,10 @@ const ADMIN_ORDER_BASE = isNode ?
     envVars.BROWSER_CONFIG.APEFACE_ADMIN_URL :
     envVars.APEFACE_ADMIN_URL;
 
+const EXTENSION_PAGE_URL = isNode ?
+    envVars.BROWSER_CONFIG.EXTENSION_PAGE_URL :
+    envVars.EXTENSION_PAGE_URL;
+
 const URLS = {
     // User Profile API's
     USER_PROFILE: () => {
@@ -693,7 +697,16 @@ const URLS = {
     },
     GET_AUDIT_TRAIL_ENTITY_TYPES:()=>{
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
+    },
+
+    // ==================================================
+    // Extension
+    GET_AVAILABLE_SECTIONS: () => {
+        console.log(EXTENSION_PAGE_URL);
+        return urlJoin(EXTENSION_PAGE_URL, `v1.0/section/available`);
     }
+
+
 };
 
 export default URLS;

@@ -149,6 +149,9 @@ import SectionsList from './sections-list.vue';
 /* Helper imports */
 import { PREVIEW_EVENTS } from '@/helper/constants.js';
 
+/* Service imports */
+import ExtensionPageService from '@/services/extension-page.service.js';
+
 /* Mock imports */
 import available_sections from './data/available_sections.json';
 import pages from './data/pages.json';
@@ -279,6 +282,14 @@ export default {
     },
     methods: {
         getAvailableSections() {
+            ExtensionPageService.getAvailableSections()
+            .then(response => {
+                console.log(response);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
             setTimeout(() => {
                 this.available_sections = cloneDeep(available_sections);
             }, 1000);

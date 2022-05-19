@@ -94,10 +94,7 @@
                                 :key="`${i}`"
                                 class="section"
                             >
-                                <div
-                                    @mouseup="dragStop"
-                                    @mousedown="dragStart(i)"
-                                >
+                                <div @mouseup="dragStop" @mousedown="dragStart(i)">
                                     <adm-inline-svg
                                         class="handle"
                                         :src="'move'"
@@ -125,7 +122,7 @@
                                         v-if="sectionSchemaMap[section.name]"
                                     >
                                         {{
-                                            sectionSchemaMap[section.name].label
+                                            sectionSchemaMap[section.name].name
                                         }}
                                     </span>
                                 </div>
@@ -470,7 +467,7 @@ export default {
                 newIndex: e.draggedContext.futureIndex,
             };
             this.postMessageToIframe(
-                THEME_PREVIEW_EVENTS.DRAGGING_SECTION,
+                PREVIEW_EVENTS.DRAGGING_SECTION,
                 data
             );
             //assign temp moving index
