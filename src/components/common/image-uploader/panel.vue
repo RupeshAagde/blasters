@@ -25,6 +25,7 @@
             ref="inputFile"
             :accept="acceptedMIMETypesString"
             @change="handleFile($event.target.files)"
+            @click="resetImageUploader"
         />
 
         <!-- <div v-if="value && fileDomain === 'image'"> -->
@@ -254,6 +255,9 @@ export default {
     mounted() {},
     methods: {
         formatBytes,
+        resetImageUploader(){
+            this.$refs.inputFile.value = '';
+        },
         crop() {
             let image = new Image();
             image.src = this.$refs.cropper
