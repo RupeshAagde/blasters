@@ -194,7 +194,7 @@
             </div>
 
             <div class="settings-tab" v-if="activeTab === 'Settings'">
-                Coming soon
+                <p class="coming-soon">Coming soon</p>
             </div>            
         </div>
 
@@ -706,6 +706,12 @@ export default {
         /deep/ .nitrozen-menu-vertical-dropdown {
             top: inherit
         }
+    }
+
+    .coming-soon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
 </style>
