@@ -43,6 +43,43 @@ export default {
                 }
             },
         }
+    },
+    methods: {
+        getDefault() {
+            return {
+                screen: {
+                    mobile: true,
+                    desktop: true,
+                }
+            };
+        },
+        get() {
+            return new Promise((resolve, reject) => {
+                if (!this.isFormValid()) {
+                    return reject('Form is not Valid');
+                }
+                resolve({
+                    section: this.config.section,
+                    options: this.options,
+                    index: this.index,
+                });
+            });
+        },
+        init(config = {}) {
+            this.config = config;
+            if (config.section && config.section.predicate) {
+                this.options = config.section.predicate;
+            }
+            this.index = config.index;
+        },
+        isFormValid() {
+            let formValid = true;
+            this.scrollToBottom();
+            return formValid;
+        },
+        scrollToBottom() {
+            this.$emit('scrollBottom');
+        }
     }
 }
 </script>

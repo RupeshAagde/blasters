@@ -241,16 +241,7 @@ const defaultPredicate = {
         mobile: true,
         desktop: true,
         tablet: true,
-    },
-    user: {
-        authenticated: true,
-        anonymous: true,
-    },
-    route: {
-        selected: 'none',
-        exact_url: '',
-        query: {},
-    },
+    }
 };
 
 export default {
@@ -350,10 +341,16 @@ export default {
             t.forEach((s) => {
                 s.blocks = s.blocks || [];
                 delete s.isVisible;
-                s.blocks.forEach((b) => {
-                    delete b.expand;
-                });
+
+                // s.blocks.forEach((b) => {
+                    //     delete b.expand;
+                // });
+                delete s.blocks;
+                delete s.index;
+                delete s.props;
+                delete s.name;
             });
+
             this.$emit('save', {
                 config: this.config,
                 sections: t
@@ -379,11 +376,21 @@ export default {
 
                     return a;
                 }, {}),
-                blocks: [],
                 index: sectionSchema.index,
                 preview: true,
-                preset: sectionSchema.preset || {},
                 predicate: defaultPredicate,
+                tags: sectionSchema.tags,
+                page_type: sectionSchema.page_type,
+                type: sectionSchema.type,
+                visible: true,
+                data: (sectionSchema.props || []).reduce((a, p) => {
+                    a[p.id] = sectionSchema.preset &&
+                            sectionSchema.preset.props &&
+                            sectionSchema.preset.props[p.id]
+                                ? sectionSchema.preset.props[p.id]
+                                : p.default;
+                    return a;
+                }, {})
             };
 
             this.postMessageToIframe(
@@ -451,7 +458,9 @@ export default {
                     );
                     this.$refs['section_settings_dialog'].close();
                 })
-                .catch((err) => {});
+                .catch((err) => {
+                    console.log("err:   ", err);
+                });
         },
         onMove(e) {
             //check if first move

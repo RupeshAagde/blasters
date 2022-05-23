@@ -196,6 +196,7 @@ export default {
     },
     data() {
         return {
+            config: {},
             loading: false,
             zoomOut: false,
             dragging: false,
@@ -283,8 +284,8 @@ export default {
     methods: {
         getAvailableSections() {
             ExtensionPageService.getAvailableSections()
-            .then(({ data }) => {
-                this.available_sections = cloneDeep(data.data);
+            .then(response => {
+                this.available_sections = cloneDeep(response.data.data);
             })
             .catch(err => {
                 console.log(err);
@@ -349,10 +350,12 @@ export default {
             let pageIndex = this.pages.findIndex((it) => {
                 return it.type == pageType;
             });
+
             if(this.pages[pageIndex].sections) {
                 this.sections = this.pages[pageIndex].sections;
                 setTimeout(() => {
                     this.onPostMessage({
+                        config: this.config,
                         sections: this.sections
                     })
                 }, 50)
@@ -442,9 +445,17 @@ export default {
                 return p;
             });
 
-            setTimeout(() => {
-                this.loading = false;
-            }, 1000);
+            ExtensionPageService.updateSections(this.pages)
+            .then(response => {
+                console.log("response:   ", response);
+            })
+            .catch(error => {
+                console.log("error:   ", error);
+            })
+            .finally(() => {this.loading = false;});
+            // setTimeout(() => {
+            //     this.loading = false;
+            // }, 1000);
         },
         updateViewport(viewport) {
             this.isIframeLoaded = true;

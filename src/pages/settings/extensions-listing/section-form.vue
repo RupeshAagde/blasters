@@ -17,7 +17,7 @@
                 <div class="settings-form">
                     <dynamic-input
                         v-for="(prop_schema, i) in section_schema.props"
-                        :key="i"
+                        :key="prop_schema.id"
                         :prop_schema="prop_schema"
                         :prop="section.props[prop_schema.id]"
                         :name="`section-${section.name}-${i}`"
@@ -165,6 +165,7 @@ export default {
         },
         onSectionInputChange(prop, inputObj) {
             this.section.props[prop.id] = inputObj;
+            this.section.data[prop.id] = inputObj.value;
             this.$emit('update-block', this.section);
         },
         onBlockSelectionOutsideClick() {

@@ -1,7 +1,7 @@
 [
     {
         "type": "extension", 
-        "slug": "",
+        "slug": "extension-home",
         "props": [],
         "custom_meta": [],
         "sections": [],
