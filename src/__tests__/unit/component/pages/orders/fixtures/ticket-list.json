@@ -1,0 +1,125 @@
+{
+    "items": [],
+    "page": {
+        "type": "number",
+        "current": 1,
+        "size": 10,
+        "item_total": 0,
+        "has_next": false
+    },
+    "filters": {
+        "statuses": [
+            { "display": "Pending", "color": "#eae22b", "key": "pending" },
+            {
+                "display": "In Progress",
+                "color": "#ffa951",
+                "key": "in_progress"
+            },
+            { "display": "Resolved", "color": "#20c3a6", "key": "resolved" },
+            { "display": "Closed", "color": "#41434c", "key": "closed" }
+        ],
+        "priorities": [
+            { "display": "Low", "color": "#fed766", "key": "low" },
+            { "display": "Medium", "color": "#f37736", "key": "medium" },
+            { "display": "High", "color": "#fe4a49", "key": "high" }
+        ],
+        "categories": [
+            {
+                "_id": "5f6ee94ce13efe3d36bcabfe",
+                "display": "Product",
+                "key": "product",
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efe769cbcabff",
+                "display": "Collection",
+                "key": "collection",
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efe3c73bcac02",
+                "display": "Order",
+                "key": "order",
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efe7b9dbcac00",
+                "display": "Page",
+                "key": "page",
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efe4211bcac01",
+                "display": "Coupon",
+                "key": "coupon",
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efe6f03bcac04",
+                "display": "Extensions",
+                "key": "extensions",
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efe79babcac05",
+                "display": "Developers",
+                "key": "developers",
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efed98bbcac03",
+                "display": "Team",
+                "key": "team",
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efe1b2cbcac06",
+                "display": "Customers",
+                "key": "customers",
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efe3658bcac0a",
+                "display": "Short Links",
+                "key": "short-links",
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efe1389bcac09",
+                "display": "Navigations",
+                "key": "navigations",
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efe77c7bcac0d",
+                "display": "Mobile Builds",
+                "key": "mobile-builds",
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efecbb6bcac0c",
+                "display": "Announcements",
+                "key": "announcements",
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efe09fdbcac08",
+                "display": "Theme",
+                "key": "theme",
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efe8864bcac0b",
+                "display": "Blogs",
+                "key": "blogs",
+                "__v": 0
+            },
+            {
+                "_id": "5f6ee94ce13efe3368bcac07",
+                "display": "Catalogue",
+                "key": "catalogue",
+                "__v": 0
+            }
+        ]
+    }
+}

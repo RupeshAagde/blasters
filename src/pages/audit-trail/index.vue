@@ -62,9 +62,11 @@
                                     <nitrozen-dropdown
                                     id="entity-types"
                                         label="Entity types"
-                                        v-model="filters.entityType"
-                                        :items="entityTypes"
-                                        @change="entityTypeSelect($event)"
+                                        :searchable="true"
+                                        @searchInputChange="filterEntityTypes"
+                                        v-model="filters.entityType.value"
+                                        :items="entityTypesFiltered"
+                                        @change="entityTypeSelect"
                                         placeholder="Entity types"
                                     ></nitrozen-dropdown>
                                 </div>
@@ -124,6 +126,8 @@ import {
     NitrozenError,
     NitrozenBadge,
 } from '@gofynd/nitrozen-vue';
+const default_entity_type= [{text: 'All', value: 'all'}];
+
 export default {
     name: 'audit-logs',
     components: {
@@ -153,17 +157,11 @@ export default {
             showPreviewModal: false,
             salesChannels: [],
             salesChannelsFiltered: [],
-            entityTypes: [
-            { text: 'All', value: 'all'},    
-            { text: 'Charge-Invoice', value: 'charge-invoice' },
-            { text: 'Invoices-Bulk-Update', value: 'invoices-bulk-update' },
-            { text: 'Offline-paid', value: 'offline-paid' },
-            { text: 'Subscription', value: 'subscription' },
-            { text: 'HSN Code', value: 'hsn_code' },
-            ],
+            entityTypes: [],
+            entityTypesFiltered: [],
             filters: {
                 salesChannel: this.getInitialValue(''),
-                entityType: 'all',
+                entityType: this.getInitialValue(''),
                 entityId: this.getInitialValue(''),
                 emailOrPhone: this.getInitialValue(''),
                 start: this.getInitialValue(''),
@@ -172,6 +170,7 @@ export default {
         };
     },
     mounted() {
+        this.initEntityTypes();
         this.mapQueryParams();
     },
     methods: {
@@ -183,6 +182,22 @@ export default {
                 const index_id = this.logs[0]._id;
                 this.updateQueryParams({ nxt: null, prev: index_id });
             }
+        },
+        initEntityTypes() {
+            this.pageLoading = true;
+            return AuditTrailServices.getEntityTypes()
+                .then((res) => {
+                    let data =res.data;
+                    let entity_types = data && data.items && data.items.length ? data.items : [];
+                    entity_types = entity_types.map((ent_typ) => ({ text: ent_typ.display_name, value: ent_typ.entity_value }));
+                    entity_types = [...default_entity_type,...entity_types];
+                    this.entityTypes = entity_types;
+                    this.entityTypesFiltered = entity_types;
+                })
+                .catch(console.log)
+                .finally(() => {
+                    this.pageLoading = false;
+                });
         },
         getLogs(params = {}) {
             this.pageLoading = true;
@@ -257,8 +272,6 @@ export default {
                 .catch((rr) => {
                     console.log('ERROR', rr);
                 });
-                
-
         },
          mapQueryParams() {
           
@@ -266,10 +279,19 @@ export default {
             let db_query = {};
             let direction = null;
 
-            if (query.enttyp && this.filters.entityType !== 'all') {
-                this.filters.entityType = query.enttyp;
+                console.log("this.filters.entityType",query.enttyp)
+                console.log("this.filters.entityType",this.filters.entityType)
+            if (query.enttyp && query.enttyp !== 'all') {
+                this.filters.entityType.value = query.enttyp;
                 db_query['entity.type'] = query.enttyp;
+                const type = this.entityTypes.filter(
+                    (e) => e.value == query.enttyp
+                );
+                if (type.length) {
+                    this.filters.entityType.text = type[0].text;
+                }
             }
+            
 
             if (query.entid) {
                 this.filters.entityId.value = Number(query.entid);
@@ -351,9 +373,28 @@ export default {
                     }
                 });
         },
-         entityTypeSelect(e) {
-            this.updateQueryParams({ enttyp: this.filters.entityType, entid: null });
+        entityTypeSelect(value) {
+            this.updateQueryParams({ enttyp: value, entid: null });
         },
+        filterEntityTypes(e) {
+            if (!e.text) {
+                this.entityTypesFiltered = Object.assign([], this.entityTypes);
+                this.updateQueryParams({ enttyp: null, entid: null });
+                return;
+            }
+            this.entityTypesFiltered = this.entityTypes.filter(
+                (entity) =>
+                    entity.text.toLowerCase().indexOf(e.text.toLowerCase().trim()) > -1
+            );
+            return;
+        },
+        entityItemSearchChange: debounce(function (event) {
+            if (!event.text) {
+                this.updateQueryParams({ entid: null });
+            } else {
+                this.selectedEntityData.keyword = event.text;
+            }
+        }, 200),
         getUserIdByEmailPhone() {
             return new Promise((resolve, reject) => {
                 this.filters.emailOrPhone.id = '';

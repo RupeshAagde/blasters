@@ -1,0 +1,25 @@
+{
+    "status": true,
+    "valid_actions": {
+        "16141714058381943588": {
+            "cancelled_customer": {
+                "can_break_entity": true
+            },
+            "bag_not_confirmed": {
+                "can_break_entity": true
+            },
+            "product_not_available": {
+                "can_break_entity": false
+            },
+            "bag_not_verified": {
+                "can_break_entity": false
+            },
+            "cancelled_fynd": {
+                "can_break_entity": true
+            },
+            "bag_confirmed": {
+                "can_break_entity": true
+            }
+        }
+    }
+}

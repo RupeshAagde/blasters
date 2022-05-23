@@ -48,7 +48,12 @@ export const STORAGE_KEYS = {
   WISHLIST_UIDS: 'm_wishlistUids',
   COMPARE_UIDS: 'm_compareUids',
   ORDERING_STORE: 'm_orderingStore',
-  DEPLOYMENT_STORE: 'm_deploymentStore'
+  DEPLOYMENT_STORE: 'm_deploymentStore',
+  USER_ORDER_STORE_PREFERENCE: 'platform_order_store_preference',
+  USER_ORDER_INTRO_SHOWN: 'platform_order_intro_shown',
+  AUTO_REFRESH_ORDER: 'auto_refresh_order',
+  ORDER_DATE_RANGE: 'order_date_range',
+
 }
 
 const STORAGE_CONFIG = {

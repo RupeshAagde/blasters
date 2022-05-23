@@ -90,6 +90,25 @@ export const getNavigations = () => {
             ]
         },
         {
+            display: 'Orders',
+            link: '/administrator/orders/list',
+            title: 'orders',
+            icon: 'orders-cart',
+            highlightedIcon: 'orders-cart-highlighted',
+            active: false,
+            permission: 'order',
+            children: []
+            //     {
+            //         display: 'Orders',
+            //         link: '/administrator/orders/list',
+            //         title: 'orders',
+            //         icon: 'orders-bag',
+            //         highlightedIcon: 'orders-highlighted',
+            //         active: false
+            //     }
+            // ]
+        },
+        {
             display: 'Integrations',
             link: '/administrator/integrations/list',
             title: 'integrations',
