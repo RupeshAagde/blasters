@@ -15,8 +15,8 @@
             @save="onChange($event)"
             @delete="mValue = ''"
             v-model="mValue"
-            :fileName="`theme image ${Date.now()}`"
-            namespace="application-theme-images"
+            :fileName="`extension image ${Date.now()}`"
+            namespace="platform-feature-image"
         ></mirage-image-uploader>
     </div>
 </template>
