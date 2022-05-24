@@ -115,7 +115,7 @@ export const getNavigations = () => {
             icon: 'team',
             highlightedIcon: 'team-highlighted',
             active: false,
-            permission: 'admin-access',
+            permission: 'integration',
             children: []
         },
         {
@@ -125,7 +125,7 @@ export const getNavigations = () => {
             icon: 'settings',
             highlightedIcon: 'home-highlighted',
             active: false,
-            permission: 'admin-access',
+            permission: 'plans',
             children: [
                
                 {
@@ -154,7 +154,7 @@ export const getNavigations = () => {
             icon: 'settings',
             highlightedIcon: 'home-highlighted',
             active: false,
-            permission: 'admin-access',
+            permission: 'company',
             children: [
                 {
                     display: 'Reports',
@@ -173,7 +173,7 @@ export const getNavigations = () => {
             icon: 'settings',
             highlightedIcon: 'settings-highlighted',
             active: false,
-            permission: 'settings',
+            permission: 'company',
             children: []
         },
         {
