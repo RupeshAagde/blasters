@@ -39,53 +39,7 @@
                                     :value="slotProps.item.value">
                                     {{ slotProps.item.text }}
                                 </div>
-                                <!-- <div
-                                    class="page-options"
-                                    v-if="slotProps.item.type === 'sections'">
-                                    <span
-                                        class="page-options icon-space"
-                                        @click="$openEditPage($event, slotProps.item)"
-                                    >
-                                         <adm-inline-svg
-                                            class="page-options-button"
-                                            :src="'edit'"
-                                        />
-                                    </span>
-
-                                     <span
-                                        class="page-options"
-                                        @click="$openPageBuilder($event, slotProps.item)"
-                                    >
-                                        <adm-inline-svg
-                                            class="page-options-button"
-                                            :src="'clone'"
-                                        />
-                                    </span>
-
-                                     <span
-                                        class="page-options"
-                                        @click="$openRemovePage(slotProps.item, $event)"
-                                    >
-                                        <adm-inline-svg
-                                            class="page-options-button"
-                                            :src="'delete'"
-                                        />
-                                    </span>
-                                </div> -->
                             </div>
-
-                            <!-- <nitrozen-button
-                                :theme="'secondary'"
-                                class="add-btn"
-                                v-if="slotProps.item.value === '__add_page'"
-                                @click="$openPageBuilder"
-                            >
-                                <adm-inline-svg
-                                    class="icon"
-                                    :src="'add-icon'"
-                                ></adm-inline-svg
-                                >{{ slotProps.item.text }}
-                            </nitrozen-button> -->
                         </template>
                     </nitrozen-dropdown>
                 </div>
@@ -136,9 +90,7 @@ import {
     NitrozenDropdown, NitrozenDialog, NitrozenButton,
     NitrozenInput, flatBtn, strokeBtn
 } from '@gofynd/nitrozen-vue';
-import { cloneDeep, get } from 'lodash';
-import urlJoin from 'url-join';
-import URI from 'urijs';
+import { cloneDeep } from 'lodash';
 import root from 'window-or-global';
 
 /* Component imports */
@@ -164,17 +116,9 @@ const devicesViewport = {
 
 const PAGE_GROUP_INFO = [
     {
-        text: 'SYSTEM PAGES',
-        type: 'system',
-    },
-    {
-        text: 'SECTION PAGES',
-        type: 'sections',
-    },
-    {
-        text: 'CUSTOM PAGES',
-        type: 'custom',
-    },
+        text: 'EXTENSION PAGES',
+        type: 'extension'
+    }
 ];
 
 const env = root.env || {};
@@ -250,16 +194,22 @@ export default {
             }
         })
     },
+    updated() {
+        console.log("this.selectedPage:   ", this.selectedPage);
+    },
     computed: {
         getCurrentPage() {
             return this.selectedPage;
         },
         getGroupByPages() {
             let arrPages = [];
+            console.log("PAGE_GROUP_INFO:    ", PAGE_GROUP_INFO);
             for (let i = 0; i < PAGE_GROUP_INFO.length; i++) {
+                console.log("this.pages:   ", this.pages);
                 let arrTypePages = this.pages.filter((it) => {
                     return it.type === PAGE_GROUP_INFO[i].type;
                 });
+                console.log("arrTypePages:    ", arrTypePages);
                 if (arrTypePages.length) {
                     arrPages.push({
                         text: PAGE_GROUP_INFO[i].text,
@@ -387,23 +337,6 @@ export default {
         },
         getAvailablePages() {
             this.iframeUrl = '';
-            // AdminThemeService.fetchAllPages(themeId).then(({ data }) => {
-            //     this.pages = this.mergePageParams(data.pages);
-            //     let pageVal = this.selectedPage?.value || 'home'
-            //     let pageConfigIdx = this.pages.findIndex((it) => {
-            //         return it.value == pageVal;
-            //     });
-            //     this.selectedPageIndex = pageConfigIdx
-            //     this.selectedPage = this.selectedPage
-            //         ? cloneDeep(this.selectedPage)
-            //         : cloneDeep(this.pages[this.selectedPageIndex])
-            //         ? cloneDeep(this.pages[this.selectedPageIndex])
-            //         : '';
-            //     if(this.selectedPage.value) {
-            //         this.getSectionsForPage(this.selectedPage.value);
-            //         this.iframeUrl = this.previewUrl;
-            //     }
-            // });
 
             ExtensionPageService.getSections()
             .then(({data}) => {
@@ -472,9 +405,6 @@ export default {
                 console.log("error:   ", error);
             })
             .finally(() => {this.loading = false;});
-            // setTimeout(() => {
-            //     this.loading = false;
-            // }, 1000);
         },
         updateViewport(viewport) {
             this.isIframeLoaded = true;
@@ -534,78 +464,7 @@ export default {
         },
         onIframeLoaded() {
             this.isIframeLoaded = false;
-        },
-        // $openEditPage(e, item) {
-        //     e.stopPropagation();
-        //     e.preventDefault();
-        //     this.pageToEdit = item;
-            // this.$refs['edit_page_dialog'].open({
-            //     width: '650px',
-            //     neutralButtonLabel: 'Ok',
-            //     showCloseButton: true,
-            //     // dismissible: false
-            // });
-        // },
-        // $openPageBuilder(e, item) {
-            // e.stopPropagation();
-            // e.preventDefault();
-            // this.$refs['page_builder_dialog'].open({
-            //     width: '650px',
-            //     neutralButtonLabel: 'Ok',
-            //     showCloseButton: true,
-            //     // dismissible: false
-            // });
-            // this.$refs['page_builder'].init({
-            //     item,
-            //     pages: this.getGroupByPages,
-            //     sections: cloneDeep(this.sections),
-            //     selectedPage: item ? item.value : '',
-            // });
-        // },
-        // $openRemovePage(item, e) {
-        //     e.stopPropagation();
-        //     e.preventDefault();
-        //     // this.$refs['page_remove_dialog'].open({
-        //     //     neutralButtonLabel: 'Ok',
-        //     //     showCloseButton: true,
-        //     // });
-        //     this.pageToDelete = item;
-        // },
-        // $openURLBuilder(page) {
-        //     if (
-        //         !get(page, 'params.length', 0) &&
-        //         !get(page, 'query.length', 0)
-        //     ) {
-        //         return Promise.resolve(
-        //             urlJoin(`https://${this.primaryDomainName}`, page.path)
-        //         );
-        //     }
-        //     this.$refs['url_builder'].init({
-        //         pageType: page.value,
-        //     });
-        //     this.$refs['url_builder_dialog'].open({
-        //         width: '650px',
-        //         height: '400px',
-        //         neutralButtonLabel: 'Ok',
-        //         showCloseButton: true,
-        //         // dismissible: false
-        //     });
-        //     return new Promise((resolve, reject) => {
-        //         urlBuilderResolveFunc = resolve;
-        //         urlBuilderRejectFunc = reject;
-        //     });
-        // },
-        // $urlBuilderDialogClose(e) {
-        //     if (e == 'Ok') {
-        //         return this.$refs['url_builder']
-        //             .get()
-        //             .then((obj) => {
-        //                 urlBuilderResolveFunc(obj.url);
-        //             })
-        //             .catch(urlBuilderRejectFunc);
-        //     }
-        //     return urlBuilderRejectFunc();
-        // },
+        }
     }
 }
 </script>
