@@ -19,7 +19,7 @@
                             :recommendedResolution="recommendedResolution"
                             :showGallery="showGallery"
                             v-model="imageURL"
-                            @cropped="$setCropping(false)"
+                            @cropped="$setCropping(false, true)"
                             ref="imageuploaderpanel"
                         ></image-uploader-panel>
                         <div class="dialog-saperator" v-if="showGallery"></div>
@@ -65,15 +65,15 @@
                         >
                     </div>
                     <div class="footer-saperator"></div>
-                    <div>
-                        <nitrozen-button
-                            theme="secondary"
-                            :disabled="edit || loading"
-                            v-flat-btn
-                            @click="$saveImage"
-                            >Save</nitrozen-button
-                        >
-                    </div>
+                    <nitrozen-button
+                        v-show="!isHDNImage || isEmpty || isCropped"
+                        theme="secondary"
+                        :disabled="edit || loading || isEmpty"
+                        v-flat-btn
+                        @click="$saveImage"
+                    >
+                        Upload
+                    </nitrozen-button>
                 </template>
             </nitrozen-dialog>
         </div>
@@ -161,7 +161,13 @@ export default {
             const x = +splitted[0];
             const y = +splitted[1];
             return { x, y };
-        }
+        },
+        isHDNImage() {
+            return GrindorService.isHDNPath(this.imageURL);
+        },
+        isEmpty() {
+            return this.imageURL == '';
+        },
     },
     mounted() {
         this.$refs['dialog'].$on('close', (e) => {
@@ -175,7 +181,8 @@ export default {
             imageURL: '',
             initialImageURL: '',
             edit: false,
-            visible: false
+            visible: false,
+            isCropped: false,
         };
     },
     methods: {
@@ -231,6 +238,7 @@ export default {
                 if (this.namespace && /^data:/i.test(this.imageURL)) {
                     this.uploadToGrindor(this.dataURItoFile(this.imageURL))
                         .then((cdn_url) => {
+                            this.isCropped = false;
                             this.$emit('save', cdn_url);
                             // this.$emit('input', cdn_url);
                         })
@@ -243,6 +251,7 @@ export default {
                         if (file) {
                             this.uploadToGrindor(file)
                                 .then((cdn_url) => {
+                                    this.isCropped = false;
                                     this.$emit('save', cdn_url);
                                     // this.$emit('input', cdn_url);
                                 })
@@ -372,7 +381,8 @@ export default {
                 return path;
             }
         },
-        $setCropping(edit) {
+        $setCropping(edit, cropped = false) {
+            this.isCropped = cropped;
             this.$refs.imageuploaderpanel.cropping = edit;
             this.edit = edit;
         },
@@ -388,6 +398,8 @@ export default {
         },
         $removeImage() {
             this.imageURL = '';
+            this.isCropped = false;
+            this.$refs.imageuploaderpanel.croppedImageFile = '';
         },
         uploadToGrindor(file) {
             if (!this.namespace) return;
