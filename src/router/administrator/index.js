@@ -92,7 +92,7 @@ export default [
                         to,
                         from,
                         next,
-                        ['company']
+                        ['plans']
                     );
                 }
             },
@@ -144,7 +144,7 @@ export default [
                         to,
                         from,
                         next,
-                        ['company'] // @ToDo Need to change
+                        ['communication']
                     );
                 }
             },

@@ -7,5 +7,7 @@ export const PERMISSION_ROUTES = {
     settings: 'settings',
     integration: 'integrations/list',
     order: 'orders/list',
-    'audit-trail': 'audit-trail'
+    'audit-trail': 'audit-trail',
+    'extension': 'extensions/review',
+    'communication': 'communication/reports'
 };
