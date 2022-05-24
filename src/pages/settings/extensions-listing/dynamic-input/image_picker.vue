@@ -16,7 +16,7 @@
             @delete="mValue = ''"
             v-model="mValue"
             :fileName="`extension image ${Date.now()}`"
-            namespace="platform-feature-image"
+            namespace="partner-feature-image"
         ></mirage-image-uploader>
     </div>
 </template>

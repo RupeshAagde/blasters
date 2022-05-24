@@ -274,9 +274,6 @@ export default {
             });
             return arrPages;
         },
-        primaryDomainName() {
-            return 'partners.fyndx0.de';
-        },
         previewUrl() {
             return `https://partners.${env.FYND_PLATFORM_DOMAIN}/extensions`;
         },
@@ -295,6 +292,15 @@ export default {
             //     this.available_sections = cloneDeep(available_sections);
             // }, 1000);
         },
+        // getSections() {
+        //     ExtensionPageService.getSections()
+        //     .then(({data}) => {
+        //         console.log(data);
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     });
+        // },
         setRectSize(rect) {
             if (this.$refs['preview-outline'] && this.zoomOut) {
                 this.$refs['preview-outline'].style.height = rect.height + 'px';
@@ -399,8 +405,9 @@ export default {
             //     }
             // });
 
-            setTimeout(() => {
-                this.pages = cloneDeep(pages);
+            ExtensionPageService.getSections()
+            .then(({data}) => {
+                this.pages = [cloneDeep(data)];
                 let pageVal = 'extension';
                 if(this.selectedPage && this.selectedPage.type) {
                     pageVal = this.selectedPage.type;
@@ -414,12 +421,18 @@ export default {
                     : cloneDeep(this.pages[this.selectedPageIndex])
                     ? cloneDeep(this.pages[this.selectedPageIndex])
                     : '';
-
                 if(this.selectedPage.type) {
                     this.getSectionsForPage(this.selectedPage.type);
                     this.iframeUrl = this.previewUrl;
                 }
-            }, 1000);
+            })
+            .catch(err => {
+                console.log(err);
+                this.$snackbar.global.showError(
+                    "Failed to load data"
+                );
+                this.loading = false;
+            });
         },
         mergePageParams(pages) {
             //merge both objects having same page key of  different array with all properties
@@ -445,11 +458,17 @@ export default {
                 return p;
             });
 
-            ExtensionPageService.updateSections(this.pages)
+            let pageObj = cloneDeep(this.pages[0]);
+            delete pageObj.created_at;
+            delete pageObj.updated_at;
+
+            ExtensionPageService.updateSections(pageObj)
             .then(response => {
-                console.log("response:   ", response);
+                this.$snackbar.global.showSuccess('Your configuration is successfully saved');
+                this.getAvailablePages();
             })
             .catch(error => {
+                this.$snackbar.global.showError('It failed');
                 console.log("error:   ", error);
             })
             .finally(() => {this.loading = false;});

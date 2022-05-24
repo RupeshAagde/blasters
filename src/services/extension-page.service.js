@@ -21,6 +21,13 @@ const ExtensionPageService = {
             }
         );
         return ApiService.put(URLS.UPDATE_EXTENSION_SECTIONS(), axiosOptions);
+    },
+    getSections(params = {}) {
+        const axiosOptions = Object.assign(
+            { params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.UPDATE_EXTENSION_SECTIONS(), axiosOptions);
     }
 }
 

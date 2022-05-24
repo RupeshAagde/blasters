@@ -119,10 +119,10 @@
                                             active_title:
                                                 selectedSectionIndex === i,
                                         }"
-                                        v-if="sectionSchemaMap[section.name]"
+                                        v-if="sectionSchemaMap[section.type]"
                                     >
                                         {{
-                                            sectionSchemaMap[section.name].name
+                                            sectionSchemaMap[section.type].name
                                         }}
                                     </span>
                                 </div>
@@ -308,7 +308,7 @@ export default {
         this.mSections = sectionSchema ? sectionSchema : [];
         this.sectionSchemaMap = (this.available_sections || []).reduce(
             (a, s) => {
-                a[s.name] = s;
+                a[s.type] = s;
                 return a;
             },
             {}
@@ -327,7 +327,7 @@ export default {
             handler() {
                 this.sectionSchemaMap = (this.available_sections || []).reduce(
                     (a, s) => {
-                        a[s.name] = s;
+                        a[s.type] = s;
                         return a;
                     },
                     {}
@@ -350,6 +350,8 @@ export default {
                 delete s.props;
                 delete s.name;
             });
+
+            this.showSectionForm = false;
 
             this.$emit('save', {
                 config: this.config,
@@ -510,10 +512,18 @@ export default {
         onSectionClick(section, idx) {
             this.showSectionForm = true;
             this.selectedSectionSchema = this.available_sections.find(
-                (s) => s.name == section.name
+                (s) => s.type == section.type
             );
             this.selectedSectionIndex = idx;
             this.selectedSection = section;
+            this.selectedSection['props'] = {};
+            for(let key in section.data) {
+                let type = this.selectedSectionSchema.props.find(item => item.id === key);
+                this.selectedSection.props[key] = {
+                    type: type.type,
+                    value: section.data[key]
+                };
+            }
             this.postMessageToIframe(
                 PREVIEW_EVENTS.SELECT_SECTION, 
                 {
