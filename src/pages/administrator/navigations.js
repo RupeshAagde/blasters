@@ -154,7 +154,7 @@ export const getNavigations = () => {
             icon: 'settings',
             highlightedIcon: 'home-highlighted',
             active: false,
-            permission: 'company',
+            permission: 'communication',
             children: [
                 {
                     display: 'Reports',
@@ -173,7 +173,7 @@ export const getNavigations = () => {
             icon: 'settings',
             highlightedIcon: 'settings-highlighted',
             active: false,
-            permission: 'company',
+            permission: 'extension',
             children: []
         },
         {
