@@ -1,6 +1,6 @@
 export const PERMISSION_ROUTES = {
     company: 'company-list',
-    plans: 'subscription/invoice',
+    plans: 'subscription/invoices',
     'admin-access': 'user-management',
     product: 'product/attributes',
     support: 'support',
