@@ -4,6 +4,7 @@
             v-bind:is="require(`./${prop_schema.type}`).default"
             @change="onChange($event)"
             v-bind="{ prop_schema, prop, name, page }"
+            v-if="propSchema.display"
         ></component>
     </div>
 </template>
@@ -26,6 +27,11 @@ export default {
         name: ''
     },
     components: {},
+    computed: {
+        propSchema() {
+            return this.prop_schema;
+        }
+    },
     methods: {
         onChange(e) {
             this.$emit('change', e);

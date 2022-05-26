@@ -28,6 +28,13 @@ const ExtensionPageService = {
             getCommonHeaderOptions()
         );
         return ApiService.get(URLS.UPDATE_EXTENSION_SECTIONS(), axiosOptions);
+    },
+    getPublicExtensions(params = {}) {
+        const axiosOptions = Object.assign(
+            { params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.FETCH_PUBLIC_EXTENSIONS(), axiosOptions);
     }
 }
 

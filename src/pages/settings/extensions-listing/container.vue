@@ -235,7 +235,26 @@ export default {
         getAvailableSections() {
             ExtensionPageService.getAvailableSections()
             .then(response => {
+                // console.log("Here", response.data.data);
                 this.available_sections = cloneDeep(response.data.data);
+
+                // ExtensionPageService.getPublicExtensions()
+                // .then(res => {
+                //     console.log("Public extenions:   ", res);
+                //     let sections = cloneDeep(response.data.data);
+
+                //     for(let section of sections) {
+                //         let isItemSource = section.props.find(t => t.id === 'item_source');
+                //         if(isItemSource) {
+                //             section.props.push()
+                //         }
+                //     }
+
+                //     this.available_sections = cloneDeep(response.data.data);
+                // })
+                // .catch(err => {
+                //     console.log("Error in fetching public extensions:   ", err);
+                // })
             })
             .catch(err => {
                 console.log(err);

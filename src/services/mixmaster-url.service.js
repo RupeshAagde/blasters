@@ -30,6 +30,9 @@ const URLS = {
 
     UPDATE_EXTENSION_SECTIONS: () => {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/page/extension-home`);
+    },
+    FETCH_PUBLIC_EXTENSIONS: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/extension`);
     }
 };
 

@@ -16,7 +16,7 @@
                 <h2 class="heading">Settings</h2>
                 <div class="settings-form">
                     <dynamic-input
-                        v-for="(prop_schema, i) in section_schema.props"
+                        v-for="(prop_schema, i) in sectionSchemaProps"
                         :key="prop_schema.id"
                         :prop_schema="prop_schema"
                         :prop="section.props[prop_schema.id]"
@@ -129,6 +129,7 @@ import DynamicInput from './dynamic-input';
 
 /* Package imports */
 import Draggable from 'vuedraggable';
+import cloneDeep from 'lodash/cloneDeep';
 
 export default {
     name: 'section-form',
@@ -146,6 +147,24 @@ export default {
         section(n, o) {
             this.getBlocks();
         },
+    },
+    computed: {
+        sectionSchemaProps() {
+            let props = this.section_schema.props.map(prop => {
+                prop.display = true;
+                if(prop.predicate_prop) {
+                    for(let key in prop.predicate_prop) {
+                        if(this.section.data && this.section.data[key] === prop.predicate_prop[key]) {
+                            prop.display = true;
+                        } else {
+                            prop.display = false;
+                        }
+                    }
+                }
+                return prop;
+            });
+            return cloneDeep(props);
+        }
     },
     data() {
         return {
