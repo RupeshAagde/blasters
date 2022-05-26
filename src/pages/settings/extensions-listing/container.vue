@@ -194,9 +194,6 @@ export default {
             }
         })
     },
-    updated() {
-        console.log("this.selectedPage:   ", this.selectedPage);
-    },
     computed: {
         getCurrentPage() {
             return this.selectedPage;
