@@ -28,7 +28,7 @@
                     <nitrozen-dropdown
                         :items="getGroupByPages"
                         @change="onPageChange($event)"
-                        :value="selectedPage ? selectedPage.value : ''"
+                        :value="selectedPage ? selectedPage.slug : ''"
                     >
                         <template slot="option" slot-scope="slotProps">
                             <div
@@ -36,12 +36,12 @@
                                 v-if="slotProps.item.value !== '__add_page'">
                                 <div
                                     class="option-text"
-                                    :value="slotProps.item.value">
-                                    {{ slotProps.item.text }}
+                                    :value="slotProps.item.slug">
+                                    {{ slotProps.item.slug }}
                                 </div>
                             </div>
                         </template>
-                    </nitrozen-dropdown>
+                    </nitrozen-dropdown> 
                 </div>
                 <div class="viewport-icons" :class="{ 'hide-icons': upgrade }">
                     <div
@@ -203,13 +203,19 @@ export default {
         },
         getGroupByPages() {
             let arrPages = [];
-            console.log("PAGE_GROUP_INFO:    ", PAGE_GROUP_INFO);
             for (let i = 0; i < PAGE_GROUP_INFO.length; i++) {
-                console.log("this.pages:   ", this.pages);
                 let arrTypePages = this.pages.filter((it) => {
                     return it.type === PAGE_GROUP_INFO[i].type;
                 });
-                console.log("arrTypePages:    ", arrTypePages);
+                arrTypePages = arrTypePages.map(item => {
+                    if(!item.value) {
+                        item.value = item.slug;
+                    }
+                    if(!item.text) {
+                        item.text = item.slug;
+                    }
+                    return item;
+                })
                 if (arrTypePages.length) {
                     arrPages.push({
                         text: PAGE_GROUP_INFO[i].text,
