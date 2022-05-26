@@ -115,8 +115,6 @@ import { detectMobileWidth } from '@/helper/utils';
 import VideoJoining from './video-joining.vue';
 import VideoRating from './video-rating.vue';
 import SupportService from '@/services/support.service';
-import { getRoute } from '@/helper/get-route';
-
 export default {
     name: 'video-room',
     data() {
@@ -309,7 +307,7 @@ export default {
         },
         goHome() {
             this.$router.push({
-                path: `${getRoute(this.$route)}/administrator/support/ticket/${this.$route.params.ticket_id}/edit`,
+                path: `/administrator/support/ticket/${this.$route.params.ticket_id}/edit`,
             });
         },
         toggleAudio() {
