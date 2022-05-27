@@ -338,6 +338,13 @@ const conf = convict({
             env: 'MIXMASTER_ADMIN_SVC',
             arg: 'mixmaster_admin_svc'
         },
+        MIXMASTER_PNL_URL: {
+            doc: 'Mixmaster Panel URL',
+            format: String,
+            default: 'https://api.fyndx0.de/service/panel/partners/',
+            env: 'MIXMASTER_PNL_URL',
+            arg: 'mixmaster_pnl_url'
+        },
         POINTBLANK_ADMIN_URL: {
             doc: 'Communication Custom Main Public URL to hit',
             format: String,

@@ -35,6 +35,20 @@ const ExtensionPageService = {
             getCommonHeaderOptions()
         );
         return ApiService.get(URLS.FETCH_PUBLIC_EXTENSIONS(), axiosOptions);
+    },
+    getCollections(params = {}) {
+        const axiosOptions = Object.assign(
+            { params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.GET_COLLECTIONS(), axiosOptions);
+    },
+    getCategories(params = {}) {
+        const axiosOptions = Object.assign(
+            { params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.GET_CATEGORIES(), axiosOptions);
     }
 }
 

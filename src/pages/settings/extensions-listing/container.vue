@@ -173,12 +173,28 @@ export default {
                 },
             ],
             upgrade: this.$route.query.upgrade,
-            isIframeLoaded: false
+            isIframeLoaded: false,
+            publicExtensions: [],
+            categories: [],
+            collections: []
         }
     },
     mounted() {
         this.getAvailablePages();
-        this.getAvailableSections();
+        let basicRequests = [
+            this.getPublicExtensions(),
+            this.getCollections(),
+            this.getCategories(),
+        ];
+
+        Promise.all(basicRequests)
+        .then(() => {
+            this.getAvailableSections();
+        })
+        .catch(error => {
+            this.$snackbar.global.showError('Error in fetching data');
+        })
+
         window.addEventListener('message', event => {
             if (event.data.event === PREVIEW_EVENTS.THEME_MOUNTED) {
                 this.onPostMessage({
@@ -239,29 +255,113 @@ export default {
         },
     },
     methods: {
+        getPublicExtensions() {
+            return ExtensionPageService.getPublicExtensions()
+            .then(response => {
+                let extensions = cloneDeep(response.data.items);
+                this.publicExtensions = extensions.map(item => {
+                    item.text = item.name;
+                    item.value = item._id;
+                    item.label = 'Extensions';
+                    item.logo = item.logo.small;
+                    return item;
+                });
+                return extensions;
+            })
+            .catch(error => {
+                console.log("Error in fetching public extensions:   ", error);
+            })
+        },
+        getCollections() {
+            // Collections will be received here
+            return ExtensionPageService.getCollections()
+            .then(response => {
+                let collections = cloneDeep(response.data.items);
+                this.collections = collections.map(item => {
+                    item.text = item.name;
+                    item.value = item._id;
+                    return item;
+                })
+                return collections;
+            })
+            .catch(error => {
+                console.log("error:   ", error);
+            })
+        },
+        getCategories() {
+            // Categories will be received here
+            return ExtensionPageService.getCategories()
+            .then(response => {
+                let categories = cloneDeep(response.data.filters[1].values);
+                this.categories = categories.map(item => {
+                    item.text = item.display;
+                    return item;
+                })
+                return categories;
+            })
+            .catch(error => {
+                console.log("error:   ", error);
+            })
+        },
         getAvailableSections() {
             ExtensionPageService.getAvailableSections()
             .then(response => {
-                // console.log("Here", response.data.data);
-                this.available_sections = cloneDeep(response.data.data);
+                let sections = cloneDeep(response.data.data);
+                for(let section of sections) {
+                    let isItemSource = section.props.find(t => t.id === 'item_source');
+                    if(isItemSource) {
+                        if(section.item_type === 'extension') {
+                            section.props.push(
+                                {
+                                    default: "",
+                                    id: "extensions",
+                                    label: "Extensions",
+                                    options: this.publicExtensions,
+                                    type: "select",
+                                    multiple: true,
+                                    search: true,
+                                    predicate_prop: {
+                                        item_source: 'manual'
+                                    },
+                                    placeholder: 'Search Extensions',
+                                    value: []
+                                }
+                            )
+                        } else if(section.item_type === 'category') {
+                            section.props.push(
+                                {
+                                    default: "",
+                                    id: "categories",
+                                    label: "Categories",
+                                    options: this.categories,
+                                    type: "select",
+                                    multiple: true,
+                                    search: true,
+                                    predicate_prop: {
+                                        item_source: 'manual'
+                                    }
+                                }
+                            )
+                        } else if(section.item_type === 'collections') {
+                            section.props.push(
+                                {
+                                    default: "",
+                                    id: "collections",
+                                    label: "Collections",
+                                    options: this.collections,
+                                    type: "select",
+                                    multiple: true,
+                                    search: true,
+                                    predicate_prop: {
+                                        item_source: 'manual'
+                                    }
+                                }
+                            )
+                        }
+                    }
+                }
 
-                // ExtensionPageService.getPublicExtensions()
-                // .then(res => {
-                //     console.log("Public extenions:   ", res);
-                //     let sections = cloneDeep(response.data.data);
-
-                //     for(let section of sections) {
-                //         let isItemSource = section.props.find(t => t.id === 'item_source');
-                //         if(isItemSource) {
-                //             section.props.push()
-                //         }
-                //     }
-
-                //     this.available_sections = cloneDeep(response.data.data);
-                // })
-                // .catch(err => {
-                //     console.log("Error in fetching public extensions:   ", err);
-                // })
+                this.available_sections = cloneDeep(sections);
             })
             .catch(err => {
                 console.log(err);

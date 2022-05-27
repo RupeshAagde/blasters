@@ -152,6 +152,9 @@ export default {
         sectionSchemaProps() {
             let props = this.section_schema.props.map(prop => {
                 prop.display = true;
+                if(prop.id === 'item_source' && prop.type === 'select' && prop.options.length === 0) {
+                    prop.display = false;
+                }
                 if(prop.predicate_prop) {
                     for(let key in prop.predicate_prop) {
                         if(this.section.data && this.section.data[key] === prop.predicate_prop[key]) {

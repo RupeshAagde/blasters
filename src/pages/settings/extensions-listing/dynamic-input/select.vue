@@ -11,7 +11,11 @@
         <nitrozen-dropdown
             :items="prop_schema.options"
             v-model="mValue"
+            :placeholder="placeholder"
             @change="onChange($event)"
+            :multiple="multipleEnabled"
+            :searchable="searchEnabled"
+            @input="onInput($event)"
         ></nitrozen-dropdown>
     </div>
 </template>
@@ -41,9 +45,26 @@ export default {
             mValue: ''
         };
     },
+    computed: {
+        multipleEnabled() {
+            return this.prop_schema.multiple || false;
+        },
+        searchEnabled() {
+            return this.prop_schema.search || false;
+        },
+        placeholder() {
+            return this.prop_schema.placeholder || '';
+        }
+    },
     methods: {
         onChange(e) {
             this.$emit('change', {
+                type: this.prop_schema.type,
+                value: e
+            });
+        },
+        onInput(e) {
+            this.$emit('input', {
                 type: this.prop_schema.type,
                 value: e
             });

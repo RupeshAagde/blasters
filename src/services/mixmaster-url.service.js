@@ -11,6 +11,9 @@ if (root && root.process && root.process.env && root.process.env.NODE_ENV == 'te
 let MIXMASTER_ADMIN_BASE = isNode ?
     envVars.BROWSER_CONFIG.MIXMASTER_ADMIN_URL :
     envVars.MIXMASTER_ADMIN_URL;
+let MIXMASTER_PANEL_BASE = isNode ?
+    envVars.BROWSER_CONFIG.MIXMASTER_PNL_URL :
+    envVars.MIXMASTER_PNL_URL;
 
 const URLS = {
     EXTENSION_REVIEW: (review_id = '') => {
@@ -33,6 +36,12 @@ const URLS = {
     },
     FETCH_PUBLIC_EXTENSIONS: () => {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/extension`);
+    },
+    GET_COLLECTIONS: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection/extensions`);
+    },
+    GET_CATEGORIES: () => {
+        return urlJoin(MIXMASTER_PANEL_BASE, `/v1.0/extensions/category/all`)
     }
 };
 
