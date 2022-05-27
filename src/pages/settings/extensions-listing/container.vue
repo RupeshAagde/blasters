@@ -264,15 +264,6 @@ export default {
             //     this.available_sections = cloneDeep(available_sections);
             // }, 1000);
         },
-        // getSections() {
-        //     ExtensionPageService.getSections()
-        //     .then(({data}) => {
-        //         console.log(data);
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
-        // },
         setRectSize(rect) {
             if (this.$refs['preview-outline'] && this.zoomOut) {
                 this.$refs['preview-outline'].style.height = rect.height + 'px';
@@ -338,23 +329,6 @@ export default {
                     })
                 }, 50)
                 this.loading = false;
-            } else {
-            //     AdminThemeService.getPage(this.$route.params.themeId, page).then(
-            //     ({ data }) => {
-            //             this.selectedPage = data
-            //             this.sections = data.sections;
-            //             this.pages[pageIndex].sections = data.sections;
-            //             this.pages[pageIndex].props = data.props;
-            //             this.loading = false;
-            //         }
-            //     ).catch(err => {
-            //         this.loading = false;
-            //         console.log(err)
-            //         this.$snackbar.global.showError(err?.response?.data?.message || 'Something went wrong');
-            //     }).finally(() => {
-            //         this.loading = false;
-            //     })
-            // }
             }
         },
         getAvailablePages() {
@@ -463,7 +437,6 @@ export default {
             }
         },
         resetSections() {
-            // this.getThemeDetails(this.$route.params.themeId);
             // this.iframeUrl = this.previewUrl;
             this.$refs['iframe'].src = this.postMessageUrl || this.previewUrl;
         },
