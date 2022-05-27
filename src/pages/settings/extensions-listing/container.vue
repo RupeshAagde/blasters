@@ -192,6 +192,13 @@ export default {
             if (event.data.event === PREVIEW_EVENTS.SECTIONS_FILTER_PREDICATE) {
                 this.sections = event.data.sections;
             }
+
+            if (
+                event.data.platform_event &&
+                event.data.type === 'dragging'
+            ) {
+                this.setRectSize(event.data.data);
+            }
         })
     },
     computed: {
@@ -228,7 +235,7 @@ export default {
             return arrPages;
         },
         previewUrl() {
-            return `https://partners.${env.FYND_PLATFORM_DOMAIN}/extensions`;
+            return `https://partners.${env.FYND_PLATFORM_DOMAIN}/extension-home`;
         },
     },
     methods: {
@@ -283,26 +290,6 @@ export default {
                         rect.left + Number(leftMargin) + 10 + 'px';
                 }
             }
-        },
-        onPageConfigChange(config) {
-            this.config = config;
-            const postdata = {
-                config: this.config,
-                updated: true
-            };
-            this.onPostMessage(postdata);
-        },
-        onGlobalConfigChange(config) {
-            this.config = config;
-            const postdata = {
-                config: this.config,
-            };
-            this.onPostMessage(postdata);
-        },
-        getSelectedPageObj(selectedPage) {
-            return this.pages.find((it) => {
-                return it.value === selectedPage;
-            });
         },
         onPageChange(page) {
             if(this.selectedPageIndex !== -1) {
@@ -393,11 +380,11 @@ export default {
 
             ExtensionPageService.updateSections(pageObj)
             .then(response => {
-                this.$snackbar.global.showSuccess('Your configuration is successfully saved');
+                this.$snackbar.global.showSuccess('Your configuration is saved successfully.');
                 this.getAvailablePages();
             })
             .catch(error => {
-                this.$snackbar.global.showError('It failed');
+                this.$snackbar.global.showError('Failed to save configuration');
                 console.log("error:   ", error);
             })
             .finally(() => {this.loading = false;});

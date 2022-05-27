@@ -28,7 +28,7 @@ const URLS = {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/section/available`);
     },
 
-    UPDATE_EXTENSION_SECTIONS: () => {
+    EXTENSION_HOME: () => {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/page/extension-home`);
     },
     FETCH_PUBLIC_EXTENSIONS: () => {

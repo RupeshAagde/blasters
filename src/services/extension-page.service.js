@@ -20,14 +20,14 @@ const ExtensionPageService = {
                 data: payload
             }
         );
-        return ApiService.put(URLS.UPDATE_EXTENSION_SECTIONS(), axiosOptions);
+        return ApiService.put(URLS.EXTENSION_HOME(), axiosOptions);
     },
     getSections(params = {}) {
         const axiosOptions = Object.assign(
             { params },
             getCommonHeaderOptions()
         );
-        return ApiService.get(URLS.UPDATE_EXTENSION_SECTIONS(), axiosOptions);
+        return ApiService.get(URLS.EXTENSION_HOME(), axiosOptions);
     },
     getPublicExtensions(params = {}) {
         const axiosOptions = Object.assign(
