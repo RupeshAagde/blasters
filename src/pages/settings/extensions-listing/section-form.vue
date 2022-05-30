@@ -158,10 +158,18 @@ export default {
                 }
                 if(prop.predicate_prop) {
                     for(let key in prop.predicate_prop) {
-                        if(this.section.data && this.section.data[key] === prop.predicate_prop[key]) {
-                            prop.display = true;
+                        if(key === 'button_label') {
+                            if(this.section.data[key].length !== 0) {
+                                prop.display = true;
+                            } else {
+                                prop.display = false;
+                            }
                         } else {
-                            prop.display = false;
+                            if(this.section.data && this.section.data[key] === prop.predicate_prop[key]) {
+                                prop.display = true;
+                            } else {
+                                prop.display = false;
+                            }
                         }
                     }
                 }
