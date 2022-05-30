@@ -50,6 +50,7 @@
                 showSectionForm = false;
             "
             @update-block="updateBlocks"
+            @search-input="onSearchInputChange($event)"
         ></section-form>
 
         <div class="heading">
@@ -571,6 +572,9 @@ export default {
                 }
             );
         },
+        onSearchInputChange(event) {
+            this.$emit('search-input', event);
+        }
     }
 }
 </script>

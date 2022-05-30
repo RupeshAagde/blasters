@@ -18,6 +18,7 @@
                     zoomOut = false;
                     hideRect();
                 "
+                @search-input="onSearchInputChange($event)"
                 :inProgress="loading"
             />
         </div>
@@ -256,9 +257,10 @@ export default {
         },
     },
     methods: {
-        getPublicExtensions() {
-            return ExtensionPageService.getPublicExtensions()
+        getPublicExtensions(params = {}) {
+            return ExtensionPageService.getPublicExtensions(params)
             .then(response => {
+                console.log("response:   ", response);
                 let extensions = cloneDeep(response.data.items);
                 this.publicExtensions = extensions.map(item => {
                     item.text = item.name;
@@ -273,10 +275,11 @@ export default {
                 console.log("Error in fetching public extensions:   ", error);
             })
         },
-        getCollections() {
+        getCollections(params = {}) {
             // Collections will be received here
-            return ExtensionPageService.getCollections()
+            return ExtensionPageService.getCollections(params)
             .then(response => {
+                console.log("response:   ", response);
                 let collections = cloneDeep(response.data.items);
                 this.collection = collections.map(item => {
                     item.text = item.name;
@@ -337,7 +340,6 @@ export default {
                                     options: this.category,
                                     type: "select",
                                     multiple: true,
-                                    search: true,
                                     placeholder: 'Search Categories',
                                     predicate_prop: {
                                         item_source: 'manual'
@@ -549,6 +551,13 @@ export default {
         },
         onIframeLoaded() {
             this.isIframeLoaded = false;
+        },
+        onSearchInputChange(event) {
+            if(event.type === 'collection') {
+                this.collection = this.getCollections({name: event.value.text});
+            } else if(event.type === 'extension') {
+                this.publicExtensions = this.getPublicExtensions({name: event.value.text});
+            }
         }
     }
 }

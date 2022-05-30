@@ -3,6 +3,7 @@
         <component
             v-bind:is="require(`./${prop_schema.type}`).default"
             @change="onChange($event)"
+            @search-input="onSearchInputChange($event)"
             v-bind="{ prop_schema, prop, name, page }"
             v-if="propSchema.display"
         ></component>
@@ -35,6 +36,9 @@ export default {
     methods: {
         onChange(e) {
             this.$emit('change', e);
+        },
+        onSearchInputChange(e) {
+            this.$emit('searchInputChange', e);
         }
     }
 }

@@ -15,13 +15,19 @@
             @change="onChange($event)"
             :multiple="multipleEnabled"
             :searchable="searchEnabled"
+            :value="mValue"
             @input="onInput($event)"
+            @searchInputChange="onSearchInputChange($event)"
         ></nitrozen-dropdown>
     </div>
 </template>
 
 <script>
+/* Package imports */
 import { NitrozenDropdown, NitrozenTooltip } from '@gofynd/nitrozen-vue';
+
+/* Helper imports */
+import { debounce } from '@/helper/utils';
 
 export default {
     components: {
@@ -68,6 +74,16 @@ export default {
                 type: this.prop_schema.type,
                 value: e
             });
+        },
+        onSearchInputChange(e) {
+            if(e && e.text) {
+                debounce(() => {
+                    this.$emit('search-input', {
+                        type: this.prop_schema.type,
+                        value: e
+                    });
+                }, 500)();
+            }
         }
     }
 };

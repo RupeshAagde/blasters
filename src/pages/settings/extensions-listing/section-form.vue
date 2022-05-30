@@ -23,6 +23,7 @@
                         :name="`section-${section.name}-${i}`"
                         :page="page"
                         @change="onSectionInputChange(prop_schema, $event)"
+                        @searchInputChange="onSearchInputChange(prop_schema, $event)"
                     />
                 </div>
                 <div 
@@ -189,6 +190,13 @@ export default {
             this.section.props[prop.id] = inputObj;
             this.section.data[prop.id] = inputObj.value;
             this.$emit('update-block', this.section);
+        },
+        onSearchInputChange(prop, searchObj) {
+            let obj = {
+                type: prop.id,
+                value: searchObj.value
+            }
+            this.$emit('search-input', obj);
         },
         onBlockSelectionOutsideClick() {
             this.showAvailableBlocksSelectionPopup = false;
