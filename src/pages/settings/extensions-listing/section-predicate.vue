@@ -36,12 +36,8 @@ export default {
     },
     data() {
         return {
-            options: {
-                screen: {
-                    mobile: true,
-                    desktop: true
-                }
-            },
+            options: this.getDefault(),
+            config: {}
         }
     },
     methods: {
@@ -50,6 +46,7 @@ export default {
                 screen: {
                     mobile: true,
                     desktop: true,
+                    tablet: true
                 }
             };
         },
@@ -58,6 +55,7 @@ export default {
                 if (!this.isFormValid()) {
                     return reject('Form is not Valid');
                 }
+
                 resolve({
                     section: this.config.section,
                     options: this.options,

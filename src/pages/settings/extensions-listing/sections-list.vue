@@ -320,6 +320,14 @@ export default {
             handler() {
                 const sectionSchema = this.sections ? this.sections : undefined;
                 this.mSections = sectionSchema ? sectionSchema : [];
+
+                for(let section of this.mSections) {
+                    if(section.item_type) {
+                        if(!section.data[section.item_type]) {
+                            section.data[section.item_type] = section.items;
+                        }
+                    }
+                }
             }
         },
         available_sections: {

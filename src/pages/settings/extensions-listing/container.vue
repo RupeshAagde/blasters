@@ -107,6 +107,7 @@ import ExtensionPageService from '@/services/extension-page.service.js';
 /* Mock imports */
 import available_sections from './data/available_sections.json';
 import pages from './data/pages.json';
+import * as mockData from '@/__tests__/unit/component/pages/settings/extensions-listing/fixtures/data.js';
 
 const devicesViewport = {
     desktop: { maxWidth: 1024 },
@@ -175,8 +176,8 @@ export default {
             upgrade: this.$route.query.upgrade,
             isIframeLoaded: false,
             publicExtensions: [],
-            categories: [],
-            collections: []
+            category: [],
+            collection: []
         }
     },
     mounted() {
@@ -277,7 +278,7 @@ export default {
             return ExtensionPageService.getCollections()
             .then(response => {
                 let collections = cloneDeep(response.data.items);
-                this.collections = collections.map(item => {
+                this.collection = collections.map(item => {
                     item.text = item.name;
                     item.value = item._id;
                     return item;
@@ -293,7 +294,7 @@ export default {
             return ExtensionPageService.getCategories()
             .then(response => {
                 let categories = cloneDeep(response.data.filters[1].values);
-                this.categories = categories.map(item => {
+                this.category = categories.map(item => {
                     item.text = item.display;
                     return item;
                 })
@@ -313,8 +314,8 @@ export default {
                         if(section.item_type === 'extension') {
                             section.props.push(
                                 {
-                                    default: "",
-                                    id: "extensions",
+                                    default: [],
+                                    id: "extension",
                                     label: "Extensions",
                                     options: this.publicExtensions,
                                     type: "select",
@@ -330,28 +331,30 @@ export default {
                         } else if(section.item_type === 'category') {
                             section.props.push(
                                 {
-                                    default: "",
-                                    id: "categories",
+                                    default: [],
+                                    id: "category",
                                     label: "Categories",
-                                    options: this.categories,
+                                    options: this.category,
                                     type: "select",
                                     multiple: true,
                                     search: true,
+                                    placeholder: 'Search Categories',
                                     predicate_prop: {
                                         item_source: 'manual'
                                     }
                                 }
                             )
-                        } else if(section.item_type === 'collections') {
+                        } else if(section.item_type === 'collection') {
                             section.props.push(
                                 {
-                                    default: "",
-                                    id: "collections",
+                                    default: [],
+                                    id: "collection",
                                     label: "Collections",
-                                    options: this.collections,
+                                    options: this.collection,
                                     type: "select",
                                     multiple: true,
                                     search: true,
+                                    placeholder: 'Search Collections',
                                     predicate_prop: {
                                         item_source: 'manual'
                                     }
