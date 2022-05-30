@@ -573,7 +573,11 @@ export default {
             );
         },
         onSearchInputChange(event) {
-            this.$emit('search-input', event);
+            let obj = {
+                ...event,
+                sectionIdx: this.selectedSectionIndex
+            }
+            this.$emit('search-input', obj);
         }
     }
 }

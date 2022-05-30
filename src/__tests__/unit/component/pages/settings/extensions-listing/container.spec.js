@@ -12,7 +12,7 @@ import Container from '@/pages/settings/extensions-listing/container.vue';
 import SectionsList from '@/pages/settings/extensions-listing/sections-list.vue';
 
 /* Mock imports */
-import * as mockData from './fixtures/data';
+import mockData from './fixtures/mocks';
 
 let localVue;
 const mock = new MockAdapter(axios);

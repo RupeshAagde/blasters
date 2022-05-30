@@ -60,4 +60,4 @@ export CDN_ITEM_DOMAINS=https://hdn-1.addsale.com
 export NEW_RELIC_APP_NAME=blaster
 export NEW_RELIC_LICENSE_KEY=''
 
-npm run test -- -u src/__tests__/unit/component/pages/settings/extensions-listing/container.spec.js
+npm run test -- -u

@@ -108,7 +108,6 @@ import ExtensionPageService from '@/services/extension-page.service.js';
 /* Mock imports */
 import available_sections from './data/available_sections.json';
 import pages from './data/pages.json';
-import * as mockData from '@/__tests__/unit/component/pages/settings/extensions-listing/fixtures/data.js';
 
 const devicesViewport = {
     desktop: { maxWidth: 1024 },
@@ -553,10 +552,19 @@ export default {
             this.isIframeLoaded = false;
         },
         onSearchInputChange(event) {
+            console.log("[onSearchInputChange]  event:    ", event);
             if(event.type === 'collection') {
-                this.collection = this.getCollections({name: event.value.text});
+                this.getCollections({name: event.value.text});
             } else if(event.type === 'extension') {
-                this.publicExtensions = this.getPublicExtensions({name: event.value.text});
+                this.getPublicExtensions({name: event.value.text})
+                .then(response => {
+                    console.log("Here is the response:   ", response);
+                    console.log("this.sections:   ", this.sections);
+                    // this.sections[event.sectionIdx].props[event.type].value = this.publicExtensions;
+                })
+                .catch(error => {
+                    console.log("error:   ", error);
+                })
             }
         }
     }
