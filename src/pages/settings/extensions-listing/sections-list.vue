@@ -466,6 +466,7 @@ export default {
                             index: config.index,
                         }
                     );
+                    this.sections[config.index].predicate = cloneDeep(config.options);
                     this.$refs['section_settings_dialog'].close();
                 })
                 .catch((err) => {
