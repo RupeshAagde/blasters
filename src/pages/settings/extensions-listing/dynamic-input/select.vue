@@ -24,7 +24,7 @@
 
 <script>
 /* Package imports */
-import { NitrozenDropdown, NitrozenTooltip } from '@gofynd/nitrozen-vue';
+import { NitrozenDropdown, NitrozenTooltip, NitrozenChips } from '@gofynd/nitrozen-vue';
 
 /* Helper imports */
 import { debounce } from '@/helper/utils';
@@ -76,14 +76,12 @@ export default {
             });
         },
         onSearchInputChange(e) {
-            if(e && e.text) {
-                debounce(() => {
-                    this.$emit('search-input', {
-                        type: this.prop_schema.type,
-                        value: e
-                    });
-                }, 500)();
-            }
+            debounce(() => {
+                this.$emit('search-input', {
+                    type: this.prop_schema.type,
+                    value: e
+                });
+            }, 500)();
         }
     }
 };

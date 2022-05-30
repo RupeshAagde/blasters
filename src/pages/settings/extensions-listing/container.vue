@@ -259,7 +259,6 @@ export default {
         getPublicExtensions(params = {}) {
             return ExtensionPageService.getPublicExtensions(params)
             .then(response => {
-                console.log("response:   ", response);
                 let extensions = cloneDeep(response.data.items);
                 this.publicExtensions = extensions.map(item => {
                     item.text = item.name;
@@ -278,7 +277,6 @@ export default {
             // Collections will be received here
             return ExtensionPageService.getCollections(params)
             .then(response => {
-                console.log("response:   ", response);
                 let collections = cloneDeep(response.data.items);
                 this.collection = collections.map(item => {
                     item.text = item.name;
@@ -552,18 +550,25 @@ export default {
             this.isIframeLoaded = false;
         },
         onSearchInputChange(event) {
-            console.log("[onSearchInputChange]  event:    ", event);
             if(event.type === 'collection') {
-                this.getCollections({name: event.value.text});
-            } else if(event.type === 'extension') {
-                this.getPublicExtensions({name: event.value.text})
-                .then(response => {
-                    console.log("Here is the response:   ", response);
-                    console.log("this.sections:   ", this.sections);
-                    // this.sections[event.sectionIdx].props[event.type].value = this.publicExtensions;
+                this.getCollections({name: event.value.text})
+                .then(() => {
+                    let section = this.available_sections.find(sec => sec.item_type === event.type);
+                    let extensionProp = section.props.find(pr => pr.type === 'select' && pr.id === event.type);
+                    extensionProp.options = this.collection;
                 })
                 .catch(error => {
-                    console.log("error:   ", error);
+                    console.log("Error in onSearchInputChange while fetching collections:   ", error);
+                });
+            } else if(event.type === 'extension') {
+                this.getPublicExtensions({name: event.value.text})
+                .then(() => {
+                    let section = this.available_sections.find(sec => sec.item_type === event.type);
+                    let extensionProp = section.props.find(pr => pr.type === 'select' && pr.id === event.type);
+                    extensionProp.options = this.publicExtensions;
+                })
+                .catch(error => {
+                    console.log("Error in onSearchInputChange while fetching extensions:   ", error);
                 })
             }
         }
