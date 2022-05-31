@@ -133,7 +133,6 @@ export default {
             currentDate = new Date(currentDate).toISOString();
             currentDate = this.dateToComparableNumber(currentDate);
             let hsnCodes = [];
-
             for (let data of this.tableData) {
                 let activeDate = 0;
                 let hsn = { ...data };
@@ -146,6 +145,7 @@ export default {
                 let upcomingDate =0;
 
                 for (let tax of data.taxes) {
+                    tax.effective_date = new Date(tax.effective_date+"z").toLocaleString('sv').replace(' ', 'T')
                     let tempdate = this.dateToComparableNumber(
                         tax.effective_date
                     );

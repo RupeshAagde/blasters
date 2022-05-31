@@ -39,6 +39,7 @@
                             <nitrozen-input
                                 label="Threshold value"
                                 :required="true"
+                                disabled
                                 type="number"
                                 placeholder="eg. 99999"
                                 v-model="slab1.threshold.value"
@@ -80,23 +81,7 @@
                         @click.stop.native="removeRate()"
                     ></ukt-inline-svg>
                     <div class="row">
-                        <div class="input-box">
-                            <adm-date-picker
-                                label="Effective date *"
-                                required
-                                date_format="YYYY-MM-DD"
-                                :picker_type="'date'"
-                                class="st-date"
-                                v-model="slab1.effective_date.value"
-                                :useNitrozenTheme="true"
-                            />
-                            <nitrozen-error
-                                v-if="slab1.effective_date.showerror"
-                            >
-                                {{ slab1.effective_date.errortext }}
-                            </nitrozen-error>
-                        </div>
-                        <div class="input-box">
+                        <div class="input-box2">
                             <nitrozen-input
                                 label="Cess"
                                 type="number"
@@ -191,6 +176,7 @@ const RATE_LIST = [
     { text: '28%', value: 28 }
 ];
 import { debounce } from '@/helper/utils';
+import cloneDeep from 'lodash/cloneDeep';
 import AdmDatePicker from '@/components/common/date-picker.vue';
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import {
@@ -230,7 +216,20 @@ export default {
         taxes: {
             immediate: true,
             handler(newVal, oldVal) {
-                this.datedTax = { ...newVal };
+                this.datedTax = cloneDeep(newVal);
+                if (this.datedTax) {
+                    for (let tax in this.datedTax) {
+                        for (let temp of this.datedTax[tax]) {
+                            if (!temp.effective_date.includes('.000Z')) {
+                                temp.effective_date = new Date(
+                                    temp.effective_date + '.000Z'
+                                )
+                                    .toLocaleString('sv')
+                                    .replace(' ', 'T');
+                            }
+                        }
+                    }
+                }
             }
         }
     },
@@ -379,8 +378,8 @@ export default {
             if (this.checkSlab1Required(data)) {
                 let date_dict = this.getDateDict();
                 let newdate = new Date(data.effective_date.value).setHours(
-                    23,
-                    59,
+                    1,
+                    35,
                     0,
                     0
                 );
@@ -394,7 +393,7 @@ export default {
                     if (rateCount >= 2) {
                         this.slab1.effective_date.showerror = true;
                         this.slab1.effective_date.errortext =
-                            'Select another date, two GST rate for selected date already exist';
+                            'Select another date, two GST rate for selected dates already exist';
                         return false;
                     } else if (rateCount == 1) {
                         this.$snackbar.global.showError(
@@ -407,7 +406,7 @@ export default {
         },
         checkSlab1Required(data) {
             let isValid = true;
-            if (data.threshold.value >=0 && data.threshold.value <= 999999) {
+            if (data.threshold.value >= 0 && data.threshold.value <= 999999) {
                 this.slab1.threshold.showerror = false;
             } else if (data.threshold.value > 999999) {
                 this.slab1.threshold.showerror = true;
@@ -447,15 +446,17 @@ export default {
         },
         checkSlab2Required(slab2, slab1) {
             let isValid = true;
-            if (slab2.threshold.value > slab1.threshold.value && slab2.threshold.value <=999999) {
+            if (
+                slab2.threshold.value > slab1.threshold.value &&
+                slab2.threshold.value <= 999999
+            ) {
                 this.slab2.threshold.showerror = false;
             } else if (slab2.threshold.value > 999999) {
                 this.slab2.threshold.showerror = true;
                 this.slab2.threshold.errortext =
                     'Threshold should be lesser than 99999';
                 isValid = false;
-            }
-            else {
+            } else {
                 this.slab2.threshold.showerror = true;
                 this.slab2.threshold.errortext =
                     'Threshold should be greater than first threshold';
@@ -465,8 +466,7 @@ export default {
                 this.slab2.rate.showerror = false;
             } else {
                 this.slab2.rate.showerror = true;
-                this.slab2.rate.errortext =
-                    'Rate is required';
+                this.slab2.rate.errortext = 'Rate is required';
                 isValid = false;
             }
             if (
@@ -500,7 +500,7 @@ export default {
 
                 let newdate = new Date(
                     this.slab1.effective_date.value
-                ).setHours(23, 59, 0, 0);
+                ).setHours(0, 35, 0, 0);
                 this.slab1.effective_date.value = new Date(
                     newdate
                 ).toISOString();
@@ -619,6 +619,9 @@ export default {
 
         .input-box {
             width: 48%;
+        }
+        .input-box2 {
+            width: 100%;
         }
         .input-date {
             width: 100%;

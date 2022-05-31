@@ -746,17 +746,6 @@ export default {
         validatePdf(url) {
             return url.match(/\.(pdf)$/) != null;
         },
-
-        edit: function(params) {
-            this.$router.push({
-                path: path.join(this.$basePath, '/profile/edit')
-            });
-        },
-        editDocuments: function() {
-            this.$router.push({
-                path: path.join(this.$basePath, '/profile/edit-documents')
-            });
-        }
     }
 };
 </script>

@@ -100,16 +100,15 @@
                             ></adm-inline-svg>
                         </div>
                     </div>
-                    <div class="cust-button" v-if="!exist">
+                    <div class="cust-button" v-if="!pageLoading">
                         <nitrozen-button
+                            v-if="!exist"
                             @click="openAddDialog(user)"
                             v-strokeBtn
                             :theme="'secondary'"
                             >Add as Super User</nitrozen-button
                         >
-                    </div>
-                    <div class="cust-button" v-if="exist">
-                        <nitrozen-badge :state="'info'"
+                        <nitrozen-badge v-else :state="'info'"
                             >Already a Super User</nitrozen-badge
                         >
                     </div>
@@ -314,7 +313,8 @@ export default {
             exist: false,
             pageLoading: false,
             enterValidText: false,
-            enterValidTextValue: 'Please enter valid number or email . . .'
+            enterValidTextValue: 'Please enter valid number or email . . .',
+            userId: null
         };
     },
     directives: {
@@ -339,7 +339,11 @@ export default {
                 page: this.current,
                 limit: this.limit
             };
-
+            if (this.userId) {
+                query['query'] = JSON.stringify({
+                    user: this.userId
+                });
+            }
             return query;
         },
         fetchUsers() {
@@ -437,10 +441,10 @@ export default {
                         .then((res) => {
                             this.enterValidText = false;
                             this.noUserFound = false;
-                            this.pageLoading = false;
                             if (res.data.length > 0) {
                                 this.userList = res.data;
-                                this.checkExist();
+                                this.userId = res.data[0]._id;
+                                return this.checkExist();
                             } else {
                                 this.noUserFound = true;
                             }
@@ -459,6 +463,9 @@ export default {
                             );
                             this.noUserFound = true;
                             this.enterValidText = false;
+                        }).finally(()=>{
+                            this.userId = null;
+                            this.pageLoading = false;
                         });
                 } else {
                     if (validEmail) {
@@ -471,14 +478,14 @@ export default {
                             .then((res) => {
                                 this.enterValidText = false;
                                 this.noUserFound = false;
-                                this.pageLoading = false;
                                 if (res.data.length > 0) {
                                     this.userList = res.data;
                                     if (
                                         this.userList &&
                                         this.userList.length > 0
                                     ) {
-                                        this.checkExist();
+                                        this.userId = res.data[0]._id;
+                                        return this.checkExist();
                                     }
                                 } else {
                                     this.noUserFound = true;
@@ -498,6 +505,9 @@ export default {
                                 );
                                 this.noUserFound = true;
                                 this.enterValidText = false;
+                            }).finally(()=>{
+                                this.userId = null;
+                                this.pageLoading = false;
                             });
                     } else {
                         this.enterValidText = true;

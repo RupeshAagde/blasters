@@ -109,6 +109,7 @@ appData: {}
            .then(res=>{
                this.appData = res.data
                this.loading = false
+               this.$emit('emitApplication', { appName: this.appData.name });
            })
            .catch(err=>{
                console.log(err);

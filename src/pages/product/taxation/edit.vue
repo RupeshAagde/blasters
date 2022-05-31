@@ -29,6 +29,7 @@
                 <div class="input-box">
                     <nitrozen-input
                         label="HSN Code"
+                        :disabled="editMode"
                         required
                         type="text"
                         placeholder="For eg. 61152010"
@@ -85,7 +86,7 @@
             <div class="row">
                 <div class="input-area">
                     <span class="char-count">{{
-                        `${description.value.length} / 100 Characters`
+                        `${description.value.length} / 500 Characters`
                     }}</span>
                     <nitrozen-input
                         label="Description"
@@ -224,7 +225,7 @@
         <!--Confirmation dailog -->
         <nitrozen-dialog ref="confirm-dialog" title="Confirmation">
             <template slot="body">
-                <p>Are you sure you want to delete Rate</p>
+                <p>Are you sure you want to delete rate?</p>
             </template>
             <template slot="footer">
                 <div class="footer-actions-buttons">
@@ -349,7 +350,7 @@ export default {
                 value: '',
                 showerror: false,
                 errortext:
-                    "Description is required and it's length should be between 10 to 100 chars"
+                    "Description is required and it's length should be between 4 to 500 chars"
             },
             taxes: {
                 value: [],
@@ -516,6 +517,7 @@ export default {
             this.datedTax = {};
 
             for (let item of this.taxes.value) {
+                const a = item.effective_date
                 let date_key = item.effective_date;
                 date_key = date_key.split('T')[0];
                 if (date_key in datedTax) {
@@ -525,7 +527,7 @@ export default {
                 }
             }
             //to get latest active date
-            let currentDate = new Date().setHours(23);
+            let currentDate = new Date().setHours(1);
             currentDate = new Date(currentDate).toISOString().split('T')[0];
             currentDate = Number(currentDate.replaceAll('-', ''));
             let allDates = Object.keys(datedTax);
@@ -561,8 +563,6 @@ export default {
             }
             //assigning the newUpdated object to global variable
             this.datedTax = datedTax;
-
-            // console.log(this.datedTax);
         },
         isRateActive(state) {
             if (state == 'Active') {
@@ -596,8 +596,8 @@ export default {
             }
             if (
                 this.description.value !== '' &&
-                this.description.value.length > 9 &&
-                this.description.value.length <= 100
+                this.description.value.length > 3 &&
+                this.description.value.length <= 500
             ) {
                 this.description.showerror = false;
                 postData.description = this.description.value;
@@ -688,12 +688,12 @@ export default {
             this.description.showerror = false;
             this.$set(this.errors, 'description', '');
             if (
-                this.description.value.toString().length >= 101 ||
-                this.description.value.toString().length < 10
+                this.description.value.toString().length >= 501 ||
+                this.description.value.toString().length < 4
             ) {
                 isValid = false;
                 this.errors.description =
-                    "Description is required and it's length should be between 10 to 100 chars";
+                    "Description is required and it's length should be between 4 to 500 chars";
             }
             return isValid;
         },
@@ -712,6 +712,9 @@ export default {
         },
         format_date(value) {
             if (value) {
+                if(!value.includes(".000Z")){
+                    value = new Date(value+".000Z").toLocaleString('sv').replace(' ', 'T')
+                }
                 return moment(value).format('D MMM, YYYY');
             }
         },

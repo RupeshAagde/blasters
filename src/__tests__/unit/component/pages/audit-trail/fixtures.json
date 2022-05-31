@@ -1,0 +1,388 @@
+{
+    "audit_log": {
+        "docs": [
+          {
+            "entity": {
+              "type": "subscription",
+              "id": "61c08d1affa2b527a00c3364",
+              "action": "remove"
+            },
+            "modifier": {
+              "as_administrator": false,
+              "user_id": "6dea800ff2befc54a6342d52",
+              "user_details": {
+                "first_name": "Omansh",
+                "last_name": "Lavania",
+                "full_name": "Omansh Lavania",
+                "email": "omanshlavania@gofynd.com"
+              }
+            },
+            "_id": "622061d54cede4ae7de7677d",
+            "application": null,
+            "date": "2022-03-03T06:36:04.051Z",
+            "created_at": "2022-03-03T06:36:05.486Z",
+            "modified_at": "2022-03-03T06:36:05.486Z"
+          },
+          {
+            "entity": {
+              "type": "subscription",
+              "id": "61c08d1affa2b527a00c3364",
+              "action": "update"
+            },
+            "modifier": {
+              "as_administrator": true,
+              "user_id": "6dea800ff2befc54a6342d52",
+              "user_details": {
+                "first_name": "Omansh",
+                "last_name": "Lavania",
+                "full_name": "Omansh Lavania",
+                "email": "omanshlavania@gofynd.com"
+              }
+            },
+            "_id": "622072594cede41d17e76788",
+            "application": null,
+            "date": "2022-03-03T07:46:30.313Z",
+            "created_at": "2022-03-03T07:46:33.845Z",
+            "modified_at": "2022-03-03T07:46:33.845Z"
+          },
+          {
+            "entity": {
+              "type": "subscription",
+              "id": "61c08d1affa2b527a00c3364",
+              "action": "remove"
+            },
+            "modifier": {
+              "as_administrator": false,
+              "user_id": "6dea800ff2befc54a6342d52",
+              "user_details": {
+                "first_name": "Omansh",
+                "last_name": "Lavania",
+                "full_name": "Omansh Lavania",
+                "email": "omanshlavania@gofynd.com"
+              }
+            },
+            "_id": "6220725e4cede438c8e76789",
+            "application": null,
+            "date": "2022-03-03T07:46:37.664Z",
+            "created_at": "2022-03-03T07:46:38.874Z",
+            "modified_at": "2022-03-03T07:46:38.874Z"
+          },
+          {
+            "entity": {
+              "type": "subscription",
+              "id": "61c08d1affa2b527a00c3364",
+              "action": "update"
+            },
+            "modifier": {
+              "as_administrator": true,
+              "user_id": "6dea800ff2befc54a6342d52",
+              "user_details": {
+                "first_name": "Omansh",
+                "last_name": "Lavania",
+                "full_name": "Omansh Lavania",
+                "email": "omanshlavania@gofynd.com"
+              }
+            },
+            "_id": "622075bb4cede44a5ae7678c",
+            "application": null,
+            "date": "2022-03-03T08:00:58.929Z",
+            "created_at": "2022-03-03T08:00:59.551Z",
+            "modified_at": "2022-03-03T08:00:59.551Z"
+          },
+          {
+            "entity": {
+              "type": "subscription",
+              "id": "61c08d1affa2b527a00c3364",
+              "action": "remove"
+            },
+            "modifier": {
+              "as_administrator": false,
+              "user_id": "6dea800ff2befc54a6342d52",
+              "user_details": {
+                "first_name": "Omansh",
+                "last_name": "Lavania",
+                "full_name": "Omansh Lavania",
+                "email": "omanshlavania@gofynd.com"
+              }
+            },
+            "_id": "622075c04cede4427be7678d",
+            "application": null,
+            "date": "2022-03-03T08:01:02.238Z",
+            "created_at": "2022-03-03T08:01:04.573Z",
+            "modified_at": "2022-03-03T08:01:04.573Z"
+          },
+          {
+            "entity": {
+              "type": "subscription",
+              "id": "62053ea153bc6867e555ccea",
+              "action": "remove"
+            },
+            "modifier": {
+              "as_administrator": false,
+              "user_id": "6dea800ff2befc54a6342d52",
+              "user_details": {
+                "first_name": "Omansh",
+                "last_name": "Lavania",
+                "full_name": "Omansh Lavania",
+                "email": "omanshlavania@gofynd.com"
+              }
+            },
+            "_id": "62208c0c4cede48bd4e767ae",
+            "application": null,
+            "date": "2022-03-03T09:36:12.147Z",
+            "created_at": "2022-03-03T09:36:12.841Z",
+            "modified_at": "2022-03-03T09:36:12.841Z"
+          },
+          {
+            "entity": {
+              "type": "subscription",
+              "id": "62053ea153bc6867e555ccea",
+              "action": "update"
+            },
+            "modifier": {
+              "as_administrator": true,
+              "user_id": "6dea800ff2befc54a6342d52",
+              "user_details": {
+                "first_name": "Omansh",
+                "last_name": "Lavania",
+                "full_name": "Omansh Lavania",
+                "email": "omanshlavania@gofynd.com"
+              }
+            },
+            "_id": "62208c114cede493aee767af",
+            "application": null,
+            "date": "2022-03-03T09:36:15.536Z",
+            "created_at": "2022-03-03T09:36:17.876Z",
+            "modified_at": "2022-03-03T09:36:17.876Z"
+          },
+          {
+            "entity": {
+              "type": "subscription",
+              "id": "62053ea153bc6867e555ccea",
+              "action": "remove"
+            },
+            "modifier": {
+              "as_administrator": false,
+              "user_id": "6dea800ff2befc54a6342d52",
+              "user_details": {
+                "first_name": "Omansh",
+                "last_name": "Lavania",
+                "full_name": "Omansh Lavania",
+                "email": "omanshlavania@gofynd.com"
+              }
+            },
+            "_id": "622092034cede42218e767d1",
+            "application": null,
+            "date": "2022-03-03T10:01:38.722Z",
+            "created_at": "2022-03-03T10:01:39.591Z",
+            "modified_at": "2022-03-03T10:01:39.591Z"
+          },
+          {
+            "entity": {
+              "type": "subscription",
+              "id": "62053ea153bc6867e555ccea",
+              "action": "update"
+            },
+            "modifier": {
+              "as_administrator": true,
+              "user_id": "6dea800ff2befc54a6342d52",
+              "user_details": {
+                "first_name": "Omansh",
+                "last_name": "Lavania",
+                "full_name": "Omansh Lavania",
+                "email": "omanshlavania@gofynd.com"
+              }
+            },
+            "_id": "622092084cede4a914e767d2",
+            "application": null,
+            "date": "2022-03-03T10:01:40.241Z",
+            "created_at": "2022-03-03T10:01:44.624Z",
+            "modified_at": "2022-03-03T10:01:44.624Z"
+          },
+          {
+            "entity": {
+              "type": "subscription",
+              "id": "62053ea153bc6867e555ccea",
+              "action": "remove"
+            },
+            "modifier": {
+              "as_administrator": false,
+              "user_id": "6dea800ff2befc54a6342d52",
+              "user_details": {
+                "first_name": "Omansh",
+                "last_name": "Lavania",
+                "full_name": "Omansh Lavania",
+                "email": "omanshlavania@gofynd.com"
+              }
+            },
+            "_id": "622092534cede4cec6e767d5",
+            "application": null,
+            "date": "2022-03-03T10:02:58.507Z",
+            "created_at": "2022-03-03T10:02:59.810Z",
+            "modified_at": "2022-03-03T10:02:59.810Z"
+          },
+          {
+            "entity": {
+              "type": "subscription",
+              "id": "62053ea153bc6867e555ccea",
+              "action": "update"
+            },
+            "modifier": {
+              "as_administrator": true,
+              "user_id": "6dea800ff2befc54a6342d52",
+              "user_details": {
+                "first_name": "Omansh",
+                "last_name": "Lavania",
+                "full_name": "Omansh Lavania",
+                "email": "omanshlavania@gofynd.com"
+              }
+            },
+            "_id": "622092584cede4aa85e767d6",
+            "application": null,
+            "date": "2022-03-03T10:03:04.024Z",
+            "created_at": "2022-03-03T10:03:04.835Z",
+            "modified_at": "2022-03-03T10:03:04.835Z"
+          }
+        ]
+      },
+      "user_info": {
+        "_id": "6dea800ff2befc54a6342d52",
+        "gender": null,
+        "accountType": "user",
+        "active": true,
+        "firstName": "Omansh",
+        "lastName": "Lavania",
+        "phoneNumbers": [
+          {
+            "active": true,
+            "primary": true,
+            "verified": true,
+            "phone": "9557999334",
+            "countryCode": 91
+          }
+        ],
+        "emails": [
+          {
+            "active": true,
+            "primary": true,
+            "verified": true,
+            "email": "omanshlavania@gofynd.com"
+          },
+          {
+            "active": true,
+            "primary": false,
+            "verified": true,
+            "email": "omanshlavania@fynd.com"
+          },
+          {
+            "active": true,
+            "primary": false,
+            "verified": true,
+            "email": "omanshlavania@uniket.store"
+          }
+        ],
+        "createdAt": "2021-08-20T09:36:54.325Z",
+        "updatedAt": "2021-08-20T09:36:54.325Z",
+        "uid": "66"
+      },
+      "audit_by_id": {
+        "entity": {
+          "type": "subscription",
+          "id": "610d1a8e54fff161ee57f608",
+          "action": "update"
+        },
+        "modifier": {
+          "as_administrator": true,
+          "user_id": "6dea800ff2befc54a6342d52",
+          "user_details": {
+            "first_name": "Omansh",
+            "last_name": "Lavania",
+            "full_name": "Omansh Lavania",
+            "email": "omanshlavania@gofynd.com"
+          }
+        },
+        "device_info": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36"
+        },
+        "location": {
+          "IP": "103.195.39.219",
+          "city": "Mathura",
+          "country": "IN"
+        },
+        "_id": "62333580ac555e84959b9835",
+        "company": 1,
+        "application": null,
+        "sessions": "",
+        "date": "2022-03-14T06:25:27.215Z",
+        "logs": {
+          "subscription_id": "610d1a8e54fff161ee57f608",
+          "plan_id": "610d03f02decb20043dac5ac",
+          "plan_name": "Professional",
+          "amount": 1499,
+          "is_trial_plan": false,
+          "currency": "INR",
+          "subscriber_unique_id": "1",
+          "subscriber_type": "company"
+        },
+        "old_logs": {
+          "entity": {
+            "type": "subscription",
+            "id": "610d1a8e54fff161ee57f608",
+            "action": "update"
+          },
+          "modifier": {
+            "as_administrator": false,
+            "user_id": "3b809a0c024c487c4e438ee5",
+            "user_details": {
+              "first_name": "Kishor",
+              "last_name": "BR",
+              "full_name": "Kishor BR",
+              "email": "kishorbr@fynd-external.com"
+            }
+          },
+          "device_info": {
+            "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36"
+          },
+          "location": {
+            "IP": "157.50.51.84"
+          },
+          "_id": "621f4e6e4cede42aabe7672c",
+          "company": 1,
+          "application": null,
+          "sessions": "",
+          "date": "2022-03-02T11:00:58.244Z",
+          "logs": {
+            "subscription_id": "610d1a8e54fff161ee57f608",
+            "plan_id": "610d03f02decb20043dac5af",
+            "plan_name": "Standard",
+            "amount": 599,
+            "is_trial_plan": false,
+            "currency": "INR",
+            "subscriber_unique_id": "1",
+            "subscriber_type": "company"
+          },
+          "created_at": "2022-03-02T11:01:02.330Z",
+          "modified_at": "2022-03-02T11:01:02.330Z"
+        },
+        "created_at": "2022-03-17T13:20:00.715Z",
+        "modified_at": "2022-03-17T13:20:00.715Z",
+        "meta": {
+          "browser": {
+            "name": "Chrome",
+            "version": "98.0.4758.102",
+            "major": "98"
+          },
+          "device": {},
+          "cpu": {},
+          "os": {
+            "name": "Mac OS",
+            "version": "10.15.7"
+          },
+          "engine": {
+            "name": "Blink",
+            "version": "98.0.4758.102"
+          }
+        }
+      },
+    "entity_types":{"items":[{"_id":"62729a9fe6bf3c5f043c329f","entity_value":"hsn_code","display_name":"HSN Code"}]}
+}
