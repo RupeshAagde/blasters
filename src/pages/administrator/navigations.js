@@ -150,7 +150,7 @@ export const getNavigations = () => {
         // Packaging related changes for adding navbar element
         {
             display: 'Packaging',
-            link: '/administrator/packaging/',
+            link: '/administrator/packaging/items',
             title: 'packaging',
             icon: 'settings',
             highlightedIcon: 'home-highlighted',
