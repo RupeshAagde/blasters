@@ -7,6 +7,7 @@
           <no-content
           :helperText="'No packaging list have been created yet.'"
           :btnText="'Add Packaging'"
+          @tryAgain="handleAddPackaging"
           />
       </div>
   </div>
@@ -20,8 +21,12 @@ components:{
     NoContent
 },
 methods:{
-    tryAgain(){
-        console.log("Add packaging called")
+    /**
+     * @author Rohan Shah
+     * @description On click for add packaging button click
+     */
+    handleAddPackaging(){
+        this.$router.push('/administrator/packaging/create')
     }
 }
 }
