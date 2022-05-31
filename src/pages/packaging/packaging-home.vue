@@ -2,18 +2,26 @@
   <div>
     <page-header :title="'Packaging'"/>
     <div class="packaging-home-container">
-      <!-- Call the add package and list package components here -->
-      Packaging home
+      <div class="packaging-home-add">
+        <add-packaging/>
+      </div>
+      <div class="packaging-home-list">
+        <list-packaging/>
+      </div>
     </div>
     </div>
 </template>
 
 <script>
 import PageHeader from "../../components/common/layout/page-header.vue"
+import AddPackaging from '../../components/packaging/add-packaging.vue'
+import ListPackaging from '../../components/packaging/list-packaging.vue'
 export default {
 name: 'packaging-home',
 components:{
- PageHeader
+ PageHeader,
+ AddPackaging,
+ListPackaging
 }
 }
 </script>
