@@ -194,9 +194,21 @@
                                             />
                                         </div>
                                         <div class="base-card-right">
-                                            <div class="extension-name">
+                                            <div
+                                                class="extension-name"
+                                                :title="
+                                                    extension.listing_info.name
+                                                "
+                                            >
                                                 {{
                                                     extension.listing_info.name
+                                                        .length > 28
+                                                        ? extension.listing_info.name.substr(
+                                                              0,
+                                                              28
+                                                          ) + '...'
+                                                        : extension.listing_info
+                                                              .name
                                                 }}
                                             </div>
                                             <div class="extension-creator">
@@ -274,7 +286,7 @@ import {
     NitrozenChips,
     NitrozenInline
 } from '@gofynd/nitrozen-vue';
-import { isEmpty, uniqBy, cloneDeep } from 'lodash';
+import { isEmpty, uniqBy, uniq, cloneDeep } from 'lodash';
 
 const PAGINATION = {
     limit: 20,
@@ -358,7 +370,7 @@ export default {
                 has_next
             } = this.paginationInfo;
             if (!current || !total) {
-                return '';
+                return '0 - 0 of 0 Extensions';
             }
             return `${
                 current > 1 ? (current - 1) * PAGINATION.limit + 1 : current
@@ -372,6 +384,7 @@ export default {
             this.priceSlug = [];
             this.query = {};
             this.whichOpen = 'all';
+            this.searchText = '';
             this.fetchExtensions();
         },
 
@@ -495,6 +508,13 @@ export default {
                 }
                 this.slugsL2 = value;
             }
+            if (value.key === 'all') {
+                this.slugsL1 = {};
+                this.slugsL2 = {};
+                this.query = { name: this.searchText };
+                this.fetchExtensions(1, '', this.query);
+                return;
+            }
             if (!value.parent && value.type !== 'price_filter') {
                 this.toggleArrow(value);
             }
@@ -549,12 +569,18 @@ export default {
             Promise.all([getAllPulblicExtension, getExtnesionCategory]).then(
                 ([data, category]) => {
                     this.extensions_selected = cloneDeep(
-                        this.selected_extensions
+                        uniqBy(
+                            [
+                                ...this.selected_extensions,
+                                ...this.extensions_selected
+                            ],
+                            'slug'
+                        )
                     );
-                    const all_selected = [
+                    const all_selected = uniq([
                         ...this.selected_extensions,
                         ...this.extensions_selected
-                    ].map((ext_selected) => ext_selected._id);
+                    ]).map((ext_selected) => ext_selected._id);
                     this.extension_data = data.data.items.map((ext) => {
                         if (all_selected.includes(ext._id)) {
                             ext.is_selected = true;
@@ -671,11 +697,11 @@ export default {
     max-height: 100%;
     .filter-list {
         border-right: 1px solid #e4e5e6;
-        margin-right: 14px;
+        // margin-right: 14px;
         background-color: #fff;
         max-width: 20%;
-        min-width: 280px;
-        max-height: calc(82vh - 100px);
+        min-width: 25%;
+        // max-height: calc(82vh - 100px);
         overflow-y: scroll;
         .filter-section {
             padding: 10px 0px;
@@ -717,14 +743,13 @@ export default {
         overflow-y: hidden;
         min-width: 75%;
         .modal-overflow-y {
-            overflow: scroll;
+            overflow-y: scroll;
             height: calc(100% - 50px);
         }
         .search-input-container {
             height: 40px;
             background: #ececec;
             padding: 10px 0px;
-            margin-left: 10px;
             position: sticky;
             top: 0;
             z-index: 1;
@@ -744,7 +769,6 @@ export default {
             .clear-filter {
                 color: #2e31be;
                 margin-left: 10px;
-                font-weight: bold;
                 &:hover {
                     text-decoration: underline;
                     cursor: pointer;
@@ -761,7 +785,7 @@ export default {
             display: grid;
             // grid-template-columns: 33.33% 33.33% 33.33%;
             // margin-top: 50px;
-            padding-right: 15px;
+            // padding-right: 15px;
             .extension-card {
                 min-width: 200px;
                 display: flex;
@@ -835,6 +859,18 @@ export default {
         }
     }
 }
+
+@media (min-width: 1860px) {
+    .main-body {
+        .filter-list {
+            min-width: 20%;
+        }
+        .right {
+            min-width: 80%;
+        }
+    }
+}
+
 .arrow {
     position: absolute;
     right: 10px;

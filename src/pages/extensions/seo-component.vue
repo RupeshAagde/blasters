@@ -5,6 +5,7 @@
                 <div class="input-wrapper">
                     <nitrozen-input
                         label="Title"
+                        :maxlength="70"
                         :value="value.title"
                         class="input title"
                         @input="update({ title: $event })"
@@ -22,6 +23,7 @@
                         :value="value.description"
                         type="textarea"
                         class="input input-description"
+                        :maxlength="320"
                         @input="update({ description: $event })"
                     ></nitrozen-input>
                     <div class="n-input-label-container">
@@ -29,7 +31,7 @@
                             {{
                                 (value.description &&
                                     value.description.length) ||
-                                '0'
+                                    '0'
                             }}
                             of 320 characters used
                         </label>
@@ -116,7 +118,7 @@ import { NitrozenInput } from '@gofynd/nitrozen-vue';
 export default {
     name: 'seo-component',
     components: {
-        'nitrozen-input': NitrozenInput,
+        'nitrozen-input': NitrozenInput
     },
     props: {
         value: {
@@ -124,18 +126,18 @@ export default {
             default() {
                 return {
                     title: '',
-                    description: '',
+                    description: ''
                 };
-            },
+            }
         },
         url: {
             type: String,
-            default: '',
+            default: ''
         },
         isCollapsed: {
             type: Boolean,
-            default: true,
-        },
+            default: true
+        }
     },
     computed: {
         titlePreview() {
@@ -149,12 +151,12 @@ export default {
                 return this.value.description.substr(0, 319) + '…';
             }
             return this.value.description;
-        },
+        }
     },
     methods: {
         update(data) {
             this.$emit('input', { ...this.value, ...data });
-        },
-    },
+        }
+    }
 };
 </script>
