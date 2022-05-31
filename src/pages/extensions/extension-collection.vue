@@ -143,7 +143,6 @@ import pageError from '@/components/common/page-error.vue';
 import pageHeader from '@/components/common/layout/page-header.vue';
 import root from 'window-or-global';
 import listShimmer from './list-shimmer.vue';
-import dummy from './dummy_ext_collection.json';
 import { debounce } from '@/helper/utils';
 import { capitalize } from 'lodash';
 import ExtensionService from '@/services/extension.service';
@@ -187,7 +186,6 @@ export default {
                 current_status: ''
             },
             error_comments: '',
-            fynd_platform_domain: 'fynd.com',
             extension_collections: [],
             inProgressSearch: false,
             paginationConfig: { ...PAGINATION }
@@ -195,14 +193,15 @@ export default {
     },
     computed: {},
     mounted() {
-        this.fynd_platform_domain =
-            env.FYND_PLATFORM_DOMAIN || this.fynd_platform_domain;
         if (this.$route.query.name) {
             this.searchText = this.$route.query.name;
         }
         this.fetchExtension();
     },
     methods: {
+        fynd_platform_domain() {
+            return env.FYND_PLATFORM_DOMAIN;
+        },
         paginationChange(config) {
             this.paginationConfig = config;
             this.fetchExtension();
@@ -220,7 +219,8 @@ export default {
             let params = {
                 page_size: this.paginationConfig.limit,
                 page_no: this.paginationConfig.current,
-                name
+                name,
+                category: 'extension'
             };
             this.$router
                 .push({

@@ -263,7 +263,7 @@
                     <div class="item-catelogue">
                         <div class="cl-Mako bold-md">
                             Extensions ({{
-                                collection_data.selected_extensions.length
+                                collection_data.selected_items.length
                             }})
                         </div>
                         <div>
@@ -289,7 +289,7 @@
                     :isCancelable="true"
                     :title="'Extension List'"
                     @onAddExtensions="addSelectedExtensions"
-                    :selected_extensions="collection_data.selected_extensions"
+                    :selected_extensions="collection_data.selected_items"
                     @closeProductModal="closeModal"
                     @handleModalRef="setModalRef"
                     @getExtensionData="setExtensionData"
@@ -298,17 +298,17 @@
                 <div class="p-24-bg-white">
                     <page-empty
                         :text="'No Extensions selected for this collection'"
-                        v-if="!collection_data.selected_extensions.length"
+                        v-if="!collection_data.selected_items.length"
                     >
                     </page-empty>
                     <div
-                        v-if="collection_data.selected_extensions.length"
+                        v-if="collection_data.selected_items.length"
                         class="extension-list-container"
                     >
                         <div
                             class="extension-card"
                             v-for="(extension,
-                            index) in collection_data.selected_extensions"
+                            index) in collection_data.selected_items"
                             :key="index"
                             :ref="'extension-' + index"
                         >
@@ -471,7 +471,7 @@ const RequiredFields = [
         key: 'extensions',
         message: 'Select mininum 1 extension',
         validator: (data) => {
-            if (data.selected_extensions.length) {
+            if (data.selected_items.length) {
                 return true;
             }
             return false;
@@ -528,7 +528,7 @@ export default {
                 name: '',
                 tags: [],
                 current_status: '',
-                selected_extensions: [],
+                selected_items: [],
                 icon: '',
                 description: '',
                 published: true,
@@ -538,7 +538,7 @@ export default {
             tags: [],
             chipInput: '',
             fynd_platform_domain: 'fynd.com',
-            selected_extensions: [],
+            selected_items: [],
             modalRef: null,
             extension_data: [],
             duplicate_slug: { error: '' },
@@ -585,14 +585,14 @@ export default {
             return !isEmpty(this.errors);
         },
         removeExtension(item) {
-            const selected_extensions = this.collection_data.selected_extensions.filter(
+            const selected_items = this.collection_data.selected_items.filter(
                 (x) => x._id !== item._id
             );
-            this.collection_data.selected_extensions = selected_extensions;
+            this.collection_data.selected_items = selected_items;
             this.$set(
                 this.collection_data,
-                'selected_extensions',
-                selected_extensions
+                'selected_items',
+                selected_items
             );
         },
         isEditForm() {
@@ -622,9 +622,9 @@ export default {
         setModalRef(modalRef) {
             this.modalRef = modalRef;
         },
-        addSelectedExtensions(selected_extensions) {
-            this.selected_extensions = selected_extensions;
-            this.collection_data.selected_extensions = selected_extensions;
+        addSelectedExtensions(selected_items) {
+            this.selected_items = selected_items;
+            this.collection_data.selected_items = selected_items;
             this.showExtensionModal = false;
         },
         addProducts() {
@@ -658,15 +658,15 @@ export default {
                 );
                 return;
             }
-            this.collection_data.collection_items = this.collection_data.selected_extensions.map(
+            this.collection_data.collection_items = this.collection_data.selected_items.map(
                 (selceted_ext) => {
                     return {
-                        entity_id: selceted_ext._id,
+                        entity_id: selceted_ext.extension_id,
                         entity_type: 'extension'
                     };
                 }
             );
-            const { selected_extensions, ...postObject } = this.collection_data;
+            const { selected_items, ...postObject } = this.collection_data;
             if (this.$route.query.id) {
                 ExtensionService.updateExtensionCollection(
                     postObject,

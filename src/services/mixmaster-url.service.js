@@ -29,21 +29,21 @@ const URLS = {
         );
     },
     GET_EXTENSION_COLLECTIONS: () => {
-        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection/extensions`);
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection`);
     },
     GET_EXTENSION_COLLECTIONS_DETAILS: (id = '') => {
         return urlJoin(
             MIXMASTER_ADMIN_BASE,
-            `/v1.0/collection/extensions/${id}`
+            `/v1.0/collection/${id}`
         );
     },
     SAVE_EXTENSION_COLLECTION: () => {
-        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection/extensions`);
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection`);
     },
     UPDATE_EXTENSION_COLLECTION: (id = '') => {
         return urlJoin(
             MIXMASTER_ADMIN_BASE,
-            `/v1.0/collection/extensions/${id}`
+            `/v1.0/collection/${id}`
         );
     },
     PUBLIC_EXTENSIONS: () => {
@@ -52,7 +52,7 @@ const URLS = {
     CHECK_DUPLICATE_SLUG: (slug) => {
         return urlJoin(
             MIXMASTER_ADMIN_BASE,
-            `/v1.0/collection/extensions/check-slug/${slug}`
+            `/v1.0/collection/check-slug/${slug}`
         );
     },
     PUBLIC_EXTENSION_CATEGORIES: () => {
