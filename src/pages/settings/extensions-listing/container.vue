@@ -452,17 +452,6 @@ export default {
                 this.loading = false;
             });
         },
-        mergePageParams(pages) {
-            //merge both objects having same page key of  different array with all properties
-            return _({}) // Start with an empty object
-                .merge(
-                    _(PAGE_TYPES).groupBy('page_type').value(),
-                    _(pages).groupBy('value').value()
-                )
-                .values()
-                .flatten()
-                .value();
-        },
         onSave(page, e) {
             this.loading = true;
             if(this.selectedPageIndex !== -1) {
@@ -486,8 +475,8 @@ export default {
                 this.getAvailablePages();
             })
             .catch(error => {
-                this.$snackbar.global.showError('Failed to save configuration');
                 console.log("error:   ", error);
+                this.$snackbar.global.showError('Failed to save configuration');
             })
             .finally(() => {this.loading = false;});
         },

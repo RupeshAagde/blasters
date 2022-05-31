@@ -28,6 +28,15 @@ describe('Extensions Container', () => {
             ]
         });
 
+        mock.onGet(URLS.FETCH_PUBLIC_EXTENSIONS())
+        .reply(200, mockData.fetchPublicExtensions);
+
+        mock.onGet(URLS.GET_COLLECTIONS())
+        .reply(200, mockData.fetchCollections);
+
+        mock.onGet(URLS.GET_CATEGORIES())
+        .reply(200, mockData.fetchCategories);
+
         mock.onGet(URLS.GET_AVAILABLE_SECTIONS())
         .reply(200, mockData.availableSections);
 
@@ -72,14 +81,26 @@ describe('Extensions Container', () => {
         expect(wrapper.vm.showSidebar).toBe(false);
     });
 
-    // it('should call available pages when user successfully updates the home page', async() => {
-    //     let getAvailablePagesMethod = jest.spyOn(wrapper.vm, 'getAvailablePages');
+    it('should fetch new options for the dropdown when user searches for an extension', async() => {
+        let getPublicExtensionsMethod = jest.spyOn(wrapper.vm, 'getPublicExtensions');
 
-    //     console.log("getAvailablePagesMethod:   ", getAvailablePagesMethod);
+        await wrapper.vm.$nextTick();
 
-    //     let element = wrapper.findComponent(SectionsList);
-    //     element.vm.$emit('save', mockData.updateHomeEvent);
+        let element = wrapper.findComponent(SectionsList);
+        element.vm.$emit('search-input', {type: 'extension', value: {text: 'Hello'}});
+        element.vm.$emit('save', mockData.updateHomeEvent);
 
-    //     expect(getAvailablePagesMethod).not.toHaveBeenCalled();
-    // })
+        expect(getPublicExtensionsMethod).toHaveBeenCalled();
+    });
+
+    it('should fetch new options for the dropdown when user searches for a collection', async() => {
+        let getCollectionsMethod = jest.spyOn(wrapper.vm, 'getCollections');
+
+        await wrapper.vm.$nextTick();
+
+        let element = wrapper.findComponent(SectionsList);
+        element.vm.$emit('search-input', {type: 'collection', value: {text: 'Hello'}});
+
+        expect(getCollectionsMethod).toHaveBeenCalled();
+    });
 })
