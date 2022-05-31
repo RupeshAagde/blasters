@@ -50,6 +50,9 @@ import IntegrationsListVue from '@/pages/integration/list';
 import IntegrationsCreateVue from '@/pages/integration/create';
 const OrdersPage =()=>import('@/pages/orders');
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
+import PackagingHome from '@/pages/packaging/packaging-home.vue'
+import CategoryConfig from '@/pages/packaging/category-config.vue'
+import PackagingCreate from '@/pages/packaging/create-packaging.vue'
 
 import { authenticatedUser, checkUserPermission } from './../guards';
 
@@ -641,5 +644,38 @@ export default [
             //     return checkUserPermission(to, from, next, ['admin-access']);
             // }
         },
+        /**
+         * packaging related routes 
+         */
+        {
+            name: 'packaging-home',
+            path: 'packaging/items',
+            component: PackagingHome,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, [
+                    'admin-access'
+                ]);
+            }
+        },
+        {
+            name: 'packaging-create',
+            path: 'packaging/create',
+            component: PackagingCreate,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, [
+                    'admin-access'
+                ]);
+            }
+        },
+        {
+            name: 'category-config',
+            path: 'packaging/category-configuration',
+            component: CategoryConfig,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, [
+                    'admin-access'
+                ]);
+            }
+        }
     ]
 }];
