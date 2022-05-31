@@ -202,6 +202,7 @@
         <div class="actions">
             <nitrozen-button
                 :theme="'secondary'"
+                class="save-button"
                 v-flatBtn
                 @click="onSaveButtonClick($event)"
                 :showProgress="inProgress"
