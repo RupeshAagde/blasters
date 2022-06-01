@@ -32,7 +32,7 @@ const UserService = {
         let axiosOption = Object.assign({
             params: params
         });
-        return ApiService.get(URLS.EXTENSION_CATEGORIES_ADMIN(), axiosOption);
+        return ApiService.get(URLS.PUBLIC_EXTENSION_CATEGORIES(), axiosOption);
     },
     saveExtensionCollection(data) {
         const axiosOption = Object.assign(getCommonHeaderOptions(), {

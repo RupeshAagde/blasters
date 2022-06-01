@@ -34,7 +34,7 @@ describe('Extensions Container', () => {
         mock.onGet(URLS.GET_EXTENSION_COLLECTIONS())
         .reply(200, mockData.fetchCollections);
 
-        mock.onGet(URLS.EXTENSION_CATEGORIES_ADMIN())
+        mock.onGet(URLS.PUBLIC_EXTENSION_CATEGORIES())
         .reply(200, mockData.fetchCategories);
 
         mock.onGet(URLS.GET_AVAILABLE_SECTIONS())

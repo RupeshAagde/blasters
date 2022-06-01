@@ -48,7 +48,7 @@ const ExtensionPageService = {
             { params },
             getCommonHeaderOptions()
         );
-        return ApiService.get(URLS.EXTENSION_CATEGORIES_ADMIN(), axiosOptions);
+        return ApiService.get(URLS.PUBLIC_EXTENSION_CATEGORIES(), axiosOptions);
     }
 }
 
