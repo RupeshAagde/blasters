@@ -14,7 +14,6 @@
                     </div>
                     <nitrozen-toggle-btn
                         v-model="collection_data.published"
-                        @input="changeStatus"
                     ></nitrozen-toggle-btn>
                     <nitrozen-button
                         :theme="'secondary'"
@@ -28,11 +27,16 @@
             </page-header>
         </div>
 
-        <div v-if="isEditModeLoading()" class="new-main-container">
+        <loader v-if="pageLoading && !pageError"></loader>
+        <page-error
+            v-else-if="pageError && !pageLoading"
+            @tryAgain="fetchExtensionCollectionDetails(collection_id)"
+        ></page-error>
+        <div  v-else class="new-main-container">
             <div class="new-page-container">
                 <div class="section p-24-bg-white">
-                    <div class="cl-Mako bold-md">Basic Details</div>
                     <loader v-if="inProgress" class="loading"></loader>
+                    <div class="cl-Mako bold-md">Basic Details</div>
                     <!-- Name -->
                     <div class="input">
                         <nitrozen-input
@@ -117,9 +121,11 @@
                 </div>
                 <!-- Image Upload -->
                 <div class="image-error" v-if="errors.logo">
-                    <nitrozen-error class="nitrozen-error" v-if="errors.logo">{{
-                        errors.logo
-                    }}</nitrozen-error>
+                    <nitrozen-error
+                        class="nitrozen-error"
+                        v-if="errors.logo"
+                        >{{ errors.logo }}</nitrozen-error
+                    >
                 </div>
                 <div class="image-uploader p-24-bg-white">
                     <div class="no-image-container">
@@ -148,7 +154,9 @@
                                         @delete="
                                             collection_data.banner.logo = ''
                                         "
-                                        @save="onChangeImage($event, 'logo')"
+                                        @save="
+                                            onChangeImage($event, 'logo')
+                                        "
                                         :value="collection_data.banner.logo"
                                         :mediaFolder="
                                             collection_data.banner.logo
@@ -162,7 +170,9 @@
                     </div>
                     <div class="no-image-container">
                         <div class="main-label">
-                            <div class="sub-label-top">Portrait Banner *</div>
+                            <div class="sub-label-top">
+                                Portrait Banner *
+                            </div>
                             <div class="sub-label-bottom">(Mobile)</div>
                         </div>
 
@@ -183,12 +193,18 @@
                                             height: 480
                                         }"
                                         @delete="
-                                            collection_data.banner.portrait = ''
+                                            collection_data.banner.portrait =
+                                                ''
                                         "
                                         @save="
-                                            onChangeImage($event, 'portrait')
+                                            onChangeImage(
+                                                $event,
+                                                'portrait'
+                                            )
                                         "
-                                        :value="collection_data.banner.portrait"
+                                        :value="
+                                            collection_data.banner.portrait
+                                        "
                                         :mediaFolder="
                                             collection_data.banner.portrait
                                         "
@@ -201,7 +217,9 @@
                     </div>
                     <div class="no-image-container">
                         <div class="main-label">
-                            <div class="sub-label-top">Landscape Banner *</div>
+                            <div class="sub-label-top">
+                                Landscape Banner *
+                            </div>
                             <div class="sub-label-bottom">(Web)</div>
                         </div>
 
@@ -226,7 +244,10 @@
                                                 ''
                                         "
                                         @save="
-                                            onChangeImage($event, 'landscape')
+                                            onChangeImage(
+                                                $event,
+                                                'landscape'
+                                            )
                                         "
                                         :value="
                                             collection_data.banner.landscape
@@ -255,7 +276,9 @@
                             :maxTags="3"
                         ></tags-input>
                     </div>
-                    <nitrozen-error class="nitrozen-error" v-if="errors.tags"
+                    <nitrozen-error
+                        class="nitrozen-error"
+                        v-if="errors.tags"
                         >{{ errors.tags }}
                     </nitrozen-error>
                 </div>
@@ -340,14 +363,15 @@
                                     }}
                                 </div>
                                 <!-- <div class="extension-tag-line">
-                                    {{ extension.listing_info.tagline }}
-                                </div> -->
+                                {{ extension.listing_info.tagline }}
+                            </div> -->
                                 <div class="extension-price">
                                     <span
                                         v-if="
                                             extension.plans &&
                                                 extension.plans.length &&
-                                                extension.plans[0].price.amount
+                                                extension.plans[0].price
+                                                    .amount
                                         "
                                         >{{
                                             extension.plans[0].price.amount
@@ -356,9 +380,10 @@
                                         <span class="capitalize">
                                             /
                                             {{
-                                                extension.plans[0].recurring &&
-                                                    extension.plans[0].recurring
-                                                        .type
+                                                extension.plans[0]
+                                                    .recurring &&
+                                                    extension.plans[0]
+                                                        .recurring.type
                                             }}</span
                                         ></span
                                     >
@@ -386,15 +411,6 @@
                     />
                 </div>
             </div>
-        </div>
-
-        <loader v-if="pageLoading && !pageError"></loader>
-        <page-error
-            v-else-if="pageError && !pageLoading"
-            @tryAgain="fetchExtension"
-        ></page-error>
-        <div class="main-container" v-else>
-            <loader v-if="inProgress" class="loading"></loader>
         </div>
     </div>
 </template>
@@ -511,7 +527,6 @@ export default {
             inProgress: false,
             pageError: false,
             pageLoading: false,
-            isPageLoading: true,
             is_slug_dirty: false,
             collection_data: {
                 collection_category: 'extension',
@@ -537,7 +552,6 @@ export default {
             errors: {},
             tags: [],
             chipInput: '',
-            fynd_platform_domain: 'fynd.com',
             selected_items: [],
             modalRef: null,
             extension_data: [],
@@ -546,14 +560,18 @@ export default {
             is_slug_loading: false
         };
     },
-    computed: {},
-    mounted() {
-        this.fynd_platform_domain =
-            env.FYND_PLATFORM_DOMAIN || this.fynd_platform_domain;
-        if (this.$route.query.id) {
-            this.fetchExtensionCollectionDetails(this.$route.query.id);
+    computed: {
+        fynd_platform_domain() {
+            return env.FYND_PLATFORM_DOMAIN;
+        },
+        collection_id() {
+            return this.$route.params.collection_id;
         }
-        this.fetchExtension();
+    },
+    mounted() {
+        if (this.collection_id) {
+            this.fetchExtensionCollectionDetails(this.collection_id);
+        }
     },
     methods: {
         onNameInput(slug) {
@@ -562,11 +580,8 @@ export default {
             }
             this.handleSlugChange(this.nameToSlug(slug).substr(0, 24), true);
         },
-        changeStatus(value) {
-            this.collection_data.published = value;
-        },
         checkSlugDisable() {
-            return !!this.$route.query.id || this.is_slug_loading;
+            return !!this.collection_id || this.is_slug_loading;
         },
         setExtensionData(extension_data) {
             this.extension_data = extension_data;
@@ -589,35 +604,28 @@ export default {
                 (x) => x._id !== item._id
             );
             this.collection_data.selected_items = selected_items;
-            this.$set(
-                this.collection_data,
-                'selected_items',
-                selected_items
-            );
+            this.$set(this.collection_data, 'selected_items', selected_items);
         },
         isEditForm() {
-            if (this.$route.query.id) {
+            if (this.collection_id) {
                 return true;
             }
             return false;
         },
-        isEditModeLoading() {
-            if (this.$route.query.id) {
-                return !this.isPageLoading;
-            }
-            return true;
-        },
         fetchExtensionCollectionDetails(id) {
-            this.isPageLoading = true;
-            ExtensionService.getExtensionCollectionDetails(id).then((res) => {
-                this.collection_data = res.data;
-                this.isPageLoading = false;
-                this.$set(
-                    this.collection_data,
-                    'tags',
-                    this.collection_data.tags
-                );
-            });
+            this.pageLoading = true;
+            ExtensionService.getExtensionCollectionDetails(id)
+                .then((res) => {
+                    this.collection_data = res.data;
+                    this.$set(
+                        this.collection_data,
+                        'tags',
+                        this.collection_data.tags
+                    );
+                })
+                .finally(() => {
+                    this.pageLoading = false;
+                });
         },
         setModalRef(modalRef) {
             this.modalRef = modalRef;
@@ -646,8 +654,7 @@ export default {
             };
         },
         formatBytes,
-        fetchExtension() {},
-        saveForm(approve) {
+        saveForm() {
             if (this.checkRequiredFields()) {
                 this.$snackbar.global.showError('Missing required fields');
                 return;
@@ -667,10 +674,10 @@ export default {
                 }
             );
             const { selected_items, ...postObject } = this.collection_data;
-            if (this.$route.query.id) {
+            if (this.collection_id) {
                 ExtensionService.updateExtensionCollection(
                     postObject,
-                    this.$route.query.id
+                    this.collection_id
                 )
                     .then((res) => {
                         this.$snackbar.global.showSuccess(
