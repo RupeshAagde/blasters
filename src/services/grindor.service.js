@@ -12,8 +12,13 @@ const config = root.config || {};
 const GrindorService = {
     hdns: [env.CDN_ITEM_DOMAINS],
     isHDNPath(path) {
-        const url = new URL(path);
-        return this.hdns.includes(url.hostname);
+        try {
+            const url = new URL(path);
+            return this.hdns.includes(url.hostname);
+
+        } catch (err) {
+            return false
+        }
     },
     getPublicUrl(companyId, data = {}) {
         let axiosOption = Object.assign(
