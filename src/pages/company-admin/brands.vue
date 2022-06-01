@@ -406,7 +406,6 @@ import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import dateFormat from 'dateformat';
-import { getRoute } from '@/helper/get-route';
 import admInlineSVG from '@/components/common/adm-inline-svg';
 import { GET_METRICS } from '@/store/getters.type';
 import { mapGetters } from 'vuex';

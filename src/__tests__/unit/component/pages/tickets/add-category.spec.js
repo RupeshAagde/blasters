@@ -9,7 +9,6 @@ import ADMIN_URLS from '@/services/domain.service';
 
 let localVue;
 const mock = new MockAdapter(axios);
-//${getRoute(this.$route)}/administrator/support/add-category
 describe('Ticket Category Page', () => {
 
     beforeEach(() => {
