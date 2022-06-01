@@ -222,9 +222,11 @@ export default {
             this.$set(block, 'expand', !block.expand);
         },
         removeBlock(index) {
-            this.section.blocks = this.section.blocks.filter(
-                (b, i) => i != index
-            );
+            if(this.section.blocks) {
+                this.section.blocks = this.section.blocks.filter(
+                    (b, i) => i != index
+                );
+            }
             this.$emit('update-block', this.section);
         },
         onBlockInputChange(block, prop, value) {

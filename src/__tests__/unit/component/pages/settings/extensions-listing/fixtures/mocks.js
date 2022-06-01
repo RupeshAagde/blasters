@@ -6601,3 +6601,625 @@ module.exports.availableSectionsMock = [
         "__v": 0
     }
 ]
+
+module.exports.sectionForUpdate = {
+  "name": "brands-listing",
+  "props": {
+      "title": {
+          "type": "text",
+          "value": "Popular Brands"
+      },
+      "header": {
+          "type": "header"
+      },
+      "brand_type": {
+          "value": "all",
+          "type": "radio"
+      },
+      "department": {
+          "type": "department"
+      },
+      "item_count": {
+          "value": 5,
+          "type": "range"
+      },
+      "layout": {
+          "value": "horizontal",
+          "type": "select"
+      },
+      "view_all": {
+          "value": false,
+          "type": "checkbox"
+      }
+  },
+  "blocks": [],
+  "preview": true,
+  "preset": {}
+};
+
+module.exports.sectionSchemaForTest = {
+  "predicate": {
+      "screen": {
+          "mobile": true,
+          "table": true,
+          "desktop": true
+      }
+  },
+  "tags": [],
+  "items": [],
+  "custom_meta": [],
+  "_id": "6287788f3ff7ad003727874f",
+  "type": "banner",
+  "name": "Banner",
+  "page_type": "all",
+  "props": [
+      {
+          "id": "heading",
+          "label": "Heading",
+          "default": "",
+          "type": "textbox",
+          "display": true
+      },
+      {
+          "id": "title",
+          "label": "Title",
+          "default": "",
+          "type": "textbox",
+          "display": true
+      },
+      {
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "",
+          "type": "textbox",
+          "display": true
+      },
+      {
+          "id": "image",
+          "label": "Banner Image",
+          "default": "",
+          "type": "image_picker",
+          "display": true
+      },
+      {
+          "id": "image_position",
+          "label": "Banner Position",
+          "default": "",
+          "type": "radio",
+          "predicate_prop": {
+              "image": true
+          },
+          "options": [
+              {
+                  "value": "left",
+                  "text": "Left"
+              },
+              {
+                  "value": "right",
+                  "text": "Right"
+              }
+          ],
+          "display": false
+      },
+      {
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "",
+          "type": "text",
+          "display": true
+      },
+      {
+          "id": "button_page_link",
+          "label": "Redirection Page",
+          "default": "",
+          "type": "select",
+          "predicate_prop": {
+              "button_label": true
+          },
+          "options": [
+              {
+                  "value": "Extensions List",
+                  "text": "/extensions"
+              }
+          ],
+          "display": true
+      }
+  ],
+  "created_at": "2022-05-20T11:16:31.245Z",
+  "modified_at": "2022-05-20T11:16:31.245Z",
+  "__v": 0
+}
+
+module.exports.sectionForTest = {
+  "predicate": {
+      "screen": {
+          "mobile": true,
+          "table": true,
+          "desktop": true
+      }
+  },
+  "tags": [],
+  "visible": true,
+  "type": "banner",
+  "page_type": "all",
+  "data": {
+      "heading": "Fynd Extensions ",
+      "title": "Skyrocket your business experience using extensions",
+      "subtitle": "Boost the capability of Fynd Platform using extensions created specially for the merchant community ",
+      "image": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/PR-OVVImt-logo.png",
+      "image_position": "right",
+      "button_label": "View All Extensions",
+      "button_page_link": "Extensions List"
+  },
+  "props": {
+      "heading": {
+          "type": "textbox",
+          "value": "Fynd Extensions "
+      },
+      "title": {
+          "type": "textbox",
+          "value": "Skyrocket your business experience using extensions"
+      },
+      "subtitle": {
+          "type": "textbox",
+          "value": "Boost the capability of Fynd Platform using extensions created specially for the merchant community "
+      },
+      "image": {
+          "type": "image_picker",
+          "value": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/PR-OVVImt-logo.png"
+      },
+      "image_position": {
+          "type": "radio",
+          "value": "right"
+      },
+      "button_label": {
+          "type": "text",
+          "value": "View All Extensions"
+      },
+      "button_page_link": {
+          "type": "select",
+          "value": "Extensions List"
+      }
+  }
+}
+
+module.exports.pageForTest = {
+  "_id": "6294abba16cd26002faff08c",
+  "custom_meta": [],
+  "type": "extension",
+  "slug": "extension-home",
+  "sections": [
+      {
+          "predicate": {
+              "screen": {
+                  "mobile": true,
+                  "table": true,
+                  "desktop": true
+              }
+          },
+          "tags": [],
+          "visible": true,
+          "type": "banner",
+          "page_type": "all",
+          "data": {
+              "heading": "Fynd Extensions ",
+              "title": "Skyrocket your business experience using extensions",
+              "subtitle": "Boost the capability of Fynd Platform using extensions created specially for the merchant community ",
+              "image": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/PR-OVVImt-logo.png",
+              "image_position": "right",
+              "button_label": "View All Extensions",
+              "button_page_link": "Extensions List"
+          }
+      },
+      {
+          "predicate": {
+              "screen": {
+                  "mobile": true,
+                  "table": true,
+                  "desktop": true
+              }
+          },
+          "tags": [],
+          "visible": true,
+          "type": "extension_item_list",
+          "page_type": "extension",
+          "item_type": "extension",
+          "items": [
+              {
+                  "_id": "61232bb99b84cb780e583a35",
+                  "listing_info": {
+                      "keywords": [
+                          "file",
+                          "products",
+                          "collections"
+                      ],
+                      "name": "File Attachment Manager",
+                      "tagline": "Attach extra files with products and collections ",
+                      "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/6ZX0MGDLJ-logo.png"
+                  },
+                  "plans": [
+                      {
+                          "name": "Basic",
+                          "features": "Attach Files\nSupport for products ",
+                          "type": "free",
+                          "price": {
+                              "amount": 0,
+                              "currency": "INR"
+                          },
+                          "trial_days": 0,
+                          "additional_charges": ""
+                      }
+                  ],
+                  "organization": [
+                      {
+                          "name": "Piyush Org",
+                          "slug": "Piyush-ph2-25"
+                      }
+                  ]
+              },
+              {
+                  "_id": "61233a429b84cb6fbc583a37",
+                  "listing_info": {
+                      "keywords": [
+                          "moengage"
+                      ],
+                      "name": "MoEngage Catalogue",
+                      "tagline": "Export products in MoEngage compatible format",
+                      "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/vWxBbWFrp-B9wLASdAHG-moengage.png"
+                  },
+                  "plans": [
+                      {
+                          "name": "Premium",
+                          "features": "Unlimited catalogue export\nSchedule catalogue generation\nView export event history ",
+                          "type": "recurring",
+                          "price": {
+                              "amount": 199,
+                              "currency": "INR"
+                          },
+                          "trial_days": 0,
+                          "additional_charges": "",
+                          "recurring": {
+                              "type": "month",
+                              "recurring_time": 30,
+                              "yearly_amount": 2388
+                          }
+                      }
+                  ],
+                  "organization": [
+                      {
+                          "name": "Piyush Org",
+                          "slug": "Piyush-ph2-25"
+                      }
+                  ]
+              },
+              {
+                  "_id": "61233a489b84cb6eca583a3b",
+                  "listing_info": {
+                      "keywords": [
+                          "adyogi"
+                      ],
+                      "name": "Adyogi Catalogue",
+                      "tagline": "Export products in Adyogi compatible format",
+                      "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/RWrB493lZ-logo.png"
+                  },
+                  "plans": [
+                      {
+                          "name": "Premium",
+                          "features": "Unlimited catalogue export\nSchedule catalogue generation\nView export event history ",
+                          "type": "recurring",
+                          "price": {
+                              "amount": 199,
+                              "currency": "INR"
+                          },
+                          "trial_days": 0,
+                          "additional_charges": "",
+                          "recurring": {
+                              "type": "month",
+                              "recurring_time": 30,
+                              "yearly_amount": 2388
+                          }
+                      }
+                  ],
+                  "organization": [
+                      {
+                          "name": "Piyush Org",
+                          "slug": "Piyush-ph2-25"
+                      }
+                  ]
+              }
+          ],
+          "data": {
+              "heading": "MOST RECOMMENDED",
+              "title": "Handful of extensions",
+              "subtitle": " we suggest for your online business",
+              "button_label": "View All",
+              "button_page_link": "/extensions",
+              "button_position": "top_right",
+              "item_source": "manual",
+              "extension": [
+                  {
+                      "_id": "61232bb99b84cb780e583a35",
+                      "listing_info": {
+                          "keywords": [
+                              "file",
+                              "products",
+                              "collections"
+                          ],
+                          "name": "File Attachment Manager",
+                          "tagline": "Attach extra files with products and collections ",
+                          "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/6ZX0MGDLJ-logo.png"
+                      },
+                      "plans": [
+                          {
+                              "name": "Basic",
+                              "features": "Attach Files\nSupport for products ",
+                              "type": "free",
+                              "price": {
+                                  "amount": 0,
+                                  "currency": "INR"
+                              },
+                              "trial_days": 0,
+                              "additional_charges": ""
+                          }
+                      ],
+                      "organization": [
+                          {
+                              "name": "Piyush Org",
+                              "slug": "Piyush-ph2-25"
+                          }
+                      ]
+                  },
+                  {
+                      "_id": "61233a429b84cb6fbc583a37",
+                      "listing_info": {
+                          "keywords": [
+                              "moengage"
+                          ],
+                          "name": "MoEngage Catalogue",
+                          "tagline": "Export products in MoEngage compatible format",
+                          "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/vWxBbWFrp-B9wLASdAHG-moengage.png"
+                      },
+                      "plans": [
+                          {
+                              "name": "Premium",
+                              "features": "Unlimited catalogue export\nSchedule catalogue generation\nView export event history ",
+                              "type": "recurring",
+                              "price": {
+                                  "amount": 199,
+                                  "currency": "INR"
+                              },
+                              "trial_days": 0,
+                              "additional_charges": "",
+                              "recurring": {
+                                  "type": "month",
+                                  "recurring_time": 30,
+                                  "yearly_amount": 2388
+                              }
+                          }
+                      ],
+                      "organization": [
+                          {
+                              "name": "Piyush Org",
+                              "slug": "Piyush-ph2-25"
+                          }
+                      ]
+                  },
+                  {
+                      "_id": "61233a489b84cb6eca583a3b",
+                      "listing_info": {
+                          "keywords": [
+                              "adyogi"
+                          ],
+                          "name": "Adyogi Catalogue",
+                          "tagline": "Export products in Adyogi compatible format",
+                          "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/RWrB493lZ-logo.png"
+                      },
+                      "plans": [
+                          {
+                              "name": "Premium",
+                              "features": "Unlimited catalogue export\nSchedule catalogue generation\nView export event history ",
+                              "type": "recurring",
+                              "price": {
+                                  "amount": 199,
+                                  "currency": "INR"
+                              },
+                              "trial_days": 0,
+                              "additional_charges": "",
+                              "recurring": {
+                                  "type": "month",
+                                  "recurring_time": 30,
+                                  "yearly_amount": 2388
+                              }
+                          }
+                      ],
+                      "organization": [
+                          {
+                              "name": "Piyush Org",
+                              "slug": "Piyush-ph2-25"
+                          }
+                      ]
+                  },
+                  "609400409d0dcbdc2e6b76a5",
+                  "60be66a2d4cbbf1fd0a67c8c",
+                  "610d2ad295dcfa14eb408bad"
+              ]
+          }
+      },
+      {
+          "predicate": {
+              "screen": {
+                  "mobile": true,
+                  "table": true,
+                  "desktop": true
+              }
+          },
+          "tags": [],
+          "visible": true,
+          "type": "category_item_list",
+          "page_type": "extension",
+          "item_type": "category",
+          "items": [
+              {
+                  "_id": "629461b2e6bf3c5f04e4f63a",
+                  "level": 1,
+                  "slug": "conversion",
+                  "__v": 0,
+                  "description": "description for this category in not more than 2 lines",
+                  "display": "Conversion",
+                  "icon_image": "https://i.ibb.co/Z6gPpqd/Rectangle-144.png",
+                  "value": "Conversion"
+              },
+              {
+                  "_id": "629461b2e6bf3c5f04e4f63c",
+                  "level": 1,
+                  "slug": "merchandising",
+                  "__v": 0,
+                  "description": "description for this category in not more than 2 lines",
+                  "display": "Merchandising",
+                  "icon_image": "https://i.ibb.co/Z6gPpqd/Rectangle-144.png",
+                  "value": "Merchandising"
+              },
+              {
+                  "_id": "629461b2e6bf3c5f04e4f63d",
+                  "level": 1,
+                  "slug": "marketing",
+                  "__v": 0,
+                  "description": "description for this category in not more than 2 lines",
+                  "display": "Marketing",
+                  "icon_image": "https://i.ibb.co/Z6gPpqd/Rectangle-144.png",
+                  "value": "Marketing"
+              },
+              {
+                  "_id": "629461b2e6bf3c5f04e4f645",
+                  "level": 1,
+                  "slug": "fulfillment",
+                  "__v": 0,
+                  "description": "description for this category in not more than 2 lines",
+                  "display": "Fulfillment",
+                  "icon_image": "https://i.ibb.co/Z6gPpqd/Rectangle-144.png",
+                  "value": "Fulfillment"
+              }
+          ],
+          "data": {
+              "heading": "CATEGORIES",
+              "title": "Extensions organized as per their genre",
+              "subtitle": "Subtitle",
+              "button_label": "View All",
+              "button_page_link": "/extensions",
+              "button_position": "bottom_center",
+              "item_source": "manual",
+              "category": [
+                  {
+                      "_id": "629461b2e6bf3c5f04e4f63a",
+                      "level": 1,
+                      "slug": "conversion",
+                      "__v": 0,
+                      "description": "description for this category in not more than 2 lines",
+                      "display": "Conversion",
+                      "icon_image": "https://i.ibb.co/Z6gPpqd/Rectangle-144.png",
+                      "value": "Conversion"
+                  },
+                  {
+                      "_id": "629461b2e6bf3c5f04e4f63c",
+                      "level": 1,
+                      "slug": "merchandising",
+                      "__v": 0,
+                      "description": "description for this category in not more than 2 lines",
+                      "display": "Merchandising",
+                      "icon_image": "https://i.ibb.co/Z6gPpqd/Rectangle-144.png",
+                      "value": "Merchandising"
+                  },
+                  {
+                      "_id": "629461b2e6bf3c5f04e4f63d",
+                      "level": 1,
+                      "slug": "marketing",
+                      "__v": 0,
+                      "description": "description for this category in not more than 2 lines",
+                      "display": "Marketing",
+                      "icon_image": "https://i.ibb.co/Z6gPpqd/Rectangle-144.png",
+                      "value": "Marketing"
+                  },
+                  {
+                      "_id": "629461b2e6bf3c5f04e4f645",
+                      "level": 1,
+                      "slug": "fulfillment",
+                      "__v": 0,
+                      "description": "description for this category in not more than 2 lines",
+                      "display": "Fulfillment",
+                      "icon_image": "https://i.ibb.co/Z6gPpqd/Rectangle-144.png",
+                      "value": "Fulfillment"
+                  },
+                  "Conversion",
+                  "Merchandising",
+                  "Marketing"
+              ]
+          }
+      },
+      {
+          "predicate": {
+              "screen": {
+                  "mobile": true,
+                  "table": true,
+                  "desktop": true,
+                  "tablet": true
+              }
+          },
+          "tags": [],
+          "visible": true,
+          "preview": true,
+          "page_type": "all",
+          "type": "collection_grid",
+          "data": {
+              "heading": "Collections",
+              "title": "Latest",
+              "subtitle": "Subtitle",
+              "button_label": "View",
+              "button_page_link": "Collections",
+              "item_source": "manual",
+              "image": "",
+              "image_position": "",
+              "collection": [
+                  "623847d0ec3c4b10b1f5fed6",
+                  "623b4d518087776e618af270",
+                  "627ba8371171f7705212333b",
+                  "62384f66ec3c4b4e6ff5fee6"
+              ]
+          },
+          "items": []
+      },
+      {
+          "predicate": {
+              "screen": {
+                  "mobile": true,
+                  "table": true,
+                  "desktop": true,
+                  "tablet": true
+              }
+          },
+          "tags": [],
+          "visible": true,
+          "preview": true,
+          "page_type": "extension",
+          "type": "extension_grid",
+          "data": {
+              "heading": "Latest Extensions",
+              "title": "Extensions",
+              "subtitle": "Subtitle",
+              "button_label": "View",
+              "button_page_link": "Collections",
+              "item_source": "manual",
+              "image": "",
+              "image_position": "",
+              "extension": [
+                  "610d2ad295dcfa14eb408bad",
+                  "60be66a2d4cbbf1fd0a67c8c",
+                  "609400409d0dcbdc2e6b76a5"
+              ]
+          }
+      }
+  ],
+  "props": [],
+  "created_at": "2022-05-30T11:34:18.217Z",
+  "modified_at": "2022-05-31T10:25:32.292Z",
+  "__v": 3
+}

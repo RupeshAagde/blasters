@@ -1,6 +1,7 @@
 /* Package imports */
 import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
+import flushPromises from 'flush-promises';
 
 /* Component imports */
 import SectionsList from '@/pages/settings/extensions-listing/sections-list.vue';
@@ -124,6 +125,49 @@ describe('Sections List Component', () => {
         expect(wrapper.element).toMatchSnapshot();
         expect(wrapper.exists()).toBeTruthy();
         wrapper.vm.removeSection(1);
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        expect(wrapper.emitted()['post-message']).toBeTruthy();
+    });
+
+    it('Checks if removeSectionFromPreview works', async () => {
+        expect(wrapper.element).toMatchSnapshot();
+        expect(wrapper.exists()).toBeTruthy();
+        wrapper.vm.addedSection = {
+            name: 'test',
+        };
+        await wrapper.vm.$nextTick();
+        wrapper.vm.removeSectionFromPreview();
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        expect(wrapper.emitted()['post-message']).toBeTruthy();
+    });
+    
+    it('check if onSectionClick works', async() => {
+        let element = wrapper.find('.title');
+        element.trigger('click');  
+        await wrapper.vm.$nextTick();
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        expect(wrapper.emitted()['post-message']).toBeTruthy();
+    });
+
+    it('should copy and create a new section if the user clicks on the copy icon', async() => {
+        await flushPromises();
+
+        let initialLength = wrapper.vm.sections.length;
+        
+        let element = wrapper.find('.copy');
+        element.trigger('click');
+
+        await wrapper.vm.$nextTick();
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        expect(wrapper.vm.mSections.length).toBe(initialLength+1);
+    });
+
+    it('Checks if updateBlocks works', async () => {
+        expect(wrapper.element).toMatchSnapshot();
+        expect(wrapper.exists()).toBeTruthy();
+        wrapper.vm.selectedSectionIndex = 1;
+        await wrapper.vm.$nextTick();
+        wrapper.vm.updateBlocks(mockData.sectionForUpdate);
         await new Promise((resolve) => setTimeout(resolve, 200));
         expect(wrapper.emitted()['post-message']).toBeTruthy();
     });

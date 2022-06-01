@@ -19,6 +19,7 @@
             <template slot="footer">
                 <nitrozen-button
                     :theme="'secondary'"
+                    class="update-preview-btn"
                     v-flatBtn
                     @click="updateSection"
                     >Update Preview
@@ -138,7 +139,7 @@
                                             $event
                                         )
                                     "
-                                    class="section-settings"
+                                    class="section-settings visibility"
                                 >
                                     <adm-inline-svg
                                         :src="
@@ -152,7 +153,7 @@
 
                                 <span
                                     @click="copySection(section)"
-                                    class="section-settings"
+                                    class="section-settings copy"
                                 >
                                     <adm-inline-svg
                                         class="copy_icon"
@@ -162,7 +163,7 @@
 
                                 <span
                                     @click="removeSection(i)"
-                                    class="section-settings"
+                                    class="section-settings remove"
                                 >
                                     <adm-inline-svg :src="'cross-black'" />
                                 </span>
