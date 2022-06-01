@@ -23,7 +23,6 @@ import { NitrozenTooltip } from '@gofynd/nitrozen-vue';
 export default {
     props: ['prop_schema', 'prop', 'name'],
     components: {
-        'nitrozen-checkbox': NitrozenCheckBox,
         NitrozenTooltip
     },
     mounted() {
