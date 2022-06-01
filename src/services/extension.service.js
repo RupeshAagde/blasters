@@ -60,7 +60,7 @@ const UserService = {
         );
     },
     getAllExtensionCategories() {
-        return ApiService.get(URLS.EXTENSION_CATEGORIES_ADMIN());
+        return ApiService.get(URLS.PUBLIC_EXTENSION_CATEGORIES());
     },
     checkDuplicateSlug(slug = '') {
         return ApiService.get(URLS.CHECK_DUPLICATE_SLUG(slug));

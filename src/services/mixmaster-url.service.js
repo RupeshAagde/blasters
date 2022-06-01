@@ -17,9 +17,9 @@ let MIXMASTER_ADMIN_BASE = isNode
     ? envVars.BROWSER_CONFIG.MIXMASTER_ADMIN_URL
     : envVars.MIXMASTER_ADMIN_URL;
 
-let MIXMASTER_PARTNER_BASE = isNode
-    ? envVars.BROWSER_CONFIG.MIXMASTER_PARTNER_URL
-    : envVars.MIXMASTER_PARTNER_URL;
+let MIXMASTER_PNL_BASE = isNode
+    ? envVars.BROWSER_CONFIG.MIXMASTER_PNL_URL
+    : envVars.MIXMASTER_PNL_URL;
 
 const URLS = {
     EXTENSION_REVIEW: (review_id = '') => {
@@ -29,40 +29,37 @@ const URLS = {
         );
     },
     GET_EXTENSION_COLLECTIONS: () => {
-        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection/extensions`);
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection`);
     },
     GET_EXTENSION_COLLECTIONS_DETAILS: (id = '') => {
         return urlJoin(
             MIXMASTER_ADMIN_BASE,
-            `/v1.0/collection/extensions/${id}`
+            `/v1.0/collection/${id}`
         );
     },
     SAVE_EXTENSION_COLLECTION: () => {
-        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection/extensions`);
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection`);
     },
     UPDATE_EXTENSION_COLLECTION: (id = '') => {
         return urlJoin(
             MIXMASTER_ADMIN_BASE,
-            `/v1.0/collection/extensions/${id}`
+            `/v1.0/collection/${id}`
         );
-    },
-    PUBLIC_EXTENSIONS: () => {
-        return urlJoin(MIXMASTER_PARTNER_BASE, `/v1.0/extensions`);
     },
     CHECK_DUPLICATE_SLUG: (slug) => {
         return urlJoin(
             MIXMASTER_ADMIN_BASE,
-            `/v1.0/collection/extensions/check-slug/${slug}`
+            `/v1.0/collection/check-slug/${slug}`
         );
-    },
-    PUBLIC_EXTENSION_CATEGORIES: () => {
-        return urlJoin(MIXMASTER_PARTNER_BASE, `/v1.0/extensions/category/all`);
-    },
-    EXTENSION_CATEGORIES_ADMIN: (organization_id) => {
-        return urlJoin(MIXMASTER_ADMIN_BASE + `/v1.0/extension/category/all`);
     },
     FETCH_PARTNER_ORGANIZATIONS: () => {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/organization/`);
+    },
+    PUBLIC_EXTENSIONS: () => {
+        return urlJoin(MIXMASTER_PNL_BASE, `/v1.0/extensions`);
+    },
+    PUBLIC_EXTENSION_CATEGORIES: () => {
+        return urlJoin(MIXMASTER_PNL_BASE, `/v1.0/extensions/category/all`);
     }
 };
 

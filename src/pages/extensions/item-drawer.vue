@@ -332,7 +332,9 @@ export default {
             type: String
         },
         selected_extensions: {
-            default: []
+            default: function() {
+                return [];
+            }
         }
     },
     data() {
@@ -580,9 +582,9 @@ export default {
                     const all_selected = uniq([
                         ...this.selected_extensions,
                         ...this.extensions_selected
-                    ]).map((ext_selected) => ext_selected._id);
+                    ]).map((ext_selected) => ext_selected.extension_id);
                     this.extension_data = data.data.items.map((ext) => {
-                        if (all_selected.includes(ext._id)) {
+                        if (all_selected.includes(ext.extension_id)) {
                             ext.is_selected = true;
                         }
                         return ext;
@@ -628,20 +630,20 @@ export default {
         selectExtension(state, data, source) {
             if (state) {
                 this.extensions_selected.push(data);
-                this.extensions_selected_ids.push(data._id);
+                this.extensions_selected_ids.push(data.extension_id);
                 this.extension_data = this.extension_data.map((ext) => {
-                    if (data._id === ext._id) {
+                    if (data.extension_id === ext.extension_id) {
                         ext.is_selected = true;
                     }
                     return ext;
                 });
             } else {
-                this.extensions_selected_ids.filter((x) => x === data._id);
+                this.extensions_selected_ids.filter((x) => x === data.extension_id);
                 this.extensions_selected = this.extensions_selected.filter(
-                    (extension) => extension._id !== data._id
+                    (extension) => extension.extension_id !== data.extension_id
                 );
                 this.extension_data = this.extension_data.map((ext) => {
-                    if (data._id === ext._id) {
+                    if (data.extension_id === ext.extension_id) {
                         ext.is_selected = false;
                     }
                     return ext;

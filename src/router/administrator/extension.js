@@ -29,7 +29,7 @@ export default [
         }
     },
     {
-        path: 'extensions/collection/edit',
+        path: 'extensions/collection/edit/:collection_id',
         component: ExtensionCollectionForm,
         beforeEnter: (to, from, next) => {
             return checkUserPermission(to, from, next, ['extension']);
