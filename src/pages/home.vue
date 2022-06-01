@@ -36,8 +36,10 @@ import {
     flatBtn
 } from '@gofynd/nitrozen-vue';
 import { mapGetters } from 'vuex';
-import { IS_LOGGED_IN } from '@/store/getters.type';
+import { IS_LOGGED_IN, GET_USER_PERMISSIONS } from '@/store/getters.type';
 import { OPEN_LOGIN_MODAL } from '@/store/action.type';
+import { PERMISSION_ROUTES } from './../helper/permission_routes'
+
 export default {
     components: {
         'nitrozen-button': NitrozenButton,
@@ -49,13 +51,17 @@ export default {
     },
     computed: {
         ...mapGetters({
-            isLoggedIn: IS_LOGGED_IN
+            isLoggedIn: IS_LOGGED_IN,
+            currentUserPermissions: GET_USER_PERMISSIONS
         })
     },
     methods: {
         openLogin() {
             if (this.isLoggedIn) {
-                return this.$router.push({ name: 'company-list' });
+                const firstPermission = this.currentUserPermissions.permissions.length ? this.currentUserPermissions.permissions[0] : ''
+                if(firstPermission){
+                    return this.$router.push({ path: `/administrator/${PERMISSION_ROUTES[firstPermission]}` });
+                }
             }
             this.$store.dispatch(OPEN_LOGIN_MODAL);
         }

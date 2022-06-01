@@ -310,7 +310,6 @@
 </template>
 
 <script>
-import { getRoute } from '@/helper/get-route';
 import {
     NitrozenButton,
     NitrozenInput,

@@ -9,14 +9,14 @@ export default [
         path: 'extensions/review',
         component: ExtensionReviewList,
         beforeEnter: (to, from, next) => {
-            return next(); // checkUserPermission(to, from, next, ['plans']);
+            return  checkUserPermission(to, from, next, ['extension']);
         }
     },
     {
         path: 'extensions/review/:review_id',
         component: ExtensionReview,
         beforeEnter: (to, from, next) => {
-            return next(); //checkUserPermission(to, from, next, ['plans']);
+            return checkUserPermission(to, from, next, ['extension']);
         }
     }
 ];
