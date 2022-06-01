@@ -41,14 +41,14 @@ const ExtensionPageService = {
             { params },
             getCommonHeaderOptions()
         );
-        return ApiService.get(URLS.GET_COLLECTIONS(), axiosOptions);
+        return ApiService.get(URLS.GET_EXTENSION_COLLECTIONS(), axiosOptions);
     },
     getCategories(params = {}) {
         const axiosOptions = Object.assign(
             { params },
             getCommonHeaderOptions()
         );
-        return ApiService.get(URLS.GET_CATEGORIES(), axiosOptions);
+        return ApiService.get(URLS.EXTENSION_CATEGORIES_ADMIN(), axiosOptions);
     }
 }
 

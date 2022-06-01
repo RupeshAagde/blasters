@@ -196,27 +196,27 @@ export default {
             this.$snackbar.global.showError('Error in fetching data');
         })
 
-        window.addEventListener('message', event => {
-            if (event.data.event === PREVIEW_EVENTS.THEME_MOUNTED) {
-                this.onPostMessage({
-                    config: this.config,
-                    viewport: this.selectedViewport,
-                    send_predicate: true
-                });
-                this.setIframeViewport();
-            }
+        // window.addEventListener('message', event => {
+        //     if (event.data.event === PREVIEW_EVENTS.THEME_MOUNTED) {
+        //         this.onPostMessage({
+        //             config: this.config,
+        //             viewport: this.selectedViewport,
+        //             send_predicate: true
+        //         });
+        //         this.setIframeViewport();
+        //     }
 
-            if (event.data.event === PREVIEW_EVENTS.SECTIONS_FILTER_PREDICATE) {
-                this.sections = event.data.sections;
-            }
+        //     if (event.data.event === PREVIEW_EVENTS.SECTIONS_FILTER_PREDICATE) {
+        //         this.sections = event.data.sections;
+        //     }
 
-            if (
-                event.data.platform_event &&
-                event.data.type === 'dragging'
-            ) {
-                this.setRectSize(event.data.data);
-            }
-        })
+        //     if (
+        //         event.data.platform_event &&
+        //         event.data.type === 'dragging'
+        //     ) {
+        //         this.setRectSize(event.data.data);
+        //     }
+        // })
     },
     computed: {
         getCurrentPage() {

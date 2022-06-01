@@ -215,7 +215,7 @@ export const getNavigations = () => {
                 {
                     display: 'Platform',
                     link: '/administrator/settings/platform',
-                    title: 'platform_settings',
+                    title: 'platform',
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
@@ -223,7 +223,7 @@ export const getNavigations = () => {
                 {
                     display: 'Partner',
                     link: '/administrator/settings/partners',
-                    title: 'partner_settings',
+                    title: 'partner',
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false

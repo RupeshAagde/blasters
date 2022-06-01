@@ -332,7 +332,9 @@ export default {
             type: String
         },
         selected_extensions: {
-            default: []
+            default: function() {
+                return [];
+            }
         }
     },
     data() {
@@ -511,7 +513,7 @@ export default {
             if (value.key === 'all') {
                 this.slugsL1 = {};
                 this.slugsL2 = {};
-                this.query = {};
+                this.query = { name: this.searchText };
                 this.fetchExtensions(1, '', this.query);
                 return;
             }
@@ -569,17 +571,20 @@ export default {
             Promise.all([getAllPulblicExtension, getExtnesionCategory]).then(
                 ([data, category]) => {
                     this.extensions_selected = cloneDeep(
-                        uniq([
-                            ...this.selected_extensions,
-                            ...this.extensions_selected
-                        ])
+                        uniqBy(
+                            [
+                                ...this.selected_extensions,
+                                ...this.extensions_selected
+                            ],
+                            'slug'
+                        )
                     );
-                    const all_selected = [
+                    const all_selected = uniq([
                         ...this.selected_extensions,
                         ...this.extensions_selected
-                    ].map((ext_selected) => ext_selected._id);
+                    ]).map((ext_selected) => ext_selected.extension_id);
                     this.extension_data = data.data.items.map((ext) => {
-                        if (all_selected.includes(ext._id)) {
+                        if (all_selected.includes(ext.extension_id)) {
                             ext.is_selected = true;
                         }
                         return ext;
@@ -625,20 +630,20 @@ export default {
         selectExtension(state, data, source) {
             if (state) {
                 this.extensions_selected.push(data);
-                this.extensions_selected_ids.push(data._id);
+                this.extensions_selected_ids.push(data.extension_id);
                 this.extension_data = this.extension_data.map((ext) => {
-                    if (data._id === ext._id) {
+                    if (data.extension_id === ext.extension_id) {
                         ext.is_selected = true;
                     }
                     return ext;
                 });
             } else {
-                this.extensions_selected_ids.filter((x) => x === data._id);
+                this.extensions_selected_ids.filter((x) => x === data.extension_id);
                 this.extensions_selected = this.extensions_selected.filter(
-                    (extension) => extension._id !== data._id
+                    (extension) => extension.extension_id !== data.extension_id
                 );
                 this.extension_data = this.extension_data.map((ext) => {
-                    if (data._id === ext._id) {
+                    if (data.extension_id === ext.extension_id) {
                         ext.is_selected = false;
                     }
                     return ext;
@@ -694,11 +699,11 @@ export default {
     max-height: 100%;
     .filter-list {
         border-right: 1px solid #e4e5e6;
-        margin-right: 14px;
+        // margin-right: 14px;
         background-color: #fff;
         max-width: 20%;
-        min-width: 280px;
-        max-height: calc(82vh - 100px);
+        min-width: 25%;
+        // max-height: calc(82vh - 100px);
         overflow-y: scroll;
         .filter-section {
             padding: 10px 0px;
@@ -740,14 +745,13 @@ export default {
         overflow-y: hidden;
         min-width: 75%;
         .modal-overflow-y {
-            overflow: scroll;
+            overflow-y: scroll;
             height: calc(100% - 50px);
         }
         .search-input-container {
             height: 40px;
             background: #ececec;
             padding: 10px 0px;
-            margin-left: 10px;
             position: sticky;
             top: 0;
             z-index: 1;
@@ -783,7 +787,7 @@ export default {
             display: grid;
             // grid-template-columns: 33.33% 33.33% 33.33%;
             // margin-top: 50px;
-            padding-right: 15px;
+            // padding-right: 15px;
             .extension-card {
                 min-width: 200px;
                 display: flex;
@@ -857,6 +861,18 @@ export default {
         }
     }
 }
+
+@media (min-width: 1860px) {
+    .main-body {
+        .filter-list {
+            min-width: 20%;
+        }
+        .right {
+            min-width: 80%;
+        }
+    }
+}
+
 .arrow {
     position: absolute;
     right: 10px;
