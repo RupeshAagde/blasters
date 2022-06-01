@@ -20,7 +20,8 @@ import {
 export default {
     name: 'dynamic-input-checkbox',
     components: {
-        NitrozenCheckBox, NitrozenTooltip
+        'nitrozen-checkbox': NitrozenCheckBox, 
+        NitrozenTooltip
     },
     props: ['prop_schema', 'prop', 'name'],
     mounted() {
