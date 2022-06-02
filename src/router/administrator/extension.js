@@ -1,5 +1,6 @@
 'use strict';
 
+import { checkUserPermission } from './../guards';
 import ExtensionReviewList from './../../pages/extensions/extension-review-list.vue';
 import ExtensionCollection from './../../pages/extensions/extension-collection.vue';
 import ExtensionCollectionForm from './../../pages/extensions/extension-collection-create.vue';
@@ -25,7 +26,7 @@ export default [
         path: 'extensions/collection/create',
         component: ExtensionCollectionForm,
         beforeEnter: (to, from, next) => {
-            return checkUserPermission(to, from, next, ['extension']);
+            return  checkUserPermission(to, from, next, ['extension']);
         }
     },
     {
