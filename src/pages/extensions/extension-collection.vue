@@ -31,9 +31,9 @@
             </div>
             <page-empty
                 :text="
-                    searchText
-                        ? `No Collection found with name ${searchText}`
-                        : 'No Collection Created'
+                    (searchText || published.trim())
+                        ? `Collection not found with filter`
+                        : 'No collection Created'
                 "
                 v-if="!extension_collections.length && !inProgressSearch"
             >
