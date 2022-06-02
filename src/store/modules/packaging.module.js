@@ -1,5 +1,3 @@
-import BillingSubscriptionService from '@/services/billing.service';
-
 import {
     FETCH_PACKAGING_PRODUCTS
 } from '../action.type';
@@ -22,7 +20,7 @@ const getDefaultState = () => {
 
 const getters = {
     [GET_PACKAGING_PRODUCTS](state) {
-        return state[CURRENT_ACTIVE_SUBSCRIPTION];
+        return state.products
     },
 };
 
@@ -34,12 +32,7 @@ const mutations = {
 
 const actions = {
     [FETCH_PACKAGING_PRODUCTS]({ commit }, params) {
-        return BillingSubscriptionService.getCurrentActivePlan(params).then(
-            res => {
-                commit(SET_CURRENT_ACTIVE_SUBSCRIPTION, res.data);
-                return res.data;
-            }
-        );
+        return []
     }
 };
 
