@@ -59,7 +59,7 @@ export default [
         beforeEnter: authenticatedUser,
         component: AdministratorBaseViewVue,
         children: [
-            //...PlanCreatorRoutes,
+            // ...PlanCreator,
             ...ExtensionRoutes,
             {
                 name: 'company-list',
@@ -92,7 +92,7 @@ export default [
                         to,
                         from,
                         next,
-                        ['company']
+                        ['plans']
                     );
                 }
             },
@@ -105,7 +105,7 @@ export default [
                         to,
                         from,
                         next,
-                        ['company']
+                        ['plans']
                     );
                 }
             },
@@ -118,7 +118,7 @@ export default [
                         to,
                         from,
                         next,
-                        ['company']
+                        ['plans']
                     );
                 }
             },
@@ -131,7 +131,7 @@ export default [
                         to,
                         from,
                         next,
-                        ['company']
+                        ['plans']
                     );
                 }
             },
@@ -144,7 +144,7 @@ export default [
                         to,
                         from,
                         next,
-                        ['company']
+                        ['communication']
                     );
                 }
             },
@@ -157,7 +157,7 @@ export default [
                         to,
                         from,
                         next,
-                        ['company']
+                        ['plans']
                     );
                 }
             },
@@ -277,7 +277,6 @@ export default [
                         to,
                         from,
                         next,
-                        ['company'],
                         ['audit-trail']
                     );
                 }
@@ -291,7 +290,6 @@ export default [
                         to,
                         from,
                         next,
-                        ['company'],
                         ['audit-trail']
                     );
                 }
@@ -300,32 +298,80 @@ export default [
             {
                 name: 'department',
                 path: 'product/department',
-                component: ListDepartment
+                component: ListDepartment,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['product']
+                    );
+                }
             },
             {
                 name: 'create',
                 path: 'product/department/create',
-                component: CreateUpdateDepartment
+                component: CreateUpdateDepartment,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['product']
+                    );
+                }
             },
             {
                 name: 'edit-department',
                 path: 'product/department/edit/:deptId',
-                component: CreateUpdateDepartment
+                component: CreateUpdateDepartment,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['product']
+                    );
+                }
             },
             {
                 name: 'variants',
                 path: 'product/variants',
-                component: ListVariants
+                component: ListVariants,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['product']
+                    );
+                }
             },
             {
                 name: 'create-variant',
                 path: 'product/variants/create',
-                component: CreateUpdateVariant
+                component: CreateUpdateVariant,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['product']
+                    );
+                }
             },
             {
                 name: 'edit-variant',
                 path: 'product/variants/edit/:uid',
-                component: CreateUpdateVariant
+                component: CreateUpdateVariant,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['product']
+                    );
+                }
             },
             // Product
             {
@@ -601,7 +647,7 @@ export default [
             path: 'orders/list',
             component: OrdersPage,
             beforeEnter: (to, from, next) => {
-                return checkUserPermission(to, from, next, ['product']);
+                return checkUserPermission(to, from, next, ['order']);
             }
         },
         {
@@ -609,7 +655,7 @@ export default [
             path: '/order/:orderId/shipments',
             component: OrderDetails,
             beforeEnter: (to, from, next) => {
-                return checkUserPermission(to, from, next, ['product']);
+                return checkUserPermission(to, from, next, ['order']);
             },
             meta: {
                 name: 'Application Order Details'
@@ -621,25 +667,25 @@ export default [
             name: 'integrations-list',
             path: 'integrations/list',
             component: IntegrationsListVue,
-            // beforeEnter: (to, from, next) => {
-            //     return checkUserPermission(to, from, next, ['admin-access']);
-            // }
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['integration']);
+            }
         },
         {
             name: 'integration-edit',
             path: 'integration/edit/:integrationId',
             component: IntegrationsCreateVue,
-            // beforeEnter: (to, from, next) => {
-            //     return checkUserPermission(to, from, next, ['admin-access']);
-            // }
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['integration']);
+            }
         },
         {
             name: 'integration-create',
             path: 'integration/create',
             component: IntegrationsCreateVue,
-            // beforeEnter: (to, from, next) => {
-            //     return checkUserPermission(to, from, next, ['admin-access']);
-            // }
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['integration']);
+            }
         },
     ]
 }];
