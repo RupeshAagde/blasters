@@ -173,7 +173,7 @@
                     <list-shimmer
                         v-if="inProgress || isPageChange || !extension_data"
                         :count="20"
-                        class="extension-list-container"
+                        class="extension-list-container mr-24"
                         :pagination="false"
                     ></list-shimmer>
                     <page-empty
@@ -188,7 +188,7 @@
     </div>
 </template>
 <script>
-import listShimmer from './list-shimmer.vue';
+import listShimmer from '@/components/common/shimmer.vue';
 import { debounce } from '@/helper/utils';
 import itemDialog from './dialog/item-dialog.vue';
 import ExtensionService from '@/services/extension.service';

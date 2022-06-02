@@ -1,6 +1,6 @@
 <template>
     <nitrozen-dialog
-        ref="products-data"
+        ref="extensions-dialog"
         class="item-collection-dialog"
         :title="title"
         @close="closedialog"
@@ -67,7 +67,7 @@ export default {
     },
     updated() {
         if (this.isOpen) {
-            this.$refs['products-data'].open({
+            this.$refs['extensions-dialog'].open({
                 width: '80%',
                 height: '89%',
                 showCloseButton: true,
@@ -81,7 +81,7 @@ export default {
             this.$emit('closeModal');
         },
         onSubmit() {
-            const modal = this.$refs['products-data'];
+            const modal = this.$refs['extensions-dialog'];
             modal && modal.close();
             this.$emit('onSubmit');
             document.body.style.position = 'relative';
@@ -89,7 +89,7 @@ export default {
     },
     mounted() {
         this.$root.$el.append(this.$el);
-        this.$emit('modalRef', this.$refs['products-data']);
+        this.$emit('modalRef', this.$refs['extensions-dialog']);
     },
     destroyed() {
         if (
