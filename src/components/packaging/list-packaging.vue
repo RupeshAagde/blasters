@@ -1,7 +1,16 @@
 <template>
   <div class="list-packaging-container">
       <div class="list-packaging-container-header">
-          Packaging List
+          Packaging Item List
+          <div class="add-packaging-btn-container">
+               <nitrozen-button
+                class="add-packaging-btn"
+                :rounded="true"
+                theme="secondary"
+                title="Add Packaging"
+                >Add Packaging</nitrozen-button
+            >
+          </div>
       </div>
       <div class="list-container">
           <no-content
@@ -15,10 +24,12 @@
 
 <script>
 import NoContent from '../../components/common/adm-no-content.vue'
+import { NitrozenButton, strokeBtn } from '@gofynd/nitrozen-vue';
 export default {
 name:'list-packaging',
 components:{
-    NoContent
+    NoContent,
+    NitrozenButton
 },
 methods:{
     /**

@@ -2,9 +2,6 @@
   <div>
     <page-header :title="'Packaging'"/>
     <div class="packaging-home-container">
-      <div class="packaging-home-add">
-        <add-packaging/>
-      </div>
       <div class="packaging-home-list">
         <list-packaging/>
       </div>
