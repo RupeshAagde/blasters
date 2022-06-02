@@ -9,6 +9,11 @@ import InvoiceListingMain from './../../pages/company-admin/invoice-listing-main
 import CouponListingMain from './../../pages/company-admin/coupon-listing-main.vue';
 import CouponCreateUpdate from './../../pages/company-admin/coupon-create-update.vue';
 import ReportListingMain from './../../pages/communication/reports.vue';
+import EventSubscription from './../../pages/communication/event_subscription.vue';
+import Provider from './../../pages/communication/provider/listing.vue';
+import ProviderDefault from './../../pages/communication/provider/set-default.vue';
+import ProviderMain from './../../pages/communication/provider/provider-main.vue';
+import SmsTemplateMain from './../../pages/communication/sms/sms-templates.vue';
 import UserManagementVue from './../../pages/super-user/user-access.vue';
 import AddSuperUserVue from './../../pages/super-user/add-user.vue';
 import Tickets from './../../pages/tickets/index.vue';
@@ -139,6 +144,71 @@ export default [
                 name: 'reports',
                 path: 'communication/reports',
                 component: ReportListingMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'events',
+                path: 'communication/events',
+                component: EventSubscription,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'providerList',
+                path: 'communication/provider',
+                component: Provider,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'providerDefault',
+                path: 'communication/provider/default',
+                component: ProviderDefault,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'providerMain',
+                path: 'communication/provider/:providerType/:mode',
+                component: ProviderMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'smstemplateMain',
+                path: 'communication/sms/templates',
+                component: SmsTemplateMain,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(
                         to,

@@ -510,3 +510,14 @@ export const convertSnakeCaseToString = str => {
         return str.join(' ');
     }
 };
+
+export const toggleString = (status, style) => {
+    let str = status ? 'enabled' : 'disabled';
+    if (style === 'titleCase') {
+        str = titleCase(str);
+    } else if (style === 'upperCase') {
+        str = str.toUpperCase(str);
+    }
+
+    return str;
+};
