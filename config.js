@@ -331,6 +331,13 @@ const conf = convict({
             env: 'MIXMASTER_ADMIN_URL',
             arg: 'mixmaster_admin_url'
         },
+        MIXMASTER_PNL_URL: {
+            doc: 'Mixmaster Panel URL',
+            format: String,
+            default: 'https://api.fyndx0.de/service/panel/partners/',
+            env: 'MIXMASTER_PNL_URL',
+            arg: 'MIXMASTER_PNL_URL'
+        },
         MIXMASTER_ADMIN_SVC: {
             doc: 'Mixmaster Kube Service',
             format: String,
