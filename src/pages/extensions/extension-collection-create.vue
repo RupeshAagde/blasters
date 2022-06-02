@@ -328,69 +328,16 @@
                         v-if="collection_data.selected_items.length"
                         class="extension-list-container"
                     >
-                        <div
-                            class="extension-card"
+                        <public-extension-card
                             v-for="(extension,
                             index) in collection_data.selected_items"
                             :key="index"
                             :ref="'extension-' + index"
+                            :extension="extension"
+                            :remove_button="true"
+                            @remove="removeExtension(extension)"
                         >
-                            <div
-                                @click="removeExtension(extension)"
-                                class="cross-icon"
-                            >
-                                <nitrozen-inline
-                                    :icon="'cross'"
-                                    class="nitrozen-icon"
-                                ></nitrozen-inline>
-                            </div>
-                            <div class="base-card-left">
-                                <img
-                                    class="ext-icon"
-                                    :src="extension.listing_info.icon"
-                                />
-                            </div>
-                            <div class="base-card-right">
-                                <div class="extension-name">
-                                    {{ extension.listing_info.name }}
-                                </div>
-                                <div class="extension-creator">
-                                    by
-                                    {{
-                                        extension.organization
-                                            ? extension.organization.name
-                                            : ''
-                                    }}
-                                </div>
-                                <!-- <div class="extension-tag-line">
-                                {{ extension.listing_info.tagline }}
-                            </div> -->
-                                <div class="extension-price">
-                                    <span
-                                        v-if="
-                                            extension.plans &&
-                                                extension.plans.length &&
-                                                extension.plans[0].price
-                                                    .amount
-                                        "
-                                        >{{
-                                            extension.plans[0].price.amount
-                                                | currencyformat
-                                        }}
-                                        <span class="capitalize">
-                                            /
-                                            {{
-                                                extension.plans[0]
-                                                    .recurring &&
-                                                    extension.plans[0]
-                                                        .recurring.type
-                                            }}</span
-                                        ></span
-                                    >
-                                    <span v-else>Free</span>
-                                </div>
-                            </div>
-                        </div>
+                        </public-extension-card>
                     </div>
                 </div>
                 <div class="input p-24-bg-white m-top">
@@ -457,6 +404,7 @@ import { formatBytes } from '@/helper/digital-storage.util';
 const env = root.env || {};
 import tagsInput from '@/components/common/tags-input.vue';
 import seoComponent from './seo-component.vue';
+import publicExtensionCard from '@/components/extension/public-extension-card.vue';
 import ExtensionService from '@/services/extension.service';
 import { isEmpty } from 'lodash';
 import { debounce } from '@/helper/utils';
@@ -464,11 +412,6 @@ const RequiredFields = [
     { key: 'name', message: 'Required field' },
     { key: 'slug', message: 'Required field' },
     { key: 'description', message: 'Required field' },
-    // {
-    //     key: 'tags',
-    //     message: 'Required field',
-    //     validator: (data) => data.tags.length,
-    // },
     {
         key: 'logo',
         message: 'Logo and Banner(s) are required',
@@ -514,7 +457,8 @@ export default {
         'nitrozen-inline': NitrozenInline,
         'nitrozen-chips': NitrozenChips,
         'nitrozen-tooltip': NitrozenTooltip,
-        'nitrozen-checkbox': NitrozenCheckBox
+        'nitrozen-checkbox': NitrozenCheckBox,
+        'public-extension-card' :publicExtensionCard
     },
     directives: {
         flatBtn,
@@ -974,83 +918,5 @@ export default {
 .extension-list-container {
     display: grid;
     grid-template-columns: 50% 50%;
-    .extension-card {
-        min-width: 200px;
-        display: flex;
-        align-items: center;
-        margin: 10px;
-        padding: 10px;
-        transition: all 0.5s ease;
-        border: 1px solid #e0e0e0;
-        position: relative;
-        .cross-icon {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            width: 30px;
-            height: 29px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 100%;
-            opacity: 1;
-            transition: all 0.5s ease;
-            cursor: pointer;
-            .nitrozen-icon {
-                top: -5px;
-                position: relative;
-            }
-        }
-        &:hover {
-            .cross-icon {
-                transition: all 0.5s ease;
-                opacity: 1;
-            }
-            box-shadow: 0 9px 13px 0 rgb(221 221 221);
-            transition: all 0.5s ease;
-        }
-    }
-    .base-card-left {
-        .ext-icon {
-            width: 48px;
-        }
-    }
-    .base-card-right {
-        flex: 1;
-        padding-left: 24px;
-        word-break: break-all;
-        .extension-name {
-            color: @RoyalBlue;
-            font-weight: 500;
-            margin-bottom: 6px;
-            line-height: 1.5;
-            font-size: 16px;
-            // white-space: nowrap;
-        }
-        .extension-creator {
-            color: @Mako;
-            margin-bottom: 12px;
-            font-size: 12px;
-            font-weight: 400;
-        }
-        .extension-tag-line {
-            color: @Mako;
-            margin-bottom: 18px;
-            line-height: 19px;
-            font-size: 14px;
-            font-weight: 300;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            overflow: hidden;
-        }
-        .extension-price {
-            color: @Mako;
-            font-weight: 300;
-            margin-bottom: 6px;
-        }
-    }
 }
 </style>
