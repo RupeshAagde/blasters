@@ -299,7 +299,7 @@
 <script>
 import { NitrozenInput, NitrozenError } from '@gofynd/nitrozen-vue';
 
-import { getRoute } from '@/helper/get-route';
+// import { getRoute } from '@/helper/get-route';
 import moment from 'moment';
 // import ClickToCallDialog from '@/components/common/tools/click-to-call-dialog.vue';
 import FeedbackDetailsDailog from './feedback-details-dailog.vue'
@@ -756,7 +756,7 @@ export default {
                 .then((res) => {
                     const uniqueName = res.data.uniqueName || this.$route.params.ticket_id;
                     this.$router.push({
-                        path: `${getRoute(this.$route)}/administrator/support/ticket/${uniqueName}/video-room`
+                        path: `/administrator/support/ticket/${uniqueName}/video-room`
                         });
                 })
                 .catch((err) => {

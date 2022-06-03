@@ -212,12 +212,12 @@ const conf = convict({
             env: 'SILVERBOLT_MAIN_URL',
             arg: 'silverbolt_main_url'
         },
-        SILVERBOLT_ACPR_URL: {
+        WHEELJACK_ACPR_URL: {
             doc: 'Seller Kube Service',
             format: String,
             default: '',
-            env: 'SILVERBOLT_ACPR_URL',
-            arg: 'silverbolt_acpr_url'
+            env: 'WHEELJACK_ACPR_URL',
+            arg: 'wheeljack_acpr_url'
         },
         SILVERBOLT_ACAT_URL: {
             doc: 'Seller Kube Service',
@@ -226,19 +226,19 @@ const conf = convict({
             env: 'SILVERBOLT_ACAT_URL',
             arg: 'silverbolt_acat_url'
         },
-        SILVERBOLT_PCPR_URL: {
+        WHEELJACK_PCPR_URL: {
             doc: 'Platform Company profile Kube Service',
             format: String,
             default: '',
-            env: 'SILVERBOLT_PCPR_URL',
-            arg: 'silverbolt_pcpr_url'
+            env: 'WHEELJACK_PCPR_URL',
+            arg: 'wheeljack_pcpr_url'
         },
-        SILVERBOLT_PNLCPR_URL: {
+        WHEELJACK_PNLCPR_URL: {
             doc: 'Panel Company profile Kube Service',
             format: String,
             default: '',
-            env: 'SILVERBOLT_PNLCPR_URL',
-            arg: 'silverbolt_pnlcpr_url'
+            env: 'WHEELJACK_PNLCPR_URL',
+            arg: 'wheeljack_pnlcpr_url'
         },
         SKYWARP_MAIN_SVC: {
             doc: 'Skywrap Kube Service',
@@ -330,6 +330,13 @@ const conf = convict({
             default: 'https://api.fyndx0.de/service/___/administrator/partners/',
             env: 'MIXMASTER_ADMIN_URL',
             arg: 'mixmaster_admin_url'
+        },
+        MIXMASTER_PNL_URL: {
+            doc: 'Mixmaster Panel URL',
+            format: String,
+            default: 'https://api.fyndx0.de/service/panel/partners/',
+            env: 'MIXMASTER_PNL_URL',
+            arg: 'MIXMASTER_PNL_URL'
         },
         MIXMASTER_ADMIN_SVC: {
             doc: 'Mixmaster Kube Service',

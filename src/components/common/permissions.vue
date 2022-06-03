@@ -3,9 +3,7 @@
         <div
             class="permission-menu"
             :class="{ 'permission-hide': group ? item.group != group : false }"
-            v-for="(item, index) in permissionData.permissions.filter(
-                (permission) => permission.key !== 'plans'
-            )"
+            v-for="(item, index) in permissionData.permissions"
             :key="index"
             @change="selectPermission(item.key)"
         >

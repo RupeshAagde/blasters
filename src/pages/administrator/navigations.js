@@ -115,7 +115,7 @@ export const getNavigations = () => {
             icon: 'team',
             highlightedIcon: 'team-highlighted',
             active: false,
-            permission: 'admin-access',
+            permission: 'integration',
             children: []
         },
         {
@@ -125,7 +125,7 @@ export const getNavigations = () => {
             icon: 'settings',
             highlightedIcon: 'home-highlighted',
             active: false,
-            permission: 'admin-access',
+            permission: 'plans',
             children: [
                
                 {
@@ -154,7 +154,7 @@ export const getNavigations = () => {
             icon: 'settings',
             highlightedIcon: 'home-highlighted',
             active: false,
-            permission: 'admin-access',
+            permission: 'communication',
             children: [
                 {
                     display: 'Reports',
@@ -167,14 +167,31 @@ export const getNavigations = () => {
             ]
         },
         {
-            display: 'Extension Review',
+            display: 'Extension',
             link: '/administrator/extensions/review',
-            title: 'extensons',
+            title: 'extensions',
             icon: 'settings',
             highlightedIcon: 'settings-highlighted',
             active: false,
-            permission: 'settings',
-            children: []
+            permission: 'extension',
+            children: [
+                {
+                    display: 'Review',
+                    link: '/administrator/extensions/review',
+                    title: 'review',
+                    icon: 'settings',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Collection',
+                    link: '/administrator/extensions/collection',
+                    title: 'collection',
+                    icon: 'settings',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                }
+            ]
         },
         {
             display: 'Support Center',
