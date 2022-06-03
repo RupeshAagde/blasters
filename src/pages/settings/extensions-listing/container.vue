@@ -296,6 +296,7 @@ export default {
                 let categories = cloneDeep(response.data.filters[1].values);
                 this.category = categories.map(item => {
                     item.text = item.display;
+                    item.value = item._id;
                     return item;
                 })
                 return categories;
@@ -485,7 +486,7 @@ export default {
                     delete section.items;
 
                     section.items = section.data[key].map(item => {
-                        return {_id: item};
+                        return {value: item};
                     });
                 }
             }
