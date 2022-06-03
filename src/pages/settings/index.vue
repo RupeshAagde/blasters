@@ -177,7 +177,7 @@ import HomePage from "./home-page"
 const GENERAL_MENUS = [
     {
         title: 'Basic',
-        link: 'settings/platform/basic',
+        link: 'platform/basic',
         icon: 'settings',
         permissions: [],
         active: false,
@@ -185,7 +185,7 @@ const GENERAL_MENUS = [
     },
     {
         title: 'Features',
-        link: 'settings/platform/features',
+        link: 'platform/features',
         icon: 'settings',
         permissions: [],
         active: false,
@@ -193,7 +193,7 @@ const GENERAL_MENUS = [
     },
     {
         title: 'Pricing Banner',
-        link: 'settings/platform/pricing-banner',
+        link: 'platform/pricing-banner',
         icon: 'settings',
         permissions: [],
         active: false,
@@ -203,7 +203,7 @@ const GENERAL_MENUS = [
 const CUSTOM_MENUS = [
     {
         title: 'Custom Pages',
-        link: 'settings/platform/pages',
+        link: 'platform/pages',
         icon: 'settings',
         permissions: [],
         active: false,
@@ -211,7 +211,7 @@ const CUSTOM_MENUS = [
     },
      {
         title: 'Custom Tags',
-        link: 'settings/platform/list-tags',
+        link: 'platform/list-tags',
         icon: 'settings',
         permissions: [],
         active: false,
@@ -221,7 +221,7 @@ const CUSTOM_MENUS = [
 const CUSTOMIZE_MENUS = [
 {
         title: 'Navbar',
-        link: 'settings/platform/navbar',
+        link: 'platform/navbar',
         icon: 'settings',
         permissions: [],
         active: false,
@@ -229,7 +229,7 @@ const CUSTOMIZE_MENUS = [
     },
     {
         title: 'Footer',
-        link: 'settings/platform/footer',
+        link: 'platform/footer',
         icon: 'settings',
         permissions: [],
         active: false,
