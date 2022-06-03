@@ -469,6 +469,27 @@ export default {
             delete pageObj.created_at;
             delete pageObj.updated_at;
 
+            let multiple_data_types = [
+                "extension_item_list",
+                "category_item_list",
+                "collection_grid",
+                "extension_grid"
+            ];
+            for(let section of pageObj.sections) {
+                if(multiple_data_types.includes(section.type)) {
+                    let key;
+                    if(section.type === 'collection_grid') key = 'collection';
+                    else if(section.type === 'extension_grid' || section.type === 'extension_item_list') key = 'extension';
+                    else if(section.type === 'category_item_list') key = 'category';
+
+                    delete section.items;
+
+                    section.items = section.data[key].map(item => {
+                        return {_id: item};
+                    });
+                }
+            }
+
             ExtensionPageService.updateSections(pageObj)
             .then(response => {
                 this.$snackbar.global.showSuccess('Your configuration is saved successfully.');
