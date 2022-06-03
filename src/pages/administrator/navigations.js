@@ -173,7 +173,7 @@ export const getNavigations = () => {
             icon: 'settings',
             highlightedIcon: 'settings-highlighted',
             active: false,
-            permission: 'settings',
+            permission: 'extension',
             children: [
                 {
                     display: 'Review',

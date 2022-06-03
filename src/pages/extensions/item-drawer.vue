@@ -143,104 +143,21 @@
                             v-if="!inProgress"
                             class="extension-list-container"
                         >
-                            <div
+                            <public-extension-card
                                 v-for="(extension, index) in extension_data"
                                 :key="index"
                                 :ref="'extension-' + index"
+                                :show_selection="true"
+                                :extension="extension"
+                                @click.native="
+                                    selectExtension(
+                                        !extension.is_selected,
+                                        extension,
+                                        $event
+                                    )
+                                "
                             >
-                                <div class="extension-card">
-                                    <div
-                                        class="extension-overlay"
-                                        v-on:click="
-                                            selectExtension(
-                                                !extension.is_selected,
-                                                extension,
-                                                $event
-                                            )
-                                        "
-                                    ></div>
-                                    <div>
-                                        <div class="extension-checkbox">
-                                            <nitrozen-checkbox
-                                                v-on:input="
-                                                    selectExtension(
-                                                        $event,
-                                                        extension,
-                                                        $event
-                                                    )
-                                                "
-                                                :name="extension.slug"
-                                                v-model="extension.is_selected"
-                                            >
-                                            </nitrozen-checkbox>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="extension-inner"
-                                        v-on:click="
-                                            selectExtension(
-                                                !extension.is_selected,
-                                                extension,
-                                                $event
-                                            )
-                                        "
-                                    >
-                                        <div class="base-card-left">
-                                            <img
-                                                class="ext-icon"
-                                                :src="
-                                                    extension.listing_info.icon
-                                                "
-                                            />
-                                        </div>
-                                        <div class="base-card-right">
-                                            <div
-                                                class="extension-name"
-                                                :title="
-                                                    extension.listing_info.name
-                                                "
-                                            >
-                                                {{
-                                                    extension.listing_info.name
-                                                        .length > 28
-                                                        ? extension.listing_info.name.substr(
-                                                              0,
-                                                              28
-                                                          ) + '...'
-                                                        : extension.listing_info
-                                                              .name
-                                                }}
-                                            </div>
-                                            <div class="extension-creator">
-                                                by
-                                                {{
-                                                    extension.organization.name
-                                                }}
-                                            </div>
-                                            <!-- <div class="extension-tag-line">
-                                    {{ extension.listing_info.tagline }}
-                                </div> -->
-                                            <div class="extension-price">
-                                                <span
-                                                    v-if="
-                                                        extension.plans &&
-                                                            extension.plans
-                                                                .length &&
-                                                            extension.plans[0]
-                                                                .price.amount
-                                                    "
-                                                    >{{
-                                                        extension.plans[0].price
-                                                            .amount
-                                                            | currencyformat
-                                                    }}
-                                                </span>
-                                                <span v-else>Free</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            </public-extension-card>
                         </div>
                         <div class="pagination">
                             <nitrozen-pagination
@@ -256,7 +173,7 @@
                     <list-shimmer
                         v-if="inProgress || isPageChange || !extension_data"
                         :count="20"
-                        class="extension-list-container"
+                        class="extension-list-container mr-24"
                         :pagination="false"
                     ></list-shimmer>
                     <page-empty
@@ -271,11 +188,12 @@
     </div>
 </template>
 <script>
-import listShimmer from './list-shimmer.vue';
+import listShimmer from '@/components/common/shimmer.vue';
 import { debounce } from '@/helper/utils';
 import itemDialog from './dialog/item-dialog.vue';
 import ExtensionService from '@/services/extension.service';
 import pageEmpty from '@/components/common/page-empty.vue';
+import publicExtensionCard from '@/components/extension/public-extension-card.vue';
 import {
     NitrozenPagination,
     NitrozenInput,
@@ -320,7 +238,8 @@ export default {
         'nitrozen-button': NitrozenButton,
         'nitrozen-radio': NitrozenRadio,
         'nitrozen-chips': NitrozenChips,
-        'nitrozen-inline': NitrozenInline
+        'nitrozen-inline': NitrozenInline,
+        'public-extension-card': publicExtensionCard
     },
     directives: {
         flatBtn
@@ -586,6 +505,9 @@ export default {
                     this.extension_data = data.data.items.map((ext) => {
                         if (all_selected.includes(ext.extension_id)) {
                             ext.is_selected = true;
+                        }
+                        else{
+                            ext.is_selected = false;
                         }
                         return ext;
                     });
