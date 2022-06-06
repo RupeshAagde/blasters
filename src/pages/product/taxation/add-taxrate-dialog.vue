@@ -168,6 +168,7 @@
 
 <script>
 const RATE_LIST = [
+    { text: '0%', value: "0" },
     { text: '3%', value: 3 },
     { text: '5%', value: 5 },
     { text: '10%', value: 10 },
@@ -237,6 +238,7 @@ export default {
         return {
             datedTax: {},
             rateList1: [
+                { text: '0%', value: "0" },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
@@ -245,6 +247,7 @@ export default {
                 { text: '28%', value: 28 }
             ],
             rateList2: [
+                { text: '0%', value: "0" },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
@@ -264,7 +267,7 @@ export default {
                     errortext: ''
                 },
                 rate: {
-                    value: 0,
+                    value: "0",
                     showerror: false,
                     errortext: ''
                 },
@@ -286,7 +289,7 @@ export default {
                     errortext: ''
                 },
                 rate: {
-                    value: 0,
+                    value: "0",
                     showerror: false,
                     errortext: ''
                 },
@@ -318,12 +321,14 @@ export default {
         addRate() {
             let isValid = this.checkFirstSlab(this.slab1);
             if (isValid) {
+                this.getRateList2(this.slab1.rate.value)
                 this.isSlab2 = true;
             } else {
             }
         },
         getRateList2(data) {
             let tempList = [
+                { text: '0%', value: "0" },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
@@ -418,7 +423,7 @@ export default {
                 this.slab1.threshold.errortext = 'Threshold should be a number';
                 isValid = false;
             }
-            if (data.rate.value > 0) {
+            if (data.rate.value >= 0) {
                 this.slab1.rate.showerror = false;
             } else {
                 this.slab1.rate.showerror = true;
@@ -569,7 +574,7 @@ export default {
                     errortext: ''
                 },
                 rate: {
-                    value: 0,
+                    value: "0",
                     showerror: false,
                     errortext: ''
                 },
@@ -593,7 +598,7 @@ export default {
                     errortext: ''
                 },
                 rate: {
-                    value: 0,
+                    value: "0",
                     showerror: false,
                     errortext: ''
                 },
