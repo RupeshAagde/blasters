@@ -1,15 +1,43 @@
 @import '../color.less';
-.packaging-create{
-    &-container{
+.packaging-create {
+    &-container {
         width: 75%;
         background: @White;
         // height: 100%;
         border-radius: 12px;
         padding: 24px;
-        &-header{
+        &-header {
             font-weight: 700;
             font-size: 24px;
-            color: #4F4F4F;
+            color: #4f4f4f;
         }
     }
+}
+.create-packaging {
+    &-search-container{
+        margin-top: 32px;
+    }
+    &-row-2 {
+        margin-top: 32px;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+    }
+    &-row-3 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        
+    }
+}
+.row-2-input {
+    width: calc((100% / 3) - 22px);
+    height: 60px;
+}
+.row-3-input {
+    margin-top: 32px;
+    width: calc(50% - 22px);
+    height: 60px;
 }
