@@ -257,7 +257,12 @@ export default {
     },
     methods: {
         getPublicExtensions(params = {}) {
-            return ExtensionPageService.getPublicExtensions(params)
+            let finalParamsObj = {
+                ...params,
+                published: true
+            };
+
+            return ExtensionPageService.getPublicExtensions(finalParamsObj)
             .then(response => {
                 let extensions = cloneDeep(response.data.items);
                 this.publicExtensions = extensions.map(item => {
