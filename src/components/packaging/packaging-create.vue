@@ -136,7 +136,8 @@ export default {
                 }
             },
             l3Checked : false,
-            bulkChecked: false
+            bulkChecked: false,
+            categories: []
         };
     },
     methods: {
