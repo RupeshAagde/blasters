@@ -58,15 +58,24 @@
                 </nitrozen-error>
             </div>
         </div>
+        <div class="toggle-container">
+          <p>L3 Categories</p>
+          <nitrozen-toggle-btn :value="l3Checked" @change="handleToggleChange('l3')"/>
+        </div>
+        <div class="toggle-container">
+          <p>Bulk Packaging</p>
+          <nitrozen-toggle-btn :value="bulkChecked" @change="handleToggleChange('bulk')"/>
+        </div>
     </div>
 </template>
 <script>
-import { NitrozenInput, NitrozenError } from '@gofynd/nitrozen-vue';
+import { NitrozenInput, NitrozenError, NitrozenToggleBtn } from '@gofynd/nitrozen-vue';
 export default {
     name: 'packaging-create',
     components: {
         NitrozenInput,
-        NitrozenError
+        NitrozenError,
+        NitrozenToggleBtn
     },
     computed: {
         searchPlacholder() {
@@ -125,7 +134,9 @@ export default {
                     error: '',
                     isDisabled: true
                 }
-            }
+            },
+            l3Checked : false,
+            bulkChecked: false
         };
     },
     methods: {
@@ -172,6 +183,24 @@ export default {
           }
           else {
             this.row3Inputs['deadWeight'].value = ''
+          }
+        },
+        /**
+         * @author Rohan Shah
+         * @description create request object and dispatch the service to save the packaging product
+         */
+        savePackagingOrder(){
+
+        },
+        handleToggleChange(type){
+          switch (type) {
+            case 'l3':
+              this.l3Checked = !this.l3Checked
+              break;
+            case 'bulk':
+              this.bulkChecked = !this.bulkChecked
+            default:
+              break;
           }
         }
     }
