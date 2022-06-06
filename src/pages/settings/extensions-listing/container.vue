@@ -211,7 +211,7 @@ export default {
         //     }
 
         //     if (
-        //         event.data.platform_event &&
+        //         event.data.partner_event &&
         //         event.data.type === 'dragging'
         //     ) {
         //         this.setRectSize(event.data.data);
@@ -524,13 +524,14 @@ export default {
             });
         },
         onPostMessage(e) {
-            // this.$refs.iframe.postMessage();
+            console.log(e, "in onPostMessage", this.pages)
             if(e && e.updated) {
                 this.pages[this.selectedPageIndex].updated = true;
                 delete e.updated
             }
-            e.page = this.selectedPage && this.selectedPage.value
-            e.platform_event = true;
+            // e.page = this.selectedPage && this.selectedPage.value
+            e.partner_event = true;
+            e.page_content = this.pages[this.selectedPageIndex]
             
             if (this.$refs.iframe && this.$refs.iframe.contentWindow) {
                 this.$refs.iframe.contentWindow.postMessage(e, '*');
