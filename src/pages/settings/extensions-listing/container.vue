@@ -524,7 +524,6 @@ export default {
             });
         },
         onPostMessage(e) {
-            console.log(e, "in onPostMessage", this.pages)
             if(e && e.updated) {
                 this.pages[this.selectedPageIndex].updated = true;
                 delete e.updated
