@@ -118,6 +118,7 @@
                         :currentIndex="index"
                         :handleChange="handleBulkChange"
                         :handleBlur="handleBulkBlur"
+                        :handleDelete="handleGroupDelete"
                     />
                 </div>
                 <div class="toggle-container-bulk-body-button-container">
@@ -273,10 +274,11 @@ export default {
     },
     mounted() {
         this.setCategoryList();
-        // Initialize the array with 1 input field group
-        this.bulkPackaging.push(this.bulkInput);
     },
     methods: {
+        handleGroupDelete(index){
+            this.bulkPackaging.splice(index , 1)
+        },
         /**
          * @author Rohan Shah
          * @description Checks if there are errors in the previous inputs,
@@ -315,7 +317,7 @@ export default {
                         error: ''
                     }
                 }
-            }
+            };
             // error handler call here
             this.bulkPackaging.push(input);
         },
@@ -370,8 +372,8 @@ export default {
         /**
          *
          * @author Rohan Shah
-         * @param {String} obj | state value / key that has to be updated 
-         * @param {String} input | Actual key input where the update has to be made 
+         * @param {String} obj | state value / key that has to be updated
+         * @param {String} input | Actual key input where the update has to be made
          * @description Handle blur and check for errors if found then show the error
          *
          */
@@ -382,9 +384,9 @@ export default {
                 ].error = `${this[obj][key].label} is a mandatory field`;
         },
         /**
-         * 
+         *
          * @author Rohan Shah
-         * @param {String} obj | Key origin where data is to updated Volumetric / Quantity 
+         * @param {String} obj | Key origin where data is to updated Volumetric / Quantity
          * @param {String} input | Actual key input where the update has to be made Minimum / Maximum
          * @param {Number} index | Index position
          * @description Handles the blur for all bulk location related fields
@@ -402,8 +404,8 @@ export default {
         /**
          *
          * @author Rohan Shah
-         * @param {String} obj | state value / key that has to be updated 
-         * @param {String} input | Actual key input where the update has to be made 
+         * @param {String} obj | state value / key that has to be updated
+         * @param {String} input | Actual key input where the update has to be made
          * @description Handle input change and save values in the state object
          */
         handleChange(obj, input, val) {
@@ -412,9 +414,9 @@ export default {
             this.calculateDeadWeight();
         },
         /**
-         * 
+         *
          * @author Rohan Shah
-         * @param {String} obj | Key origin where data is to updated Volumetric / Quantity 
+         * @param {String} obj | Key origin where data is to updated Volumetric / Quantity
          * @param {String} input | Actual key input where the update has to be made Minimum / Maximum
          * @param {Number} index | Index position
          * @description Handles the inputs for bulk packaging related input fields
@@ -461,6 +463,10 @@ export default {
                     break;
                 case 'bulk':
                     this.bulkChecked = !this.bulkChecked;
+                    if (this.bulkPackaging.length == 0) {
+                        // Initialize the array with 1 input field group
+                        this.bulkPackaging.push(this.bulkInput);
+                    }
                 default:
                     break;
             }

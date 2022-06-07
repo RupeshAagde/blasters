@@ -1,8 +1,10 @@
 <template>
     <div class="bulk-card-container">
         <div class="bulk-card-info">
-            <span>Group {{currentIndex + 1}}</span>
-            <inline-svg :src="'delete'" class="delete-icon"/>
+            <span>Group {{ currentIndex + 1 }}</span>
+            <div @click="handleDelete(currentIndex)">
+                <inline-svg :src="'delete'" class="delete-icon" />
+            </div>
         </div>
         <div class="bulk-card-header">Category config and toggle</div>
         <div class="bulk-card-body">
@@ -26,10 +28,21 @@
                             "
                             v-model="inputs.volumetricWeight[input].value"
                             type="number"
-                            @blur="handleBlur('volumetricWeight', input,currentIndex)"
+                            @blur="
+                                handleBlur(
+                                    'volumetricWeight',
+                                    input,
+                                    currentIndex
+                                )
+                            "
                             @input="
                                 (val) =>
-                                    handleChange('volumetricWeight', input, val, currentIndex)
+                                    handleChange(
+                                        'volumetricWeight',
+                                        input,
+                                        val,
+                                        currentIndex
+                                    )
                             "
                         />
                         <nitrozen-error
@@ -56,9 +69,15 @@
                             :placeholder="inputs.quantity[input].placeholder"
                             v-model="inputs.quantity[input].value"
                             type="number"
-                            @blur="handleBlur('quantity', input,currentIndex)"
+                            @blur="handleBlur('quantity', input, currentIndex)"
                             @input="
-                                (val) => handleChange('quantity', input, val,currentIndex)
+                                (val) =>
+                                    handleChange(
+                                        'quantity',
+                                        input,
+                                        val,
+                                        currentIndex
+                                    )
                             "
                         />
                         <nitrozen-error v-if="inputs.quantity[input].error">
@@ -92,14 +111,17 @@ export default {
         inputs: {
             type: Object
         },
-        currentIndex:{
+        currentIndex: {
             type: Number
         },
-        handleChange:{
-            type : Function
+        handleChange: {
+            type: Function
         },
-        handleBlur:{
-            type : Function
+        handleBlur: {
+            type: Function
+        },
+        handleDelete: {
+            type: Function
         }
     }
 };
