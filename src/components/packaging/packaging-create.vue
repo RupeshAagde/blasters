@@ -59,23 +59,63 @@
             </div>
         </div>
         <div class="toggle-container">
-          <p>L3 Categories</p>
-          <nitrozen-toggle-btn :value="l3Checked" @change="handleToggleChange('l3')"/>
+            <div class="toggle-container-l3-header">
+                <p>L3 Categories</p>
+                <nitrozen-toggle-btn
+                    :value="l3Checked"
+                    @change="handleToggleChange('l3')"
+                />
+            </div>
+            <div class="toggle-container-l3-body" v-if="l3Checked">
+                <nitrozen-dropdown
+                    :label="'Default L3 category'"
+                    :tooltip="'Some tool tip text'"
+                    :searchable="true"
+                    :placeholder="'Search or select a category'"
+                    :multiple="true"
+                    :items="categoryList"
+                    @change="(val) => handleCategoryChange(val)"
+                />
+                <div class="toggle-container-l3-list">
+                    <div
+                        v-for="(item, index) of selectedCategories"
+                        :key="'selected-category' + index"
+                        :id="'selected-category' + index"
+                        class="toggle-container-l3-list-item"
+                    >
+                       <span class="l3-list-item-ellipsis" :title="item.text">
+                           {{ item.text }}
+                       </span> 
+                       <inline-svg-vue :src="'cross-grey'" class="icon-cross"/>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="toggle-container">
-          <p>Bulk Packaging</p>
-          <nitrozen-toggle-btn :value="bulkChecked" @change="handleToggleChange('bulk')"/>
+            <p>Bulk Packaging</p>
+            <nitrozen-toggle-btn
+                :value="bulkChecked"
+                @change="handleToggleChange('bulk')"
+            />
         </div>
     </div>
 </template>
 <script>
-import { NitrozenInput, NitrozenError, NitrozenToggleBtn } from '@gofynd/nitrozen-vue';
+import {
+    NitrozenInput,
+    NitrozenError,
+    NitrozenToggleBtn,
+    NitrozenDropdown
+} from '@gofynd/nitrozen-vue';
+import inlineSvgVue from '../common/inline-svg.vue';
 export default {
     name: 'packaging-create',
     components: {
         NitrozenInput,
         NitrozenError,
-        NitrozenToggleBtn
+        NitrozenToggleBtn,
+        NitrozenDropdown,
+        inlineSvgVue
     },
     computed: {
         searchPlacholder() {
@@ -84,6 +124,25 @@ export default {
     },
     data() {
         return {
+            // TODO remove mock categories after API integration
+            categoryList: [
+                {
+                    text: 'Fashion Sense',
+                    value: 1
+                },
+                {
+                    text: 'Fashion ',
+                    value: 2
+                },
+                {
+                    text: 'Garments',
+                    value: 3
+                },
+                {
+                    text: 'Fashion dated',
+                    value: 4
+                }
+            ],
             searchInput: '',
             searchTooltipText: 'Tool tip text',
             row2Inputs: {
@@ -135,28 +194,45 @@ export default {
                     isDisabled: true
                 }
             },
-            l3Checked : false,
+            l3Checked: false,
             bulkChecked: false,
-            categories: []
+            selectedCategories: []
         };
     },
     methods: {
-      /**
-       * 
-       * @author Rohan Shah
-       * @description Handle blur and check for errors if found then show the error 
-       * 
-       */
+        handleCategoryChange(categoryArr) {
+            console.log(categoryArr);
+            let tempCategoryArry = [];
+            categoryArr.forEach((category) => {
+                let categoryObj = this.categoryList.find(
+                    (a) => a.value == category
+                );
+                console.log(categoryObj, 'category obj');
+                tempCategoryArry.push(categoryObj);
+            });
+            this.selectedCategories = tempCategoryArry;
+            console.log(this.selectedCategories, 'selected categories');
+        },
+        /**
+         *
+         * @author Rohan Shah
+         * @description Handle blur and check for errors if found then show the error
+         *
+         */
         handleBlur(key) {
             if (this.row2Inputs[key] && !this.row2Inputs[key].value)
-                this.row2Inputs[key].error = `${this.row2Inputs[key].label} is a mandatory field`;
+                this.row2Inputs[
+                    key
+                ].error = `${this.row2Inputs[key].label} is a mandatory field`;
             else {
                 if (this.row3Inputs[key] && !this.row3Inputs[key].value)
-                    this.row3Inputs[key].error = `${this.row3Inputs[key].label} is a mandatory field`;
+                    this.row3Inputs[
+                        key
+                    ].error = `${this.row3Inputs[key].label} is a mandatory field`;
             }
         },
         /**
-         * 
+         *
          * @author Rohan Shah
          * @description Handle input change and save values in the state object
          */
@@ -169,40 +245,45 @@ export default {
                 this.row3Inputs[input].value = val;
                 this.row3Inputs[input].error = '';
             }
-            this.calculateDeadWeight()
+            this.calculateDeadWeight();
         },
         /**
          * @author Rohan Shah
          * @description Calculates the deadwieght if all length, width, height are present
-         * else it resets it to empty / 0 
+         * else it resets it to empty / 0
          */
-        calculateDeadWeight(){
-          let field = this.row2Inputs
-          if(field['length'].value && field['width'].value && field['height'].value){
-            let deadWeight = (field['length'].value * field['width'].value * field['height'].value) / 5000
-            this.row3Inputs['deadWeight'].value = deadWeight
-          }
-          else {
-            this.row3Inputs['deadWeight'].value = ''
-          }
+        calculateDeadWeight() {
+            let field = this.row2Inputs;
+            if (
+                field['length'].value &&
+                field['width'].value &&
+                field['height'].value
+            ) {
+                let deadWeight =
+                    (field['length'].value *
+                        field['width'].value *
+                        field['height'].value) /
+                    5000;
+                this.row3Inputs['deadWeight'].value = deadWeight;
+            } else {
+                this.row3Inputs['deadWeight'].value = '';
+            }
         },
         /**
          * @author Rohan Shah
          * @description create request object and dispatch the service to save the packaging product
          */
-        savePackagingOrder(){
-
-        },
-        handleToggleChange(type){
-          switch (type) {
-            case 'l3':
-              this.l3Checked = !this.l3Checked
-              break;
-            case 'bulk':
-              this.bulkChecked = !this.bulkChecked
-            default:
-              break;
-          }
+        savePackagingOrder() {},
+        handleToggleChange(type) {
+            switch (type) {
+                case 'l3':
+                    this.l3Checked = !this.l3Checked;
+                    break;
+                case 'bulk':
+                    this.bulkChecked = !this.bulkChecked;
+                default:
+                    break;
+            }
         }
     }
 };
