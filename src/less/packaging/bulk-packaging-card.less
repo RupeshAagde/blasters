@@ -1,4 +1,17 @@
 .bulk-card {
+    &-header{
+        margin-top: 16px;
+    }
+    &-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        span{
+            font-size: 14px;
+            color: #333333;
+            font-weight: 700;
+        }
+    }
     &-container {
         border: 1px solid #f0f0f0;
         border-radius: 4px;
@@ -22,4 +35,7 @@
         width: calc(50% - 22px);
         height: 80px;
     }
+}
+.delete-icon{
+    cursor: pointer;
 }

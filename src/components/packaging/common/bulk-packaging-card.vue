@@ -1,5 +1,9 @@
 <template>
     <div class="bulk-card-container">
+        <div class="bulk-card-info">
+            <span>Group {{currentIndex + 1}}</span>
+            <inline-svg :src="'delete'" class="delete-icon"/>
+        </div>
         <div class="bulk-card-header">Category config and toggle</div>
         <div class="bulk-card-body">
             <div class="bulk-card-textfield-group">
@@ -74,13 +78,15 @@ import {
     NitrozenToggleBtn,
     NitrozenDropdown
 } from '@gofynd/nitrozen-vue';
+import InlineSvg from '../../common/inline-svg.vue';
 export default {
     name: 'bulk-packaging-card',
     components: {
         NitrozenInput,
         NitrozenError,
         NitrozenToggleBtn,
-        NitrozenDropdown
+        NitrozenDropdown,
+        InlineSvg
     },
     props: {
         inputs: {
