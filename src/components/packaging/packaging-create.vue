@@ -521,6 +521,12 @@ export default {
                     break;
             }
         },
+        /**
+         * @author Rohan Shah
+         * @description Loops through the category cards array and checks for errors or null values
+         * if found then sets the flag as true else false as default
+         * @returns Boolean value 
+         */
         checkGroupCategoryError() {
             let isError = false;
             this.bulkPackaging.forEach((a) => {
