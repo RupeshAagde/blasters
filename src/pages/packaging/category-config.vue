@@ -1,13 +1,27 @@
 <template>
-  <div>category configuration home</div>
+  <div>
+    <page-header :title="'Packaging'"/>
+    <div class="packaging-home-container">
+      <div class="packaging-home-list">
+        <list-categories/>
+      </div>
+    </div>
+    </div>
 </template>
 
 <script>
+import PageHeader from "../../components/common/layout/page-header.vue"
+import AddPackaging from '../../components/packaging/add-packaging.vue'
+import ListCategories from '../../components/packaging/list-categories.vue'
 export default {
 name: 'category-config',
+components:{
+ PageHeader,
+ AddPackaging,
+ListCategories
+}
 }
 </script>
-
-<style>
-
+<style lang="less">
+@import '../../less/packaging/packaging-home.less';
 </style>
