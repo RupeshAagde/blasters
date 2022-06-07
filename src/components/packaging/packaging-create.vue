@@ -120,6 +120,7 @@
                         :title="'Add Group'"
                         theme="secondary"
                         class="add-group-btn"
+                        @click="handleAddGroup"
                     >
                         Add Group
                     </nitrozen-button>
@@ -271,6 +272,15 @@ export default {
         this.bulkPackaging.push(this.bulkInput)
     },
     methods: {
+        /**
+         * @author Rohan Shah
+         * @description Checks if there are errors in the previous inputs, 
+         * if not then adds new card
+         */
+        handleAddGroup(){
+            // error handler call here
+            this.bulkPackaging.push(this.bulkInput)
+        },
         /**
          *
          * @author Rohan Shah
