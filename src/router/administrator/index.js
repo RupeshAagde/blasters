@@ -14,7 +14,10 @@ import AddSuperUserVue from './../../pages/super-user/add-user.vue';
 import Tickets from './../../pages/tickets/index.vue';
 import CreateTicket from './../../pages/tickets/create-ticket.vue';
 import VideoRoom from './../../pages/tickets/video-call/video-room.vue';
-import AddCategory from './../../pages/tickets/add-category.vue';
+import AddCategory from '../../pages/tickets/configuration/add-category.vue';
+import CategoryListing from './../../pages/tickets/configuration/categoryList.vue';
+import GeneralCongiguration from './../../pages/tickets/configuration/generalConfiguration.vue'
+import ChooseIntegration from './../../pages/tickets/configuration/integrationType.vue'
 import SettingsVue from './../../pages/settings';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details.vue';
 import FeaturesSettingsVue from './../../pages/settings/features.vue';
@@ -222,9 +225,33 @@ export default [
                 }
             },
             {
-                name: 'support-category',
-                path: 'support/add-category',
+                name: 'system-category',
+                path: 'support/category/add-category',
                 component: AddCategory,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'support-category-list',
+                path: 'support/category-listing',
+                component: CategoryListing,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'general-configuration',
+                path: 'support/category/general-configure',
+                component: GeneralCongiguration,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'integration-type',
+                path: 'support/category/choose-integration',
+                component: ChooseIntegration,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['support']);
                 }
