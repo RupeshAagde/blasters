@@ -130,8 +130,12 @@
                     <nitrozen-button
                         :title="'Add Group'"
                         theme="secondary"
-                        class="add-group-btn"
+                        :class="{
+                            'add-group-btn': true,
+                            opaque: checkGroupCategoryError
+                        }"
                         @click="handleAddGroup"
+                        :disabled="checkGroupCategoryError"
                     >
                         Add Group
                     </nitrozen-button>
@@ -290,13 +294,13 @@ export default {
          * @param {Number} toggleVal | Value from the drop down input
          * @description Set the drop down selection value of a group category
          */
-        handleBulkDropdown(index, val){
-            this.bulkPackaging[index].categoryConfig = val
+        handleBulkDropdown(index, val) {
+            this.bulkPackaging[index].categoryConfig = val;
         },
         /**
          * @author Rohan Shah
          * @param {Number} index | index position
-         * @param {Boolean} toggleVal | Boolean val 
+         * @param {Boolean} toggleVal | Boolean val
          * @description Toggle the value based on user selection
          */
         handleBulkToggle(index, toggleVal) {
@@ -365,7 +369,6 @@ export default {
                     }
                 }
             };
-            // error handler call here
             this.bulkPackaging.push(input);
         },
         /**
@@ -517,6 +520,22 @@ export default {
                 default:
                     break;
             }
+        },
+        checkGroupCategoryError() {
+            let isError = false;
+            this.bulkPackaging.forEach((a) => {
+                if (
+                    a.volumetricWeight.error ||
+                    !a.volumetricWeight.val ||
+                    a.quantity.error ||
+                    !a.quantity.val ||
+                    !a.categoryConfig
+                ) {
+                    isError = true;
+                    return;
+                }
+            });
+            return isError;
         }
     }
 };
