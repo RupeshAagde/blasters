@@ -417,6 +417,16 @@ export default {
 
             if(this.pages[pageIndex].sections) {
                 this.sections = this.pages[pageIndex].sections;
+
+                for(let section of this.sections) {
+                    let data = section.data;
+                    for(let key in data) {
+                        if(typeof data[key] === 'string') {
+                            data[key] = data[key].trim();
+                        }
+                    }
+                }
+
                 setTimeout(() => {
                     this.onPostMessage({
                         config: this.config,
@@ -535,7 +545,12 @@ export default {
             }
             // e.page = this.selectedPage && this.selectedPage.value
             e.partner_event = true;
-            e.page_content = this.pages[this.selectedPageIndex]
+            e.page_content = this.pages[this.selectedPageIndex];
+            for(let key in e.page_content) {
+                if(typeof e.page_content[key] === 'string') {
+                    e.page_content[key] = e.page_content[key].trim();
+                }
+            }
             
             if (this.$refs.iframe && this.$refs.iframe.contentWindow) {
                 this.$refs.iframe.contentWindow.postMessage(e, '*');
