@@ -26,7 +26,7 @@
                     :placeholder="row2Inputs[input].placeholder"
                     v-model="row2Inputs[input].value"
                     type="number"
-                    @blur="handleBlur('row2Inputs',input)"
+                    @blur="handleBlur('row2Inputs', input)"
                     @input="(val) => handleChange('row2Inputs', input, val)"
                 />
                 <nitrozen-error v-if="row2Inputs[input].error">
@@ -49,7 +49,7 @@
                     type="number"
                     :showTooltip="row3Inputs[input].showToolTip"
                     :tooltipText="row3Inputs[input].toolTipText"
-                    @blur="handleBlur('row3Inputs',input)"
+                    @blur="handleBlur('row3Inputs', input)"
                     @input="(val) => handleChange('row3Inputs', input, val)"
                     :disabled="row3Inputs[input].isDisabled"
                 />
@@ -108,12 +108,17 @@
             </div>
             <div class="toggle-container-bulk-body" v-if="bulkChecked">
                 <!-- Mapping the bulk packaging cards here -->
-                <div 
-                v-for="(item,index) of bulkPackaging"
-                :key="'bulk-packaging-card'+index"
-                class="bulk-packgaing-card"
+                <div
+                    v-for="(item, index) of bulkPackaging"
+                    :key="'bulk-packaging-card' + index"
+                    class="bulk-packgaing-card"
                 >
-                <bulk-packaging-card :inputs="item"/>
+                    <bulk-packaging-card
+                        :inputs="item"
+                        :currentIndex="index"
+                        :handleChange="handleBulkChange"
+                        :handleBlur="handleBulkBlur"
+                    />
                 </div>
                 <div class="toggle-container-bulk-body-button-container">
                     <nitrozen-button
@@ -142,14 +147,14 @@ import BulkPackagingCard from './common/bulk-packaging-card.vue';
 export default {
     name: 'packaging-create',
     components: {
-    NitrozenInput,
-    NitrozenError,
-    NitrozenToggleBtn,
-    NitrozenDropdown,
-    inlineSvgVue,
-    NitrozenButton,
-    BulkPackagingCard
-},
+        NitrozenInput,
+        NitrozenError,
+        NitrozenToggleBtn,
+        NitrozenDropdown,
+        inlineSvgVue,
+        NitrozenButton,
+        BulkPackagingCard
+    },
     computed: {
         searchPlacholder() {
             return 'Search and select packaging from the list';
@@ -232,54 +237,87 @@ export default {
             selectedCategories: [],
             searchableCategoryList: [],
             bulkPackaging: [],
-            bulkInput:{
-                    isDefault:false,
-                    categoryConfig: '',
-                    volumetricWeight: {
-                        minimum: {
-                            label: 'Minimum',
-                            placeholder: 'Minimum Volumetric Weight',
-                            value: '',
-                            error: ''
-                        },
-                        maximum: {
-                            label: 'Maximum',
-                            placeholder: 'Maximum Volumetric Weight',
-                            value: '',
-                            error: ''
-                        }
+            bulkInput: {
+                isDefault: false,
+                categoryConfig: '',
+                volumetricWeight: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Volumetric Weight',
+                        value: '',
+                        error: ''
                     },
-                    quantity: {
-                        minimum: {
-                            label: 'Minimum',
-                            placeholder: 'Minimum Quantity',
-                            value: '',
-                            error: ''
-                        },
-                        maximum: {
-                            label: 'Maximum',
-                            placeholder: 'Maximum Quantity',
-                            value: '',
-                            error: ''
-                        }
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    }
+                },
+                quantity: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Quantity',
+                        value: '',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Quantity',
+                        value: '',
+                        error: ''
                     }
                 }
+            }
         };
     },
     mounted() {
         this.setCategoryList();
         // Initialize the array with 1 input field group
-        this.bulkPackaging.push(this.bulkInput)
+        this.bulkPackaging.push(this.bulkInput);
     },
     methods: {
         /**
          * @author Rohan Shah
-         * @description Checks if there are errors in the previous inputs, 
+         * @description Checks if there are errors in the previous inputs,
          * if not then adds new card
          */
-        handleAddGroup(){
+        handleAddGroup() {
+            // TODO check if this can be done through state
+            let input = {
+                isDefault: false,
+                categoryConfig: '',
+                volumetricWeight: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    }
+                },
+                quantity: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Quantity',
+                        value: '',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Quantity',
+                        value: '',
+                        error: ''
+                    }
+                }
+            }
             // error handler call here
-            this.bulkPackaging.push(this.bulkInput)
+            this.bulkPackaging.push(input);
         },
         /**
          *
@@ -332,24 +370,58 @@ export default {
         /**
          *
          * @author Rohan Shah
+         * @param {String} obj | state value / key that has to be updated 
+         * @param {String} input | Actual key input where the update has to be made 
          * @description Handle blur and check for errors if found then show the error
          *
          */
-        handleBlur(obj,key) {
-                if (this[obj][key] && !this[obj][key].value)
-                    this[obj][
-                        key
-                    ].error = `${this[obj][key].label} is a mandatory field`;
+        handleBlur(obj, key) {
+            if (this[obj][key] && !this[obj][key].value)
+                this[obj][
+                    key
+                ].error = `${this[obj][key].label} is a mandatory field`;
+        },
+        /**
+         * 
+         * @author Rohan Shah
+         * @param {String} obj | Key origin where data is to updated Volumetric / Quantity 
+         * @param {String} input | Actual key input where the update has to be made Minimum / Maximum
+         * @param {Number} index | Index position
+         * @description Handles the blur for all bulk location related fields
+         */
+        handleBulkBlur(obj, input, index) {
+            if (
+                this.bulkPackaging[index][obj][input] &&
+                !this.bulkPackaging[index][obj][input].value
+            ) {
+                this.bulkPackaging[index][obj][
+                    input
+                ].error = `${this.bulkPackaging[index][obj][input].label} should have some value`;
+            }
         },
         /**
          *
          * @author Rohan Shah
+         * @param {String} obj | state value / key that has to be updated 
+         * @param {String} input | Actual key input where the update has to be made 
          * @description Handle input change and save values in the state object
          */
         handleChange(obj, input, val) {
             this[obj][input].value = val;
             this[obj][input].error = '';
             this.calculateDeadWeight();
+        },
+        /**
+         * 
+         * @author Rohan Shah
+         * @param {String} obj | Key origin where data is to updated Volumetric / Quantity 
+         * @param {String} input | Actual key input where the update has to be made Minimum / Maximum
+         * @param {Number} index | Index position
+         * @description Handles the inputs for bulk packaging related input fields
+         */
+        handleBulkChange(obj, input, val, index) {
+            this.bulkPackaging[index][obj][input].value = val;
+            this.bulkPackaging[index][obj][input].error = '';
         },
         /**
          * @author Rohan Shah
@@ -378,6 +450,10 @@ export default {
          * @description create request object and dispatch the service to save the packaging product
          */
         savePackagingOrder() {},
+        /**
+         * @author Rohan SHah
+         * @description Toggle flags based on the type input
+         */
         handleToggleChange(type) {
             switch (type) {
                 case 'l3':

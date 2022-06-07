@@ -22,10 +22,10 @@
                             "
                             v-model="inputs.volumetricWeight[input].value"
                             type="number"
-                            @blur="handleBlur('volumetricWeight', input)"
+                            @blur="handleBlur('volumetricWeight', input,currentIndex)"
                             @input="
                                 (val) =>
-                                    handleChange('volumetricWeight', input, val)
+                                    handleChange('volumetricWeight', input, val, currentIndex)
                             "
                         />
                         <nitrozen-error
@@ -52,9 +52,9 @@
                             :placeholder="inputs.quantity[input].placeholder"
                             v-model="inputs.quantity[input].value"
                             type="number"
-                            @blur="handleBlur('quantity', input)"
+                            @blur="handleBlur('quantity', input,currentIndex)"
                             @input="
-                                (val) => handleChange('quantity', input, val)
+                                (val) => handleChange('quantity', input, val,currentIndex)
                             "
                         />
                         <nitrozen-error v-if="inputs.quantity[input].error">
@@ -85,6 +85,15 @@ export default {
     props: {
         inputs: {
             type: Object
+        },
+        currentIndex:{
+            type: Number
+        },
+        handleChange:{
+            type : Function
+        },
+        handleBlur:{
+            type : Function
         }
     }
 };
