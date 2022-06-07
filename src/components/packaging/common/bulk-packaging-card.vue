@@ -57,9 +57,7 @@
                                 (val) => handleChange('quantity', input, val)
                             "
                         />
-                        <nitrozen-error
-                            v-if="inputs.quantity[input].error"
-                        >
+                        <nitrozen-error v-if="inputs.quantity[input].error">
                             {{ inputs.quantity[input].error }}
                         </nitrozen-error>
                     </div>
