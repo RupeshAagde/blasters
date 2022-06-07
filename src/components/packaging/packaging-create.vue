@@ -26,8 +26,8 @@
                     :placeholder="row2Inputs[input].placeholder"
                     v-model="row2Inputs[input].value"
                     type="number"
-                    @blur="handleBlur(input)"
-                    @input="(val) => handleChange(input, val)"
+                    @blur="handleBlur('row2Inputs',input)"
+                    @input="(val) => handleChange('row2Inputs', input, val)"
                 />
                 <nitrozen-error v-if="row2Inputs[input].error">
                     {{ row2Inputs[input].error }}
@@ -49,8 +49,8 @@
                     type="number"
                     :showTooltip="row3Inputs[input].showToolTip"
                     :tooltipText="row3Inputs[input].toolTipText"
-                    @blur="handleBlur(input)"
-                    @input="(val) => handleChange(input, val)"
+                    @blur="handleBlur('row3Inputs',input)"
+                    @input="(val) => handleChange('row3Inputs', input, val)"
                     :disabled="row3Inputs[input].isDisabled"
                 />
                 <nitrozen-error v-if="row3Inputs[input].error">
@@ -108,6 +108,13 @@
             </div>
             <div class="toggle-container-bulk-body" v-if="bulkChecked">
                 <!-- Mapping the bulk packaging cards here -->
+                <div 
+                v-for="(item,index) of bulkPackaging"
+                :key="'bulk-packaging-card'+index"
+                class="bulk-packgaing-card"
+                >
+                <bulk-packaging-card :inputs="item"/>
+                </div>
                 <div class="toggle-container-bulk-body-button-container">
                     <nitrozen-button
                         :title="'Add Group'"
@@ -130,16 +137,18 @@ import {
     NitrozenButton
 } from '@gofynd/nitrozen-vue';
 import inlineSvgVue from '../common/inline-svg.vue';
+import BulkPackagingCard from './common/bulk-packaging-card.vue';
 export default {
     name: 'packaging-create',
     components: {
-        NitrozenInput,
-        NitrozenError,
-        NitrozenToggleBtn,
-        NitrozenDropdown,
-        inlineSvgVue,
-        NitrozenButton
-    },
+    NitrozenInput,
+    NitrozenError,
+    NitrozenToggleBtn,
+    NitrozenDropdown,
+    inlineSvgVue,
+    NitrozenButton,
+    BulkPackagingCard
+},
     computed: {
         searchPlacholder() {
             return 'Search and select packaging from the list';
@@ -220,11 +229,46 @@ export default {
             l3Checked: false,
             bulkChecked: false,
             selectedCategories: [],
-            searchableCategoryList: []
+            searchableCategoryList: [],
+            bulkPackaging: [],
+            bulkInput:{
+                    isDefault:false,
+                    categoryConfig: '',
+                    volumetricWeight: {
+                        minimum: {
+                            label: 'Minimum',
+                            placeholder: 'Minimum Volumetric Weight',
+                            value: '',
+                            error: ''
+                        },
+                        maximum: {
+                            label: 'Maximum',
+                            placeholder: 'Maximum Volumetric Weight',
+                            value: '',
+                            error: ''
+                        }
+                    },
+                    quantity: {
+                        minimum: {
+                            label: 'Minimum',
+                            placeholder: 'Minimum Quantity',
+                            value: '',
+                            error: ''
+                        },
+                        maximum: {
+                            label: 'Maximum',
+                            placeholder: 'Maximum Quantity',
+                            value: '',
+                            error: ''
+                        }
+                    }
+                }
         };
     },
     mounted() {
         this.setCategoryList();
+        // Initialize the array with 1 input field group
+        this.bulkPackaging.push(this.bulkInput)
     },
     methods: {
         /**
@@ -281,32 +325,20 @@ export default {
          * @description Handle blur and check for errors if found then show the error
          *
          */
-        handleBlur(key) {
-            if (this.row2Inputs[key] && !this.row2Inputs[key].value)
-                this.row2Inputs[
-                    key
-                ].error = `${this.row2Inputs[key].label} is a mandatory field`;
-            else {
-                if (this.row3Inputs[key] && !this.row3Inputs[key].value)
-                    this.row3Inputs[
+        handleBlur(obj,key) {
+                if (this[obj][key] && !this[obj][key].value)
+                    this[obj][
                         key
-                    ].error = `${this.row3Inputs[key].label} is a mandatory field`;
-            }
+                    ].error = `${this[obj][key].label} is a mandatory field`;
         },
         /**
          *
          * @author Rohan Shah
          * @description Handle input change and save values in the state object
          */
-        handleChange(input, val) {
-            let objCheck = this.row2Inputs.hasOwnProperty(input);
-            if (objCheck) {
-                this.row2Inputs[input].value = val;
-                this.row2Inputs[input].error = '';
-            } else {
-                this.row3Inputs[input].value = val;
-                this.row3Inputs[input].error = '';
-            }
+        handleChange(obj, input, val) {
+            this[obj][input].value = val;
+            this[obj][input].error = '';
             this.calculateDeadWeight();
         },
         /**
