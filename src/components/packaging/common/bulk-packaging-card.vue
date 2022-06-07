@@ -92,4 +92,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="less">
+@import '../../../less/packaging/bulk-packaging-card.less';
+</style>
