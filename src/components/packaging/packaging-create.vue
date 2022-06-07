@@ -68,13 +68,15 @@
             </div>
             <div class="toggle-container-l3-body" v-if="l3Checked">
                 <nitrozen-dropdown
+                    id="l3-dropdown"
                     :label="'Default L3 category'"
                     :tooltip="'Some tool tip text'"
                     :searchable="true"
                     :placeholder="'Search or select a category'"
                     :multiple="true"
-                    :items="categoryList"
+                    :items="searchableCategoryList"
                     @change="(val) => handleCategoryChange(val)"
+                    @searchInputChange="setCategoryList"
                 />
                 <div class="toggle-container-l3-list">
                     <div
@@ -83,20 +85,39 @@
                         :id="'selected-category' + index"
                         class="toggle-container-l3-list-item"
                     >
-                       <span class="l3-list-item-ellipsis" :title="item.text">
-                           {{ item.text }}
-                       </span> 
-                       <inline-svg-vue :src="'cross-grey'" class="icon-cross"/>
+                        <span class="l3-list-item-ellipsis" :title="item.text">
+                            {{ item.text }}
+                        </span>
+                        <div @click="handleCategoryRemove(item, index)">
+                            <inline-svg-vue
+                                :src="'cross-grey'"
+                                class="icon-cross"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="toggle-container">
-            <p>Bulk Packaging</p>
-            <nitrozen-toggle-btn
-                :value="bulkChecked"
-                @change="handleToggleChange('bulk')"
-            />
+            <div class="toggle-container-l3-header">
+                <p>Bulk Packaging</p>
+                <nitrozen-toggle-btn
+                    :value="bulkChecked"
+                    @change="handleToggleChange('bulk')"
+                />
+            </div>
+            <div class="toggle-container-bulk-body" v-if="bulkChecked">
+                <!-- Mapping the bulk packaging cards here -->
+                <div class="toggle-container-bulk-body-button-container">
+                    <nitrozen-button
+                        :title="'Add Group'"
+                        theme="secondary"
+                        class="add-group-btn"
+                    >
+                        Add Group
+                    </nitrozen-button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -105,7 +126,8 @@ import {
     NitrozenInput,
     NitrozenError,
     NitrozenToggleBtn,
-    NitrozenDropdown
+    NitrozenDropdown,
+    NitrozenButton
 } from '@gofynd/nitrozen-vue';
 import inlineSvgVue from '../common/inline-svg.vue';
 export default {
@@ -115,7 +137,8 @@ export default {
         NitrozenError,
         NitrozenToggleBtn,
         NitrozenDropdown,
-        inlineSvgVue
+        inlineSvgVue,
+        NitrozenButton
     },
     computed: {
         searchPlacholder() {
@@ -127,20 +150,20 @@ export default {
             // TODO remove mock categories after API integration
             categoryList: [
                 {
-                    text: 'Fashion Sense',
-                    value: 1
+                    name: 'Fashion Sense',
+                    uid: 1
                 },
                 {
-                    text: 'Fashion ',
-                    value: 2
+                    name: 'Fashion ',
+                    uid: 2
                 },
                 {
-                    text: 'Garments',
-                    value: 3
+                    name: 'Garments',
+                    uid: 3
                 },
                 {
-                    text: 'Fashion dated',
-                    value: 4
+                    name: 'Fashion dated',
+                    uid: 4
                 }
             ],
             searchInput: '',
@@ -196,22 +219,61 @@ export default {
             },
             l3Checked: false,
             bulkChecked: false,
-            selectedCategories: []
+            selectedCategories: [],
+            searchableCategoryList: []
         };
     },
+    mounted() {
+        this.setCategoryList();
+    },
     methods: {
+        /**
+         *
+         * @author Rohan Shah
+         * @description Generate category list based on user input
+         * Designed to return all when called first time or without any input
+         */
+        setCategoryList(e = {}) {
+            this.searchableCategoryList = [];
+            // TODO loop through state list
+            this.categoryList.forEach((a) => {
+                if (
+                    !e.text ||
+                    a.name.toLowerCase().includes(e.text.toLowerCase())
+                ) {
+                    this.searchableCategoryList.push({
+                        text: a.name,
+                        value: a.uid
+                    });
+                }
+            });
+        },
+        /**
+         *
+         * @author Rohan Shah
+         * @description loops through the selected array of categories from the dropdown
+         * and updates a new list only for display purpose and request body purpose
+         */
         handleCategoryChange(categoryArr) {
-            console.log(categoryArr);
             let tempCategoryArry = [];
             categoryArr.forEach((category) => {
-                let categoryObj = this.categoryList.find(
+                let categoryObj = this.searchableCategoryList.find(
                     (a) => a.value == category
                 );
-                console.log(categoryObj, 'category obj');
                 tempCategoryArry.push(categoryObj);
             });
             this.selectedCategories = tempCategoryArry;
-            console.log(this.selectedCategories, 'selected categories');
+        },
+        /**
+         *
+         * @author Rohan Shah
+         * @description Handles selected category removal and change the selected
+         * state in the drop down as well
+         */
+        handleCategoryRemove(category, index) {
+            // remove the element from selected array
+            this.selectedCategories.splice(index, 1);
+            // TODO figure out how to remove selected state after this
         },
         /**
          *
