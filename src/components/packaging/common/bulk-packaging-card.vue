@@ -6,7 +6,23 @@
                 <inline-svg :src="'delete'" class="delete-icon" />
             </div>
         </div>
-        <div class="bulk-card-header">Category config and toggle</div>
+        <div class="bulk-card-header">
+             <nitrozen-dropdown
+                    :label="'Categories config'"
+                    :tooltip="'Some tool tip text'"
+                    :placeholder="'Select'"
+                    :items="searchableCategoryList"
+                    @change="(val) => handleDropDownSelect(currentIndex, val)"
+                />
+                <div class="default-container">
+                    Default 
+                    <nitrozen-toggle-btn
+                    :value="inputs.toggle.val"
+                    @change="handleToggleChange(currentIndex, inputs.toggle.val)"
+                    :disabled="inputs.toggle.disabled"
+                />
+                </div>
+        </div>
         <div class="bulk-card-body">
             <div class="bulk-card-textfield-group">
                 <p>Volumetric Weight</p>
@@ -122,6 +138,12 @@ export default {
         },
         handleDelete: {
             type: Function
+        },
+        handleDropDownSelect:{
+            type:Function
+        },
+        handleToggleChange:{
+            type:Function
         }
     }
 };

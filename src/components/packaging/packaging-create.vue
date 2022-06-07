@@ -28,6 +28,7 @@
                     type="number"
                     @blur="handleBlur('row2Inputs', input)"
                     @input="(val) => handleChange('row2Inputs', input, val)"
+                    :disabled="!searchInput"
                 />
                 <nitrozen-error v-if="row2Inputs[input].error">
                     {{ row2Inputs[input].error }}
@@ -51,7 +52,9 @@
                     :tooltipText="row3Inputs[input].toolTipText"
                     @blur="handleBlur('row3Inputs', input)"
                     @input="(val) => handleChange('row3Inputs', input, val)"
-                    :disabled="row3Inputs[input].isDisabled"
+                    :disabled="
+                        row3Inputs[input].isDisabled ? true : searchInput
+                    "
                 />
                 <nitrozen-error v-if="row3Inputs[input].error">
                     {{ row3Inputs[input].error }}
@@ -119,6 +122,8 @@
                         :handleChange="handleBulkChange"
                         :handleBlur="handleBulkBlur"
                         :handleDelete="handleGroupDelete"
+                        :handleToggleChange="handleBulkToggle"
+                        :handleDropDownSelect="handleBulkDropdown"
                     />
                 </div>
                 <div class="toggle-container-bulk-body-button-container">
@@ -239,7 +244,10 @@ export default {
             searchableCategoryList: [],
             bulkPackaging: [],
             bulkInput: {
-                isDefault: false,
+                toggle: {
+                    val: false,
+                    disabled: false
+                },
                 categoryConfig: '',
                 volumetricWeight: {
                     minimum: {
@@ -276,8 +284,44 @@ export default {
         this.setCategoryList();
     },
     methods: {
-        handleGroupDelete(index){
-            this.bulkPackaging.splice(index , 1)
+        /**
+         * @author Rohan Shah
+         * @param {Number} index | index position
+         * @param {Number} toggleVal | Value from the drop down input
+         * @description Set the drop down selection value of a group category
+         */
+        handleBulkDropdown(index, val){
+            this.bulkPackaging[index].categoryConfig = val
+        },
+        /**
+         * @author Rohan Shah
+         * @param {Number} index | index position
+         * @param {Boolean} toggleVal | Boolean val 
+         * @description Toggle the value based on user selection
+         */
+        handleBulkToggle(index, toggleVal) {
+            this.bulkPackaging[index].toggle.val = !toggleVal;
+            // if the value is true
+            if (this.bulkPackaging[index].toggle.val) {
+                // then disable all the other toggles and set every value as false
+                this.bulkPackaging.forEach((a, indexPos) => {
+                    if (index != indexPos) {
+                        this.bulkPackaging[indexPos].toggle.val = false;
+                        this.bulkPackaging[indexPos].toggle.disabled = true;
+                    }
+                });
+            } else {
+                // if not then set disable value for all to be false
+                // so that user can make a selection
+                this.bulkPackaging.forEach((a, indexPos) => {
+                    if (index != indexPos) {
+                        this.bulkPackaging[indexPos].toggle.disabled = false;
+                    }
+                });
+            }
+        },
+        handleGroupDelete(index) {
+            this.bulkPackaging.splice(index, 1);
         },
         /**
          * @author Rohan Shah
@@ -287,7 +331,10 @@ export default {
         handleAddGroup() {
             // TODO check if this can be done through state
             let input = {
-                isDefault: false,
+                toggle: {
+                    val: false,
+                    disabled: false
+                },
                 categoryConfig: '',
                 volumetricWeight: {
                     minimum: {
