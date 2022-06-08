@@ -532,10 +532,12 @@ export default {
             this.selectedSection['props'] = {};
             for(let key in section.data) {
                 let type = this.selectedSectionSchema.props.find(item => item.id === key);
-                this.selectedSection.props[key] = {
-                    type: type.type,
-                    value: section.data[key]
-                };
+                if(type !== undefined) {
+                    this.selectedSection.props[key] = {
+                        type: type.type,
+                        value: section.data[key]
+                    };
+                }
             }
             this.postMessageToIframe(
                 PREVIEW_EVENTS.SELECT_SECTION, 

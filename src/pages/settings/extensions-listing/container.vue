@@ -100,15 +100,11 @@ import AdmInlineSvg from '@/components/common/adm-inline-svg.vue';
 import SectionsList from './sections-list.vue';
 
 /* Helper imports */
-import { PREVIEW_EVENTS } from '@/helper/constants.js';
 import { convertKebabCaseToString } from '../../../helper/utils';
 
 /* Service imports */
 import ExtensionPageService from '@/services/extension-page.service.js';
-
-/* Mock imports */
-import available_sections from './data/available_sections.json';
-import pages from './data/pages.json';
+import ExtensionService from '@/services/extension.service.js';
 
 const devicesViewport = {
     desktop: { maxWidth: 1024 },
@@ -182,7 +178,6 @@ export default {
         }
     },
     mounted() {
-        this.getAvailablePages();
         let basicRequests = [
             this.getPublicExtensions(),
             this.getCollections(),
@@ -191,6 +186,7 @@ export default {
 
         Promise.all(basicRequests)
         .then(() => {
+            this.getAvailablePages();
             this.getAvailableSections();
         })
         .catch(error => {
@@ -422,6 +418,122 @@ export default {
                             data[key] = data[key].trim();
                         }
                     }
+
+                    if(section.item_type) {
+                        let valuesPromise = [];
+
+                        if(section.item_type === 'category') {
+                            if(section.items.length) {
+                                let selectedItems = cloneDeep(section.items).map(i => i.value);
+                                let itemDetails = cloneDeep(this.category).filter(i => selectedItems.includes(i._id));
+                                section.data[section.item_type] = cloneDeep(selectedItems);
+                                section.data[`${section.item_type}_details`] = itemDetails;
+                            }
+                        } else if(section.item_type === 'collection') {
+                            if(section.items.length) {
+                                let selectedItems = cloneDeep(section.items).map(i => i.value);
+                                section.data[section.item_type] = cloneDeep(selectedItems);
+                                let valuesPromise = Promise.all(
+                                    selectedItems.map(i => {
+                                        return ExtensionService.getExtensionCollectionDetails(i)
+                                        .then(response => {
+                                            return response.data;
+                                        })
+                                        .catch(error => {
+                                            this.$snackbar.global.showError(
+                                                `Unable to fetch details about the collection with ID ${i}.`
+                                            );
+                                        })
+                                    })
+                                );
+
+                                valuesPromise.then(response => {
+                                    section.data[`${section.item_type}_details`] = cloneDeep(response);
+                                })
+                                .catch(error => {
+                                    console.log("error:   ", error);
+                                })
+                            }
+                        } else if(section.item_type === 'extension') {
+                            if(section.items.length) {
+                                let selectedItems = cloneDeep(section.items).map(i => i.value);
+                                section.data[section.item_type] = cloneDeep(selectedItems);
+                                let itemsStr = selectedItems.join(',');
+                                this.getPublicExtensions({_id: itemsStr})
+                                .then(response => {
+                                    console.log("response:   ", response);
+                                    section.data[`${section.item_type}_details`] = cloneDeep(response.data);
+                                })
+                                .catch(error => {
+                                    this.$snackbar.global.showError(
+                                        `Unable to fetch extension details.`
+                                    );
+                                    console.log("error:   ", error);
+                                })
+                            }
+                        }
+                    }
+
+                    /* Get values for each item type */
+                    // if(section.item_type) {
+                    //     let valuesPromise = [];
+
+                    //     // if(section.item_type === 'extension') {
+                    //     //     console.log(section.items);
+                    //     //     if(section.items.length) {
+                    //     //         let itemsStr = section.items.join(',');
+                    //     //         valuesPromise = this.getPublicExtensions({_id: itemsStr})
+                    //     //         .then(response => {
+                    //     //             console.log("response:   ", response);
+                    //     //         })
+                    //     //     }
+                    //     // } else if(section.item_type === 'collection') {
+                    //     //     valuesPromise = section.items.map()
+                    //     // }
+
+                    //     // if(section.items.length) {
+                    //     //     if(section.item_type === 'extension') {
+                    //     //         let itemsStr = section.items.join(',');
+                    //     //         valuesPromise = this.getPublicExtensions({_id: itemsStr})
+                    //     //         .then(response => {
+                    //     //             console.log("response:   ", response);
+                    //     //         })
+                    //     //     }
+                    //     // }
+
+                    //     // let valuesPromise = Promise.all(
+                    //     //     section.data[section.item_type].map(item => {
+                    //     //         if(section.item_type === 'collection') {
+                    //     //             return ExtensionService.getExtensionCollectionDetails(item)
+                    //     //             .then(response => {
+                    //     //                 console.log("response:   ", response);
+                    //     //                 return response.data;
+                    //     //             })
+                    //     //         } else if(section.item_type === 'extension') {
+                    //     //             return this.getPublicExtensions({_id: item})
+                    //     //             .then(response => {
+                    //     //                 console.log("response:   ", response);
+                    //     //                 return response.data;
+                    //     //             })
+                    //     //         } else if(section.item_type === 'category') {
+                    //     //             return Promise.resolve(() => {
+                    //     //                 return this.categories.find(id => id === item);
+                    //     //             })
+                    //     //         }
+                    //     //     })
+                    //     // );
+
+                    //     // valuesPromise.then(response => {
+                    //     //     section.data[`${section.item_type}_details`] = response;
+                    //     //     section.items = response.map(i => {
+                    //     //         console.log("i:   ", i);
+                    //     //         return {
+                    //     //             value: i._id
+                    //     //         }
+                    //     //     });
+                    //     //     console.log("section:   ", this.sections);
+                    //     // });
+                    // }
                 }
 
                 setTimeout(() => {
@@ -534,9 +646,8 @@ export default {
                 this.pages[this.selectedPageIndex].updated = true;
                 delete e.updated
             }
-            // e.page = this.selectedPage && this.selectedPage.value
             e.partner_event = true;
-            e.page_content = this.pages[this.selectedPageIndex];
+            e.page_content = cloneDeep(this.pages[this.selectedPageIndex]);
             for(let key in e.page_content) {
                 if(typeof e.page_content[key] === 'string') {
                     e.page_content[key] = e.page_content[key].trim();
