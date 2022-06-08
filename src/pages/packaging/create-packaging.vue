@@ -13,7 +13,6 @@
             >
                 <nitrozen-button
                     theme="secondary"
-                    v-flatBtn
                     title="Save"
                     :disabled="isButtonDisabled"
                 >
