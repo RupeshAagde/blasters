@@ -43,30 +43,30 @@ export default {
         NitrozenInput,
         NitrozenDropdown,
         CategoryMultiSelect
-    }, 
-    mounted(){
-        this.setCategoryList()
+    },
+    mounted() {
+        this.setCategoryList();
     },
     methods: {
         /**
          * @author Rohan Shah
-         * @description Creates request object 
+         * @description Creates request object
          * @return Request object with specified values
          */
         handleSave() {
             // Create request object
             let requestObj = {
-                categoryName : this.groupName.value,
+                categoryName: this.groupName.value,
                 selectedCategories: this.selectedCategories
-            }
-            return requestObj
+            };
+            return requestObj;
         },
         /**
          * @author Rohan Shah
          * @description Appends error msg if user tries to submit empty input field
          */
-        handleBlur(){
-             if (!this.groupName.value)
+        handleBlur() {
+            if (!this.groupName.value)
                 this.groupName.error = `${this.groupName.label} is a mandatory field`;
         },
         /**
@@ -74,9 +74,9 @@ export default {
          * @param {String} val | User input
          * @description Saves user input in the input object and empties the error message
          */
-        handleChange(val){
-            this.groupName.value = val
-            this.groupName.error = ''
+        handleChange(val) {
+            this.groupName.value = val;
+            this.groupName.error = '';
         },
         /**
          *
@@ -86,18 +86,18 @@ export default {
          */
         handleCategoryChange(categoryArr) {
             let tempCategoryArry = [];
-            let tempCategoryArr = []
+            let tempCategoryArr = [];
             categoryArr.forEach((category) => {
                 let categoryObj = this.searchableCategoryList.find(
                     (a) => a.value == category
                 );
                 tempCategoryArry.push(categoryObj);
                 // push only the unique value / id in the array to maintain selection list
-                tempCategoryArr.push(categoryObj.value)
+                tempCategoryArr.push(categoryObj.value);
             });
             // assign the values to state variables
             this.selectedCategories = tempCategoryArry;
-            this.categoryValue = tempCategoryArr
+            this.categoryValue = tempCategoryArr;
         },
         /**
          *
@@ -108,10 +108,12 @@ export default {
         handleCategoryRemove(category, index) {
             // remove the element from selected array
             this.selectedCategories.splice(index, 1);
-            // Find the index by value 
-            let valIndex = this.categoryValue.findIndex(ele => ele == category.value)
+            // Find the index by value
+            let valIndex = this.categoryValue.findIndex(
+                (ele) => ele == category.value
+            );
             // remove the index so it is unselected from the drop down as well
-            this.categoryValue.splice(valIndex, 1)
+            this.categoryValue.splice(valIndex, 1);
         },
         /**
          *
