@@ -12,6 +12,7 @@
                 @blur="handleBlur"
                 @input="handleChange"
             />
+            <!-- If there is a error then show  -->
             <nitrozen-error v-if="groupName.error">
                 {{ groupName.error }}
             </nitrozen-error>
@@ -46,13 +47,32 @@ export default {
         this.setCategoryList()
     },
     methods: {
+        /**
+         * @author Rohan Shah
+         * @description Creates request object 
+         * @return Request object with specified values
+         */
         handleSave() {
-            // return request object from here
+            // Create request object
+            let requestObj = {
+                categoryName : this.groupName.value,
+                selectedCategories: this.selectedCategories
+            }
+            return requestObj
         },
+        /**
+         * @author Rohan Shah
+         * @description Appends error msg if user tries to submit empty input field
+         */
         handleBlur(){
              if (!this.groupName.value)
                 this.groupName.error = `${this.groupName.label} is a mandatory field`;
         },
+        /**
+         * @author Rohan Shah
+         * @param {String} val | User input
+         * @description Saves user input in the input object and empties the error message
+         */
         handleChange(val){
             this.groupName.value = val
             this.groupName.error = ''
