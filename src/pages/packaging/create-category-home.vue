@@ -1,43 +1,57 @@
 <template>
-<div>
-   <page-header :title="'Add New Category'">
-     <div :class="{
-       'add-category-button':true,
-       opaque:isButtonDisabled
-       }">
-       <nitrozen-button 
-       theme="secondary" 
-       v-flatBtn 
-       title="Save"
-       :disabled="isButtonDisabled"
-      >
-      Save
-    </nitrozen-button>
-     </div>
-   </page-header>
-  <div class="create-category-container">
-    <create-category/>
+    <div>
+        <page-header :title="'Add New Category'">
+            <div
+                :class="{
+                    'add-category-button': true,
+                    opaque: isButtonDisabled
+                }"
+            >
+                <nitrozen-button
+                    theme="secondary"
+                    v-flatBtn
+                    title="Save"
+                    @click="onSave"
+                    :disabled="isButtonDisabled"
+                >
+                    Save
+                </nitrozen-button>
+            </div>
+        </page-header>
+        <div class="create-category-container">
+            <!-- ** Do not remove the ref -->
+            <create-category ref="createCategory" />
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-import PageHeader from "../../components/common/layout/page-header.vue"
-import CreateCategory from '../../components/packaging/create-category.vue'
+import PageHeader from '../../components/common/layout/page-header.vue';
+import CreateCategory from '../../components/packaging/create-category.vue';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
 export default {
-name: 'create-category-home',
-components:{
-  CreateCategory,
-  PageHeader,
-  NitrozenButton
-},
-data(){
-  return {
-    isButtonDisabled: true
-  }
-}
-}
+    name: 'create-category-home',
+    components: {
+        CreateCategory,
+        PageHeader,
+        NitrozenButton
+    },
+    data() {
+        return {
+            isButtonDisabled: true
+        };
+    },
+    methods: {
+        /**
+         * @author Rohan Shah
+         * @description Calls the child function to get form data
+         * And then uses dispatch method to save the category
+         */
+        onSave() {
+            this.$refs.createCategory.handleSave();
+        }
+    }
+};
 </script>
 <style lang="less">
 @import '../../less/packaging/create-category-home.less';
