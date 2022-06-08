@@ -10,6 +10,7 @@
                     :items="searchableCategoryList"
                     @change="(val) => handleCategoryChange(val)"
                     @searchInputChange="setCategoryList"
+                    :value="categoryValue"
                 />
                 <div class="toggle-container-category-list">
                     <div
@@ -58,6 +59,9 @@ props:{
     },
     setCategoryList:{
         type: Function
+    },
+    categoryValue:{
+        type: Array
     }
 }
 }
