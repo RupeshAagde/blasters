@@ -1,6 +1,10 @@
 <template>
     <div>
-        <page-header :title="'Add Packaging'" @backClick="goBack">
+        <page-header
+            :title="'Add Packaging'"
+            @backClick="goBack"
+            :noContextMenu="true"
+        >
             <div
                 :class="{
                     'add-packaging-button': true,

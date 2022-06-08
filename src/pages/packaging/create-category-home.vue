@@ -1,6 +1,10 @@
 <template>
     <div>
-        <page-header :title="'Add New Category'" @backClick="goBack">
+        <page-header
+            :title="'Add New Category'"
+            @backClick="goBack"
+            :noContextMenu="true"
+        >
             <div
                 :class="{
                     'add-category-button': true,
