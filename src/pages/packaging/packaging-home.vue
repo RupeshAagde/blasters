@@ -11,13 +11,11 @@
 
 <script>
 import PageHeader from "../../components/common/layout/page-header.vue"
-import AddPackaging from '../../components/packaging/add-packaging.vue'
 import ListPackaging from '../../components/packaging/list-packaging.vue'
 export default {
 name: 'packaging-home',
 components:{
  PageHeader,
- AddPackaging,
 ListPackaging
 }
 }

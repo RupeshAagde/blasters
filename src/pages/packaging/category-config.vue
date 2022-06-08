@@ -11,13 +11,11 @@
 
 <script>
 import PageHeader from "../../components/common/layout/page-header.vue"
-import AddPackaging from '../../components/packaging/add-packaging.vue'
 import ListCategories from '../../components/packaging/list-categories.vue'
 export default {
 name: 'category-config',
 components:{
  PageHeader,
- AddPackaging,
 ListCategories
 }
 }
