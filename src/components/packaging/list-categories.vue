@@ -56,7 +56,7 @@ export default {
          * @description On click for add packaging button click
          */
         handleAddCategories() {
-            this.$router.push('/administrator/packaging/categories/create');
+            this.$router.push('/administrator/packaging/category-configuration/create');
         },
         async fetchCategories() {
             await this.$store.dispatch(FETCH_CATEGORIES, {}).then((res) => {
