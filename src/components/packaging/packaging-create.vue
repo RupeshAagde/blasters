@@ -69,37 +69,17 @@
                     @change="handleToggleChange('l3')"
                 />
             </div>
-            <div class="toggle-container-l3-body" v-if="l3Checked">
-                <nitrozen-dropdown
-                    id="l3-dropdown"
-                    :label="'Default L3 category'"
-                    :tooltip="'Some tool tip text'"
-                    :searchable="true"
-                    :placeholder="'Search or select a category'"
-                    :multiple="true"
-                    :items="searchableCategoryList"
-                    @change="(val) => handleCategoryChange(val)"
-                    @searchInputChange="setCategoryList"
-                />
-                <div class="toggle-container-l3-list">
-                    <div
-                        v-for="(item, index) of selectedCategories"
-                        :key="'selected-category' + index"
-                        :id="'selected-category' + index"
-                        class="toggle-container-l3-list-item"
-                    >
-                        <span class="l3-list-item-ellipsis" :title="item.text">
-                            {{ item.text }}
-                        </span>
-                        <div @click="handleCategoryRemove(item, index)">
-                            <inline-svg-vue
-                                :src="'cross-grey'"
-                                class="icon-cross"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Call to reusable component to select multiple categories 
+            only show if the l3Checked flag is true
+            -->
+            <category-multi-select
+                v-if="l3Checked"
+                :handleCategoryChange="handleCategoryChange"
+                :handleCategoryRemove="handleCategoryRemove"
+                :searchableCategoryList="searchableCategoryList"
+                :selectedCategories="selectedCategories"
+                :setCategoryList="setCategoryList"
+            />
         </div>
         <div class="toggle-container">
             <div class="toggle-container-l3-header">
@@ -154,6 +134,7 @@ import {
 } from '@gofynd/nitrozen-vue';
 import inlineSvgVue from '../common/inline-svg.vue';
 import BulkPackagingCard from './common/bulk-packaging-card.vue';
+import CategoryMultiSelect from './common/category-multi-select.vue';
 export default {
     name: 'packaging-create',
     components: {
@@ -163,7 +144,8 @@ export default {
         NitrozenDropdown,
         inlineSvgVue,
         NitrozenButton,
-        BulkPackagingCard
+        BulkPackagingCard,
+        CategoryMultiSelect
     },
     computed: {
         searchPlacholder() {
@@ -525,7 +507,7 @@ export default {
          * @author Rohan Shah
          * @description Loops through the category cards array and checks for errors or null values
          * if found then sets the flag as true else false as default
-         * @returns Boolean value 
+         * @returns Boolean value
          */
         checkGroupCategoryError() {
             let isError = false;
