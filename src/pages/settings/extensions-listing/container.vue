@@ -38,7 +38,7 @@
                                 <div
                                     class="option-text"
                                     :value="slotProps.item.slug">
-                                    {{ slotProps.item.slug }}
+                                    {{ slotProps.item.text }}
                                 </div>
                             </div>
                         </template>
@@ -101,6 +101,7 @@ import SectionsList from './sections-list.vue';
 
 /* Helper imports */
 import { PREVIEW_EVENTS } from '@/helper/constants.js';
+import { convertKebabCaseToString } from '../../../helper/utils';
 
 /* Service imports */
 import ExtensionPageService from '@/services/extension-page.service.js';
@@ -233,7 +234,7 @@ export default {
                         item.value = item.slug;
                     }
                     if(!item.text) {
-                        item.text = item.slug;
+                        item.text = convertKebabCaseToString(item.slug);
                     }
                     return item;
                 })
@@ -245,10 +246,6 @@ export default {
                     arrPages = arrPages.concat(arrTypePages);
                 }
             }
-            arrPages.push({
-                text: 'Section Page',
-                value: '__add_page',
-            });
             return arrPages;
         },
         previewUrl() {
