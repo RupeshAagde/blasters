@@ -4,6 +4,7 @@
             <div
                 :class="{
                     'add-category-button': true,
+                    // show the opaque class only if the flag is true
                     opaque: isButtonDisabled
                 }"
             >
@@ -47,7 +48,9 @@ export default {
          * And then uses dispatch method to save the category
          */
         onSave() {
-            this.$refs.createCategory.handleSave();
+            // call function to get request object
+            const reqObj = this.$refs.createCategory.handleSave();
+            // TODO do something here
         }
     }
 };
