@@ -461,7 +461,6 @@ export default {
                                 let itemsStr = selectedItems.join(',');
                                 this.getPublicExtensions({_id: itemsStr})
                                 .then(response => {
-                                    console.log("response:   ", response);
                                     section.data[`${section.item_type}_details`] = cloneDeep(response.data);
                                 })
                                 .catch(error => {
@@ -473,67 +472,6 @@ export default {
                             }
                         }
                     }
-
-                    /* Get values for each item type */
-                    // if(section.item_type) {
-                    //     let valuesPromise = [];
-
-                    //     // if(section.item_type === 'extension') {
-                    //     //     console.log(section.items);
-                    //     //     if(section.items.length) {
-                    //     //         let itemsStr = section.items.join(',');
-                    //     //         valuesPromise = this.getPublicExtensions({_id: itemsStr})
-                    //     //         .then(response => {
-                    //     //             console.log("response:   ", response);
-                    //     //         })
-                    //     //     }
-                    //     // } else if(section.item_type === 'collection') {
-                    //     //     valuesPromise = section.items.map()
-                    //     // }
-
-                    //     // if(section.items.length) {
-                    //     //     if(section.item_type === 'extension') {
-                    //     //         let itemsStr = section.items.join(',');
-                    //     //         valuesPromise = this.getPublicExtensions({_id: itemsStr})
-                    //     //         .then(response => {
-                    //     //             console.log("response:   ", response);
-                    //     //         })
-                    //     //     }
-                    //     // }
-
-                    //     // let valuesPromise = Promise.all(
-                    //     //     section.data[section.item_type].map(item => {
-                    //     //         if(section.item_type === 'collection') {
-                    //     //             return ExtensionService.getExtensionCollectionDetails(item)
-                    //     //             .then(response => {
-                    //     //                 console.log("response:   ", response);
-                    //     //                 return response.data;
-                    //     //             })
-                    //     //         } else if(section.item_type === 'extension') {
-                    //     //             return this.getPublicExtensions({_id: item})
-                    //     //             .then(response => {
-                    //     //                 console.log("response:   ", response);
-                    //     //                 return response.data;
-                    //     //             })
-                    //     //         } else if(section.item_type === 'category') {
-                    //     //             return Promise.resolve(() => {
-                    //     //                 return this.categories.find(id => id === item);
-                    //     //             })
-                    //     //         }
-                    //     //     })
-                    //     // );
-
-                    //     // valuesPromise.then(response => {
-                    //     //     section.data[`${section.item_type}_details`] = response;
-                    //     //     section.items = response.map(i => {
-                    //     //         console.log("i:   ", i);
-                    //     //         return {
-                    //     //             value: i._id
-                    //     //         }
-                    //     //     });
-                    //     //     console.log("section:   ", this.sections);
-                    //     // });
-                    // }
                 }
 
                 setTimeout(() => {
