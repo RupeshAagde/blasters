@@ -202,6 +202,7 @@ export default {
         onSectionInputChange(prop, inputObj) {
             this.section.props[prop.id] = inputObj;
             this.section.data[prop.id] = inputObj.value;
+            this.section.data[`${prop.id}_details`] = inputObj.details;
             this.$emit('update-block', this.section);
         },
         onSearchInputChange(prop, searchObj, idx) {

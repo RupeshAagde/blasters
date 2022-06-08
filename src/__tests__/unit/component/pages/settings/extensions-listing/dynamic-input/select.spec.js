@@ -17,8 +17,8 @@ describe('Dynamic Select Component', () => {
         wrapper = mount(Select, {
             localVue,
             propsData: {
-                prop_schema: mockData.sectionSchemaForTest.props[0],
-                prop: mockData.sectionsMock[0],
+                prop_schema: mockData.sectionSchemaForTest.props[6],
+                prop: mockData.sectionsMock[4],
                 name: '',
                 page: mockData.pageForTest
             }
@@ -34,7 +34,7 @@ describe('Dynamic Select Component', () => {
 
     it('should emit change when the value of dropdown changes', async() => {
         let element = wrapper.findComponent(NitrozenDropdown);
-        element.vm.$emit('change');
+        element.vm.$emit('change', ['/extensions']);
 
         expect(wrapper.emitted()).toHaveProperty('change');
     });

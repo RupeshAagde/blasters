@@ -396,6 +396,7 @@ export default {
                 page_type: sectionSchema.page_type,
                 type: sectionSchema.type,
                 visible: true,
+                item_type: sectionSchema.item_type,
                 data: (sectionSchema.props || []).reduce((a, p) => {
                     a[p.id] = sectionSchema.preset &&
                             sectionSchema.preset.props &&

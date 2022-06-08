@@ -485,14 +485,8 @@ export default {
             delete pageObj.created_at;
             delete pageObj.updated_at;
 
-            let multiple_data_types = [
-                "extension_item_list",
-                "category_item_list",
-                "collection_grid",
-                "extension_grid"
-            ];
             for(let section of pageObj.sections) {
-                if(multiple_data_types.includes(section.type)) {
+                if(section.item_type) {
                     let key;
                     if(section.type === 'collection_grid') key = 'collection';
                     else if(section.type === 'extension_grid' || section.type === 'extension_item_list') key = 'extension';
@@ -549,6 +543,18 @@ export default {
             for(let key in e.page_content) {
                 if(typeof e.page_content[key] === 'string') {
                     e.page_content[key] = e.page_content[key].trim();
+                }
+            }
+
+            for(let section of e.page_content.sections) {
+                if(section.item_type) {
+                    let key;
+                    if(section.type === 'collection_grid') key = 'collection_details';
+                    else if(section.type === 'extension_grid' || section.type === 'extension_item_list') key = 'extension_details';
+                    else if(section.type === 'category_item_list') key = 'category_details';
+                    delete section.items;
+                    section.items = cloneDeep(section.data[key]);
+                    delete section.data[key];
                 }
             }
             
