@@ -79,6 +79,7 @@
                 :searchableCategoryList="searchableCategoryList"
                 :selectedCategories="selectedCategories"
                 :setCategoryList="setCategoryList"
+                :categoryValue="categoryValue"
             />
         </div>
         <div class="toggle-container">
@@ -263,7 +264,8 @@ export default {
                         error: ''
                     }
                 }
-            }
+            },
+            categoryValue: []
         };
     },
     mounted() {
@@ -382,13 +384,18 @@ export default {
          */
         handleCategoryChange(categoryArr) {
             let tempCategoryArry = [];
+            let tempCategoryArr = [];
             categoryArr.forEach((category) => {
                 let categoryObj = this.searchableCategoryList.find(
                     (a) => a.value == category
                 );
                 tempCategoryArry.push(categoryObj);
+                // push only the unique value / id in the array to maintain selection list
+                tempCategoryArr.push(categoryObj.value);
             });
+            // assign the values to state variables
             this.selectedCategories = tempCategoryArry;
+            this.categoryValue = tempCategoryArr;
         },
         /**
          *
@@ -399,7 +406,12 @@ export default {
         handleCategoryRemove(category, index) {
             // remove the element from selected array
             this.selectedCategories.splice(index, 1);
-            // TODO figure out how to remove selected state after this
+            // Find the index by value
+            let valIndex = this.categoryValue.findIndex(
+                (ele) => ele == category.value
+            );
+            // remove the index so it is unselected from the drop down as well
+            this.categoryValue.splice(valIndex, 1);
         },
         /**
          *
