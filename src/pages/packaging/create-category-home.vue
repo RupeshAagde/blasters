@@ -1,6 +1,6 @@
 <template>
     <div>
-        <page-header :title="'Add New Category'">
+        <page-header :title="'Add New Category'" @backClick="goBack">
             <div
                 :class="{
                     'add-category-button': true,
@@ -51,6 +51,12 @@ export default {
             // call function to get request object
             const reqObj = this.$refs.createCategory.handleSave();
             // TODO do something here
+        },
+        /**
+         * @description Go back to previous route
+         */
+        goBack() {
+            this.$router.back();
         }
     }
 };
