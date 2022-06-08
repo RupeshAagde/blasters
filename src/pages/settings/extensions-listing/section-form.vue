@@ -26,6 +26,55 @@
                         @searchInputChange="onSearchInputChange(prop_schema, $event, i)"
                     />
                 </div>
+
+                <div class="selected-items" v-if="itemValues">
+                    <p class="items-title">Selected Items</p>
+                    <div>
+                        <draggable
+                            :list="itemValues"
+                            :move="onMove"
+                            v-bind="dragOptions"
+                            class="sections"
+                            @change="onChange"
+                            handle=".handle"
+                            @start="
+                                dragging=true;
+                                $emit('zoom-out');
+                            "
+                            @end="dragStop"
+                        >
+                            <transition-group
+                                type="transition"
+                                :name="!dragging ? 'flip-list' : null"
+                            >
+                                <div
+                                    v-for="(item, i) in itemValues"
+                                    :key="`${i}`"
+                                    class="section"
+                                >
+                                    <div @mouseup="dragStop" @mousedown="dragStart(i)">
+                                        <adm-inline-svg
+                                            class="handle"
+                                            :src="'move'"
+                                            :class="{ grabbable: dragging }"
+                                        />
+                                    </div>
+
+                                    <div class="title-container">
+                                        <span class="title">{{item.name || item.display}}</span>
+                                        <span
+                                            @click="removeItem(i)"
+                                            class="section-settings remove"
+                                        >
+                                            <adm-inline-svg :src="'cross-black'" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </transition-group>
+                        </draggable>
+                    </div>
+                </div>
+
                 <div 
                     class="blocks-form"
                     v-if="section_schema.blocks && section_schema.blocks.length">
@@ -143,11 +192,18 @@ export default {
     mounted() {
         this.mSection_data = this.section_data || {};
         this.getBlocks();
+        // this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
     },
     watch: {
         section(n, o) {
             this.getBlocks();
+            // console.log("[watch] this.section:   ", this.section);
         },
+    },
+    updated() {
+        // console.log("this.section:   ", this.section);
+        // console.log("this.itemValues:    ", this.itemValues);
+        // this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
     },
     computed: {
         sectionSchemaProps() {
@@ -181,6 +237,11 @@ export default {
                 return prop;
             });
             return cloneDeep(props);
+        },
+        itemValues() {
+            if(this.section.item_type) {
+                return cloneDeep(this.section.data[`${this.section.item_type}_details`]);
+            } else return null;
         }
     },
     data() {
@@ -193,6 +254,7 @@ export default {
                 disabled: false,
                 ghostClass: 'ghost',
             },
+            movingIndex: -1
         };
     },
     methods: {
@@ -290,6 +352,61 @@ export default {
                 }
             }
         },
+        onMove() {
+            //check if first move
+            //track temperory position of the element being dragged
+            //if first move then original index
+            //else use index stored
+            // this.movingIndex =
+            //     this.movingIndex === -1
+            //         ? e.draggedContext.index
+            //         : this.movingIndex;
+            // const data = {
+            //     index: this.movingIndex,
+            //     newIndex: e.draggedContext.futureIndex,
+            // };
+            // this.postMessageToIframe(
+            //     PREVIEW_EVENTS.DRAGGING_SECTION,
+            //     data
+            // );
+            //assign temp moving index
+            // this.movingIndex = e.draggedContext.futureIndex;
+        },
+        onChange() {
+            // let { added, removed, moved } = d;
+        },
+        dragStart() {
+            // this.$emit('zoom-out');
+            // setTimeout(() => {
+            //     this.postMessageToIframe(
+            //         PREVIEW_EVENTS.DRAG_SECTION_START,
+            //         {
+            //             index,
+            //         }
+            //     );
+            // }, 100);
+        },
+        dragStop() {
+            // this.dragging = false;
+            // this.postMessageToIframe(
+            //     PREVIEW_EVENTS.DRAG_SECTION_END, 
+            //     {
+            //         index: this.movingIndex,
+            //     }
+            // );
+            // this.movingIndex = -1;
+            // this.$emit('zoom-in');
+        },
+        removeItem() {
+            // this.mSections.splice(index, 1)
+            // this.selectedSectionIndex = -1;
+            // this.postMessageToIframe(
+            //     PREVIEW_EVENTS.REMOVE_SECTION, 
+            //     {
+            //         removedIndex: index,
+            //     }
+            // );
+        }
     }
 }
 </script>
@@ -349,7 +466,8 @@ export default {
     }
     .settings-form {
         padding: 10px;
-        padding-bottom: 50px;
+        // padding-bottom: 50px;
+        padding-bottom: 20px;
     }
     .blocks-form {
         .blocks {
@@ -419,6 +537,63 @@ export default {
             }
         }
     }
+}
+
+.selected-items {
+    padding: 0px 10px;
+    padding-bottom: 20px;
+
+    .items-title {
+        margin-bottom: 1rem;
+    }
+}
+
+.sections {
+    width: 100%;
+
+    .section {
+        align-items: center;
+        justify-content: space-between;
+        display: flex;
+        padding: 0px 10px;
+        height: 64px;
+        box-sizing: border-box;
+        background: #fff;
+        border: 1px #DADADA solid;
+        border-bottom: 0;
+
+        &:first-of-type {
+            border-top: 1px #dadada solid;
+        }
+
+        &:last-of-type {
+            border-bottom: 1px #DADADA solid;
+        }
+
+        .handle {
+            height: 24px;
+            cursor: grab;
+            margin-right: 10px;
+        }
+
+        .title-container {
+            display: flex;
+            flex: 1;
+            justify-content: space-between;
+            align-items: center;
+            min-width: 0;
+            
+            .title {
+                cursor: pointer;
+                font-size: 15px;
+            }
+        }
+    }
+}
+
+.section-settings {
+    margin: 0px 3px;
+    cursor: pointer;
 }
 
 /deep/ .nitrozen-select {
