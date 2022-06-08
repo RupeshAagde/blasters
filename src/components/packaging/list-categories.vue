@@ -16,7 +16,13 @@
         <div class="list-container">
             <!-- Check if products array have items if so then map -->
             <div class="list-container-products" v-if="categories.length">
-                map items here
+                <div
+                    class="list-container-products-row"
+                    v-for="(item, index) of categories"
+                    :key="'product-row-' + index"
+                >
+                    <category-card :item="item" />
+                </div>
             </div>
             <!-- else show no content component -->
             <no-content
@@ -35,11 +41,18 @@ import { NitrozenButton } from '@gofynd/nitrozen-vue';
 import { FETCH_CATEGORIES } from '../../store/action.type';
 import { mapGetters } from 'vuex';
 import { GET_CATEGORIES } from '../../store/getters.type';
+import CategoryCard from './common/category-card.vue';
 export default {
     name: 'list-categories',
     components: {
         NoContent,
-        NitrozenButton
+        NitrozenButton,
+        CategoryCard
+    },
+    data() {
+        return {
+            showLoader: true
+        };
     },
     computed: {
         ...mapGetters({
@@ -56,12 +69,24 @@ export default {
          * @description On click for add packaging button click
          */
         handleAddCategories() {
-            this.$router.push('/administrator/packaging/category-configuration/create');
+            this.$router.push(
+                '/administrator/packaging/category-configuration/create'
+            );
         },
         async fetchCategories() {
-            await this.$store.dispatch(FETCH_CATEGORIES, {}).then((res) => {
-                console.log('Do something here');
-            });
+            this.$store
+                .dispatch(FETCH_CATEGORIES, {})
+                .then((res) => {
+                    this.showLoader = false;
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError(
+                        `Could not fetch categories`
+                    );
+                })
+                .finally(() => {
+                    this.showLoader = false;
+                });
         }
     }
 };
