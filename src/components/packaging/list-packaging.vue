@@ -16,7 +16,13 @@
         <div class="list-container">
             <!-- Check if products array have items if so then map -->
             <div class="list-container-products" v-if="products.length">
-                map items here
+               <div
+                    class="list-container-products-row"
+                    v-for="(item, index) of products"
+                    :key="'product-row-' + index"
+                >
+                    <packaging-card :item="item"/>
+                </div>
             </div>
             <!-- else show no content component -->
             <no-content
@@ -35,12 +41,14 @@ import { NitrozenButton } from '@gofynd/nitrozen-vue';
 import { FETCH_PACKAGING_PRODUCTS } from '../../store/action.type';
 import { mapGetters } from 'vuex';
 import { GET_PACKAGING_PRODUCTS } from '../../store/getters.type';
+import PackagingCard from './common/packaging-card.vue';
 export default {
     name: 'list-packaging',
     components: {
-        NoContent,
-        NitrozenButton
-    },
+    NoContent,
+    NitrozenButton,
+    PackagingCard
+},
     computed: {
         ...mapGetters({
             products: GET_PACKAGING_PRODUCTS
