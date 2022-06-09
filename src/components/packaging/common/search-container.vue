@@ -1,8 +1,7 @@
 <template>
-    <div class="search-box-container">
+    <div class="search-box-container" :id="id">
         <nitrozen-input
             class="search-box-input"
-            :id="id"
             :placeholder="placeholder"
             :showSearchIcon="true"
             @input="handleChange"
