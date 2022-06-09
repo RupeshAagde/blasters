@@ -1,6 +1,6 @@
 module.exports.availableSections = {
-    "section_name": "home",
-    "data": [
+    // "section_name": "home",
+    "items": [
         {
             "predicate": {
                 "screen": {

@@ -306,7 +306,7 @@ export default {
         getAvailableSections() {
             ExtensionPageService.getAvailableSections()
             .then(response => {
-                let sections = cloneDeep(response.data.data);
+                let sections = cloneDeep(response.data.items);
                 for(let section of sections) {
                     let isItemSource = section.props.find(t => t.id === 'item_source');
                     if(isItemSource) {
