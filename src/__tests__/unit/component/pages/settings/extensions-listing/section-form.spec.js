@@ -100,20 +100,20 @@ describe('Section Form Component', () => {
         expect(wrapper.vm.showAvailableBlocksSelectionPopup).toBe(false);
     });
 
-    it('should work when section is changed', async() => {
-        let element = wrapper.findComponent(DynamicInput);
-        element.vm.$emit('change', {
-            id: 'heading',
-            label: 'Heading',
-            default: '',
-            type: 'textbox',
-            display: true
-        }, {
-            value: 'Hello'
-        });
+    // it('should work when section is changed', async() => {
+    //     let element = wrapper.findComponent(DynamicInput);
+    //     element.vm.$emit('change', {
+    //         id: 'heading',
+    //         label: 'Heading',
+    //         default: '',
+    //         type: 'textbox',
+    //         display: true
+    //     }, {
+    //         value: 'Hello'
+    //     });
 
-        expect(wrapper.emitted()['update-block']).toBeTruthy();
-    });
+    //     expect(wrapper.emitted()['update-block']).toBeTruthy();
+    // });
 
     it('should emit search-input when user searches in a dropdown', async() => {
         let element = wrapper.findComponent(DynamicInput);
