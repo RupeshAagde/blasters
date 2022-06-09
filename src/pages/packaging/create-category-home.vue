@@ -26,6 +26,25 @@
             <!-- ** Do not remove the ref -->
             <create-category ref="createCategory" />
         </div>
+        <base-modal
+            :isOpen="isModalOpen"
+            :isCancelable="false"
+            :modalClass="'custom-modal'"
+        >
+            <div class="modal-custom-body">
+                <inline-svg :src="'modal-success'" />
+                <p id="modal-body-text">
+                    Category has been succesfully added to the list
+                </p>
+                <nitrozen-button
+                    :title="'Thank you'"
+                    class="modal-custom-button"
+                    theme="secondary"
+                    id="modal-btn"
+                    >Thank you</nitrozen-button
+                >
+            </div>
+        </base-modal>
     </div>
 </template>
 
@@ -33,16 +52,21 @@
 import PageHeader from '../../components/common/layout/page-header.vue';
 import CreateCategory from '../../components/packaging/create-category.vue';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
+import BaseModal from '../../components/common/dialogs/base-modal.vue';
+import InlineSvg from '../../components/common/inline-svg.vue';
 export default {
     name: 'create-category-home',
     components: {
         CreateCategory,
         PageHeader,
-        NitrozenButton
+        NitrozenButton,
+        BaseModal,
+        InlineSvg
     },
     data() {
         return {
-            isButtonDisabled: true
+            isButtonDisabled: true,
+            isModalOpen: false
         };
     },
     methods: {
