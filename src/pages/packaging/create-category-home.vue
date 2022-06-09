@@ -6,6 +6,7 @@
             :noContextMenu="true"
         >
             <div
+                id="save-category-btn"
                 :class="{
                     'add-category-button': true,
                     // show the opaque class only if the flag is true
