@@ -1,6 +1,7 @@
 <template>
-    <div class="search-box-container" :id="id">
+    <div class="search-box-container">
         <nitrozen-input
+            :id="id"
             class="search-box-input"
             :placeholder="placeholder"
             :showSearchIcon="true"
@@ -18,7 +19,7 @@ export default {
     },
     props: {
         id: {
-            type: Number
+            type: String
         },
         placeholder: {
             type: String

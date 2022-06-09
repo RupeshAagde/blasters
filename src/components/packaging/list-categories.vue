@@ -13,6 +13,11 @@
                 >
             </div>
         </div>
+        <search-container
+            :placeholder="'Search by Group name'"
+            :id="'category-search'"
+            :handleChange="handleChange"
+        />
         <div class="list-container">
             <!-- Check if products array have items if so then map -->
             <div class="list-container-products" v-if="categories.length">
@@ -42,12 +47,15 @@ import { FETCH_CATEGORIES } from '../../store/action.type';
 import { mapGetters } from 'vuex';
 import { GET_CATEGORIES } from '../../store/getters.type';
 import CategoryCard from './common/category-card.vue';
+import SearchContainer from './common/search-container.vue';
+import { debounce } from '@/helper/utils';
 export default {
     name: 'list-categories',
     components: {
         NoContent,
         NitrozenButton,
-        CategoryCard
+        CategoryCard,
+        SearchContainer
     },
     data() {
         return {
@@ -64,6 +72,15 @@ export default {
         await this.fetchCategories();
     },
     methods: {
+        /**
+         * @author Rohan Shah
+         * @description Handles the input change using debounce
+         * waits for 1 second before calling the function
+         */
+        handleChange: debounce(async function(e) {
+            // TODO call api here again and paginate the logic
+            console.log(e);
+        }, 1000),
         /**
          * @author Rohan Shah
          * @description On click for add packaging button click
