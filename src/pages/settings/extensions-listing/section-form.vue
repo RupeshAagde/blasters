@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="selected-items" v-if="itemValues && itemValues.length">
-                    <p class="items-title">Selected Items</p>
+                    <p class="items-title">{{ selectedItemsTitle }}</p>
                     <div>
                         <draggable
                             :list="itemValues"
@@ -181,6 +181,9 @@ import DynamicInput from './dynamic-input';
 import Draggable from 'vuedraggable';
 import cloneDeep from 'lodash/cloneDeep';
 
+/* Helper imports */
+import { titleCase } from '../../../helper/utils';
+
 export default {
     name: 'section-form',
     props: ['section_schema', 'section', 'show', 'page'],
@@ -193,19 +196,18 @@ export default {
         this.mSection_data = this.section_data || {};
         this.getBlocks();
         if(this.section.data && this.section.item_type){
-            this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]);       
+            this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]); 
+            if(this.section.item_type !== 'category') {
+                this.selectedItemsTitle = `Selected ${titleCase(this.section.item_type)}s`;
+            } else {
+                this.selectedItemsTitle = `Selected Categories`;
+            }
         }
     },
     watch: {
         section(n, o) {
             this.getBlocks();
-            // console.log("[watch] this.section:   ", this.section);
         },
-    },
-    updated() {
-        // console.log("this.section:   ", this.section);
-        // console.log("this.itemValues:    ", this.itemValues);
-        // this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
     },
     computed: {
         sectionSchemaProps() {
@@ -239,12 +241,7 @@ export default {
                 return prop;
             });
             return cloneDeep(props);
-        },
-        // itemValues() {
-        //     if(this.section.item_type) {
-        //         return cloneDeep(this.section.data[`${this.section.item_type}_details`]);
-        //     } else return null;
-        // }
+        }
     },
     data() {
         return {
@@ -256,8 +253,10 @@ export default {
                 disabled: false,
                 ghostClass: 'ghost',
             },
+            startingIndex: -1,
             movingIndex: -1,
-            itemValues: []
+            itemValues: [],
+            selectedItemsTitle: ''
         };
     },
     methods: {
@@ -363,60 +362,59 @@ export default {
                 }
             }
         },
-        onMove() {
+        onMove(e) {
             //check if first move
             //track temperory position of the element being dragged
             //if first move then original index
             //else use index stored
-            // this.movingIndex =
-            //     this.movingIndex === -1
-            //         ? e.draggedContext.index
-            //         : this.movingIndex;
-            // const data = {
-            //     index: this.movingIndex,
-            //     newIndex: e.draggedContext.futureIndex,
-            // };
-            // this.postMessageToIframe(
-            //     PREVIEW_EVENTS.DRAGGING_SECTION,
-            //     data
-            // );
+            this.movingIndex =
+                this.movingIndex === -1
+                    ? e.draggedContext.index
+                    : this.movingIndex;
             //assign temp moving index
-            // this.movingIndex = e.draggedContext.futureIndex;
+            this.movingIndex = e.draggedContext.futureIndex;
+            this.startingIndex = e.draggedContext.index;
         },
-        onChange() {
-            // let { added, removed, moved } = d;
+        onChange(d) {
+            let { added, removed, moved } = d;
         },
-        dragStart() {
-            // this.$emit('zoom-out');
-            // setTimeout(() => {
-            //     this.postMessageToIframe(
-            //         PREVIEW_EVENTS.DRAG_SECTION_START,
-            //         {
-            //             index,
-            //         }
-            //     );
-            // }, 100);
+        dragStart(index) {
+            this.$emit('zoom-out');
         },
         dragStop() {
-            // this.dragging = false;
-            // this.postMessageToIframe(
-            //     PREVIEW_EVENTS.DRAG_SECTION_END, 
-            //     {
-            //         index: this.movingIndex,
-            //     }
-            // );
-            // this.movingIndex = -1;
-            // this.$emit('zoom-in');
+            let details = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
+            details.splice(this.movingIndex, 0, details.splice(this.startingIndex, 1)[0]);
+        
+            this.section.data[`${this.section.item_type}_details`] = cloneDeep(details);
+            let _data = cloneDeep(this.itemValues);
+            this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
+            this.itemValues.map((ele, idx) => {
+                if(!ele){
+                    this.$set(this.itemValues, index, _data[idx]);
+                    this.$set(this.section.data[`${this.section.item_type}_details`], idx, _data[idx]);
+                }
+            });
+
+            this.$emit('update-block', this.section);
+
+            this.dragging = false;
+            this.movingIndex = -1;
+            this.startingIndex = -1;
+            this.$emit('zoom-in');
         },
-        removeItem() {
-            // this.mSections.splice(index, 1)
-            // this.selectedSectionIndex = -1;
-            // this.postMessageToIframe(
-            //     PREVIEW_EVENTS.REMOVE_SECTION, 
-            //     {
-            //         removedIndex: index,
-            //     }
-            // );
+        removeItem(index) {
+            this.section.data[`${this.section.item_type}_details`].splice(index, 1);
+            this.section.data[`${this.section.item_type}`].splice(index, 1);
+            let _data = cloneDeep(this.itemValues);
+            this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
+            this.itemValues.map((ele, idx) => {
+                if(!ele){
+                    this.$set(this.itemValues, index, _data[idx]);
+                    this.$set(this.section.data[`${this.section.item_type}_details`], idx, _data[idx]);
+                }
+            })
+
+            this.$emit('update-block', this.section);
         }
     }
 }
