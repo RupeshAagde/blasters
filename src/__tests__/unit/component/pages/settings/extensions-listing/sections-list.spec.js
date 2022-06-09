@@ -79,6 +79,8 @@ describe('Sections List Component', () => {
     });
 
     it('should emit search-input when user searches for a collection or extensions', async() => {
+        wrapper.vm.showSectionForm = true
+        await wrapper.vm.$nextTick();
         let element = wrapper.findComponent(SectionForm);
         element.vm.$emit('search-input', {type: 'collection', value: {text: 'Hello'}});
         
