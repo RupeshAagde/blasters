@@ -53,52 +53,52 @@ describe('Section Form Component', () => {
         expect(wrapper.emitted().close).toBeTruthy();
     });
 
-    it('Checks if onBlocksListChange works', async () => {
-        expect(wrapper.element).toMatchSnapshot();
-        expect(wrapper.exists()).toBeTruthy();
-        wrapper.vm.onBlocksListChange();
-        await wrapper.vm.$nextTick();
-        expect(wrapper.emitted()['update-block']).toBeTruthy();
-    });
+    // it('Checks if onBlocksListChange works', async () => {
+    //     expect(wrapper.element).toMatchSnapshot();
+    //     expect(wrapper.exists()).toBeTruthy();
+    //     wrapper.vm.onBlocksListChange();
+    //     await wrapper.vm.$nextTick();
+    //     expect(wrapper.emitted()['update-block']).toBeTruthy();
+    // });
 
-    it('Checks if onBlockClick works', async () => {
-        expect(wrapper.element).toMatchSnapshot();
-        expect(wrapper.exists()).toBeTruthy();
-        wrapper.vm.block = {
-            expand: false,
-        };
-        wrapper.vm.onBlockClick(wrapper.vm.block);
-        await wrapper.vm.$nextTick();
-        expect(wrapper.vm.block.expand).toBe(true);
-    });
+    // it('Checks if onBlockClick works', async () => {
+    //     expect(wrapper.element).toMatchSnapshot();
+    //     expect(wrapper.exists()).toBeTruthy();
+    //     wrapper.vm.block = {
+    //         expand: false,
+    //     };
+    //     wrapper.vm.onBlockClick(wrapper.vm.block);
+    //     await wrapper.vm.$nextTick();
+    //     expect(wrapper.vm.block.expand).toBe(true);
+    // });
     
-    it('Checks if removeBlock works', async () => {
-        expect(wrapper.element).toMatchSnapshot();
-        expect(wrapper.exists()).toBeTruthy();
-        wrapper.vm.removeBlock(0);
-        await wrapper.vm.$nextTick();
-        expect(wrapper.emitted()['update-block']).toBeTruthy();
-    });
+    // it('Checks if removeBlock works', async () => {
+    //     expect(wrapper.element).toMatchSnapshot();
+    //     expect(wrapper.exists()).toBeTruthy();
+    //     wrapper.vm.removeBlock(0);
+    //     await wrapper.vm.$nextTick();
+    //     expect(wrapper.emitted()['update-block']).toBeTruthy();
+    // });
 
-    it('Checks if onBlockInputChange works', async () => {
-        expect(wrapper.element).toMatchSnapshot();
-        expect(wrapper.exists()).toBeTruthy();
-        wrapper.vm.onBlockInputChange(
-            { props: { test: '' } },
-            { id: 'test' },
-            'test'
-        );
-        await wrapper.vm.$nextTick();
-        expect(wrapper.emitted()['update-block']).toBeTruthy();
-    });
+    // it('Checks if onBlockInputChange works', async () => {
+    //     expect(wrapper.element).toMatchSnapshot();
+    //     expect(wrapper.exists()).toBeTruthy();
+    //     wrapper.vm.onBlockInputChange(
+    //         { props: { test: '' } },
+    //         { id: 'test' },
+    //         'test'
+    //     );
+    //     await wrapper.vm.$nextTick();
+    //     expect(wrapper.emitted()['update-block']).toBeTruthy();
+    // });
 
-    it('Checks if onBlockSelectionOutsideClick works', async () => {
-        expect(wrapper.element).toMatchSnapshot();
-        expect(wrapper.exists()).toBeTruthy();
-        wrapper.vm.onBlockSelectionOutsideClick();
-        await wrapper.vm.$nextTick();
-        expect(wrapper.vm.showAvailableBlocksSelectionPopup).toBe(false);
-    });
+    // it('Checks if onBlockSelectionOutsideClick works', async () => {
+    //     expect(wrapper.element).toMatchSnapshot();
+    //     expect(wrapper.exists()).toBeTruthy();
+    //     wrapper.vm.onBlockSelectionOutsideClick();
+    //     await wrapper.vm.$nextTick();
+    //     expect(wrapper.vm.showAvailableBlocksSelectionPopup).toBe(false);
+    // });
 
     // it('should work when section is changed', async() => {
     //     let element = wrapper.findComponent(DynamicInput);
@@ -128,5 +128,19 @@ describe('Section Form Component', () => {
         }, 0);
 
         expect(wrapper.emitted()).toHaveProperty('search-input');
-    })
+    });
+
+    // it('should emit update-block when the use changes a value inside one of the inputs', async() => {
+    //     let element = wrapper.findComponent(DynamicInput);
+    //     element.vm.$emit('change', {
+    //         id: 'collection'
+    //     }, {
+    //         value: ['1234', '5678'],
+    //         details: [{_id: '1234'}, {_id: '5678'}]
+    //     });
+
+    //     await wrapper.vm.$nextTick();
+
+    //     expect(wrapper.emitted()).toHaveProperty('update-block');
+    // })
 });

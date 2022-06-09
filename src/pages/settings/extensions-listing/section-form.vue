@@ -75,98 +75,6 @@
                     </div>
                 </div>
 
-                <div 
-                    class="blocks-form"
-                    v-if="section_schema.blocks && section_schema.blocks.length">
-                    <h2 class="heading">Blocks</h2>
-                    <draggable
-                        :list="section.blocks"
-                        v-bind="dragOptions"
-                        @start="dragging = true"
-                        @end="dragging = false"
-                        class="blocks"
-                        @change="onBlocksListChange($event)"
-                        handle=".handle">
-                        <transition-group
-                            type="transition"
-                            :name="!dragging ? 'flip-list' : null"
-                        >
-                            <div
-                                v-for="(block, i) in section.blocks"
-                                :key="`${i}`"
-                            >
-                                <div class="block">
-                                    <adm-inline-svg
-                                        class="handle"
-                                        :src="'move'"
-                                    />
-                                    <span
-                                        @click.stop="onBlockClick(block)"
-                                        class="title">
-                                        {{ block.name }}
-                                    </span>
-                                    <span @click="removeBlock(i)">
-                                        <adm-inline-svg
-                                            class="remove-block"
-                                            :src="'cross-black'"
-                                        />
-                                    </span>
-                                </div>
-
-                                <div class="block-inputs" v-if="block.expand">
-                                    <dynamic-input
-                                        v-for="(prop_schema,
-                                        j) in section_schema.blocks.find(
-                                            (b) => b.type == block.type
-                                        ).props"
-                                        :key="j"
-                                        :prop_schema="prop_schema"
-                                        :prop="block.props[prop_schema.id]"
-                                        :name="`block-${block.name}-${i}-${j}`"
-                                        :page="page"
-                                        @change="
-                                            onBlockInputChange(
-                                                block,
-                                                prop_schema,
-                                                $event
-                                            )
-                                        "
-                                    />
-                                </div>
-                            </div>
-                        </transition-group>
-                    </draggable>
-
-                    <div
-                        class="add-block"
-                        role="group"
-                        slot="footer"
-                        key="footer"
-                        @click.stop="onAddButtonClick($event)"
-                    >
-                        <adm-inline-svg
-                            class="add-block-icon"
-                            :src="'add-icon'"
-                        />
-                        <span>Add Block</span>
-                    </div>
-
-                    <div
-                        slot="footer"
-                        v-click-outside="onBlockSelectionOutsideClick"
-                        v-if="showAvailableBlocksSelectionPopup"
-                        class="block-options"
-                    >
-                        <div
-                            class="option"
-                            @click="onBlockOptionClick(blockSchema)"
-                            v-for="(blockSchema, i) in section_schema.blocks"
-                            :key="`${i}-${blockSchema.name}`"
-                        >
-                            <span class="title">{{ blockSchema.name }}</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </transition>
@@ -194,7 +102,6 @@ export default {
     },
     mounted() {
         this.mSection_data = this.section_data || {};
-        this.getBlocks();
         if(this.section.data && this.section.item_type){
             this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]); 
             if(this.section.item_type !== 'category') {
@@ -203,11 +110,6 @@ export default {
                 this.selectedItemsTitle = `Selected Categories`;
             }
         }
-    },
-    watch: {
-        section(n, o) {
-            this.getBlocks();
-        },
     },
     computed: {
         sectionSchemaProps() {
@@ -285,83 +187,7 @@ export default {
             }
             this.$emit('search-input', obj);
         },
-        onBlockSelectionOutsideClick() {
-            this.showAvailableBlocksSelectionPopup = false;
-        },
-        onBlocksListChange() {
-            this.$emit('update-block', this.section);
-        },
-        onBlockClick(block) {
-            this.$set(block, 'expand', !block.expand);
-        },
-        removeBlock(index) {
-            if(this.section.blocks) {
-                this.section.blocks = this.section.blocks.filter(
-                    (b, i) => i != index
-                );
-            }
-            this.$emit('update-block', this.section);
-        },
-        onBlockInputChange(block, prop, value) {
-            block.props[prop.id] = value;
-            this.$emit('update-block', this.section);
-        },
-        onAddButtonClick() {
-            if (
-                this.section_schema.blocks &&
-                this.section_schema.blocks.length
-            ) {
-                if (this.section_schema.blocks.length > 1) {
-                    this.showAvailableBlocksSelectionPopup = !this
-                        .showAvailableBlocksSelectionPopup;
-                } else {
-                    this.addBlock(this.section_schema.blocks[0]);
-                }
-            }
-        },
-        onBlockOptionClick(blockSchema) {
-            this.addBlock(blockSchema);
-            this.showAvailableBlocksSelectionPopup = false;
-        },
-         addBlock(blockSchema, isPreset = false) {
-            if (!this.section.blocks) {
-                this.$set(this.section, 'blocks', []);
-            }
-            this.section.blocks.push({
-                type: blockSchema.type,
-                name: blockSchema.name,
-                expand: !isPreset,
-                props: blockSchema.props.reduce((a, p) => {
-                    a[p.id] = {
-                        type: p.type,
-                        value: p.default,
-                    };
-                    return a;
-                }, {}),
-            });
-            if (!isPreset) this.$emit('update-block', this.section);
-        },
-        getBlocks() {
-            //if there are blocks return
-            if (this.section_schema) {
-                if (this.section.blocks && this.section.blocks.length > 0)
-                    return this.section.blocks;
-                //else create blocks using preset
-                if (
-                    this.section_schema.preset &&
-                    this.section_schema.preset.blocks
-                ) {
-                    console.log('getting blocks with presets');
-
-                    this.section_schema.preset.blocks.map((block) => {
-                        let blockSchema = this.section_schema.blocks.find(
-                            (b) => b.name === block.name
-                        );
-                        this.addBlock(blockSchema, true);
-                    });
-                }
-            }
-        },
+        
         onMove(e) {
             //check if first move
             //track temperory position of the element being dragged
@@ -384,14 +210,18 @@ export default {
         dragStop() {
             let details = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
             details.splice(this.movingIndex, 0, details.splice(this.startingIndex, 1)[0]);
+
+            let ids = details.map(i => i._id);
         
             this.section.data[`${this.section.item_type}_details`] = cloneDeep(details);
+            this.section.data[`${this.section.item_type}`] = cloneDeep(ids);
             let _data = cloneDeep(this.itemValues);
             this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
             this.itemValues.map((ele, idx) => {
                 if(!ele){
                     this.$set(this.itemValues, index, _data[idx]);
                     this.$set(this.section.data[`${this.section.item_type}_details`], idx, _data[idx]);
+                    this.$set(this.section.data[`${this.section.item_type}`], idx, _data[idx]);
                 }
             });
 
