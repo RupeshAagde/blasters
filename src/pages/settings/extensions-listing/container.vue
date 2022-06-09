@@ -544,6 +544,8 @@ export default {
                     section.items = section.data[key].map(item => {
                         return {value: item};
                     });
+
+                    delete section.data[`${key}_details`];
                 }
             }
 
@@ -599,10 +601,20 @@ export default {
                     else if(section.type === 'extension_grid' || section.type === 'extension_item_list') key = 'extension_details';
                     else if(section.type === 'category_item_list') key = 'category_details';
                     delete section.items;
-                    section.items = cloneDeep(section.data[key]);
+
+                    if(section.item_type === 'extension' && section.data[key]) {
+                        let extensionPublicData = cloneDeep(section.data[key]).map(i => {
+                            return i.extension_public_data;
+                        });
+                        section.items = cloneDeep(extensionPublicData);
+                    } else {
+                        section.items = cloneDeep(section.data[key]);
+                    }
                     delete section.data[key];
                 }
             }
+
+            console.log("Data being sent to post-message:   ", e);
             
             if (this.$refs.iframe && this.$refs.iframe.contentWindow) {
                 this.$refs.iframe.contentWindow.postMessage(e, '*');
