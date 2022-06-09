@@ -52,11 +52,11 @@ import { debounce } from '@/helper/utils';
 export default {
     name: 'list-packaging',
     components: {
-        NoContent,
-        NitrozenButton,
-        PackagingCard,
-        SearchContainer
-    },
+    NoContent,
+    NitrozenButton,
+    PackagingCard,
+    SearchContainer
+},
     computed: {
         ...mapGetters({
             products: GET_PACKAGING_PRODUCTS
