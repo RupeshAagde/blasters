@@ -13,15 +13,20 @@
                 >
             </div>
         </div>
+        <search-container
+            :placeholder="'Search by Package name'"
+            :id="'packaging-search'"
+            :handleChange="handleChange"
+        />
         <div class="list-container">
             <!-- Check if products array have items if so then map -->
             <div class="list-container-products" v-if="products.length">
-               <div
+                <div
                     class="list-container-products-row"
                     v-for="(item, index) of products"
                     :key="'product-row-' + index"
                 >
-                    <packaging-card :item="item"/>
+                    <packaging-card :item="item" />
                 </div>
             </div>
             <!-- else show no content component -->
@@ -42,13 +47,16 @@ import { FETCH_PACKAGING_PRODUCTS } from '../../store/action.type';
 import { mapGetters } from 'vuex';
 import { GET_PACKAGING_PRODUCTS } from '../../store/getters.type';
 import PackagingCard from './common/packaging-card.vue';
+import SearchContainer from './common/search-container.vue';
+import { debounce } from '@/helper/utils';
 export default {
     name: 'list-packaging',
     components: {
-    NoContent,
-    NitrozenButton,
-    PackagingCard
-},
+        NoContent,
+        NitrozenButton,
+        PackagingCard,
+        SearchContainer
+    },
     computed: {
         ...mapGetters({
             products: GET_PACKAGING_PRODUCTS
@@ -59,6 +67,15 @@ export default {
         await this.fetchProducts();
     },
     methods: {
+        /**
+         * @author Rohan Shah
+         * @description Handles the input change using debounce
+         * waits for 1 second before calling the function
+         */
+        handleChange: debounce(async function(e) {
+            // TODO call api here again and paginate the logic
+            console.log(e);
+        }, 1000),
         /**
          * @author Rohan Shah
          * @description On click for add packaging button click
