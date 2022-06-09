@@ -27,7 +27,7 @@
                     />
                 </div>
 
-                <div class="selected-items" v-if="itemValues.length">
+                <div class="selected-items" v-if="itemValues && itemValues.length">
                     <p class="items-title">Selected Items</p>
                     <div>
                         <draggable
