@@ -171,12 +171,14 @@ export default {
             this.$set(this.section.data, `${prop.id}_details`, inputObj.details);
             let _data = cloneDeep(this.itemValues);
             this.itemValues = cloneDeep(this.section.data[`${prop.id}_details`]);
-            this.itemValues.map((ele, index) => {
-                if(!ele){
-                    this.$set(this.itemValues, index, _data[index]);
-                    this.$set(this.section.data[`${prop.id}_details`], index, _data[index]);
-                }
-            })
+            if(this.itemValues && this.itemValues.length){
+                this.itemValues.map((ele, index) => {
+                    if(!ele){
+                        this.$set(this.itemValues, index, _data[index]);
+                        this.$set(this.section.data[`${prop.id}_details`], index, _data[index]);
+                    }
+                })
+            }
             this.$emit('update-block', this.section);
         },
         onSearchInputChange(prop, searchObj, idx) {
