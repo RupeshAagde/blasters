@@ -1,6 +1,6 @@
 <template>
     <div>
-        <page-header :title="'Packaging'" @backClick="goBack" />
+        <page-header :title="'Packaging'" :showBackButton="false" />
         <div class="packaging-home-container">
             <div class="packaging-home-list">
                 <list-categories />
@@ -17,14 +17,6 @@ export default {
     components: {
         PageHeader,
         ListCategories
-    },
-    methods: {
-        /**
-         * @description Go back to previous route
-         */
-        goBack() {
-            this.$router.back();
-        }
     }
 };
 </script>
