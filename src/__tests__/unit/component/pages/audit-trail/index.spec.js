@@ -24,6 +24,7 @@ describe('Mounted audit logs', () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
         mock.reset();
+        mock.onGet(URLS.GET_AUDIT_TRAIL_ENTITY_TYPES()).reply(200, MOCK_DATA.entity_types);
         mock.onGet(URLS.AUDIT_TRAIL()).reply(200, MOCK_DATA.audit_log);
         mock.onGet(URLS.SEARCH_USER()).reply(200, MOCK_DATA.user_info);
 

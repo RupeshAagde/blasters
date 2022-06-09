@@ -1,0 +1,1030 @@
+{
+    "active_status": {
+        "is_active": true
+    },
+    "opt_in_data": {
+        "uniket_wholesale": {
+            "platform": "uniket_wholesale",
+            "opt_level": "company",
+            "company_id": 1,
+            "enabled": true,
+            "brand_ids": [],
+            "store_ids": [],
+            "modified_on": 1596446422,
+            "created_on": 1592288315,
+            "created_by": {
+                "username": "nikhilmhatre_gofynd_com_97636",
+                "uid": "16"
+            },
+            "modified_by": {
+                "username": "brijeshgajjar_gofynd_com_89199",
+                "uid": "2"
+            }
+        },
+        "fynd": {
+            "enabled": true,
+            "company_id": 1,
+            "platform": "fynd",
+            "opt_level": "company",
+            "brand_ids": [],
+            "store_ids": [],
+            "modified_on": 1604379857,
+            "created_on": 1595581931,
+            "created_by": {
+                "username": "lalitmunot_gofynd_com_58320",
+                "uid": "23"
+            },
+            "modified_by": {
+                "username": "nikhilmhatre_gofynd_com_97636",
+                "uid": "16"
+            }
+        }
+    },
+    "opt_in_res": {
+        "success": true,
+        "message": "updated data"
+    },
+    "opt_in_stores": {
+        "items": [
+            {
+                "manager": {
+                    "mobile_no": {
+                        "country_code": 91,
+                        "number": "9819716565"
+                    },
+                    "name": "abc",
+                    "email": "rehman@cashkart.com"
+                },
+                "notification_emails": [
+                    ""
+                ],
+                "gst": {
+                    "number": "18AABCT3518Q1ZV",
+                    "applicable": true
+                },
+                "modified_on": 1593491188,
+                "uid": 55,
+                "integration_type": {
+                    "order": "browntape",
+                    "inventory": "browntape"
+                },
+                "timing": [
+                    {
+                        "opening": {
+                            "hour": 17,
+                            "minute": 42
+                        },
+                        "open": true,
+                        "weekday": "monday",
+                        "closing": {
+                            "hour": 17,
+                            "minute": 42
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 17,
+                            "minute": 42
+                        },
+                        "open": true,
+                        "weekday": "tuesday",
+                        "closing": {
+                            "hour": 17,
+                            "minute": 42
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 17,
+                            "minute": 42
+                        },
+                        "open": true,
+                        "weekday": "wednesday",
+                        "closing": {
+                            "hour": 17,
+                            "minute": 42
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 17,
+                            "minute": 42
+                        },
+                        "open": true,
+                        "weekday": "thursday",
+                        "closing": {
+                            "hour": 17,
+                            "minute": 49
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 17,
+                            "minute": 42
+                        },
+                        "open": true,
+                        "weekday": "friday",
+                        "closing": {
+                            "hour": 17,
+                            "minute": 42
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 17,
+                            "minute": 42
+                        },
+                        "open": true,
+                        "weekday": "saturday",
+                        "closing": {
+                            "hour": 17,
+                            "minute": 42
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 9,
+                            "minute": 30
+                        },
+                        "open": true,
+                        "weekday": "sunday",
+                        "closing": {
+                            "hour": 20,
+                            "minute": 30
+                        }
+                    }
+                ],
+                "additional_contacts": [
+                    {
+                        "country_code": 91,
+                        "number": "7208229698"
+                    },
+                    {
+                        "country_code": 91,
+                        "number": "7208229698"
+                    }
+                ],
+                "_custom_json": {},
+                "address": {
+                    "country": "INDIA",
+                    "pincode": 560026,
+                    "address1": "NO",
+                    "address2": "NO",
+                    "state": "KARNATAKA",
+                    "lat_long": {
+                        "type": "Point",
+                        "coordinates": [
+                            77.5483533,
+                            12.9565222
+                        ]
+                    },
+                    "city": "BANGALORE URBAN"
+                },
+                "name": "Maryellen Congleton",
+                "display_name": "Maryellen Congleton",
+                "created_on": 1589962059,
+                "store_type": "high_street",
+                "store_code": "d6b6b165-ed98-4827-b537-7b7b60cc45de",
+                "company_id": 28,
+                "documents": [
+                    {
+                        "verified": true,
+                        "type": "gst",
+                        "value": "18AABCT3518Q1ZV",
+                        "legal_name": "ABC"
+                    }
+                ]
+            },
+            {
+                "manager": {
+                    "mobile_no": {
+                        "country_code": 91,
+                        "number": "9819716565"
+                    },
+                    "name": "abc",
+                    "email": "rehman@cashkart.com"
+                },
+                "notification_emails": [
+                    ""
+                ],
+                "gst": {
+                    "applicable": true,
+                    "number": "18AABCT3518Q1ZV"
+                },
+                "modified_on": 1589977783,
+                "uid": 56,
+                "integration_type": {
+                    "order": "browntape",
+                    "inventory": "browntape"
+                },
+                "timing": [
+                    {
+                        "opening": {
+                            "hour": 17,
+                            "minute": 52
+                        },
+                        "open": true,
+                        "weekday": "monday",
+                        "closing": {
+                            "hour": 17,
+                            "minute": 52
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 17,
+                            "minute": 52
+                        },
+                        "open": true,
+                        "weekday": "tuesday",
+                        "closing": {
+                            "hour": 17,
+                            "minute": 52
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 17,
+                            "minute": 52
+                        },
+                        "open": true,
+                        "weekday": "wednesday",
+                        "closing": {
+                            "hour": 17,
+                            "minute": 52
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 17,
+                            "minute": 52
+                        },
+                        "open": true,
+                        "weekday": "thursday",
+                        "closing": {
+                            "hour": 17,
+                            "minute": 52
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 17,
+                            "minute": 52
+                        },
+                        "open": true,
+                        "weekday": "friday",
+                        "closing": {
+                            "hour": 17,
+                            "minute": 52
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 17,
+                            "minute": 52
+                        },
+                        "open": true,
+                        "weekday": "saturday",
+                        "closing": {
+                            "hour": 17,
+                            "minute": 52
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 9,
+                            "minute": 30
+                        },
+                        "open": true,
+                        "weekday": "sunday",
+                        "closing": {
+                            "hour": 20,
+                            "minute": 30
+                        }
+                    }
+                ],
+                "additional_contacts": [
+                    {
+                        "country_code": 91,
+                        "number": "7208229698"
+                    },
+                    {
+                        "country_code": 91,
+                        "number": "7208229698"
+                    }
+                ],
+                "_custom_json": {},
+                "address": {
+                    "country": "INDIA",
+                    "pincode": 641001,
+                    "address1": "NO",
+                    "address2": "NO",
+                    "state": "TAMIL NADU",
+                    "lat_long": {
+                        "type": "Point",
+                        "coordinates": [
+                            76.944141,
+                            10.9990845
+                        ]
+                    },
+                    "city": "COIMBATORE"
+                },
+                "name": "Sabrina Wallis",
+                "display_name": "Sabrina Wallis",
+                "created_on": 1589962061,
+                "store_type": "high_street",
+                "store_code": "dbb212a9-07aa-4f23-bb35-3516b8b4bf90",
+                "company_id": 28,
+                "documents": [
+                    {
+                        "verified": true,
+                        "type": "gst",
+                        "value": "18AABCT3518Q1ZV",
+                        "legal_name": "ABC"
+                    }
+                ]
+            },
+            {
+                "manager": {
+                    "mobile_no": {
+                        "country_code": 91,
+                        "number": "9819716565"
+                    },
+                    "name": "abc",
+                    "email": "rehman@cashkart.com"
+                },
+                "notification_emails": [],
+                "gst": {
+                    "verified": true,
+                    "name": "sdd",
+                    "applicable": true,
+                    "number": "18AABCT3518Q1ZV"
+                },
+                "modified_on": 1589962063,
+                "uid": 57,
+                "integration_type": {
+                    "order": "browntape",
+                    "inventory": "browntape"
+                },
+                "timing": [
+                    {
+                        "opening": {
+                            "hour": 9,
+                            "minute": 30
+                        },
+                        "open": true,
+                        "weekday": "sunday",
+                        "closing": {
+                            "hour": 20,
+                            "minute": 30
+                        }
+                    }
+                ],
+                "additional_contacts": [
+                    {
+                        "country_code": 91,
+                        "number": "7208229698"
+                    },
+                    {
+                        "country_code": 91,
+                        "number": "7208229698"
+                    }
+                ],
+                "_custom_json": {},
+                "address": {
+                    "country": "INDIA",
+                    "pincode": 400072,
+                    "address1": "NO",
+                    "address2": "NO",
+                    "state": "MAHA",
+                    "lat_long": {
+                        "type": "Point",
+                        "coordinates": [
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "city": "MUMBAI"
+                },
+                "name": "David Olsin",
+                "display_name": "davidolsin",
+                "created_on": 1589962063,
+                "store_type": "high_street",
+                "store_code": "13a4f407-1239-4cc1-b825-602da4b732d0",
+                "company_id": 28,
+                "documents": [
+                    {
+                        "verified": true,
+                        "type": "gst",
+                        "value": "18AABCT3518Q1ZV",
+                        "legal_name": "ABC"
+                    }
+                ]
+            },
+            {
+                "additional_contacts": [
+                    {
+                        "country_code": 91,
+                        "number": "7208229698"
+                    },
+                    {
+                        "country_code": 91,
+                        "number": "7208229698"
+                    }
+                ],
+                "notification_emails": [],
+                "name": "Bhau ka dukan",
+                "created_on": 1593713452,
+                "modified_on": 1593713452,
+                "timing": [
+                    {
+                        "opening": {
+                            "hour": 11,
+                            "minute": 0
+                        },
+                        "open": true,
+                        "weekday": "monday",
+                        "closing": {
+                            "hour": 22,
+                            "minute": 0
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 11,
+                            "minute": 0
+                        },
+                        "open": true,
+                        "weekday": "tuesday",
+                        "closing": {
+                            "hour": 22,
+                            "minute": 0
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 11,
+                            "minute": 0
+                        },
+                        "open": true,
+                        "weekday": "wednesday",
+                        "closing": {
+                            "hour": 22,
+                            "minute": 0
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 11,
+                            "minute": 0
+                        },
+                        "open": true,
+                        "weekday": "thursday",
+                        "closing": {
+                            "hour": 22,
+                            "minute": 0
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 11,
+                            "minute": 0
+                        },
+                        "open": true,
+                        "weekday": "friday",
+                        "closing": {
+                            "hour": 22,
+                            "minute": 0
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 11,
+                            "minute": 0
+                        },
+                        "open": true,
+                        "weekday": "saturday",
+                        "closing": {
+                            "hour": 22,
+                            "minute": 0
+                        }
+                    },
+                    {
+                        "opening": {
+                            "hour": 11,
+                            "minute": 0
+                        },
+                        "open": true,
+                        "weekday": "sunday",
+                        "closing": {
+                            "hour": 22,
+                            "minute": 0
+                        }
+                    }
+                ],
+                "store_code": "sdfgffdws345",
+                "address": {
+                    "country": "INDIA",
+                    "pincode": 792104,
+                    "address1": "792104",
+                    "address2": "SWDERT",
+                    "state": "ARUNACHAL PRADESH",
+                    "lat_long": {
+                        "type": "Point",
+                        "coordinates": [
+                            96.8350999,
+                            28.0359962
+                        ]
+                    },
+                    "city": "ANJAW"
+                },
+                "manager": {
+                    "mobile_no": {
+                        "country_code": 91,
+                        "number": "7208229699"
+                    },
+                    "name": "Piyush Vishwakarma",
+                    "email": "piyush2206@gmail.com"
+                },
+                "display_name": "Bhau ka dukan",
+                "store_type": "high_street",
+                "_custom_json": {},
+                "company_id": 28,
+                "uid": 11595,
+                "documents": [
+                    {
+                        "verified": true,
+                        "type": "gst",
+                        "value": "27AABCR1718E1ZP",
+                        "legal_name": "ABC"
+                    }
+                ],
+                "integration_type": {
+                    "order": "browntape",
+                    "inventory": "browntape"
+                }
+            }
+        ],
+        "page": {
+            "current": 1,
+            "size": 10,
+            "has_next": false,
+            "item_total": 4
+        }
+    },
+    "opt_in_brands": {
+        "items": [
+            {
+                "logo": {
+                    "aspect_ratio": "1:1",
+                    "aspect_ratio_f": 1.0,
+                    "url": "https:\/\/hdn-1.addsale.com\/x0\/brands\/pictures\/square-logo\/100x0\/FF1AzR9uV-brand-Kraft.jpeg",
+                    "secure_url": "https:\/\/hdn-1.addsale.com\/x0\/brands\/pictures\/square-logo\/100x0\/FF1AzR9uV-brand-Kraft.jpeg"
+                },
+                "brand_name": "Kraft",
+                "name": "Kraft",
+                "id": 398,
+                "brand_id": 398,
+                "company_id": 28
+            },
+            {
+                "logo": {
+                    "aspect_ratio": "1:1",
+                    "aspect_ratio_f": 1.0,
+                    "url": "https:\/\/hdn-1.addsale.com\/x0\/brands\/pictures\/square-logo\/100x0\/SyqASDT6E-Catalogue-logo.png",
+                    "secure_url": "https:\/\/hdn-1.addsale.com\/x0\/brands\/pictures\/square-logo\/100x0\/SyqASDT6E-Catalogue-logo.png"
+                },
+                "brand_name": "Bata2",
+                "name": "Bata2",
+                "id": 399,
+                "brand_id": 399,
+                "company_id": 28
+            },
+            {
+                "logo": {
+                    "aspect_ratio": "1:1",
+                    "aspect_ratio_f": 1.0,
+                    "url": "https:\/\/hdn-1.addsale.com\/x0\/brands\/pictures\/square-logo\/100x0\/gNrhTF3BF-brand-TEST1234.jpeg",
+                    "secure_url": "https:\/\/hdn-1.addsale.com\/x0\/brands\/pictures\/square-logo\/100x0\/gNrhTF3BF-brand-TEST1234.jpeg"
+                },
+                "brand_name": "Arthur Tumulty",
+                "name": "Arthur Tumulty",
+                "id": 44,
+                "brand_id": 44,
+                "company_id": 28
+            }
+        ],
+        "page": {
+            "current": 1,
+            "size": 10,
+            "has_next": false,
+            "item_total": 3
+        }
+    },
+    "stores": {
+        "items": [
+        {
+            "_id": "5fc7cde15e6cd6036b4673e4",
+            "uid": 55,
+            "address": {
+                "country": "INDIA",
+                "pincode": 560026,
+                "address1": "NO",
+                "address2": "NO",
+                "state": "KARNATAKA",
+                "lat_long": {
+                    "type": "Point",
+                    "coordinates": [
+                        77.5483533,
+                        12.9565222
+                    ]
+                },
+                "city": "BANGALORE URBAN"
+            },
+            "name": "Maryellen Congleton",
+            "store_type": "high_street",
+            "store_code": "d6b6b165-ed98-4827-b537-7b7b60cc45de",
+            "is_active": true,
+            "enabled": false,
+            "storeId": 55,
+            "marketplace_store_id": "4130",
+            "meta": {
+                "processingSLA": 3
+            },
+            "code": "d6b6b165-ed98-4827-b537-7b7b60cc45de",
+            "stage": "verified"
+        },
+        {
+            "_id": "5fc7cde15e6cd67be44673e5",
+            "uid": 56,
+            "address": {
+                "country": "INDIA",
+                "pincode": 641001,
+                "address1": "NO",
+                "address2": "NO",
+                "state": "TAMIL NADU",
+                "lat_long": {
+                    "type": "Point",
+                    "coordinates": [
+                        76.944141,
+                        10.9990845
+                    ]
+                },
+                "city": "COIMBATORE"
+            },
+            "name": "Sabrina Wallis",
+            "store_type": "high_street",
+            "store_code": "dbb212a9-07aa-4f23-bb35-3516b8b4bf90",
+            "is_active": true,
+            "enabled": false,
+            "storeId": 56,
+            "marketplace_store_id": "2794",
+            "meta": {
+                "processingSLA": 3
+            },
+            "code": "dbb212a9-07aa-4f23-bb35-3516b8b4bf90",
+            "stage": "verified"
+        },
+        {
+            "_id": "5fc7cde15e6cd64b434673e6",
+            "uid": 57,
+            "address": {
+                "country": "INDIA",
+                "pincode": 400072,
+                "address1": "NO",
+                "address2": "NO",
+                "state": "MAHA",
+                "lat_long": {
+                    "type": "Point",
+                    "coordinates": [
+                        1,
+                        1
+                    ]
+                },
+                "city": "MUMBAI"
+            },
+            "name": "David Olsin",
+            "store_type": "high_street",
+            "store_code": "13a4f407-1239-4cc1-b825-602da4b732d0",
+            "is_active": true,
+            "enabled": false,
+            "storeId": 57,
+            "marketplace_store_id": "2797",
+            "meta": {
+                "processingSLA": 3
+            },
+            "code": "13a4f407-1239-4cc1-b825-602da4b732d0",
+            "stage": "verified"
+        },
+        {
+            "_id": "5efe232dde49b10001928eac",
+            "name": "Bhau ka dukan",
+            "store_code": "sdfgffdws345",
+            "address": {
+                "country": "INDIA",
+                "pincode": 792104,
+                "address1": "792104",
+                "address2": "SWDERT",
+                "state": "ARUNACHAL PRADESH",
+                "lat_long": {
+                    "type": "Point",
+                    "coordinates": [
+                        96.83509989999999,
+                        28.0359962
+                    ]
+                },
+                "city": "ANJAW"
+            },
+            "store_type": "high_street",
+            "uid": 11595,
+            "is_active": true,
+            "code": "sdfgffdws345",
+            "stage": "verified"
+        }
+        ]
+    },
+    "config": {
+        "sync": {
+            "inventory": true,
+            "price": false
+        },
+        "merchant_id": "5T0dnr50",
+        "secret_key": "k7Ars4QHVWIV5iL5DZirZZSZCdbfTMoMfNJE1"
+    },
+    "inventory_logs": {
+        "items": [
+            {
+                "start_time_iso": "2020-12-03T18:31:20.111Z",
+                "end_time_iso": "2020-12-04T10:45:58.831Z",
+                "event_type": "PARTIAL_PRICE_UPDATE",
+                "count": 3264,
+                "status": "Partial Success"
+            },
+            {
+                "start_time_iso": "2020-12-03T18:30:30.288Z",
+                "end_time_iso": "2020-12-03T19:08:45.807Z",
+                "event_type": "FULL_INVENTORY_UPDATE",
+                "trace_id": "marketplaces.b43c5b0a-3564-44aa-aaa0-a9fffae3dc38",
+                "count": 16825,
+                "status": "Partial Success"
+            },
+            {
+                "start_time_iso": "2020-12-03T18:30:12.100Z",
+                "end_time_iso": "2020-12-03T18:43:14.398Z",
+                "event_type": "FULL_PRICE_UPDATE",
+                "trace_id": "marketplaces.05386a68-285c-4392-8158-6c5872024003",
+                "count": 8538,
+                "status": "Partial Success"
+            },
+            {
+                "start_time_iso": "2020-12-03T18:30:01.018Z",
+                "end_time_iso": "2020-12-04T10:45:58.744Z",
+                "event_type": "PARTIAL_INVENTORY_UPDATE",
+                "count": 3284,
+                "status": "Partial Success"
+            }
+        ],
+        "page": {
+            "type": "number",
+            "size": 10,
+            "current" : 1,
+            "has_next": false,
+            "item_total": 4
+        }
+    },
+    "search_product_logs": {
+        "items": [
+            {
+                "_id": "5fc937af41b30c43b6dd333d",
+                "status": "success",
+                "event_type": "FULL_INVENTORY_UPDATE",
+                "marketplace_name": "myntra",
+                "event": "APPLICATION_FULL_INVENTORY",
+                "trace_id": "marketplaces.b43c5b0a-3564-44aa-aaa0-a9fffae3dc38",
+                "company_id": 25,
+                "brand_id": 44,
+                "store_code": "A7072",
+                "store_id": 10609,
+                "item_id": 7579133,
+                "article_id": "10609_8904328628514",
+                "seller_identifier": "8904328628514",
+                "channel_identifier": {
+                    "sku": "8904328628514"
+                },
+                "total_quantity": 3,
+                "sellable_quantity": 3,
+                "damaged_quantity": 0,
+                "committed_quantity": 0,
+                "not_available_quantity": 0,
+                "marked_price": 2999,
+                "effective_price": 2699.1,
+                "marketplace_store_id": "A7072",
+                "http_status_code": 200,
+                "response": "Inventory updated successfully",
+                "__v": 0,
+                "createdAt": "2020-12-03T19:08:32.292Z",
+                "updatedAt": "2020-12-03T19:08:32.292Z"
+            },
+            {
+                "_id": "5fc934fd41b30c46a0dcfb09",
+                "status": "success",
+                "event_type": "FULL_INVENTORY_UPDATE",
+                "marketplace_name": "myntra",
+                "event": "APPLICATION_FULL_INVENTORY",
+                "trace_id": "marketplaces.b43c5b0a-3564-44aa-aaa0-a9fffae3dc38",
+                "company_id": 25,
+                "brand_id": 44,
+                "store_code": "A7071",
+                "store_id": 10608,
+                "item_id": 7579133,
+                "article_id": "10608_8904328628514",
+                "seller_identifier": "8904328628514",
+                "channel_identifier": {
+                    "sku": "8904328628514"
+                },
+                "total_quantity": 3,
+                "sellable_quantity": 3,
+                "damaged_quantity": 0,
+                "committed_quantity": 0,
+                "not_available_quantity": 0,
+                "marked_price": 2999,
+                "effective_price": 2699.1,
+                "marketplace_store_id": "A7071",
+                "http_status_code": 200,
+                "response": "Inventory updated successfully",
+                "__v": 0,
+                "createdAt": "2020-12-03T18:57:02.407Z",
+                "updatedAt": "2020-12-03T18:57:02.407Z"
+            },
+            {
+                "_id": "5fc934fd41b30c1414dcfa52",
+                "status": "success",
+                "event_type": "FULL_INVENTORY_UPDATE",
+                "marketplace_name": "myntra",
+                "event": "APPLICATION_FULL_INVENTORY",
+                "trace_id": "marketplaces.b43c5b0a-3564-44aa-aaa0-a9fffae3dc38",
+                "company_id": 25,
+                "brand_id": 44,
+                "store_code": "A7066",
+                "store_id": 9149,
+                "item_id": 7579133,
+                "article_id": "9149_8904328628514",
+                "seller_identifier": "8904328628514",
+                "channel_identifier": {
+                    "sku": "8904328628514"
+                },
+                "total_quantity": 2,
+                "sellable_quantity": 2,
+                "damaged_quantity": 0,
+                "committed_quantity": 0,
+                "not_available_quantity": 0,
+                "marked_price": 2999,
+                "effective_price": 2699.1,
+                "marketplace_store_id": "A7066",
+                "http_status_code": 200,
+                "response": "Inventory updated successfully",
+                "__v": 0,
+                "createdAt": "2020-12-03T18:57:02.311Z",
+                "updatedAt": "2020-12-03T18:57:02.311Z"
+            }
+        ],
+        "page": {
+            "type": "number",
+            "size": 10,
+            "current" : 1,
+            "has_next": false,
+            "item_total": 3
+        }
+    },
+    "export_log": {
+        "status": "queued",
+        "job_id": "5fea026c01678aa338c46e53"
+    },
+    "export_job_status": {
+        "job_id": "5fea026c01678aa338c46e53",
+        "status": "success",
+        "download_url": "https://marketplace-sync-logs-pre-production.s3.us-east-2.amazonaws.com/inv-log-28-myntra-Full_Price_Update.csv"
+    },
+    "inv_update": {
+        "message": "Triggered inventory for 0 stores"
+    },
+    "marketplaces_identifiers": {
+        "data": [
+            {
+                "logo": "https:\/\/upload.wikimedia.org\/wikipedia\/pa\/4\/42\/Paytm_logo.png",
+                "identifiers": [
+                    "sku"
+                ],
+                "key": "myntra",
+                "name": "Myntra",
+                "active": true
+            }
+        ]
+    },
+    "article_identifiers": {
+        "data": [
+            {
+                "key": "upc",
+                "name": "UPC",
+                "is_active": true
+            },
+            {
+                "name": "EAN",
+                "key": "ean",
+                "is_active": true
+            },
+            {
+                "name": "SKU Code",
+                "key": "sku_code",
+                "is_active": true
+            }
+        ]
+    },
+    "brands_by_company": {"brands":[
+        {
+            "name": "Arthur Tumulty",
+            "value": 44,
+            "brand_logo_url": "https://hdn-1.addsale.com/x0/brands/pictures/square-logo/original/gNrhTF3BF-brand-TEST1234.jpeg",
+            "brand_banner_url": "https://hdn-1.addsale.com/x0/brands/pictures/landscape-banner/original/wET8CREd0-Landsacpe-Banner.jpeg",
+            "brand_banner_portrait_url": "https://hdn-1.addsale.com/x0/brands/pictures/portrait-banner/original/lHSZ1-9DY-Portrait-Banner.png"
+        },
+        {
+            "name": "Bata2",
+            "value": 399,
+            "brand_logo_url": "https://hdn-1.addsale.com/x0/brands/pictures/square-logo/original/SyqASDT6E-Catalogue-logo.png",
+            "brand_banner_url": "https://hdn-1.addsale.com/x0/brands/pictures/landscape-banner/original/qEB2kuAsJ-6rbuOD_Honor_Landscape_20190919.jpg",
+            "brand_banner_portrait_url": "https://hdn-1.addsale.com/x0/brands/pictures/portrait-banner/original/KaonHO5ce-brand-portrait-image.png"
+        },
+        {
+            "name": "Kraft",
+            "value": 398,
+            "brand_logo_url": "https://hdn-1.addsale.com/x0/brands/pictures/square-logo/original/FF1AzR9uV-brand-Kraft.jpeg",
+            "brand_banner_url": "https://hdn-1.addsale.com/x0/brands/pictures/square-logo/resize-w:540,h:400/FF1AzR9uV-brand-Kraft.jpeg",
+            "brand_banner_portrait_url": "https://hdn-1.addsale.com/x0/brands/pictures/square-logo/resize-w:312,h:480/FF1AzR9uV-brand-Kraft.jpeg"
+        }
+    ]},
+    "mapped_sku_list": {
+        "data": [
+            {
+                "brand_uid": 44,
+                "name": "Black Loafers",
+                "uid": 718926,
+                "item_code": "102621AYBUCKGOLD",
+                "images": [
+                    "https:\/\/hdn-1.fynd.com\/media\/pictures\/tagged_items\/original\/4_102621AYBUCKGOLD\/4.jpg",
+                    "https:\/\/hdn-1.fynd.com\/media\/pictures\/tagged_items\/original\/4_102621AYBUCKGOLD\/1.jpg",
+                    "https:\/\/hdn-1.fynd.com\/media\/pictures\/tagged_items\/original\/4_102621AYBUCKGOLD\/2.jpg",
+                    "https:\/\/hdn-1.fynd.com\/media\/pictures\/tagged_items\/original\/4_102621AYBUCKGOLD\/3.jpg"
+                ],
+                "articles": [
+                    {
+                        "seller_identifier": "SKU_102621AYBUCKGOLD_344421XXL",
+                        "size": "XXL",
+                        "marketplace_identifiers": {
+                            "sku": "SKU_102621AYBUCKGOLD_344421XXL"
+                        },
+                        "active": true,
+                        "article_identifiers": {
+                            "sku_code": "SKU_102621AYBUCKGOLD_344421XXL"
+                        }
+                    },
+                    {
+                        "seller_identifier": "SKU_102621AYBUCKGOLD_841053S",
+                        "size": "S",
+                        "marketplace_identifiers": {
+                            "sku": "SKU_102621AYBUCKGOLD_841053S"
+                        },
+                        "active": true,
+                        "article_identifiers": {
+                            "sku_code": "SKU_102621AYBUCKGOLD_841053S"
+                        }
+                    }
+                ],
+                "brand": {
+                    "id": 44,
+                    "name": "Arthur Tumulty"
+                }
+            }
+        ],
+        "page": {
+            "current": 1,
+            "total": 1,
+            "has_previous": false,
+            "has_next": false,
+            "total_item_count": 6
+        }
+    },
+    "download_mapping": {
+        "task_id": "MiDm2bda4c324c1bd7f140903a6e32cb14cb"
+    },
+    "download_job_status": {
+        "status": "completed",
+        "URL": ""
+    },
+    "save_sku_mapping": {
+        "success": true,
+        "log": {
+            "success": 2
+        }
+    }
+}

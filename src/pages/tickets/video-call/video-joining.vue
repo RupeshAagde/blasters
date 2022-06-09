@@ -228,7 +228,8 @@ export default {
         },
         onCancel() {
             this.closeRoomAndVideo();
-            this.$router.push('/');
+            // this.$router.push('/');
+            this.$router.back();
         },
         toggleAudio() {
             this.isAudioEnabled = !this.isAudioEnabled;

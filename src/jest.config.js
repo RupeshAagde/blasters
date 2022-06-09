@@ -13,6 +13,7 @@ module.exports = {
   transformIgnorePatterns: [
     "/node_modules/",
   ],
+  coveragePathIgnorePatterns: ["services/pdf"], // @ToDo remove this
   moduleNameMapper: {
     "^@[/](.+)": "<rootDir>/$1",
   },

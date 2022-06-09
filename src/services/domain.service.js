@@ -2,6 +2,8 @@ import urlJoin from 'url-join';
 import { isBrowser, isNode } from 'browser-or-node';
 import root from 'window-or-global';
 
+const getCompInfo = () => 1;
+
 const envVars = root.env || {};
 
 if (root && root.process && root.process.env && root.process.env.NODE_ENV == 'test') {
@@ -16,17 +18,17 @@ const SILVERBOLT_MAIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SILVERBOLT_MAIN_URL :
     envVars.SILVERBOLT_MAIN_URL;
 
-const SILVERBOLT_ACPR_URL = isNode ?
-    envVars.BROWSER_CONFIG.SILVERBOLT_ACPR_URL :
-    envVars.SILVERBOLT_ACPR_URL;
+const WHEELJACK_ACPR_URL = isNode ?
+    envVars.BROWSER_CONFIG.WHEELJACK_ACPR_URL :
+    envVars.WHEELJACK_ACPR_URL;
 
 const SILVERBOLT_ACAT_URL = isNode ?
     envVars.BROWSER_CONFIG.SILVERBOLT_ACAT_URL :
     envVars.SILVERBOLT_ACAT_URL;
 
-const SILVERBOLT_PNLCPR_URL = isNode ?
-    envVars.BROWSER_CONFIG.SILVERBOLT_PNLCPR_URL :
-    envVars.SILVERBOLT_PNLCPR_URL;
+const WHEELJACK_PNLCPR_URL = isNode ?
+    envVars.BROWSER_CONFIG.WHEELJACK_PNLCPR_URL :
+    envVars.WHEELJACK_PNLCPR_URL;
 
 const SKYWARP_PNL_URL = isNode ?
     envVars.BROWSER_CONFIG.SKYWARP_PNL_URL :
@@ -44,7 +46,7 @@ const PLATFORM_LEADS_BASE = isNode ?
     envVars.HIGHBROW_ADMIN_URL;
 
 const ADMIN_ORDERS_BASE = isNode ?
-    envVars.BROWSER_CONFIG.APEFACE_ADMIN_SVC :
+    envVars.BROWSER_CONFIG.APEFACE_ADMIN_URL :
     envVars.APEFACE_ADMIN_URL;
 
 const INTERNAL_SETTINGS = isNode ?
@@ -81,13 +83,16 @@ const GRINGOTTS_ADMIN_URL = isNode ?
 
 const COMMUNICATION_BASE_URL = isNode ?
     envVars.BROWSER_CONFIG.POINTBLANK_ADMIN_URL :
-    envVars.POINTBLANK_ADMIN_URL;   
-    
+    envVars.POINTBLANK_ADMIN_URL;
+
 const PINPOINTER_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.PINPOINTER_ADMIN_URL :
-    envVars.PINPOINTER_ADMIN_URL;    
-     
+    envVars.PINPOINTER_ADMIN_URL;
 
+
+const ADMIN_ORDER_BASE = isNode ?
+    envVars.BROWSER_CONFIG.APEFACE_ADMIN_URL :
+    envVars.APEFACE_ADMIN_URL;
 
 const URLS = {
     // User Profile API's
@@ -132,7 +137,7 @@ const URLS = {
     },
     //Company Metrics
     FETCH_METRICS: (params) => {
-        return urlJoin(SILVERBOLT_ACPR_URL, `/v1.0/company/${params.company}/metrics`);
+        return urlJoin(WHEELJACK_ACPR_URL, `/v1.0/company/${params.company}/metrics/`);
     },
 
     //search dri
@@ -143,14 +148,14 @@ const URLS = {
     //fetch dri
     FETCH_DRI: (params) => {
         return urlJoin(
-            SILVERBOLT_ACPR_URL,
-            `/v1.0/company/${params.company_id}/poc`
+            WHEELJACK_ACPR_URL,
+            `/v1.0/company/${params.company_id}/poc/`
         );
     },
 
     FETCH_ONE_DRI: (params) => {
         return urlJoin(
-            SILVERBOLT_ACPR_URL,
+            WHEELJACK_ACPR_URL,
             `/v1.0/company/${params.company_id}/poc/${params.uid}`
         );
     },
@@ -184,7 +189,7 @@ const URLS = {
     //company details
     GET_COMPANY_LIST: () => {
         return urlJoin(
-            SILVERBOLT_ACPR_URL,
+            WHEELJACK_ACPR_URL,
             '/v1.0/companies/'
         );
     },
@@ -214,33 +219,33 @@ const URLS = {
     },
     VERIFY_COMPANY: (query_param) => {
         return urlJoin(
-            SILVERBOLT_ACPR_URL,
+            WHEELJACK_ACPR_URL,
             `/v1.0/company/${query_param.uid}/verify`
         )
     },
     BRAND_ADMIN_ACTION: (params) => {
         return urlJoin(
-            SILVERBOLT_ACPR_URL,
+            WHEELJACK_ACPR_URL,
             `/v1.0/company/${params.company}/brand/${params.brand}/verify/`
         );
     },
     STORE_ADMIN_ACTION: (params) => {
         return urlJoin(
-            SILVERBOLT_ACPR_URL,
+            WHEELJACK_ACPR_URL,
             `/v1.0/company/${params.company}/location/${params.uid}/verify/`
         );
     },
     GET_COMPANY_BRANDS: (params) => {
-        return urlJoin(SILVERBOLT_ACPR_URL, `/v1.0/company/${params.company_id}/company-brand/`);
+        return urlJoin(WHEELJACK_ACPR_URL, `/v1.0/company/${params.company_id}/company-brand/`);
     },
     GET_CHOICE_TYPES: () => {
-        return urlJoin(SILVERBOLT_PNLCPR_URL, '/v1.0/choices/');
+        return urlJoin(WHEELJACK_PNLCPR_URL, '/v1.0/choices/');
     },
     COMPANY_STORES: (params) => {
-        return urlJoin(SILVERBOLT_ACPR_URL, `/v1.0/company/${params.company_id}/location/`);
+        return urlJoin(WHEELJACK_ACPR_URL, `/v1.0/company/${params.company_id}/location`);
     },
     COMPANY_PROFILE: (params) => {
-        return urlJoin(SILVERBOLT_ACPR_URL, `/v1.0/company/${params.uid}`);
+        return urlJoin(WHEELJACK_ACPR_URL, `/v1.0/company/${params.uid}`);
     },
     ATTRIBUTES_MASTER: (slug = '') => {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/product-attributes', slug);
@@ -620,13 +625,75 @@ const URLS = {
     COMMUNICATION_CAMPAIGNS: () => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/campaign`)
     },
+
+
+    // ============= Order Service Endpoints ============
+    ORDERS_LIST: () => {
+        return urlJoin(ADMIN_ORDER_BASE, '/v1.0/orders');
+    },
+    ORDER_LANES_COUNT: () => {
+        return urlJoin(ADMIN_ORDER_BASE, '/v1.0/orders/lane-count');
+    },
+    ORDER_DETAILS: () => {
+        return urlJoin(ADMIN_ORDER_BASE, '/v1.0/orders/details');
+    },
+    ORDERS_PICKLIST: () => {
+        return urlJoin(ADMIN_ORDER_BASE, '/v1.0/orders/picklist');
+    },
+    ORDER_SHIPMENTS_STATUS_UPDATE: () => {
+        return urlJoin(
+            ADMIN_ORDER_BASE,
+            `/v1.0/actions/status`
+        );
+    },
+    ORDER_SHIPMENTS_ADDRESS: (shipment_id, address_type) => {
+        return urlJoin(
+            ADMIN_ORDER_BASE,
+            `/v1.0/orders/shipments/${shipment_id}/address/${address_type}`
+        );
+    },
+    BAG_ACTIVITY_STATUS: () => {
+        // return urlJoin(ADMIN_ORDER_BASE, `/v1.0/company/${getCompInfo()}/actions/activity/status`);
+        // return urlJoin(ADMIN_ORDER_BASE, `/v1.0/orders/actions/activity/status`);
+        return urlJoin(ADMIN_ORDER_BASE, `/v1.0/orders/activity/status`);
+    },
+    STORE_PROCESS_SHIPMENTS: () => {
+        return urlJoin(
+            ADMIN_ORDER_BASE,
+            `/v1.0/actions/store/process-shipments`
+        );
+    },
+
+    //shipment breakable
+    SHIPMENT_CAN_BREAK_OR_NOT: () => {
+        return urlJoin(ADMIN_ORDER_BASE, `/v1.0/actions/can-break`)
+    },
+
+    // shipment check refund
+    SHIPMENT_CHECK_REFUND: (shipmentId) => {
+        return urlJoin(ADMIN_ORDER_BASE, `/v1.0/actions/check-refund/${shipmentId}`);
+    },
+
+    // shipment dp tracking
+    SHIPMENT_DP_TRACKING: (shipmentId) => {
+        return urlJoin(ADMIN_ORDER_BASE, `/v1.0/orders/shipments/${shipmentId}/track`);
+    },
+    // shipment save bank details
+    SAVE_BANK_DETAILS: (appId) => {
+        return urlJoin(GRINGOTTS_BASE, `/v1.0/company/${getCompInfo()}/application/${appId}/refund/account`);
+    },
+    // shipment get bank details
+    GET_BANK_DETAILS: (appId) => {
+        return urlJoin(GRINGOTTS_BASE, `/v1.0/company/${getCompInfo()}/application/${appId}/refund/accounts/order`);
+    },
+    // ==================================================
     //PINPOINTER
     AUDIT_TRAIL: (id='') => {
         return urlJoin(PINPOINTER_ADMIN_URL, 'v1.0/logs/',id)
+    },
+    GET_AUDIT_TRAIL_ENTITY_TYPES:()=>{
+        return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
     }
-    
-
-    
 };
 
 export default URLS;

@@ -22,7 +22,7 @@
     justify-content: space-between;
     width: 100%;
     top: 0px;
-    z-index: @header;
+    z-index: @header + @gotop;
     align-items: center;
     height: 64px;
     background: #fff;

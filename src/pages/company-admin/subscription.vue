@@ -111,9 +111,17 @@
                                 !currentActivePlan.is_enabled &&
                                 !currentActivePlan.subscription
                         "
-                        class="flex-1 under-trial-plan"
-                    >
-                        Currently under the trial plan.
+                        class="flex-1"
+                    >   
+                    <div class=" under-trial-plan">Currently under the trial plan.</div>
+                    <div>   <nitrozen-button
+                                id="side-link"
+                                :theme="'secondary'"
+                                @click="onOpenChangePlanDialog"
+                            >
+                                Change Plan
+                            </nitrozen-button>
+                    </div>        
                     </div>
                     <div class="flex">
                         <div class="flex-1">

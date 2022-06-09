@@ -33,7 +33,6 @@
 <script>
 import Jumbotron from '@/components/common/jumbotron';
 import TicketList from './ticket-list.vue';
-import { getRoute } from '@/helper/get-route';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -67,7 +66,7 @@ export default {
     methods: {
         redirectToAddCategory() {
             this.$router.push({
-                path: `${getRoute(this.$route)}/administrator/support/add-category`
+                path: `/administrator/support/add-category`
             });
         }
     }

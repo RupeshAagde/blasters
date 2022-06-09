@@ -4,23 +4,62 @@ import root from 'window-or-global';
 
 const envVars = root.env || {};
 
-if (root && root.process && root.process.env && root.process.env.NODE_ENV == 'test') {
+if (
+    root &&
+    root.process &&
+    root.process.env &&
+    root.process.env.NODE_ENV == 'test'
+) {
     envVars['BROWSER_CONFIG'] = root.process.env;
 }
 
-let MIXMASTER_ADMIN_BASE = isNode ?
-    envVars.BROWSER_CONFIG.MIXMASTER_ADMIN_URL :
-    envVars.MIXMASTER_ADMIN_URL;
+let MIXMASTER_ADMIN_BASE = isNode
+    ? envVars.BROWSER_CONFIG.MIXMASTER_ADMIN_URL
+    : envVars.MIXMASTER_ADMIN_URL;
+
+let MIXMASTER_PNL_BASE = isNode
+    ? envVars.BROWSER_CONFIG.MIXMASTER_PNL_URL
+    : envVars.MIXMASTER_PNL_URL;
 
 const URLS = {
     EXTENSION_REVIEW: (review_id = '') => {
-        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/extension/review/${review_id}`);
+        return urlJoin(
+            MIXMASTER_ADMIN_BASE,
+            `/v1.0/extension/review/${review_id}`
+        );
     },
-    EXTENSION_CATEGORIES_ADMIN: (organization_id) => {
-        return urlJoin(MIXMASTER_ADMIN_BASE + `/v1.0/extension/category/all`);
+    GET_EXTENSION_COLLECTIONS: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection`);
+    },
+    GET_EXTENSION_COLLECTIONS_DETAILS: (id = '') => {
+        return urlJoin(
+            MIXMASTER_ADMIN_BASE,
+            `/v1.0/collection/${id}`
+        );
+    },
+    SAVE_EXTENSION_COLLECTION: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection`);
+    },
+    UPDATE_EXTENSION_COLLECTION: (id = '') => {
+        return urlJoin(
+            MIXMASTER_ADMIN_BASE,
+            `/v1.0/collection/${id}`
+        );
+    },
+    CHECK_DUPLICATE_SLUG: (slug) => {
+        return urlJoin(
+            MIXMASTER_ADMIN_BASE,
+            `/v1.0/collection/check-slug/${slug}`
+        );
     },
     FETCH_PARTNER_ORGANIZATIONS: () => {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/organization/`);
+    },
+    PUBLIC_EXTENSIONS: () => {
+        return urlJoin(MIXMASTER_PNL_BASE, `/v1.0/extensions`);
+    },
+    PUBLIC_EXTENSION_CATEGORIES: () => {
+        return urlJoin(MIXMASTER_PNL_BASE, `/v1.0/extensions/category/all`);
     }
 };
 

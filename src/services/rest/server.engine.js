@@ -88,7 +88,7 @@ axios.interceptors.response.use(
         if (401 === (error.response && error.response.status)) {
             //Gets into infinite loop,Fix it.
             //AuthService.onUserLoggedOut();
-            eventHelper.forceLogout(error.request.responseURL)
+                eventHelper.forceLogout(error.request.responseURL)
                 //analyticsHandler(fnTypes.RESET);
             if (isBrowser) {
                 LocalStorageService.removeAll()
