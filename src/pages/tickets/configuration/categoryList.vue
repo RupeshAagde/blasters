@@ -15,6 +15,10 @@
                 >
                     <div class="card-content-section">
                         <span class="category-name">{{ category.name }}</span>
+                        <inline-svg
+                            src="arrow-dropdown-black"
+                            class="forward-icon"
+                        ></inline-svg>
                     </div>
                 </div>
             </div>
@@ -25,9 +29,11 @@
 <script>
 import { NitrozenButton, NitrozenInput } from '@gofynd/nitrozen-vue';
 import { PageHeader } from '@/components/common';
+import inlineSvgVue from '@/components/common/inline-svg.vue';
 export default {
     name: 'category-list',
     components: {
+        'inline-svg': inlineSvgVue,
         NitrozenButton,
         PageHeader,
         'nitrozen-input': NitrozenInput,
@@ -37,33 +43,24 @@ export default {
             list: [
                 {
                     name: 'System categories',
+                    path: 'add-category',
                 },
                 {
                     name: 'General configurations',
+                    path: 'general-configure',
                 },
-                {
-                    name: 'Choose integration type',
-                },
+                // {
+                //     name: 'Choose integration type',
+                //     path: 'choose-integration',
+                // },
             ],
         };
     },
     methods: {
         selected(category) {
-            if (category.name === 'System categories') {
-                this.$router.push({
-                    path: `/administrator/support/category/add-category`,
-                });
-            }
-            if (category.name === 'General configurations') {
-                this.$router.push({
-                    path: `/administrator/support/category/general-configure`,
-                });
-            }
-            if (category.name === 'Choose integration type') {
-                this.$router.push({
-                    path: `/administrator/support/category/choose-integration`,
-                });
-            }
+            this.$router.push({
+                path: `/administrator/support/category/${category.path}`,
+            });
         },
     },
 };
@@ -92,5 +89,15 @@ export default {
 .panel {
     display: flex;
     flex-direction: column;
+}
+.forward-icon {
+    transform: rotate(270deg);
+}
+.category-name {
+    padding: 16px;
+}
+.card-content-section {
+    display: flex;
+    justify-content: space-between;
 }
 </style>

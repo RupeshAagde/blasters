@@ -74,7 +74,14 @@ const SupportService = {
     addCategories(categories) {
         let axiosOption = { data: categories };
         return ApiService.post(URLS.FETCH_CATEGORIES(), axiosOption);
-    }
+    },
+    getGeneralConfig(){
+        return ApiService.get(URLS.GET_GENERAL_CONGIF(), {});
+    },
+    GeneralConfig(data) {
+        let axiosOption = { data: data };
+        return ApiService.post(URLS.GET_GENERAL_CONGIF(), axiosOption);
+    },
     // Product Info
     // fetchProductInfo(slug) {
     //     let axiosOption = Object.assign({}, getCommonHeaderOptions(), {
