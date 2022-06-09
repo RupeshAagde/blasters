@@ -22,9 +22,6 @@
             <div class="packaging-card-button">
                 <inline-svg :src="'edit'" class="action-icon" />
             </div>
-            <div class="packaging-card-button">
-                <inline-svg :src="'delete'" class="action-icon" />
-            </div>
         </div>
     </div>
 </template>
