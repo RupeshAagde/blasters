@@ -27,7 +27,7 @@
                     />
                 </div>
 
-                <div class="selected-items" v-if="itemValues">
+                <div class="selected-items" v-if="itemValues.length">
                     <p class="items-title">Selected Items</p>
                     <div>
                         <draggable
@@ -192,7 +192,9 @@ export default {
     mounted() {
         this.mSection_data = this.section_data || {};
         this.getBlocks();
-        // this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
+        if(this.section.data && this.section.item_type){
+            this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]);       
+        }
     },
     watch: {
         section(n, o) {
@@ -238,11 +240,11 @@ export default {
             });
             return cloneDeep(props);
         },
-        itemValues() {
-            if(this.section.item_type) {
-                return cloneDeep(this.section.data[`${this.section.item_type}_details`]);
-            } else return null;
-        }
+        // itemValues() {
+        //     if(this.section.item_type) {
+        //         return cloneDeep(this.section.data[`${this.section.item_type}_details`]);
+        //     } else return null;
+        // }
     },
     data() {
         return {
@@ -254,7 +256,8 @@ export default {
                 disabled: false,
                 ghostClass: 'ghost',
             },
-            movingIndex: -1
+            movingIndex: -1,
+            itemValues: []
         };
     },
     methods: {
@@ -262,9 +265,19 @@ export default {
             this.$emit('close');
         },
         onSectionInputChange(prop, inputObj) {
-            this.section.props[prop.id] = inputObj;
-            this.section.data[prop.id] = inputObj.value;
-            this.section.data[`${prop.id}_details`] = inputObj.details;
+            // this.section.props[prop.id] = inputObj;
+            this.$set(this.section.props, prop.id, inputObj)
+            // this.section.data[prop.id] = inputObj.value;
+            this.$set(this.section.data, prop.id, inputObj.value)
+            // this.section.data[`${prop.id}_details`] = inputObj.details;
+            this.$set(this.section.data, `${prop.id}_details`, inputObj.details)
+            let _data = cloneDeep(this.itemValues)
+            this.itemValues = cloneDeep(this.section.data[`${prop.id}_details`]);
+            this.itemValues.map((ele, index) => {
+                if(!ele){
+                    this.$set(this.itemValues, index, _data[index])
+                }
+            })
             this.$emit('update-block', this.section);
         },
         onSearchInputChange(prop, searchObj, idx) {

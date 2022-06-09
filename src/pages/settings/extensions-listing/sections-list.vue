@@ -42,6 +42,7 @@
         />
 
         <section-form
+            v-if="showSectionForm"
             :section="selectedSection"
             :section_schema="selectedSectionSchema"
             :show="showSectionForm"
