@@ -435,7 +435,7 @@ export default {
                                 section.data[section.item_type] = cloneDeep(selectedItems);
                                 ExtensionService.getExtensionCollectionDetails('',{_id: selectedItems})
                                 .then(response => {
-                                    section.data[`${section.item_type}_details`] = cloneDeep(response.data);
+                                    section.data[`${section.item_type}_details`] = cloneDeep(response.data.items);
                                 })
                                 .catch(error => {
                                     this.$snackbar.global.showError(
@@ -449,8 +449,8 @@ export default {
                                 let selectedItems = cloneDeep(section.items).map(i => i.value);
                                 section.data[section.item_type] = cloneDeep(selectedItems);
                                 this.getPublicExtensions({_id: selectedItems})
-                                .then(response => {
-                                    section.data[`${section.item_type}_details`] = cloneDeep(response.data);
+                                .then(extension => {
+                                    section.data[`${section.item_type}_details`] = cloneDeep(extension);
                                 })
                                 .catch(error => {
                                     this.$snackbar.global.showError(
@@ -460,6 +460,7 @@ export default {
                                 })
                             }
                         }
+
                     }
                 }
 
@@ -538,7 +539,7 @@ export default {
                 }
             }
 
-            ExtensionPageService.updateSections(pageObj)
+            return ExtensionPageService.updateSections(pageObj)
             .then(response => {
                 this.$snackbar.global.showSuccess('Your configuration is saved successfully.');
                 this.getAvailablePages();
