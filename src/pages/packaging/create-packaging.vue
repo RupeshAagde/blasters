@@ -6,6 +6,7 @@
             :noContextMenu="true"
         >
             <div
+                id="save-packaging-btn"
                 :class="{
                     'add-packaging-button': true,
                     opaque: isButtonDisabled
