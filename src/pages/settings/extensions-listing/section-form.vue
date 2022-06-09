@@ -185,7 +185,8 @@ export default {
             let obj = {
                 type: prop.id,
                 value: searchObj.value,
-                idx: idx
+                idx: idx,
+                section_type: this.section.type
             }
             this.$emit('search-input', obj);
         },
@@ -236,13 +237,18 @@ export default {
         },
         removeItem(index) {
             this.section.data[`${this.section.item_type}_details`].splice(index, 1);
-            this.section.data[`${this.section.item_type}`].splice(index, 1);
+
+            let detailsArr = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
+            let ids = detailsArr.map(i => i._id);
+            
+            this.section.data[`${this.section.item_type}`] = cloneDeep(ids);
             let _data = cloneDeep(this.itemValues);
             this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
             this.itemValues.map((ele, idx) => {
                 if(!ele){
                     this.$set(this.itemValues, index, _data[idx]);
                     this.$set(this.section.data[`${this.section.item_type}_details`], idx, _data[idx]);
+                    this.$set(this.section.data[`${this.section.item_type}`], idx, _data[idx]);
                 }
             })
 

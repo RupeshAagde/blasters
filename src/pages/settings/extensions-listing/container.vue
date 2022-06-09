@@ -420,8 +420,6 @@ export default {
                     }
 
                     if(section.item_type) {
-                        let valuesPromise = [];
-
                         if(section.item_type === 'category') {
                             if(section.items.length) {
                                 let selectedItems = cloneDeep(section.items).map(i => i.value);
@@ -433,9 +431,14 @@ export default {
                             if(section.items.length) {
                                 let selectedItems = cloneDeep(section.items).map(i => i.value);
                                 section.data[section.item_type] = cloneDeep(selectedItems);
-                                ExtensionService.getExtensionCollectionDetails('',{_id: selectedItems})
+                                ExtensionService.getExtensionCollectionDetails('', {_id: selectedItems})
                                 .then(response => {
-                                    section.data[`${section.item_type}_details`] = cloneDeep(response.data.items);
+                                    let orderedItems = [];
+                                    for(let item of selectedItems) {
+                                        orderedItems.push(response.data.items.find(i => i._id === item));
+                                    }
+
+                                    section.data[`${section.item_type}_details`] = cloneDeep(orderedItems);
                                 })
                                 .catch(error => {
                                     this.$snackbar.global.showError(
@@ -450,7 +453,12 @@ export default {
                                 section.data[section.item_type] = cloneDeep(selectedItems);
                                 this.getPublicExtensions({_id: selectedItems})
                                 .then(extension => {
-                                    section.data[`${section.item_type}_details`] = cloneDeep(extension);
+                                    let orderedItems = [];
+                                    for(let item of selectedItems) {
+                                        orderedItems.push(extension.find(i => i._id === item));
+                                    }
+
+                                    section.data[`${section.item_type}_details`] = cloneDeep(orderedItems);
                                 })
                                 .catch(error => {
                                     this.$snackbar.global.showError(
@@ -648,7 +656,9 @@ export default {
             } else if(event.type === 'extension') {
                 this.getPublicExtensions({name: event.value.text})
                 .then(() => {
-                    let section = this.available_sections.find(sec => sec.item_type === event.type);
+                    let section = this.available_sections.find(sec => {
+                        return sec.item_type === event.type && sec.type === event.section_type;
+                    });
                     let extensionProp = section.props.find(pr => pr.type === 'select' && pr.id === event.type);
                     extensionProp.options = this.publicExtensions;
                 })
