@@ -276,6 +276,7 @@ export default {
             this.itemValues.map((ele, index) => {
                 if(!ele){
                     this.$set(this.itemValues, index, _data[index])
+                    this.$set(this.section.data[`${prop.id}_details`], index, _data[index])
                 }
             })
             this.$emit('update-block', this.section);
