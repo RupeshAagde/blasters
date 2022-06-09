@@ -433,24 +433,14 @@ export default {
                             if(section.items.length) {
                                 let selectedItems = cloneDeep(section.items).map(i => i.value);
                                 section.data[section.item_type] = cloneDeep(selectedItems);
-                                let valuesPromise = Promise.all(
-                                    selectedItems.map(i => {
-                                        return ExtensionService.getExtensionCollectionDetails(i)
-                                        .then(response => {
-                                            return response.data;
-                                        })
-                                        .catch(error => {
-                                            this.$snackbar.global.showError(
-                                                `Unable to fetch details about the collection with ID ${i}.`
-                                            );
-                                        })
-                                    })
-                                );
-
-                                valuesPromise.then(response => {
-                                    section.data[`${section.item_type}_details`] = cloneDeep(response);
+                                ExtensionService.getExtensionCollectionDetails('',{_id: selectedItems})
+                                .then(response => {
+                                    section.data[`${section.item_type}_details`] = cloneDeep(response.data);
                                 })
                                 .catch(error => {
+                                    this.$snackbar.global.showError(
+                                        `Unable to fetch collection details.`
+                                    );
                                     console.log("error:   ", error);
                                 })
                             }
@@ -458,8 +448,7 @@ export default {
                             if(section.items.length) {
                                 let selectedItems = cloneDeep(section.items).map(i => i.value);
                                 section.data[section.item_type] = cloneDeep(selectedItems);
-                                let itemsStr = selectedItems.join(',');
-                                this.getPublicExtensions({_id: itemsStr})
+                                this.getPublicExtensions({_id: selectedItems})
                                 .then(response => {
                                     section.data[`${section.item_type}_details`] = cloneDeep(response.data);
                                 })
