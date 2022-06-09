@@ -197,7 +197,7 @@
             </div>
 
             <div class="settings-tab" v-if="activeTab === 'Settings'">
-                <p class="coming-soon">Coming soon</p>
+                <coming-soon title="Coming Soon"></coming-soon>
             </div>            
         </div>
 
@@ -239,6 +239,7 @@ import SectionPredicate from './section-predicate.vue';
 
 /* Constants and Helpers */
 import { PREVIEW_EVENTS } from '@/helper/constants.js';
+import ComingSoon from '../../../components/common/coming-soon.vue';
 
 const defaultPredicate = {
     screen: {
@@ -269,7 +270,8 @@ export default {
         'available-sections-list': AvailableSectionsList,
         'section-form': SectionForm,
         'section-predicate': SectionPredicate,
-        draggable
+        draggable,
+        ComingSoon
     },
     directives: {
         strokeBtn,
