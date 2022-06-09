@@ -32,7 +32,7 @@
 
 <script>
 export default {
-    name: 'category-vue',
+    name: 'category-card',
     props: {
         item: {
             type: Object
