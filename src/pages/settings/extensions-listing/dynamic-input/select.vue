@@ -66,35 +66,42 @@ export default {
     },
     methods: {
         onChange(e) {
-            /* Update addedValues and selectedValues with the values added or removed */
-            for(let idx in this.addedValues) {
-                let id = this.addedValues[idx];
-                if(!e.includes(id)) {
-                    this.addedValues.splice(idx, 1);
-                    this.selectedValues.splice(idx, 1);
+            if(this.multipleEnabled) {
+                /* Update addedValues and selectedValues with the values added or removed */
+                for(let idx in this.addedValues) {
+                    let id = this.addedValues[idx];
+                    if(!e.includes(id)) {
+                        this.addedValues.splice(idx, 1);
+                        this.selectedValues.splice(idx, 1);
+                    }
                 }
-            }
 
-            if(this.addedValues.length === 0) {
-                /* If addedValues is empty */
-                for(let id of e) {
-                    this.selectedValues.push(this.prop_schema.options.find(option => option._id === id));
-                    this.addedValues.push(id);
+                if(this.addedValues.length === 0) {
+                    /* If addedValues is empty */
+                    for(let id of e) {
+                        this.selectedValues.push(this.prop_schema.options.find(option => option._id === id));
+                        this.addedValues.push(id);
+                    }
+                } else {
+                    /* Add new values to the addedValues and selectedValues array */
+                    let remainingValues = e.filter(id => !this.addedValues.includes(id));
+                    for(let id of remainingValues) {
+                        this.selectedValues.push(this.prop_schema.options.find(option => option._id === id));
+                        this.addedValues.push(id);
+                    }
                 }
+
+                this.$emit('change', {
+                    type: this.prop_schema.type,
+                    value: e,
+                    details: this.selectedValues
+                });
             } else {
-                /* Add new values to the addedValues and selectedValues array */
-                let remainingValues = e.filter(id => !this.addedValues.includes(id));
-                for(let id of remainingValues) {
-                    this.selectedValues.push(this.prop_schema.options.find(option => option._id === id));
-                    this.addedValues.push(id);
-                }
+                this.$emit('change', {
+                    type: this.prop_schema.type,
+                    value: e
+                });
             }
-
-            this.$emit('change', {
-                type: this.prop_schema.type,
-                value: e,
-                details: this.selectedValues
-            });
         },
         onInput(e) {
             this.$emit('input', {

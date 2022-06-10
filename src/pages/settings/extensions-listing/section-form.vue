@@ -171,7 +171,7 @@ export default {
             this.$set(this.section.data, `${prop.id}_details`, inputObj.details);
             let _data = cloneDeep(this.itemValues);
             this.itemValues = cloneDeep(this.section.data[`${prop.id}_details`]);
-            if(this.itemValues && this.itemValues.length){
+            if(this.itemValues && this.itemValues.length) {
                 this.itemValues.map((ele, index) => {
                     if(!ele){
                         this.$set(this.itemValues, index, _data[index]);
