@@ -168,16 +168,19 @@ export default {
         onSectionInputChange(prop, inputObj) {
             this.$set(this.section.props, prop.id, inputObj)
             this.$set(this.section.data, prop.id, inputObj.value)
-            this.$set(this.section.data, `${prop.id}_details`, inputObj.details);
-            let _data = cloneDeep(this.itemValues);
-            this.itemValues = cloneDeep(this.section.data[`${prop.id}_details`]);
-            if(this.itemValues && this.itemValues.length) {
-                this.itemValues.map((ele, index) => {
-                    if(!ele){
-                        this.$set(this.itemValues, index, _data[index]);
-                        this.$set(this.section.data[`${prop.id}_details`], index, _data[index]);
-                    }
-                })
+            if(inputObj.details) {
+                this.$set(this.section.data, `${prop.id}_details`, inputObj.details);
+                let _data = cloneDeep(this.itemValues);
+                this.itemValues = cloneDeep(this.section.data[`${prop.id}_details`]);
+
+                if(this.itemValues && this.itemValues.length) {
+                    this.itemValues.map((ele, index) => {
+                        if(!ele){
+                            this.$set(this.itemValues, index, _data[index]);
+                            this.$set(this.section.data[`${prop.id}_details`], index, _data[index]);
+                        }
+                    })
+                }
             }
             this.$emit('update-block', this.section);
         },
