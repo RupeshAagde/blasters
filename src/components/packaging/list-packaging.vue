@@ -36,13 +36,20 @@
                 :btnText="'Add Packaging'"
                 @tryAgain="handleAddPackaging"
             />
+             <nitrozen-pagination
+                v-if="products.length"
+                :name="'Products'"
+                v-model="pagination"
+                :pageSizeOptions="perPageValues"
+                @change="pageOptionChange"
+            ></nitrozen-pagination>
         </div>
     </div>
 </template>
 
 <script>
 import NoContent from '../../components/common/adm-no-content.vue';
-import { NitrozenButton } from '@gofynd/nitrozen-vue';
+import { NitrozenButton, NitrozenPagination } from '@gofynd/nitrozen-vue';
 import { FETCH_PACKAGING_PRODUCTS } from '../../store/action.type';
 import { mapGetters } from 'vuex';
 import { GET_PACKAGING_PRODUCTS } from '../../store/getters.type';
@@ -52,11 +59,23 @@ import { debounce } from '@/helper/utils';
 export default {
     name: 'list-packaging',
     components: {
-    NoContent,
-    NitrozenButton,
-    PackagingCard,
-    SearchContainer
-},
+        NoContent,
+        NitrozenButton,
+        PackagingCard,
+        SearchContainer,
+        NitrozenPagination
+    },
+    data() {
+        return {
+            pagination: {
+                limit: 10,
+                total: 0,
+                next_page: true,
+                current: 1
+            },
+            perPageValues: [5, 10, 20, 50]
+        };
+    },
     computed: {
         ...mapGetters({
             products: GET_PACKAGING_PRODUCTS

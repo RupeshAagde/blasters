@@ -36,13 +36,20 @@
                 :btnText="'Add New Category'"
                 @tryAgain="handleAddCategories"
             />
+            <nitrozen-pagination
+                v-if="categories.length"
+                :name="'Categories'"
+                v-model="pagination"
+                :pageSizeOptions="perPageValues"
+                @change="pageOptionChange"
+            ></nitrozen-pagination>
         </div>
     </div>
 </template>
 
 <script>
 import NoContent from '../../components/common/adm-no-content.vue';
-import { NitrozenButton } from '@gofynd/nitrozen-vue';
+import { NitrozenButton, NitrozenPagination } from '@gofynd/nitrozen-vue';
 import { FETCH_CATEGORIES } from '../../store/action.type';
 import { mapGetters } from 'vuex';
 import { GET_CATEGORIES } from '../../store/getters.type';
@@ -55,11 +62,19 @@ export default {
         NoContent,
         NitrozenButton,
         CategoryCard,
-        SearchContainer
+        SearchContainer,
+        NitrozenPagination
     },
     data() {
         return {
-            showLoader: true
+            showLoader: true,
+            pagination: {
+                limit: 10,
+                total: 0,
+                next_page: true,
+                current: 1
+            },
+            perPageValues: [5, 10, 20, 50]
         };
     },
     computed: {
