@@ -113,7 +113,7 @@
                         </nitrozen-error>
                     </div>
 
-                    <div class="form-field">
+                    <!-- <div class="form-field">
                         <div class="flex flex-end">
                             <div class="flex-3 m-r-24">
                                 <nitrozen-dropdown
@@ -156,7 +156,7 @@
                                 appProvider.email.promotional.provider.errortext
                             }}
                         </nitrozen-error>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="container">
                     <div class="title">SMS</div>
@@ -241,7 +241,7 @@
                         </nitrozen-error>
                     </div>
 
-                    <div class="form-field">
+                    <!-- <div class="form-field">
                         <div class="flex flex-end">
                             <div class="flex-3 m-r-24">
                                 <nitrozen-dropdown
@@ -284,7 +284,7 @@
                                 appProvider.sms.promotional.provider.errortext
                             }}
                         </nitrozen-error>
-                    </div>
+                    </div> -->
                 </div>
                 <div v-if="!pageLoading">
                     <email-send-test-modal
@@ -317,25 +317,12 @@
 <script>
 import loader from '@/components/common/loader';
 import providermainbody from './provider-main-body.vue';
+import { GET_USER_INFO } from '../../../store/getters.type';
+
 //import adminCommsService from './../../../../services/admin/admin-comms.service';
 import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
 import { mapGetters } from 'vuex';
-//import { GET_USER_INFO } from '../../../../store/getters.type';
-// import {
-//     ADMIN_COMMS_FETCH_EMAIL_PROVIDERS,
-//     ADMIN_COMMS_FETCH_SMS_PROVIDERS,
-//     ADMIN_COMMS_FETCH_GLOBAL_PROVIDERS,
-//     ADMIN_COMMS_FETCH_APP_PROVIDER,
-//     ADMIN_COMMS_UPDATE_APP_PROVIDER
-// } from '../../../../store/admin/action.type';
-// import {
-//     ADMIN_COMMS_GET_EMAIL_PROVIDERS,
-//     ADMIN_COMMS_GET_SMS_PROVIDERS
-// } from '../../../../store/admin/getters.type';
-// import {
-//     ADMIN_COMMS_SET_EMAIL_PROVIDERS,
-//     ADMIN_COMMS_SET_SMS_PROVIDERS
-// } from '../../../../store/admin/mutation.type';
+import CommunicationServices from '../../../services/pointblank.service';
 import emailSendTestModal from './common/email-send-test-modal.vue';
 import smsSendTestModal from './common/sms-send-test-modal.vue';
 import { titleCase } from '@/helper/utils';
@@ -377,7 +364,11 @@ export default {
         strokeBtn
     },
     mixins: [dirtyCheckMixin],
+    
     computed: {
+        ...mapGetters({
+            userData: GET_USER_INFO,
+        }),
         emailProviders() {
             if (!(this.emailProvidersStore && this.emailProvidersStore.items)) {
                 return [];
@@ -434,6 +425,8 @@ export default {
                 phone_number: '',
                 country_code: ''
             },
+            smsProvidersStore: {},
+            emailProvidersStore: {},
             appProvider: {
                 email: {
                     transaction: {
@@ -441,10 +434,11 @@ export default {
                     },
                     otp: {
                         provider: this.getInitialValue(null)
-                    },
-                    promotional: {
-                        provider: this.getInitialValue(null)
                     }
+                    // ,
+                    // promotional: {
+                    //     provider: this.getInitialValue(null)
+                    // }
                 },
                 sms: {
                     transaction: {
@@ -452,44 +446,46 @@ export default {
                     },
                     otp: {
                         provider: this.getInitialValue(null)
-                    },
-                    promotional: {
-                        provider: this.getInitialValue(null)
                     }
+                    // ,
+                    // promotional: {
+                    //     provider: this.getInitialValue(null)
+                    // }
                 }
             }
         };
     },
     mounted() {
-        // this.isInitialLoad = true;
-        // let email = this.getPrimaryVerifiedActiveEmail();
-        // if (email) {
-        //     this.emailTestModal.to = email;
-        // }
+        this.isInitialLoad = true;
+        let email = this.getPrimaryVerifiedActiveEmail();
+        if (email) {
+            this.emailTestModal.to = email;
+        }
 
-        // let phone = this.getPrimaryVerifiedActivePhoneNumber();
-        // if (phone) {
-        //     this.smsTestModal.country_code = String(phone.countryCode);
-        //     this.smsTestModal.phone_number = String(phone.phone);
-        // }
+        let phone = this.getPrimaryVerifiedActivePhoneNumber();
+        if (phone) {
+            this.smsTestModal.country_code = String(phone.countryCode);
+            this.smsTestModal.phone_number = String(phone.phone);
+        }
 
-        // this.pageLoading = true;
-        // Promise.all([
-        //     this.fetchEmailProviders(),
-        //     this.fetchSmsProviders(),
-        //     this.fetchGlobalProviders(),
-        //     this.fetchAppProvider().then(() => {
-        //         this.updateAppProviderInState();
-        //     })
-        // ])
-        //     .catch(e => {
-        //         this.$snackbar.global.showError('Something went wrong');
-        //     })
-        //     .finally(() => {
-        //         this.isInitialLoad = false;
-        //         this.pageLoading = false;
-        //         this.initialHash = this.generateHashOfLocalState();
-        //     });
+        this.pageLoading = true;
+        Promise.all([
+            this.fetchEmailProviders(),
+            this.fetchSmsProviders(),
+            this.fetchGlobalProviders(),
+            this.fetchAppProvider()
+            //.then(() => {
+                //this.updateAppProviderInState();
+           // })
+        ])
+            .catch(e => {
+                this.$snackbar.global.showError('Something went wrong');
+            })
+            .finally(() => {
+                this.isInitialLoad = false;
+                this.pageLoading = false;
+                this.initialHash = this.generateHashOfLocalState();
+            });
     },
     methods: {
         generateHashOfLocalState() {
@@ -559,11 +555,11 @@ export default {
             this.openTestProviderModal();
         },
         fetchAppProvider() {
-            // return this.$store
-            //     .dispatch(ADMIN_COMMS_FETCH_APP_PROVIDER)
-            //     .then(data => {
-            //         this.appProviderAPIData = data;
-            //     });
+            CommunicationServices.getAppProvider()
+                .then(data => {
+                    this.appProviderAPIData = data.data;
+                    this.updateAppProviderInState()
+                });
         },
         updateAppProviderInState() {
             set(
@@ -576,11 +572,11 @@ export default {
                 'email.otp.provider.value',
                 get(this.appProviderAPIData, 'email.otp.provider')
             );
-            set(
-                this.appProvider,
-                'email.promotional.provider.value',
-                get(this.appProviderAPIData, 'email.promotional.provider')
-            );
+            // set(
+            //     this.appProvider,
+            //     'email.promotional.provider.value',
+            //     get(this.appProviderAPIData, 'email.promotional.provider')
+            // );
             set(
                 this.appProvider,
                 'sms.transaction.provider.value',
@@ -591,18 +587,17 @@ export default {
                 'sms.otp.provider.value',
                 get(this.appProviderAPIData, 'sms.otp.provider')
             );
-            set(
-                this.appProvider,
-                'sms.promotional.provider.value',
-                get(this.appProviderAPIData, 'sms.promotional.provider')
-            );
+            // set(
+            //     this.appProvider,
+            //     'sms.promotional.provider.value',
+            //     get(this.appProviderAPIData, 'sms.promotional.provider')
+            // );
         },
         fetchGlobalProviders() {
-            // this.$store
-            //     .dispatch(ADMIN_COMMS_FETCH_GLOBAL_PROVIDERS)
-            //     .then(data => {
-            //         this.globalProviders = data;
-            //     });
+           CommunicationServices.getGlobalProvider()
+                .then(data => {
+                    this.globalProviders = data.data;
+                });
         },
         getInitialValue(val = null) {
             return {
@@ -639,13 +634,14 @@ export default {
                             this.appProvider,
                             'email.otp.provider.value'
                         )
-                    },
-                    promotional: {
-                        provider: get(
-                            this.appProvider,
-                            'email.promotional.provider.value'
-                        )
                     }
+                    ,
+                    // promotional: {
+                    //     provider: get(
+                    //         this.appProvider,
+                    //         'email.promotional.provider.value'
+                    //     )
+                    // }
                 },
                 sms: {
                     transaction: {
@@ -659,52 +655,49 @@ export default {
                             this.appProvider,
                             'sms.otp.provider.value'
                         )
-                    },
-                    promotional: {
-                        provider: get(
-                            this.appProvider,
-                            'sms.promotional.provider.value'
-                        )
                     }
+                    // ,
+                    // promotional: {
+                    //     provider: get(
+                    //         this.appProvider,
+                    //         'sms.promotional.provider.value'
+                    //     )
+                    // }
                 }
             };
-            // this.$store
-            //     .dispatch(ADMIN_COMMS_UPDATE_APP_PROVIDER, { body: finalObj })
-            //     .then(data => {
-            //         this.appProviderAPIData = data;
-            //         this.updateAppProviderInState();
-            //         this.$snackbar.global.showSuccess(
-            //             'Successfully updated default provider'
-            //         );
-            //         return data;
-            //     })
-            //     .finally(() => {
-            //         this.pageLoading = false;
-            //     });
+                CommunicationServices.postGlobalProvider( finalObj)
+                .then(data => {
+                    //this.appProviderAPIData = data.data;
+                    //this.updateAppProviderInState();
+                    this.$snackbar.global.showSuccess(
+                        'Successfully updated default provider'
+                    );
+                })
+                .finally(() => {
+                    this.pageLoading = false;
+                });
         },
         fetchEmailProviders() {
-            // this.$store
-            //     .dispatch(ADMIN_COMMS_FETCH_EMAIL_PROVIDERS, {
-            //         params: {
-            //             limit: 100,
-            //             sort: JSON.stringify({ created_at: -1 })
-            //         }
-            //     })
-            //     .then(data => {
-            //         return data;
-            //     });
+             CommunicationServices.getEmailProvider({
+                    params: {
+                        limit: 100,
+                        //sort: JSON.stringify({ created_at: -1 })
+                    }
+                })
+                .then(data => {
+                    this.emailProvidersStore = data.data
+                });
         },
         fetchSmsProviders() {
-            // this.$store
-            //     .dispatch(ADMIN_COMMS_FETCH_SMS_PROVIDERS, {
-            //         params: {
-            //             limit: 100,
-            //             sort: JSON.stringify({ created_at: -1 })
-            //         }
-            //     })
-            //     .then(data => {
-            //         return data;
-            //     });
+             CommunicationServices.getSmsProvider({
+                    params: {
+                        limit: 100,
+                        //sort: JSON.stringify({ created_at: -1 })
+                    }
+                })
+                .then(data => {
+                    this.smsProvidersStore = data.data
+                });
         }
     }
 };

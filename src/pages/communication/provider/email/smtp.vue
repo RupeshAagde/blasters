@@ -105,18 +105,15 @@
                 v-model="data.auth.pass.value"
                 :label="'Password'"
                 :placeholder="'Enter password'"
-                :type="passwordPreview ? 'text':'password'"
+                :type="passwordPreview ? 'text' : 'password'"
             >
             </nitrozen-input>
-            <span
-                id="password-preview"
-                @click="showPassword"
+            <span id="password-preview" @click="showPassword">
+                <adm-inline-svg
+                    :src="passwordPreview ? 'eye-open' : 'eye-close'"
+                    class="height-20"
                 >
-            <adm-inline-svg 
-                :src="passwordPreview ? 'eye-open' : 'eye-close'" 
-                class="height-20"
-                >
-            </adm-inline-svg>
+                </adm-inline-svg>
             </span>
             <nitrozen-error v-if="data.auth.pass.showerror"
                 >{{ data.auth.pass.errortext }}
@@ -289,9 +286,9 @@ import {
     strokeBtn,
     NitrozenRadio,
     NitrozenCheckBox,
-    NitrozenDropdown
+    NitrozenDropdown,
 } from '@gofynd/nitrozen-vue';
-//import { ADMIN_COMMS_GET_EMAIL_PROVIDER } from '../../../../../store/admin/getters.type';
+import CommunicationServices from '../../../../services/pointblank.service';
 import { mapGetters } from 'vuex';
 // import * as _ from 'lodash';
 import get from 'lodash/get';
@@ -306,24 +303,26 @@ export default {
         'nitrozen-radio': NitrozenRadio,
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-dropdown': NitrozenDropdown,
-        'adm-inline-svg': adminlinesvg
+        'adm-inline-svg': adminlinesvg,
     },
-    computed: {
-       
-    },
+    computed: {},
     props: {
         isEditMode: {
             type: Boolean,
-            default: false
+            default: false,
         },
         isCloneMode: {
             type: Boolean,
-            default: false
+            default: false,
         },
         isCreateMode: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
+        id: {
+            type: String,
+            default: '',
+        },
     },
     data() {
         return {
@@ -331,14 +330,14 @@ export default {
             data: {
                 name: this.getInitialValue(),
                 description: this.getInitialValue(),
-                type: this.getInitialValue('application'),
+                type: this.getInitialValue('platform'),
                 host: this.getInitialValue(),
                 port: this.getInitialValue(),
                 secure: this.getInitialValue(),
                 auth: {
                     type: this.getInitialValue('login'),
                     user: this.getInitialValue(),
-                    pass: this.getInitialValue()
+                    pass: this.getInitialValue(),
                 },
                 pool: this.getInitialValue(),
                 maxConnections: this.getInitialValue(),
@@ -354,45 +353,60 @@ export default {
                         email: null,
                         nameError: '',
                         emailError: '',
-                        is_default: true
-                    }
-                ])
+                        is_default: true,
+                    },
+                ]),
             },
-            passwordPreview:false,
+            passwordPreview: false,
+            emailProvider: {},
         };
     },
     mounted() {
-        if (this.isEditMode && this.emailProviderStore) {
-            this.data.name.value = this.emailProviderStore.name;
-            this.data.description.value = this.emailProviderStore.description;
-            this.data.host.value = this.emailProviderStore.host;
-            this.data.port.value = this.emailProviderStore.port;
-            this.data.secure.value = String(this.emailProviderStore.secure);
-
-            this.data.auth.type.value = this.emailProviderStore.auth.type;
-            this.data.auth.user.value = this.emailProviderStore.auth.user;
-            this.data.auth.pass.value = this.emailProviderStore.auth.pass;
-
-            this.data.pool.value = String(this.emailProviderStore.pool);
-            this.data.maxConnections.value = this.emailProviderStore.maxConnections;
-            this.data.maxMessages.value = this.emailProviderStore.maxMessages;
-            this.data.rateDelta.value = this.emailProviderStore.rateDelta;
-            this.data.rateLimit.value = this.emailProviderStore.rateLimit;
-            this.data.connectionTimeout.value = this.emailProviderStore.connectionTimeout;
-            this.data.greetingTimeout.value = this.emailProviderStore.greetingTimeout;
-            this.data.socketTimeout.value = this.emailProviderStore.socketTimeout;
-
-            this.data.from_address.value = this.emailProviderStore.from_address;
-            if (this.data.from_address.value) {
-                this.data.from_address.value = this.data.from_address.value.map(a => {
-                    a.nameError = '';
-                    a.emailError = '';
-                    return a;
-                });
-            }
+        if (this.id) {
+            this.fetchEmailProvider();
         }
     },
     methods: {
+        fetchEmailProvider() {
+            this.pageLoading = true;
+            CommunicationServices.getEmailProviderbyId(this.id).then((data) => {
+                this.emailProvider = data.data;
+                this.updateForm();
+            });
+        },
+        updateForm() {
+            this.data.name.value = this.emailProvider.name;
+            this.data.description.value = this.emailProvider.description;
+            this.data.host.value = this.emailProvider.host;
+            this.data.port.value = this.emailProvider.port;
+            this.data.secure.value = String(this.emailProvider.secure);
+
+            this.data.auth.type.value = this.emailProvider.auth.type;
+            this.data.auth.user.value = this.emailProvider.auth.user;
+            this.data.auth.pass.value = this.emailProvider.auth.pass;
+
+            this.data.pool.value = String(this.emailProvider.pool);
+            this.data.maxConnections.value = this.emailProvider.maxConnections;
+            this.data.maxMessages.value = this.emailProvider.maxMessages;
+            this.data.rateDelta.value = this.emailProvider.rateDelta;
+            this.data.rateLimit.value = this.emailProvider.rateLimit;
+            this.data.connectionTimeout.value =
+                this.emailProvider.connectionTimeout;
+            this.data.greetingTimeout.value =
+                this.emailProvider.greetingTimeout;
+            this.data.socketTimeout.value = this.emailProvider.socketTimeout;
+
+            this.data.from_address.value = this.emailProvider.from_address;
+            if (this.data.from_address.value) {
+                this.data.from_address.value = this.data.from_address.value.map(
+                    (a) => {
+                        a.nameError = '';
+                        a.emailError = '';
+                        return a;
+                    }
+                );
+            }
+        },
         removeFrom(index) {
             if (this.data.from_address.value.length > 1) {
                 this.data.from_address.value.splice(index, 1);
@@ -401,14 +415,16 @@ export default {
                 this.data.from_address.value[0].email = null;
             }
         },
-        showPassword(){
-            this.passwordPreview=!this.passwordPreview;
+        showPassword() {
+            this.passwordPreview = !this.passwordPreview;
         },
         makeFromDefault(index) {
-            this.data.from_address.value = this.data.from_address.value.map(a => {
-                a.is_default = false;
-                return a;
-            });
+            this.data.from_address.value = this.data.from_address.value.map(
+                (a) => {
+                    a.is_default = false;
+                    return a;
+                }
+            );
             this.data.from_address.value[index].is_default = true;
         },
         addMoreFrom() {
@@ -417,19 +433,19 @@ export default {
                 email: null,
                 nameError: '',
                 emailError: '',
-                is_default: false
+                is_default: false,
             });
         },
         getInitialValue(val = null) {
             return {
                 showerror: false,
                 value: val,
-                errortext: ''
+                errortext: '',
             };
         },
         validate() {
             let isValid = true;
-            this.requiredFields.forEach(field => {
+            this.requiredFields.forEach((field) => {
                 if (!get(this.data, `${field}.value`)) {
                     isValid = false;
                     this.data[field].showerror = true;
@@ -439,10 +455,11 @@ export default {
                     this.data[field].errortext = '';
                 }
             });
-            this.data.from_address.value.forEach(from => {
+            this.data.from_address.value.forEach((from) => {
                 from.nameError = '';
                 from.emailError = '';
-                var emailRegex = /([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})/g;
+                var emailRegex =
+                    /([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})/g;
                 if (!emailRegex.test(from.email)) {
                     from.emailError = 'Invalid email';
                     isValid = false;
@@ -471,7 +488,7 @@ export default {
                 auth: {
                     type: this.data.auth.type.value,
                     user: this.data.auth.user.value,
-                    pass: this.data.auth.pass.value
+                    pass: this.data.auth.pass.value,
                 },
                 pool: this.data.pool.value,
                 maxConnections: this.data.maxConnections.value,
@@ -483,11 +500,11 @@ export default {
                 socketTimeout: this.data.socketTimeout.value,
                 type: this.data.type.value,
                 provider: 'smtp',
-                from_address: this.data.from_address.value.map(a => ({
+                from_address: this.data.from_address.value.map((a) => ({
                     name: a.name,
                     email: a.email,
-                    is_default: a.is_default
-                }))
+                    is_default: a.is_default,
+                })),
             };
             finalObj = omitBy(finalObj, isNil);
             finalObj.auth = omitBy(finalObj.auth, isNil);
@@ -497,13 +514,12 @@ export default {
             if (this.validate()) {
                 return this.saveForm();
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
 <style lang="less" scoped>
-
 .form-wrapper {
     width: 100%;
     .form-field {

@@ -161,54 +161,55 @@ export default {
             }
         },
         sendSms() {
-            // this.testSms.phone_number = this.testSms.phone_number || {};
-            // this.testSms.phone_number.showerror = false;
-            // this.testSms.phone_number.errortext = '';
-            // this.errortext = '';
-            // let mobileNumberRegex = /^\d{10}$/;
-            // if (this.testSms && this.testSms.phone_number) {
-            //     if (!mobileNumberRegex.test(this.testSms.phone_number.value)) {
-            //         this.testSms.phone_number.showerror = true;
-            //         this.testSms.phone_number.errortext =
-            //             'Mobile Number is invalid';
-            //     }else if (!this.testSms.sms_text.value) {
-            //         this.testSms.sms_text.showerror = true;
-            //         this.testSms.sms_text.errortext =
-            //             'Please provide DLT approved text';
-            //     } else {
-            //         this.testSms.sms_text.showerror = false;
-            //         this.testSms.phone_number.showerror = false;
-            //         let obj = {
-            //             data: [
-            //                 {
-            //                     phone_number: Number(
-            //                         this.testSms.phone_number.value
-            //                     ),
-            //                     country_code: 91
-            //                 }
-            //             ],
-            //             sms: {
-            //                 template: {
-            //                     key: 'object',
-            //                     value: {
-            //                         name: 'test',
-            //                         priority: 'low',
-            //                         tags: [],
-            //                         template_variables: {
-            //                             hello: 'world'
-            //                         },
-            //                         published: true,
-            //                         message: {
-            //                             template_type: 'static',
-            //                             template: this.testSms.sms_text.value || 'This is a test SMS'
-            //                         }
-            //                     }
-            //                 },
-            //                 provider: {
-            //                     id: this.provider
-            //                 }
-            //             }
-            //         };
+            this.testSms.phone_number = this.testSms.phone_number || {};
+            this.testSms.phone_number.showerror = false;
+            this.testSms.phone_number.errortext = '';
+            this.errortext = '';
+            let mobileNumberRegex = /^\d{10}$/;
+            if (this.testSms && this.testSms.phone_number) {
+                if (!mobileNumberRegex.test(this.testSms.phone_number.value)) {
+                    this.testSms.phone_number.showerror = true;
+                    this.testSms.phone_number.errortext =
+                        'Mobile Number is invalid';
+                }else if (!this.testSms.sms_text.value) {
+                    this.testSms.sms_text.showerror = true;
+                    this.testSms.sms_text.errortext =
+                        'Please provide DLT approved text';
+                } else {
+                    this.testSms.sms_text.showerror = false;
+                    this.testSms.phone_number.showerror = false;
+                    let obj = {
+                        data: [
+                            {
+                                phone_number: Number(
+                                    this.testSms.phone_number.value
+                                ),
+                                country_code: 91
+                            }
+                        ],
+                        sms: {
+                            template: {
+                                key: 'object',
+                                value: {
+                                    name: 'test',
+                                    priority: 'low',
+                                    tags: [],
+                                    template_variables: {
+                                        hello: 'world'
+                                    },
+                                    published: true,
+                                    message: {
+                                        template_type: 'static',
+                                        template: this.testSms.sms_text.value || 'This is a test SMS'
+                                    }
+                                }
+                            },
+                            provider: {
+                                id: this.provider
+                            }
+                        }
+                    };
+                
 
             //         this.$store
             //             .dispatch(ADMIN_COMMS_SEND_TEST_SMS, obj)
@@ -236,8 +237,8 @@ export default {
             //     this.testSms.phone_number.showerror = true;
             //     this.testSms.phone_number.errortext =
             //         'Mobile Number is invalid';
-            // }
-        },
+             }
+        }},
         closeSendTestSmsModal() {
             this.$emit('closeModal');
         }

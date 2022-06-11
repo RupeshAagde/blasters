@@ -229,9 +229,7 @@
 </template>
 
 <style lang="less" scoped>
-@import './../../less/form.less';
-@import './../../less/page-ui.less';
-@import './../../less/page-header.less';
+
 .accordion-container {
     /deep/.title {
         font-size: 18px;
@@ -374,35 +372,35 @@
 </style>
 
 <script>
-import loader from '../../../../components/admin/common/adm-loader.vue';
-import uktoops from './../../../../components/common/ukt-oops.vue';
-import uktselect from './../../../../components/common/ukt-select.vue';
-import accordion from '../../../../components/common/accordion.vue';
-import admforminput from './../../../../components/admin/common/adm-form-input.vue';
-import admChip from './../../../../components/admin/common/adm-chip.vue';
+import loader from '@/components/common/loader';
+import uktoops from '@/components/common/adm-oops.vue';
+import uktselect from '@/components/common/ukt-select.vue';
+import accordion from '@/components/common/accordion.vue';
+import admforminput from '@/components/common/form-input.vue';
+import admChip from '@/components/common/adm-chip.vue';
 import admradiogroup, {
     ALIGN
-} from './../../../../components/admin/common/adm-radio-group.vue';
-import uktinlinesvg from './../../../../components/common/ukt-inline-svg.vue';
+} from '@/components/common/adm-radio-group.vue';
+import uktinlinesvg from '@/components/common/ukt-inline-svg.vue';
 // import * as _ from 'lodash';
 import isEmpty from 'lodash/isEmpty';
 import cloneDeep from 'lodash/cloneDeep';
 
-import {
-    ADMIN_COMMS_FETCH_SMS_TEMPLATE,
-    ADMIN_COMMS_CREATE_SMS_TEMPLATE_FORM,
-    ADMIN_COMMS_UPDATE_SMS_TEMPLATE_FORM,
-    ADMIN_COMMS_FETCH_APP_EVENT_SUBSCRIPTION
-} from '../../../../store/admin/action.type';
-import {
-    ADMIN_COMMS_GET_SMS_TEMPLATE,
-    ADMIN_COMMS_GET_SMS_TEMPLATE_TO_CLONE,
-    ADMIN_COMMS_GET_APP_EVENT_SUBSCRIPTIONS
-} from '../../../../store/admin/getters.type';
-import {
-    ADMIN_COMMS_SET_SMS_TEMPLATE,
-    ADMIN_COMMS_SET_SMS_TEMPLATE_TO_CLONE
-} from '../../../../store/admin/mutation.type';
+// import {
+//     ADMIN_COMMS_FETCH_SMS_TEMPLATE,
+//     ADMIN_COMMS_CREATE_SMS_TEMPLATE_FORM,
+//     ADMIN_COMMS_UPDATE_SMS_TEMPLATE_FORM,
+//     ADMIN_COMMS_FETCH_APP_EVENT_SUBSCRIPTION
+// } from '../../../../store/admin/action.type';
+// import {
+//     ADMIN_COMMS_GET_SMS_TEMPLATE,
+//     ADMIN_COMMS_GET_SMS_TEMPLATE_TO_CLONE,
+//     ADMIN_COMMS_GET_APP_EVENT_SUBSCRIPTIONS
+// } from '../../../../store/admin/getters.type';
+// import {
+//     ADMIN_COMMS_SET_SMS_TEMPLATE,
+//     ADMIN_COMMS_SET_SMS_TEMPLATE_TO_CLONE
+// } from '../../../../store/admin/mutation.type';
 import {
     NitrozenButton,
     NitrozenInput,
@@ -415,9 +413,9 @@ import {
 } from '@gofynd/nitrozen-vue';
 import { mapGetters } from 'vuex';
 import { Promise } from 'q';
-import adminlinesvg from '../../../../components/admin/common/adm-inline-svg.vue';
+import adminlinesvg from '@/components/common/adm-inline-svg';
 import hash from 'object-hash';
-import uktModal from '../../../../components/common/ukt-modal.vue';
+import uktModal from '@/components/common/utk-modal.vue';
 export default {
     components: {
         loader: loader,
@@ -444,7 +442,7 @@ export default {
 
     data() {
         return {
-            pageLoading: true,
+            pageLoading: false,
             pageError: false,
             id: null,
             MAX_DESCRIPTION_CHAR_LIMIT: 100,
@@ -470,7 +468,8 @@ export default {
                 template_id: this.getInitialValue()
             },
             initialHash: '',
-            showEventLinkingModal: false
+            showEventLinkingModal: false,
+            smsTemplateToClone : {"is_system":true,"is_internal":false,"description":"Use this SMS template for verifying mobile number of customers, via a One-Time-Password.","priority":"high","tags":[],"published":true,"_id":"61af0257c3e8c47974d009f6","slug":"send-otp-sms-template","name":"Send Otp","template_variables":{"otp":"123456","androidHash":"aK1xS3"},"message":{"template_type":"nunjucks","template":"Please verify your phone with OTP Code - {{otp}} in the box given."},"created_at":"2021-12-07T06:42:31.131Z","updated_at":"2022-01-10T14:06:15.051Z","__v":0}
         };
     },
     props: {
@@ -499,104 +498,104 @@ export default {
             return ALIGN;
         },
         ...mapGetters({
-            smsTemplateStore: ADMIN_COMMS_GET_SMS_TEMPLATE,
-            smsTemplateToClone: ADMIN_COMMS_GET_SMS_TEMPLATE_TO_CLONE,
-            appSubscriptions: ADMIN_COMMS_GET_APP_EVENT_SUBSCRIPTIONS
+            // smsTemplateStore: ADMIN_COMMS_GET_SMS_TEMPLATE,
+            // smsTemplateToClone: ADMIN_COMMS_GET_SMS_TEMPLATE_TO_CLONE,
+            // appSubscriptions: ADMIN_COMMS_GET_APP_EVENT_SUBSCRIPTIONS
         })
     },
     mounted() {
-        let data = {};
-        try {
-            if (this.isCloneMode) {
-                data = cloneDeep(this.smsTemplateToClone);
-                this.meta = {
-                    type: 'cloned',
-                    template: this.smsTemplateToClone._id,
-                    is_system: this.smsTemplateToClone.is_system
-                };
-            } else {
-                data = cloneDeep(this.smsTemplateStore);
-            }
-            let obj = {};
-            this.formFieldNames.forEach(key => {
-                if (
-                    key == 'tags' &&
-                    data[key] &&
-                    typeof (data[key] == 'object' && Array.isArray(data[key]))
-                ) {
-                    this.tags = data[key].map(val => {
-                        return {
-                            name: val
-                        };
-                    });
-                } else {
-                    obj[key] = this.getInitialValue(data[key]);
-                }
-            });
-            obj['priority'] = this.priorityOptions.find(
-                option => option.value == data['priority']
-            );
-            this.data = { ...this.data, ...obj };
+        // let data = {};
+        // try {
+        //     if (this.isCloneMode) {
+        //         data = cloneDeep(this.smsTemplateToClone);
+        //         this.meta = {
+        //             type: 'cloned',
+        //             template: this.smsTemplateToClone._id,
+        //             is_system: this.smsTemplateToClone.is_system
+        //         };
+        //     } else {
+        //         data = cloneDeep(this.smsTemplateStore);
+        //     }
+        //     let obj = {};
+        //     this.formFieldNames.forEach(key => {
+        //         if (
+        //             key == 'tags' &&
+        //             data[key] &&
+        //             typeof (data[key] == 'object' && Array.isArray(data[key]))
+        //         ) {
+        //             this.tags = data[key].map(val => {
+        //                 return {
+        //                     name: val
+        //                 };
+        //             });
+        //         } else {
+        //             obj[key] = this.getInitialValue(data[key]);
+        //         }
+        //     });
+        //     obj['priority'] = this.priorityOptions.find(
+        //         option => option.value == data['priority']
+        //     );
+        //     this.data = { ...this.data, ...obj };
 
-            if (data.slug) {
-                this.slug = this.smsTemplateStore.slug;
-            }
-            this.fetchAppEventSubscriptions().then(() => {
-                let groupNames = this.appSubscriptions.items.map(
-                    appSubscription => appSubscription.event.group
-                );
+        //     if (data.slug) {
+        //         this.slug = this.smsTemplateStore.slug;
+        //     }
+        //     this.fetchAppEventSubscriptions().then(() => {
+        //         let groupNames = this.appSubscriptions.items.map(
+        //             appSubscription => appSubscription.event.group
+        //         );
 
-                // extract unique group names
-                groupNames = Array.from(new Set(groupNames));
+        //         // extract unique group names
+        //         groupNames = Array.from(new Set(groupNames));
 
-                if (this.templateId) {
-                    this.subscribedAdded = this.appSubscriptions.items.filter(
-                        subscription => {
-                            return (
-                                subscription.template.sms.template._id ==
-                                this.templateId
-                            );
-                        }
-                    );
-                    this.linkToEvent = this.subscribedAdded.map(a => a._id);
-                } else if (
-                    this.$route.query.clone &&
-                    this.smsTemplateToClone &&
-                    this.smsTemplateToClone.is_system
-                ) {
-                    this.subscribedAdded = this.appSubscriptions.items.filter(
-                        subscription => {
-                            return (
-                                subscription.event.template.sms.template ==
-                                this.$route.query.clone
-                            );
-                        }
-                    );
-                    this.linkToEvent = this.subscribedAdded.map(a => a._id);
-                }
+        //         if (this.templateId) {
+        //             this.subscribedAdded = this.appSubscriptions.items.filter(
+        //                 subscription => {
+        //                     return (
+        //                         subscription.template.sms.template._id ==
+        //                         this.templateId
+        //                     );
+        //                 }
+        //             );
+        //             this.linkToEvent = this.subscribedAdded.map(a => a._id);
+        //         } else if (
+        //             this.$route.query.clone &&
+        //             this.smsTemplateToClone &&
+        //             this.smsTemplateToClone.is_system
+        //         ) {
+        //             this.subscribedAdded = this.appSubscriptions.items.filter(
+        //                 subscription => {
+        //                     return (
+        //                         subscription.event.template.sms.template ==
+        //                         this.$route.query.clone
+        //                     );
+        //                 }
+        //             );
+        //             this.linkToEvent = this.subscribedAdded.map(a => a._id);
+        //         }
 
-                this.subscriptions = this.appSubscriptions.items.map(
-                    appSubscription => {
-                        return {
-                            value: appSubscription._id,
-                            text: appSubscription.event.event_name,
-                            group: appSubscription.event.group
-                        };
-                    }
-                );
-                this.subscriptions = this.createSubscriptionsListDropdown(
-                    groupNames,
-                    this.subscriptions
-                );
-                this.subscriptionsFiltered = this.subscriptions;
-                this.initialHash = this.generateHashOfLocalState();
-                this.pageLoading = false;
-            });
-        } catch (err) {
-            this.$snackbar.global.showError('Failed to load Sms Template');
-            this.pageLoading = false;
-            this.pageError = true;
-        }
+        //         this.subscriptions = this.appSubscriptions.items.map(
+        //             appSubscription => {
+        //                 return {
+        //                     value: appSubscription._id,
+        //                     text: appSubscription.event.event_name,
+        //                     group: appSubscription.event.group
+        //                 };
+        //             }
+        //         );
+        //         this.subscriptions = this.createSubscriptionsListDropdown(
+        //             groupNames,
+        //             this.subscriptions
+        //         );
+        //         this.subscriptionsFiltered = this.subscriptions;
+        //         this.initialHash = this.generateHashOfLocalState();
+        //         this.pageLoading = false;
+        //     });
+        // } catch (err) {
+        //     this.$snackbar.global.showError('Failed to load Sms Template');
+        //     this.pageLoading = false;
+        //     this.pageError = true;
+        // }
     },
     methods: {
         eventLinkDecision(val) {
@@ -632,31 +631,31 @@ export default {
         },
         generateHashOfLocalState() {
             return hash({
-                ...this.data,
-                ...{ subscribedAdded: this.subscribedAdded },
-                ...{ subscribedRemoved: this.subscribedRemoved },
-                ...{ tags: this.tags }
+                // ...this.data,
+                // ...{ subscribedAdded: this.subscribedAdded },
+                // ...{ subscribedRemoved: this.subscribedRemoved },
+                // ...{ tags: this.tags }
             });
         },
         isFormUpdated() {
-            return this.generateHashOfLocalState() !== this.initialHash;
+            //return this.generateHashOfLocalState() !== this.initialHash;
         },
         fetchAppEventSubscriptions() {
-            return this.$store.dispatch(
-                ADMIN_COMMS_FETCH_APP_EVENT_SUBSCRIPTION,
-                {
-                    params: {
-                        page_size: 200,
-                        page_no: 1,
-                        populate: ['event', 'template.sms.template'],
-                        query: JSON.stringify({
-                            'template.sms.template': {
-                                $nin: [null]
-                            }
-                        })
-                    }
-                }
-            );
+            // return this.$store.dispatch(
+            //     ADMIN_COMMS_FETCH_APP_EVENT_SUBSCRIPTION,
+            //     {
+            //         params: {
+            //             page_size: 200,
+            //             page_no: 1,
+            //             populate: ['event', 'template.sms.template'],
+            //             query: JSON.stringify({
+            //                 'template.sms.template': {
+            //                     $nin: [null]
+            //                 }
+            //             })
+            //         }
+            //     }
+            // );
         },
         removeLink(item, index) {
             this.subscribedRemoved.push(item);

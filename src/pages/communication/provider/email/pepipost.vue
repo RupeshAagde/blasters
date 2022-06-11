@@ -28,18 +28,15 @@
                 v-model="data.api_key.value"
                 :label="'Provider API key*'"
                 :placeholder="'Enter API key'"
-                :type="passwordPreview ? 'text':'password'"
+                :type="passwordPreview ? 'text' : 'password'"
             >
             </nitrozen-input>
-            <span
-                id="password-preview"
-                @click="showPassword"
+            <span id="password-preview" @click="showPassword">
+                <adm-inline-svg
+                    :src="passwordPreview ? 'eye-open' : 'eye-close'"
+                    class="height-20"
                 >
-            <adm-inline-svg 
-                :src="passwordPreview ? 'eye-open' : 'eye-close'" 
-                class="height-20"
-                >
-            </adm-inline-svg>
+                </adm-inline-svg>
             </span>
             <nitrozen-error v-if="data.api_key.showerror"
                 >{{ data.api_key.errortext }}
@@ -101,10 +98,9 @@ import {
     strokeBtn,
     NitrozenRadio,
     NitrozenCheckBox,
-    NitrozenDropdown
+    NitrozenDropdown,
 } from '@gofynd/nitrozen-vue';
-//import { ADMIN_COMMS_GET_EMAIL_PROVIDER } from '../../../../../store/admin/getters.type';
-import { mapGetters } from 'vuex';
+import CommunicationServices from '../../../../services/pointblank.service';
 // import * as _ from 'lodash';
 import get from 'lodash/get';
 import omitBy from 'lodash/omitBy';
@@ -119,37 +115,44 @@ export default {
         'nitrozen-radio': NitrozenRadio,
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-dropdown': NitrozenDropdown,
-        'adm-inline-svg': adminlinesvg
+        'adm-inline-svg': adminlinesvg,
     },
-    computed: {
-        
-    },
+    computed: {},
     props: {
         isEditMode: {
             type: Boolean,
-            default: false
+            default: false,
         },
         isCloneMode: {
             type: Boolean,
-            default: false
+            default: false,
         },
         isCreateMode: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
+        id: {
+            type: String,
+            default: '',
+        },
     },
     mounted() {
-        if (this.isEditMode && this.emailProviderStore) {
-            this.data.name.value = this.emailProviderStore.name;
-            this.data.description.value = this.emailProviderStore.description;
-            this.data.api_key.value = this.emailProviderStore.api_key;
-            this.data.from_address.value = this.emailProviderStore.from_address;
+        if (this.id) {
+            this.fetchEmailProvider();
+        }
+        if (this.isEditMode && this.emailProvider) {
+            this.data.name.value = this.emailProvider.name;
+            this.data.description.value = this.emailProvider.description;
+            this.data.api_key.value = this.emailProvider.api_key;
+            this.data.from_address.value = this.emailProvider.from_address;
             if (this.data.from_address.value) {
-                this.data.from_address.value = this.data.from_address.value.map(a => {
-                    a.nameError = '';
-                    a.emailError = '';
-                    return a;
-                });
+                this.data.from_address.value = this.data.from_address.value.map(
+                    (a) => {
+                        a.nameError = '';
+                        a.emailError = '';
+                        return a;
+                    }
+                );
             }
         }
     },
@@ -167,14 +170,37 @@ export default {
                         email: null,
                         nameError: '',
                         emailError: '',
-                        is_default: true
-                    }
-                ])
+                        is_default: true,
+                    },
+                ]),
             },
-            passwordPreview:false,
+            passwordPreview: false,
+            emailProvider: {},
         };
     },
     methods: {
+        fetchEmailProvider() {
+            this.pageLoading = true;
+            CommunicationServices.getEmailProviderbyId(this.id).then((data) => {
+                this.emailProvider = data.data;
+                this.updateForm();
+            });
+        },
+        updateForm() {
+            this.data.name.value = this.emailProvider.name;
+            this.data.description.value = this.emailProvider.description;
+            this.data.api_key.value = this.emailProvider.api_key;
+            this.data.from_address.value = this.emailProvider.from_address;
+            if (this.data.from_address.value) {
+                this.data.from_address.value = this.data.from_address.value.map(
+                    (a) => {
+                        a.nameError = '';
+                        a.emailError = '';
+                        return a;
+                    }
+                );
+            }
+        },
         removeFrom(index) {
             if (this.data.from_address.value.length > 1) {
                 this.data.from_address.value.splice(index, 1);
@@ -183,14 +209,16 @@ export default {
                 this.data.from_address.value[0].email = null;
             }
         },
-        showPassword(){
-            this.passwordPreview=!this.passwordPreview;
+        showPassword() {
+            this.passwordPreview = !this.passwordPreview;
         },
         makeFromDefault(index) {
-            this.data.from_address.value = this.data.from_address.value.map(a => {
-                a.is_default = false;
-                return a;
-            });
+            this.data.from_address.value = this.data.from_address.value.map(
+                (a) => {
+                    a.is_default = false;
+                    return a;
+                }
+            );
             this.data.from_address.value[index].is_default = true;
         },
         addMoreFrom() {
@@ -199,19 +227,20 @@ export default {
                 email: null,
                 nameError: '',
                 emailError: '',
-                is_default: false
+                is_default: false,
             });
         },
         getInitialValue(val = '') {
             return {
                 showerror: false,
                 value: val,
-                errortext: ''
+                errortext: '',
             };
         },
         validate() {
+            console.log('hi');
             let isValid = true;
-            this.requiredFields.forEach(field => {
+            this.requiredFields.forEach((field) => {
                 if (!get(this.data, `${field}.value`)) {
                     isValid = false;
                     this.data[field].showerror = true;
@@ -221,10 +250,11 @@ export default {
                     this.data[field].errortext = '';
                 }
             });
-            this.data.from_address.value.forEach(from => {
+            this.data.from_address.value.forEach((from) => {
                 from.nameError = '';
                 from.emailError = '';
-                var emailRegex = /([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})/g;
+                var emailRegex =
+                    /([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})/g;
                 if (!emailRegex.test(from.email)) {
                     from.emailError = 'Invalid email';
                     isValid = false;
@@ -248,24 +278,23 @@ export default {
                 name: this.data.name.value,
                 description: this.data.description.value,
                 api_key: this.data.api_key.value,
-                type: this.data.type.value,
+                type: 'platform',
                 provider: 'pepipost',
-                from_address: this.data.from_address.value.map(a => ({
+                from_address: this.data.from_address.value.map((a) => ({
                     name: a.name,
                     email: a.email,
-                    is_default: a.is_default
-                }))
+                    is_default: a.is_default,
+                })),
             };
             finalObj = omitBy(finalObj, isNil);
-
             return finalObj;
         },
         validateAndSaveForm() {
             if (this.validate()) {
                 return this.saveForm();
             }
-        }
-    }
+        },
+    },
 };
 </script>
 

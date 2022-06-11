@@ -94,8 +94,7 @@ import {
     NitrozenCheckBox,
     NitrozenDropdown
 } from '@gofynd/nitrozen-vue';
-//import { ADMIN_COMMS_GET_SMS_PROVIDER } from '../../../../../store/admin/getters.type';
-import { mapGetters } from 'vuex';
+import CommunicationServices from '../../../../services/pointblank.service';
 // import * as _ from 'lodash';
 import get from 'lodash/get';
 import omitBy from 'lodash/omitBy';
@@ -127,7 +126,11 @@ export default {
         isCreateMode: {
             type: Boolean,
             default: false
-        }
+        },
+        id: {
+            type: String,
+            default: '',
+        },
     },
     data() {
         return {
@@ -147,20 +150,31 @@ export default {
                 entity_id: this.getInitialValue(),
             },
             passwordPreview:false,
+            smsProvider: {},
         };
     },
     mounted() {
-        if (this.isEditMode && this.smsProviderStore) {
-            this.data.name.value = this.smsProviderStore.name;
-            this.data.description.value = this.smsProviderStore.description;
-            this.data.type.value = this.smsProviderStore.type;
-            this.data.sender.value = this.smsProviderStore.sender;
-            this.data.username.value = this.smsProviderStore.username;
-            this.data.entity_id.value = this.smsProviderStore.entity_id;
-            this.data.authkey.value = this.smsProviderStore.authkey;
+        if (this.id) {
+            this.fetchSmsProvider();
         }
     },
     methods: {
+        fetchSmsProvider() {
+            this.pageLoading = true;
+            CommunicationServices.getSmsProviderbyId(this.id).then((data) => {
+                this.smsProvider = data.data;
+                this.updateForm();
+            });
+        },
+        updateForm() {
+        this.data.name.value = this.smsProvider.name;
+            this.data.description.value = this.smsProvider.description;
+            this.data.type.value = this.smsProvider.type;
+            this.data.sender.value = this.smsProvider.sender;
+            this.data.username.value = this.smsProvider.username;
+            this.data.entity_id.value = this.smsProvider.entity_id;
+            this.data.authkey.value = this.smsProvider.authkey;
+        },
         getInitialValue(val = null) {
             return {
                 showerror: false,
@@ -186,7 +200,7 @@ export default {
             return isValid;
         },
         makeDefault() {
-            this.data.type.value = 'default';
+            this.data.type.value = 'platform';
         },
         saveForm() {
             let finalObj = {

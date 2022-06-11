@@ -93,8 +93,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import omitForClone from './services/omit-for-clone';
-//import smstemplateedit from './sms-template-edit.vue';
-//import smstemplate_variables from './sms-template-variables.vue';
+import smstemplateedit from './sms-template-edit.vue';
+import smstemplate_variables from './sms-template-variables.vue';
 // import {
 //     ADMIN_COMMS_FETCH_SMS_TEMPLATE,
 //     ADMIN_COMMS_FETCH_SMS_TEMPLATE_TO_CLONE_BY_ID,
@@ -140,10 +140,10 @@ const THREE_DOT_OPTIONS = [
     }
 ];
 export default {
-    name: 'sms-template-main',
+    name: 'sms-template-form',
     components: {
-        //smstemplateedit,
-        //smstemplate_variables,
+        smstemplateedit,
+        smstemplate_variables,
         uktinlinesvg,
         'adm-page-header': admpageheader,
         'nitrozen-button': NitrozenButton,
@@ -157,26 +157,24 @@ export default {
         strokeBtn
     },
     watch: {
-        $route(to, from) {
-            this.isEditMode = this.$route.meta.action === 'edit';
-            this.isCloneMode =
-                this.$route.meta.action == 'create' &&
-                this.$route.query.hasOwnProperty('clone');
-        }
+        // $route(to, from) {
+        //     this.isEditMode = this.$route.meta.action === 'edit';
+        //     this.isCloneMode =
+        //         this.$route.meta.action == 'create' &&
+        //         this.$route.query.hasOwnProperty('clone');
+        // }
     },
     mixins: [dirtyCheckMixin],
     data() {
         return {
-            pageLoading: true,
-            isEditMode: this.$route.meta.action === 'edit',
-            isCloneMode:
-                this.$route.meta.action == 'create' && this.$route.query.clone
-                    ? true
-                    : false,
+            pageLoading: false,
+            isEditMode:  false,
+            isCloneMode: false,
             templateId: this.$route.params.id,
             threeDotsOptions: THREE_DOT_OPTIONS,
             subscribedAdded: [],
-            subscribedRemoved: []
+            subscribedRemoved: [],
+            smsTemplateStore: {"name":"","description":"","message":"","priority":"low"}
         };
     },
     computed: {
@@ -242,150 +240,150 @@ export default {
     },
     methods: {
         saveForm() {
-            if (this.templateId) {
-                this.pageLoading = true;
-                return this.$store
-                    .dispatch(ADMIN_COMMS_UPDATE_SMS_TEMPLATE_FORM, {
-                        _id: this.templateId,
-                        body: this.smsTemplateStore
-                    })
-                    .then(response => {
-                        this.pageLoading = false;
-                        // if (!isEmpty(this.smsTemplateToClone)) {
-                        this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
-                            data: response
-                        });
-                        // }
-                        if (response.published) {
-                            this.$router.push({
-                                path: `${getRoute(
-                                    this.$route
-                                )}/sms/templates/listing`
-                            });
-                            this.$snackbar.global.showSuccess(
-                                'SMS template has been published!'
-                            );
-                        }
-                        return;
-                    })
-                    .then(() => {
-                        if (
-                            this.subscribedAdded.length +
-                                this.subscribedRemoved.length >
-                            0
-                        ) {
-                            let subscribedAdded = this.subscribedAdded.map(
-                                appSubscription => {
-                                    let template = cloneDeep(
-                                        appSubscription.template
-                                    );
-                                    template.sms.template = this.smsTemplateStore._id;
-                                    return {
-                                        _id: appSubscription._id,
-                                        template
-                                    };
-                                }
-                            );
-                            let subscribedRemoved = this.subscribedRemoved.map(
-                                appSubscription => {
-                                    let template = cloneDeep(
-                                        appSubscription.template
-                                    );
-                                    template.sms.template =
-                                        appSubscription.event.template.sms.template;
-                                    return {
-                                        _id: appSubscription._id,
-                                        template
-                                    };
-                                }
-                            );
-                            this.$store.dispatch(
-                                ADMIN_COMMS_BULK_UPDATE_APP_EVENT_SUBSCRIPTION,
-                                {
-                                    subscriptions: [
-                                        ...subscribedAdded,
-                                        ...subscribedRemoved
-                                    ]
-                                }
-                            );
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        this.pageError = true;
-                    });
-            } else {
-                this.pageLoading = true;
-                return this.$store
-                    .dispatch(ADMIN_COMMS_CREATE_SMS_TEMPLATE_FORM, {
-                        body: this.smsTemplateStore
-                    })
-                    .then(response => {
-                        this.pageLoading = false;
-                        this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
-                            data: response
-                        });
-                        if (response.published) {
-                            this.$router.push({
-                                path: `${getRoute(
-                                    this.$route
-                                )}/sms/templates/listing`
-                            });
-                            this.$snackbar.global.showSuccess(
-                                'SMS template has been published!'
-                            );
-                        }
-                        return;
-                    })
-                    .then(() => {
-                        if (
-                            this.subscribedAdded.length +
-                                this.subscribedRemoved.length >
-                            0
-                        ) {
-                            let subscribedAdded = this.subscribedAdded.map(
-                                appSubscription => {
-                                    let template = cloneDeep(
-                                        appSubscription.template
-                                    );
-                                    template.sms.template = this.smsTemplateStore._id;
-                                    return {
-                                        _id: appSubscription._id,
-                                        template
-                                    };
-                                }
-                            );
-                            let subscribedRemoved = this.subscribedRemoved.map(
-                                appSubscription => {
-                                    let template = cloneDeep(
-                                        appSubscription.template
-                                    );
-                                    template.sms.template =
-                                        appSubscription.event.template.sms.template;
-                                    return {
-                                        _id: appSubscription._id,
-                                        template
-                                    };
-                                }
-                            );
-                            this.$store.dispatch(
-                                ADMIN_COMMS_BULK_UPDATE_APP_EVENT_SUBSCRIPTION,
-                                {
-                                    subscriptions: [
-                                        ...subscribedAdded,
-                                        ...subscribedRemoved
-                                    ]
-                                }
-                            );
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        this.$snackbar.global.showError('Something went wrong');
-                        this.pageError = true;
-                        this.pageLoading = false;
-                    });
-            }
+            // if (this.templateId) {
+            //     this.pageLoading = true;
+            //     return this.$store
+            //         .dispatch(ADMIN_COMMS_UPDATE_SMS_TEMPLATE_FORM, {
+            //             _id: this.templateId,
+            //             body: this.smsTemplateStore
+            //         })
+            //         .then(response => {
+            //             this.pageLoading = false;
+            //             // if (!isEmpty(this.smsTemplateToClone)) {
+            //             this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
+            //                 data: response
+            //             });
+            //             // }
+            //             if (response.published) {
+            //                 this.$router.push({
+            //                     path: `${getRoute(
+            //                         this.$route
+            //                     )}/sms/templates/listing`
+            //                 });
+            //                 this.$snackbar.global.showSuccess(
+            //                     'SMS template has been published!'
+            //                 );
+            //             }
+            //             return;
+            //         })
+            //         .then(() => {
+            //             if (
+            //                 this.subscribedAdded.length +
+            //                     this.subscribedRemoved.length >
+            //                 0
+            //             ) {
+            //                 let subscribedAdded = this.subscribedAdded.map(
+            //                     appSubscription => {
+            //                         let template = cloneDeep(
+            //                             appSubscription.template
+            //                         );
+            //                         template.sms.template = this.smsTemplateStore._id;
+            //                         return {
+            //                             _id: appSubscription._id,
+            //                             template
+            //                         };
+            //                     }
+            //                 );
+            //                 let subscribedRemoved = this.subscribedRemoved.map(
+            //                     appSubscription => {
+            //                         let template = cloneDeep(
+            //                             appSubscription.template
+            //                         );
+            //                         template.sms.template =
+            //                             appSubscription.event.template.sms.template;
+            //                         return {
+            //                             _id: appSubscription._id,
+            //                             template
+            //                         };
+            //                     }
+            //                 );
+            //                 this.$store.dispatch(
+            //                     ADMIN_COMMS_BULK_UPDATE_APP_EVENT_SUBSCRIPTION,
+            //                     {
+            //                         subscriptions: [
+            //                             ...subscribedAdded,
+            //                             ...subscribedRemoved
+            //                         ]
+            //                     }
+            //                 );
+            //             }
+            //         })
+            //         .catch(err => {
+            //             console.log(err);
+            //             this.pageError = true;
+            //         });
+            // } else {
+            //     this.pageLoading = true;
+            //     return this.$store
+            //         .dispatch(ADMIN_COMMS_CREATE_SMS_TEMPLATE_FORM, {
+            //             body: this.smsTemplateStore
+            //         })
+            //         .then(response => {
+            //             this.pageLoading = false;
+            //             this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
+            //                 data: response
+            //             });
+            //             if (response.published) {
+            //                 this.$router.push({
+            //                     path: `${getRoute(
+            //                         this.$route
+            //                     )}/sms/templates/listing`
+            //                 });
+            //                 this.$snackbar.global.showSuccess(
+            //                     'SMS template has been published!'
+            //                 );
+            //             }
+            //             return;
+            //         })
+            //         .then(() => {
+            //             if (
+            //                 this.subscribedAdded.length +
+            //                     this.subscribedRemoved.length >
+            //                 0
+            //             ) {
+            //                 let subscribedAdded = this.subscribedAdded.map(
+            //                     appSubscription => {
+            //                         let template = cloneDeep(
+            //                             appSubscription.template
+            //                         );
+            //                         template.sms.template = this.smsTemplateStore._id;
+            //                         return {
+            //                             _id: appSubscription._id,
+            //                             template
+            //                         };
+            //                     }
+            //                 );
+            //                 let subscribedRemoved = this.subscribedRemoved.map(
+            //                     appSubscription => {
+            //                         let template = cloneDeep(
+            //                             appSubscription.template
+            //                         );
+            //                         template.sms.template =
+            //                             appSubscription.event.template.sms.template;
+            //                         return {
+            //                             _id: appSubscription._id,
+            //                             template
+            //                         };
+            //                     }
+            //                 );
+            //                 this.$store.dispatch(
+            //                     ADMIN_COMMS_BULK_UPDATE_APP_EVENT_SUBSCRIPTION,
+            //                     {
+            //                         subscriptions: [
+            //                             ...subscribedAdded,
+            //                             ...subscribedRemoved
+            //                         ]
+            //                     }
+            //                 );
+            //             }
+            //         })
+            //         .catch(err => {
+            //             console.log(err);
+            //             this.$snackbar.global.showError('Something went wrong');
+            //             this.pageError = true;
+            //             this.pageLoading = false;
+            //         });
+            // }
         },
         callAction(item) {
             this[item.action]();
@@ -395,10 +393,10 @@ export default {
             let smsTemplateToClone = omitForClone(smsTemplate);
            
             this.$router.push({
-                name: 'create-sms-template',
+                name: 'smstemplateCreate',
                 query: { clone: smsTemplate._id }
             });
-            this.$forceUpdate();
+            //this.$forceUpdate();
         },
         onOpenHelp() {},
         onLinkSubscription(obj) {
@@ -520,7 +518,6 @@ export default {
     }
     .main-body {
         display: flex;
-        margin: 24px;
         @media @mobile {
             margin: 0 0 48px 0;
             display: block;

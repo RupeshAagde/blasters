@@ -181,6 +181,14 @@ export const getNavigations = () => {
                     active: false
                 },
                 {
+                    display: 'Email',
+                    link: '/administrator/communication/email/templates',
+                    title: 'email',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
                     display: 'Reports',
                     link: '/administrator/communication/reports',
                     title: 'reports',

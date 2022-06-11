@@ -75,24 +75,8 @@
 import providermainbody from './provider-main-body.vue';
 //import adminCommsService from './../../../../services/admin/admin-comms.service';
 import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
-
+import CommunicationServices from '../../../services/pointblank.service';
 import { mapGetters } from 'vuex';
-// import {
-//     ADMIN_COMMS_CREATE_EMAIL_PROVIDER_FORM,
-//     ADMIN_COMMS_CREATE_SMS_PROVIDER_FORM,
-//     ADMIN_COMMS_FETCH_EMAIL_PROVIDER,
-//     ADMIN_COMMS_FETCH_SMS_PROVIDER,
-//     ADMIN_COMMS_UPDATE_EMAIL_PROVIDER_FORM,
-//     ADMIN_COMMS_UPDATE_SMS_PROVIDER_FORM
-// } from '../../../../store/admin/action.type';
-// import {
-//     ADMIN_COMMS_GET_EMAIL_PROVIDER,
-//     ADMIN_COMMS_GET_SMS_PROVIDER
-// } from '../../../../store/admin/getters.type';
-// import {
-//     ADMIN_COMMS_SET_EMAIL_PROVIDER,
-//     ADMIN_COMMS_SET_SMS_PROVIDER
-// } from '../../../../store/admin/mutation.type';
 import uktinlinesvg from '@/components/common/ukt-inline-svg';
 import {
     NitrozenButton,
@@ -134,36 +118,40 @@ export default {
                 this.$route.params.mode == 'create' && !this.$route.query.clone
                     ? true
                     : false,
-            providerType: this.$route.params.providerType || 'email',
-            providerCategory: this.$route.query.type || 'falconide',
-            providerId: this.$route.params.id,
+            providerType: this.$route.params.providerType || 'sms',
+            providerCategory: this.$route.query.type || '',
+            providerId: this.$route.params.providerId,
             threeDotsOptions: []
         };
     },
     mounted() {
-        console.log(this.$route);
         this.pageLoading = false;
-        // let promiseObj = Promise.resolve();
-        // if (
-        //     this.isEditMode &&
-        //     this.providerId &&
-        //     this.providerType == 'email'
-        // ) {
-        //     promiseObj = this.fetchEmailProvider(this.providerId).then(() => {
-        //         this.providerCategory = this.emailProviderStore.provider;
-        //     });
-        // } else if (
-        //     this.isEditMode &&
-        //     this.providerId &&
-        //     this.providerType == 'sms'
-        // ) {
-        //     promiseObj = this.fetchSmsProvider(this.providerId).then(() => {
-        //         this.providerCategory = this.smsProviderStore.provider;
-        //     });
-        // }
-        // promiseObj.finally(() => {
-        //     this.pageLoading = false;
-        // });
+         //let promiseObj = Promise.resolve();
+        if (
+            this.isEditMode &&
+            this.providerId &&
+            this.providerType == 'email'
+        ) {
+            //promiseObj = 
+            //this.fetchEmailProvider(this.providerId)
+            //then(() => {
+                //this.providerCategory = this.emailProviderStore.provider;
+            //});
+        } else if (
+            this.isEditMode &&
+            this.providerId &&
+            this.providerType == 'sms'
+        ) {
+            //promiseObj =
+            //this.fetchSmsProvider(this.providerId)
+             //.then(() => {
+                //this.providerCategory = this.smsProviderStore.provider;
+            //});
+        }
+       // promiseObj.
+    //    finally(() => {
+             this.pageLoading = false;
+    //     });
     },
     methods: {
         onTestProviderClick() {
@@ -171,21 +159,29 @@ export default {
         },
         fetchEmailProvider(id) {
             this.pageLoading = true;
-            //return this.$store.dispatch(ADMIN_COMMS_FETCH_EMAIL_PROVIDER, id);
+            CommunicationServices.getEmailProviderbyId(id)
         },
         fetchSmsProvider(id) {
             this.pageLoading = true;
-            //return this.$store.dispatch(ADMIN_COMMS_FETCH_SMS_PROVIDER, id);
         },
         backRedirect() {
             this.$router.back();
         },
         saveAndPublish() {
+           //this.$refs.providermainbody.saveForm()
             let mainbodyValid = this.$refs.providermainbody.validate();
             if (mainbodyValid) {
-                this.$refs.providermainbody.validateAndSave();
-                this.saveForm();
+                //this.$refs.providermainbody.validateAndSave();
+                //if (this.providerType == 'email'){
+                this.emailProviderStore = this.$refs.providermainbody.saveForm()
+                console.log( this.emailProviderStore);
+                // }
+                // if (this.providerType == 'sms'){
+                // this.smsProviderStore = this.$refs.providermainbody.saveForm()
+                // }
             }
+            this.saveForm()
+
         },
         makeProviderDefault() {
             this.saveAndPublish();
@@ -193,118 +189,92 @@ export default {
         saveForm() {
             // return Promise.resolve()
             //     .then(() => {
-            //         if (this.providerId) {
-            //             // this.pageLoading = true;
-            //             if (this.providerType == 'email') {
-            //                 return this.updateEmailProvider(
-            //                     this.providerId,
-            //                     this.emailProviderStore
-            //                 );
-            //             } else if (this.providerType == 'sms') {
-            //                 return this.updateSmsProvider(
-            //                     this.providerId,
-            //                     this.smsProviderStore
-            //                 );
-            //             }
-            //         } else {
-            //             if (this.providerType == 'email') {
-            //                 return this.createEmailProvider(
-            //                     this.emailProviderStore
-            //                 ).then(data => {
-            //                     this.$router.push({
-            //                         path: path.join(
-            //                             this.$basePath,
-            //                             `/provider/email/edit/${data._id}`
-            //                         )
-            //                     });
-            //                 });
-            //             } else if (this.providerType == 'sms') {
-            //                 return this.createSmsProvider(
-            //                     this.smsProviderStore
-            //                 ).then(data => {
-            //                     this.$router.push({
-            //                         path: path.join(
-            //                             this.$basePath,
-            //                             `/provider/sms/edit/${data._id}`
-            //                         )
-            //                     });
-            //                 });
-            //             }
-            //         }
-            //     })
+                    if (this.providerId) {
+                        // this.pageLoading = true;
+                        if (this.providerType == 'email') {
+                             this.updateEmailProvider();
+                        } else if (this.providerType == 'sms') {
+                             this.updateSmsProvider();
+                        }
+                    } else {
+                        if (this.providerType == 'email') {
+                            console.log(this.emailProviderStore);
+                             this.createEmailProvider(
+                                this.emailProviderStore).then(data => {
+                                this.$router.push({
+                                    name: 'providerList'
+                                });
+                            })
+                        } 
+                      if (this.providerType == 'sms') {
+                          console.log(this.smsProviderStore);
+                             this.createSmsProvider(this.smsProviderStore).then(data => {
+                                this.$router.push({
+                                    name: 'providerList'
+                                })
+                            });
+                         }
+    }},
+            //    })
             //     .then(data => {});
-        },
+
         createEmailProvider(data) {
-            // this.pageLoading = true;
-            // return this.$store
-            //     .dispatch(ADMIN_COMMS_CREATE_EMAIL_PROVIDER_FORM, {
-            //         body: data
-            //     })
-            //     .then(data => {
-            //         this.$snackbar.global.showSuccess(
-            //             'Email provider created successfully'
-            //         );
-            //         return data;
-            //     })
-            //     .finally(() => {
-            //         this.pageLoading = false;
-            //     });
+            this.pageLoading = true;
+                CommunicationServices.postEmailProvider(this.emailProviderStore)
+                .then(data => {
+                    this.$snackbar.global.showSuccess(
+                        'Email provider created successfully'
+                    );
+                })
+                .finally(() => {
+                    this.pageLoading = false;
+                });
         },
         createSmsProvider(data) {
-            // this.pageLoading = true;
-            // return this.$store
-            //     .dispatch(ADMIN_COMMS_CREATE_SMS_PROVIDER_FORM, {
-            //         body: data
-            //     })
-            //     .then(data => {
-            //         this.$snackbar.global.showSuccess(
-            //             'SMS provider created successfully'
-            //         );
-            //         return data;
-            //     })
-            //     .finally(() => {
-            //         this.pageLoading = false;
-            //     });
+
+            this.pageLoading = true;
+            console.log(this.emailProviderStore);
+            CommunicationServices.postSmsProvider(this.emailProviderStore)
+                .then(data => {
+                    this.$snackbar.global.showSuccess(
+                        'SMS provider created successfully'
+                    );
+                })
+                .finally(() => {
+                    this.pageLoading = false;
+                });
         },
-        updateEmailProvider(_id, data) {
-            // this.pageLoading = true;
-            // return this.$store
-            //     .dispatch(ADMIN_COMMS_UPDATE_EMAIL_PROVIDER_FORM, {
-            //         _id,
-            //         body: data
-            //     })
-            //     .then(data => {
-            //         this.$snackbar.global.showSuccess(
-            //             'Email provider updated successfully'
-            //         );
-            //         return data;
-            //     })
-            //     .finally(() => {
-            //         this.pageLoading = false;
-            //     });
+        updateEmailProvider() {
+            this.pageLoading = true;
+                CommunicationServices.putEmailProviderbyId(this.providerId,this.emailProviderStore)
+                .then(data => {
+                    this.$snackbar.global.showSuccess(
+                        'Email provider updated successfully'
+                    );
+                })
+                .finally(() => {
+                    this.pageLoading = false;
+                });
         },
-        updateSmsProvider(_id, data) {
-            // this.pageLoading = true;
-            // return this.$store
-            //     .dispatch(ADMIN_COMMS_UPDATE_SMS_PROVIDER_FORM, {
-            //         _id,
-            //         body: data
-            //     })
-            //     .then(data => {
-            //         this.$snackbar.global.showSuccess(
-            //             'SMS provider updated successfully'
-            //         );
-            //         return data;
-            //     })
-            //     .finally(() => {
-            //         this.pageLoading = false;
-            //     });
+        updateSmsProvider() {
+            this.pageLoading = true;
+                CommunicationServices.putSmsProviderbyId(this.providerId,this.emailProviderStore)
+                .then(data => {
+                    this.$snackbar.global.showSuccess(
+                        'SMS provider updated successfully'
+                    );
+                    return data;
+                })
+                .finally(() => {
+                    this.pageLoading = false;
+                });
         },
         isFormDirty() {
             return this.false;
         }
     }
-};
+}
+
 </script>
 
 <style lang="less" scoped>
@@ -333,7 +303,6 @@ export default {
     }
     .main-body {
         display: flex;
-        margin: 24px;
         @media @mobile {
             margin: 0 0 48px 0;
         }

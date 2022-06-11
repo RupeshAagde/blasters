@@ -14,6 +14,7 @@
                         ref="email-falconide"
                         :isEditMode="isEditMode"
                         :isCreateMode="isCreateMode"
+                        :id="providerId"
                     ></email-falconide>
                 </div>
                 <div
@@ -24,6 +25,7 @@
                         ref="email-pepipost"
                         :isEditMode="isEditMode"
                         :isCreateMode="isCreateMode"
+                        :id="providerId"
                     ></email-pepipost>
                 </div>
                 <div
@@ -34,6 +36,7 @@
                         ref="email-smtp"
                         :isEditMode="isEditMode"
                         :isCreateMode="isCreateMode"
+                        :id="providerId"
                     ></email-smtp>
                 </div>
 
@@ -47,6 +50,7 @@
                         ref="sms-netcore"
                         :isEditMode="isEditMode"
                         :isCreateMode="isCreateMode"
+                        :id="providerId"
                     ></sms-netcore>
                 </div>
                 <div
@@ -57,6 +61,7 @@
                         ref="sms-smpp"
                         :isEditMode="isEditMode"
                         :isCreateMode="isCreateMode"
+                        :id="providerId"
                     ></sms-smpp>
                 </div>
                 <div
@@ -67,6 +72,7 @@
                         ref="sms-telspiel"
                         :isEditMode="isEditMode"
                         :isCreateMode="isCreateMode"
+                        :id="providerId"
                     ></sms-telspiel>
                 </div>
                 <div
@@ -77,6 +83,7 @@
                         ref="sms-vivaconnect"
                         :isEditMode="isEditMode"
                         :isCreateMode="isCreateMode"
+                        :id="providerId"
                     ></sms-vivaconnect>
                 </div>
                 <div
@@ -87,6 +94,7 @@
                         ref="sms-timesinternet"
                         :isEditMode="isEditMode"
                         :isCreateMode="isCreateMode"
+                        :id="providerId"
                     ></sms-timesinternet>
                 </div>
             </div>
@@ -478,19 +486,14 @@ export default {
             let component = this.$refs[
                 this.providerType + '-' + this.providerCategory
             ];
-            // if (component) {
-            //     let data = component.validateAndSaveForm();
-            //     if (this.providerType == 'email') {
-            //         this.$store.commit(ADMIN_COMMS_SET_EMAIL_PROVIDER, {
-            //             data
-            //         });
-            //     } else if (this.providerType == 'sms') {
-            //         this.$store.commit(ADMIN_COMMS_SET_SMS_PROVIDER, { data });
-            //     }
-            // }
+            if (component) {
+                let data = component.validateAndSaveForm();
+                return data;
+            }
         },
         validateAndSave() {
             if (this.validate()) {
+                console.log('vs');
                 this.saveForm();
             }
         }

@@ -83,8 +83,7 @@ import {
     NitrozenCheckBox,
     NitrozenDropdown
 } from '@gofynd/nitrozen-vue';
-//import { ADMIN_COMMS_GET_SMS_PROVIDER } from '../../../../../store/admin/getters.type';
-import { mapGetters } from 'vuex';
+import CommunicationServices from '../../../../services/pointblank.service';
 // import * as _ from 'lodash';
 import get from 'lodash/get';
 import omitBy from 'lodash/omitBy';
@@ -116,7 +115,11 @@ export default {
         isCreateMode: {
             type: Boolean,
             default: false
-        }
+        },
+        id: {
+            type: String,
+            default: '',
+        },
     },
     data() {
         return {
@@ -135,21 +138,31 @@ export default {
                 password: this.getInitialValue(),
             },
             passwordPreview:false,
+            smsProvider: {}
 
         };
     },
     mounted() {
-        if (this.isEditMode && this.smsProviderStore) {
-            this.data.name.value = this.smsProviderStore.name;
-            this.data.description.value = this.smsProviderStore.description;
-            this.data.type.value = this.smsProviderStore.type;
-            this.data.from.value = this.smsProviderStore.from;
-            this.data.username.value = this.smsProviderStore.username;
-            this.data.password.value = this.smsProviderStore.password;
-            
+        if (this.id) {
+            this.fetchSmsProvider();
         }
     },
     methods: {
+        fetchSmsProvider() {
+            this.pageLoading = true;
+            CommunicationServices.getSmsProviderbyId(this.id).then((data) => {
+                this.smsProvider = data.data;
+                this.updateForm();
+            });
+        },
+        updateForm() {
+            this.data.name.value = this.smsProvider.name;
+            this.data.description.value = this.smsProvider.description;
+            this.data.type.value = this.smsProvider.type;
+            this.data.from.value = this.smsProvider.from;
+            this.data.username.value = this.smsProvider.username;
+            this.data.password.value = this.smsProvider.password;
+        },
         getInitialValue(val = null) {
             return {
                 showerror: false,

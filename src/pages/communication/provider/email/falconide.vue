@@ -104,8 +104,8 @@ import {
     NitrozenDropdown
 } from '@gofynd/nitrozen-vue';
 //import { ADMIN_COMMS_GET_EMAIL_PROVIDER } from '../../../../../store/admin/getters.type';
-import { mapGetters } from 'vuex';
 // import * as _ from 'lodash';
+import CommunicationServices from '../../../../services/pointblank.service';
 import get from 'lodash/get';
 import omitBy from 'lodash/omitBy';
 import isNil from 'lodash/isNil';
@@ -132,24 +132,18 @@ export default {
         isCreateMode: {
             type: Boolean,
             default: false
+        },
+        id: {
+            type: String,
+            default: ''
         }
     },
     computed: {
        
     },
     mounted() {
-        if (this.isEditMode && this.emailProviderStore) {
-            this.data.name.value = this.emailProviderStore.name;
-            this.data.description.value = this.emailProviderStore.description;
-            this.data.api_key.value = this.emailProviderStore.api_key;
-            this.data.from_address.value = this.emailProviderStore.from_address;
-            if (this.data.from_address.value) {
-                this.data.from_address.value = this.data.from_address.value.map(a => {
-                    a.nameError = '';
-                    a.emailError = '';
-                    return a;
-                });
-            }
+        if(this.id){
+        this.fetchEmailProvider()
         }
     },
     data() {
@@ -158,7 +152,7 @@ export default {
             data: {
                 name: this.getInitialValue(),
                 description: this.getInitialValue(),
-                type: this.getInitialValue('application'),
+                type: this.getInitialValue('platform'),
                 api_key: this.getInitialValue(),
                 from_address: this.getInitialValue([
                     {
@@ -171,9 +165,29 @@ export default {
                 ])
             },
             passwordPreview:false,
+            emailProvider: {}
         };
     },
     methods: {
+        fetchEmailProvider() {
+            this.pageLoading = true;
+            CommunicationServices.getEmailProviderbyId(this.id).then(data=>{
+                this.emailProvider = data.data
+                this.updateForm()
+                })
+            },
+        updateForm(){
+        this.data.name.value = this.emailProvider.name;
+            this.data.description.value = this.emailProvider.description;
+            this.data.api_key.value = this.emailProvider.api_key;
+            this.data.from_address.value = this.emailProvider.from_address;
+            if (this.data.from_address.value) {
+                this.data.from_address.value = this.data.from_address.value.map(a => {
+                    a.nameError = '';
+                    a.emailError = '';
+                    return a;
+                });
+        }},
         removeFrom(index) {
             if (this.data.from_address.value.length > 1) {
                 this.data.from_address.value.splice(index, 1);
@@ -247,7 +261,7 @@ export default {
                 name: this.data.name.value,
                 description: this.data.description.value,
                 api_key: this.data.api_key.value,
-                type: this.data.type.value,
+                type: 'platform',
                 provider: 'falconide',
                 from_address: this.data.from_address.value.map(a => ({
                     name: a.name,
@@ -255,9 +269,9 @@ export default {
                     is_default: a.is_default
                 }))
             };
+            return finalObj
             finalObj = omitBy(finalObj, isNil);
 
-            return finalObj;
         },
         validateAndSaveForm() {
             if (this.validate()) {

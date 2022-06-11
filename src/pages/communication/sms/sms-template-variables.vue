@@ -737,12 +737,12 @@ export default {
         ALIGN() {
             return ALIGN;
         },
-        ...mapGetters({
-            smsTemplateStore: ADMIN_COMMS_GET_SMS_TEMPLATE,
-            smsTemplateToClone: ADMIN_COMMS_GET_SMS_TEMPLATE_TO_CLONE,
-            userData: GET_USER_INFO,
-            smsProvidersStore: ADMIN_COMMS_GET_SMS_PROVIDERS
-        }),
+        // ...mapGetters({
+        //     smsTemplateStore: ADMIN_COMMS_GET_SMS_TEMPLATE,
+        //     smsTemplateToClone: ADMIN_COMMS_GET_SMS_TEMPLATE_TO_CLONE,
+        //     userData: GET_USER_INFO,
+        //     smsProvidersStore: ADMIN_COMMS_GET_SMS_PROVIDERS
+        // }),
     },
     // mounted() {
     //     let data = {};
@@ -876,17 +876,17 @@ export default {
             }
         },
         onSelectedDataSource(id) {
-            if (id == 1000) {
-                this.dummyDataSourceMeta = null;
-            } else {
-                this.$store
-                    .dispatch(ADMIN_COMMS_DUMMY_DATA_SOURCE_META, {
-                        params: { id: id }
-                    })
-                    .then(data => {
-                        this.dummyDataSourceMeta = data;
-                    });
-            }
+            // if (id == 1000) {
+            //     this.dummyDataSourceMeta = null;
+            // } else {
+            //     this.$store
+            //         .dispatch(ADMIN_COMMS_DUMMY_DATA_SOURCE_META, {
+            //             params: { id: id }
+            //         })
+            //         .then(data => {
+            //             this.dummyDataSourceMeta = data;
+            //         });
+            // }
         },
         onClickReadMore(e) {
             e.stopPropagation();
@@ -1246,20 +1246,20 @@ export default {
             });
         },
         fetchDefaultSmsProvider() {
-            return adminCommsService
-                .fetchDefaultSmsProviders()
-                .then(({ data }) => {
-                    let defaultSmsProviders = [
-                        ...(data
-                            ? data.map(v => ({
-                                  text: v.name,
-                                  value: v._id
-                              }))
-                            : []),
-                    ];
-                    this.selectedProvider.value = defaultSmsProviders[0].value || " ";
-                    return defaultSmsProviders;
-                });
+            // return adminCommsService
+            //     .fetchDefaultSmsProviders()
+            //     .then(({ data }) => {
+            //         let defaultSmsProviders = [
+            //             ...(data
+            //                 ? data.map(v => ({
+            //                       text: v.name,
+            //                       value: v._id
+            //                   }))
+            //                 : []),
+            //         ];
+            //         this.selectedProvider.value = defaultSmsProviders[0].value || " ";
+            //         return defaultSmsProviders;
+            //     });
         },
     },
 };

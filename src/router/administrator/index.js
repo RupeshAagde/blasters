@@ -14,6 +14,9 @@ import Provider from './../../pages/communication/provider/listing.vue';
 import ProviderDefault from './../../pages/communication/provider/set-default.vue';
 import ProviderMain from './../../pages/communication/provider/provider-main.vue';
 import SmsTemplateMain from './../../pages/communication/sms/sms-templates.vue';
+import SmsTemplateForm from './../../pages/communication/sms/sms-template-form.vue';
+import EmailTemplateForm from './../../pages/communication/email/email-template-form.vue';
+import EmailTemplateMain from './../../pages/communication/email/email-templates.vue';
 import UserManagementVue from './../../pages/super-user/user-access.vue';
 import AddSuperUserVue from './../../pages/super-user/add-user.vue';
 import Tickets from './../../pages/tickets/index.vue';
@@ -206,9 +209,61 @@ export default [
                 }
             },
             {
+                name: 'providerMain',
+                path: 'communication/provider/:providerType/:mode/:providerId',
+                component: ProviderMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
                 name: 'smstemplateMain',
                 path: 'communication/sms/templates',
                 component: SmsTemplateMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'smstemplateCreate',
+                path: 'communication/sms/templates/create',
+                component: SmsTemplateForm,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'emailtemplateMain',
+                path: 'communication/email/templates',
+                component: EmailTemplateMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'emailtemplateCreate',
+                path: 'communication/email/templates/create',
+                component: EmailTemplateForm,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(
                         to,

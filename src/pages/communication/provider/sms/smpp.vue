@@ -66,18 +66,15 @@
                 v-model="data.password.value"
                 :label="'Password*'"
                 :placeholder="'Enter password'"
-                :type="passwordPreview ? 'text':'password'"
+                :type="passwordPreview ? 'text' : 'password'"
             >
             </nitrozen-input>
-            <span
-                id="password-preview"
-                @click="showPassword"
+            <span id="password-preview" @click="showPassword">
+                <adm-inline-svg
+                    :src="passwordPreview ? 'eye-open' : 'eye-close'"
+                    class="height-20"
                 >
-            <adm-inline-svg 
-                :src="passwordPreview ? 'eye-open' : 'eye-close'" 
-                class="height-20"
-                >
-            </adm-inline-svg>
+                </adm-inline-svg>
             </span>
             <nitrozen-error v-if="data.password.showerror"
                 >{{ data.password.errortext }}
@@ -95,10 +92,9 @@ import {
     strokeBtn,
     NitrozenRadio,
     NitrozenCheckBox,
-    NitrozenDropdown
+    NitrozenDropdown,
 } from '@gofynd/nitrozen-vue';
-//import { ADMIN_COMMS_GET_SMS_PROVIDER } from '../../../../../store/admin/getters.type';
-import { mapGetters } from 'vuex';
+import CommunicationServices from '../../../../services/pointblank.service';
 // import * as _ from 'lodash';
 import get from 'lodash/get';
 import omitBy from 'lodash/omitBy';
@@ -113,24 +109,26 @@ export default {
         'nitrozen-radio': NitrozenRadio,
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-dropdown': NitrozenDropdown,
-        'adm-inline-svg': adminlinesvg
+        'adm-inline-svg': adminlinesvg,
     },
-    computed: {
-       
-    },
+    computed: {},
     props: {
         isEditMode: {
             type: Boolean,
-            default: false
+            default: false,
         },
         isCloneMode: {
             type: Boolean,
-            default: false
+            default: false,
         },
         isCreateMode: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
+        id: {
+            type: String,
+            default: '',
+        },
     },
     data() {
         return {
@@ -138,40 +136,51 @@ export default {
             data: {
                 name: this.getInitialValue(),
                 description: this.getInitialValue(),
-                type: this.getInitialValue('application'),
+                type: this.getInitialValue('platform'),
                 host: this.getInitialValue(),
                 port: this.getInitialValue(),
                 username: this.getInitialValue(),
-                password: this.getInitialValue()
+                password: this.getInitialValue(),
             },
-            passwordPreview:false,
+            passwordPreview: false,
+            smsProvider: {},
         };
     },
     mounted() {
-        if (this.isEditMode && this.smsProviderStore) {
-            this.data.name.value = this.smsProviderStore.name;
-            this.data.description.value = this.smsProviderStore.description;
-            this.data.type.value = this.smsProviderStore.type;
-            this.data.username.value = this.smsProviderStore.username;
-            this.data.password.value = this.smsProviderStore.password;
-            this.data.host.value = this.smsProviderStore.host;
-            this.data.port.value = this.smsProviderStore.port;
+        if (this.id) {
+            this.fetchSmsProvider();
         }
     },
     methods: {
+        fetchSmsProvider() {
+            this.pageLoading = true;
+            CommunicationServices.getSmsProviderbyId(this.id).then((data) => {
+                this.smsProvider = data.data;
+                this.updateForm();
+            });
+        },
+        updateForm() {
+            this.data.name.value = this.smsProvider.name;
+            this.data.description.value = this.smsProvider.description;
+            this.data.type.value = this.smsProvider.type;
+            this.data.username.value = this.smsProvider.username;
+            this.data.password.value = this.smsProvider.password;
+            this.data.host.value = this.smsProvider.host;
+            this.data.port.value = this.smsProvider.port;
+        },
         getInitialValue(val = null) {
             return {
                 showerror: false,
                 value: val,
-                errortext: ''
+                errortext: '',
             };
         },
-        showPassword(){
-            this.passwordPreview=!this.passwordPreview;
+        showPassword() {
+            this.passwordPreview = !this.passwordPreview;
         },
         validate() {
             let isValid = true;
-            this.requiredFields.forEach(field => {
+            this.requiredFields.forEach((field) => {
                 if (!get(this.data, `${field}.value`)) {
                     isValid = false;
                     this.data[field].showerror = true;
@@ -195,7 +204,7 @@ export default {
                 host: this.data.host.value,
                 port: this.data.port.value,
                 type: this.data.type.value,
-                provider: 'smpp'
+                provider: 'smpp',
             };
             finalObj = omitBy(finalObj, isNil);
 
@@ -205,8 +214,8 @@ export default {
             if (this.validate()) {
                 return this.saveForm();
             }
-        }
-    }
+        },
+    },
 };
 </script>
 

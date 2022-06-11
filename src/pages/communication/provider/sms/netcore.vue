@@ -127,8 +127,7 @@ import {
     NitrozenCheckBox,
     NitrozenDropdown
 } from '@gofynd/nitrozen-vue';
-//import { ADMIN_COMMS_GET_SMS_PROVIDER } from '../../../../../store/admin/getters.type';
-import { mapGetters } from 'vuex';
+import CommunicationServices from '../../../../services/pointblank.service';
 // import * as _ from 'lodash';
 import get from 'lodash/get';
 import omitBy from 'lodash/omitBy';
@@ -160,7 +159,11 @@ export default {
         isCreateMode: {
             type: Boolean,
             default: false
-        }
+        },
+        id: {
+            type: String,
+            default: '',
+        },
     },
     data() {
         return {
@@ -174,7 +177,7 @@ export default {
             data: {
                 name: this.getInitialValue(),
                 description: this.getInitialValue(),
-                type: this.getInitialValue('application'),
+                type: this.getInitialValue('platform'),
                 feedid: this.getInitialValue(),
                 username: this.getInitialValue(),
                 password: this.getInitialValue(),
@@ -184,28 +187,39 @@ export default {
 
             },
             passwordPreview:false,
+            smsProvider: {},
         };
     },
     mounted() {
-        if (this.isEditMode && this.smsProviderStore) {
-            this.data.name.value = this.smsProviderStore.name;
-            this.data.description.value = this.smsProviderStore.description;
-            this.data.type.value = this.smsProviderStore.type;
-            this.data.feedid.value = this.smsProviderStore.feedid;
-            this.data.username.value = this.smsProviderStore.username;
-            this.data.password.value = this.smsProviderStore.password;
-            this.data.senderid.value = this.smsProviderStore.senderid;
-            this.data.entityid.value = this.smsProviderStore.entityid;
-            this.data.override_dnd.value = this.smsProviderStore.override_dnd;
+        if (this.id) {
+            this.fetchSmsProvider();
         }
     },
     methods: {
+        fetchSmsProvider() {
+            this.pageLoading = true;
+            CommunicationServices.getSmsProviderbyId(this.id).then((data) => {
+                this.smsProvider = data.data;
+                this.updateForm();
+            });
+        },
         getInitialValue(val = null) {
             return {
                 showerror: false,
                 value: val,
                 errortext: ''
             };
+        },
+        updateForm() {
+            this.data.name.value = this.smsProvider.name;
+            this.data.description.value = this.smsProvider.description;
+            this.data.type.value = this.smsProvider.type;
+            this.data.feedid.value = this.smsProvider.feedid;
+            this.data.username.value = this.smsProvider.username;
+            this.data.password.value = this.smsProvider.password;
+            this.data.senderid.value = this.smsProvider.senderid;
+            this.data.entityid.value = this.smsProvider.entityid;
+            this.data.override_dnd.value = this.smsProvider.override_dnd;
         },
         showPassword(){
             this.passwordPreview=!this.passwordPreview;

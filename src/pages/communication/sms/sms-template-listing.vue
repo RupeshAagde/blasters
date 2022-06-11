@@ -167,6 +167,7 @@ import loader from '@/components/common/loader';
 //     ADMIN_COMMS_SET_SMS_TEMPLATE_TO_CLONE,
 //     ADMIN_COMMS_RESET_SMS_TEMPLATE
 // } from '../../../../store/admin/mutation.type';
+import CommunicationServices from '../../../services/pointblank.service';
 import { mapGetters } from 'vuex';
 import { debounce} from '@/helper/utils';
 import {
@@ -217,9 +218,10 @@ export default {
             selectedSmsTemplate: '',
             selectedSmsTemplateData: '',
             editUrlPath: '',
-            pageLoading: true,
+            pageLoading: false,
             isInitialLoad: true,
-            pageError: false
+            pageError: false,
+            smsTemplatesStore: {}
         };
     },
     watch: {
@@ -251,7 +253,7 @@ export default {
         //     this.pagination.current = this.$route.query.current;
         //     this.updatePaginationOnUi()
         // }
-        // this.getTemplatesBasedOnFilter();
+         this.getTemplatesBasedOnFilter();
     },
     computed: {
        
@@ -281,13 +283,14 @@ export default {
             };
         },
         getTemplatesBasedOnFilter() {
-            // if (this.selectedFilter == 'all') {
-            //     this.fetchSmsTemplates().then(() => {
-            //         this.setPagination();
-            //         this.mapSMSTemplates();
-            //         return this.smsTemplates;
-            //     });
-            // } else if (this.selectedFilter == 'subscribed') {
+            if (this.selectedFilter == 'all') {
+                this.fetchSmsTemplates().then(() => {
+                    this.setPagination();
+                    this.mapSMSTemplates();
+                    return this.smsTemplates;
+                });
+            } 
+            // else if (this.selectedFilter == 'subscribed') {
             //     this.fetchSubscribedSmsTemplates().then(() => {
             //         this.setPagination();
             //         this.mapSMSTemplates();
@@ -296,7 +299,7 @@ export default {
             // }
         },
         mapSMSTemplates() {
-            let templates = this.smsTemplatesStore.items?this.smsTemplatesStore.items:this.smsTemplatesStore.docs;
+            let templates = this.smsTemplatesStore.items
             this.smsTemplates = templates.map(it => {
                 it.display = it.name;
                 it.value = it._id;
@@ -371,45 +374,46 @@ export default {
             //     });
         },
         fetchSmsTemplates() {
-            // let paginate = this.pagination;
-            // this.pageLoading = true;
-            // return this.$store
-            //     .dispatch(ADMIN_COMMS_FETCH_SMS_TEMPLATES, {
-            //         params: {
-            //             page_size: this.pagination.limit,
-            //             page_no: this.pagination.current,
-            //             sort: JSON.stringify({ created_at: -1 }),
-            //             ...(this.searchText
-            //                 ? {
-            //                       query: JSON.stringify({
-            //                           $or: [
-            //                               {
-            //                                   name: {
-            //                                       $regex: this.searchText,
-            //                                       $options: 'ig'
-            //                                   }
-            //                               },
-            //                               {
-            //                                   tags: {
-            //                                       $regex: this.searchText,
-            //                                       $options: 'ig'
-            //                                   }
-            //                               }
-            //                           ]
-            //                       })
-            //                   }
-            //                 : {})
-            //         }
-            //     })
-            //     .then(data => {
-            //         this.pageLoading = false;
-            //         this.pageError = false;
-            //         return data;
-            //     })
-            //     .catch(err => {
-            //         this.pageLoading = false;
-            //         this.pageError = true;
-            //     });
+            let paginate = this.pagination;
+            this.pageLoading = true;
+                return CommunicationServices.getSmsTemplates({
+                    params: {
+                        page_size: this.pagination.limit,
+                        page_no: this.pagination.current,
+                        sort: JSON.stringify({ created_at: -1 }),
+                        ...(this.searchText
+                            ? {
+                                  query: JSON.stringify({
+                                      $or: [
+                                          {
+                                              name: {
+                                                  $regex: this.searchText,
+                                                  $options: 'ig'
+                                              }
+                                          },
+                                          {
+                                              tags: {
+                                                  $regex: this.searchText,
+                                                  $options: 'ig'
+                                              }
+                                          }
+                                      ]
+                                  })
+                              }
+                            : {})
+                    }
+                })
+                .then(data => {
+                    this.smsTemplatesStore = data.data
+                    console.log(this.smsTemplatesStore);
+                    this.pageLoading = false;
+                    this.pageError = false;
+                    //return data;
+                })
+                .catch(err => {
+                    this.pageLoading = false;
+                    this.pageError = true;
+                });
         },
         updateSelection(event) {
             //change selection page

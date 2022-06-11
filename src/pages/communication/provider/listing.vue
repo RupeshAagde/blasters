@@ -178,7 +178,7 @@
                 >
                     <listing-card
                         v-bind:provider="emailProvider"
-                        @editProvider="editEmailProvider"
+                        @editProvider="editProvider"
                     ></listing-card>
                 </li>
             </ul>
@@ -197,7 +197,7 @@
                 >
                     <listing-card
                         v-bind:provider="smsProvider"
-                        @editProvider="editSmsProvider"
+                        @editProvider="editProvider"
                     ></listing-card>
                 </li>
             </ul>
@@ -394,8 +394,8 @@ import {
 } from '@gofynd/nitrozen-vue';
 import admNoContent from '@/components/common/adm-no-content.vue';
 import admModal from '@/components/common/adm-modal.vue';
+import CommunicationServices from '../../../services/pointblank.service';
 
-import { mapGetters } from 'vuex';
 import listingCard from './listing-card.vue';
 import Shimmer from '@/components/common/shimmer';
 import uktNotFound from '@/components/common/ukt-not-found.vue';
@@ -509,7 +509,7 @@ export default {
     data() {
         return {
             PROVIDER_WIZARD_DETAILS,
-            pageLoading: true,
+            pageLoading: false,
             pageError: false,
             isInitialLoad: true,
             searchText: '',
@@ -555,11 +555,14 @@ export default {
         };
     },
     mounted() {
+        this.fetchSmsProviders()
+        this.fetchEmailProviders()
         this.providersFiltered = Object.assign([], this.providersList);
         this.wizardSelectedItem = {
             group: this.providersFiltered[0].group,
             child: this.providersFiltered[0].children[0]
         };
+
         
     },
     computed: {
@@ -594,47 +597,34 @@ export default {
     //         };
     //         this.fetchDataBasedOnGroupIndex();
     //     },
-    //     searchTemplate() {
-    //         this.$router.replace({
-    //             name: 'provider-listing',
-    //             query: { ...this.$route.query, searchText: this.searchText }
-    //         });
-    //         this.resetPagination();
-    //         this.fetchDataBasedOnGroupIndex();
-    //     },
-    //     debounceInput: debounce(function(e) {
-    //         if (this.searchText.length === 0) {
-    //             this.searchTemplate();
-    //         }
-    //     }, 200),
+        searchTemplate() {
+            this.$router.replace({
+                name: 'providerList',
+                query: { ...this.$route.query, searchText: this.searchText }
+            });
+            this.resetPagination();
+            this.fetchDataBasedOnGroupIndex();
+        },
+        debounceInput: debounce(function(e) {
+            if (this.searchText.length === 0) {
+                this.searchTemplate();
+            }
+        }, 200),
     //     toggleString,
-    //     fetchDataBasedOnGroupIndex() {
-    //         if (this.activeGroupIndex == 0) {
-    //             this.fetchEmailProviders();
-    //         } else if (this.activeGroupIndex == 1) {
-    //             this.fetchSmsProviders();
-    //         }
-    //     },
-    //     editEmailProvider(item) {
-    //         if (detectMobileWidth()) {
-    //             this.$__restrictWebView.open();
-    //             return;
-    //         }
-    //         this.$router.push({
-    //             path: path.join(
-    //                 this.$basePath,
-    //                 `/provider/email/edit/${item._id}`
-    //             )
-    //         });
-    //     },
-    //     editSmsProvider(item) {
-    //         this.$router.push({
-    //             path: path.join(
-    //                 this.$basePath,
-    //                 `/provider/sms/edit/${item._id}`
-    //             )
-    //         });
-    //     },
+        fetchDataBasedOnGroupIndex() {
+            if (this.activeGroupIndex == 0) {
+                this.fetchEmailProviders();
+            } else if (this.activeGroupIndex == 1) {
+                this.fetchSmsProviders();
+            }
+        },
+        editProvider(item) {
+            let providerType = ''
+            this.activeGroupIndex == 1 ? providerType = 'sms' : providerType = 'email'
+            this.$router.push({
+                path: `/administrator/communication/provider/${providerType}/edit/${item._id}?type=${item.provider}`
+            });
+        },
         onSearchInputChange(e) {
             let searchText = e.target.value;
             searchText = searchText.toLowerCase();
@@ -669,111 +659,103 @@ export default {
             this.$router.push({ path: `/administrator/communication/provider/${item.child.type}/create?type=${item.child.id}` });
 
         },
-    //     fetchEmailProviders() {
-    //         this.pageLoading = true;
-
-    //         this.$store
-    //             .dispatch(ADMIN_COMMS_FETCH_EMAIL_PROVIDERS, {
-    //                 params: {
-    //                     page_size: this.pagination.limit,
-    //                     page_no: this.pagination.current,
-    //                     sort: JSON.stringify({ created_at: -1 }),
-    //                     ...(this.searchText
-    //                         ? {
-    //                               query: JSON.stringify({
-    //                                   $or: [
-    //                                       {
-    //                                           name: {
-    //                                               $regex: this.searchText,
-    //                                               $options: 'ig'
-    //                                           }
-    //                                       },
-    //                                       {
-    //                                           tags: {
-    //                                               $regex: this.searchText,
-    //                                               $options: 'ig'
-    //                                           }
-    //                                       }
-    //                                   ]
-    //                               })
-    //                           }
-    //                         : {})
-    //                 }
-    //             })
-    //             .then(data => {
-    //                 this.pageLoading = false;
-    //                 this.pageError = false;
-    //                 this.setPagination();
-    //                 return data;
-    //             })
-    //             .finally(() => {
-    //                 this.isInitialLoad && (this.isInitialLoad = false);
-    //             });
-    //     },
-    //     fetchSmsProviders() {
-    //         this.pageLoading = true;
-
-    //         this.$store
-    //             .dispatch(ADMIN_COMMS_FETCH_SMS_PROVIDERS, {
-    //                 params: {
-    //                     page_size: this.pagination.limit,
-    //                     page_no: this.pagination.current,
-    //                     sort: JSON.stringify({ created_at: -1 }),
-    //                     ...(this.searchText
-    //                         ? {
-    //                               query: JSON.stringify({
-    //                                   $or: [
-    //                                       {
-    //                                           name: {
-    //                                               $regex: this.searchText,
-    //                                               $options: 'ig'
-    //                                           }
-    //                                       },
-    //                                       {
-    //                                           tags: {
-    //                                               $regex: this.searchText,
-    //                                               $options: 'ig'
-    //                                           }
-    //                                       }
-    //                                   ]
-    //                               })
-    //                           }
-    //                         : {})
-    //                 }
-    //             })
-    //             .then(data => {
-    //                 this.pageLoading = false;
-    //                 this.pageError = false;
-    //                 this.setPagination();
-    //                 return data;
-    //             })
-    //             .finally(() => {
-    //                 this.isInitialLoad && (this.isInitialLoad = false);
-    //             });
-    //     },
-    //     setPagination() {
-    //         if (this.activeGroupIndex == 0) {
-    //             this.pagination = {
-    //                 limit: this.emailProvidersStore.page.size,
-    //                 total: this.emailProvidersStore.page.item_total,
-    //                 current: this.emailProvidersStore.page.current
-    //             };
-    //         } else if (this.activeGroupIndex == 1) {
-    //             this.pagination = {
-    //                 limit: this.smsProvidersStore.page.size,
-    //                 total: this.smsProvidersStore.page.item_total,
-    //                 current: this.smsProvidersStore.page.current
-    //             };
-    //         }
-    //         this.$router.replace({
-    //             name: 'provider-listing',
-    //             query: {
-    //                 ...this.$route.query,
-    //                 limit: this.pagination.limit,
-    //                 current: this.pagination.current
-    //             }
-    //         });
-    //     },
+        fetchEmailProviders() {
+           this.pageLoading = true;
+                CommunicationServices.getEmailProvider({
+                        page_size: this.pagination.limit,
+                        page_no: this.pagination.current,
+                        sort: JSON.stringify({ created_at: -1 }),
+                        ...(this.searchText
+                            ? {
+                                  query: JSON.stringify({
+                                      $or: [
+                                          {
+                                              name: {
+                                                  $regex: this.searchText,
+                                                  $options: 'ig'
+                                              }
+                                          },
+                                          {
+                                              tags: {
+                                                  $regex: this.searchText,
+                                                  $options: 'ig'
+                                              }
+                                          }
+                                      ]
+                                  })
+                              }
+                            : {})
+                    })
+                .then(data => {
+                    this.pageLoading = false;
+                    this.pageError = false;
+                    this.emailProvidersStore = data.data
+                    //this.setPagination();
+                })
+                .finally(() => {
+                    this.isInitialLoad && (this.isInitialLoad = false);
+                });
+        },
+        fetchSmsProviders() {
+            this.pageLoading = true;
+                CommunicationServices.getSmsProvider({
+                        page_size: this.pagination.limit,
+                        page_no: this.pagination.current,
+                        sort: JSON.stringify({ created_at: -1 }),
+                        ...(this.searchText
+                            ? {
+                                  query: JSON.stringify({
+                                      $or: [
+                                          {
+                                              name: {
+                                                  $regex: this.searchText,
+                                                  $options: 'ig'
+                                              }
+                                          },
+                                          {
+                                              tags: {
+                                                  $regex: this.searchText,
+                                                  $options: 'ig'
+                                              }
+                                          }
+                                      ]
+                                  })
+                              }
+                            : {})
+                    })
+                .then(data => {
+                    this.pageLoading = false;
+                    this.pageError = false;
+                    this.smsProvidersStore = data.data
+                    //this.setPagination();
+                })
+                .finally(() => {
+                    this.isInitialLoad && (this.isInitialLoad = false);
+                });
+        },
+        setPagination() {
+            if (this.activeGroupIndex == 0) {
+                this.pagination = {
+                    limit: this.emailProvidersStore.page.size,
+                    total: this.emailProvidersStore.page.item_total,
+                    current: this.emailProvidersStore.page.current
+                };
+            } else if (this.activeGroupIndex == 1) {
+                this.pagination = {
+                    limit: this.smsProvidersStore.page.size,
+                    total: this.smsProvidersStore.page.item_total,
+                    current: this.smsProvidersStore.page.current
+                };
+            }
+            this.$router.replace({
+                name: 'providerList',
+                query: {
+                    ...this.$route.query,
+                    limit: this.pagination.limit,
+                    current: this.pagination.current
+                }
+            });
+        },
         changeGroupIndex(item) {
             this.activeGroupIndex = item.index;
             this.resetPagination();
@@ -789,13 +771,13 @@ export default {
     //     editJob(item) {
     //         this.$router.push('/admin/provider/view/' + item._id);
     //     },
-    //     resetPagination() {
-    //         this.pagination = {
-    //             limit: 10,
-    //             current: 1,
-    //             total: 0
-    //         };
-    //     },
+        resetPagination() {
+            this.pagination = {
+                limit: 10,
+                current: 1,
+                total: 0
+            };
+        },
     //     createProvider() {
     //         if (detectMobileWidth()) {
     //             this.$__restrictWebView.open();
