@@ -205,7 +205,7 @@
             width: 48%;
         }
         .input-box2 {
-            width: 100%
+            width: 100%;
         }
         .input-date {
             width: 100%;
@@ -274,6 +274,7 @@
 </style>
 <script>
 const RATE_LIST = [
+    { text: '0%', value: '0' },
     { text: '3%', value: 3 },
     { text: '5%', value: 5 },
     { text: '10%', value: 10 },
@@ -340,6 +341,7 @@ export default {
             },
             // writing new code here
             rateList1: [
+                { text: '0%', value: '0' },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
@@ -348,6 +350,7 @@ export default {
                 { text: '28%', value: 28 }
             ],
             rateList2: [
+                { text: '0%', value: '0' },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
@@ -443,11 +446,7 @@ export default {
                 if (this.datedTax) {
                     for (let tax in this.datedTax) {
                         for (let temp of this.datedTax[tax]) {
-                            if (
-                                !temp.effective_date.includes(
-                                    '.000Z'
-                                )
-                            ) {
+                            if (!temp.effective_date.includes('.000Z')) {
                                 temp.effective_date = new Date(
                                     temp.effective_date + '.000Z'
                                 )
@@ -466,6 +465,9 @@ export default {
                     return { ...a };
                 });
                 for (let tax of this.editableRate) {
+                    if (tax.rate === 0) {
+                        tax.rate = '0';
+                    }
                     if (!tax.effective_date.includes('.000Z')) {
                         tax.effective_date = new Date(
                             tax.effective_date + '.000Z'
@@ -478,9 +480,6 @@ export default {
         }
     },
     methods: {
-        testingDate(e){
-            console.log(e)
-        },
         open(data) {
             this.$refs.dialog.open({
                 width: '600px',
@@ -520,7 +519,9 @@ export default {
                 this.getRateList2(data.rate);
                 this.editableRate.push(emptyRate);
             } else {
-                this.$snackbar.global.showError(`Two tax rate already exist for selected date`);
+                this.$snackbar.global.showError(
+                    `Two tax rate already exist for selected date`
+                );
             }
         },
         removeRate() {
@@ -529,6 +530,7 @@ export default {
         },
         getRateList2(data) {
             let tempList = [
+                { text: '0%', value: '0' },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
@@ -586,7 +588,7 @@ export default {
                     'Threshold should be a number';
                 isValid = false;
             }
-            if (data.rate > 0) {
+            if (data.rate >= 0) {
                 this.slabOneErr.rate.showerror = false;
             } else {
                 this.slabOneErr.rate.showerror = true;

@@ -42,7 +42,6 @@
                 v-if="inProgressSearch"
                 :count="5"
                 class="extension-collection-cards mr-24"
-                :paginationShimmer="false"
             ></list-shimmer>
             <div
                 v-if="extension_collections.length > 0"
@@ -89,16 +88,16 @@
                     v-else-if="pageError && !pageLoading"
                     @tryAgain="fetchCollections"
                 ></page-error>
-            </div>
-            <div class="pagination-div">
-                <nitrozen-pagination
-                    name="Extensions"
-                    v-model="paginationConfig"
-                    ref="extension-pagination"
-                    class="extension-list-pagination"
-                    @change="paginationChange"
-                    :pageSizeOptions="[20, 50, 100, 200]"
-                ></nitrozen-pagination>
+                <div class="pagination-div">
+                    <nitrozen-pagination
+                        name="Extensions"
+                        v-model="paginationConfig"
+                        ref="extension-pagination"
+                        class="extension-list-pagination"
+                        @change="paginationChange"
+                        :pageSizeOptions="[20, 50, 100, 200]"
+                    ></nitrozen-pagination>
+                </div>
             </div>
         </div>
     </div>
@@ -213,10 +212,10 @@ export default {
             this.searchText = this.$route.query.name;
         }
         if (this.$route.query.page_no) {
-            this.paginationConfig.current = this.$route.query.page_no;
+            this.paginationConfig.current = parseInt(this.$route.query.page_no);
         }
         if (this.$route.query.page_size) {
-            this.paginationConfig.limit = this.$route.query.page_size;
+            this.paginationConfig.limit = parseInt(this.$route.query.page_size);
         }
         if ((this.$route.query.published || "").trim()) {
             this.published = this.$route.query.published;
