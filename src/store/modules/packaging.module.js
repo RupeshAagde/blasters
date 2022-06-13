@@ -1,13 +1,30 @@
-import { FETCH_CATEGORIES, FETCH_PACKAGING_PRODUCTS } from '../action.type';
+import {
+    EDIT_CATEGORY,
+    EDIT_PRODUCT,
+    FETCH_CATEGORIES,
+    FETCH_PACKAGING_PRODUCTS
+} from '../action.type';
 
-import { GET_CATEGORIES, GET_PACKAGING_PRODUCTS } from '../getters.type';
+import {
+    GET_CATEGORIES,
+    GET_EDIT_CATEGORY,
+    GET_EDIT_PRODUCT,
+    GET_PACKAGING_PRODUCTS
+} from '../getters.type';
 
-import { SET_CATEGORIES, SET_PACKAGING_PRODUCTS } from '../mutation.type';
+import {
+    SET_CATEGORIES,
+    SET_EDIT_CATEGORY,
+    SET_EDIT_PRODUCT,
+    SET_PACKAGING_PRODUCTS
+} from '../mutation.type';
 
 const getDefaultState = () => {
     return {
         products: [],
-        categories: []
+        categories: [],
+        categoryConfiguration: {},
+        packagingProduct: {}
     };
 };
 
@@ -17,6 +34,12 @@ const getters = {
     },
     [GET_CATEGORIES](state) {
         return state.categories;
+    },
+    [GET_EDIT_CATEGORY](state) {
+        return state.categoryConfiguration;
+    },
+    [GET_EDIT_PRODUCT](state) {
+        return state.packagingProduct;
     }
 };
 
@@ -26,15 +49,29 @@ const mutations = {
     },
     [SET_CATEGORIES](state, data) {
         state.categories = data;
+    },
+    [SET_EDIT_CATEGORY](state, data) {
+        state.categoryConfiguration = data;
+    },
+    [SET_EDIT_PRODUCT](state, data) {
+        state.packagingProduct = data;
     }
 };
 
 const actions = {
     [FETCH_PACKAGING_PRODUCTS]({ commit }, params) {
+        // TODO call API here
         return [];
     },
     [FETCH_CATEGORIES]({ commit }, params) {
+        // TODO call API here
         return [];
+    },
+    [EDIT_CATEGORY]({ commit }, data) {
+        commit(SET_EDIT_CATEGORY, data);
+    },
+    [EDIT_PRODUCT]({ commit }, data) {
+        commit(SET_EDIT_PRODUCT, data);
     }
 };
 
