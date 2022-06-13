@@ -412,6 +412,7 @@ import {
     NitrozenDropdown
 } from '@gofynd/nitrozen-vue';
 import { mapGetters } from 'vuex';
+import CommunicationServices from '../../../services/pointblank.service';
 import { Promise } from 'q';
 import adminlinesvg from '@/components/common/adm-inline-svg';
 import hash from 'object-hash';
@@ -469,7 +470,9 @@ export default {
             },
             initialHash: '',
             showEventLinkingModal: false,
-            smsTemplateToClone : {"is_system":true,"is_internal":false,"description":"Use this SMS template for verifying mobile number of customers, via a One-Time-Password.","priority":"high","tags":[],"published":true,"_id":"61af0257c3e8c47974d009f6","slug":"send-otp-sms-template","name":"Send Otp","template_variables":{"otp":"123456","androidHash":"aK1xS3"},"message":{"template_type":"nunjucks","template":"Please verify your phone with OTP Code - {{otp}} in the box given."},"created_at":"2021-12-07T06:42:31.131Z","updated_at":"2022-01-10T14:06:15.051Z","__v":0}
+            smsTemplateToClone : {},
+            appSubscriptions: {},
+            smsTemplateStore:{}
         };
     },
     props: {
@@ -504,100 +507,111 @@ export default {
         })
     },
     mounted() {
-        // let data = {};
-        // try {
-        //     if (this.isCloneMode) {
-        //         data = cloneDeep(this.smsTemplateToClone);
-        //         this.meta = {
-        //             type: 'cloned',
-        //             template: this.smsTemplateToClone._id,
-        //             is_system: this.smsTemplateToClone.is_system
-        //         };
-        //     } else {
-        //         data = cloneDeep(this.smsTemplateStore);
-        //     }
-        //     let obj = {};
-        //     this.formFieldNames.forEach(key => {
-        //         if (
-        //             key == 'tags' &&
-        //             data[key] &&
-        //             typeof (data[key] == 'object' && Array.isArray(data[key]))
-        //         ) {
-        //             this.tags = data[key].map(val => {
-        //                 return {
-        //                     name: val
-        //                 };
-        //             });
-        //         } else {
-        //             obj[key] = this.getInitialValue(data[key]);
-        //         }
-        //     });
-        //     obj['priority'] = this.priorityOptions.find(
-        //         option => option.value == data['priority']
-        //     );
-        //     this.data = { ...this.data, ...obj };
+        let data = {};
+        Promise.all([this.fetchAppEventSubscriptions(), this.fetchSmsTemplates()]).then(
+            ()=>{
+              try {
+            if (this.isCloneMode) {
+                data = cloneDeep(this.smsTemplateToClone);
+                this.meta = {
+                    type: 'cloned',
+                    template: this.smsTemplateToClone._id,
+                    is_system: this.smsTemplateToClone.is_system
+                };
+            } else {
+                console.log('tem',this.smsTemplateStore);
+                data = this.smsTemplateStore;
+            }
+            let obj = {};
+            this.formFieldNames.forEach(key => {
+                if (
+                    key == 'tags' &&
+                    data[key] &&
+                    typeof (data[key] == 'object' && Array.isArray(data[key]))
+                ) {
+                    this.tags = data[key].map(val => {
+                        return {
+                            name: val
+                        };
+                    });
+                } else {
+                    obj[key] = this.getInitialValue(data[key]);
+                }
+            });
+            obj['priority'] = this.priorityOptions.find(
+                option => option.value == data['priority']
+            );
+            this.data = { ...this.data, ...obj };
 
-        //     if (data.slug) {
-        //         this.slug = this.smsTemplateStore.slug;
-        //     }
-        //     this.fetchAppEventSubscriptions().then(() => {
-        //         let groupNames = this.appSubscriptions.items.map(
-        //             appSubscription => appSubscription.event.group
-        //         );
+            if (data.slug) {
+                this.slug = this.smsTemplateStore.slug;
+            }
+            this.fetchAppEventSubscriptions().then(() => {
+                let groupNames = this.appSubscriptions.items.map(
+                    appSubscription => appSubscription.event.group
+                );
 
-        //         // extract unique group names
-        //         groupNames = Array.from(new Set(groupNames));
+                // extract unique group names
+                groupNames = Array.from(new Set(groupNames));
 
-        //         if (this.templateId) {
-        //             this.subscribedAdded = this.appSubscriptions.items.filter(
-        //                 subscription => {
-        //                     return (
-        //                         subscription.template.sms.template._id ==
-        //                         this.templateId
-        //                     );
-        //                 }
-        //             );
-        //             this.linkToEvent = this.subscribedAdded.map(a => a._id);
-        //         } else if (
-        //             this.$route.query.clone &&
-        //             this.smsTemplateToClone &&
-        //             this.smsTemplateToClone.is_system
-        //         ) {
-        //             this.subscribedAdded = this.appSubscriptions.items.filter(
-        //                 subscription => {
-        //                     return (
-        //                         subscription.event.template.sms.template ==
-        //                         this.$route.query.clone
-        //                     );
-        //                 }
-        //             );
-        //             this.linkToEvent = this.subscribedAdded.map(a => a._id);
-        //         }
+                if (this.templateId) {
+                    this.subscribedAdded = this.appSubscriptions.items.filter(
+                        subscription => {
+                            return (
+                                subscription.template.sms.template._id ==
+                                this.templateId
+                            );
+                        }
+                    );
+                    this.linkToEvent = this.subscribedAdded.map(a => a._id);
+                } else if (
+                    this.$route.query.clone &&
+                    this.smsTemplateToClone &&
+                    this.smsTemplateToClone.is_system
+                ) {
+                    this.subscribedAdded = this.appSubscriptions.items.filter(
+                        subscription => {
+                            return (
+                                subscription.event.template.sms.template ==
+                                this.$route.query.clone
+                            );
+                        }
+                    );
+                    this.linkToEvent = this.subscribedAdded.map(a => a._id);
+                }
 
-        //         this.subscriptions = this.appSubscriptions.items.map(
-        //             appSubscription => {
-        //                 return {
-        //                     value: appSubscription._id,
-        //                     text: appSubscription.event.event_name,
-        //                     group: appSubscription.event.group
-        //                 };
-        //             }
-        //         );
-        //         this.subscriptions = this.createSubscriptionsListDropdown(
-        //             groupNames,
-        //             this.subscriptions
-        //         );
-        //         this.subscriptionsFiltered = this.subscriptions;
-        //         this.initialHash = this.generateHashOfLocalState();
-        //         this.pageLoading = false;
-        //     });
-        // } catch (err) {
-        //     this.$snackbar.global.showError('Failed to load Sms Template');
-        //     this.pageLoading = false;
-        //     this.pageError = true;
-        // }
+                this.subscriptions = this.appSubscriptions.items.map(
+                    appSubscription => {
+                        return {
+                            value: appSubscription._id,
+                            text: appSubscription.event.event_name,
+                            group: appSubscription.event.group
+                        };
+                    }
+                );
+                this.subscriptions = this.createSubscriptionsListDropdown(
+                    groupNames,
+                    this.subscriptions
+                );
+                this.subscriptionsFiltered = this.subscriptions;
+                this.initialHash = this.generateHashOfLocalState();
+                this.pageLoading = false;
+            });
+        } catch (err) {
+            this.$snackbar.global.showError('Failed to load Sms Template');
+            this.pageLoading = false;
+            this.pageError = true;
+        }
+            }
+        )
+        
     },
     methods: {
+        fetchSmsTemplates() {
+            return CommunicationServices.getSmsTemplates().then(({ data }) => {
+                this.smsTemplateStore = {"name":"","description":"","message":"","priority":"low"};
+            })
+        },
         eventLinkDecision(val) {
             if (!val) {
                 this.subscribedAdded = [];
@@ -656,6 +670,18 @@ export default {
             //         }
             //     }
             // );
+            return CommunicationServices.getEventSubscription({
+                        page_size: 200,
+                        page_no: 1,
+                        populate: ['event', 'template.sms.template'],
+                        query: JSON.stringify({
+                            'template.sms.template': {
+                                $nin: [null]
+                            }
+                        })
+                    }).then(({ data }) => {
+                this.appSubscriptions = data;
+            })
         },
         removeLink(item, index) {
             this.subscribedRemoved.push(item);

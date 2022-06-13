@@ -7356,10 +7356,10 @@ export default {
             }
         },
         onCreateModalProceedClick(id, item) {
-            // this.selectedSystemEvent = item;
-            // let emailTemplate = this.selectedSystemEvent.child.meta.template
-            //     .email.template;
-            // let emailTemplateForClone = omitForClone(emailTemplate);
+            this.selectedSystemEvent = item;
+            let emailTemplate = this.selectedSystemEvent.child.meta.template
+                .email.template;
+            let emailTemplateForClone = omitForClone(emailTemplate);
             // if (emailTemplate._id == 'create-new') {
             //     setTimeout(() => {
             //         this.$router.push({
@@ -7375,7 +7375,7 @@ export default {
             //     });
                  setTimeout(() => {
                 this.$router.push({
-                    name: 'create-email-template',
+                    name: 'emailtemplateCreate',
                     query: {
                         clone: emailTemplate._id
                     }

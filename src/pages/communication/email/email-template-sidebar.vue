@@ -351,6 +351,7 @@ import accordion from '@/components/common/accordion.vue';
 //     ADMIN_COMMS_SET_EMAIL_TEMPLATE,
 //     ADMIN_COMMS_SET_EMAIL_TEMPLATE_TO_CLONE
 // } from '../../../../store/admin/mutation.type';
+import CommunicationServices from '../../../services/pointblank.service';
 import {
     NitrozenButton,
     NitrozenInput,
@@ -492,7 +493,8 @@ export default {
   "created_at": "2021-08-10T05:47:29.163Z",
   "updated_at": "2022-05-13T05:05:37.001Z",
   "__v": 0
-}
+},
+appSubscriptions: {}
         };
     },
     props: {
@@ -514,6 +516,7 @@ export default {
         }
     },
     mounted() {
+        // console.log('side');
         // let data = {};
         // try {
         //     if (this.isCloneMode) {
@@ -744,21 +747,18 @@ export default {
             event.preventDefault();
         },
         fetchAppEventSubscriptions() {
-        //     return this.$store.dispatch(
-        //         ADMIN_COMMS_FETCH_APP_EVENT_SUBSCRIPTION,
-        //         {
-        //             params: {
-        //                 page_size: 200,
-        //                 page_no: 1,
-        //                 populate: ['event', 'template.email.template'],
-        //                 query: JSON.stringify({
-        //                     'template.email.template': {
-        //                         $nin: [null]
-        //                     }
-        //                 })
-        //             }
-        //         }
-        //     );
+        return CommunicationServices.getEventSubscription({
+                        page_size: 200,
+                        page_no: 1,
+                        populate: ['event', 'template.email.template'],
+                        query: JSON.stringify({
+                            'template.email.template': {
+                                $nin: [null]
+                            }
+                        })
+                    }).then(({ data }) => {
+                this.appSubscriptions = data.data;
+            })
          },
         removeLink(item, index) {
             this.subscribedRemoved.push(item);
