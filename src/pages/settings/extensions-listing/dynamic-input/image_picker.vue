@@ -18,6 +18,13 @@
             :fileName="`extension image ${Date.now()}`"
             namespace="partner-feature-image"
         ></mirage-image-uploader>
+
+        <span class="remove" @click="removeImage" v-if="mValue">
+            <adm-inline-svg
+                :src="'cross-black'"
+                title="Remove Image"
+            ></adm-inline-svg>
+        </span>
     </div>
 </template>
 
@@ -25,11 +32,14 @@
 import { NitrozenRadio, NitrozenTooltip } from '@gofynd/nitrozen-vue';
 import mirageimageuploader from '@/components/common/image-uploader/index.vue';
 
+import AdmInlineSVG from '@/components/common/adm-inline-svg.vue';
+
 export default {
     components: {
         'mirage-image-uploader': mirageimageuploader,
         'nitrozen-tooltip': NitrozenTooltip,
-        'nitrozen-radio': NitrozenRadio
+        'nitrozen-radio': NitrozenRadio,
+        'adm-inline-svg': AdmInlineSVG
     },
     props: ['prop_schema', 'prop', 'name'],
     mounted() {
@@ -54,6 +64,13 @@ export default {
                 type: this.prop_schema.type,
                 value: e
             });
+        },
+        removeImage(e) {
+            this.mValue = '';
+            this.$emit('change', {
+                type: this.prop_schema.type,
+                value: ''
+            })
         }
     }
 }
@@ -61,10 +78,19 @@ export default {
 
 <style lang="less" scoped>
 .text-container {
+    position: relative;
+    padding: 15px 7px;
+
     .title {
         margin-bottom: 7px;
         display: inline-block;
     }
-    padding: 15px 7px;
+
+    .remove {
+        position: absolute;
+        top: 15px;
+        right: 7px;
+        cursor: pointer;
+    }
 }
 </style>
