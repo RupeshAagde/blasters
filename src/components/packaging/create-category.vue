@@ -3,6 +3,7 @@
         <div class="category-create-container-header">Add New Category</div>
         <div class="category-create-input-container">
             <nitrozen-input
+                id="category-input"
                 class="input w-l"
                 :label="groupName.label"
                 :required="true"

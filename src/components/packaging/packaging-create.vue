@@ -3,6 +3,7 @@
         <div class="packaging-create-container-header">Extra Details</div>
         <div class="create-packaging-search-container">
             <nitrozen-input
+                id="select-packaging"
                 class="input w-l"
                 :label="'Select your packaging'"
                 :search="true"
@@ -20,6 +21,7 @@
                 :key="'r2-input-' + index"
             >
                 <nitrozen-input
+                    :id="'row2-' + index"
                     class="input w-l"
                     :label="row2Inputs[input].label"
                     :required="true"
@@ -42,6 +44,7 @@
                 :key="'r3-input-' + index"
             >
                 <nitrozen-input
+                    :id="'row3-' + index"
                     class="input w-l"
                     :label="row3Inputs[input].label"
                     :required="true"
@@ -109,6 +112,7 @@
                 </div>
                 <div class="toggle-container-bulk-body-button-container">
                     <nitrozen-button
+                        :id="'add-group'"
                         :title="'Add Group'"
                         theme="secondary"
                         :class="{
