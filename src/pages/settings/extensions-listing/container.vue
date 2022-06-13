@@ -235,10 +235,6 @@ export default {
                     return item;
                 })
                 if (arrTypePages.length) {
-                    arrPages.push({
-                        text: PAGE_GROUP_INFO[i].text,
-                        isGroupLabel: true,
-                    });
                     arrPages = arrPages.concat(arrTypePages);
                 }
             }
