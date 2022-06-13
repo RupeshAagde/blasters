@@ -125,7 +125,7 @@ export default {
                 }
                 if(prop.predicate_prop) {
                     for(let key in prop.predicate_prop) {
-                        if(key === 'button_label') {
+                        if(key === 'button_label' || key === 'image') {
                             if(this.section.data[key].length !== 0) {
                                 prop.display = true;
                             } else {
