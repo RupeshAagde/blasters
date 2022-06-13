@@ -44,6 +44,7 @@
                 class="extension-collection-cards mr-24"
             ></list-shimmer>
             <div
+
                 v-if="extension_collections.length > 0"
                 class="extension-collection-cards"
             >
@@ -88,7 +89,7 @@
                     v-else-if="pageError && !pageLoading"
                     @tryAgain="fetchCollections"
                 ></page-error>
-                <div class="pagination-div">
+                <div v-if="!inProgressSearch" class="pagination-div">
                     <nitrozen-pagination
                         name="Extensions"
                         v-model="paginationConfig"
@@ -232,7 +233,8 @@ export default {
         },
 
         debounceInput: debounce(function(e) {
-            this.paginationConfig = { ...PAGINATION };
+            this.paginationConfig.current = PAGINATION.current;
+            this.paginationConfig.limit = PAGINATION.limit;
             this.fetchCollections();
         }, 500),
         capitalizeStr(str) {
@@ -261,6 +263,8 @@ export default {
                 this.paginationConfig = res.data.page;
                 this.paginationConfig.total = res.data.page.item_total;
                 this.paginationConfig.limit = res.data.page.size;
+            })
+            .finally(()=>{
                 this.inProgressSearch = false;
             });
         },
