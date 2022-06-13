@@ -75,7 +75,7 @@
 </template>
 
 <script>
-//import { ADMIN_COMMS_SEND_TEST_SMS } from './../../../../../store/admin/action.type';
+import CommunicationServices from '../../../../services/pointblank.service';
 import uktinlinesvg from '@/components/common/ukt-inline-svg.vue';
 import uktModal from '@/components/common/utk-modal.vue';
 import path from 'path';
@@ -211,34 +211,33 @@ export default {
                     };
                 
 
-            //         this.$store
-            //             .dispatch(ADMIN_COMMS_SEND_TEST_SMS, obj)
-            //             .then(data => {
-            //                 this.smsSuccessfullySent = true;
-            //                 this.commsCounter += 1;
-            //                 if (this.commsCounter > 9) {
-            //                     this.disableSendSmsButton = true;
-            //                 }
-            //             })
-            //             .catch(err => {
-            //                 console.log(err);
-            //                 this.smsSuccessfullySent = false;
-            //                 if (this.provider) {
-            //                     this.failedToSend = true;
-            //                     this.errortext =
-            //                         'Failed to send sms - please check provider';
-            //                 } else {
-            //                     this.errortext = 'Failed to send sms';
-            //                 }
-            //             });
-            //     }
-            // } else {
-            //     this.testSms.phone_number = this.testSms.phone_number || {};
-            //     this.testSms.phone_number.showerror = true;
-            //     this.testSms.phone_number.errortext =
-            //         'Mobile Number is invalid';
+                    CommunicationServices.postSendSync(obj)
+                        .then(data => {
+                            this.smsSuccessfullySent = true;
+                            this.commsCounter += 1;
+                            if (this.commsCounter > 9) {
+                                this.disableSendSmsButton = true;
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            this.smsSuccessfullySent = false;
+                            if (this.provider) {
+                                this.failedToSend = true;
+                                this.errortext =
+                                    'Failed to send sms - please check provider';
+                            } else {
+                                this.errortext = 'Failed to send sms';
+                            }
+                        });
+                }
+            } else {
+                this.testSms.phone_number = this.testSms.phone_number || {};
+                this.testSms.phone_number.showerror = true;
+                this.testSms.phone_number.errortext =
+                    'Mobile Number is invalid';
              }
-        }},
+        },
         closeSendTestSmsModal() {
             this.$emit('closeModal');
         }

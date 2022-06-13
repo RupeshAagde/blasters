@@ -68,7 +68,6 @@ const CommunicationServices = {
         return ApiService.get(URLS.EMAIL_PROVIDER(id) , axiosOptions);
     },
     putEmailProviderbyId(id,data){
-        console.log("pro",data);
         const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
         return ApiService.put(URLS.EMAIL_PROVIDER(id) , axiosOptions);
     },
@@ -85,15 +84,18 @@ const CommunicationServices = {
         return ApiService.get(URLS.COMMUNICATION_APP_PROVIDER() , axiosOptions);
     },
     postGlobalProvider(data){
-        console.log(data);
         const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
         return ApiService.put(URLS.COMMUNICATION_GLOBAL_PROVIDER() , axiosOptions);
     },
-    //COMMUNICATION_SYSTEM_EVENTS
     getSystemEvents(){
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_SYSTEM_EVENTS() , axiosOptions);
     },
+    postSendSync(data){
+        const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
+        return ApiService.post(URLS.COMMUNICATION_SEND_SYNC() , axiosOptions);
+    },
+    
 
     
 

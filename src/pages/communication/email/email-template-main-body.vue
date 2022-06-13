@@ -119,7 +119,7 @@
                         <template slot="body">
                             <div class="outer-container">
                                 <div class="inner-container-2">
-                                    <beefreeeditor
+                                    <!-- <beefreeeditor
                                         v-if="data.editor_type.value == 'bee'"
                                         :template="
                                             JSON.parse(data.editor_meta.value)
@@ -130,7 +130,7 @@
                                         "
                                         ref="beefree"
                                         class="editor-container"
-                                    ></beefreeeditor>
+                                    ></beefreeeditor> -->
                                     <!-- <newslettergrapeeditor
                                         v-if="
                                             data.editor_type.value == 'grapeJS'
@@ -806,6 +806,7 @@ import hash from 'object-hash';
 import isEmpty from 'lodash/isEmpty';
 import cloneDeep from 'lodash/cloneDeep';
 import pick from 'lodash/pick';
+import CommunicationServices from '../../../services/pointblank.service';
 
 const DEFAULT_RAW_HTML_EDITOR_TEXT = `<!DOCTYPE html>
 <html lang="en">
@@ -1258,66 +1259,65 @@ ${template}
             return isValid;
         },
         sendEmail() {
-            // this.testEmail.to = this.testEmail.to || {};
-            // this.testEmail.to.showerror = false;
-            // this.testEmail.to.errortext = '';
-            // this.selectedProvider.showerror = false;
-            // this.selectedProvider.errortext = '';
-            // this.emailSuccessfullySent = false;
+            this.testEmail.to = this.testEmail.to || {};
+            this.testEmail.to.showerror = false;
+            this.testEmail.to.errortext = '';
+            this.selectedProvider.showerror = false;
+            this.selectedProvider.errortext = '';
+            this.emailSuccessfullySent = false;
 
-            // let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            // if (this.testEmail && this.testEmail.to && this.selectedProvider.value!==" ") {
-            //     if (!emailRegex.test(this.testEmail.to.value)) {
-            //         this.testEmail.to.showerror = true;
-            //         this.testEmail.to.errortext = 'To email is invalid';
-            //     } else {
-            //         this.disableSendMailButton = true;
-            //         let obj = {
-            //             data: [
-            //                 {
-            //                     to: this.testEmail.to.value,
-            //                     ...this.json
-            //                 }
-            //             ],
-            //             email: {
-            //                 template: {
-            //                     key: 'object',
-            //                     value: {
-            //                         ...this.emailTemplateStore,
-            //                         published: true
-            //                     }
-            //                 },
-            //                 provider:{
-            //                     id:this.selectedProvider.value
-            //                 }
-            //             }
-            //         };
-            //         this.$store
-            //             .dispatch(ADMIN_COMMS_SEND_TEST_EMAIL, obj)
-            //             .then(data => {
-            //                 this.emailSuccessfullySent = true;
-            //                 this.commsCounter += 1;
-            //                 if (this.commsCounter > 9) {
-            //                     this.disableSendEmailButton = true;
-            //                 }
-            //             })
-            //             .catch(err => {
-            //                 console.log(err);
-            //             });
-            //     }
-            // } else {
-            //     if(!this.testEmail.to.value){
-            //     this.testEmail.to = this.testEmail.to || {};
-            //     this.testEmail.to.showerror = true;
-            //     this.testEmail.to.errortext = 'To email is invalid';
-            //     }
+            let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (this.testEmail && this.testEmail.to && this.selectedProvider.value!==" ") {
+                if (!emailRegex.test(this.testEmail.to.value)) {
+                    this.testEmail.to.showerror = true;
+                    this.testEmail.to.errortext = 'To email is invalid';
+                } else {
+                    this.disableSendMailButton = true;
+                    let obj = {
+                        data: [
+                            {
+                                to: this.testEmail.to.value,
+                                ...this.json
+                            }
+                        ],
+                        email: {
+                            template: {
+                                key: 'object',
+                                value: {
+                                    ...this.emailTemplateStore,
+                                    published: true
+                                }
+                            },
+                            provider:{
+                                id:this.selectedProvider.value
+                            }
+                        }
+                    };
+                        CommunicationServices.postSendSync(obj)
+                        .then(data => {
+                            this.emailSuccessfullySent = true;
+                            this.commsCounter += 1;
+                            if (this.commsCounter > 9) {
+                                this.disableSendEmailButton = true;
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                }
+            } else {
+                if(!this.testEmail.to.value){
+                this.testEmail.to = this.testEmail.to || {};
+                this.testEmail.to.showerror = true;
+                this.testEmail.to.errortext = 'To email is invalid';
+                }
 
-            //     if(this.selectedProvider.value===" "){
-            //         this.selectedProvider.showerror = true;
-            //         this.selectedProvider.errortext =
-            //             'Please select provider';
-            //     }
-            // }
+                if(this.selectedProvider.value===" "){
+                    this.selectedProvider.showerror = true;
+                    this.selectedProvider.errortext =
+                        'Please select provider';
+                }
+            }
         },
         onSelectedDataSource(id) {
             if (id == 1000) {

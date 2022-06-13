@@ -74,6 +74,7 @@ import {
     flatBtn,
     strokeBtn
 } from '@gofynd/nitrozen-vue';
+import CommunicationServices from '../../../../services/pointblank.service';
 export default {
     components: {
         'ukt-modal': uktModal,
@@ -137,82 +138,81 @@ export default {
             }
         },
         sendEmail() {
-            // this.testEmail.to = this.testEmail.to || {};
-            // this.testEmail.to.showerror = false;
-            // this.testEmail.to.errortext = '';
-            // this.errortext = '';
-            // let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            // if (this.testEmail && this.testEmail.to) {
-            //     if (!emailRegex.test(this.testEmail.to.value)) {
-            //         this.testEmail.to.showerror = true;
-            //         this.testEmail.to.errortext = 'To email is invalid';
-            //     } else {
-            //         this.disableSendMailButton = true;
-            //         let obj = {
-            //             data: [
-            //                 {
-            //                     to: this.testEmail.to.value
-            //                 }
-            //             ],
-            //             email: {
-            //                 template: {
-            //                     key: 'object',
-            //                     value: {
-            //                         name: 'test',
-            //                         priority: 'low',
-            //                         tags: [],
-            //                         template_variables: {
-            //                             hello: 'world'
-            //                         },
-            //                         published: true,
-            //                         subject: {
-            //                             template_type: 'static',
-            //                             template: 'test email'
-            //                         },
-            //                         html: {
-            //                             template_type: 'static',
-            //                             template:
-            //                                 '<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Test Email</title>\n</head>\n<body>\n    <div>This is a test email</div>\n</body>\n</html>'
-            //                         },
-            //                         editor_type: 'rawhtml'
-            //                     }
-            //                 },
-            //                 ...(this.provider
-            //                     ? {
-            //                           provider: {
-            //                               id: this.provider
-            //                           }
-            //                       }
-            //                     : {})
-            //             }
-            //         };
+          this.testEmail.to = this.testEmail.to || {};
+            this.testEmail.to.showerror = false;
+            this.testEmail.to.errortext = '';
+            this.errortext = '';
+            let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (this.testEmail && this.testEmail.to) {
+                if (!emailRegex.test(this.testEmail.to.value)) {
+                    this.testEmail.to.showerror = true;
+                    this.testEmail.to.errortext = 'To email is invalid';
+                } else {
+                    this.disableSendMailButton = true;
+                    let obj = {
+                        data: [
+                            {
+                                to: this.testEmail.to.value
+                            }
+                        ],
+                        email: {
+                            template: {
+                                key: 'object',
+                                value: {
+                                    name: 'test',
+                                    priority: 'low',
+                                    tags: [],
+                                    template_variables: {
+                                        hello: 'world'
+                                    },
+                                    published: true,
+                                    subject: {
+                                        template_type: 'static',
+                                        template: 'test email'
+                                    },
+                                    html: {
+                                        template_type: 'static',
+                                        template:
+                                            '<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Test Email</title>\n</head>\n<body>\n    <div>This is a test email</div>\n</body>\n</html>'
+                                    },
+                                    editor_type: 'rawhtml'
+                                }
+                            },
+                            ...(this.provider
+                                ? {
+                                      provider: {
+                                          id: this.provider
+                                      }
+                                  }
+                                : {})
+                        }
+                    };
 
-            //         this.$store
-            //             .dispatch(ADMIN_COMMS_SEND_TEST_EMAIL, obj)
-            //             .then(data => {
-            //                 this.emailSuccessfullySent = true;
-            //                 this.commsCounter += 1;
-            //                 if (this.commsCounter > 9) {
-            //                     this.disableSendEmailButton = true;
-            //                 }
-            //             })
-            //             .catch(err => {
-            //                 console.log(err);
-            //                 this.emailSuccessfullySent = false;
-            //                 if (this.provider) {
-            //                     this.failedToSend = true;
-            //                     this.errortext =
-            //                         'Failed to send email - please check provider';
-            //                 } else {
-            //                     this.errortext = 'Failed to send email';
-            //                 }
-            //             });
-            //     }
-            // } else {
-            //     this.testEmail.to = this.testEmail.to || {};
-            //     this.testEmail.to.showerror = true;
-            //     this.testEmail.to.errortext = 'To email is invalid';
-            // }
+                        CommunicationServices.postSendSync(obj)
+                        .then(data => {
+                            this.emailSuccessfullySent = true;
+                            this.commsCounter += 1;
+                            if (this.commsCounter > 9) {
+                                this.disableSendEmailButton = true;
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            this.emailSuccessfullySent = false;
+                            if (this.provider) {
+                                this.failedToSend = true;
+                                this.errortext =
+                                    'Failed to send email - please check provider';
+                            } else {
+                                this.errortext = 'Failed to send email';
+                            }
+                        });
+                }
+            } else {
+                this.testEmail.to = this.testEmail.to || {};
+                this.testEmail.to.showerror = true;
+                this.testEmail.to.errortext = 'To email is invalid';
+            }
         },
         closeSendTestEmailModal() {
             this.$emit('closeModal');

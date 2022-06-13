@@ -658,6 +658,10 @@ const URLS = {
     COMMUNICATION_SYSTEM_EVENTS: () => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/event/events`)
     },
+    COMMUNICATION_SEND_SYNC: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `v1.0/platform/engine/send-sync`)
+    },
+    
     
     
     
