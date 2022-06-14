@@ -20,10 +20,10 @@
         ></mirage-image-uploader>
 
         <span class="remove" @click="removeImage" v-if="mValue">
-            <inline-svg
-                :src="'delete-red'"
+            <adm-inline-svg
+                :src="'delete'"
                 title="Remove Image"
-            ></inline-svg>
+            ></adm-inline-svg>
         </span>
     </div>
 </template>
@@ -33,15 +33,13 @@ import { NitrozenRadio, NitrozenTooltip } from '@gofynd/nitrozen-vue';
 import mirageimageuploader from '@/components/common/image-uploader/index.vue';
 
 import AdmInlineSVG from '@/components/common/adm-inline-svg.vue';
-import InlineSVG from '@/components/common/ukt-inline-svg';
 
 export default {
     components: {
         'mirage-image-uploader': mirageimageuploader,
         'nitrozen-tooltip': NitrozenTooltip,
         'nitrozen-radio': NitrozenRadio,
-        'adm-inline-svg': AdmInlineSVG,
-        'inline-svg': InlineSVG
+        'adm-inline-svg': AdmInlineSVG
     },
     props: ['prop_schema', 'prop', 'name'],
     mounted() {
