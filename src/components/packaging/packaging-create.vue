@@ -6,13 +6,48 @@
                 id="select-packaging"
                 class="input w-l"
                 :label="'Select your packaging'"
-                :search="true"
                 :showSearchIcon="true"
                 :showTooltip="true"
                 :tooltipText="searchTooltipText"
                 :placeholder="searchPlacholder"
                 v-model="searchInput"
+                @input="handleSearchInput"
             />
+            <div class="packaging-search-list-container" v-if="showSearchList">
+                <div v-if="searchedProductList.length > 0">
+                    <div
+                        class="packaging-search-list-row"
+                        v-for="(item, index) of searchedProductList"
+                        :key="'packaging-product' + index"
+                        @click="handlePackagingProductClicked(item)"
+                    >
+                        <div class="packaging-search-list-row-image">
+                            <img
+                                :src="item.image"
+                                :alt="item.name"
+                                :id="'packaging-image' + index"
+                            />
+                        </div>
+                        <span
+                            class="packaging-search-list-row-name"
+                            :id="'packaging-name' + index"
+                            >{{ item.name }}</span
+                        >
+                        <span
+                            class="packaging-search-list-row-dimension"
+                            :id="'packaging-dimension' + index"
+                            >{{ item.dimension || 'NA' }}</span
+                        >
+                    </div>
+                </div>
+                <div
+                    v-else
+                    class="packaging-search-list-row no-products"
+                    :id="'product-not-found'"
+                >
+                    No products found
+                </div>
+            </div>
         </div>
         <div class="create-packaging-row-2">
             <div
@@ -30,7 +65,7 @@
                     type="number"
                     @blur="handleBlur('row2Inputs', input)"
                     @input="(val) => handleChange('row2Inputs', input, val)"
-                    :disabled="!searchInput"
+                    :disabled="!packagingSelected"
                 />
                 <nitrozen-error v-if="row2Inputs[input].error">
                     {{ row2Inputs[input].error }}
@@ -56,7 +91,7 @@
                     @blur="handleBlur('row3Inputs', input)"
                     @input="(val) => handleChange('row3Inputs', input, val)"
                     :disabled="
-                        row3Inputs[input].isDisabled ? true : searchInput
+                        row3Inputs[input].isDisabled ? true : !packagingSelected
                     "
                 />
                 <nitrozen-error v-if="row3Inputs[input].error">
@@ -70,6 +105,7 @@
                 <nitrozen-toggle-btn
                     :value="l3Checked"
                     @change="handleToggleChange('l3')"
+                    :disabled="!packagingSelected"
                 />
             </div>
             <!-- Call to reusable component to select multiple categories 
@@ -91,6 +127,7 @@
                 <nitrozen-toggle-btn
                     :value="bulkChecked"
                     @change="handleToggleChange('bulk')"
+                    :disabled="!packagingSelected"
                 />
             </div>
             <div class="toggle-container-bulk-body" v-if="bulkChecked">
@@ -140,6 +177,9 @@ import {
 import inlineSvgVue from '../common/inline-svg.vue';
 import BulkPackagingCard from './common/bulk-packaging-card.vue';
 import CategoryMultiSelect from './common/category-multi-select.vue';
+import { debounce } from '@/helper/utils';
+import { mapGetters } from 'vuex';
+import { GET_PACKAGING_PRODUCTS } from '../../store/getters.type';
 export default {
     name: 'packaging-create',
     components: {
@@ -155,7 +195,10 @@ export default {
     computed: {
         searchPlacholder() {
             return 'Search and select packaging from the list';
-        }
+        },
+        ...mapGetters({
+            products: GET_PACKAGING_PRODUCTS
+        })
     },
     data() {
         return {
@@ -269,13 +312,55 @@ export default {
                     }
                 }
             },
-            categoryValue: []
+            categoryValue: [],
+            packagingSelected: false,
+            searchedProductList: [],
+            selectedPackage: {},
+            showSearchList: false
         };
     },
     mounted() {
         this.setCategoryList();
     },
     methods: {
+        /**
+         * @author Rohan Shah
+         * @description Handles the search input for packaging products
+         * debounce after 1.5 seconds then executes the function and filters based on user input
+         * @param {String} | input
+         */
+        handleSearchInput: debounce(async function(input) {
+            // if there is no input in search then clear the searchedProductList array
+            if (!input) {
+                this.searchedProductList = [];
+                this.packagingSelected = false;
+                this.showSearchList = false;
+                return;
+            }
+            // if not then check if input has 3 or more characters
+            if (input.length >= 3) {
+                let productList = this.products;
+                // filter the list and save in temp var
+                let filteredList = productList.filter((item) =>
+                    item.name.toLowerCase().includes(input.toLowerCase())
+                );
+                // set to state
+                this.searchedProductList = filteredList;
+                this.showSearchList = true;
+            }
+        }, 1500),
+        /**
+         * @author Rohan Shah
+         * @param {Object} item
+         * @description TODO
+         */
+        handlePackagingProductClicked(item) {
+            this.selectedPackage = item;
+            this.packagingSelected = true;
+            this.showSearchList = false;
+            this.searchInput = item.name;
+            this.searchedProductList = [];
+        },
         /**
          * @author Rohan Shah
          * @param {Number} index | index position
