@@ -81,6 +81,7 @@
                     :isEditMode="isEditMode"
                     :isCloneMode="isCloneMode"
                     :templateId="templateId"
+                    :templateData="smsTemplateStore"
                     ref="smsTemplateEdit"
                     @onLinkSubscription="onLinkSubscription"
                     @linkEventContinueClicked="saveAndPublish"
@@ -128,6 +129,7 @@ import {
 import isEmpty from 'lodash/isEmpty';
 import cloneDeep from 'lodash/cloneDeep';
 import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
+import CommunicationServices from '../../../services/pointblank.service';
 
 const THREE_DOT_OPTIONS = [
     {
@@ -170,17 +172,21 @@ export default {
             pageLoading: false,
             isEditMode:  false,
             isCloneMode: false,
-            templateId: this.$route.params.id,
+            templateId: this.$route.params.templateId,
             threeDotsOptions: THREE_DOT_OPTIONS,
             subscribedAdded: [],
             subscribedRemoved: [],
-            smsTemplateStore: {"name":"","description":"","message":"","priority":"low"}
+            smsTemplateStore: {}
         };
     },
     computed: {
         
     },
     mounted() {
+        if(this.templateId){
+            Promise.resolve(this.getTemplatedbyId())
+         //this.getTemplatedbyId()
+        }
         // let promiseObj = null;
         // if (this.$route.query && this.$route.query.clone) {
         //     if (
@@ -239,6 +245,11 @@ export default {
         //     });
     },
     methods: {
+        getTemplatedbyId(){
+       return CommunicationServices.getSmsTemplatebyId(this.templateId).then((data)=>{
+        this.smsTemplateStore = data.data
+        })
+        },
         saveForm() {
             // if (this.templateId) {
             //     this.pageLoading = true;
@@ -313,76 +324,79 @@ export default {
             //             this.pageError = true;
             //         });
             // } else {
-            //     this.pageLoading = true;
-            //     return this.$store
-            //         .dispatch(ADMIN_COMMS_CREATE_SMS_TEMPLATE_FORM, {
-            //             body: this.smsTemplateStore
-            //         })
-            //         .then(response => {
-            //             this.pageLoading = false;
-            //             this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
-            //                 data: response
-            //             });
-            //             if (response.published) {
-            //                 this.$router.push({
-            //                     path: `${getRoute(
-            //                         this.$route
-            //                     )}/sms/templates/listing`
-            //                 });
-            //                 this.$snackbar.global.showSuccess(
-            //                     'SMS template has been published!'
-            //                 );
-            //             }
-            //             return;
-            //         })
-            //         .then(() => {
-            //             if (
-            //                 this.subscribedAdded.length +
-            //                     this.subscribedRemoved.length >
-            //                 0
-            //             ) {
-            //                 let subscribedAdded = this.subscribedAdded.map(
-            //                     appSubscription => {
-            //                         let template = cloneDeep(
-            //                             appSubscription.template
-            //                         );
-            //                         template.sms.template = this.smsTemplateStore._id;
-            //                         return {
-            //                             _id: appSubscription._id,
-            //                             template
-            //                         };
-            //                     }
-            //                 );
-            //                 let subscribedRemoved = this.subscribedRemoved.map(
-            //                     appSubscription => {
-            //                         let template = cloneDeep(
-            //                             appSubscription.template
-            //                         );
-            //                         template.sms.template =
-            //                             appSubscription.event.template.sms.template;
-            //                         return {
-            //                             _id: appSubscription._id,
-            //                             template
-            //                         };
-            //                     }
-            //                 );
-            //                 this.$store.dispatch(
-            //                     ADMIN_COMMS_BULK_UPDATE_APP_EVENT_SUBSCRIPTION,
-            //                     {
-            //                         subscriptions: [
-            //                             ...subscribedAdded,
-            //                             ...subscribedRemoved
-            //                         ]
-            //                     }
-            //                 );
-            //             }
-            //         })
-            //         .catch(err => {
-            //             console.log(err);
-            //             this.$snackbar.global.showError('Something went wrong');
-            //             this.pageError = true;
-            //             this.pageLoading = false;
-            //         });
+                this.pageLoading = true;
+                //return this.$store
+                    // .dispatch(ADMIN_COMMS_CREATE_SMS_TEMPLATE_FORM, {
+                    //     body: this.smsTemplateStore
+                    // })
+                    CommunicationServices.postSmsTemplate(this.smsTemplateStore)
+                    .then(response => {
+                        this.pageLoading = false;
+                        // this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
+                        //     data: response
+                        // });
+                        this.$router.push({ name: 'smstemplateMain' })
+                            this.$snackbar.global.showSuccess(
+                                'SMS template has been published!'
+                            );
+                        
+                        //return;
+                    })
+                    .then(() => {
+                        if (
+                            this.subscribedAdded.length +
+                                this.subscribedRemoved.length >
+                            0
+                        ) {
+                            let subscribedAdded = this.subscribedAdded.map(
+                                appSubscription => {
+                                    let template = cloneDeep(
+                                        appSubscription.template
+                                    );
+                                    template.sms.template = this.smsTemplateStore._id;
+                                    return {
+                                        _id: appSubscription._id,
+                                        template
+                                    };
+                                }
+                            );
+                            let subscribedRemoved = this.subscribedRemoved.map(
+                                appSubscription => {
+                                    let template = cloneDeep(
+                                        appSubscription.template
+                                    );
+                                    template.sms.template =
+                                        appSubscription.event.template.sms.template;
+                                    return {
+                                        _id: appSubscription._id,
+                                        template
+                                    };
+                                }
+                            );
+                            // this.$store.dispatch(
+                            //     ADMIN_COMMS_BULK_UPDATE_APP_EVENT_SUBSCRIPTION,
+                            //     {
+                            //         subscriptions: [
+                            //             ...subscribedAdded,
+                            //             ...subscribedRemoved
+                            //         ]
+                            //     }
+                            // );
+                            CommunicationServices.postBulkUpdate({
+                                    subscriptions: [
+                                        ...subscribedAdded,
+                                        ...subscribedRemoved
+                                    ]
+                                })
+                        }
+                    })
+                    
+                    .catch(err => {
+                        console.log(err);
+                        this.$snackbar.global.showError('Something went wrong');
+                        this.pageError = true;
+                        this.pageLoading = false;
+                    });
             // }
         },
         callAction(item) {
@@ -445,12 +459,15 @@ export default {
             ) {
                 this.$refs['smsTemplateEdit'].closeEventLinkingModal();
             }
+            console.log();
             if (
                 this.$refs['smsTemplateEdit'].validate() &&
                 this.$refs['smstemplate_variables'].validate()
             ) {
-                this.$refs['smsTemplateEdit'].saveForm();
-                this.$refs['smstemplate_variables'].saveForm();
+               let ob1 = this.$refs['smsTemplateEdit'].saveForm();
+                let ob2 = this.$refs['smstemplate_variables'].saveForm();
+                this.smsTemplateStore = {...ob1, ...ob2}
+                //console.log(this.smsTemplateStore);
                 this.saveForm();
             }
         },

@@ -744,7 +744,7 @@ export default {
         //     smsProvidersStore: ADMIN_COMMS_GET_SMS_PROVIDERS
         // }),
     },
-    // mounted() {
+     mounted() {
     //     let data = {};
     //     this.$store
     //             .dispatch(ADMIN_COMMS_FETCH_SMS_PROVIDERS, {
@@ -837,7 +837,7 @@ export default {
     //     } catch (error) {
     //         this.$snackbar.global.showError('Failed to load Sms Template');
     //     }
-    // },
+     },
     updated() {
         this.updateEditorMode();
     },
@@ -1143,9 +1143,11 @@ export default {
                     ...finalObj
                 };
                 this.removeEmptyFields(finalObj);
-                this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
-                    data: finalObj
-                });
+                //console.log(finalObj);
+                return finalObj
+                // this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
+                //     data: finalObj
+                // });
             }
         },
         sendSms() {

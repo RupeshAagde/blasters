@@ -631,8 +631,8 @@ const URLS = {
     COMMUNICATION_EVENT_SUBSCRIPTION: (id='') => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/event/event-subscriptions/`,id)
     },
-    COMMUNICATION_SMS_TEMPLATES: () => {
-        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/templates`)
+    COMMUNICATION_SMS_TEMPLATES: (id='') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/templates/`,id)
     },
     COMMUNICATION_SMS_S_TEMPLATES: () => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/system-templates`)
@@ -661,6 +661,10 @@ const URLS = {
     COMMUNICATION_SEND_SYNC: () => {
         return urlJoin(COMMUNICATION_BASE_URL, `v1.0/platform/engine/send-sync`)
     },
+    EVENT_BULK_UPDATE: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/event/event-subscriptions/bulkUpdate`)
+    },
+    
     
     
     

@@ -425,27 +425,23 @@ export default {
             );
         },
         editSmsTemplate(item) {
+            //console.log('hi');
             // this.$store
             //     .dispatch(ADMIN_COMMS_FETCH_SMS_TEMPLATE, item.id)
             //     .then(() => {
+            //CommunicationServices.getSmsTemplatebyId(item._id).then(()=>{
+                this.$router.push({path:`templates/edit/${item._id}`})
+            //})    
             //         this.$router.push(
             //             `${getRoute(this.$route)}/sms/templates/edit/${
             //                 item._id
             //             }`
             //         );
             //     });
+            //this.$router.push({path:`templates/edit/${item._id}`});
         },
         previewSmsTemplate(item) {
-            // this.$router.push({path:`/admin/sms/templates/edit/${item._id}`,data:{route:"variables"}});
-            if (item.published) {
-                this.$router.push({
-                    name: 'preview-sms-template',
-                    params: {
-                        id: item._id,
-                        smsTemplate: item
-                    }
-                });
-            }
+             this.$router.push({path:`administrator/communication/sms/templates/edit/${item._id}`});
         },
         deleteSmsTemplate(item) {
             adminCommsService

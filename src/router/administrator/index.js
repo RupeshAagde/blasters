@@ -248,6 +248,19 @@ export default [
                 }
             },
             {
+                name: 'smstemplateCreate',
+                path: 'communication/sms/templates/edit/:templateId',
+                component: SmsTemplateForm,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
                 name: 'emailtemplateMain',
                 path: 'communication/email/templates',
                 component: EmailTemplateMain,

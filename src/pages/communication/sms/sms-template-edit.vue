@@ -492,6 +492,11 @@ export default {
             type: Boolean,
             default: false
         }
+        ,
+        templateData : {
+            type: Object,
+            default: false
+        }
     },
     computed: {
         getBreadCrumb() {
@@ -520,8 +525,9 @@ export default {
                 };
             } else {
                 console.log('tem',this.smsTemplateStore);
-                data = this.smsTemplateStore;
+                data = this.templateData;
             }
+            console.log('tempD',this.templateData);
             let obj = {};
             this.formFieldNames.forEach(key => {
                 if (
@@ -538,15 +544,13 @@ export default {
                     obj[key] = this.getInitialValue(data[key]);
                 }
             });
-            obj['priority'] = this.priorityOptions.find(
-                option => option.value == data['priority']
-            );
+            //this.data.name.value = this.smsTemplateStore.name
+            //obj['priority'] = data.priority.value
             this.data = { ...this.data, ...obj };
 
             if (data.slug) {
                 this.slug = this.smsTemplateStore.slug;
             }
-            this.fetchAppEventSubscriptions().then(() => {
                 let groupNames = this.appSubscriptions.items.map(
                     appSubscription => appSubscription.event.group
                 );
@@ -596,8 +600,8 @@ export default {
                 this.subscriptionsFiltered = this.subscriptions;
                 this.initialHash = this.generateHashOfLocalState();
                 this.pageLoading = false;
-            });
         } catch (err) {
+            console.log(err);
             this.$snackbar.global.showError('Failed to load Sms Template');
             this.pageLoading = false;
             this.pageError = true;
@@ -609,7 +613,7 @@ export default {
     methods: {
         fetchSmsTemplates() {
             return CommunicationServices.getSmsTemplates().then(({ data }) => {
-                this.smsTemplateStore = {"name":"","description":"","message":"","priority":"low"};
+                //this.smsTemplateStore = {"name":"","description":"","message":"","priority":"low"};
             })
         },
         eventLinkDecision(val) {
@@ -645,14 +649,14 @@ export default {
         },
         generateHashOfLocalState() {
             return hash({
-                // ...this.data,
-                // ...{ subscribedAdded: this.subscribedAdded },
-                // ...{ subscribedRemoved: this.subscribedRemoved },
-                // ...{ tags: this.tags }
+                ...this.data,
+                ...{ subscribedAdded: this.subscribedAdded },
+                ...{ subscribedRemoved: this.subscribedRemoved },
+                ...{ tags: this.tags }
             });
         },
         isFormUpdated() {
-            //return this.generateHashOfLocalState() !== this.initialHash;
+            return this.generateHashOfLocalState() !== this.initialHash;
         },
         fetchAppEventSubscriptions() {
             // return this.$store.dispatch(
@@ -792,17 +796,19 @@ export default {
                 if (!isEmpty(this.meta)) {
                     finalObj['meta'] = this.meta;
                 }
-                this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
-                    data: {
-                        ...finalObj
-                    }
-                });
+                //console.log(finalObj);
+                // this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
+                //     data: {
+                //         ...finalObj
+                //     }
+                // });
                 if (this.linkToEvent) {
                     this.$emit('onLinkSubscription', {
                         subscribedAdded: this.subscribedAdded,
                         subscribedRemoved: this.subscribedRemoved
                     });
                 }
+                return finalObj
             }
         },
         trimLengthMoreThan100(){

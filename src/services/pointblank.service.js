@@ -59,7 +59,6 @@ const CommunicationServices = {
         return ApiService.post(URLS.SMS_PROVIDER() , axiosOptions);
     },
     getSmsProviderbyId(id){
-        console.log(URLS.SMS_PROVIDER());
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.SMS_PROVIDER(id) , axiosOptions);
     },
@@ -94,6 +93,19 @@ const CommunicationServices = {
     postSendSync(data){
         const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
         return ApiService.post(URLS.COMMUNICATION_SEND_SYNC() , axiosOptions);
+    },
+    postSmsTemplate(data){
+        const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
+        return ApiService.post(URLS.COMMUNICATION_SMS_TEMPLATES() , axiosOptions);
+    },
+    
+    postBulkUpdate(data){
+        const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
+        return ApiService.post(URLS.EVENT_BULK_UPDATE() , axiosOptions);
+    },
+    getSmsTemplatebyId(id){
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.COMMUNICATION_SMS_TEMPLATES(id) , axiosOptions);
     },
     
 
