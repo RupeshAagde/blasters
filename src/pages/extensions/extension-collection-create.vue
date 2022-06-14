@@ -45,6 +45,7 @@
                             v-model="collection_data.name"
                             @input="onNameInput"
                             :custom="true"
+                            :maxlength="30"
                         >
                         </nitrozen-input>
                         <nitrozen-error
@@ -537,7 +538,7 @@ export default {
                 if (validator && !validator(this.collection_data)) {
                     this.$set(this.errors, key, message);
                 }
-                if (!validator && !this.collection_data[key]) {
+                if (!validator && !this.collection_data[key].trim()) {
                     this.$set(this.errors, key, message);
                 }
             });
