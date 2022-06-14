@@ -179,7 +179,10 @@ import BulkPackagingCard from './common/bulk-packaging-card.vue';
 import CategoryMultiSelect from './common/category-multi-select.vue';
 import { debounce } from '@/helper/utils';
 import { mapGetters } from 'vuex';
-import { GET_PACKAGING_PRODUCTS } from '../../store/getters.type';
+import {
+    GET_EDIT_PRODUCT,
+    GET_PACKAGING_PRODUCTS
+} from '../../store/getters.type';
 export default {
     name: 'packaging-create',
     components: {
@@ -197,7 +200,8 @@ export default {
             return 'Search and select packaging from the list';
         },
         ...mapGetters({
-            products: GET_PACKAGING_PRODUCTS
+            products: GET_PACKAGING_PRODUCTS,
+            editProduct: GET_EDIT_PRODUCT
         })
     },
     data() {
@@ -321,8 +325,29 @@ export default {
     },
     mounted() {
         this.setCategoryList();
+        this.setEditProduct();
     },
     methods: {
+        /**
+         * @author Rohan Shah
+         * @description Handle edit by appending values to
+         * the state from the store state value
+         */
+        setEditProduct() {
+            // get query param
+            let isEdit = this.$router.currentRoute.query.type;
+            // if there is a query param only then execute
+            if (isEdit) {
+                let tempRow2 = this.row2Inputs;
+                let tempRow3 = this.row3Inputs;
+                Object.keys(tempRow2).forEach((item) => {
+                    tempRow2[item].value = this.editProduct[item];
+                });
+                Object.keys(tempRow3).forEach((item) => {
+                    tempRow3[item].value = this.editProduct[item];
+                });
+            }
+        },
         /**
          * @author Rohan Shah
          * @description Handles the search input for packaging products
