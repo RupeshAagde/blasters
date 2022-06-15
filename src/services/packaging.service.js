@@ -8,16 +8,19 @@ const PackagingService = {
     /**
      * @author Rohan Shah
      * @param {*} params TODO update
-     * @description Fetches the categories from the BE
+     * @description Fetches the group categories from the BE
      * @type GET
      * @returns Promise
      */
-    getCategories(params) {
+    getGroupCategories(params) {
         const axiosOptions = Object.assign(
             { params },
             getCommonHeaderOptions()
         );
-        return ApiService.get(envVars.PACKAGING_ADMIN_UDL, axiosOptions);
+        return ApiService.get(
+            envVars.PACKAGING_ADMIN_URL + 'group-categories/',
+            axiosOptions
+        );
     },
     /**
      * @author Rohan Shah
@@ -31,7 +34,10 @@ const PackagingService = {
             { params },
             getCommonHeaderOptions()
         );
-        return ApiService.get(envVars.PACKAGING_ADMIN_UDL, axiosOptions);
+        return ApiService.get(
+            envVars.PACKAGING_ADMIN_URL + 'product/',
+            axiosOptions
+        );
     },
     /**
      * @author Rohan Shah
@@ -40,11 +46,31 @@ const PackagingService = {
      * @type POST
      * @returns Promise
      */
-    createCategory(data) {
+    createGroupCategory(data) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
             data
         });
-        return ApiService.post(envVars.PACKAGING_ADMIN_UDL, axiosOptions);
+        return ApiService.post(
+            envVars.PACKAGING_ADMIN_URL + 'group-categories/',
+            axiosOptions
+        );
+    },
+    /**
+     * @author Rohan Shah
+     * @param {*} data TODO update
+     * @description Updates a category and its configuration
+     * @type PUT
+     * @returns Promise
+     */
+    updateGroupCategory(data) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
+            data
+        });
+        return ApiService.put(
+            // TODO update the :slug
+            envVars.PACKAGING_ADMIN_URL + 'group-categories/:slug',
+            axiosOptions
+        );
     },
     /**
      * @author Rohan Shah
@@ -57,7 +83,27 @@ const PackagingService = {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
             data
         });
-        return ApiService.post(envVars.PACKAGING_ADMIN_UDL, axiosOptions);
+        return ApiService.post(
+            envVars.PACKAGING_ADMIN_URL + 'product/',
+            axiosOptions
+        );
+    },
+    /**
+     * @author Rohan Shah
+     * @param {*} data TODO update
+     * @description Updates a packaging product
+     * @type PUT
+     * @returns Promise
+     */
+    updatePackagingProduct(data) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
+            data
+        });
+        return ApiService.put(
+            // TODO update the :id
+            envVars.PACKAGING_ADMIN_URL + 'product/:id',
+            axiosOptions
+        );
     }
 };
 export default PackagingService;
