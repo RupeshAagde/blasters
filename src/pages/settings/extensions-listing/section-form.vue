@@ -110,9 +110,17 @@ export default {
     computed: {
         selectedItemsTitle() {
             if(this.section.item_type !== 'category') {
-                return `${this.selectedItemsLength} Selected ${titleCase(this.section.item_type)}s`;
+                if(this.selectedItemsLength > 1) {
+                    return `${this.selectedItemsLength} Selected ${titleCase(this.section.item_type)}s`;
+                } else {
+                    return `${this.selectedItemsLength} Selected ${titleCase(this.section.item_type)}`;
+                }
             } else {
-                return `${this.selectedItemsLength} Selected Categories`;
+                if(this.selectedItemsLength > 1) {
+                    return `${this.selectedItemsLength} Selected Categories`;
+                } else {
+                    return `${this.selectedItemsLength} Selected Category`;
+                }
             }
         },
         selectedItemsLength() {
@@ -171,8 +179,22 @@ export default {
             this.$emit('close');
         },
         onSectionInputChange(prop, inputObj) {
-            this.$set(this.section.props, prop.id, inputObj)
-            this.$set(this.section.data, prop.id, inputObj.value)
+            this.$set(this.section.props, prop.id, inputObj);
+            this.$set(this.section.data, prop.id, inputObj.value);
+
+            /* If the item source selected is API, we need to remove existing details info. */
+            if(
+                this.section.type === 'extension_item_list' &&
+                prop.id === 'item_source' && 
+                inputObj.value === 'api'
+            ) {
+                this.$set(this.section.data, `${this.section.item_type}_details`, []);
+                if(this.itemValues) {
+                    this.itemValues.length = 0;
+                }
+                this.$set(this.section.data, this.section.item_type, []);
+            }
+
             if(inputObj.details) {
                 this.$set(this.section.data, `${prop.id}_details`, inputObj.details);
                 let _data = cloneDeep(this.itemValues);
