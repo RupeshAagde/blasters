@@ -557,12 +557,14 @@ export default {
             this.selectedSectionIndex = config.index;
         },
         copySection(section) {
-            this.postMessageToIframe(PREVIEW_EVENTS.ADD_SECTION, section);
+            this.postMessageToIframe(PREVIEW_EVENTS.ADD_SECTION, cloneDeep(section));
             this.mSections.push(section);
             const sectionIndex = this.mSections
                 ? this.mSections.length - 1
                 : -1;
-            this.onSectionClick(section, sectionIndex);
+
+            let sectionUpdate = cloneDeep(this.mSections)[sectionIndex];
+            this.onSectionClick(sectionUpdate, sectionIndex);
         },
         removeSection(index) {
             this.mSections.splice(index, 1)

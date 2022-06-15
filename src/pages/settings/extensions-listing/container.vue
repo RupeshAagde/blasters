@@ -608,7 +608,7 @@ export default {
                     } else {
                         section.items = cloneDeep(section.data[key]);
                     }
-                    delete section.data[key];
+                    // delete section.data[key];
                 }
             }
 
