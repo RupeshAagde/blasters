@@ -383,10 +383,10 @@ export default {
          * @description TODO
          */
         handlePackagingProductClicked(item) {
-            this.selectedPackage = item;
+            this.selectedPackage = item.item_id;
             this.packagingSelected = true;
             this.showSearchList = false;
-            this.searchInput = item.name;
+            this.searchInput = item.product.name;
             this.searchedProductList = [];
         },
         /**
@@ -616,10 +616,9 @@ export default {
             let product = {
                 bulkChecked: this.bulkChecked,
                 l3Checked: this.l3Checked,
-                l3Categories,
-                bulkPackaging,
                 l3Categories: this.selectedCategories,
-                bulkPackaging: []
+                bulkPackaging: [],
+                itemId: this.selectedPackage
             };
             // map the input field values for row2 and row3 inputs
             Object.keys(this.row2Inputs).forEach((key) => {
@@ -630,7 +629,7 @@ export default {
             });
             this.bulkPackaging.forEach((group) => {
                 let bulkObj = {
-                    is_default_packaging_material: group.toggle.value,
+                    is_default_packaging_material: group.toggle.val,
                     // TODO update this once API works
                     group_category: group.categoryConfig,
                     quantity: {
