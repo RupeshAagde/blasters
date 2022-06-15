@@ -336,11 +336,11 @@ export default {
          */
         setEditProduct() {
             if (Object.keys(this.editProduct).length != 0) {
-                this.l3Checked = this.editProduct.is_l3_specific;
-                this.bulkChecked = this.editProduct.is_bulk;
-                this.selectedPackage = this.editProduct.item_id;
-                this.row3Inputs.errorRate.value = this.editProduct.error_rate;
-                this.row3Inputs.deadWeight.value = this.editProduct.dead_weight_in_kg;
+                this.l3Checked = this.editProduct.is_l3_specific || false;
+                this.bulkChecked = this.editProduct.is_bulk || false;
+                this.selectedPackage = this.editProduct.item_id || '';
+                this.row3Inputs.errorRate.value = this.editProduct.error_rate || '';
+                this.row3Inputs.deadWeight.value = this.editProduct.dead_weight_in_kg || '';
                 // TODO weight, length, height , width to be added
                 // if the l3 drop down is checked then replace the state array with BE value
                 if (this.l3Checked) {
