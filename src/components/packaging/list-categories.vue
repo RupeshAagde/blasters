@@ -36,13 +36,15 @@
                 :btnText="'Add New Category'"
                 @tryAgain="handleAddCategories"
             />
-            <nitrozen-pagination
-                v-if="categories.length"
-                :name="'Categories'"
-                v-model="pagination"
-                :pageSizeOptions="perPageValues"
-                @change="pageOptionChange"
-            ></nitrozen-pagination>
+            <div class="list-container-pagination">
+                <nitrozen-pagination
+                    v-if="categories.length"
+                    :name="'Categories'"
+                    v-model="pagination"
+                    :pageSizeOptions="perPageValues"
+                    @change="pageOptionChange"
+                />
+            </div>
         </div>
     </div>
 </template>
