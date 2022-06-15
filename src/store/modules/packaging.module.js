@@ -60,7 +60,7 @@ const mutations = {
 
 const actions = {
     [FETCH_PACKAGING_PRODUCTS]({ commit }, params) {
-        return PackagingService.getPackagingProducts()
+        return PackagingService.getPackagingProducts(params)
             .then((res) => {
                 commit(SET_PACKAGING_PRODUCTS, res.data.items);
                 return res.data;
@@ -71,13 +71,13 @@ const actions = {
     },
     [FETCH_CATEGORIES]({ commit }, params) {
         return PackagingService.getGroupCategories()
-        .then((res) => {
-            commit(SET_CATEGORIES, res.data);
-            return res.data;
-        })
-        .catch(() => {
-            return { error: true };
-        });
+            .then((res) => {
+                commit(SET_CATEGORIES, res.data);
+                return res.data;
+            })
+            .catch(() => {
+                return { error: true };
+            });
     },
     [EDIT_CATEGORY]({ commit }, data) {
         commit(SET_EDIT_CATEGORY, data);
