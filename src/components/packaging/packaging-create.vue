@@ -339,8 +339,10 @@ export default {
                 this.l3Checked = this.editProduct.is_l3_specific || false;
                 this.bulkChecked = this.editProduct.is_bulk || false;
                 this.selectedPackage = this.editProduct.item_id || '';
-                this.row3Inputs.errorRate.value = this.editProduct.error_rate || '';
-                this.row3Inputs.deadWeight.value = this.editProduct.dead_weight_in_kg || '';
+                this.row3Inputs.errorRate.value =
+                    this.editProduct.error_rate || '';
+                this.row3Inputs.deadWeight.value =
+                    this.editProduct.dead_weight_in_kg || '';
                 // TODO weight, length, height , width to be added
                 // if the l3 drop down is checked then replace the state array with BE value
                 if (this.l3Checked) {
@@ -664,7 +666,10 @@ export default {
                 product.bulkPackaging.push(bulkObj);
             });
             // return the request body for create/update product object
-            return generateProductRequest(product);
+            return {
+                data: generateProductRequest(product),
+                isEdit: this.$route.query.isEdit
+            };
         },
         /**
          * @author Rohan SHah
