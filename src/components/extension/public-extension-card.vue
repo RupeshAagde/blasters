@@ -60,6 +60,9 @@
     transition: all 0.5s ease;
     border: 1px solid #e0e0e0;
     position: relative;
+    .extension-checkbox {
+        pointer-events: none;
+    }
     .cross-icon {
         position: absolute;
         top: -10px;
