@@ -70,9 +70,9 @@ const actions = {
             });
     },
     [FETCH_CATEGORIES]({ commit }, params) {
-        return PackagingService.getGroupCategories()
+        return PackagingService.getGroupCategories(params)
             .then((res) => {
-                commit(SET_CATEGORIES, res.data);
+                commit(SET_CATEGORIES, res.data.items);
                 return res.data;
             })
             .catch(() => {
