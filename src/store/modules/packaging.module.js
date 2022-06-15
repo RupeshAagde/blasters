@@ -91,11 +91,25 @@ const actions = {
                 return { error: true };
             });
     },
-    [EDIT_CATEGORY]({ commit }, data) {
-        commit(SET_EDIT_CATEGORY, data);
+    [EDIT_CATEGORY]({ commit }, slug) {
+        return PackagingService.getGroupCategoryDetail(slug)
+        .then((res) => {
+            commit(SET_EDIT_CATEGORY, res.data);
+            return res.data;
+        })
+        .catch(() => {
+            return { error: true };
+        });
     },
-    [EDIT_PRODUCT]({ commit }, data) {
-        commit(SET_EDIT_PRODUCT, data);
+    [EDIT_PRODUCT]({ commit }, productId) {
+        return PackagingService.getProductDetail(productId)
+        .then((res) => {
+            commit(SET_EDIT_PRODUCT, res.data);
+            return res.data;
+        })
+        .catch(() => {
+            return { error: true };
+        });
     },
     [SAVE_PACKAGING_PRODUCT](data) {
         return PackagingService.createPackagingProduct(data)
