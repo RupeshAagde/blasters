@@ -565,3 +565,16 @@ export const generateProductRequest = (product) => {
     // return the createProductRequestBody
     return createProductRequestBody
 };
+/**
+ * @author Rohan Shah
+ * @param {Object} groupCategory 
+ * @description Based on the arguments creates a request body and returns it
+ * @returns Request body
+ */
+export const generateGroupCategoryRequest = (groupCategory) => {
+    const { categories, categoryName } = groupCategory;
+    return {
+        name: categoryName,
+        categories: categories
+    };
+};

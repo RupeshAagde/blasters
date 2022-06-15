@@ -1,4 +1,4 @@
-import { generateProductRequest } from '../../../helper/utils';
+import { generateProductRequest, generateGroupCategoryRequest } from '../../../helper/utils';
 let product = {
     bulkChecked: false,
     l3Checked: false,
@@ -69,4 +69,8 @@ describe('Test suite for packaging related utils', () => {
         };
         expect(resp).toStrictEqual(expected);
     });
+    it("should test for generateGroupCategoryRequest function",()=>{
+        const resp = generateGroupCategoryRequest({categoryName:'Footwear',categories:[1]});
+        expect(resp).toStrictEqual({"categories": [1], "name": "Footwear"})
+    })
 });
