@@ -22,6 +22,7 @@
                         :prop="section.props[prop_schema.id]"
                         :name="`section-${section.name}-${i}`"
                         :page="page"
+                        :items="section.items"
                         @change="onSectionInputChange(prop_schema, $event)"
                         @searchInputChange="onSearchInputChange(prop_schema, $event, i)"
                     />
@@ -103,15 +104,20 @@ export default {
     mounted() {
         this.mSection_data = this.section_data || {};
         if(this.section.data && this.section.item_type){
-            this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]); 
-            if(this.section.item_type !== 'category') {
-                this.selectedItemsTitle = `Selected ${titleCase(this.section.item_type)}s`;
-            } else {
-                this.selectedItemsTitle = `Selected Categories`;
-            }
+            this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
         }
     },
     computed: {
+        selectedItemsTitle() {
+            if(this.section.item_type !== 'category') {
+                return `${this.selectedItemsLength} Selected ${titleCase(this.section.item_type)}s`;
+            } else {
+                return `${this.selectedItemsLength} Selected Categories`;
+            }
+        },
+        selectedItemsLength() {
+            if(this.itemValues.length) return this.itemValues.length;
+        },
         sectionSchemaProps() {
             let props = this.section_schema.props.map(prop => {
                 prop.display = true;
@@ -157,8 +163,7 @@ export default {
             },
             startingIndex: -1,
             movingIndex: -1,
-            itemValues: [],
-            selectedItemsTitle: ''
+            itemValues: []
         };
     },
     methods: {
