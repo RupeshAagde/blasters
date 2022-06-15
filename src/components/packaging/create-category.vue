@@ -37,6 +37,7 @@ import {
     NitrozenDropdown
 } from '@gofynd/nitrozen-vue';
 import CategoryMultiSelect from './common/category-multi-select.vue';
+import { generateGroupCategoryRequest } from '../../helper/utils';
 export default {
     name: 'create-category',
     components: {
@@ -56,11 +57,12 @@ export default {
          */
         handleSave() {
             // Create request object
-            let requestObj = {
+            let createGroupCategory = {
                 categoryName: this.groupName.value,
-                selectedCategories: this.selectedCategories
+                categories: this.selectedCategories
             };
-            return requestObj;
+            // return the request body for create/update category group object
+            return generateGroupCategoryRequest(createGroupCategory);
         },
         /**
          * @author Rohan Shah

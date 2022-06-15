@@ -183,6 +183,7 @@ import {
     GET_EDIT_PRODUCT,
     GET_PACKAGING_PRODUCTS
 } from '../../store/getters.type';
+import { generateProductRequest } from '../../helper/utils';
 export default {
     name: 'packaging-create',
     components: {
@@ -609,7 +610,42 @@ export default {
          * @author Rohan Shah
          * @description create request object and dispatch the service to save the packaging product
          */
-        savePackagingOrder() {},
+        savePackagingOrder() {
+            let product = {
+                bulkChecked: this.bulkChecked,
+                l3Checked: this.l3Checked,
+                l3Categories,
+                bulkPackaging,
+                l3Categories: this.selectedCategories,
+                bulkPackaging: []
+            };
+            // map the input field values for row2 and row3 inputs
+            Object.keys(this.row2Inputs).forEach((key) => {
+                product[key] = this.row2Inputs[key].value;
+            });
+            Object.keys(this.row3Inputs).forEach((key) => {
+                product[key] = this.row3Inputs[key].value;
+            });
+            this.bulkPackaging.forEach((group) => {
+                let bulkObj = {
+                    is_default_packaging_material: group.toggle.value,
+                    // TODO update this once API works
+                    group_category: group.categoryConfig,
+                    quantity: {
+                        max: group.quantity.maximum.value,
+                        min: group.quantity.minimum.value
+                    },
+                    volumetric_weight: {
+                        max: group.volumetricWeight.maximum.value,
+                        min: group.volumetricWeight.minimum.value
+                    }
+                };
+                // push the created object in the product obj
+                product.bulkPackaging.push(bulkObj);
+            });
+            // return the request body for create/update product object
+            return generateProductRequest(product);
+        },
         /**
          * @author Rohan SHah
          * @description Toggle flags based on the type input
