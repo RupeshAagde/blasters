@@ -211,12 +211,6 @@
                 :disabled="inProgress">
                 Save {{ preview ? 'Preview' :  '' }}
             </nitrozen-button>
-
-            <nitrozen-menu class="menu" mode="vertical" position="top">
-                <nitrozen-menu-item @click="$emit('reset')">
-                    Reset
-                </nitrozen-menu-item>
-            </nitrozen-menu>
         </div>
     </div>
 </template>

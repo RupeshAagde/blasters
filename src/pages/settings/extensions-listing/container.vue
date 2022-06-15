@@ -12,7 +12,6 @@
                 :pageObject="getCurrentPage"
                 @save="onSave(selectedPage, $event)"
                 @post-message="onPostMessage($event)"
-                @reset="resetSections()"
                 @zoom-out="zoomOut = true"
                 @zoom-in="
                     zoomOut = false;
@@ -618,10 +617,6 @@ export default {
             if (this.$refs.iframe && this.$refs.iframe.contentWindow) {
                 this.$refs.iframe.contentWindow.postMessage(e, '*');
             }
-        },
-        resetSections() {
-            // this.iframeUrl = this.previewUrl;
-            this.$refs['iframe'].src = this.postMessageUrl || this.previewUrl;
         },
         hideRect() {
             this.$refs['preview-outline'].style.display = 'none';
