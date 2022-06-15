@@ -2,7 +2,9 @@ import {
     EDIT_CATEGORY,
     EDIT_PRODUCT,
     FETCH_CATEGORIES,
-    FETCH_PACKAGING_PRODUCTS
+    FETCH_PACKAGING_PRODUCTS,
+    SAVE_CATEGORY,
+    SAVE_PACKAGING_PRODUCT
 } from '../action.type';
 
 import {
@@ -84,6 +86,24 @@ const actions = {
     },
     [EDIT_PRODUCT]({ commit }, data) {
         commit(SET_EDIT_PRODUCT, data);
+    },
+    [SAVE_PACKAGING_PRODUCT](data) {
+        return PackagingService.createPackagingProduct(data)
+            .then((res) => {
+                return res.data;
+            })
+            .catch(() => {
+                return { error: true };
+            });
+    },
+    [SAVE_CATEGORY](data) {
+        return PackagingService.createGroupCategory(data)
+            .then((res) => {
+                return res.data;
+            })
+            .catch(() => {
+                return { error: true };
+            });
     }
 };
 
