@@ -110,13 +110,19 @@ export default {
                 .then((res) => {
                     if (res.error) {
                         // call snackbar and return
-                        return;
+                        return this.$snackbar.global.showError(
+                            'Could not fetch packaging products'
+                        );
                     }
                     const { page } = res;
                     // change the pagination config based on API resp
                     this.pagination.total = page.total_item_count;
                     this.pagination.current = page.current;
                     this.pagination.next_page = page.has_next;
+                    // if products array are empty then show info and do nothing
+                    if(this.products.length == 0 ){
+                         this.$snackbar.global.showInfo('No Packaging products found');
+                    }
                 });
         }
     }
