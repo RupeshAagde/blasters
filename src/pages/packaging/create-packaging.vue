@@ -55,7 +55,7 @@ import PackagingCreate from '../../components/packaging/packaging-create.vue';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
 import BaseModal from '../../components/common/dialogs/base-modal.vue';
 import InlineSvg from '../../components/common/inline-svg.vue';
-import { SAVE_PACKAGING_PRODUCT } from '../../store/action.type';
+import { CLEAR_PRODUCT, SAVE_PACKAGING_PRODUCT } from '../../store/action.type';
 export default {
     name: 'create-packaging',
     components: {
@@ -80,6 +80,7 @@ export default {
          */
         handleSuccessBtn() {
             this.isModalOpen = false;
+            this.$store.dispatch(CLEAR_PRODUCT);
             this.$router.push('/administrator/packaging/items/');
         },
         /**
@@ -105,6 +106,7 @@ export default {
          * @description Go back to previous route
          */
         goBack() {
+            this.$store.dispatch(CLEAR_PRODUCT);
             this.$router.back();
         }
     }

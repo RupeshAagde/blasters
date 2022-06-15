@@ -53,7 +53,10 @@
 <script>
 import NoContent from '../../components/common/adm-no-content.vue';
 import { NitrozenButton, NitrozenPagination } from '@gofynd/nitrozen-vue';
-import { FETCH_PACKAGING_PRODUCTS } from '../../store/action.type';
+import {
+    CLEAR_PRODUCT,
+    FETCH_PACKAGING_PRODUCTS
+} from '../../store/action.type';
 import { mapGetters } from 'vuex';
 import { GET_PACKAGING_PRODUCTS } from '../../store/getters.type';
 import PackagingCard from './common/packaging-card.vue';
@@ -88,6 +91,7 @@ export default {
     async mounted() {
         // get products by calling the action
         await this.fetchProducts();
+        this.$store.dispatch(CLEAR_PRODUCT);
     },
     methods: {
         /**
