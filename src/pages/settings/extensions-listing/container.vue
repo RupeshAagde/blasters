@@ -304,6 +304,11 @@ export default {
             .then(response => {
                 let sections = cloneDeep(response.data.items);
                 for(let section of sections) {
+                    let isImagePosition = section.props.find(t => t.id === 'image_position');
+                    if(isImagePosition) {
+                        isImagePosition.default = 'right';
+                    }
+
                     let isItemSource = section.props.find(t => t.id === 'item_source');
                     if(isItemSource) {
                         if(section.item_type === 'extension') {
