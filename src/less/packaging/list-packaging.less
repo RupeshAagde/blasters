@@ -6,6 +6,7 @@
         border-radius: 12px;
         padding: 24px;
         height: 100%;
+        position: relative;
         &-header{
             color:@Mako;
             font-size: 24px;
@@ -21,6 +22,18 @@
 }
 .list-container{
     margin-top: 16px;
+    height: calc(100% - 200px);
+    overflow: auto;
+    &-pagination{
+        position: absolute;
+        bottom: 0;
+        width: calc(100% - 24px);
+        left: auto;
+        display: flex;
+    }
+    &-products-row{
+        margin-top: 16px;
+    }
     .page-error .page-error-text span{
         margin: 0;
     }
