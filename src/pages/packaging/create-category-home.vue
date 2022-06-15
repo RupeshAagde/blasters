@@ -56,7 +56,7 @@ import CreateCategory from '../../components/packaging/create-category.vue';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
 import BaseModal from '../../components/common/dialogs/base-modal.vue';
 import InlineSvg from '../../components/common/inline-svg.vue';
-import { SAVE_PACKAGING_PRODUCT } from '../../store/action.type';
+import { SAVE_CATEGORY } from '../../store/action.type';
 export default {
     name: 'create-category-home',
     components: {
@@ -94,7 +94,7 @@ export default {
             this.showLoader = true;
             // call function to get request object
             const reqObj = this.$refs.createCategory.handleSave();
-            this.$store.dispatch(SAVE_PACKAGING_PRODUCT, reqObj).then((res) => {
+            this.$store.dispatch(SAVE_CATEGORY, reqObj).then((res) => {
                 if (res.error) {
                     return this.$snackbar.global.showError(
                         'Something went wrong. Failed to add new Category'
