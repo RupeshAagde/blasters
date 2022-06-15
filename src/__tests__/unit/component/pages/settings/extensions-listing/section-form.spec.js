@@ -1,6 +1,7 @@
 /* Package imports */
 import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
+import flushPromises from 'flush-promises';
 
 /* Component imports */
 import SectionForm from '@/pages/settings/extensions-listing/section-form.vue';
@@ -53,69 +54,52 @@ describe('Section Form Component', () => {
         expect(wrapper.emitted().close).toBeTruthy();
     });
 
-    // it('Checks if onBlocksListChange works', async () => {
-    //     expect(wrapper.element).toMatchSnapshot();
-    //     expect(wrapper.exists()).toBeTruthy();
-    //     wrapper.vm.onBlocksListChange();
-    //     await wrapper.vm.$nextTick();
-    //     expect(wrapper.emitted()['update-block']).toBeTruthy();
-    // });
+    it('should work when section is changed', async() => {
+        await flushPromises();
 
-    // it('Checks if onBlockClick works', async () => {
-    //     expect(wrapper.element).toMatchSnapshot();
-    //     expect(wrapper.exists()).toBeTruthy();
-    //     wrapper.vm.block = {
-    //         expand: false,
-    //     };
-    //     wrapper.vm.onBlockClick(wrapper.vm.block);
-    //     await wrapper.vm.$nextTick();
-    //     expect(wrapper.vm.block.expand).toBe(true);
-    // });
-    
-    // it('Checks if removeBlock works', async () => {
-    //     expect(wrapper.element).toMatchSnapshot();
-    //     expect(wrapper.exists()).toBeTruthy();
-    //     wrapper.vm.removeBlock(0);
-    //     await wrapper.vm.$nextTick();
-    //     expect(wrapper.emitted()['update-block']).toBeTruthy();
-    // });
+        let element = wrapper.findComponent(DynamicInput);
+        element.vm.$emit('change', {
+            id: 'heading',
+            label: 'Heading',
+            default: '',
+            type: 'textbox',
+            display: true
+        }, {
+            value: 'Hello'
+        });
 
-    // it('Checks if onBlockInputChange works', async () => {
-    //     expect(wrapper.element).toMatchSnapshot();
-    //     expect(wrapper.exists()).toBeTruthy();
-    //     wrapper.vm.onBlockInputChange(
-    //         { props: { test: '' } },
-    //         { id: 'test' },
-    //         'test'
-    //     );
-    //     await wrapper.vm.$nextTick();
-    //     expect(wrapper.emitted()['update-block']).toBeTruthy();
-    // });
+        expect(wrapper.emitted()['update-block']).toBeTruthy();
+    });
 
-    // it('Checks if onBlockSelectionOutsideClick works', async () => {
-    //     expect(wrapper.element).toMatchSnapshot();
-    //     expect(wrapper.exists()).toBeTruthy();
-    //     wrapper.vm.onBlockSelectionOutsideClick();
-    //     await wrapper.vm.$nextTick();
-    //     expect(wrapper.vm.showAvailableBlocksSelectionPopup).toBe(false);
-    // });
+    it('should work when input type section is changed', async() => {
+        await flushPromises();
 
-    // it('should work when section is changed', async() => {
-    //     let element = wrapper.findComponent(DynamicInput);
-    //     element.vm.$emit('change', {
-    //         id: 'heading',
-    //         label: 'Heading',
-    //         default: '',
-    //         type: 'textbox',
-    //         display: true
-    //     }, {
-    //         value: 'Hello'
-    //     });
+        wrapper.setProps({
+            section: mockData.inputTypeSection,
+            section_schema: mockData.inputTypeSectionSchema
+        });
 
-    //     expect(wrapper.emitted()['update-block']).toBeTruthy();
-    // });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        
+        let element = wrapper.findAllComponents(DynamicInput).at(6);
+
+        element.vm.$emit('change', {
+            value: 'api'
+        }, {
+            id: 'item_source',
+            label: 'Item Source',
+            default: '',
+            type: 'radio',
+            display: true
+        });
+
+        expect(wrapper.emitted()['update-block']).toBeTruthy();
+    });
 
     it('should emit search-input when user searches in a dropdown', async() => {
+        await flushPromises();
+
         let element = wrapper.findComponent(DynamicInput);
         element.vm.$emit('searchInputChange', {
             id: 'heading',

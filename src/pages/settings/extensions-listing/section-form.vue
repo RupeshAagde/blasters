@@ -53,7 +53,7 @@
                                     :key="`${i}`"
                                     class="section"
                                 >
-                                    <div @mouseup="dragStop" @mousedown="dragStart(i)">
+                                    <div class="drag" @mouseup="dragStop" @mousedown="dragStart(i)">
                                         <adm-inline-svg
                                             class="handle"
                                             :src="'move'"
