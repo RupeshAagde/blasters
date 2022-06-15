@@ -6,6 +6,7 @@
             :placeholder="placeholder"
             :showSearchIcon="true"
             @input="handleChange"
+            :v-model="value"
         />
     </div>
 </template>
@@ -26,6 +27,9 @@ export default {
         },
         handleChange: {
             type: Function
+        },
+        value: {
+            type: String
         }
     }
 };
