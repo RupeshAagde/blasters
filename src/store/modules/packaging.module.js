@@ -1,4 +1,6 @@
 import {
+    CLEAR_CATEGORY,
+    CLEAR_PRODUCT,
     EDIT_CATEGORY,
     EDIT_PRODUCT,
     FETCH_CATEGORIES,
@@ -16,6 +18,8 @@ import {
 
 import {
     SET_CATEGORIES,
+    SET_CLEAR_CATEGORY,
+    SET_CLEAR_PRODUCT,
     SET_EDIT_CATEGORY,
     SET_EDIT_PRODUCT,
     SET_PACKAGING_PRODUCTS
@@ -57,6 +61,12 @@ const mutations = {
     },
     [SET_EDIT_PRODUCT](state, data) {
         state.packagingProduct = data;
+    },
+    [SET_CLEAR_PRODUCT](state) {
+        state.packagingProduct = {};
+    },
+    [SET_CLEAR_CATEGORY](state) {
+        state.categoryConfiguration = {};
     }
 };
 
@@ -104,6 +114,12 @@ const actions = {
             .catch(() => {
                 return { error: true };
             });
+    },
+    [CLEAR_PRODUCT]({ commit }) {
+        commit(SET_CLEAR_PRODUCT);
+    },
+    [CLEAR_CATEGORY]({ commit }) {
+        commit(SET_CLEAR_CATEGORY);
     }
 };
 
