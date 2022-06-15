@@ -111,8 +111,8 @@ const actions = {
                 return { error: true };
             });
     },
-    [SAVE_PACKAGING_PRODUCT](req, isEdit = false) {
-        const { data, _id } = req;
+    [SAVE_PACKAGING_PRODUCT](req) {
+        const { data, _id, isEdit } = req;
         return PackagingService[
             isEdit ? 'updatePackagingProduct' : 'createPackagingProduct'
         ](data, isEdit ? _id : '')
@@ -123,8 +123,8 @@ const actions = {
                 return { error: true };
             });
     },
-    [SAVE_CATEGORY](req, isEdit = false) {
-        const { data, slug } = req;
+    [SAVE_CATEGORY](req) {
+        const { data, slug, isEdit } = req;
         return PackagingService[
             isEdit ? 'updateGroupCategory' : 'createGroupCategory'
         ](data, isEdit ? slug : '')
