@@ -320,7 +320,7 @@ export default {
             categoryValue: [],
             packagingSelected: false,
             searchedProductList: [],
-            selectedPackage: {},
+            selectedPackage: '',
             showSearchList: false
         };
     },
@@ -335,18 +335,36 @@ export default {
          * the state from the store state value
          */
         setEditProduct() {
-            // get query param
-            let isEdit = this.$router.currentRoute.query.type;
-            // if there is a query param only then execute
-            if (isEdit) {
-                let tempRow2 = this.row2Inputs;
-                let tempRow3 = this.row3Inputs;
-                Object.keys(tempRow2).forEach((item) => {
-                    tempRow2[item].value = this.editProduct[item];
-                });
-                Object.keys(tempRow3).forEach((item) => {
-                    tempRow3[item].value = this.editProduct[item];
-                });
+            if (Object.keys(this.editProduct).length != 0) {
+                this.l3Checked = this.editProduct.is_l3_specific;
+                this.bulkChecked = this.editProduct.is_bulk;
+                this.selectedPackage = this.editProduct.item_id;
+                this.row3Inputs.errorRate.value = this.editProduct.error_rate;
+                this.row3Inputs.deadWeight.value = this.editProduct.dead_weight_in_kg;
+                // TODO weight, length, height , width to be added
+                // if the l3 drop down is checked then replace the state array with BE value
+                if (this.l3Checked) {
+                    this.selectedCategories = default_package.l3_categories;
+                }
+                // only if the bulkchecked option is true
+                if (this.bulkChecked) {
+                    let tempBulkPackaging = [];
+                    let bulkInput = this.bulkInput;
+                    // loop through the data obtained from the BE and update the state
+                    this.editProduct.l3_mapping.forEach((item) => {
+                        bulkInput.toggle.val =
+                            item.is_default_packaging_material;
+                        bulkInput.volumetricWeight.minimum.value =
+                            item.volumetric_weight.min;
+                        bulkInput.volumetricWeight.maximum.value =
+                            item.volumetric_weight.max;
+                        bulkInput.quantity.maximum.value = item.quantity.min;
+                        bulkInput.quantity.maximum.value = item.quantity.max;
+                        bulkInput.categoryConfig = item.group_category;
+                        tempBulkPackaging.push(bulkInput);
+                    });
+                    this.bulkPackaging = tempBulkPackaging;
+                }
             }
         },
         /**
@@ -396,6 +414,7 @@ export default {
          * @description Set the drop down selection value of a group category
          */
         handleBulkDropdown(index, val) {
+            // TODO Check if the val can be an ID
             this.bulkPackaging[index].categoryConfig = val;
         },
         /**
