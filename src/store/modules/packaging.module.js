@@ -93,26 +93,29 @@ const actions = {
     },
     [EDIT_CATEGORY]({ commit }, slug) {
         return PackagingService.getGroupCategoryDetail(slug)
-        .then((res) => {
-            commit(SET_EDIT_CATEGORY, res.data);
-            return res.data;
-        })
-        .catch(() => {
-            return { error: true };
-        });
+            .then((res) => {
+                commit(SET_EDIT_CATEGORY, res.data);
+                return res.data;
+            })
+            .catch(() => {
+                return { error: true };
+            });
     },
     [EDIT_PRODUCT]({ commit }, productId) {
         return PackagingService.getProductDetail(productId)
-        .then((res) => {
-            commit(SET_EDIT_PRODUCT, res.data);
-            return res.data;
-        })
-        .catch(() => {
-            return { error: true };
-        });
+            .then((res) => {
+                commit(SET_EDIT_PRODUCT, res.data);
+                return res.data;
+            })
+            .catch(() => {
+                return { error: true };
+            });
     },
-    [SAVE_PACKAGING_PRODUCT](data) {
-        return PackagingService.createPackagingProduct(data)
+    [SAVE_PACKAGING_PRODUCT](req, isEdit = false) {
+        const { data, _id } = req;
+        return PackagingService[
+            isEdit ? 'updatePackagingProduct' : 'createPackagingProduct'
+        ](data, isEdit ? _id : '')
             .then((res) => {
                 return res.data;
             })
@@ -120,8 +123,11 @@ const actions = {
                 return { error: true };
             });
     },
-    [SAVE_CATEGORY](data) {
-        return PackagingService.createGroupCategory(data)
+    [SAVE_CATEGORY](req, isEdit = false) {
+        const { data, slug } = req;
+        return PackagingService[
+            isEdit ? 'updateGroupCategory' : 'createGroupCategory'
+        ](data, isEdit ? slug : '')
             .then((res) => {
                 return res.data;
             })

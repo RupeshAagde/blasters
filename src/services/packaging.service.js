@@ -91,13 +91,12 @@ const PackagingService = {
      * @type PUT
      * @returns Promise
      */
-    updateGroupCategory(data) {
+    updateGroupCategory(data,slug) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
             data
         });
         return ApiService.put(
-            // TODO update the :slug
-            envVars.PACKAGING_ADMIN_URL + 'group-categories/:slug',
+            envVars.PACKAGING_ADMIN_URL + `group-categories/${slug}`,
             axiosOptions
         );
     },
@@ -124,13 +123,12 @@ const PackagingService = {
      * @type PUT
      * @returns Promise
      */
-    updatePackagingProduct(data) {
+    updatePackagingProduct(data, _id) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
             data
         });
         return ApiService.put(
-            // TODO update the :id
-            envVars.PACKAGING_ADMIN_URL + 'product/:id',
+            envVars.PACKAGING_ADMIN_URL + `product/${_id}`,
             axiosOptions
         );
     }
