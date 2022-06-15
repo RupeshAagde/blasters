@@ -18,7 +18,7 @@ import {
     SET_EDIT_PRODUCT,
     SET_PACKAGING_PRODUCTS
 } from '../mutation.type';
-
+import PackagingService from '../../services/packaging.service';
 const getDefaultState = () => {
     return {
         products: [],
@@ -60,12 +60,24 @@ const mutations = {
 
 const actions = {
     [FETCH_PACKAGING_PRODUCTS]({ commit }, params) {
-        // TODO call API here
-        return [];
+        return PackagingService.getPackagingProducts()
+            .then((res) => {
+                commit(SET_PACKAGING_PRODUCTS, res.data.items);
+                return res.data;
+            })
+            .catch(() => {
+                return { error: true };
+            });
     },
     [FETCH_CATEGORIES]({ commit }, params) {
-        // TODO call API here
-        return [];
+        return PackagingService.getGroupCategories()
+        .then((res) => {
+            commit(SET_CATEGORIES, res.data);
+            return res.data;
+        })
+        .catch(() => {
+            return { error: true };
+        });
     },
     [EDIT_CATEGORY]({ commit }, data) {
         commit(SET_EDIT_CATEGORY, data);
