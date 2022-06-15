@@ -2,11 +2,11 @@
     <div class="packaging-card-container">
         <div class="packaging-card-info">
             <div class="packaging-card-info-image">
-                <img :src="item.image" :alt="item.name" />
+                <img :src="item.product.media[0]" :alt="item.product.name" />
             </div>
             <div class="packaging-card-info-text">
                 <div class="packaging-card-info-name">
-                    {{ item.name }}
+                    {{ item.product.name }}
                 </div>
                 <div class="packaging-card-info-other">
                     Dimension and pack
@@ -14,9 +14,7 @@
             </div>
         </div>
         <div class="packaging-card-extra">
-            <span>POLYB_M_1411P5</span>
-            <span>FY625FEC16</span>
-            <span>Clothing, Packaging Polybag</span>
+            <span>{{item.product.item_code}}</span>
         </div>
         <div class="packaging-card-button-container">
             <div class="packaging-card-button">
