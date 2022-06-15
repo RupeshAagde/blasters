@@ -4,26 +4,10 @@
             {{ item.name }}
         </div>
         <div class="category-card-config-container">
-            <span id="category-name">Categories:</span>
             <div class="category-config-container">
-                <div
-                    v-for="(ele, index) of splicedCategoryConfig"
-                    :key="'category-config-' + index"
-                    class="config-item"
-                >
-                    <span
-                        class="config-item-ellipsis"
-                        :title="ele.name"
-                        :id="'name-' + index"
-                        >{{ ele.name }}</span
-                    >
-                </div>
-                <div
-                    v-if="this.extraCount"
-                    class="extra-count"
-                    id="extra-count-value"
-                >
-                    +{{ this.extraCount }}
+                <div class="extra-count" id="extra-count-value">
+                    {{ item.categories.length }}
+                    {{ item.categories.length > 1 ? 'Categories' : 'Category' }}
                 </div>
             </div>
         </div>
