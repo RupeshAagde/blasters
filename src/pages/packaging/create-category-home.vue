@@ -42,6 +42,7 @@
                     class="modal-custom-button"
                     theme="secondary"
                     id="modal-btn"
+                    @click="handleSuccessBtn"
                     >Thank you</nitrozen-button
                 >
             </div>
@@ -55,6 +56,7 @@ import CreateCategory from '../../components/packaging/create-category.vue';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
 import BaseModal from '../../components/common/dialogs/base-modal.vue';
 import InlineSvg from '../../components/common/inline-svg.vue';
+import { SAVE_PACKAGING_PRODUCT } from '../../store/action.type';
 export default {
     name: 'create-category-home',
     components: {
@@ -67,19 +69,40 @@ export default {
     data() {
         return {
             isButtonDisabled: true,
-            isModalOpen: false
+            isModalOpen: false,
+            showLoader: false
         };
     },
     methods: {
+        /**
+         * @author Rohan Shah
+         * @description Closes the modal button and redirects user to category configuration
+         * home page
+         */
+        handleSuccessBtn() {
+            this.isModalOpen = false;
+            this.$router.push(
+                '/administrator/packaging/category-configuration/'
+            );
+        },
         /**
          * @author Rohan Shah
          * @description Calls the child function to get form data
          * And then uses dispatch method to save the category
          */
         onSave() {
+            this.showLoader = true;
             // call function to get request object
             const reqObj = this.$refs.createCategory.handleSave();
-            // TODO do something here
+            this.$store.dispatch(SAVE_PACKAGING_PRODUCT, reqObj).then((res) => {
+                if (res.error) {
+                    return this.$snackbar.global.showError(
+                        'Something went wrong. Failed to add new Category'
+                    );
+                }
+                this.showLoader = false;
+                this.isModalOpen = true;
+            });
         },
         /**
          * @description Go back to previous route
