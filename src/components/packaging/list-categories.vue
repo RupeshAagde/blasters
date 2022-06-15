@@ -17,6 +17,7 @@
             :placeholder="'Search by Group name'"
             :id="'category-search'"
             :handleChange="handleChange"
+            :value="groupCategoryValue"
         />
         <div class="list-container">
             <!-- Check if products array have items if so then map -->
@@ -76,7 +77,8 @@ export default {
                 next_page: true,
                 current: 1
             },
-            perPageValues: [5, 10, 20, 50]
+            perPageValues: [5, 10, 20, 50],
+            groupCategoryValue: ''
         };
     },
     computed: {
@@ -91,12 +93,28 @@ export default {
     methods: {
         /**
          * @author Rohan Shah
+         * @description Creates the request parameters to be passed to the API
+         * @returns { {page_no:Number, page_size:Number,name:String} } ParamObject
+         */
+        requestParams() {
+            const param = {
+                page_no: this.pagination.current,
+                page_size: this.pagination.limit
+            };
+            // only if there is a user input in search pass name param
+            if (this.groupCategoryValue.length) {
+                param.name = this.groupCategoryValue;
+            }
+            return param;
+        },
+        /**
+         * @author Rohan Shah
          * @description Handles the input change using debounce
          * waits for 1 second before calling the function
          */
-        handleChange: debounce(async function(e) {
-            // TODO call api here again and paginate the logic
-            console.log(e);
+        handleChange: debounce(async function(inputValue) {
+            this.groupCategoryValue = inputValue;
+            this.fetchCategories();
         }, 1000),
         /**
          * @author Rohan Shah
@@ -108,19 +126,45 @@ export default {
             );
         },
         async fetchCategories() {
+            this.showLoader = true;
             this.$store
-                .dispatch(FETCH_CATEGORIES, {})
+                .dispatch(FETCH_CATEGORIES, this.requestParams())
                 .then((res) => {
+                    if (res.error) {
+                        // call snackbar and return
+                        return this.$snackbar.global.showError(
+                            'Could not fetch category configurations'
+                        );
+                    }
                     this.showLoader = false;
-                })
-                .catch((err) => {
-                    this.$snackbar.global.showError(
-                        `Could not fetch categories`
-                    );
+                    const { page } = res;
+                    // change the pagination config based on API resp
+                    this.pagination.total = page.total_item_count;
+                    this.pagination.current = page.current;
+                    this.pagination.next_page = page.has_next;
+                    // if products array are empty then show info and do nothing
+                    if (this.categories.length == 0) {
+                        this.$snackbar.global.showInfo(
+                            'No Packaging Category Configurations found'
+                        );
+                    }
                 })
                 .finally(() => {
                     this.showLoader = false;
                 });
+        },
+        /**
+         * @author Rohan Shah
+         * @param {Object} pageOption
+         * @description Update the pageination values based on current selected page option,
+         * then calls the fetch products method
+         */
+        pageOptionChange(pageOption) {
+            // modify the state based on current pageOptions
+            this.pagination.current = pageOption.current;
+            this.pagination.limit = pageOption.limit;
+            // call fetch products function to get new values
+            this.fetchProducts();
         }
     }
 };
