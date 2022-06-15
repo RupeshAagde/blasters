@@ -4,7 +4,7 @@
             v-bind:is="require(`./${prop_schema.type}`).default"
             @change="onChange($event)"
             @search-input="onSearchInputChange($event)"
-            v-bind="{ prop_schema, prop, name, page }"
+            v-bind="{ prop_schema, prop, name, page, items }"
             v-if="propSchema.display"
         ></component>
     </div>
@@ -25,7 +25,11 @@ export default {
             type: Object,
             default: () => {}
         },
-        name: ''
+        name: '',
+        items: {
+            type: Array,
+            default: () => []
+        }
     },
     components: {},
     computed: {

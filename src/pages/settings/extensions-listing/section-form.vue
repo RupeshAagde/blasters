@@ -202,7 +202,7 @@ export default {
 
                 if(this.itemValues && this.itemValues.length) {
                     this.itemValues.map((ele, index) => {
-                        if(!ele){
+                        if(!ele) {
                             this.$set(this.itemValues, index, _data[index]);
                             this.$set(this.section.data[`${prop.id}_details`], index, _data[index]);
                         }
@@ -270,8 +270,12 @@ export default {
 
             let detailsArr = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
             let ids = detailsArr.map(i => i._id);
-            
+
             this.section.data[`${this.section.item_type}`] = cloneDeep(ids);
+            let sectionProps = cloneDeep(this.section.props);
+            sectionProps[`${this.section.item_type}`].value = cloneDeep(ids);
+            this.section.props = cloneDeep(sectionProps);
+            
             let _data = cloneDeep(this.itemValues);
             this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
             this.itemValues.map((ele, idx) => {

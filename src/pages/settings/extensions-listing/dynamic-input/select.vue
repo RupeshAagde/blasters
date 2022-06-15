@@ -34,7 +34,7 @@ export default {
         'nitrozen-tooltip': NitrozenTooltip,
         'nitrozen-dropdown': NitrozenDropdown
     },
-    props: ['prop_schema', 'prop', 'name'],
+    props: ['prop_schema', 'prop', 'name', 'items'],
     mounted() {
         this.mValue = this.prop.value || this.prop_schema.default || '';
     },
