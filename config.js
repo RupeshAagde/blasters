@@ -351,7 +351,14 @@ const conf = convict({
             default: '',
             env: 'PINPOINTER_ADMIN_URL',
             arg: 'PINPOINTER_ADMIN_URL'
-        }
+        },
+        PACKAGING_ADMIN_URL: {
+            doc: 'Mixmaster Kube Service',
+            format: String,
+            default: 'https://api.fyndx0.de/service/___/administrator/packaging/v1.0/',
+            env: 'PACKAGING_ADMIN_URL',
+            arg: 'packaging_admin_url'
+        },
     },
 
     // Sentry

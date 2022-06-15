@@ -2,6 +2,7 @@
 
 import ApiService from './api.service';
 import { getCommonHeaderOptions } from './utils.service';
+import root from 'window-or-global';
 const envVars = root.env || {};
 
 const PackagingService = {
