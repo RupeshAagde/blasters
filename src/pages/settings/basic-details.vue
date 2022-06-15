@@ -145,6 +145,7 @@
                     <div class="input-field">
                         <nitrozen-input
                             label="Description *"
+                            type="textarea"
                             placeholder="Enter Login Description"
                             v-model="loginDescription.value"
                         ></nitrozen-input>
@@ -177,6 +178,7 @@
                     <div class="input-field">
                         <nitrozen-input
                             label="Description *"
+                            type="textarea"
                             placeholder="Enter Register Description"
                             v-model="registerDescription.value"
                         ></nitrozen-input>
