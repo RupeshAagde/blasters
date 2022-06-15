@@ -24,19 +24,19 @@
                         <div class="packaging-search-list-row-image">
                             <img
                                 :src="item.image"
-                                :alt="item.name"
+                                :alt="item.product.name"
                                 :id="'packaging-image' + index"
                             />
                         </div>
                         <span
                             class="packaging-search-list-row-name"
                             :id="'packaging-name' + index"
-                            >{{ item.name }}</span
+                            >{{ item.product.name }}</span
                         >
                         <span
                             class="packaging-search-list-row-dimension"
                             :id="'packaging-dimension' + index"
-                            >{{ item.dimension || 'NA' }}</span
+                            >{{ item.product.dimension || 'NA' }}</span
                         >
                     </div>
                 </div>
@@ -368,7 +368,9 @@ export default {
                 let productList = this.products;
                 // filter the list and save in temp var
                 let filteredList = productList.filter((item) =>
-                    item.name.toLowerCase().includes(input.toLowerCase())
+                    item.product.name
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
                 );
                 // set to state
                 this.searchedProductList = filteredList;
