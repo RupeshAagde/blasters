@@ -25,6 +25,20 @@ const PackagingService = {
     },
     /**
      * @author Rohan Shah
+     * @param {*} slug String
+     * @description Fetches the group category detail from the BE
+     * @type GET
+     * @returns Promise
+     */
+    getGroupCategoryDetail(slug) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(
+            envVars.PACKAGING_ADMIN_URL + `group-categories/${slug}`,
+            axiosOptions
+        );
+    },
+    /**
+     * @author Rohan Shah
      * @param {*} params TODO update
      * @description Fetches the packaging products from the BE
      * @type GET
@@ -37,6 +51,20 @@ const PackagingService = {
         );
         return ApiService.get(
             envVars.PACKAGING_ADMIN_URL + 'product/',
+            axiosOptions
+        );
+    },
+    /**
+     * @author Rohan Shah
+     * @param {*} productId Mongo ID
+     * @description Fetches the packaging product detail from the BE
+     * @type GET
+     * @returns Promise
+     */
+    getProductDetail(productId) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(
+            envVars.PACKAGING_ADMIN_URL + `product/${productId}`,
             axiosOptions
         );
     },
