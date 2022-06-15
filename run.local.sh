@@ -50,8 +50,7 @@ export MARKETPLACES_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/ad
 export MARKETPLACES_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/marketplaces/
 export MIXMASTER_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/partners/
 export MIXMASTER_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/partners/
-# TODO check the URL
-export PACKAGING_ADMIN_UDL=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/packaging/v1.0/
+export PACKAGING_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/packaging/v1.0/
 
 #ENV's
 export SENTRY_DSN=''
