@@ -36,13 +36,15 @@
                 :btnText="'Add Packaging'"
                 @tryAgain="handleAddPackaging"
             />
-             <nitrozen-pagination
-                v-if="products.length"
-                :name="'Products'"
-                v-model="pagination"
-                :pageSizeOptions="perPageValues"
-                @change="pageOptionChange"
-            ></nitrozen-pagination>
+            <div class="list-container-pagination">
+                <nitrozen-pagination
+                    v-if="products.length"
+                    :name="'Products'"
+                    v-model="pagination"
+                    :pageSizeOptions="perPageValues"
+                    @change="pageOptionChange"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -106,7 +108,15 @@ export default {
             await this.$store
                 .dispatch(FETCH_PACKAGING_PRODUCTS, {})
                 .then((res) => {
-                    console.log('Do something here');
+                    if (res.error) {
+                        // call snackbar and return
+                        return;
+                    }
+                    const { page } = res;
+                    // change the pagination config based on API resp
+                    this.pagination.total = page.total_item_count;
+                    this.pagination.current = page.current;
+                    this.pagination.next_page = page.has_next;
                 });
         }
     }
