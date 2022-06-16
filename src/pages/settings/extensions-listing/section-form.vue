@@ -105,6 +105,10 @@ export default {
         this.mSection_data = this.section_data || {};
         if(this.section.data && this.section.item_type){
             this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
+
+            let sectionItemTypeProp = this.section_schema.props.find(t => t.id === this.section.item_type);
+            let sectionItemTypeIdx = this.section_schema.props.findIndex(t => t.id === this.section.item_type);
+            this.onSearchInputChange(sectionItemTypeProp, {type: 'select', value: {text: ''}}, sectionItemTypeIdx);
         }
     },
     computed: {
@@ -235,7 +239,6 @@ export default {
             this.startingIndex = e.draggedContext.index;
         },
         onChange(d) {
-            let { added, removed, moved } = d;
         },
         dragStart(index) {
             this.$emit('zoom-out');

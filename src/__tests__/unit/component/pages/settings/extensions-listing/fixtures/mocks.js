@@ -14928,3 +14928,554 @@ module.exports.itemValues = [
         "label": "Extensions"
     }
 ]
+
+module.exports.collectionSection = {
+    "predicate": {
+        "screen": {
+            "mobile": true,
+            "table": true,
+            "desktop": true
+        }
+    },
+    "tags": [],
+    "visible": true,
+    "page_type": "all",
+    "type": "collection_grid",
+    "data": {
+        "heading": "Collections",
+        "title": "Latest",
+        "subtitle": "Subtitle",
+        "button_label": "View",
+        "button_page_link": "Collections",
+        "item_source": "manual",
+        "image": "",
+        "image_position": "",
+        "collection": [
+            "623847d0ec3c4b10b1f5fed6",
+            "627ba8371171f7705212333b",
+            "62384f66ec3c4b4e6ff5fee6",
+            "625fe7c726e867d85730af1a"
+        ],
+        "collection_details": [
+            {
+                "banner": {
+                    "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/o9UhZ5Em6-logo.jpeg",
+                    "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/dU3kXnGwR-logo.png",
+                    "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/PR-OVVImt-logo.png"
+                },
+                "seo": {
+                    "title": "Title",
+                    "description": "Breif description about the"
+                },
+                "tags": [
+                    "asdsa",
+                    "asdas",
+                    "my"
+                ],
+                "published": false,
+                "_id": "623847d0ec3c4b10b1f5fed6",
+                "collection_category": "extension",
+                "collection_type": "handpicked",
+                "name": "New Extension collection",
+                "description": "fdsdssdasdsdsd d d sddas dsd sd d",
+                "slug": "new-extension-collection",
+                "__v": 0,
+                "created_at": "2022-06-02T15:24:26.203Z",
+                "modified_at": "2022-06-02T15:24:26.203Z"
+            },
+            {
+                "banner": {
+                    "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/IcaJe8Jty-logo.png",
+                    "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/Pkucz2J8n-logo.png",
+                    "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/JdOFjaPIr-logo.png"
+                },
+                "seo": {
+                    "title": "Title",
+                    "description": "Breif description about the collection"
+                },
+                "tags": [],
+                "published": true,
+                "_id": "627ba8371171f7705212333b",
+                "collection_category": "extension",
+                "collection_type": "handpicked",
+                "name": "sands odsoic ",
+                "description": "dd ",
+                "slug": "sands-odsoic",
+                "__v": 0
+            },
+            {
+                "banner": {
+                    "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/q7Ex7-oAT-logo.png",
+                    "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/HCrbg2uGD-logo.png",
+                    "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/0cyP63leb-logo.png"
+                },
+                "seo": {
+                    "title": "Title",
+                    "description": "Breif description about the"
+                },
+                "tags": [
+                    "adsa",
+                    "dsad",
+                    "asdas"
+                ],
+                "published": true,
+                "_id": "62384f66ec3c4b4e6ff5fee6",
+                "collection_category": "extension",
+                "collection_type": "handpicked",
+                "name": "NEW ONE",
+                "description": "sadasdasd",
+                "slug": "new-one",
+                "__v": 0,
+                "created_at": "2022-06-01T08:19:13.070Z",
+                "modified_at": "2022-06-01T08:19:13.070Z"
+            },
+            {
+                "banner": {
+                    "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/lOyFu1NjT-logo.png",
+                    "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/LLbfmTiyf-logo.png",
+                    "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/1hvSt917P-logo.png"
+                },
+                "seo": {
+                    "title": "Title",
+                    "description": "Breif description about the collection"
+                },
+                "tags": [
+                    "dfg"
+                ],
+                "published": true,
+                "_id": "625fe7c726e867d85730af1a",
+                "collection_category": "extension",
+                "collection_type": "handpicked",
+                "name": "Test3",
+                "description": "gdfdfd",
+                "slug": "qwer-tyui-tyu",
+                "__v": 0,
+                "created_at": "2022-06-08T09:49:38.324Z",
+                "modified_at": "2022-06-08T09:49:38.324Z"
+            }
+        ]
+    },
+    "item_type": "collection",
+    "items": [
+        {
+            "value": "623847d0ec3c4b10b1f5fed6"
+        },
+        {
+            "value": "627ba8371171f7705212333b"
+        },
+        {
+            "value": "62384f66ec3c4b4e6ff5fee6"
+        },
+        {
+            "value": "625fe7c726e867d85730af1a"
+        }
+    ],
+    "props": {
+        "heading": {
+            "type": "textbox",
+            "value": "Collections"
+        },
+        "title": {
+            "type": "textbox",
+            "value": "Latest"
+        },
+        "subtitle": {
+            "type": "textbox",
+            "value": "Subtitle"
+        },
+        "button_label": {
+            "type": "text",
+            "value": "View"
+        },
+        "button_page_link": {
+            "type": "select",
+            "value": "Collections"
+        },
+        "item_source": {
+            "type": "radio",
+            "value": "manual"
+        },
+        "image": {
+            "type": "image_picker",
+            "value": ""
+        },
+        "image_position": {
+            "type": "radio",
+            "value": ""
+        },
+        "collection": {
+            "type": "select",
+            "value": [
+                "623847d0ec3c4b10b1f5fed6",
+                "627ba8371171f7705212333b",
+                "62384f66ec3c4b4e6ff5fee6",
+                "625fe7c726e867d85730af1a"
+            ]
+        }
+    }
+}
+
+module.exports.collectionSectionSchema = {
+    "predicate": {
+        "screen": {
+            "mobile": true,
+            "table": true,
+            "desktop": true
+        }
+    },
+    "tags": [],
+    "items": [],
+    "custom_meta": [],
+    "_id": "6287788f3ff7ad0037278751",
+    "type": "collection_grid",
+    "name": "Collection Grid",
+    "page_type": "all",
+    "props": [
+        {
+            "id": "heading",
+            "label": "Heading",
+            "default": "",
+            "type": "textbox",
+            "display": true
+        },
+        {
+            "id": "title",
+            "label": "Title",
+            "default": "",
+            "type": "textbox",
+            "display": true
+        },
+        {
+            "id": "subtitle",
+            "label": "Subtitle",
+            "default": "",
+            "type": "textbox",
+            "display": true
+        },
+        {
+            "id": "button_label",
+            "label": "Button Label",
+            "default": "",
+            "type": "text",
+            "display": true
+        },
+        {
+            "id": "button_page_link",
+            "label": "Redirection Page",
+            "default": "",
+            "type": "select",
+            "predicate_prop": {
+                "button_label": true
+            },
+            "options": [
+                {
+                    "value": "Collections",
+                    "text": "/collections"
+                }
+            ],
+            "display": true
+        },
+        {
+            "id": "item_source",
+            "label": "List item source",
+            "default": "manual",
+            "type": "radio",
+            "options": [],
+            "display": false
+        },
+        {
+            "id": "image",
+            "label": "Banner Image",
+            "default": "",
+            "type": "image_picker",
+            "display": true
+        },
+        {
+            "id": "image_position",
+            "label": "Banner Position",
+            "default": "right",
+            "type": "radio",
+            "predicate_prop": {
+                "image": true
+            },
+            "options": [
+                {
+                    "value": "left",
+                    "text": "Left"
+                },
+                {
+                    "value": "right",
+                    "text": "Right"
+                }
+            ],
+            "display": false
+        },
+        {
+            "default": [],
+            "id": "collection",
+            "label": "Collections",
+            "options": [
+                {
+                    "banner": {
+                        "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/o9UhZ5Em6-logo.jpeg",
+                        "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/dU3kXnGwR-logo.png",
+                        "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/PR-OVVImt-logo.png"
+                    },
+                    "seo": {
+                        "title": "Title",
+                        "description": "Breif description about the"
+                    },
+                    "tags": [
+                        "asdsa",
+                        "asdas",
+                        "my"
+                    ],
+                    "published": false,
+                    "_id": "623847d0ec3c4b10b1f5fed6",
+                    "collection_category": "extension",
+                    "collection_type": "handpicked",
+                    "name": "New Extension collection",
+                    "description": "fdsdssdasdsdsd d d sddas dsd sd d",
+                    "slug": "new-extension-collection",
+                    "__v": 0,
+                    "created_at": "2022-06-02T15:24:26.203Z",
+                    "modified_at": "2022-06-02T15:24:26.203Z",
+                    "text": "New Extension collection",
+                    "value": "623847d0ec3c4b10b1f5fed6"
+                },
+                {
+                    "banner": {
+                        "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/q7Ex7-oAT-logo.png",
+                        "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/HCrbg2uGD-logo.png",
+                        "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/0cyP63leb-logo.png"
+                    },
+                    "seo": {
+                        "title": "Title",
+                        "description": "Breif description about the"
+                    },
+                    "tags": [
+                        "adsa",
+                        "dsad",
+                        "asdas"
+                    ],
+                    "published": true,
+                    "_id": "62384f66ec3c4b4e6ff5fee6",
+                    "collection_category": "extension",
+                    "collection_type": "handpicked",
+                    "name": "NEW ONE",
+                    "description": "sadasdasd",
+                    "slug": "new-one",
+                    "__v": 0,
+                    "created_at": "2022-06-01T08:19:13.070Z",
+                    "modified_at": "2022-06-01T08:19:13.070Z",
+                    "text": "NEW ONE",
+                    "value": "62384f66ec3c4b4e6ff5fee6"
+                },
+                {
+                    "banner": {
+                        "logo": "",
+                        "portrait": "",
+                        "landscape": ""
+                    },
+                    "seo": {
+                        "title": "Title",
+                        "description": "Breif description about the"
+                    },
+                    "tags": [],
+                    "published": true,
+                    "_id": "62385ac9ec3c4b28e9f5ff05",
+                    "collection_category": "extension",
+                    "collection_type": "handpicked",
+                    "name": "test",
+                    "description": "",
+                    "__v": 0,
+                    "text": "test",
+                    "value": "62385ac9ec3c4b28e9f5ff05"
+                },
+                {
+                    "banner": {
+                        "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/BEMFKB858-logo.png",
+                        "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/KKukThM7Q-logo.png",
+                        "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/izikmUFVD-logo.png"
+                    },
+                    "seo": {
+                        "title": "Title",
+                        "description": "Breif description about the"
+                    },
+                    "tags": [
+                        "test",
+                        "asasas"
+                    ],
+                    "published": true,
+                    "_id": "623b4d518087776e618af270",
+                    "collection_category": "extension",
+                    "collection_type": "handpicked",
+                    "name": "Mac collection ",
+                    "description": "test",
+                    "slug": "mac-collection",
+                    "__v": 0,
+                    "created_at": "2022-05-31T11:02:32.745Z",
+                    "modified_at": "2022-06-01T08:56:59.071Z",
+                    "text": "Mac collection ",
+                    "value": "623b4d518087776e618af270"
+                },
+                {
+                    "banner": {
+                        "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/lOyFu1NjT-logo.png",
+                        "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/LLbfmTiyf-logo.png",
+                        "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/1hvSt917P-logo.png"
+                    },
+                    "seo": {
+                        "title": "Title",
+                        "description": "Breif description about the collection"
+                    },
+                    "tags": [
+                        "dfg"
+                    ],
+                    "published": true,
+                    "_id": "625fe7c726e867d85730af1a",
+                    "collection_category": "extension",
+                    "collection_type": "handpicked",
+                    "name": "Test3",
+                    "description": "gdfdfd",
+                    "slug": "qwer-tyui-tyu",
+                    "__v": 0,
+                    "created_at": "2022-06-08T09:49:38.324Z",
+                    "modified_at": "2022-06-08T09:49:38.324Z",
+                    "text": "Test3",
+                    "value": "625fe7c726e867d85730af1a"
+                },
+                {
+                    "banner": {
+                        "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/zSDeCO5GF-logo.png",
+                        "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/wMNtZox9F-logo.png",
+                        "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/LctdogpHF-logo.png"
+                    },
+                    "seo": {
+                        "title": "Title",
+                        "description": "Breif description about the collection"
+                    },
+                    "tags": [
+                        "as",
+                        "sad",
+                        "dsda"
+                    ],
+                    "published": true,
+                    "_id": "625fe8ac26e86741c830af2b",
+                    "collection_category": "extension",
+                    "collection_type": "handpicked",
+                    "name": "main-extension",
+                    "description": "sadsad",
+                    "slug": "main-extension",
+                    "__v": 0,
+                    "text": "main-extension",
+                    "value": "625fe8ac26e86741c830af2b"
+                },
+                {
+                    "banner": {
+                        "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/tLyIWubai-logo.png",
+                        "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/lKuwhvJuo-logo.png",
+                        "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/kYs9a-q62-logo.png"
+                    },
+                    "seo": {
+                        "title": "Title",
+                        "description": "Breif description about the collection"
+                    },
+                    "tags": [
+                        "rrr"
+                    ],
+                    "published": true,
+                    "_id": "625fec4226e8671c7730af2e",
+                    "collection_category": "extension",
+                    "collection_type": "handpicked",
+                    "name": "test1",
+                    "description": "tyyutxd",
+                    "slug": "test1",
+                    "__v": 0,
+                    "text": "test1",
+                    "value": "625fec4226e8671c7730af2e"
+                },
+                {
+                    "banner": {
+                        "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/844q5hUne-logo.png",
+                        "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/mMEClTHZf-logo.png",
+                        "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/szDg6dJvf-logo.png"
+                    },
+                    "seo": {
+                        "title": "Title",
+                        "description": "Breif description about the collection"
+                    },
+                    "tags": [
+                        "rrr"
+                    ],
+                    "published": true,
+                    "_id": "625fed4326e867575a30af35",
+                    "collection_category": "extension",
+                    "collection_type": "handpicked",
+                    "name": "test12",
+                    "description": "rshhthsh",
+                    "slug": "test12",
+                    "__v": 0,
+                    "text": "test12",
+                    "value": "625fed4326e867575a30af35"
+                },
+                {
+                    "banner": {
+                        "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/-WVnF2Q7S-logo.png",
+                        "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/l7dpJG8bD-logo.png",
+                        "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/lIZMHK3dV-logo.png"
+                    },
+                    "seo": {
+                        "title": "Title",
+                        "description": "Breif description about the collection"
+                    },
+                    "tags": [],
+                    "published": true,
+                    "_id": "625feeda26e8670cf630af3c",
+                    "collection_category": "extension",
+                    "collection_type": "handpicked",
+                    "name": "Get 20 % off ",
+                    "description": "efsddfcs",
+                    "slug": "get-20",
+                    "__v": 0,
+                    "text": "Get 20 % off ",
+                    "value": "625feeda26e8670cf630af3c"
+                },
+                {
+                    "banner": {
+                        "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/tz2RG2AqL-logo.png",
+                        "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/ZTo5cEkgo-logo.png",
+                        "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/9aT_xnkVS-logo.png"
+                    },
+                    "seo": {
+                        "title": "Title",
+                        "description": "Breif description about the collection"
+                    },
+                    "tags": [],
+                    "published": true,
+                    "_id": "625fefa126e867aee330af40",
+                    "collection_category": "extension",
+                    "collection_type": "handpicked",
+                    "name": "get20 % off on summer ",
+                    "description": "h",
+                    "slug": "get20--off-on-summer",
+                    "__v": 0,
+                    "text": "get20 % off on summer ",
+                    "value": "625fefa126e867aee330af40"
+                }
+            ],
+            "type": "select",
+            "multiple": true,
+            "search": true,
+            "placeholder": "Search Collections",
+            "predicate_prop": {
+                "item_source": "manual"
+            },
+            "display": true
+        }
+    ],
+    "item_type": "collection",
+    "created_at": "2022-05-20T11:16:31.245Z",
+    "modified_at": "2022-05-20T11:16:31.245Z",
+    "__v": 0
+}

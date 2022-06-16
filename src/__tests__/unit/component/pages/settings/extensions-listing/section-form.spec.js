@@ -13,6 +13,7 @@ import mockData from './fixtures/mocks';
 let localVue;
 let router, wrapper;
 
+
 describe('Section Form Component', () => {
     beforeEach(async() => {
         localVue = createLocalVue();
@@ -22,9 +23,14 @@ describe('Section Form Component', () => {
                 { path: '/administrator/settings/partners/extensions-listing', component: SectionForm }
             ]
         });
-
         router.push('/administrator/settings/partners/extensions-listing');
+    });
 
+    afterAll(() => {
+        mock.reset();
+    });
+
+    it('Checks if component is loaded', async () => {
         wrapper = mount(SectionForm, {
             localVue,
             propsData: {
@@ -35,18 +41,23 @@ describe('Section Form Component', () => {
             },
             router
         });
-    });
 
-    afterAll(() => {
-        mock.reset();
-    });
-
-    it('Checks if component is loaded', async () => {
         expect(wrapper.element).toMatchSnapshot();
         expect(wrapper.exists()).toBeTruthy();
     });
 
     it('Checks if close is emitted', async () => {
+        wrapper = mount(SectionForm, {
+            localVue,
+            propsData: {
+                section_schema: mockData.sectionSchemaForTest,
+                section: mockData.sectionForTest,
+                show: true,
+                page: mockData.pageForTest
+            },
+            router
+        });
+
         expect(wrapper.element).toMatchSnapshot();
         expect(wrapper.exists()).toBeTruthy();
         wrapper.vm.onCloseClick();
@@ -56,6 +67,16 @@ describe('Section Form Component', () => {
 
     it('should work when section is changed', async() => {
         await flushPromises();
+        wrapper = mount(SectionForm, {
+            localVue,
+            propsData: {
+                section_schema: mockData.sectionSchemaForTest,
+                section: mockData.sectionForTest,
+                show: true,
+                page: mockData.pageForTest
+            },
+            router
+        });
 
         let element = wrapper.findComponent(DynamicInput);
         element.vm.$emit('change', {
@@ -73,13 +94,17 @@ describe('Section Form Component', () => {
 
     it('should work when input type section is changed', async() => {
         await flushPromises();
-
-        wrapper.setProps({
-            section: mockData.inputTypeSection,
-            section_schema: mockData.inputTypeSectionSchema
+        wrapper = mount(SectionForm, {
+            localVue,
+            propsData: {
+                section_schema: mockData.inputTypeSectionSchema,
+                section: mockData.inputTypeSection,
+                show: true,
+                page: mockData.pageForTest
+            },
+            router
         });
 
-        await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
         
         let element = wrapper.findAllComponents(DynamicInput).at(6);
@@ -100,6 +125,17 @@ describe('Section Form Component', () => {
     it('should emit search-input when user searches in a dropdown', async() => {
         await flushPromises();
 
+        wrapper = mount(SectionForm, {
+            localVue,
+            propsData: {
+                section_schema: mockData.sectionSchemaForTest,
+                section: mockData.sectionForTest,
+                show: true,
+                page: mockData.pageForTest
+            },
+            router
+        });
+
         let element = wrapper.findComponent(DynamicInput);
         element.vm.$emit('searchInputChange', {
             id: 'heading',
@@ -114,17 +150,92 @@ describe('Section Form Component', () => {
         expect(wrapper.emitted()).toHaveProperty('search-input');
     });
 
-    // it('should emit update-block when the use changes a value inside one of the inputs', async() => {
-    //     let element = wrapper.findComponent(DynamicInput);
-    //     element.vm.$emit('change', {
-    //         id: 'collection'
-    //     }, {
-    //         value: ['1234', '5678'],
-    //         details: [{_id: '1234'}, {_id: '5678'}]
-    //     });
+    it('should emit zoom-out when dragging starts of a selected item', async() => {
+        wrapper = mount(SectionForm, {
+            localVue,
+            propsData: {
+                section_schema: mockData.collectionSectionSchema,
+                section: mockData.collectionSection,
+                show: true,
+                page: mockData.pageForTest
+            },
+            router
+        });
 
-    //     await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick();
 
-    //     expect(wrapper.emitted()).toHaveProperty('update-block');
-    // })
+        let element = wrapper.find('.drag');
+        element.trigger('mousedown');
+
+        expect(wrapper.emitted()).toHaveProperty('zoom-out');
+    });
+
+    it('should emit zoom-in when dragging stops for a selected item', async() => {
+        wrapper = mount(SectionForm, {
+            localVue,
+            propsData: {
+                section_schema: mockData.collectionSectionSchema,
+                section: mockData.collectionSection,
+                show: true,
+                page: mockData.pageForTest
+            },
+            router
+        });
+
+        await wrapper.vm.$nextTick();
+
+        let element = wrapper.find('.drag');
+        element.trigger('mouseup');
+
+        expect(wrapper.emitted()).toHaveProperty('update-block');
+        expect(wrapper.emitted()).toHaveProperty('zoom-in');
+        expect(wrapper.vm.dragging).toBe(false);
+        expect(wrapper.vm.movingIndex).toBe(-1);
+    });
+
+    it('should emit zoom-in when dragging stops for a selected item', async() => {
+        wrapper = mount(SectionForm, {
+            localVue,
+            propsData: {
+                section_schema: mockData.collectionSectionSchema,
+                section: mockData.collectionSection,
+                show: true,
+                page: mockData.pageForTest
+            },
+            router
+        });
+
+        await wrapper.vm.$nextTick();
+
+        let element = wrapper.find('.sections');
+        element.vm.$emit('change');
+        wrapper.vm.onMove({
+            draggedContext: {
+                index: 1,
+                futureIndex: 2
+            }
+        });
+
+        expect(wrapper.vm.movingIndex).toBe(2);
+    });
+
+    it('should remove item', async() => {
+        wrapper = mount(SectionForm, {
+            localVue,
+            propsData: {
+                section_schema: mockData.collectionSectionSchema,
+                section: mockData.collectionSection,
+                show: true,
+                page: mockData.pageForTest
+            },
+            router
+        });
+
+        await wrapper.vm.$nextTick();
+
+        let element = wrapper.find('.remove');
+        element.trigger('click');
+
+        expect(wrapper.emitted()).toHaveProperty('update-block');
+    });
 });
