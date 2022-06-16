@@ -57,5 +57,7 @@ export SENTRY_ENVIRONMENT=development
 export CDN_ITEM_DOMAINS=https://hdn-1.addsale.com
 export NEW_RELIC_APP_NAME=blaster
 export NEW_RELIC_LICENSE_KEY=''
+export BEEFREE_CLIENT_ID=dcce640f-abc1-4c0c-8398-84488e8c4cd7
+export BEEFREE_CLIENT_SECRET=0A8vfzg4DI2jB6aRiydrWprtio6lAeCCesjC4iaflrk75vGWkV5
 npm run start
 #node --inspect-brk server/index.js --env production

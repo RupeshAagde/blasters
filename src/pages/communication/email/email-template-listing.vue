@@ -143,10 +143,9 @@
 </style>
 <script>
 //import adminCommsService from './../../../../services/admin/admin-comms.service';
-import uktselect from '@/components/common/ukt-select.vue';
 import admforminput from '@/components/common/form-input.vue';
 import emailTemplateListingCard from './email-template-listing-card.vue';
-import loader from '@/components/common/adm-loader.vue';
+import loader from '@/components/common/loader';
 // import {
 //     ADMIN_COMMS_UPDATE_EMAIL_TEMPLATE_TO_EDIT,
 //     ADMIN_COMMS_FETCH_EMAIL_TEMPLATES,
@@ -158,7 +157,7 @@ import loader from '@/components/common/adm-loader.vue';
 //     ADMIN_COMMS_GET_SYSTEM_EMAIL_TEMPLATES
 // } from '../../../../store/admin/getters.type';
 // // import { ADMIN_COMMS_SET_EMAIL_TEMPLATES } from '../../../../store/admin/mutation.type';
-// import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 // // import * as _ from 'lodash';
 // import {
 //     ADMIN_COMMS_SET_EMAIL_TEMPLATE_TO_CLONE,
@@ -173,6 +172,8 @@ import {
 import uktNotFound from '@/components/common/ukt-not-found.vue';
 import Shimmer from '@/components/common/shimmer';
 import pageerror from '@/components/common/page-error.vue';
+import CommunicationServices from '../../../services/pointblank.service';
+import { getRoute } from '@/helper/get-route';
 
 const PAGE_FILTERS = [
     {
@@ -189,7 +190,6 @@ export default {
     components: {
         loader,
         'adm-shimmer': Shimmer,
-        'ukt-select': uktselect,
         'adm-form-input': admforminput,
         'email-template-listing-card': emailTemplateListingCard,
         'nitrozen-pagination': NitrozenPagination,
@@ -225,11 +225,12 @@ export default {
             htmlTemplateOptions: [],
             selectedEmailTemplate: '',
             selectedEmailTemplateData: '',
-            emailTemplatesStoreData: [],
+            emailTemplatesStore: {},
             editUrlPath: '',
             pageLoading: true,
             isInitialLoad: true,
-            pageError: false
+            pageError: false,
+            smsTemplatesStore: {},
         };
     },
     mounted() {
@@ -252,12 +253,9 @@ export default {
         //         ].selectedPageSize = this.pagination.limit;
         //     }
         // }
-        // this.getTemplatesBasedOnFilter();
+        this.getTemplatesBasedOnFilter();
     },
     computed: {
-        ...mapGetters({
-            //emailTemplatesStore: ADMIN_COMMS_GET_EMAIL_TEMPLATES
-        })
     },
     methods: {
         resetPagination() {
@@ -268,17 +266,18 @@ export default {
             };
         },
         getTemplatesBasedOnFilter() {
-            // if (this.selectedFilter == 'all') {
-            //     this.fetchEmailTemplates().then(() => {
-            //         this.setPagination();
-            //         this.mapEmailTemplates();
-            //         return this.smsTemplates;
-            //     });
-            // } else if (this.selectedFilter == 'subscribed') {
+            if (this.selectedFilter == 'all') {
+                this.setPagination();
+                this.fetchEmailTemplates().then(() => {
+                    this.mapEmailTemplates();
+                    return this.emailTemplates;
+                });
+            } 
+            // else if (this.selectedFilter == 'subscribed') {
             //     this.fetchSubscribedEmailTemplates().then(() => {
             //         this.setPagination();
             //         this.mapEmailTemplates();
-            //         return this.smsTemplates;
+            //         return this.emailTemplates;
             //     });
             // }
         },
@@ -291,19 +290,19 @@ export default {
             });
         },
         setPagination() {
-            this.pagination = {
-                limit: this.emailTemplatesStore.page.size,
-                total: this.emailTemplatesStore.page.item_total,
-                current: this.emailTemplatesStore.page.current
-            };
-            this.$router.replace({
-                name: 'email-listing',
-                query: {
-                    ...this.$route.query,
-                    limit: this.pagination.limit,
-                    current: this.pagination.current
-                }
-            }).catch(() => {});
+            // this.pagination = {
+            //     limit: this.emailTemplatesStore.page.size,
+            //     total: this.emailTemplatesStore.page.item_total,
+            //     current: this.emailTemplatesStore.page.current
+            // };
+            // this.$router.replace({
+            //     name: 'email-listing',
+            //     query: {
+            //         ...this.$route.query,
+            //         limit: this.pagination.limit,
+            //         current: this.pagination.current
+            //     }
+            // }).catch(() => {});
         },
         fetchSubscribedEmailTemplates() {
             let paginate = this.pagination;
@@ -337,6 +336,45 @@ export default {
         },
         fetchEmailTemplates() {
             let paginate = this.pagination;
+            this.pageLoading = true;
+                return CommunicationServices.getEmailTemplates({
+                    params: {
+                        page_size: this.pagination.limit,
+                        page_no: this.pagination.current,
+                        sort: JSON.stringify({ created_at: "-1" }),
+                        ...(this.searchText
+                            ? {
+                                  query: JSON.stringify({
+                                      $or: [
+                                          {
+                                              name: {
+                                                  $regex: this.searchText,
+                                                  $options: 'ig'
+                                              }
+                                          },
+                                          {
+                                              tags: {
+                                                  $regex: this.searchText,
+                                                  $options: 'ig'
+                                              }
+                                          }
+                                      ]
+                                  })
+                              }
+                            : {})
+                    }
+                })
+                .then(data => {
+                    this.emailTemplatesStore = data.data
+                    console.log("p1",this.emailTemplatesStore);
+                    this.pageLoading = false;
+                    this.pageError = false;
+                    //return data;
+                })
+                .catch(err => {
+                    this.pageLoading = false;
+                    this.pageError = true;
+                });
             //this.pageLoading = true;
             // return this.$store
             //     .dispatch(ADMIN_COMMS_FETCH_EMAIL_TEMPLATES, {
@@ -398,9 +436,7 @@ export default {
             this.getTemplatesBasedOnFilter();
         },
         editEmailTemplate(item) {
-            this.$router.push(
-                `${getRoute(this.$route)}/email/templates/edit/${item._id}`
-            );
+            this.$router.push({path:`templates/edit/${item._id}`})
         },
         previewEmailTemplate(item) {
             // this.$router.push({path:`/admin/email/templates/edit/${item._id}`,data:{route:"variables"}});

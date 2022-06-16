@@ -397,6 +397,9 @@ export default {
         //     appSubscriptions: ADMIN_COMMS_GET_APP_EVENT_SUBSCRIPTIONS,
         //     userData: GET_USER_INFO
         // })
+        getData(){
+            return this.templateData
+        }
     },
     data() {
         return {
@@ -457,43 +460,7 @@ export default {
             initialHash: '',
             showEventLinkingModal: false,
             emailTemplateStore: {},
-            emailTemplateToClone: {
-  "is_system": true,
-  "is_internal": false,
-  "description": "Use this email template for inviting customers as staff in your application.",
-  "static_to": [],
-  "static_cc": [],
-  "static_bcc": [],
-  "tags": [],
-  "priority": "low",
-  "published": true,
-  "_id": "611212f186414775f63dfcc6",
-  "slug": "invite-email-template",
-  "name": "Invite Email",
-  "subject": {
-    "template_type": "nunjucks",
-    "template": "{{ display or 'Fynd'}} Invite"
-  },
-  "html": {
-    "template_type": "nunjucks",
-    "template": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<!-- saved from url=(0069)http://assets.wildbit.com/postmark/templates/dist/password_reset.html -->\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n\n<head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n    <title>Set up a new password for {{ display or 'Fynd' }}</title>\n    <!-- \n    The style block is collapsed on page load to save you some scrolling.\n    Postmark automatically inlines all CSS properties for maximum email client \n    compatibility. You can just update styles here, and Postmark does the rest.\n    -->\n    <style type=\"text/css\" rel=\"stylesheet\" media=\"all\">\n        /* Base ------------------------------ */\n\n        *:not(br):not(tr):not(html) {\n            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;\n            box-sizing: border-box;\n        }\n\n        body {\n            width: 100% !important;\n            height: 100%;\n            margin: 0;\n            line-height: 1.4;\n            background-color: #F2F4F6;\n            color: #74787E;\n            -webkit-text-size-adjust: none;\n        }\n\n        p,\n        ul,\n        ol,\n        blockquote {\n            line-height: 1.4;\n            text-align: left;\n        }\n\n        a {\n            color: #3869D4;\n        }\n\n        a img {\n            border: none;\n        }\n\n        /* Layout ------------------------------ */\n\n        .email-wrapper {\n            width: 100%;\n            margin: 0;\n            padding: 0;\n            -premailer-width: 100%;\n            -premailer-cellpadding: 0;\n            -premailer-cellspacing: 0;\n            background-color: #F2F4F6;\n        }\n\n        .email-content {\n            width: 100%;\n            margin: 0;\n            padding: 0;\n            -premailer-width: 100%;\n            -premailer-cellpadding: 0;\n            -premailer-cellspacing: 0;\n        }\n\n        /* Masthead ----------------------- */\n\n        .email-masthead {\n            padding: 25px 0;\n            text-align: center;\n        }\n\n        .email-masthead_logo {\n            width: 94px;\n        }\n\n        .email-masthead_name {\n            font-size: 16px;\n            font-weight: bold;\n            color: #bbbfc3;\n            text-decoration: none;\n            text-shadow: 0 1px 0 white;\n        }\n\n        /* Body ------------------------------ */\n\n        .email-body {\n            width: 100%;\n            margin: 0;\n            padding: 0;\n            -premailer-width: 100%;\n            -premailer-cellpadding: 0;\n            -premailer-cellspacing: 0;\n            border-top: 1px solid #EDEFF2;\n            border-bottom: 1px solid #EDEFF2;\n            background-color: #FFFFFF;\n        }\n\n        .email-body_inner {\n            width: 570px;\n            margin: 0 auto;\n            padding: 0;\n            -premailer-width: 570px;\n            -premailer-cellpadding: 0;\n            -premailer-cellspacing: 0;\n            background-color: #FFFFFF;\n        }\n\n        .email-footer {\n            width: 570px;\n            margin: 0 auto;\n            padding: 0;\n            -premailer-width: 570px;\n            -premailer-cellpadding: 0;\n            -premailer-cellspacing: 0;\n            text-align: center;\n        }\n\n        .email-footer p {\n            color: #AEAEAE;\n        }\n\n        .body-action {\n            width: 100%;\n            margin: 30px auto;\n            padding: 0;\n            -premailer-width: 100%;\n            -premailer-cellpadding: 0;\n            -premailer-cellspacing: 0;\n            text-align: center;\n        }\n\n        .body-sub {\n            margin-top: 25px;\n            padding-top: 25px;\n            border-top: 1px solid #EDEFF2;\n        }\n\n        .content-cell {\n            padding: 35px;\n        }\n\n        .preheader {\n            display: none !important;\n        }\n\n        /* Attribute list ------------------------------ */\n\n        .attributes {\n            margin: 0 0 21px;\n        }\n\n        .attributes_content {\n            background-color: #EDEFF2;\n            padding: 16px;\n        }\n\n        .attributes_item {\n            padding: 0;\n        }\n\n        /* Related Items ------------------------------ */\n\n        .related {\n            width: 100%;\n            margin: 0;\n            padding: 25px 0 0 0;\n            -premailer-width: 100%;\n            -premailer-cellpadding: 0;\n            -premailer-cellspacing: 0;\n        }\n\n        .related_item {\n            padding: 10px 0;\n            color: #74787E;\n            font-size: 15px;\n            line-height: 18px;\n        }\n\n        .related_item-title {\n            display: block;\n            margin: .5em 0 0;\n        }\n\n        .related_item-thumb {\n            display: block;\n            padding-bottom: 10px;\n        }\n\n        .related_heading {\n            border-top: 1px solid #EDEFF2;\n            text-align: center;\n            padding: 25px 0 10px;\n        }\n\n        /* Discount Code ------------------------------ */\n\n        .discount {\n            width: 100%;\n            margin: 0;\n            padding: 24px;\n            -premailer-width: 100%;\n            -premailer-cellpadding: 0;\n            -premailer-cellspacing: 0;\n            background-color: #EDEFF2;\n            border: 2px dashed #9BA2AB;\n        }\n\n        .discount_heading {\n            text-align: center;\n        }\n\n        .discount_body {\n            text-align: center;\n            font-size: 15px;\n        }\n\n        /* Social Icons ------------------------------ */\n\n        .social {\n            width: auto;\n        }\n\n        .social td {\n            padding: 0;\n            width: auto;\n        }\n\n        .social_icon {\n            height: 20px;\n            margin: 0 8px 10px 8px;\n            padding: 0;\n        }\n\n        /* Data table ------------------------------ */\n\n        .purchase {\n            width: 100%;\n            margin: 0;\n            padding: 35px 0;\n            -premailer-width: 100%;\n            -premailer-cellpadding: 0;\n            -premailer-cellspacing: 0;\n        }\n\n        .purchase_content {\n            width: 100%;\n            margin: 0;\n            padding: 25px 0 0 0;\n            -premailer-width: 100%;\n            -premailer-cellpadding: 0;\n            -premailer-cellspacing: 0;\n        }\n\n        .purchase_item {\n            padding: 10px 0;\n            color: #74787E;\n            font-size: 15px;\n            line-height: 18px;\n        }\n\n        .purchase_heading {\n            padding-bottom: 8px;\n            border-bottom: 1px solid #EDEFF2;\n        }\n\n        .purchase_heading p {\n            margin: 0;\n            color: #9BA2AB;\n            font-size: 12px;\n        }\n\n        .purchase_footer {\n            padding-top: 15px;\n            border-top: 1px solid #EDEFF2;\n        }\n\n        .purchase_total {\n            margin: 0;\n            text-align: right;\n            font-weight: bold;\n            color: #2F3133;\n        }\n\n        .purchase_total--label {\n            padding: 0 15px 0 0;\n        }\n\n        /* Utilities ------------------------------ */\n\n        .align-right {\n            text-align: right;\n        }\n\n        .align-left {\n            text-align: left;\n        }\n\n        .align-center {\n            text-align: center;\n        }\n\n        /*Media Queries ------------------------------ */\n\n        @media only screen and (max-width: 600px) {\n\n            .email-body_inner,\n            .email-footer {\n                width: 100% !important;\n            }\n        }\n\n        @media only screen and (max-width: 500px) {\n            .button {\n                width: 100% !important;\n            }\n        }\n\n        /* Buttons ------------------------------ */\n\n        .button {\n            background-color: #3869D4;\n            border-top: 10px solid #3869D4;\n            border-right: 18px solid #3869D4;\n            border-bottom: 10px solid #3869D4;\n            border-left: 18px solid #3869D4;\n            display: inline-block;\n            color: #FFF;\n            text-decoration: none;\n            border-radius: 3px;\n            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16);\n            -webkit-text-size-adjust: none;\n        }\n\n        .button--green {\n            background-color: #22BC66;\n            border-top: 10px solid #22BC66;\n            border-right: 18px solid #22BC66;\n            border-bottom: 10px solid #22BC66;\n            border-left: 18px solid #22BC66;\n            color: white !important;\n        }\n\n        .button--red {\n            background-color: #FF6136;\n            border-top: 10px solid #FF6136;\n            border-right: 18px solid #FF6136;\n            border-bottom: 10px solid #FF6136;\n            border-left: 18px solid #FF6136;\n        }\n\n        /* Type ------------------------------ */\n\n        h1 {\n            margin-top: 0;\n            color: #2F3133;\n            font-size: 19px;\n            font-weight: bold;\n            text-align: left;\n        }\n\n        h2 {\n            margin-top: 0;\n            color: #2F3133;\n            font-size: 16px;\n            font-weight: bold;\n            text-align: left;\n        }\n\n        h3 {\n            margin-top: 0;\n            color: #2F3133;\n            font-size: 14px;\n            font-weight: bold;\n            text-align: left;\n        }\n\n        p {\n            margin-top: 0;\n            color: #74787E;\n            font-size: 16px;\n            line-height: 1.5em;\n            text-align: left;\n        }\n\n        p.sub {\n            font-size: 12px;\n        }\n\n        p.center {\n            text-align: center;\n        }\n\n        .logo-container {\n            display: inline-block;\n            width: 100%;\n            text-align: center;\n            margin-top: 10px;\n        }\n\n        .logo {\n            display: inline-block;\n            height: 100px;\n            width: 100px;\n        }\n    </style>\n</head>\n\n<body>\n    <table class=... (10024 total length)"
-  },
-  "text": {
-    "template_type": "nunjucks",
-    "template": "Set up a new password for {{ display or 'Fynd' }}\n\nHi,\n{{ message }}\nCopy and paste the URL below into your web browser. This\nInvite is only valid for the next 24 hours.\n{{ inviteLink }}"
-  },
-  "template_variables": {
-    "display": "Fynd",
-    "inviteLink": "https://www.fynd.com/",
-    "desktop_image": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png",
-    "message": "Welcome to Fynd"
-  },
-  "headers": [],
-  "attachments": [],
-  "created_at": "2021-08-10T05:47:29.163Z",
-  "updated_at": "2022-05-13T05:05:37.001Z",
-  "__v": 0
-},
+            emailTemplateToClone: {},
 appSubscriptions: {}
         };
     },
@@ -513,122 +480,127 @@ appSubscriptions: {}
         systemDisableEdit: {
             type: Boolean,
             default: false
+        },
+        templateData: {
+            type:Object
         }
     },
     mounted() {
-        // console.log('side');
-        // let data = {};
-        // try {
-        //     if (this.isCloneMode) {
-        //         data = cloneDeep(this.emailTemplateToClone);
-        //         this.meta = {
-        //             type: 'cloned',
-        //             template: this.emailTemplateToClone._id,
-        //             is_system: this.emailTemplateToClone.is_system
-        //         };
-        //     } else {
-        //         data = cloneDeep(this.emailTemplateStore);
-        //     }
-        //     let obj = {};
-        //     this.formFieldNames.forEach(key => {
-        //         if (key == 'tags' && data[key]) {
-        //             this.tags = data[key].map(val => {
-        //                 return { name: val };
-        //             });
-        //         }
-        //         if (key == 'priority') {
-        //             if (!data[key]) {
-        //                 data[key] = this.data[key].value;
-        //             }
-        //             obj[key] = obj[key] = this.getInitialValue(data[key]);
-        //         } else if (key == 'from') {
-        //             if (!data[key]) {
-        //                 data[key] = this.data[key].value;
-        //             }
-        //             obj[key] = this.getInitialValue(data[key]);
-        //             obj[key].disabled = true;
-        //         } else if (key == 'from_name') {
-        //             if (!data[key]) {
-        //                 data[key] = this.data[key].value;
-        //             }
-        //             obj[key] = this.getInitialValue(data[key]);
-        //             obj[key].disabled = true;
-        //         } else {
-        //             obj[key] = this.getInitialValue(data[key]);
-        //         }
-        //     });
-        //     this.canBeCommaSeperated.forEach(key => {
-        //         if (
-        //             obj[key] &&
-        //             obj[key].value &&
-        //             typeof obj[key].value == 'object' &&
-        //             Array.isArray(obj[key].value)
-        //         ) {
-        //             obj[key].value = obj[key].value.join(',');
-        //         }
-        //     });
-        //     if (data.slug) {
-        //         this.data.slug = data.slug;
-        //     }
+        let data = {};
+        try {
+            if (this.isCloneMode) {
+                data = cloneDeep(this.emailTemplateToClone);
+                this.meta = {
+                    type: 'cloned',
+                    template: this.emailTemplateToClone._id,
+                    is_system: this.emailTemplateToClone.is_system
+                };
+            } else {
+                // pass data as a props from email-templates
+                
+                data = this.getData;
+                console.log(data);
+            }
+            let obj = {};
+            this.formFieldNames.forEach(key => {
+                if (key == 'tags' && data[key]) {
+                    this.tags = data[key].map(val => {
+                        return { name: val };
+                    });
+                }
+                if (key == 'priority') {
+                    if (!data[key]) {
+                        data[key] = this.data[key].value;
+                    }
+                    obj[key] = obj[key] = this.getInitialValue(data[key]);
+                } else if (key == 'from') {
+                    if (!data[key]) {
+                        data[key] = this.data[key].value;
+                    }
+                    obj[key] = this.getInitialValue(data[key]);
+                    obj[key].disabled = true;
+                } else if (key == 'from_name') {
+                    if (!data[key]) {
+                        data[key] = this.data[key].value;
+                    }
+                    obj[key] = this.getInitialValue(data[key]);
+                    obj[key].disabled = true;
+                } else {
+                    obj[key] = this.getInitialValue(data[key]);
+                }
+            });
+            this.canBeCommaSeperated.forEach(key => {
+                if (
+                    obj[key] &&
+                    obj[key].value &&
+                    typeof obj[key].value == 'object' &&
+                    Array.isArray(obj[key].value)
+                ) {
+                    obj[key].value = obj[key].value.join(',');
+                }
+            });
+            if (data.slug) {
+                this.data.slug = data.slug;
+            }
 
-        //     this.data = { ...this.data, ...obj };
+            this.data = { ...this.data, ...obj };
 
-        //     this.fetchAppEventSubscriptions().then(() => {
-        //         let groupNames = this.appSubscriptions.items.map(
-        //             appSubscription => appSubscription.event.group
-        //         );
+            this.fetchAppEventSubscriptions().then(() => {
+                let groupNames = this.appSubscriptions.items.map(
+                    appSubscription => appSubscription.event.group
+                );
 
-        //         // extract unique group names
-        //         groupNames = Array.from(new Set(groupNames));
+                // extract unique group names
+                groupNames = Array.from(new Set(groupNames));
 
-        //         if (this.templateId) {
-        //             this.subscribedAdded = this.appSubscriptions.items.filter(
-        //                 subscription => {
-        //                     return (
-        //                         subscription.template.email.template._id ==
-        //                         this.templateId
-        //                     );
-        //                 }
-        //             );
-        //             this.linkToEvent = this.subscribedAdded.map(a => a._id);
-        //         } else if (
-        //             this.$route.query.clone &&
-        //             this.emailTemplateToClone &&
-        //             this.emailTemplateToClone.is_system
-        //         ) {
-        //             this.subscribedAdded = this.appSubscriptions.items.filter(
-        //                 subscription => {
-        //                     return (
-        //                         subscription.event.template.email.template ==
-        //                         this.$route.query.clone
-        //                     );
-        //                 }
-        //             );
-        //             this.linkToEvent = this.subscribedAdded.map(a => a._id);
-        //         }
+                if (this.templateId) {
+                    this.subscribedAdded = this.appSubscriptions.items.filter(
+                        subscription => {
+                            return (
+                                subscription.template.email.template._id ==
+                                this.templateId
+                            );
+                        }
+                    );
+                    this.linkToEvent = this.subscribedAdded.map(a => a._id);
+                } else if (
+                    this.$route.query.clone &&
+                    this.emailTemplateToClone &&
+                    this.emailTemplateToClone.is_system
+                ) {
+                    this.subscribedAdded = this.appSubscriptions.items.filter(
+                        subscription => {
+                            return (
+                                subscription.event.template.email.template ==
+                                this.$route.query.clone
+                            );
+                        }
+                    );
+                    this.linkToEvent = this.subscribedAdded.map(a => a._id);
+                }
 
-        //         this.subscriptions = this.appSubscriptions.items.map(
-        //             appSubscription => {
-        //                 return {
-        //                     value: appSubscription._id,
-        //                     text: appSubscription.event.event_name,
-        //                     group: appSubscription.event.group
-        //                 };
-        //             }
-        //         );
-        //         this.subscriptions = this.createSubscriptionsListDropdown(
-        //             groupNames,
-        //             this.subscriptions
-        //         );
-        //         this.subscriptionsFiltered = this.subscriptions;
-        //         this.initialHash = this.generateHashOfLocalState();
-        //         this.pageLoading = false;
-        //     });
-        // } catch (err) {
-        //     this.$snackbar.global.showError('Failed to load Email Template');
-        //     this.pageLoading = false;
-        //     this.pageError = true;
-        // }
+                this.subscriptions = this.appSubscriptions.items.map(
+                    appSubscription => {
+                        return {
+                            value: appSubscription._id,
+                            text: appSubscription.event.event_name,
+                            group: appSubscription.event.group
+                        };
+                    }
+                );
+                this.subscriptions = this.createSubscriptionsListDropdown(
+                    groupNames,
+                    this.subscriptions
+                );
+                this.subscriptionsFiltered = this.subscriptions;
+                this.initialHash = this.generateHashOfLocalState();
+                this.pageLoading = false;
+            });
+        } catch (err) {
+            this.$snackbar.global.showError('Failed to load Email Template');
+            this.pageLoading = false;
+            this.pageError = true;
+        }
     },
     methods: {
         eventLinkDecision(val) {
@@ -675,7 +647,7 @@ appSubscriptions: {}
         },
         validateAndSave() {
             if (this.validate()) {
-                this.saveForm();
+                return this.saveForm();
             }
         },
         saveForm() {
@@ -698,17 +670,19 @@ appSubscriptions: {}
             if (!isEmpty(this.meta)) {
                 finalObj['meta'] = this.meta;
             }
-            this.$store.commit(ADMIN_COMMS_SET_EMAIL_TEMPLATE, {
-                data: {
-                    ...finalObj
-                }
-            });
+            // this.$store.commit(ADMIN_COMMS_SET_EMAIL_TEMPLATE, {
+            //     data: {
+            //         ...finalObj
+            //     }
+            // });
+            // this.$root.$emit('getSidebarData', finalObj);
             if (this.linkToEvent) {
                 this.$emit('onLinkSubscription', {
                     subscribedAdded: this.subscribedAdded,
                     subscribedRemoved: this.subscribedRemoved
                 });
             }
+            return finalObj;
         },
         getInitialValue(val = '') {
             return {
@@ -757,7 +731,7 @@ appSubscriptions: {}
                             }
                         })
                     }).then(({ data }) => {
-                this.appSubscriptions = data.data;
+                this.appSubscriptions = data;
             })
          },
         removeLink(item, index) {

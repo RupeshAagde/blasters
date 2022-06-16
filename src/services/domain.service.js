@@ -637,8 +637,8 @@ const URLS = {
     COMMUNICATION_SMS_S_TEMPLATES: () => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/system-templates`)
     },
-    COMMUNICATION_EMAIL_TEMPLATES: () => {
-        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/email/templates`)
+    COMMUNICATION_EMAIL_TEMPLATES: (id='') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/email/templates/`,id)
     },
     COMMUNICATION_EMAIL_S_TEMPLATES: () => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/email/system-templates`)
@@ -648,6 +648,9 @@ const URLS = {
     },
     EMAIL_PROVIDER: (id = '') => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/email/providers/`,id)
+    },
+    COMMS_DEFAULT_EMAIL_PROVIDERS: () => {
+        return urlJoin(COMMUNICATION_BASE_URL,`/v1.0/platform/email/default-providers`);
     },
     COMMUNICATION_GLOBAL_PROVIDER: () => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/app-provider/global-providers`)

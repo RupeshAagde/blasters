@@ -287,6 +287,19 @@ export default [
                 }
             },
             {
+                name: 'emailtemplateEdit',
+                path: 'communication/email/templates/edit/:templateId',
+                component: EmailTemplateForm,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
                 name: 'invoices details',
                 path: 'subscription/invoices/:billingNo',
                 component: BillingVue,

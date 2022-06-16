@@ -44,6 +44,7 @@
         "@formschema/native": "^1.1.1",
         "@gofynd/nitrozen-vue": "0.0.37",
         "@google/model-viewer": "^1.4.1",
+        "@mailupinc/bee-plugin": "^1.2.0",
         "@sentry/node": "^5.27.3",
         "ajv": "^6.12.6",
         "axios": "0.21.1",

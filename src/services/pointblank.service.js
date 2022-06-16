@@ -34,8 +34,8 @@ const CommunicationServices = {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_SMS_S_TEMPLATES() , axiosOptions);
     },
-    getEmailTemplates(){
-        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+    getEmailTemplates(params){
+        const axiosOptions = Object.assign({},params,getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_EMAIL_TEMPLATES() , axiosOptions);
     },
     getEmailSysTemplates(){
@@ -78,6 +78,10 @@ const CommunicationServices = {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_GLOBAL_PROVIDER() , axiosOptions);
     },
+    getDefaultEmailProvider(){
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.COMMS_DEFAULT_EMAIL_PROVIDERS() , axiosOptions);
+    },
     getAppProvider(){
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_APP_PROVIDER() , axiosOptions);
@@ -86,8 +90,8 @@ const CommunicationServices = {
         const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
         return ApiService.put(URLS.COMMUNICATION_GLOBAL_PROVIDER() , axiosOptions);
     },
-    getSystemEvents(){
-        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+    getSystemEvents(params){
+        const axiosOptions = Object.assign({},{params}, getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_SYSTEM_EVENTS() , axiosOptions);
     },
     postSendSync(data){
@@ -98,7 +102,10 @@ const CommunicationServices = {
         const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
         return ApiService.post(URLS.COMMUNICATION_SMS_TEMPLATES() , axiosOptions);
     },
-    
+    postEmailTemplate(data){
+        const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
+        return ApiService.post(URLS.COMMUNICATION_EMAIL_TEMPLATES() , axiosOptions);
+    },
     postBulkUpdate(data){
         const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
         return ApiService.post(URLS.EVENT_BULK_UPDATE() , axiosOptions);
@@ -107,7 +114,12 @@ const CommunicationServices = {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_SMS_TEMPLATES(id) , axiosOptions);
     },
+    getEmailTemplatebyId(id){
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.COMMUNICATION_EMAIL_TEMPLATES(id) , axiosOptions);
+    },
     
+
 
     
 

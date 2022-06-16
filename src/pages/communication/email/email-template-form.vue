@@ -63,13 +63,14 @@
             >
         </nitrozen-dialog>
 
-        <div class="main-body">
+        <div class="main-body" v-if="isDataLoaded">
             <div class="left-container">
                 <emailtemplatemainbody
                     ref="emailtemplatemainbody"
                     :isEditMode="isEditMode"
                     :isCloneMode="isCloneMode"
                     :templateId="templateId"
+                    :templateData="emailTemplateStore"
                 ></emailtemplatemainbody>
             </div>
             <div class="right-container">
@@ -79,6 +80,7 @@
                     :isEditMode="isEditMode"
                     :isCloneMode="isCloneMode"
                     :templateId="templateId"
+                    :templateData="emailTemplateStore"
                     @linkEventContinueClicked="saveAndPublish"
                 ></emailtemplatesidebar>
             </div>
@@ -89,7 +91,7 @@
 <script>
 import emailtemplatemainbody from './email-template-main-body.vue';
 import emailtemplatesidebar from './email-template-sidebar.vue';
-//import adminCommsService from './../../../../services/admin/admin-comms.service';
+import adminCommsService from '../../../services/pointblank.service';
 import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
 import { mapGetters } from 'vuex';
 // import {
@@ -162,41 +164,38 @@ export default {
             emailTemplate: {},
             pageLoading: false,
             pageError:false,
-            isEditMode: false,
+            isEditMode: !!this.$route.params.templateId,
             isCloneMode: false,
-            templateId: this.$route.params.id,
+            templateId: this.$route.params.templateId,
             threeDotsOptions: THREE_DOT_OPTIONS,
             subscribedAdded: [],
             subscribedRemoved: [],
             emailTemplateToClone: {},
-            emailTemplateStore: {}
+            emailTemplateStore: {},
+            isDataLoaded:false
 
         };
     },
     mounted() {
-    //     let promiseObj = null;
-    //     if (this.$route.query && this.$route.query.clone) {
-    //         if (
-    //             isEmpty(this.emailTemplateToClone) ||
-    //             (this.emailTemplateToClone &&
-    //                 this.emailTemplateToClone._id != this.$route.query.clone)
-    //         ) {
-    //             promiseObj = this.$store
-    //                 .dispatch(
-    //                     ADMIN_COMMS_FETCH_EMAIL_TEMPLATE_TO_CLONE_BY_ID,
-    //                     this.$route.query.clone
-    //                 )
-    //                 .then(data => {
-    //                     let emailTemplate = omitForClone(data);
-    //                     this.$store.commit(
-    //                         ADMIN_COMMS_SET_EMAIL_TEMPLATE_TO_CLONE,
-    //                         {
-    //                             data: emailTemplate
-    //                         }
-    //                     );
-    //                 });
-    //         }
-    //     }
+        if(this.isEditMode && this.templateId){
+            Promise.resolve(this.getTemplatedbyId())
+        }else if (this.$route.query && this.$route.query.clone) {
+            if (
+                isEmpty(this.emailTemplateToClone) ||
+                (this.emailTemplateToClone &&
+                    this.emailTemplateToClone._id != this.$route.query.clone)
+            ) {
+                adminCommsService.getEmailTemplatebyId(this.$route.query.clone).then(res=>{
+                    this.emailTemplateStore=res.data
+                    this.emailTemplateStore.is_system=false;
+                    delete this.emailTemplateStore._id;
+                    this.isDataLoaded=true;
+                })
+            }
+        }
+        else{
+            this.isDataLoaded=true;
+        }
 
     //     Promise.resolve(promiseObj)
     //         .then(() => {
@@ -238,6 +237,12 @@ export default {
     //         });
      },
     methods: {
+        getTemplatedbyId(){
+            adminCommsService.getEmailTemplatebyId(this.templateId).then((data)=>{
+                this.emailTemplateStore = data.data
+                this.isDataLoaded=true
+            })
+        },
         saveClick() {
             if (
                 this.isCloneMode &&
@@ -253,16 +258,13 @@ export default {
             this[item.action]();
         },
         cloneTemplate() {
-            // let emailTemplate = this.emailTemplateStore;
-            // let emailTemplateForClone = omitForClone(emailTemplate);
-            // this.$store.commit(ADMIN_COMMS_SET_EMAIL_TEMPLATE_TO_CLONE, {
-            //     data: emailTemplateForClone
-            // });
-            // this.$router.push({
-            //     name: 'create-email-template',
-            //     query: { clone: emailTemplate._id }
-            // });
-            // this.$forceUpdate();
+            let emailTemplate = this.emailTemplateStore;
+            let emailTemplateForClone = omitForClone(emailTemplate);
+            this.$router.push({
+                name: 'emailtemplateCreate',
+                query: { clone: emailTemplate._id }
+            });
+            this.$forceUpdate();
         },
         onOpenDeleteTemplateDialog() {
             this.$refs['confirm_delete_template_dialog'].open({
@@ -301,8 +303,10 @@ export default {
             let sidebarValid = this.$refs.emailtemplatesidebar.validate();
             let mainbodyValid = this.$refs.emailtemplatemainbody.validate();
             if (sidebarValid && mainbodyValid) {
-                this.$refs.emailtemplatesidebar.saveForm();
-                this.$refs.emailtemplatemainbody.saveForm();
+                let sidebarData = this.$refs.emailtemplatesidebar.validateAndSave();
+                let mainBodyData = this.$refs.emailtemplatemainbody.validateAndSave();
+                this.emailTemplateStore = {...sidebarData, ...mainBodyData};
+                this.$refs.emailtemplatemainbody.emailTemplateStore = this.emailTemplateStore;
                 this.$refs.emailtemplatemainbody.openSendTestEmailModal();
             }
         },
@@ -310,12 +314,81 @@ export default {
             let sidebarValid = this.$refs.emailtemplatesidebar.validate();
             let mainbodyValid = this.$refs.emailtemplatemainbody.validate();
             if (sidebarValid && mainbodyValid) {
-                this.$refs.emailtemplatesidebar.validateAndSave();
-                this.$refs.emailtemplatemainbody.validateAndSave();
+                let sidebarData = this.$refs.emailtemplatesidebar.validateAndSave();
+                let mainBodyData = this.$refs.emailtemplatemainbody.validateAndSave();
+                this.emailTemplateStore = {...sidebarData, ...mainBodyData};
                 this.saveForm();
             }
         },
         saveForm() {
+            adminCommsService.postEmailTemplate(this.emailTemplateStore)
+                    .then(response => {
+                        this.pageLoading = false;
+                        // this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
+                        //     data: response
+                        // });
+                        this.$router.push({ name: 'emailtemplateMain' })
+                            this.$snackbar.global.showSuccess(
+                                'Email template has been published!'
+                            );
+                        
+                        //return;
+                    })
+                    .then(() => {
+                        if (
+                            this.subscribedAdded.length +
+                                this.subscribedRemoved.length >
+                            0
+                        ) {
+                            let subscribedAdded = this.subscribedAdded.map(
+                                appSubscription => {
+                                    let template = cloneDeep(
+                                        appSubscription.template
+                                    );
+                                    template.email.template = this.emailTemplateStore._id;
+                                    return {
+                                        _id: appSubscription._id,
+                                        template
+                                    };
+                                }
+                            );
+                            let subscribedRemoved = this.subscribedRemoved.map(
+                                appSubscription => {
+                                    let template = cloneDeep(
+                                        appSubscription.template
+                                    );
+                                    template.email.template =
+                                        appSubscription.event.template.email.template;
+                                    return {
+                                        _id: appSubscription._id,
+                                        template
+                                    };
+                                }
+                            );
+                            // this.$store.dispatch(
+                            //     ADMIN_COMMS_BULK_UPDATE_APP_EVENT_SUBSCRIPTION,
+                            //     {
+                            //         subscriptions: [
+                            //             ...subscribedAdded,
+                            //             ...subscribedRemoved
+                            //         ]
+                            //     }
+                            // );
+                            adminCommsService.postBulkUpdate({
+                                    subscriptions: [
+                                        ...subscribedAdded,
+                                        ...subscribedRemoved
+                                    ]
+                                })
+                        }
+                    })
+                    
+                    .catch(err => {
+                        console.log(err);
+                        this.$snackbar.global.showError('Something went wrong');
+                        this.pageError = true;
+                        this.pageLoading = false;
+                    });
             // if (this.templateId) {
             //     this.pageLoading = true;
             //     return this.$store

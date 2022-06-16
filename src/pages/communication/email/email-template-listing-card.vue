@@ -1,5 +1,5 @@
 <template>
-    <div class="mirage-list-card-container" @click="onEdit">
+    <div class="blaster-list-card-container" @click="onEdit">
         <div class="card-avatar">
             <adm-text-avatar :text="emailTemplate.name"></adm-text-avatar>
         </div>

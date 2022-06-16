@@ -119,7 +119,7 @@
                         <template slot="body">
                             <div class="outer-container">
                                 <div class="inner-container-2">
-                                    <!-- <beefreeeditor
+                                    <beefreeeditor
                                         v-if="data.editor_type.value == 'bee'"
                                         :template="
                                             JSON.parse(data.editor_meta.value)
@@ -130,7 +130,7 @@
                                         "
                                         ref="beefree"
                                         class="editor-container"
-                                    ></beefreeeditor> -->
+                                    ></beefreeeditor>
                                     <!-- <newslettergrapeeditor
                                         v-if="
                                             data.editor_type.value == 'grapeJS'
@@ -362,6 +362,7 @@
     cursor: pointer;
 }
 .modal-editor {
+    z-index: 13;
     /deep/.modal-container {
         width: 100%;
         height: 100%;
@@ -769,7 +770,7 @@ import { Promise } from 'q';
 //     ADMIN_COMMS_DUMMY_DATA_SOURCE_META,
 //     ADMIN_COMMS_FETCH_EMAIL_PROVIDERS
 // } from '../../../../store/admin/action.type';
-// import { GET_USER_INFO } from '../../../../store/getters.type';
+import { GET_USER_INFO } from '@/store/getters.type';
 // import {
 //     ADMIN_COMMS_GET_EMAIL_TEMPLATE,
 //     ADMIN_COMMS_GET_EMAIL_TEMPLATE_TO_CLONE,
@@ -797,16 +798,16 @@ import {
 import uktModal from '@/components/common/utk-modal.vue';
 import admforminput from '@/components/common/form-input.vue';
 import admCheckboxCard from '@/components/common/adm-checkbox-card.vue';
-//import adminCommsService from './../../../../services/admin/admin-comms.service';
-//import newslettergrapeeditor from '../../../../components/admin/common/editor/newsletter-grape-editor.vue';
-//import beefreeeditor from '../../../../components/admin/common/beefree-editor.vue';
+import adminCommsService from './../../../services/pointblank.service';
+// import newslettergrapeeditor from '../../../../components/admin/common/editor/newsletter-grape-editor.vue';
+import beefreeeditor from '../../../components/common/beefree-editor.vue';
 import editorModal from './editor-modal.vue';
 import rawhtmleditor from '../../settings/page-editor/rawhtml-editor.vue';
 import hash from 'object-hash';
 import isEmpty from 'lodash/isEmpty';
 import cloneDeep from 'lodash/cloneDeep';
 import pick from 'lodash/pick';
-import CommunicationServices from '../../../services/pointblank.service';
+import { getRoute } from '@/helper/get-route';
 
 const DEFAULT_RAW_HTML_EDITOR_TEXT = `<!DOCTYPE html>
 <html lang="en">
@@ -825,8 +826,8 @@ export default {
     components: {
         loader: loader,
         VJsoneditor,
-        //newslettergrapeeditor,
-        //beefreeeditor,
+        // newslettergrapeeditor,
+        beefreeeditor,
         'rawhtml-editor': rawhtmleditor,
         'editor-modal': editorModal,
         'no-ssr': NoSSR,
@@ -863,6 +864,9 @@ export default {
         systemDisableEdit: {
             type: Boolean,
             default: false
+        },
+        templateData:{
+            type:Object
         }
     },
     watch: {
@@ -939,8 +943,8 @@ export default {
             providersDropdownOptions:[],
             emailTemplateStore: {},
             emailTemplateToClone: {},
-            userData: {},
-            emailProvidersStore: {}
+            emailProvidersStore: {},
+            emailTemplateStore:{}
         };
     },
     computed: {
@@ -950,40 +954,28 @@ export default {
         ALIGN() {
             return ALIGN;
         },
-        // ...mapGetters({
+        ...mapGetters({
         //     emailTemplateStore: ADMIN_COMMS_GET_EMAIL_TEMPLATE,
         //     emailTemplateToClone: ADMIN_COMMS_GET_EMAIL_TEMPLATE_TO_CLONE,
-        //     userData: GET_USER_INFO,
+            userData: GET_USER_INFO,
         //     emailProvidersStore: ADMIN_COMMS_GET_EMAIL_PROVIDERS
-        // }),
+        }),
+        getData(){
+            return this.templateData
+        }
     },
     mounted() {
-        // let data = {};
-        // this.$store
-        //     .dispatch(ADMIN_COMMS_FETCH_EMAIL_PROVIDERS, {
-        //         params: {
-        //             page_size: 100,
-        //             page_no: 1,
-        //             sort: JSON.stringify({ created_at: -1 })
-        //         }
-        //     })
-        //     .then(data => {
-        //         if(data.items.length){
-        //             this.selectedProvider.value = data.items[0]._id || " ";
-        //         }
-        //         this.fetchDefaultEmailProvider().then(defaultProvider=>{
-        //           this.providersDropdownOptions=data.items.map(ele=>{
-        //             return {
-        //                     text: ele.name,
-        //                     value: ele._id
-        //                 }
-        //         })
-        //         this.providersDropdownOptions.unshift(...defaultProvider)
-        //         })
-        //         return data;
-        //     }).catch(err=>{
-        //         console.log(err);
-        //     })
+                let data = {};
+                this.fetchEmailProviders().then(emailProviders=>{
+                    this.providersDropdownOptions=emailProviders;
+                }).then(()=>{
+                    this.fetchDefaultEmailProvider().then(defaultProvider=>{
+                        this.providersDropdownOptions.unshift(...defaultProvider)
+                        console.log("p2",this.providersDropdownOptions)
+                    })
+                }).catch(err=>{
+                    console.log(err);
+                })
         // this.$store.dispatch(ADMIN_COMMS_DUMMY_DATA_SOURCES, {}).then(data => {
         //     this.dummyDataSources = [
         //         {
@@ -999,97 +991,97 @@ export default {
         //     ];
         // });
 
-        // try {
-        //     if (this.isCloneMode) {
-        //         data = cloneDeep(this.emailTemplateToClone);
-        //         this.disabledVariables = data.is_system;
-        //     } else {
-        //         data = cloneDeep(this.emailTemplateStore);
-        //         this.disabledVariables =
-        //             data.meta &&
-        //             data.meta.type == 'cloned' &&
-        //             data.meta.is_system;
-        //         this.editorMode = 'preview';
-        //     }
+        try {
+            if (this.isCloneMode) {
+                data = cloneDeep(this.getData);
+                this.disabledVariables = data.is_system;
+            } else {
+                data = cloneDeep(this.getData);
+                console.log(this.templateData)
+                this.disabledVariables =
+                    data.meta &&
+                    data.meta.type == 'cloned' &&
+                    data.meta.is_system;
+                this.editorMode = 'preview';
+            }
 
-        //     this.data.editor_type.value = this.data.editor_type.value || {};
+            this.data.editor_type.value = this.data.editor_type.value || {};
 
-        //     if (this.isCloneMode || this.isEditMode) {
-        //         if (this.disabledVariables) {
-        //             this.editorMode = 'preview';
-        //         } else {
-        //             this.editorMode = 'code';
-        //         }
-        //     }
+            if (this.isCloneMode || this.isEditMode) {
+                if (this.disabledVariables) {
+                    this.editorMode = 'preview';
+                } else {
+                    this.editorMode = 'code';
+                }
+            }
 
-        //     if (!this.isEditMode && !this.isCloneMode) {
-        //         if (!this.$route.query.editor_type) {
-        //             this.$router.push(
-        //                 `${getRoute(this.$route)}/email/templates/listing`
-        //             );
-        //         }
-        //         this.data.editor_type.value = this.$route.query.editor_type;
-        //         this.editorMode = 'code';
-        //     } else {
-        //         if (data.editor_type) {
-        //             this.data.editor_type.value = data.editor_type;
-        //         } else if (this.editor_type) {
-        //             this.data.editor_type.value = this.editor_type;
-        //         } else {
-        //             this.data.editor_type.value = 'grapeJS';
-        //         }
-        //     }
+            if (!this.isEditMode && !this.isCloneMode) {
+                if (!this.$route.query.editor_type) {
+                    this.$router.push(`/administrator/communication/email/templates`);
+                }
+                this.data.editor_type.value = this.$route.query.editor_type;
+                this.editorMode = 'code';
+            } else {
+                if (data.editor_type) {
+                    this.data.editor_type.value = data.editor_type;
+                } else if (this.editor_type) {
+                    this.data.editor_type.value = this.editor_type;
+                } else {
+                    this.data.editor_type.value = 'grapeJS';
+                }
+            }
 
-        //     if (data.editor_meta) {
-        //         this.data.editor_meta = this.data.editor_meta || {};
-        //         this.data.editor_meta.value = data.editor_meta;
-        //     }
+            if (data.editor_meta) {
+                this.data.editor_meta = this.data.editor_meta || {};
+                this.data.editor_meta.value = data.editor_meta;
+            }
 
-        //     if (data.template_variables) {
-        //         this.json = data.template_variables;
-        //     }
-        //     if (data.subject) {
-        //         this.personalizationChecked =
-        //             data.subject.template_type == 'nunjucks';
-        //         this.data.subject = {
-        //             template: this.getInitialValue(data.subject.template),
-        //             template_type: this.getInitialValue(
-        //                 data.subject.template_type
-        //             )
-        //         };
-        //         this.renderSubjectTemplate();
-        //     }
-        //     if (
-        //         this.data.editor_type.value == 'rawhtml' &&
-        //         !(data.html && data.html.template)
-        //     ) {
-        //         data.html = data.html || {};
-        //         data.html.template = this.DEFAULT_RAW_HTML_EDITOR_TEXT;
-        //     }
-        //     if (data.html) {
-        //         this.personalizationChecked =
-        //             data.html.template_type == 'nunjucks';
-        //         this.data.html = {
-        //             template: this.getInitialValue(data.html.template),
-        //             template_type: this.getInitialValue(data.html.template_type)
-        //         };
-        //         this.renderHtmlTemplate();
-        //     }
-        //     let email = this.getPrimaryVerifiedActiveEmail();
-        //     if (email) {
-        //         this.testEmail.to.value = email;
-        //     }
-        //     this.fetchEmailMatchEventSubscriptions().then(() => {
-        //         this.jsonEditorLoaded = true;
-        //     });
+            if (data.template_variables) {
+                this.json = data.template_variables;
+            }
+            if (data.subject) {
+                this.personalizationChecked =
+                    data.subject.template_type == 'nunjucks';
+                this.data.subject = {
+                    template: this.getInitialValue(data.subject.template),
+                    template_type: this.getInitialValue(
+                        data.subject.template_type
+                    )
+                };
+                this.renderSubjectTemplate();
+            }
+            if (
+                this.data.editor_type.value == 'rawhtml' &&
+                !(data.html && data.html.template)
+            ) {
+                data.html = data.html || {};
+                data.html.template = this.DEFAULT_RAW_HTML_EDITOR_TEXT;
+            }
+            if (data.html) {
+                this.personalizationChecked =
+                    data.html.template_type == 'nunjucks';
+                this.data.html = {
+                    template: this.getInitialValue(data.html.template),
+                    template_type: this.getInitialValue(data.html.template_type)
+                };
+                this.renderHtmlTemplate();
+            }
+            let email = this.getPrimaryVerifiedActiveEmail();
+            if (email) {
+                this.testEmail.to.value = email;
+            }
+            this.fetchEmailMatchEventSubscriptions().then(() => {
+                this.jsonEditorLoaded = true;
+            });
 
-        //     this.getUserData();
-        //     this.getApplicationData();
-        //     this.updateIframe();
-        //     this.initialHash = this.generateHashOfLocalState();
-        // } catch (error) {
-        //     this.$snackbar.global.showError('Failed to load Email Template');
-        // }
+            this.getUserData();
+            this.getApplicationData();
+            this.updateIframe();
+            this.initialHash = this.generateHashOfLocalState();
+        } catch (error) {
+            // this.$snackbar.global.showError('Failed to load Email Template');
+            console.log(error);
+        }
     },
     updated() {
         this.updateEditorMode();
@@ -1164,24 +1156,41 @@ export default {
         },
         validateAndSave() {
             if (this.validate()) {
-                this.saveForm();
+                return this.saveForm();
             }
         },
+        fetchEmailProviders() {
+            return adminCommsService
+                .getEmailProvider()
+                .then(({ data }) => {
+                    let emailProviders = [
+                        ...(data
+                            ? data.items.map(v => ({
+                                  text: v.name,
+                                  value: v._id
+                              }))
+                            : []),
+                    ];
+                    this.selectedProvider.value = emailProviders[0].value || " ";
+                    return emailProviders;
+                });
+        },
         fetchDefaultEmailProvider() {
-            // return adminCommsService
-            //     .fetchDefaultEmailProviders()
-            //     .then(({ data }) => {
-            //         let defaultProviders = [
-            //             ...(data
-            //                 ? data.map(v => ({
-            //                       text: v.name,
-            //                       value: v._id
-            //                   }))
-            //                 : []),
-            //         ];
-            //         this.selectedProvider.value = defaultProviders[0].value || " ";
-            //         return defaultProviders;
-            //     });
+            return adminCommsService
+                .getDefaultEmailProvider()
+                .then(({ data }) => {
+                    console.log("p3",data)
+                    let defaultProviders = [
+                        ...(data
+                            ? data.map(v => ({
+                                  text: v.name,
+                                  value: v._id
+                              }))
+                            : []),
+                    ];
+                    this.selectedProvider.value = defaultProviders[0].value || " ";
+                    return defaultProviders;
+                });
         },
         saveForm() {
             let { data } = this;
@@ -1223,12 +1232,13 @@ ${template}
             if (!nunjucksRegex.test(finalObj.subject.template)) {
                 finalObj.subject.template_type = 'static';
             }
-            this.$store.commit(ADMIN_COMMS_SET_EMAIL_TEMPLATE, {
-                data: {
-                    ...this.emailTemplateStore,
-                    ...finalObj
-                }
-            });
+            // this.$store.commit(ADMIN_COMMS_SET_EMAIL_TEMPLATE, {
+            //     data: {
+            //         ...this.emailTemplateStore,
+            //         ...finalObj
+            //     }
+            // });
+            return finalObj;
         },
         validate() {
             this.data.subject.template.showerror = false;
@@ -1238,6 +1248,8 @@ ${template}
 
             let isValid = true;
             isValid = !!this.data.subject.template_type.value;
+            isValid = !!this.data.subject.template.value;
+            console.log(isValid,this.data)
             if (this.data.subject.template_type.value == 'nunjucks') {
                 isValid = this.validateNunjucksString(
                     this.data.subject.template.value,
@@ -1293,7 +1305,7 @@ ${template}
                             }
                         }
                     };
-                        CommunicationServices.postSendSync(obj)
+                        adminCommsService.postSendSync(obj)
                         .then(data => {
                             this.emailSuccessfullySent = true;
                             this.commsCounter += 1;
@@ -1375,25 +1387,25 @@ ${template}
                 : this.isCloneMode
                 ? this.$route.query.clone
                 : null;
-            // if (id) {
-            //     return adminCommsService
-            //         .fetchAppEventsSubscriptions({
-            //             params: {
-            //                 limit: 200,
-            //                 page: 1,
-            //                 query: JSON.stringify({
-            //                     'template.email.template': id
-            //                 })
-            //             }
-            //         })
-            //         .then(res => res.data)
-            //         .then(data => {
-            //             if (data.total > 0) {
-            //                 this.editorMode = 'preview';
-            //             }
-            //         });
-            // }
-            // return Promise.resolve();
+            if (id) {
+                return adminCommsService
+                    .getEventSubscription({
+                        params: {
+                            limit: 200,
+                            page: 1,
+                            query: JSON.stringify({
+                                'template.email.template': id
+                            })
+                        }
+                    })
+                    .then(res => res.data)
+                    .then(data => {
+                        if (data.total > 0) {
+                            this.editorMode = 'preview';
+                        }
+                    });
+            }
+            return Promise.resolve();
         },
         validateNunjucksString(templateString, json) {
             let template = '';
