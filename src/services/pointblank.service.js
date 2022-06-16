@@ -26,9 +26,14 @@ const CommunicationServices = {
         const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
         return ApiService.put(URLS.COMMUNICATION_EVENT_SUBSCRIPTION(params.id) , axiosOptions);
     },
-    getSmsTemplates(){
-        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+    getSmsTemplates(param){
+        const axiosOptions = Object.assign({}, {params: param}, getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_SMS_TEMPLATES() , axiosOptions);
+    },
+    getSubscribedSmsTemplates(param){
+        console.log(param);
+        const axiosOptions = Object.assign({},{params: param}, getCommonHeaderOptions());
+        return ApiService.get(URLS.SUBSCRIBED_SMS_TEMPLATES() , axiosOptions);
     },
     getSmsSysTemplates(){
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
@@ -86,8 +91,8 @@ const CommunicationServices = {
         const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
         return ApiService.put(URLS.COMMUNICATION_GLOBAL_PROVIDER() , axiosOptions);
     },
-    getSystemEvents(){
-        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+    getSystemEvents(params){
+        const axiosOptions = Object.assign({params}, getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_SYSTEM_EVENTS() , axiosOptions);
     },
     postSendSync(data){
@@ -98,7 +103,10 @@ const CommunicationServices = {
         const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
         return ApiService.post(URLS.COMMUNICATION_SMS_TEMPLATES() , axiosOptions);
     },
-    
+    putSmsTemplate(id,data){
+        const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
+        return ApiService.put(URLS.COMMUNICATION_SMS_TEMPLATES(id) , axiosOptions);
+    },
     postBulkUpdate(data){
         const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
         return ApiService.post(URLS.EVENT_BULK_UPDATE() , axiosOptions);
@@ -106,6 +114,10 @@ const CommunicationServices = {
     getSmsTemplatebyId(id){
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_SMS_TEMPLATES(id) , axiosOptions);
+    },
+    getSmsDefault(){
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.SMS_DEFAULT() , axiosOptions);
     },
     
 

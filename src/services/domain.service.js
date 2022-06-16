@@ -634,6 +634,9 @@ const URLS = {
     COMMUNICATION_SMS_TEMPLATES: (id='') => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/templates/`,id)
     },
+    SUBSCRIBED_SMS_TEMPLATES: (id='') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/templates/subscribedTemplates`,id)
+    },
     COMMUNICATION_SMS_S_TEMPLATES: () => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/system-templates`)
     },
@@ -663,6 +666,9 @@ const URLS = {
     },
     EVENT_BULK_UPDATE: () => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/event/event-subscriptions/bulkUpdate`)
+    },
+    SMS_DEFAULT: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/default-providers`)
     },
     
     

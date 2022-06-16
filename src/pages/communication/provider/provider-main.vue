@@ -174,7 +174,7 @@ export default {
                 //this.$refs.providermainbody.validateAndSave();
                 //if (this.providerType == 'email'){
                 this.emailProviderStore = this.$refs.providermainbody.saveForm()
-                console.log( this.emailProviderStore);
+                //console.log( this.emailProviderStore);
                 // }
                 // if (this.providerType == 'sms'){
                 // this.smsProviderStore = this.$refs.providermainbody.saveForm()
