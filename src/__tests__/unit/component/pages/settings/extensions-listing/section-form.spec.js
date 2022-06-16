@@ -108,7 +108,6 @@ describe('Section Form Component', () => {
         await wrapper.vm.$nextTick();
         
         let element = wrapper.findAllComponents(DynamicInput).at(6);
-
         element.vm.$emit('change', {
             value: 'api'
         }, {
