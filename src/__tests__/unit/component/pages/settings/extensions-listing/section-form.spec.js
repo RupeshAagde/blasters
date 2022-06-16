@@ -209,6 +209,7 @@ describe('Section Form Component', () => {
 
         let element = wrapper.find('.sections');
         element.vm.$emit('change');
+        
         wrapper.vm.onMove({
             draggedContext: {
                 index: 1,
