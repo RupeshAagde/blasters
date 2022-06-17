@@ -6,7 +6,8 @@ import {
     FETCH_GROUP_CATEGORIES,
     FETCH_PACKAGING_PRODUCTS,
     SAVE_CATEGORY,
-    SAVE_PACKAGING_PRODUCT
+    SAVE_PACKAGING_PRODUCT,
+    FETCH_L3_CATEGORIES
 } from '../action.type';
 
 import {
@@ -25,6 +26,7 @@ import {
     SET_PACKAGING_PRODUCTS
 } from '../mutation.type';
 import PackagingService from '../../services/packaging.service';
+import CompanyService from '../../services/company-admin.service';
 const getDefaultState = () => {
     return {
         products: [],
@@ -140,6 +142,17 @@ const actions = {
     },
     [CLEAR_CATEGORY]({ commit }) {
         commit(SET_CLEAR_CATEGORY);
+    },
+    // get L3 categories
+    [FETCH_L3_CATEGORIES]({ commit }, params) {
+        params.level = 3
+        return CompanyService.fetchCategory_v2(params)
+            .then((res) => {
+                return res.data.items;
+            })
+            .catch((err) => {
+                return { error: true };
+            });
     }
 };
 
