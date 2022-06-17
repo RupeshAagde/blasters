@@ -15,7 +15,7 @@ import Tickets from './../../pages/tickets/index.vue';
 import CreateTicket from './../../pages/tickets/create-ticket.vue';
 import VideoRoom from './../../pages/tickets/video-call/video-room.vue';
 import AddCategory from '../../pages/tickets/configuration/add-category.vue';
-import CategoryListing from './../../pages/tickets/configuration/categoryList.vue';
+import configuration from './../../pages/tickets/configuration.vue';
 import GeneralCongiguration from './../../pages/tickets/configuration/generalConfiguration.vue'
 import ChooseIntegration from './../../pages/tickets/configuration/integrationType.vue'
 import SettingsVue from './../../pages/settings';
@@ -202,7 +202,7 @@ export default [
             },
             {
                 name: 'support',
-                path: 'support',
+                path: 'support/ticket-listing',
                 component: Tickets,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['support']);
@@ -233,9 +233,9 @@ export default [
                 }
             },
             {
-                name: 'support-category-list',
-                path: 'support/category-listing',
-                component: CategoryListing,
+                name: 'support-configuration',
+                path: 'support/configuration',
+                component: configuration,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['support']);
                 }
