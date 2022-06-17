@@ -184,6 +184,7 @@ import {
     GET_PACKAGING_PRODUCTS
 } from '../../store/getters.type';
 import { generateProductRequest } from '../../helper/utils';
+import { FETCH_L3_CATEGORIES } from '../../store/action.type';
 export default {
     name: 'packaging-create',
     components: {
@@ -207,25 +208,6 @@ export default {
     },
     data() {
         return {
-            // TODO remove mock categories after API integration
-            categoryList: [
-                {
-                    name: 'Fashion Sense',
-                    uid: 1
-                },
-                {
-                    name: 'Fashion ',
-                    uid: 2
-                },
-                {
-                    name: 'Garments',
-                    uid: 3
-                },
-                {
-                    name: 'Fashion dated',
-                    uid: 4
-                }
-            ],
             searchInput: '',
             searchTooltipText: 'Tool tip text',
             row2Inputs: {
@@ -501,16 +483,23 @@ export default {
          */
         setCategoryList(e = {}) {
             this.searchableCategoryList = [];
-            // TODO loop through state list
-            this.categoryList.forEach((a) => {
-                if (
-                    !e.text ||
-                    a.name.toLowerCase().includes(e.text.toLowerCase())
-                ) {
-                    this.searchableCategoryList.push({
-                        text: a.name,
-                        value: a.uid
+            const query = {
+                is_active: true
+            };
+
+            if (e.text && e.text.length) {
+                query.q = e.text;
+            }
+            this.$store.dispatch(FETCH_L3_CATEGORIES, query).then((data) => {
+                if (!data.error) {
+                    let tempList = [];
+                    data.forEach((a) => {
+                        tempList.push({
+                            text: a.name,
+                            value: a.uid
+                        });
                     });
+                    this.searchableCategoryList = tempList;
                 }
             });
         },
@@ -521,19 +510,36 @@ export default {
          * and updates a new list only for display purpose and request body purpose
          */
         handleCategoryChange(categoryArr) {
-            let tempCategoryArry = [];
-            let tempCategoryArr = [];
             categoryArr.forEach((category) => {
                 let categoryObj = this.searchableCategoryList.find(
                     (a) => a.value == category
                 );
-                tempCategoryArry.push(categoryObj);
-                // push only the unique value / id in the array to maintain selection list
-                tempCategoryArr.push(categoryObj.value);
+                if (
+                    categoryObj &&
+                    !this.categoryValue.includes(categoryObj.value)
+                ) {
+                    this.selectedCategories.push(categoryObj);
+                    // push only the unique value / id in the array to maintain selection list
+                    this.categoryValue.push(categoryObj.value);
+                }
             });
-            // assign the values to state variables
-            this.selectedCategories = tempCategoryArry;
-            this.categoryValue = tempCategoryArr;
+            let valIndex = -1;
+            let selectedIndex = -1;
+            // Handle the unselect of category
+            this.categoryValue.forEach((categoryId, index) => {
+                if (!categoryArr.includes(categoryId)) {
+                    valIndex = index;
+                    selectedIndex = this.selectedCategories.findIndex(
+                        (a) => a.value == categoryId
+                    );
+                }
+            });
+            // only if the index is not default
+            if (valIndex > -1) {
+                // remove the selected item
+                this.categoryValue.splice(valIndex, 1);
+                this.selectedCategories.splice(selectedIndex, 1);
+            }
         },
         /**
          *
