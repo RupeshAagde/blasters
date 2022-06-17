@@ -25,7 +25,7 @@
         </page-header>
         <div class="create-category-container">
             <!-- ** Do not remove the ref -->
-            <create-category ref="createCategory" />
+            <create-category ref="createCategory" :toggleBtn="toggleBtn" />
         </div>
         <base-modal
             :isOpen="isModalOpen"
@@ -73,6 +73,7 @@ export default {
             showLoader: false
         };
     },
+    watch: {},
     methods: {
         /**
          * @author Rohan Shah
@@ -94,21 +95,28 @@ export default {
             this.showLoader = true;
             // call function to get request object
             const reqObj = this.$refs.createCategory.handleSave();
-            this.$store.dispatch(SAVE_CATEGORY, reqObj).then((res) => {
-                if (res.error) {
-                    return this.$snackbar.global.showError(
-                        'Something went wrong. Failed to add new Category'
-                    );
-                }
-                this.showLoader = false;
-                this.isModalOpen = true;
-            });
+            this.$store
+                .dispatch(SAVE_CATEGORY, { data: reqObj })
+                .then((res) => {
+                    if (res.error) {
+                        return this.$snackbar.global.showError(
+                            res.statusCode == 409
+                                ? `Group category with name - ${reqObj.name} already exists`
+                                : 'Something went wrong. Failed to add new Category'
+                        );
+                    }
+                    this.showLoader = false;
+                    this.isModalOpen = true;
+                });
         },
         /**
          * @description Go back to previous route
          */
         goBack() {
             this.$router.back();
+        },
+        toggleBtn(flag) {
+            this.isButtonDisabled = flag;
         }
     }
 };
