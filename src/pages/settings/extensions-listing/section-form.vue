@@ -150,10 +150,8 @@ export default {
                                 prop.display = false;
                             }
                         } else {
-                            if(this.section.data && this.section.data[key] === prop.predicate_prop[key]) {
-                                prop.display = true;
-                            } else {
-                                prop.display = false;
+                            if(this.section.data) {
+                                prop.display = Array.isArray(prop.predicate_prop[key])? prop.predicate_prop[key].includes(this.section.data[key]): this.section.data[key] === prop.predicate_prop[key];
                             }
                         }
                     }
