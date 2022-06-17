@@ -125,16 +125,16 @@ const actions = {
                 return { error: true };
             });
     },
-    [SAVE_CATEGORY](req) {
-        const { data, slug, isEdit } = req;
+    [SAVE_CATEGORY]({ commit }, reqObj) {
+        const { data, slug, isEdit } = reqObj;
         return PackagingService[
             isEdit ? 'updateGroupCategory' : 'createGroupCategory'
         ](data, isEdit ? slug : '')
             .then((res) => {
                 return res.data;
             })
-            .catch(() => {
-                return { error: true };
+            .catch((err) => {
+                return { error: true, statusCode: err.response.status };
             });
     },
     [CLEAR_PRODUCT]({ commit }) {
@@ -145,7 +145,7 @@ const actions = {
     },
     // get L3 categories
     [FETCH_L3_CATEGORIES]({ commit }, params) {
-        params.level = 3
+        params.level = 3;
         return CompanyService.fetchCategory_v2(params)
             .then((res) => {
                 return res.data.items;
