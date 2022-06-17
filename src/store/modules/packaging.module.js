@@ -3,7 +3,7 @@ import {
     CLEAR_PRODUCT,
     EDIT_CATEGORY,
     EDIT_PRODUCT,
-    FETCH_CATEGORIES,
+    FETCH_GROUP_CATEGORIES,
     FETCH_PACKAGING_PRODUCTS,
     SAVE_CATEGORY,
     SAVE_PACKAGING_PRODUCT
@@ -81,7 +81,7 @@ const actions = {
                 return { error: true };
             });
     },
-    [FETCH_CATEGORIES]({ commit }, params) {
+    [FETCH_GROUP_CATEGORIES]({ commit }, params) {
         return PackagingService.getGroupCategories(params)
             .then((res) => {
                 commit(SET_CATEGORIES, res.data.items);

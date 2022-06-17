@@ -54,7 +54,7 @@
 <script>
 import NoContent from '../../components/common/adm-no-content.vue';
 import { NitrozenButton, NitrozenPagination } from '@gofynd/nitrozen-vue';
-import { FETCH_CATEGORIES } from '../../store/action.type';
+import { FETCH_GROUP_CATEGORIES } from '../../store/action.type';
 import { mapGetters } from 'vuex';
 import { GET_CATEGORIES } from '../../store/getters.type';
 import CategoryCard from './common/category-card.vue';
@@ -129,7 +129,7 @@ export default {
         async fetchCategories() {
             this.showLoader = true;
             this.$store
-                .dispatch(FETCH_CATEGORIES, this.requestParams())
+                .dispatch(FETCH_GROUP_CATEGORIES, this.requestParams())
                 .then((res) => {
                     if (res.error) {
                         // call snackbar and return
