@@ -31,23 +31,24 @@
 </template>
 
 <script>
-import {
-    NitrozenInput,
-    NitrozenError,
-    NitrozenDropdown
-} from '@gofynd/nitrozen-vue';
+import { NitrozenInput, NitrozenError } from '@gofynd/nitrozen-vue';
 import CategoryMultiSelect from './common/category-multi-select.vue';
 import { generateGroupCategoryRequest } from '../../helper/utils';
+import { FETCH_L3_CATEGORIES } from '../../store/action.type';
 export default {
     name: 'create-category',
     components: {
         NitrozenError,
         NitrozenInput,
-        NitrozenDropdown,
         CategoryMultiSelect
     },
     mounted() {
         this.setCategoryList();
+    },
+    props: {
+        toggleBtn: {
+            type: Function
+        }
     },
     methods: {
         /**
@@ -59,8 +60,12 @@ export default {
             // Create request object
             let createGroupCategory = {
                 categoryName: this.groupName.value,
-                categories: this.selectedCategories
+                categories: []
             };
+            // pass only the ids
+            this.selectedCategories.forEach(category=>{
+                createGroupCategory.categories.push(category.value)
+            })
             // return the request body for create/update category group object
             return generateGroupCategoryRequest(createGroupCategory);
         },
@@ -71,6 +76,7 @@ export default {
         handleBlur() {
             if (!this.groupName.value)
                 this.groupName.error = `${this.groupName.label} is a mandatory field`;
+            this.checkForError();
         },
         /**
          * @author Rohan Shah
@@ -80,6 +86,7 @@ export default {
         handleChange(val) {
             this.groupName.value = val;
             this.groupName.error = '';
+            this.checkForError();
         },
         /**
          *
@@ -88,19 +95,27 @@ export default {
          * and updates a new list only for display purpose and request body purpose
          */
         handleCategoryChange(categoryArr) {
-            let tempCategoryArry = [];
-            let tempCategoryArr = [];
             categoryArr.forEach((category) => {
                 let categoryObj = this.searchableCategoryList.find(
                     (a) => a.value == category
                 );
-                tempCategoryArry.push(categoryObj);
-                // push only the unique value / id in the array to maintain selection list
-                tempCategoryArr.push(categoryObj.value);
+                if (
+                    categoryObj &&
+                    !this.categoryValue.includes(categoryObj.value)
+                ) {
+                    this.selectedCategories.push(categoryObj);
+                    // push only the unique value / id in the array to maintain selection list
+                    this.categoryValue.push(categoryObj.value);
+                }
             });
-            // assign the values to state variables
-            this.selectedCategories = tempCategoryArry;
-            this.categoryValue = tempCategoryArr;
+            // Handle the unselect of category
+            this.categoryValue.forEach((categoryId)=>{
+                if(!categoryArr.includes(categoryId)){
+                    console.log(categoryId,"removed")
+                }
+            })
+            console.log(this.categoryValue,"category Value",categoryArr)
+            this.checkForError();
         },
         /**
          *
@@ -117,6 +132,7 @@ export default {
             );
             // remove the index so it is unselected from the drop down as well
             this.categoryValue.splice(valIndex, 1);
+            this.checkForError();
         },
         /**
          *
@@ -126,18 +142,35 @@ export default {
          */
         setCategoryList(e = {}) {
             this.searchableCategoryList = [];
-            // TODO loop through state list
-            this.categoryList.forEach((a) => {
-                if (
-                    !e.text ||
-                    a.name.toLowerCase().includes(e.text.toLowerCase())
-                ) {
-                    this.searchableCategoryList.push({
-                        text: a.name,
-                        value: a.uid
+            const query = {
+                is_active: true
+            };
+
+            if (e.text && e.text.length) {
+                query.q = e.text;
+            }
+            this.$store.dispatch(FETCH_L3_CATEGORIES, query).then((data) => {
+                if (!data.error) {
+                    let tempList = [];
+                    data.forEach((a) => {
+                        tempList.push({
+                            text: a.name,
+                            value: a.uid
+                        });
                     });
+                    this.searchableCategoryList = tempList;
                 }
             });
+        },
+        checkForError() {
+            if (
+                this.groupName.value &&
+                !this.groupName.error &&
+                this.categoryValue.length > 0
+            ) {
+                return this.toggleBtn(false);
+            }
+            this.toggleBtn(true);
         }
     },
     data() {
@@ -148,33 +181,6 @@ export default {
                 label: 'Group Name',
                 placeHolder: 'Name of the group'
             },
-            // TODO remove mock categories after API integration
-            categoryList: [
-                {
-                    name: 'Fashion Sense',
-                    uid: 1
-                },
-                {
-                    name: 'Fashion ',
-                    uid: 2
-                },
-                {
-                    name: 'Garments',
-                    uid: 3
-                },
-                {
-                    name: 'Fashion dated',
-                    uid: 4
-                },
-                {
-                    name: 'Fashion dated',
-                    uid: 5
-                },
-                {
-                    name: 'Fashion dated',
-                    uid: 6
-                }
-            ],
             searchableCategoryList: [],
             selectedCategories: [],
             categoryValue: []

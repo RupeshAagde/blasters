@@ -104,7 +104,7 @@ export default {
             };
             // only if there is a user input in search pass name param
             if (this.groupCategoryValue.length) {
-                param.name = this.groupCategoryValue;
+                param.q = this.groupCategoryValue;
             }
             return param;
         },
@@ -165,7 +165,7 @@ export default {
             this.pagination.current = pageOption.current;
             this.pagination.limit = pageOption.limit;
             // call fetch products function to get new values
-            this.fetchProducts();
+            this.fetchCategories();
         }
     }
 };
