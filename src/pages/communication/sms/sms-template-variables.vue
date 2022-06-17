@@ -122,7 +122,7 @@
                                     : 'No data source selected'
                             }}</pre>
                         </div>
-                        <div class="import-btn-container">
+                        <!-- <div class="import-btn-container">
                             <nitrozen-button
                                 class="btn-margin"
                                 @click="importData"
@@ -130,7 +130,7 @@
                                 v-flatBtn
                                 >Add variables</nitrozen-button
                             >
-                        </div>
+                        </div> -->
                     </ukt-modal>
                     <nitrozen-dialog id="sendTestSms" ref="dialog" title="Send Test SMS" @close="closeSendTestSmsModal">
                         <template slot="body">
@@ -628,6 +628,8 @@ const VJsoneditor = () => import('v-jsoneditor');
 import isEmpty from 'lodash/isEmpty';
 import cloneDeep from 'lodash/cloneDeep';
 import pick from 'lodash/pick';
+import { GET_USER_INFO } from '../../../store/getters.type';
+import CommunicationServices from '../../../services/pointblank.service';
 
 export default {
     components: {
@@ -666,6 +668,9 @@ export default {
         systemDisableEdit: {
             type: Boolean,
             default: false
+        },
+        templateData : {
+            type: Object
         }
     },
     watch: {
@@ -737,106 +742,98 @@ export default {
         ALIGN() {
             return ALIGN;
         },
-        // ...mapGetters({
+         ...mapGetters({
         //     smsTemplateStore: ADMIN_COMMS_GET_SMS_TEMPLATE,
         //     smsTemplateToClone: ADMIN_COMMS_GET_SMS_TEMPLATE_TO_CLONE,
-        //     userData: GET_USER_INFO,
+             userData: GET_USER_INFO,
         //     smsProvidersStore: ADMIN_COMMS_GET_SMS_PROVIDERS
-        // }),
+         }),
     },
      mounted() {
-    //     let data = {};
-    //     this.$store
-    //             .dispatch(ADMIN_COMMS_FETCH_SMS_PROVIDERS, {
-    //                 params: {
-    //                     page_size: 100,
-    //                     page_no: 1,
-    //                     sort: JSON.stringify({ created_at: -1 })
-    //                 }
-    //             })
-    //             .then(data => {
-    //                 if(data.items.length){
-    //                     this.selectedProvider.value = data.items[0]._id || " ";
-    //                 }
-    //             this.fetchDefaultSmsProvider().then(defaultProvider=>{
-    //               this.providersDropdownOptions=data.items.map(ele=>{
-    //                 return {
-    //                         text: ele.name,
-    //                         value: ele._id
-    //                     }
-    //             })
-    //             this.providersDropdownOptions.unshift(...defaultProvider)
-    //             })
-    //                 return data;
-    //             }).catch(err=>{
-    //                 console.log(err);
-    //             })
-    //     this.$store.dispatch(ADMIN_COMMS_DUMMY_DATA_SOURCES, {}).then(data => {
-    //         this.dummyDataSources = [
-    //             {
-    //                 text: 'Select data source',
-    //                 value: 1000
-    //             },
-    //             ...data.map(i => {
-    //                 return {
-    //                     text: i.name,
-    //                     value: i.id
-    //                 };
-    //             })
-    //         ];
-    //     });
+         let data = {};
+        // this.$store
+        //         .dispatch(ADMIN_COMMS_FETCH_SMS_PROVIDERS, {
+        //             params:
+                    CommunicationServices.getSmsProvider(
+                    {
+                        page_size: 100,
+                        page_no: 1,
+                        sort: { created_at: -1 }
+                    })
+                .then(data => {
+                    console.log("providers",data);
+                    data = data.data
+                    if(data.items.length){
+                        this.selectedProvider.value = data.items[0]._id || " ";
+                    }
+                this.fetchDefaultSmsProvider().then(defaultProvider=>{
+                  this.providersDropdownOptions=data.items.map(ele=>{
+                    return {
+                            text: ele.name,
+                            value: ele._id
+                        }
+                })
+                this.providersDropdownOptions.unshift(...defaultProvider)
+                })
+                    return data;
+                }).catch(err=>{
+                    console.log(err);
+                })
 
-    //     try {
-    //         if (this.isCloneMode) {
-    //             data = cloneDeep(this.smsTemplateToClone);
-    //             this.disabledVariables = data.is_system;
-    //         } else {
-    //             data = cloneDeep(this.smsTemplateStore);
-    //             this.disabledVariables =
-    //                 data.meta &&
-    //                 data.meta.type == 'cloned' &&
-    //                 data.meta.is_system;
-    //             this.editorMode = 'preview';
-    //         }
-    //         if (this.isCloneMode || this.isEditMode) {
-    //             if (this.disabledVariables) {
-    //                 this.editorMode = 'preview';
-    //             } else {
-    //                 this.editorMode = 'code';
-    //             }
-    //         }
-    //         if (!this.isEditMode && !this.isCloneMode) {
-    //             this.editorMode = 'code';
-    //         }
+        try {
+            // if (this.isCloneMode) {
+            //     data = cloneDeep(this.smsTemplateToClone);
+            //     this.disabledVariables = data.is_system;
+            // } else {
+            console.log('variable-editors');
+             data = cloneDeep(this.templateData);
+            console.log("variable",data);
+                this.disabledVariables =
+                    data.meta &&
+                    data.meta.type == 'cloned' &&
+                    data.meta.is_system;
+                this.editorMode = 'preview';
+            
 
-    //         if (data.template_variables) {
-    //             this.json = data.template_variables;
-    //         }
-    //         if (data.message) {
-    //             this.personalizationChecked =
-    //                 data.message.template_type == 'nunjucks';
-    //             this.data.message = {
-    //                 template: this.getInitialValue(data.message.template),
-    //                 template_type: this.getInitialValue(
-    //                     data.message.template_type
-    //                 )
-    //             };
-    //             this.renderMessageTemplate();
-    //         }
-    //         let phone = this.getPrimaryVerifiedActivePhoneNumber();
-    //         if (phone && phone.phone) {
-    //             this.testSms.phone_number.value = phone.phone;
-    //         }
-    //         this.fetchSMSMatchEventSubscriptions().then(() => {
-    //             this.jsonEditorLoaded = true;
-    //         });
+            if (this.isCloneMode || this.isEditMode) {
+                if (this.disabledVariables) {
+                    this.editorMode = 'preview';
+                } else {
+                    this.editorMode = 'code';
+                }
+            }
+            if (!this.isEditMode && !this.isCloneMode) {
+                this.editorMode = 'code';
+            }
+            if (data.template_variables) {
+                console.log(this.json,this.data.template_variables);
+                this.json = data.template_variables;
+            }
+            if (data.message) {
+                this.personalizationChecked =
+                    data.message.template_type == 'nunjucks';
+                this.data.message = {
+                    template: this.getInitialValue(data.message.template),
+                    template_type: this.getInitialValue(
+                        data.message.template_type
+                    )
+                };
+                this.renderMessageTemplate();
+            }
+            let phone = this.getPrimaryVerifiedActivePhoneNumber();
+            if (phone && phone.phone) {
+                this.testSms.phone_number.value = phone.phone;
+            }
+            //this.fetchSMSMatchEventSubscriptions().then(() => {
+                this.jsonEditorLoaded = true;
+            //});
 
-    //         this.getUserData();
-    //         this.getApplicationData();
-    //         this.initialHash = this.generateHashOfLocalState();
-    //     } catch (error) {
-    //         this.$snackbar.global.showError('Failed to load Sms Template');
-    //     }
+            this.getUserData();
+            this.getApplicationData();
+            this.initialHash = this.generateHashOfLocalState();
+        } catch (error) {
+            this.$snackbar.global.showError('Failed to load Sms Template');
+        }
      },
     updated() {
         this.updateEditorMode();
@@ -891,24 +888,24 @@ export default {
         onClickReadMore(e) {
             e.stopPropagation();
         },
-        importData() {
-            if (
-                this.selectedDataSource > 0 &&
-                this.dummyDataSourceMeta &&
-                this.selectedDataSource != 1000
-            ) {
-                this.json = { ...this.json, ...this.dummyDataSourceMeta };
-            }
-            let items = [];
-            if (this.userChecked) {
-                items.push('ref_user');
-            }
-            if (this.applicationChecked) {
-                items.push('ref_application');
-            }
-            this.addTotemplate_variables(items);
-            this.closeImportDataModal();
-        },
+        // importData() {
+        //     if (
+        //         this.selectedDataSource > 0 &&
+        //         this.dummyDataSourceMeta &&
+        //         this.selectedDataSource != 1000
+        //     ) {
+        //         this.json = { ...this.json, ...this.dummyDataSourceMeta };
+        //     }
+        //     let items = [];
+        //     if (this.userChecked) {
+        //         items.push('ref_user');
+        //     }
+        //     if (this.applicationChecked) {
+        //         items.push('ref_application');
+        //     }
+        //     this.addTotemplate_variables(items);
+        //     this.closeImportDataModal();
+        // },
         checkmarkData(items) {
             let userChecked = items.find(item => item == 'User');
             this.userChecked = userChecked ? true : false;
@@ -919,9 +916,9 @@ export default {
         openImportDataModal() {
             this.showImportDataModal = true;
         },
-        closeImportDataModal() {
-            this.showImportDataModal = false;
-        },
+        // closeImportDataModal() {
+        //     this.showImportDataModal = false;
+        // },
         urlify(text) {
             let output = text;
             var urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -1034,40 +1031,40 @@ export default {
             };
             this.ref_application_data = ref_application;
         },
-        addTotemplate_variables(items) {
-            // let ref_user = pick(this.userData.user, ['firstName', 'lastName']);
+        // addTotemplate_variables(items) {
+        //     let ref_user = pick(this.userData.user, ['firstName', 'lastName']);
 
-            // this.userData.user.phone_numbers
-            //     ? (ref_user.phoneNumber = this.getPrimaryVerifiedActivePhoneNumber())
-            //     : null;
-            // this.userData.user.emails
-            //     ? (ref_user.email = this.getPrimaryVerifiedActiveEmail())
-            //     : null;
+        //     this.userData.user.phone_numbers
+        //         ? (ref_user.phoneNumber = this.getPrimaryVerifiedActivePhoneNumber())
+        //         : null;
+        //     this.userData.user.emails
+        //         ? (ref_user.email = this.getPrimaryVerifiedActiveEmail())
+        //         : null;
 
-            // let ref_application = {
-            //     name: 'Lorem ipsum dolor sit amet',
-            //     banner: {
-            //         secure_url:
-            //             'https://res.cloudinary.com/dwzm9bysq/image/upload/v1584701476/production/system/pointblank/fynd_logo_qgupcq.png'
-            //     },
-            //     logo: {
-            //         secure_url:
-            //             'https://res.cloudinary.com/dwzm9bysq/image/upload/v1584701476/production/system/pointblank/fynd_logo_qgupcq.png'
-            //     }
-            // };
+        //     let ref_application = {
+        //         name: 'Lorem ipsum dolor sit amet',
+        //         banner: {
+        //             secure_url:
+        //                 'https://res.cloudinary.com/dwzm9bysq/image/upload/v1584701476/production/system/pointblank/fynd_logo_qgupcq.png'
+        //         },
+        //         logo: {
+        //             secure_url:
+        //                 'https://res.cloudinary.com/dwzm9bysq/image/upload/v1584701476/production/system/pointblank/fynd_logo_qgupcq.png'
+        //         }
+        //     };
 
-            // let values = {
-            //     ref_user,
-            //     ref_application
-            // };
-            // delete this.json.hello;
-            // delete this.json.ref_user;
-            // delete this.json.ref_application;
-            // items.forEach(item => {
-            //     this.json[item] = values[item];
-            // });
-            // this.json = cloneDeep(this.json);
-        },
+        //     let values = {
+        //         ref_user,
+        //         ref_application
+        //     };
+        //     delete this.json.hello;
+        //     delete this.json.ref_user;
+        //     delete this.json.ref_application;
+        //     items.forEach(item => {
+        //         this.json[item] = values[item];
+        //     });
+        //     this.json = cloneDeep(this.json);
+        // },
         onError(err) {
             // console.log('error',err);
         },
@@ -1143,13 +1140,13 @@ export default {
                     ...finalObj
                 };
                 this.removeEmptyFields(finalObj);
-                //console.log(finalObj);
+                console.log(finalObj);
                 return finalObj
                 // this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
                 //     data: finalObj
-                // });
+                // }); 
             }
-        },
+            },
         sendSms() {
             this.smsSuccessfullySent = false;
             this.testSms.phone_number = this.testSms.phone_number || {};
@@ -1199,8 +1196,7 @@ export default {
                             }
                         }
                     };
-                    this.$store
-                        .dispatch(ADMIN_COMMS_SEND_TEST_SMS, obj)
+                    CommunicationServices.postSendSync(obj)
                         .then(data => {
                             this.smsSuccessfullySent = true;
                             this.commsCounter += 1;
@@ -1248,20 +1244,20 @@ export default {
             });
         },
         fetchDefaultSmsProvider() {
-            // return adminCommsService
-            //     .fetchDefaultSmsProviders()
-            //     .then(({ data }) => {
-            //         let defaultSmsProviders = [
-            //             ...(data
-            //                 ? data.map(v => ({
-            //                       text: v.name,
-            //                       value: v._id
-            //                   }))
-            //                 : []),
-            //         ];
-            //         this.selectedProvider.value = defaultSmsProviders[0].value || " ";
-            //         return defaultSmsProviders;
-            //     });
+            return CommunicationServices
+                .getSmsDefault()
+                .then(({ data }) => {
+                    let defaultSmsProviders = [
+                        ...(data
+                            ? data.map(v => ({
+                                  text: v.name,
+                                  value: v._id
+                              }))
+                            : []),
+                    ];
+                    this.selectedProvider.value = defaultSmsProviders[0].value || " ";
+                    return defaultSmsProviders;
+                });
         },
     },
 };

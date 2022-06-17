@@ -196,9 +196,6 @@ export default {
             });
             return isValid;
         },
-        makeDefault() {
-            this.data.type.value = 'default';
-        },
         saveForm() {
             let finalObj = {
                 name: this.data.name.value,

@@ -61,7 +61,7 @@
                 template?</template
             >
         </nitrozen-dialog>
-        <div class="main-body">
+        <div class="main-body" v-if=" isCreateMode || (isEditMode  && smsTemplateStore.slug ) || isCloneMode ">
             <div class="left-container">
                 <smstemplate_variables
                     ref="smstemplate_variables"
@@ -71,6 +71,7 @@
                     :isEditMode="isEditMode"
                     :isCloneMode="isCloneMode"
                     :templateId="templateId"
+                    :templateData="smsTemplateStore"
                 ></smstemplate_variables>
             </div>
             <div class="right-container">
@@ -170,46 +171,55 @@ export default {
     data() {
         return {
             pageLoading: false,
-            isEditMode:  false,
+            isEditMode:  !!this.$route.params.templateId,
             isCloneMode: false,
             templateId: this.$route.params.templateId,
             threeDotsOptions: THREE_DOT_OPTIONS,
             subscribedAdded: [],
             subscribedRemoved: [],
-            smsTemplateStore: {}
+            smsTemplateStore: {},
+            isCreateMode: false
+
         };
     },
     computed: {
         
     },
     mounted() {
+        //console.log(this.$route);
         if(this.templateId){
-            Promise.resolve(this.getTemplatedbyId())
-         //this.getTemplatedbyId()
+         this.getTemplatedbyId()
         }
-        // let promiseObj = null;
-        // if (this.$route.query && this.$route.query.clone) {
-        //     if (
-        //         isEmpty(this.smsTemplateToClone) ||
-        //         (this.smsTemplateToClone &&
-        //             this.smsTemplateToClone._id != this.$route.query.clone)
-        //     ) {
-        //         promiseObj = this.$store
-        //             .dispatch(
-        //                 ADMIN_COMMS_FETCH_SMS_TEMPLATE_TO_CLONE_BY_ID,
-        //                 this.$route.query.clone
-        //             )
-        //             .then(data => {
-        //                 let smsTemplate = omitForClone(data);
-        //                 this.$store.commit(
-        //                     ADMIN_COMMS_SET_SMS_TEMPLATE_TO_CLONE,
-        //                     {
-        //                         data: smsTemplate
-        //                     }
-        //                 );
-        //             });
-        //     }
-        // }
+        let promiseObj = null;
+        if (this.$route.query && this.$route.query.clone) {
+            // if (
+            //     isEmpty(this.smsTemplateToClone) ||
+            //     (this.smsTemplateToClone &&
+            //         this.smsTemplateToClone._id != this.$route.query.clone)
+            // ) {
+                // promiseObj = this.$store
+                //     .dispatch(
+                //         ADMIN_COMMS_FETCH_SMS_TEMPLATE_TO_CLONE_BY_ID,
+                //         this.$route.query.clone
+                //     )
+                    CommunicationServices.getSmsTemplatebyId(this.$route.query.clone)
+                    .then(data => {
+                        //let smsTemplate = omitForClone(data);
+                        // this.$store.commit(
+                        //     ADMIN_COMMS_SET_SMS_TEMPLATE_TO_CLONE,
+                        //     {
+                        //         data: smsTemplate
+                        //     }
+                        // );
+                        console.log(data);
+                        this.smsTemplateStore = data.data
+                        this.isCloneMode = true;
+                    });
+            //}
+        }
+        if(!this.isEditMode && !this.isCloneMode){
+            this.isCreateMode = true;
+        }
 
         // Promise.resolve(promiseObj)
         //     .then(() => {
@@ -246,84 +256,72 @@ export default {
     },
     methods: {
         getTemplatedbyId(){
-       return CommunicationServices.getSmsTemplatebyId(this.templateId).then((data)=>{
+        CommunicationServices.getSmsTemplatebyId(this.templateId).then((data)=>{
         this.smsTemplateStore = data.data
         })
         },
         saveForm() {
-            // if (this.templateId) {
-            //     this.pageLoading = true;
-            //     return this.$store
-            //         .dispatch(ADMIN_COMMS_UPDATE_SMS_TEMPLATE_FORM, {
-            //             _id: this.templateId,
-            //             body: this.smsTemplateStore
-            //         })
-            //         .then(response => {
-            //             this.pageLoading = false;
-            //             // if (!isEmpty(this.smsTemplateToClone)) {
-            //             this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
-            //                 data: response
-            //             });
-            //             // }
-            //             if (response.published) {
-            //                 this.$router.push({
-            //                     path: `${getRoute(
-            //                         this.$route
-            //                     )}/sms/templates/listing`
-            //                 });
-            //                 this.$snackbar.global.showSuccess(
-            //                     'SMS template has been published!'
-            //                 );
-            //             }
-            //             return;
-            //         })
-            //         .then(() => {
-            //             if (
-            //                 this.subscribedAdded.length +
-            //                     this.subscribedRemoved.length >
-            //                 0
-            //             ) {
-            //                 let subscribedAdded = this.subscribedAdded.map(
-            //                     appSubscription => {
-            //                         let template = cloneDeep(
-            //                             appSubscription.template
-            //                         );
-            //                         template.sms.template = this.smsTemplateStore._id;
-            //                         return {
-            //                             _id: appSubscription._id,
-            //                             template
-            //                         };
-            //                     }
-            //                 );
-            //                 let subscribedRemoved = this.subscribedRemoved.map(
-            //                     appSubscription => {
-            //                         let template = cloneDeep(
-            //                             appSubscription.template
-            //                         );
-            //                         template.sms.template =
-            //                             appSubscription.event.template.sms.template;
-            //                         return {
-            //                             _id: appSubscription._id,
-            //                             template
-            //                         };
-            //                     }
-            //                 );
-            //                 this.$store.dispatch(
-            //                     ADMIN_COMMS_BULK_UPDATE_APP_EVENT_SUBSCRIPTION,
-            //                     {
-            //                         subscriptions: [
-            //                             ...subscribedAdded,
-            //                             ...subscribedRemoved
-            //                         ]
-            //                     }
-            //                 );
-            //             }
-            //         })
-            //         .catch(err => {
-            //             console.log(err);
-            //             this.pageError = true;
-            //         });
-            // } else {
+            if (this.templateId) {
+                this.pageLoading = true;
+                    CommunicationServices.putSmsTemplate(this.templateId,this.smsTemplateStore)
+                    .then(response => {
+                        this.pageLoading = false;
+                        // if (!isEmpty(this.smsTemplateToClone)) {
+                        // this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
+                        //     data: response
+                        // });
+                        // }
+                        this.$router.push({ name: 'smstemplateMain' })
+                            this.$snackbar.global.showSuccess(
+                                'SMS template has been published!'
+                            );
+                        
+                    })
+                    .then(() => {
+                        if (
+                            this.subscribedAdded.length +
+                                this.subscribedRemoved.length >
+                            0
+                        ) {
+                            let subscribedAdded = this.subscribedAdded.map(
+                                appSubscription => {
+                                    let template = cloneDeep(
+                                        appSubscription.template
+                                    );
+                                    template.sms.template = this.smsTemplateStore._id;
+                                    return {
+                                        _id: appSubscription._id,
+                                        template
+                                    };
+                                }
+                            );
+                            let subscribedRemoved = this.subscribedRemoved.map(
+                                appSubscription => {
+                                    let template = cloneDeep(
+                                        appSubscription.template
+                                    );
+                                    template.sms.template =
+                                        appSubscription.event.template.sms.template;
+                                    return {
+                                        _id: appSubscription._id,
+                                        template
+                                    };
+                                }
+                            );
+                            CommunicationServices.postBulkUpdate({
+                                    subscriptions: [
+                                        ...subscribedAdded,
+                                        ...subscribedRemoved
+                                    ]
+                                }
+                            );
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        this.pageError = true;
+                    });
+             } else {
                 this.pageLoading = true;
                 //return this.$store
                     // .dispatch(ADMIN_COMMS_CREATE_SMS_TEMPLATE_FORM, {
@@ -397,7 +395,7 @@ export default {
                         this.pageError = true;
                         this.pageLoading = false;
                     });
-            // }
+             }
         },
         callAction(item) {
             this[item.action]();
@@ -416,6 +414,7 @@ export default {
         onLinkSubscription(obj) {
             this.subscribedAdded = obj.subscribedAdded;
             this.subscribedRemoved = obj.subscribedRemoved;
+            console.log("susbcription",obj);
         },
         deleteTemplate() {
             // let id = this.$route.params.id;
@@ -466,6 +465,7 @@ export default {
             ) {
                let ob1 = this.$refs['smsTemplateEdit'].saveForm();
                 let ob2 = this.$refs['smstemplate_variables'].saveForm();
+                console.log(ob2);
                 this.smsTemplateStore = {...ob1, ...ob2}
                 //console.log(this.smsTemplateStore);
                 this.saveForm();

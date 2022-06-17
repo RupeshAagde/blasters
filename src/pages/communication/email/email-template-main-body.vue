@@ -131,14 +131,14 @@
                                         ref="beefree"
                                         class="editor-container"
                                     ></beefreeeditor>
-                                    <!-- <newslettergrapeeditor
+                                    <newslettergrapeeditor
                                         v-if="
                                             data.editor_type.value == 'grapeJS'
                                         "
                                         ref="grapeNewsletterEditor"
                                         :input="data.html.template.value"
                                         class="editor-container"
-                                    ></newslettergrapeeditor> -->
+                                    ></newslettergrapeeditor>
                                     <rawhtml-editor
                                         v-if="
                                             data.editor_type.value === 'rawhtml'
@@ -799,7 +799,7 @@ import uktModal from '@/components/common/utk-modal.vue';
 import admforminput from '@/components/common/form-input.vue';
 import admCheckboxCard from '@/components/common/adm-checkbox-card.vue';
 import adminCommsService from './../../../services/pointblank.service';
-// import newslettergrapeeditor from '../../../../components/admin/common/editor/newsletter-grape-editor.vue';
+import newslettergrapeeditor from '../../../components/common/editor/newsletter-grape-editor.vue';
 import beefreeeditor from '../../../components/common/beefree-editor.vue';
 import editorModal from './editor-modal.vue';
 import rawhtmleditor from '../../settings/page-editor/rawhtml-editor.vue';
@@ -826,7 +826,7 @@ export default {
     components: {
         loader: loader,
         VJsoneditor,
-        // newslettergrapeeditor,
+        newslettergrapeeditor,
         beefreeeditor,
         'rawhtml-editor': rawhtmleditor,
         'editor-modal': editorModal,
@@ -965,13 +965,13 @@ export default {
         }
     },
     mounted() {
+        console.log(this.data);
                 let data = {};
                 this.fetchEmailProviders().then(emailProviders=>{
                     this.providersDropdownOptions=emailProviders;
                 }).then(()=>{
                     this.fetchDefaultEmailProvider().then(defaultProvider=>{
                         this.providersDropdownOptions.unshift(...defaultProvider)
-                        console.log("p2",this.providersDropdownOptions)
                     })
                 }).catch(err=>{
                     console.log(err);
@@ -1078,6 +1078,7 @@ export default {
             this.getApplicationData();
             this.updateIframe();
             this.initialHash = this.generateHashOfLocalState();
+            console.log("hello")
         } catch (error) {
             // this.$snackbar.global.showError('Failed to load Email Template');
             console.log(error);
@@ -1097,6 +1098,10 @@ export default {
             } catch (error) {}
         },
         generateHashOfLocalState() {
+            console.log("mainbody",{
+                ...this.data,
+                ...{ json: this.json }
+            })
             return hash({
                 ...this.data,
                 ...{ json: this.json }
@@ -1193,6 +1198,7 @@ export default {
                 });
         },
         saveForm() {
+            this.initialHash = this.generateHashOfLocalState();
             let { data } = this;
             if (this.data.editor_type == 'grapeJS') {
                 let template = this.data.html.template.value;

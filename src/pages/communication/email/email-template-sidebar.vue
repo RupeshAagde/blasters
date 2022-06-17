@@ -651,6 +651,7 @@ appSubscriptions: {}
             }
         },
         saveForm() {
+            this.initialHash = this.generateHashOfLocalState();
             let { data } = this;
             let finalObj = {};
             this.formFieldNames.forEach(key => {
@@ -743,6 +744,7 @@ appSubscriptions: {}
         },
         linkEventDropdownSelect(items) {
             let gotRemovedItems = [];
+            console.log(this.subscribedAdded);
             this.subscribedAdded.filter(a => {
                 let found = items.find(i => i == a._id);
                 if (!found) {

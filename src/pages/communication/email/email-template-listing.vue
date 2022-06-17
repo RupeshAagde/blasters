@@ -201,7 +201,7 @@ export default {
     watch: {
         selectedFilter: function() {
             this.$router.replace({
-                name: 'email-listing',
+                name: 'emailtemplateMain',
                 query: {
                     ...this.$route.query,
                     selectedFilter: this.selectedFilter
@@ -416,7 +416,7 @@ export default {
         },
         searchTemplate() {
             this.$router.replace({
-                name: 'email-listing',
+                name: 'emailtemplateMain',
                 query: { ...this.$route.query, searchText: this.searchText }
             }).catch(() => {});
             this.resetPagination();

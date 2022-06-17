@@ -517,18 +517,20 @@ export default {
             ()=>{
               try {
             if (this.isCloneMode) {
-                data = cloneDeep(this.smsTemplateToClone);
+                data = cloneDeep(this.templateData);
                 this.meta = {
                     type: 'cloned',
-                    template: this.smsTemplateToClone._id,
-                    is_system: this.smsTemplateToClone.is_system
+                    template: data._id,
+                    is_system: data.is_system
                 };
             } else {
                 console.log('tem',this.smsTemplateStore);
                 data = this.templateData;
             }
-            console.log('tempD',this.templateData);
             let obj = {};
+             if (data.slug) {
+                this.slug = data.slug;
+            }
             this.formFieldNames.forEach(key => {
                 if (
                     key == 'tags' &&
@@ -548,9 +550,7 @@ export default {
             //obj['priority'] = data.priority.value
             this.data = { ...this.data, ...obj };
 
-            if (data.slug) {
-                this.slug = this.smsTemplateStore.slug;
-            }
+           
                 let groupNames = this.appSubscriptions.items.map(
                     appSubscription => appSubscription.event.group
                 );

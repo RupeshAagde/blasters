@@ -260,6 +260,7 @@ export default {
         cloneTemplate() {
             let emailTemplate = this.emailTemplateStore;
             let emailTemplateForClone = omitForClone(emailTemplate);
+            this.isEditMode=false;
             this.$router.push({
                 name: 'emailtemplateCreate',
                 query: { clone: emailTemplate._id }
@@ -320,9 +321,17 @@ export default {
                 this.saveForm();
             }
         },
+        createTemplate(template){
+            return adminCommsService.postEmailTemplate(template)
+        },
+        updateTemplate(id,template){
+            return adminCommsService.putEmailTemplate(id,template)
+        },
+
         saveForm() {
-            adminCommsService.postEmailTemplate(this.emailTemplateStore)
-                    .then(response => {
+            let promise = this.templateId ? this.updateTemplate(this.templateId, this.emailTemplateStore):this.createTemplate(this.emailTemplateStore)
+            
+                    promise.then(response => {
                         this.pageLoading = false;
                         // this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
                         //     data: response
@@ -332,9 +341,9 @@ export default {
                                 'Email template has been published!'
                             );
                         
-                        //return;
+                        return response.data;
                     })
-                    .then(() => {
+                    .then((addedTemplate) => {
                         if (
                             this.subscribedAdded.length +
                                 this.subscribedRemoved.length >
@@ -345,7 +354,7 @@ export default {
                                     let template = cloneDeep(
                                         appSubscription.template
                                     );
-                                    template.email.template = this.emailTemplateStore._id;
+                                    template.email.template = addedTemplate._id;
                                     return {
                                         _id: appSubscription._id,
                                         template

@@ -26,9 +26,14 @@ const CommunicationServices = {
         const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
         return ApiService.put(URLS.COMMUNICATION_EVENT_SUBSCRIPTION(params.id) , axiosOptions);
     },
-    getSmsTemplates(){
-        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+    getSmsTemplates(param){
+        const axiosOptions = Object.assign({}, {params: param}, getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_SMS_TEMPLATES() , axiosOptions);
+    },
+    getSubscribedSmsTemplates(param){
+        console.log(param);
+        const axiosOptions = Object.assign({},{params: param}, getCommonHeaderOptions());
+        return ApiService.get(URLS.SUBSCRIBED_SMS_TEMPLATES() , axiosOptions);
     },
     getSmsSysTemplates(){
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
@@ -106,6 +111,14 @@ const CommunicationServices = {
         const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
         return ApiService.post(URLS.COMMUNICATION_EMAIL_TEMPLATES() , axiosOptions);
     },
+    putEmailTemplate(id,data){
+        const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
+        return ApiService.put(URLS.COMMUNICATION_EMAIL_TEMPLATES(id) , axiosOptions);
+    },
+    putSmsTemplate(id,data){
+        const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
+        return ApiService.put(URLS.COMMUNICATION_SMS_TEMPLATES(id) , axiosOptions);
+    },
     postBulkUpdate(data){
         const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
         return ApiService.post(URLS.EVENT_BULK_UPDATE() , axiosOptions);
@@ -117,6 +130,10 @@ const CommunicationServices = {
     getEmailTemplatebyId(id){
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_EMAIL_TEMPLATES(id) , axiosOptions);
+    },
+    getSmsDefault(){
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.SMS_DEFAULT() , axiosOptions);
     },
     
 

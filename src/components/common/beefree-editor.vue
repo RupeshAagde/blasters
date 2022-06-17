@@ -150,9 +150,11 @@ export default {
     methods: {
         fetchBeeFreeToken() {
             return ApiService.get(
-                'https://platform.fyndx0.de' + '/admin/getBeeFreeToken',
+                window.location.origin + '/admin/getBeeFreeToken',
                 {}
-            ).then(res => res.data);
+            ).then(res => {
+                return res.data
+                });
         },
         save() {
             this.beePluginInstance.instance.save();

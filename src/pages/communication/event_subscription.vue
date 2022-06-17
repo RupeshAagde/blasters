@@ -288,6 +288,7 @@ import {
 
 //import AppSettingService from '../../../services/admin/admin-settings.service';
 import { relativeTimeRounding } from 'moment';
+import logsListingCardVue from './logs-listing-card.vue';
 
 
 function initialState(){
@@ -399,7 +400,7 @@ export default {
             let type = this.templateInPreviewModal.template_type;
             let template = this.templateInPreviewModal.template;
             this.$router.push({
-                name: `create-${type}-template`,
+                name: `providerMain`,
                 query: { clone: template._id }
             });
         },
@@ -568,6 +569,7 @@ export default {
                             'template.email.template'
                         ]
                     }).then(({ data }) => {
+                        //console.log(data);
                 this.appSubscriptions = data;
             })
           
@@ -586,7 +588,6 @@ export default {
         },
         updateInfo() {
             let subscriptions = this.subscriptions;
-            console.log(this.appSubscriptions);
             let groupNames = this._fetchUniqueGroupNames(this.appSubscriptions);
 
             this.appSubscriptions.items.forEach(appSubscription => {

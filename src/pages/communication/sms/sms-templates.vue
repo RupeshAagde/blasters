@@ -420,6 +420,7 @@ export default {
             }
         },
         onCreateModalSelect(id, item) {
+            console.log("meta.template",item);
             this.selectedSystemEvent = item;
             this.renderMessageTemplate(
                 this.selectedSystemEvent.child.meta.template.sms.template

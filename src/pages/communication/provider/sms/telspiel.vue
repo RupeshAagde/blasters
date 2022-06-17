@@ -199,9 +199,6 @@ export default {
             });
             return isValid;
         },
-        makeDefault() {
-            this.data.type.value = 'platform';
-        },
         saveForm() {
             let finalObj = {
                 name: this.data.name.value,

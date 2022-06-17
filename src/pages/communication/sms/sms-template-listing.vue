@@ -226,13 +226,13 @@ export default {
     },
     watch: {
         selectedFilter: function() {
-            this.$router.replace({
-                name: 'sms-listing',
-                query: {
-                    ...this.$route.query,
-                    selectedFilter: this.selectedFilter
-                }
-            }).catch(() => {});
+            // this.$router.push({
+            //     path: 'communication/sms/templates',
+            //     query: {
+            //         ...this.$route.query,
+            //         selectedFilter: this.selectedFilter
+            //     }
+            // }).catch(() => {});
             this.resetPagination();
             this.getTemplatesBasedOnFilter();
         }
@@ -290,13 +290,13 @@ export default {
                     return this.smsTemplates;
                 });
             } 
-            // else if (this.selectedFilter == 'subscribed') {
-            //     this.fetchSubscribedSmsTemplates().then(() => {
-            //         this.setPagination();
-            //         this.mapSMSTemplates();
-            //         return this.smsTemplates;
-            //     });
-            // }
+            else if (this.selectedFilter == 'subscribed') {
+                this.fetchSubscribedSmsTemplates().then(() => {
+                    this.setPagination();
+                    this.mapSMSTemplates();
+                    return this.smsTemplates;
+                });
+            }
         },
         mapSMSTemplates() {
             let templates = this.smsTemplatesStore.items
@@ -308,28 +308,29 @@ export default {
             });
         },
         setPagination() {
-            // console.log(this.smsTemplatesStore)
-            // this.pagination = {
-            //     limit: this.smsTemplatesStore.page.size ?? this.smsTemplatesStore.limit,
-            //     total: this.smsTemplatesStore.page.item_total ?? this.smsTemplatesStore.total,
-            //     current: this.smsTemplatesStore.page.current ?? this.smsTemplatesStore.pagingCounter
-            // };
-            // this.updatePaginationOnUi()
-            // this.$router.replace({
-            //     name: 'sms-listing',
-            //     query: {
-            //         ...this.$route.query,
-            //         limit: this.pagination.limit,
-            //         current: this.pagination.current
-            //     }
-            // }).catch(() => {});
+            console.log(this.smsTemplatesStore)
+            this.pagination = {
+                limit:  this.smsTemplatesStore.limit,
+                total: this.smsTemplatesStore.page.item_total,
+                current: this.smsTemplatesStore.page.current 
+            };
+            this.updatePaginationOnUi()
+            this.$router.replace({
+                name: 'smstemplateMain',
+                query: {
+                    ...this.$route.query,
+                    limit: this.pagination.limit,
+                    current: this.pagination.current,
+                    selectedFilter: this.selectedFilter
+                }
+            }).catch(() => {});
         },
         searchTemplate() {
-            this.$router.replace({
-                name: 'sms-listing',
+            this.$router.push({
+                name: 'smstemplateMain',
                 query: { ...this.$route.query, searchText: this.searchText }
             }).catch(() => {});
-            this.resetPagination();
+            //this.resetPagination();
             this.getTemplatesBasedOnFilter();
         },
         debounceInput: debounce(function(e) {
@@ -346,39 +347,37 @@ export default {
             this.getTemplatesBasedOnFilter();
         },
         fetchSubscribedSmsTemplates() {
-            // let paginate = this.pagination;
-            // this.pageLoading = true;
-            // return this.$store
-            //     .dispatch(ADMIN_COMMS_FETCH_SUBSCRIBED_SMS_TEMPLATES, {
-            //         params: {
-            //             page_size: this.pagination.limit,
-            //             page_no: this.pagination.current,
-            //             ...(this.searchText
-            //                 ? {
-            //                       query: JSON.stringify({
-            //                           searchText: this.searchText
-            //                       })
-            //                   }
-            //                 : {})
-            //         }
-            //     })
-            //     .then(data => {
-            //         this.pageLoading = false;
-            //         return data;
-            //     })
-            //     .catch(err => {
-            //         this.pageLoading = false;
-            //     })
-            //     .finally(() => {
-            //         this.isInitialLoad && (this.isInitialLoad = false);
-            //     });
+            let paginate = this.pagination;
+            this.pageLoading = true;
+            CommunicationServices.getSubscribedSmsTemplates(
+            {
+                        page_size: this.pagination.limit,
+                        page_no: this.pagination.current,
+                        ...(this.searchText
+                            ? {
+                                  query: JSON.stringify({
+                                      searchText: this.searchText
+                                  })
+                              }
+                            : {})
+                    })
+                .then(data => {
+                    this.smsTemplatesStore = data.data
+                    this.pageLoading = false;
+                    return data;
+                })
+                .catch(err => {
+                    this.pageLoading = false;
+                })
+                .finally(() => {
+                    this.isInitialLoad && (this.isInitialLoad = false);
+                });
         },
         fetchSmsTemplates() {
             let paginate = this.pagination;
             this.pageLoading = true;
                 return CommunicationServices.getSmsTemplates({
-                    params: {
-                        page_size: this.pagination.limit,
+                        page_size:  50,
                         page_no: this.pagination.current,
                         sort: JSON.stringify({ created_at: -1 }),
                         ...(this.searchText
@@ -401,11 +400,9 @@ export default {
                                   })
                               }
                             : {})
-                    }
-                })
+                    })
                 .then(data => {
                     this.smsTemplatesStore = data.data
-                    console.log(this.smsTemplatesStore);
                     this.pageLoading = false;
                     this.pageError = false;
                     //return data;
@@ -417,12 +414,12 @@ export default {
         },
         updateSelection(event) {
             //change selection page
-            this.selectedSmsTemplate = event.target.value;
-            this.selectedSmsTemplateData = this.$store.state.admin.communication.smsTemplates.items.find(
-                doc => {
-                    return doc._id == event.target.value;
-                }
-            );
+            // this.selectedSmsTemplate = event.target.value;
+            // this.selectedSmsTemplateData = this.$store.state.admin.communication.smsTemplates.items.find(
+            //     doc => {
+            //         return doc._id == event.target.value;
+            //     }
+            // );
         },
         editSmsTemplate(item) {
             //console.log('hi');
