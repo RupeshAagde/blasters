@@ -63,9 +63,9 @@ export default {
                 categories: []
             };
             // pass only the ids
-            this.selectedCategories.forEach(category=>{
-                createGroupCategory.categories.push(category.value)
-            })
+            this.selectedCategories.forEach((category) => {
+                createGroupCategory.categories.push(category.value);
+            });
             // return the request body for create/update category group object
             return generateGroupCategoryRequest(createGroupCategory);
         },
@@ -108,13 +108,23 @@ export default {
                     this.categoryValue.push(categoryObj.value);
                 }
             });
+            let valIndex = -1;
+            let selectedIndex = -1;
             // Handle the unselect of category
-            this.categoryValue.forEach((categoryId)=>{
-                if(!categoryArr.includes(categoryId)){
-                    console.log(categoryId,"removed")
+            this.categoryValue.forEach((categoryId, index) => {
+                if (!categoryArr.includes(categoryId)) {
+                    valIndex = index;
+                    selectedIndex = this.selectedCategories.findIndex(
+                        (a) => a.value == categoryId
+                    );
                 }
-            })
-            console.log(this.categoryValue,"category Value",categoryArr)
+            });
+            // only if the index is not default
+            if (valIndex > -1) {
+                // remove the selected item
+                this.categoryValue.splice(valIndex, 1);
+                this.selectedCategories.splice(selectedIndex, 1);
+            }
             this.checkForError();
         },
         /**
