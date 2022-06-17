@@ -134,7 +134,11 @@ const actions = {
                 return res.data;
             })
             .catch((err) => {
-                return { error: true, statusCode: err.response.status };
+                return {
+                    error: true,
+                    statusCode: err.response.status,
+                    msg: err.response.data
+                };
             });
     },
     [CLEAR_PRODUCT]({ commit }) {

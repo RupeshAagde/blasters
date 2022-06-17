@@ -100,8 +100,9 @@ export default {
                 .then((res) => {
                     if (res.error) {
                         return this.$snackbar.global.showError(
-                            res.statusCode == 409
-                                ? `Group category with name - ${reqObj.name} already exists`
+                            // only if the status code is 409 show the duplicate error else show generic error
+                            res.statusCode == 400
+                                ? res.msg
                                 : 'Something went wrong. Failed to add new Category'
                         );
                     }
