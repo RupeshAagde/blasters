@@ -1,7 +1,7 @@
 <template>
     <div class="list-packaging-container">
         <div class="list-packaging-container-header">
-            Category Item List
+            Category Configuration
             {{ categories.length > 0 ? `(${categories.length})` : '' }}
             <div class="add-packaging-btn-container">
                 <nitrozen-button
