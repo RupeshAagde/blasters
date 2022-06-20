@@ -233,26 +233,26 @@ export default {
             //         selectedFilter: this.selectedFilter
             //     }
             // }).catch(() => {});
-            this.resetPagination();
-            this.getTemplatesBasedOnFilter();
+            //this.resetPagination();
+            //this.getTemplatesBasedOnFilter();
         }
     },
     mounted() {
         // this.$store.commit(ADMIN_COMMS_RESET_SMS_TEMPLATE);
         // this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE_TO_CLONE, {});
-        // this.resetPagination();
-        // if (this.$route.query.searchText) {
-        //     this.searchText = this.$route.query.searchText;
-        //     this.selectedFilter = this.$route.query.selectedFilter
-        //         ? this.$route.query.selectedFilter
-        //         : 'all';
-        // }
+         this.resetPagination();
+        if (this.$route.query.searchText) {
+            this.searchText = this.$route.query.searchText;
+            this.selectedFilter = this.$route.query.selectedFilter
+                ? this.$route.query.selectedFilter
+                : 'all';
+        }
 
-        // if (this.$route.query.limit && this.$route.query.current) {
-        //     this.pagination.limit = this.$route.query.limit;
-        //     this.pagination.current = this.$route.query.current;
-        //     this.updatePaginationOnUi()
-        // }
+        if (this.$route.query.limit && this.$route.query.current) {
+            this.pagination.limit = this.$route.query.limit;
+            this.pagination.current = this.$route.query.current;
+            this.updatePaginationOnUi()
+        }
          this.getTemplatesBasedOnFilter();
     },
     computed: {
@@ -377,7 +377,7 @@ export default {
             let paginate = this.pagination;
             this.pageLoading = true;
                 return CommunicationServices.getSmsTemplates({
-                        page_size:  50,
+                        page_size:  this.pagination.limit,
                         page_no: this.pagination.current,
                         sort: JSON.stringify({ created_at: -1 }),
                         ...(this.searchText

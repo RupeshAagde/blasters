@@ -572,7 +572,8 @@ export default {
             this.showCreateModal = true;
         },
         closeCreateModal() {
-            //this.showCreateModal = false;
+        console.log('hi')
+            this.showCreateModal = false;
         },
          openModal() {
             this.$refs['provider_create_dialog'].open({
@@ -588,14 +589,14 @@ export default {
                 name: 'providerDefault'
             });
         },
-    //     changePage(e) {
-    //         this.pagination = {
-    //             limit: e.limit,
-    //             total: e.total,
-    //             current: e.current
-    //         };
-    //         this.fetchDataBasedOnGroupIndex();
-    //     },
+        changePage(e) {
+            this.pagination = {
+                limit: e.limit,
+                total: e.total,
+                current: e.current
+            };
+            this.fetchDataBasedOnGroupIndex();
+        },
         searchTemplate() {
             this.$router.replace({
                 name: 'providerList',
@@ -649,12 +650,6 @@ export default {
             this.wizardSelectedItem = item;
         },
         onCreateModalProceedClick(id, item) {
-            // this.$router.push({
-            //     path: path.join(
-            //         this.$basePath,
-            //         `/provider/${item.child.type}/create?type=${item.child.id}`
-            //     ) 
-            // });
             this.$router.push({ path: `/administrator/communication/provider/${item.child.type}/create?type=${item.child.id}` });
 
         },
@@ -689,7 +684,8 @@ export default {
                     this.pageLoading = false;
                     this.pageError = false;
                     this.emailProvidersStore = data.data
-                    //this.setPagination();
+                    console.log(this.emailProvidersStore);
+                    this.setPagination();
                 })
                 .finally(() => {
                     this.isInitialLoad && (this.isInitialLoad = false);
@@ -726,13 +722,14 @@ export default {
                     this.pageLoading = false;
                     this.pageError = false;
                     this.smsProvidersStore = data.data
-                    //this.setPagination();
+                    this.setPagination();
                 })
                 .finally(() => {
                     this.isInitialLoad && (this.isInitialLoad = false);
                 });
         },
         setPagination() {
+            console.log(this.emailProvidersStore.page.size);
             if (this.activeGroupIndex == 0) {
                 this.pagination = {
                     limit: this.emailProvidersStore.page.size,
@@ -753,7 +750,8 @@ export default {
                     limit: this.pagination.limit,
                     current: this.pagination.current
                 }
-            });
+            })
+            .catch(()=>{})
         },
         changeGroupIndex(item) {
             this.activeGroupIndex = item.index;
@@ -764,9 +762,6 @@ export default {
                 this.fetchSmsProviders();
             }
         },
-        // closeCreateModal() {
-        //     this.showCreateModal = false;
-        // },
     //     editJob(item) {
     //         this.$router.push('/admin/provider/view/' + item._id);
     //     },
@@ -777,13 +772,6 @@ export default {
                 total: 0
             };
         },
-    //     createProvider() {
-    //         if (detectMobileWidth()) {
-    //             this.$__restrictWebView.open();
-    //             return;
-    //         }
-    //         this.showCreateModal = true;
-    //     }
      }
 };
 </script>

@@ -396,13 +396,12 @@ export default {
         cloneTemplate() {
             let smsTemplate = this.smsTemplateStore;
             let smsTemplateToClone = omitForClone(smsTemplate);
-           
+            this.isEditMode=false;
             this.$router.replace({
                 name: 'smstemplateCreate',
                 query: { clone: smsTemplate._id }
             })
-            //.catch(()=>{})
-            //this.$forceUpdate();
+            this.$forceUpdate();
         },
         onOpenHelp() {},
         onLinkSubscription(obj) {
