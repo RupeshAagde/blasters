@@ -35,7 +35,12 @@
             <div class="modal-custom-body">
                 <inline-svg :src="'modal-success'" />
                 <p id="modal-body-text">
-                    Category has been succesfully added to the list
+                    Category has been succesfully
+                    {{
+                        Object.keys(selectedCategory).length
+                            ? 'updated'
+                            : 'added to the list'
+                    }}
                 </p>
                 <nitrozen-button
                     :title="'Thank you'"
@@ -57,6 +62,8 @@ import { NitrozenButton } from '@gofynd/nitrozen-vue';
 import BaseModal from '../../components/common/dialogs/base-modal.vue';
 import InlineSvg from '../../components/common/inline-svg.vue';
 import { SAVE_CATEGORY } from '../../store/action.type';
+import { mapGetters } from 'vuex';
+import { GET_EDIT_CATEGORY } from '../../store/getters.type';
 export default {
     name: 'create-category-home',
     components: {
@@ -73,7 +80,11 @@ export default {
             showLoader: false
         };
     },
-    watch: {},
+    computed: {
+        ...mapGetters({
+            selectedCategory: GET_EDIT_CATEGORY
+        })
+    },
     methods: {
         /**
          * @author Rohan Shah
@@ -95,20 +106,26 @@ export default {
             this.showLoader = true;
             // call function to get request object
             const reqObj = this.$refs.createCategory.handleSave();
-            this.$store
-                .dispatch(SAVE_CATEGORY, { data: reqObj })
-                .then((res) => {
-                    if (res.error) {
-                        return this.$snackbar.global.showError(
-                            // only if the status code is 409 show the duplicate error else show generic error
-                            res.statusCode == 400
-                                ? res.msg
-                                : 'Something went wrong. Failed to add new Category'
-                        );
-                    }
-                    this.showLoader = false;
-                    this.isModalOpen = true;
-                });
+            let requestData = {
+                data: reqObj
+            };
+            // only for edit add the flag and slug name
+            if (Object.keys(this.selectedCategory).length) {
+                requestData.isEdit = true;
+                requestData.slug = this.selectedCategory.slug;
+            }
+            this.$store.dispatch(SAVE_CATEGORY, requestData).then((res) => {
+                if (res.error) {
+                    return this.$snackbar.global.showError(
+                        // only if the status code is 409 show the duplicate error else show generic error
+                        res.statusCode == 400
+                            ? res.msg
+                            : 'Something went wrong. Failed to add new Category'
+                    );
+                }
+                this.showLoader = false;
+                this.isModalOpen = true;
+            });
         },
         /**
          * @description Go back to previous route
