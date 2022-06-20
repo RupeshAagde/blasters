@@ -35,6 +35,8 @@ import { NitrozenInput, NitrozenError } from '@gofynd/nitrozen-vue';
 import CategoryMultiSelect from './common/category-multi-select.vue';
 import { generateGroupCategoryRequest } from '../../helper/utils';
 import { FETCH_L3_CATEGORIES } from '../../store/action.type';
+import { mapGetters } from 'vuex';
+import { GET_EDIT_CATEGORY } from '../../store/getters.type';
 export default {
     name: 'create-category',
     components: {
@@ -42,8 +44,17 @@ export default {
         NitrozenInput,
         CategoryMultiSelect
     },
+    computed:{
+        ...mapGetters({
+            selectedCatgegory: GET_EDIT_CATEGORY
+        })
+    },
     mounted() {
         this.setCategoryList();
+        // only if there is data in the store call the edit functionality
+        if(Object.keys(this.selectedCatgegory).length){
+            this.handleEditCategoryGroup(this.selectedCatgegory)
+        }
     },
     props: {
         toggleBtn: {
@@ -51,6 +62,16 @@ export default {
         }
     },
     methods: {
+        /**
+         * @author Rohan Shah
+         * @param {Object} categoryInfo 
+         * @description Sets the necessary data in the state for the edit category feature
+         */
+        handleEditCategoryGroup(categoryInfo){
+            this.groupName.value = categoryInfo.categoryName
+            this.selectedCategories = categoryInfo.selectedCategories
+            this.categoryValue = categoryInfo.categoryValue
+        },
         /**
          * @author Rohan Shah
          * @description Creates request object
