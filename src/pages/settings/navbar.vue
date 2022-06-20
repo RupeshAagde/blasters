@@ -106,7 +106,7 @@
                         ref="save-btn"
                         >Save</nitrozen-button
                     >
-                    <nitrozen-button theme="secondary" v-strokeBtn
+                    <nitrozen-button @click="closeAddDialog" theme="secondary" v-strokeBtn
                         >Cancel</nitrozen-button
                     >
                 </div>
