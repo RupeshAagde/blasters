@@ -545,11 +545,8 @@ export default {
 
             for(let section of pageObj.sections) {
                 if(section.item_type) {
-                    let key;
-                    if(section.type === 'collection_grid') key = 'collection';
-                    else if(section.type === 'extension_grid' || section.type === 'extension_item_list') key = 'extension';
-                    else if(section.type === 'category_item_list') key = 'category';
-
+                    let key = section.item_type;
+                    
                     delete section.items;
 
                     section.items = section.data[key].map(item => {
