@@ -28,7 +28,10 @@
                     v-for="(item, index) of categories"
                     :key="'product-row-' + index"
                 >
-                    <category-card :item="item" />
+                    <category-card
+                        :item="item"
+                        :handleEditClicked="handleEditClicked"
+                    />
                 </div>
             </div>
             <!-- else show no content component -->
@@ -54,7 +57,12 @@
 <script>
 import NoContent from '../../components/common/adm-no-content.vue';
 import { NitrozenButton, NitrozenPagination } from '@gofynd/nitrozen-vue';
-import { FETCH_COMPANY_PRODUCTS, FETCH_GROUP_CATEGORIES } from '../../store/action.type';
+import {
+    EDIT_CATEGORY,
+    FETCH_COMPANY_PRODUCTS,
+    FETCH_GROUP_CATEGORIES,
+    FETCH_L3_CATEGORIES
+} from '../../store/action.type';
 import { mapGetters } from 'vuex';
 import { GET_CATEGORIES } from '../../store/getters.type';
 import CategoryCard from './common/category-card.vue';
@@ -79,7 +87,8 @@ export default {
                 current: 1
             },
             perPageValues: [5, 10, 20, 50],
-            groupCategoryValue: ''
+            groupCategoryValue: '',
+            l3CategoryList: []
         };
     },
     computed: {
@@ -90,9 +99,50 @@ export default {
     async mounted() {
         // get products by calling the action
         await this.fetchCategories();
-        this.$store.dispatch(FETCH_COMPANY_PRODUCTS)
+        this.$store.dispatch(FETCH_COMPANY_PRODUCTS);
+        await this.fetchL3Categories();
     },
     methods: {
+        /**
+         * @author Rohan Shah
+         * @description Calls the API to fetch L3 Categories
+         */
+        async fetchL3Categories() {
+            this.$store
+                .dispatch(FETCH_L3_CATEGORIES, { is_active: true })
+                .then((res) => {
+                    if (!res.error) {
+                        this.l3CategoryList = res;
+                    }
+                });
+        },
+        /**
+         * @author Rohan Shah
+         * @param {Object} item | Group category Item
+         * @description If the L3 categories exists then creates an object
+         * and calls the dispatch to set the store value for edit
+         */
+        handleEditClicked(item) {
+            if (this.l3CategoryList.length) {
+                let categoryInfo = {
+                    categoryName: item.name,
+                    slug: item.slug,
+                    categoryValue: [],
+                    selectedCategories: []
+                };
+                item.categories.forEach((categoryId) => {
+                    let categoryObj = this.l3CategoryList.find(
+                        (a) => a.uid == categoryId
+                    );
+                    categoryInfo.categoryValue.push(categoryObj.uid);
+                    categoryInfo.selectedCategories.push(categoryObj);
+                });
+                this.$store.dispatch(EDIT_CATEGORY, categoryInfo);
+                this.$router.push(
+                    '/administrator/packaging/category-configuration/create'
+                );
+            }
+        },
         /**
          * @author Rohan Shah
          * @description Creates the request parameters to be passed to the API
