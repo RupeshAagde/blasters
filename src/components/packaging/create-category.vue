@@ -1,6 +1,6 @@
 <template>
     <div class="category-create-container">
-        <div class="category-create-container-header">Add New Category</div>
+        <div class="category-create-container-header">Create Category</div>
         <div class="category-create-input-container">
             <nitrozen-input
                 id="category-input"
@@ -44,7 +44,7 @@ export default {
         NitrozenInput,
         CategoryMultiSelect
     },
-    computed:{
+    computed: {
         ...mapGetters({
             selectedCatgegory: GET_EDIT_CATEGORY
         })
@@ -52,8 +52,8 @@ export default {
     mounted() {
         this.setCategoryList();
         // only if there is data in the store call the edit functionality
-        if(Object.keys(this.selectedCatgegory).length){
-            this.handleEditCategoryGroup(this.selectedCatgegory)
+        if (Object.keys(this.selectedCatgegory).length) {
+            this.handleEditCategoryGroup(this.selectedCatgegory);
         }
     },
     props: {
@@ -64,13 +64,13 @@ export default {
     methods: {
         /**
          * @author Rohan Shah
-         * @param {Object} categoryInfo 
+         * @param {Object} categoryInfo
          * @description Sets the necessary data in the state for the edit category feature
          */
-        handleEditCategoryGroup(categoryInfo){
-            this.groupName.value = categoryInfo.categoryName
-            this.selectedCategories = categoryInfo.selectedCategories
-            this.categoryValue = categoryInfo.categoryValue
+        handleEditCategoryGroup(categoryInfo) {
+            this.groupName.value = categoryInfo.categoryName;
+            this.selectedCategories = categoryInfo.selectedCategories;
+            this.categoryValue = categoryInfo.categoryValue;
         },
         /**
          * @author Rohan Shah
