@@ -20,7 +20,10 @@
             :handleChange="handleChange"
             :value="groupCategoryValue"
         />
-        <div class="list-container">
+        <div v-if="showLoader" class="loader-parent">
+            <loader-vue />
+        </div>
+        <div class="list-container" v-else>
             <!-- Check if products array have items if so then map -->
             <div class="list-container-products" v-if="categories.length">
                 <div
@@ -71,6 +74,7 @@ import { GET_CATEGORIES } from '../../store/getters.type';
 import CategoryCard from './common/category-card.vue';
 import SearchContainer from './common/search-container.vue';
 import { debounce } from '@/helper/utils';
+import LoaderVue from '../common/loader.vue';
 export default {
     name: 'list-categories',
     components: {
@@ -78,7 +82,8 @@ export default {
         NitrozenButton,
         CategoryCard,
         SearchContainer,
-        NitrozenPagination
+        NitrozenPagination,
+        LoaderVue
     },
     data() {
         return {
