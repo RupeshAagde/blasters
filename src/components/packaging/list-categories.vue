@@ -58,6 +58,7 @@
 import NoContent from '../../components/common/adm-no-content.vue';
 import { NitrozenButton, NitrozenPagination } from '@gofynd/nitrozen-vue';
 import {
+    CLEAR_CATEGORY,
     EDIT_CATEGORY,
     FETCH_COMPANY_PRODUCTS,
     FETCH_GROUP_CATEGORIES,
@@ -97,6 +98,8 @@ export default {
         })
     },
     async mounted() {
+        // IMP to call this to prevent wrong edit / create calls
+        this.$store.dispatch(CLEAR_CATEGORY);
         // get products by calling the action
         await this.fetchCategories();
         this.$store.dispatch(FETCH_COMPANY_PRODUCTS);
@@ -135,9 +138,14 @@ export default {
                         (a) => a.uid == categoryId
                     );
                     categoryInfo.categoryValue.push(categoryObj.uid);
+                    // add value and text for display purposes
+                    categoryObj.value = categoryObj.uid;
+                    categoryObj.text = categoryObj.name;
                     categoryInfo.selectedCategories.push(categoryObj);
                 });
+                // set the store value
                 this.$store.dispatch(EDIT_CATEGORY, categoryInfo);
+                // redirect the user to create configuration page
                 this.$router.push(
                     '/administrator/packaging/category-configuration/create'
                 );
