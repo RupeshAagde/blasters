@@ -10,16 +10,26 @@
                     {{ item.categories.length > 1 ? 'Categories' : 'Category' }}
                 </div>
             </div>
+                <div @click="handleEditClicked(item)">
+                <inline-svg :src="'edit'" class="edit-icon" />
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import InlineSvg from '../../common/inline-svg.vue';
 export default {
     name: 'category-card',
+    components:{
+        InlineSvg
+    },
     props: {
         item: {
             type: Object
+        },
+        handleEditClicked:{
+            type: Function
         }
     },
     mounted() {
