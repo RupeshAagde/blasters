@@ -93,7 +93,7 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
-        margin-top: 48px;
+        margin-top: 12px;
         @media @mobile {
             margin-top: 24px;
             height: initial;

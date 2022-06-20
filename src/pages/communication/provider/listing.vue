@@ -331,7 +331,6 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
-        margin-top: 24px;
         .search-input {
             width: 400px;
         }
@@ -765,9 +764,9 @@ export default {
                 this.fetchSmsProviders();
             }
         },
-    //     closeCreateModal() {
-    //         this.showCreateModal = false;
-    //     },
+        // closeCreateModal() {
+        //     this.showCreateModal = false;
+        // },
     //     editJob(item) {
     //         this.$router.push('/admin/provider/view/' + item._id);
     //     },

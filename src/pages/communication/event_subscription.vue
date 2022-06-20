@@ -4,6 +4,7 @@
         <jumbotron
                     :title="'Events'"
                     :desc="'View All Reports'"
+                    class="jumbotron-container"
                 ></jumbotron>   
 
             <div class="subscriptions-container">
@@ -397,10 +398,14 @@ export default {
             })
         },
         cloneTemplate() {
-            let type = this.templateInPreviewModal.template_type;
             let template = this.templateInPreviewModal.template;
+              let mode  = 'sms'
+            if(template.html){
+                mode = 'email';
+            }
+            this.showTemplatePreviewModal = true;
             this.$router.push({
-                name: `providerMain`,
+                path: `/administrator/communication/${mode}/templates/create`,
                 query: { clone: template._id }
             });
         },
@@ -441,7 +446,7 @@ export default {
                 template = smsTemplate.message.template.value;
             }
             if (templateValid) {
-                template = this.urlify(template);
+                //template = this.urlify(template);
                 return template;
             }
         },
@@ -455,7 +460,7 @@ export default {
         //             this.comms_enabled = data.comms_enabled;
         //         });
         // },
-        updateCommsEnabled() {
+        //updateCommsEnabled() {
             // AppSettingService.patchAppConfiguration({
             //     comms_enabled: this.comms_enabled
             // })
@@ -465,19 +470,19 @@ export default {
             //     .catch(err => {
             //         this.$snackbar.global.showError('Failed to update');
             //     });
-        },
-        urlify(text) {
-            let output = text;
-            var urlRegex = /(https?:\/\/[^\s]+)/g;
-            output = output.replace(urlRegex, function(url) {
-                return `<a style="color:#2E31BE;" target="_blank" href="${url}">${url}</a>`;
-            });
-            var emailRegex = /([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})/g;
-            output = output.replace(emailRegex, function(email) {
-                return `<a style="color:#2E31BE;" target="_blank" href="mailto:${email}">${email}</a>`;
-            });
-            return output;
-        },
+        //},
+        // urlify(text) {
+        //     let output = text;
+        //     var urlRegex = /(https?:\/\/[^\s]+)/g;
+        //     output = output.replace(urlRegex, function(url) {
+        //         return `<a style="color:#2E31BE;" target="_blank" href="${url}">${url}</a>`;
+        //     });
+        //     var emailRegex = /([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})/g;
+        //     output = output.replace(emailRegex, function(email) {
+        //         return `<a style="color:#2E31BE;" target="_blank" href="mailto:${email}">${email}</a>`;
+        //     });
+        //     return output;
+        // },
         previewTemplate(type, groupIndex, childIndex) {
             let template = this.subscriptions[groupIndex].children[childIndex][
                 type
@@ -499,14 +504,8 @@ export default {
                         iframe.contentDocument || iframe.contentWindow.document;
                     iframedoc.body.innerHTML = this.templateInPreviewModal.templatePreview;
                 }
-            }
-
+            }  
             this.showTemplatePreviewModal = true;
-            // this.$router.push({
-            //     name: `create-${type}-template`,
-            //     query: { clone: template._id }
-            // });
-            // console.log(type, groupIndex, childIndex);
         },
         dropdownSearchInputChange(e) {
             let type = e.id.split('-')[0];
@@ -540,22 +539,22 @@ export default {
             })
         },
         fetchEmailTemplates() {
-          return CommunicationServices.getEmailTemplates().then(({ data }) => {
+          return CommunicationServices.getEmailTemplates({params: {limit: 200}}).then(({ data }) => {
                 this.emailTemplates = data;
             })
         },
         fetchSystemEmailTemplates() {
-           return CommunicationServices.getEmailSysTemplates().then(({ data }) => {
+           return CommunicationServices.getEmailSysTemplates({params: {limit: 200}}).then(({ data }) => {
                 this.systemEmailTemplates = data;
             }) 
         },
         fetchSmsTemplates() {
-            return CommunicationServices.getSmsTemplates().then(({ data }) => {
+            return CommunicationServices.getSmsTemplates({limit: 200}).then(({ data }) => {
                 this.smsTemplates = data;
             })
         },
         fetchSystemSmsTemplates() {
-            return CommunicationServices.getSmsSysTemplates().then(({ data }) => {
+            return CommunicationServices.getSmsSysTemplates({limit: 200}).then(({ data }) => {
                 this.systemSmsTemplates = data;
             })
         },
@@ -779,6 +778,11 @@ export default {
 <style lang="less" scoped>
 //@import './../less/page-ui.less';
 //@import './../less/page-header.less';
+
+.jumbotron-container{
+    width: 100%;
+}
+
 .page-container {
     margin: 24px;
     width: auto;

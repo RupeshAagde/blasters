@@ -19,7 +19,6 @@
                         >Test SMS</nitrozen-button
                     >
                     <nitrozen-button
-                        v-if="!this.smsTemplateStore.is_system"
                         :theme="'secondary'"
                         v-flatBtn
                         @click.stop="saveClick"
@@ -61,7 +60,7 @@
                 template?</template
             >
         </nitrozen-dialog>
-        <div class="main-body" v-if=" isCreateMode || (isEditMode  && smsTemplateStore.slug ) || isCloneMode ">
+        <div class="main-body" v-if=" isCreateMode || (isEditMode  && smsTemplateStore.slug ) || (isCloneMode && smsTemplateStore.name) ">
             <div class="left-container">
                 <smstemplate_variables
                     ref="smstemplate_variables"
@@ -172,7 +171,7 @@ export default {
         return {
             pageLoading: false,
             isEditMode:  !!this.$route.params.templateId,
-            isCloneMode: false,
+            isCloneMode: !!this.$route.query.clone,
             templateId: this.$route.params.templateId,
             threeDotsOptions: THREE_DOT_OPTIONS,
             subscribedAdded: [],
@@ -187,6 +186,9 @@ export default {
     },
     mounted() {
         //console.log(this.$route);
+        if(!this.isEditMode && !this.isCloneMode){
+            this.isCreateMode = true;
+        }
         if(this.templateId){
          this.getTemplatedbyId()
         }
@@ -217,9 +219,7 @@ export default {
                     });
             //}
         }
-        if(!this.isEditMode && !this.isCloneMode){
-            this.isCreateMode = true;
-        }
+        
 
         // Promise.resolve(promiseObj)
         //     .then(() => {
@@ -271,6 +271,7 @@ export default {
                         //     data: response
                         // });
                         // }
+                        this.smsTemplateStore = response.data
                         this.$router.push({ name: 'smstemplateMain' })
                             this.$snackbar.global.showSuccess(
                                 'SMS template has been published!'
@@ -333,6 +334,7 @@ export default {
                         // this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
                         //     data: response
                         // });
+                         this.smsTemplateStore = response.data 
                         this.$router.push({ name: 'smstemplateMain' })
                             this.$snackbar.global.showSuccess(
                                 'SMS template has been published!'
@@ -371,15 +373,6 @@ export default {
                                     };
                                 }
                             );
-                            // this.$store.dispatch(
-                            //     ADMIN_COMMS_BULK_UPDATE_APP_EVENT_SUBSCRIPTION,
-                            //     {
-                            //         subscriptions: [
-                            //             ...subscribedAdded,
-                            //             ...subscribedRemoved
-                            //         ]
-                            //     }
-                            // );
                             CommunicationServices.postBulkUpdate({
                                     subscriptions: [
                                         ...subscribedAdded,
@@ -404,10 +397,11 @@ export default {
             let smsTemplate = this.smsTemplateStore;
             let smsTemplateToClone = omitForClone(smsTemplate);
            
-            this.$router.push({
+            this.$router.replace({
                 name: 'smstemplateCreate',
                 query: { clone: smsTemplate._id }
-            });
+            })
+            //.catch(()=>{})
             //this.$forceUpdate();
         },
         onOpenHelp() {},
@@ -418,20 +412,18 @@ export default {
         },
         deleteTemplate() {
             // let id = this.$route.params.id;
-            // adminCommsService
-            //     .deleteSmsTemplateById(id)
-            //     .then(response => {
-            //         this.$snackbar.global.showSuccess('Successfully Deleted');
-            //         this.$router.push(
-            //             `${getRoute(this.$route)}/sms/templates/listing`
-            //         );
-            //     })
-            //     .catch(err => {
-            //         console.log('Error', err);
-            //         this.$snackbar.global.showError(
-            //             'Failed to delete template'
-            //         );
-            //     });
+            CommunicationServices
+                .deleteSmsTemplatebyId(this.templateId)
+                .then(response => {
+                    this.$snackbar.global.showSuccess('Successfully Deleted');
+                    this.$router.push({ name : 'smstemplateMain'})
+                })
+                .catch(err => {
+                    console.log('Error', err);
+                    this.$snackbar.global.showError(
+                        'Failed to delete template'
+                    );
+                });
         },
         sendTestSms() {
             if (this.$refs['smsTemplateEdit'].validate()) {

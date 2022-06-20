@@ -236,7 +236,8 @@
     }
 }
 .link-event-wrapper {
-    margin: 24px 0px 12px 0px;
+    margin: 24px;
+    width: 84.5%;
 }
 .event-link-modal {
     /deep/.modal-container {

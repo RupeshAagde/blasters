@@ -31,20 +31,19 @@ const CommunicationServices = {
         return ApiService.get(URLS.COMMUNICATION_SMS_TEMPLATES() , axiosOptions);
     },
     getSubscribedSmsTemplates(param){
-        console.log(param);
         const axiosOptions = Object.assign({},{params: param}, getCommonHeaderOptions());
         return ApiService.get(URLS.SUBSCRIBED_SMS_TEMPLATES() , axiosOptions);
     },
-    getSmsSysTemplates(){
-        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+    getSmsSysTemplates(param){
+        const axiosOptions = Object.assign({},{params: param}, getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_SMS_S_TEMPLATES() , axiosOptions);
     },
     getEmailTemplates(params){
         const axiosOptions = Object.assign({},params,getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_EMAIL_TEMPLATES() , axiosOptions);
     },
-    getEmailSysTemplates(){
-        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+    getEmailSysTemplates(params){
+        const axiosOptions = Object.assign({},params, getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_EMAIL_S_TEMPLATES() , axiosOptions);
     },
     getSmsProvider(params){
@@ -126,6 +125,10 @@ const CommunicationServices = {
     getSmsTemplatebyId(id){
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_SMS_TEMPLATES(id) , axiosOptions);
+    },
+    deleteSmsTemplatebyId(id){
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.del(URLS.COMMUNICATION_SMS_TEMPLATES(id) , axiosOptions);
     },
     getEmailTemplatebyId(id){
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());

@@ -39,13 +39,13 @@
                             v-if="personalizationChecked"
                             class="variables-container"
                         >
-                            <div
+                            <!-- <div
                                 v-if="!disabledVariables"
                                 class="nitrozen-label import-data"
                                 @click.stop="openImportDataModal"
                             >
                                 <span class="plus-icon">+</span> Import data
-                            </div>
+                            </div> -->
                             <no-ssr>
                                 <VJsoneditor
                                     class="vjson-editor-container"
@@ -58,7 +58,7 @@
                             </no-ssr>
                         </div>
                     </div>
-                    <ukt-modal
+                    <!-- <ukt-modal
                         :isOpen="showImportDataModal"
                         :title="'Import Data'"
                         :childHandleFocus="true"
@@ -122,7 +122,7 @@
                                     : 'No data source selected'
                             }}</pre>
                         </div>
-                        <!-- <div class="import-btn-container">
+                        <div class="import-btn-container">
                             <nitrozen-button
                                 class="btn-margin"
                                 @click="importData"
@@ -130,70 +130,78 @@
                                 v-flatBtn
                                 >Add variables</nitrozen-button
                             >
-                        </div> -->
-                    </ukt-modal>
-                    <nitrozen-dialog id="sendTestSms" ref="dialog" title="Send Test SMS" @close="closeSendTestSmsModal">
+                        </div>
+                    </ukt-modal> -->
+
+                    <nitrozen-dialog
+                        id="sendTestSms"
+                        ref="dialog"
+                        title="Send Test SMS"
+                        @close="closeSendTestSmsModal"
+                    >
                         <template slot="body">
-                        <div>
-                            <nitrozen-input
-                                v-model="testSms.phone_number.value"
-                                :label="'Enter Number'"
-                                :placeholder="'for e.g 9876543210'"
-                                @keyup="smsSuccessfullySent = false"
-                            >
-                            </nitrozen-input>
-                            <nitrozen-error
-                                v-if="testSms.phone_number.showerror"
-                                >{{ testSms.phone_number.errortext }}
-                            </nitrozen-error>
-                            <nitrozen-dropdown
-                                :label="'Provider'"
-                                class="mar-top-24 w-100"
-                                :items="providersDropdownOptions"
-                                v-model="selectedProvider.value"
-                            ></nitrozen-dropdown>
-                            <nitrozen-error
-                                v-if="selectedProvider.showerror"
-                                >{{ selectedProvider.errortext }}
-                            </nitrozen-error>
-                            <div
-                                v-show="smsSuccessfullySent"
-                                class="sms-success"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="12"
-                                    height="12"
-                                    viewBox="0 0 24 24"
-                                    style="fill: #2E31BE;;"
-                                >
-                                    <path
-                                        d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"
-                                    ></path>
-                                </svg>
-                                SMS successfully sent!
-                            </div>
                             <div>
-                                <div class="text-note mar-top-36">
-                                    Please make sure your SMS template is DLT approved else SMS delivery will fail.
+                                <nitrozen-input
+                                    v-model="testSms.phone_number.value"
+                                    :label="'Enter Number'"
+                                    :placeholder="'for e.g 9876543210'"
+                                    @keyup="smsSuccessfullySent = false"
+                                >
+                                </nitrozen-input>
+                                <nitrozen-error
+                                    v-if="testSms.phone_number.showerror"
+                                    >{{ testSms.phone_number.errortext }}
+                                </nitrozen-error>
+                                <nitrozen-dropdown
+                                    :label="'Provider'"
+                                    class="mar-top-24 w-100"
+                                    :items="providersDropdownOptions"
+                                    v-model="selectedProvider.value"
+                                ></nitrozen-dropdown>
+                                <nitrozen-error
+                                    v-if="selectedProvider.showerror"
+                                    >{{ selectedProvider.errortext }}
+                                </nitrozen-error>
+                                <div
+                                    v-show="smsSuccessfullySent"
+                                    class="sms-success"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="12"
+                                        height="12"
+                                        viewBox="0 0 24 24"
+                                        style="fill: #2e31be ;"
+                                    >
+                                        <path
+                                            d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"
+                                        ></path>
+                                    </svg>
+                                    SMS successfully sent!
+                                </div>
+                                <div>
+                                    <div class="text-note mar-top-36">
+                                        Please make sure your SMS template is
+                                        DLT approved else SMS delivery will
+                                        fail.
+                                    </div>
+                                </div>
+                                <div class="send-sms-container">
+                                    <nitrozen-button
+                                        :disabled="disableSendSmsButton"
+                                        class="btn-margin"
+                                        @click="sendSms"
+                                        :theme="'secondary'"
+                                        v-flatBtn
+                                    >
+                                        SEND SMS
+                                    </nitrozen-button>
                                 </div>
                             </div>
-                            <div class="send-sms-container">
-                                <nitrozen-button
-                                    :disabled="disableSendSmsButton"
-                                    class="btn-margin"
-                                    @click="sendSms"
-                                    :theme="'secondary'"
-                                    v-flatBtn
-                                >
-                                    SEND SMS
-                                </nitrozen-button>
-                            </div>
-                        </div>
-                    </template>
-                    <template slot="footer">
-                        <div></div>
-                    </template>
+                        </template>
+                        <template slot="footer">
+                            <div></div>
+                        </template>
                     </nitrozen-dialog>
                     <div class="message-outer-container">
                         <div class="message-container">
@@ -248,7 +256,7 @@
                     <div v-if="error_text">
                         <div
                             v-bind:class="{
-                                'show-error': error_text
+                                'show-error': error_text,
                             }"
                         >
                             {{ error_text }}
@@ -274,7 +282,6 @@
 </template>
 
 <style lang="less" scoped>
-
 .panel {
     min-height: 100%;
 }
@@ -284,8 +291,11 @@
 .type-link {
     font-size: 12px;
     font-weight: 100;
-    color: #2E31BE;
+    color: #2e31be;
     cursor: pointer;
+}
+/deep/.page-container{
+    width: 100% ;
 }
 .page-container {
     background: @Alabaster2;
@@ -334,10 +344,10 @@
         /deep/.jsoneditor-container {
             height: 300px !important;
             /deep/.jsoneditor {
-                border-color: #2E31BE;
+                border-color: #2e31be;
             }
             /deep/.jsoneditor-menu {
-                background-color: #2E31BE;
+                background-color: #2e31be;
             }
         }
         .message-input {
@@ -376,7 +386,7 @@
         .height100 {
             height: 100%;
         }
-        .margin-bottom-0{
+        .margin-bottom-0 {
             margin-bottom: 0px;
         }
         .tab-container {
@@ -533,7 +543,7 @@
     .type-link {
         font-size: 12px;
         font-weight: 100;
-        color: #2E31BE;
+        color: #2e31be;
     }
 }
 
@@ -551,7 +561,7 @@
     background-color: lightgray;
 }
 /deep/.sms-success {
-    color: #2E31BE;
+    color: #2e31be;
     margin-top: 10px;
     font-size: 14px;
     font-family: Inter, sans-serif;
@@ -566,12 +576,12 @@
     line-height: 21px;
 }
 .mar-top-24 {
-    margin-top:24px;
+    margin-top: 24px;
 }
 .mar-top-36 {
-    margin-top:36px;
+    margin-top: 36px;
 }
-#sendTestSms{
+#sendTestSms {
     ::v-deep .nitrozen-dialog-footer {
         display: none;
     }
@@ -617,7 +627,7 @@ import {
     NitrozenRadio,
     NitrozenCheckBox,
     NitrozenDropdown,
-    NitrozenDialog
+    NitrozenDialog,
 } from '@gofynd/nitrozen-vue';
 import uktModal from '@/components/common/utk-modal.vue';
 import admforminput from '@/components/common/form-input.vue';
@@ -650,42 +660,42 @@ export default {
         //'adm-url-builder': urlBuilder
     },
     directives: {
-        flatBtn
+        flatBtn,
     },
     props: {
         isEditMode: {
             type: Boolean,
-            default: false
+            default: false,
         },
         isCloneMode: {
             type: Boolean,
-            default: false
+            default: false,
         },
         templateId: {
             type: String,
-            default: ''
+            default: '',
         },
         systemDisableEdit: {
             type: Boolean,
-            default: false
+            default: false,
         },
-        templateData : {
-            type: Object
-        }
+        templateData: {
+            type: Object,
+        },
     },
     watch: {
         editorMode() {
             this.updateEditorMode();
-        }
+        },
     },
     data() {
         return {
             dummyDataSources: [],
             selectedDataSource: 1000,
-            selectedProvider:{
+            selectedProvider: {
                 showerror: false,
                 value: ' ',
-                errortext: ''
+                errortext: '',
             },
             dummyDataSourceMeta: null,
             pageLoading: false,
@@ -707,13 +717,13 @@ export default {
                 mode: 'code',
                 enableSort: false,
                 enableTransform: false,
-                onChangeText: this.onVjsonEditorChange
+                onChangeText: this.onVjsonEditorChange,
             },
             editorMode: 'code',
             jsonEditorLoaded: false,
             smsTemplate: null,
             json: {
-                hello: 'world'
+                hello: 'world',
             },
             messagePreview: '',
             previewHasError: false,
@@ -721,18 +731,18 @@ export default {
             data: {
                 message: {
                     template_type: this.getInitialValue('static'),
-                    template: this.getInitialValue('This is a test message')
-                }
+                    template: this.getInitialValue('This is a test message'),
+                },
             },
             testSms: {
                 phone_number: {
                     showerror: false,
                     value: '',
-                    errortext: ''
-                }
+                    errortext: '',
+                },
             },
             initialHash: '',
-            providersDropdownOptions:[]
+            providersDropdownOptions: [],
         };
     },
     computed: {
@@ -742,58 +752,56 @@ export default {
         ALIGN() {
             return ALIGN;
         },
-         ...mapGetters({
-        //     smsTemplateStore: ADMIN_COMMS_GET_SMS_TEMPLATE,
-        //     smsTemplateToClone: ADMIN_COMMS_GET_SMS_TEMPLATE_TO_CLONE,
-             userData: GET_USER_INFO,
-        //     smsProvidersStore: ADMIN_COMMS_GET_SMS_PROVIDERS
-         }),
+        ...mapGetters({
+            //     smsTemplateStore: ADMIN_COMMS_GET_SMS_TEMPLATE,
+            //     smsTemplateToClone: ADMIN_COMMS_GET_SMS_TEMPLATE_TO_CLONE,
+            userData: GET_USER_INFO,
+            //     smsProvidersStore: ADMIN_COMMS_GET_SMS_PROVIDERS
+        }),
     },
-     mounted() {
-         let data = {};
-        // this.$store
-        //         .dispatch(ADMIN_COMMS_FETCH_SMS_PROVIDERS, {
-        //             params:
-                    CommunicationServices.getSmsProvider(
-                    {
-                        page_size: 100,
-                        page_no: 1,
-                        sort: { created_at: -1 }
-                    })
-                .then(data => {
-                    console.log("providers",data);
-                    data = data.data
-                    if(data.items.length){
-                        this.selectedProvider.value = data.items[0]._id || " ";
-                    }
-                this.fetchDefaultSmsProvider().then(defaultProvider=>{
-                  this.providersDropdownOptions=data.items.map(ele=>{
-                    return {
+    mounted() {
+        console.log(this.isCloneMode);
+        let data = {};
+        CommunicationServices.getSmsProvider({
+            page_size: 100,
+            page_no: 1,
+            sort: { created_at: -1 },
+        })
+            .then((data) => {
+                console.log('providers', data);
+                data = data.data;
+                if (data.items.length) {
+                    this.selectedProvider.value = data.items[0]._id || ' ';
+                }
+                this.fetchDefaultSmsProvider().then((defaultProvider) => {
+                    this.providersDropdownOptions = data.items.map((ele) => {
+                        return {
                             text: ele.name,
-                            value: ele._id
-                        }
-                })
-                this.providersDropdownOptions.unshift(...defaultProvider)
-                })
-                    return data;
-                }).catch(err=>{
-                    console.log(err);
-                })
+                            value: ele._id,
+                        };
+                    });
+                    this.providersDropdownOptions.unshift(...defaultProvider);
+                });
+                return data;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
 
         try {
-            // if (this.isCloneMode) {
-            //     data = cloneDeep(this.smsTemplateToClone);
-            //     this.disabledVariables = data.is_system;
-            // } else {
-            console.log('variable-editors');
-             data = cloneDeep(this.templateData);
-            console.log("variable",data);
+            if (this.isCloneMode) {
+                data = cloneDeep(this.templateData);
+                this.disabledVariables = data.is_system;
+            } else {
+                console.log('variable-editors');
+                data = cloneDeep(this.templateData);
+                console.log('variable', data);
                 this.disabledVariables =
                     data.meta &&
                     data.meta.type == 'cloned' &&
                     data.meta.is_system;
                 this.editorMode = 'preview';
-            
+            }
 
             if (this.isCloneMode || this.isEditMode) {
                 if (this.disabledVariables) {
@@ -806,7 +814,7 @@ export default {
                 this.editorMode = 'code';
             }
             if (data.template_variables) {
-                console.log(this.json,this.data.template_variables);
+                console.log(this.json, this.data.template_variables);
                 this.json = data.template_variables;
             }
             if (data.message) {
@@ -816,7 +824,7 @@ export default {
                     template: this.getInitialValue(data.message.template),
                     template_type: this.getInitialValue(
                         data.message.template_type
-                    )
+                    ),
                 };
                 this.renderMessageTemplate();
             }
@@ -825,7 +833,7 @@ export default {
                 this.testSms.phone_number.value = phone.phone;
             }
             //this.fetchSMSMatchEventSubscriptions().then(() => {
-                this.jsonEditorLoaded = true;
+            this.jsonEditorLoaded = true;
             //});
 
             this.getUserData();
@@ -834,7 +842,7 @@ export default {
         } catch (error) {
             this.$snackbar.global.showError('Failed to load Sms Template');
         }
-     },
+    },
     updated() {
         this.updateEditorMode();
     },
@@ -849,7 +857,7 @@ export default {
         generateHashOfLocalState() {
             return hash({
                 ...this.data,
-                ...{ json: this.json }
+                ...{ json: this.json },
             });
         },
         isFormUpdated() {
@@ -860,12 +868,12 @@ export default {
             this.$refs['url_builder_dialog'].open({
                 width: '650px',
                 neutralButtonLabel: 'Insert Link',
-                showCloseButton: true
+                showCloseButton: true,
             });
         },
         urlBuilderDialogClose(e) {
             if (e == 'Insert Link') {
-                this.$refs['url_builder'].get().then(linkData => {
+                this.$refs['url_builder'].get().then((linkData) => {
                     this.data.message.template.value =
                         this.data.message.template.value + ' ' + linkData.url;
                     this.renderMessageTemplate();
@@ -906,27 +914,28 @@ export default {
         //     this.addTotemplate_variables(items);
         //     this.closeImportDataModal();
         // },
-        checkmarkData(items) {
-            let userChecked = items.find(item => item == 'User');
-            this.userChecked = userChecked ? true : false;
+        // checkmarkData(items) {
+        //     let userChecked = items.find(item => item == 'User');
+        //     this.userChecked = userChecked ? true : false;
 
-            let applicationChecked = items.find(item => item == 'Application');
-            this.applicationChecked = applicationChecked ? true : false;
-        },
-        openImportDataModal() {
-            this.showImportDataModal = true;
-        },
+        //     let applicationChecked = items.find(item => item == 'Application');
+        //     this.applicationChecked = applicationChecked ? true : false;
+        // },
+        // openImportDataModal() {
+        //     this.showImportDataModal = true;
+        // },
         // closeImportDataModal() {
         //     this.showImportDataModal = false;
         // },
         urlify(text) {
             let output = text;
             var urlRegex = /(https?:\/\/[^\s]+)/g;
-            output = output.replace(urlRegex, function(url) {
+            output = output.replace(urlRegex, function (url) {
                 return `<a style="color:#2E31BE;" target="_blank" href="${url}">${url}</a>`;
             });
-            var emailRegex = /([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})/g;
-            output = output.replace(emailRegex, function(email) {
+            var emailRegex =
+                /([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})/g;
+            output = output.replace(emailRegex, function (email) {
                 return `<a style="color:#2E31BE;" target="_blank" href="mailto:${email}">${email}</a>`;
             });
             return output;
@@ -987,7 +996,7 @@ export default {
         },
         getPrimaryVerifiedActivePhoneNumber() {
             return this.userData.user.phone_numbers
-                .filter(a => a.active && a.primary && a.verified)
+                .filter((a) => a.active && a.primary && a.verified)
                 .reduce((result, current, index) => {
                     if (index == 0) {
                         result.phone = current.phone;
@@ -998,7 +1007,7 @@ export default {
         },
         getPrimaryVerifiedActiveEmail() {
             return this.userData.user.emails
-                .filter(a => a.active && a.primary && a.verified)
+                .filter((a) => a.active && a.primary && a.verified)
                 .reduce((result, current, index) => {
                     if (index == 0) {
                         result = current.email;
@@ -1010,7 +1019,8 @@ export default {
             let ref_user = pick(this.userData.user, ['firstName', 'lastName']);
 
             this.userData.user.phone_numbers
-                ? (ref_user.phoneNumber = this.getPrimaryVerifiedActivePhoneNumber())
+                ? (ref_user.phoneNumber =
+                      this.getPrimaryVerifiedActivePhoneNumber())
                 : null;
             this.userData.user.emails
                 ? (ref_user.email = this.getPrimaryVerifiedActiveEmail())
@@ -1022,12 +1032,12 @@ export default {
                 name: 'Lorem ipsum dolor sit amet',
                 banner: {
                     secure_url:
-                        'https://res.cloudinary.com/dwzm9bysq/image/upload/v1584701476/production/system/pointblank/fynd_logo_qgupcq.png'
+                        'https://res.cloudinary.com/dwzm9bysq/image/upload/v1584701476/production/system/pointblank/fynd_logo_qgupcq.png',
                 },
                 logo: {
                     secure_url:
-                        'https://res.cloudinary.com/dwzm9bysq/image/upload/v1584701476/production/system/pointblank/fynd_logo_qgupcq.png'
-                }
+                        'https://res.cloudinary.com/dwzm9bysq/image/upload/v1584701476/production/system/pointblank/fynd_logo_qgupcq.png',
+                },
             };
             this.ref_application_data = ref_application;
         },
@@ -1081,7 +1091,7 @@ export default {
             return {
                 showerror: false,
                 value: val,
-                errortext: ''
+                errortext: '',
             };
         },
         openSendTestSmsModal() {
@@ -1104,10 +1114,11 @@ export default {
         closeSendTestSmsModal() {
             this.showSendTestSmsModal = false;
         },
-        validateMessageContent(){
-            if(!this.data.message.template.value){
+        validateMessageContent() {
+            if (!this.data.message.template.value) {
                 this.data.message.template.showerror = true;
-                this.data.message.template.errortext = 'Message cannot be empty';
+                this.data.message.template.errortext =
+                    'Message cannot be empty';
                 return false;
             } else {
                 this.data.message.template.showerror = false;
@@ -1132,21 +1143,21 @@ export default {
                     published: true,
                     message: {
                         template_type: this.data.message.template_type.value,
-                        template: this.data.message.template.value
-                    }
+                        template: this.data.message.template.value,
+                    },
                 };
                 finalObj = {
                     ...this.smsTemplateStore,
-                    ...finalObj
+                    ...finalObj,
                 };
                 this.removeEmptyFields(finalObj);
                 console.log(finalObj);
-                return finalObj
+                return finalObj;
                 // this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE, {
                 //     data: finalObj
-                // }); 
+                // });
             }
-            },
+        },
         sendSms() {
             this.smsSuccessfullySent = false;
             this.testSms.phone_number = this.testSms.phone_number || {};
@@ -1154,13 +1165,17 @@ export default {
             this.testSms.phone_number.errortext = '';
             this.selectedProvider.showerror = false;
             this.selectedProvider.errortext = '';
-            this.smsSuccessfullySent=false;
+            this.smsSuccessfullySent = false;
             let _id =
                 this.smsTemplateStore && this.smsTemplateStore._id
                     ? this.smsTemplateStore._id
                     : null;
             let mobileNumberRegex = /^\d{10}$/;
-            if (this.testSms && this.testSms.phone_number && this.selectedProvider.value!==" ") {
+            if (
+                this.testSms &&
+                this.testSms.phone_number &&
+                this.selectedProvider.value !== ' '
+            ) {
                 if (!mobileNumberRegex.test(this.testSms.phone_number.value)) {
                     this.testSms.phone_number.showerror = true;
                     this.testSms.phone_number.errortext =
@@ -1173,8 +1188,8 @@ export default {
                                     this.testSms.phone_number.value
                                 ),
                                 country_code: 91,
-                                ...this.json
-                            }
+                                ...this.json,
+                            },
                         ],
                         sms: {
                             template: {
@@ -1184,52 +1199,52 @@ export default {
                                     template_variables: this.json,
                                     published: true,
                                     message: {
-                                        template_type: this.data.message
-                                            .template_type.value,
-                                        template: this.data.message.template
-                                            .value
-                                    }
-                                }
+                                        template_type:
+                                            this.data.message.template_type
+                                                .value,
+                                        template:
+                                            this.data.message.template.value,
+                                    },
+                                },
                             },
-                            provider:{
-                                id:this.selectedProvider.value
-                            }
-                        }
+                            provider: {
+                                id: this.selectedProvider.value,
+                            },
+                        },
                     };
                     CommunicationServices.postSendSync(obj)
-                        .then(data => {
+                        .then((data) => {
                             this.smsSuccessfullySent = true;
                             this.commsCounter += 1;
                             if (this.commsCounter > 9) {
                                 this.disableSendSmsButton = true;
                             }
                         })
-                        .catch(err => {
+                        .catch((err) => {
                             console.log(err);
                         });
                 }
             } else {
-                if(!this.testSms.phone_number.value){
+                if (!this.testSms.phone_number.value) {
                     this.testSms.phone_number = this.testSms.phone_number || {};
                     this.testSms.phone_number.showerror = true;
                     this.testSms.phone_number.errortext =
                         'Mobile Number is invalid';
                 }
-                if(this.selectedProvider.value===" "){
+                if (this.selectedProvider.value === ' ') {
                     this.selectedProvider.showerror = true;
-                    this.selectedProvider.errortext =
-                        'Please select provider';
+                    this.selectedProvider.errortext = 'Please select provider';
                 }
             }
         },
         removeEmptyFields(obj) {
             let keys = Object.keys(obj);
-            keys.forEach(key => {
+            keys.forEach((key) => {
                 if (
                     ['object', 'array', 'string'].indexOf(typeof obj[key]) !=
                         -1 &&
-                    isEmpty(obj[key]) && 
-                    key!=="description"
+                    isEmpty(obj[key]) &&
+                    key !== 'description'
                 ) {
                     delete obj[key];
                 }
@@ -1244,20 +1259,19 @@ export default {
             });
         },
         fetchDefaultSmsProvider() {
-            return CommunicationServices
-                .getSmsDefault()
-                .then(({ data }) => {
-                    let defaultSmsProviders = [
-                        ...(data
-                            ? data.map(v => ({
-                                  text: v.name,
-                                  value: v._id
-                              }))
-                            : []),
-                    ];
-                    this.selectedProvider.value = defaultSmsProviders[0].value || " ";
-                    return defaultSmsProviders;
-                });
+            return CommunicationServices.getSmsDefault().then(({ data }) => {
+                let defaultSmsProviders = [
+                    ...(data
+                        ? data.map((v) => ({
+                              text: v.name,
+                              value: v._id,
+                          }))
+                        : []),
+                ];
+                this.selectedProvider.value =
+                    defaultSmsProviders[0].value || ' ';
+                return defaultSmsProviders;
+            });
         },
     },
 };
