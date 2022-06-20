@@ -78,7 +78,7 @@ const SupportService = {
     getGeneralConfig(){
         return ApiService.get(URLS.GET_GENERAL_CONGIF(), {});
     },
-    GeneralConfig(data) {
+    setGeneralConfig(data) {
         let axiosOption = { data: data };
         return ApiService.post(URLS.GET_GENERAL_CONGIF(), axiosOption);
     },

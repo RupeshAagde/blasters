@@ -30,13 +30,12 @@
                     <div class="checkbox">
                         <nitrozen-checkbox
                             v-model="support_phone.enabled"
-                            
                         ></nitrozen-checkbox>
                     </div>
                     <nitrozen-input
                         class="input"
                         label="Phone number"
-                        v-model="support_phone.key"
+                        v-model="support_phone.value"
                     ></nitrozen-input>
                     <nitrozen-input
                         class="decs"
@@ -49,13 +48,12 @@
                     <div class="checkbox">
                         <nitrozen-checkbox
                             v-model="support_email.enabled"
-                            
                         ></nitrozen-checkbox>
                     </div>
                     <nitrozen-input
                         class="input"
                         label="Email ID"
-                        v-model="support_email.key"
+                        v-model="support_email.value"
                     ></nitrozen-input>
                     <nitrozen-input
                         class="decs"
@@ -68,13 +66,12 @@
                     <div class="checkbox">
                         <nitrozen-checkbox
                             v-model="support_faq.enabled"
-                            
                         ></nitrozen-checkbox>
                     </div>
                     <nitrozen-input
                         class="input"
                         label="FAQ link"
-                        v-model="support_faq.key"
+                        v-model="support_faq.value"
                     ></nitrozen-input>
                     <nitrozen-input
                         class="decs"
@@ -106,7 +103,7 @@
                         Preferred Customer Service Tool
                     </label>
                     <nitrozen-toggle-btn
-                        v-model="supportCommunication"
+                        v-model="integration.enabled"
                     ></nitrozen-toggle-btn>
                 </div>
                 <div class="tool-container">
@@ -114,8 +111,8 @@
                         <div class="left-container">
                             <div class="radio-btn">
                                 <nitrozen-radio
-                                    :radioValue="'charge_automatically'"
-                                    v-model="Select"
+                                    :radioValue="'default'"
+                                    v-model="integration.type"
                                 ></nitrozen-radio>
                             </div>
                             <div class="fynd-icon">
@@ -129,7 +126,7 @@
                                 >
                             </div>
                         </div>
-                        <div v-if="isAvailable" class="right-container">
+                        <div v-if="isAvailable('default')" class="right-container">
                             <div class="config-btn-conatiner">
                                 <nitrozen-button
                                     class="add-btn"
@@ -150,8 +147,8 @@
                         <div class="left-container">
                             <div class="radio-btn">
                                 <nitrozen-radio
-                                    :radioValue="'charge_automatically'"
-                                    v-model="isIntegrationAvailable"
+                                    :radioValue="'freshdesk'"
+                                    v-model="integration.type"
                                 ></nitrozen-radio>
                             </div>
                             <div class="fynd-icon">
@@ -167,17 +164,8 @@
                                 >
                             </div>
                         </div>
-                        <div v-if="isAvailable" class="right-container">
+                        <div v-if="isAvailable('freshdesk')" class="right-container">
                             <div class="config-btn-conatiner">
-                                <nitrozen-button
-                                    class="add-btn"
-                                    v-flat-btn
-                                    :rounded="false"
-                                    :theme="'secondary'"
-                                    @click="addCategory()"
-                                >
-                                    Add categories
-                                </nitrozen-button>
                             </div>
                         </div>
                         <div v-else class="coming-soon-icon">
@@ -188,8 +176,8 @@
                         <div class="left-container">
                             <div class="radio-btn">
                                 <nitrozen-radio
-                                    :radioValue="'charge_automatically'"
-                                    v-model="Select"
+                                    :radioValue="'kapture'"
+                                    v-model="integration.type"
                                 ></nitrozen-radio>
                             </div>
                             <div class="fynd-icon">
@@ -205,17 +193,8 @@
                                 >
                             </div>
                         </div>
-                        <div v-if="isAvailable" class="right-container">
+                        <div v-if="isAvailable('kapture')" class="right-container">
                             <div class="config-btn-conatiner">
-                                <nitrozen-button
-                                    class="add-btn"
-                                    v-flat-btn
-                                    :rounded="false"
-                                    :theme="'secondary'"
-                                    @click="addCategory()"
-                                >
-                                    Add categories
-                                </nitrozen-button>
                             </div>
                         </div>
                         <div v-else class="coming-soon-icon">
@@ -256,24 +235,25 @@ export default {
         return {
             showCommunicationinfo: false,
             showSupportdris: false,
-            isIntegrationAvailable: false,
-            isAvailable: false,
-            Select:false,
-
+            available_integration: [],
+            integration: {
+                enabled: false,
+                type: undefined
+            },
             support_email: {
-                key: '',
+                value: '',
                 description: '',
-                enabled: true,
+                enabled: false,
             },
             support_phone: {
-                key: '',
+                value: '',
                 description: '',
-                enabled: true,
+                enabled: false,
             },
             support_faq: {
-                key: '',
+                value: '',
                 description: '',
-                enabled: true,
+                enabled: false,
             },
         };
     },
@@ -286,70 +266,87 @@ export default {
                 path: `/administrator/support/category/${category.path}`,
             });
         },
+        isAvailable(integration_name) {
+            return this.available_integration.includes(integration_name);
+        },
+        validateEntries(info) {
+            if (info.enabled) {
+                if (!info.value) {
+                    this.$snackbar.global.showError('Please enter the value for your enabled communication channels');
+                    return false;
+                }
+                if (!info.description) {
+                    this.$snackbar.global.showError('Please enter the description for your enabled communication channels');
+                    return false;
+                }
+            }
+            return true;
+        },
         save() {
+            if (!this.validateEntries(this.support_email)) return
+            if (!this.validateEntries(this.support_phone)) return
+            if (!this.validateEntries(this.support_faq)) return
             let data = {
                 show_communication_info: this.showCommunicationinfo,
-                support_email: {
-                    key: this.support_email.key,
-                    description: this.support_email.description,
-                    enabled: this.support_email.enabled,
-                },
-                support_phone: {
-                    key: this.support_phone.key,
-                    description: this.support_phone.description,
-                    enabled: this.support_phone.enabled,
-                },
-                support_faq: {
-                    key: this.support_faq.key,
-                    description: this.support_faq.description,
-                    enabled: this.support_faq.enabled,
-                },
                 show_support_dris: this.showSupportdris,
-                integration: {
-                    enabled: false,
-                },
-                available_integration: [],
+                support_email: this.support_email,
+                support_phone: this.support_phone,
+                support_faq: this.support_faq,
+                integration: this.integration,
             };
-            SupportService.GeneralConfig(data)
-                .then(() => {
+            if (data.integration.enabled && !data.integration.type) {
+                this.$snackbar.global.showError('Please select an integration');
+                return;
+            }
+            if (!data.integration.enabled) {
+                data.integration.type = undefined;
+            }
+            SupportService.setGeneralConfig(data)
+                .then((response) => {
+                    this.setPageData(response.data);
                     this.$snackbar.global.showSuccess(
-                        'Setting changes successfully'
+                        'Settings changed successfully'
                     );
                 })
                 .catch(() => {
-                    this.$snackbar.global.showError('Fails to change setting');
+                    this.$snackbar.global.showError('Failed to change setting');
                 });
+        },
+        setPageData(data) {
+            this.showCommunicationinfo = data.show_communication_info || this.showCommunicationinfo;
+            this.showSupportdris = data.show_support_dris || this.showSupportdris;
+            this.available_integration = data.available_integration || this.available_integration;
+            this.integration.enabled = data.integration && data.integration.enabled
+            this.integration.type = (data.integration && data.integration.type) ? data.integration.type : undefined;
+
+            if (data.support_phone) {
+                let phone = data.support_phone;
+                this.support_phone.value = phone.value || this.support_phone.value;
+                this.support_phone.description = phone.description || this.support_phone.description;
+                this.support_phone.enabled = phone.enabled || this.support_phone.enabled;
+            }
+
+            if (data.support_email) {
+                let email = data.support_email;
+                this.support_email.value = email.value || this.support_email.value;
+                this.support_email.description = email.description || this.support_email.description;
+                this.support_email.enabled = email.enabled || this.support_email.enabled;
+            }
+
+            if (data.support_faq) {
+                let faq = data.support_faq;
+                this.support_faq.value = faq.value || this.support_faq.value;
+                this.support_faq.description = faq.description || this.support_faq.description;
+                this.support_faq.enabled = faq.enabled || this.support_faq.enabled;
+            }
         },
         getGeneralConfiguration() {
             SupportService.getGeneralConfig()
                 .then((response) => {
-                    console.log(response, '>>response');
-                    this.showCommunicationinfo =
-                        response.data.show_communication_info;
-                    this.showSupportdris = response.data.show_support_dris;
-                    this.isIntegrationAvailable =
-                        response.data.available_integration;
-
-                    this.support_phone.key = response.data.support_phone.key;
-                    this.support_phone.description =
-                        response.data.support_phone.description;
-                    this.support_phone.enabled =
-                        response.data.support_phone.enabled;
-
-                    this.support_email.key = response.data.support_email.key;
-                    this.support_email.description =
-                        response.data.support_email.description;
-                    this.support_email.enabled =
-                        response.data.support_email.enabled;
-                        
-                    this.support_faq.key = response.data.support_faq.key;
-                    this.support_faq.description =
-                        response.data.support_faq.description;
-                    this.support_faq.enabled =
-                        response.data.support_faq.enabled;
+                    this.setPageData(response.data);
                 })
                 .catch((err) => {
-                    console.log(err, '>>err');
+                    this.$snackbar.global.showError('Failed to get configuration data');
                 });
         },
     },
@@ -418,6 +415,14 @@ export default {
             justify-content: space-between;
             padding: 16px 24px;
             border-bottom: 1px solid #e0e0e0;
+        }
+        .label {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 140%;
+            color: #41434c;
         }
     }
     .contact-container {
