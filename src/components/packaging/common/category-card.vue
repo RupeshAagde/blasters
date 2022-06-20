@@ -3,14 +3,25 @@
         <div class="category-card-name" :id="'item-name'">
             {{ item.name }}
         </div>
-        <div class="category-card-config-container">
+        <div class="category-card-config-container" >
             <div class="category-config-container">
-                <div class="extra-count" id="extra-count-value">
-                    {{ item.categories.length }}
-                    {{ item.categories.length > 1 ? 'Categories' : 'Category' }}
+                <span>Categories: </span>
+                <div
+                    v-for="(item, index) of splicedCategoryConfig"
+                    :key="'category' + index"
+                    class="config-item"
+                >
+                    <span class="config-item-ellipsis" :title="item.name"> {{ item.name }}</span>
+                </div>
+                <div
+                    class="extra-count"
+                    id="extra-count-value"
+                    v-if="extraCount"
+                >
+                    + {{ extraCount }}
                 </div>
             </div>
-                <div @click="handleEditClicked(item)">
+            <div @click="handleEditClicked(item)">
                 <inline-svg :src="'edit'" class="edit-icon" />
             </div>
         </div>
@@ -21,24 +32,27 @@
 import InlineSvg from '../../common/inline-svg.vue';
 export default {
     name: 'category-card',
-    components:{
+    components: {
         InlineSvg
     },
     props: {
         item: {
             type: Object
         },
-        handleEditClicked:{
+        handleEditClicked: {
             type: Function
+        },
+        l3CategoryList: {
+            type: Array
         }
     },
-    mounted() {
+     mounted() {
         // call function to set state
         this.setDisplayCategories();
     },
     data() {
         return {
-            displayCount: 6,
+            displayCount: 4,
             splicedCategoryConfig: [],
             extraCount: 0
         };
@@ -50,9 +64,16 @@ export default {
          * default display count is taken from state
          */
         setDisplayCategories(count = this.displayCount) {
-            let tempArr = this.item.categories;
-            this.splicedCategoryConfig = tempArr.slice(0, count);
-            this.extraCount = tempArr.length - count;
+            let tempArr = [];
+            this.item.categories.forEach((id) => {
+                let categoryObj = this.l3CategoryList.find((a) => a.uid == id);
+                if (categoryObj) tempArr.push(categoryObj);
+            });
+            this.splicedCategoryConfig = tempArr;
+            if (tempArr.length > count) {
+                this.splicedCategoryConfig = tempArr.slice(0, count);
+                this.extraCount = tempArr.length - count;
+            }
         }
     }
 };
