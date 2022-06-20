@@ -7,25 +7,35 @@
             </div>
         </div>
         <div class="bulk-card-header">
-             <nitrozen-dropdown
-                    :label="'Categories config'"
-                    :tooltip="'Some tool tip text'"
-                    :placeholder="'Select'"
-                    :items="searchableCategoryList"
-                    @change="(val) => handleDropDownSelect(currentIndex, val)"
-                />
-                <div class="default-container">
-                    Default 
-                    <nitrozen-toggle-btn
+            <nitrozen-dropdown
+                :label="'Choose the Categories Config'"
+                :tooltip="
+                    'Select the category whose products can make use of this packaging material in case of a bulk order'
+                "
+                :placeholder="'Select'"
+                :items="searchableCategoryList"
+                @change="(val) => handleDropDownSelect(currentIndex, val)"
+            />
+            <div class="default-container">
+                Default
+                <nitrozen-toggle-btn
                     :value="inputs.toggle.val"
-                    @change="handleToggleChange(currentIndex, inputs.toggle.val)"
+                    @change="
+                        handleToggleChange(currentIndex, inputs.toggle.val)
+                    "
                     :disabled="inputs.toggle.disabled"
                 />
-                </div>
+            </div>
         </div>
         <div class="bulk-card-body">
             <div class="bulk-card-textfield-group">
-                <p>Volumetric Weight</p>
+                <p>
+                    Volumetric Weight
+                    <nitrozen-tooltip
+                        position="top"
+                        tooltipText="The approx. weight of the bulk package, where max. weight is (Length*Breadth*Height/5000) in kg."
+                    />
+                </p>
                 <div class="row-group">
                     <div
                         v-for="(input, index) of Object.keys(
@@ -70,7 +80,13 @@
                 </div>
             </div>
             <div class="bulk-card-textfield-group">
-                <p>Quantity</p>
+                <p>
+                    Quantity
+                    <nitrozen-tooltip
+                        position="top"
+                        tooltipText="The min. and max. quantity of products belonging to the category, that would fit together in the bulk package"
+                    />
+                </p>
                 <div class="row-group">
                     <div
                         v-for="(input, index) of Object.keys(inputs.quantity)"
@@ -111,7 +127,8 @@ import {
     NitrozenInput,
     NitrozenError,
     NitrozenToggleBtn,
-    NitrozenDropdown
+    NitrozenDropdown,
+    NitrozenTooltip
 } from '@gofynd/nitrozen-vue';
 import InlineSvg from '../../common/inline-svg.vue';
 export default {
@@ -121,7 +138,8 @@ export default {
         NitrozenError,
         NitrozenToggleBtn,
         NitrozenDropdown,
-        InlineSvg
+        InlineSvg,
+        NitrozenTooltip
     },
     props: {
         inputs: {
@@ -139,11 +157,11 @@ export default {
         handleDelete: {
             type: Function
         },
-        handleDropDownSelect:{
-            type:Function
+        handleDropDownSelect: {
+            type: Function
         },
-        handleToggleChange:{
-            type:Function
+        handleToggleChange: {
+            type: Function
         }
     }
 };
