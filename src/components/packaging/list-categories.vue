@@ -29,8 +29,10 @@
                     :key="'product-row-' + index"
                 >
                     <category-card
+                        v-if="l3CategoryList.length"
                         :item="item"
                         :handleEditClicked="handleEditClicked"
+                        :l3CategoryList="l3CategoryList"
                     />
                 </div>
             </div>
@@ -137,11 +139,13 @@ export default {
                     let categoryObj = this.l3CategoryList.find(
                         (a) => a.uid == categoryId
                     );
-                    categoryInfo.categoryValue.push(categoryObj.uid);
-                    // add value and text for display purposes
-                    categoryObj.value = categoryObj.uid;
-                    categoryObj.text = categoryObj.name;
-                    categoryInfo.selectedCategories.push(categoryObj);
+                    if (categoryObj) {
+                        categoryInfo.categoryValue.push(categoryObj.uid);
+                        // add value and text for display purposes
+                        categoryObj.value = categoryObj.uid;
+                        categoryObj.text = categoryObj.name;
+                        categoryInfo.selectedCategories.push(categoryObj);
+                    }
                 });
                 // set the store value
                 this.$store.dispatch(EDIT_CATEGORY, categoryInfo);
@@ -164,8 +168,8 @@ export default {
             // only if there is a user input in search pass name param
             if (this.groupCategoryValue.length) {
                 param.q = this.groupCategoryValue;
-                delete param.page_no
-                delete param.page_size
+                delete param.page_no;
+                delete param.page_size;
             }
             return param;
         },
