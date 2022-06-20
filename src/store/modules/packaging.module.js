@@ -151,6 +151,7 @@ const actions = {
     // get L3 categories
     [FETCH_L3_CATEGORIES]({ commit }, params) {
         params.level = 3;
+        params.page_size = 10000;
         return CompanyService.fetchCategory_v2(params)
             .then((res) => {
                 return res.data.items;
