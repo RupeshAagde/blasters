@@ -3,7 +3,7 @@
         <nitrozen-dropdown
             id="l3-dropdown"
             :label="'Default L3 category'"
-            :tooltip="'Some tool tip text'"
+            :tooltip="'Choose the L3 categories you want to group together'"
             :searchable="true"
             :placeholder="'Search or select a category'"
             :multiple="true"

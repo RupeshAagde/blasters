@@ -1,7 +1,7 @@
 <template>
     <div class="list-packaging-container">
         <div class="list-packaging-container-header">
-            Packaging Item List
+            List of Packaging Items
             <div class="add-packaging-btn-container">
                 <nitrozen-button
                     class="add-packaging-btn"
@@ -33,7 +33,7 @@
             <!-- else show no content component -->
             <no-content
                 v-else
-                :helperText="'No packaging list have been created yet.'"
+                :helperText="'List is empty. No packaging created yet.'"
                 :btnText="'Add Packaging'"
                 @tryAgain="handleAddPackaging"
             />

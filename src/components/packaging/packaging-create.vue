@@ -209,7 +209,8 @@ export default {
     data() {
         return {
             searchInput: '',
-            searchTooltipText: 'Tool tip text',
+            searchTooltipText:
+                'Choose an item you wish to use as a packaging material, and fill its details',
             row2Inputs: {
                 length: {
                     label: 'Length (cm)',
@@ -238,25 +239,32 @@ export default {
                     error: ''
                 },
                 weight: {
-                    label: 'Weight(Kg)',
+                    label: 'Weight (in kg)',
                     placeholder: 'Enter weight',
                     value: '',
                     error: '',
                     showToolTip: true,
-                    toolTipText: 'weight Text'
+                    toolTipText:
+                        'Weight of a single packaging material measured in kilograms'
                 },
                 errorRate: {
-                    label: 'Error Rate',
-                    placeholder: '0',
-                    value: '',
-                    error: ''
-                },
-                deadWeight: {
-                    label: 'Dead Weight',
+                    label: 'Error rate (in %)',
                     placeholder: '0',
                     value: '',
                     error: '',
-                    isDisabled: true
+                    toolTipText:
+                        'The percentage of space that would remain unfilled inside the packaging material after putting the product(s)',
+                    showToolTip: true
+                },
+                deadWeight: {
+                    label: 'Dead weight (in kg)',
+                    placeholder: '0',
+                    value: '',
+                    error: '',
+                    isDisabled: true,
+                    toolTipText:
+                        'The volumetric weight of packaging material calculated using the formula (Length*Breadth*Height/5000)',
+                    showToolTip: true
                 }
             },
             l3Checked: false,

@@ -42,7 +42,7 @@
             <!-- else show no content component -->
             <no-content
                 v-else
-                :helperText="'No Category list have been created yet.'"
+                :helperText="'No categories have been added'"
                 :btnText="'Add New Category'"
                 @tryAgain="handleAddCategories"
             />
