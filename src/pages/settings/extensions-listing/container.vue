@@ -327,6 +327,19 @@ export default {
                                     value: []
                                 }
                             )
+
+                            if(section.type === 'extension_item_list') {
+                                let collectionSourceProp = section.props.find(p => p.id === 'collection_source');
+                                collectionSourceProp.options = this.collection;
+                                collectionSourceProp.placeholder = 'Search Collections';
+                                collectionSourceProp.search = true;
+
+                                let extensionProp = section.props.find(p => p.id === 'extension');
+                                extensionProp.predicate_prop = {
+                                    item_source: 'collection',
+                                    collection_source: true
+                                }
+                            }
                         } else if(section.item_type === 'category') {
                             section.props.push(
                                 {
@@ -649,6 +662,16 @@ export default {
                 .catch(error => {
                     console.log("Error in onSearchInputChange while fetching collections:   ", error);
                 });
+            } else if(event.type === 'collection_source') {
+                this.getCollections({name: event.value.text})
+                .then(() => {
+                    let section = this.available_sections.find(sec => sec.type === 'extension_item_list');
+                    let collectionProp = section.props.find(pr => pr.type === 'select' && pr.id === event.type);
+                    collectionProp.options = this.collection;
+                })
+                .catch(error => {
+                    console.log("Error in onSearchInputChange while fetching collections:   ", error);
+                })
             } else if(event.type === 'extension') {
                 this.getPublicExtensions({name: event.value.text})
                 .then(() => {

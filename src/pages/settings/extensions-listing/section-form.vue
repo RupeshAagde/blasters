@@ -143,7 +143,7 @@ export default {
                 }
                 if(prop.predicate_prop) {
                     for(let key in prop.predicate_prop) {
-                        if(key === 'button_label' || key === 'image') {
+                        if(key === 'button_label' || key === 'image' || key === 'collection_source') {
                             if(this.section.data[key].length !== 0) {
                                 prop.display = true;
                             } else {
@@ -185,11 +185,16 @@ export default {
             this.$set(this.section.data, prop.id, inputObj.value);
 
             /* If the item source selected is API, we need to remove existing details info. */
+            let removeSelections = false;
             if(
-                this.section.type === 'extension_item_list' &&
-                prop.id === 'item_source' && 
-                inputObj.value === 'api'
+                this.section.type === 'extension_item_list' && prop.id === 'item_source' &&
+                (inputObj.value === 'api' || inputObj.value === 'collection')
             ) {
+                removeSelections = true;
+            } else removeSelections = false;
+
+            if(removeSelections) {
+                this.$set(this.section.props[this.section.item_type], 'value', []);
                 this.$set(this.section.data, `${this.section.item_type}_details`, []);
                 if(this.itemValues) {
                     this.itemValues.length = 0;
