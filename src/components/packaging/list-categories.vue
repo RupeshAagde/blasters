@@ -164,6 +164,8 @@ export default {
             // only if there is a user input in search pass name param
             if (this.groupCategoryValue.length) {
                 param.q = this.groupCategoryValue;
+                delete param.page_no
+                delete param.page_size
             }
             return param;
         },
