@@ -131,6 +131,13 @@ const PackagingService = {
             envVars.PACKAGING_ADMIN_URL + `product/${_id}`,
             axiosOptions
         );
+    },
+    getPackagingProducts(){
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(
+            envVars.PLATFORM_PRODUCTS.replace('{company_id}',84).replace('{application_id}','629616a1d7c74d3915f8f4e8') ,
+            axiosOptions
+        );
     }
 };
 export default PackagingService;

@@ -7,7 +7,8 @@ import {
     FETCH_PACKAGING_PRODUCTS,
     SAVE_CATEGORY,
     SAVE_PACKAGING_PRODUCT,
-    FETCH_L3_CATEGORIES
+    FETCH_L3_CATEGORIES,
+    FETCH_COMPANY_PRODUCTS
 } from '../action.type';
 
 import {
@@ -157,6 +158,9 @@ const actions = {
             .catch((err) => {
                 return { error: true };
             });
+    },
+    [FETCH_COMPANY_PRODUCTS]({commit},params){
+        return []
     }
 };
 
