@@ -353,7 +353,6 @@ export default {
                 if (!this.validateSection(s)) {
                     this.selectedSectionIndex = -1;
                     this.showSectionForm = false;
-                    console.log(s, idx);
                     this.onSectionClick(s, idx);
                     this.$nextTick(()=>{
                         this.$refs["section-form"].validate();

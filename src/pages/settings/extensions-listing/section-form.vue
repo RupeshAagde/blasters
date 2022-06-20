@@ -301,7 +301,6 @@ export default {
             this.$emit('update-block', this.section);
         },
         validate() {
-            console.log(this.section);
             const itemCount = this.section.item_type? this.section.data[this.section.item_type].length: 0;
             if (this.section.data['item_count'] && parseInt(this.section.data['item_count'])>itemCount) {
                 this.errors["item_count"] = `${parseInt(this.section.data['item_count'])-itemCount} more items required to be selected`;
