@@ -152,7 +152,7 @@ export default {
          */
         setCategoryList(e = {}) {
             this.searchableCategoryList = [];
-            const query = {
+            let query = {
                 is_active: true
             };
 
