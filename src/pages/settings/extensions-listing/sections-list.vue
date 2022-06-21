@@ -53,6 +53,7 @@
             "
             @update-block="updateBlocks"
             @search-input="onSearchInputChange($event)"
+            :ref="'section-form'"
         ></section-form>
 
         <div class="heading">
@@ -345,8 +346,20 @@ export default {
     },
     methods: {
         onSaveButtonClick(e) {
-            let t = cloneDeep(this.mSections);
-            t.forEach((s) => {
+            let sections = cloneDeep(this.mSections);
+
+            for (let idx=0; idx<sections.length; idx++) {
+                const s = sections[idx];
+                if (!this.validateSection(s)) {
+                    this.selectedSectionIndex = -1;
+                    this.showSectionForm = false;
+                    this.onSectionClick(s, idx);
+                    this.$nextTick(()=>{
+                        this.$refs["section-form"].validate();
+                    });
+                    this.$snackbar.global.showError("Missing required data");
+                    return;
+                }
                 s.blocks = s.blocks || [];
                 delete s.isVisible;
 
@@ -357,14 +370,20 @@ export default {
                 delete s.index;
                 delete s.props;
                 delete s.name;
-            });
+            };
 
             this.showSectionForm = false;
 
             this.$emit('save', {
                 config: this.config,
-                sections: t
+                sections: sections
             });
+        },
+        validateSection(section) {
+            if (section.item_type && section.data[section.item_type].length<parseInt(section.data.item_count)) {
+                return false
+            }
+            return true;
         },
         onAddButtonClick() {
             this.showAvailableSections = true;

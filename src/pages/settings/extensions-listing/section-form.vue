@@ -29,6 +29,7 @@
                 </div>
 
                 <div class="selected-items" v-if="itemValues && itemValues.length">
+                    <nitrozen-error class="items-title" v-if="this.errors['item_count']">{{this.errors['item_count']}}</nitrozen-error>
                     <p class="items-title">{{ selectedItemsTitle }}</p>
                     <div>
                         <draggable
@@ -85,6 +86,7 @@
 /* Component imports */
 import AdmInlineSVG from '@/components/common/adm-inline-svg.vue';
 import DynamicInput from './dynamic-input';
+import { NitrozenError } from '@gofynd/nitrozen-vue';
 
 /* Package imports */
 import Draggable from 'vuedraggable';
@@ -102,7 +104,8 @@ export default {
     components: {
         'adm-inline-svg': AdmInlineSVG,
         'dynamic-input': DynamicInput,
-        'draggable': Draggable
+        'draggable': Draggable,
+        'nitrozen-error': NitrozenError
     },
     mounted() {
         this.mSection_data = this.section_data || {};
@@ -147,7 +150,7 @@ export default {
                 if(prop.predicate_prop) {
                     for(let key in prop.predicate_prop) {
                         if(key === 'button_label' || key === 'image' || key === 'collection_source') {
-                            if(this.section.data[key].length !== 0) {
+                            if(!this.section.data[key]) {
                                 prop.display = true;
                             } else {
                                 prop.display = false;
@@ -176,7 +179,10 @@ export default {
             },
             startingIndex: -1,
             movingIndex: -1,
-            itemValues: []
+            itemValues: [],
+            errors: {
+                item_count: ""
+            }
         };
     },
     methods: {
@@ -341,6 +347,14 @@ export default {
             })
 
             this.$emit('update-block', this.section);
+        },
+        validate() {
+            const itemCount = this.section.item_type? this.section.data[this.section.item_type].length: 0;
+            if (this.section.data['item_count'] && parseInt(this.section.data['item_count'])>itemCount) {
+                this.errors["item_count"] = `${parseInt(this.section.data['item_count'])-itemCount} more items required to be selected`;
+                return false
+            }
+            return true;
         }
     }
 }
