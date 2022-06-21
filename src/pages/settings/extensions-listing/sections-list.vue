@@ -380,9 +380,21 @@ export default {
             });
         },
         validateSection(section) {
-            if (section.item_type && section.data[section.item_type].length<parseInt(section.data.item_count)) {
-                return false
+            if(section.type === 'extension_item_list') {
+                if(
+                    section.data.item_source !== 'api' &&
+                    section.data[section.item_type].length !== +section.data.item_count
+                ) {
+                    return false;
+                } else return true;
+            } else if (
+                section.item_type && 
+                section.data[section.item_type].length !== +section.data.item_count
+            ) {
+                return false;
             }
+
+            
             return true;
         },
         onAddButtonClick() {
