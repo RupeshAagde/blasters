@@ -1,7 +1,7 @@
 'use strict';
 import CategoryCard from '@/components/packaging/common/category-card.vue';
 import { mount } from '@vue/test-utils';
-import mocks from '../fixtures';
+import mocks from '../fixtures/mocks';
 let wrapper;
 let item = {
     categories: [2741, 2737, 2741, 2737, 2741, 2737, 2741, 2737, 2741, 2737],
