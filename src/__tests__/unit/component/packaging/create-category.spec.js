@@ -59,10 +59,7 @@ describe('Category config home', () => {
         const resp = wrapper.vm.handleSave();
         let op = {
             categories: [undefined],
-            is_active: false,
             name: 'test value',
-            slug: 'test-value',
-            tags: []
         };
         expect(resp).toStrictEqual(op);
     });

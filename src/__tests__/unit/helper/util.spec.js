@@ -71,6 +71,6 @@ describe('Test suite for packaging related utils', () => {
     });
     it("should test for generateGroupCategoryRequest function",()=>{
         const resp = generateGroupCategoryRequest({categoryName:'Footwear',categories:[1]});
-        expect(resp).toStrictEqual({"categories": [1], "name": "Footwear",is_active:false,tags:[],slug:"footwear"})
+        expect(resp).toStrictEqual({"categories": [1], "name": "Footwear"})
     })
 });

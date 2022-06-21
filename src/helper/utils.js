@@ -576,8 +576,5 @@ export const generateGroupCategoryRequest = (groupCategory) => {
     return {
         name: categoryName,
         categories: categories,
-        slug: convertToSlug(categoryName),
-        is_active : false,
-        tags : [],
     };
 };
