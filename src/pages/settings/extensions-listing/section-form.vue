@@ -109,7 +109,7 @@ export default {
     },
     mounted() {
         this.mSection_data = this.section_data || {};
-        if(this.section.data && this.section.item_type){
+        if(this.section.data && this.section.item_type) {
             this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
 
             let sectionItemTypeProp = this.section_schema.props.find(t => t.id === this.section.item_type);
@@ -149,12 +149,14 @@ export default {
                 }
                 if(prop.predicate_prop) {
                     for(let key in prop.predicate_prop) {
-                        if(key === 'button_label' || key === 'image' || key === 'collection_source') {
+                        if(key === 'button_label' || key === 'image') {
                             if(!this.section.data[key]) {
                                 prop.display = true;
                             } else {
                                 prop.display = false;
                             }
+                        } else if(key === 'collection_source') {
+                            prop.display = this.section.data[key].length > 0 ? true : false;
                         } else {
                             if(this.section.data) {
                                 prop.display = Array.isArray(prop.predicate_prop[key])? prop.predicate_prop[key].includes(this.section.data[key]): this.section.data[key] === prop.predicate_prop[key];
@@ -209,8 +211,7 @@ export default {
             })
         },
         onSectionInputChange(prop, inputObj) {
-            console.log("prop:   ", prop);
-            console.log("inputObj:   ", inputObj);
+
             this.$set(this.section.props, prop.id, inputObj);
             this.$set(this.section.data, prop.id, inputObj.value);
 
@@ -220,32 +221,39 @@ export default {
                 this.section.type === 'extension_item_list' && prop.id === 'item_source' &&
                 (inputObj.value === 'api' || inputObj.value === 'collection')
             ) {
+                if(this.section.data.collection_source) {
+                    this.$set(this.section.data, 'collection_source', '');
+                    this.$set(this.section.props['collection_source'], 'value', '');
+                }
                 removeSelections = true;
             } else removeSelections = false;
 
-            if(this.section.type === 'extension_item_list' && prop.id === 'collection_source' && inputObj.value) {
-                console.log("this.itemValues:   ", this.itemValues);
-                /* Clearing old data */
-                // this.$set(this.section.props[this.section.item_type], 'value', []);
-                // this.$set(this.section.data, `${this.section.item_type}_details`, []);
-                // if(this.itemValues.length) {
-                //     this.itemValues = cloneDeep([]);
-                // }
-                // this.$set(this.section.data, this.section.item_type, []);
+            // if(this.section.type === 'extension_item_list' && prop.id === 'collection_source' && inputObj.value) {
+            //     /* Clearing old data */
+            //     console.log("this.section:   ", this.section);
+            //     this.$set(this.section.props[this.section.item_type], 'value', []);
+            //     this.$set(this.section.props[this.section.item_type], 'details', []);
+            //     this.$set(this.section.data, `${this.section.item_type}_details`, []);
+            //     if(this.itemValues.length) {
+            //         this.itemValues = cloneDeep([]);
+            //     }
+            //     this.$set(this.section.data, this.section.item_type, []);
 
-                this.fetchExtensionsOfCollection(inputObj.value)
-                .then(response => {
-                    let extensionProp = this.section_schema.props.find(p => p.id === this.section.item_type);
-                    extensionProp.options = cloneDeep(response).map(item => {
-                        item.text = item.entity_data.listing_info.name;
-                        item.value = item._id;
-                        return item;
-                    });
-                })
-                .catch(error => {
-                    console.log("error:   ", error);
-                })
-            }
+            //     this.fetchExtensionsOfCollection(inputObj.value)
+            //     .then(response => {
+            //         let extensionProp = this.section_schema.props.find(p => p.id === this.section.item_type);
+            //         extensionProp.options = cloneDeep(response).map(item => {
+            //             item.name = item.listing_info.name;
+            //             item.text = item.listing_info.name;
+            //             item.logo = item.listing_info.icon;
+            //             item.value = item._id;
+            //             return item;
+            //         });
+            //     })
+            //     .catch(error => {
+            //         console.log("error:   ", error);
+            //     })
+            // }                 
 
             if(removeSelections) {
                 this.$set(this.section.props[this.section.item_type], 'value', []);
@@ -254,22 +262,46 @@ export default {
                     this.itemValues.length = 0;
                 }
                 this.$set(this.section.data, this.section.item_type, []);
+                this.$set(this.section, 'items', []);
+            }
+
+            if(this.section.type === 'extension_item_list' && prop.id === 'collection_source' && inputObj.value) {
+                let extensionProp = this.section_schema.props.find(s => s.id === this.section.item_type);
+
+                 this.fetchExtensionsOfCollection(inputObj.value)
+                .then(response => {
+                    extensionProp.options = cloneDeep(response).map(item => {
+                        item.name = item.listing_info.name;
+                        item.text = item.listing_info.name;
+                        item.logo = item.listing_info.icon;
+                        item.value = item.extension_id;
+                        return item;
+                    });
+
+                    extensionProp.predicate_prop = {
+                        item_source: 'collection',
+                        collection_source: true
+                    }
+                })
+                .catch(error => {
+                    console.log("error:   ", error);
+                })
             }
 
             if(inputObj.details) {
-                this.$set(this.section.data, `${prop.id}_details`, inputObj.details);
-                let _data = cloneDeep(this.itemValues);
-                this.itemValues = cloneDeep(this.section.data[`${prop.id}_details`]);
+                    this.$set(this.section.data, `${prop.id}_details`, inputObj.details);
+                    let _data = cloneDeep(this.itemValues);
+                    this.itemValues = cloneDeep(this.section.data[`${prop.id}_details`]);
 
-                if(this.itemValues && this.itemValues.length) {
-                    this.itemValues.map((ele, index) => {
-                        if(!ele) {
-                            this.$set(this.itemValues, index, _data[index]);
-                            this.$set(this.section.data[`${prop.id}_details`], index, _data[index]);
-                        }
-                    })
-                }
-            }
+                    if(this.itemValues && this.itemValues.length) {
+                        this.itemValues.map((ele, index) => {
+                            if(!ele) {
+                                this.$set(this.itemValues, index, _data[index]);
+                                this.$set(this.section.data[`${prop.id}_details`], index, _data[index]);
+                            }
+                        })
+                    }
+                }            
             this.$emit('update-block', this.section);
         },
         onSearchInputChange(prop, searchObj, idx) {

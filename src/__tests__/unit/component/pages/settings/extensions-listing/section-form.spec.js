@@ -1,5 +1,5 @@
 /* Package imports */
-import { mount, createLocalVue } from '@vue/test-utils';
+import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import flushPromises from 'flush-promises';
 
@@ -94,7 +94,7 @@ describe('Section Form Component', () => {
 
     it('should work when input type section is changed', async() => {
         await flushPromises();
-        wrapper = mount(SectionForm, {
+        wrapper = shallowMount(SectionForm, {
             localVue,
             propsData: {
                 section_schema: mockData.inputTypeSectionSchema,

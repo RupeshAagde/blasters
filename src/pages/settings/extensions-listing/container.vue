@@ -336,10 +336,6 @@ export default {
 
                                 let extensionProp = section.props.find(p => p.id === 'extension');
                                 extensionProp.options = [];
-                                extensionProp.predicate_prop = {
-                                    item_source: 'collection',
-                                    collection_source: true
-                                }
                             }
                         } else if(section.item_type === 'category') {
                             section.props.push(
@@ -612,10 +608,16 @@ export default {
                     delete section.items;
 
                     if(section.item_type === 'extension' && section.data[key]) {
-                        let extensionPublicData = cloneDeep(section.data[key]).map(i => {
-                            return i.extension_public_data;
-                        });
-                        section.items = cloneDeep(extensionPublicData);
+                        /* If item_source is collection, then do not take extension_public_data */
+                        if(section.data.item_source && section.data.item_source === 'collection') {
+                            section.items = cloneDeep(section.data[key]);
+                        } else {
+                            let extensionPublicData = cloneDeep(section.data[key]).map(i => {
+                                return i.extension_public_data;
+                            });
+                            section.items = cloneDeep(extensionPublicData);
+                        }
+
                     } else {
                         section.items = cloneDeep(section.data[key]);
                     }

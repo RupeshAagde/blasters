@@ -9983,6 +9983,7 @@ module.exports.sectionsMock = [
             "heading": "MOST RECOMMENDED",
             "title": "Handful of extensions",
             "subtitle": " we suggest for your online business",
+            "item_count": 6,
             "button_label": "View All",
             "button_page_link": "/extensions",
             "button_position": "top_right",
@@ -10159,6 +10160,7 @@ module.exports.sectionsMock = [
             "button_page_link": "/extensions",
             "button_position": "bottom_center",
             "item_source": "manual",
+            "item_count": "6",
             "category": [
                 {
                     "_id": "629461b2e6bf3c5f04e4f63a",
@@ -10201,8 +10203,7 @@ module.exports.sectionsMock = [
                     "value": "Fulfillment"
                 },
                 "Conversion",
-                "Merchandising",
-                "Marketing"
+                "Merchandising"
             ]
         }
     },
@@ -10383,6 +10384,15 @@ module.exports.availableSectionsMock = [
                 "label": "Title",
                 "default": "",
                 "type": "textbox"
+            },
+            {
+                "id": "item_count",
+                "label": "Item Count",
+                "default": "3",
+                "type": "range",
+                "min": 3,
+                "max": 9,
+                "step": 3
             },
             {
                 "id": "subtitle",
@@ -12662,6 +12672,15 @@ module.exports.inputTypeSectionSchema = {
             "default": "",
             "type": "textbox",
             "display": true
+        },
+        {
+            "id": "item_count",
+            "label": "Item Count",
+            "default": "3",
+            "type": "range",
+            "min": 3,
+            "max": 9,
+            "step": 3
         },
         {
             "id": "button_label",

@@ -79,7 +79,11 @@ export default {
                 if(this.addedValues.length === 0) {
                     /* If addedValues is empty */
                     for(let id of e) {
-                        this.selectedValues.push(this.prop_schema.options.find(option => option._id === id));
+                        let detail = this.prop_schema.options.find(option => option._id === id);
+                        if(!detail && this.prop_schema.id === 'extension') {
+                            detail = this.prop_schema.options.find(option => option.extension_id === id);
+                        }
+                        this.selectedValues.push(detail);
                         this.addedValues.push(id);
                     }
                 } else {
