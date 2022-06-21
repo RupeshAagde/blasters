@@ -268,6 +268,15 @@ export default {
             }
 
             if(this.section.type === 'extension_item_list' && prop.id === 'collection_source' && inputObj.value) {
+                this.$set(this.section, 'items', []);
+                this.$set(this.section.props[this.section.item_type], 'value', []);
+                this.$set(this.section.props[this.section.item_type], 'details', []);
+                this.$set(this.section.data, `${this.section.item_type}_details`, []);
+                if(this.itemValues.length) {
+                    this.itemValues = cloneDeep([]);
+                }
+                this.$set(this.section.data, this.section.item_type, []);
+
                 let extensionProp = this.section_schema.props.find(s => s.id === this.section.item_type);
 
                  this.fetchExtensionsOfCollection(inputObj.value)
