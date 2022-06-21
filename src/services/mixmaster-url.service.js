@@ -72,6 +72,9 @@ const URLS = {
     FETCH_PUBLIC_EXTENSIONS: () => {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/extension`);
     },
+    FETCH_COLLECTION_EXTENSIONS: (collectionId) => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection/${collectionId}/items`);
+    }
 };
 
 export default URLS;

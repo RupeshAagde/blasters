@@ -90,6 +90,9 @@ import DynamicInput from './dynamic-input';
 import Draggable from 'vuedraggable';
 import cloneDeep from 'lodash/cloneDeep';
 
+/* Service imports */
+import ExtensionPageService from '@/services/extension-page.service.js';
+
 /* Helper imports */
 import { titleCase } from '../../../helper/utils';
 
@@ -180,7 +183,28 @@ export default {
         onCloseClick(e) {
             this.$emit('close');
         },
+        fetchExtensionsOfCollection(collectionId, query) {
+            let initialQuery = {
+                page_no: 1,
+                page_size: 10
+            };
+
+            let finalQuery = {
+                ...initialQuery,
+                ...query
+            };
+
+            return ExtensionPageService.fetchCollectionExtensions(finalQuery, collectionId)
+            .then(response => {
+                return response.data.items;
+            })
+            .catch(error => {
+                console.log("error:   ", error);
+            })
+        },
         onSectionInputChange(prop, inputObj) {
+            console.log("prop:   ", prop);
+            console.log("inputObj:   ", inputObj);
             this.$set(this.section.props, prop.id, inputObj);
             this.$set(this.section.data, prop.id, inputObj.value);
 
@@ -192,6 +216,30 @@ export default {
             ) {
                 removeSelections = true;
             } else removeSelections = false;
+
+            if(this.section.type === 'extension_item_list' && prop.id === 'collection_source' && inputObj.value) {
+                console.log("this.itemValues:   ", this.itemValues);
+                /* Clearing old data */
+                // this.$set(this.section.props[this.section.item_type], 'value', []);
+                // this.$set(this.section.data, `${this.section.item_type}_details`, []);
+                // if(this.itemValues.length) {
+                //     this.itemValues = cloneDeep([]);
+                // }
+                // this.$set(this.section.data, this.section.item_type, []);
+
+                this.fetchExtensionsOfCollection(inputObj.value)
+                .then(response => {
+                    let extensionProp = this.section_schema.props.find(p => p.id === this.section.item_type);
+                    extensionProp.options = cloneDeep(response).map(item => {
+                        item.text = item.entity_data.listing_info.name;
+                        item.value = item._id;
+                        return item;
+                    });
+                })
+                .catch(error => {
+                    console.log("error:   ", error);
+                })
+            }
 
             if(removeSelections) {
                 this.$set(this.section.props[this.section.item_type], 'value', []);

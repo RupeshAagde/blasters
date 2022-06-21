@@ -335,6 +335,7 @@ export default {
                                 collectionSourceProp.search = true;
 
                                 let extensionProp = section.props.find(p => p.id === 'extension');
+                                extensionProp.options = [];
                                 extensionProp.predicate_prop = {
                                     item_source: 'collection',
                                     collection_source: true
