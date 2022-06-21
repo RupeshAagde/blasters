@@ -91,7 +91,7 @@ const PackagingService = {
      * @type PUT
      * @returns Promise
      */
-    updateGroupCategory(data,slug) {
+    updateGroupCategory(data, slug) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
             data
         });
@@ -132,12 +132,14 @@ const PackagingService = {
             axiosOptions
         );
     },
-    getPackagingProducts(){
+    /**
+     * @author Rohan Shah
+     * @description Calls the API to get company products
+     * @returns Promise
+     */
+    getAppProducts() {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
-        return ApiService.get(
-            envVars.PLATFORM_PRODUCTS.replace('{company_id}',84).replace('{application_id}','629616a1d7c74d3915f8f4e8') ,
-            axiosOptions
-        );
+        return ApiService.get(envVars.APP_PRODUCTS, axiosOptions);
     }
 };
 export default PackagingService;

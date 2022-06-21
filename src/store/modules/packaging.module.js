@@ -154,7 +154,15 @@ const actions = {
             });
     },
     [FETCH_COMPANY_PRODUCTS]({ commit }, params) {
-        return [];
+        return PackagingService.getAppProducts(params)
+            .then((res) => {
+                return res.data;
+            })
+            .catch((err) => {
+                return {
+                    error: true
+                };
+            });
     }
 };
 
