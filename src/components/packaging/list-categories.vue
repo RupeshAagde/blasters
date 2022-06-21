@@ -65,7 +65,6 @@ import { NitrozenButton, NitrozenPagination } from '@gofynd/nitrozen-vue';
 import {
     CLEAR_CATEGORY,
     EDIT_CATEGORY,
-    FETCH_COMPANY_PRODUCTS,
     FETCH_GROUP_CATEGORIES,
     FETCH_L3_CATEGORIES
 } from '../../store/action.type';
