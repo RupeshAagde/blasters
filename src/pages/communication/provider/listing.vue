@@ -554,8 +554,9 @@ export default {
         };
     },
     mounted() {
-        this.fetchSmsProviders()
-        this.fetchEmailProviders()
+        //this.fetchEmailProviders()
+        //this.fetchSmsProviders()
+        this.fetchDataBasedOnGroupIndex()
         this.providersFiltered = Object.assign([], this.providersList);
         this.wizardSelectedItem = {
             group: this.providersFiltered[0].group,
@@ -572,7 +573,6 @@ export default {
             this.showCreateModal = true;
         },
         closeCreateModal() {
-        console.log('hi')
             this.showCreateModal = false;
         },
          openModal() {
@@ -626,25 +626,27 @@ export default {
             });
         },
         onSearchInputChange(e) {
-            let searchText = e.target.value;
-            searchText = searchText.toLowerCase();
-            if (searchText == '') {
-                this.providersFiltered = this.providersList;
-            } else {
-                let providersList = cloneDeep(this.providersList);
-                this.providersFiltered = [];
-                providersList.forEach(providerGroup => {
-                    let children = providerGroup.children.filter(child => {
-                        return (
-                            child.name.toLowerCase().indexOf(searchText) > -1
-                        );
-                    });
-                    if (children.length > 0) {
-                        providerGroup.children = children;
-                        this.providersFiltered.push(providerGroup);
-                    }
-                });
-            }
+            // console.log(e);
+            // console.log('hi');
+            // let searchText = e.target.value;
+            // searchText = searchText.toLowerCase();
+            // if (searchText == '') {
+            //     this.providersFiltered = this.providersList;
+            // } else {
+            //     let providersList = cloneDeep(this.providersList);
+            //     this.providersFiltered = [];
+            //     providersList.forEach(providerGroup => {
+            //         let children = providerGroup.children.filter(child => {
+            //             return (
+            //                 child.name.toLowerCase().indexOf(searchText) > -1
+            //             );
+            //         });
+            //         if (children.length > 0) {
+            //             providerGroup.children = children;
+            //             this.providersFiltered.push(providerGroup);
+            //         }
+            //     });
+            // }
         },
         onCreateModalSelect(id, item) {
             this.wizardSelectedItem = item;
@@ -684,7 +686,6 @@ export default {
                     this.pageLoading = false;
                     this.pageError = false;
                     this.emailProvidersStore = data.data
-                    console.log(this.emailProvidersStore);
                     this.setPagination();
                 })
                 .finally(() => {
@@ -729,7 +730,6 @@ export default {
                 });
         },
         setPagination() {
-            console.log(this.emailProvidersStore.page.size);
             if (this.activeGroupIndex == 0) {
                 this.pagination = {
                     limit: this.emailProvidersStore.page.size,
@@ -743,15 +743,16 @@ export default {
                     current: this.smsProvidersStore.page.current
                 };
             }
-            this.$router.replace({
-                name: 'providerList',
-                query: {
-                    ...this.$route.query,
-                    limit: this.pagination.limit,
-                    current: this.pagination.current
-                }
-            })
-            .catch(()=>{})
+            // this.$router.replace({
+            //     name: 'providerList',
+            //     query: {
+            //         ...this.$route.query,
+            //         limit: this.pagination.limit,
+            //         current: this.pagination.current
+            //     }
+            // })
+            // .catch(()=>{})
+            
         },
         changeGroupIndex(item) {
             this.activeGroupIndex = item.index;

@@ -12,6 +12,7 @@ import ProvidersMock from '../fixtures/providers.json'
 let localVue, wrapper, router;
 const mock = new MockAdapter(axios);
 
+
 describe('Email Providers listing', () => {
     beforeEach(async() => {
         localVue = createLocalVue();
@@ -27,21 +28,24 @@ describe('Email Providers listing', () => {
         })
         mock.onGet(ADMIN_URLS.EMAIL_PROVIDER()).reply(200, ProvidersMock.emailProvidersListing);
         mock.onGet(ADMIN_URLS.SMS_PROVIDER()).reply(200, ProvidersMock.smsProvidersListing);
-
         await new Promise(resolve => setTimeout(resolve, 10));
+
+        
     });
 
     it('listing', async () => {
         expect(wrapper.element).toMatchSnapshot();
     });
-    it('is a vue instance', async() => {
-        expect(wrapper.exists()).toBeTruthy();
-        const div = wrapper.find('div');
-        expect(div.exists()).toBe(true);
-    })
-    it('Load email providers', async () => {
-        await new Promise(resolve => setTimeout(resolve, 10));
+    // it('is a vue instance', async() => {
+    //     expect(wrapper.exists()).toBeTruthy();
+    //     const div = wrapper.find('div');
+    //     expect(div.exists()).toBe(true);
+    // })
+    it('Load providers', async () => {
+        
         wrapper.vm.$nextTick();
         expect(wrapper.vm.emailProvidersStore.items.length).toBe(2)
+        wrapper.vm.activeGroupIndex = 1
+        wrapper.vm.fetchSmsProviders()
     });
 })
