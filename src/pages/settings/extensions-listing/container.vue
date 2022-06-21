@@ -321,7 +321,7 @@ export default {
                                     multiple: true,
                                     search: true,
                                     predicate_prop: {
-                                        item_source: 'manual'
+                                        item_source: ['collection' ,'manual']
                                     },
                                     placeholder: 'Search Extensions',
                                     value: []
