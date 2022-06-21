@@ -90,7 +90,11 @@ export default {
                     /* Add new values to the addedValues and selectedValues array */
                     let remainingValues = e.filter(id => !this.addedValues.includes(id));
                     for(let id of remainingValues) {
-                        this.selectedValues.push(this.prop_schema.options.find(option => option._id === id));
+                        let detail = this.prop_schema.options.find(option => option._id === id);
+                        if(!detail && this.prop_schema.id === 'extension') {
+                            detail = this.prop_schema.options.find(option => option.extension_id === id);
+                        }
+                        this.selectedValues.push(detail);
                         this.addedValues.push(id);
                     }
                 }
