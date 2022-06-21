@@ -10,12 +10,11 @@
         </span>
         <nitrozen-dropdown
             :items="prop_schema.options"
-            v-model="mValue"
             :placeholder="placeholder"
             @change="onChange($event)"
             :multiple="multipleEnabled"
             :searchable="searchEnabled"
-            :value="mValue"
+            :value="this.prop.value"
             @input="onInput($event)"
             @searchInputChange="onSearchInputChange($event)"
         ></nitrozen-dropdown>
@@ -35,20 +34,8 @@ export default {
         'nitrozen-dropdown': NitrozenDropdown
     },
     props: ['prop_schema', 'prop', 'name', 'items'],
-    mounted() {
-        this.mValue = this.prop.value || this.prop_schema.default || '';
-    },
-    watch: {
-        prop: {
-            deep: true,
-            handler() {
-                this.mValue = this.prop.value || this.prop_schema.default || '';
-            }
-        }
-    },
     data() {
         return {
-            mValue: '',
             selectedValues: [],
             addedValues: []
         };
