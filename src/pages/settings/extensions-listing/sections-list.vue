@@ -353,11 +353,13 @@ export default {
                 if (!this.validateSection(s)) {
                     this.selectedSectionIndex = -1;
                     this.showSectionForm = false;
-                    this.onSectionClick(s, idx);
                     this.$nextTick(()=>{
-                        this.$refs["section-form"].validate();
+                        this.onSectionClick(s, idx);
+                        this.$nextTick(()=>{
+                            this.$refs["section-form"].validate();
+                        });
                     });
-                    this.$snackbar.global.showError("Missing required data");
+                    this.$snackbar.global.showError("Missing or invalid data");
                     return;
                 }
                 s.blocks = s.blocks || [];

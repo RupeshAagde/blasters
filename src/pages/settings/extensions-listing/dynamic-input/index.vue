@@ -7,10 +7,12 @@
             v-bind="{ prop_schema, prop, name, page, items }"
             v-if="propSchema.display"
         ></component>
+        <nitrozen-error v-if="error">{{error}}</nitrozen-error>
     </div>
 </template>
 
 <script>
+import { NitrozenError } from "@gofynd/nitrozen-vue";
 export default {
     props: {
         prop_schema: {
@@ -29,9 +31,14 @@ export default {
         items: {
             type: Array,
             default: () => []
+        },
+        error: {
+            type: String
         }
     },
-    components: {},
+    components: {
+        'nitrozen-error' : NitrozenError
+    },
     computed: {
         propSchema() {
             return this.prop_schema;

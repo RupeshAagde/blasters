@@ -23,13 +23,14 @@
                         :name="`section-${section.name}-${i}`"
                         :page="page"
                         :items="section.items"
+                        :error="errors[prop_schema.id]"
+                        :ref="prop_schema.id"
                         @change="onSectionInputChange(prop_schema, $event)"
                         @searchInputChange="onSearchInputChange(prop_schema, $event, i)"
                     />
                 </div>
 
                 <div class="selected-items" v-if="itemValues && itemValues.length">
-                    <nitrozen-error class="items-title" v-if="this.errors['item_count']">{{this.errors['item_count']}}</nitrozen-error>
                     <p class="items-title">{{ selectedItemsTitle }}</p>
                     <div>
                         <draggable
@@ -185,9 +186,7 @@ export default {
             startingIndex: -1,
             movingIndex: -1,
             itemValues: [],
-            errors: {
-                item_count: ""
-            }
+            errors: {}
         };
     },
     methods: {
@@ -394,8 +393,8 @@ export default {
         },
         validate() {
             const itemCount = this.section.item_type? this.section.data[this.section.item_type].length: 0;
-            if (this.section.data['item_count'] && parseInt(this.section.data['item_count'])>itemCount) {
-                this.errors["item_count"] = `${parseInt(this.section.data['item_count'])-itemCount} more items required to be selected`;
+            if (this.section.data['item_count'] && parseInt(this.section.data['item_count']) != itemCount) {
+                this.$set(this.errors, this.section.item_type , `Selected items count should be ${this.section.data['item_count']}`);
                 return false
             }
             return true;
