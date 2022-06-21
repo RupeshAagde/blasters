@@ -118,7 +118,7 @@ export default {
                 if (res.error) {
                     return this.$snackbar.global.showError(
                         // only if the status code is 409 show the duplicate error else show generic error
-                        res.statusCode == 400
+                        res.statusCode == 409
                             ? res.msg
                             : 'Something went wrong. Failed to add new Category'
                     );

@@ -131,7 +131,7 @@ const actions = {
                 return {
                     error: true,
                     statusCode: err.response.status,
-                    msg: err.response.data
+                    msg: err.response.data.message
                 };
             });
     },
