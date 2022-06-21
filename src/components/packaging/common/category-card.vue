@@ -3,15 +3,21 @@
         <div class="category-card-name" :id="'item-name'">
             {{ item.name }}
         </div>
-        <div class="category-card-config-container" >
+        <div class="category-card-config-container">
             <div class="category-config-container">
-                <span>Categories: </span>
+                <span id="category-name">Categories: </span>
                 <div
                     v-for="(item, index) of splicedCategoryConfig"
                     :key="'category' + index"
                     class="config-item"
                 >
-                    <span class="config-item-ellipsis" :title="item.name"> {{ item.name }}</span>
+                    <span
+                        class="config-item-ellipsis"
+                        :title="item.name"
+                        :id="'item-name-row' + index"
+                    >
+                        {{ item.name }}</span
+                    >
                 </div>
                 <div
                     class="extra-count"
@@ -21,7 +27,7 @@
                     + {{ extraCount }}
                 </div>
             </div>
-            <div @click="handleEditClicked(item)">
+            <div @click="handleEditClicked(item)" id="edit-click">
                 <inline-svg :src="'edit'" class="edit-icon" />
             </div>
         </div>
@@ -46,7 +52,7 @@ export default {
             type: Array
         }
     },
-     mounted() {
+    mounted() {
         // call function to set state
         this.setDisplayCategories();
     },
