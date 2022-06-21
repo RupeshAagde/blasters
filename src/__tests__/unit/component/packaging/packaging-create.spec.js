@@ -2,9 +2,12 @@
 import PackagingCreate from '@/components/packaging/packaging-create.vue';
 import { mount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import { GET_PACKAGING_PRODUCTS,GET_EDIT_PRODUCT } from '../../../../store/getters.type';
+import {
+    GET_PACKAGING_PRODUCTS,
+    GET_EDIT_PRODUCT
+} from '../../../../store/getters.type';
 import { FETCH_L3_CATEGORIES } from '../../../../store/action.type';
-import mocks from './fixtures';
+import mocks from './fixtures/mocks';
 let wrapper;
 let category = {
     id: 1,
@@ -20,13 +23,13 @@ let store = new Vuex.Store({
                 async [GET_PACKAGING_PRODUCTS](data) {
                     return mocks.products;
                 },
-                async [GET_EDIT_PRODUCT](){
-                    return {}
+                async [GET_EDIT_PRODUCT]() {
+                    return {};
                 }
             },
-            actions:{
-                async [FETCH_L3_CATEGORIES](data){
-                    return mocks.l3Categories
+            actions: {
+                async [FETCH_L3_CATEGORIES](data) {
+                    return mocks.l3Categories;
                 }
             }
         },
@@ -34,8 +37,8 @@ let store = new Vuex.Store({
     }
 });
 const sleep = async (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+    return new Promise((resolve) => setTimeout(resolve, ms));
+};
 describe('Packaging Create', () => {
     beforeEach(async () => {
         wrapper = mount(PackagingCreate, { localVue, store });
@@ -59,11 +62,54 @@ describe('Packaging Create', () => {
         input.element.value = 'test value';
         input.trigger('input');
         expect(wrapper.vm.searchInput).toBe('test value');
-        expect(wrapper.vm.searchTooltipText).toBe("Choose an item you wish to use as a packaging material, and fill its details");
+        expect(wrapper.vm.searchTooltipText).toBe(
+            'Choose an item you wish to use as a packaging material, and fill its details'
+        );
     });
     it('should check for checkGroupCategoryError', async () => {
         const resp = await wrapper.vm.checkGroupCategoryError();
         expect(resp).toBe(false);
+    });
+    it('should check for checkGroupCategoryError to be true', async () => {
+        wrapper.vm.bulkPackaging = [
+            {
+                toggle: {
+                    val: false,
+                    disabled: false
+                },
+                categoryConfig: '1',
+                volumetricWeight: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    }
+                },
+                quantity: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Quantity',
+                        value: '1',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Quantity',
+                        value: '1',
+                        error: ''
+                    }
+                }
+            }
+        ];
+        const resp = await wrapper.vm.checkGroupCategoryError();
+        expect(resp).toBe(true);
     });
     it('should simulate changes in the row2 inputs', () => {
         wrapper.vm.handleChange('row2Inputs', 'length', 1);
@@ -110,42 +156,359 @@ describe('Packaging Create', () => {
         expect(resp).toBe(false);
     });
     it('should test the savePackagingOrder', () => {
-        wrapper.vm.savePackagingOrder();
+        wrapper.vm.bulkPackaging = [
+            {
+                toggle: {
+                    val: false,
+                    disabled: false
+                },
+                categoryConfig: '1',
+                volumetricWeight: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    }
+                },
+                quantity: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Quantity',
+                        value: '1',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Quantity',
+                        value: '1',
+                        error: ''
+                    }
+                }
+            }
+        ];
+        const resp = wrapper.vm.savePackagingOrder();
+        expect(resp).toStrictEqual({
+            data: {
+                dead_weight_in_kg: '',
+                error_rate: '',
+                height: '',
+                is_bulk: false,
+                is_l3_specific: false,
+                item_id: '',
+                length: '',
+                orderThreshold: '',
+                weight: '',
+                width: ''
+            },
+            isEdit: false
+        });
     });
     it('should test for input field simulation and data being set in state', async () => {
         const input = wrapper.find('#select-packaging');
         input.element.value = '5 Ply Corrugated';
         await input.trigger('input');
         expect(wrapper.vm.searchInput).toBe('5 Ply Corrugated');
-        expect(wrapper.vm.searchTooltipText).toBe("Choose an item you wish to use as a packaging material, and fill its details");
-        sleep(1500).then(()=>{
+        expect(wrapper.vm.searchTooltipText).toBe(
+            'Choose an item you wish to use as a packaging material, and fill its details'
+        );
+        sleep(1500).then(() => {
             expect(wrapper.vm.showSearchList).toBe(true);
-            console.log(wrapper.vm.searchedProductList)
+            console.log(wrapper.vm.searchedProductList);
             expect(wrapper.vm.searchedProductList.length).toBe(1);
-        })
+        });
     });
-    it("should check for mapping of searchable list",()=>{
-
-        wrapper.vm.searchedProductList = [{
-            image:
-                'https://hdn-1.addsale.com/addsale/products/pictures/item/free/270x0/rollup/5PLY_CB_M_221816/0/X-AZmPfOn9-5PLY_CB_M_221816.jpg',
-            name: '5 Ply Corrugated box (22 X 18 x 16 inch ) - Pack of 10',
-            dimension: '22 X 18 x 16 inch'
-        },
-        {
-            image:
-                'https://hdn-1.addsale.com/addsale/products/pictures/item/free/270x0/rollup/5PLY_CB_M_221816/0/X-AZmPfOn9-5PLY_CB_M_221816.jpg',
-            name: '3 ply corrugated box [13.5 x 12 x 3 Inch] - pack of 25',
-            dimension: '22 X 18 x 16 inch'
-        }]
-        wrapper.vm.showSearchList = true
-        expect(wrapper.vm.showSearchList).toBe(true)
-        expect(wrapper.vm.searchedProductList.length).toBe(2)
-        // expect(wrapper.find('#product-not-found').element.textContent).toBe("")
-        // wrapper.vm.searchedProductList.forEach((item,index)=>{
-        //     expect(wrapper.find('#packaging-image'+index).attributes().src).toBe(item.image)
-        //     expect(wrapper.find('#packaging-name'+index).element.textContent).toBe(item.name)
-        //     expect(wrapper.find('#packaging-dimension'+index).element.textContent).toBe(item.dimension)
-        // })
+    it('should check for mapping of searchable list', () => {
+        wrapper.vm.searchedProductList = [
+            {
+                image:
+                    'https://hdn-1.addsale.com/addsale/products/pictures/item/free/270x0/rollup/5PLY_CB_M_221816/0/X-AZmPfOn9-5PLY_CB_M_221816.jpg',
+                name: '5 Ply Corrugated box (22 X 18 x 16 inch ) - Pack of 10',
+                dimension: '22 X 18 x 16 inch'
+            },
+            {
+                image:
+                    'https://hdn-1.addsale.com/addsale/products/pictures/item/free/270x0/rollup/5PLY_CB_M_221816/0/X-AZmPfOn9-5PLY_CB_M_221816.jpg',
+                name: '3 ply corrugated box [13.5 x 12 x 3 Inch] - pack of 25',
+                dimension: '22 X 18 x 16 inch'
+            }
+        ];
+        wrapper.vm.showSearchList = true;
+        expect(wrapper.vm.showSearchList).toBe(true);
+        expect(wrapper.vm.searchedProductList.length).toBe(2);
+    });
+    it('should test for no error message', async () => {
+        wrapper.vm.bulkPackaging = [
+            {
+                toggle: {
+                    val: false,
+                    disabled: false
+                },
+                categoryConfig: '1',
+                volumetricWeight: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    }
+                },
+                quantity: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Quantity',
+                        value: '1',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Quantity',
+                        value: '1',
+                        error: ''
+                    }
+                }
+            }
+        ];
+        const resp = await wrapper.vm.checkGroupCategoryError();
+        expect(resp).toBe(true);
+    });
+    it('should test for setCategoryList', () => {
+        wrapper.vm.setCategoryList({ text: 'some text' });
+    });
+    it('should test for handlePackagingProductClicked', () => {
+        wrapper.vm.handlePackagingProductClicked({
+            item_id: '123',
+            product: { name: 'product' }
+        });
+        expect(wrapper.vm.selectedPackage).toBe('123');
+        expect(wrapper.vm.packagingSelected).toBe(true);
+        expect(wrapper.vm.showSearchList).toBe(false);
+        expect(wrapper.vm.searchInput).toBe('product');
+        expect(wrapper.vm.searchedProductList).toStrictEqual([]);
+    });
+    it('should test handleBulkChange', () => {
+        wrapper.vm.bulkPackaging = [
+            {
+                toggle: {
+                    val: false,
+                    disabled: false
+                },
+                categoryConfig: '1',
+                volumetricWeight: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    }
+                },
+                quantity: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Quantity',
+                        value: '1',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Quantity',
+                        value: '1',
+                        error: ''
+                    }
+                }
+            }
+        ];
+        wrapper.vm.handleBulkChange('volumetricWeight', 'minimum', 12, 0);
+        expect(wrapper.vm.bulkPackaging[0].volumetricWeight.minimum.value).toBe(
+            12
+        );
+        expect(wrapper.vm.bulkPackaging[0].volumetricWeight.minimum.error).toBe(
+            ''
+        );
+    });
+    it('should test for handleBulkBlur', () => {
+        wrapper.vm.bulkPackaging = [
+            {
+                toggle: {
+                    val: false,
+                    disabled: false
+                },
+                categoryConfig: '1',
+                volumetricWeight: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    }
+                },
+                quantity: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Quantity',
+                        value: '1',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Quantity',
+                        value: '1',
+                        error: ''
+                    }
+                }
+            }
+        ];
+        wrapper.vm.handleBulkBlur('volumetricWeight', 'minimum', 0);
+        expect(wrapper.vm.bulkPackaging[0].volumetricWeight.minimum.value).toBe(
+            ''
+        );
+        expect(wrapper.vm.bulkPackaging[0].volumetricWeight.minimum.error).toBe(
+            'Minimum should have some value'
+        );
+    });
+    it('should call the handleBulkToggle', () => {
+        wrapper.vm.bulkPackaging = [
+            {
+                toggle: {
+                    val: false,
+                    disabled: false
+                },
+                categoryConfig: '1',
+                volumetricWeight: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    }
+                },
+                quantity: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Quantity',
+                        value: '1',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Quantity',
+                        value: '1',
+                        error: ''
+                    }
+                }
+            },
+            {
+                toggle: {
+                    val: false,
+                    disabled: false
+                },
+                categoryConfig: '1',
+                volumetricWeight: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    }
+                },
+                quantity: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Quantity',
+                        value: '1',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Quantity',
+                        value: '1',
+                        error: ''
+                    }
+                }
+            }
+        ];
+        wrapper.vm.handleBulkToggle(0, true);
+        expect(wrapper.vm.bulkPackaging[0].toggle.val).toBe(false);
+        expect(wrapper.vm.bulkPackaging[0].toggle.disabled).toBe(false);
+        wrapper.vm.handleBulkToggle(0, false);
+        expect(wrapper.vm.bulkPackaging[0].toggle.val).toBe(true);
+        expect(wrapper.vm.bulkPackaging[0].toggle.disabled).toBe(false);
+    });
+    it("should check for handleBulkDropdown",()=>{
+        wrapper.vm.bulkPackaging = [
+            {
+                toggle: {
+                    val: false,
+                    disabled: false
+                },
+                categoryConfig: '1',
+                volumetricWeight: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Volumetric Weight',
+                        value: '',
+                        error: ''
+                    }
+                },
+                quantity: {
+                    minimum: {
+                        label: 'Minimum',
+                        placeholder: 'Minimum Quantity',
+                        value: '1',
+                        error: ''
+                    },
+                    maximum: {
+                        label: 'Maximum',
+                        placeholder: 'Maximum Quantity',
+                        value: '1',
+                        error: ''
+                    }
+                }
+            }
+        ];
+        wrapper.vm.handleBulkDropdown(0,1)
+        expect(wrapper.vm.bulkPackaging[0].categoryConfig).toBe(1)
     })
 });
