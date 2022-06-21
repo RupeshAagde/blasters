@@ -109,7 +109,6 @@ export default {
         this.$store.dispatch(CLEAR_CATEGORY);
         // get products by calling the action
         await this.fetchCategories();
-        this.$store.dispatch(FETCH_COMPANY_PRODUCTS);
         await this.fetchL3Categories();
     },
     methods: {
