@@ -1,13 +1,17 @@
 'use strict';
 import CreatePackaging from '@/pages/packaging/create-packaging.vue'
-import { mount } from '@vue/test-utils';
+import { createLocalVue, mount } from '@vue/test-utils';
 import PackagingCreate from '@/components/packaging/packaging-create.vue'
 import BaseModal from '@/components/common/dialogs/base-modal.vue';
+import VueRouter from 'vue-router';
 
 let wrapper
-describe('Category config home', () => {
+const localVue = createLocalVue()
+localVue.use(VueRouter);
+let router = new VueRouter()
+describe('Category packaging home', () => {
     beforeEach(async() => {
-        wrapper=mount(CreatePackaging);
+        wrapper=mount(CreatePackaging,{localVue,router});
     })
     it('should render to a snapshot', () => {
         expect(wrapper.element).toMatchSnapshot();
@@ -37,5 +41,8 @@ describe('Category config home', () => {
         expect(wrapper.find('#modal-body-text').element.textContent.trim()).toBe('Packaging has been succesfully added to the list')
         expect(wrapper.find('#modal-btn').element.textContent.trim()).toBe('Thank you')
         await wrapper.find('#modal-btn').trigger('click')
+    })
+    it("should test for goBack",()=>{
+        wrapper.vm.goBack()
     })
 });
