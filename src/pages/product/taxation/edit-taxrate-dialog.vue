@@ -29,7 +29,6 @@
                                 type="number"
                                 placeholder="cess value (optional)"
                                 v-model="editableRate[0].cess"
-                                @input=""
                             ></nitrozen-input>
                             <nitrozen-error v-if="slabOneErr.cess.showerror">
                                 {{ slabOneErr.cess.errortext }}
@@ -46,7 +45,6 @@
                                 type="number"
                                 placeholder="eg. 99999"
                                 v-model="editableRate[0].threshold"
-                                @input=""
                                 :custom="true"
                                 :showPrefix="true"
                             >
@@ -112,7 +110,6 @@
                                 type="number"
                                 placeholder="cess value (optional)"
                                 v-model="editableRate[1].cess"
-                                @input=""
                             ></nitrozen-input>
                             <nitrozen-error v-if="slabTwoErr.cess.showerror">
                                 {{ slabTwoErr.cess.errortext }}
@@ -128,7 +125,6 @@
                                 type="number"
                                 placeholder="eg. 99999rs"
                                 v-model="editableRate[1].threshold"
-                                @input=""
                                 :custom="true"
                                 :showPrefix="true"
                             >

@@ -15,7 +15,7 @@
                     :theme="'secondary'"
                     class="rdr-btn"
                     v-flatBtn
-                    @click="redirectEdit"
+                    @click="debounceredirectEdit"
                 >
                     Add Tax Rate
                 </nitrozen-button>
@@ -200,6 +200,7 @@ export default {
             return new Promise((resolve, reject) => {
                 AdminService.getAllHsnCodes(params)
                     .then(({ data }) => {
+                        this.pageError = false;
                         this.pageLoading = false;
                         this.pagination.total = data.page.item_total;
                         this.hsnCodes = data.items;
@@ -224,6 +225,9 @@ export default {
                 path: path.join(this.$route.path, redirectPath)
             });
         },
+        debounceredirectEdit: debounce(function(e) {
+            this.redirectEdit();
+        }, 300),
         paginationChange(filter, action) {
             const { current, limit } = filter;
 
@@ -233,6 +237,7 @@ export default {
             this.getHSNCodes();
         },
         applyFilter(type) {
+            this.pagination = { ...PAGINATION };
             if (type == 'all') {
                 this.setRouteQuery({ type: undefined });
             } else {

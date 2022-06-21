@@ -31,10 +31,12 @@
                         label="HSN Code"
                         :disabled="editMode"
                         required
-                        type="text"
+                        :type="'text'"
+                        :maxlength="8"
                         placeholder="For eg. 61152010"
+                        :value="hsn_code.value"
                         v-model="hsn_code.value"
-                        @input="validateHSNCode"
+                        @input="validateNumber($event)"
                     ></nitrozen-input>
                     <nitrozen-error v-if="hsn_code.showerror">
                         {{ hsn_code.errortext }}
@@ -50,7 +52,6 @@
                         placeholder="For eg. 61152010"
                         v-model="reporting_hsn"
                         :disabled="true"
-                        @input=""
                     ></nitrozen-input>
                 </div>
             </div>
@@ -517,7 +518,7 @@ export default {
             this.datedTax = {};
 
             for (let item of this.taxes.value) {
-                const a = item.effective_date
+                const a = item.effective_date;
                 let date_key = item.effective_date;
                 date_key = date_key.split('T')[0];
                 if (date_key in datedTax) {
@@ -573,12 +574,15 @@ export default {
         },
         saveForm() {
             let postData = {};
-            if (this.hsn_code.value !== '' && this.hsn_code.value.length==8) {
+            if (this.hsn_code.value !== '' && this.hsn_code.value.length == 8) {
                 this.hsn_code.showerror = false;
                 postData.hsn_code = this.hsn_code.value;
-            } else if (this.hsn_code.value !== '' && this.hsn_code.value.length!=8){
+            } else if (
+                this.hsn_code.value !== '' &&
+                this.hsn_code.value.length != 8
+            ) {
                 this.hsn_code.showerror = true;
-                this.hsn_code.errortext = "HSN code must be of 8 digits";
+                this.hsn_code.errortext = 'HSN code must be of 8 digits';
             } else {
                 this.hsn_code.showerror = true;
             }
@@ -595,17 +599,18 @@ export default {
                 this.country_code.showerror = true;
             }
             if (
-                this.description.value !== '' &&
-                this.description.value.length > 3 &&
-                this.description.value.length <= 500
+                this.description.value.trim() !== '' &&
+                this.description.value.trim().length > 3 &&
+                this.description.value.trim().length <= 500
             ) {
                 this.description.showerror = false;
-                postData.description = this.description.value;
+                postData.description = this.description.value.trim();
             } else {
                 this.description.showerror = true;
             }
             if (this.taxes.value.length > 0) {
                 postData.taxes = this.taxes.value;
+                this.taxes.showerror = false;
             } else {
                 this.taxes.showerror = true;
             }
@@ -625,30 +630,41 @@ export default {
                 } else {
                     call = call = AdminService.createHsnCode(postData);
                 }
-                return call
-                    .then(() => {
-                        this.inProgress = false;
-                        if (this.editMode) {
-                            this.$snackbar.global.showSuccess(
-                                'Tax Rate Updated successfully'
-                            );
-                        } else {
-                            this.$snackbar.global.showSuccess(
-                                'Saved successfully'
-                            );
-                        }
-                        this.clearSelectedRate();
-                        if (this.markedForDelete.length <= 0) {
-                            this.redirectBack();
-                            this.markedForDelete = [];
-                        }
-                    })
-                    .catch((err) => {
-                        this.inProgress = false;
+                call.then((res) => {
+                    console.log(res);
+                    this.inProgress = false;
+                    if (this.editMode) {
+                        this.$snackbar.global.showSuccess(
+                            'Tax Rate Updated successfully'
+                        );
+                    } else {
+                        this.$snackbar.global.showSuccess('Saved successfully');
+                    }
+                    this.clearSelectedRate();
+                    if (this.markedForDelete.length <= 0) {
+                        !this.editMode && this.redirectBack();
+                        this.markedForDelete = [];
+                    }
+                }).catch((err) => {
+                    this.inProgress = false;
+                    if (
+                        err &&
+                        err.response &&
+                        err.response.data &&
+                        err.response.data.message.includes(
+                            'duplicate key error'
+                        )
+                    ) {
+                        this.$snackbar.global.showError(
+                            `HSN code ${postData.hsn_code} with GST configuration already exist`
+                        );
+                    } else {
                         this.$snackbar.global.showError('Failed to save');
-                        this.clearUnsavedRates();
-                        this.clearSelectedRate();
-                    });
+                    }
+                    this.clearUnsavedRates();
+                    this.clearSelectedRate();
+                });
+                return;
             } else if (
                 this.hsn_code.showerror ||
                 this.type.showerror ||
@@ -672,17 +688,28 @@ export default {
                 );
             }
         },
-        validateHSNCode() {
-            let isValid = true;
-            this.hsn_code.showerror = false;
-            this.$set(this.errors, 'hsn_code', '');
-
-            if (this.hsn_code.value.toString().length !== 8) {
-                isValid = false;
-                this.errors.hsn_code = 'HSN code must be of 8 digits';
+        validateNumber(input) {
+            if (!/^[0-9]+$/.test(input)) {
+                this.hsn_code.value = '';
+                this.hsn_code.showerror = true;
+                this.hsn_code.errortext = 'HSN code must be of positive number';
+                return;
+            } else {
+                this.hsn_code.showerror = false;
+                this.hsn_code.errortext = '';
             }
-            return isValid;
         },
+        // validateHSNCode() {
+        //     let isValid = true;
+        //     this.hsn_code.showerror = false;
+        //     this.$set(this.errors, 'hsn_code', '');
+
+        //     if (this.hsn_code.value.toString().length !== 8) {
+        //         isValid = false;
+        //         this.errors.hsn_code = 'HSN code must be of 8 digits';
+        //     }
+        //     return isValid;
+        // },
         validateDescription() {
             let isValid = true;
             this.description.showerror = false;
@@ -712,8 +739,10 @@ export default {
         },
         format_date(value) {
             if (value) {
-                if(!value.includes(".000Z")){
-                    value = new Date(value+".000Z").toLocaleString('sv').replace(' ', 'T')
+                if (!value.includes('.000Z')) {
+                    value = new Date(value + '.000Z')
+                        .toLocaleString('sv')
+                        .replace(' ', 'T');
                 }
                 return moment(value).format('D MMM, YYYY');
             }

@@ -26,7 +26,6 @@
                                 type="number"
                                 placeholder="cess value (optional)"
                                 v-model="slab1.cess.value"
-                                @input=""
                             ></nitrozen-input>
                             <nitrozen-error v-if="slab1.cess.showerror">
                                 {{ slab1.cess.errortext }}
@@ -87,7 +86,6 @@
                                 type="number"
                                 placeholder="cess value (optional)"
                                 v-model="slab2.cess.value"
-                                @input=""
                             ></nitrozen-input>
                             <nitrozen-error v-if="slab2.cess.showerror">
                                 {{ slab2.cess.errortext }}
@@ -103,7 +101,6 @@
                                 type="number"
                                 placeholder="eg. 99999rs"
                                 v-model="slab2.threshold.value"
-                                @input=""
                                 :custom="true"
                                 :showPrefix="true"
                             >
@@ -133,14 +130,15 @@
                     </div>
                 </div>
                 <div v-if="!isSlab2">
-                    <NitrozenButton
+                    <nitrozen-button
                         title="add new rate"
-                        theme="secondary"
-                        class="ml-sm"
+                        :theme="'secondary'"
+                        class="meta-btn"
+                        :disabled="checkHighestValue(slab1.rate.value)"
                         @click.stop="addRate()"
                     >
                         + Add Slab
-                    </NitrozenButton>
+                    </nitrozen-button>
                 </div>
             </div>
         </template>
@@ -168,7 +166,7 @@
 
 <script>
 const RATE_LIST = [
-    { text: '0%', value: "0" },
+    { text: '0%', value: '0' },
     { text: '3%', value: 3 },
     { text: '5%', value: 5 },
     { text: '10%', value: 10 },
@@ -238,7 +236,7 @@ export default {
         return {
             datedTax: {},
             rateList1: [
-                { text: '0%', value: "0" },
+                { text: '0%', value: '0' },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
@@ -247,7 +245,7 @@ export default {
                 { text: '28%', value: 28 }
             ],
             rateList2: [
-                { text: '0%', value: "0" },
+                { text: '0%', value: '0' },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
@@ -267,7 +265,7 @@ export default {
                     errortext: ''
                 },
                 rate: {
-                    value: "0",
+                    value: '0',
                     showerror: false,
                     errortext: ''
                 },
@@ -289,7 +287,7 @@ export default {
                     errortext: ''
                 },
                 rate: {
-                    value: "0",
+                    value: '0',
                     showerror: false,
                     errortext: ''
                 },
@@ -304,6 +302,13 @@ export default {
     },
     mounted() {},
     methods: {
+        checkHighestValue(value) {
+            const rateList = cloneDeep(RATE_LIST);
+            const highest = rateList.sort((a, b) => a.value - b.value).pop()
+                .value;
+            console.log(highest === value);
+            return highest === value;
+        },
         open(data) {
             this.$refs.dialog.open({
                 width: '600px',
@@ -321,14 +326,14 @@ export default {
         addRate() {
             let isValid = this.checkFirstSlab(this.slab1);
             if (isValid) {
-                this.getRateList2(this.slab1.rate.value)
+                this.getRateList2(this.slab1.rate.value);
                 this.isSlab2 = true;
             } else {
             }
         },
         getRateList2(data) {
             let tempList = [
-                { text: '0%', value: "0" },
+                { text: '0%', value: '0' },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
@@ -574,7 +579,7 @@ export default {
                     errortext: ''
                 },
                 rate: {
-                    value: "0",
+                    value: '0',
                     showerror: false,
                     errortext: ''
                 },
@@ -598,7 +603,7 @@ export default {
                     errortext: ''
                 },
                 rate: {
-                    value: "0",
+                    value: '0',
                     showerror: false,
                     errortext: ''
                 },
@@ -691,5 +696,8 @@ export default {
     .footer-btn {
         margin-left: 12px;
     }
+}
+::v-deep .n-button:disabled {
+    opacity: 0.5;
 }
 </style>
