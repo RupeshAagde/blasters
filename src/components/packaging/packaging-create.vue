@@ -682,7 +682,7 @@ export default {
             // return the request body for create/update product object
             return {
                 data: generateProductRequest(product),
-                isEdit: this.$route.query.isEdit
+                isEdit: Object.keys(this.editProduct).length ? true : false
             };
         },
         /**

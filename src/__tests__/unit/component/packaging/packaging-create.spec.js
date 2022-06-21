@@ -2,7 +2,8 @@
 import PackagingCreate from '@/components/packaging/packaging-create.vue';
 import { mount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import { GET_PACKAGING_PRODUCTS } from '../../../../store/getters.type';
+import { GET_PACKAGING_PRODUCTS,GET_EDIT_PRODUCT } from '../../../../store/getters.type';
+import { FETCH_L3_CATEGORIES } from '../../../../store/action.type';
 import mocks from './fixtures';
 let wrapper;
 let category = {
@@ -18,6 +19,14 @@ let store = new Vuex.Store({
             getters: {
                 async [GET_PACKAGING_PRODUCTS](data) {
                     return mocks.products;
+                },
+                async [GET_EDIT_PRODUCT](){
+                    return {}
+                }
+            },
+            actions:{
+                async [FETCH_L3_CATEGORIES](data){
+                    return mocks.l3Categories
                 }
             }
         },
@@ -50,7 +59,7 @@ describe('Packaging Create', () => {
         input.element.value = 'test value';
         input.trigger('input');
         expect(wrapper.vm.searchInput).toBe('test value');
-        expect(wrapper.vm.searchTooltipText).toBe('Tool tip text');
+        expect(wrapper.vm.searchTooltipText).toBe("Choose an item you wish to use as a packaging material, and fill its details");
     });
     it('should check for checkGroupCategoryError', async () => {
         const resp = await wrapper.vm.checkGroupCategoryError();
@@ -108,7 +117,7 @@ describe('Packaging Create', () => {
         input.element.value = '5 Ply Corrugated';
         await input.trigger('input');
         expect(wrapper.vm.searchInput).toBe('5 Ply Corrugated');
-        expect(wrapper.vm.searchTooltipText).toBe('Tool tip text');
+        expect(wrapper.vm.searchTooltipText).toBe("Choose an item you wish to use as a packaging material, and fill its details");
         sleep(1500).then(()=>{
             expect(wrapper.vm.showSearchList).toBe(true);
             console.log(wrapper.vm.searchedProductList)
