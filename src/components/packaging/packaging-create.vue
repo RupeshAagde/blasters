@@ -375,6 +375,7 @@ export default {
             }
             // if not then check if input has 3 or more characters
             if (input.length >= 3) {
+                // TODO call dispatch method here to get app products
                 let productList = this.products;
                 // filter the list and save in temp var
                 let filteredList = productList.filter((item) =>
@@ -386,7 +387,7 @@ export default {
                 this.searchedProductList = filteredList;
                 this.showSearchList = true;
             }
-        }, 1500),
+        }, 1000),
         /**
          * @author Rohan Shah
          * @param {Object} item

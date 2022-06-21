@@ -574,7 +574,7 @@ export const generateProductRequest = (product) => {
 export const generateGroupCategoryRequest = (groupCategory) => {
     const { categories, categoryName } = groupCategory;
     return {
-        name: categoryName,
-        categories: categories,
+        name: categoryName.charAt(0).toUpperCase() + categoryName.slice(1),
+        categories: categories
     };
 };
