@@ -12,8 +12,8 @@
                     {{ item.product.name }}
                 </div>
                 <div class="packaging-card-info-other">
-                    {{ getDimensions(item.dimensions) }}
-                    {{ getPackInfo(item.product) }}
+                    <div>{{ getDimensions(item.dimensions) }}</div>
+                    <div class="line">{{ getPackInfo(item.product) }}</div>
                 </div>
             </div>
         </div>
@@ -75,7 +75,7 @@ export default {
             return pack ? pack.trim() : 'NA';
         },
         /**
-         * 
+         *
          * @param {*} item  Item info
          * @author Rohan Shah
          * @description Save product in store and redirect to create / update screen
