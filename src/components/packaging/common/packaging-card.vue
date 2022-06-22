@@ -2,19 +2,24 @@
     <div class="packaging-card-container">
         <div class="packaging-card-info">
             <div class="packaging-card-info-image">
-                <img :src="item.product.media[0]" :alt="item.product.name" />
+                <img
+                    :src="getImagePath(item.product)"
+                    :alt="item.product.name"
+                />
             </div>
             <div class="packaging-card-info-text">
                 <div class="packaging-card-info-name">
                     {{ item.product.name }}
                 </div>
                 <div class="packaging-card-info-other">
-                    Dimension and pack
+                    {{ getDimensions(item.dimensions) }}
+                    {{ getPackInfo(item.product) }}
                 </div>
             </div>
         </div>
         <div class="packaging-card-extra">
-            <span>{{item.product.item_code}}</span>
+            <span>{{ item.product.item_code }}</span>
+            <span>{{ item.product.slug }}</span>
         </div>
         <div class="packaging-card-button-container">
             <div class="packaging-card-button">
@@ -34,6 +39,40 @@ export default {
     props: {
         item: {
             type: Object
+        }
+    },
+    methods: {
+        getImagePath(product) {
+            if (product.media) {
+                return product.media.url;
+            }
+            return ''
+        },
+        /**
+         * @author Rohan Shah
+         * @returns String
+         * @description Create a string with dimension data
+         */
+        getDimensions(dimensions) {
+            let dimensionData = '';
+            // loop through the object keys
+            Object.keys(dimensions).map((key, index) => {
+                // only if the key is not the last key do not add 'x'
+                dimensionData += `${dimensions[key]}${
+                    index != Object.keys(dimensions).length - 1 ? 'x' : ''
+                }`;
+            });
+            // append 'inch' to the return value
+            return dimensionData + ' inch';
+        },
+        /**
+         * @author Rohan Shah
+         * @param {*} product 
+         * @description if the product name has pack info then show else 'NA'
+         */
+        getPackInfo(product) {
+            let pack = product.name.split('-')[1];
+            return pack ? pack.trim() : 'NA';
         }
     }
 };
