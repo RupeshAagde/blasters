@@ -382,19 +382,47 @@ export default {
          * @description Handle edit by appending values to
          * the state from the store state value
          */
-        setEditProduct() {
+        async setEditProduct() {
+            console.log(this.editProduct, 'this.editProduct');
             if (Object.keys(this.editProduct).length != 0) {
-                this.l3Checked = this.editProduct.is_l3_specific || false;
-                this.bulkChecked = this.editProduct.is_bulk || false;
-                this.selectedPackage = this.editProduct.item_id || '';
-                this.row3Inputs.errorRate.value =
-                    this.editProduct.error_rate || '';
-                this.row3Inputs.deadWeight.value =
-                    this.editProduct.dead_weight_in_kg || '';
-                // TODO weight, length, height , width to be added
+                this.searchInput = this.editProduct.product.name;
+                this.l3Checked = this.editProduct.is_l3_specific;
+                this.packagingSelected = true;
+                this.bulkChecked = this.editProduct.is_bulk;
+                this.selectedPackage = this.editProduct.item_id;
+                this.row3Inputs.errorRate.value = this.editProduct.error_rate;
+                this.row3Inputs.deadWeight.value = this.editProduct.dead_weight_in_kg;
+                this.row3Inputs.weight.value = this.editProduct.weight;
+                this.row3Inputs.orderThreshold.value = this.editProduct.maximum_order;
+                Object.keys(this.row2Inputs).forEach((key) => {
+                    this.row2Inputs[key].value = this.editProduct.dimensions[
+                        key
+                    ];
+                });
                 // if the l3 drop down is checked then replace the state array with BE value
                 if (this.l3Checked) {
-                    this.selectedCategories = default_package.l3_categories;
+                    this.$store
+                        .dispatch(FETCH_L3_CATEGORIES, { is_active: true })
+                        .then((data) => {
+                            if (!data.error) {
+                                this.selectedCategories = [];
+                                this.categoryValue = this.editProduct.default_package.l3_categories;
+                                this.editProduct.default_package.l3_categories.forEach(
+                                    (id) => {
+                                        let category = data.find(
+                                            (a) => a.uid == id
+                                        );
+                                        if (category) {
+                                            category.text = category.name;
+                                            category.value = category.uid;
+                                            this.selectedCategories.push(
+                                                category
+                                            );
+                                        }
+                                    }
+                                );
+                            }
+                        });
                 }
                 // only if the bulkchecked option is true
                 if (this.bulkChecked) {
@@ -408,7 +436,7 @@ export default {
                             item.volumetric_weight.min;
                         bulkInput.volumetricWeight.maximum.value =
                             item.volumetric_weight.max;
-                        bulkInput.quantity.maximum.value = item.quantity.min;
+                        bulkInput.quantity.minimum.value = item.quantity.min;
                         bulkInput.quantity.maximum.value = item.quantity.max;
                         bulkInput.categoryConfig = item.group_category;
                         tempBulkPackaging.push(bulkInput);
@@ -756,7 +784,8 @@ export default {
             // return the request body for create/update product object
             return {
                 data: generateProductRequest(product),
-                isEdit: Object.keys(this.editProduct).length ? true : false
+                isEdit: Object.keys(this.editProduct).length ? true : false,
+                _id: this.editProduct._id
             };
         },
         /**
