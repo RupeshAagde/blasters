@@ -573,17 +573,17 @@ export default {
             this.showCreateModal = true;
         },
         closeCreateModal() {
-            this.showCreateModal = false;
+            //this.showCreateModal = false;
         },
-         openModal() {
-            this.$refs['provider_create_dialog'].open({
-                width: '1100px',
-                height: '600px',
-            });
-        },
-        closeModal() {
-            this.$refs['provider_create_dialog'].close();
-        },
+        //  openModal() {
+        //     this.$refs['provider_create_dialog'].open({
+        //         width: '1100px',
+        //         height: '600px',
+        //     });
+        // },
+        // closeModal() {
+        //     this.$refs['provider_create_dialog'].close();
+        // },
         setDefault() {
             this.$router.replace({
                 name: 'providerDefault'
