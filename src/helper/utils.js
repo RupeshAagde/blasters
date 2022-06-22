@@ -541,10 +541,12 @@ export const generateProductRequest = (product) => {
         error_rate: errorRate,
         is_l3_specific: l3Checked,
         dead_weight_in_kg: deadWeight,
-        length,
-        width,
-        height,
-        orderThreshold,
+        dimensions: {
+            length,
+            width,
+            height,
+        },
+        maximum_order: orderThreshold,
         weight
     };
     // pass L3 default package if toggle is checked
