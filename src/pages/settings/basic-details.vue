@@ -189,6 +189,35 @@
                 </div>
                 </div>
 
+                <div class="input-column">
+                <label class="cl-Mako bold-sm">Create Business Account</label>
+                <div class="input-row business-checbox">
+                    <!-- Description -->
+                    <div class="input-field">
+                        <nitrozen-check-box
+                            v-model="businessAccount.value"
+                        >
+                        Limit Create Business Account
+                        </nitrozen-check-box>
+                    </div>
+                </div>
+
+                <div class="input-row" v-if="businessAccount.value">
+                    <!-- Description -->
+                    <div class="input-field">
+                        <nitrozen-input
+                            label="Thershold *"
+                            type="number"
+                            placeholder="Enter Thershold"
+                            v-model="businessAccountThershold.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="businessAccountThershold.showerror">
+                            {{ businessAccountThershold.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+                </div>
+
 
                 <!-- <div class="input-column" v-if="basicSettings">
                     <label class="cl-Mako bold-xs title">
@@ -259,7 +288,8 @@ import {
     strokeBtn,
     flatBtn,
     NitrozenBadge,
-    NitrozenDialog
+    NitrozenDialog,
+    NitrozenCheckBox
 } from '@gofynd/nitrozen-vue';
 import _ from 'lodash';
 
@@ -279,7 +309,8 @@ export default {
         NitrozenButton,
         PageHeader,
         Loader,
-        ImageUploaderTile
+        ImageUploaderTile,
+        NitrozenCheckBox
     },
     directives: {
         strokeBtn,
@@ -302,6 +333,8 @@ export default {
             loginDescription: this.getInitialValue(''),
             registerTitle: this.getInitialValue(''),
             registerDescription: this.getInitialValue(''),
+            businessAccount: this.getInitialValue(false),
+            businessAccountThershold: this.getInitialValue(1),
             features: [],
             whats_new: []
         };
@@ -337,6 +370,9 @@ export default {
                     this.loginDescription.value = this.basicSettings.authentication.login.description || 'Enter account details to manage your online business';
                     this.registerTitle.value = this.basicSettings.authentication.register.title || 'Welcome to Fynd Platform';
                     this.registerDescription.value = this.basicSettings.authentication.register.description || 'Enter details to create your online business';
+
+                    this.businessAccount.value = this.basicSettings.business_account && this.basicSettings.business_account.is_limit || false
+                    this.businessAccountThershold.value = this.basicSettings.business_account && this.basicSettings.business_account.threshold || 1
 
                     this.pageError = false;
                     this.pristineData = this.getPayload();
@@ -378,7 +414,11 @@ export default {
                 ),
                 features: this.basicSettings.features,
                 landingPageDetails:this.basicSettings.landingPageDetails,
-                authentication
+                authentication,
+                business_account: {
+                    is_limit: this.businessAccount.value,
+                    threshold: this.businessAccountThershold.value
+                }
             };
         },
         checkEmpty(key) {
@@ -393,9 +433,18 @@ export default {
                 loginDescription: 'Description is required',
                 registerTitle: 'Title is required',
                 registerDescription: 'Description is required',
-
+                businessAccountThershold: 'Thershold is required'
             };
-            if (this[key].value.trim() === '') {
+            if(key == 'businessAccountThershold'){
+                if(this[key].value <= 0){
+                    this[key].showerror = true;
+                    this[key].errortext = emptyErorrs[key] || 'Enter ' + key;
+                    return false;
+                } else {
+                    this[key].showerror = false;
+                }
+            }
+            else if (this[key].value.trim() === '') {
                 this[key].showerror = true;
                 this[key].errortext = emptyErorrs[key] || 'Enter ' + key;
                 return false;
@@ -412,6 +461,15 @@ export default {
             formValid = this.checkEmpty('title') && formValid;
             formValid = this.checkEmpty('logo') && formValid;
             formValid = this.checkEmpty('favicon') && formValid;
+            formValid = this.checkEmpty('authDescription') && formValid;
+            formValid = this.checkEmpty('authImage') && formValid;
+            formValid = this.checkEmpty('loginTitle') && formValid;
+            formValid = this.checkEmpty('loginDescription') && formValid;
+            formValid = this.checkEmpty('registerTitle') && formValid;
+            formValid = this.checkEmpty('registerDescription') && formValid;
+            if(this.businessAccount.value){
+                formValid = this.checkEmpty('businessAccountThershold') && formValid;
+            }
             return formValid;
         },
         saveSettings() {
@@ -481,6 +539,9 @@ export default {
     label.title {
         padding: 12px 0;
     }
+}
+.business-checbox{
+    margin: 24px 0 12px 0;
 }
 .input-column {
     .input-row;
