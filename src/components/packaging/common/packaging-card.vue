@@ -17,11 +17,10 @@
                 </div>
             </div>
         </div>
-        <div class="packaging-card-extra">
-            <span>{{ item.product.item_code }}</span>
-            <span>{{ item.product.slug }}</span>
-        </div>
         <div class="packaging-card-button-container">
+            <div class="packaging-card-extra">
+                <span>{{ item.product.item_code }}</span>
+            </div>
             <div class="packaging-card-button">
                 <inline-svg :src="'edit'" class="action-icon" />
             </div>
@@ -44,9 +43,9 @@ export default {
     methods: {
         getImagePath(product) {
             if (product.media) {
-                return product.media.url;
+                return product.media[0].url;
             }
-            return ''
+            return '';
         },
         /**
          * @author Rohan Shah
@@ -67,7 +66,7 @@ export default {
         },
         /**
          * @author Rohan Shah
-         * @param {*} product 
+         * @param {*} product
          * @description if the product name has pack info then show else 'NA'
          */
         getPackInfo(product) {
