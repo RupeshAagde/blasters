@@ -24,7 +24,7 @@
         </page-header>
         <div class="create-packaging-container">
             <!-- ** Do not remove the ref -->
-            <packaging-create ref="createPackaging" />
+            <packaging-create ref="createPackaging" :toggleBtn="toggleBtn" />
         </div>
         <base-modal
             :isOpen="isModalOpen"
@@ -92,15 +92,16 @@ export default {
             this.showLoader = true;
             // call function to get request object
             const reqObj = this.$refs.createPackaging.savePackagingOrder();
-            this.$store.dispatch(SAVE_PACKAGING_PRODUCT, reqObj).then((res) => {
-                if (res.error) {
-                    return this.$snackbar.global.showError(
-                        'Something went wrong. Failed to add new Packaging product'
-                    );
-                }
-                this.showLoader = false;
-                this.isModalOpen = true;
-            });
+            console.log(reqObj,"reqobj")
+            // this.$store.dispatch(SAVE_PACKAGING_PRODUCT, reqObj).then((res) => {
+            //     if (res.error) {
+            //         return this.$snackbar.global.showError(
+            //             'Something went wrong. Failed to add new Packaging product'
+            //         );
+            //     }
+            //     this.showLoader = false;
+            //     this.isModalOpen = true;
+            // });
         },
         /**
          * @description Go back to previous route
@@ -108,6 +109,9 @@ export default {
         goBack() {
             this.$store.dispatch(CLEAR_PRODUCT);
             this.$router.back();
+        },  
+        toggleBtn(flag){
+            this.isButtonDisabled = flag
         }
     }
 };

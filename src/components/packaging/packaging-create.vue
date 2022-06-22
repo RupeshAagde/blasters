@@ -23,21 +23,21 @@
                     >
                         <div class="packaging-search-list-row-image">
                             <img
-                                :src="item.image"
-                                :alt="item.product.name"
+                                :src="item.media[0].url"
+                                :alt="item.name"
                                 :id="'packaging-image' + index"
                             />
                         </div>
                         <span
                             class="packaging-search-list-row-name"
                             :id="'packaging-name' + index"
-                            >{{ item.product.name }}</span
+                            >{{ item.name }}</span
                         >
-                        <span
+                        <!-- <span
                             class="packaging-search-list-row-dimension"
                             :id="'packaging-dimension' + index"
-                            >{{ item.product.dimension || 'NA' }}</span
-                        >
+                            >{{ item.dimension || 'NA' }}</span
+                        > -->
                     </div>
                 </div>
                 <div
@@ -145,6 +145,8 @@
                         :handleDelete="handleGroupDelete"
                         :handleToggleChange="handleBulkToggle"
                         :handleDropDownSelect="handleBulkDropdown"
+                        :groupCategories="groupCategories"
+                        :dropDownValue="item.categoryConfig"
                     />
                 </div>
                 <div class="toggle-container-bulk-body-button-container">
@@ -154,10 +156,10 @@
                         theme="secondary"
                         :class="{
                             'add-group-btn': true,
-                            opaque: checkGroupCategoryError
+                            opaque: checkGroupCategoryError()
                         }"
                         @click="handleAddGroup"
-                        :disabled="checkGroupCategoryError"
+                        :disabled="checkGroupCategoryError()"
                     >
                         Add Group
                     </nitrozen-button>
@@ -184,7 +186,11 @@ import {
     GET_PACKAGING_PRODUCTS
 } from '../../store/getters.type';
 import { generateProductRequest } from '../../helper/utils';
-import { FETCH_L3_CATEGORIES } from '../../store/action.type';
+import {
+    FETCH_COMPANY_PRODUCTS,
+    FETCH_GROUP_CATEGORIES,
+    FETCH_L3_CATEGORIES
+} from '../../store/action.type';
 export default {
     name: 'packaging-create',
     components: {
@@ -205,6 +211,11 @@ export default {
             products: GET_PACKAGING_PRODUCTS,
             editProduct: GET_EDIT_PRODUCT
         })
+    },
+    props: {
+        toggleBtn: {
+            type: Function
+        }
     },
     data() {
         return {
@@ -311,14 +322,61 @@ export default {
             packagingSelected: false,
             searchedProductList: [],
             selectedPackage: '',
-            showSearchList: false
+            showSearchList: false,
+            groupCategories: []
         };
     },
     mounted() {
         this.setCategoryList();
         this.setEditProduct();
+        this.getGroupCategories();
     },
     methods: {
+        /**
+         * @author Rohan Shah
+         * @description Checks for multiple conditions to toggle the save button
+         */
+        checkForButtonToggle() {
+            let disableButton = false;
+            if (this.l3Checked && !this.selectedCategories.length)
+                disableButton = true;
+            else if (this.bulkChecked && this.checkGroupCategoryError())
+                disableButton = true;
+            else if (!this.selectedPackage) disableButton = true;
+            // map the input field values for row2 and row3 inputs
+            Object.keys(this.row2Inputs).forEach((key) => {
+                if (!this.row2Inputs[key].value || this.row2Inputs[key].error)
+                    disableButton = true;
+            });
+            Object.keys(this.row3Inputs).forEach((key) => {
+                if (!this.row3Inputs[key].value || this.row3Inputs[key].error)
+                    disableButton = true;
+            });
+            this.toggleBtn(disableButton);
+        },
+        /**
+         * @author Rohan Shah
+         * @decsription Gets all group categories for drop down
+         */
+        getGroupCategories() {
+            this.$store
+                .dispatch(FETCH_GROUP_CATEGORIES, { page_size: 1000 })
+                .then((res) => {
+                    if (res.error) {
+                        // call snackbar and return
+                        return this.$snackbar.global.showError(
+                            'Could not fetch category configurations'
+                        );
+                    }
+                    const { items } = res;
+                    let temp = items;
+                    temp.forEach((item) => {
+                        item.text = item.name;
+                        item.value = item._id;
+                    });
+                    this.groupCategories = temp;
+                });
+        },
         /**
          * @author Rohan Shah
          * @description Handle edit by appending values to
@@ -357,6 +415,8 @@ export default {
                     });
                     this.bulkPackaging = tempBulkPackaging;
                 }
+
+                this.checkForButtonToggle();
             }
         },
         /**
@@ -375,17 +435,17 @@ export default {
             }
             // if not then check if input has 3 or more characters
             if (input.length >= 3) {
-                // TODO call dispatch method here to get app products
-                let productList = this.products;
-                // filter the list and save in temp var
-                let filteredList = productList.filter((item) =>
-                    item.product.name
-                        .toLowerCase()
-                        .includes(input.toLowerCase())
-                );
-                // set to state
-                this.searchedProductList = filteredList;
-                this.showSearchList = true;
+                this.$store
+                    .dispatch(FETCH_COMPANY_PRODUCTS, { q: input })
+                    .then((res) => {
+                        const { items } = res;
+                        if (items.length) {
+                            let productList = items;
+                            this.searchedProductList = productList;
+                            this.showSearchList = true;
+                            this.checkForButtonToggle();
+                        }
+                    });
             }
         }, 1000),
         /**
@@ -394,11 +454,12 @@ export default {
          * @description TODO
          */
         handlePackagingProductClicked(item) {
-            this.selectedPackage = item.item_id;
+            this.selectedPackage = item.uid;
             this.packagingSelected = true;
             this.showSearchList = false;
-            this.searchInput = item.product.name;
+            this.searchInput = item.name;
             this.searchedProductList = [];
+            this.checkForButtonToggle();
         },
         /**
          * @author Rohan Shah
@@ -409,6 +470,7 @@ export default {
         handleBulkDropdown(index, val) {
             // TODO Check if the val can be an ID
             this.bulkPackaging[index].categoryConfig = val;
+            this.checkForButtonToggle();
         },
         /**
          * @author Rohan Shah
@@ -436,9 +498,11 @@ export default {
                     }
                 });
             }
+            this.checkForButtonToggle();
         },
         handleGroupDelete(index) {
             this.bulkPackaging.splice(index, 1);
+            this.checkForButtonToggle();
         },
         /**
          * @author Rohan Shah
@@ -483,6 +547,7 @@ export default {
                 }
             };
             this.bulkPackaging.push(input);
+            this.checkForButtonToggle();
         },
         /**
          *
@@ -549,6 +614,7 @@ export default {
                 this.categoryValue.splice(valIndex, 1);
                 this.selectedCategories.splice(selectedIndex, 1);
             }
+            this.checkForButtonToggle();
         },
         /**
          *
@@ -565,6 +631,7 @@ export default {
             );
             // remove the index so it is unselected from the drop down as well
             this.categoryValue.splice(valIndex, 1);
+            this.checkForButtonToggle();
         },
         /**
          *
@@ -579,6 +646,7 @@ export default {
                 this[obj][
                     key
                 ].error = `${this[obj][key].label} is a mandatory field`;
+            this.checkForButtonToggle();
         },
         /**
          *
@@ -597,6 +665,7 @@ export default {
                     input
                 ].error = `${this.bulkPackaging[index][obj][input].label} should have some value`;
             }
+            this.checkForButtonToggle();
         },
         /**
          *
@@ -609,6 +678,7 @@ export default {
             this[obj][input].value = val;
             this[obj][input].error = '';
             this.calculateDeadWeight();
+            this.checkForButtonToggle();
         },
         /**
          *
@@ -621,6 +691,7 @@ export default {
         handleBulkChange(obj, input, val, index) {
             this.bulkPackaging[index][obj][input].value = val;
             this.bulkPackaging[index][obj][input].error = '';
+            this.checkForButtonToggle();
         },
         /**
          * @author Rohan Shah
@@ -704,6 +775,7 @@ export default {
                 default:
                     break;
             }
+            this.checkForButtonToggle();
         },
         /**
          * @author Rohan Shah
@@ -715,10 +787,14 @@ export default {
             let isError = false;
             this.bulkPackaging.forEach((a) => {
                 if (
-                    a.volumetricWeight.error ||
-                    !a.volumetricWeight.val ||
-                    a.quantity.error ||
-                    !a.quantity.val ||
+                    a.volumetricWeight.maximum.error ||
+                    a.volumetricWeight.minimum.error ||
+                    !a.volumetricWeight.maximum.value ||
+                    !a.volumetricWeight.minimum.value ||
+                    a.quantity.maximum.error ||
+                    a.quantity.minimum.error ||
+                    !a.quantity.maximum.value ||
+                    !a.quantity.minimum.value ||
                     !a.categoryConfig
                 ) {
                     isError = true;
