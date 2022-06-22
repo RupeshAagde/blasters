@@ -137,8 +137,11 @@ const PackagingService = {
      * @description Calls the API to get company products
      * @returns Promise
      */
-    getAppProducts() {
-        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+    getAppProducts(params) {
+        const axiosOptions = Object.assign(
+            { params },
+            getCommonHeaderOptions()
+        );
         return ApiService.get(envVars.APP_PRODUCTS, axiosOptions);
     }
 };

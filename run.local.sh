@@ -51,6 +51,7 @@ export MARKETPLACES_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/ad
 export MIXMASTER_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/partners/
 export MIXMASTER_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/partners/
 export PACKAGING_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/packaging/v1.0/
+export APP_PRODUCTS=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/catalog/v1.0/company/84/application/629616a1d7c74d3915f8f4e8/raw-products
 
 #ENV's
 export SENTRY_DSN=''

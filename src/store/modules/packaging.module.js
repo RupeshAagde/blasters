@@ -154,6 +154,7 @@ const actions = {
             });
     },
     [FETCH_COMPANY_PRODUCTS]({ commit }, params) {
+        params.page_size = 10000;
         return PackagingService.getAppProducts(params)
             .then((res) => {
                 return res.data;

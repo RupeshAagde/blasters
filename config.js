@@ -359,6 +359,13 @@ const conf = convict({
             env: 'PACKAGING_ADMIN_URL',
             arg: 'packaging_admin_url'
         },
+        APP_PRODUCTS: {
+            doc: 'Get app products',
+            format: String,
+            default:'https://api.fyndx0.de/service/___/administrator/catalog/v1.0/company/84/application/629616a1d7c74d3915f8f4e8/raw-products',
+            env: 'APP_PRODUCTS',
+            arg: 'app_products'
+        }
     },
 
     // Sentry
