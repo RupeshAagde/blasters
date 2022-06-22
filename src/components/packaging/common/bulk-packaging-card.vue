@@ -13,8 +13,9 @@
                     'Select the category whose products can make use of this packaging material in case of a bulk order'
                 "
                 :placeholder="'Select'"
-                :items="searchableCategoryList"
+                :items="groupCategories"
                 @change="(val) => handleDropDownSelect(currentIndex, val)"
+                :value="dropDownValue"
             />
             <div class="default-container">
                 Default
@@ -162,6 +163,12 @@ export default {
         },
         handleToggleChange: {
             type: Function
+        },
+        groupCategories:{
+            type: Array
+        },
+        dropDownValue:{
+            type: String
         }
     }
 };
