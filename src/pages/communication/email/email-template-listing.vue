@@ -282,12 +282,14 @@ export default {
             // }
         },
         mapEmailTemplates() {
-            this.emailTemplates = this.emailTemplatesStore.items.map(it => {
+            if(this.emailTemplatesStore.items){
+                this.emailTemplates = this.emailTemplatesStore.items.map(it => {
                 it.display = it.name;
                 it.value = it._id;
                 it.data = it;
                 return it;
             });
+            }
         },
         setPagination() {
             // this.pagination = {

@@ -465,6 +465,7 @@ export default {
         onSearchInputChange(e) {
             let value = e.target.value;
             let system_events = cloneDeep(this.systemEventsData);
+            console.log(JSON.stringify(system_events))
             if (value != '') {
                 let filtered = [];
                 system_events.forEach(system_event => {
