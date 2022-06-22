@@ -97,15 +97,8 @@ const actions = {
     [EDIT_CATEGORY]({ commit }, data) {
         commit(SET_EDIT_CATEGORY, data);
     },
-    [EDIT_PRODUCT]({ commit }, productId) {
-        return PackagingService.getProductDetail(productId)
-            .then((res) => {
-                commit(SET_EDIT_PRODUCT, res.data);
-                return res.data;
-            })
-            .catch(() => {
-                return { error: true };
-            });
+    [EDIT_PRODUCT]({ commit }, data) {
+        commit(SET_EDIT_PRODUCT, data);
     },
     [SAVE_PACKAGING_PRODUCT]({ commit }, req) {
         const { data, _id, isEdit } = req;
