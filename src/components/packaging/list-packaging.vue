@@ -13,12 +13,12 @@
                 >
             </div>
         </div>
-        <search-container
+        <!-- <search-container
             :placeholder="'Search by Package name'"
             :id="'packaging-search'"
             :handleChange="handleChange"
             :value="packagingSearchValue"
-        />
+        /> -->
         <div class="list-container">
             <!-- Check if products array have items if so then map -->
             <div class="list-container-products" v-if="products.length">
@@ -106,7 +106,9 @@ export default {
             };
             // only if there is a user input in search pass name param
             if (this.packagingSearchValue.length) {
-                param.name = this.packagingSearchValue;
+                param.q = this.packagingSearchValue;
+                delete param.page_no
+                delete param.page_size
             }
             return param;
         },
