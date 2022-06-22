@@ -723,10 +723,12 @@ export default {
             let product = {
                 bulkChecked: this.bulkChecked,
                 l3Checked: this.l3Checked,
-                l3Categories: this.selectedCategories,
                 bulkPackaging: [],
                 itemId: this.selectedPackage
             };
+            product.l3Categories = this.selectedCategories.map((item) => {
+                return item.value;
+            });
             // map the input field values for row2 and row3 inputs
             Object.keys(this.row2Inputs).forEach((key) => {
                 product[key] = this.row2Inputs[key].value;
