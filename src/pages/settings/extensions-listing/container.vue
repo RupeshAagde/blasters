@@ -608,16 +608,10 @@ export default {
                     delete section.items;
 
                     if(section.item_type === 'extension' && section.data[key]) {
-                        /* If item_source is collection, then do not take extension_public_data */
-                        if(section.data.item_source && section.data.item_source === 'collection') {
-                            section.items = cloneDeep(section.data[key]);
-                        } else {
-                            let extensionPublicData = cloneDeep(section.data[key]).map(i => {
-                                return i.extension_public_data;
-                            });
-                            section.items = cloneDeep(extensionPublicData);
-                        }
-
+                        let extensionPublicData = cloneDeep(section.data[key]).map(i => {
+                            return i.extension_public_data || i;
+                        });
+                        section.items = cloneDeep(extensionPublicData)
                     } else {
                         section.items = cloneDeep(section.data[key]);
                     }
