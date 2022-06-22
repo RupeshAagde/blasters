@@ -14,38 +14,43 @@
                 @input="handleSearchInput"
             />
             <div class="packaging-search-list-container" v-if="showSearchList">
-                <div v-if="searchedProductList.length > 0">
-                    <div
-                        class="packaging-search-list-row"
-                        v-for="(item, index) of searchedProductList"
-                        :key="'packaging-product' + index"
-                        @click="handlePackagingProductClicked(item)"
-                    >
-                        <div class="packaging-search-list-row-image">
-                            <img
-                                :src="item.media[0].url"
-                                :alt="item.name"
-                                :id="'packaging-image' + index"
-                            />
-                        </div>
-                        <span
-                            class="packaging-search-list-row-name"
-                            :id="'packaging-name' + index"
-                            >{{ item.name }}</span
+                <div v-if="!showListLoader">
+                    <div v-if="searchedProductList.length > 0">
+                        <div
+                            class="packaging-search-list-row"
+                            v-for="(item, index) of searchedProductList"
+                            :key="'packaging-product' + index"
+                            @click="handlePackagingProductClicked(item)"
                         >
-                        <!-- <span
+                            <div class="packaging-search-list-row-image">
+                                <img
+                                    :src="item.media[0].url"
+                                    :alt="item.name"
+                                    :id="'packaging-image' + index"
+                                />
+                            </div>
+                            <span
+                                class="packaging-search-list-row-name"
+                                :id="'packaging-name' + index"
+                                >{{ item.name }}</span
+                            >
+                            <!-- <span
                             class="packaging-search-list-row-dimension"
                             :id="'packaging-dimension' + index"
                             >{{ item.dimension || 'NA' }}</span
                         > -->
+                        </div>
+                    </div>
+                    <div
+                        v-else
+                        class="packaging-search-list-row no-products"
+                        :id="'product-not-found'"
+                    >
+                        No products found
                     </div>
                 </div>
-                <div
-                    v-else
-                    class="packaging-search-list-row no-products"
-                    :id="'product-not-found'"
-                >
-                    No products found
+                <div v-else>
+                    <loader />
                 </div>
             </div>
         </div>
@@ -191,6 +196,7 @@ import {
     FETCH_GROUP_CATEGORIES,
     FETCH_L3_CATEGORIES
 } from '../../store/action.type';
+import Loader from '../common/loader.vue';
 export default {
     name: 'packaging-create',
     components: {
@@ -201,7 +207,8 @@ export default {
         inlineSvgVue,
         NitrozenButton,
         BulkPackagingCard,
-        CategoryMultiSelect
+        CategoryMultiSelect,
+        Loader
     },
     computed: {
         searchPlacholder() {
@@ -323,7 +330,8 @@ export default {
             searchedProductList: [],
             selectedPackage: '',
             showSearchList: false,
-            groupCategories: []
+            groupCategories: [],
+            showListLoader: true
         };
     },
     mounted() {
@@ -454,11 +462,13 @@ export default {
          * @param {String} | input
          */
         handleSearchInput: debounce(async function(input) {
+            this.showListLoader = true;
             // if there is no input in search then clear the searchedProductList array
             if (!input) {
                 this.searchedProductList = [];
                 this.packagingSelected = false;
                 this.showSearchList = false;
+                this.showListLoader = false;
                 return;
             }
             // if not then check if input has 3 or more characters
@@ -470,9 +480,10 @@ export default {
                         if (items.length) {
                             let productList = items;
                             this.searchedProductList = productList;
-                            this.showSearchList = true;
                             this.checkForButtonToggle();
                         }
+                        this.showListLoader = false;
+                        this.showSearchList = true;
                     });
             }
         }, 1000),
