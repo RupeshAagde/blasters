@@ -92,16 +92,15 @@ export default {
             this.showLoader = true;
             // call function to get request object
             const reqObj = this.$refs.createPackaging.savePackagingOrder();
-            console.log(reqObj,"reqobj")
-            // this.$store.dispatch(SAVE_PACKAGING_PRODUCT, reqObj).then((res) => {
-            //     if (res.error) {
-            //         return this.$snackbar.global.showError(
-            //             'Something went wrong. Failed to add new Packaging product'
-            //         );
-            //     }
-            //     this.showLoader = false;
-            //     this.isModalOpen = true;
-            // });
+            this.$store.dispatch(SAVE_PACKAGING_PRODUCT, reqObj).then((res) => {
+                if (res.error) {
+                    return this.$snackbar.global.showError(
+                        'Something went wrong. Failed to add new Packaging product'
+                    );
+                }
+                this.showLoader = false;
+                this.isModalOpen = true;
+            });
         },
         /**
          * @description Go back to previous route

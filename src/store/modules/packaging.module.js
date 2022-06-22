@@ -107,7 +107,7 @@ const actions = {
                 return { error: true };
             });
     },
-    [SAVE_PACKAGING_PRODUCT](req) {
+    [SAVE_PACKAGING_PRODUCT]({ commit }, req) {
         const { data, _id, isEdit } = req;
         return PackagingService[
             isEdit ? 'updatePackagingProduct' : 'createPackagingProduct'
