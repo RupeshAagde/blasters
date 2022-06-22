@@ -157,10 +157,10 @@ export default {
         onTestProviderClick() {
             this.$refs.providermainbody.openTestProviderModal();
         },
-        fetchEmailProvider(id) {
-            this.pageLoading = true;
-            CommunicationServices.getEmailProviderbyId(id)
-        },
+        // fetchEmailProvider(id) {
+        //     this.pageLoading = true;
+        //     CommunicationServices.getEmailProviderbyId(id)
+        // },
         fetchSmsProvider(id) {
             this.pageLoading = true;
         },
@@ -168,17 +168,9 @@ export default {
             this.$router.back();
         },
         saveAndPublish() {
-           //this.$refs.providermainbody.saveForm()
             let mainbodyValid = this.$refs.providermainbody.validate();
             if (mainbodyValid) {
-                //this.$refs.providermainbody.validateAndSave();
-                //if (this.providerType == 'email'){
                 this.emailProviderStore = this.$refs.providermainbody.saveForm()
-                //console.log( this.emailProviderStore);
-                // }
-                // if (this.providerType == 'sms'){
-                // this.smsProviderStore = this.$refs.providermainbody.saveForm()
-                // }
             }
             this.saveForm()
 
@@ -187,10 +179,8 @@ export default {
             this.saveAndPublish();
         },
         saveForm() {
-            // return Promise.resolve()
-            //     .then(() => {
                     if (this.providerId) {
-                        // this.pageLoading = true;
+                         this.pageLoading = true;
                         if (this.providerType == 'email') {
                              this.updateEmailProvider();
                         } else if (this.providerType == 'sms') {
@@ -198,7 +188,6 @@ export default {
                         }
                     } else {
                         if (this.providerType == 'email') {
-                            console.log(this.emailProviderStore);
                              this.createEmailProvider(
                                 this.emailProviderStore).then(data => {
                                 this.$router.push({
@@ -207,7 +196,6 @@ export default {
                             })
                         } 
                       if (this.providerType == 'sms') {
-                          console.log(this.smsProviderStore);
                              this.createSmsProvider(this.smsProviderStore).then(data => {
                                 this.$router.push({
                                     name: 'providerList'
@@ -215,8 +203,6 @@ export default {
                             });
                          }
     }},
-            //    })
-            //     .then(data => {});
 
         createEmailProvider(data) {
             this.pageLoading = true;

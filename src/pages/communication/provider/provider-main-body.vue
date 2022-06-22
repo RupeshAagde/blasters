@@ -327,7 +327,7 @@ export default {
         'ukt-inline-svg': uktinlinesvg,
         'adm-form-input': admforminput,
         'adm-date-picker': datePicker,
-         'email-falconide': emailFalconide,
+        'email-falconide': emailFalconide,
         'email-pepipost': emailPepipost,
         'email-smtp': emailSmtp,
         'sms-netcore': smsNetcore,
