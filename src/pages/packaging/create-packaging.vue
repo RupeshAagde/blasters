@@ -34,7 +34,12 @@
             <div class="modal-custom-body">
                 <inline-svg :src="'modal-success'" />
                 <p id="modal-body-text">
-                    Packaging has been succesfully added to the list
+                    Packaging has been succesfully
+                    {{
+                        Object.keys(editProduct).length
+                            ? `updated`
+                            : `added to the list`
+                    }}
                 </p>
                 <nitrozen-button
                     :title="'Thank you'"
@@ -56,6 +61,8 @@ import { NitrozenButton } from '@gofynd/nitrozen-vue';
 import BaseModal from '../../components/common/dialogs/base-modal.vue';
 import InlineSvg from '../../components/common/inline-svg.vue';
 import { CLEAR_PRODUCT, SAVE_PACKAGING_PRODUCT } from '../../store/action.type';
+import { mapGetters } from 'vuex';
+import { GET_EDIT_PRODUCT } from '../../store/getters.type';
 export default {
     name: 'create-packaging',
     components: {
@@ -71,6 +78,11 @@ export default {
             isModalOpen: false,
             showLoader: false
         };
+    },
+    computed: {
+        ...mapGetters({
+            editProduct: GET_EDIT_PRODUCT
+        })
     },
     methods: {
         /**
@@ -108,9 +120,9 @@ export default {
         goBack() {
             this.$store.dispatch(CLEAR_PRODUCT);
             this.$router.back();
-        },  
-        toggleBtn(flag){
-            this.isButtonDisabled = flag
+        },
+        toggleBtn(flag) {
+            this.isButtonDisabled = flag;
         }
     }
 };
