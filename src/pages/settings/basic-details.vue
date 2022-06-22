@@ -8,6 +8,7 @@
                 v-flatBtn
                 theme="secondary"
                 @click="saveSettings"
+                ref="save-btn"
                 :disabled="!basicSettings"
             >
                 Save
