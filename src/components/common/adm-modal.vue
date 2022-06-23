@@ -1,5 +1,5 @@
 <template>
-   <ukt-modal
+    <ukt-modal
         :isOpen="isOpen"
         :title="title"
         :childHandleFocus="true"
@@ -71,20 +71,18 @@
 </template>
 
 <script>
+
 import { NitrozenButton, flatBtn, NitrozenDialog } from '@gofynd/nitrozen-vue';
 import admNoContent from '@/components/common/adm-no-content.vue';
 import InlineSvg from '@/components/common/inline-svg.vue';
 import uktModal from '@/components/common/utk-modal.vue';
 
-
-
 export default {
-    name: 'adm-modal',
+    name: 'adm-wizard-modal',
     components: {
+        'ukt-modal': uktModal,
         'adm-no-content': admNoContent,
         'nitrozen-button': NitrozenButton,
-        'nitrozen-dialog': NitrozenDialog,
-        'ukt-modal': uktModal,
         InlineSvg
     },
     directives: {

@@ -569,7 +569,7 @@ export default {
             this.isWizardModalOpen = true;
         },
         closeWizardModal() {
-            // this.isWizardModalOpen = false;
+             this.isWizardModalOpen = false;
         }
     }
 };

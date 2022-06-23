@@ -7,7 +7,7 @@
                     desc="Use this section to create SMS templates to be used in events, such as order placing and delivery. Format the SMS content, by using sample variables. Also, decide the SMS priority and test the created SMS template."
                     btnLabel="Create"
                     illustration="sms"
-                    @btnClick="openWizardModal()"
+                    @btnClick="openWizardModal"
                 ></adm-jumbotron>
                 <div class="main-container">
                     <div class="full-width">
@@ -21,10 +21,11 @@
                     :isOpen="isWizardModalOpen"
                     id="1"
                     :title="'Select Template'"
-                    @closeModal="closeWizardModal"
                     :sidebarData="systemEventsFiltered"
                     @selectItem="onCreateModalSelect"
                     @proceedClick="onCreateModalProceedClick"
+                    @closeModal="closeWizardModal"
+                    ref="create-dialog"
                     class="wizard-modal"
                 >
                     <template slot="sidebar">
@@ -459,7 +460,7 @@ export default {
             this.isWizardModalOpen = true;
         },
         closeWizardModal(id) {
-            //this.isWizardModalOpen = false;
+            this.isWizardModalOpen = false;
         }
     }
 };

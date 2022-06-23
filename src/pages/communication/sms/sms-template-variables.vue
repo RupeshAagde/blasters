@@ -369,10 +369,12 @@
             display: flex;
             justify-content: space-between;
             align-items: stretch;
-            min-height: 150px;
+            max-height: 150px;
         }
         .message-container {
             width: 48%;
+            //max-width: 48%;
+             word-break: break-all;
             height: 100%;
             /deep/.nitrozen-form-input {
                 /deep/textarea {

@@ -8,7 +8,7 @@
                         'Use this section to configure the communication provider for email and messaging services. Here, you can swiftly integrate your service infrastructure through SMTP or API.'
                     "
                     btnLabel="Create"
-                    @btnClick="createProvider"
+                    @btnClick="createProvider()"
                 >
                     <nitrozen-button
                         v-flatBtn
@@ -573,7 +573,7 @@ export default {
             this.showCreateModal = true;
         },
         closeCreateModal() {
-            //this.showCreateModal = false;
+            this.showCreateModal = false;
         },
         //  openModal() {
         //     this.$refs['provider_create_dialog'].open({
@@ -627,26 +627,25 @@ export default {
         },
         onSearchInputChange(e) {
             // console.log(e);
-            // console.log('hi');
-            // let searchText = e.target.value;
-            // searchText = searchText.toLowerCase();
-            // if (searchText == '') {
-            //     this.providersFiltered = this.providersList;
-            // } else {
-            //     let providersList = cloneDeep(this.providersList);
-            //     this.providersFiltered = [];
-            //     providersList.forEach(providerGroup => {
-            //         let children = providerGroup.children.filter(child => {
-            //             return (
-            //                 child.name.toLowerCase().indexOf(searchText) > -1
-            //             );
-            //         });
-            //         if (children.length > 0) {
-            //             providerGroup.children = children;
-            //             this.providersFiltered.push(providerGroup);
-            //         }
-            //     });
-            // }
+            let searchText = e.target.value;
+            searchText = searchText.toLowerCase();
+            if (searchText == '') {
+                this.providersFiltered = this.providersList;
+            } else {
+                let providersList = cloneDeep(this.providersList);
+                this.providersFiltered = [];
+                providersList.forEach(providerGroup => {
+                    let children = providerGroup.children.filter(child => {
+                        return (
+                            child.name.toLowerCase().indexOf(searchText) > -1
+                        );
+                    });
+                    if (children.length > 0) {
+                        providerGroup.children = children;
+                        this.providersFiltered.push(providerGroup);
+                    }
+                });
+            }
         },
         onCreateModalSelect(id, item) {
             this.wizardSelectedItem = item;

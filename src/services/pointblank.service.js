@@ -31,7 +31,9 @@ const CommunicationServices = {
         return ApiService.get(URLS.COMMUNICATION_SMS_TEMPLATES() , axiosOptions);
     },
     getSubscribedSmsTemplates(param){
-        const axiosOptions = Object.assign({},{params: param}, getCommonHeaderOptions());
+        let a = {params :param}
+        console.log(a);
+        const axiosOptions = Object.assign({},{params :param}, getCommonHeaderOptions());
         return ApiService.get(URLS.SUBSCRIBED_SMS_TEMPLATES() , axiosOptions);
     },
     getSmsSysTemplates(param){

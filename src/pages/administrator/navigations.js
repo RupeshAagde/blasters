@@ -150,7 +150,7 @@ export const getNavigations = () => {
         {
             display: 'Communication',
             link: '/administrator/communication/events',
-            title: 'events',
+            title: 'communication',
             icon: 'settings',
             highlightedIcon: 'home-highlighted',
             active: false,
@@ -167,7 +167,7 @@ export const getNavigations = () => {
                 {
                     display: 'Providers',
                     link: '/administrator/communication/provider',
-                    title: 'providers',
+                    title: 'provider',
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false

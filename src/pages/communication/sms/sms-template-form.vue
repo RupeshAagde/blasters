@@ -185,7 +185,6 @@ export default {
         
     },
     mounted() {
-        //console.log(this.$route);
         if(!this.isEditMode && !this.isCloneMode){
             this.isCreateMode = true;
         }
@@ -206,14 +205,6 @@ export default {
                 //     )
                     CommunicationServices.getSmsTemplatebyId(this.$route.query.clone)
                     .then(data => {
-                        //let smsTemplate = omitForClone(data);
-                        // this.$store.commit(
-                        //     ADMIN_COMMS_SET_SMS_TEMPLATE_TO_CLONE,
-                        //     {
-                        //         data: smsTemplate
-                        //     }
-                        // );
-                        console.log(data);
                         this.smsTemplateStore = data.data
                         this.isCloneMode = true;
                     });
@@ -397,6 +388,7 @@ export default {
             let smsTemplate = this.smsTemplateStore;
             let smsTemplateToClone = omitForClone(smsTemplate);
             this.isEditMode=false;
+            this.isCreateMode = true;
             this.$router.replace({
                 name: 'smstemplateCreate',
                 query: { clone: smsTemplate._id }
@@ -407,7 +399,6 @@ export default {
         onLinkSubscription(obj) {
             this.subscribedAdded = obj.subscribedAdded;
             this.subscribedRemoved = obj.subscribedRemoved;
-            console.log("susbcription",obj);
         },
         deleteTemplate() {
             // let id = this.$route.params.id;
