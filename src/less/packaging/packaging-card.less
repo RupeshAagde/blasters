@@ -63,6 +63,11 @@
             margin-top: 8px;
             gap: 10px;
             text-transform: capitalize;
+            div{
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
         }
         &-text {
             padding: 10px;
@@ -123,4 +128,18 @@
     font-weight: 500;
     padding: 4px;
     width: 20px;
+}
+
+.line{
+    position: relative;
+    padding: 0 12px;
+    ::before{
+        content: '';
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            left: 0;
+            bottom: 0%;
+            background-color: #e0e0e0;
+    }
 }

@@ -14,10 +14,10 @@
                 </div>
                 <div class="packaging-card-info-other">
                     <div id="product-dimension">
-                        {{ getDimensions(item.dimensions) }}
+                        <inline-svg :src="'scale'"/>{{ getDimensions(item.dimensions) }}
                     </div>
                     <div class="line" id="pack-info">
-                        {{ getPackInfo(item.product) }}
+                        <inline-svg :src="'pack-info'"/>{{ getPackInfo(item.product) }}
                     </div>
                 </div>
             </div>
