@@ -527,4 +527,49 @@ describe('Packaging Create', () => {
         wrapper.vm.handleBulkDropdown(0, 1);
         expect(wrapper.vm.bulkPackaging[0].categoryConfig).toBe(1);
     });
+    it("should test for handleCategoryChange",()=>{
+        wrapper.vm.searchableCategoryList=[{
+            value:1,
+            name:"category1"
+        },
+        {
+            value:2,
+            name:"category2"
+        }]
+        wrapper.vm.handleCategoryChange([1,2])
+        expect(wrapper.vm.selectedCategories).toStrictEqual([{
+            value:1,
+            name:"category1"
+        },
+        {
+            value:2,
+            name:"category2"
+        }])
+        expect(wrapper.vm.categoryValue).toStrictEqual([1,2])
+        wrapper.vm.handleCategoryChange([])
+        expect(wrapper.vm.selectedCategories).toStrictEqual([{value:1,name:'category1'}])
+        expect(wrapper.vm.categoryValue).toStrictEqual([1])
+        // expect(wrapper.vm.checkForButtonToggle).toHaveBeenCalled()
+    })
+    it("should test for handleCategoryRemove",()=>{
+        wrapper.vm.selectedCategories = [{value:1,name:'cat1'}]
+        wrapper.vm.categoryValue = [1]
+        wrapper.vm.handleCategoryRemove({value:1,name:'cat1'},0)
+        expect(wrapper.vm.selectedCategories).toStrictEqual([])
+        expect(wrapper.vm.categoryValue).toStrictEqual([])
+    })
+    it("should test for handleSearchInput",()=>{
+        wrapper.vm.handleSearchInput("test")
+        sleep(1000).then(()=>{
+            expect(wrapper.vm.showListLoader).toBe(false)
+            expect(wrapper.vm.showSearchList).toBe(true)
+        })
+        wrapper.vm.handleSearchInput("")
+        sleep(1000).then(()=>{
+            expect(wrapper.vm.showListLoader).toBe(false)
+            expect(wrapper.vm.showSearchList).toBe(false)
+            expect(wrapper.vm.packagingSelected).toBe(false)
+            expect(wrapper.vm.searchedProductList).toStrictEqual([])
+        })
+    })
 });

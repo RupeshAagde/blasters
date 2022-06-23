@@ -76,4 +76,10 @@ describe('Category config home', () => {
         expect(wrapper.vm.selectedCategories).toStrictEqual([]);
         expect(wrapper.vm.categoryValue).toStrictEqual([]);
     });
+    it("should test for handleEditCategoryGroup function",()=>{
+        wrapper.vm.handleEditCategoryGroup({categoryName:"dummy",categoryValue:[1,23],selectedCategories:[{id:1},{id:23}]})
+        expect(wrapper.vm.groupName.value).toBe("dummy")
+        expect(wrapper.vm.selectedCategories).toStrictEqual([{id:1},{id:23}])
+        expect(wrapper.vm.categoryValue).toStrictEqual([1,23])
+    })
 });
