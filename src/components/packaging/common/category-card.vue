@@ -2,6 +2,9 @@
     <div class="category-card-container">
         <div class="category-card-name" :id="'item-name'">
             {{ item.name }}
+            <span class="slug-name" :id="'slug-name' + index"
+                        >Slug: {{ item.slug }}</span
+                    >
         </div>
         <div class="category-card-config-container">
             <div class="category-config-container">
