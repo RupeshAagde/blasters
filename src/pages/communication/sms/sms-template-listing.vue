@@ -226,15 +226,15 @@ export default {
     },
     watch: {
         selectedFilter: function() {
-            // this.$router.push({
-            //     path: 'communication/sms/templates',
-            //     query: {
-            //         ...this.$route.query,
-            //         selectedFilter: this.selectedFilter
-            //     }
-            // }).catch(() => {});
-            //this.resetPagination();
-            //this.getTemplatesBasedOnFilter();
+            this.$router.replace({
+                name: 'smstemplateMain',
+                query: {
+                    ...this.$route.query,
+                    selectedFilter: this.selectedFilter
+                }
+            }).catch(() => {});
+            this.resetPagination();
+            this.getTemplatesBasedOnFilter();
         }
     },
     mounted() {

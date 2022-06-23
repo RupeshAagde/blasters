@@ -460,7 +460,7 @@ export default {
             this.isWizardModalOpen = true;
         },
         closeWizardModal(id) {
-            //this.isWizardModalOpen = false;
+            this.isWizardModalOpen = false;
         }
     }
 };

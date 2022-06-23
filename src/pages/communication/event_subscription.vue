@@ -115,6 +115,7 @@
                                                         @searchInputChange="
                                                             dropdownSearchInputChange
                                                         "
+                                                        @change="updatePreview(item.email.template._id,'email')"
                                                     >
                                                     </nitrozen-dropdown>
                                                     <nitrozen-button
@@ -177,6 +178,7 @@
                                                         @searchInputChange="
                                                             dropdownSearchInputChange
                                                         "
+                                                        @change="updatePreview(item.sms.template._id,'sms')"
                                                     >
                                                     </nitrozen-dropdown>
                                                     <nitrozen-button
@@ -397,6 +399,30 @@ export default {
                 this.ORDER = data;
             })
         },
+        updatePreview(id,type){
+            if(type == "email"){
+            CommunicationServices.getEmailTemplatebyId(id).then((data)=>{
+                this.templateInPreviewModal.template = data.data;
+                this.templateInPreviewModal.template_type = type;
+                this.templateInPreviewModal.templatePreview = this.renderHtmlTemplate(
+                    data.data
+                )               
+            })}
+            if(type == "sms"){
+            CommunicationServices.getSmsTemplatebyId(id).then((data)=>{
+                this.templateInPreviewModal.template = data.data;
+                this.templateInPreviewModal.template_type = type;
+                this.templateInPreviewModal.templatePreview = this.renderSMSTemplate(data.data)
+                })
+                }
+                 let el = this.$refs['previewbody'];
+                if (this.$refs['previewbody']) {
+                    let iframe = this.$refs['previewbody'];
+                    var iframedoc =
+                        iframe.contentDocument || iframe.contentWindow.document;
+                    iframedoc.body.innerHTML = this.templateInPreviewModal.templatePreview;
+                }
+        },
         cloneTemplate() {
             let template = this.templateInPreviewModal.template;
               let mode  = 'sms'
@@ -443,7 +469,7 @@ export default {
                         'Invalid message template';
                 }
             } else {
-                template = smsTemplate.message.template.value;
+                template = smsTemplate.message.template;
             }
             if (templateValid) {
                 //template = this.urlify(template);
@@ -484,6 +510,7 @@ export default {
         //     return output;
         // },
         previewTemplate(type, groupIndex, childIndex) {
+            if(!this.templateInPreviewModal.templatePreview){
             let template = this.subscriptions[groupIndex].children[childIndex][
                 type
             ].template;
@@ -505,6 +532,7 @@ export default {
                     iframedoc.body.innerHTML = this.templateInPreviewModal.templatePreview;
                 }
             }  
+            }
             this.showTemplatePreviewModal = true;
         },
         dropdownSearchInputChange(e) {
