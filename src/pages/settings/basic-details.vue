@@ -195,11 +195,12 @@
                 <div class="input-row business-checbox">
                     <!-- Description -->
                     <div class="input-field">
-                        <nitrozen-check-box
-                            v-model="businessAccount.value"
-                        >
-                        Limit Create Business Account
-                        </nitrozen-check-box>
+                        <label class="business-create">
+                            <nitrozen-toggle-btn
+                                v-model="businessAccount.value"
+                            ></nitrozen-toggle-btn>
+                            <span>Limit Create Business Account</span>
+                        </label>
                     </div>
                 </div>
 
@@ -290,7 +291,7 @@ import {
     flatBtn,
     NitrozenBadge,
     NitrozenDialog,
-    NitrozenCheckBox
+    NitrozenToggleBtn
 } from '@gofynd/nitrozen-vue';
 import _ from 'lodash';
 
@@ -311,7 +312,7 @@ export default {
         PageHeader,
         Loader,
         ImageUploaderTile,
-        NitrozenCheckBox
+        NitrozenToggleBtn
     },
     directives: {
         strokeBtn,
@@ -539,6 +540,12 @@ export default {
     }
     label.title {
         padding: 12px 0;
+    }
+    .business-create{
+        cursor: pointer;
+        display: flex;
+        justify-content: flex-start;
+        font-size: 14px;
     }
 }
 .business-checbox{
