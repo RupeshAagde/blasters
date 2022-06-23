@@ -160,5 +160,6 @@ module.exports = {
             marketplaces: {},
             id: '619f1eccc09ea839643f8334'
         }
-    ]
+    ],
+    groupCategories:[]
 };

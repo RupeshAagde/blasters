@@ -6,7 +6,10 @@ import {
     GET_PACKAGING_PRODUCTS,
     GET_EDIT_PRODUCT
 } from '../../../../store/getters.type';
-import { FETCH_L3_CATEGORIES } from '../../../../store/action.type';
+import {
+    FETCH_GROUP_CATEGORIES,
+    FETCH_L3_CATEGORIES
+} from '../../../../store/action.type';
 import mocks from './fixtures/mocks';
 let wrapper;
 let category = {
@@ -30,6 +33,9 @@ let store = new Vuex.Store({
             actions: {
                 async [FETCH_L3_CATEGORIES](data) {
                     return mocks.l3Categories;
+                },
+                async [FETCH_GROUP_CATEGORIES](data) {
+                    return mocks.groupCategories;
                 }
             }
         },
@@ -41,7 +47,13 @@ const sleep = async (ms) => {
 };
 describe('Packaging Create', () => {
     beforeEach(async () => {
-        wrapper = mount(PackagingCreate, { localVue, store });
+        wrapper = mount(PackagingCreate, {
+            localVue,
+            store,
+            propsData: {
+                toggleBtn: jest.fn()
+            }
+        });
     });
     it('should render to a snapshot', () => {
         expect(wrapper.element).toMatchSnapshot();
@@ -195,17 +207,21 @@ describe('Packaging Create', () => {
         ];
         const resp = wrapper.vm.savePackagingOrder();
         expect(resp).toStrictEqual({
+            _id: undefined,
             data: {
                 dead_weight_in_kg: '',
+                default_package: {
+                    l3_categories: [],
+                    quantity: { max: 1, min: 1 }
+                },
+                dimensions: { height: '', length: '', width: '' },
                 error_rate: '',
-                height: '',
                 is_bulk: false,
                 is_l3_specific: false,
                 item_id: '',
-                length: '',
-                orderThreshold: '',
-                weight: '',
-                width: ''
+                l3_mapping: [],
+                maximum_order: '',
+                weight: ''
             },
             isEdit: false
         });
@@ -287,10 +303,10 @@ describe('Packaging Create', () => {
     it('should test for setCategoryList', () => {
         wrapper.vm.setCategoryList({ text: 'some text' });
     });
-    it('should test for handlePackagingProductClicked', () => {
-        wrapper.vm.handlePackagingProductClicked({
-            item_id: '123',
-            product: { name: 'product' }
+    it('should test for handlePackagingProductClicked', async () => {
+        await wrapper.vm.handlePackagingProductClicked({
+            uid: '123',
+            name: 'product'
         });
         expect(wrapper.vm.selectedPackage).toBe('123');
         expect(wrapper.vm.packagingSelected).toBe(true);
@@ -470,7 +486,7 @@ describe('Packaging Create', () => {
         expect(wrapper.vm.bulkPackaging[0].toggle.val).toBe(true);
         expect(wrapper.vm.bulkPackaging[0].toggle.disabled).toBe(false);
     });
-    it("should check for handleBulkDropdown",()=>{
+    it('should check for handleBulkDropdown', () => {
         wrapper.vm.bulkPackaging = [
             {
                 toggle: {
@@ -508,7 +524,7 @@ describe('Packaging Create', () => {
                 }
             }
         ];
-        wrapper.vm.handleBulkDropdown(0,1)
-        expect(wrapper.vm.bulkPackaging[0].categoryConfig).toBe(1)
-    })
+        wrapper.vm.handleBulkDropdown(0, 1);
+        expect(wrapper.vm.bulkPackaging[0].categoryConfig).toBe(1);
+    });
 });
