@@ -64,4 +64,9 @@ describe('Category config home', () => {
     it("should test for goBack",()=>{
         wrapper.vm.goBack()
     })
+    it(
+        "Should test the onSave function",()=>{
+            wrapper.vm.onSave()
+        }
+    )
 });
