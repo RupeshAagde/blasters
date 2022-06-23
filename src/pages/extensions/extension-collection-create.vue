@@ -45,6 +45,7 @@
                             v-model="collection_data.name"
                             @input="onNameInput"
                             :custom="true"
+                            :maxlength="30"
                         >
                         </nitrozen-input>
                         <nitrozen-error
@@ -57,12 +58,17 @@
                     <div class="input">
                         <nitrozen-input
                             label="Slug *"
-                            pattern="[a-z0-9]+(?:--?[a-z0-9]+)*"
                             placeholder="For eg. summer-styles"
                             v-model="collection_data.slug"
                             tooltipText="Part of the URL that explains the page’s content. Allowed characters are alphabets, numbers and hyphens."
                             :showTooltip="true"
-                            @input="handleSlugChange"
+                            @input="(slug)=>{
+                                slug = nameToSlug(slug);
+                                $nextTick(()=>{
+                                    collection_data.slug = slug;
+                                    handleSlugChange(slug);
+                                });
+                            }"
                             @blur="handleDuplicateSlug"
                             :maxlength="24"
                             :disabled="checkSlugDisable()"
@@ -522,7 +528,8 @@ export default {
             if (this.is_slug_dirty || this.checkSlugDisable()) {
                 return;
             }
-            this.handleSlugChange(this.nameToSlug(slug).substr(0, 24), true);
+            this.collection_data.slug = this.nameToSlug(slug).substr(0, 24);
+            this.handleSlugChange(this.collection_data.slug, true);
         },
         checkSlugDisable() {
             return !!this.collection_id || this.is_slug_loading;
@@ -537,7 +544,7 @@ export default {
                 if (validator && !validator(this.collection_data)) {
                     this.$set(this.errors, key, message);
                 }
-                if (!validator && !this.collection_data[key]) {
+                if (!validator && !this.collection_data[key].trim()) {
                     this.$set(this.errors, key, message);
                 }
             });
@@ -679,9 +686,7 @@ export default {
                 .toLowerCase()
                 .trim()
                 .replace(/\s/gi, '-')
-                .replace(/[&\/\\#!,+()$@~%./^/&'":;`*?<>|{}]/g, '')
-                .replace(/[&,%,_]/g, '')
-                .replace(/[\[\]']+/g, '');
+                .replace(/[^a-z-0-9]/g, '');
         },
         handleSlugChange: debounce(function(slug, is_not_dirty) {
             this.is_slug_dirty = !is_not_dirty;
@@ -694,7 +699,6 @@ export default {
                 return;
             }
             this.$set(this.slug_length, 'error', null);
-            this.collection_data.slug = this.nameToSlug(slug);
         }, 100),
         handleDuplicateSlug() {
             const { slug } = this.collection_data;
