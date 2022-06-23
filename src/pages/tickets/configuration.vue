@@ -108,21 +108,22 @@
                 </div>
                 <div class="tool-container">
                     <div class="default-tool">
-                        <div class="left-container">
+                        <div class="left-container"
+                        :class="isAvailable('default') ? '' : 'muted'">
                             <div class="radio-btn">
                                 <nitrozen-radio
+                                    :name="'default'"
                                     :radioValue="'default'"
                                     v-model="integration.type"
                                 ></nitrozen-radio>
                             </div>
                             <div class="fynd-icon">
-                                <inline-svg :src="'fynd-icon'"></inline-svg>
+                                <inline-svg :src="'fynd-platform-icon'"></inline-svg>
                             </div>
                             <div class="tools-type">
                                 <span class="tool-heading">Fynd Platform</span>
                                 <span class="tool-decs"
-                                    >Take appropriate actions on the business to
-                                    make the seller go live</span
+                                    >This integration will be available soon</span
                                 >
                             </div>
                         </div>
@@ -144,15 +145,17 @@
                         </div>
                     </div>
                     <div class="default-tool">
-                        <div class="left-container">
+                        <div class="left-container"
+                        :class="isAvailable('freshdesk') ? '' : 'muted'">
                             <div class="radio-btn">
                                 <nitrozen-radio
+                                    :name="'freshdesk'"
                                     :radioValue="'freshdesk'"
                                     v-model="integration.type"
                                 ></nitrozen-radio>
                             </div>
                             <div class="fynd-icon">
-                                <inline-svg :src="'headphone'"></inline-svg>
+                                <inline-svg :src="'freshdesk'"></inline-svg>
                             </div>
                             <div class="tools-type">
                                 <span class="tool-heading"
@@ -173,9 +176,11 @@
                         </div>
                     </div>
                     <div class="default-tool">
-                        <div class="left-container">
+                        <div class="left-container"
+                        :class="isAvailable('kapture') ? '' : 'muted'">
                             <div class="radio-btn">
                                 <nitrozen-radio
+                                    :name="'kapture'"
                                     :radioValue="'kapture'"
                                     v-model="integration.type"
                                 ></nitrozen-radio>
@@ -491,7 +496,6 @@ export default {
     .fynd-icon {
         display: flex;
         align-items: center;
-        margin-left: 25px;
     }
     .tools-type {
         display: flex;
@@ -514,7 +518,11 @@ export default {
             line-height: 20px;
             color: #9b9b9b;
         }
-    }
+    } 
+}
+::v-deep .muted {
+    pointer-events: none;
+    opacity: 0.4;
 }
 .right-container {
     display: flex;
