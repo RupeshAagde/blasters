@@ -38,7 +38,7 @@ describe('Category packaging home', () => {
         expect(wrapper.find('#modal-body-text').exists()).toBe(false)
         expect(wrapper.findComponent(BaseModal).exists()).toBe(true)
         await wrapper.setData({ isModalOpen: true })
-        expect(wrapper.find('#modal-body-text').element.textContent.trim()).toBe('Packaging has been succesfully added to the list')
+        expect(wrapper.find('#modal-body-text').element.textContent.trim().replace(/\s/g, '')).toBe('Packaging has been succesfully added to the list'.replace(/\s/g, ''))
         expect(wrapper.find('#modal-btn').element.textContent.trim()).toBe('Thank you')
         await wrapper.find('#modal-btn').trigger('click')
     })

@@ -45,7 +45,7 @@ describe("Test suite for list-packagiing",()=>{
         expect(res).toStrictEqual({"page_no": 1, "page_size": 10})
         wrapper.vm.packagingSearchValue = "test"
         res = wrapper.vm.requestParams()
-        expect(res).toStrictEqual({"page_no": 1, "page_size": 10,"name": "test"})
+        expect(res).toStrictEqual({"q": "test"})
     })
     it("should check for pageOptionChange",()=>{
         wrapper.vm.pageOptionChange({current:2,limit:10})

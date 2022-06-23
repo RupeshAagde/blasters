@@ -391,7 +391,6 @@ export default {
          * the state from the store state value
          */
         async setEditProduct() {
-            console.log(this.editProduct, 'this.editProduct');
             if (Object.keys(this.editProduct).length != 0) {
                 this.searchInput = this.editProduct.product.name;
                 this.l3Checked = this.editProduct.is_l3_specific;
