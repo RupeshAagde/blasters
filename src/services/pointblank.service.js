@@ -130,6 +130,10 @@ const CommunicationServices = {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.del(URLS.COMMUNICATION_SMS_TEMPLATES(id) , axiosOptions);
     },
+    deleteEmailTemplateById(id){
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.del(URLS.COMMUNICATION_EMAIL_TEMPLATES(id) , axiosOptions);
+    },
     getEmailTemplatebyId(id){
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.COMMUNICATION_EMAIL_TEMPLATES(id) , axiosOptions);

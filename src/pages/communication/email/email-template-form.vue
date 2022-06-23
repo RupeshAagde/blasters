@@ -281,20 +281,20 @@ export default {
             }
         },
         deleteTemplate() {
-            // let id = this.$route.params.id;
-            // adminCommsService
-            //     .deleteEmailTemplateById(id)
-            //     .then(response => {
-            //         this.$snackbar.global.showSuccess('Successfully Deleted');
-            //         this.$router.push(
-            //             `${getRoute(this.$route)}/email/templates/listing`
-            //         );
-            //     })
-            //     .catch(err => {
-            //         this.$snackbar.global.showError(
-            //             'Failed to delete template'
-            //         );
-            //     });
+            let id = this.$route.params.templateId;
+            adminCommsService
+                .deleteEmailTemplateById(id)
+                .then(response => {
+                    this.$snackbar.global.showSuccess('Successfully Deleted');
+                    this.$router.push(
+                        `/administrator/communication/email/templates`
+                    );
+                })
+                .catch(err => {
+                    this.$snackbar.global.showError(
+                        'Failed to delete template'
+                    );
+                });
         },
         onLinkSubscription(obj) {
             this.subscribedAdded = obj.subscribedAdded;
