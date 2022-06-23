@@ -223,7 +223,7 @@ import {
 } from '@gofynd/nitrozen-vue';
 import { PageHeader } from '@/components/common';
 import inlineSvgVue from '@/components/common/inline-svg.vue';
-import SupportService from '../../services/support.service';
+import SupportService from '../../../services/support.service';
 export default {
     name: 'category-list',
     components: {
@@ -266,11 +266,6 @@ export default {
         this.getGeneralConfiguration();
     },
     methods: {
-        selected(category) {
-            this.$router.push({
-                path: `/administrator/support/category/${category.path}`,
-            });
-        },
         isAvailable(integration_name) {
             return this.available_integration.includes(integration_name);
         },
@@ -286,6 +281,11 @@ export default {
                 }
             }
             return true;
+        },
+        addCategory(){
+            this.$router.push({
+                path: `/administrator/support/configuration/category/default`
+            });
         },
         save() {
             if (!this.validateEntries(this.support_email)) return

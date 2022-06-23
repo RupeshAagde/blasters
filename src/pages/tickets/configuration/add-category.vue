@@ -2,7 +2,7 @@
     <div class="panel">
         <page-header
             title="Add New Category"
-            @backClick="$router.push({ path: '/administrator/support/category-listing' })"
+            @backClick="$router.push({ path: '/administrator/support/configuration' })"
         >
             <nitrozen-button
                 v-flatBtn
