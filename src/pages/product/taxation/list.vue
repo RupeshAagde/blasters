@@ -26,7 +26,7 @@
                         <nitrozen-input
                             :showSearchIcon="true"
                             type="search"
-                            :placeholder="'Search by HSN, Reporting HSN'"
+                            :placeholder="'Search by HSN, Reporting HSN, Description'"
                             v-model="searchText"
                             @input="searchHSN"
                         ></nitrozen-input>
@@ -191,7 +191,11 @@ export default {
                 page_size: this.pagination.limit
             };
             if (this.searchText) {
-                params.q = this.searchText;
+                if(/[^a-zA-Z0-9\-\/]/.test(this.searchText)){
+                        params.q = `\\${this.searchText}`;
+                }else{
+                    params.q = this.searchText;
+                }
             }
             if (this.selectedType && this.selectedType !== 'all') {
                 params.type = this.selectedType;
@@ -260,11 +264,6 @@ export default {
             });
         },
         searchHSN: debounce(function() {
-            if(/[^a-zA-Z0-9\-\/]/.test(this.searchText)){
-                this.$snackbar.global.showError('Special characters are not allowed in the search');
-                this.searchText = '';
-                return
-            }
             if (this.searchText.length === 0) {
                 this.clearSearchFilter();
             } else {

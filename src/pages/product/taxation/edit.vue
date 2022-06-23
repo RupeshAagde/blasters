@@ -31,12 +31,12 @@
                         label="HSN Code"
                         :disabled="editMode"
                         required
-                        :type="'number'"
+                        :type="'text'"
                         :maxlength="8"
                         placeholder="For eg. 61152010"
                         :value="hsn_code.value"
                         v-model="hsn_code.value"
-                        @input="validateNumber($event)"
+                        @keyup="validateNumber(hsn_code.value)"
                     ></nitrozen-input>
                     <nitrozen-error v-if="hsn_code.showerror">
                         {{ hsn_code.errortext }}
@@ -213,6 +213,7 @@
         <add-taxrate-dailog
             ref="addTaxrateDialog"
             :taxes="datedTax"
+            :selectedDates="selectedDates"
             @close="$closeAddTaxRateDialog"
         >
         </add-taxrate-dailog>
@@ -220,6 +221,7 @@
             ref="editTaxrateDialog"
             :taxes="datedTax"
             :selectedRate="selectedRate"
+            :selectedDates="selectedDates"
             @close="$closeEditTaxrateDialog"
         >
         </edit-taxrate-dailog>
@@ -382,6 +384,7 @@ export default {
             ],
             markedForDelete: [],
             errors: {},
+            selectedDates:[],
         };
     },
     mounted() {
@@ -562,6 +565,7 @@ export default {
                 }
             }
             //assigning the newUpdated object to global variable
+            this.selectedDates = Object.keys(datedTax).map(date=> datedTax[date][0].effective_date);
             this.datedTax = datedTax;
         },
         isRateActive(state) {
@@ -690,18 +694,7 @@ export default {
             }
         },
         validateNumber(input) {
-            if(input.toString().length > 8){
-                this.hsn_code.showerror = true;
-                this.hsn_code.errortext = 'HSN code must be of 8 digits';
-                return;
-            }
-            if (input === 0) {
-                this.hsn_code.value = '';
-                this.hsn_code.showerror = true;
-                this.hsn_code.errortext = 'HSN code must be of positive number';
-                return;
-            }
-            if (!/^[0-9]+$/.test(input)) {
+            if (!Number(parseInt(input)) && Number(parseInt(input)) !== 0) {
                 this.hsn_code.value = '';
                 this.hsn_code.showerror = true;
                 this.hsn_code.errortext = 'HSN code must be of positive number';
