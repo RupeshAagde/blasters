@@ -3,23 +3,28 @@
         <div class="packaging-card-info">
             <div class="packaging-card-info-image">
                 <img
+                    id="image-path"
                     :src="getImagePath(item.product)"
                     :alt="item.product.name"
                 />
             </div>
             <div class="packaging-card-info-text">
-                <div class="packaging-card-info-name">
+                <div class="packaging-card-info-name" id="product-name">
                     {{ item.product.name }}
                 </div>
                 <div class="packaging-card-info-other">
-                    <div>{{ getDimensions(item.dimensions) }}</div>
-                    <div class="line">{{ getPackInfo(item.product) }}</div>
+                    <div id="product-dimension">
+                        {{ getDimensions(item.dimensions) }}
+                    </div>
+                    <div class="line" id="pack-info">
+                        {{ getPackInfo(item.product) }}
+                    </div>
                 </div>
             </div>
         </div>
         <div class="packaging-card-button-container">
             <div class="packaging-card-extra">
-                <span>{{ item.product.item_code }}</span>
+                <span id="item-code">{{ item.product.item_code }}</span>
             </div>
             <div class="packaging-card-button" @click="editClick(item)">
                 <inline-svg :src="'edit'" class="action-icon" />
