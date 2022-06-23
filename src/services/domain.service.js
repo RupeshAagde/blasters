@@ -637,6 +637,9 @@ const URLS = {
     SUBSCRIBED_SMS_TEMPLATES: (id='') => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/subscribedTemplates`,id)
     },
+    SUBSCRIBED_EMAIL_TEMPLATES: (id='') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/email/subscribedTemplates`,id)
+    },
     COMMUNICATION_SMS_S_TEMPLATES: () => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/system-templates`)
     },

@@ -273,13 +273,13 @@ export default {
                     return this.emailTemplates;
                 });
             } 
-            // else if (this.selectedFilter == 'subscribed') {
-            //     this.fetchSubscribedEmailTemplates().then(() => {
-            //         this.setPagination();
-            //         this.mapEmailTemplates();
-            //         return this.emailTemplates;
-            //     });
-            // }
+            else if (this.selectedFilter == 'subscribed') {
+                this.fetchSubscribedEmailTemplates().then(() => {
+                    this.setPagination();
+                    this.mapEmailTemplates();
+                    return this.emailTemplates;
+                });
+            }
         },
         mapEmailTemplates() {
             if(this.emailTemplatesStore.items){
@@ -309,32 +309,29 @@ export default {
         fetchSubscribedEmailTemplates() {
             let paginate = this.pagination;
             this.pageLoading = true;
-            // return this.$store
-            //     .dispatch(ADMIN_COMMS_FETCH_SUBSCRIBED_EMAIL_TEMPLATES, {
-            //         params: {
-            //             page_size: this.pagination.limit,
-            //             page_no: this.pagination.current,
-            //             ...(this.searchText
-            //                 ? {
-            //                       query: JSON.stringify({
-            //                           searchText: this.searchText
-            //                       })
-            //                   }
-            //                 : {})
-            //         }
-            //     })
-            //     .then(data => {
-            //         this.pageLoading = false;
-            //         this.pageError = false;
-            //         return data;
-            //     })
-            //     .catch(err => {
-            //         this.pageLoading = false;
-            //         this.pageError = true;
-            //     })
-            //     .finally(() => {
-            //         this.isInitialLoad && (this.isInitialLoad = false);
-            //     });
+            return CommunicationServices.getSubscribedSmsTemplates(
+            {
+                        page_size: this.pagination.limit,
+                        page_no: this.pagination.current,
+                        ...(this.searchText
+                            ? {
+                                  query: JSON.stringify({
+                                      searchText: this.searchText
+                                  })
+                              }
+                            : {})
+                    })
+                .then(data => {
+                    this.emailTemplatesStore = data.data
+                    this.pageLoading = false;
+                    return this.emailTemplatesStore
+                })
+                .catch(err => {
+                    this.pageLoading = false;
+                })
+                .finally(() => {
+                    this.isInitialLoad && (this.isInitialLoad = false);
+                });
         },
         fetchEmailTemplates() {
             let paginate = this.pagination;
