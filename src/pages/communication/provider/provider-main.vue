@@ -85,7 +85,7 @@ import {
     NitrozenInline,
     NitrozenMenu,
     NitrozenMenuItem,
-    NitrozenDialog
+    NitrozenDialog,
 } from '@gofynd/nitrozen-vue';
 import PageHeader from '@/components/common/layout/page-header';
 import path from 'path';
@@ -99,11 +99,11 @@ export default {
         'nitrozen-menu': NitrozenMenu,
         'nitrozen-inline': NitrozenInline,
         'nitrozen-menu-item': NitrozenMenuItem,
-        'nitrozen-dialog': NitrozenDialog
+        'nitrozen-dialog': NitrozenDialog,
     },
     directives: {
         flatBtn,
-        strokeBtn
+        strokeBtn,
     },
     mixins: [dirtyCheckMixin],
     data() {
@@ -121,21 +121,21 @@ export default {
             providerType: this.$route.params.providerType || 'sms',
             providerCategory: this.$route.query.type || '',
             providerId: this.$route.params.providerId,
-            threeDotsOptions: []
+            threeDotsOptions: [],
         };
     },
     mounted() {
         this.pageLoading = false;
-         //let promiseObj = Promise.resolve();
+        //let promiseObj = Promise.resolve();
         if (
             this.isEditMode &&
             this.providerId &&
             this.providerType == 'email'
         ) {
-            //promiseObj = 
+            //promiseObj =
             //this.fetchEmailProvider(this.providerId)
             //then(() => {
-                //this.providerCategory = this.emailProviderStore.provider;
+            //this.providerCategory = this.emailProviderStore.provider;
             //});
         } else if (
             this.isEditMode &&
@@ -144,14 +144,14 @@ export default {
         ) {
             //promiseObj =
             //this.fetchSmsProvider(this.providerId)
-             //.then(() => {
-                //this.providerCategory = this.smsProviderStore.provider;
+            //.then(() => {
+            //this.providerCategory = this.smsProviderStore.provider;
             //});
         }
-       // promiseObj.
-    //    finally(() => {
-             this.pageLoading = false;
-    //     });
+        // promiseObj.
+        //    finally(() => {
+        this.pageLoading = false;
+        //     });
     },
     methods: {
         onTestProviderClick() {
@@ -169,62 +169,61 @@ export default {
         },
         saveAndPublish() {
             let mainbodyValid = this.$refs.providermainbody.validate();
+            console.log(mainbodyValid);
             if (mainbodyValid) {
-                this.emailProviderStore = this.$refs.providermainbody.saveForm()
+                this.emailProviderStore =
+                    this.$refs.providermainbody.saveForm();
+                    this.saveForm();
             }
-            this.saveForm()
-
+            
         },
         makeProviderDefault() {
             this.saveAndPublish();
         },
         saveForm() {
-                    if (this.providerId) {
-                         this.pageLoading = true;
-                        if (this.providerType == 'email') {
-                             this.updateEmailProvider();
-                        } else if (this.providerType == 'sms') {
-                             this.updateSmsProvider();
-                        }
-                    } else {
-                        if (this.providerType == 'email') {
-                             this.createEmailProvider(
-                                this.emailProviderStore).then(data => {
-                                this.$router.push({
-                                    name: 'providerList'
-                                });
-                            })
-                        } 
-                      if (this.providerType == 'sms') {
-                             this.createSmsProvider(this.smsProviderStore).then(data => {
-                                this.$router.push({
-                                    name: 'providerList'
-                                })
-                            });
-                         }
-    }},
+            if (this.providerId) {
+                this.pageLoading = true;
+                if (this.providerType == 'email') {
+                    this.updateEmailProvider();
+                } else if (this.providerType == 'sms') {
+                    this.updateSmsProvider();
+                }
+            } else {
+                if (this.providerType == 'email') {
+                    this.createEmailProvider(this.emailProviderStore);
+                }
+                if (this.providerType == 'sms') {
+                    this.createSmsProvider(this.smsProviderStore);
+                }
+            }
+        },
 
         createEmailProvider(data) {
             this.pageLoading = true;
-                CommunicationServices.postEmailProvider(this.emailProviderStore)
-                .then(data => {
+            CommunicationServices.postEmailProvider(this.emailProviderStore)
+                .then((data) => {
                     this.$snackbar.global.showSuccess(
                         'Email provider created successfully'
                     );
+                     this.$router.replace({
+                        name: 'providerList',
+                    });
                 })
                 .finally(() => {
                     this.pageLoading = false;
                 });
         },
         createSmsProvider(data) {
-
             this.pageLoading = true;
             console.log(this.emailProviderStore);
             CommunicationServices.postSmsProvider(this.emailProviderStore)
-                .then(data => {
+                .then((data) => {
                     this.$snackbar.global.showSuccess(
                         'SMS provider created successfully'
                     );
+                    this.$router.replace({
+                        name: 'providerList',
+                    });
                 })
                 .finally(() => {
                     this.pageLoading = false;
@@ -232,8 +231,11 @@ export default {
         },
         updateEmailProvider() {
             this.pageLoading = true;
-                CommunicationServices.putEmailProviderbyId(this.providerId,this.emailProviderStore)
-                .then(data => {
+            CommunicationServices.putEmailProviderbyId(
+                this.providerId,
+                this.emailProviderStore
+            )
+                .then((data) => {
                     this.$snackbar.global.showSuccess(
                         'Email provider updated successfully'
                     );
@@ -244,8 +246,11 @@ export default {
         },
         updateSmsProvider() {
             this.pageLoading = true;
-                CommunicationServices.putSmsProviderbyId(this.providerId,this.emailProviderStore)
-                .then(data => {
+            CommunicationServices.putSmsProviderbyId(
+                this.providerId,
+                this.emailProviderStore
+            )
+                .then((data) => {
                     this.$snackbar.global.showSuccess(
                         'SMS provider updated successfully'
                     );
@@ -257,14 +262,12 @@ export default {
         },
         isFormDirty() {
             return this.false;
-        }
-    }
-}
-
+        },
+    },
+};
 </script>
 
 <style lang="less" scoped>
-
 .main {
     /deep/.page-header-position {
         margin: 0;

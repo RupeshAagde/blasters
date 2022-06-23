@@ -483,7 +483,7 @@ export default {
             })
             .finally(() => {
                 this.isInitialLoad = false;
-                this.pageLoading = false;
+                //this.pageLoading = false;
                 this.initialHash = this.generateHashOfLocalState();
             });
     },
@@ -555,10 +555,12 @@ export default {
             this.openTestProviderModal();
         },
         fetchAppProvider() {
+            
             CommunicationServices.getAppProvider()
                 .then(data => {
                     this.appProviderAPIData = data.data;
                     this.updateAppProviderInState()
+                    this.pageLoading = false
                 });
         },
         updateAppProviderInState() {

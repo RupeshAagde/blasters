@@ -238,7 +238,6 @@ export default {
             };
         },
         validate() {
-            console.log('hi');
             let isValid = true;
             this.requiredFields.forEach((field) => {
                 if (!get(this.data, `${field}.value`)) {

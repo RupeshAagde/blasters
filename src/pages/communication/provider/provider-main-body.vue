@@ -388,28 +388,20 @@ export default {
             }
         };
     },
-    computed: {
-        getBreadCrumb() {
-            return [];
-        },
-        ALIGN() {
-            return ALIGN;
-        },
-    },
     mounted() {
-        // if (this.providerType == 'email') {
-        //     let email = this.getPrimaryVerifiedActiveEmail();
-        //     if (email) {
-        //         this.emailTestModal.to = email;
-        //     }
-        // }
-        // if (this.providerType == 'sms') {
-        //     let phone = this.getPrimaryVerifiedActivePhoneNumber();
-        //     if (phone) {
-        //         this.smsTestModal.country_code = String(phone.countryCode);
-        //         this.smsTestModal.phone_number = String(phone.phone);
-        //     }
-        // }
+        if (this.providerType == 'email') {
+            let email = this.getPrimaryVerifiedActiveEmail();
+            if (email) {
+                this.emailTestModal.to = email;
+            }
+        }
+        if (this.providerType == 'sms') {
+            let phone = this.getPrimaryVerifiedActivePhoneNumber();
+            if (phone) {
+                this.smsTestModal.country_code = String(phone.countryCode);
+                this.smsTestModal.phone_number = String(phone.phone);
+            }
+        }
         this.pageLoading = false;
     },
     methods: {
@@ -418,7 +410,7 @@ export default {
                 this.providerType + '-' + this.providerCategory
             ];
             this.$router.replace({
-                name: 'provider-default'
+                name: 'providerDefault'
             });
             // if (component) {
             //     component.makeDefault();
@@ -493,8 +485,7 @@ export default {
         },
         validateAndSave() {
             if (this.validate()) {
-                console.log('vs');
-                this.saveForm();
+               this.saveForm();
             }
         }
     }
