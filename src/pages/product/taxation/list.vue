@@ -64,7 +64,7 @@
                     </list-element>
                 </div>
                 <div v-else>
-                    <adm-no-content :helperText="''"></adm-no-content>
+                    <adm-no-content :helperText="'No data found'"></adm-no-content>
                 </div>
                 <div class="pagination" v-if="hsnCodes.length > 0">
                     <nitrozen-pagination
@@ -227,7 +227,7 @@ export default {
         },
         debounceredirectEdit: debounce(function(e) {
             this.redirectEdit();
-        }, 300),
+        }, 800),
         paginationChange(filter, action) {
             const { current, limit } = filter;
 
@@ -260,6 +260,11 @@ export default {
             });
         },
         searchHSN: debounce(function() {
+            if(/[^a-zA-Z0-9\-\/]/.test(this.searchText)){
+                this.$snackbar.global.showError('Special characters are not allowed in the search');
+                this.searchText = '';
+                return
+            }
             if (this.searchText.length === 0) {
                 this.clearSearchFilter();
             } else {

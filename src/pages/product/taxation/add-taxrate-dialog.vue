@@ -306,7 +306,6 @@ export default {
             const rateList = cloneDeep(RATE_LIST);
             const highest = rateList.sort((a, b) => a.value - b.value).pop()
                 .value;
-            console.log(highest === value);
             return highest === value;
         },
         open(data) {

@@ -31,7 +31,7 @@
                         label="HSN Code"
                         :disabled="editMode"
                         required
-                        :type="'text'"
+                        :type="'number'"
                         :maxlength="8"
                         placeholder="For eg. 61152010"
                         :value="hsn_code.value"
@@ -284,7 +284,7 @@ import {
     NitrozenDialog,
     NitrozenTooltip,
     flatBtn,
-    strokeBtn
+    strokeBtn,
 } from '@gofynd/nitrozen-vue';
 
 const GST_RATES = [0, 3, 5, 10, 12, 18, 28];
@@ -311,11 +311,11 @@ export default {
         loader,
         AddTaxrateDailog,
         EditTaxrateDailog,
-        NitrozenDialog
+        NitrozenDialog,
     },
     directives: {
         flatBtn,
-        strokeBtn
+        strokeBtn,
     },
     mixins: [dirtyCheckMixin],
     data() {
@@ -335,28 +335,28 @@ export default {
             hsn_code: {
                 value: '',
                 showerror: false,
-                errortext: 'HSN code is required'
+                errortext: 'HSN code is required',
             },
             type: {
                 value: '',
                 showerror: false,
-                errortext: 'Type is required'
+                errortext: 'Type is required',
             },
             country_code: {
                 value: '',
                 showerror: false,
-                errortext: 'Country is required'
+                errortext: 'Country is required',
             },
             description: {
                 value: '',
                 showerror: false,
                 errortext:
-                    "Description is required and it's length should be between 4 to 500 chars"
+                    "Description is required and it's length should be between 4 to 500 chars",
             },
             taxes: {
                 value: [],
                 showerror: false,
-                errortext: 'Tax rate is required'
+                errortext: 'Tax rate is required',
             },
             datedTax: {},
             // selectedRate: {
@@ -370,18 +370,18 @@ export default {
                 cess: 0,
                 effective_date: '',
                 rate: 0,
-                threshold: 0
+                threshold: 0,
             },
             newRates: [
                 {
                     cess: 0,
                     effective_date: '',
                     rate: 0,
-                    threshold: 0
-                }
+                    threshold: 0,
+                },
             ],
             markedForDelete: [],
-            errors: {}
+            errors: {},
         };
     },
     mounted() {
@@ -403,10 +403,10 @@ export default {
             return HSN_TYPE.map((type) => {
                 return {
                     text: type,
-                    value: type.toLowerCase()
+                    value: type.toLowerCase(),
                 };
             });
-        }
+        },
     },
     watch: {
         value() {
@@ -423,7 +423,7 @@ export default {
                     }
                 }
             }
-        }
+        },
     },
     methods: {
         pageTitle() {
@@ -456,7 +456,7 @@ export default {
                     this.filteredCountries = data.items.map((country) => {
                         return {
                             text: country.name,
-                            value: country.iso2
+                            value: country.iso2,
                         };
                     });
                     this.filteredCountries.sort((a, b) =>
@@ -478,9 +478,8 @@ export default {
                         .includes(this.countrySearchInputText.toLowerCase())
                 ) {
                     this.countryCodeList[i].text = this.countryCodeList[i].name;
-                    this.countryCodeList[i].value = this.countryCodeList[
-                        i
-                    ].iso2;
+                    this.countryCodeList[i].value =
+                        this.countryCodeList[i].iso2;
                     this.filteredCountries.push(this.countryCodeList[i]);
                 }
             }
@@ -574,12 +573,15 @@ export default {
         },
         saveForm() {
             let postData = {};
-            if (this.hsn_code.value !== '' && this.hsn_code.value.length == 8) {
+            if (
+                this.hsn_code.value.toString() !== '' &&
+                this.hsn_code.value.toString().length == 8
+            ) {
                 this.hsn_code.showerror = false;
-                postData.hsn_code = this.hsn_code.value;
+                postData.hsn_code = this.hsn_code.value.toString();
             } else if (
-                this.hsn_code.value !== '' &&
-                this.hsn_code.value.length != 8
+                this.hsn_code.value.toString() !== '' &&
+                this.hsn_code.value.toString().length != 8
             ) {
                 this.hsn_code.showerror = true;
                 this.hsn_code.errortext = 'HSN code must be of 8 digits';
@@ -631,7 +633,6 @@ export default {
                     call = call = AdminService.createHsnCode(postData);
                 }
                 call.then((res) => {
-                    console.log(res);
                     this.inProgress = false;
                     if (this.editMode) {
                         this.$snackbar.global.showSuccess(
@@ -689,6 +690,17 @@ export default {
             }
         },
         validateNumber(input) {
+            if(input.toString().length > 8){
+                this.hsn_code.showerror = true;
+                this.hsn_code.errortext = 'HSN code must be of 8 digits';
+                return;
+            }
+            if (input === 0) {
+                this.hsn_code.value = '';
+                this.hsn_code.showerror = true;
+                this.hsn_code.errortext = 'HSN code must be of positive number';
+                return;
+            }
             if (!/^[0-9]+$/.test(input)) {
                 this.hsn_code.value = '';
                 this.hsn_code.showerror = true;
@@ -761,8 +773,8 @@ export default {
                     cess: 0,
                     effective_date: '',
                     rate: 0,
-                    threshold: 0
-                }
+                    threshold: 0,
+                },
             ];
         },
         clearSelectedRate() {
@@ -841,9 +853,8 @@ export default {
                     'HSN has only one tax slab, it should not be deleted'
                 );
             } else {
-                let tempdate = this.markedForDelete[0].effective_date.split(
-                    'T'
-                )[0];
+                let tempdate =
+                    this.markedForDelete[0].effective_date.split('T')[0];
                 this.taxes.value = this.taxes.value.filter((rate) => {
                     let efdate = rate.effective_date.split('T')[0];
                     if (efdate == tempdate) {
@@ -862,14 +873,14 @@ export default {
             this.$refs['confirm-dialog'].open({
                 width: '400px',
                 height: '215px',
-                showCloseButton: true
+                showCloseButton: true,
             });
         },
         closeConfirmationDialog() {
             this.markedForDelete = [];
             this.$refs['confirm-dialog'].close();
-        }
-    }
+        },
+    },
 };
 </script>
 
@@ -974,5 +985,8 @@ export default {
 
 .left-space-txb {
     margin-left: 12px;
+}
+::v-deep .n-input-maxlength {
+    display: none;
 }
 </style>
