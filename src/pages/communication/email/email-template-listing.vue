@@ -290,6 +290,14 @@ export default {
                 return it;
             });
             }
+            else if(this.emailTemplatesStore.docs){
+                this.emailTemplates = this.emailTemplatesStore.docs.map(it => {
+                it.display = it.name;
+                it.value = it._id;
+                it.data = it;
+                return it;
+            });
+            }
         },
         setPagination() {
             // this.pagination = {
@@ -309,7 +317,7 @@ export default {
         fetchSubscribedEmailTemplates() {
             let paginate = this.pagination;
             this.pageLoading = true;
-            return CommunicationServices.getSubscribedSmsTemplates(
+            return CommunicationServices.getSubscribedEmailTemplates(
             {
                         page_size: this.pagination.limit,
                         page_no: this.pagination.current,
