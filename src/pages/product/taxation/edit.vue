@@ -6,7 +6,7 @@
                     <nitrozen-button
                         class="pad-left"
                         :theme="'secondary'"
-                        @click="saveForm"
+                        @click="debounceSaveForm"
                         v-flatBtn
                         >Save</nitrozen-button
                     >
@@ -270,6 +270,7 @@ import LocationService from '@/services/location.service';
 import admforminput from '@/components/common/form-input.vue';
 import AddTaxrateDailog from './add-taxrate-dialog';
 import EditTaxrateDailog from './edit-taxrate-dialog';
+import { debounce } from '@/helper/utils.js';
 // import _ from 'lodash';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
@@ -384,7 +385,7 @@ export default {
             ],
             markedForDelete: [],
             errors: {},
-            selectedDates:[],
+            selectedDates: [],
         };
     },
     mounted() {
@@ -565,7 +566,9 @@ export default {
                 }
             }
             //assigning the newUpdated object to global variable
-            this.selectedDates = Object.keys(datedTax).map(date=> datedTax[date][0].effective_date);
+            this.selectedDates = Object.keys(datedTax).map(
+                (date) => datedTax[date][0].effective_date
+            );
             this.datedTax = datedTax;
         },
         isRateActive(state) {
@@ -577,15 +580,12 @@ export default {
         },
         saveForm() {
             let postData = {};
-            if (
-                this.hsn_code.value.toString() !== '' &&
-                this.hsn_code.value.toString().length == 8
-            ) {
+            if (this.hsn_code.value !== '' && this.hsn_code.value.length == 8) {
                 this.hsn_code.showerror = false;
-                postData.hsn_code = this.hsn_code.value.toString();
+                postData.hsn_code = this.hsn_code.value;
             } else if (
-                this.hsn_code.value.toString() !== '' &&
-                this.hsn_code.value.toString().length != 8
+                this.hsn_code.value !== '' &&
+                this.hsn_code.value.length != 8
             ) {
                 this.hsn_code.showerror = true;
                 this.hsn_code.errortext = 'HSN code must be of 8 digits';
@@ -693,15 +693,18 @@ export default {
                 );
             }
         },
+        debounceSaveForm: debounce(function () {
+            this.saveForm();
+        }, 800),
         validateNumber(input) {
-            if (!Number(parseInt(input)) && Number(parseInt(input)) !== 0) {
+            if (!Number(input) && Number(input) !== 0) {
                 this.hsn_code.value = '';
                 this.hsn_code.showerror = true;
                 this.hsn_code.errortext = 'HSN code must be of positive number';
                 return;
             } else {
                 this.hsn_code.showerror = false;
-                this.hsn_code.errortext = '';
+                this.hsn_code.errortext = 'HSN code is required';
             }
         },
         // validateHSNCode() {
