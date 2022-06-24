@@ -133,6 +133,7 @@ const SPECIAL_CHARS = [
     '*',
     '?',
     ':',
+    '\\'
 ];
 export default {
     name: 'Taxation',
