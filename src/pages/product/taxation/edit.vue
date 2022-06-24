@@ -36,7 +36,7 @@
                         placeholder="For eg. 61152010"
                         :value="hsn_code.value"
                         v-model="hsn_code.value"
-                        @keyup="validateNumber(hsn_code.value)"
+                        @input="validateNumber(hsn_code.value)"
                     ></nitrozen-input>
                     <nitrozen-error v-if="hsn_code.showerror">
                         {{ hsn_code.errortext }}
@@ -701,7 +701,6 @@ export default {
                 this.hsn_code.value = '';
                 this.hsn_code.showerror = true;
                 this.hsn_code.errortext = 'HSN code must be of positive number';
-                return;
             } else {
                 this.hsn_code.showerror = false;
                 this.hsn_code.errortext = 'HSN code is required';
