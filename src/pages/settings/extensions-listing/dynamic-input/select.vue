@@ -92,9 +92,11 @@ export default {
                     details: this.selectedValues
                 });
             } else {
+                let detail = this.prop_schema.options.find(option => option._id === e);
                 this.$emit('change', {
                     type: this.prop_schema.type,
-                    value: e
+                    value: e,
+                    details: detail
                 });
             }
         },

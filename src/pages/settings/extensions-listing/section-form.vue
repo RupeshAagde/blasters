@@ -277,6 +277,9 @@ export default {
                 this.$set(this.section.data, this.section.item_type, []);
 
                 let extensionProp = this.section_schema.props.find(s => s.id === this.section.item_type);
+                if (inputObj.details.slug) {
+                    this.$set(this.section.data, 'button_page_link', `/collections/${inputObj.slug}`);
+                }
 
                  this.fetchExtensionsOfCollection(inputObj.value)
                 .then(response => {
