@@ -441,7 +441,7 @@ export default {
                             if(section.items.length) {
                                 let selectedItems = cloneDeep(section.items).map(i => i.value);
                                 section.data[section.item_type] = cloneDeep(selectedItems);
-                                ExtensionService.getExtensionCollectionDetails('', {_id: selectedItems})
+                                ExtensionService.getExtensionCollectionDetails('', {_id: selectedItems, category: 'extension', items: 'true'})
                                 .then(response => {
                                     let orderedItems = [];
                                     for(let item of selectedItems) {
