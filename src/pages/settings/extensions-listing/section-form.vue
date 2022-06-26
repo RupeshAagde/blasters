@@ -229,6 +229,10 @@ export default {
                 removeSelections = true;
             } else removeSelections = false;
 
+            if(prop.id === 'item_source' && inputObj.value !== 'api') {
+                this.$set(this.section.data, 'api_source', '');
+            }
+
             // if(this.section.type === 'extension_item_list' && prop.id === 'collection_source' && inputObj.value) {
             //     /* Clearing old data */
             //     console.log("this.section:   ", this.section);
