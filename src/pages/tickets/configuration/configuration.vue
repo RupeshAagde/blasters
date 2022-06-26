@@ -2,6 +2,7 @@
     <div class="panel">
         <page-header
             title="Configuration"
+            :showBackButton="false"
             @backClick="$router.push({ name: 'support' })"
         >
             <div class="btn-container">
@@ -272,11 +273,11 @@ export default {
         validateEntries(info) {
             if (info.enabled) {
                 if (!info.value) {
-                    this.$snackbar.global.showError('Please enter the value for your enabled communication channels');
+                    this.$snackbar.global.showError('Please enter the value for your enabled communication channel');
                     return false;
                 }
                 if (!info.description) {
-                    this.$snackbar.global.showError('Please enter the description for your enabled communication channels');
+                    this.$snackbar.global.showError('Please enter the description for your enabled communication channel');
                     return false;
                 }
             }
@@ -542,7 +543,12 @@ export default {
     margin-top: 8px;
 }
 .tooltip-label {
-    color: #ffffff;
+    line-height: 16px;
+    font-family: Inter;
+    font-size: 10px;
+    text-align: left;
+    width:500px;
+    padding: 6px 12px;
 }
 .coming-soon-icon {
     margin: -16px -30px;
