@@ -71,6 +71,7 @@
                     @blur="handleBlur('row2Inputs', input)"
                     @input="(val) => handleChange('row2Inputs', input, val)"
                     :disabled="!packagingSelected"
+                    :value="row2Inputs[input].value"
                 />
                 <nitrozen-error v-if="row2Inputs[input].error">
                     {{ row2Inputs[input].error }}
@@ -98,6 +99,7 @@
                     :disabled="
                         row3Inputs[input].isDisabled ? true : !packagingSelected
                     "
+                    :value="row3Inputs[input].value"
                 />
                 <nitrozen-error v-if="row3Inputs[input].error">
                     {{ row3Inputs[input].error }}
@@ -252,7 +254,7 @@ export default {
             row3Inputs: {
                 orderThreshold: {
                     label: 'Maximum order threshold',
-                    placeholder: '0',
+                    placeholder: 'Enter maximum orders allowed',
                     value: '',
                     error: ''
                 },
@@ -267,7 +269,7 @@ export default {
                 },
                 errorRate: {
                     label: 'Error rate (in %)',
-                    placeholder: '0',
+                    placeholder: 'Enter error rate',
                     value: '',
                     error: '',
                     toolTipText:
