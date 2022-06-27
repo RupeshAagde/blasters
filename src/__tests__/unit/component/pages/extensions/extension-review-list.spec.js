@@ -25,7 +25,7 @@ describe('Mounted Extension Review Listing', () => {
         mock.onGet(URLS.EXTENSION_REVIEW()).reply(200, MOCK_DATA.extensiondata);
         router = new VueRouter({
             routes: [{
-                path: '/administrator/extensions/review',
+                path: '/administrator/extensions/revieew',
                 component: ExtensionReviewList 
             },
             {

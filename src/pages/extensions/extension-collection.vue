@@ -3,6 +3,7 @@
         <div class="main-container">
             <div class="page-container-main">
                 <jumbotron
+                    class="top-jumbotron"
                     :title="'Extension Collection'"
                     btnLabel="Create"
                     :desc="'Extension Collection'"
@@ -224,9 +225,6 @@ export default {
         this.fetchCollections();
     },
     methods: {
-        fynd_platform_domain() {
-            return env.FYND_PLATFORM_DOMAIN;
-        },
         paginationChange(config) {
             this.paginationConfig = config;
             this.fetchCollections();
