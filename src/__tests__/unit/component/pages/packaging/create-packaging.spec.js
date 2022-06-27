@@ -58,7 +58,7 @@ describe('Category packaging home', () => {
     })
     it("should check for class name of save button",async()=>{
         expect(wrapper.vm.isButtonDisabled).toBe(true)
-        expect(wrapper.find('#save-packaging-btn').attributes().class).toBe('add-packaging-button opaque')
+        expect(wrapper.find('#save-packaging-btn').attributes().class).toBe('add-packaging-button opaque-custom')
         await wrapper.setData({ isButtonDisabled: false })
         expect(wrapper.find('#save-packaging-btn').attributes().class).toBe('add-packaging-button')
         await wrapper.find('#save-packaging-btn').trigger('click')

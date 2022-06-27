@@ -148,7 +148,7 @@ describe('Packaging Create', () => {
             'disabled'
         );
         expect(wrapper.find('#add-group').attributes().class).toBe(
-            'n-button ripple n-button-secondary add-group-btn opaque'
+            'n-button ripple n-button-secondary add-group-btn opaque-custom'
         );
         expect(wrapper.vm.bulkPackaging.length).toBe(1);
         wrapper.vm.bulkPackaging[0].volumetricWeight.minimum.value = 1;

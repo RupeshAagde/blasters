@@ -32,7 +32,7 @@ describe('Category config home', () => {
     it('should check for class name of save button', async () => {
         expect(wrapper.vm.isButtonDisabled).toBe(true);
         expect(wrapper.find('#save-category-btn').attributes().class).toBe(
-            'add-category-button opaque'
+            'add-category-button opaque-custom'
         );
         await wrapper.setData({ isButtonDisabled: false });
         expect(wrapper.find('#save-category-btn').attributes().class).toBe(
