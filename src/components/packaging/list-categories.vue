@@ -47,6 +47,7 @@
                 @tryAgain="handleAddCategories"
             />
             <div class="list-container-pagination">
+                <!-- Show only if categories are present  -->
                 <nitrozen-pagination
                     v-if="categories.length"
                     :name="'Categories'"
