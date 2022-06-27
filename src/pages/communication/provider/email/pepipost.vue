@@ -282,7 +282,7 @@ export default {
                     is_default: a.is_default,
                 })),
             };
-            finalObj = omitBy(finalObj, isNil);
+            
             return finalObj;
         },
         validateAndSaveForm() {

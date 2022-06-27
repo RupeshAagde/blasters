@@ -116,6 +116,7 @@
                                                             dropdownSearchInputChange
                                                         "
                                                         @change="updatePreview(item.email.template._id,'email')"
+
                                                     >
                                                     </nitrozen-dropdown>
                                                     <nitrozen-button
@@ -127,8 +128,8 @@
                                                                 'email',
                                                                 groupIndex,
                                                                 childIndex
-                                                            )"
-                                                        :theme="'secondary'"
+                                                            )"                                                     
+                                                        theme="secondary"
                                                         v-stroke-btn
                                                         class="clone-btn preview-email-btn"
                                                         >Preview</nitrozen-button
@@ -171,6 +172,7 @@
                                                             item.sms.template
                                                                 ._id
                                                         "
+                                                        @change="updatePreview(item.sms.template._id ,'sms')"
                                                         :id="
                                                             `sms-${groupIndex}-${childIndex}`
                                                         "
@@ -178,9 +180,9 @@
                                                         @searchInputChange="
                                                             dropdownSearchInputChange
                                                         "
-                                                        @change="updatePreview(item.sms.template._id,'sms')"
                                                     >
                                                     </nitrozen-dropdown>
+                                                    <!-- {{item.sms.template._id}} -->
                                                     <nitrozen-button
                                                         v-if="
                                                             item.sms.subscribed
@@ -195,6 +197,7 @@
                                                         :theme="'secondary'"
                                                         v-stroke-btn
                                                         class="clone-btn preview-sms-btn"
+                                                        :disabled="!item.sms.template._id"
                                                         >Preview</nitrozen-button
                                                     >
                                                 </div>
@@ -345,6 +348,7 @@ export default {
     },
     
     updated() {
+        console.log();
         if (
             this.$refs['previewbody'] &&
             this.templateInPreviewModal.template_type == 'email'
@@ -400,6 +404,7 @@ export default {
             })
         },
         updatePreview(id,type){
+            console.log('empty');
             if(type == "email"){
             CommunicationServices.getEmailTemplatebyId(id).then((data)=>{
                 this.templateInPreviewModal.template = data.data;
@@ -806,6 +811,10 @@ export default {
 <style lang="less" scoped>
 //@import './../less/page-ui.less';
 //@import './../less/page-header.less';
+
+::v-deep .n-button-stroke:disabled{
+    background-color: #ffffff;
+}
 
 .jumbotron-container{
     width: 100%;

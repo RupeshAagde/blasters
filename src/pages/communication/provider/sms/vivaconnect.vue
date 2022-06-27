@@ -207,7 +207,7 @@ export default {
                 cdmaheader: this.data.cdmaheader.value,
                 provider: 'vivaconnect',
             };
-            finalObj = omitBy(finalObj, isNil);
+            //finalObj = omitBy(finalObj, isNil);
 
             return finalObj;
         },

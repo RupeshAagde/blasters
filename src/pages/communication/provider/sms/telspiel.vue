@@ -210,7 +210,7 @@ export default {
                 type: this.data.type.value,
                 provider: 'telspiel'
             };
-            finalObj = omitBy(finalObj, isNil);
+            //finalObj = omitBy(finalObj, isNil);
 
             return finalObj;
         },

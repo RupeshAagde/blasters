@@ -128,14 +128,11 @@ export default {
     },
     methods: {
         editProvider() {
-            if (this.provider) {
-                this.$router.push({
-                    path: path.join(
-                        this.$basePath,
-                        `/provider/email/edit/${this.provider}`
-                    )
-                });
-            }
+             CommunicationServices.getEmailProviderbyId(this.provider).then((data)=>{
+                    let type = data.data.provider
+                    this.$router.push({path:`email/edit/${this.provider}?type=${type}`})
+                }
+                )
         },
         sendEmail() {
           this.testEmail.to = this.testEmail.to || {};

@@ -203,7 +203,7 @@ export default {
                 type: this.data.type.value,
                 provider: 'smpp',
             };
-            finalObj = omitBy(finalObj, isNil);
+            //finalObj = omitBy(finalObj, isNil);
 
             return finalObj;
         },

@@ -149,12 +149,6 @@ export default {
     methods: {
         editProvider() {
             if (this.provider) {
-                // this.$router.push({
-                //     path: path.join(
-                //         this.$basePath,
-                //         `/provider/sms/edit/${this.provider}`
-                //     )
-                // });
                 CommunicationServices.getSmsProviderbyId(this.provider).then((data)=>{
                     let type = data.data.provider
                     this.$router.push({path:`sms/edit/${this.provider}?type=${type}`})

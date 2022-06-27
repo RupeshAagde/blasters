@@ -265,7 +265,7 @@ export default {
                         this.smsTemplateStore = response.data
                         this.$router.push({ name: 'smstemplateMain' })
                             this.$snackbar.global.showSuccess(
-                                'SMS template has been published!'
+                                'SMS template has been updated'
                             );
                         
                     })
@@ -447,9 +447,7 @@ export default {
             ) {
                let ob1 = this.$refs['smsTemplateEdit'].saveForm();
                 let ob2 = this.$refs['smstemplate_variables'].saveForm();
-                console.log(ob2);
                 this.smsTemplateStore = {...ob1, ...ob2}
-                //console.log(this.smsTemplateStore);
                 this.saveForm();
             }
         },
