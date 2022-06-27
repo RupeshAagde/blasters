@@ -205,13 +205,30 @@ export const getNavigations = () => {
         },
         {
             display: 'Support Center',
-            link: '/administrator/support',
+            link: '/administrator/support/configuration',
             title: 'support',
             icon: 'support-icon',
             highlightedIcon: 'home-highlighted',
             active: false,
             permission: 'support',
-            children: []
+            children: [
+                {
+                    display: 'Configuration',
+                    link: '/administrator/support/configuration',
+                    title: 'configuration',
+                    icon: 'support-icon',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Ticket Listing',
+                    link: '/administrator/support/ticket-listing',
+                    title: 'ticket-listing',
+                    icon: 'support-icon',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                }
+            ]
         },
         {
             display: 'Settings',
