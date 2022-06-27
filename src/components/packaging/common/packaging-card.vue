@@ -51,7 +51,7 @@ export default {
             if (product.media) {
                 return product.media[0].url;
             }
-            return '';
+            return '/public/assets/pngs/default_icon_listing.png';
         },
         /**
          * @author Rohan Shah
