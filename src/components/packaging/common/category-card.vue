@@ -75,6 +75,7 @@ export default {
         setDisplayCategories(count = this.displayCount) {
             let tempArr = [];
             this.item.categories.forEach((id) => {
+                //TODO explore map instead of find for faster result
                 let categoryObj = this.l3CategoryList.find((a) => a.uid == id);
                 if (categoryObj) tempArr.push(categoryObj);
             });

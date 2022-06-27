@@ -140,6 +140,7 @@ export default {
                     selectedCategories: []
                 };
                 item.categories.forEach((categoryId) => {
+                    // TODO explore map instead of find for faster result
                     let categoryObj = this.l3CategoryList.find(
                         (a) => a.uid == categoryId
                     );
