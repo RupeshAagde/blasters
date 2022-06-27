@@ -470,8 +470,6 @@ export default {
                 this.showListLoader = false;
                 return;
             }
-            // if not then check if input has 3 or more characters
-            if (input.length >= 3) {
                 this.$store
                     .dispatch(FETCH_COMPANY_PRODUCTS, { q: input })
                     .then((res) => {
@@ -484,12 +482,12 @@ export default {
                         this.showListLoader = false;
                         this.showSearchList = true;
                     });
-            }
         }, 1000),
         /**
          * @author Rohan Shah
          * @param {Object} item
-         * @description TODO
+         * @description Updates state value with required item name and uids 
+         * and toggles certain flags for UI changes
          */
         handlePackagingProductClicked(item) {
             this.selectedPackage = item.uid;
