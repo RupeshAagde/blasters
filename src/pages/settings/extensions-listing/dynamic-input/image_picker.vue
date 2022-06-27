@@ -10,7 +10,7 @@
         </span>
 
         <mirage-image-uploader
-            aspectRatio="*"
+            :aspectRatio="prop_schema.expect_ratio || '*'"
             :fileTypes="['png', 'jpeg', 'svg+xml']"
             @save="onChange($event)"
             @delete="mValue = ''"
