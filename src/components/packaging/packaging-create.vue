@@ -163,7 +163,7 @@
                         theme="secondary"
                         :class="{
                             'add-group-btn': true,
-                            opaque: checkGroupCategoryError()
+                            'opaque-custom': checkGroupCategoryError()
                         }"
                         @click="handleAddGroup"
                         :disabled="checkGroupCategoryError()"

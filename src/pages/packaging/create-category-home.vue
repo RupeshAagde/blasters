@@ -10,7 +10,7 @@
                 :class="{
                     'add-category-button': true,
                     // show the opaque class only if the flag is true
-                    opaque: isButtonDisabled
+                    'opaque-custom': isButtonDisabled
                 }"
             >
                 <nitrozen-button

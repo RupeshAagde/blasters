@@ -9,7 +9,7 @@
                 id="save-packaging-btn"
                 :class="{
                     'add-packaging-button': true,
-                    opaque: isButtonDisabled
+                    'opaque-custom': isButtonDisabled
                 }"
             >
                 <nitrozen-button
