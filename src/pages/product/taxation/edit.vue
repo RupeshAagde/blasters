@@ -697,7 +697,11 @@ export default {
             this.saveForm();
         }, 800),
         validateNumber(input) {
-            if (!Number(input) && Number(input) !== 0) {
+            if(input.includes("+") || input.includes("-")){
+                this.hsn_code.value = '';
+                this.hsn_code.showerror = true;
+                this.hsn_code.errortext = 'HSN code must be of positive number';
+            }else if (!Number(input) && Number(input) !== 0) {
                 this.hsn_code.value = '';
                 this.hsn_code.showerror = true;
                 this.hsn_code.errortext = 'HSN code must be of positive number';
