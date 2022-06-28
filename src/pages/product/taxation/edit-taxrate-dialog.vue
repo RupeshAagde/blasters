@@ -42,6 +42,7 @@
                             <nitrozen-input
                                 label="Threshold value"
                                 required
+                                disabled
                                 type="number"
                                 placeholder="eg. 99999"
                                 v-model="editableRate[0].threshold"
@@ -89,7 +90,7 @@
                         @click.stop.native="removeRate()"
                     ></ukt-inline-svg>
                     <div class="row">
-                        <div class="input-box">
+                        <!--<div class="input-box">
                             <adm-date-picker
                                 label="Effective date *"
                                 required
@@ -104,8 +105,8 @@
                             >
                                 {{ slabTwoErr.effective_date.errortext }}
                             </nitrozen-error>
-                        </div>
-                        <div class="input-box">
+                        </div> -->
+                        <div class="input-box2">
                             <nitrozen-input
                                 label="Cess"
                                 type="number"
@@ -203,6 +204,9 @@
         .input-box {
             width: 48%;
         }
+        .input-box2 {
+            width: 100%;
+        }
         .input-date {
             width: 100%;
         }
@@ -270,6 +274,7 @@
 </style>
 <script>
 const RATE_LIST = [
+    { text: '0%', value: '0' },
     { text: '3%', value: 3 },
     { text: '5%', value: 5 },
     { text: '10%', value: 10 },
@@ -278,6 +283,7 @@ const RATE_LIST = [
     { text: '28%', value: 28 }
 ];
 import { debounce } from '@/helper/utils';
+import cloneDeep from 'lodash/cloneDeep';
 import AdmDatePicker from '@/components/common/date-picker.vue';
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import {
@@ -335,6 +341,7 @@ export default {
             },
             // writing new code here
             rateList1: [
+                { text: '0%', value: '0' },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
@@ -343,6 +350,7 @@ export default {
                 { text: '28%', value: 28 }
             ],
             rateList2: [
+                { text: '0%', value: '0' },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
@@ -434,7 +442,20 @@ export default {
         taxes: {
             immediate: true,
             handler(newVal, oldVal) {
-                this.datedTax = { ...newVal };
+                this.datedTax = cloneDeep(newVal);
+                if (this.datedTax) {
+                    for (let tax in this.datedTax) {
+                        for (let temp of this.datedTax[tax]) {
+                            if (!temp.effective_date.includes('.000Z')) {
+                                temp.effective_date = new Date(
+                                    temp.effective_date + '.000Z'
+                                )
+                                    .toLocaleString('sv')
+                                    .replace(' ', 'T');
+                            }
+                        }
+                    }
+                }
             }
         },
         selectedRate: {
@@ -443,6 +464,18 @@ export default {
                 this.editableRate = newVal.map((a) => {
                     return { ...a };
                 });
+                for (let tax of this.editableRate) {
+                    if (tax.rate === 0) {
+                        tax.rate = '0';
+                    }
+                    if (!tax.effective_date.includes('.000Z')) {
+                        tax.effective_date = new Date(
+                            tax.effective_date + '.000Z'
+                        )
+                            .toLocaleString('sv')
+                            .replace(' ', 'T');
+                    }
+                }
             }
         }
     },
@@ -457,7 +490,9 @@ export default {
             if (action === 'Saved') {
                 let isValid = this.validateBothSlab();
                 if (isValid) {
-                    let objectData = this.editableRate;
+                    for (let rate of this.editableRate) {
+                    }
+                    let objectData = cloneDeep(this.editableRate);
                     this.clearFieldOnCancelOrSave();
                     this.$refs['dialog'].close();
                     this.$emit('close', action, objectData);
@@ -484,6 +519,9 @@ export default {
                 this.getRateList2(data.rate);
                 this.editableRate.push(emptyRate);
             } else {
+                this.$snackbar.global.showError(
+                    `Two tax rate already exist for selected date`
+                );
             }
         },
         removeRate() {
@@ -492,6 +530,7 @@ export default {
         },
         getRateList2(data) {
             let tempList = [
+                { text: '0%', value: '0' },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
@@ -507,11 +546,12 @@ export default {
                 let initialdate = this.selectedRate[0].effective_date;
                 initialdate = initialdate.split('T')[0];
                 let newdate = new Date(data.effective_date).setHours(
-                    23,
-                    59,
+                    1,
+                    35,
                     0,
                     0
                 );
+
                 newdate = new Date(newdate).toISOString();
                 let selectedDate = newdate.split('T')[0];
 
@@ -548,7 +588,7 @@ export default {
                     'Threshold should be a number';
                 isValid = false;
             }
-            if (data.rate > 0) {
+            if (data.rate >= 0) {
                 this.slabOneErr.rate.showerror = false;
             } else {
                 this.slabOneErr.rate.showerror = true;
@@ -569,8 +609,7 @@ export default {
                 this.slabOneErr.cess.showerror = false;
             } else {
                 this.slabOneErr.cess.showerror = true;
-                this.slabOneErr.cess.errortext =
-                    'Cess should be a number';
+                this.slabOneErr.cess.errortext = 'Cess should be a number';
                 isValid = false;
             }
             return isValid;
@@ -597,8 +636,7 @@ export default {
                 this.slabTwoErr.rate.showerror = false;
             } else {
                 this.slabTwoErr.rate.showerror = true;
-                this.slabTwoErr.rate.errortext =
-                    'Rate is required';
+                this.slabTwoErr.rate.errortext = 'Rate is required';
                 isValid = false;
             }
             if (
@@ -615,8 +653,7 @@ export default {
                 this.slabTwoErr.cess.showerror = false;
             } else {
                 this.slabTwoErr.cess.showerror = true;
-                this.slabTwoErr.cess.errortext =
-                    'Cess should be a number';
+                this.slabTwoErr.cess.errortext = 'Cess should be a number';
                 isValid = false;
             }
             return isValid;
@@ -635,10 +672,9 @@ export default {
                 let date_dict = this.getDateDict();
                 let initialdate = this.selectedRate[0].effective_date;
                 initialdate = initialdate.split('T')[0];
-
                 let newdate = new Date(
                     this.editableRate[0].effective_date
-                ).setHours(23, 59, 0, 0);
+                ).setHours(0, 35, 0, 0);
                 this.editableRate[0].effective_date = new Date(
                     newdate
                 ).toISOString();

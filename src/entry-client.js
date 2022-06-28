@@ -4,6 +4,7 @@ import './pipes';
 import { createApp } from './app';
 import { FETCH_USER_DATA } from './store/action.type';
 import dirtyFormDialog from '@/components/common/dialogs/dirty-form.vue';
+import urljoin from 'url-join';
 
 // global form dirty check
 const dirtyCheck = (Vue.prototype.$__dirtyFormDialog = new Vue(
@@ -25,7 +26,6 @@ router.onReady(() => {
 
 router.beforeResolve((to, from, next) => {
     /* must call `next` */
-
     Vue.prototype.$goBack = goBack;
     next();
 });

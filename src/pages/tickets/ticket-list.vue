@@ -181,7 +181,6 @@ import admInlineSvg from '@/components/common/adm-inline-svg';
 import admNoContent from '@/components/common/page-empty';
 import { debounce } from '@/helper/utils';
 import admShimmer from '@/components/common/shimmer';
-import { getRoute } from '@/helper/get-route';
 import SupportService from './../../services/support.service';
 import CompanyService from '@/services/company-admin.service';
 import moment from 'moment';
@@ -416,7 +415,7 @@ export default {
         },
         onTicketSelection(ticket) {
             this.$router.push({
-                path: `${getRoute(this.$route)}/administrator/support/ticket/${ticket._id}/edit`
+                path: `/administrator/support/ticket/${ticket._id}/edit`
             });
         },
         readableDate(date) {
