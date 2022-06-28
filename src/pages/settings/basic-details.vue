@@ -8,6 +8,7 @@
                 v-flatBtn
                 theme="secondary"
                 @click="saveSettings"
+                ref="save-btn"
                 :disabled="!basicSettings"
             >
                 Save
@@ -19,7 +20,7 @@
                 v-else-if="pageError && !pageLoading"
                 @tryAgain="fetchSettings"
             ></page-error>
-            <section v-show="!pageLoading && !pageError">
+            <section v-if="!pageLoading && !pageError">
                 <label class="cl-Mako bold-sm title">Basic Details</label>
                 <div class="input-row">
                     <!-- Title -->
@@ -37,7 +38,7 @@
                 <div class="input-row">
                     <!-- Logo -->
                     <div class="input-field">
-                        <div class="n-input-label">Logo *</div>
+                        <!-- <div class="n-input-label">Logo *</div> -->
                         <image-uploader-tile
                             label="Logo"
                             aspectRatio="*"
@@ -53,7 +54,7 @@
                     </div>
                     <!-- Favicon -->
                     <div class="input-field">
-                        <div class="n-input-label">Favicon *</div>
+                        <!-- <div class="n-input-label">Favicon *</div> -->
                         <image-uploader-tile
                             label="Favicon"
                             aspectRatio="*"
@@ -68,6 +69,158 @@
                         </nitrozen-error>
                     </div>
                 </div>
+
+                <div class="input-column">
+                <label class="cl-Mako bold-sm">Authentication Details</label>
+                <div class="input-row">
+                    <!-- Description -->
+                    <div class="input-field">
+                        <nitrozen-input
+                            label="Description *"
+                            type="textarea"
+                            placeholder="Enter Authentication Description"
+                            v-model="authDescription.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="authDescription.showerror">
+                            {{ authDescription.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                      <!-- Authentication Logo -->
+                    <div class="input-field">
+                        <!-- <div class="n-input-label">Authentication Logo *</div> -->
+                        <image-uploader-tile
+                            label="Logo"
+                            aspectRatio="1:1"
+                            @delete="authLogo.value = ''"
+                            @save="authLogo.value = $event"
+                            v-model="authLogo.value"
+                            :fileName="'platform logo'"
+                            namespace="platform-free-logo"
+                        ></image-uploader-tile>
+                        <nitrozen-error v-if="authLogo.showerror">
+                            {{ authLogo.errortext }}
+                        </nitrozen-error>
+                    </div>
+
+                    <!-- Authentication Image -->
+                    <div class="input-field">
+                        <!-- <div class="n-input-label">Authentication Image *</div> -->
+                        <image-uploader-tile
+                            label="Image"
+                            aspectRatio="*"
+                            @delete="authImage.value = ''"
+                            @save="authImage.value = $event"
+                            v-model="authImage.value"
+                            :fileName="'platform logo'"
+                            namespace="platform-feature-image"
+                        ></image-uploader-tile>
+                        <nitrozen-error v-if="authImage.showerror">
+                            {{ authImage.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+                </div>
+
+
+                <div class="input-column">
+                <label class="cl-Mako bold-sm">Login Details</label>
+                <div class="input-row">
+                    <!-- Description -->
+                    <div class="input-field">
+                        <nitrozen-input
+                            label="Title *"
+                            placeholder="Enter Login Title"
+                            v-model="loginTitle.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="loginTitle.showerror">
+                            {{ loginTitle.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <!-- Description -->
+                    <div class="input-field">
+                        <nitrozen-input
+                            label="Description *"
+                            type="textarea"
+                            placeholder="Enter Login Description"
+                            v-model="loginDescription.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="loginDescription.showerror">
+                            {{ loginDescription.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+                </div>
+
+
+                <div class="input-column">
+                <label class="cl-Mako bold-sm">Register Details</label>
+                <div class="input-row">
+                    <!-- Description -->
+                    <div class="input-field">
+                        <nitrozen-input
+                            label="Title *"
+                            placeholder="Enter Register Title"
+                            v-model="registerTitle.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="registerTitle.showerror">
+                            {{ registerTitle.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <!-- Description -->
+                    <div class="input-field">
+                        <nitrozen-input
+                            label="Description *"
+                            type="textarea"
+                            placeholder="Enter Register Description"
+                            v-model="registerDescription.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="registerDescription.showerror">
+                            {{ registerDescription.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+                </div>
+
+                <div class="input-column">
+                <label class="cl-Mako bold-sm">Create Business Account</label>
+                <div class="input-row business-checbox">
+                    <!-- Description -->
+                    <div class="input-field">
+                        <label class="business-create">
+                            <nitrozen-toggle-btn
+                                v-model="businessAccount.value"
+                            ></nitrozen-toggle-btn>
+                            <span>Limit Create Business Account</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-row" v-if="businessAccount.value">
+                    <!-- Description -->
+                    <div class="input-field">
+                        <nitrozen-input
+                            label="Thershold *"
+                            type="number"
+                            placeholder="Enter Thershold"
+                            v-model="businessAccountThershold.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="businessAccountThershold.showerror">
+                            {{ businessAccountThershold.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+                </div>
+
+
                 <!-- <div class="input-column" v-if="basicSettings">
                     <label class="cl-Mako bold-xs title">
                         Whats New Information
@@ -137,7 +290,8 @@ import {
     strokeBtn,
     flatBtn,
     NitrozenBadge,
-    NitrozenDialog
+    NitrozenDialog,
+    NitrozenToggleBtn
 } from '@gofynd/nitrozen-vue';
 import _ from 'lodash';
 
@@ -157,7 +311,8 @@ export default {
         NitrozenButton,
         PageHeader,
         Loader,
-        ImageUploaderTile
+        ImageUploaderTile,
+        NitrozenToggleBtn
     },
     directives: {
         strokeBtn,
@@ -173,6 +328,15 @@ export default {
             title: this.getInitialValue(''),
             logo: this.getInitialValue(''),
             favicon: this.getInitialValue(''),
+            authDescription: this.getInitialValue(''),
+            authImage: this.getInitialValue(''),
+            authLogo: this.getInitialValue(''),
+            loginTitle: this.getInitialValue(''),
+            loginDescription: this.getInitialValue(''),
+            registerTitle: this.getInitialValue(''),
+            registerDescription: this.getInitialValue(''),
+            businessAccount: this.getInitialValue(false),
+            businessAccountThershold: this.getInitialValue(1),
             features: [],
             whats_new: []
         };
@@ -200,6 +364,17 @@ export default {
                     this.favicon.value = this.basicSettings.favicon_url;
                     this.whats_new = this.basicSettings.whats_new;
                     this.features = this.basicSettings.features;
+                    this.authDescription.value = this.basicSettings.authentication.panel.description || '';
+                    this.authLogo.value = this.basicSettings.authentication.panel.logo || '';
+                    this.authImage.value = this.basicSettings.authentication.panel.image || '';
+                    
+                    this.loginTitle.value = this.basicSettings.authentication.login.title || 'Login to Fynd Platform';
+                    this.loginDescription.value = this.basicSettings.authentication.login.description || 'Enter account details to manage your online business';
+                    this.registerTitle.value = this.basicSettings.authentication.register.title || 'Welcome to Fynd Platform';
+                    this.registerDescription.value = this.basicSettings.authentication.register.description || 'Enter details to create your online business';
+
+                    this.businessAccount.value = this.basicSettings.business_account && this.basicSettings.business_account.is_limit || false
+                    this.businessAccountThershold.value = this.basicSettings.business_account && this.basicSettings.business_account.threshold || 1
 
                     this.pageError = false;
                     this.pristineData = this.getPayload();
@@ -217,6 +392,20 @@ export default {
             return { showerror: false, value, errortext: '' };
         },
         getPayload() {
+            const authentication = this.basicSettings.authentication
+            authentication.panel = {
+                description: this.authDescription.value,
+                image: this.authImage.value,
+                logo: this.authLogo.value
+            }
+            authentication.login = {
+                title: this.loginTitle.value,
+                description: this.loginDescription.value
+            }
+            authentication.register = {
+                title: this.registerTitle.value,
+                description: this.registerDescription.value
+            }
             return {
                 name: this.title.value,
                 logo_url: this.logo.value,
@@ -227,16 +416,37 @@ export default {
                 ),
                 features: this.basicSettings.features,
                 landingPageDetails:this.basicSettings.landingPageDetails,
-                authentication:this.basicSettings.authentication    
+                authentication,
+                business_account: {
+                    is_limit: this.businessAccount.value,
+                    threshold: this.businessAccountThershold.value
+                }
             };
         },
         checkEmpty(key) {
             const emptyErorrs = {
                 title: 'Title is required',
                 logo: 'Logo is required',
-                favicon: 'Favicon is required'
+                favicon: 'Favicon is required',
+                authDescription: 'Description is required',
+                authImage: 'Image is required',
+                authLogo: 'Logo is required',
+                loginTitle: 'Title is required',
+                loginDescription: 'Description is required',
+                registerTitle: 'Title is required',
+                registerDescription: 'Description is required',
+                businessAccountThershold: 'Thershold is required'
             };
-            if (this[key].value.trim() === '') {
+            if(key == 'businessAccountThershold'){
+                if(this[key].value <= 0){
+                    this[key].showerror = true;
+                    this[key].errortext = emptyErorrs[key] || 'Enter ' + key;
+                    return false;
+                } else {
+                    this[key].showerror = false;
+                }
+            }
+            else if (this[key].value.trim() === '') {
                 this[key].showerror = true;
                 this[key].errortext = emptyErorrs[key] || 'Enter ' + key;
                 return false;
@@ -253,6 +463,15 @@ export default {
             formValid = this.checkEmpty('title') && formValid;
             formValid = this.checkEmpty('logo') && formValid;
             formValid = this.checkEmpty('favicon') && formValid;
+            formValid = this.checkEmpty('authDescription') && formValid;
+            formValid = this.checkEmpty('authImage') && formValid;
+            formValid = this.checkEmpty('loginTitle') && formValid;
+            formValid = this.checkEmpty('loginDescription') && formValid;
+            formValid = this.checkEmpty('registerTitle') && formValid;
+            formValid = this.checkEmpty('registerDescription') && formValid;
+            if(this.businessAccount.value){
+                formValid = this.checkEmpty('businessAccountThershold') && formValid;
+            }
             return formValid;
         },
         saveSettings() {
@@ -322,10 +541,19 @@ export default {
     label.title {
         padding: 12px 0;
     }
+    .business-create{
+        cursor: pointer;
+        display: flex;
+        justify-content: flex-start;
+        font-size: 14px;
+    }
+}
+.business-checbox{
+    margin: 24px 0 12px 0;
 }
 .input-column {
     .input-row;
-
+    margin: 24px 0 6px 0;
     flex-direction: column;
 }
 .remove-whats-new {
