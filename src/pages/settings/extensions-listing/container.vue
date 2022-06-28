@@ -268,7 +268,7 @@ export default {
         },
         getCollections(params = {}) {
             // Collections will be received here
-            return ExtensionPageService.getCollections(params)
+            return ExtensionPageService.getCollections({...params, category: 'extension', items: 'true'})
             .then(response => {
                 let collections = cloneDeep(response.data.items);
                 this.collection = collections.map(item => {
