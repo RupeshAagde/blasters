@@ -384,6 +384,7 @@ export default {
         validateSection(section) {
             
             if(
+                section.data.item_count && 
                 section.item_type && section.data.item_source !== 'api' &&
                 section.data[section.item_type].length !== +section.data.item_count
             ) {
