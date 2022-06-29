@@ -219,7 +219,7 @@ export default {
             /* If the item source selected is API, we need to remove existing details info. */
             let removeSelections = false;
             if(
-                this.section.type === 'extension_item_list' && prop.id === 'item_source' &&
+                prop.id === 'item_source' &&
                 (inputObj.value === 'api' || inputObj.value === 'collection')
             ) {
                 if(this.section.data.collection_source) {
@@ -233,7 +233,7 @@ export default {
                 this.$set(this.section.data, 'api_source', '');
             }
 
-            // if(this.section.type === 'extension_item_list' && prop.id === 'collection_source' && inputObj.value) {
+            // if(prop.id === 'collection_source' && inputObj.value) {
             //     /* Clearing old data */
             //     console.log("this.section:   ", this.section);
             //     this.$set(this.section.props[this.section.item_type], 'value', []);
@@ -270,7 +270,7 @@ export default {
                 this.$set(this.section, 'items', []);
             }
 
-            if(this.section.type === 'extension_item_list' && prop.id === 'collection_source' && inputObj.value) {
+            if(prop.id === 'collection_source' && inputObj.value) {
                 this.$set(this.section, 'items', []);
                 this.$set(this.section.props[this.section.item_type], 'value', []);
                 this.$set(this.section.props[this.section.item_type], 'details', []);
