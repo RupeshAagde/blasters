@@ -355,11 +355,11 @@ export default {
             else if (!this.selectedPackage) disableButton = true;
             // map the input field values for row2 and row3 inputs
             Object.keys(this.row2Inputs).forEach((key) => {
-                if (!this.row2Inputs[key].value || this.row2Inputs[key].error)
+                if (!this.row2Inputs[key].value.toString().length || this.row2Inputs[key].error)
                     disableButton = true;
             });
             Object.keys(this.row3Inputs).forEach((key) => {
-                if (!this.row3Inputs[key].value || this.row3Inputs[key].error)
+                if (!this.row3Inputs[key].value.toString().length || this.row3Inputs[key].error)
                     disableButton = true;
             });
             this.toggleBtn(disableButton);
@@ -680,7 +680,7 @@ export default {
          *
          */
         handleBlur(obj, key) {
-            if (this[obj][key] && !this[obj][key].value)
+            if (this[obj][key] && !this[obj][key].value.toString().length)
                 this[obj][
                     key
                 ].error = `${this[obj][key].label} is a mandatory field`;
@@ -697,7 +697,7 @@ export default {
         handleBulkBlur(obj, input, index) {
             if (
                 this.bulkPackaging[index][obj][input] &&
-                !this.bulkPackaging[index][obj][input].value
+                !this.bulkPackaging[index][obj][input].value.toString().length
             ) {
                 this.bulkPackaging[index][obj][
                     input
