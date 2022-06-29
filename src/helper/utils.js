@@ -530,3 +530,74 @@ export const convertSnakeCaseToString = str => {
         return str.join(' ');
     }
 };
+
+//*Packaging related helpers
+
+/**
+ * @author Rohan Shah
+ * @param {Object} product 
+ * @description Based on the arguments creates a request body and returns it
+ * @returns Request body
+ */
+export const generateProductRequest = (product) => {
+    const {
+        bulkChecked,
+        l3Checked,
+        errorRate,
+        itemId,
+        deadWeight,
+        length,
+        width,
+        height,
+        orderThreshold,
+        weight,
+        l3Categories,
+        bulkPackaging
+    } = product;
+    // default request object
+    let createProductRequestBody = {
+        item_id: itemId,
+        is_bulk: bulkChecked,
+        error_rate: errorRate,
+        is_l3_specific: l3Checked,
+        dead_weight_in_kg: deadWeight,
+        dimensions: {
+            length,
+            width,
+            height,
+        },
+        maximum_order: orderThreshold,
+        weight,
+        default_package : {
+            quantity: {
+                max: 1,
+                min: 1
+            },
+            l3_categories:[]
+        },
+        l3_mapping:[]
+    };
+    // pass L3 default package if toggle is checked
+    if (l3Checked) {
+        createProductRequestBody.default_package.l3_categories = l3Categories;
+    }
+    // pass bulk group categories if the bulkChecked flag is true
+    if(bulkChecked){
+        createProductRequestBody.l3_mapping = bulkPackaging
+    }
+    // return the createProductRequestBody
+    return createProductRequestBody
+};
+/**
+ * @author Rohan Shah
+ * @param {Object} groupCategory 
+ * @description Based on the arguments creates a request body and returns it
+ * @returns Request body
+ */
+export const generateGroupCategoryRequest = (groupCategory) => {
+    const { categories, categoryName } = groupCategory;
+    return {
+        name: categoryName.charAt(0).toUpperCase() + categoryName.slice(1),
+        categories: categories
+    };
+};

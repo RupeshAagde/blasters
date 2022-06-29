@@ -157,6 +157,35 @@ export const getNavigations = () => {
                 
             ]
         },
+        // Packaging related changes for adding navbar element
+        {
+            display: 'Packaging',
+            link: '/administrator/packaging/items',
+            title: 'packaging',
+            icon: 'settings',
+            highlightedIcon: 'home-highlighted',
+            active: false,
+            permission: 'admin-access',
+            // sub items for packaging dashboard
+            children: [
+                {
+                    display: 'Items',
+                    link: '/administrator/packaging/items',
+                    title: 'items',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Category configuration',
+                    link: '/administrator/packaging/category-configuration',
+                    title: 'category-configuration',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                }
+            ]
+        },
         {
             display: 'Communication',
             link: '/administrator/communication/reports',
