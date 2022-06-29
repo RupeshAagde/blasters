@@ -32,12 +32,19 @@ const conf = convict({
             env: "MIRAGE_MAIN_DOMAIN",
             arg: "mirage_main_domain"
         },
-        PARTNERS_MAIN_DOMAIN: {
+        BOMBSHELL_MAIN_DOMAIN: {
             doc: "Bombshell Main Domain",
             format: String,
             default: `https://partners.${platformDomain}`,
             env: "BOMBSHELL_MAIN_DOMAIN",
             arg: "bombshell_main_domain"
+        },
+        BLASTER_MAIN_DOMAIN: {
+            doc: "Blaster Main Domain",
+            format: String,
+            default: ``,
+            env: "BLASTER_MAIN_DOMAIN",
+            arg: "blaster_main_domain"
         },
         SLINGSHOT_ADMIN_URL: {
             doc: 'Slingshot Admin URL',
