@@ -362,14 +362,14 @@ const conf = convict({
         PACKAGING_ADMIN_URL: {
             doc: 'Packaging admin service',
             format: String,
-            default: 'https://api.fyndx0.de/service/___/administrator/packaging/v1.0/',
+            default: 'https://api.fyndx1.de/service/___/administrator/packaging/v1.0/',
             env: 'PACKAGING_ADMIN_URL',
             arg: 'packaging_admin_url'
         },
         APP_PRODUCTS: {
             doc: 'Get app products',
             format: String,
-            default:'https://api.fyndx0.de/service/___/administrator/catalog/v1.0/company/84/application/629616a1d7c74d3915f8f4e8/raw-products',
+            default:'https://api.fyndx1.de/service/___/administrator/catalog/v1.0/company/884/application/60792ded7826bd09330ed90d/raw-products',
             env: 'APP_PRODUCTS',
             arg: 'app_products'
         }
