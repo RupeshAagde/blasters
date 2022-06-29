@@ -37,7 +37,7 @@
                 <div class="brand-edt">
                     <a
                         :href="
-                            `${fyndPlatformDomain}/company/${companyId}/profile/edit-brand/${item.brand.uid}`
+                            `${mirageMainDomain}/company/${companyId}/profile/edit-brand/${item.brand.uid}`
                         "
                         target="_blank"
                         class="menu"
@@ -486,7 +486,7 @@ export default {
         ...mapGetters({
             metricsData: GET_METRICS
         }),
-        fyndPlatformDomain() {
+        mirageMainDomain() {
             return env.MIRAGE_MAIN_DOMAIN;
         }
     },

@@ -482,7 +482,7 @@ export default {
         this.fetchMetricsApi();
     },
     computed: {
-        fyndPlatformDomain(type) {
+        mirageMainDomain(type) {
             return env.MIRAGE_MAIN_DOMAIN;
         },
     },
@@ -544,7 +544,7 @@ export default {
         openPlatform() {
             event.stopPropagation();
             window.open(
-                `${this.fyndPlatformDomain}/company/${this.companyId}/profile/`
+                `${this.mirageMainDomain}/company/${this.companyId}/profile/`
             );
         },
     },

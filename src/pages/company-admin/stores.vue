@@ -537,7 +537,7 @@ export default {
         strokeBtn,
     },
     computed: {
-        fyndPlatformDomain(type) {
+        mirageMainDomain(type) {
             return env.MIRAGE_MAIN_DOMAIN;
         },
         ...mapGetters({
@@ -872,7 +872,7 @@ export default {
         editStore(event, item) {
             event.stopPropagation();
             window.open(
-                `${this.fyndPlatformDomain}/company/${this.companyId}/profile/edit-store/${item.uid}`
+                `${this.mirageMainDomain}/company/${this.companyId}/profile/edit-store/${item.uid}`
             );
         },
     },
