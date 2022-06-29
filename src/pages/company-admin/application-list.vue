@@ -37,7 +37,7 @@
                         <div class="line-1">
                             <div class="cust-head">
                                 <a
-                                    :href="`https://platform.${fyndPlatformDomain}/company/${companyId}/application/${item.id}`"
+                                    :href="`${fyndPlatformDomain}/company/${companyId}/application/${item.id}`"
                                     target="_blank"
                                     >{{ item.name }}</a
                                 >
@@ -372,8 +372,8 @@ export default {
         flatBtn,
     },
     computed: {
-        fyndPlatformDomain(type) {
-            return env.FYND_PLATFORM_DOMAIN;
+        fyndPlatformDomain() {
+            return env.MIRAGE_MAIN_DOMAIN;
         },
     },
     data() {

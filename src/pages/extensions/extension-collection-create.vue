@@ -358,7 +358,7 @@
                         v-model="collection_data.seo"
                         :isCollapsed="isCollapsed"
                         :url="
-                            `https://partners.${fynd_platform_domain}/collection/${collection_data.slug ||
+                            `${fynd_partners_domain}/collection/${collection_data.slug ||
                                 ':slug'}`
                         "
                     />
@@ -511,8 +511,8 @@ export default {
         };
     },
     computed: {
-        fynd_platform_domain() {
-            return env.FYND_PLATFORM_DOMAIN;
+        fynd_partners_domain() {
+            return env.BOMBSHELL_MAIN_URL;
         },
         collection_id() {
             return this.$route.params.collection_id;
