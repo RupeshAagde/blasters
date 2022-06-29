@@ -538,7 +538,7 @@ export default {
     },
     computed: {
         fyndPlatformDomain(type) {
-            return env.MIRAGE_MAIN_URL;
+            return env.MIRAGE_MAIN_DOMAIN;
         },
         ...mapGetters({
             metricsData: GET_METRICS,

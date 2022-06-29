@@ -512,7 +512,7 @@ export default {
     },
     computed: {
         fynd_partners_domain() {
-            return env.BOMBSHELL_MAIN_URL;
+            return env.BOMBSHELL_MAIN_DOMAIN;
         },
         collection_id() {
             return this.$route.params.collection_id;
