@@ -327,16 +327,18 @@ export default {
                                     value: []
                                 }
                             )
-
-                            if(section.type === 'extension_item_list') {
-                                let collectionSourceProp = section.props.find(p => p.id === 'collection_source');
+                            let collectionSourceProp = section.props.find(p => p.id === 'collection_source');
+                            if (collectionSourceProp) {
                                 collectionSourceProp.options = this.collection;
                                 collectionSourceProp.placeholder = 'Search Collections';
                                 collectionSourceProp.search = true;
+                            }
 
-                                let extensionProp = section.props.find(p => p.id === 'extension');
+                            let extensionProp = section.props.find(p => p.id === 'extension');
+                            if (extensionProp) {
                                 extensionProp.options = [];
                             }
+
                         } else if(section.item_type === 'category') {
                             section.props.push(
                                 {
@@ -659,7 +661,9 @@ export default {
             } else if(event.type === 'collection_source') {
                 this.getCollections({name: event.value.text})
                 .then(() => {
-                    let section = this.available_sections.find(sec => sec.type === 'extension_item_list');
+                    let section = this.available_sections.find(sec => {
+                        return sec.item_type === event.type && sec.type === event.section_type;
+                    });
                     let collectionProp = section.props.find(pr => pr.type === 'select' && pr.id === event.type);
                     collectionProp.options = this.collection;
                 })
