@@ -132,7 +132,7 @@ export default {
       this.profileDropdownOpen = false
     },
     navigateToUserProfile() {
-      window.open(`https://platform.${env.FYND_PLATFORM_DOMAIN}/user-profile`,'_blank')
+      window.open(`${env.MIRAGR_MAIN_DOMAIN}/user-profile`,'_blank')
     },
     naviagteToAuditTrail(){
       this.closeProfileDropdown()

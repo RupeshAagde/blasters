@@ -361,7 +361,7 @@ export default {
             });
         },
         getPageUrl(item) {
-            return `https://platform.${env.FYND_PLATFORM_DOMAIN}/p/${item.slug}`;
+            return `${env.MIRAGE_MAIN_DOMAIN}/p/${item.slug}`;
         },
         setPagination(filter) {
             const { current, limit } = filter;

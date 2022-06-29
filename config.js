@@ -1,6 +1,8 @@
 'use strict';
 const convict = require('convict');
 
+const platformDomain = process.env['FYND_PLATFORM_DOMAIN'] || "";
+
 const conf = convict({
     env: {
         doc: 'Env',
@@ -22,6 +24,20 @@ const conf = convict({
             default: '',
             env: 'FYND_PLATFORM_DOMAIN',
             arg: 'fynd_platform_domain'
+        },
+        MIRAGE_MAIN_DOMAIN: {
+            doc: "Mirage Main Domain",
+            format: String,
+            default: `https://platform.${platformDomain}`,
+            env: "MIRAGE_MAIN_DOMAIN",
+            arg: "mirage_main_domain"
+        },
+        PARTNERS_MAIN_DOMAIN: {
+            doc: "Bombshell Main Domain",
+            format: String,
+            default: `https://partners.${platformDomain}`,
+            env: "BOMBSHELL_MAIN_DOMAIN",
+            arg: "bombshell_main_domain"
         },
         SLINGSHOT_ADMIN_URL: {
             doc: 'Slingshot Admin URL',

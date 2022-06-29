@@ -538,7 +538,7 @@ export default {
     },
     computed: {
         fyndPlatformDomain(type) {
-            return env.FYND_PLATFORM_DOMAIN;
+            return env.MIRAGE_MAIN_URL;
         },
         ...mapGetters({
             metricsData: GET_METRICS,
@@ -872,7 +872,7 @@ export default {
         editStore(event, item) {
             event.stopPropagation();
             window.open(
-                `https://platform.${this.fyndPlatformDomain}/company/${this.companyId}/profile/edit-store/${item.uid}`
+                `${this.fyndPlatformDomain}/company/${this.companyId}/profile/edit-store/${item.uid}`
             );
         },
     },

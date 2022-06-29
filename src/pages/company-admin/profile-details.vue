@@ -6,7 +6,7 @@
                 <div class="img-box">
                     <a
                         :href="
-                            `https://platform.${fyndPlatformDomain}/company/${companyId}/profile/edit`
+                            `${fyndPlatformDomain}/company/${companyId}/profile/edit`
                         "
                         target="_blank"
                         class="menu"
@@ -164,7 +164,7 @@
                     <div class="img-box">
                         <a
                             :href="
-                                `https://platform.${fyndPlatformDomain}/company/${companyId}/profile/edit-documents`
+                                `${fyndPlatformDomain}/company/${companyId}/profile/edit-documents`
                             "
                             target="_blank"
                             class="menu"
@@ -570,7 +570,7 @@ export default {
     },
     computed: {
         fyndPlatformDomain(type) {
-            return env.FYND_PLATFORM_DOMAIN;
+            return env.MIRAGE_MAIN_DOMAIN;
         }
     },
     mounted() {
