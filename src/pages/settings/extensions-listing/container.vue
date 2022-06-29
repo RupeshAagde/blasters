@@ -240,7 +240,7 @@ export default {
             return arrPages;
         },
         previewUrl() {
-            return `https://partners.${env.FYND_PLATFORM_DOMAIN}/extension-home`;
+            return `${env.BOMBSHELL_MAIN_DOMAIN}/extension-home`;
         },
     },
     methods: {
