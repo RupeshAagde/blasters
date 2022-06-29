@@ -135,7 +135,7 @@ export default {
             }
         },
         selectedItemsLength() {
-            if(this.itemValues.length) return this.itemValues.length;
+            if(this.itemValues && this.itemValues.length) return this.itemValues.length;
         },
         sectionSchemaProps() {
             let props = this.section_schema.props.map(prop => {
@@ -275,7 +275,7 @@ export default {
                 this.$set(this.section.props[this.section.item_type], 'value', []);
                 this.$set(this.section.props[this.section.item_type], 'details', []);
                 this.$set(this.section.data, `${this.section.item_type}_details`, []);
-                if(this.itemValues.length) {
+                if(this.itemValues && this.itemValues.length) {
                     this.itemValues = cloneDeep([]);
                 }
                 this.$set(this.section.data, this.section.item_type, []);
