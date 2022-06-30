@@ -199,7 +199,7 @@
                             <nitrozen-toggle-btn
                                 v-model="businessAccount.value"
                             ></nitrozen-toggle-btn>
-                            <span>Limit the number of businessaccount per seller</span>
+                            <span>Limit the number of business account per seller</span>
                         </label>
                     </div>
                 </div>
