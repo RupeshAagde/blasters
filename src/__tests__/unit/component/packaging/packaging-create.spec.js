@@ -65,7 +65,7 @@ describe('Packaging Create', () => {
     });
     it('should check for header', () => {
         expect(
-            wrapper.find('.packaging-create-container-header').element
+            wrapper.find('#packaging-create-container-header').element
                 .textContent
         ).toBe('Extra Details');
     });

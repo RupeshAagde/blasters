@@ -1,6 +1,12 @@
 <template>
     <div class="packaging-create-container">
-        <div class="packaging-create-container-header">Extra Details</div>
+        <div class="packaging-create-container-header">
+            <span id="packaging-create-container-header">Extra Details</span>
+            <span class="packaging-subtitle"
+                >Select and configure a return window for your sales
+                channel</span
+            >
+        </div>
         <div class="create-packaging-search-container">
             <nitrozen-input
                 id="select-packaging"
