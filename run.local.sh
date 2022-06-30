@@ -52,6 +52,9 @@ export MIXMASTER_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/admin
 export MIXMASTER_PNL_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/panel/partners/
 export MIXMASTER_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/partners/
 export EXTENSION_PAGE_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/partner/partners
+export BLASTER_MAIN_DOMAIN=https://administrator.${FYND_PLATFORM_DOMAIN}
+export BOMBSHELL_MAIN_DOMAIN=https://partners.${FYND_PLATFORM_DOMAIN}
+export MIRAGE_MAIN_DOMAIN=https://platform.${FYND_PLATFORM_DOMAIN}
 
 #ENV's
 export SENTRY_DSN=''
