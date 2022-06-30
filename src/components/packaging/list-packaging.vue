@@ -1,7 +1,10 @@
 <template>
     <div class="list-packaging-container">
         <div class="list-packaging-container-header">
-            List of Packaging Items
+            <div>
+                <p class="packaging-title">List of Packaging Items</p>
+                <span class="packaging-subtitle">Select and configure a return window for your sales channel</span>
+            </div>
             <div class="add-packaging-btn-container">
                 <nitrozen-button
                     class="add-packaging-btn"
