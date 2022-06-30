@@ -95,6 +95,7 @@
                                                         ></nitrozen-toggle-btn>
                                                     </div>
                                                     <nitrozen-dropdown
+                                                        @click="capture()"
                                                         v-if="
                                                             item.email
                                                                 .subscribed
@@ -116,9 +117,10 @@
                                                             dropdownSearchInputChange
                                                         "
                                                         @change="updatePreview(item.email.template._id,'email')"
-
+                                                        
                                                     >
                                                     </nitrozen-dropdown>
+                                                    {{item.email.template._id}}
                                                     <nitrozen-button
                                                         v-if="
                                                             item.email
@@ -365,6 +367,10 @@ export default {
         }
     },
     methods: {
+        capture(e=''){
+            console.log('hi');
+         console.log(e);
+        },
         onLoad(){
         //     Object.assign(this.$data, initialState());
              this.pageLoading = true;

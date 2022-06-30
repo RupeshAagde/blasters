@@ -295,6 +295,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../../../less/common.less';
+.title {
+    color: @Mako;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 27px;
+    text-align: left;
+    margin-bottom: 24px;
+}
 .form-wrapper {
     .form-field {
         position: relative;
@@ -326,4 +335,5 @@ export default {
         flex: 1;
     }
 }
+
 </style>

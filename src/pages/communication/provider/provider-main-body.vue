@@ -276,6 +276,8 @@
 <script>
 import Vue from 'vue';
 import loader from '@/components/common/loader';
+import { GET_USER_INFO } from '../../../store/getters.type';
+import { mapGetters } from 'vuex';
 
 // import {} from '../../../../store/admin/action.type';
 // import { GET_USER_INFO } from '../../../../store/getters.type';
@@ -367,6 +369,11 @@ export default {
             type: String,
             default: ''
         }
+    },
+    computed: {
+        ...mapGetters({
+            userData: GET_USER_INFO,
+        }),
     },
     data() {
         return {

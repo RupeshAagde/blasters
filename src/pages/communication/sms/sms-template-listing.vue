@@ -238,8 +238,6 @@ export default {
         }
     },
     mounted() {
-        // this.$store.commit(ADMIN_COMMS_RESET_SMS_TEMPLATE);
-        // this.$store.commit(ADMIN_COMMS_SET_SMS_TEMPLATE_TO_CLONE, {});
          this.resetPagination();
         if (this.$route.query.searchText) {
             this.searchText = this.$route.query.searchText;
@@ -293,22 +291,33 @@ export default {
             else if (this.selectedFilter == 'subscribed') {
                 this.fetchSubscribedSmsTemplates().then(() => {
                     this.setPagination();
-                    this.mapSMSTemplates();
+                    this.mapSMSTemplates()
                     return this.smsTemplates;
                 });
             }
         },
         mapSMSTemplates() {
-            let templates = this.smsTemplatesStore.items
-            this.smsTemplates = templates.map(it => {
+            if(this.smsTemplatesStore.items){
+                this.smsTemplates = this.smsTemplatesStore.items.map(it => {
                 it.display = it.name;
                 it.value = it._id;
                 it.data = it;
                 return it;
             });
+            }
+            if(this.smsTemplatesStore.docs){
+                this.smsTemplates = this.smsTemplatesStore.docs.map(it => {
+                it.display = it.name;
+                it.value = it._id;
+                it.data = it;
+                return it;
+            });
+            }
+
+            
+            
         },
         setPagination() {
-            console.log(this.smsTemplatesStore)
             this.pagination = {
                 limit:  this.smsTemplatesStore.limit,
                 total: this.smsTemplatesStore.page.item_total,
@@ -349,7 +358,7 @@ export default {
         fetchSubscribedSmsTemplates() {
             let paginate = this.pagination;
             this.pageLoading = true;
-            CommunicationServices.getSubscribedSmsTemplates(
+           return CommunicationServices.getSubscribedSmsTemplates(
             {
                         page_size: this.pagination.limit,
                         page_no: this.pagination.current,
@@ -364,7 +373,7 @@ export default {
                 .then(data => {
                     this.smsTemplatesStore = data.data
                     this.pageLoading = false;
-                    return data;
+                    return this.smsTemplatesStore ;
                 })
                 .catch(err => {
                     this.pageLoading = false;

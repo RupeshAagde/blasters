@@ -210,6 +210,7 @@
                     name="Providers"
                     v-model="pagination"
                     :pageSizeOptions="[5, 10, 20, 50]"
+                    @change="changePage"
                 >
                 </nitrozen-pagination>
             </div>
@@ -575,15 +576,6 @@ export default {
         closeCreateModal() {
             this.showCreateModal = false;
         },
-        //  openModal() {
-        //     this.$refs['provider_create_dialog'].open({
-        //         width: '1100px',
-        //         height: '600px',
-        //     });
-        // },
-        // closeModal() {
-        //     this.$refs['provider_create_dialog'].close();
-        // },
         setDefault() {
             this.$router.replace({
                 name: 'providerDefault'
