@@ -155,7 +155,17 @@ export default {
                             prop.display = prop.predicate_prop[key].includes(this.section.data[key])
                         }
                         else if (typeof prop.predicate_prop[key] === "boolean") {
-                            prop.display = prop.predicate_prop[key];
+                            const sectionData = this.section.data[key];
+                            if (Array.isArray(sectionData)) {
+                                prop.display = !!sectionData.length;
+                            }
+                            else if (typeof sectionData === "object" && !Array.isArray(sectionData))
+                            {
+                                prop.display = !!Object.keys(sectionData).length;
+                            }
+                            else {
+                                prop.display = !!sectionData;
+                            }
                         }
                         else {
                             prop.display = prop.predicate_prop[key] === this.section.data[key];
