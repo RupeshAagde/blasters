@@ -37,9 +37,12 @@
             <!-- default group categories name if exists -->
             <div class="extra-row" v-if="groupCategories.length > 0">
                 <span class="item-header">Default category</span>
-                <span id="item-l3-value" class="item-value">{{
-                    getL3Names(item.l3_mapping)
-                }}</span>
+                <span
+                    id="item-l3-value"
+                    class="item-value item-ellipsis"
+                    :title="getL3Names(item.l3_mapping)"
+                    >{{ getL3Names(item.l3_mapping) }}</span
+                >
             </div>
         </div>
         <div class="packaging-card-button-container">
