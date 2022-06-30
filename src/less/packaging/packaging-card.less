@@ -1,7 +1,7 @@
 .packaging-card {
     &-button {
         cursor: pointer;
-        border: 1px solid #e0e0e0;
+        border: 1px solid #bdbdbd;
         border-radius: 4px;
         height: 30px;
         width: 30px;
@@ -13,21 +13,25 @@
             gap: 10px;
             align-items: center;
             cursor: default;
+            position: absolute;
+            right: 16px;
         }
     }
     &-extra {
         font-weight: 400;
         font-size: 12px;
-        color: #666666;
+        color: #9b9b9b;
         display: flex;
         gap: 30px;
+        flex-basis: 40%;
     }
     &-container {
+        position: relative;
         background: #ffffff;
         border: 1px solid #e0e0e0;
         border-radius: 4px;
         display: flex;
-        justify-content: space-between;
+        // justify-content: space-between;
         align-items: center;
         padding: 16px;
     }
@@ -40,6 +44,7 @@
         display: flex;
         gap: 10px;
         align-items: center;
+        flex-basis: 50%;
         &-image {
             height: 50px;
             width: 50px;
@@ -63,7 +68,7 @@
             margin-top: 8px;
             gap: 10px;
             text-transform: capitalize;
-            div{
+            div {
                 display: flex;
                 align-items: center;
                 gap: 6px;
@@ -130,16 +135,37 @@
     width: 20px;
 }
 
-.line{
+.line {
     position: relative;
     padding: 0 12px;
-    ::before{
+    ::before {
         content: '';
-            position: absolute;
-            width: 1px;
-            height: 100%;
-            left: 0;
-            bottom: 0%;
-            background-color: #e0e0e0;
+        position: absolute;
+        width: 1px;
+        height: 100%;
+        left: 0;
+        bottom: 0%;
+        background-color: #e0e0e0;
     }
+}
+.extra-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-basis: 50%;
+}
+.item-value {
+    color: #41434c;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.item-ellipsis {
+    white-space: nowrap !important;
+    width: auto;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 200px;
+    line-height: 1.2;
+    cursor: default;
 }

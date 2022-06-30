@@ -1,6 +1,12 @@
 <template>
     <div class="packaging-create-container">
-        <div class="packaging-create-container-header">Extra Details</div>
+        <div class="packaging-create-container-header">
+            <span id="packaging-create-container-header">Extra Details</span>
+            <span class="packaging-subtitle"
+                >Select and configure a return window for your sales
+                channel</span
+            >
+        </div>
         <div class="create-packaging-search-container">
             <nitrozen-input
                 id="select-packaging"
@@ -108,7 +114,15 @@
         </div>
         <div class="toggle-container">
             <div class="toggle-container-l3-header">
-                <p>L3 Categories</p>
+                <p>
+                    Lvl.3 Categories
+                    <nitrozen-tooltip
+                        :position="'top'"
+                        :tooltipText="
+                            'Choose the L3 categories whose single quantity would fit inside the packaging material'
+                        "
+                    />
+                </p>
                 <nitrozen-toggle-btn
                     :value="l3Checked"
                     @change="handleToggleChange('l3')"
@@ -128,9 +142,15 @@
                 :categoryValue="categoryValue"
             />
         </div>
-        <div class="toggle-container">
-            <div class="toggle-container-l3-header">
-                <p>Bulk Packaging</p>
+        <div class="toggle-container l3-container">
+            <div class="toggle-container-l3-header custom-header">
+                <p>
+                    Bulk Packaging
+                    <nitrozen-tooltip
+                        :position="'top'"
+                        :tooltipText="'TBC text'"
+                    />
+                </p>
                 <nitrozen-toggle-btn
                     :value="bulkChecked"
                     @change="handleToggleChange('bulk')"
@@ -181,7 +201,8 @@ import {
     NitrozenError,
     NitrozenToggleBtn,
     NitrozenDropdown,
-    NitrozenButton
+    NitrozenButton,
+    NitrozenTooltip
 } from '@gofynd/nitrozen-vue';
 import inlineSvgVue from '../common/inline-svg.vue';
 import BulkPackagingCard from './common/bulk-packaging-card.vue';
@@ -210,7 +231,8 @@ export default {
         NitrozenButton,
         BulkPackagingCard,
         CategoryMultiSelect,
-        Loader
+        Loader,
+        NitrozenTooltip
     },
     computed: {
         searchPlacholder() {
@@ -355,11 +377,17 @@ export default {
             else if (!this.selectedPackage) disableButton = true;
             // map the input field values for row2 and row3 inputs
             Object.keys(this.row2Inputs).forEach((key) => {
-                if (!this.row2Inputs[key].value.toString().length || this.row2Inputs[key].error)
+                if (
+                    !this.row2Inputs[key].value.toString().length ||
+                    this.row2Inputs[key].error
+                )
                     disableButton = true;
             });
             Object.keys(this.row3Inputs).forEach((key) => {
-                if (!this.row3Inputs[key].value.toString().length || this.row3Inputs[key].error)
+                if (
+                    !this.row3Inputs[key].value.toString().length ||
+                    this.row3Inputs[key].error
+                )
                     disableButton = true;
             });
             this.toggleBtn(disableButton);
@@ -418,9 +446,11 @@ export default {
                                 this.categoryValue = this.editProduct.default_package.l3_categories;
                                 this.editProduct.default_package.l3_categories.forEach(
                                     (id) => {
-                                        let category = data.find(
-                                            (a) => a.uid == id
-                                        );
+                                        let category = data
+                                            .map((a) => {
+                                                if (a.uid == id) return a;
+                                            })
+                                            .filter((a) => a !== undefined)[0];
                                         if (category) {
                                             category.text = category.name;
                                             category.value = category.uid;
@@ -472,23 +502,23 @@ export default {
                 this.showListLoader = false;
                 return;
             }
-                this.$store
-                    .dispatch(FETCH_COMPANY_PRODUCTS, { q: input })
-                    .then((res) => {
-                        const { items } = res;
-                        if (items.length) {
-                            let productList = items;
-                            this.searchedProductList = productList;
-                            this.checkForButtonToggle();
-                        }
-                        this.showListLoader = false;
-                        this.showSearchList = true;
-                    });
+            this.$store
+                .dispatch(FETCH_COMPANY_PRODUCTS, { q: input })
+                .then((res) => {
+                    const { items } = res;
+                    if (items.length) {
+                        let productList = items;
+                        this.searchedProductList = productList;
+                        this.checkForButtonToggle();
+                    }
+                    this.showListLoader = false;
+                    this.showSearchList = true;
+                });
         }, 1000),
         /**
          * @author Rohan Shah
          * @param {Object} item
-         * @description Updates state value with required item name and uids 
+         * @description Updates state value with required item name and uids
          * and toggles certain flags for UI changes
          */
         handlePackagingProductClicked(item) {
@@ -518,24 +548,6 @@ export default {
          */
         handleBulkToggle(index, toggleVal) {
             this.bulkPackaging[index].toggle.val = !toggleVal;
-            // if the value is true
-            if (this.bulkPackaging[index].toggle.val) {
-                // then disable all the other toggles and set every value as false
-                this.bulkPackaging.forEach((a, indexPos) => {
-                    if (index != indexPos) {
-                        this.bulkPackaging[indexPos].toggle.val = false;
-                        this.bulkPackaging[indexPos].toggle.disabled = true;
-                    }
-                });
-            } else {
-                // if not then set disable value for all to be false
-                // so that user can make a selection
-                this.bulkPackaging.forEach((a, indexPos) => {
-                    if (index != indexPos) {
-                        this.bulkPackaging[indexPos].toggle.disabled = false;
-                    }
-                });
-            }
             this.checkForButtonToggle();
         },
         handleGroupDelete(index) {

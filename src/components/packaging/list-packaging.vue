@@ -1,7 +1,13 @@
 <template>
     <div class="list-packaging-container">
         <div class="list-packaging-container-header">
-            List of Packaging Items
+            <div>
+                <p class="packaging-title">List of Packaging Items</p>
+                <span class="packaging-subtitle"
+                    >Select and configure a return window for your sales
+                    channel</span
+                >
+            </div>
             <div class="add-packaging-btn-container">
                 <nitrozen-button
                     class="add-packaging-btn"
@@ -13,13 +19,21 @@
                 >
             </div>
         </div>
-        <!-- <search-container
+        <!-- TODO remove disabled props once BE supports search functionality -->
+        <search-container
             :placeholder="'Search by Package name'"
             :id="'packaging-search'"
             :handleChange="handleChange"
             :value="packagingSearchValue"
-        /> -->
-        <div class="list-container">
+            :disabled="true"
+        />
+        <div
+            v-if="showLoader || !groupCategories.length > 0"
+            class="loader-parent"
+        >
+            <loader-vue />
+        </div>
+        <div class="list-container" v-else>
             <!-- Check if products array have items if so then map -->
             <div class="list-container-products" v-if="products.length">
                 <div
@@ -27,15 +41,17 @@
                     v-for="(item, index) of products"
                     :key="'product-row-' + index"
                 >
-                    <packaging-card :item="item" />
+                    <packaging-card
+                        :item="item"
+                        :groupCategories="groupCategories"
+                    />
                 </div>
             </div>
             <!-- else show no content component -->
             <no-content
                 v-else
-                :helperText="'List is empty. No packaging created yet.'"
-                :btnText="'Add Packaging'"
-                @tryAgain="handleAddPackaging"
+                :helperText="'List is empty. No packaging created yet'"
+                :icon="'/public/assets/pngs/packaging_empty.png'"
             />
             <div class="list-container-pagination">
                 <nitrozen-pagination
@@ -55,6 +71,7 @@ import NoContent from '../../components/common/adm-no-content.vue';
 import { NitrozenButton, NitrozenPagination } from '@gofynd/nitrozen-vue';
 import {
     CLEAR_PRODUCT,
+    FETCH_GROUP_CATEGORIES,
     FETCH_PACKAGING_PRODUCTS
 } from '../../store/action.type';
 import { mapGetters } from 'vuex';
@@ -62,6 +79,7 @@ import { GET_PACKAGING_PRODUCTS } from '../../store/getters.type';
 import PackagingCard from './common/packaging-card.vue';
 import SearchContainer from './common/search-container.vue';
 import { debounce } from '@/helper/utils';
+import LoaderVue from '../common/loader.vue';
 export default {
     name: 'list-packaging',
     components: {
@@ -69,7 +87,8 @@ export default {
         NitrozenButton,
         PackagingCard,
         SearchContainer,
-        NitrozenPagination
+        NitrozenPagination,
+        LoaderVue
     },
     data() {
         return {
@@ -80,7 +99,9 @@ export default {
                 current: 1
             },
             perPageValues: [5, 10, 20, 50],
-            packagingSearchValue: ''
+            packagingSearchValue: '',
+            showLoader: true,
+            groupCategories: []
         };
     },
     computed: {
@@ -92,6 +113,7 @@ export default {
         // get products by calling the action
         await this.fetchProducts();
         this.$store.dispatch(CLEAR_PRODUCT);
+        this.fetchGroupCategories();
     },
     methods: {
         /**
@@ -107,8 +129,8 @@ export default {
             // only if there is a user input in search pass name param
             if (this.packagingSearchValue.length) {
                 param.q = this.packagingSearchValue;
-                delete param.page_no
-                delete param.page_size
+                delete param.page_no;
+                delete param.page_size;
             }
             return param;
         },
@@ -149,6 +171,27 @@ export default {
                             'No Packaging products found'
                         );
                     }
+                });
+        },
+        /**
+         * @author Rohan Shah
+         * @description Fetch all group categories 
+         */
+        fetchGroupCategories() {
+            this.showLoader = true;
+            this.$store
+                .dispatch(FETCH_GROUP_CATEGORIES, { page_size: 9999 })
+                .then((res) => {
+                    if(res.error){
+                        this.$snackbar.global.showInfo(
+                            'Could not fetch group categories'
+                        );
+                    }
+                    const { items } = res;
+                    this.groupCategories = items;
+                })
+                .finally(() => {
+                    this.showLoader = false;
                 });
         },
         /**

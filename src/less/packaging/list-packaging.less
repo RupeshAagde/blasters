@@ -1,51 +1,62 @@
 @import '../color.less';
 
-.list-packaging{
-    &-container{
+.list-packaging {
+    &-container {
         background-color: @White;
         border-radius: 12px;
         padding: 24px;
         height: 100%;
         position: relative;
-        &-header{
-            color:@Mako;
+        &-header {
+            color: @Mako;
             font-size: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-weight: 600;
         }
-        &-products{
+        &-products {
             margin-top: 24px;
         }
     }
 }
-.list-container{
+.list-container {
     margin-top: 16px;
     height: calc(100% - 200px);
     overflow: auto;
-    &-pagination{
+    &-pagination {
         position: absolute;
         bottom: 0;
         width: calc(100% - 24px);
         left: auto;
         display: flex;
     }
-    &-products-row{
+    &-products-row {
         margin-top: 16px;
     }
-    .page-error .page-error-text span{
+    .page-error .page-error-text span {
         margin: 0;
     }
-    button{
+    button {
         background-color: @White !important;
         color: #2e31be;
         padding: 0px;
     }
 }
-.add-packaging-btn{
-    background: #2e31be !important;
+.add-packaging-btn {
     border-radius: 4px !important;
     padding: 0 24px !important;
-    color: @White !important;
+    border: 1px solid #2e31be !important;
+}
+.packaging {
+    &-subtitle {
+        color: #9b9b9b;
+        font-size: 12px;
+        font-weight: 400;
+    }
+    &-title {
+        font-size: 16px;
+        color: #41434c;
+        font-weight: 600;
+    }
 }

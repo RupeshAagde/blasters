@@ -1,7 +1,7 @@
 @import '../color.less';
 .packaging-create {
     &-container {
-        width: 75%;
+        width: 100%;
         background: @White;
         // height: 100%;
         border-radius: 12px;
@@ -9,12 +9,15 @@
         &-header {
             font-weight: 700;
             font-size: 24px;
-            color: #4f4f4f;
+            color: #41434C;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
     }
 }
 .create-packaging {
-    &-search-container{
+    &-search-container {
         margin-top: 32px;
         position: relative;
     }
@@ -30,7 +33,6 @@
         flex-wrap: wrap;
         justify-content: space-between;
         align-items: center;
-        
     }
 }
 .row-2-input {
@@ -39,57 +41,65 @@
 }
 .row-3-input {
     margin-top: 32px;
-    width: calc(50% - 22px);
+    width: calc((100% / 3) - 22px);
     height: 60px;
 }
-.toggle-container{
-    &-l3-header{
-        p{
+.toggle-container {
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 24px;
+    &-l3-header {
+        p {
             margin: 0;
             font-size: 20px;
             font-weight: 700;
-            color: #4F4F4F;
+            color: #4f4f4f;
         }
         display: flex;
-        margin-top: 34px;
+        justify-content: space-between;
     }
-    &-l3-body{
+    &-l3-body {
         margin-top: 16px;
     }
-    &-l3-list{
+    &-l3-list {
         margin-top: 16px;
         display: flex;
-        &-item{
+        &-item {
             align-items: center;
             padding: 8px;
             font-size: 12px;
             font-weight: 400;
-            color: #41434C;
-            background: #FFFFFF;
-            border: 1px solid #E5E5E5;
+            color: #41434c;
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
             border-radius: 4px;
             width: 100px;
             display: flex;
             justify-content: space-between;
             margin-left: 12px;
         }
-        &-item:first-child{
+        &-item:first-child {
             margin: 0;
         }
     }
-   &-bulk{
-       &-body{
-           &-button-container{
-               float: right;
-               margin-top:22px
-           }
-       }
-   }
-   &-bulk-body{
-       margin-top: 22px;
-   }
+    &-bulk {
+        &-body {
+            &-button-container {
+                margin: 16px;
+            }
+        }
+        &-packgaing-card{
+            width: 100%;
+        }
+    }
+    &-bulk-body{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
 }
-.l3-list-item-ellipsis{
+.l3-list-item-ellipsis {
     white-space: nowrap !important;
     width: auto;
     overflow: hidden !important;
@@ -97,22 +107,19 @@
     max-width: 70px;
     cursor: default;
 }
-.icon-cross{
+.icon-cross {
     cursor: pointer;
 }
-.add-group-btn{
+.add-group-btn {
     border: 1px solid #2e31be !important;
     border-radius: 4px;
     padding: 0 22px;
 }
-.bulk-packgaing-card{
-    margin-top: 24px;
-}
-.opaque-custom{
+.opaque-custom {
     opacity: 0.5;
 }
-.packaging-search-list{
-    &-container{
+.packaging-search-list {
+    &-container {
         height: auto;
         max-height: 300px;
         overflow: auto;
@@ -124,41 +131,43 @@
         display: flex;
         flex-direction: column;
         // gap: 10px;
-        background: #F8F8F8;
-        border: 1px solid #E0E0E0;
+        background: #f8f8f8;
+        border: 1px solid #e0e0e0;
         border-radius: 4px;
+        filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.1));
     }
-    &-row:hover{
-        background-color: #F2F2F2;;
+    &-row:hover {
+        background-color: #f2f2f2;
     }
-    &-row{
+    &-row {
         padding: 16px;
         display: flex;
         cursor: pointer;
-        background-color: #F8F8F8;
+        background-color: #FFFFFF;
         align-items: center;
-        &-name{
+        border-bottom: 1px solid #E0E0E0;
+        &-name {
             font-weight: 700;
             font-size: 12px;
             line-height: 140%;
-            color: #41434C;
+            color: #41434c;
             margin-left: 12px;
         }
-        &-dimension{
+        &-dimension {
             font-weight: 400;
             font-size: 12px;
             line-height: 15px;
             color: #000000;
             margin-left: 12px;
         }
-        &-image{
+        &-image {
             padding: 4px;
             height: 30px;
             width: 30px;
             overflow: hidden;
-            border: 1px solid #E0E0E0;
+            border: 1px solid #e0e0e0;
             border-radius: 4px;
-            img{
+            img {
                 height: 100%;
                 width: 100%;
                 background-size: cover;
@@ -166,10 +175,16 @@
         }
     }
 }
-.no-products{
+.no-products {
     font-weight: 400;
     font-size: 12px;
     line-height: 15px;
     color: #000000;
     justify-content: center;
+}
+.l3-container{
+    padding: 0px;
+}
+.custom-header{
+    padding: 16px;
 }

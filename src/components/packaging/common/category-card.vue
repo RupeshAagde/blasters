@@ -2,9 +2,9 @@
     <div class="category-card-container">
         <div class="category-card-name" :id="'item-name'">
             {{ item.name }}
-            <span class="slug-name" :id="'slug-name' + index"
-                        >Slug: {{ item.slug }}</span
-                    >
+            <span class="slug-name" :id="'slug-name' + cardIndex"
+                >Slug: {{ item.slug }}</span
+            >
         </div>
         <div class="category-card-config-container">
             <div class="category-config-container">
@@ -30,8 +30,8 @@
                     + {{ extraCount }}
                 </div>
             </div>
-            <div @click="handleEditClicked(item)" id="edit-click">
-                <inline-svg :src="'edit'" class="edit-icon" />
+            <div @click="handleEditClicked(item)" id="edit-click" class="icon-wrapper">
+                <inline-svg :src="'edit_new'" class="edit-icon" />
             </div>
         </div>
     </div>
@@ -53,6 +53,9 @@ export default {
         },
         l3CategoryList: {
             type: Array
+        },
+        cardIndex: {
+            type: Number
         }
     },
     mounted() {
@@ -75,8 +78,11 @@ export default {
         setDisplayCategories(count = this.displayCount) {
             let tempArr = [];
             this.item.categories.forEach((id) => {
-                //TODO explore map instead of find for faster result
-                let categoryObj = this.l3CategoryList.find((a) => a.uid == id);
+                let categoryObj = this.l3CategoryList
+                    .map((a) => {
+                        if (a.uid == id) return a;
+                    })
+                    .filter((a) => a !== undefined)[0];
                 if (categoryObj) tempArr.push(categoryObj);
             });
             this.splicedCategoryConfig = tempArr;

@@ -1,8 +1,16 @@
 <template>
     <div class="list-packaging-container">
         <div class="list-packaging-container-header">
-            Category Configuration
-            {{ categories.length > 0 ? `(${categories.length})` : '' }}
+            <div>
+                <p class="packaging-title">
+                    Category Configuration
+                    {{ categories.length > 0 ? `(${categories.length})` : '' }}
+                </p>
+                <span class="packaging-subtitle"
+                    >Select and configure a return window for your sales
+                    channel</span
+                >
+            </div>
             <div class="add-packaging-btn-container">
                 <nitrozen-button
                     class="add-packaging-btn"
@@ -20,7 +28,10 @@
             :handleChange="handleChange"
             :value="groupCategoryValue"
         />
-        <div v-if="showLoader" class="loader-parent">
+        <div
+            v-if="showLoader || !l3CategoryList.length > 0"
+            class="loader-parent"
+        >
             <loader-vue />
         </div>
         <div class="list-container" v-else>
@@ -36,15 +47,15 @@
                         :item="item"
                         :handleEditClicked="handleEditClicked"
                         :l3CategoryList="l3CategoryList"
+                        :cardIndex="index"
                     />
                 </div>
             </div>
             <!-- else show no content component -->
             <no-content
                 v-else
-                :helperText="'No categories have been added'"
-                :btnText="'Add New Category'"
-                @tryAgain="handleAddCategories"
+                :icon="'/public/assets/pngs/category_empty.png'"
+                :helperText="'No Categories have been added, try adding a few'"
             />
             <div class="list-container-pagination">
                 <!-- Show only if categories are present  -->
@@ -140,11 +151,13 @@ export default {
                     selectedCategories: []
                 };
                 item.categories.forEach((categoryId) => {
-                    // TODO explore map instead of find for faster result
-                    let categoryObj = this.l3CategoryList.find(
-                        (a) => a.uid == categoryId
-                    );
+                    let categoryObj = this.l3CategoryList
+                        .map((a) => {
+                            if (a.uid == categoryId) return a;
+                        })
+                        .filter((a) => a !== undefined)[0];
                     if (categoryObj) {
+                        console.log(categoryObj);
                         categoryInfo.categoryValue.push(categoryObj.uid);
                         // add value and text for display purposes
                         categoryObj.value = categoryObj.uid;
