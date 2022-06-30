@@ -170,9 +170,6 @@ export default {
             return cloneDeep(props);
         }
     },
-    updated() {
-        console.log("this.itemValues:   ", this.itemValues);
-    },
     data() {
         return {
             showAvailableBlocksSelectionPopup: false,
@@ -231,34 +228,7 @@ export default {
 
             if(prop.id === 'item_source' && inputObj.value !== 'api') {
                 this.$set(this.section.data, 'api_source', '');
-            }
-
-            // if(prop.id === 'collection_source' && inputObj.value) {
-            //     /* Clearing old data */
-            //     console.log("this.section:   ", this.section);
-            //     this.$set(this.section.props[this.section.item_type], 'value', []);
-            //     this.$set(this.section.props[this.section.item_type], 'details', []);
-            //     this.$set(this.section.data, `${this.section.item_type}_details`, []);
-            //     if(this.itemValues.length) {
-            //         this.itemValues = cloneDeep([]);
-            //     }
-            //     this.$set(this.section.data, this.section.item_type, []);
-
-            //     this.fetchExtensionsOfCollection(inputObj.value)
-            //     .then(response => {
-            //         let extensionProp = this.section_schema.props.find(p => p.id === this.section.item_type);
-            //         extensionProp.options = cloneDeep(response).map(item => {
-            //             item.name = item.listing_info.name;
-            //             item.text = item.listing_info.name;
-            //             item.logo = item.listing_info.icon;
-            //             item.value = item._id;
-            //             return item;
-            //         });
-            //     })
-            //     .catch(error => {
-            //         console.log("error:   ", error);
-            //     })
-            // }                 
+            }        
 
             if(removeSelections) {
                 this.$set(this.section.props[this.section.item_type], 'value', []);
@@ -276,7 +246,7 @@ export default {
                 this.$set(this.section.props[this.section.item_type], 'details', []);
                 this.$set(this.section.data, `${this.section.item_type}_details`, []);
                 if(this.itemValues && this.itemValues.length) {
-                    this.itemValues = cloneDeep([]);
+                    this.itemValues = [];
                 }
                 this.$set(this.section.data, this.section.item_type, []);
 

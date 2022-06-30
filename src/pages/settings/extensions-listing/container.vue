@@ -651,7 +651,7 @@ export default {
             if(event.type === 'collection') {
                 this.getCollections({name: event.value.text})
                 .then(() => {
-                    let section = this.available_sections.find(sec => sec.item_type === event.type);
+                    let section = this.available_sections.find(sec => sec.type === event.section_type);
                     let extensionProp = section.props.find(pr => pr.type === 'select' && pr.id === event.type);
                     extensionProp.options = this.collection;
                 })
@@ -661,11 +661,13 @@ export default {
             } else if(event.type === 'collection_source') {
                 this.getCollections({name: event.value.text})
                 .then(() => {
-                    let section = this.available_sections.find(sec => {
+                    const sections = this.available_sections.filter(sec => {
                         return sec.item_type === event.type && sec.type === event.section_type;
                     });
-                    let collectionProp = section.props.find(pr => pr.type === 'select' && pr.id === event.type);
-                    collectionProp.options = this.collection;
+                    sections.forEach( section => {
+                        let collectionProp = section.props.find(pr => pr.type === 'select' && pr.id === event.type);
+                        collectionProp.options = this.collection;
+                    });
                 })
                 .catch(error => {
                     console.log("Error in onSearchInputChange while fetching collections:   ", error);
