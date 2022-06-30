@@ -7,6 +7,7 @@
             :showSearchIcon="true"
             @input="handleChange"
             :v-model="value"
+            :disabled="disabled"
         />
     </div>
 </template>
@@ -30,6 +31,10 @@ export default {
         },
         value: {
             type: String
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         }
     }
 };

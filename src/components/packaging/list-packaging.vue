@@ -19,12 +19,14 @@
                 >
             </div>
         </div>
-        <!-- <search-container
+        <!-- TODO remove disabled props once BE supports search functionality -->
+        <search-container
             :placeholder="'Search by Package name'"
             :id="'packaging-search'"
             :handleChange="handleChange"
             :value="packagingSearchValue"
-        /> -->
+            :disabled="true"
+        />
         <div class="list-container">
             <!-- Check if products array have items if so then map -->
             <div class="list-container-products" v-if="products.length">
