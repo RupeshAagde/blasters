@@ -220,6 +220,34 @@
                 </div>
                 </div>
 
+                <div class="input-column">
+                    <label class="cl-Mako bold-sm">Seller Support Details</label>
+                <div class="input-row">
+                    <div class="input-field">
+                        <nitrozen-input
+                            label="Phone Numer *"
+                            type="number"
+                            placeholder="Enter Phone Number"
+                            v-model="sellerPhone.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="sellerPhone.showerror">
+                            {{ sellerPhone.errortext }}
+                        </nitrozen-error>
+                    </div>
+
+                    <div class="input-field">
+                        <nitrozen-input
+                            label="Email *"
+                            placeholder="Enter Email"
+                            v-model="sellerEmail.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="sellerEmail.showerror">
+                            {{ sellerEmail.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+                </div>
+
 
                 <!-- <div class="input-column" v-if="basicSettings">
                     <label class="cl-Mako bold-xs title">
@@ -337,6 +365,8 @@ export default {
             registerDescription: this.getInitialValue(''),
             businessAccount: this.getInitialValue(false),
             businessAccountThershold: this.getInitialValue(1),
+            sellerPhone: this.getInitialValue(9123456780),
+            sellerEmail: this.getInitialValue("seller@gofynd.com"),
             features: [],
             whats_new: []
         };
@@ -375,6 +405,9 @@ export default {
 
                     this.businessAccount.value = this.basicSettings.business_account && this.basicSettings.business_account.is_limit || false
                     this.businessAccountThershold.value = this.basicSettings.business_account && this.basicSettings.business_account.threshold || 1
+
+                    this.sellerPhone.value = this.basicSettings.seller_support && this.basicSettings.seller_support.phone_number || 9012345678;
+                    this.sellerEmail.value = this.basicSettings.seller_support && this.basicSettings.seller_support.email || 'seller@gofynd.com';
 
                     this.pageError = false;
                     this.pristineData = this.getPayload();
@@ -420,7 +453,11 @@ export default {
                 business_account: {
                     is_limit: this.businessAccount.value,
                     threshold: this.businessAccountThershold.value
-                }
+                },
+                seller_support: {
+                    email: this.sellerEmail.value,
+                    phone_number: this.sellerPhone.value
+                },
             };
         },
         checkEmpty(key) {
@@ -435,7 +472,9 @@ export default {
                 loginDescription: 'Description is required',
                 registerTitle: 'Title is required',
                 registerDescription: 'Description is required',
-                businessAccountThershold: 'Thershold is required'
+                businessAccountThershold: 'Thershold is required',
+                sellerEmail: 'Email is required',
+                sellerPhone: 'Phone Number is required'
             };
             if(key == 'businessAccountThershold'){
                 if(this[key].value <= 0){
