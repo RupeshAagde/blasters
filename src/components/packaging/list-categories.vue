@@ -2,13 +2,15 @@
     <div class="list-packaging-container">
         <div class="list-packaging-container-header">
             <div>
-                <p class="packaging-title">Category Configuration</p>
+                <p class="packaging-title">
+                    Category Configuration
+                    {{ categories.length > 0 ? `(${categories.length})` : '' }}
+                </p>
                 <span class="packaging-subtitle"
                     >Select and configure a return window for your sales
                     channel</span
                 >
             </div>
-            <!-- {{ categories.length > 0 ? `(${categories.length})` : '' }} -->
             <div class="add-packaging-btn-container">
                 <nitrozen-button
                     class="add-packaging-btn"
