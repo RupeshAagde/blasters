@@ -114,7 +114,15 @@
         </div>
         <div class="toggle-container">
             <div class="toggle-container-l3-header">
-                <p>L3 Categories</p>
+                <p>
+                    Lvl.3 Categories
+                    <nitrozen-tooltip
+                        :position="'top'"
+                        :tooltipText="
+                            'Choose the L3 categories whose single quantity would fit inside the packaging material'
+                        "
+                    />
+                </p>
                 <nitrozen-toggle-btn
                     :value="l3Checked"
                     @change="handleToggleChange('l3')"
@@ -134,9 +142,15 @@
                 :categoryValue="categoryValue"
             />
         </div>
-        <div class="toggle-container">
-            <div class="toggle-container-l3-header">
-                <p>Bulk Packaging</p>
+        <div class="toggle-container l3-container">
+            <div class="toggle-container-l3-header custom-header">
+                <p>
+                    Bulk Packaging
+                    <nitrozen-tooltip
+                        :position="'top'"
+                        :tooltipText="'TBC text'"
+                    />
+                </p>
                 <nitrozen-toggle-btn
                     :value="bulkChecked"
                     @change="handleToggleChange('bulk')"
@@ -187,7 +201,8 @@ import {
     NitrozenError,
     NitrozenToggleBtn,
     NitrozenDropdown,
-    NitrozenButton
+    NitrozenButton,
+    NitrozenTooltip
 } from '@gofynd/nitrozen-vue';
 import inlineSvgVue from '../common/inline-svg.vue';
 import BulkPackagingCard from './common/bulk-packaging-card.vue';
@@ -216,7 +231,8 @@ export default {
         NitrozenButton,
         BulkPackagingCard,
         CategoryMultiSelect,
-        Loader
+        Loader,
+        NitrozenTooltip
     },
     computed: {
         searchPlacholder() {
