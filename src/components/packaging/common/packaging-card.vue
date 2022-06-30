@@ -27,7 +27,7 @@
                 <span id="item-code">{{ item.product.item_code }}</span>
             </div>
             <div class="packaging-card-button" @click="editClick(item)">
-                <inline-svg :src="'edit'" class="action-icon" />
+                <inline-svg :src="'edit_new'" class="action-icon" />
             </div>
         </div>
     </div>

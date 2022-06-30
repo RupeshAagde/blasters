@@ -30,8 +30,8 @@
                     + {{ extraCount }}
                 </div>
             </div>
-            <div @click="handleEditClicked(item)" id="edit-click">
-                <inline-svg :src="'edit'" class="edit-icon" />
+            <div @click="handleEditClicked(item)" id="edit-click" class="icon-wrapper">
+                <inline-svg :src="'edit_new'" class="edit-icon" />
             </div>
         </div>
     </div>
