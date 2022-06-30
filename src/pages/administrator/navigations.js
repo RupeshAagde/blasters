@@ -152,7 +152,7 @@ export const getNavigations = () => {
             display: 'Packaging',
             link: '/administrator/packaging/items',
             title: 'packaging',
-            icon: 'settings',
+            icon: 'packaging_icon',
             highlightedIcon: 'home-highlighted',
             active: false,
             permission: 'admin-access',
