@@ -37,7 +37,7 @@
             <!-- default group categories name if exists -->
             <div class="extra-row" v-if="item.l3_mapping.length > 0">
                 <span class="item-header">Default category</span>
-                <span id="item-code" class="item-value">TBD</span>
+                <span id="item-l3-value" class="item-value">TBD</span>
             </div>
         </div>
         <div class="packaging-card-button-container">

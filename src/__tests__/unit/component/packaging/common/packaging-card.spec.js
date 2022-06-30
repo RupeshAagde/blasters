@@ -18,7 +18,8 @@ let item = {
     length:'1',
     width:"1",
     height:'2'
-   }
+   },
+   l3_mapping:[]
 };
 const localVue = createLocalVue()
 localVue.use(VueRouter);
@@ -68,5 +69,9 @@ describe('packaging card component ', () => {
     it("shpuld test for getPackInfo wrong case",()=>{
         const resp = wrapper.vm.getPackInfo({name:"test"})
         expect(resp).toBe("NA")
+        item.l3_mapping = ["1"]
+    })
+    it("should check for l3 mapping",()=>{
+        expect(wrapper.find('#item-l3-value').element.textContent).toBe('TBD')
     })
 });
