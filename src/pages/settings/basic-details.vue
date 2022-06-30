@@ -21,7 +21,7 @@
                 @tryAgain="fetchSettings"
             ></page-error>
             <section v-if="!pageLoading && !pageError">
-                <label class="cl-Mako bold-sm title">Basic Details</label>
+                <label class="cl-Mako bold-sm title">Common Settings</label>
                 <div class="input-row">
                     <!-- Title -->
                     <div class="input-field">
@@ -71,12 +71,12 @@
                 </div>
 
                 <div class="input-column">
-                <label class="cl-Mako bold-sm">Authentication Details</label>
+                <label class="cl-Mako bold-sm">Appereance of Authentication Page</label>
                 <div class="input-row">
                     <!-- Description -->
                     <div class="input-field">
                         <nitrozen-input
-                            label="Description *"
+                            label="Overlay Text *"
                             type="textarea"
                             placeholder="Enter Authentication Description"
                             v-model="authDescription.value"
@@ -92,7 +92,7 @@
                     <div class="input-field">
                         <!-- <div class="n-input-label">Authentication Logo *</div> -->
                         <image-uploader-tile
-                            label="Logo"
+                            label="Overlay Logo"
                             aspectRatio="1:1"
                             @delete="authLogo.value = ''"
                             @save="authLogo.value = $event"
@@ -109,7 +109,7 @@
                     <div class="input-field">
                         <!-- <div class="n-input-label">Authentication Image *</div> -->
                         <image-uploader-tile
-                            label="Image"
+                            label="Side Image"
                             aspectRatio="*"
                             @delete="authImage.value = ''"
                             @save="authImage.value = $event"
@@ -126,7 +126,7 @@
 
 
                 <div class="input-column">
-                <label class="cl-Mako bold-sm">Login Details</label>
+                <label class="cl-Mako bold-sm">Text on Seller Login Page</label>
                 <div class="input-row">
                     <!-- Description -->
                     <div class="input-field">
@@ -145,9 +145,9 @@
                     <!-- Description -->
                     <div class="input-field">
                         <nitrozen-input
-                            label="Description *"
+                            label="Subtitle *"
                             type="textarea"
-                            placeholder="Enter Login Description"
+                            placeholder="Enter Login Subtitle"
                             v-model="loginDescription.value"
                         ></nitrozen-input>
                         <nitrozen-error v-if="loginDescription.showerror">
@@ -159,7 +159,7 @@
 
 
                 <div class="input-column">
-                <label class="cl-Mako bold-sm">Register Details</label>
+                <label class="cl-Mako bold-sm">Text on Seller Register Page</label>
                 <div class="input-row">
                     <!-- Description -->
                     <div class="input-field">
@@ -178,9 +178,9 @@
                     <!-- Description -->
                     <div class="input-field">
                         <nitrozen-input
-                            label="Description *"
+                            label="Subtitle *"
                             type="textarea"
-                            placeholder="Enter Register Description"
+                            placeholder="Enter Register Subtitle"
                             v-model="registerDescription.value"
                         ></nitrozen-input>
                         <nitrozen-error v-if="registerDescription.showerror">
@@ -191,7 +191,7 @@
                 </div>
 
                 <div class="input-column">
-                <label class="cl-Mako bold-sm">Create Business Account</label>
+                <label class="cl-Mako bold-sm">Business Account Restrictions</label>
                 <div class="input-row business-checbox">
                     <!-- Description -->
                     <div class="input-field">
@@ -199,7 +199,7 @@
                             <nitrozen-toggle-btn
                                 v-model="businessAccount.value"
                             ></nitrozen-toggle-btn>
-                            <span>Limit Create Business Account</span>
+                            <span>Limit the number of businessaccount per seller</span>
                         </label>
                     </div>
                 </div>
@@ -208,7 +208,7 @@
                     <!-- Description -->
                     <div class="input-field">
                         <nitrozen-input
-                            label="Thershold *"
+                            label="Maximum Accounts Permitted *"
                             type="number"
                             placeholder="Enter Thershold"
                             v-model="businessAccountThershold.value"
