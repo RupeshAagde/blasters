@@ -27,6 +27,12 @@
                         "
                         :disabled="inputs.toggle.disabled"
                     />
+                    <nitrozen-tooltip
+                        :position="'top'"
+                        :tooltipText="
+                            'Cheking this option would make the packaging material the default choice for bulk orders in the selected category.'
+                        "
+                    />
                 </div>
             </div>
             <div class="bulk-card-body">
