@@ -19,14 +19,13 @@
                     :value="dropDownValue"
                 />
                 <div class="default-container">
-                    Default
-                    <nitrozen-toggle-btn
+                    <nitrozen-check-box
                         :value="inputs.toggle.val"
                         @change="
                             handleToggleChange(currentIndex, inputs.toggle.val)
                         "
-                        :disabled="inputs.toggle.disabled"
-                    />
+                        >Set as default</nitrozen-check-box
+                    >
                     <nitrozen-tooltip
                         :position="'top'"
                         :tooltipText="
@@ -139,9 +138,9 @@
 import {
     NitrozenInput,
     NitrozenError,
-    NitrozenToggleBtn,
     NitrozenDropdown,
-    NitrozenTooltip
+    NitrozenTooltip,
+    NitrozenCheckBox
 } from '@gofynd/nitrozen-vue';
 import InlineSvg from '../../common/inline-svg.vue';
 export default {
@@ -149,10 +148,10 @@ export default {
     components: {
         NitrozenInput,
         NitrozenError,
-        NitrozenToggleBtn,
         NitrozenDropdown,
         InlineSvg,
-        NitrozenTooltip
+        NitrozenTooltip,
+        NitrozenCheckBox
     },
     props: {
         inputs: {

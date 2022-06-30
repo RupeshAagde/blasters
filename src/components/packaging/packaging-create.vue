@@ -548,24 +548,6 @@ export default {
          */
         handleBulkToggle(index, toggleVal) {
             this.bulkPackaging[index].toggle.val = !toggleVal;
-            // if the value is true
-            if (this.bulkPackaging[index].toggle.val) {
-                // then disable all the other toggles and set every value as false
-                this.bulkPackaging.forEach((a, indexPos) => {
-                    if (index != indexPos) {
-                        this.bulkPackaging[indexPos].toggle.val = false;
-                        this.bulkPackaging[indexPos].toggle.disabled = true;
-                    }
-                });
-            } else {
-                // if not then set disable value for all to be false
-                // so that user can make a selection
-                this.bulkPackaging.forEach((a, indexPos) => {
-                    if (index != indexPos) {
-                        this.bulkPackaging[indexPos].toggle.disabled = false;
-                    }
-                });
-            }
             this.checkForButtonToggle();
         },
         handleGroupDelete(index) {
