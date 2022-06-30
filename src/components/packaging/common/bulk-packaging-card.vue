@@ -2,8 +2,8 @@
     <div class="bulk-card-container">
         <div class="bulk-card-info">
             <span>Group {{ currentIndex + 1 }}</span>
-            <div @click="handleDelete(currentIndex)">
-                <inline-svg :src="'delete'" class="delete-icon" />
+            <div @click="handleDelete(currentIndex)" class="delete-wrapper">
+                <inline-svg :src="'delete_new'" class="delete-icon" />
             </div>
         </div>
         <div class="bulk-card-group-container">
