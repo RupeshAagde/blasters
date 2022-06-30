@@ -3,7 +3,10 @@
         <div class="list-packaging-container-header">
             <div>
                 <p class="packaging-title">List of Packaging Items</p>
-                <span class="packaging-subtitle">Select and configure a return window for your sales channel</span>
+                <span class="packaging-subtitle"
+                    >Select and configure a return window for your sales
+                    channel</span
+                >
             </div>
             <div class="add-packaging-btn-container">
                 <nitrozen-button
@@ -109,8 +112,8 @@ export default {
             // only if there is a user input in search pass name param
             if (this.packagingSearchValue.length) {
                 param.q = this.packagingSearchValue;
-                delete param.page_no
-                delete param.page_size
+                delete param.page_no;
+                delete param.page_size;
             }
             return param;
         },
