@@ -36,9 +36,8 @@
             <!-- else show no content component -->
             <no-content
                 v-else
-                :helperText="'List is empty. No packaging created yet.'"
-                :btnText="'Add Packaging'"
-                @tryAgain="handleAddPackaging"
+                :helperText="'List is empty. No packaging created yet'"
+                :icon="'/public/assets/pngs/packaging_empty.png'"
             />
             <div class="list-container-pagination">
                 <nitrozen-pagination
