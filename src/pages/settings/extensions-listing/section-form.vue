@@ -150,18 +150,15 @@ export default {
                 }
                 if(prop.predicate_prop) {
                     for(let key in prop.predicate_prop) {
-                        if(key === 'button_label' || key === 'image') {
-                            if(!this.section.data[key]) {
-                                prop.display = true;
-                            } else {
-                                prop.display = false;
-                            }
-                        } else if(key === 'collection_source') {
-                            prop.display = this.section.data[key].length > 0 ? true : false;
-                        } else {
-                            if(this.section.data) {
-                                prop.display = Array.isArray(prop.predicate_prop[key])? prop.predicate_prop[key].includes(this.section.data[key]): this.section.data[key] === prop.predicate_prop[key];
-                            }
+                        if (Array.isArray(prop.predicate_prop[key]))
+                        {
+                            prop.display = prop.predicate_prop[key].includes(this.section.data[key])
+                        }
+                        else if (typeof prop.predicate_prop[key] === "boolean") {
+                            prop.display = prop.predicate_prop[key];
+                        }
+                        else {
+                            prop.display = prop.predicate_prop[key] === this.section.data[key];
                         }
                     }
                 }
