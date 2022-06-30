@@ -34,8 +34,7 @@
         font-weight: 600;
         color: #41434c;
         display: flex;
-        flex-direction: column;
-        gap: 4px;
+        gap: 10px;
         text-transform: capitalize;
     }
 
@@ -93,8 +92,19 @@
     height: 50%;
     display: flex;
 }
-.slug-name{
+.slug-name {
     font-size: 14px;
     color: #828282;
     text-transform: none;
+    position: relative;
+    padding: 0 12px;
+}
+.slug-name::before {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 100%;
+    left: 0;
+    bottom: 0%;
+    background-color: #e0e0e0;
 }
