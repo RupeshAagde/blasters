@@ -37,7 +37,9 @@
             <!-- default group categories name if exists -->
             <div class="extra-row" v-if="groupCategories.length > 0">
                 <span class="item-header">Default category</span>
-                <span id="item-l3-value" class="item-value">{{getL3Names(item.l3_mapping)}}</span>
+                <span id="item-l3-value" class="item-value">{{
+                    getL3Names(item.l3_mapping)
+                }}</span>
             </div>
         </div>
         <div class="packaging-card-button-container">
@@ -60,34 +62,36 @@ export default {
         item: {
             type: Object
         },
-         groupCategories:{
+        groupCategories: {
             type: Array
         }
     },
     methods: {
-         /**
-         * 
+        /**
+         *
          * @param {*} l3List List of l3 mapping of the packaging product
          * @author Rohan Shah
-         * @description Finds the name of the default category from the list 
+         * @description Finds the name of the default category from the list
          * and then returns the combined names
          */
-        getL3Names(l3List){
-            console.log(this.groupCategories)
-            let nameList = []
-            l3List.forEach(group =>{
+        getL3Names(l3List) {
+            let nameList = [];
+            l3List.forEach((group) => {
                 // run only for default packaging material
-                if(group.is_default_packaging_material){
-                    // find the category name 
-                    let categoryName = this.groupCategories.map((groupCategory)=>{
-                        if(groupCategory._id == group.group_category) return groupCategory.name
-                    }).filter(a => a!== undefined)[0]
+                if (group.is_default_packaging_material) {
+                    // find the category name
+                    let categoryName = this.groupCategories
+                        .map((groupCategory) => {
+                            if (groupCategory._id == group.group_category)
+                                return groupCategory.name;
+                        })
+                        .filter((a) => a !== undefined)[0];
                     // push to the name list
-                    nameList.push(categoryName)
+                    nameList.push(categoryName);
                 }
-            })
+            });
             // only if the nameList has value then join and return else return '-'
-            return nameList.length ? nameList.join() : '-'
+            return nameList.length ? nameList.join() : '-';
         },
         getImagePath(product) {
             if (product.media) {
