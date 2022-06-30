@@ -27,7 +27,13 @@
             :value="packagingSearchValue"
             :disabled="true"
         />
-        <div class="list-container">
+        <div
+            v-if="showLoader || !groupCategories.length > 0"
+            class="loader-parent"
+        >
+            <loader-vue />
+        </div>
+        <div class="list-container" v-else>
             <!-- Check if products array have items if so then map -->
             <div class="list-container-products" v-if="products.length">
                 <div
@@ -35,7 +41,10 @@
                     v-for="(item, index) of products"
                     :key="'product-row-' + index"
                 >
-                    <packaging-card :item="item" />
+                    <packaging-card
+                        :item="item"
+                        :groupCategories="groupCategories"
+                    />
                 </div>
             </div>
             <!-- else show no content component -->
@@ -62,6 +71,7 @@ import NoContent from '../../components/common/adm-no-content.vue';
 import { NitrozenButton, NitrozenPagination } from '@gofynd/nitrozen-vue';
 import {
     CLEAR_PRODUCT,
+    FETCH_GROUP_CATEGORIES,
     FETCH_PACKAGING_PRODUCTS
 } from '../../store/action.type';
 import { mapGetters } from 'vuex';
@@ -69,6 +79,7 @@ import { GET_PACKAGING_PRODUCTS } from '../../store/getters.type';
 import PackagingCard from './common/packaging-card.vue';
 import SearchContainer from './common/search-container.vue';
 import { debounce } from '@/helper/utils';
+import LoaderVue from '../common/loader.vue';
 export default {
     name: 'list-packaging',
     components: {
@@ -76,7 +87,8 @@ export default {
         NitrozenButton,
         PackagingCard,
         SearchContainer,
-        NitrozenPagination
+        NitrozenPagination,
+        LoaderVue
     },
     data() {
         return {
@@ -87,7 +99,9 @@ export default {
                 current: 1
             },
             perPageValues: [5, 10, 20, 50],
-            packagingSearchValue: ''
+            packagingSearchValue: '',
+            showLoader: true,
+            groupCategories: []
         };
     },
     computed: {
@@ -99,6 +113,7 @@ export default {
         // get products by calling the action
         await this.fetchProducts();
         this.$store.dispatch(CLEAR_PRODUCT);
+        this.fetchGroupCategories();
     },
     methods: {
         /**
@@ -156,6 +171,27 @@ export default {
                             'No Packaging products found'
                         );
                     }
+                });
+        },
+        /**
+         * @author Rohan Shah
+         * @description Fetch all group categories 
+         */
+        fetchGroupCategories() {
+            this.showLoader = true;
+            this.$store
+                .dispatch(FETCH_GROUP_CATEGORIES, { page_size: 9999 })
+                .then((res) => {
+                    if(res.error){
+                        this.$snackbar.global.showInfo(
+                            'Could not fetch group categories'
+                        );
+                    }
+                    const { items } = res;
+                    this.groupCategories = items;
+                })
+                .finally(() => {
+                    this.showLoader = false;
                 });
         },
         /**
