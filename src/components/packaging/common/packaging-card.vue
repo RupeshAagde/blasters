@@ -14,18 +14,33 @@
                 </div>
                 <div class="packaging-card-info-other">
                     <div id="product-dimension">
-                        <inline-svg :src="'scale'"/>{{ getDimensions(item.dimensions) }}
+                        <inline-svg :src="'scale'" />{{
+                            getDimensions(item.dimensions)
+                        }}
                     </div>
                     <div class="line" id="pack-info">
-                        <inline-svg :src="'pack-info'"/>{{ getPackInfo(item.product) }}
+                        <inline-svg :src="'pack-info'" />{{
+                            getPackInfo(item.product)
+                        }}
                     </div>
                 </div>
             </div>
         </div>
-        <div class="packaging-card-button-container">
-            <div class="packaging-card-extra">
-                <span id="item-code">{{ item.product.item_code }}</span>
+        <div class="packaging-card-extra">
+            <!-- Item code / packaging type -->
+            <div class="extra-row">
+                <span class="item-header">Package Type</span>
+                <span id="item-code" class="item-value">{{
+                    item.product.item_code
+                }}</span>
             </div>
+            <!-- default group categories name if exists -->
+            <div class="extra-row" v-if="item.l3_mapping.length > 0">
+                <span class="item-header">Default category</span>
+                <span id="item-code" class="item-value">TBD</span>
+            </div>
+        </div>
+        <div class="packaging-card-button-container">
             <div class="packaging-card-button" @click="editClick(item)">
                 <inline-svg :src="'edit_new'" class="action-icon" />
             </div>
