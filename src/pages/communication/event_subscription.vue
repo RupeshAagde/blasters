@@ -120,7 +120,7 @@
                                                         
                                                     >
                                                     </nitrozen-dropdown>
-                                                    {{item.email.template._id}}
+                                                    
                                                     <nitrozen-button
                                                         v-if="
                                                             item.email
