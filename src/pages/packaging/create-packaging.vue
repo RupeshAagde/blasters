@@ -32,7 +32,7 @@
             :modalClass="'custom-modal'"
         >
             <div class="modal-custom-body">
-                <inline-svg :src="'modal-success'" />
+                <inline-svg :src="'modal_success'" />
                 <p id="modal-body-text">
                     Packaging has been succesfully
                     {{
@@ -106,6 +106,7 @@ export default {
             const reqObj = this.$refs.createPackaging.savePackagingOrder();
             this.$store.dispatch(SAVE_PACKAGING_PRODUCT, reqObj).then((res) => {
                 if (res.error) {
+                    // TODO add error mapping here for user display
                     console.log(res.message,"message")
                     return this.$snackbar.global.showError(
                         'Something went wrong. Failed to add new Packaging product'
