@@ -466,9 +466,9 @@ export default {
                 // only if the bulkchecked option is true
                 if (this.bulkChecked) {
                     let tempBulkPackaging = [];
-                    let bulkInput = this.bulkInput;
                     // loop through the data obtained from the BE and update the state
                     this.editProduct.l3_mapping.forEach((item) => {
+                        let bulkInput = { ...this.bulkInput };
                         bulkInput.toggle.val =
                             item.is_default_packaging_material;
                         bulkInput.volumetricWeight.minimum.value =
