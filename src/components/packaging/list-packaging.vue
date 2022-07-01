@@ -4,8 +4,8 @@
             <div>
                 <p class="packaging-title">List of Packaging Items</p>
                 <span class="packaging-subtitle"
-                    >Select and configure a return window for your sales
-                    channel</span
+                    >Shows all the packaging materials whose dimensions and
+                    capacity have been configured</span
                 >
             </div>
             <div class="add-packaging-btn-container">
@@ -175,14 +175,14 @@ export default {
         },
         /**
          * @author Rohan Shah
-         * @description Fetch all group categories 
+         * @description Fetch all group categories
          */
         fetchGroupCategories() {
             this.showLoader = true;
             this.$store
                 .dispatch(FETCH_GROUP_CATEGORIES, { page_size: 9999 })
                 .then((res) => {
-                    if(res.error){
+                    if (res.error) {
                         this.$snackbar.global.showInfo(
                             'Could not fetch group categories'
                         );

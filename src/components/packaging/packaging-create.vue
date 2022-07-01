@@ -3,8 +3,8 @@
         <div class="packaging-create-container-header">
             <span id="packaging-create-container-header">Extra Details</span>
             <span class="packaging-subtitle"
-                >Select and configure a return window for your sales
-                channel</span
+                >Add dimensions and capacity of packaging material along with
+                the L3 categories it supports</span
             >
         </div>
         <div class="create-packaging-search-container">
@@ -148,7 +148,9 @@
                     Bulk Packaging
                     <nitrozen-tooltip
                         :position="'top'"
-                        :tooltipText="'TBC text'"
+                        :tooltipText="
+                            'Choose the group of L3 categories and their quantities that would fit together inside the packaging material'
+                        "
                     />
                 </p>
                 <nitrozen-toggle-btn
