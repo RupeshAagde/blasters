@@ -116,11 +116,15 @@ export default {
             }
             this.$store.dispatch(SAVE_CATEGORY, requestData).then((res) => {
                 if (res.error) {
+                    // create msg based on if session is for edit or create
+                    let msg = `Something went wrong. Failed to ${
+                        Object.keys(this.selectedCategory).length
+                            ? 'update Category'
+                            : 'add new Category'
+                    }`;
                     return this.$snackbar.global.showError(
                         // only if the status code is 409 show the duplicate error else show generic error
-                        res.statusCode == 409
-                            ? res.msg
-                            : 'Something went wrong. Failed to add new Category'
+                        res.statusCode == 409 ? res.msg : msg
                     );
                 }
                 this.showLoader = false;
