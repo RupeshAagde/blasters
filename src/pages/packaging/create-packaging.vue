@@ -106,6 +106,7 @@ export default {
             const reqObj = this.$refs.createPackaging.savePackagingOrder();
             this.$store.dispatch(SAVE_PACKAGING_PRODUCT, reqObj).then((res) => {
                 if (res.error) {
+                    console.log(res.message,"message")
                     return this.$snackbar.global.showError(
                         'Something went wrong. Failed to add new Packaging product'
                     );
