@@ -715,6 +715,22 @@ export default {
                     input
                 ].error = `${this.bulkPackaging[index][obj][input].label} should have some value`;
             }
+            // check if both min and max have been filled, if so then validate if min is actually less than max
+            if (
+                this.bulkPackaging[index][obj]['minimum'].value.toString()
+                    .length &&
+                this.bulkPackaging[index][obj]['maximum'].value.toString()
+                    .length &&
+                !(
+                    this.bulkPackaging[index][obj]['minimum'].value <
+                    this.bulkPackaging[index][obj]['maximum'].value
+                )
+            ) {
+                // if not then set error in min input field
+                this.bulkPackaging[index][obj][
+                    'minimum'
+                ].error = `${this.bulkPackaging[index][obj]['minimum'].label} should be lesser than the maximum value`;
+            }
             this.checkForButtonToggle();
         },
         /**
@@ -741,6 +757,18 @@ export default {
         handleBulkChange(obj, input, val, index) {
             this.bulkPackaging[index][obj][input].value = val;
             this.bulkPackaging[index][obj][input].error = '';
+            // check if both min and max have been filled, if so then validate if min is actually less than max
+            if (
+                this.bulkPackaging[index][obj]['minimum'].value.toString()
+                    .length &&
+                this.bulkPackaging[index][obj]['maximum'].value.toString()
+                    .length &&
+                this.bulkPackaging[index][obj]['minimum'].value <
+                    this.bulkPackaging[index][obj]['maximum'].value
+            ) {
+                // if so then there are no errors so empty the error field
+                this.bulkPackaging[index][obj]['minimum'].error = '';
+            }
             this.checkForButtonToggle();
         },
         /**

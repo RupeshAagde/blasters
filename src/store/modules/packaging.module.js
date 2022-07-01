@@ -108,8 +108,9 @@ const actions = {
             .then((res) => {
                 return res.data;
             })
-            .catch(() => {
-                return { error: true };
+            .catch((err) => {
+                console.log(err.response)
+                return { error: true, message: err.response.data };
             });
     },
     [SAVE_CATEGORY]({ commit }, reqObj) {
