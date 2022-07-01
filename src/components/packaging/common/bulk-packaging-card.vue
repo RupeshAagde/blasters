@@ -29,7 +29,7 @@
                     <nitrozen-tooltip
                         :position="'top'"
                         :tooltipText="
-                            'Cheking this option would make the packaging material the default choice for bulk orders in the selected category.'
+                            'Checking this option would make the packaging material the default choice for bulk orders in the selected category.'
                         "
                     />
                 </div>
