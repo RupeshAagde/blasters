@@ -106,11 +106,17 @@ export default {
             const reqObj = this.$refs.createPackaging.savePackagingOrder();
             this.$store.dispatch(SAVE_PACKAGING_PRODUCT, reqObj).then((res) => {
                 if (res.error) {
-                    // TODO add error mapping here for user display 
-                    console.log(res.message,"message")
-                    return this.$snackbar.global.showError(
-                        'Something went wrong. Failed to add new Packaging product'
-                    );
+                    // if the session is for update then create msg accordingly
+                    let msg = `Something went wrong. Failed to ${
+                        Object.keys(this.editProduct).length
+                            ? 'update'
+                            : 'add new'
+                    } packaging product`;
+                    // only if the schema error msg is string then update the error message
+                    if (typeof res.message.error.errors == 'string') {
+                        msg = res.message.error.errors;
+                    }
+                    return this.$snackbar.global.showError(msg);
                 }
                 this.showLoader = false;
                 this.isModalOpen = true;
