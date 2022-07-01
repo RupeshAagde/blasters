@@ -33,11 +33,27 @@
                             v-model="support_phone.enabled"
                         ></nitrozen-checkbox>
                     </div>
-                    <nitrozen-input
-                        class="input"
-                        label="Phone number"
-                        v-model="support_phone.value"
-                    ></nitrozen-input>
+                    <div>
+                        <nitrozen-input
+                            class="input"
+                            label="Phone number"
+                            v-model="support_phone.value"
+                        ></nitrozen-input>
+                        <nitrozen-error
+                            class="error"
+                            :style="{
+                                visibility:
+                                    support_phone.value &&
+                                    !validatePhone(support_phone.value)
+                                        ? 'visible'
+                                        : 'hidden',
+                            }"
+                            >{{
+                                'Please enter a valid Phone Number'
+                            }}</nitrozen-error
+                        >
+                    </div>
+
                     <nitrozen-input
                         class="decs"
                         label="Description"
@@ -51,11 +67,27 @@
                             v-model="support_email.enabled"
                         ></nitrozen-checkbox>
                     </div>
-                    <nitrozen-input
-                        class="input"
-                        label="Email ID"
-                        v-model="support_email.value"
-                    ></nitrozen-input>
+                    <div class="email-container">
+                        <nitrozen-input
+                            class="input"
+                            label="Email ID"
+                            v-model="support_email.value"
+                        ></nitrozen-input>
+                        <nitrozen-error
+                            class="error"
+                            :style="{
+                                visibility:
+                                    support_email.value &&
+                                    !validateEmail(support_email.value)
+                                        ? 'visible'
+                                        : 'hidden',
+                            }"
+                            >{{
+                                'Please enter a valid email ID'
+                            }}</nitrozen-error
+                        >
+                    </div>
+
                     <nitrozen-input
                         class="decs"
                         label="Description"
@@ -69,11 +101,25 @@
                             v-model="support_faq.enabled"
                         ></nitrozen-checkbox>
                     </div>
-                    <nitrozen-input
-                        class="input"
-                        label="FAQ link"
-                        v-model="support_faq.value"
-                    ></nitrozen-input>
+                    <div>
+                        <nitrozen-input
+                            class="input"
+                            label="FAQ link"
+                            v-model="support_faq.value"
+                        ></nitrozen-input>
+                        <nitrozen-error
+                            class="error"
+                            :style="{
+                                visibility:
+                                    support_faq.value &&
+                                    !validatelink(support_faq.value)
+                                        ? 'visible'
+                                        : 'hidden',
+                            }"
+                            >{{ 'Invalid URL' }}</nitrozen-error
+                        >
+                    </div>
+
                     <nitrozen-input
                         class="decs"
                         label="Description"
@@ -109,8 +155,10 @@
                 </div>
                 <div class="tool-container">
                     <div class="default-tool">
-                        <div class="left-container"
-                        :class="isAvailable('default') ? '' : 'muted'">
+                        <div
+                            class="left-container"
+                            :class="isAvailable('default') ? '' : 'muted'"
+                        >
                             <div class="radio-btn">
                                 <nitrozen-radio
                                     :name="'default'"
@@ -119,16 +167,22 @@
                                 ></nitrozen-radio>
                             </div>
                             <div class="fynd-icon">
-                                <inline-svg :src="'fynd-platform-icon'"></inline-svg>
+                                <inline-svg
+                                    :src="'fynd-platform-icon'"
+                                ></inline-svg>
                             </div>
                             <div class="tools-type">
                                 <span class="tool-heading">Fynd Platform</span>
                                 <span class="tool-decs"
-                                    >This integration will be available soon</span
+                                    >This integration will be available
+                                    soon</span
                                 >
                             </div>
                         </div>
-                        <div v-if="isAvailable('default')" class="right-container">
+                        <div
+                            v-if="isAvailable('default')"
+                            class="right-container"
+                        >
                             <div class="config-btn-conatiner">
                                 <nitrozen-button
                                     class="add-btn"
@@ -146,8 +200,10 @@
                         </div>
                     </div>
                     <div class="default-tool">
-                        <div class="left-container"
-                        :class="isAvailable('freshdesk') ? '' : 'muted'">
+                        <div
+                            class="left-container"
+                            :class="isAvailable('freshdesk') ? '' : 'muted'"
+                        >
                             <div class="radio-btn">
                                 <nitrozen-radio
                                     :name="'freshdesk'"
@@ -168,17 +224,21 @@
                                 >
                             </div>
                         </div>
-                        <div v-if="isAvailable('freshdesk')" class="right-container">
-                            <div class="config-btn-conatiner">
-                            </div>
+                        <div
+                            v-if="isAvailable('freshdesk')"
+                            class="right-container"
+                        >
+                            <div class="config-btn-conatiner"></div>
                         </div>
                         <div v-else class="coming-soon-icon">
                             <inline-svg :src="'coming-soon'"></inline-svg>
                         </div>
                     </div>
                     <div class="default-tool">
-                        <div class="left-container"
-                        :class="isAvailable('kapture') ? '' : 'muted'">
+                        <div
+                            class="left-container"
+                            :class="isAvailable('kapture') ? '' : 'muted'"
+                        >
                             <div class="radio-btn">
                                 <nitrozen-radio
                                     :name="'kapture'"
@@ -199,9 +259,11 @@
                                 >
                             </div>
                         </div>
-                        <div v-if="isAvailable('kapture')" class="right-container">
-                            <div class="config-btn-conatiner">
-                            </div>
+                        <div
+                            v-if="isAvailable('kapture')"
+                            class="right-container"
+                        >
+                            <div class="config-btn-conatiner"></div>
                         </div>
                         <div v-else class="coming-soon-icon">
                             <inline-svg :src="'coming-soon'"></inline-svg>
@@ -221,10 +283,12 @@ import {
     NitrozenCheckBox,
     NitrozenTooltip,
     NitrozenRadio,
+    NitrozenError,
 } from '@gofynd/nitrozen-vue';
 import { PageHeader } from '@/components/common';
 import inlineSvgVue from '@/components/common/inline-svg.vue';
 import SupportService from '../../../services/support.service';
+import emailValidator from 'email-validator';
 export default {
     name: 'category-list',
     components: {
@@ -236,6 +300,7 @@ export default {
         'nitrozen-input': NitrozenInput,
         'nitrozen-tooltip': NitrozenTooltip,
         'nitrozen-radio': NitrozenRadio,
+        'nitrozen-error': NitrozenError,
     },
     data() {
         return {
@@ -244,7 +309,7 @@ export default {
             available_integration: [],
             integration: {
                 enabled: false,
-                type: undefined
+                type: undefined,
             },
             support_email: {
                 value: '',
@@ -267,31 +332,47 @@ export default {
         this.getGeneralConfiguration();
     },
     methods: {
+        validateEmail(email) {
+            return emailValidator.validate(String(email).toLowerCase().trim());
+        },
+        validatePhone(phoneNo) {
+            const re = /^\+?([0-9]{2})\)?[- ]?([0-9]{8,10})$/;
+            return phoneNo && phoneNo.length && re.test(phoneNo.trim());
+        },
+        validatelink(link) {
+            const re =
+                /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+            return link && link.length && re.test(link.trim());
+        },
         isAvailable(integration_name) {
             return this.available_integration.includes(integration_name);
         },
         validateEntries(info) {
             if (info.enabled) {
                 if (!info.value) {
-                    this.$snackbar.global.showError('Please enter the value for your enabled communication channel');
+                    this.$snackbar.global.showError(
+                        'Please enter the value for your enabled communication channel'
+                    );
                     return false;
                 }
                 if (!info.description) {
-                    this.$snackbar.global.showError('Please enter the description for your enabled communication channel');
+                    this.$snackbar.global.showError(
+                        'Please enter the description for your enabled communication channel'
+                    );
                     return false;
                 }
             }
             return true;
         },
-        addCategory(){
+        addCategory() {
             this.$router.push({
-                path: `/administrator/support/configuration/category/default`
+                path: `/administrator/support/configuration/category/default`,
             });
         },
         save() {
-            if (!this.validateEntries(this.support_email)) return
-            if (!this.validateEntries(this.support_phone)) return
-            if (!this.validateEntries(this.support_faq)) return
+            if (!this.validateEntries(this.support_email)) return;
+            if (!this.validateEntries(this.support_phone)) return;
+            if (!this.validateEntries(this.support_faq)) return;
             let data = {
                 show_communication_info: this.showCommunicationinfo,
                 show_support_dris: this.showSupportdris,
@@ -319,31 +400,46 @@ export default {
                 });
         },
         setPageData(data) {
-            this.showCommunicationinfo = data.show_communication_info || this.showCommunicationinfo;
-            this.showSupportdris = data.show_support_dris || this.showSupportdris;
-            this.available_integration = data.available_integration || this.available_integration;
-            this.integration.enabled = data.integration && data.integration.enabled
-            this.integration.type = (data.integration && data.integration.type) ? data.integration.type : undefined;
+            this.showCommunicationinfo =
+                data.show_communication_info || this.showCommunicationinfo;
+            this.showSupportdris =
+                data.show_support_dris || this.showSupportdris;
+            this.available_integration =
+                data.available_integration || this.available_integration;
+            this.integration.enabled =
+                data.integration && data.integration.enabled;
+            this.integration.type =
+                data.integration && data.integration.type
+                    ? data.integration.type
+                    : undefined;
 
             if (data.support_phone) {
                 let phone = data.support_phone;
-                this.support_phone.value = phone.value || this.support_phone.value;
-                this.support_phone.description = phone.description || this.support_phone.description;
-                this.support_phone.enabled = phone.enabled || this.support_phone.enabled;
+                this.support_phone.value =
+                    phone.value || this.support_phone.value;
+                this.support_phone.description =
+                    phone.description || this.support_phone.description;
+                this.support_phone.enabled =
+                    phone.enabled || this.support_phone.enabled;
             }
 
             if (data.support_email) {
                 let email = data.support_email;
-                this.support_email.value = email.value || this.support_email.value;
-                this.support_email.description = email.description || this.support_email.description;
-                this.support_email.enabled = email.enabled || this.support_email.enabled;
+                this.support_email.value =
+                    email.value || this.support_email.value;
+                this.support_email.description =
+                    email.description || this.support_email.description;
+                this.support_email.enabled =
+                    email.enabled || this.support_email.enabled;
             }
 
             if (data.support_faq) {
                 let faq = data.support_faq;
                 this.support_faq.value = faq.value || this.support_faq.value;
-                this.support_faq.description = faq.description || this.support_faq.description;
-                this.support_faq.enabled = faq.enabled || this.support_faq.enabled;
+                this.support_faq.description =
+                    faq.description || this.support_faq.description;
+                this.support_faq.enabled =
+                    faq.enabled || this.support_faq.enabled;
             }
         },
         getGeneralConfiguration() {
@@ -352,7 +448,9 @@ export default {
                     this.setPageData(response.data);
                 })
                 .catch((err) => {
-                    this.$snackbar.global.showError('Failed to get configuration data');
+                    this.$snackbar.global.showError(
+                        'Failed to get configuration data'
+                    );
                 });
         },
     },
@@ -519,7 +617,7 @@ export default {
             line-height: 20px;
             color: #9b9b9b;
         }
-    } 
+    }
 }
 ::v-deep .muted {
     pointer-events: none;
@@ -547,7 +645,7 @@ export default {
     font-family: Inter;
     font-size: 10px;
     text-align: left;
-    width:500px;
+    width: 500px;
     padding: 6px 12px;
 }
 .coming-soon-icon {
