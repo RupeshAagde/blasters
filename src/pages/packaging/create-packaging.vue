@@ -32,7 +32,7 @@
             :modalClass="'custom-modal'"
         >
             <div class="modal-custom-body">
-                <inline-svg :src="'modal-success'" />
+                <inline-svg :src="'modal_success'" />
                 <p id="modal-body-text">
                     Packaging has been succesfully
                     {{
