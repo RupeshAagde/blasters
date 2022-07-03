@@ -326,6 +326,9 @@ export default {
                 description: '',
                 enabled: false,
             },
+            invalidEmail: false,
+            invalidPhoneNo:false,
+            invalidFaq:false
         };
     },
     mounted() {
@@ -333,16 +336,34 @@ export default {
     },
     methods: {
         validateEmail(email) {
-            return emailValidator.validate(String(email).toLowerCase().trim());
+            const validate = emailValidator.validate(
+                String(email).toLowerCase().trim()
+            );
+            this.invalidEmail = false
+            if (!validate) {
+                this.invalidEmail = true;
+            }
+            return validate;
         },
         validatePhone(phoneNo) {
             const re = /^\+?([0-9]{2})\)?[- ]?([0-9]{8,10})$/;
-            return phoneNo && phoneNo.length && re.test(phoneNo.trim());
+            const validate =
+                phoneNo && phoneNo.length && re.test(phoneNo.trim());
+                this.invalidPhoneNo = false
+            if (!validate) {
+                this.invalidPhoneNo = true;
+            }
+            return validate;
         },
         validatelink(link) {
             const re =
                 /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
-            return link && link.length && re.test(link.trim());
+            const validate =  link && link.length && re.test(link.trim());
+             this.invalidFaq = false
+              if (!validate) {
+                this.invalidFaq = true;
+            }
+            return validate
         },
         isAvailable(integration_name) {
             return this.available_integration.includes(integration_name);
@@ -387,6 +408,10 @@ export default {
             }
             if (!data.integration.enabled) {
                 data.integration.type = undefined;
+            }
+            if (this.invalidPhoneNo || this.invalidEmail || this.invalidFaq) {
+                this.$snackbar.global.showError('Invalid Support Details');
+                return;
             }
             SupportService.setGeneralConfig(data)
                 .then((response) => {
