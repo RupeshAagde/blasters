@@ -651,4 +651,7 @@ export default {
 .coming-soon-icon {
     margin: -16px -30px;
 }
+::v-deep .nitrozen-error-visible {
+    margin-left: 12px;
+}
 </style>
