@@ -109,7 +109,7 @@ const actions = {
                 return res.data;
             })
             .catch((err) => {
-                console.log(err.response)
+                console.log(err.response);
                 return { error: true, message: err.response.data };
             });
     },
@@ -141,7 +141,10 @@ const actions = {
         params.page_size = 10000;
         return CompanyService.fetchCategory_v2(params)
             .then((res) => {
-                return res.data.items;
+                return res.data.items.sort(function(a, b) {
+                    // Sort alphabetically for better redability
+                    return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
+                });
             })
             .catch((err) => {
                 return { error: true };

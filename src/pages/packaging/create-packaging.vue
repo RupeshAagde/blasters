@@ -23,8 +23,13 @@
             </div>
         </page-header>
         <div class="create-packaging-container">
+            <loader-vue v-if="showLoader" />
             <!-- ** Do not remove the ref -->
-            <packaging-create ref="createPackaging" :toggleBtn="toggleBtn" />
+            <packaging-create
+                ref="createPackaging"
+                :toggleBtn="toggleBtn"
+                v-else
+            />
         </div>
         <base-modal
             :isOpen="isModalOpen"
@@ -63,6 +68,7 @@ import InlineSvg from '../../components/common/inline-svg.vue';
 import { CLEAR_PRODUCT, SAVE_PACKAGING_PRODUCT } from '../../store/action.type';
 import { mapGetters } from 'vuex';
 import { GET_EDIT_PRODUCT } from '../../store/getters.type';
+import LoaderVue from '../../components/common/loader.vue';
 export default {
     name: 'create-packaging',
     components: {
@@ -70,7 +76,8 @@ export default {
         PageHeader,
         NitrozenButton,
         BaseModal,
-        InlineSvg
+        InlineSvg,
+        LoaderVue
     },
     data() {
         return {
@@ -106,6 +113,7 @@ export default {
             const reqObj = this.$refs.createPackaging.savePackagingOrder();
             this.$store.dispatch(SAVE_PACKAGING_PRODUCT, reqObj).then((res) => {
                 if (res.error) {
+                    this.showLoader = false;
                     // if the session is for update then create msg accordingly
                     let msg = `Something went wrong. Failed to ${
                         Object.keys(this.editProduct).length
