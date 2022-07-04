@@ -245,7 +245,7 @@ export default {
     computed: {
         getPageLink() {
             if (this.slug) {
-                return `https://platform.${env.FYND_PLATFORM_DOMAIN}/p/${this.slug.value}`;
+                return `${env.MIRAGE_MAIN_DOMAIN}/p/${this.slug.value}`;
             }
         },
     },
