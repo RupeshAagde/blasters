@@ -538,7 +538,6 @@ export default {
          * @description Set the drop down selection value of a group category
          */
         handleBulkDropdown(index, val) {
-            // TODO Check if the val can be an ID
             this.bulkPackaging[index].categoryConfig = val;
             this.checkForButtonToggle();
         },
@@ -562,7 +561,6 @@ export default {
          * if not then adds new card
          */
         handleAddGroup() {
-            // TODO check if this can be done through state
             let input = {
                 toggle: {
                     val: false,
@@ -819,7 +817,6 @@ export default {
             this.bulkPackaging.forEach((group) => {
                 let bulkObj = {
                     is_default_packaging_material: group.toggle.val,
-                    // TODO update this once API works
                     group_category: group.categoryConfig,
                     quantity: {
                         max: group.quantity.maximum.value,
