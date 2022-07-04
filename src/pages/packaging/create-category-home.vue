@@ -24,8 +24,13 @@
             </div>
         </page-header>
         <div class="create-category-container">
+            <loader-vue v-if="showLoader" />
             <!-- ** Do not remove the ref -->
-            <create-category ref="createCategory" :toggleBtn="toggleBtn" />
+            <create-category
+                ref="createCategory"
+                :toggleBtn="toggleBtn"
+                v-else
+            />
         </div>
         <base-modal
             :isOpen="isModalOpen"
@@ -64,6 +69,7 @@ import InlineSvg from '../../components/common/inline-svg.vue';
 import { SAVE_CATEGORY } from '../../store/action.type';
 import { mapGetters } from 'vuex';
 import { GET_EDIT_CATEGORY } from '../../store/getters.type';
+import LoaderVue from '../../components/common/loader.vue';
 export default {
     name: 'create-category-home',
     components: {
@@ -71,7 +77,8 @@ export default {
         PageHeader,
         NitrozenButton,
         BaseModal,
-        InlineSvg
+        InlineSvg,
+        LoaderVue
     },
     data() {
         return {
@@ -116,6 +123,7 @@ export default {
             }
             this.$store.dispatch(SAVE_CATEGORY, requestData).then((res) => {
                 if (res.error) {
+                    this.showLoader = false;
                     // create msg based on if session is for edit or create
                     let msg = `Something went wrong. Failed to ${
                         Object.keys(this.selectedCategory).length
