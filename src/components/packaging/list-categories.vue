@@ -7,8 +7,7 @@
                     {{ categories.length > 0 ? `(${categories.length})` : '' }}
                 </p>
                 <span class="packaging-subtitle"
-                    >Select and configure a return window for your sales
-                    channel</span
+                    >Select and organize the categories</span
                 >
             </div>
             <div class="add-packaging-btn-container">
@@ -55,7 +54,13 @@
             <no-content
                 v-else
                 :icon="'/public/assets/pngs/category_empty.png'"
-                :helperText="'No Categories have been added, try adding a few'"
+                :helperText="
+                    `No Categories have been added${
+                        groupCategoryValue
+                            ? ' with the current filter'
+                            : ', try adding a few'
+                    }`
+                "
             />
             <div class="list-container-pagination">
                 <!-- Show only if categories are present  -->
@@ -226,12 +231,6 @@ export default {
                     this.pagination.total = page.total_item_count;
                     this.pagination.current = page.current;
                     this.pagination.next_page = page.has_next;
-                    // if products array are empty then show info and do nothing
-                    if (this.categories.length == 0) {
-                        this.$snackbar.global.showInfo(
-                            'No Packaging Category Configurations found'
-                        );
-                    }
                 })
                 .finally(() => {
                     this.showLoader = false;

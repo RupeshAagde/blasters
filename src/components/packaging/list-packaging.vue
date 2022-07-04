@@ -50,7 +50,13 @@
             <!-- else show no content component -->
             <no-content
                 v-else
-                :helperText="'List is empty. No packaging created yet'"
+                :helperText="
+                    `List is empty. No packaging ${
+                        packagingSearchValue
+                            ? 'found with selected filter'
+                            : 'created yet'
+                    }`
+                "
                 :icon="'/public/assets/pngs/packaging_empty.png'"
             />
             <div class="list-container-pagination">
@@ -165,12 +171,6 @@ export default {
                     this.pagination.total = page.total_item_count;
                     this.pagination.current = page.current;
                     this.pagination.next_page = page.has_next;
-                    // if products array are empty then show info and do nothing
-                    if (this.products.length == 0) {
-                        this.$snackbar.global.showInfo(
-                            'No Packaging products found'
-                        );
-                    }
                 });
         },
         /**
