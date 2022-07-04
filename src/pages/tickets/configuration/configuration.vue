@@ -600,15 +600,6 @@ export default {
         //     margin: 16px 24px;
         //     justify-content: space-between;
         // }
-        // .kapture-tool {
-        //     margin-top: 24px;
-        //     display: flex;
-        //     padding: 16px 30px;
-        //     border: 1px solid #e0e0e0;
-        //     border-radius: 12px;
-        //     margin: 16px 24px;
-        //     justify-content: space-between;
-        // }
     }
 }
 .left-container {
