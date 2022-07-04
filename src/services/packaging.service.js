@@ -8,7 +8,12 @@ const envVars = root.env || {};
 const PackagingService = {
     /**
      * @author Rohan Shah
-     * @param {*} params TODO update
+     * @memberof PackagingService
+     * @param {Object} params - {
+     * page_no: Number
+     * page_size: Number
+     * q: Group categroy value  / slug name
+     * }
      * @description Fetches the group categories from the BE
      * @type GET
      * @returns Promise
@@ -25,6 +30,7 @@ const PackagingService = {
     },
     /**
      * @author Rohan Shah
+     * @memberof PackagingService
      * @param {*} slug String
      * @description Fetches the group category detail from the BE
      * @type GET
@@ -39,7 +45,12 @@ const PackagingService = {
     },
     /**
      * @author Rohan Shah
-     * @param {*} params TODO update
+     * @memberof PackagingService
+     * @param {Object} params - {
+     * page_no: Number
+     * page_size: Number
+     * q: packaging product name
+     * }
      * @description Fetches the packaging products from the BE
      * @type GET
      * @returns Promise
@@ -56,6 +67,7 @@ const PackagingService = {
     },
     /**
      * @author Rohan Shah
+     * @memberof PackagingService
      * @param {*} productId Mongo ID
      * @description Fetches the packaging product detail from the BE
      * @type GET
@@ -70,7 +82,11 @@ const PackagingService = {
     },
     /**
      * @author Rohan Shah
-     * @param {*} data TODO update
+     * @memberof PackagingService
+     * @param {Object} data - {
+     * name: String
+     * categories: [categoryUid]
+     * }
      * @description Creates a new category and its configuration
      * @type POST
      * @returns Promise
@@ -86,7 +102,12 @@ const PackagingService = {
     },
     /**
      * @author Rohan Shah
-     * @param {*} data TODO update
+     * @memberof PackagingService
+     * @param {Object} data - {
+     * name: String
+     * categories: [categoryUid]
+     * }
+     * @param {*} slug - String slug name
      * @description Updates a category and its configuration
      * @type PUT
      * @returns Promise
@@ -102,7 +123,29 @@ const PackagingService = {
     },
     /**
      * @author Rohan Shah
-     * @param {*} data TODO update
+     * @memberof PackagingService
+     * @param {Object} data - {
+     *   item_id: Item UID,
+     *  is_bulk: Boolean,
+     *    error_rate: Number,
+     *   is_l3_specific: Boolean,
+     *  dead_weight_in_kg: Number,
+     *   dimensions: {
+     *       length : Number,
+     *       width : Number,
+     *       height: Number,
+     *   },
+     *   maximum_order: Number,
+     *   weight: Number,
+     *   default_package : {
+     *       quantity: {
+     *           max: 1,
+     *           min: 1
+     *       },
+     *       l3_categories:[Category UIDs]
+     *   },
+     *   l3_mapping: Array
+     * }
      * @description Creates a new packaging product
      * @type POST
      * @returns Promise
@@ -118,7 +161,30 @@ const PackagingService = {
     },
     /**
      * @author Rohan Shah
-     * @param {*} data TODO update
+     * @memberof PackagingService
+     * @param {Object} data - {
+     *   item_id: Item UID,
+     *  is_bulk: Boolean,
+     *    error_rate: Number,
+     *   is_l3_specific: Boolean,
+     *  dead_weight_in_kg: Number,
+     *   dimensions: {
+     *       length : Number,
+     *       width : Number,
+     *       height: Number,
+     *   },
+     *   maximum_order: Number,
+     *   weight: Number,
+     *   default_package : {
+     *       quantity: {
+     *           max: 1,
+     *           min: 1
+     *       },
+     *       l3_categories:[Category UIDs]
+     *   },
+     *   l3_mapping: Array
+     * }
+     * @param {*} _id - Mongo ID for a packaging product
      * @description Updates a packaging product
      * @type PUT
      * @returns Promise
@@ -134,6 +200,12 @@ const PackagingService = {
     },
     /**
      * @author Rohan Shah
+     * @memberof PackagingService
+     * @param {Object} params - {
+     * page_no: Number
+     * page_size: Number
+     * q: raw product name for search query
+     * }
      * @description Calls the API to get company products
      * @returns Promise
      */
