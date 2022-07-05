@@ -39,7 +39,7 @@
             <div class="modal-custom-body">
                 <inline-svg :src="'modal_success'" />
                 <p id="modal-body-text">
-                    Packaging has been succesfully
+                    Packaging has been successfully
                     {{
                         Object.keys(editProduct).length
                             ? `updated`

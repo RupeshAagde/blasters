@@ -128,7 +128,7 @@
             <div class="page-container">
                 <a
                     class="cl-RoyalBlue"
-                    :href="`https://partners.${fynd_platform_domain}/extensions/preview/${extension_id}`"
+                    :href="`${fynd_partners_domain}/extensions/preview/${extension_id}`"
                     target="_blank"
                     >Link to extension</a
                 >
@@ -321,7 +321,6 @@ export default {
                 current_status: ''
             },
             error_comments: '',
-            fynd_platform_domain: 'fynd.com',
             reviewer_name: '',
             reviewer_email: '',
             reviewer_phone: '',
@@ -329,6 +328,9 @@ export default {
         };
     },
     computed: {
+        fynd_partners_domain() {
+            return env.BOMBSHELL_MAIN_DOMAIN;
+        },
         extension_id() {
             return this.extension_info.extension_id;
         },
@@ -345,8 +347,6 @@ export default {
         }
     },
     mounted() {
-        this.fynd_platform_domain =
-            env.FYND_PLATFORM_DOMAIN || this.fynd_platform_domain;
         this.fetchExtension();
     },
     methods: {

@@ -224,9 +224,6 @@ export default {
         this.fetchCollections();
     },
     methods: {
-        fynd_platform_domain() {
-            return env.FYND_PLATFORM_DOMAIN;
-        },
         paginationChange(config) {
             this.paginationConfig = config;
             this.fetchCollections();

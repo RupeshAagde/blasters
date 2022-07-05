@@ -50,7 +50,7 @@ describe('Category config home', () => {
                 .element.textContent.trim()
                 .replace(/\s/g, '')
         ).toContain(
-            'Category has been succesfully added to the list'.replace(/\s/g, '')
+            'Category has been successfully added to the list'.replace(/\s/g, '')
         );
         expect(wrapper.find('#modal-btn').element.textContent.trim()).toBe(
             'Thank you'

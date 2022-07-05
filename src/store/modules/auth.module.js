@@ -119,7 +119,7 @@ const actions = {
     },
     [OPEN_LOGIN_MODAL]({ commit }) {
         if (isBrowser) {
-            window.location.href = `https://platform.${env.FYND_PLATFORM_DOMAIN}/auth/login?redirectUrl=administrator.${env.FYND_PLATFORM_DOMAIN}` 
+            window.location.href = `${env.MIRAGE_MAIN_DOMAIN}/auth/login?redirectUrl=${env.BLASTER_MAIN_DOMAIN}` 
         }
     },
     [ON_USER_LOGGED_OUT]({ commit }) {

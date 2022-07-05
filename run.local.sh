@@ -51,8 +51,12 @@ export MARKETPLACES_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/ad
 export MIXMASTER_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/partners/
 export MIXMASTER_PNL_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/panel/partners/
 export MIXMASTER_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/partners/
-export PACKAGING_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/packaging/v1.0/
-export APP_PRODUCTS=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/catalog/v1.0/company/84/application/629616a1d7c74d3915f8f4e8/raw-products
+export WEIRDWOLF_ADMIN_URL = https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/packaging
+export COMPANY_ID = 884
+export APPLICATION_ID = 60792ded7826bd09330ed90d
+export BLASTER_MAIN_DOMAIN=https://administrator.${FYND_PLATFORM_DOMAIN}
+export BOMBSHELL_MAIN_DOMAIN=https://partners.${FYND_PLATFORM_DOMAIN}
+export MIRAGE_MAIN_DOMAIN=https://platform.${FYND_PLATFORM_DOMAIN}
 
 #ENV's
 export SENTRY_DSN=''

@@ -15,7 +15,7 @@
                     :theme="'secondary'"
                     class="rdr-btn"
                     v-flatBtn
-                    @click="redirectEdit"
+                    @click="debounceredirectEdit"
                 >
                     Add Tax Rate
                 </nitrozen-button>
@@ -26,7 +26,7 @@
                         <nitrozen-input
                             :showSearchIcon="true"
                             type="search"
-                            :placeholder="'Search by HSN, Reporting HSN'"
+                            :placeholder="'Search by HSN, Reporting HSN, Description'"
                             v-model="searchText"
                             @input="searchHSN"
                         ></nitrozen-input>
@@ -64,7 +64,9 @@
                     </list-element>
                 </div>
                 <div v-else>
-                    <adm-no-content :helperText="''"></adm-no-content>
+                    <adm-no-content
+                        :helperText="'No data found'"
+                    ></adm-no-content>
                 </div>
                 <div class="pagination" v-if="hsnCodes.length > 0">
                     <nitrozen-pagination
@@ -88,7 +90,7 @@ import AdmNoContent from '@/components/common/adm-no-content.vue';
 import ListElement from './list-element';
 import PageError from '@/components/common/page-error';
 import Jumbotron from '@/components/common/jumbotron';
-import { copyToClipboard, debounce, titleCase } from '@/helper/utils.js';
+import { debounce } from '@/helper/utils.js';
 import { LocalStorageService } from '@/services/localstorage.service';
 import LocationService from '@/services/location.service';
 // import { toCurrencyString } from '@/helper/currency.utils.js';
@@ -100,7 +102,7 @@ import {
     NitrozenPagination,
     NitrozenBadge,
     NitrozenDropdown,
-    NitrozenButton
+    NitrozenButton,
 } from '@gofynd/nitrozen-vue';
 import { mapGetters } from 'vuex';
 // import _ from 'lodash';
@@ -108,17 +110,36 @@ import moment from 'moment';
 const PAGINATION = {
     limit: 10,
     total: 0,
-    current: 1
+    current: 1,
 };
 const TYPE = [
     { value: 'all', text: 'All' },
     { value: 'goods', text: 'Goods' },
-    { value: 'services', text: 'Services' }
+    { value: 'services', text: 'Services' },
+];
+const SPECIAL_CHARS = [
+    '+',
+    '&&',
+    '|',
+    '!',
+    '(',
+    ')',
+    '{',
+    '}',
+    '[',
+    ']',
+    '^',
+    '~',
+    '*',
+    '?',
+    ':',
+    '/',
+    '\\'
 ];
 export default {
     name: 'Taxation',
     props: {
-        msg: String
+        msg: String,
     },
     components: {
         PageError,
@@ -132,15 +153,15 @@ export default {
         NitrozenInput,
         NitrozenPagination,
         NitrozenBadge,
-        NitrozenDropdown
+        NitrozenDropdown,
     },
     directives: {
         flatBtn,
-        strokeBtn
+        strokeBtn,
     },
     computed: {
         ...mapGetters({
-            helpData: GET_HELP_SECTION_DATA
+            helpData: GET_HELP_SECTION_DATA,
         }),
         jumbotronData() {
             if (this.helpData && this.helpData.length) {
@@ -151,7 +172,7 @@ export default {
         },
         getHSNType() {
             return TYPE;
-        }
+        },
     },
     data() {
         return {
@@ -171,9 +192,9 @@ export default {
                 'Slab #1',
                 'Slab #2',
                 'Country',
-                'Action'
+                'Action',
             ],
-            countryList: []
+            countryList: [],
         };
     },
     mounted() {
@@ -184,14 +205,30 @@ export default {
         init() {
             this.getHSNCodes();
         },
-
+        frameString(inputStr) {
+            const str = inputStr.split('');
+            let newStr = '';
+            str.forEach((char) => {
+                if (SPECIAL_CHARS.includes(char)) {
+                    newStr += `\\${char}`;
+                } else {
+                    newStr += `${char}`;
+                }
+            });
+            return newStr;
+        },
         getHSNCodes() {
             const params = {
                 page_no: this.pagination.current,
-                page_size: this.pagination.limit
+                page_size: this.pagination.limit,
             };
             if (this.searchText) {
-                params.q = this.searchText;
+                if (/[^a-zA-Z0-9\-\/]/.test(this.searchText)) {
+                    const str = this.frameString(this.searchText);
+                    params.q = str;
+                } else {
+                    params.q = this.searchText;
+                }
             }
             if (this.selectedType && this.selectedType !== 'all') {
                 params.type = this.selectedType;
@@ -200,6 +237,7 @@ export default {
             return new Promise((resolve, reject) => {
                 AdminService.getAllHsnCodes(params)
                     .then(({ data }) => {
+                        this.pageError = false;
                         this.pageLoading = false;
                         this.pagination.total = data.page.item_total;
                         this.hsnCodes = data.items;
@@ -221,9 +259,12 @@ export default {
             // LocalStorageService.addOrUpdateItem('uid',code)
             let redirectPath = '/add';
             this.$router.push({
-                path: path.join(this.$route.path, redirectPath)
+                path: path.join(this.$route.path, redirectPath),
             });
         },
+        debounceredirectEdit: debounce(function (e) {
+            this.redirectEdit();
+        }, 800),
         paginationChange(filter, action) {
             const { current, limit } = filter;
 
@@ -233,6 +274,7 @@ export default {
             this.getHSNCodes();
         },
         applyFilter(type) {
+            this.pagination = { ...PAGINATION };
             if (type == 'all') {
                 this.setRouteQuery({ type: undefined });
             } else {
@@ -250,11 +292,11 @@ export default {
             this.$router.push({
                 query: {
                     ...this.$route.query,
-                    ...query
-                }
+                    ...query,
+                },
             });
         },
-        searchHSN: debounce(function() {
+        searchHSN: debounce(function () {
             if (this.searchText.length === 0) {
                 this.clearSearchFilter();
             } else {
@@ -268,13 +310,13 @@ export default {
                     this.countryList = data.items.map((country) => {
                         return {
                             text: country.name,
-                            value: country.iso2
+                            value: country.iso2,
                         };
                     });
                 })
                 .catch((err) => {});
-        }
-    }
+        },
+    },
 };
 </script>
 
