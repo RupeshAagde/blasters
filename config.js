@@ -352,19 +352,26 @@ const conf = convict({
             env: 'PINPOINTER_ADMIN_URL',
             arg: 'PINPOINTER_ADMIN_URL'
         },
-        PACKAGING_ADMIN_URL: {
+        WEIRDWOLF_ADMIN_URL: {
             doc: 'Packaging admin service',
             format: String,
-            default: 'https://api.fyndx0.de/service/___/administrator/packaging/v1.0/',
-            env: 'PACKAGING_ADMIN_URL',
-            arg: 'packaging_admin_url'
+            default: 'https://api.fyndx0.de/service/___/administrator/packaging/',
+            env: 'WEIRDWOLF_ADMIN_URL',
+            arg: 'weirdwolf_admin_url'
         },
-        APP_PRODUCTS: {
-            doc: 'Get app products',
+        COMPANY_ID: {
+            doc: 'Company id',
             format: String,
-            default:'https://api.fyndx0.de/service/___/administrator/catalog/v1.0/company/84/application/629616a1d7c74d3915f8f4e8/raw-products',
-            env: 'APP_PRODUCTS',
-            arg: 'app_products'
+            default:'84',
+            env: 'COMPANY_ID',
+            arg: 'company_id'
+        },
+        APPLICATION_ID: {
+            doc: 'Application id',
+            format: String,
+            default:'629616a1d7c74d3915f8f4e8',
+            env: 'APPLICATION_ID',
+            arg: 'application_id'
         }
     },
 

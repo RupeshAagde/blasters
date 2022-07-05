@@ -5,6 +5,19 @@ import { getCommonHeaderOptions } from './utils.service';
 import root from 'window-or-global';
 const envVars = root.env || {};
 
+/**
+ * https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/packaging/v1.0/
+ */
+const packagingServiceURL = envVars.WEIRDWOLF_ADMIN_URL + 'v1.0/';
+
+/**
+ * example
+ * 'https://api.fyndx0.de/service/___/administrator/catalog/v1.0/company/84/application/629616a1d7c74d3915f8f4e8/raw-products'
+ */
+const appProductsServiceURL =
+    envVars.SILVERBOLT_ACAT_URL +
+    `v1.0/company/${envVars.COMPANY_ID}/application/${envVars.APPLICATION_ID}/raw-products`;
+
 const PackagingService = {
     /**
      * @author Rohan Shah
@@ -24,7 +37,7 @@ const PackagingService = {
             getCommonHeaderOptions()
         );
         return ApiService.get(
-            envVars.PACKAGING_ADMIN_URL + 'group-categories/',
+            packagingServiceURL + 'group-categories/',
             axiosOptions
         );
     },
@@ -39,7 +52,7 @@ const PackagingService = {
     getGroupCategoryDetail(slug) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(
-            envVars.PACKAGING_ADMIN_URL + `group-categories/${slug}`,
+            packagingServiceURL + `group-categories/${slug}`,
             axiosOptions
         );
     },
@@ -60,10 +73,7 @@ const PackagingService = {
             { params },
             getCommonHeaderOptions()
         );
-        return ApiService.get(
-            envVars.PACKAGING_ADMIN_URL + 'product/',
-            axiosOptions
-        );
+        return ApiService.get(packagingServiceURL + 'product/', axiosOptions);
     },
     /**
      * @author Rohan Shah
@@ -76,7 +86,7 @@ const PackagingService = {
     getProductDetail(productId) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(
-            envVars.PACKAGING_ADMIN_URL + `product/${productId}`,
+            packagingServiceURL + `product/${productId}`,
             axiosOptions
         );
     },
@@ -96,7 +106,7 @@ const PackagingService = {
             data
         });
         return ApiService.post(
-            envVars.PACKAGING_ADMIN_URL + 'group-categories/',
+            packagingServiceURL + 'group-categories/',
             axiosOptions
         );
     },
@@ -117,7 +127,7 @@ const PackagingService = {
             data
         });
         return ApiService.put(
-            envVars.PACKAGING_ADMIN_URL + `group-categories/${slug}`,
+            packagingServiceURL + `group-categories/${slug}`,
             axiosOptions
         );
     },
@@ -154,10 +164,7 @@ const PackagingService = {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
             data
         });
-        return ApiService.post(
-            envVars.PACKAGING_ADMIN_URL + 'product/',
-            axiosOptions
-        );
+        return ApiService.post(packagingServiceURL + 'product/', axiosOptions);
     },
     /**
      * @author Rohan Shah
@@ -194,7 +201,7 @@ const PackagingService = {
             data
         });
         return ApiService.put(
-            envVars.PACKAGING_ADMIN_URL + `product/${_id}`,
+            packagingServiceURL + `product/${_id}`,
             axiosOptions
         );
     },
@@ -214,7 +221,7 @@ const PackagingService = {
             { params },
             getCommonHeaderOptions()
         );
-        return ApiService.get(envVars.APP_PRODUCTS, axiosOptions);
+        return ApiService.get(appProductsServiceURL, axiosOptions);
     }
 };
 export default PackagingService;
