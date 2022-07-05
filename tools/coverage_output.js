@@ -10,6 +10,7 @@ let data = fs.readFileSync(
 )
 data = JSON.parse(data).total
 
+
 let output = {
   coverage_pct: data.lines.pct,
   lines_total: data.lines.total,
