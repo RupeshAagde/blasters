@@ -17,7 +17,7 @@ const packagingServiceURL = envVars.WEIRDWOLF_ADMIN_URL + 'v1.0/';
 const appProductsServiceURL =
     envVars.SILVERBOLT_ACAT_URL +
     `v1.0/company/${envVars.COMPANY_ID}/application/${envVars.APPLICATION_ID}/raw-products`;
-
+console.log(packagingServiceURL,"packaging service URL - app products service url",appProductsServiceURL)
 const PackagingService = {
     /**
      * @author Rohan Shah
