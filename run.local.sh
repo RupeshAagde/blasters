@@ -50,7 +50,7 @@ export MARKETPLACES_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/ad
 export MARKETPLACES_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/marketplaces/
 export MIXMASTER_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/partners/
 export MIXMASTER_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/partners/
-export WEIRDWOLF_ADMIN_URL = https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/packaging/ 
+export WEIRDWOLF_ADMIN_URL = https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/packaging
 export COMPANY_ID = 84
 export APPLICATION_ID = 629616a1d7c74d3915f8f4e8
 

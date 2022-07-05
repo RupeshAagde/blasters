@@ -355,7 +355,7 @@ const conf = convict({
         WEIRDWOLF_ADMIN_URL: {
             doc: 'Packaging admin service',
             format: String,
-            default: 'https://api.fyndx0.de/service/___/administrator/packaging/',
+            default: 'https://api.fyndx0.de/service/___/administrator/packaging',
             env: 'WEIRDWOLF_ADMIN_URL',
             arg: 'weirdwolf_admin_url'
         },
