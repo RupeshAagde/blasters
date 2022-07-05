@@ -28,7 +28,7 @@
             <packaging-create
                 ref="createPackaging"
                 :toggleBtn="toggleBtn"
-                v-else
+                :showLoader="showLoader"
             />
         </div>
         <base-modal
@@ -123,6 +123,8 @@ export default {
                     // only if the schema error msg is string then update the error message
                     if (typeof res.message.error.errors == 'string') {
                         msg = res.message.error.errors;
+                    } else if (res.message.message) {
+                        msg = res.message.message;
                     }
                     return this.$snackbar.global.showError(msg);
                 }

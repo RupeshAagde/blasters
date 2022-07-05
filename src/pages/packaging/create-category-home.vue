@@ -29,7 +29,7 @@
             <create-category
                 ref="createCategory"
                 :toggleBtn="toggleBtn"
-                v-else
+                :showLoader="showLoader"
             />
         </div>
         <base-modal

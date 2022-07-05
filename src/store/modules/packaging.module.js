@@ -109,8 +109,11 @@ const actions = {
                 return res.data;
             })
             .catch((err) => {
-                console.log(err.response);
-                return { error: true, message: err.response.data };
+                return {
+                    error: true,
+                    message: err.response.data,
+                    status: err.response.status
+                };
             });
     },
     [SAVE_CATEGORY]({ commit }, reqObj) {
