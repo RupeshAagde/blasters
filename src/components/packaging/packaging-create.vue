@@ -524,7 +524,7 @@ export default {
                     this.showListLoader = false;
                     this.showSearchList = true;
                 });
-        }, 1000),
+        }, 500),
         /**
          * @author Rohan Shah
          * @param {Object} item
