@@ -308,73 +308,65 @@ export default {
                         isImagePosition.default = 'right';
                     }
 
-                    let isItemSource = section.props.find(t => t.id === 'item_source');
-                    if(isItemSource) {
-                        if(section.item_type === 'extension') {
-                            section.props.push(
-                                {
-                                    default: [],
-                                    id: "extension",
-                                    label: "Extensions",
-                                    options: this.publicExtensions,
-                                    type: "select",
-                                    multiple: true,
-                                    search: true,
-                                    predicate_prop: {
-                                        item_source: ['collection' ,'manual']
-                                    },
-                                    placeholder: 'Search Extensions',
-                                    value: []
-                                }
-                            )
-                            let collectionSourceProp = section.props.find(p => p.id === 'collection_source');
-                            if (collectionSourceProp) {
-                                collectionSourceProp.options = this.collection;
-                                collectionSourceProp.placeholder = 'Search Collections';
-                                collectionSourceProp.search = true;
+                    if(section.item_type === 'extension') {
+                        section.props.push(
+                            {
+                                default: [],
+                                id: "extension",
+                                label: "Extensions",
+                                options: this.publicExtensions,
+                                type: "select",
+                                multiple: true,
+                                search: true,
+                                predicate_prop: {
+                                    item_source: ['collection' ,'manual']
+                                },
+                                placeholder: 'Search Extensions',
+                                value: []
                             }
-
-                            let extensionProp = section.props.find(p => p.id === 'extension');
-                            if (extensionProp) {
-                                extensionProp.options = [];
-                            }
-
-                        } else if(section.item_type === 'category') {
-                            section.props.push(
-                                {
-                                    default: [],
-                                    id: "category",
-                                    label: "Categories",
-                                    options: this.category,
-                                    type: "select",
-                                    multiple: true,
-                                    placeholder: 'Search Categories',
-                                    predicate_prop: {
-                                        item_source: 'manual'
-                                    }
-                                }
-                            )
-                        } else if(section.item_type === 'collection') {
-                            section.props.push(
-                                {
-                                    default: [],
-                                    id: "collection",
-                                    label: "Collections",
-                                    options: this.collection,
-                                    type: "select",
-                                    multiple: true,
-                                    search: true,
-                                    placeholder: 'Search Collections',
-                                    predicate_prop: {
-                                        item_source: 'manual'
-                                    }
-                                }
-                            )
+                        )
+                        let collectionSourceProp = section.props.find(p => p.id === 'collection_source');
+                        if (collectionSourceProp) {
+                            collectionSourceProp.options = this.collection;
+                            collectionSourceProp.placeholder = 'Search Collections';
+                            collectionSourceProp.search = true;
                         }
+
+                        let extensionProp = section.props.find(p => p.id === 'extension');
+                        if (extensionProp) {
+                            extensionProp.options = [];
+                        }
+
+                    } else if(section.item_type === 'category') {
+                        section.props.push(
+                            {
+                                default: [],
+                                id: "category",
+                                label: "Categories",
+                                options: this.category,
+                                type: "select",
+                                multiple: true,
+                                placeholder: 'Search Categories'
+                            }
+                        )
+                    } else if(section.item_type === 'collection') {
+                        section.props.push(
+                            {
+                                default: [],
+                                id: "collection",
+                                label: "Collections",
+                                options: this.collection,
+                                type: "select",
+                                multiple: true,
+                                search: true,
+                                placeholder: 'Search Collections'
+                            }
+                        )
                     }
                 }
 
                 this.available_sections = cloneDeep(sections);
+                console.log(this.available_sections);
             })
             .catch(err => {
                 console.log(err);
