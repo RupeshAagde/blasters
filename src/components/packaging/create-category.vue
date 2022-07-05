@@ -1,5 +1,10 @@
 <template>
-    <div class="category-create-container">
+    <div
+        :class="{
+            'hide-container': showLoader,
+            'category-create-container': true
+        }"
+    >
         <div class="category-create-container-header">Create Category</div>
         <div class="category-create-input-container">
             <nitrozen-input
@@ -59,6 +64,9 @@ export default {
     props: {
         toggleBtn: {
             type: Function
+        },
+        showLoader: {
+            type: Boolean
         }
     },
     methods: {
