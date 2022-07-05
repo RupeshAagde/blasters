@@ -1,5 +1,10 @@
 <template>
-    <div class="packaging-create-container">
+    <div
+        :class="{
+            'hide-container': showLoader,
+            'packaging-create-container': true
+        }"
+    >
         <div class="packaging-create-container-header">
             <span id="packaging-create-container-header">Extra Details</span>
             <span class="packaging-subtitle"
@@ -248,6 +253,9 @@ export default {
     props: {
         toggleBtn: {
             type: Function
+        },
+        showLoader: {
+            type: Boolean
         }
     },
     data() {
