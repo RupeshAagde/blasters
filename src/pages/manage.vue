@@ -25,6 +25,10 @@ import {
     strokeBtn,
     flatBtn
 } from '@gofynd/nitrozen-vue';
+import { GET_USER_PERMISSIONS } from '@/store/getters.type';
+import { mapGetters } from 'vuex';
+import { PERMISSION_ROUTES } from './../helper/permission_routes'
+
 export default {
     components: {
         'nitrozen-button': NitrozenButton,
@@ -34,10 +38,17 @@ export default {
         flatBtn,
         strokeBtn
     },
-    computed: {},
+    computed: {
+        ...mapGetters({
+            currentUserPermissions: GET_USER_PERMISSIONS
+        })
+    },
     methods: {
         open() {
-            this.$router.push({ name: 'company-list' });
+            const firstPermission = this.currentUserPermissions.permissions.length ? this.currentUserPermissions.permissions[0] : ''
+                if(firstPermission){
+                    return this.$router.push({ path: `/administrator/${PERMISSION_ROUTES[firstPermission]}` });
+                }
         }
     }
 };

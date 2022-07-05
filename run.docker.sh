@@ -57,4 +57,7 @@ docker run --net=host -p 8086:8086 --name=bombshell \
 -e NEW_RELIC_LICENSE_KEY='' \
 -e BEEFREE_CLIENT_ID=dcce640f-abc1-4c0c-8398-84488e8c4cd7 \
 -e BEEFREE_CLIENT_SECRET=0A8vfzg4DI2jB6aRiydrWprtio6lAeCCesjC4iaflrk75vGWkV5 \
+-e BLASTER_MAIN_DOMAIN=https://administrator.fynd.com \
+-e BOMBSHELL_MAIN_DOMAIN=https://partners.fynd.com \
+-e MIRAGE_MAIN_DOMAIN=https://platform.fynd.com \
  bombshell:latest

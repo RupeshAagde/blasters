@@ -496,7 +496,6 @@ import dateFormat from 'dateformat';
 import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
-import { getRoute } from '@/helper/get-route';
 import admInlineSVG from '@/components/common/adm-inline-svg';
 import { GET_METRICS } from '@/store/getters.type';
 import { mapGetters } from 'vuex';
@@ -538,8 +537,8 @@ export default {
         strokeBtn,
     },
     computed: {
-        fyndPlatformDomain(type) {
-            return env.FYND_PLATFORM_DOMAIN;
+        mirageMainDomain(type) {
+            return env.MIRAGE_MAIN_DOMAIN;
         },
         ...mapGetters({
             metricsData: GET_METRICS,
@@ -873,7 +872,7 @@ export default {
         editStore(event, item) {
             event.stopPropagation();
             window.open(
-                `https://platform.${this.fyndPlatformDomain}/company/${this.companyId}/profile/edit-store/${item.uid}`
+                `${this.mirageMainDomain}/company/${this.companyId}/profile/edit-store/${item.uid}`
             );
         },
     },

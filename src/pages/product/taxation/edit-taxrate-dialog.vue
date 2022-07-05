@@ -16,6 +16,7 @@
                                 class="st-date"
                                 v-model="editableRate[0].effective_date"
                                 :useNitrozenTheme="true"
+                                @input="checkExistigDate($event)"
                             />
                             <nitrozen-error
                                 v-if="slabOneErr.effective_date.showerror"
@@ -29,7 +30,6 @@
                                 type="number"
                                 placeholder="cess value (optional)"
                                 v-model="editableRate[0].cess"
-                                @input=""
                             ></nitrozen-input>
                             <nitrozen-error v-if="slabOneErr.cess.showerror">
                                 {{ slabOneErr.cess.errortext }}
@@ -46,7 +46,6 @@
                                 type="number"
                                 placeholder="eg. 99999"
                                 v-model="editableRate[0].threshold"
-                                @input=""
                                 :custom="true"
                                 :showPrefix="true"
                             >
@@ -112,7 +111,6 @@
                                 type="number"
                                 placeholder="cess value (optional)"
                                 v-model="editableRate[1].cess"
-                                @input=""
                             ></nitrozen-input>
                             <nitrozen-error v-if="slabTwoErr.cess.showerror">
                                 {{ slabTwoErr.cess.errortext }}
@@ -128,7 +126,6 @@
                                 type="number"
                                 placeholder="eg. 99999rs"
                                 v-model="editableRate[1].threshold"
-                                @input=""
                                 :custom="true"
                                 :showPrefix="true"
                             >
@@ -164,6 +161,7 @@
                         title="add new rate"
                         theme="secondary"
                         class="ml-sm"
+                        :disabled="checkHighestValue()"
                         @click.stop="addRate()"
                     >
                         + Add Slab
@@ -205,7 +203,7 @@
             width: 48%;
         }
         .input-box2 {
-            width: 100%
+            width: 100%;
         }
         .input-date {
             width: 100%;
@@ -271,9 +269,13 @@
         margin-left: 12px;
     }
 }
+::v-deep .n-button:disabled {
+    opacity: 0.5;
+}
 </style>
 <script>
 const RATE_LIST = [
+    { text: '0%', value: '0' },
     { text: '3%', value: 3 },
     { text: '5%', value: 5 },
     { text: '10%', value: 10 },
@@ -308,7 +310,8 @@ export default {
     },
     props: {
         taxes: Object,
-        selectedRate: Array
+        selectedRate: Array,
+        selectedDates: Array,
     },
     directives: {
         flatBtn,
@@ -340,6 +343,7 @@ export default {
             },
             // writing new code here
             rateList1: [
+                { text: '0%', value: '0' },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
@@ -348,6 +352,7 @@ export default {
                 { text: '28%', value: 28 }
             ],
             rateList2: [
+                { text: '0%', value: '0' },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
@@ -431,7 +436,8 @@ export default {
                         errortext: ''
                     }
                 }
-            ]
+            ],
+            editableRateszCopy :[],
         };
     },
     mounted() {},
@@ -443,11 +449,7 @@ export default {
                 if (this.datedTax) {
                     for (let tax in this.datedTax) {
                         for (let temp of this.datedTax[tax]) {
-                            if (
-                                !temp.effective_date.includes(
-                                    '.000Z'
-                                )
-                            ) {
+                            if (!temp.effective_date.includes('.000Z')) {
                                 temp.effective_date = new Date(
                                     temp.effective_date + '.000Z'
                                 )
@@ -466,6 +468,9 @@ export default {
                     return { ...a };
                 });
                 for (let tax of this.editableRate) {
+                    if (tax.rate === 0) {
+                        tax.rate = '0';
+                    }
                     if (!tax.effective_date.includes('.000Z')) {
                         tax.effective_date = new Date(
                             tax.effective_date + '.000Z'
@@ -474,12 +479,36 @@ export default {
                             .replace(' ', 'T');
                     }
                 }
+                this.editableRateszCopy = cloneDeep(this.editableRate)
             }
         }
     },
     methods: {
-        testingDate(e){
-            console.log(e)
+        checkExistigDate(selectedDate) {
+            const date1 = new Date(selectedDate);
+            this.selectedDates.forEach((eachDate) => {
+                const date2 = new Date(eachDate);
+                const date1WithoutTime = new Date(date1.getTime());
+                const date2WithoutTime = new Date(date2.getTime());
+                date1WithoutTime.setUTCHours(0, 0, 0, 0);
+                date2WithoutTime.setUTCHours(0, 0, 0, 0);
+                if (date1WithoutTime.getTime() === date2WithoutTime.getTime()) {
+                    this.$snackbar.global.showError('Slab already exist for selected effective date');
+                    this.editableRate[0].effective_date = this.editableRateszCopy[0].effective_date;
+                    return;
+                }
+            });
+        },
+        checkHighestValue() {
+            let value = ""
+            if(this.editableRate[0] && this.editableRate[0].rate){
+                value = this.editableRate[0].rate
+            }
+            const rateList = cloneDeep(RATE_LIST);
+            const highest = rateList
+                .sort((a, b) => a.value - b.value)
+                .pop().value;
+            return highest === value;
         },
         open(data) {
             this.$refs.dialog.open({
@@ -520,7 +549,9 @@ export default {
                 this.getRateList2(data.rate);
                 this.editableRate.push(emptyRate);
             } else {
-                this.$snackbar.global.showError(`Two tax rate already exist for selected date`);
+                this.$snackbar.global.showError(
+                    `Two tax rate already exist for selected date`
+                );
             }
         },
         removeRate() {
@@ -529,6 +560,7 @@ export default {
         },
         getRateList2(data) {
             let tempList = [
+                { text: '0%', value: '0' },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
@@ -537,6 +569,9 @@ export default {
                 { text: '28%', value: 28 }
             ];
             this.rateList2 = tempList.filter((rate) => rate.value > data);
+            if(data == 28){
+                this.removeRate()
+            }
         },
         checkFirstSlab(data) {
             if (this.checkSlab1Required(data)) {
@@ -586,7 +621,7 @@ export default {
                     'Threshold should be a number';
                 isValid = false;
             }
-            if (data.rate > 0) {
+            if (data.rate >= 0) {
                 this.slabOneErr.rate.showerror = false;
             } else {
                 this.slabOneErr.rate.showerror = true;

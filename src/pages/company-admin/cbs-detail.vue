@@ -482,8 +482,8 @@ export default {
         this.fetchMetricsApi();
     },
     computed: {
-        fyndPlatformDomain(type) {
-            return env.FYND_PLATFORM_DOMAIN;
+        mirageMainDomain(type) {
+            return env.MIRAGE_MAIN_DOMAIN;
         },
     },
     methods: {
@@ -544,7 +544,7 @@ export default {
         openPlatform() {
             event.stopPropagation();
             window.open(
-                `https://platform.${this.fyndPlatformDomain}/company/${this.companyId}/profile/`
+                `${this.mirageMainDomain}/company/${this.companyId}/profile/`
             );
         },
     },

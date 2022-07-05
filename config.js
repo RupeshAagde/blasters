@@ -1,6 +1,8 @@
 'use strict';
 const convict = require('convict');
 
+const platformDomain = process.env['FYND_PLATFORM_DOMAIN'] || "";
+
 const conf = convict({
     env: {
         doc: 'Env',
@@ -22,6 +24,27 @@ const conf = convict({
             default: '',
             env: 'FYND_PLATFORM_DOMAIN',
             arg: 'fynd_platform_domain'
+        },
+        MIRAGE_MAIN_DOMAIN: {
+            doc: "Mirage Main Domain",
+            format: String,
+            default: `https://platform.${platformDomain}`,
+            env: "MIRAGE_MAIN_DOMAIN",
+            arg: "mirage_main_domain"
+        },
+        BOMBSHELL_MAIN_DOMAIN: {
+            doc: "Bombshell Main Domain",
+            format: String,
+            default: `https://partners.${platformDomain}`,
+            env: "BOMBSHELL_MAIN_DOMAIN",
+            arg: "bombshell_main_domain"
+        },
+        BLASTER_MAIN_DOMAIN: {
+            doc: "Blaster Main Domain",
+            format: String,
+            default: ``,
+            env: "BLASTER_MAIN_DOMAIN",
+            arg: "blaster_main_domain"
         },
         SLINGSHOT_ADMIN_URL: {
             doc: 'Slingshot Admin URL',
@@ -330,6 +353,13 @@ const conf = convict({
             default: 'https://api.fyndx0.de/service/___/administrator/partners/',
             env: 'MIXMASTER_ADMIN_URL',
             arg: 'mixmaster_admin_url'
+        },
+        MIXMASTER_PNL_URL: {
+            doc: 'Mixmaster Panel URL',
+            format: String,
+            default: 'https://api.fyndx0.de/service/panel/partners/',
+            env: 'MIXMASTER_PNL_URL',
+            arg: 'MIXMASTER_PNL_URL'
         },
         MIXMASTER_ADMIN_SVC: {
             doc: 'Mixmaster Kube Service',

@@ -37,7 +37,7 @@
                 <div class="brand-edt">
                     <a
                         :href="
-                            `https://platform.${fyndPlatformDomain}/company/${companyId}/profile/edit-brand/${item.brand.uid}`
+                            `${mirageMainDomain}/company/${companyId}/profile/edit-brand/${item.brand.uid}`
                         "
                         target="_blank"
                         class="menu"
@@ -406,7 +406,6 @@ import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import pageerror from '@/components/common/page-error';
 import dateFormat from 'dateformat';
-import { getRoute } from '@/helper/get-route';
 import admInlineSVG from '@/components/common/adm-inline-svg';
 import { GET_METRICS } from '@/store/getters.type';
 import { mapGetters } from 'vuex';
@@ -487,8 +486,8 @@ export default {
         ...mapGetters({
             metricsData: GET_METRICS
         }),
-        fyndPlatformDomain(type) {
-            return env.FYND_PLATFORM_DOMAIN;
+        mirageMainDomain() {
+            return env.MIRAGE_MAIN_DOMAIN;
         }
     },
     mounted() {
