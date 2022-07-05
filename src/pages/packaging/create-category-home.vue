@@ -40,7 +40,7 @@
             <div class="modal-custom-body">
                 <inline-svg :src="'modal_success'" />
                 <p id="modal-body-text">
-                    Category has been succesfully
+                    Category has been successfully
                     {{
                         Object.keys(selectedCategory).length
                             ? 'updated'
