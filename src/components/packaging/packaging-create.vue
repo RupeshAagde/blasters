@@ -14,7 +14,7 @@
         </div>
         <div class="create-packaging-search-container">
             <nitrozen-input
-                id="select-packaging"
+                id="select-packaging-search"
                 class="input w-l"
                 :label="'Select your packaging'"
                 :showSearchIcon="true"
@@ -23,6 +23,7 @@
                 :placeholder="searchPlacholder"
                 v-model="searchInput"
                 @input="handleSearchInput"
+                type="search"
             />
             <div class="packaging-search-list-container" v-if="showSearchList">
                 <div v-if="!showListLoader">
