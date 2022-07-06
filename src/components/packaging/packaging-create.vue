@@ -14,7 +14,6 @@
         </div>
         <div class="create-packaging-search-container">
             <nitrozen-input
-                id="select-packaging-search"
                 class="input w-l"
                 :label="'Select your packaging'"
                 :showSearchIcon="true"
@@ -514,7 +513,9 @@ export default {
                 return;
             }
             this.$store
-                .dispatch(FETCH_COMPANY_PRODUCTS, { q: input })
+                .dispatch(FETCH_COMPANY_PRODUCTS, {
+                    q: input.replace(/[[\]{}()*+?.,^$|]/g, '\\$&')
+                })
                 .then((res) => {
                     const { items } = res;
                     if (items.length) {
@@ -522,6 +523,10 @@ export default {
                         this.searchedProductList = productList;
                         this.checkForButtonToggle();
                     }
+                    this.showListLoader = false;
+                    this.showSearchList = true;
+                })
+                .finally(() => {
                     this.showListLoader = false;
                     this.showSearchList = true;
                 });
