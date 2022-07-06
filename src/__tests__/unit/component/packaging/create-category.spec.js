@@ -14,6 +14,7 @@ describe('Category config home', () => {
                 toggleBtn: jest.fn()
             }
         });
+        wrapper.vm.l3loader = false
     });
     it('should render to a snapshot', () => {
         expect(wrapper.element).toMatchSnapshot();
