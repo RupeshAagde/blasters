@@ -416,7 +416,7 @@ const PROVIDER_WIZARD_DETAILS = {
                     '<div>In order to setup Pepipost provider, you would need the Pepipost API Key</div>'
             },
             logo:
-                `assets/admin/pngs/pepipost-logo.png`
+                `/public/assets/admin/pngs/pepipost-logo.png`
         },
         falconide: {
             title: 'Falconide',
@@ -425,7 +425,7 @@ const PROVIDER_WIZARD_DETAILS = {
                     '<div>In order to setup Falconide provider, you would need the Falconide API Key</div>'
             },
             logo:
-                `/public/admin/assets/admin/pngs/falconide-logo.png`
+                `/public/assets/admin/pngs/falconide-logo.png`
         },
         smtp: {
             title: 'SMTP',
@@ -444,7 +444,7 @@ const PROVIDER_WIZARD_DETAILS = {
                     '<div>For setting up Netcore, you would need to get the below details from Netcore - <li>Feed id</li><li>Username</li><li>Password</li><li>Sender id</li></div>'
             },
             logo:
-                `/public/admin/assets/admin/pngs/netcore-logo.png`
+                `/public/assets/admin/pngs/netcore-logo.png`
         },
         smpp: {
             title: 'SMPP',
@@ -461,7 +461,7 @@ const PROVIDER_WIZARD_DETAILS = {
                     '<div>For setting up Telspiel, you would need to get the below details from Telspiel - <li>Sender id</li><li>Username</li><li>Auth Key</li></div>'
             },
             logo:
-                `/public/admin/assets/admin/pngs/telspiel-logo.png`
+                `/public/assets/admin/pngs/telspiel-logo.png`
         },
         vivaconnect: {
             title: 'Viva Connect',
@@ -470,7 +470,7 @@ const PROVIDER_WIZARD_DETAILS = {
                     '<div>For setting up Viva Connect, you would need to get the below details from Viva Connect - <li>Sender id</li><li>Username</li><li>Password</li><li>CDMA Header</li></div>'
             },
             logo:
-                `/public/admin/assets/admin/pngs/vivaconnect-logo.png`
+                `/public/assets/admin/pngs/vivaconnect-logo.png`
         },
         timesinternet: {
             title: 'Times Internet',

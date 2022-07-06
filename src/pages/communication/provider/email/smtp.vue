@@ -339,14 +339,14 @@ export default {
                     user: this.getInitialValue(),
                     pass: this.getInitialValue(),
                 },
-                pool: this.getInitialValue(),
-                maxConnections: this.getInitialValue(),
-                maxMessages: this.getInitialValue(),
-                rateDelta: this.getInitialValue(),
-                rateLimit: this.getInitialValue(),
-                connectionTimeout: this.getInitialValue(),
-                greetingTimeout: this.getInitialValue(),
-                socketTimeout: this.getInitialValue(),
+                pool: false,
+                maxConnections: 5,
+                maxMessages: 1000000,
+                rateDelta: 10000,
+                rateLimit: 10000,
+                connectionTimeout: 50000,
+                greetingTimeout: 40000,
+                socketTimeout: 20000,
                 from_address: this.getInitialValue([
                     {
                         name: null,
@@ -385,16 +385,16 @@ export default {
             this.data.auth.user.value = this.emailProvider.auth.user;
             this.data.auth.pass.value = this.emailProvider.auth.pass;
 
-            this.data.pool.value = String(this.emailProvider.pool);
-            this.data.maxConnections.value = this.emailProvider.maxConnections;
-            this.data.maxMessages.value = this.emailProvider.maxMessages;
-            this.data.rateDelta.value = this.emailProvider.rateDelta;
-            this.data.rateLimit.value = this.emailProvider.rateLimit;
-            this.data.connectionTimeout.value =
+            this.data.pool = String(this.emailProvider.pool);
+            this.data.maxConnections = this.emailProvider.maxConnections;
+            this.data.maxMessages = this.emailProvider.maxMessages;
+            this.data.rateDelta = this.emailProvider.rateDelta;
+            this.data.rateLimit = this.emailProvider.rateLimit;
+            this.data.connectionTimeout =
                 this.emailProvider.connectionTimeout;
-            this.data.greetingTimeout.value =
+            this.data.greetingTimeout =
                 this.emailProvider.greetingTimeout;
-            this.data.socketTimeout.value = this.emailProvider.socketTimeout;
+            this.data.socketTimeout = this.emailProvider.socketTimeout;
 
             this.data.from_address.value = this.emailProvider.from_address;
             if (this.data.from_address.value) {

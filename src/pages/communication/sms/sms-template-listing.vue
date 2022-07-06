@@ -318,6 +318,7 @@ export default {
             
         },
         setPagination() {
+            console.log(this.smsTemplatesStore.limit);
             this.pagination = {
                 limit:  this.smsTemplatesStore.limit,
                 total: this.smsTemplatesStore.page.item_total,

@@ -3,7 +3,7 @@
         <div class="page-container">
         <jumbotron
                     :title="'Events'"
-                    :desc="'View All Reports'"
+                    :desc="'Use this section for configuring an Email or SMS response to the customer, with the help of templates. Send intimations on events such as a new user signup or login, for providing order updates, and for notifying returns and refunds.'"
                     class="jumbotron-container"
                 ></jumbotron>   
 
@@ -410,7 +410,6 @@ export default {
             })
         },
         updatePreview(id,type){
-            console.log('empty');
             if(type == "email"){
             CommunicationServices.getEmailTemplatebyId(id).then((data)=>{
                 this.templateInPreviewModal.template = data.data;
