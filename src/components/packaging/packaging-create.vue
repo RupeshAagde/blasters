@@ -1,5 +1,7 @@
 <template>
+    <loader v-if="l3loader" />
     <div
+        v-else
         :class="{
             'hide-container': showLoader,
             'packaging-create-container': true
@@ -23,6 +25,7 @@
                 v-model="searchInput"
                 @input="handleSearchInput"
                 type="search"
+                :autocomplete="'off'"
             />
             <div class="packaging-search-list-container" v-if="showSearchList">
                 <div v-if="!showListLoader">
@@ -260,6 +263,7 @@ export default {
     },
     data() {
         return {
+            l3loader: true,
             searchInput: '',
             searchTooltipText:
                 'Choose an item you wish to use as a packaging material, and fill its details',
@@ -475,7 +479,16 @@ export default {
                                         }
                                     }
                                 );
+                            } else {
+                                // call snackbar and return
+                                this.$snackbar.global.showError(
+                                    'Could not fetch l3 categories'
+                                );
                             }
+                            this.l3loader = false;
+                        })
+                        .finally(() => {
+                            this.l3loader = false;
                         });
                 }
                 // only if the bulkchecked option is true
@@ -483,7 +496,42 @@ export default {
                     let tempBulkPackaging = [];
                     // loop through the data obtained from the BE and update the state
                     this.editProduct.l3_mapping.forEach((item) => {
-                        let bulkInput = { ...this.bulkInput };
+                        // changed to constant to fix bug for duplicated items 
+                        let bulkInput = {
+                            toggle: {
+                                val: false,
+                                disabled: false
+                            },
+                            categoryConfig: '',
+                            volumetricWeight: {
+                                minimum: {
+                                    label: 'Minimum',
+                                    placeholder: 'Minimum Volumetric Weight',
+                                    value: '',
+                                    error: ''
+                                },
+                                maximum: {
+                                    label: 'Maximum',
+                                    placeholder: 'Maximum Volumetric Weight',
+                                    value: '',
+                                    error: ''
+                                }
+                            },
+                            quantity: {
+                                minimum: {
+                                    label: 'Minimum',
+                                    placeholder: 'Minimum Quantity',
+                                    value: '',
+                                    error: ''
+                                },
+                                maximum: {
+                                    label: 'Maximum',
+                                    placeholder: 'Maximum Quantity',
+                                    value: '',
+                                    error: ''
+                                }
+                            }
+                        };
                         bulkInput.toggle.val =
                             item.is_default_packaging_material;
                         bulkInput.volumetricWeight.minimum.value =
@@ -633,18 +681,29 @@ export default {
             if (e.text && e.text.length) {
                 query.q = e.text;
             }
-            this.$store.dispatch(FETCH_L3_CATEGORIES, query).then((data) => {
-                if (!data.error) {
-                    let tempList = [];
-                    data.forEach((a) => {
-                        tempList.push({
-                            text: a.name,
-                            value: a.uid
+            this.$store
+                .dispatch(FETCH_L3_CATEGORIES, query)
+                .then((data) => {
+                    if (!data.error) {
+                        let tempList = [];
+                        data.forEach((a) => {
+                            tempList.push({
+                                text: a.name,
+                                value: a.uid
+                            });
                         });
-                    });
-                    this.searchableCategoryList = tempList;
-                }
-            });
+                        this.searchableCategoryList = tempList;
+                    } else {
+                        // call snackbar and return
+                        this.$snackbar.global.showError(
+                            'Could not fetch l3 categories'
+                        );
+                    }
+                    this.l3loader = false;
+                })
+                .finally(() => {
+                    this.l3loader = false;
+                });
         },
         /**
          *
@@ -741,7 +800,7 @@ export default {
                 this.bulkPackaging[index][obj]['maximum'].value.toString()
                     .length &&
                 !(
-                    this.bulkPackaging[index][obj]['minimum'].value <
+                    this.bulkPackaging[index][obj]['minimum'].value <=
                     this.bulkPackaging[index][obj]['maximum'].value
                 )
             ) {
@@ -782,7 +841,7 @@ export default {
                     .length &&
                 this.bulkPackaging[index][obj]['maximum'].value.toString()
                     .length &&
-                this.bulkPackaging[index][obj]['minimum'].value <
+                this.bulkPackaging[index][obj]['minimum'].value <=
                     this.bulkPackaging[index][obj]['maximum'].value
             ) {
                 // if so then there are no errors so empty the error field
