@@ -192,19 +192,24 @@ export default {
             if (e.text && e.text.length) {
                 query.q = e.text;
             }
-            this.$store.dispatch(FETCH_L3_CATEGORIES, query).then((data) => {
-                if (!data.error) {
-                    let tempList = [];
-                    data.forEach((a) => {
-                        tempList.push({
-                            text: a.name,
-                            value: a.uid
+            this.$store
+                .dispatch(FETCH_L3_CATEGORIES, query)
+                .then((data) => {
+                    if (!data.error) {
+                        let tempList = [];
+                        data.forEach((a) => {
+                            tempList.push({
+                                text: a.name,
+                                value: a.uid
+                            });
                         });
-                    });
-                    this.searchableCategoryList = tempList;
-                }
-                this.l3loader = false;
-            });
+                        this.searchableCategoryList = tempList;
+                    }
+                    this.l3loader = false;
+                })
+                .finally(() => {
+                    this.l3loader = false;
+                });
         },
         checkForError() {
             if (
