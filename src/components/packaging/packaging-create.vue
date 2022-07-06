@@ -14,7 +14,6 @@
         </div>
         <div class="create-packaging-search-container">
             <nitrozen-input
-                id="select-packaging"
                 class="input w-l"
                 :label="'Select your packaging'"
                 :showSearchIcon="true"
@@ -23,6 +22,7 @@
                 :placeholder="searchPlacholder"
                 v-model="searchInput"
                 @input="handleSearchInput"
+                type="search"
             />
             <div class="packaging-search-list-container" v-if="showSearchList">
                 <div v-if="!showListLoader">
@@ -422,7 +422,12 @@ export default {
                         item.text = item.name;
                         item.value = item._id;
                     });
-                    this.groupCategories = temp;
+                    this.groupCategories = temp.sort(function(a, b) {
+                        // Sort alphabetically for better redability
+                        return a.name.toLowerCase() < b.name.toLowerCase()
+                            ? -1
+                            : 1;
+                    });
                 });
         },
         /**
@@ -513,7 +518,9 @@ export default {
                 return;
             }
             this.$store
-                .dispatch(FETCH_COMPANY_PRODUCTS, { q: input })
+                .dispatch(FETCH_COMPANY_PRODUCTS, {
+                    q: input.replace(/[[\]{}()*+?.,^$|]/g, '\\$&')
+                })
                 .then((res) => {
                     const { items } = res;
                     if (items.length) {
@@ -521,6 +528,10 @@ export default {
                         this.searchedProductList = productList;
                         this.checkForButtonToggle();
                     }
+                    this.showListLoader = false;
+                    this.showSearchList = true;
+                })
+                .finally(() => {
                     this.showListLoader = false;
                     this.showSearchList = true;
                 });

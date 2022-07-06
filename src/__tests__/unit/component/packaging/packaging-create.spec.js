@@ -70,7 +70,7 @@ describe('Packaging Create', () => {
         ).toBe('Extra Details');
     });
     it('should test the input field', () => {
-        const input = wrapper.find('#select-packaging');
+        const input = wrapper.find('.n-input');
         input.element.value = 'test value';
         input.trigger('input');
         expect(wrapper.vm.searchInput).toBe('test value');
@@ -227,7 +227,7 @@ describe('Packaging Create', () => {
         });
     });
     it('should test for input field simulation and data being set in state', async () => {
-        const input = wrapper.find('#select-packaging');
+        const input = wrapper.find('.n-input');
         input.element.value = '5 Ply Corrugated';
         await input.trigger('input');
         expect(wrapper.vm.searchInput).toBe('5 Ply Corrugated');

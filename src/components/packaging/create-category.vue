@@ -23,8 +23,10 @@
                 {{ groupName.error }}
             </nitrozen-error>
         </div>
+        <loader-vue v-if="l3loader" />
         <!-- Call to reusable component to select multiple categories -->
         <category-multi-select
+            v-else
             :handleCategoryChange="handleCategoryChange"
             :handleCategoryRemove="handleCategoryRemove"
             :searchableCategoryList="searchableCategoryList"
@@ -42,12 +44,14 @@ import { generateGroupCategoryRequest } from '../../helper/utils';
 import { FETCH_L3_CATEGORIES } from '../../store/action.type';
 import { mapGetters } from 'vuex';
 import { GET_EDIT_CATEGORY } from '../../store/getters.type';
+import LoaderVue from '../common/loader.vue';
 export default {
     name: 'create-category',
     components: {
         NitrozenError,
         NitrozenInput,
-        CategoryMultiSelect
+        CategoryMultiSelect,
+        LoaderVue
     },
     computed: {
         ...mapGetters({
@@ -188,18 +192,24 @@ export default {
             if (e.text && e.text.length) {
                 query.q = e.text;
             }
-            this.$store.dispatch(FETCH_L3_CATEGORIES, query).then((data) => {
-                if (!data.error) {
-                    let tempList = [];
-                    data.forEach((a) => {
-                        tempList.push({
-                            text: a.name,
-                            value: a.uid
+            this.$store
+                .dispatch(FETCH_L3_CATEGORIES, query)
+                .then((data) => {
+                    if (!data.error) {
+                        let tempList = [];
+                        data.forEach((a) => {
+                            tempList.push({
+                                text: a.name,
+                                value: a.uid
+                            });
                         });
-                    });
-                    this.searchableCategoryList = tempList;
-                }
-            });
+                        this.searchableCategoryList = tempList;
+                    }
+                    this.l3loader = false;
+                })
+                .finally(() => {
+                    this.l3loader = false;
+                });
         },
         checkForError() {
             if (
@@ -222,7 +232,8 @@ export default {
             },
             searchableCategoryList: [],
             selectedCategories: [],
-            categoryValue: []
+            categoryValue: [],
+            l3loader: true
         };
     }
 };
