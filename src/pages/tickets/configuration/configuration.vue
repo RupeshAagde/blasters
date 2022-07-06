@@ -128,7 +128,7 @@
                     ></nitrozen-input>
                 </div>
             </div>
-            <div class="support-managers">
+            <div v-if="isDRIenabled" class="support-managers">
                 <div>
                     <label class="label"> Show Support Managers </label>
                     <nitrozen-tooltip :position="'top'">
@@ -305,6 +305,7 @@ export default {
     data() {
         return {
             showCommunicationinfo: false,
+            isDRIenabled:false,
             _id: undefined,
             showSupportdris: false,
             available_integration: [],
@@ -398,7 +399,7 @@ export default {
             let data = {
                 _id: this._id,
                 show_communication_info: this.showCommunicationinfo,
-                show_support_dris: this.showSupportdris,
+                show_support_dris: this.showSupportdris && this.isDRIenabled,
                 support_email: this.support_email,
                 support_phone: this.support_phone,
                 support_faq: this.support_faq,
@@ -428,6 +429,7 @@ export default {
         },
         setPageData(data) {
             this._id = data._id;
+            this.isDRIenabled = data.enable_dris;
             this.showCommunicationinfo =
                 data.show_communication_info || this.showCommunicationinfo;
             this.showSupportdris =
@@ -595,15 +597,6 @@ export default {
             margin-bottom: 24px;
         }
         // .freshdesk-tool {
-        //     margin-top: 24px;
-        //     display: flex;
-        //     padding: 16px 30px;
-        //     border: 1px solid #e0e0e0;
-        //     border-radius: 12px;
-        //     margin: 16px 24px;
-        //     justify-content: space-between;
-        // }
-        // .kapture-tool {
         //     margin-top: 24px;
         //     display: flex;
         //     padding: 16px 30px;
