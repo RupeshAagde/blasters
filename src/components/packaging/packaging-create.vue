@@ -1,5 +1,7 @@
 <template>
+    <loader v-if="l3loader" />
     <div
+        v-else
         :class="{
             'hide-container': showLoader,
             'packaging-create-container': true
@@ -261,6 +263,7 @@ export default {
     },
     data() {
         return {
+            l3loader: true,
             searchInput: '',
             searchTooltipText:
                 'Choose an item you wish to use as a packaging material, and fill its details',
@@ -476,7 +479,16 @@ export default {
                                         }
                                     }
                                 );
+                            } else {
+                                // call snackbar and return
+                                this.$snackbar.global.showError(
+                                    'Could not fetch l3 categories'
+                                );
                             }
+                            this.l3loader = false;
+                        })
+                        .finally(() => {
+                            this.l3loader = false;
                         });
                 }
                 // only if the bulkchecked option is true
@@ -634,18 +646,29 @@ export default {
             if (e.text && e.text.length) {
                 query.q = e.text;
             }
-            this.$store.dispatch(FETCH_L3_CATEGORIES, query).then((data) => {
-                if (!data.error) {
-                    let tempList = [];
-                    data.forEach((a) => {
-                        tempList.push({
-                            text: a.name,
-                            value: a.uid
+            this.$store
+                .dispatch(FETCH_L3_CATEGORIES, query)
+                .then((data) => {
+                    if (!data.error) {
+                        let tempList = [];
+                        data.forEach((a) => {
+                            tempList.push({
+                                text: a.name,
+                                value: a.uid
+                            });
                         });
-                    });
-                    this.searchableCategoryList = tempList;
-                }
-            });
+                        this.searchableCategoryList = tempList;
+                    } else {
+                        // call snackbar and return
+                        this.$snackbar.global.showError(
+                            'Could not fetch l3 categories'
+                        );
+                    }
+                    this.l3loader = false;
+                })
+                .finally(() => {
+                    this.l3loader = false;
+                });
         },
         /**
          *
