@@ -205,6 +205,11 @@ export default {
                             });
                         });
                         this.searchableCategoryList = tempList;
+                    } else {
+                        // call snackbar and return
+                        this.$snackbar.global.showError(
+                            'Could not fetch l3 categories'
+                        );
                     }
                     this.l3loader = false;
                 })
