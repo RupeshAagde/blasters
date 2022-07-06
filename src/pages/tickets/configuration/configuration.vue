@@ -305,6 +305,7 @@ export default {
     data() {
         return {
             showCommunicationinfo: false,
+            _id: undefined,
             showSupportdris: false,
             available_integration: [],
             integration: {
@@ -395,6 +396,7 @@ export default {
             if (!this.validateEntries(this.support_phone)) return;
             if (!this.validateEntries(this.support_faq)) return;
             let data = {
+                _id: this._id,
                 show_communication_info: this.showCommunicationinfo,
                 show_support_dris: this.showSupportdris,
                 support_email: this.support_email,
@@ -425,6 +427,7 @@ export default {
                 });
         },
         setPageData(data) {
+            this._id = data._id;
             this.showCommunicationinfo =
                 data.show_communication_info || this.showCommunicationinfo;
             this.showSupportdris =
