@@ -23,6 +23,7 @@
                 v-model="searchInput"
                 @input="handleSearchInput"
                 type="search"
+                :autocomplete="'off'"
             />
             <div class="packaging-search-list-container" v-if="showSearchList">
                 <div v-if="!showListLoader">

@@ -1,5 +1,7 @@
 <template>
+    <loader-vue v-if="l3loader" />
     <div
+        v-else
         :class="{
             'hide-container': showLoader,
             'category-create-container': true
@@ -17,16 +19,15 @@
                 type="text"
                 @blur="handleBlur"
                 @input="handleChange"
+                :autocomplete="'off'"
             />
             <!-- If there is a error then show  -->
             <nitrozen-error v-if="groupName.error">
                 {{ groupName.error }}
             </nitrozen-error>
         </div>
-        <loader-vue v-if="l3loader" />
         <!-- Call to reusable component to select multiple categories -->
         <category-multi-select
-            v-else
             :handleCategoryChange="handleCategoryChange"
             :handleCategoryRemove="handleCategoryRemove"
             :searchableCategoryList="searchableCategoryList"
