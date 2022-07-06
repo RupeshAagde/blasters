@@ -422,7 +422,12 @@ export default {
                         item.text = item.name;
                         item.value = item._id;
                     });
-                    this.groupCategories = temp;
+                    this.groupCategories = temp.sort(function(a, b) {
+                        // Sort alphabetically for better redability
+                        return a.name.toLowerCase() < b.name.toLowerCase()
+                            ? -1
+                            : 1;
+                    });
                 });
         },
         /**
