@@ -496,7 +496,42 @@ export default {
                     let tempBulkPackaging = [];
                     // loop through the data obtained from the BE and update the state
                     this.editProduct.l3_mapping.forEach((item) => {
-                        let bulkInput = { ...this.bulkInput };
+                        // changed to constant to fix bug for duplicated items 
+                        let bulkInput = {
+                            toggle: {
+                                val: false,
+                                disabled: false
+                            },
+                            categoryConfig: '',
+                            volumetricWeight: {
+                                minimum: {
+                                    label: 'Minimum',
+                                    placeholder: 'Minimum Volumetric Weight',
+                                    value: '',
+                                    error: ''
+                                },
+                                maximum: {
+                                    label: 'Maximum',
+                                    placeholder: 'Maximum Volumetric Weight',
+                                    value: '',
+                                    error: ''
+                                }
+                            },
+                            quantity: {
+                                minimum: {
+                                    label: 'Minimum',
+                                    placeholder: 'Minimum Quantity',
+                                    value: '',
+                                    error: ''
+                                },
+                                maximum: {
+                                    label: 'Maximum',
+                                    placeholder: 'Maximum Quantity',
+                                    value: '',
+                                    error: ''
+                                }
+                            }
+                        };
                         bulkInput.toggle.val =
                             item.is_default_packaging_material;
                         bulkInput.volumetricWeight.minimum.value =
@@ -765,7 +800,7 @@ export default {
                 this.bulkPackaging[index][obj]['maximum'].value.toString()
                     .length &&
                 !(
-                    this.bulkPackaging[index][obj]['minimum'].value <
+                    this.bulkPackaging[index][obj]['minimum'].value <=
                     this.bulkPackaging[index][obj]['maximum'].value
                 )
             ) {
@@ -806,7 +841,7 @@ export default {
                     .length &&
                 this.bulkPackaging[index][obj]['maximum'].value.toString()
                     .length &&
-                this.bulkPackaging[index][obj]['minimum'].value <
+                this.bulkPackaging[index][obj]['minimum'].value <=
                     this.bulkPackaging[index][obj]['maximum'].value
             ) {
                 // if so then there are no errors so empty the error field
