@@ -60,6 +60,9 @@ const URLS = {
     },
     PUBLIC_EXTENSION_CATEGORIES: () => {
         return urlJoin(MIXMASTER_PNL_BASE, `/v1.0/extensions/category/all`);
+    },
+    ADMIN_EXTENSION_CATEGORIES: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE + `v1.0/extension/category/all`);
     }
 };
 
