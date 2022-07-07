@@ -161,7 +161,7 @@ describe('Packaging Create', () => {
     });
     it('should test for handleGroup delete', async () => {
         await wrapper.vm.handleGroupDelete(0);
-        expect(wrapper.vm.bulkPackaging.length).toBe(0);
+        expect(wrapper.vm.bulkPackaging.length).toBe(1);
     });
     it('should check for checkGroupCategoryError', async () => {
         const resp = await wrapper.vm.checkGroupCategoryError();
