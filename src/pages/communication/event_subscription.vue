@@ -1,11 +1,11 @@
 <template>
     <div class="panel">
         <div class="page-container">
-        <jumbotron
-                    :title="'Events'"
-                    :desc="'Use this section for configuring an Email or SMS response to the customer, with the help of templates. Send intimations on events such as a new user signup or login, for providing order updates, and for notifying returns and refunds.'"
-                    class="jumbotron-container"
-                ></jumbotron>   
+            <jumbotron
+                :title="'Events'"
+                :desc="'Use this section for configuring an Email or SMS response to the customer, with the help of templates. Send intimations on events such as a new user signup or login, for providing order updates, and for notifying returns and refunds.'"
+                class="jumbotron-container"
+            ></jumbotron>
 
             <div class="subscriptions-container">
                 <div class="main-container full-width">
@@ -59,7 +59,9 @@
                                                         item.event.event_name
                                                     }}</span>
                                                     <span
-                                                        class="description-container"
+                                                        class="
+                                                            description-container
+                                                        "
                                                         >{{
                                                             item.event
                                                                 .descriptions
@@ -76,7 +78,11 @@
                                                 >
                                                     <div class="outer">
                                                         <span
-                                                            class="dark-xs cl-DustyGray2 inner-text"
+                                                            class="
+                                                                dark-xs
+                                                                cl-DustyGray2
+                                                                inner-text
+                                                            "
                                                             >Email</span
                                                         >
                                                         <nitrozen-toggle-btn
@@ -100,7 +106,9 @@
                                                             item.email
                                                                 .subscribed
                                                         "
-                                                        class="dropdown-select-container"
+                                                        class="
+                                                            dropdown-select-container
+                                                        "
                                                         label="Email template"
                                                         :items="
                                                             item.filteredEmailDropDownData
@@ -109,31 +117,40 @@
                                                             item.email.template
                                                                 ._id
                                                         "
-                                                        :id="
-                                                            `email-${groupIndex}-${childIndex}`
-                                                        "
+                                                        :id="`email-${groupIndex}-${childIndex}`"
                                                         :searchable="true"
                                                         @searchInputChange="
                                                             dropdownSearchInputChange
                                                         "
-                                                        @change="updatePreview(item.email.template._id,'email')"
-                                                        
+                                                        @change="
+                                                            updatePreview(
+                                                                item.email
+                                                                    .template
+                                                                    ._id,
+                                                                'email'
+                                                            )
+                                                        "
                                                     >
                                                     </nitrozen-dropdown>
-                                                    
+
                                                     <nitrozen-button
                                                         v-if="
                                                             item.email
                                                                 .subscribed
                                                         "
-                                                        @click.stop="previewTemplate(
+                                                        @click.stop="
+                                                            previewTemplate(
                                                                 'email',
                                                                 groupIndex,
                                                                 childIndex
-                                                            )"                                                     
+                                                            )
+                                                        "
                                                         theme="secondary"
                                                         v-stroke-btn
-                                                        class="clone-btn preview-email-btn"
+                                                        class="
+                                                            clone-btn
+                                                            preview-email-btn
+                                                        "
                                                         >Preview</nitrozen-button
                                                     >
                                                 </div>
@@ -143,7 +160,11 @@
                                                 >
                                                     <div class="outer">
                                                         <span
-                                                            class="dark-xs cl-DustyGray2 inner-text"
+                                                            class="
+                                                                dark-xs
+                                                                cl-DustyGray2
+                                                                inner-text
+                                                            "
                                                             >SMS</span
                                                         >
                                                         <nitrozen-toggle-btn
@@ -165,7 +186,9 @@
                                                         v-if="
                                                             item.sms.subscribed
                                                         "
-                                                        class="dropdown-select-container"
+                                                        class="
+                                                            dropdown-select-container
+                                                        "
                                                         label="SMS template"
                                                         :items="
                                                             item.filteredSmsDropDownData
@@ -174,10 +197,15 @@
                                                             item.sms.template
                                                                 ._id
                                                         "
-                                                        @change="updatePreview(item.sms.template._id ,'sms')"
-                                                        :id="
-                                                            `sms-${groupIndex}-${childIndex}`
+                                                        @change="
+                                                            updatePreview(
+                                                                item.sms
+                                                                    .template
+                                                                    ._id,
+                                                                'sms'
+                                                            )
                                                         "
+                                                        :id="`sms-${groupIndex}-${childIndex}`"
                                                         :searchable="true"
                                                         @searchInputChange="
                                                             dropdownSearchInputChange
@@ -198,8 +226,14 @@
                                                         "
                                                         :theme="'secondary'"
                                                         v-stroke-btn
-                                                        class="clone-btn preview-sms-btn"
-                                                        :disabled="!item.sms.template._id"
+                                                        class="
+                                                            clone-btn
+                                                            preview-sms-btn
+                                                        "
+                                                        :disabled="
+                                                            !item.sms.template
+                                                                ._id
+                                                        "
                                                         >Preview</nitrozen-button
                                                     >
                                                 </div>
@@ -291,20 +325,19 @@ import {
     NitrozenToggleBtn,
     NitrozenBadge,
     NitrozenDropdown,
-    NitrozenTab
+    NitrozenTab,
 } from '@gofynd/nitrozen-vue';
 
 //import AppSettingService from '../../../services/admin/admin-settings.service';
 import { relativeTimeRounding } from 'moment';
 import logsListingCardVue from './logs-listing-card.vue';
 
-
-function initialState(){
+function initialState() {
     return {
         systemEmailTemplates: [],
-            systemSmsTemplates: [],
-            emailTemplates: {},
-            smsTemplates: {},
+        systemSmsTemplates: [],
+        emailTemplates: {},
+        smsTemplates: {},
         appSubscriptions: {},
         pageLoading: false,
         pageError: false,
@@ -318,8 +351,8 @@ function initialState(){
             template: null,
             template_type: null,
             templatePreview: '',
-            error: ''
-        }
+            error: '',
+        },
     };
 }
 export default {
@@ -335,60 +368,62 @@ export default {
         'nitrozen-badge': NitrozenBadge,
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-tab': NitrozenTab,
-        'ukt-modal': uktModal
+        'ukt-modal': uktModal,
     },
     directives: {
         flatBtn,
-        strokeBtn
+        strokeBtn,
     },
 
     data() {
         return initialState();
     },
     mounted() {
-        this.onLoad()
+        this.onLoad();
     },
-    
+
     updated() {
-        console.log();
         if (
             this.$refs['previewbody'] &&
             this.templateInPreviewModal.template_type == 'email'
         ) {
             let iframe = this.$refs['previewbody'];
-            let iframedoc = iframe.contentDocument ?
-                            iframe.contentDocument :
-                            iframe.contentWindow ?
-                            iframe.contentWindow.document :
-                            null
-            if(iframedoc){
-                iframedoc.body.innerHTML = this.templateInPreviewModal.templatePreview;
+            let iframedoc = iframe.contentDocument
+                ? iframe.contentDocument
+                : iframe.contentWindow
+                ? iframe.contentWindow.document
+                : null;
+            if (iframedoc) {
+                iframedoc.body.innerHTML =
+                    this.templateInPreviewModal.templatePreview;
             }
         }
     },
     methods: {
-        capture(e=''){
-            console.log('hi');
-         console.log(e);
+        capture(e = '') {
+            console.log(e);
         },
-        onLoad(){
-        //     Object.assign(this.$data, initialState());
-             this.pageLoading = true;
+        onLoad() {
+            //     Object.assign(this.$data, initialState());
+            this.pageLoading = true;
             let allPromises = [
                 this.fetchEventsOrder(),
                 this.fetchEmailTemplates(),
                 this.fetchSystemEmailTemplates(),
-                 this.fetchSmsTemplates(),
-                 this.fetchSystemSmsTemplates(),
+                this.fetchSmsTemplates(),
+                this.fetchSystemSmsTemplates(),
                 this.fetchAppEventSubscriptions(),
-        //        this.getAppInventory()
+                //        this.getAppInventory()
             ];
 
-             Promise.all(allPromises)
-                 .then(() => {
+            Promise.all(allPromises)
+                .then(() => {
                     this.updateInfo();
-                 })
-                .then(()=>{
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+                .then(() => {
                     if (this.$route.query.hasOwnProperty('activeTab')) {
                         let activeTab = Number(this.$route.query.activeTab);
                         this.changeGroupIndex({ index: activeTab });
@@ -397,52 +432,54 @@ export default {
                     }
                     this.pageLoading = false;
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.log(err);
                     this.pageLoading = false;
                     this.pageError = true;
                 });
-         },
+        },
         toggleString,
         fetchEventsOrder() {
             return CommunicationServices.getEventsOrder().then(({ data }) => {
                 this.ORDER = data;
-            })
+            });
         },
-        updatePreview(id,type){
-            if(type == "email"){
-            CommunicationServices.getEmailTemplatebyId(id).then((data)=>{
-                this.templateInPreviewModal.template = data.data;
-                this.templateInPreviewModal.template_type = type;
-                this.templateInPreviewModal.templatePreview = this.renderHtmlTemplate(
-                    data.data
-                )               
-            })}
-            if(type == "sms"){
-            CommunicationServices.getSmsTemplatebyId(id).then((data)=>{
-                this.templateInPreviewModal.template = data.data;
-                this.templateInPreviewModal.template_type = type;
-                this.templateInPreviewModal.templatePreview = this.renderSMSTemplate(data.data)
-                })
-                }
-                 let el = this.$refs['previewbody'];
-                if (this.$refs['previewbody']) {
-                    let iframe = this.$refs['previewbody'];
-                    var iframedoc =
-                        iframe.contentDocument || iframe.contentWindow.document;
-                    iframedoc.body.innerHTML = this.templateInPreviewModal.templatePreview;
-                }
+        updatePreview(id, type) {
+            if (type == 'email') {
+                CommunicationServices.getEmailTemplatebyId(id).then((data) => {
+                    this.templateInPreviewModal.template = data.data;
+                    this.templateInPreviewModal.template_type = type;
+                    this.templateInPreviewModal.templatePreview =
+                        this.renderHtmlTemplate(data.data);
+                });
+            }
+            if (type == 'sms') {
+                CommunicationServices.getSmsTemplatebyId(id).then((data) => {
+                    this.templateInPreviewModal.template = data.data;
+                    this.templateInPreviewModal.template_type = type;
+                    this.templateInPreviewModal.templatePreview =
+                        this.renderSMSTemplate(data.data);
+                });
+            }
+            let el = this.$refs['previewbody'];
+            if (this.$refs['previewbody']) {
+                let iframe = this.$refs['previewbody'];
+                var iframedoc =
+                    iframe.contentDocument || iframe.contentWindow.document;
+                iframedoc.body.innerHTML =
+                    this.templateInPreviewModal.templatePreview;
+            }
         },
         cloneTemplate() {
             let template = this.templateInPreviewModal.template;
-              let mode  = 'sms'
-            if(template.html){
+            let mode = 'sms';
+            if (template.html) {
                 mode = 'email';
             }
             this.showTemplatePreviewModal = true;
             this.$router.push({
                 path: `/administrator/communication/${mode}/templates/create`,
-                query: { clone: template._id }
+                query: { clone: template._id },
             });
         },
         renderHtmlTemplate(emailTemplate) {
@@ -452,7 +489,9 @@ export default {
             if (emailTemplate.html.template_type == 'nunjucks') {
                 try {
                     template = nunjucks.compile(emailTemplate.html.template);
-                    template = template.render(emailTemplate.template_variables);
+                    template = template.render(
+                        emailTemplate.template_variables
+                    );
                 } catch (err) {
                     templateValid = false;
                     this.templateInPreviewModal.error =
@@ -497,15 +536,15 @@ export default {
         //         });
         // },
         //updateCommsEnabled() {
-            // AppSettingService.patchAppConfiguration({
-            //     comms_enabled: this.comms_enabled
-            // })
-            //     .then(data => {
-            //         this.$snackbar.global.showSuccess('Updated Successfully');
-            //     })
-            //     .catch(err => {
-            //         this.$snackbar.global.showError('Failed to update');
-            //     });
+        // AppSettingService.patchAppConfiguration({
+        //     comms_enabled: this.comms_enabled
+        // })
+        //     .then(data => {
+        //         this.$snackbar.global.showSuccess('Updated Successfully');
+        //     })
+        //     .catch(err => {
+        //         this.$snackbar.global.showError('Failed to update');
+        //     });
         //},
         // urlify(text) {
         //     let output = text;
@@ -520,28 +559,28 @@ export default {
         //     return output;
         // },
         previewTemplate(type, groupIndex, childIndex) {
-            if(!this.templateInPreviewModal.templatePreview){
-            let template = this.subscriptions[groupIndex].children[childIndex][
-                type
-            ].template;
-            this.templateInPreviewModal.template = template;
-            this.templateInPreviewModal.template_type = type;
-            if (type == 'sms') {
-                this.templateInPreviewModal.templatePreview = this.renderSMSTemplate(
-                    template
-                );
-            } else if (type == 'email') {
-                this.templateInPreviewModal.templatePreview = this.renderHtmlTemplate(
-                    template
-                );
-                let el = this.$refs['previewbody'];
-                if (this.$refs['previewbody']) {
-                    let iframe = this.$refs['previewbody'];
-                    var iframedoc =
-                        iframe.contentDocument || iframe.contentWindow.document;
-                    iframedoc.body.innerHTML = this.templateInPreviewModal.templatePreview;
+            if (!this.templateInPreviewModal.templatePreview) {
+                let template =
+                    this.subscriptions[groupIndex].children[childIndex][type]
+                        .template;
+                this.templateInPreviewModal.template = template;
+                this.templateInPreviewModal.template_type = type;
+                if (type == 'sms') {
+                    this.templateInPreviewModal.templatePreview =
+                        this.renderSMSTemplate(template);
+                } else if (type == 'email') {
+                    this.templateInPreviewModal.templatePreview =
+                        this.renderHtmlTemplate(template);
+                    let el = this.$refs['previewbody'];
+                    if (this.$refs['previewbody']) {
+                        let iframe = this.$refs['previewbody'];
+                        var iframedoc =
+                            iframe.contentDocument ||
+                            iframe.contentWindow.document;
+                        iframedoc.body.innerHTML =
+                            this.templateInPreviewModal.templatePreview;
+                    }
                 }
-            }  
             }
             this.showTemplatePreviewModal = true;
         },
@@ -558,7 +597,7 @@ export default {
                 filteredKey
             ] = this.subscriptions[groupIndex]['children'][childIndex][
                 key
-            ].filter(template => {
+            ].filter((template) => {
                 return (
                     template.text.toLowerCase().indexOf(e.text.toLowerCase()) >
                     -1
@@ -568,73 +607,87 @@ export default {
         changeGroupIndex(item) {
             this.activeGroupIndex = item.index;
             let activeTab = this.activeGroupIndex;
-            this.$router.replace({
-                name: 'events',
-                query: { ...this.$route.query, activeTab }
-            })
-            .catch((e)=>{
-                console.log(e)
-            })
+            this.$router
+                .replace({
+                    name: 'events',
+                    query: { ...this.$route.query, activeTab },
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
         },
         fetchEmailTemplates() {
-          return CommunicationServices.getEmailTemplates({params: {limit: 200}}).then(({ data }) => {
+            return CommunicationServices.getEmailTemplates({
+                params: { limit: 200 },
+            }).then(({ data }) => {
                 this.emailTemplates = data;
-            })
+            });
         },
         fetchSystemEmailTemplates() {
-           return CommunicationServices.getEmailSysTemplates({params: {limit: 200}}).then(({ data }) => {
+            return CommunicationServices.getEmailSysTemplates({
+                params: { limit: 200 },
+            }).then(({ data }) => {
                 this.systemEmailTemplates = data;
-            }) 
+            });
         },
         fetchSmsTemplates() {
-            return CommunicationServices.getSmsTemplates({limit: 200}).then(({ data }) => {
-                this.smsTemplates = data;
-            })
+            return CommunicationServices.getSmsTemplates({ limit: 200 }).then(
+                ({ data }) => {
+                    this.smsTemplates = data;
+                }
+            );
         },
         fetchSystemSmsTemplates() {
-            return CommunicationServices.getSmsSysTemplates({limit: 200}).then(({ data }) => {
+            return CommunicationServices.getSmsSysTemplates({
+                limit: 200,
+            }).then(({ data }) => {
                 this.systemSmsTemplates = data;
-            })
+            });
         },
         fetchAppEventSubscriptions() {
-          return CommunicationServices.getEventSubscription({
-                        page_size: 200,
-                        page_no: 1,
-                        populate: [
-                            'event',
-                            'template.sms.template',
-                            'template.email.template'
-                        ]
-                    }).then(({ data }) => {
-                        //console.log(data);
+            return CommunicationServices.getEventSubscription({
+                page_size: 200,
+                page_no: 1,
+                populate: [
+                    'event',
+                    'template.sms.template',
+                    'template.email.template',
+                ],
+            }).then(({ data }) => {
                 this.appSubscriptions = data;
-            })
-          
+            });
         },
         dropDownReachedBottom(e) {
             // console.log(e);
         },
         getSubscriptionTabs() {
             let tabs = [];
-            this.subscriptions.forEach(subscription => {
+            this.subscriptions.forEach((subscription) => {
                 tabs[this.ORDER[subscription.name]] = {
-                    name: subscription.name
+                    name: subscription.name,
                 };
             });
+             let sub = [];
+            tabs.forEach((r) => {
+                if (r !== null) {
+                    sub.push(r);
+                }
+            });
+            tabs = sub
             return tabs;
         },
         updateInfo() {
             let subscriptions = this.subscriptions;
             let groupNames = this._fetchUniqueGroupNames(this.appSubscriptions);
 
-            this.appSubscriptions.items.forEach(appSubscription => {
+            this.appSubscriptions.items.forEach((appSubscription) => {
                 let groupNameIndex = groupNames.findIndex(
-                    groupName => groupName == appSubscription.event.group
+                    (groupName) => groupName == appSubscription.event.group
                 );
 
                 let child = {
                     appSubscriptionId: appSubscription._id,
-                    event: appSubscription.event
+                    event: appSubscription.event,
                 };
 
                 if (get(appSubscription, 'template.email.template')) {
@@ -650,7 +703,11 @@ export default {
                         appSubscription
                     );
                     if (defaultSystemEmailTemplate) {
-                        if(!defaultSystemEmailTemplate.name.endsWith(` (Default)`)){
+                        if (
+                            !defaultSystemEmailTemplate.name.endsWith(
+                                ` (Default)`
+                            )
+                        ) {
                             defaultSystemEmailTemplate.name = `${defaultSystemEmailTemplate.name} (Default)`;
                         }
                         emailDropDownData = this._addSystemTemplateOnTop(
@@ -659,9 +716,8 @@ export default {
                         );
                     }
                     child.emailDropDownData = emailDropDownData;
-                    child.filteredEmailDropDownData = fp.cloneDeep(
-                        emailDropDownData
-                    );
+                    child.filteredEmailDropDownData =
+                        fp.cloneDeep(emailDropDownData);
                 }
 
                 if (get(appSubscription, 'template.sms.template')) {
@@ -679,7 +735,11 @@ export default {
                     );
 
                     if (defaultSystemSmsTemplate) {
-                        if(!defaultSystemSmsTemplate.name.endsWith(` (Default)`)){
+                        if (
+                            !defaultSystemSmsTemplate.name.endsWith(
+                                ` (Default)`
+                            )
+                        ) {
                             defaultSystemSmsTemplate.name = `${defaultSystemSmsTemplate.name} (Default)`;
                         }
                         smsDropDownData = this._addSystemTemplateOnTop(
@@ -689,15 +749,14 @@ export default {
                     }
 
                     child.smsDropDownData = smsDropDownData;
-                    child.filteredSmsDropDownData = fp.cloneDeep(
-                        smsDropDownData
-                    );
+                    child.filteredSmsDropDownData =
+                        fp.cloneDeep(smsDropDownData);
                 }
 
                 if (!get(subscriptions, `${groupNameIndex}.children`)) {
                     subscriptions[groupNameIndex] = {
                         name: appSubscription.event.group,
-                        children: [child]
+                        children: [child],
                     };
                 } else {
                     subscriptions[groupNameIndex].children.push(child);
@@ -705,29 +764,36 @@ export default {
                 subscriptions[groupNameIndex].children.sort((a, b) => {
                     return a.event.priority - b.event.priority;
                 });
-            });
+            });            
             this.subscriptions = this.sortSubscriptionTabs(this.subscriptions);
+            let sub = [];
+            this.subscriptions.forEach((r) => {
+                if (r !== null) {
+                    sub.push(r);
+                }
+            });
+            this.subscriptions = sub
             this.tabs = this.getSubscriptionTabs();
         },
         _addSystemTemplateOnTop(defaultTemplate, dropdownData) {
             return [
                 {
                     value: defaultTemplate._id,
-                    text: defaultTemplate.name
+                    text: defaultTemplate.name,
                 },
-                ...dropdownData
+                ...dropdownData,
             ];
         },
         _getDefaultTemplate(type, systemTemplates, appSubscription) {
-            return systemTemplates.find(et => {
+            return systemTemplates.find((et) => {
                 return et._id == appSubscription.event.template[type].template;
             });
         },
         _getDropdownData(templates) {
-            return templates.map(et => {
+            return templates.map((et) => {
                 return {
                     text: et.name,
-                    value: et._id
+                    value: et._id,
                 };
             });
         },
@@ -760,7 +826,7 @@ export default {
                 let child = subscription.children[childIndex];
 
                 let appSubscription = this.appSubscriptions.items.find(
-                    a => a._id == child.appSubscriptionId
+                    (a) => a._id == child.appSubscriptionId
                 );
                 let obj = {
                     _id: child.appSubscriptionId,
@@ -786,10 +852,10 @@ export default {
                 finalSubscription = obj;
             }
             this.pageError = false;
-                CommunicationServices.putEventSubscription({
-                    id: finalSubscription._id,
-                    body: finalSubscription
-                })
+            CommunicationServices.putEventSubscription({
+                id: finalSubscription._id,
+                body: finalSubscription,
+            })
                 .then(() => {
                     return this.fetchAppEventSubscriptions();
                 })
@@ -800,16 +866,15 @@ export default {
                 .then(() => {
                     this.$snackbar.global.showSuccess('Successfully Saved');
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.log(err);
                     this.pageError = true;
                 })
-                .finally(()=>{
+                .finally(() => {
                     this.pageLoading = false;
-                })
-        }
-    }
-   
+                });
+        },
+    },
 };
 </script>
 
@@ -817,11 +882,11 @@ export default {
 //@import './../less/page-ui.less';
 //@import './../less/page-header.less';
 
-::v-deep .n-button-stroke:disabled{
+::v-deep .n-button-stroke:disabled {
     background-color: #ffffff;
 }
 
-.jumbotron-container{
+.jumbotron-container {
     width: 100%;
 }
 
