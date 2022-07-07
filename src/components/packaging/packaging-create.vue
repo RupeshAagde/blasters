@@ -496,7 +496,7 @@ export default {
                     let tempBulkPackaging = [];
                     // loop through the data obtained from the BE and update the state
                     this.editProduct.l3_mapping.forEach((item) => {
-                        // changed to constant to fix bug for duplicated items 
+                        // changed to constant to fix bug for duplicated items
                         let bulkInput = {
                             toggle: {
                                 val: false,
@@ -759,6 +759,8 @@ export default {
             );
             // remove the index so it is unselected from the drop down as well
             this.categoryValue.splice(valIndex, 1);
+            // if there are no active categories then toggle the l3 box to close
+            if (!this.categoryValue.length) this.handleToggleChange('l3');
             this.checkForButtonToggle();
         },
         /**
@@ -923,6 +925,12 @@ export default {
             switch (type) {
                 case 'l3':
                     this.l3Checked = !this.l3Checked;
+                    // if the user has toggled the l3 box to close
+                    if (this.l3Checked == false) {
+                        // then set the selectedCategories and category value to empty list
+                        this.selectedCategories = [];
+                        this.categoryValue = [];
+                    }
                     break;
                 case 'bulk':
                     this.bulkChecked = !this.bulkChecked;
