@@ -20,13 +20,15 @@
                         :key="prop_schema.id"
                         :prop_schema="prop_schema"
                         :prop="section.props[prop_schema.id]"
-                        :name="`section-${section.name}-${i}`"
+                        :name="`section-${section.type}-${i}`"
                         :page="page"
                         :items="section.items"
+                        :item_details="section.data[`${prop_schema.id}_details`]"
                         :error="errors[prop_schema.id]"
                         :ref="prop_schema.id"
                         @change="onSectionInputChange(prop_schema, $event)"
                         @searchInputChange="onSearchInputChange(prop_schema, $event, i)"
+                        :dialogHeight="'auto'"
                     />
                 </div>
 
@@ -145,10 +147,10 @@ export default {
                     prop.display = false;
                 }
 
-                if(prop.id === 'item_source' && prop.type === 'select' && prop.options.length === 0) {
+                if(prop.type === 'select' && prop.options.length === 0) {
                     prop.display = false;
                 }
-                if(prop.predicate_prop) {
+                if(prop.display && prop.predicate_prop) {
                     for(let key in prop.predicate_prop) {
                         if (Array.isArray(prop.predicate_prop[key]))
                         {
@@ -174,7 +176,7 @@ export default {
                 }
                 return prop;
             });
-            return cloneDeep(props);
+            return props;
         }
     },
     data() {
@@ -213,7 +215,7 @@ export default {
                 return response.data.items;
             })
             .catch(error => {
-                console.log("error:   ", error);
+                console.log(error);
             })
         },
         onSectionInputChange(prop, inputObj) {
@@ -278,12 +280,11 @@ export default {
                     }
                 })
                 .catch(error => {
-                    console.log("error:   ", error);
+                    console.log(error);
                 })
             }
 
             if(inputObj.details) {
-                console.log(this.section.data);
                 this.$set(this.section.data, `${prop.id}_details`, inputObj.details);
                 let _data = cloneDeep(this.itemValues);
                 this.itemValues = cloneDeep(this.section.data[`${prop.id}_details`]);
@@ -389,7 +390,7 @@ export default {
 
 <style lang="less" scoped>
 .section-form-container {
-    height: 100vh;
+    height: calc(100vh - 60px);
     width: 100%;
     position: absolute;
     box-sizing: border-box;

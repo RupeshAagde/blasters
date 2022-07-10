@@ -14,7 +14,7 @@
             @change="onChange($event)"
             :multiple="multipleEnabled"
             :searchable="searchEnabled"
-            :value="this.prop.value"
+            :value="prop.value"
             @input="onInput($event)"
             @searchInputChange="onSearchInputChange($event)"
         ></nitrozen-dropdown>
@@ -33,11 +33,10 @@ export default {
         'nitrozen-tooltip': NitrozenTooltip,
         'nitrozen-dropdown': NitrozenDropdown
     },
-    props: ['prop_schema', 'prop', 'name', 'items'],
+    props: ['prop_schema', 'prop', 'name', 'items', 'item_details'],
     data() {
         return {
-            selectedValues: [],
-            addedValues: []
+            selectedValues: [...this.item_details]
         };
     },
     computed: {
@@ -49,41 +48,30 @@ export default {
         },
         placeholder() {
             return this.prop_schema.placeholder || '';
+        },
+        selectedItems() {
+            return this.selectedValues.map(opt=>opt.extension_id || opt._id);
         }
     },
     methods: {
         onChange(e) {
             if(this.multipleEnabled) {
                 /* Update addedValues and selectedValues with the values added or removed */
-                for(let idx in this.addedValues) {
-                    let id = this.addedValues[idx];
+                for(let idx in this.selectedItems) {
+                    let id = this.selectedItems[idx];
                     if(!e.includes(id)) {
-                        this.addedValues.splice(idx, 1);
                         this.selectedValues.splice(idx, 1);
                     }
                 }
-
-                if(this.addedValues.length === 0) {
-                    /* If addedValues is empty */
-                    for(let id of e) {
-                        let detail = this.prop_schema.options.find(option => option._id === id);
-                        if(!detail && this.prop_schema.id === 'extension') {
-                            detail = this.prop_schema.options.find(option => option.extension_id === id);
-                        }
-                        this.selectedValues.push(detail);
-                        this.addedValues.push(id);
+                
+                /* Add new values to the addedValues and selectedValues array */
+                let remainingValues = e.filter(id => !this.selectedItems.includes(id));
+                for(let id of remainingValues) {
+                    let detail = this.prop_schema.options.find(option => option._id === id);
+                    if(!detail && this.prop_schema.id === 'extension') {
+                        detail = this.prop_schema.options.find(option => option.extension_id === id);
                     }
-                } else {
-                    /* Add new values to the addedValues and selectedValues array */
-                    let remainingValues = e.filter(id => !this.addedValues.includes(id));
-                    for(let id of remainingValues) {
-                        let detail = this.prop_schema.options.find(option => option._id === id);
-                        if(!detail && this.prop_schema.id === 'extension') {
-                            detail = this.prop_schema.options.find(option => option.extension_id === id);
-                        }
-                        this.selectedValues.push(detail);
-                        this.addedValues.push(id);
-                    }
+                    this.selectedValues.push(detail);
                 }
 
                 this.$emit('change', {

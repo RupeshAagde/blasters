@@ -366,7 +366,6 @@ export default {
                 }
 
                 this.available_sections = cloneDeep(sections);
-                console.log(this.available_sections);
             })
             .catch(err => {
                 console.log(err);
@@ -545,6 +544,8 @@ export default {
                     });
 
                     delete section.data[`${key}_details`];
+                    delete section.data[`collection_source_details`];
+                    delete section.data[key];
                 }
             }
 
@@ -606,14 +607,14 @@ export default {
                             return i.extension_public_data || i;
                         });
                         section.items = cloneDeep(extensionPublicData)
+                        delete section.data[key];
                     } else {
                         section.items = cloneDeep(section.data[key]);
+                        delete section.data[key];
                     }
-                    // delete section.data[key];
+                    delete section.data[section.item_type];
                 }
             }
-
-            console.log("Data being sent to post-message:   ", e);
             
             if (this.$refs.iframe && this.$refs.iframe.contentWindow) {
                 this.$refs.iframe.contentWindow.postMessage(e, '*');
@@ -732,7 +733,6 @@ export default {
             align-items: center;
             box-sizing: border-box;
             padding: 0 10px;
-            z-index: 1;
             box-shadow: 0 0 0 1px rgba(63, 63, 68, 0.05),
                 0 1px 3px 0 rgba(63, 63, 68, 0.15);
             .hide-icons {

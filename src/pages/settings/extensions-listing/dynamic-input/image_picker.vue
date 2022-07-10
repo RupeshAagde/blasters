@@ -17,6 +17,7 @@
             v-model="mValue"
             :fileName="`extension image ${Date.now()}`"
             namespace="partner-feature-image"
+            :dialogHeight="dialogHeight"
         ></mirage-image-uploader>
 
         <span class="remove" @click="removeImage" v-if="mValue">
@@ -41,7 +42,7 @@ export default {
         'nitrozen-radio': NitrozenRadio,
         'adm-inline-svg': AdmInlineSVG
     },
-    props: ['prop_schema', 'prop', 'name'],
+    props: ['prop_schema', 'prop', 'name', 'dialogHeight'],
     mounted() {
         this.mValue = this.prop.value || this.prop_schema.default || '';
     },

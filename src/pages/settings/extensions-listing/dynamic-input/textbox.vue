@@ -28,14 +28,6 @@ export default {
     mounted() {
         this.mValue = this.prop.value || this.prop_schema.default || '';
     },
-    watch: {
-        prop: {
-            deep: true,
-            handler() {
-                this.mValue = this.prop.value || this.prop_schema.default || '';
-            }
-        }
-    },
     data() {
         return {
             mValue: ''

@@ -97,8 +97,9 @@
                                 v-for="(section, i) in mSections"
                                 :key="`${i}`"
                                 class="section"
+                                @click.stop="onSectionClick(section, i)"
                             >
-                                <div @mouseup="dragStop" @mousedown="dragStart(i)">
+                                <div @mouseup="dragStop" @mousedown="dragStart(i)" @click.stop="()=>{}">
                                     <adm-inline-svg
                                         class="handle"
                                         :src="'move'"
@@ -117,7 +118,6 @@
                                     }"
                                 >
                                     <span
-                                        @click.stop="onSectionClick(section, i)"
                                         class="title"
                                         :class="{
                                             active_title:
@@ -437,6 +437,7 @@ export default {
             )
         },
         addSection(sectionSchema) {
+            this.$set(this.addSection, 'props', {});
             this.showAvailableSections = false;
             this.mSections.push(this.addedSection);
             this.selectedSectionSchema = sectionSchema;
@@ -535,7 +536,7 @@ export default {
             this.movingIndex = -1;
             this.$emit('zoom-in');
         },
-        dragStart(index) {
+        dragStart(index, evt) {
             this.$emit('zoom-out');
             setTimeout(() => {
                 this.postMessageToIframe(
@@ -553,14 +554,14 @@ export default {
             );
             this.selectedSectionIndex = idx;
             this.selectedSection = section;
-            this.selectedSection['props'] = {};
+            this.$set(this.selectedSection, 'props', {});
             for(let key in section.data) {
                 let type = this.selectedSectionSchema.props.find(item => item.id === key);
                 if(type !== undefined) {
-                    this.selectedSection.props[key] = {
+                    this.$set(this.selectedSection.props, key, {
                         type: type.type,
                         value: section.data[key]
-                    };
+                    });
                 }
             }
             this.postMessageToIframe(
@@ -684,6 +685,7 @@ export default {
             box-sizing: border-box;
             background: #fff;
             border-bottom: 1px #dadada solid;
+            cursor: pointer;
 
             &:first-of-type {
                 border-top: 1px #dadada solid;
@@ -702,7 +704,6 @@ export default {
                 align-items: center;
                 min-width: 0;
                 .title {
-                    cursor: pointer;
                     height: 17px;
                     // text-overflow: ellipsis;
                     // overflow-x: hidden;
@@ -757,7 +758,6 @@ export default {
         background-color: white;
         align-items: center;
         height: 60px;
-        z-index: 5;
         button {
             width: 100%;
         }

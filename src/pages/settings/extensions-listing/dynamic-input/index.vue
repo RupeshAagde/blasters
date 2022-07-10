@@ -4,7 +4,7 @@
             v-bind:is="require(`./${prop_schema.type}`).default"
             @change="onChange($event)"
             @search-input="onSearchInputChange($event)"
-            v-bind="{ prop_schema, prop, name, page, items }"
+            v-bind="{ prop_schema, prop, name, page, items, item_details, dialogHeight }"
             v-if="propSchema.display"
         ></component>
         <nitrozen-error v-if="error">{{error}}</nitrozen-error>
@@ -32,7 +32,14 @@ export default {
             type: Array,
             default: () => []
         },
+        item_details: {
+            type: Array,
+            default: () => []
+        },
         error: {
+            type: String
+        },
+        dialogHeight: {
             type: String
         }
     },

@@ -28,14 +28,6 @@ export default {
     mounted() {
         this.mValue = this.prop.value || this.prop_schema.default || '';
     },
-    watch: {
-        prop: {
-            deep: true,
-            handler() {
-                this.mValue = this.prop.value || this.prop_schema.default || '';
-            }
-        }
-    },
     data() {
         return {
             mValue: ''
@@ -43,6 +35,7 @@ export default {
     },
     methods: {
         onChange(e) {
+            this.mValue = e.target.value;
             this.$emit('change', {
                 type: this.prop_schema.type,
                 value: e.target.value
