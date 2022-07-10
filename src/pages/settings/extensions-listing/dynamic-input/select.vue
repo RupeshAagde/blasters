@@ -14,7 +14,7 @@
             @change="onChange($event)"
             :multiple="multipleEnabled"
             :searchable="searchEnabled"
-            :value="prop.value"
+            :value="(prop || {}).value"
             @input="onInput($event)"
             @searchInputChange="onSearchInputChange($event)"
         ></nitrozen-dropdown>
