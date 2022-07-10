@@ -29,6 +29,7 @@
                         @change="onSectionInputChange(prop_schema, $event)"
                         @searchInputChange="onSearchInputChange(prop_schema, $event, i)"
                         :dialogHeight="'auto'"
+                        v-show="prop_schema.display"
                     />
                 </div>
 
@@ -141,39 +142,40 @@ export default {
         },
         sectionSchemaProps() {
             let props = this.section_schema.props.map(prop => {
-                prop.display = true;
+                let display = true;
                 
                 if(prop.type === 'radio' && prop.options.length === 0) {
-                    prop.display = false;
+                    display = false;
                 }
 
-                if(prop.type === 'select' && prop.options.length === 0) {
-                    prop.display = false;
+                if(prop.id != this.section.item_type && prop.type === 'select' && prop.options.length === 0) {
+                    display = false;
                 }
-                if(prop.display && prop.predicate_prop) {
+                if(prop.predicate_prop) {
                     for(let key in prop.predicate_prop) {
                         if (Array.isArray(prop.predicate_prop[key]))
                         {
-                            prop.display = prop.predicate_prop[key].includes(this.section.data[key])
+                            display = display && prop.predicate_prop[key].includes(this.section.data[key])
                         }
                         else if (typeof prop.predicate_prop[key] === "boolean") {
                             const sectionData = this.section.data[key];
                             if (Array.isArray(sectionData)) {
-                                prop.display = !!sectionData.length;
+                                display = display && !!sectionData.length;
                             }
                             else if (typeof sectionData === "object" && !Array.isArray(sectionData))
                             {
-                                prop.display = !!Object.keys(sectionData).length;
+                                display = display && !!Object.keys(sectionData).length;
                             }
                             else {
-                                prop.display = !!sectionData;
+                                display = display && !!sectionData;
                             }
                         }
                         else {
-                            prop.display = prop.predicate_prop[key] === this.section.data[key];
+                            display = display && prop.predicate_prop[key] === this.section.data[key];
                         }
                     }
                 }
+                prop.display = display;
                 return prop;
             });
             return props;
@@ -225,8 +227,7 @@ export default {
             /* If the item source selected is API, we need to remove existing details info. */
             let removeSelections = false;
             if(
-                prop.id === 'item_source' &&
-                (inputObj.value === 'api' || inputObj.value === 'collection')
+                prop.id === 'item_source'
             ) {
                 if(this.section.data.collection_source) {
                     this.$set(this.section.data, 'collection_source', '');
@@ -241,9 +242,10 @@ export default {
 
             if(removeSelections) {
                 this.$set(this.section.props[this.section.item_type], 'value', []);
+                this.$set(this.section.props[this.section.item_type], 'details', []);
                 this.$set(this.section.data, `${this.section.item_type}_details`, []);
                 if(this.itemValues) {
-                    this.itemValues.length = 0;
+                    this.itemValues = []
                 }
                 this.$set(this.section.data, this.section.item_type, []);
                 this.$set(this.section, 'items', []);
@@ -273,11 +275,6 @@ export default {
                         item.value = item.extension_id;
                         return item;
                     });
-
-                    extensionProp.predicate_prop = {
-                        item_source: 'collection',
-                        collection_source: true
-                    }
                 })
                 .catch(error => {
                     console.log(error);
@@ -285,10 +282,9 @@ export default {
             }
 
             if(inputObj.details) {
-                this.$set(this.section.data, `${prop.id}_details`, inputObj.details);
+                this.$set(this.section.data, `${prop.id}_details`, Array.isArray(inputObj.details)?inputObj.details: [inputObj.details]);
                 let _data = cloneDeep(this.itemValues);
-                this.itemValues = cloneDeep(this.section.data[`${prop.id}_details`]);
-
+                this.itemValues = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
                 if(this.itemValues && this.itemValues.length) {
                     this.itemValues.map((ele, index) => {
                         if(!ele) {
@@ -297,6 +293,7 @@ export default {
                         }
                     })
                 }
+
             }            
             this.$emit('update-block', this.section);
         },

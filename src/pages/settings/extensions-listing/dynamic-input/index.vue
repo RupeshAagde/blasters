@@ -5,7 +5,6 @@
             @change="onChange($event)"
             @search-input="onSearchInputChange($event)"
             v-bind="{ prop_schema, prop, name, page, items, item_details, dialogHeight }"
-            v-if="propSchema.display"
         ></component>
         <nitrozen-error v-if="error">{{error}}</nitrozen-error>
     </div>
@@ -45,11 +44,6 @@ export default {
     },
     components: {
         'nitrozen-error' : NitrozenError
-    },
-    computed: {
-        propSchema() {
-            return this.prop_schema;
-        }
     },
     methods: {
         onChange(e) {

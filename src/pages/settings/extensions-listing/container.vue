@@ -191,28 +191,6 @@ export default {
         .catch(error => {
             this.$snackbar.global.showError('Error in fetching data');
         })
-
-        // window.addEventListener('message', event => {
-        //     if (event.data.event === PREVIEW_EVENTS.THEME_MOUNTED) {
-        //         this.onPostMessage({
-        //             config: this.config,
-        //             viewport: this.selectedViewport,
-        //             send_predicate: true
-        //         });
-        //         this.setIframeViewport();
-        //     }
-
-        //     if (event.data.event === PREVIEW_EVENTS.SECTIONS_FILTER_PREDICATE) {
-        //         this.sections = event.data.sections;
-        //     }
-
-        //     if (
-        //         event.data.partner_event &&
-        //         event.data.type === 'dragging'
-        //     ) {
-        //         this.setRectSize(event.data.data);
-        //     }
-        // })
     },
     computed: {
         getCurrentPage() {
@@ -649,7 +627,7 @@ export default {
                     extensionProp.options = this.collection;
                 })
                 .catch(error => {
-                    console.log("Error in onSearchInputChange while fetching collections:   ", error);
+                    console.log(error);
                 });
             } else if(event.type === 'collection_source') {
                 this.getCollections({name: event.value.text})
@@ -663,7 +641,7 @@ export default {
                     });
                 })
                 .catch(error => {
-                    console.log("Error in onSearchInputChange while fetching collections:   ", error);
+                    console.log(error);
                 })
             } else if(event.type === 'extension') {
                 this.getPublicExtensions({name: event.value.text})
@@ -675,7 +653,7 @@ export default {
                     extensionProp.options = this.publicExtensions;
                 })
                 .catch(error => {
-                    console.log("Error in onSearchInputChange while fetching extensions:   ", error);
+                    console.log(error);
                 })
             }
         }
