@@ -620,6 +620,8 @@ export default {
         },
         handleGroupDelete(index) {
             this.bulkPackaging.splice(index, 1);
+            // if no groups are present then
+            if (!this.bulkPackaging.length) this.handleToggleChange('bulk');
             this.checkForButtonToggle();
         },
         /**
@@ -925,19 +927,50 @@ export default {
             switch (type) {
                 case 'l3':
                     this.l3Checked = !this.l3Checked;
-                    // if the user has toggled the l3 box to close
-                    if (this.l3Checked == false) {
-                        // then set the selectedCategories and category value to empty list
-                        this.selectedCategories = [];
-                        this.categoryValue = [];
-                    }
                     break;
                 case 'bulk':
                     this.bulkChecked = !this.bulkChecked;
-                    if (this.bulkPackaging.length == 0) {
-                        // Initialize the array with 1 input field group
-                        this.bulkPackaging.push(this.bulkInput);
-                    }
+                        if (this.bulkPackaging.length == 0) {
+                            let bulkInput = {
+                                toggle: {
+                                    val: false,
+                                    disabled: false
+                                },
+                                categoryConfig: '',
+                                volumetricWeight: {
+                                    minimum: {
+                                        label: 'Minimum',
+                                        placeholder:
+                                            'Minimum Volumetric Weight',
+                                        value: '',
+                                        error: ''
+                                    },
+                                    maximum: {
+                                        label: 'Maximum',
+                                        placeholder:
+                                            'Maximum Volumetric Weight',
+                                        value: '',
+                                        error: ''
+                                    }
+                                },
+                                quantity: {
+                                    minimum: {
+                                        label: 'Minimum',
+                                        placeholder: 'Minimum Quantity',
+                                        value: '',
+                                        error: ''
+                                    },
+                                    maximum: {
+                                        label: 'Maximum',
+                                        placeholder: 'Maximum Quantity',
+                                        value: '',
+                                        error: ''
+                                    }
+                                }
+                            };
+                            // Initialize the array with 1 input field group
+                            this.bulkPackaging.push(bulkInput);
+                        }
                 default:
                     break;
             }
