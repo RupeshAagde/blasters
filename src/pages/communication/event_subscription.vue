@@ -353,6 +353,10 @@ function initialState() {
             templatePreview: '',
             error: '',
         },
+        slug: '',
+        type: '',
+        child: '',
+        group: '',
     };
 }
 export default {
@@ -461,6 +465,8 @@ export default {
                         this.renderSMSTemplate(data.data);
                 });
             }
+            //console.log(this.templateInPreviewModal.template.slug)
+            //this.slug = this.templateInPreviewModal.template.slug
             let el = this.$refs['previewbody'];
             if (this.$refs['previewbody']) {
                 let iframe = this.$refs['previewbody'];
@@ -559,7 +565,16 @@ export default {
         //     return output;
         // },
         previewTemplate(type, groupIndex, childIndex) {
-            if (!this.templateInPreviewModal.templatePreview) {
+            let slug = false;
+            let a = this.subscriptions[groupIndex].children[childIndex].event.slug 
+            let Type
+            if(this.child == childIndex && this.group == groupIndex){
+               Type = this.type != type;
+            }
+             if(this.slug){
+            slug = a != this.slug
+             }
+            if (!this.templateInPreviewModal.templatePreview || slug || Type ) {
                 let template =
                     this.subscriptions[groupIndex].children[childIndex][type]
                         .template;
@@ -583,6 +598,10 @@ export default {
                 }
             }
             this.showTemplatePreviewModal = true;
+            this.slug = a;
+            this.type = type;
+            this.group = groupIndex;
+            this.child = childIndex;
         },
         dropdownSearchInputChange(e) {
             let type = e.id.split('-')[0];
