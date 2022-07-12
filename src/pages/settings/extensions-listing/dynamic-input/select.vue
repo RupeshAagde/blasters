@@ -57,10 +57,11 @@ export default {
         onChange(e) {
             if(this.multipleEnabled) {
                 /* Update addedValues and selectedValues with the values added or removed */
-                for(let idx in this.selectedItems) {
-                    let id = this.selectedItems[idx];
+                let items = [...this.selectedItems];
+                for(let idx in items) {
+                    let id = items[idx];
                     if(!e.includes(id)) {
-                        this.selectedValues.splice(idx, 1);
+                        this.selectedValues.splice(this.selectedItems.indexOf(id), 1);
                     }
                 }
                 
