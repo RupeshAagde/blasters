@@ -18,6 +18,10 @@
                     @change="(val) => handleDropDownSelect(currentIndex, val)"
                     :value="dropDownValue"
                 />
+                <!-- Map error for drop down value if any -->
+                <nitrozen-error v-if="error">
+                    {{ error }}
+                </nitrozen-error>
                 <div class="default-container">
                     <nitrozen-check-box
                         :value="inputs.toggle.val"
@@ -179,6 +183,9 @@ export default {
             type: Array
         },
         dropDownValue: {
+            type: String
+        },
+        error: {
             type: String
         }
     }
