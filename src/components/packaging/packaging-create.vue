@@ -184,6 +184,7 @@
                         :handleDropDownSelect="handleBulkDropdown"
                         :groupCategories="groupCategories"
                         :dropDownValue="item.categoryConfig"
+                        :error="item.error"
                     />
                 </div>
                 <div class="toggle-container-bulk-body-button-container">
@@ -605,7 +606,20 @@ export default {
          * @description Set the drop down selection value of a group category
          */
         handleBulkDropdown(index, val) {
+            let noError = true;
+            this.bulkPackaging.forEach((item) => {
+                if (item.categoryConfig == val) {
+                    noError = false;
+                    return;
+                }
+            });
             this.bulkPackaging[index].categoryConfig = val;
+            if (noError) {
+                this.bulkPackaging[index].error = '';
+            } else {
+                this.bulkPackaging[index].error =
+                    'Group categories cannot be duplicates';
+            }
             this.checkForButtonToggle();
         },
         /**
@@ -930,47 +944,45 @@ export default {
                     break;
                 case 'bulk':
                     this.bulkChecked = !this.bulkChecked;
-                        if (this.bulkPackaging.length == 0) {
-                            let bulkInput = {
-                                toggle: {
-                                    val: false,
-                                    disabled: false
+                    if (this.bulkPackaging.length == 0) {
+                        let bulkInput = {
+                            toggle: {
+                                val: false,
+                                disabled: false
+                            },
+                            categoryConfig: '',
+                            volumetricWeight: {
+                                minimum: {
+                                    label: 'Minimum',
+                                    placeholder: 'Minimum Volumetric Weight',
+                                    value: '',
+                                    error: ''
                                 },
-                                categoryConfig: '',
-                                volumetricWeight: {
-                                    minimum: {
-                                        label: 'Minimum',
-                                        placeholder:
-                                            'Minimum Volumetric Weight',
-                                        value: '',
-                                        error: ''
-                                    },
-                                    maximum: {
-                                        label: 'Maximum',
-                                        placeholder:
-                                            'Maximum Volumetric Weight',
-                                        value: '',
-                                        error: ''
-                                    }
-                                },
-                                quantity: {
-                                    minimum: {
-                                        label: 'Minimum',
-                                        placeholder: 'Minimum Quantity',
-                                        value: '',
-                                        error: ''
-                                    },
-                                    maximum: {
-                                        label: 'Maximum',
-                                        placeholder: 'Maximum Quantity',
-                                        value: '',
-                                        error: ''
-                                    }
+                                maximum: {
+                                    label: 'Maximum',
+                                    placeholder: 'Maximum Volumetric Weight',
+                                    value: '',
+                                    error: ''
                                 }
-                            };
-                            // Initialize the array with 1 input field group
-                            this.bulkPackaging.push(bulkInput);
-                        }
+                            },
+                            quantity: {
+                                minimum: {
+                                    label: 'Minimum',
+                                    placeholder: 'Minimum Quantity',
+                                    value: '',
+                                    error: ''
+                                },
+                                maximum: {
+                                    label: 'Maximum',
+                                    placeholder: 'Maximum Quantity',
+                                    value: '',
+                                    error: ''
+                                }
+                            }
+                        };
+                        // Initialize the array with 1 input field group
+                        this.bulkPackaging.push(bulkInput);
+                    }
                 default:
                     break;
             }
@@ -994,7 +1006,8 @@ export default {
                     a.quantity.minimum.error ||
                     !a.quantity.maximum.value ||
                     !a.quantity.minimum.value ||
-                    !a.categoryConfig
+                    !a.categoryConfig ||
+                    a.error
                 ) {
                     isError = true;
                     return;
