@@ -132,7 +132,7 @@
                                 </div>
 
                                 <span
-                                    @click="
+                                    @click.stop="
                                         $sectionSettingsBuilder(
                                             {
                                                 section: section,
@@ -154,7 +154,7 @@
                                 </span>
 
                                 <span
-                                    @click="copySection(section)"
+                                    @click.stop="copySection(section)"
                                     class="section-settings copy"
                                 >
                                     <adm-inline-svg
@@ -164,7 +164,7 @@
                                 </span>
 
                                 <span
-                                    @click="removeSection(i)"
+                                    @click.stop="removeSection(i)"
                                     class="section-settings remove"
                                 >
                                     <adm-inline-svg :src="'cross-black'" />
