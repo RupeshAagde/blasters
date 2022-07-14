@@ -326,6 +326,9 @@ export default {
             this.$emit('zoom-out');
         },
         dragStop() {
+            if (this.movingIndex === this.startingIndex && this.startingIndex === -1) {
+                return;
+            }
             let details = cloneDeep(this.section.data[`${this.section.item_type}_details`]);
             details.splice(this.movingIndex, 0, details.splice(this.startingIndex, 1)[0]);
 
