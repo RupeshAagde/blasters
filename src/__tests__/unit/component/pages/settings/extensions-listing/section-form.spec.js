@@ -183,6 +183,8 @@ describe('Section Form Component', () => {
 
         await wrapper.vm.$nextTick();
 
+        wrapper.vm.$set(wrapper.vm, 'movingIndex', 1);
+
         let element = wrapper.find('.drag');
         element.trigger('mouseup');
 
