@@ -24,7 +24,9 @@
             </div>
         </page-header>
         <div class="create-category-container">
-            <loader-vue v-if="showLoader" />
+            <div class="loader-container" v-if="showLoader">
+                <loader-vue/>
+            </div>
             <!-- ** Do not remove the ref -->
             <create-category
                 ref="createCategory"
