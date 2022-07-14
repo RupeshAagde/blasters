@@ -35,7 +35,7 @@
             </nitrozen-error>
         </div>
 
-        <div class="form-field">
+        <!-- <div class="form-field">
             <nitrozen-input
                 v-model="data.username.value"
                 :label="'Username*'"
@@ -45,13 +45,13 @@
             <nitrozen-error v-if="data.username.showerror"
                 >{{ data.username.errortext }}
             </nitrozen-error>
-        </div>
+        </div> -->
 
         <div class="form-field">
             <nitrozen-input
                 v-model="data.password.value"
-                :label="'Password*'"
-                :placeholder="'Enter password'"
+                :label="'API Key*'"
+                :placeholder="'Enter api key'"
                 :type="passwordPreview ? 'text' : 'password'"
             >
             </nitrozen-input>
@@ -66,7 +66,7 @@
                 >{{ data.password.errortext }}
             </nitrozen-error>
         </div>
-        <div class="form-field">
+        <!-- <div class="form-field">
             <nitrozen-input
                 v-model="data.cdmaheader.value"
                 :label="'CDMA Header*'"
@@ -76,7 +76,7 @@
             <nitrozen-error v-if="data.cdmaheader.showerror"
                 >{{ data.cdmaheader.errortext }}
             </nitrozen-error>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -133,18 +133,16 @@ export default {
             requiredFields: [
                 'name',
                 'senderid',
-                'username',
                 'password',
-                'cdmaheader',
             ],
             data: {
                 name: this.getInitialValue(),
                 description: this.getInitialValue(),
                 type: this.getInitialValue('platform'),
                 senderid: this.getInitialValue(),
-                username: this.getInitialValue(),
+                //username: this.getInitialValue(),
                 password: this.getInitialValue(),
-                cdmaheader: this.getInitialValue(),
+                //cdmaheader: this.getInitialValue(),
             },
             passwordPreview: false,
             smsProvider: {},
@@ -168,9 +166,9 @@ export default {
             this.data.description.value = this.smsProvider.description;
             this.data.type.value = this.smsProvider.type;
             this.data.senderid.value = this.smsProvider.senderid;
-            this.data.username.value = this.smsProvider.username;
-            this.data.password.value = this.smsProvider.password;
-            this.data.cdmaheader.value = this.smsProvider.cdmaheader;
+            //this.data.username.value = this.smsProvider.username;
+            this.data.password.value = this.smsProvider.apikey;
+            //this.data.cdmaheader.value = this.smsProvider.cdmaheader;
         },
         getInitialValue(val = null) {
             return {
@@ -201,10 +199,8 @@ export default {
                 name: this.data.name.value,
                 description: this.data.description.value,
                 senderid: this.data.senderid.value,
-                username: this.data.username.value,
-                password: this.data.password.value,
+                apikey: this.data.password.value,
                 type: this.data.type.value,
-                cdmaheader: this.data.cdmaheader.value,
                 provider: 'vivaconnect',
             };
             //finalObj = omitBy(finalObj, isNil);

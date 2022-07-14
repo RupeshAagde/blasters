@@ -195,6 +195,14 @@ export const getNavigations = () => {
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
+                },
+                {
+                    display: 'Global Variables',
+                    link: '/administrator/communication/global-variables',
+                    title: 'variables',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
                 }
             ]
         },

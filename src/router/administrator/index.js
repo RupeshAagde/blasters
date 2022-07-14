@@ -10,6 +10,7 @@ import CouponListingMain from './../../pages/company-admin/coupon-listing-main.v
 import CouponCreateUpdate from './../../pages/company-admin/coupon-create-update.vue';
 import ReportListingMain from './../../pages/communication/reports.vue';
 import EventSubscription from './../../pages/communication/event_subscription.vue';
+import GlobalVariables from './../../pages/communication/global-variables.vue';
 import Provider from './../../pages/communication/provider/listing.vue';
 import ProviderDefault from './../../pages/communication/provider/set-default.vue';
 import ProviderMain from './../../pages/communication/provider/provider-main.vue';
@@ -160,6 +161,19 @@ export default [
                 name: 'events',
                 path: 'communication/events',
                 component: EventSubscription,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'variables',
+                path: 'communication/global-variables',
+                component: GlobalVariables,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(
                         to,

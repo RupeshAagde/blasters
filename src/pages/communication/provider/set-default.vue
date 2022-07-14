@@ -681,22 +681,18 @@ export default {
         },
         fetchEmailProviders() {
              CommunicationServices.getEmailProvider({
-                    params: {
-                        limit: 100,
-                        //sort: JSON.stringify({ created_at: -1 })
-                    }
-                })
+                        limit: 50,
+                        sort: JSON.stringify({ created_at: -1 })
+                    })
                 .then(data => {
                     this.emailProvidersStore = data.data
                 });
         },
         fetchSmsProviders() {
              CommunicationServices.getSmsProvider({
-                    params: {
-                        limit: 100,
-                        //sort: JSON.stringify({ created_at: -1 })
-                    }
-                })
+                        limit: 50,
+                        sort: JSON.stringify({ created_at: -1 })
+                    })
                 .then(data => {
                     this.smsProvidersStore = data.data
                 });
