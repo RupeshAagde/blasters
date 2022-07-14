@@ -34,11 +34,6 @@ export default {
         'nitrozen-dropdown': NitrozenDropdown
     },
     props: ['prop_schema', 'prop', 'name', 'items', 'item_details'],
-    data() {
-        return {
-            selectedValues: [...this.item_details]
-        };
-    },
     computed: {
         multipleEnabled() {
             return this.prop_schema.multiple || false;
@@ -56,29 +51,34 @@ export default {
     methods: {
         onChange(e) {
             if(this.multipleEnabled) {
-                /* Update addedValues and selectedValues with the values added or removed */
-                let items = [...this.selectedItems];
-                for(let idx in items) {
-                    let id = items[idx];
+
+                let originalValues = this.item_details.map(item=>item.extension_id || item._id);
+                
+                let selectedItems = [...this.item_details];
+                let selectedValues = [...originalValues];
+                
+                for(let idx in originalValues) {
+                    let id = originalValues[idx];
                     if(!e.includes(id)) {
-                        this.selectedValues.splice(this.selectedItems.indexOf(id), 1);
+                        selectedItems.splice(selectedValues.indexOf(id), 1);
+                        selectedValues.splice(selectedValues.indexOf(id), 1);
                     }
                 }
                 
                 /* Add new values to the addedValues and selectedValues array */
-                let remainingValues = e.filter(id => !this.selectedItems.includes(id));
+                let remainingValues = e.filter(id => !originalValues.includes(id));
                 for(let id of remainingValues) {
                     let detail = this.prop_schema.options.find(option => option._id === id);
                     if(!detail && this.prop_schema.id === 'extension') {
                         detail = this.prop_schema.options.find(option => option.extension_id === id);
                     }
-                    this.selectedValues.push(detail);
+                    selectedItems.push(detail);
                 }
 
                 this.$emit('change', {
                     type: this.prop_schema.type,
                     value: e,
-                    details: this.selectedValues
+                    details: selectedItems
                 });
             } else {
                 let detail = this.prop_schema.options.find(option => option._id === e);
