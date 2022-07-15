@@ -586,7 +586,7 @@ export default {
         },
         copySection(section) {
             this.postMessageToIframe(PREVIEW_EVENTS.ADD_SECTION, cloneDeep(section));
-            this.mSections.push(section);
+            this.mSections.push(cloneDeep(section));
             const sectionIndex = this.mSections
                 ? this.mSections.length - 1
                 : -1;

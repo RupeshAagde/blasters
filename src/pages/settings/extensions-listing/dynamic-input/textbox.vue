@@ -26,7 +26,7 @@ export default {
         'nitrozen-tooltip': NitrozenTooltip
     },
     mounted() {
-        this.mValue = (this.prop.value === null? this.prop_schema.default: this.prop.value) || '';
+        this.mValue = ((this.prop.value === null || this.prop.value === undefined)? this.prop_schema.default: this.prop.value) || '';
     },
     data() {
         return {
