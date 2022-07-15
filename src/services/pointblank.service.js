@@ -150,6 +150,10 @@ const CommunicationServices = {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.SMS_DEFAULT() , axiosOptions);
     },
+    getGlobalVariables(){
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.GLOBAL_VARIABLES() , axiosOptions);
+    },
     
 
 

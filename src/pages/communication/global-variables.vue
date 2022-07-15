@@ -2,16 +2,17 @@
     <div>
         <adm-page-header title="Global Variable" @backClick="backRedirect">
             <div class="header-button-container">
-                <nitrozen-button
+                <!-- <nitrozen-button
                     :theme="'secondary'"
                     v-flatBtn
                     class="btn-wrapper"
                     >Save</nitrozen-button
-                >
+                > -->
             </div>
         </adm-page-header>
         <div class="main-body">
             <div class="container">
+                <span class="title">Editable</span>
                 <div class="form-field from-container">
             <div
                 class="object"
@@ -20,7 +21,7 @@
             >
                 <div class="field-wrap mg-r-24">
                     <nitrozen-input
-                        v-model="from_address.name"
+                        v-model="from_address.key"
                         :label="'Key*'"
                         :placeholder="'Enter your key'"
                     >
@@ -31,7 +32,7 @@
                 </div>
                 <div class="field-wrap value">
                     <nitrozen-input
-                        v-model="from_address.email"
+                        v-model="from_address.value"
                         :label="'Value*'"
                         :placeholder="'Enter your value'"
                     >
@@ -48,6 +49,37 @@
         </div>
             </div>
         </div>
+        <div class="main-body-1">
+            <div class="container">
+                <span class="title">Read Only</span>
+                <div class="form-field from-container">    
+            <div
+                class="object"
+                :key="index"
+                v-for="(from_address, index) in read_only"
+            >
+                <div class="field-wrap mg-r-24">
+                    <nitrozen-input
+                        v-model="from_address.key"
+                        :label="'Key*'"
+                        :placeholder="'Enter your key'"
+                        :disabled="true"
+                    >
+                    </nitrozen-input>
+                </div>
+                <div class="field-wrap value">
+                    <nitrozen-input
+                        v-model="from_address.value"
+                        :label="'Value*'"
+                        :placeholder="'Enter your value'"
+                        :disabled="true"
+                    >
+                    </nitrozen-input>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -55,6 +87,7 @@ import Jumbotron from '@/components/common/jumbotron';
 import loader from '@/components/common/loader.vue';
 import PageHeader from '@/components/common/layout/page-header';
 import adminlinesvg from '@/components/common/adm-inline-svg.vue';
+import CommunicationServices from '../../services/pointblank.service';
 
 import {
     NitrozenButton,
@@ -71,8 +104,6 @@ export default {
         'adm-page-header': PageHeader,
         'nitrozen-input': NitrozenInput,
         'nitrozen-error': NitrozenError,
-        //'nitrozen-badge': NitrozenBadge,
-        //'adm-text-avatar': admTextAvatar,
         'adm-inline-svg': adminlinesvg
     },
     directives: {
@@ -89,10 +120,25 @@ export default {
                         emailError: '',
                         is_default: true
                     }
-                ])
+                ]),
+            read_only : []    
         };
     },
+    mounted(){
+     this.getVariables()
+    },
     methods: {
+        getVariables(){
+          let data = {}  
+          CommunicationServices.getGlobalVariables()
+          .then(res=>{
+              data = res.data
+              var editable = Object.entries(data.editable).map(([key, value]) => ({key,value}));
+              var readOnly = Object.entries(data.read_only).map(([key, value]) => ({key,value}));
+              this.from_address.value = editable
+              this.read_only = readOnly;
+          })
+        },
         backRedirect() {
             this.$router.back();
         },
@@ -130,6 +176,9 @@ export default {
         margin: 0 0 48px 0;
     }
 }
+.main-body-1{
+    margin: 12px 24px 24px 24px;
+}
 .container {
     background: @White;
     border-radius: 4px;
@@ -145,5 +194,11 @@ export default {
     width: 30%;
     margin-right: 36px;
     margin-left: 36px;
+}
+.title{
+    font-weight: bold; 
+}
+::v-deep .from-container{
+    margin-top: 12px;
 }
 </style>

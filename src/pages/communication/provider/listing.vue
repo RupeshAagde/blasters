@@ -467,7 +467,7 @@ const PROVIDER_WIZARD_DETAILS = {
             title: 'Viva Connect',
             description: {
                 template:
-                    '<div>For setting up Viva Connect, you would need to get the below details from Viva Connect - <li>Sender id</li><li>Username</li><li>Password</li><li>CDMA Header</li></div>'
+                    '<div>For setting up Viva Connect, you would need to get the below details from Viva Connect - <li>Sender id</li><li>API key</li></div>'
             },
             logo:
                 `/public/assets/admin/pngs/vivaconnect-logo.png`

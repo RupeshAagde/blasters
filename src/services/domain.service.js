@@ -676,6 +676,9 @@ const URLS = {
     SMS_DEFAULT: () => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/default-providers`)
     },
+    GLOBAL_VARIABLES: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/global-variables`)
+    },
     
     
     
