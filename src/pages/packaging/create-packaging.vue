@@ -23,7 +23,9 @@
             </div>
         </page-header>
         <div class="create-packaging-container">
-            <loader-vue v-if="showLoader" />
+             <div class="loader-container" v-if="showLoader">
+                <loader-vue/>
+            </div>
             <!-- ** Do not remove the ref -->
             <packaging-create
                 ref="createPackaging"
