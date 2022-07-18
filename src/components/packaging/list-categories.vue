@@ -162,7 +162,6 @@ export default {
                         })
                         .filter((a) => a !== undefined)[0];
                     if (categoryObj) {
-                        console.log(categoryObj);
                         categoryInfo.categoryValue.push(categoryObj.uid);
                         // add value and text for display purposes
                         categoryObj.value = categoryObj.uid;
