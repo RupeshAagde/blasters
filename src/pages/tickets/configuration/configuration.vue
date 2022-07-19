@@ -327,10 +327,7 @@ export default {
                 value: '',
                 description: '',
                 enabled: false,
-            },
-            invalidEmail: false,
-            invalidPhoneNo:false,
-            invalidFaq:false
+            }
         };
     },
     mounted() {
@@ -338,39 +335,21 @@ export default {
     },
     methods: {
         validateEmail(email) {
-            const validate = emailValidator.validate(
-                String(email).toLowerCase().trim()
-            );
-            this.invalidEmail = false
-            if (!validate) {
-                this.invalidEmail = true;
-            }
-            return validate;
+            return emailValidator.validate(String(email).toLowerCase().trim());
         },
         validatePhone(phoneNo) {
             const re = /^\+?([0-9]{2})\)?[- ]?([0-9]{8,10})$/;
-            const validate =
-                phoneNo && phoneNo.length && re.test(phoneNo.trim());
-                this.invalidPhoneNo = false
-            if (!validate) {
-                this.invalidPhoneNo = true;
-            }
-            return validate;
+            return phoneNo && phoneNo.length && re.test(phoneNo.trim());
         },
         validatelink(link) {
             const re =
                 /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
-            const validate =  link && link.length && re.test(link.trim());
-             this.invalidFaq = false
-              if (!validate) {
-                this.invalidFaq = true;
-            }
-            return validate
+            return link && link.length && re.test(link.trim());
         },
         isAvailable(integration_name) {
             return this.available_integration.includes(integration_name);
         },
-        validateEntries(info) {
+        validateEntries(info, type) {
             if (info.enabled) {
                 if (!info.value) {
                     this.$snackbar.global.showError(
@@ -384,6 +363,18 @@ export default {
                     );
                     return false;
                 }
+                if (type == 'email' && !this.validateEmail(info.value)) {
+                    this.$snackbar.global.showError('Invalid email id');
+                    return false;
+                }
+                if (type == 'phone' && !this.validatePhone(info.value)) {
+                    this.$snackbar.global.showError('Invalid phone number');
+                    return false;
+                }
+                if (type == 'faq' && !this.validatelink(info.value)) {
+                    this.$snackbar.global.showError('Invalid FAQ link');
+                    return false;
+                }
             }
             return true;
         },
@@ -393,9 +384,9 @@ export default {
             });
         },
         save() {
-            if (!this.validateEntries(this.support_email)) return;
-            if (!this.validateEntries(this.support_phone)) return;
-            if (!this.validateEntries(this.support_faq)) return;
+            if (!this.validateEntries(this.support_email, 'email')) return;
+            if (!this.validateEntries(this.support_phone, 'phone')) return;
+            if (!this.validateEntries(this.support_faq, 'faq')) return;
             let data = {
                 _id: this._id,
                 show_communication_info: this.showCommunicationinfo,
@@ -411,10 +402,6 @@ export default {
             }
             if (!data.integration.enabled) {
                 data.integration.type = undefined;
-            }
-            if (this.invalidPhoneNo || this.invalidEmail || this.invalidFaq) {
-                this.$snackbar.global.showError('Invalid Support Details');
-                return;
             }
             SupportService.setGeneralConfig(data)
                 .then((response) => {
