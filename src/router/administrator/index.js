@@ -752,14 +752,14 @@ export default [
                         'admin-access'
                     ]);
                 }
-            },
-            {
-                name: 'partners',
-                path: '/administrator/settings/partners/extensions-listing',
-                component: ExtensionsListingVue,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
-                }
             }],
-        }
+        },
+        {
+            name: 'partners',
+            path: '/administrator/settings/partners/extensions-listing',
+            component: ExtensionsListingVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
 ];
