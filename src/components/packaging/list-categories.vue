@@ -15,7 +15,7 @@
                     class="add-packaging-btn"
                     :rounded="true"
                     theme="secondary"
-                    title="Add Packaging"
+                    title="Add Category"
                     @click="handleAddCategories"
                     >Add Category</nitrozen-button
                 >

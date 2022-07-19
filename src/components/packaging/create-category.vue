@@ -7,7 +7,9 @@
             'category-create-container': true
         }"
     >
-        <div class="category-create-container-header">Create Category</div>
+        <div class="category-create-container-header">
+            {{formHeader}}
+        </div>
         <div class="category-create-input-container">
             <nitrozen-input
                 id="category-input"
@@ -63,6 +65,7 @@ export default {
         this.setCategoryList();
         // only if there is data in the store call the edit functionality
         if (Object.keys(this.selectedCatgegory).length) {
+            this.formHeader = 'Edit Category'
             this.handleEditCategoryGroup(this.selectedCatgegory);
         }
     },
@@ -239,7 +242,8 @@ export default {
             searchableCategoryList: [],
             selectedCategories: [],
             categoryValue: [],
-            l3loader: true
+            l3loader: true,
+            formHeader:'Create Category'
         };
     }
 };
