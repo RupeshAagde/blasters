@@ -136,7 +136,7 @@ export default {
          */
         editClick(item) {
             this.$store.dispatch(EDIT_PRODUCT, item).then(() => {
-                this.$router.push('/administrator/packaging/create');
+                this.$router.push('/administrator/packaging/edit');
             });
         }
     }

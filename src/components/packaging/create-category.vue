@@ -8,7 +8,7 @@
         }"
     >
         <div class="category-create-container-header">
-            {{formHeader}}
+            {{ formHeader }}
         </div>
         <div class="category-create-input-container">
             <nitrozen-input
@@ -65,8 +65,12 @@ export default {
         this.setCategoryList();
         // only if there is data in the store call the edit functionality
         if (Object.keys(this.selectedCatgegory).length) {
-            this.formHeader = 'Edit Category'
+            this.formHeader = 'Edit Category';
             this.handleEditCategoryGroup(this.selectedCatgegory);
+        } else {
+            this.$router.push(
+                '/administrator/packaging/category-configuration/create'
+            );
         }
     },
     props: {
@@ -243,7 +247,7 @@ export default {
             selectedCategories: [],
             categoryValue: [],
             l3loader: true,
-            formHeader:'Create Category'
+            formHeader: 'Create Category'
         };
     }
 };

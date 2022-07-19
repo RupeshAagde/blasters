@@ -173,7 +173,7 @@ export default {
                 this.$store.dispatch(EDIT_CATEGORY, categoryInfo);
                 // redirect the user to create configuration page
                 this.$router.push(
-                    '/administrator/packaging/category-configuration/create'
+                    '/administrator/packaging/category-configuration/edit'
                 );
             }
         },
