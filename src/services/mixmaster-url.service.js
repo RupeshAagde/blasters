@@ -61,8 +61,9 @@ const URLS = {
     PUBLIC_EXTENSION_CATEGORIES: () => {
         return urlJoin(MIXMASTER_PNL_BASE, `/v1.0/extensions/category/all`);
     },
-    // ==================================================
-    // Extension
+    ADMIN_EXTENSION_CATEGORIES: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/extension/category/all`);
+    },
     GET_AVAILABLE_SECTIONS: () => {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/section/available`);
     },
