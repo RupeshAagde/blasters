@@ -9,7 +9,7 @@ import EXTENSION_MOCK_DATA from "./fixtures/extension-list.json";
 import CATEGORY_MOCK_DATA from "./fixtures/category.json";
 import flushPromises from 'flush-promises';
 import URLS from '@/services//mixmaster-url.service'
-import { COLLECTION_DATA } from './fixtures/collection_data';
+import COLLECTION_DATA from './fixtures/collection_data.json';
 
 let localVue;
 let wrapper;
