@@ -2,7 +2,7 @@
     <div class="panel">
         <div class="main">
             <loader v-if="pageLoading" class="loading"></loader>
-            <div class="form page-container" v-if="!pageLoading">
+            <div class="provider " v-if="!pageLoading">
                 <div
                     class="form-container width-50"
                     v-if="
@@ -139,6 +139,14 @@
 </template>
 
 <style lang="less" scoped>
+.provider{
+    padding: 24px;
+    border: 1px solid #f3f3f3;
+    border-radius: 4px;
+    background-color: #ffffff;
+    margin: 24px;
+    width: 50%;
+}
 .float-left {
     float: left;
 }

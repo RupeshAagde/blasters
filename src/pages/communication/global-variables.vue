@@ -201,4 +201,7 @@ export default {
 ::v-deep .from-container{
     margin-top: 12px;
 }
+.remove{
+    margin-bottom: 10px;
+}
 </style>

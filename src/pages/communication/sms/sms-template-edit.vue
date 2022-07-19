@@ -562,10 +562,12 @@ export default {
                 if (this.templateId) {
                     this.subscribedAdded = this.appSubscriptions.items.filter(
                         subscription => {
+                     if(subscription.template.sms.template && subscription.template.sms.template._id != null){
                             return (
                                 subscription.template.sms.template._id ==
                                 this.templateId
                             );
+                        }    
                         }
                     );
                     this.linkToEvent = this.subscribedAdded.map(a => a._id);
