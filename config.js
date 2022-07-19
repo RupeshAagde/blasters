@@ -402,6 +402,13 @@ const conf = convict({
             default:'60792ded7826bd09330ed90d',
             env: 'APPLICATION_ID',
             arg: 'application_id'
+        },
+        EXTENSION_PAGE_URL: {
+            doc: 'Extension Page URLS',
+            format: String,
+            default: '',
+            env: 'EXTENSION_PAGE_URL',
+            arg: 'EXTENSION_PAGE_URL'
         }
     },
 

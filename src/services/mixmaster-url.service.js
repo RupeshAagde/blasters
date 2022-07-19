@@ -13,9 +13,9 @@ if (
     envVars['BROWSER_CONFIG'] = root.process.env;
 }
 
-let MIXMASTER_ADMIN_BASE = isNode
-    ? envVars.BROWSER_CONFIG.MIXMASTER_ADMIN_URL
-    : envVars.MIXMASTER_ADMIN_URL;
+let MIXMASTER_ADMIN_BASE = isNode ?
+    envVars.BROWSER_CONFIG.MIXMASTER_ADMIN_URL :
+    envVars.MIXMASTER_ADMIN_URL;
 
 let MIXMASTER_PNL_BASE = isNode
     ? envVars.BROWSER_CONFIG.MIXMASTER_PNL_URL
@@ -63,6 +63,21 @@ const URLS = {
     },
     ADMIN_EXTENSION_CATEGORIES: () => {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/extension/category/all`);
+    },
+    // ==================================================
+    // Extension
+    GET_AVAILABLE_SECTIONS: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/section/available`);
+    },
+
+    EXTENSION_HOME: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/page/extension-home`);
+    },
+    FETCH_PUBLIC_EXTENSIONS: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/extension`);
+    },
+    FETCH_COLLECTION_EXTENSIONS: (collectionId) => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection/${collectionId}/items`);
     }
 };
 
