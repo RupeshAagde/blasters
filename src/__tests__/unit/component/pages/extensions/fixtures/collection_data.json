@@ -1,4 +1,4 @@
-export const COLLECTION_DATA = {
+{
     "_id": "623847d0ec3c4b10b1f5fed6",
     "tags": ["asdsa", "asdas", "my"],
     "collection_category": "extension",

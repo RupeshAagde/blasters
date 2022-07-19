@@ -64,8 +64,6 @@ const URLS = {
     ADMIN_EXTENSION_CATEGORIES: () => {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/extension/category/all`);
     },
-    // ==================================================
-    // Extension
     GET_AVAILABLE_SECTIONS: () => {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/section/available`);
     },

@@ -236,8 +236,14 @@ export default {
                 removeSelections = true;
             } else removeSelections = false;
 
-            if(prop.id === 'item_source' && inputObj.value !== 'api') {
-                this.$set(this.section.data, 'api_source', '');
+            if(prop.id === 'item_source') {
+                if (inputObj.value !== 'api') {
+                    this.$set(this.section.data, 'api_source', '');
+                }
+                if (inputObj.value !== 'collection') {
+                    let pageLinkProp = this.section_schema.props.find(s => s.id === 'button_page_link');
+                    this.$set(this.section.data, 'button_page_link', pageLinkProp['default'] || '');
+                }
             }        
 
             if(removeSelections) {
