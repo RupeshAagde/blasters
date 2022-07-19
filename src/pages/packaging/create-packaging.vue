@@ -1,7 +1,11 @@
 <template>
     <div>
         <page-header
-            :title="'Add Packaging'"
+            :title="
+                Object.keys(editProduct).length
+                    ? 'Edit Packaging'
+                    : 'Add Packaging'
+            "
             @backClick="goBack"
             :noContextMenu="true"
         >
@@ -23,8 +27,8 @@
             </div>
         </page-header>
         <div class="create-packaging-container">
-             <div class="loader-container" v-if="showLoader">
-                <loader-vue/>
+            <div class="loader-container" v-if="showLoader">
+                <loader-vue />
             </div>
             <!-- ** Do not remove the ref -->
             <packaging-create

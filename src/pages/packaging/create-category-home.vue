@@ -1,7 +1,11 @@
 <template>
     <div>
         <page-header
-            :title="'Add New Category'"
+            :title="
+                Object.keys(selectedCategory).length
+                    ? 'Edit'
+                    : 'Add New Category'
+            "
             @backClick="goBack"
             :noContextMenu="true"
         >
@@ -25,7 +29,7 @@
         </page-header>
         <div class="create-category-container">
             <div class="loader-container" v-if="showLoader">
-                <loader-vue/>
+                <loader-vue />
             </div>
             <!-- ** Do not remove the ref -->
             <create-category

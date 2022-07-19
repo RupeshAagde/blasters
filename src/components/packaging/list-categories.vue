@@ -15,7 +15,7 @@
                     class="add-packaging-btn"
                     :rounded="true"
                     theme="secondary"
-                    title="Add Packaging"
+                    title="Add Category"
                     @click="handleAddCategories"
                     >Add Category</nitrozen-button
                 >
@@ -162,7 +162,6 @@ export default {
                         })
                         .filter((a) => a !== undefined)[0];
                     if (categoryObj) {
-                        console.log(categoryObj);
                         categoryInfo.categoryValue.push(categoryObj.uid);
                         // add value and text for display purposes
                         categoryObj.value = categoryObj.uid;
@@ -174,7 +173,7 @@ export default {
                 this.$store.dispatch(EDIT_CATEGORY, categoryInfo);
                 // redirect the user to create configuration page
                 this.$router.push(
-                    '/administrator/packaging/category-configuration/create'
+                    '/administrator/packaging/category-configuration/edit'
                 );
             }
         },

@@ -726,6 +726,7 @@ export default [
             {
                 name: 'packaging-create',
                 path: 'packaging/create',
+                alias: 'packaging/edit',
                 component: PackagingCreate,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
@@ -746,6 +747,7 @@ export default [
             {
                 name: 'category-config-create',
                 path: 'packaging/category-configuration/create',
+                alias: 'packaging/category-configuration/edit',
                 component: CreateCategory,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [

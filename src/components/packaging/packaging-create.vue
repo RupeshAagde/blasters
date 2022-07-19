@@ -548,6 +548,8 @@ export default {
                 }
 
                 this.checkForButtonToggle();
+            } else {
+                this.$router.push('/administrator/packaging/create');
             }
         },
         /**
