@@ -760,6 +760,6 @@ export default [
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
                 }
-            },
-}
+            }],
+        }
 ];
