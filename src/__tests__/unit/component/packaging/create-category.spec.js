@@ -1,18 +1,24 @@
 'use strict';
 import CreateCategory from '@/components/packaging/create-category.vue';
-import { mount } from '@vue/test-utils';
-
+import { createLocalVue, mount } from '@vue/test-utils';
+import VueRouter from 'vue-router';
+import Vuex from 'vuex';
 let wrapper;
 let category = {
     id: 1,
     value: 1
 };
+const localVue = createLocalVue()
+localVue.use(Vuex);
+localVue.use(VueRouter);
+let router = new VueRouter()
 describe('Category config home', () => {
     beforeEach(async () => {
         wrapper = mount(CreateCategory, {
             propsData: {
                 toggleBtn: jest.fn()
-            }
+            },
+            localVue, router
         });
         wrapper.vm.l3loader = false
     });
@@ -27,7 +33,7 @@ describe('Category config home', () => {
     it('should check for header', () => {
         expect(
             wrapper.find('.category-create-container-header').element
-                .textContent
+                .textContent.trim()
         ).toBe('Create Category');
     });
     it('should test the input field', () => {
