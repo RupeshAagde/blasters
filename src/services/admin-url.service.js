@@ -45,10 +45,6 @@ const PLATFORM_AUDIT_TRAIL_BASE = isNode
     ? envVars.BROWSER_CONFIG.PINPOINTER_PLTM_URL
     : envVars.PINPOINTER_PLTM_URL;
 
-const PLATFORM_ASSETS_BASE = isNode
-    ? envVars.BROWSER_CONFIG.GRINDOR_PLTM_URL
-    : envVars.GRINDOR_PLTM_URL;
-
 const PLATFORM_LEADS_BASE = isNode
     ? envVars.BROWSER_CONFIG.HIGHBROW_PLTM_URL
     : envVars.HIGHBROW_PLTM_URL;
@@ -169,64 +165,6 @@ const ADMIN_URLS = {
     },
     GET_AUDIT_TRAIL_LOGS_BY_ID: id => {
         return urlJoin(PLATFORM_AUDIT_TRAIL_BASE, `/v1.0/company/${getCompInfo()}/logs/`, id);
-    },
-    //Grindor
-    // GRINDOR_EXPLORER: namespace => {
-    //     let urlPath = `v1.0/company/${getCompInfo()}/namespaces/${namespace}/browse`
-
-    //     let appInfo = getAppInfo();
-    //     if (!_.isEmpty(appInfo)) {
-    //         urlPath = `v1.0/company/${getCompInfo()}/application/${appInfo.id}/namespaces/${namespace}/browse`
-    //     }
-
-    //     return urlJoin(
-    //         PLATFORM_ASSETS_BASE,
-    //         urlPath,
-    //     );
-    // },
-    // GRINDOR_UPLOAD_START: namespace => {
-    //     let urlPath = `v1.0/company/${getCompInfo()}/namespaces/${namespace}/upload/start/`
-
-    //     let appInfo = getAppInfo();
-    //     if (!_.isEmpty(appInfo)) {
-    //         urlPath = `v1.0/company/${getCompInfo()}/application/${appInfo.id}/namespaces/${namespace}/upload/start/`
-    //     }
-
-    //     return urlJoin(
-    //         PLATFORM_ASSETS_BASE,
-    //         urlPath,
-    //     );
-    // },
-    // GRINDOR_UPLOAD_COMPLETE: namespace => {
-    //     let urlPath = `v1.0/company/${getCompInfo()}/namespaces/${namespace}/upload/complete/`
-
-    //     let appInfo = getAppInfo();
-    //     if (!_.isEmpty(appInfo)) {
-    //         urlPath = `v1.0/company/${getCompInfo()}/application/${appInfo.id}/namespaces/${namespace}/upload/complete/`
-    //     }
-
-    //     return urlJoin(
-    //         PLATFORM_ASSETS_BASE,
-    //         urlPath,
-    //     );
-    // },
-
-    // GRINDOR_COPY_FILE: () => {
-    //     let urlPath = `v1.0/company/${getCompInfo()}/uploads/copy/?sync=true`
-
-    //     let appInfo = getAppInfo();
-    //     if (!_.isEmpty(appInfo)) {
-    //         urlPath = `v1.0/company/${getCompInfo()}/application/${appInfo.id}/uploads/copy/?sync=true`
-    //     }
-
-    //     return urlJoin(
-    //         PLATFORM_ASSETS_BASE,
-    //         urlPath
-    //     );
-    // },
-    GRINDOR_PROXY: () => {
-        let urlPath = `v1.0/company/${getCompInfo()}/proxy/`
-        return urlJoin(PLATFORM_ASSETS_BASE, urlPath);
     },
 
     // Search Platform user
@@ -1284,10 +1222,6 @@ const ADMIN_URLS = {
     },
     SAVE_DOCUMENT: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/edit-documents');
-    },
-    GET_PUBLIC_URL: () => {
-        let urlPath = `/v1.0/company/${getCompInfo()}/sign-urls/`
-        return urlJoin(PLATFORM_ASSETS_BASE, urlPath);
     },
     DOWNLOAD_SAMPLE_PRODUCT_TEMPLATE: slug => {
         return urlJoin(

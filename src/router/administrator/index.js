@@ -2,6 +2,8 @@ import AdministratorBaseViewVue from './../../pages/administrator/baseview.vue';
 import PlanCreator from './plan-creator';
 import ExtensionRoutes from './extension';
 import CompanyListVue from './../../pages/company-admin/company-list.vue';
+import OauthClientsVue from './../../pages/oauth-clients/index.vue';
+import OauthClientsDetails from './../../pages/oauth-clients/clients/details.vue';
 import CbsApplicationDetailsVue from './../../pages/company-admin/cbs-application-details.vue';
 import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
 import BillingVue from './../../pages/company-admin/billing.vue';
@@ -687,5 +689,29 @@ export default [
                 return checkUserPermission(to, from, next, ['integration']);
             }
         },
+        {
+            name: 'oauth-clients',
+            path: 'oauthclient',
+            component: OauthClientsVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        {
+            name: 'create-oauth-client',
+            path: 'oauthclient/create',
+            component: OauthClientsDetails,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        {
+            name: 'edit-oauth-client',
+            path: 'oauthclient/edit/:client_id',
+            component: OauthClientsDetails,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        }
     ]
 }];

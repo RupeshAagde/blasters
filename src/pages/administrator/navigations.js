@@ -212,6 +212,16 @@ export const getNavigations = () => {
             active: false,
             permission: 'settings',
             children: []
+        },
+        {
+            display: 'Clients',
+            link: '/administrator/oauthclient',
+            title: 'Clients',
+            icon: 'developers',
+            highlightedIcon: 'developers-highlighted',
+            active: false,
+            permission: 'settings',
+            children: []
         }
     ];
 };

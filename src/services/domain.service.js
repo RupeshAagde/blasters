@@ -693,7 +693,24 @@ const URLS = {
     },
     GET_AUDIT_TRAIL_ENTITY_TYPES:()=>{
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
-    }
+    },
+
+    // OAUTH CLIENT CRUD URLS
+    GET_OAUTH_CLIENT_LISTING: () => {
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/oauth/client/');
+    },
+    GET_OAUTH_CLIENT: (clientId) => {
+        return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/admin/oauth/client/${clientId}/`);
+    },
+    CREATE_OAUTH_CLIENT: () => {
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/oauth/client/');
+    },
+    UPDATE_OAUTH_CLIENT: (clientId) => {
+        return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/admin/oauth/client/${clientId}/`);
+    },
+    DELETE_OAUTH_CLIENT: (clientId) => {
+        return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/admin/oauth/client/${clientId}/`);
+    },
 };
 
 export default URLS;
