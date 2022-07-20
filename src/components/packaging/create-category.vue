@@ -65,6 +65,7 @@ export default {
         this.setCategoryList();
         // only if there is data in the store call the edit functionality
         if (Object.keys(this.selectedCatgegory).length) {
+            // change header if scren is in edit mode
             this.formHeader = 'Edit Category';
             this.handleEditCategoryGroup(this.selectedCatgegory);
         } else {
