@@ -11,22 +11,45 @@
             {{ formHeader }}
         </div>
         <div class="category-create-input-container">
-            <nitrozen-input
-                id="category-input"
-                class="input w-l"
-                :label="groupName.label"
-                :required="true"
-                :placeholder="groupName.placeHolder"
-                v-model="groupName.value"
-                type="text"
-                @blur="handleBlur"
-                @input="handleChange"
-                :autocomplete="'off'"
-            />
-            <!-- If there is a error then show  -->
-            <nitrozen-error v-if="groupName.error">
-                {{ groupName.error }}
-            </nitrozen-error>
+            <div class="input-parent">
+                <nitrozen-input
+                    id="category-input"
+                    class="input w-l"
+                    :label="groupName.label"
+                    :required="true"
+                    :placeholder="groupName.placeHolder"
+                    v-model="groupName.value"
+                    type="text"
+                    @blur="handleBlur"
+                    @input="handleChange"
+                    :autocomplete="'off'"
+                />
+                <!-- If there is a error then show  -->
+                <nitrozen-error v-if="groupName.error">
+                    {{ groupName.error }}
+                </nitrozen-error>
+            </div>
+            <div class="input-parent">
+                <nitrozen-input
+                    id="slug-input"
+                    class="input w-l"
+                    :label="slugName.label"
+                    :required="true"
+                    :placeholder="slugName.placeHolder"
+                    v-model="slugName.value"
+                    type="text"
+                    @blur="handleSlugBlur"
+                    @input="handleSlugChange"
+                    :autocomplete="'off'"
+                    :disabled="
+                        Object.keys(selectedCatgegory).length ? true : false
+                    "
+                />
+                <!-- If there is a error then show  -->
+                <nitrozen-error v-if="slugName.error">
+                    {{ slugName.error }}
+                </nitrozen-error>
+            </div>
         </div>
         <!-- Call to reusable component to select multiple categories -->
         <category-multi-select
@@ -68,9 +91,11 @@ export default {
             this.formHeader = 'Edit Category';
             this.handleEditCategoryGroup(this.selectedCatgegory);
         } else {
-            this.$router.push(
-                '/administrator/packaging/category-configuration/create'
-            );
+            // only if its is not from the create route then redirect
+            if (!this.$router.history.current.fullPath.includes('create'))
+                this.$router.push(
+                    '/administrator/packaging/category-configuration/create'
+                );
         }
     },
     props: {
@@ -82,15 +107,31 @@ export default {
         }
     },
     methods: {
+        nameToSlug(str) {
+            return str
+                .toLowerCase()
+                .trim()
+                .replace(/\s/gi, '-')
+                .replace(/[^a-z-0-9]/g, '');
+        },
         /**
          * @author Rohan Shah
          * @param {Object} categoryInfo
          * @description Sets the necessary data in the state for the edit category feature
          */
         handleEditCategoryGroup(categoryInfo) {
+            console.log(categoryInfo, 'categoryInfo');
             this.groupName.value = categoryInfo.categoryName;
             this.selectedCategories = categoryInfo.selectedCategories;
             this.categoryValue = categoryInfo.categoryValue;
+            this.slugName.value = categoryInfo.slug;
+        },
+        /**
+         * @author Rohan Shah
+         * @description triggers error message on the slug input field
+         */
+        showError() {
+            this.slugName.error = 'Duplicate slug name not allowed';
         },
         /**
          * @author Rohan Shah
@@ -101,7 +142,8 @@ export default {
             // Create request object
             let createGroupCategory = {
                 categoryName: this.groupName.value,
-                categories: []
+                categories: [],
+                slug: this.slugName.value
             };
             // pass only the ids
             this.selectedCategories.forEach((category) => {
@@ -119,6 +161,11 @@ export default {
                 this.groupName.error = `${this.groupName.label} is a mandatory field`;
             this.checkForError();
         },
+        handleSlugBlur() {
+            if (!this.slugName.value)
+                this.slugName.error = `${this.slugName.label} is a mandatory field`;
+            this.checkForError();
+        },
         /**
          * @author Rohan Shah
          * @param {String} val | User input
@@ -127,6 +174,14 @@ export default {
         handleChange(val) {
             this.groupName.value = val;
             this.groupName.error = '';
+            if (!Object.keys(this.selectedCatgegory).length) {
+                this.slugName.value = this.nameToSlug(val);
+            }
+            this.checkForError();
+        },
+        handleSlugChange(val) {
+            this.slugName.value = this.nameToSlug(val);
+            this.slugName.error = '';
             this.checkForError();
         },
         /**
@@ -228,7 +283,9 @@ export default {
             if (
                 this.groupName.value &&
                 !this.groupName.error &&
-                this.categoryValue.length > 0
+                this.categoryValue.length > 0 &&
+                !this.slugName.error &&
+                this.slugName.value
             ) {
                 return this.toggleBtn(false);
             }
@@ -242,6 +299,12 @@ export default {
                 error: '',
                 label: 'Group Name',
                 placeHolder: 'Name of the group'
+            },
+            slugName: {
+                value: '',
+                error: '',
+                label: 'Slug name',
+                placeHolder: 'Name of the slug'
             },
             searchableCategoryList: [],
             selectedCategories: [],

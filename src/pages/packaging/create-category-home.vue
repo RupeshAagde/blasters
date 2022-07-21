@@ -136,6 +136,10 @@ export default {
                             ? 'update Category'
                             : 'add new Category'
                     }`;
+                    // only if the keyword slug is found in the error message then show duplicate slug name error
+                    if(res.statusCode == 409 && res.msg.includes('slug')){
+                        this.$refs.createCategory.showError()
+                    }
                     return this.$snackbar.global.showError(
                         // only if the status code is 409 show the duplicate error else show generic error
                         res.statusCode == 409 ? res.msg : msg
