@@ -549,6 +549,8 @@ export default {
 
                 this.checkForButtonToggle();
             } else {
+                // dont redirect if the user has hit refresh
+                if (!this.$router.history.current.fullPath.includes('create'))
                 this.$router.push('/administrator/packaging/create');
             }
         },
