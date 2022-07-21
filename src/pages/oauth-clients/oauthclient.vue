@@ -3,11 +3,11 @@
         <div class="api-container">
             <nitrozen-input
                 class="search-box"
-                v-if="oAuthClients.length"
                 :showSearchIcon="true"
                 type="search"
-                placeholder="Search clients by name or id"
+                placeholder="Search clients by name"
                 v-model="searchTxt"
+                @input="debounceInput({ name: searchTxt })"
             >
             </nitrozen-input>
         </div>
@@ -29,6 +29,15 @@
             </div>
             <div v-else>
                 <no-content :helperText="'No clients found'"></no-content>
+            </div>
+            <div class="pagination" v-if="oAuthClients.length > 0">
+                <nitrozen-pagination
+                    name="Clients"
+                    v-model="paginationConfig"
+                    @change="paginationChange"
+                    :pageSizeOptions="[5, 10, 20, 50]"
+                    id="pagination"
+                ></nitrozen-pagination>
             </div>
             <nitrozen-dialog
                 ref="confirm_delete_client"
@@ -73,6 +82,7 @@ import {
     NitrozenDialog,
     NitrozenInput,
     NitrozenButton,
+    NitrozenPagination,
     flatBtn,
     strokeBtn,
 } from '@gofynd/nitrozen-vue';
@@ -81,6 +91,7 @@ import client from '@/pages/oauth-clients/clients/client-card.vue';
 import admNoContent from '@/components/common/adm-no-content';
 import loader from '@/components/common/loader.vue';
 import OAuthClientService from '../../services/oauth-client.service';
+import { debounce } from '@/helper/utils';
 export default {
     components: {
         'page-error': pageerror,
@@ -88,6 +99,7 @@ export default {
         'nitrozen-dialog': NitrozenDialog,
         'no-content': admNoContent,
         'nitrozen-input': NitrozenInput,
+        'nitrozen-pagination': NitrozenPagination,
         loader: loader,
         NitrozenButton,
     },
@@ -102,7 +114,7 @@ export default {
             pageLoading: false,
             pageError: false,
             paginationConfig: {
-                limit: 20,
+                limit: 10,
                 current: 1,
                 total: 0,
             },
@@ -111,19 +123,62 @@ export default {
         };
     },
     mounted() {
+        this.populateFromURL();
         this.fetchOAuthClients();
     },
     methods: {
+        populateFromURL() {
+            const { search, page, limit } = this.$route.query;
+            this.searchTxt = search || this.searchTxt;
+            this.paginationConfig.current =
+                +page || this.paginationConfig.current;
+            this.paginationConfig.limit = +limit || this.paginationConfig.limit;
+        },
+        paginationChange(filter, action) {
+            const { current, limit } = filter;
+            this.paginationConfig.current = current;
+            this.paginationConfig = Object.assign(
+                {},
+                this.paginationConfig,
+                filter
+            );
+            this.fetchOAuthClients();
+        },
+        debounceInput: debounce(function (e) {
+            this.setRouteQuery({ search: this.searchTxt });
+            this.fetchOAuthClients();
+        }, 200),
+        setRouteQuery(query) {
+            this.paginationConfig.current = 1;
+            this.paginationConfig = { ...this.paginationConfig };
+            query.page = this.paginationConfig.current;
+            query.limit = 10;
+            this.$router.push({
+                path: this.$route.path,
+                query: {
+                    ...this.$route.query,
+                    ...query,
+                },
+            });
+            this.fetchOAuthClients();
+        },
         fetchOAuthClients() {
             this.pageLoading = true;
+            console.log(this.searchTxt);
             OAuthClientService.fetchClientListing({
                 page_no: this.paginationConfig.current,
                 page_size: this.paginationConfig.limit,
                 is_active: true,
+                search: this.searchTxt,
             })
                 .then((res) => {
                     this.oAuthClients = res.data.items;
                     this.pageLoading = false;
+                    this.paginationConfig = {
+                        limit:  res.data.page.size,
+                        current: res.data.page.current,
+                        total: res.data.page.item_total,
+                    };
                 })
                 .catch((err) => {
                     this.pageLoading = false;
@@ -184,6 +239,10 @@ export default {
 
 <style lang="less" scoped>
 @import './../less/page-header.less';
+
+.pagination {
+    background: @White;
+}
 .api-container {
     flex-wrap: wrap;
     padding: 24px 0;
