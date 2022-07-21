@@ -389,19 +389,19 @@ const conf = convict({
             env: 'WEIRDWOLF_ADMIN_URL',
             arg: 'weirdwolf_admin_url'
         },
-        COMPANY_ID: {
-            doc: 'Company id',
+        PACKAGING_COMPANY_ID: {
+            doc: 'packaging company id',
             format: String,
             default:'84',
-            env: 'COMPANY_ID',
-            arg: 'company_id'
+            env: 'PACKAGING_COMPANY_ID',
+            arg: 'packaging_company_id'
         },
-        APPLICATION_ID: {
-            doc: 'Application id',
+        PACKAGING_APPLICATION_ID: {
+            doc: 'packaging application id',
             format: String,
             default:'629616a1d7c74d3915f8f4e8',
-            env: 'APPLICATION_ID',
-            arg: 'application_id'
+            env: 'PACKAGING_APPLICATION_ID',
+            arg: 'packaging_application_id'
         }
     },
 
