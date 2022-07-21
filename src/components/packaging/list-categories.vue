@@ -28,7 +28,7 @@
             :value="groupCategoryValue"
         />
         <div
-            v-if="showLoader || !l3CategoryList.length > 0"
+            v-if="showLoader"
             class="loader-parent"
         >
             <loader-vue />
@@ -132,13 +132,15 @@ export default {
          * @author Rohan Shah
          * @description Calls the API to fetch L3 Categories
          */
-        async fetchL3Categories() {
+        fetchL3Categories() {
+            this.showLoader = true
             this.$store
                 .dispatch(FETCH_L3_CATEGORIES, { is_active: true })
                 .then((res) => {
                     if (!res.error) {
                         this.l3CategoryList = res;
                     }
+                    this.showLoader = false
                 });
         },
         /**

@@ -67,6 +67,7 @@ describe('Category config home', () => {
         let op = {
             categories: [undefined],
             name: 'Test value',
+            slug:'test-value'
         };
         expect(resp).toStrictEqual(op);
     });

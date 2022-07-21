@@ -28,7 +28,7 @@
             :disabled="true"
         />
         <div
-            v-if="showLoader || !groupCategories.length > 0"
+            v-if="showLoader"
             class="loader-parent"
         >
             <loader-vue />
@@ -189,6 +189,7 @@ export default {
                     }
                     const { items } = res;
                     this.groupCategories = items;
+                     this.showLoader = false;
                 })
                 .finally(() => {
                     this.showLoader = false;

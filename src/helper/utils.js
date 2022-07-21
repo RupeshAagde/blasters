@@ -595,10 +595,11 @@ export const generateProductRequest = (product) => {
  * @returns Request body
  */
 export const generateGroupCategoryRequest = (groupCategory) => {
-    const { categories, categoryName } = groupCategory;
+    const { categories, categoryName,slug } = groupCategory;
     return {
         name: categoryName.charAt(0).toUpperCase() + categoryName.slice(1),
-        categories: categories
+        categories: categories,
+        slug
     };
 }
 export const convertKebabCaseToString = str => {
