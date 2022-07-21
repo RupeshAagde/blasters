@@ -1,0 +1,706 @@
+{
+    "items": [
+        {
+            "_id": "61c9b6f1fb637319930a84a5",
+            "scopes": {
+                "permissions": [
+                    "company/*"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "K6rCJ7ec_08iq7D"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client1",
+                "description": "test                      "
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "a7cd55c4ddb933538f7bd3df",
+                "updated_by": "d6da4dcc8fb0b8f20df44fa9",
+                "creator_name": "Rahul Tambe",
+                "updator_name": "Brijesh Gajjar"
+            },
+            "client_id": "61c9b6f1fb637321200a84a4",
+            "slug": "61c9b6f1fb637321200a84a4",
+            "created_at": "2021-12-27T12:52:01.845Z",
+            "modified_at": "2021-12-29T16:35:08.122Z",
+            "id": "61c9b6f1fb637319930a84a5"
+        },
+        {
+            "_id": "61cbe1c459d0ef762d385806",
+            "scopes": {
+                "permissions": [
+                    "company/*",
+                    "company/application/customer",
+                    "company/application/marketing",
+                    "company/application/catalogue"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "sjD9SnB6oD524ie"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client 4",
+                "description": "test"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "d6da4dcc8fb0b8f20df44fa9",
+                "creator_name": "Brijesh Gajjar"
+            },
+            "client_id": "61cbe1c459d0efb68d385805",
+            "slug": "61cbe1c459d0efb68d385805",
+            "created_at": "2021-12-29T04:19:16.009Z",
+            "modified_at": "2021-12-29T04:19:16.009Z",
+            "id": "61cbe1c459d0ef762d385806"
+        },
+        {
+            "_id": "61cbe1dd59d0ef5506385808",
+            "scopes": {
+                "permissions": [
+                    "company/profile",
+                    "company/saleschannel",
+                    "company/product",
+                    "company/order",
+                    "company/application/*"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "cn3ae5GWSoh_n_y"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client 5",
+                "description": "test"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "d6da4dcc8fb0b8f20df44fa9",
+                "creator_name": "Brijesh Gajjar"
+            },
+            "client_id": "61cbe1dd59d0ef134e385807",
+            "slug": "61cbe1dd59d0ef134e385807",
+            "created_at": "2021-12-29T04:19:41.824Z",
+            "modified_at": "2021-12-29T04:19:41.824Z",
+            "id": "61cbe1dd59d0ef5506385808"
+        },
+        {
+            "_id": "61cbe20959d0ef13bf38580a",
+            "scopes": {
+                "permissions": [
+                    "company/application/6110bfb0d4beb6b2c08f8a79/*",
+                    "company/application/6130bdd4a928fb25f47963c0/customer",
+                    "company/application/6130bdd4a928fb25f47963c0/marketing",
+                    "company/application/6130bdd4a928fb25f47963c0/order"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "60x7XSLuLyYvVMw"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client 6",
+                "description": "test"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "d6da4dcc8fb0b8f20df44fa9",
+                "creator_name": "Brijesh Gajjar"
+            },
+            "client_id": "61cbe20959d0ef19b6385809",
+            "slug": "61cbe20959d0ef19b6385809",
+            "created_at": "2021-12-29T04:20:25.865Z",
+            "modified_at": "2021-12-29T04:20:25.865Z",
+            "id": "61cbe20959d0ef13bf38580a"
+        },
+        {
+            "_id": "61cbe28e59d0ef0d07385810",
+            "scopes": {
+                "permissions": [
+                    "company/profile"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "bGIUIDJkGXdv1Si"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client 7",
+                "description": "test"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "d6da4dcc8fb0b8f20df44fa9",
+                "creator_name": "Brijesh Gajjar"
+            },
+            "client_id": "61cbe28e59d0ef46fa38580f",
+            "slug": "61cbe28e59d0ef46fa38580f",
+            "created_at": "2021-12-29T04:22:38.666Z",
+            "modified_at": "2021-12-29T04:22:38.666Z",
+            "id": "61cbe28e59d0ef0d07385810"
+        },
+        {
+            "_id": "61cbe2aa59d0efaf2a385812",
+            "scopes": {
+                "permissions": [
+                    "company/profile"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "Lc7n_Hk8NimDEHZ"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client 8",
+                "description": "                                "
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "d6da4dcc8fb0b8f20df44fa9",
+                "creator_name": "Brijesh Gajjar"
+            },
+            "client_id": "61cbe2aa59d0ef8a0e385811",
+            "slug": "61cbe2aa59d0ef8a0e385811",
+            "created_at": "2021-12-29T04:23:07.000Z",
+            "modified_at": "2021-12-29T04:23:07.000Z",
+            "id": "61cbe2aa59d0efaf2a385812"
+        },
+        {
+            "_id": "61cbe2dc59d0ef468f385814",
+            "scopes": {
+                "permissions": [
+                    "company/profile"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "MurdFk8BgxzF8jt"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client 11",
+                "description": "test"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "d6da4dcc8fb0b8f20df44fa9",
+                "creator_name": "Brijesh Gajjar"
+            },
+            "client_id": "61cbe2dc59d0efe11b385813",
+            "slug": "61cbe2dc59d0efe11b385813",
+            "created_at": "2021-12-29T04:23:56.553Z",
+            "modified_at": "2021-12-29T04:23:56.553Z",
+            "id": "61cbe2dc59d0ef468f385814"
+        },
+        {
+            "_id": "61cbe2ea59d0efc079385816",
+            "scopes": {
+                "permissions": [
+                    "company/profile"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "Dbl-NpSCXq54_qd"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client 12",
+                "description": "test"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "d6da4dcc8fb0b8f20df44fa9",
+                "creator_name": "Brijesh Gajjar"
+            },
+            "client_id": "61cbe2ea59d0ef755d385815",
+            "slug": "61cbe2ea59d0ef755d385815",
+            "created_at": "2021-12-29T04:24:10.582Z",
+            "modified_at": "2021-12-29T04:24:10.582Z",
+            "id": "61cbe2ea59d0efc079385816"
+        },
+        {
+            "_id": "61cbe2f959d0ef7009385818",
+            "scopes": {
+                "permissions": [
+                    "company/profile"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "-lm237RGbtvrKuv"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client 13",
+                "description": "test"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "d6da4dcc8fb0b8f20df44fa9",
+                "creator_name": "Brijesh Gajjar"
+            },
+            "client_id": "61cbe2f959d0ef17be385817",
+            "slug": "61cbe2f959d0ef17be385817",
+            "created_at": "2021-12-29T04:24:25.684Z",
+            "modified_at": "2021-12-29T04:24:25.684Z",
+            "id": "61cbe2f959d0ef7009385818"
+        },
+        {
+            "_id": "61cbe31059d0ef351938581a",
+            "scopes": {
+                "permissions": [
+                    "company/profile"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "6zgY3wdpkaHh07h"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client 14",
+                "description": "test"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "d6da4dcc8fb0b8f20df44fa9",
+                "creator_name": "Brijesh Gajjar"
+            },
+            "client_id": "61cbe31059d0eff011385819",
+            "slug": "61cbe31059d0eff011385819",
+            "created_at": "2021-12-29T04:24:48.374Z",
+            "modified_at": "2021-12-29T04:24:48.374Z",
+            "id": "61cbe31059d0ef351938581a"
+        },
+        {
+            "_id": "61cbe32059d0ef947938581c",
+            "scopes": {
+                "permissions": [
+                    "company/profile"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "MVQvyPUtXcquXPh"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client 9",
+                "description": "test"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "d6da4dcc8fb0b8f20df44fa9",
+                "creator_name": "Brijesh Gajjar"
+            },
+            "client_id": "61cbe32059d0ef23c638581b",
+            "slug": "61cbe32059d0ef23c638581b",
+            "created_at": "2021-12-29T04:25:04.565Z",
+            "modified_at": "2021-12-29T04:25:04.565Z",
+            "id": "61cbe32059d0ef947938581c"
+        },
+        {
+            "_id": "61cbe33159d0ef643738581e",
+            "scopes": {
+                "permissions": [
+                    "company/profile"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "IkhJ3HXRIdcqjVd"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client 10",
+                "description": "tets"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "d6da4dcc8fb0b8f20df44fa9",
+                "creator_name": "Brijesh Gajjar"
+            },
+            "client_id": "61cbe33159d0ef7bf638581d",
+            "slug": "61cbe33159d0ef7bf638581d",
+            "created_at": "2021-12-29T04:25:21.561Z",
+            "modified_at": "2021-12-29T04:25:21.561Z",
+            "id": "61cbe33159d0ef643738581e"
+        },
+        {
+            "_id": "61cbe34859d0ef9f8d385820",
+            "scopes": {
+                "permissions": [
+                    "company/profile"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "y6-qnZiPYkfBn7o"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client 15",
+                "description": "test"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "d6da4dcc8fb0b8f20df44fa9",
+                "creator_name": "Brijesh Gajjar"
+            },
+            "client_id": "61cbe34859d0efecab38581f",
+            "slug": "61cbe34859d0efecab38581f",
+            "created_at": "2021-12-29T04:25:44.237Z",
+            "modified_at": "2021-12-29T04:25:44.237Z",
+            "id": "61cbe34859d0ef9f8d385820"
+        },
+        {
+            "_id": "61cbe35459d0efe86a385822",
+            "scopes": {
+                "permissions": [
+                    "company/profile"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "bEMhOGvb51C~G5P"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client 16",
+                "description": "test"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "d6da4dcc8fb0b8f20df44fa9",
+                "creator_name": "Brijesh Gajjar"
+            },
+            "client_id": "61cbe35459d0ef4d84385821",
+            "slug": "61cbe35459d0ef4d84385821",
+            "created_at": "2021-12-29T04:25:56.298Z",
+            "modified_at": "2021-12-29T04:25:56.298Z",
+            "id": "61cbe35459d0efe86a385822"
+        },
+        {
+            "_id": "61cbe36359d0ef9083385824",
+            "scopes": {
+                "permissions": [
+                    "company/profile"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "No6OiXXKFd5B0fx"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client 17",
+                "description": "test"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "d6da4dcc8fb0b8f20df44fa9",
+                "creator_name": "Brijesh Gajjar"
+            },
+            "client_id": "61cbe36359d0ef2331385823",
+            "slug": "61cbe36359d0ef2331385823",
+            "created_at": "2021-12-29T04:26:11.292Z",
+            "modified_at": "2021-12-29T04:26:11.292Z",
+            "id": "61cbe36359d0ef9083385824"
+        },
+        {
+            "_id": "61cbe37459d0ef78db385826",
+            "scopes": {
+                "permissions": [
+                    "company/profile"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "RIvm2KPTrwAeXQC"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client 18",
+                "description": "test"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "d6da4dcc8fb0b8f20df44fa9",
+                "creator_name": "Brijesh Gajjar"
+            },
+            "client_id": "61cbe37459d0ef3584385825",
+            "slug": "61cbe37459d0ef3584385825",
+            "created_at": "2021-12-29T04:26:28.667Z",
+            "modified_at": "2021-12-29T04:26:28.667Z",
+            "id": "61cbe37459d0ef78db385826"
+        },
+        {
+            "_id": "61cc495bddf7c3756e1f6d91",
+            "scopes": {
+                "permissions": [
+                    "company/*",
+                    "company/application/customer"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "fwPzmi2GdRKO0F_"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "test20",
+                "description": "test20"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "a7cd55c4ddb933538f7bd3df",
+                "creator_name": "Rahul Tambe"
+            },
+            "client_id": "61cc495bddf7c30c3d1f6d90",
+            "slug": "61cc495bddf7c30c3d1f6d90",
+            "created_at": "2021-12-29T11:41:15.166Z",
+            "modified_at": "2021-12-29T11:41:15.166Z",
+            "id": "61cc495bddf7c3756e1f6d91"
+        },
+        {
+            "_id": "61cebb21ec43c53a70cfc349",
+            "scopes": {
+                "permissions": [
+                    "company/*",
+                    "company/application/6110bfb0d4beb6b2c08f8a79/customer",
+                    "company/application/6110bfb0d4beb6b2c08f8a79/storage"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "Kh82osdZ6UsvvOK"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Test21",
+                "description": "hjvbhjk"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "a7cd55c4ddb933538f7bd3df",
+                "creator_name": "Rahul Tambe"
+            },
+            "client_id": "61cebb21ec43c55b08cfc348",
+            "slug": "61cebb21ec43c55b08cfc348",
+            "created_at": "2021-12-31T08:11:13.209Z",
+            "modified_at": "2021-12-31T08:11:13.209Z",
+            "id": "61cebb21ec43c53a70cfc349"
+        },
+        {
+            "_id": "61d081cfec43c577f7cfc4fc",
+            "scopes": {
+                "permissions": [
+                    "company/profile"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "uN1NZ3Z4wHx~Fom"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client20",
+                "description": "20"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "a7cd55c4ddb933538f7bd3df",
+                "creator_name": "Rahul Tambe"
+            },
+            "client_id": "61d081cfec43c514cbcfc4fb",
+            "slug": "61d081cfec43c514cbcfc4fb",
+            "created_at": "2022-01-01T16:31:11.995Z",
+            "modified_at": "2022-01-01T16:31:11.995Z",
+            "id": "61d081cfec43c577f7cfc4fc"
+        },
+        {
+            "_id": "61d081edec43c52653cfc4fe",
+            "scopes": {
+                "permissions": [
+                    "company/saleschannel"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "h.l-hC2MjTUhx8R"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client1",
+                "description": "q"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "a7cd55c4ddb933538f7bd3df",
+                "creator_name": "Rahul Tambe"
+            },
+            "client_id": "61d081edec43c52eedcfc4fd",
+            "slug": "61d081edec43c52eedcfc4fd",
+            "created_at": "2022-01-01T16:31:41.418Z",
+            "modified_at": "2022-01-01T16:31:41.418Z",
+            "id": "61d081edec43c52653cfc4fe"
+        }
+    ],
+    "page": {
+        "type": "number",
+        "current": 1,
+        "size": 20,
+        "item_total": 20,
+        "has_next": false
+    }
+}
