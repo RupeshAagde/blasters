@@ -381,6 +381,13 @@ const conf = convict({
             default: '',
             env: 'PINPOINTER_ADMIN_URL',
             arg: 'PINPOINTER_ADMIN_URL'
+        },
+        EXTENSION_PAGE_URL: {
+            doc: 'Extension Page URLS',
+            format: String,
+            default: '',
+            env: 'EXTENSION_PAGE_URL',
+            arg: 'EXTENSION_PAGE_URL'
         }
     },
 

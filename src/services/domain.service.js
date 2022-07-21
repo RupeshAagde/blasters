@@ -94,6 +94,10 @@ const ADMIN_ORDER_BASE = isNode ?
     envVars.BROWSER_CONFIG.APEFACE_ADMIN_URL :
     envVars.APEFACE_ADMIN_URL;
 
+const EXTENSION_PAGE_URL = isNode ?
+    envVars.BROWSER_CONFIG.EXTENSION_PAGE_URL :
+    envVars.EXTENSION_PAGE_URL;
+
 const URLS = {
     // User Profile API's
     USER_PROFILE: () => {

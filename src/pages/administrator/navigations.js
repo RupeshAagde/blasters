@@ -205,13 +205,30 @@ export const getNavigations = () => {
         },
         {
             display: 'Settings',
-            link: '/administrator/settings',
+            link: '/administrator/settings/platform',
             title: 'settings',
             icon: 'settings',
-            highlightedIcon: 'settings-highlighted',
+            highlightedIcon: 'home-highlighted',
             active: false,
             permission: 'settings',
-            children: []
+            children: [
+                {
+                    display: 'Platform',
+                    link: '/administrator/settings/platform',
+                    title: 'platform',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Partner',
+                    link: '/administrator/settings/partners',
+                    title: 'partner',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                }
+            ]
         }
     ];
 };

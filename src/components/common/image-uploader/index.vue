@@ -60,6 +60,7 @@
             @delete="$emit('delete', $event)"
             @save="$emit('save', $event)"
             v-model="value"
+            :height="dialogHeight"
         ></image-uploader-dialog>
     </div>
 </template>
@@ -131,6 +132,10 @@ export default {
         disabled: {
             type: Boolean,
             default: false
+        },
+        dialogHeight: {
+            type: String,
+            default: ''
         }
     },
     methods: {
