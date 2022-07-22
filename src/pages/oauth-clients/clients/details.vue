@@ -173,6 +173,8 @@
 
 
 <script>
+
+import { ADMINISTRATOR_PERMISSIONS } from '@/helper/constants.js'
 import loader from '@/components/common/loader';
 import admpageerror from '@/components/common/page-error';
 import admpageheader from '@/components/common/layout/page-header';
@@ -181,9 +183,6 @@ import { getRoute } from '@/helper/get-route';
 import admforminput from '@/components/common/form-input';
 import { detectMobileWidth } from '@/helper/utils.js';
 import OAuthClientService from '../../../services/oauth-client.service';
-import { ADMIN_PERMISSIONS } from '../../../store/getters.type';
-import { FETCH_ADMIN_PERMISSIONS } from '../../../store/action.type';
-import { mapGetters } from 'vuex';
 import {
     NitrozenButton,
     NitrozenInput,
@@ -250,6 +249,7 @@ export default {
                 { text: 'Custom', value: 'custom' },
             ],
             selectedPermissions: [],
+            aclPermissions: ADMINISTRATOR_PERMISSIONS
         };
     },
     computed: {
@@ -259,14 +259,8 @@ export default {
         verifyFormData() {
             return !Object.values(this.error).includes(true);
         },
-        ...mapGetters({
-            aclPermissions: ADMIN_PERMISSIONS,
-        }),
     },
     created() {
-        if (!this.aclPermissions) {
-            this.$store.dispatch(FETCH_ADMIN_PERMISSIONS);
-        }
         if (!this.isCreateClientPage) {
             this.getClientData();
         }
@@ -302,11 +296,7 @@ export default {
                 });
         },
         setPermissionData: function (event) {
-            if (this.currentAccessRole === 'admin') {
-                this.selectedPermissions = ['*'];
-            } else {
-                this.selectedPermissions = event;
-            }
+            this.selectedPermissions = event;
         },
         onCancel() {
             this.$router.push({
