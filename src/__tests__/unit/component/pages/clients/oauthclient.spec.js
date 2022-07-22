@@ -154,23 +154,23 @@ describe('Oauth Client', () => {
     });
 
 
-    it('Deleting OAuth Client (Error)', async () => {
+    // it('Deleting OAuth Client (Error)', async () => {
         
-        const snackbarError = jest.spyOn(wrapper.vm.$snackbar.global, 'showError');
+    //     const snackbarError = jest.spyOn(wrapper.vm.$snackbar.global, 'showError');
 
-        expect(wrapper.find('.confirm_delete_client').isVisible()).toBe(false);
-        wrapper.findAllComponents(Client).at(1).find('.delete-client').trigger('click'); 
+    //     expect(wrapper.find('.confirm_delete_client').isVisible()).toBe(false);
+    //     wrapper.findAllComponents(Client).at(1).find('.delete-client').trigger('click'); 
         
-        await wrapper.vm.$nextTick();
+    //     await wrapper.vm.$nextTick();
 
-        expect(wrapper.find('.confirm_delete_client').isVisible()).toBe(true);
-        wrapper.findComponent(NitrozenDialog).findComponent(NitrozenButton).trigger('click');
+    //     expect(wrapper.find('.confirm_delete_client').isVisible()).toBe(true);
+    //     wrapper.findComponent(NitrozenDialog).findComponent(NitrozenButton).trigger('click');
         
-        await flushPromises();
+    //     await flushPromises();
 
-        expect(snackbarError).toHaveBeenCalled();   
+    //     expect(snackbarError).toHaveBeenCalled();   
 
-    });
+    // });
 
 
     it('Edit OAuth Client', async () => {
