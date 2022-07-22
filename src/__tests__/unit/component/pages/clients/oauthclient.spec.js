@@ -27,7 +27,7 @@ Object.defineProperty(navigator, "clipboard", {
  });
  
 
-fdescribe('Oauth Client', () => {
+describe('Oauth Client', () => {
     
     beforeEach(async () => {
         localVue = createLocalVue();
