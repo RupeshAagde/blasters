@@ -122,14 +122,6 @@ const AVIS_MAIN_URL = isNode
     ? envVars.BROWSER_CONFIG.AVIS_MAIN_SVC
     : envVars.AVIS_MAIN_URL;
 
-const MIXMASTER_MAIN_URL = isNode
-    ? envVars.BROWSER_CONFIG.MIXMASTER_MAIN_URL
-    : envVars.MIXMASTER_MAIN_URL;
-
-const MIXMASTER_PNL_URL = isNode
-    ? envVars.BROWSER_CONFIG.MIXMASTER_PNL_URL
-    : envVars.MIXMASTER_PNL_URL;
-
 const GALVATRON_MAIN_URL = isNode
     ? envVars.BROWSER_CONFIG.GALVATRON_MAIN_URL
     : envVars.GALVATRON_MAIN_URL;
@@ -1278,9 +1270,6 @@ const ADMIN_URLS = {
     },
     VALIDATE_DOCUMENT: () => {
         return urlJoin(WHEELJACK_PNLCPR_URL, '/v1.0/documents/verification/config');
-    },
-    VALIDATE_REFERRAL: () => {
-        return urlJoin(MIXMASTER_PNL_URL, '/v1.0/referralcode/validate');
     },
     SAVE_DOCUMENT: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/edit-documents');

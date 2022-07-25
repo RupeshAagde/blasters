@@ -3,6 +3,7 @@
         <div class="main-container">
             <div class="page-container-main">
                 <jumbotron
+                    class="top-jumbotron"
                     :title="'Extension Collection'"
                     btnLabel="Create"
                     :desc="'Extension Collection'"

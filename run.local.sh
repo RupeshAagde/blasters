@@ -54,6 +54,7 @@ export MIXMASTER_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/admin
 export WEIRDWOLF_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/packaging
 export PACKAGING_COMPANY_ID=84
 export PACKAGING_APPLICATION_ID=629616a1d7c74d3915f8f4e8
+export EXTENSION_PAGE_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/partner/partners
 export BLASTER_MAIN_DOMAIN=https://administrator.${FYND_PLATFORM_DOMAIN}
 export BOMBSHELL_MAIN_DOMAIN=https://partners.${FYND_PLATFORM_DOMAIN}
 export MIRAGE_MAIN_DOMAIN=https://platform.${FYND_PLATFORM_DOMAIN}

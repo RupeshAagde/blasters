@@ -16,6 +16,7 @@
                         v-model="collection_data.published"
                     ></nitrozen-toggle-btn>
                     <nitrozen-button
+                        class="save-form-button"
                         :theme="'secondary'"
                         @click="saveForm(true)"
                         v-flatBtn
@@ -44,6 +45,7 @@
                             placeholder="For eg. Summer Styles, Suit Up, etc."
                             v-model="collection_data.name"
                             @input="onNameInput"
+                            class="collection-name"
                             :custom="true"
                             :maxlength="30"
                         >
@@ -72,6 +74,7 @@
                             @blur="handleDuplicateSlug"
                             :maxlength="24"
                             :disabled="checkSlugDisable()"
+                            class="collection-slug"
                         ></nitrozen-input>
                         <div class="three col" v-if="is_slug_loading">
                             <div class="loader-main" id="loader-1"></div>
@@ -318,6 +321,7 @@
                     :isCancelable="true"
                     :title="'Extension List'"
                     @onAddExtensions="addSelectedExtensions"
+                    class="item-drawer-main"
                     :selected_extensions="collection_data.selected_items"
                     @closeProductModal="closeModal"
                     @handleModalRef="setModalRef"
@@ -640,6 +644,7 @@ export default {
                         });
                     })
                     .catch((err) => {
+                        console.log('>> err', err);
                         if (err.response.data.message) {
                             this.$snackbar.global.showError(
                                 err.response.data.message
@@ -716,7 +721,7 @@ export default {
                         this.collection_data.slug = this.nameToSlug(slug);
                     }
                     this.is_slug_loading = false;
-                });
+                })
             } else {
                 this.is_slug_loading = false;
                 this.$set(this.duplicate_slug, 'error', null);

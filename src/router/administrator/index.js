@@ -16,6 +16,7 @@ import CreateTicket from './../../pages/tickets/create-ticket.vue';
 import VideoRoom from './../../pages/tickets/video-call/video-room.vue';
 import AddCategory from './../../pages/tickets/add-category.vue';
 import SettingsVue from './../../pages/settings';
+import SettingsPartnerVue from './../../pages/settings/partner.vue';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details.vue';
 import FeaturesSettingsVue from './../../pages/settings/features.vue';
 import PagesSettingsVue from './../../pages/settings/custompage.vue';
@@ -25,6 +26,7 @@ import CreateCustomVue from './../../pages/settings/page-editor/create.vue';
 import NavbarSettingsVue from './../../pages/settings/navbar';
 import FooterSettingsVue from './../../pages/settings/footer';
 import PricingBannerVue from './../../pages/settings/pricing_banner.vue';
+import ExtensionsListingVue from './../../pages/settings/extensions-listing/index.vue';
 import CategoryList from '@/pages/product/category/list';
 import AuditLogs from './../../pages/audit-trail/index.vue';
 import AuditLogsDetails from './../../pages/audit-trail/log-detail.vue';
@@ -525,7 +527,7 @@ export default [
         // Settings
         {
             name: 'settings',
-            path: 'settings',
+            path: 'settings/platform',
             component: SettingsVue,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['settings']);
@@ -533,7 +535,7 @@ export default [
         },
         {
             name: 'basic-details-setting',
-            path: 'settings/basic',
+            path: 'settings/platform/basic',
             component: BasicDetailSettingsVue,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['settings']);
@@ -541,7 +543,7 @@ export default [
         },
         {
             name: 'features-setting',
-            path: 'settings/features',
+            path: 'settings/platform/features',
             component: FeaturesSettingsVue,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['settings']);
@@ -549,7 +551,7 @@ export default [
         },
         {
             name: 'pages-setting',
-            path: 'settings/pages',
+            path: 'settings/platform/pages',
             component: PagesSettingsVue,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['settings']);
@@ -557,7 +559,7 @@ export default [
         },
         {
             name: 'list-tags',
-            path: 'settings/list-tags',
+            path: 'settings/platform/list-tags',
             component: TagsInjectVue,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['settings']);
@@ -565,7 +567,7 @@ export default [
         },
         {
             name: 'create-tag',
-            path: 'settings/create-tag',
+            path: 'settings/platform/create-tag',
             component: TagsCreateUpdateVue,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['settings']);
@@ -573,7 +575,7 @@ export default [
         },
         {
             name: 'update-tag',
-            path: 'settings/update-tag/:tagId',
+            path: 'settings/platform/update-tag/:tagId',
             component: TagsCreateUpdateVue,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['settings']);
@@ -581,7 +583,7 @@ export default [
         },
         {
             name: 'create-custom',
-            path: 'settings/pages/:pagetype/create',
+            path: 'settings/platform/pages/:pagetype/create',
             component: CreateCustomVue,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['settings']);
@@ -589,7 +591,7 @@ export default [
         },
         {
             name: 'navbar-setting',
-            path: 'settings/navbar',
+            path: 'settings/platform/navbar',
             component: NavbarSettingsVue,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['settings']);
@@ -597,7 +599,7 @@ export default [
         },
         {
             name: 'edit-custom',
-            path: 'settings/pages/:pagetype/:slug/edit',
+            path: 'settings/platform/pages/:pagetype/:slug/edit',
             component: CreateCustomVue,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['settings']);
@@ -605,7 +607,7 @@ export default [
         },
         {
             name: 'footer-setting',
-            path: 'settings/footer',
+            path: 'settings/platform/footer',
             component: FooterSettingsVue,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['settings']);
@@ -613,8 +615,16 @@ export default [
         },
         {
             name: 'pricing-banner',
-            path: 'settings/pricing-banner',
+            path: 'settings/platform/pricing-banner',
             component: PricingBannerVue,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        {
+            name: 'partners',
+            path: 'settings/partners',
+            component: SettingsPartnerVue,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['settings']);
             }
@@ -691,50 +701,59 @@ export default [
                 return checkUserPermission(to, from, next, ['integration']);
             }
         },
-        /**
+        ]
+    },
+     /**
          * packaging related routes 
          */
-        {
-            name: 'packaging-home',
-            path: 'packaging/items',
-            component: PackagingHome,
-            beforeEnter: (to, from, next) => {
-                return checkUserPermission(to, from, next, [
-                    'admin-access'
-                ]);
-            }
-        },
-        {
-            name: 'packaging-create',
-            path: 'packaging/create',
-            alias:'packaging/edit',
-            component: PackagingCreate,
-            beforeEnter: (to, from, next) => {
-                return checkUserPermission(to, from, next, [
-                    'admin-access'
-                ]);
-            }
-        },
-        {
-            name: 'category-config',
-            path: 'packaging/category-configuration',
-            component: CategoryConfig,
-            beforeEnter: (to, from, next) => {
-                return checkUserPermission(to, from, next, [
-                    'admin-access'
-                ]);
-            }
-        },
-        {
-            name: 'category-config-create',
-            path: 'packaging/category-configuration/create',
-            alias: 'packaging/category-configuration/edit',
-            component: CreateCategory,
-            beforeEnter: (to, from, next) => {
-                return checkUserPermission(to, from, next, [
-                    'admin-access'
-                ]);
-            }
+      {
+        name: 'packaging-home',
+        path: 'packaging/items',
+        component: PackagingHome,
+        beforeEnter: (to, from, next) => {
+            return checkUserPermission(to, from, next, [
+                'admin-access'
+            ]);
         }
-    ]
-}];
+    },
+    {
+        name: 'packaging-create',
+        path: 'packaging/create',
+        alias:'packaging/edit',
+        component: PackagingCreate,
+        beforeEnter: (to, from, next) => {
+            return checkUserPermission(to, from, next, [
+                'admin-access'
+            ]);
+        }
+    },
+    {
+        name: 'category-config',
+        path: 'packaging/category-configuration',
+        component: CategoryConfig,
+        beforeEnter: (to, from, next) => {
+            return checkUserPermission(to, from, next, [
+                'admin-access'
+            ]);
+        }
+    },
+    {
+        name: 'category-config-create',
+        path: 'packaging/category-configuration/create',
+        alias: 'packaging/category-configuration/edit',
+        component: CreateCategory,
+        beforeEnter: (to, from, next) => {
+            return checkUserPermission(to, from, next, [
+                'admin-access'
+            ]);
+        }
+    },
+    {
+        name: 'partners',
+        path: '/administrator/settings/partners/extensions-listing',
+        component: ExtensionsListingVue,
+        beforeEnter: (to, from, next) => {
+            return checkUserPermission(to, from, next, ['settings']);
+        }
+    },
+];
