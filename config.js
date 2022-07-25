@@ -393,14 +393,14 @@ const conf = convict({
             doc: 'packaging company id',
             format: String,
             default:'884',
-            env: 'COMPANY_ID',
+            env: 'PACKAGING_COMPANY_ID',
             arg: 'company_id'
         },
         PACKAGING_APPLICATION_ID: {
             doc: 'packaging application id',
             format: String,
             default:'60792ded7826bd09330ed90d',
-            env: 'APPLICATION_ID',
+            env: 'PACKAGING_APPLICATION_ID',
             arg: 'application_id'
         },
         EXTENSION_PAGE_URL: {
