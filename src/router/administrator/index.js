@@ -701,9 +701,7 @@ export default [
                 return checkUserPermission(to, from, next, ['integration']);
             }
         },
-        ]
-    },
-     /**
+        /**
          * packaging related routes 
          */
       {
@@ -747,6 +745,8 @@ export default [
                 'admin-access'
             ]);
         }
+    },
+        ]
     },
     {
         name: 'partners',
