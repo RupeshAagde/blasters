@@ -82,7 +82,7 @@ const URLS = {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection/${collectionId}/items`);
     },
     WEBHOOK_EVENT_LIST: () => {
-        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/company/1/events/`);
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/event/`);
     },
     WEBHOOK_GLOABAL_SUBSCRIBER: () => {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscribers/global_subscriber`);
