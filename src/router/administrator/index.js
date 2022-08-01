@@ -74,6 +74,14 @@ export default [
                 }
             },
             {
+                name: 'webhook',
+                path: 'webhook',
+                component: ListWebhooks,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
                 name: 'company-details',
                 path: 'company-details/:companyId',
                 component: CbsDetailVue,
@@ -705,14 +713,6 @@ export default [
         name: 'partners',
         path: '/administrator/settings/partners/extensions-listing',
         component: ExtensionsListingVue,
-        beforeEnter: (to, from, next) => {
-            return checkUserPermission(to, from, next, ['settings']);
-        }
-    },
-    {
-        name: 'webhook',
-        path: '/administrator/settings/webhook',
-        component: ListWebhooks,
         beforeEnter: (to, from, next) => {
             return checkUserPermission(to, from, next, ['settings']);
         }

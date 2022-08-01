@@ -41,10 +41,10 @@
         <div v-if="subscriberList && subscriberList.length > 0" class="webhook-list" >
             <div v-for="items in subscriberList" :key="items.id" class="full-width">
                 <!-- new cards -->
-                <div @click.self="redirectEdit(items.id)" class="mirage-list-card-container">
+                <div @click.self="redirectEdit(items.id)" class="blaster-list-card-container">
                     <span @click="redirectEdit(items.id)" class="settings-icon">
                         <img
-                            src="/public/admin/assets/admin/svgs/webhook.svg"
+                            src="/public/assets/admin/svgs/webhook.svg"
                             alt="profile"
                         />
                     </span>
@@ -118,6 +118,19 @@
 <style lang="less" scoped>
 @import './../less/page-header.less';
 @import './../less/page-ui.less';
+.blaster-list-card-container{
+    background: #ffffff;
+    margin: 16px 0px;
+    border: 1px solid #E4E5E6;
+    padding: 24px;
+    border-radius: 3px;
+    display: flex;
+    height: 70px;
+    overflow: auto;
+    max-height: 70px;
+    cursor: pointer;
+    transition: box-shadow 0.3s;
+}
 .webhook-report-btn{
     height: 30px;
     margin-right: 15px;
@@ -393,13 +406,13 @@ span{
     height: 40px;
     width: 400px;
 }
-.mirage-list-card-container {
+.blaster-list-card-container {
         width: 100%;
 }
 .staff-list {
     width: auto;
     background-color: @White;
-    .mirage-list-card-container {
+    .blaster-list-card-container {
         width: 100%;
         overflow: visible;
         .verified-icon {
@@ -576,7 +589,8 @@ export default {
         };
     },
     mounted() {
-        console.log("#####################1")
+
+        console.log("#####################1",svg["webhook-copy"])
         this.getSubscriberList()
     },
     methods: {

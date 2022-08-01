@@ -84,9 +84,8 @@ const URLS = {
     WEBHOOK_EVENT_LIST: () => {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/company/1/events/`);
     },
-    SUBSCRIBER_BY_COMPANY_ID: () => {
-        console.log(urlJoin(SURESHOT_ADMIN_URL, `/v1.0/company/1/subscriber`),"#$@#$@%#@%@%$#@#$%")
-        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/company/1/subscriber`);
+    WEBHOOK_GLOABAL_SUBSCRIBER: () => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscribers/global_subscriber`);
     },
     GET_WEBHOOK_REPORT: () => {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/company/1/reports/event_processed`);

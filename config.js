@@ -357,7 +357,7 @@ const conf = convict({
         SURESHOT_ADMIN_URL: {
             doc: 'Sureshot Admin URL',
             format: String,
-            default: 'https://api.fyndx0.de/service/platform/webhook',
+            default: 'https://api.fyndx0.de/service/___/administrator/webhook/',
             env: 'SURESHOT_ADMIN_URL',
             arg: 'sureshot_admin_url'
         },
