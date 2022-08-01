@@ -50,6 +50,8 @@ import ProductTaxationList from '@/pages/product/taxation/list';
 import ProductTaxationEdit from '@/pages/product/taxation/edit';
 import IntegrationsListVue from '@/pages/integration/list';
 import IntegrationsCreateVue from '@/pages/integration/create';
+import ListWebhooks from './../../pages/webhook/list_webhooks.vue';
+
 const OrdersPage =()=>import('@/pages/orders');
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
 
@@ -707,4 +709,12 @@ export default [
             return checkUserPermission(to, from, next, ['settings']);
         }
     },
+    {
+        name: 'webhook',
+        path: '/administrator/settings/webhook',
+        component: ListWebhooks,
+        beforeEnter: (to, from, next) => {
+            return checkUserPermission(to, from, next, ['settings']);
+        }
+    }
 ];

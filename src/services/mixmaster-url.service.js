@@ -17,6 +17,10 @@ let MIXMASTER_ADMIN_BASE = isNode ?
     envVars.BROWSER_CONFIG.MIXMASTER_ADMIN_URL :
     envVars.MIXMASTER_ADMIN_URL;
 
+let SURESHOT_ADMIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.SURESHOT_ADMIN_URL :
+    envVars.SURESHOT_ADMIN_URL;
+
 let MIXMASTER_PNL_BASE = isNode
     ? envVars.BROWSER_CONFIG.MIXMASTER_PNL_URL
     : envVars.MIXMASTER_PNL_URL;
@@ -76,7 +80,26 @@ const URLS = {
     },
     FETCH_COLLECTION_EXTENSIONS: (collectionId) => {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection/${collectionId}/items`);
-    }
+    },
+    WEBHOOK_EVENT_LIST: () => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/company/1/events/`);
+    },
+    SUBSCRIBER_BY_COMPANY_ID: () => {
+        console.log(urlJoin(SURESHOT_ADMIN_URL, `/v1.0/company/1/subscriber`),"#$@#$@%#@%@%$#@#$%")
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/company/1/subscriber`);
+    },
+    GET_WEBHOOK_REPORT: () => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/company/1/reports/event_processed`);
+    },
+    TEST_WEBHOOK: () => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/company/1/subscriber/ping`);
+    },
+    GET_SUBSCRIBER_BY_ID :(id) => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/company/1/subscriber/${id}`);
+    },
+    GET_FILTER_LIST :() => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/company/1/filters`);
+    },
 };
 
 export default URLS;
