@@ -154,6 +154,10 @@ const CommunicationServices = {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.GLOBAL_VARIABLES() , axiosOptions);
     },
+    postGlobalVariables(data){
+        const axiosOptions = Object.assign({data}, getCommonHeaderOptions());
+        return ApiService.post(URLS.GLOBAL_VARIABLES() , axiosOptions);
+    },
     
 
 
