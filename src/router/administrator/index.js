@@ -52,6 +52,8 @@ import IntegrationsListVue from '@/pages/integration/list';
 import IntegrationsCreateVue from '@/pages/integration/create';
 import ListWebhooks from './../../pages/webhook/list_webhooks.vue';
 import CreateWebhooks from './../../pages/webhook/index.vue';
+import EditWebhooks from './../../pages/webhook/edit_webhooks.vue';
+import WebhookReport from './../../pages/webhook/webhook_report.vue';
 
 const OrdersPage =()=>import('@/pages/orders');
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
@@ -86,6 +88,22 @@ export default [
                 name: 'create-webhook',
                 path: 'create-webhook',
                 component: CreateWebhooks,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'edit-webhook',
+                path: 'edit-webhook',
+                component: EditWebhooks,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'webhook-report',
+                path: 'webhook-report',
+                component: WebhookReport,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
                 }
