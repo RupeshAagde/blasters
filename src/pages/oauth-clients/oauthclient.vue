@@ -164,7 +164,6 @@ export default {
         },
         fetchOAuthClients() {
             this.pageLoading = true;
-            console.log(this.searchTxt);
             OAuthClientService.fetchClientListing({
                 page_no: this.paginationConfig.current,
                 page_size: this.paginationConfig.limit,
