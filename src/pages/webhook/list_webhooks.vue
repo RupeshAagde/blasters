@@ -746,7 +746,7 @@ export default {
         },
         redirectEdit(id) {
             this.$router.push({
-                path: `create-webhook${id.toString()}`,
+                path: `edit-webhook/${id.toString()}`,
             });
         },
         openTestDialog: function () {

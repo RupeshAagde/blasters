@@ -94,7 +94,7 @@ export default [
             },
             {
                 name: 'edit-webhook',
-                path: 'edit-webhook',
+                path: 'edit-webhook/:id',
                 component: EditWebhooks,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);

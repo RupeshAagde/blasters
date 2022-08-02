@@ -88,19 +88,22 @@ const URLS = {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscribers/global_subscriber`);
     },
     GET_WEBHOOK_REPORT: () => {
-        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/company/1/reports/event_processed`);
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/reports/event_processed`);
     },
     REGISTER_SUBSCRIBERS: () => {
-        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/register_subscribers`);
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscriber/create_subscribers`);
+    },
+    UPDATE_SUBSCRIBER: () => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscriber/update_subscriber`);
     },
     TEST_WEBHOOK: () => {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscriber/ping`);
     },
-    GET_SUBSCRIBER_BY_ID :(id) => {
-        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/company/1/subscriber/${id}`);
+    GET_SUBSCRIBER_BY_ID_TYPE: (id, type) => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscriber/${id}/${type}`);
     },
-    GET_FILTER_LIST :() => {
-        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/company/1/filters`);
+    GET_FILTER_LIST: () => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/filters`);
     },
 };
 

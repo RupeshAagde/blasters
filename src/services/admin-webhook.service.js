@@ -12,18 +12,16 @@ const AdminWebhookService = {
       getCommonHeaderOptions()
     );
     return ApiService.get(
-      URLS.GET_SUBSCRIBER_BY_ID(id),
+      URLS.GET_SUBSCRIBER_BY_ID_TYPE(id, 'global'),
       axiosOption
     );
   },
   getSubscriberList(query_param) {
-    console.log("@################1")
     const axiosOption = Object.assign(
       { data: {} },
       { params: query_param },
       getCommonHeaderOptions()
     );
-    console.log(axiosOption, "@################2", URLS.WEBHOOK_GLOABAL_SUBSCRIBER())
     return ApiService.get(
       URLS.WEBHOOK_GLOABAL_SUBSCRIBER(),
       axiosOption
@@ -69,7 +67,7 @@ const AdminWebhookService = {
       getCommonHeaderOptions()
     );
     return ApiService.post(
-      URLS.SUBSCRIBER_BY_COMPANY_ID(),
+      URLS.REGISTER_SUBSCRIBERS(),
       axiosOption
     );
   },
@@ -80,7 +78,7 @@ const AdminWebhookService = {
       getCommonHeaderOptions()
     );
     return ApiService.put(
-      URLS.SUBSCRIBER_BY_COMPANY_ID(),
+      URLS.UPDATE_SUBSCRIBER(),
       axiosOption
     );
   }, getFilterList() {

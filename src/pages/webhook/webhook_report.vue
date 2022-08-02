@@ -27,7 +27,7 @@
                             </div>
                             <span>
                                 <img
-                                    src="/public/admin/assets/admin/svgs/webhook-copy.svg"
+                                    src="/public/assets/admin/svgs/webhook-copy.svg"
                                     alt="copy"
                                     class="copy copy-url"
                                     @click="
@@ -50,7 +50,7 @@
                             </div>
                             <span>
                                 <img
-                                    src="/public/admin/assets/admin/svgs/webhook-copy.svg"
+                                    src="/public/assets/admin/svgs/webhook-copy.svg"
                                     alt="copy"
                                     class="copy copy-id"
                                     @click="
@@ -69,7 +69,7 @@
                                 <div class="url-display-name">Payload:</div>
                             </div>
                             <img
-                                src="/public/admin/assets/admin/svgs/webhook-copy.svg"
+                                src="/public/assets/admin/svgs/webhook-copy.svg"
                                 alt="copy"
                                 class="copy copy-json-content"
                                 @click="
@@ -212,7 +212,7 @@
                                         <img
                                             @click="deleteItem(name, 'Event')"
                                             class="cross-icon"
-                                            src="/public/admin/assets/admin/svgs/cross-black.svg"
+                                            src="/public/assets/admin/svgs/cross-black.svg"
                                             alt="profile"
                                         />
                                     </div>
@@ -234,7 +234,7 @@
                                                 )
                                             "
                                             class="cross-icon"
-                                            src="/public/admin/assets/admin/svgs/cross-black.svg"
+                                            src="/public/assets/admin/svgs/cross-black.svg"
                                             alt="profile"
                                         />
                                     </div>

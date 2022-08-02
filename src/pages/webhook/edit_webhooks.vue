@@ -29,15 +29,15 @@
                 <template slot="body">
                     <div v-if="testSuccess" class="header-block">
                         <img v-if="testDialogInfo == 'SUCCESS'" class="test-webhook-icon"
-                            src="/public/admin/assets/pngs/success_tick.png" />
+                            src="/public/assets/pngs/success_tick.png" />
                         <img v-if="testDialogInfo != 'SUCCESS'" class="test-webhook-icon alert"
-                            src="/public/admin/assets/pngs/alert.png" />
+                            src="/public/assets/pngs/alert.png" />
                         <div class="header-text">{{ testDialogInfo }}!</div>
                     </div>
                     <div v-if="testSuccess" class="test-webhook-message">
                         {{ testDialogMessage }}
                     </div>
-                    <img v-if="!testSuccess" class="loader-icon" src="/public/admin/assets/adm-loader.gif" />
+                    <img v-if="!testSuccess" class="loader-icon" src="/public/assets/adm-loader.gif" />
                     <div v-if="!testSuccess" class="header-webhook-message">
                         Testing in progress...
                     </div>
@@ -356,7 +356,7 @@
                                             item.text
                                     }}</span>
                                     <img @click="deleteItem(item.value)" class="cross-icon"
-                                        src="/public/admin/assets/admin/svgs/cross-black.svg" alt="profile" />
+                                        src="/public/assets/admin/svgs/cross-black.svg" alt="profile" />
                                 </div>
                                 <div v-if="selectedApplications.length > 0" class="clear-section"
                                     @click="deleteItem('all')">
@@ -1625,24 +1625,24 @@ export default {
                 }
             });
         },
-        // loadApplications() {
-        //     AdminSellerService.fetchApplicationList({
-        //         company_id: getCompInfo(),
-        //         page_no: 1,
-        //         page_size: 100,
-        //         query: { is_active: true },
-        //     }).then((res) => {
-        //         let items = res.data.items;
-        //         items.forEach((elem) => {
-        //             this.applications.push({ text: elem.name, value: elem.id });
-        //             this.actualApplications.push({
-        //                 text: elem.name,
-        //                 value: elem.id,
-        //             });
-        //         });
-        //         this.getWebhookSubscriberById();
-        //     });
-        // },
+        loadApplications() {
+            // AdminSellerService.fetchApplicationList({
+            //     company_id: getCompInfo(),
+            //     page_no: 1,
+            //     page_size: 100,
+            //     query: { is_active: true },
+            // }).then((res) => {
+            //     let items = res.data.items;
+            //     items.forEach((elem) => {
+            //         this.applications.push({ text: elem.name, value: elem.id });
+            //         this.actualApplications.push({
+            //             text: elem.name,
+            //             value: elem.id,
+            //         });
+            //     });
+                this.getWebhookSubscriberById();
+            // });
+        },
         deleteItem(itemName) {
             if (itemName == 'all') {
                 this.applicationSelected = [];
