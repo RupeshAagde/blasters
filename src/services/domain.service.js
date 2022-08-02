@@ -697,19 +697,19 @@ const URLS = {
 
     // OAUTH CLIENT CRUD URLS
     GET_OAUTH_CLIENT_LISTING: () => {
-        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/oauth/client/');
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/oauth/client/');
     },
     GET_OAUTH_CLIENT: (clientId) => {
-        return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/admin/oauth/client/${clientId}/`);
+        return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/oauth/client/${clientId}/`);
     },
     CREATE_OAUTH_CLIENT: () => {
-        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/oauth/client/');
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/oauth/client/');
     },
     UPDATE_OAUTH_CLIENT: (clientId) => {
-        return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/admin/oauth/client/${clientId}/`);
+        return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/oauth/client/${clientId}/`);
     },
     DELETE_OAUTH_CLIENT: (clientId) => {
-        return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/admin/oauth/client/${clientId}/`);
+        return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/oauth/client/${clientId}/`);
     },
 };
 
