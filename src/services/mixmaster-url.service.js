@@ -103,7 +103,7 @@ const URLS = {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscriber/${id}/${type}`);
     },
     GET_FILTER_LIST: () => {
-        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/filters`);
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/filters/global`);
     },
 };
 

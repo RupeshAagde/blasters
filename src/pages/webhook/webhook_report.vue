@@ -1,22 +1,14 @@
 <template>
     <div class="panel">
         <div class="header-position">
-            <adm-page-header
-                @backClick="onCancel"
-                @openHelp="showHelpSection"
-                :title="`Webhook Report`"
-                :contextMenuItems="isOrganisationUser ? [] : contextMenuItems"
-            >
+            <adm-page-header @backClick="onCancel" @openHelp="showHelpSection" :title="`Webhook Report`"
+                :contextMenuItems="isOrganisationUser ? [] : contextMenuItems">
             </adm-page-header>
         </div>
         <loader v-if="startLoader" class="loading"></loader>
         <div class="main-container">
             <div class="full-width">
-                <nitrozen-dialog
-                    class="status_dialog"
-                    ref="status_dialog"
-                    :title="selectedPayloadName"
-                >
+                <nitrozen-dialog class="status_dialog" ref="status_dialog" :title="selectedPayloadName">
                     <template v-if="ifJson" slot="body">
                         <div>
                             <div class="url-content">
@@ -26,18 +18,14 @@
                                 </div>
                             </div>
                             <span>
-                                <img
-                                    src="/public/assets/admin/svgs/webhook-copy.svg"
-                                    alt="copy"
-                                    class="copy copy-url"
+                                <img src="/public/assets/admin/svgs/webhook-copy.svg" alt="copy" class="copy copy-url"
                                     @click="
                                         onCopyCode(
                                             $event,
                                             dialodWebhookUrl,
                                             'url'
                                         )
-                                    "
-                                />
+                                    " />
                             </span>
                             <hr />
                         </div>
@@ -49,18 +37,14 @@
                                 </div>
                             </div>
                             <span>
-                                <img
-                                    src="/public/assets/admin/svgs/webhook-copy.svg"
-                                    alt="copy"
-                                    class="copy copy-id"
+                                <img src="/public/assets/admin/svgs/webhook-copy.svg" alt="copy" class="copy copy-id"
                                     @click="
                                         onCopyCode(
                                             $event,
                                             dialogMessageJson.event.id,
                                             'id'
                                         )
-                                    "
-                                />
+                                    " />
                             </span>
                             <hr />
                         </div>
@@ -68,24 +52,17 @@
                             <div class="url-content">
                                 <div class="url-display-name">Payload:</div>
                             </div>
-                            <img
-                                src="/public/assets/admin/svgs/webhook-copy.svg"
-                                alt="copy"
-                                class="copy copy-json-content"
-                                @click="
+                            <img src="/public/assets/admin/svgs/webhook-copy.svg" alt="copy"
+                                class="copy copy-json-content" @click="
                                     onCopyCode(
                                         $event,
                                         dialogMessageJson,
                                         'json'
                                     )
-                                "
-                            />
+                                " />
                             <div class="json-data">
-                                <tree-view
-                                    class="json-content"
-                                    :data="dialogMessageJson"
-                                    :options="{ maxDepth: 3 }"
-                                ></tree-view>
+                                <tree-view class="json-content" :data="dialogMessageJson" :options="{ maxDepth: 3 }">
+                                </tree-view>
                             </div>
                         </div>
                     </template>
@@ -94,104 +71,64 @@
                     </template>
                     <template class="footer-dialog" slot="footer">
                         <div class="test-webhook-footer">
-                            <nitrozen-button
-                                @click="closeDialog"
-                                class="popup-btn"
-                                v-strokeBtn
-                                :theme="'secondary'"
-                                >Ok</nitrozen-button
-                            >
+                            <nitrozen-button @click="closeDialog" class="popup-btn" v-strokeBtn :theme="'secondary'">Ok
+                            </nitrozen-button>
                         </div>
                     </template>
                 </nitrozen-dialog>
                 <div class="sp-settings-container">
-                    <div
-                        class="page-container common-container report-container"
-                    >
+                    <div class="page-container common-container report-container">
                         <div class="sub-header">
                             <template>
                                 <div class="filter">
-                                    <nitrozen-input
-                                        :showSearchIcon="true"
-                                        class="search"
-                                        type="search"
-                                        placeholder="Search by Trace ID or Message ID"
-                                        v-model="searchText"
-                                        @input="
+                                    <nitrozen-input :showSearchIcon="true" class="search" type="search"
+                                        placeholder="Search by Trace ID or Message ID" v-model="searchText" @input="
                                             webhookInput({ search: searchText })
-                                        "
-                                    ></nitrozen-input>
+                                        "></nitrozen-input>
                                     <div class="filter-dynamic">
-                                        <div
-                                            v-for="(filter, index) in filters"
-                                            :key="filter.filter_name"
-                                            class="filter-dropdown"
-                                        >
-                                            <nitrozen-dropdown
-                                                :class="
-                                                    'filter-dropdown-field filter-' +
-                                                    filter.filter_name
-                                                "
-                                                :label="filter.filter_name"
-                                                :enable_select_all="true"
-                                                :items="filter.values"
-                                                :id="filter.filter_name"
-                                                @searchInputChange="
+                                        <div v-for="(filter, index) in filters" :key="filter.filter_name"
+                                            class="filter-dropdown">
+                                            <nitrozen-dropdown :class="
+                                                'filter-dropdown-field filter-' +
+                                                filter.filter_name
+                                            " :label="filter.filter_name" :enable_select_all="true"
+                                                :items="filter.values" :id="filter.filter_name" @searchInputChange="
                                                     searchFilter($event)
-                                                "
-                                                v-model="
-                                                    filtersToshow[
-                                                        filter.filter_name
-                                                    ]
-                                                "
-                                                @change="
-                                                    filterInputChange(
-                                                        filter.filter_name,
-                                                        index
-                                                    )
-                                                "
-                                                :placeholder="
-                                                    'Select ' +
-                                                    filter.filter_name
-                                                "
-                                                :searchable="true"
-                                                :multiple="true"
-                                            ></nitrozen-dropdown>
+                                                " v-model="
+    filtersToshow[
+    filter.filter_name
+    ]
+" @change="
+    filterInputChange(
+        filter.filter_name,
+        index
+    )
+" :placeholder="
+    'Select ' +
+    filter.filter_name
+" :searchable="true" :multiple="true"></nitrozen-dropdown>
                                         </div>
                                         <div class="date-content">
                                             <div class="date-search">
-                                                <label
-                                                    class="
+                                                <label class="
                                                         nitrozen-dropdown-label
                                                         date-range-label
-                                                    "
-                                                    >Date Range
-                                                    <nitrozen-tooltip
-                                                        icon="help"
-                                                        class="ort-tooltip"
-                                                        :position="'bottom'"
-                                                    >
+                                                    ">Date Range
+                                                    <nitrozen-tooltip icon="help" class="ort-tooltip"
+                                                        :position="'bottom'">
                                                         <p>
                                                             Only last 30 days
                                                             data available
                                                         </p>
                                                     </nitrozen-tooltip>
                                                 </label>
-                                                <nitrozen-dropdown
-                                                    :class="'filter-dropdown-field filter-date'"
-                                                    :label="'Date Range'"
-                                                    :items="dateItems"
-                                                    @change="
+                                                <nitrozen-dropdown :class="'filter-dropdown-field filter-date'"
+                                                    :label="'Date Range'" :items="dateItems" @change="
                                                         dateRangeChange($event)
-                                                    "
-                                                    @searchInputChange="
-                                                        clearDateFilter()
-                                                    "
-                                                    v-model="dateSelected"
-                                                    placeholder="Select Date Range"
-                                                    :searchable="true"
-                                                    :multiple="false"
-                                                >
+                                                    " @searchInputChange="
+    clearDateFilter()
+" v-model="dateSelected" placeholder="Select Date Range"
+                                                    :searchable="true" :multiple="false">
                                                     <label>Date Range</label>
                                                 </nitrozen-dropdown>
                                             </div>
@@ -199,142 +136,90 @@
                                     </div>
                                 </div>
                                 <div class="selectedItems">
-                                    <div
-                                        v-for="(name, index) in filtersToshow[
-                                            'Event'
-                                        ]"
-                                        :key="index"
-                                        class="items"
-                                    >
+                                    <div v-for="(name, index) in filtersToshow[
+                                        'Event'
+                                    ]" :key="index" class="items">
                                         <span class="items-content">{{
-                                            name
+                                                name
                                         }}</span>
-                                        <img
-                                            @click="deleteItem(name, 'Event')"
-                                            class="cross-icon"
-                                            src="/public/assets/admin/svgs/cross-black.svg"
-                                            alt="profile"
-                                        />
+                                        <img @click="deleteItem(name, 'Event')" class="cross-icon"
+                                            src="/public/assets/admin/svgs/cross-black.svg" alt="profile" />
                                     </div>
-                                    <div
-                                        v-for="(name, index) in filtersToshow[
-                                            'Subscriber Name'
-                                        ]"
-                                        :key="index + 'subscriber_name'"
-                                        class="items"
-                                    >
+                                    <div v-for="(name, index) in filtersToshow[
+                                        'Subscriber Name'
+                                    ]" :key="index + 'subscriber_name'" class="items">
                                         <span class="items-content">{{
-                                            name
+                                                name
                                         }}</span>
-                                        <img
-                                            @click="
-                                                deleteItem(
-                                                    name,
-                                                    'Subscriber Name'
-                                                )
-                                            "
-                                            class="cross-icon"
-                                            src="/public/assets/admin/svgs/cross-black.svg"
-                                            alt="profile"
-                                        />
+                                        <img @click="
+                                            deleteItem(
+                                                name,
+                                                'Subscriber Name'
+                                            )
+                                        " class="cross-icon" src="/public/assets/admin/svgs/cross-black.svg"
+                                            alt="profile" />
                                     </div>
-                                    <div
-                                        v-if="selectedFilters"
-                                        class="clear-section"
-                                        @click="deleteItem('all', null)"
-                                    >
+                                    <div v-if="selectedFilters" class="clear-section" @click="deleteItem('all', null)">
                                         <span> Clear all </span>
                                     </div>
                                 </div>
                             </template>
-                            <div
-                                v-if="webhookReport && webhookReport.length > 0"
-                                class="table-content"
-                            >
+                            <div v-if="webhookReport && webhookReport.length > 0" class="table-content">
                                 <table class="payouts-table">
                                     <tr>
-                                        <td
-                                            class="clickable no-wrap"
-                                            @click="
-                                                sortTable(
-                                                    'request.event.subscriber_name'
-                                                )
-                                            "
-                                        >
+                                        <td class="clickable no-wrap" @click="
+                                            sortTable(
+                                                'request.event.subscriber_name'
+                                            )
+                                        ">
                                             Name
                                         </td>
-                                        <td
-                                            class="clickable no-wrap"
-                                            @click="
-                                                sortTable('request.event.name')
-                                            "
-                                        >
+                                        <td class="clickable no-wrap" @click="
+                                            sortTable('request.event.name')
+                                        ">
                                             Event
                                         </td>
-                                        <td
-                                            class="clickable line-height"
-                                            @click="
-                                                sortTable('response.status')
-                                            "
-                                        >
+                                        <td class="clickable line-height" @click="
+                                            sortTable('response.status')
+                                        ">
                                             <div>Response</div>
                                             <div>Code</div>
                                         </td>
-                                        <td
-                                            class="clickable line-height"
-                                            @click="
-                                                sortTable('response.message')
-                                            "
-                                        >
+                                        <td class="clickable line-height" @click="
+                                            sortTable('response.message')
+                                        ">
                                             <div>Response</div>
                                             <div>Message</div>
                                         </td>
-                                        <td
-                                            class="clickable line-height"
-                                            @click="
-                                                sortTable(
-                                                    'processed_time_in_millis'
-                                                )
-                                            "
-                                        >
+                                        <td class="clickable line-height" @click="
+                                            sortTable(
+                                                'processed_time_in_millis'
+                                            )
+                                        ">
                                             <div>Response</div>
                                             <div class="no-wrap">Time (ms)</div>
                                         </td>
-                                        <td
-                                            class="clickable no-wrap"
-                                            @click="sortTable('processed_on')"
-                                        >
+                                        <td class="clickable no-wrap" @click="sortTable('processed_on')">
                                             Processed On
                                         </td>
                                         <td class="clickable">Request</td>
-                                        <td
-                                            class="clickable"
-                                            @click="sortTable('attempts')"
-                                        >
+                                        <td class="clickable" @click="sortTable('attempts')">
                                             Attempts
                                         </td>
-                                        <td
-                                            class="clickable"
-                                            @click="
-                                                sortTable('response.status')
-                                            "
-                                        >
+                                        <td class="clickable" @click="
+                                            sortTable('response.status')
+                                        ">
                                             Status
                                         </td>
                                     </tr>
-                                    <template
-                                        v-if="
-                                            webhookReport &&
-                                            webhookReport &&
-                                            webhookReport.length > 0
-                                        "
-                                    >
-                                        <tr
-                                            :key="index"
-                                            v-for="(
+                                    <template v-if="
+                                        webhookReport &&
+                                        webhookReport &&
+                                        webhookReport.length > 0
+                                    ">
+                                        <tr :key="index" v-for="(
                                                 method, index
-                                            ) in webhookReport"
-                                        >
+                                            ) in webhookReport">
                                             <td>
                                                 <div class="no-wrap">
                                                     {{ method.subscriber_name }}
@@ -343,12 +228,12 @@
                                             <td>
                                                 <div class="no-wrap">
                                                     {{
-                                                        method.request.event
-                                                            .name
+                                                            method.request.event
+                                                                .name
                                                     }}.{{
-                                                        method.request.event
-                                                            .type
-                                                    }}
+        method.request.event
+            .type
+}}
                                                 </div>
                                             </td>
                                             <td>
@@ -359,14 +244,14 @@
                                             <td>
                                                 <div>
                                                     {{
-                                                        method.response.message
+                                                            method.response.message
                                                     }}
                                                 </div>
                                             </td>
                                             <td>
                                                 <div>
                                                     {{
-                                                        method.processed_time_in_millis
+                                                            method.processed_time_in_millis
                                                     }}
                                                 </div>
                                             </td>
@@ -376,16 +261,13 @@
                                                     {{ method.processed_on }}
                                                 </div>
                                             </td>
-                                            <td
-                                                class="clickable-payload"
-                                                @click="
-                                                    showPayload(
-                                                        method.request,
-                                                        method.webhook_url,
-                                                        method.subscriber_name
-                                                    )
-                                                "
-                                            >
+                                            <td class="clickable-payload" @click="
+                                                showPayload(
+                                                    method.request,
+                                                    method.webhook_url,
+                                                    method.subscriber_name
+                                                )
+                                            ">
                                                 <a class="payload"> Payload </a>
                                             </td>
                                             <td>
@@ -402,19 +284,11 @@
                                     </template>
                                 </table>
                             </div>
-                            <adm-no-content
-                                v-if="
-                                    webhookReport && webhookReport.length === 0
-                                "
-                                :helperText="'No Data Found'"
-                            ></adm-no-content>
-                            <nitrozen-pagination
-                                name="Items"
-                                v-model="pageObject"
-                                value="pageObjectValue"
-                                @change="paginationChange"
-                                :pageSizeOptions="rows"
-                            >
+                            <adm-no-content v-if="
+                                webhookReport && webhookReport.length === 0
+                            " :helperText="'No Data Found'"></adm-no-content>
+                            <nitrozen-pagination name="Items" v-model="pageObject" value="pageObjectValue"
+                                @change="paginationChange" :pageSizeOptions="rows">
                             </nitrozen-pagination>
                         </div>
                     </div>
@@ -427,18 +301,23 @@
 <style lang="less" scoped>
 @import './../less/page-header.less';
 @import './../less/page-ui.less';
+
 table tr:last-child td:first-child {
     border-bottom-left-radius: 10px;
 }
+
 table tr:last-child td:last-child {
     border-bottom-right-radius: 10px;
 }
+
 .test-webhook-footer {
     width: 15%;
 }
+
 ::v-deep .nitrozen-dialog-footer {
     justify-content: center !important;
 }
+
 .popup-btn {
     width: 45%;
     font-family: Inter;
@@ -449,20 +328,25 @@ table tr:last-child td:last-child {
     text-align: center;
     color: #2e31be;
 }
+
 .url-content {
     margin: 15px 0 10px 0;
 }
+
 .ort-tooltip {
     align-self: center;
     position: absolute;
 }
+
 .date-range-label {
     padding-top: 8px;
     margin-right: 2%;
 }
+
 .line-height {
     line-height: 1.5;
 }
+
 .clear-section {
     cursor: pointer;
     align-self: center;
@@ -478,9 +362,11 @@ table tr:last-child td:last-child {
     flex-grow: 0;
     margin: 0px 12px;
 }
-::v-deep .filter-date > label {
+
+::v-deep .filter-date>label {
     display: none;
 }
+
 .url-display-name {
     font-family: Inter;
     font-style: normal;
@@ -489,18 +375,22 @@ table tr:last-child td:last-child {
     line-height: 23px;
     color: #41434c;
 }
+
 .selectedItems {
     gap: 10px;
     flex-wrap: wrap;
     display: flex;
     margin-bottom: 16px;
 }
+
 .cross-icon {
     cursor: pointer;
 }
+
 .items-content {
     margin-right: 10px;
 }
+
 .items {
     white-space: nowrap;
     display: flex;
@@ -519,20 +409,25 @@ table tr:last-child td:last-child {
     order: 4;
     flex-grow: 0;
 }
+
 .payload {
     color: #2e31be;
 }
+
 .copy-json-content {
     top: 42%;
 }
+
 .json-data {
     height: 200px;
     overflow: auto;
 }
+
 .json-content {
     width: 100%;
     margin-top: 15px;
 }
+
 .url-value {
     color: #2e31be;
     white-space: nowrap;
@@ -545,12 +440,14 @@ table tr:last-child td:last-child {
     font-size: 14px;
     line-height: 23px;
 }
+
 .webhook-url {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 40%;
 }
+
 .table-content {
     width: 100%;
     overflow-x: scroll;
@@ -559,43 +456,54 @@ table tr:last-child td:last-child {
     box-sizing: border-box;
     margin-bottom: 10px;
 }
+
 ::v-deep .n-input-label {
     margin-right: 7px;
     flex: auto;
     width: 40%;
     align-self: center;
 }
-::v-deep .filter-Events > label {
+
+::v-deep .filter-Events>label {
     width: 15%;
     align-self: center;
 }
-::v-deep .filter-Events > div {
+
+::v-deep .filter-Events>div {
     width: 73% !important;
 }
-::v-deep .filter-Subscriber > label {
+
+::v-deep .filter-Subscriber>label {
     // width: 48%;
     align-self: center;
 }
+
 ::v-deep .filter-Subscriber .nitrozen-option-container {
     word-break: break-all;
 }
+
 ::v-deep .tree-view-item-value-number {
     color: #478e2f;
 }
+
 ::v-deep .tree-view-item-value-string {
     color: #ed423e;
 }
+
 hr {
     height: 1px;
     border: none;
     background-color: #e0e0e0;
 }
+
 .copy-url {
     top: 6%;
 }
+
 .copy-id {
     top: 22%;
 }
+
 .copy {
     position: absolute;
     right: 5%;
@@ -603,6 +511,7 @@ hr {
     z-index: 10;
     cursor: pointer;
 }
+
 .tooltip {
     position: relative;
     display: inline-block;
@@ -638,20 +547,25 @@ hr {
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
+
 tr:hover {
     background-color: rgba(0, 0, 0, 0.075);
 }
+
 ::v-deep .n-button-secondary {
     width: 100%;
 }
+
 ::v-deep .n-input {
     height: 38px;
 }
+
 .filter {
     padding-bottom: 16px;
     display: inline-block;
     width: 100%;
 }
+
 .filter-dynamic {
     align-items: flex-end;
     display: flex !important;
@@ -659,21 +573,27 @@ tr:hover {
     width: 100%;
     gap: 10px;
 }
+
 td {
     font-size: 12px;
 }
+
 .page-container .payouts-table td {
     text-align: left;
 }
+
 .filter-sub-header {
     margin-bottom: 5px;
 }
+
 .sub-header {
     width: 100%;
 }
-::v-deep .n-input-label > span {
+
+::v-deep .n-input-label>span {
     font-size: 11px;
 }
+
 .search {
     align-self: flex-end;
     margin-right: 10px;
@@ -681,25 +601,31 @@ td {
     width: 100%;
     float: left;
 }
+
 .search-button-box {
     align-self: flex-end;
     margin-top: 10px;
     width: 20%;
 }
+
 .report-container {
     width: 96%;
 }
+
 .date {
     display: inline-grid;
 }
+
 .full-width {
     display: inline-flex;
     width: 100%;
 }
+
 .bold-xs {
     font-weight: 700;
     font-size: 18px;
 }
+
 .StripeElement {
     box-sizing: border-box;
     height: 40px;
@@ -711,6 +637,7 @@ td {
     -webkit-transition: box-shadow 150ms ease;
     transition: box-shadow 150ms ease;
 }
+
 .clickable {
     cursor: pointer;
     font-size: 14px;
@@ -718,6 +645,7 @@ td {
     font-style: normal;
     font-weight: 600;
 }
+
 .clickable-payload {
     cursor: pointer;
     color: #1a73ea;
@@ -727,15 +655,19 @@ td {
 .StripeElement--focus {
     box-shadow: 0 1px 3px 0 #cfd7df;
 }
+
 .StripeElement--invalid {
     border-color: #fa755a;
 }
+
 .StripeElement--webkit-autofill {
     background-color: #fefde5 !important;
 }
+
 .sp-settings-container {
     width: 100%;
 }
+
 .title {
     margin-bottom: 3%;
     width: 30%;
@@ -746,9 +678,11 @@ td {
     text-align: left;
     margin-bottom: 24px;
 }
+
 .inline {
     display: inline-flex;
 }
+
 .hide {
     visibility: hidden;
 }
@@ -756,20 +690,24 @@ td {
 .header-margin {
     margin-top: 56.5px;
 }
+
 .plan-info {
     padding: 14px;
     border-radius: 5px;
     border: 1px solid lightgray;
     line-height: 24px;
 }
+
 .plan-bolder {
     font-weight: 500;
     font-size: 15px;
 }
+
 label {
     display: block;
     padding-bottom: 2%;
 }
+
 input {
     border: 1px solid #c4c4c4;
     border-radius: 5px;
@@ -778,22 +716,27 @@ input {
     box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
     width: 190px;
 }
+
 .plan-thin {
     font-weight: 400;
     font-size: 15px;
     -webkit-font-smoothing: antialiased;
     color: #696969;
 }
+
 .page-container {
     display: flex;
     flex-direction: column;
+
     #side-link {
         position: relative;
         top: -3px;
+
         ::v-deep .n-button-content {
             height: auto;
         }
     }
+
     .current-inactive-plan {
         color: #fa3f4d;
         border: 1px solid #fa3f4d;
@@ -802,6 +745,7 @@ input {
         border-radius: 5px;
         display: inline-block;
     }
+
     .under-trial-plan {
         color: #2e31be;
         border: 1px solid #2e31be;
@@ -810,30 +754,37 @@ input {
         border-radius: 5px;
         display: inline-block;
     }
+
     .filter-dropdown-field {
         display: contents;
     }
+
     .filter-dropdown {
         align-self: flex-end;
         min-width: 30%;
         display: flex;
         float: left;
     }
+
     ::v-deep .nitrozen-select-wrapper {
         width: 100%;
     }
+
     .pagination-dropdown {
         width: 50%;
         margin-left: auto;
     }
+
     .current-active-plan {
         padding: 14px;
         border-radius: 5px;
         border: 1px solid lightgray;
     }
+
     .plan-container {
         line-height: 24px;
     }
+
     .cancel-upgrade-container {
         max-width: 628px;
     }
@@ -841,115 +792,143 @@ input {
     .button-container {
         text-align: right;
     }
+
     .payouts-description {
         margin-bottom: 24px;
         border: 1px solid lightgray;
         padding: 24px;
         background: #f9f9f9;
     }
+
     .plan-components {
         -webkit-column-count: 3;
         -moz-column-count: 3;
         column-count: 3;
         font-size: 14px;
+
         li {
             padding: 0px 0px 25px 0px;
         }
     }
+
     .payouts-table {
         width: 100%;
         margin-bottom: 24px;
         font-family: Inter, sans-serif;
         font-size: 10px;
-        ::v-deep .eye-icon > svg {
+
+        ::v-deep .eye-icon>svg {
             width: 16px;
             height: 16px;
+
             #prefix__Eye_Open {
                 stroke: @Mako;
             }
+
             &:hover {
                 box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.1);
+
                 #prefix__Eye_Open {
                     stroke: @RoyalBlue;
                 }
             }
         }
+
         tr:first-child {
             background: #f8f8f8;
             color: black;
         }
+
         tr:not(:first-child) {
             border-bottom: 1px solid lightgray;
         }
+
         td {
             text-align: left;
             padding: 15px 21px;
+
             .actions-container {
                 display: flex;
                 align-items: center;
+
                 .current-default {
                     text-align: right;
                     color: #2e31be;
                     border: 1px solid #2e31be;
                     padding: 5px;
                 }
+
                 .action {
                     cursor: pointer;
                     margin-right: 12px;
                 }
+
                 span:nth-child(1) {
                     color: #2e31be;
                     flex: 4;
                 }
+
                 span:nth-child(2) {
                     flex: 1;
                 }
             }
         }
     }
+
     .no-payouts-found-message {
         margin-bottom: 24px;
         padding-bottom: 24px;
         border-bottom: 1px solid lightgray;
         text-align: center;
     }
+
     .plans {
         display: flex;
+
         .plan-item {
             min-width: 150px;
             margin: 10px;
             padding: 10px;
             border: 1px solid lightgray;
         }
+
         .selected-item {
             border: 1px solid #2e31be;
             color: #2e31be;
             background: #ebedfb;
         }
     }
+
     .plan-container {
         max-width: 600px;
         min-width: 300px;
+
         .plan-name {
             font-weight: bold;
         }
+
         .text-line {
             margin: 5px 0px;
         }
+
         .spacing-component {
             margin: 10px 0px;
         }
+
         .subscribe-button {
             height: 50px;
         }
     }
 }
+
 .section {
     margin: 20px;
+
     .sub-section {
         margin: 20px 20px 20px 0px;
     }
 }
+
 .date-picker {
     width: 33%;
     margin-right: 10px;
@@ -957,59 +936,74 @@ input {
     display: flex;
     float: right;
 }
+
 .date-content {
     margin-left: auto;
     align-self: flex-end;
     display: flex;
     float: left;
 }
+
 .date-search {
     display: flex;
 }
+
 ::v-deep .nitrozen-dropdown-label {
     align-self: center;
     margin-right: 25px;
     white-space: nowrap;
 }
-::v-deep .nitrozen-dropdown-container > .nitrozen-dropdown-label {
+
+::v-deep .nitrozen-dropdown-container>.nitrozen-dropdown-label {
     margin-right: 10px;
 }
+
 .SUCCESS {
     color: green;
 }
+
 .FAILED {
     color: red;
 }
+
 .DISABLED {
     color: grey;
 }
+
 .no-wrap {
     white-space: nowrap;
 }
+
 @media (max-width: 1320px) {
     .date-picker {
         width: 35%;
     }
+
     ::v-deep .n-input-label {
         width: 55%;
     }
 }
+
 @media (max-width: 1411px) {
     ::v-deep .form-date-picker.mx-datepicker {
         min-width: 65%;
     }
+
     .date-picker {
         width: 40%;
     }
+
     .search {
         margin-right: 30px;
     }
+
     .date-range-label {
         margin-right: 7%;
     }
 }
+
 @media (max-width: 1435px) {
-    ::v-deep .filter-Subscriber > label {
+    ::v-deep .filter-Subscriber>label {
         width: 50%;
     }
 }
@@ -1254,7 +1248,7 @@ export default {
                         subscriber_name: encodeURIComponent(query['subscriber_name']),
                     },
                 })
-                .catch((e) => {});
+                .catch((e) => { });
         },
         filterInputChange(filterName) {
             if (filterName == 'Event') {
@@ -1370,7 +1364,7 @@ export default {
         },
         onCancel() {
             this.$router.push({
-                path:'webhook',
+                path: 'webhook',
             });
             // this.$router.go(-1);
         },
@@ -1416,8 +1410,8 @@ export default {
             if (this.filtersToshow['Subscriber Name']) {
                 data['subscriber_ids'] = this.filtersToshow['Subscriber Name']
                     ? this.filtersToshow['Subscriber Name'].map(
-                          (x) => this.subscriberIdMap[(x)]
-                      )
+                        (x) => this.subscriberIdMap[(x)]
+                    )
                     : [];
             }
             if (this.filtersToshow['Event']) {
@@ -1425,6 +1419,7 @@ export default {
                     ? this.filtersToshow['Event'].map((x) => this.eventMap[x])
                     : [];
             }
+            data["type"] = 'global'
             AdminWebhookService.getWebhookReport(data)
                 .then((res) => {
                     if (res.data.items.length > 0) {
