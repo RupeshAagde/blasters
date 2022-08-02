@@ -1370,7 +1370,7 @@ export default {
         },
         onCancel() {
             this.$router.push({
-                path: path.join(this.$basePath, 'webhook'),
+                path:'webhook',
             });
             // this.$router.go(-1);
         },
