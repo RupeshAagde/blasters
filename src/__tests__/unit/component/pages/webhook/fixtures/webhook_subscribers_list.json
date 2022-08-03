@@ -1,0 +1,276 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Testwebhook",
+      "webhook_url": "testWebhook.com",
+      "association": {
+        "company_id": 1,
+        "application_id": [
+          "611cfe631592d81de168861a"
+        ]
+      },
+      "status": "active",
+      "auth_meta": {
+        "type": "hmac",
+        "secret": "test"
+      },
+      "email_id": "praveenraturi@gofynd.com",
+      "created_on": "2021-08-19T05:31:04.108Z",
+      "updated_on": "2021-08-19T06:00:40.322Z",
+      "modified_by": null,
+      "event_configs": [
+        {
+          "id": 1,
+          "event_name": "integration",
+          "event_type": "update",
+          "event_category": "company",
+          "version": "1",
+          "display_name": "store integration config",
+          "description": "this event is for store integration config",
+          "created_on": "2021-05-06T09:41:50.379Z",
+          "updated_on": "2021-05-06T09:41:50.379Z",
+          "subscriber_event_mapping": {
+            "id": 18,
+            "event_id": 1,
+            "subscriber_id": 2,
+            "created_on": "2021-08-19T06:00:40.330Z"
+          }
+        },
+        {
+          "id": 5,
+          "event_name": "coupon",
+          "event_type": "create",
+          "event_category": "application",
+          "version": "1",
+          "display_name": "coupon-create",
+          "description": "This event gets triggered on coupon creation",
+          "created_on": "2021-06-24T06:39:12.575Z",
+          "updated_on": "2021-06-24T06:39:12.575Z",
+          "subscriber_event_mapping": {
+            "id": 19,
+            "event_id": 5,
+            "subscriber_id": 2,
+            "created_on": "2021-08-19T06:00:40.330Z"
+          }
+        },
+        {
+          "id": 6,
+          "event_name": "coupon",
+          "event_type": "update",
+          "event_category": "application",
+          "version": "1",
+          "display_name": "coupon-update",
+          "description": "This event gets triggered on coupon updation",
+          "created_on": "2021-06-24T06:39:35.854Z",
+          "updated_on": "2021-06-24T06:39:35.854Z",
+          "subscriber_event_mapping": {
+            "id": 20,
+            "event_id": 6,
+            "subscriber_id": 2,
+            "created_on": "2021-08-19T06:00:40.330Z"
+          }
+        },
+        {
+          "id": 7,
+          "event_name": "cart",
+          "event_type": "create",
+          "event_category": "application",
+          "version": "1",
+          "display_name": "cart-create",
+          "description": "This event gets triggered when new cart is created",
+          "created_on": "2021-06-24T06:40:27.968Z",
+          "updated_on": "2021-06-24T06:40:27.968Z",
+          "subscriber_event_mapping": {
+            "id": 21,
+            "event_id": 7,
+            "subscriber_id": 2,
+            "created_on": "2021-08-19T06:00:40.330Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "TestWebhook2",
+      "webhook_url": "test.com",
+      "association": {
+        "company_id": 35
+      },
+      "status": "inactive",
+      "auth_meta": {},
+      "email_id": "praveenraturi@gofynd.com",
+      "created_on": "2021-08-19T05:53:25.489Z",
+      "updated_on": "2021-08-19T05:53:25.489Z",
+      "modified_by": null,
+      "event_configs": [
+        {
+          "id": 1,
+          "event_name": "integration",
+          "event_type": "update",
+          "event_category": "company",
+          "version": "1",
+          "display_name": "store integration config",
+          "description": "this event is for store integration config",
+          "created_on": "2021-05-06T09:41:50.379Z",
+          "updated_on": "2021-05-06T09:41:50.379Z",
+          "subscriber_event_mapping": {
+            "id": 9,
+            "event_id": 1,
+            "subscriber_id": 4,
+            "created_on": "2021-08-19T05:53:25.495Z"
+          }
+        },
+        {
+          "id": 2,
+          "event_name": "product-size",
+          "event_type": "create",
+          "event_category": "company",
+          "version": "1",
+          "display_name": "product-size",
+          "description": "This event gets triggered on new product size creation",
+          "created_on": "2021-05-06T09:42:12.853Z",
+          "updated_on": "2021-05-06T09:42:12.853Z",
+          "subscriber_event_mapping": {
+            "id": 10,
+            "event_id": 2,
+            "subscriber_id": 4,
+            "created_on": "2021-08-19T05:53:25.495Z"
+          }
+        },
+        {
+          "id": 3,
+          "event_name": "product-size",
+          "event_type": "update",
+          "event_category": "company",
+          "version": "1",
+          "display_name": "product-size",
+          "description": "This event gets triggered on product size update",
+          "created_on": "2021-05-06T09:42:23.167Z",
+          "updated_on": "2021-05-06T09:42:23.167Z",
+          "subscriber_event_mapping": {
+            "id": 11,
+            "event_id": 3,
+            "subscriber_id": 4,
+            "created_on": "2021-08-19T05:53:25.496Z"
+          }
+        },
+        {
+          "id": 4,
+          "event_name": "product-size",
+          "event_type": "delete",
+          "event_category": "company",
+          "version": "1",
+          "display_name": "product-size",
+          "description": "This event gets triggered on product size delete",
+          "created_on": "2021-05-06T09:42:33.456Z",
+          "updated_on": "2021-05-06T09:42:33.456Z",
+          "subscriber_event_mapping": {
+            "id": 12,
+            "event_id": 4,
+            "subscriber_id": 4,
+            "created_on": "2021-08-19T05:53:25.496Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "TestWebhook1",
+      "webhook_url": "test.com",
+      "association": {
+        "company_id": 35,
+        "application_id": [
+          "611cfe631592d81de168861a"
+        ]
+      },
+      "status": "inactive",
+      "auth_meta": {
+        "type": "hmac",
+        "secret": "abc"
+      },
+      "email_id": "praveenraturi@gofynd.com",
+      "created_on": "2021-08-19T05:52:54.077Z",
+      "updated_on": "2021-08-19T05:52:54.078Z",
+      "modified_by": null,
+      "event_configs": [
+        {
+          "id": 5,
+          "event_name": "coupon",
+          "event_type": "create",
+          "event_category": "application",
+          "version": "1",
+          "display_name": "coupon-create",
+          "description": "This event gets triggered on coupon creation",
+          "created_on": "2021-06-24T06:39:12.575Z",
+          "updated_on": "2021-06-24T06:39:12.575Z",
+          "subscriber_event_mapping": {
+            "id": 5,
+            "event_id": 5,
+            "subscriber_id": 3,
+            "created_on": "2021-08-19T05:52:54.084Z"
+          }
+        },
+        {
+          "id": 6,
+          "event_name": "coupon",
+          "event_type": "update",
+          "event_category": "application",
+          "version": "1",
+          "display_name": "coupon-update",
+          "description": "This event gets triggered on coupon updation",
+          "created_on": "2021-06-24T06:39:35.854Z",
+          "updated_on": "2021-06-24T06:39:35.854Z",
+          "subscriber_event_mapping": {
+            "id": 6,
+            "event_id": 6,
+            "subscriber_id": 3,
+            "created_on": "2021-08-19T05:52:54.084Z"
+          }
+        },
+        {
+          "id": 7,
+          "event_name": "cart",
+          "event_type": "create",
+          "event_category": "application",
+          "version": "1",
+          "display_name": "cart-create",
+          "description": "This event gets triggered when new cart is created",
+          "created_on": "2021-06-24T06:40:27.968Z",
+          "updated_on": "2021-06-24T06:40:27.968Z",
+          "subscriber_event_mapping": {
+            "id": 7,
+            "event_id": 7,
+            "subscriber_id": 3,
+            "created_on": "2021-08-19T05:52:54.084Z"
+          }
+        },
+        {
+          "id": 8,
+          "event_name": "cart",
+          "event_type": "update",
+          "event_category": "application",
+          "version": "1",
+          "display_name": "cart-update",
+          "description": "This event gets triggered when cart is updated",
+          "created_on": "2021-06-24T06:40:44.306Z",
+          "updated_on": "2021-06-24T06:40:44.306Z",
+          "subscriber_event_mapping": {
+            "id": 8,
+            "event_id": 8,
+            "subscriber_id": 3,
+            "created_on": "2021-08-19T05:52:54.084Z"
+          }
+        }
+      ]
+    }
+  ],
+  "page": {
+    "current": 1,
+    "has_next": false,
+    "has_previous": false,
+    "item_total": 3,
+    "size": 10,
+    "type": "number"
+  }
+}
