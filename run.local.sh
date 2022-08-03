@@ -5,7 +5,7 @@ export PORT=8086
 
 
 #API's
-export FYND_PLATFORM_DOMAIN=jiomarketx0.de
+export FYND_PLATFORM_DOMAIN=fyndx0.de
 export PINPOINTER_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/audit-trail/
 export POINTBLANK_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/communication/
 export BLITZKRIEG_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/platform/theme/
