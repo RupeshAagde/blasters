@@ -221,11 +221,11 @@ export default {
                              path: `/administrator/support/configuration`
                         });
             }
-            // else{
-            //     this.$router.replace({
-            //                  path: `${getCompanyBasePath(this.$route)}/application/${this.$route.params.applicationId}/settings/general`
-            //             });
-            // }
+            else{
+                this.$router.push({
+                             path: `/administrator/settings/basic`
+                        });
+            }
         },
 
         getVariables() {
