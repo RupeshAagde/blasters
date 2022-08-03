@@ -151,14 +151,10 @@
                                         :showGallery="false"
                                         class="nitrozen-form-input logo-container"
                                         label="Icon*"
-                                        aspectRatio="1:1"
+                                        aspectRatio="94:87"
                                         :minimumResolution="{
-                                            width: 200,
-                                            height: 200
-                                        }"
-                                        :maximumResolution="{
-                                            width: 256,
-                                            height: 256
+                                            width: 282,
+                                            height: 261
                                         }"
                                         @delete="
                                             collection_data.banner.logo = ''
@@ -180,7 +176,7 @@
                     <div class="no-image-container">
                         <div class="main-label">
                             <div class="sub-label-top">
-                                Portrait Banner *
+                                Mobile Banner *
                             </div>
                             <div class="sub-label-bottom">(Mobile)</div>
                         </div>
@@ -192,14 +188,10 @@
                                         :showGallery="false"
                                         class="nitrozen-form-input logo-container"
                                         label="Icon*"
-                                        aspectRatio="13:20"
+                                        aspectRatio="75:37"
                                         :minimumResolution="{
-                                            width: 130,
-                                            height: 200
-                                        }"
-                                        :maximumResolution="{
-                                            width: 312,
-                                            height: 480
+                                            width: 375,
+                                            height: 185
                                         }"
                                         @delete="
                                             collection_data.banner.portrait =
@@ -239,14 +231,10 @@
                                         :showGallery="false"
                                         class="nitrozen-form-input logo-container land"
                                         label="Icon*"
-                                        aspectRatio="27:20"
+                                        aspectRatio="35:8"
                                         :minimumResolution="{
-                                            width: 540,
-                                            height: 400
-                                        }"
-                                        :maximumResolution="{
-                                            width: 1242,
-                                            height: 920
+                                            width: 1400,
+                                            height: 320
                                         }"
                                         @delete="
                                             collection_data.banner.landscape =
