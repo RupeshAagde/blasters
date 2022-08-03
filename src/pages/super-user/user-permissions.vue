@@ -15,12 +15,21 @@
             @change="changeRole"
         ></nitrozen-dropdown>
 
-        <div class="title-label cl-DustyGray2 dark-xxs">Permissions</div>
+        <div class="title-label cl-Mako bold-md">Common</div>
         <permissions
             :permissionData="aclPermissions"
             :currentRole="userData.roles[0]"
             :currentPermissions="userPermissions"
-            :group="''"
+            :group="'common'"
+            @permission-data="(value) => (this.userData.permissions = value)"
+        ></permissions>
+        
+        <div class="title-label cl-Mako bold-md">Finance</div>
+        <permissions
+            :permissionData="aclPermissions"
+            :currentRole="userData.roles[0]"
+            :currentPermissions="userPermissions"
+            :group="'finance'"
             @permission-data="(value) => (this.userData.permissions = value)"
         ></permissions>
 
