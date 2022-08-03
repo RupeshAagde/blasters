@@ -1,0 +1,567 @@
+{
+    "_id": "623847d0ec3c4b10b1f5fed6",
+    "tags": ["asdsa", "asdas", "my"],
+    "collection_category": "extension",
+    "collection_type": "handpicked",
+    "seo": { "title": "Title", "description": "Breif description about the" },
+    "banner": {
+        "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/o9UhZ5Em6-logo.jpeg",
+        "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/dU3kXnGwR-logo.png",
+        "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/PR-OVVImt-logo.png"
+    },
+    "name": "New Extension collection",
+    "description": "fdsdssdasdsdsd d d sddas dsd sd d",
+    "slug": "new-extension-collection",
+    "__v": 0,
+    "published": false,
+    "created_at": "2022-06-02T15:24:26.203Z",
+    "modified_at": "2022-06-02T15:24:26.203Z",
+    "selected_items": [
+        {
+            "_id": "611cd216a1b26463522c8ec4",
+            "listing_info": {
+                "keywords": ["whatsapp", "business", "chat"],
+                "name": "Whatsapp Business",
+                "tagline": "Get business chats in one place",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/Uay5XXq__-logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/yyNFueLob-desk-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/hSzEH7oe4-desk-sc-2.jpeg",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/G3jyOn6jB-desk-sc-3.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/yTbBwOfin-mob-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/m0tcbVuRl-mob-sc-2.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/5RyXaOoiY-mob-sc-3.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "6160291dae93de2514658a47",
+                        "title": "Convenient Two-Way Communications",
+                        "description": "The app offers businesses a convenient and direct gateway to a variety of customer communications and campaigns."
+                    },
+                    {
+                        "_id": "6160291dae93de5222658a48",
+                        "title": "Improved Customer Care",
+                        "description": "By providing the information and support your customers are looking for, WhatsApp Business fosters loyalty and trust."
+                    },
+                    {
+                        "_id": "6160291dae93de45da658a49",
+                        "title": "Brand-Verified Conversations",
+                        "description": "You can add contact numbers, website URLs, store locations, promotional details, and more."
+                    },
+                    {
+                        "_id": "6160291dae93de9a35658a4a",
+                        "title": "Global Reach",
+                        "description": "WhatsApp is the most popular messaging app in more than 100 countries, with a global customer base of more than 2 billion."
+                    },
+                    {
+                        "_id": "6160291dae93de3edb658a4b",
+                        "title": "Automatically Initiate More Conversations",
+                        "description": "By imposing strict policies for content quality and response times, WhatsApp ensures users don’t receive spammy or irrelevant communications."
+                    },
+                    {
+                        "_id": "6160291dae93de588d658a4c",
+                        "title": "Added Security With Customer Messaging Opt-In",
+                        "description": "WhatsApp bakes in security features like end-to-end encryption and two-factor authentication to keep both consumers and businesses safe."
+                    }
+                ],
+                "description": "<p>Connect your WhatsApp Business account and manage chats with your customers. WhatsApp Business is an OTT (over-the-top) chat app that brings the functionality and convenience of personal messaging to customer communications.</p>",
+                "demo_url": "https://tradespark.hostx0.de",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "onlydemo70@gmail.com",
+                    "phone": "8369642274",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": [
+                "company/profile",
+                "company/saleschannel",
+                "company/product",
+                "company/order"
+            ],
+            "plans": [
+                {
+                    "name": "Free Tier",
+                    "features": "2 free chats simultaneously\n3 calls per day",
+                    "type": "free",
+                    "price": { "amount": 0, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "free",
+                        "recurring_time": 0,
+                        "yearly_amount": 0
+                    }
+                },
+                {
+                    "name": "Monthly Tier",
+                    "features": "5 simultaneous chats\nUnlimited calls",
+                    "type": "recurring",
+                    "price": { "amount": 299, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "month",
+                        "recurring_time": 30,
+                        "yearly_amount": 3588
+                    }
+                },
+                {
+                    "name": "Annual Tier",
+                    "features": "Unlimited chats\nUnlimited calls",
+                    "type": "recurring",
+                    "price": { "amount": 1299, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "year",
+                        "recurring_time": 365,
+                        "yearly_amount": 0
+                    }
+                }
+            ],
+            "extension_id": "611cbb6ee6ed286298c0f471",
+            "slug": "whatsapp-business",
+            "plan_type": "recurring",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "611caf9b575968b3aa98aee4",
+            "created_at": "2021-08-18T09:25:42.614Z",
+            "modified_at": "2022-03-21T12:27:07.204Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f45b",
+                        "_id": "62320b45f4213eb19aa8f45b",
+                        "slug": "inventory"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f45c",
+                        "_id": "62320b45f4213eb19aa8f45c",
+                        "slug": "channel-management"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4f7",
+                        "_id": "62320b45f4213eb19aa8f4f7",
+                        "parent": "62320b45f4213eb19aa8f45c",
+                        "slug": "business-insight"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4f1",
+                        "_id": "62320b45f4213eb19aa8f4f1",
+                        "parent": "62320b45f4213eb19aa8f45c",
+                        "slug": "policy-and-security"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4d9",
+                        "_id": "62320b45f4213eb19aa8f4d9",
+                        "parent": "62320b45f4213eb19aa8f45b",
+                        "slug": "managing-inventory"
+                    }
+                ]
+            },
+            "is_selected": true
+        },
+        {
+            "_id": "60bf7f734fe0a3c8e90e5b83",
+            "listing_info": {
+                "keywords": [],
+                "name": "Newsletter Subscription",
+                "tagline": "dsvsv",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/F9IzVxMC2-logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/nKlrV_01V-desk-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/UZ0zmE2sW-desk-sc-2.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/cGtO7qpge-desk-sc-3.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/10Twf0N0R-mob-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/CRHrGZf5n-mob-sc-2.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/nDsWxx2rB-mob-sc-3.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "623db9405ce44ba088b9c5bc",
+                        "title": "dsvsv",
+                        "description": "dvssdvdvdv"
+                    }
+                ],
+                "description": "<p>Now you can run referral campaigns that lets you and your existing customers refer their friends and family to register on your website.<br /><br />Features<br />&bull; Configure reward for the referrer<br />&bull; Configure reward for the one being referred<br />&bull; Set validity of referral and the reward<br />&bull; Enable/Disable referral campaigns</p>",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "aayushvjain@gofynd.com",
+                    "phone": "8767087087",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": ["company/saleschannel", "company/application/settings"],
+            "plans": [
+                {
+                    "name": "dbfd",
+                    "features": "ngfnfgm",
+                    "type": "free",
+                    "price": { "amount": 0, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": ""
+                }
+            ],
+            "extension_id": "609400409d0dcbdc2e6b76a5",
+            "slug": "newsletter-subscription",
+            "plan_type": "free",
+            "current_status": "active",
+            "organization_id": "610d178e2ab8f356aa98481b",
+            "created_at": "2021-06-08T14:32:19.574Z",
+            "modified_at": "2022-03-25T12:44:48.325Z",
+            "plans_url": "",
+            "coming_soon": { "upvote_count": 0, "is_coming_soon": false },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f44c",
+                        "slug": "marketing",
+                        "_id": "62320b45f4213eb19aa8f44c"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4aa",
+                        "slug": "advertisement",
+                        "_id": "62320b45f4213eb19aa8f4aa",
+                        "parent": "62320b45f4213eb19aa8f44c"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4c6",
+                        "slug": "marketing-analytics",
+                        "_id": "62320b45f4213eb19aa8f4c6",
+                        "parent": "62320b45f4213eb19aa8f44c"
+                    }
+                ]
+            },
+            "is_selected": true
+        },
+        {
+            "_id": "61109ded41dc073111c38f59",
+            "listing_info": {
+                "keywords": [],
+                "name": "Tag Manager Local",
+                "tagline": "Google Tag Manager",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/St-C8mG8_-logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/bNNRnl-IE-desk-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/P0IcHYNbA-desk-sc-2.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/PlY2R2xgo-desk-sc-3.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/30gIT73MK-mob-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/XoAtVMhIn-mob-sc-2.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/XoAtVMhIn-mob-sc-2.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "61109ded41dc072bf4c38f5a",
+                        "title": "Feature 1",
+                        "description": "Description 1"
+                    }
+                ],
+                "description": "Local tag manager",
+                "demo_url": "https://honest-rattlesnake-7.loca.lt/",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "akashmane@gofynd.com",
+                    "phone": "8652523958",
+                    "website_url": "https://honest-rattlesnake-7.loca.lt/",
+                    "faq_url": "https://honest-rattlesnake-7.loca.lt/",
+                    "privacy_policy_url": "https://honest-rattlesnake-7.loca.lt/"
+                }
+            },
+            "scope": ["company/saleschannel", "company/application/settings"],
+            "plans": [
+                {
+                    "name": "Basic",
+                    "features": "Basic ",
+                    "type": "recurring",
+                    "price": { "amount": 99, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "month",
+                        "recurring_time": 30,
+                        "yearly_amount": 1188
+                    }
+                }
+            ],
+            "extension_id": "61109c6795dcfa38cb408c70",
+            "slug": "tag-manager-local",
+            "plan_type": "recurring",
+            "plans_url": "https://honest-rattlesnake-7.loca.lt/company/1/pricing",
+            "current_status": "active",
+            "organization_id": "6110967d95dcfaf485408c60",
+            "created_at": "2021-08-09T03:15:57.074Z",
+            "modified_at": "2022-03-21T12:27:06.809Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f45b",
+                        "_id": "62320b45f4213eb19aa8f45b",
+                        "slug": "inventory"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f45a",
+                        "_id": "62320b45f4213eb19aa8f45a",
+                        "slug": "customer-service"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4d9",
+                        "_id": "62320b45f4213eb19aa8f4d9",
+                        "parent": "62320b45f4213eb19aa8f45b",
+                        "slug": "managing-inventory"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4d4",
+                        "_id": "62320b45f4213eb19aa8f4d4",
+                        "parent": "62320b45f4213eb19aa8f45a",
+                        "slug": "support"
+                    }
+                ]
+            },
+            "is_selected": true
+        },
+        {
+            "_id": "6111fc2741dc07b7bbc38f5b",
+            "listing_info": {
+                "keywords": ["facebook"],
+                "name": "Facebook Catalogue",
+                "tagline": "Export products in Facebook compatible format",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/JdPFZDJ-y-logo.jpeg"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/TknKwu-cj-desk-sc-1.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/Q30Y33G-c-mob-sc-1.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "6111fc2741dc070437c38f5c",
+                        "title": "Catalogue Export",
+                        "description": "Export catalogue in a format that is fully compatible to be readily used on Facebook Commerce Manager."
+                    }
+                ],
+                "description": "<p>Your catalogue on Fynd Platform is readily usable on Facebook Commerce Manager. This app helps you transform your Fynd Platform catalogue into Facebook's import products CSV file format without much manual intervention. You may use this exported CSV file readily on Facebook Commerce Manager to upload your products to Facebook Marketplace.</p>\n<p><strong>Features</strong></p>\n<ul>\n<li>Catalogue Export\n<ul>\n<li>Export catalogue in a format that is fully compatible to be readily used on Facebook Commerce Manager.</li>\n<li>Filter the catalogue based on 'brands' to be exported. You can select multiple brands at once.</li>\n<li>Get the count of products that will be exported after applying filters.</li>\n</ul>\n</li>\n<li>Scheduled Catalogue Export\n<ul>\n<li>Set a recurring event to export the catalogue. For example- every 4 hours, every day, every Friday, etc.</li>\n<li>Get a constant URL that will have the latest catalogue data. You may use this URL in your system to always fetch fresh catalogue data.</li>\n</ul>\n</li>\n<li>Download History\n<ul>\n<li>A list of all the export events in past will be available. You can download the catalogue from the past export events as well.</li>\n</ul>\n</li>\n</ul>\n<p><strong>Upcoming Features</strong></p>\n<ul>\n<li>Catalogue Import\n<ul>\n<li>Upload your catalogue present on the Facebook marketplace to Fynd Platform using the exported CSV from Facebook Commerce Manager.</li>\n</ul>\n</li>\n</ul>",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "piyushvishwakarma@gofynd.com",
+                    "phone": "7208229699",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": [
+                "company/profile",
+                "company/product",
+                "company/application/catalogue"
+            ],
+            "plans": [
+                {
+                    "name": "Premium",
+                    "features": "Unlimited catalogue export   \nSchedule catalogue generation\nView export event history ",
+                    "type": "recurring",
+                    "price": { "amount": 199, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "month",
+                        "recurring_time": 30,
+                        "yearly_amount": 2388
+                    }
+                }
+            ],
+            "extension_id": "6111ec7e95dcfa8e12408dd8",
+            "slug": "facebook-catalogue",
+            "plan_type": "recurring",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "6111ec0095dcfac23e408dd1",
+            "created_at": "2021-08-10T04:10:15.269Z",
+            "modified_at": "2022-03-21T12:27:06.810Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f44e",
+                        "_id": "62320b45f4213eb19aa8f44e",
+                        "slug": "merchandising"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f458",
+                        "_id": "62320b45f4213eb19aa8f458",
+                        "slug": "source-and-selling-product"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4e1",
+                        "_id": "62320b45f4213eb19aa8f4e1",
+                        "parent": "62320b45f4213eb19aa8f458",
+                        "slug": "dropshipping"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f483",
+                        "_id": "62320b45f4213eb19aa8f483",
+                        "parent": "62320b45f4213eb19aa8f44e",
+                        "slug": "product-display"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4e5",
+                        "_id": "62320b45f4213eb19aa8f4e5",
+                        "parent": "62320b45f4213eb19aa8f458",
+                        "slug": "marketplace"
+                    }
+                ]
+            },
+            "is_selected": true
+        },
+        {
+            "_id": "6232f7bf38bac40085b8747f",
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f44e",
+                        "_id": "62320b45f4213eb19aa8f44e",
+                        "slug": "merchandising"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f45a",
+                        "_id": "62320b45f4213eb19aa8f45a",
+                        "slug": "customer-service"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4d6",
+                        "_id": "62320b45f4213eb19aa8f4d6",
+                        "parent": "62320b45f4213eb19aa8f45a",
+                        "slug": "customer-account"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f483",
+                        "_id": "62320b45f4213eb19aa8f483",
+                        "parent": "62320b45f4213eb19aa8f44e",
+                        "slug": "product-display"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4d4",
+                        "_id": "62320b45f4213eb19aa8f4d4",
+                        "parent": "62320b45f4213eb19aa8f45a",
+                        "slug": "support"
+                    }
+                ]
+            },
+            "listing_info": {
+                "keywords": [],
+                "icon": "https://hdn-1.addsale.com/x0/partners/pictures/free/original/--unnamed--/next_order_reward.png",
+                "name": "Next order reward",
+                "tagline": "Encourage your customers to order frequently from your store"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/partners/pictures/free/original/--unnamed--/banner.png"
+                    ],
+                    "mobile": []
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "6232f7bf38bac40085b87480",
+                        "title": "Notify With Popup/Email",
+                        "description": "Display coupon on successful order placement to encourage next visit"
+                    },
+                    {
+                        "_id": "6232f7bf38bac40085b87481",
+                        "title": "Handy Settings",
+                        "description": "Customize discount coupons / thank you page / popup formatting"
+                    },
+                    {
+                        "_id": "6232f7bf38bac40085b87482",
+                        "title": "Email Settings",
+                        "description": "Customize emails to encourage next order placement"
+                    }
+                ],
+                "description": "This extension focuses on customer retention as well as repeat purchase rates.\n Customer's repetitive visit ensures adding value in trust and increasing revenue otherwise.\n \n \n <p>What's New\n \n\n\n \n <p>• Trouble-free custom settings\n \n\n\n \n <p>• Order Acknowledgement Coupon / Landing Page Coupon options\n \n\n\n \n <p>• Opens in any device\n \n\n\n \n <p>• Background and text color of Frequent Buy Coupons could be configured\n \n\n\n \n <p>• Notify coupons through email to encourage next visit",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "",
+                    "phone": "",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "coming_soon": { "upvote_count": 0, "is_coming_soon": true },
+            "scope": ["company/profile"],
+            "plans": [
+                {
+                    "additional_charges": "",
+                    "features": "free plan features",
+                    "name": "free",
+                    "price": { "amount": 0, "currency": "INR" },
+                    "trial_days": 0,
+                    "type": "free"
+                }
+            ],
+            "slug": "next_order_reward",
+            "current_status": "active",
+            "plan_type": "free",
+            "extension_id": "6232f7bf38bac40085b8747d",
+            "organization_id": "610d3a4595dcfae682408c07",
+            "created_at": "2022-03-17T08:56:31.868Z",
+            "modified_at": "2022-03-21T12:27:08.714Z",
+            "is_selected": true
+        }
+    ]
+}

@@ -39,6 +39,7 @@
                                     "
                                     :name="filterValue.slug"
                                     v-model="filterValue.is_selected"
+                                    :class="'price-filter price-filter' + '-' +index"
                                 >
                                     {{ filterValue.display }}
                                     <span class="extension-count">
@@ -53,6 +54,7 @@
                                     :value="whichOpen"
                                     :radioValue="filterValue.slug"
                                     :name="filterValue.type"
+                                    :class="filterValue.type + '-' +index"
                                 >
                                     {{ filterValue.display }}
                                     <span class="extension-count">
@@ -67,7 +69,7 @@
                                     "
                                     @click="toggleArrow(filterValue, true)"
                                     :ref="filterValue.slug + 'arrow'"
-                                    class="arrow"
+                                    :class="'arrow arrow-' + index"
                                 ></div>
                                 <div
                                     class="filter-child"
@@ -87,7 +89,7 @@
                                                     childValue
                                                 )
                                             "
-                                            class="l2-radio"
+                                            :class="'l2-radio l2-radio'+ '-' +index"
                                             :value="whichOpen"
                                             :radioValue="childValue.slug"
                                             :name="filterValue.type"
@@ -123,11 +125,12 @@
                             <nitrozen-chips
                                 v-for="(item, index) in getChipsData()"
                                 :key="'synonymText_' + index"
+                                :class="`cross-${index}`"
                             >
                                 {{ item.display }}
                                 <nitrozen-inline
                                     :icon="'cross'"
-                                    class="nitrozen-icon"
+                                    :class="'nitrozen-icon'"
                                     @click="removeFilter(item)"
                                 ></nitrozen-inline>
                             </nitrozen-chips>
@@ -135,6 +138,7 @@
                                 class="clear-filter"
                                 v-show="getChipsData().length > 0"
                                 @click="clearFilter"
+                                id="clearFilter"
                             >
                                 Clear Filter
                             </div>
@@ -146,6 +150,7 @@
                             <public-extension-card
                                 v-for="(extension, index) in extension_data"
                                 :key="index"
+                                :class="'extension-item-' + index"
                                 :ref="'extension-' + index"
                                 :show_selection="true"
                                 :extension="extension"

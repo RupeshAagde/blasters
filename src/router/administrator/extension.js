@@ -11,7 +11,7 @@ export default [
         path: 'extensions/review',
         component: ExtensionReviewList,
         beforeEnter: (to, from, next) => {
-            return  checkUserPermission(to, from, next, ['extension']);
+            return checkUserPermission(to, from, next, ['extension']);
         }
     },
     {

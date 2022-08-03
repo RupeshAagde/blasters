@@ -148,6 +148,10 @@ export default {
             type: Boolean,
             default: true,
         },
+        height: {
+            type: String,
+            default: ''
+        }
     },
     computed: {
         title() {
@@ -191,7 +195,7 @@ export default {
             this.imageURL = this.initialImageURL = this.value;
             this.$refs['dialog'].open({
                 width: '950px',
-                height: '632px',
+                height: this.height || '632px',
                 showCloseButton: true,
                 dismissible: false,
             });
