@@ -1736,9 +1736,7 @@ export default {
                 events = events.concat(this.eventsObj[key]);
             });
 
-            let association = {
-                company_id: parseInt(this.companyId),
-            };
+            let association = {};
             if (this.applicationSelected.length > 0) {
                 association['application_id'] = this.applicationSelected;
                 association['criteria'] = 'SPECIFIC-EVENTS';
