@@ -1033,11 +1033,12 @@ import {
     strokeBtn,
 } from '@gofynd/nitrozen-vue';
 import { mapGetters } from 'vuex';
+import root from 'window-or-global';
 import { copyToClipboard, debounce } from '@/helper/utils';
 import AdminWebhookService from '../../services/admin-webhook.service';
 import datePicker from '@/components/common/date-picker.vue';
 import admnocontent from '@/components/common/adm-no-content';
-
+const env = root.env || {};
 const extraDateRange = [
     {
         text: 'Last 6 Months',

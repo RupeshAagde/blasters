@@ -15,6 +15,7 @@ import DOMAIN_URLS from '@/services/domain.service.js'
 import WEBHOOK_SUBSCRIBER_EVENT from './fixtures/webhook-subscriber-event.json';
 import WEBHOOK_APPLICATION_LIST from './fixtures/webhook_application_list.json'
 import WEBHOOK_EVENT_LIST from './fixtures/webhook_event_list.json';
+import WEBHOOK_SAVE_SUCCESS from './fixtures/webhook_save_success.json'
 import WEBHOOK_USER_DETAILS from './fixtures/webhook_user_details.json';
 import WEBHOOK_TEST_SUCCESS from './fixtures/webhook_test_success.json';
 import WEBHOOK_UPDATE from './fixtures/webhook_update.json';
@@ -68,7 +69,7 @@ describe('Create webhook', () => {
         mock.onGet(DOMAIN_URLS.USER_PROFILE()).reply(200, WEBHOOK_USER_DETAILS);
         mock.onGet(URLS.WEBHOOK_EVENT_LIST()).reply(200, WEBHOOK_EVENT_LIST);
         mock.onPost(URLS.TEST_WEBHOOK()).reply(200, WEBHOOK_TEST_SUCCESS);
-        
+        mock.onPost(URLS.REGISTER_SUBSCRIBERS()).reply(200,WEBHOOK_SAVE_SUCCESS)
         wrapper = shallowMount(CreateWebhooks, {
             localVue,
             router,
@@ -130,15 +131,15 @@ describe('Create webhook', () => {
         await flushPromises();
         expect(wrapper.vm.$router.currentRoute.fullPath).toBe(`/administrator/create-webhook`);
     });
-   //fail issue is due to redirection i guess
-    it('On Create with basic auth =', async () => {
+    
+   it('On Create with basic auth =', async () => {
         await  wrapper.vm.save();
         await flushPromises();
-        console.log('sourav',wrapper.vm.dialogInfo)
-        expect(wrapper.vm.dialogInfo).toBe(``);
-        expect(wrapper.vm.dialogMessage).toBe(`Webhook Registered Successfully`);
+
+        expect(wrapper.vm.dialogInfo).toBe(`Success`);
+        expect(wrapper.vm.dialogMessage).toBe(`Webhook registered successfully`);
     });
-   //fail
+
     it('On Create without basic auth =', async () => {
         await  wrapper.vm.save();
         wrapper.vm.username=''
@@ -146,7 +147,7 @@ describe('Create webhook', () => {
         wrapper.vm.requestStatus=true
         await flushPromises();
         expect(wrapper.vm.dialogInfo).toBe(`Success`);
-        expect(wrapper.vm.dialogMessage).toBe(``);
+        expect(wrapper.vm.dialogMessage).toBe(`Webhook registered successfully`);
     });
     it('Check form validaity =', async () => {
         var isValid = await  wrapper.vm.isFormValid;
