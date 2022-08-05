@@ -199,9 +199,9 @@
                         ]">{{ 'Please enter secret' }}</nitrozen-error>
                     </div>
                 </div>
-                <div class="webhook-settings-container-events" v-if="Object.keys(groupedEventlist).length<0">No events available to select please create events</div>
+                <div class="webhook-settings-container-events" v-if="groupedEventlist && Object.keys(groupedEventlist).length<0  ">No events available to select please create events</div>
                 <div v-else class="webhook-settings-container-events">
-                    <div v-if="Object.keys(groupedEventlist['company']).length>0" class="event-grouping">
+                    <div v-if="groupedEventlist['company'] && Object.keys(groupedEventlist['company']).length>0" class="event-grouping">
                         <div class="event-content-main">
                             <div class="event-span">
                                 Events
@@ -327,7 +327,7 @@
                         </template>
                     </div>
                     <!-- //? GLOBAL EVENT -->
-                    <div v-if="Object.keys(groupedEventlist['global']).length>0">
+                    <div v-if="groupedEventlist['global'] && Object.keys(groupedEventlist['global']).length>0">
                         <div class="event-content">
                             <div class="event-span-inner">Global</div>
                             <div class="event-span-text">
