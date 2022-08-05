@@ -1,0 +1,73 @@
+{
+    "items": [
+      {
+        "website": {
+          "enabled": true,
+          "basepath": "/"
+        },
+        "cors": {
+          "domains": []
+        },
+        "auth": {
+          "enabled": true
+        },
+        "description": "",
+        "channel_type": "website-and-mobile-apps",
+        "cache_ttl": -1,
+        "internal": false,
+        "is_active": true,
+        "mode": "live",
+        "_id": "611cfe631592d81de168861a",
+        "company_id": 1,
+        "name": "test-webhook",
+        "owner": "f848f4fcad9e362daf4e3303",
+        "logo": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "favicon": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png"
+        },
+        "banner": {
+          "secure_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/landscape-banner/original/D2fr98CUH-JioMart-Groceries.png"
+        },
+        "domains": [
+          {
+            "verified": true,
+            "is_primary": true,
+            "is_default": true,
+            "is_shortlink": true,
+            "_id": "611cfe631592d8525868861b",
+            "name": "test-webhook.hostx0.de"
+          }
+        ],
+        "token": "UICZxq1qJ",
+        "tokens": [
+          {
+            "token": "UICZxq1qJ",
+            "created_at": "2021-08-18T12:34:43.390Z"
+          }
+        ],
+        "redirections": [],
+        "meta": [],
+        "created_at": "2021-08-18T12:34:43.390Z",
+        "modified_at": "2021-08-18T12:34:43.390Z",
+        "__v": 0,
+        "domain": {
+          "verified": true,
+          "is_primary": true,
+          "is_default": true,
+          "is_shortlink": true,
+          "_id": "611cfe631592d8525868861b",
+          "name": "test-webhook.hostx0.de"
+        },
+        "id": "611cfe631592d81de168861a"
+      }
+    ],
+    "page": {
+      "type": "number",
+      "current": 1,
+      "size": 10,
+      "item_total": 1,
+      "has_next": false
+    }
+  }

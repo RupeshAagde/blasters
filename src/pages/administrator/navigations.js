@@ -229,6 +229,16 @@ export const getNavigations = () => {
                     active: false
                 }
             ]
-        }
+        },
+        {
+            display: 'Webhook',
+            link: '/administrator/webhook',
+            title: 'webhook',
+            icon: 'webhook',
+            highlightedIcon: 'webhook',
+            active: false,
+            permission: 'support',
+            children: []
+        },
     ];
 };
