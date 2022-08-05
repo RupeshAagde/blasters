@@ -36,15 +36,15 @@
                                 <div @click="redirectEdit(items.id)" class="full-name card-content-line-1">
                                     <span class="webhook-span">{{ items.name ? items.name : 'NA' }} </span>
                                 </div>
-                                <!-- <div class="full-name card-content-line-2">
+                                <div class="full-name card-content-line-2">
                            Webhook Url: <span @click="redirectEdit(items.id)" class="webhook-span webhook-url-text">{{items.webhook_url_display}} </span>
                            <img
-                                src="/public/admin/assets/admin/svgs/copy.svg"
+                                src="/public/assets/svgs/copy.svg"
                                 alt="copy"
                                 class="copy"
                                 @click="onCopyCode($event,items.webhook_url)"
                             /> 
-                        </div> -->
+                        </div>
                                 <div @click.self="redirectEdit(items.id)" class="full-name card-content-line-3">
                                     Events: <span @click.self="redirectEdit(items.id)"
                                         class="webhook-span list-events">{{ items.event_name.length > 3 ?
