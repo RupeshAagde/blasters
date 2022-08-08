@@ -23,7 +23,7 @@ const AdminWebhookService = {
       getCommonHeaderOptions()
     );
     return ApiService.get(
-      URLS.WEBHOOK_GLOABAL_SUBSCRIBER(),
+      URLS.WEBHOOK_GLOBAL_SUBSCRIBER(),
       axiosOption
     );
   },

@@ -701,20 +701,16 @@ export default {
             });
         },
         getSubscriberList() {
-            console.log("#####################2")
             this.startLoader = true
             this.query_param = {
                 page_no: this.pageObject.current,
                 page_size: this.pageObject.limit
             }
-            console.log("#####################3")
             AdminWebhookService.getSubscriberList(this.query_param).then((res) => {
-                console.log("#####################4")
                 this.subscriberList = res.data.items.map(item => {
                     item["updated_on"] = moment.utc(item.updated_on).utcOffset("+05:30").format('MMM Do, YY hh:mm A');
                     return item;
                 })
-                console.log("#####################5")
                 this.subscriberList.map(item => {
                     var itemGroup = _.mapValues(_.groupBy(item.event_configs, 'event_name'),
                         clist => clist.map(event => _.omit(event, 'event_name')));

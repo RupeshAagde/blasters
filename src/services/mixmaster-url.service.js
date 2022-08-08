@@ -84,17 +84,17 @@ const URLS = {
     WEBHOOK_EVENT_LIST: () => {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/event/`);
     },
-    WEBHOOK_GLOABAL_SUBSCRIBER: () => {
-        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscribers/global_subscriber`);
+    WEBHOOK_GLOBAL_SUBSCRIBER: () => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscribers`);
     },
     GET_WEBHOOK_REPORT: () => {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/reports/event_processed`);
     },
     REGISTER_SUBSCRIBERS: () => {
-        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscriber/create_subscribers`);
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscriber`);
     },
     UPDATE_SUBSCRIBER: () => {
-        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscriber/update_subscriber`);
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscriber`);
     },
     TEST_WEBHOOK: () => {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscriber/ping`);
