@@ -206,9 +206,12 @@
                         ]">{{ 'Please enter secret' }}</nitrozen-error>
                     </div>
                 </div>
-                <div class="webhook-settings-container-events" v-if="groupedEventlist && Object.keys(groupedEventlist).length<0">No events available to select please create events</div>
-                <div  v-else class="webhook-settings-container-events">
-                    <div v-if="groupedEventlist['company'] && Object.keys(groupedEventlist['company']).length>0" class="event-grouping">
+                <div class="webhook-settings-container-events"
+                    v-if="groupedEventlist && Object.keys(groupedEventlist).length < 0">No events available to select
+                    please create events</div>
+                <div v-else class="webhook-settings-container-events">
+                    <div v-if="groupedEventlist['company'] && Object.keys(groupedEventlist['company']).length > 0"
+                        class="event-grouping">
                         <div class="event-content-main">
                             <div class="event-span">
                                 Events
@@ -325,6 +328,127 @@
     'company' +
     selectedVersionObject[
     key + 'company'
+    ]
+    ]
+" @change="eventTypeChange(item)" :searchable="false" label="Select Event Types" placeholder="Select Event Types"
+                                        :multiple="true">
+                                    </nitrozen-dropdown>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <!-- //? GLOBAL EVENT -->
+                    <div v-if="groupedEventlist['global'] && Object.keys(groupedEventlist['global']).length > 0">
+                        <div class="event-content">
+                            <div class="event-span-inner">Global</div>
+                            <div class="event-span-text">
+                                Select global events you wish to receive
+                                for that channel.
+                            </div>
+                        </div>
+                        <template>
+                            <!-- //? GLOBAL EVENTS SEARCH DROPDOWN  -->
+
+                            <div class="events-group span-header">
+                                <div v-for="(item, key) in groupedEventlist[
+                                    'global'
+                                ]" :key="key.replace('_', ' ')" class="checkbox-element">
+                                    <div class="event_version">
+                                        <nitrozen-checkbox @change.self="
+                                            checkmarkData(
+                                                key,
+                                                item,
+                                                'global'
+                                            )
+                                        " class="check-item" :value="
+    selectedEventName.includes(
+        key + 'global'
+    )
+">
+                                            <p class="event-text">
+                                                {{ key.replace('_', ' ') }}
+                                            </p>
+                                            <a target="_blank" :href="
+                                                baseDocUrl +
+                                                key
+                                                    .replace(/\s+/g, '-')
+                                                    .toLowerCase() +
+                                                (selectedVersionObject[
+                                                    key + 'global'
+                                                ] == undefined
+                                                    ? ''
+                                                    : '/#v' +
+                                                    selectedVersionObject[
+                                                    key +
+                                                    'global'
+                                                    ])
+                                            " class="
+                                                    password-icon
+                                                    version-icon
+                                                " v-html="linkIcon"></a>
+                                        </nitrozen-checkbox>
+                                        <div class="version-container">
+                                            <div class="tooltip">
+                                                <span class="
+                                                        tooltiptext
+                                                        tooltiptextlarge
+                                                    ">The current selected
+                                                    version is going to
+                                                    deprecate, please select the
+                                                    latest version</span>
+                                                <a v-if="
+                                                    item['versions']
+                                                        .length >
+                                                    selectedVersionObject[
+                                                    key +
+                                                    'global'
+                                                    ] &&
+                                                    selectedEventName.includes(
+                                                        key + 'global'
+                                                    )
+                                                " class="alert-icon" v-html="alertIcon"></a>
+                                            </div>
+                                            <div class="tooltip">
+                                                <span class="tooltiptext">Select an Event
+                                                    version</span>
+                                                <nitrozen-dropdown :disabled="
+                                                    !selectedEventName.includes(
+                                                        key + 'global'
+                                                    )
+                                                " class="version-dropdown" placeholder="Versions"
+                                                    :items="item['versions']" v-model="
+                                                        selectedVersionObject[
+                                                        key + 'global'
+                                                        ]
+                                                    " @change="
+    selectedVersion(
+        $event,
+        item,
+        key + 'global'
+    )
+"></nitrozen-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <nitrozen-dropdown :disabled="
+                                        selectedVersionValue[
+                                        key + 'global'
+                                        ] == undefined ||
+                                        !selectedEventName.includes(
+                                            key + 'global'
+                                        )
+                                    " :items="
+    item[
+    selectedVersionObject[
+    key + 'global'
+    ]
+    ]
+" :id="key" v-model="
+    eventsObj[
+    key +
+    'global' +
+    selectedVersionObject[
+    key + 'global'
     ]
     ]
 " @change="eventTypeChange(item)" :searchable="false" label="Select Event Types" placeholder="Select Event Types"
@@ -1500,7 +1624,7 @@ export default {
             //             value: elem.id,
             //         });
             //     });
-                this.getWebhookSubscriberById();
+            this.getWebhookSubscriberById();
             // });
         },
         deleteItem(itemName) {
@@ -1938,6 +2062,15 @@ export default {
                                         _.omit(event, 'display_name')
                                     )
                             );
+                            //? global events
+                            groupEvent['global'] = _.mapValues(
+                                _.groupBy(
+                                    groupEventBasedOnType['global'],
+                                    'display_name'
+                                ),
+                                (clist) =>
+                                    clist.map((event) => _.omit(event, 'display_name'))
+                            );
                             let groupEventConf = {};
                             let applicationArrayGroup = {};
                             let countApplication = 0;
@@ -2017,9 +2150,29 @@ export default {
                                         companyArrayGroupKeys;
                                 }
                             );
+                            //? global events
+                            let globalArrayGroup = {};
+                            Object.keys(groupEvent['global']).map((elem, index) => {
+                                globalArrayGroup[elem] = _.mapValues(
+                                    _.groupBy(groupEvent['global'][elem], 'version'),
+                                    (clist) =>
+                                        clist.map((event) => _.omit(event, 'version'))
+                                );
+                                let globalArrayGroupKeys = [];
+                                Object.keys(globalArrayGroup[elem]).map((item) => {
+                                    globalArrayGroupKeys.push({
+                                        text: 'V' + item,
+                                        value: item,
+                                    });
+                                    this.selectedVersionObject[elem + 'global'] = item;
+                                });
+                                globalArrayGroup[elem]['versions'] =
+                                    globalArrayGroupKeys;
+                            });
                             groupEventConf['application'] =
                                 applicationArrayGroup;
                             groupEventConf['company'] = companyArrayGroup;
+                            groupEventConf['global'] = globalArrayGroup;
                             this.groupedEventlist = groupEventConf;
                             this.checkFormValidity();
                         })

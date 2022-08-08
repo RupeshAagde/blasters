@@ -231,9 +231,9 @@ export const getNavigations = () => {
             ]
         },
         {
-            display: 'Webhook',
+            display: 'Webhooks',
             link: '/administrator/webhook',
-            title: 'webhook',
+            title: 'webhooks',
             icon: 'webhook',
             highlightedIcon: 'webhook',
             active: false,
