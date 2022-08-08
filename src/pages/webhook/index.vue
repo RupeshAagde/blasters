@@ -1755,7 +1755,7 @@ export default {
                 email_id: this.alertEmail,
                 event_id: events,
                 custom_headers: headers,
-                type: 'global'
+                type: 'admin'
             };
             AdminWebhookService.registerSubscriber(request)
                 .then((res) => {

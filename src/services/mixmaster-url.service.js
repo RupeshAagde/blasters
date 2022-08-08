@@ -82,10 +82,10 @@ const URLS = {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/collection/${collectionId}/items`);
     },
     WEBHOOK_EVENT_LIST: () => {
-        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/event/`);
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/events/`);
     },
     WEBHOOK_GLOBAL_SUBSCRIBER: () => {
-        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscribers`);
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscriber`);
     },
     GET_WEBHOOK_REPORT: () => {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/reports/event_processed`);
@@ -99,11 +99,11 @@ const URLS = {
     TEST_WEBHOOK: () => {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscriber/ping`);
     },
-    GET_SUBSCRIBER_BY_ID_TYPE: (id, type) => {
-        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscriber/${id}/${type}`);
+    GET_SUBSCRIBER_BY_ID_TYPE: (id) => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscriber/${id}/`);
     },
     GET_FILTER_LIST: () => {
-        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/filters/global`);
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/reports/filters/`);
     },
 };
 

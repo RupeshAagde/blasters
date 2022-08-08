@@ -36,7 +36,7 @@
                                 <div @click="redirectEdit(items.id)" class="full-name card-content-line-1">
                                     <span class="webhook-span">{{ items.name ? items.name : 'NA' }} </span>
                                 </div>
-                                <div class="full-name card-content-line-2">
+                                <!-- <div class="full-name card-content-line-2">
                            Webhook Url: <span @click="redirectEdit(items.id)" class="webhook-span webhook-url-text">{{items.webhook_url_display}} </span>
                            <img
                                 src="/public/assets/svgs/copy.svg"
@@ -44,7 +44,7 @@
                                 class="copy"
                                 @click="onCopyCode($event,items.webhook_url)"
                             /> 
-                        </div>
+                        </div> -->
                                 <div @click.self="redirectEdit(items.id)" class="full-name card-content-line-3">
                                     Events: <span @click.self="redirectEdit(items.id)"
                                         class="webhook-span list-events">{{ items.event_name.length > 3 ?
@@ -71,6 +71,9 @@
                                         :theme="'secondary'">View Report</nitrozen-button>
                                     <span class="copy" v-html="copyIcon"
                                         @click="onCopyCode($event, items.webhook_url)"></span>
+
+                                    <!-- <span class="copy" @click="onCopyCode($event, items.webhook_url)"> <img
+                                            src="/public/assets/admin/svgs/webhook-copy.svg" alt="profile" /></span> -->
                                 </div>
                             </div>
                         </div>
@@ -575,7 +578,7 @@ import {
 import { mapGetters } from 'vuex';
 // import AdminWebhookService from '../../..//services/admin-webhook.service';
 import moment from 'moment';
-import svg from '@/auto_gen/svgs.js';
+import svg from '@/auto_gen/admin-svgs.js';
 import AdminWebhookService from '../../services/admin-webhook.service';
 
 export default {
@@ -638,8 +641,6 @@ export default {
         };
     },
     mounted() {
-
-        console.log("#####################1", svg["webhook-copy"])
         this.getSubscriberList()
     },
     methods: {

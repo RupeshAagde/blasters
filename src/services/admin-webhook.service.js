@@ -12,7 +12,7 @@ const AdminWebhookService = {
       getCommonHeaderOptions()
     );
     return ApiService.get(
-      URLS.GET_SUBSCRIBER_BY_ID_TYPE(id, 'global'),
+      URLS.GET_SUBSCRIBER_BY_ID_TYPE(id),
       axiosOption
     );
   },
