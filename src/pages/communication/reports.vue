@@ -382,7 +382,7 @@ export default {
             this.searchLabel =
                 this.filters.type.charAt(0).toUpperCase() +
                 this.filters.type.slice(1);
-            //this.fieldChanged();
+            this.fieldChanged();
         },
         changeSearch() {
             if (this.filters.plainTextSearch == '') {
