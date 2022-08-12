@@ -140,6 +140,7 @@
                         <div v-if="customHeaderToggle">
                             <span class="header-input" v-for="(item, index) in headers" :key="index">
                                 <nitrozen-input class="inputs width" :label="'Key'" type="text" v-model="item.key"
+                                    @keypress="enableButton"
                                     maxlength="500">
                                 </nitrozen-input>
                                 <nitrozen-input class="inputs width" :label="'Value'" type="text" v-model="item.value"
@@ -1742,6 +1743,9 @@ export default {
                 eventLength > 0 &&
                 this.alertEmail.length > 0 &&
                 this.name.length > 0;
+        },
+        enableButton(){
+            this.saveButtonClicked=false;
         },
         save() {
             let isValid = true;
