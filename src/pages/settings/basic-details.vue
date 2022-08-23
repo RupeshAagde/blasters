@@ -21,7 +21,7 @@
                 @tryAgain="fetchSettings"
             ></page-error>
             <section v-if="!pageLoading && !pageError">
-                <label class="cl-Mako bold-sm title">Basic Details</label>
+                <label class="cl-Mako bold-sm title">Common Settings</label>
                 <div class="input-row">
                     <!-- Title -->
                     <div class="input-field">
@@ -71,12 +71,12 @@
                 </div>
 
                 <div class="input-column">
-                <label class="cl-Mako bold-sm">Authentication Details</label>
+                <label class="cl-Mako bold-sm">Appereance of Authentication Page</label>
                 <div class="input-row">
                     <!-- Description -->
                     <div class="input-field">
                         <nitrozen-input
-                            label="Description *"
+                            label="Overlay Text *"
                             type="textarea"
                             placeholder="Enter Authentication Description"
                             v-model="authDescription.value"
@@ -92,7 +92,7 @@
                     <div class="input-field">
                         <!-- <div class="n-input-label">Authentication Logo *</div> -->
                         <image-uploader-tile
-                            label="Logo"
+                            label="Overlay Logo"
                             aspectRatio="1:1"
                             @delete="authLogo.value = ''"
                             @save="authLogo.value = $event"
@@ -109,7 +109,7 @@
                     <div class="input-field">
                         <!-- <div class="n-input-label">Authentication Image *</div> -->
                         <image-uploader-tile
-                            label="Image"
+                            label="Side Image"
                             aspectRatio="*"
                             @delete="authImage.value = ''"
                             @save="authImage.value = $event"
@@ -126,7 +126,7 @@
 
 
                 <div class="input-column">
-                <label class="cl-Mako bold-sm">Login Details</label>
+                <label class="cl-Mako bold-sm">Text on Seller Login Page</label>
                 <div class="input-row">
                     <!-- Description -->
                     <div class="input-field">
@@ -145,9 +145,9 @@
                     <!-- Description -->
                     <div class="input-field">
                         <nitrozen-input
-                            label="Description *"
+                            label="Subtitle *"
                             type="textarea"
-                            placeholder="Enter Login Description"
+                            placeholder="Enter Login Subtitle"
                             v-model="loginDescription.value"
                         ></nitrozen-input>
                         <nitrozen-error v-if="loginDescription.showerror">
@@ -159,7 +159,7 @@
 
 
                 <div class="input-column">
-                <label class="cl-Mako bold-sm">Register Details</label>
+                <label class="cl-Mako bold-sm">Text on Seller Register Page</label>
                 <div class="input-row">
                     <!-- Description -->
                     <div class="input-field">
@@ -178,9 +178,9 @@
                     <!-- Description -->
                     <div class="input-field">
                         <nitrozen-input
-                            label="Description *"
+                            label="Subtitle *"
                             type="textarea"
-                            placeholder="Enter Register Description"
+                            placeholder="Enter Register Subtitle"
                             v-model="registerDescription.value"
                         ></nitrozen-input>
                         <nitrozen-error v-if="registerDescription.showerror">
@@ -191,7 +191,7 @@
                 </div>
 
                 <div class="input-column">
-                <label class="cl-Mako bold-sm">Create Business Account</label>
+                <label class="cl-Mako bold-sm">Business Account Restrictions</label>
                 <div class="input-row business-checbox">
                     <!-- Description -->
                     <div class="input-field">
@@ -199,7 +199,7 @@
                             <nitrozen-toggle-btn
                                 v-model="businessAccount.value"
                             ></nitrozen-toggle-btn>
-                            <span>Limit Create Business Account</span>
+                            <span>Limit the number of business account per seller</span>
                         </label>
                     </div>
                 </div>
@@ -208,13 +208,41 @@
                     <!-- Description -->
                     <div class="input-field">
                         <nitrozen-input
-                            label="Thershold *"
+                            label="Maximum Accounts Permitted *"
                             type="number"
                             placeholder="Enter Thershold"
                             v-model="businessAccountThershold.value"
                         ></nitrozen-input>
                         <nitrozen-error v-if="businessAccountThershold.showerror">
                             {{ businessAccountThershold.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+                </div>
+
+                <div class="input-column">
+                    <label class="cl-Mako bold-sm">Seller Support Details</label>
+                <div class="input-row">
+                    <div class="input-field">
+                        <nitrozen-input
+                            label="Phone Numer *"
+                            type="number"
+                            placeholder="Enter Phone Number"
+                            v-model="sellerPhone.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="sellerPhone.showerror">
+                            {{ sellerPhone.errortext }}
+                        </nitrozen-error>
+                    </div>
+
+                    <div class="input-field">
+                        <nitrozen-input
+                            label="Email *"
+                            placeholder="Enter Email"
+                            v-model="sellerEmail.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="sellerEmail.showerror">
+                            {{ sellerEmail.errortext }}
                         </nitrozen-error>
                     </div>
                 </div>
@@ -337,6 +365,8 @@ export default {
             registerDescription: this.getInitialValue(''),
             businessAccount: this.getInitialValue(false),
             businessAccountThershold: this.getInitialValue(1),
+            sellerPhone: this.getInitialValue(9123456780),
+            sellerEmail: this.getInitialValue("seller@gofynd.com"),
             features: [],
             whats_new: []
         };
@@ -375,6 +405,9 @@ export default {
 
                     this.businessAccount.value = this.basicSettings.business_account && this.basicSettings.business_account.is_limit || false
                     this.businessAccountThershold.value = this.basicSettings.business_account && this.basicSettings.business_account.threshold || 1
+
+                    this.sellerPhone.value = this.basicSettings.seller_support && this.basicSettings.seller_support.phone_number || 9012345678;
+                    this.sellerEmail.value = this.basicSettings.seller_support && this.basicSettings.seller_support.email || 'seller@gofynd.com';
 
                     this.pageError = false;
                     this.pristineData = this.getPayload();
@@ -420,7 +453,11 @@ export default {
                 business_account: {
                     is_limit: this.businessAccount.value,
                     threshold: this.businessAccountThershold.value
-                }
+                },
+                seller_support: {
+                    email: this.sellerEmail.value,
+                    phone_number: this.sellerPhone.value
+                },
             };
         },
         checkEmpty(key) {
@@ -435,7 +472,9 @@ export default {
                 loginDescription: 'Description is required',
                 registerTitle: 'Title is required',
                 registerDescription: 'Description is required',
-                businessAccountThershold: 'Thershold is required'
+                businessAccountThershold: 'Thershold is required',
+                sellerEmail: 'Email is required',
+                sellerPhone: 'Phone Number is required'
             };
             if(key == 'businessAccountThershold'){
                 if(this[key].value <= 0){
