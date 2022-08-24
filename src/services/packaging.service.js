@@ -16,7 +16,7 @@ const packagingServiceURL = envVars.WEIRDWOLF_ADMIN_URL + '/v1.0/';
  */
 const appProductsServiceURL =
     envVars.SILVERBOLT_ACAT_URL +
-    `/v1.0/company/${envVars.COMPANY_ID}/application/${envVars.APPLICATION_ID}/raw-products`;
+    `/v1.0/company/${envVars.PACKAGING_COMPANY_ID}/application/${envVars.PACKAGING_APPLICATION_ID}/raw-products`;
 const PackagingService = {
     /**
      * @author Rohan Shah
