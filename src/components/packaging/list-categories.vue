@@ -42,7 +42,7 @@
                         v-if="l3CategoryList.length"
                         :item="item"
                         :handleEditClicked="handleEditClicked"
-                        :l3CategoryList="l3CategoryList"
+                        :l3CategoryList="l3_dict"
                         :cardIndex="index"
                     />
                 </div>
@@ -83,7 +83,11 @@ import {
     FETCH_L3_CATEGORIES
 } from '../../store/action.type';
 import { mapGetters } from 'vuex';
-import { GET_CATEGORIES, GET_L3_CATEGORIES } from '../../store/getters.type';
+import {
+    GET_CATEGORIES,
+    GET_L3_CATEGORIES,
+    GET_L3_DICT
+} from '../../store/getters.type';
 import CategoryCard from './common/category-card.vue';
 import SearchContainer from './common/search-container.vue';
 import { debounce } from '@/helper/utils';
@@ -115,7 +119,8 @@ export default {
     computed: {
         ...mapGetters({
             categories: GET_CATEGORIES,
-            l3_categories: GET_L3_CATEGORIES
+            l3_categories: GET_L3_CATEGORIES,
+            l3_dict: GET_L3_DICT
         })
     },
     async mounted() {

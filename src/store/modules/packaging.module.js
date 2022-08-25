@@ -16,7 +16,8 @@ import {
     GET_EDIT_CATEGORY,
     GET_EDIT_PRODUCT,
     GET_PACKAGING_PRODUCTS,
-    GET_L3_CATEGORIES
+    GET_L3_CATEGORIES,
+    GET_L3_DICT
 } from '../getters.type';
 
 import {
@@ -26,7 +27,8 @@ import {
     SET_EDIT_CATEGORY,
     SET_EDIT_PRODUCT,
     SET_PACKAGING_PRODUCTS,
-    SET_L3_CATEGORIES
+    SET_L3_CATEGORIES,
+    SET_L3_DICT
 } from '../mutation.type';
 import PackagingService from '../../services/packaging.service';
 import CompanyService from '../../services/company-admin.service';
@@ -36,7 +38,8 @@ const getDefaultState = () => {
         categories: [],
         categoryConfiguration: {},
         packagingProduct: {},
-        l3_categories: []
+        l3_categories: [],
+        l3Dict: {}
     };
 };
 
@@ -55,6 +58,9 @@ const getters = {
     },
     [GET_L3_CATEGORIES](state) {
         return state.l3_categories;
+    },
+    [GET_L3_DICT](state) {
+        return state.l3Dict;
     }
 };
 
@@ -79,6 +85,9 @@ const mutations = {
     },
     [SET_L3_CATEGORIES](state, data) {
         state.l3_categories = data;
+    },
+    [SET_L3_DICT](state, data) {
+        state.l3Dict = data;
     }
 };
 
@@ -159,6 +168,11 @@ const actions = {
                 });
                 if (!params.q) {
                     commit(SET_L3_CATEGORIES, l3Items);
+                    let dict = {};
+                    l3Items.forEach((a) => {
+                        dict[a.uid] = a.name;
+                    });
+                    commit(SET_L3_DICT, dict);
                 }
                 return l3Items;
             })

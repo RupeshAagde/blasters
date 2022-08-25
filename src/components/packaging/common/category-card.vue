@@ -30,7 +30,11 @@
                     + {{ extraCount }}
                 </div>
             </div>
-            <div @click="handleEditClicked(item)" id="edit-click" class="icon-wrapper">
+            <div
+                @click="handleEditClicked(item)"
+                id="edit-click"
+                class="icon-wrapper"
+            >
                 <inline-svg :src="'edit_new'" class="edit-icon" />
             </div>
         </div>
@@ -52,7 +56,7 @@ export default {
             type: Function
         },
         l3CategoryList: {
-            type: Array
+            type: Object
         },
         cardIndex: {
             type: Number
@@ -78,12 +82,13 @@ export default {
         setDisplayCategories(count = this.displayCount) {
             let tempArr = [];
             this.item.categories.forEach((id) => {
-                let categoryObj = this.l3CategoryList
-                    .map((a) => {
-                        if (a.uid == id) return a;
-                    })
-                    .filter((a) => a !== undefined)[0];
-                if (categoryObj) tempArr.push(categoryObj);
+                tempArr.push({ name: this.l3CategoryList[id] });
+                // let categoryObj = this.l3CategoryList
+                //     .map((a) => {
+                //         if (a.uid == id) return a;
+                //     })
+                //     .filter((a) => a !== undefined)[0];
+                // if (categoryObj) tempArr.push(categoryObj);
             });
             this.splicedCategoryConfig = tempArr;
             if (tempArr.length > count) {

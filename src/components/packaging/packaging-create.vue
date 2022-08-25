@@ -223,7 +223,8 @@ import { mapGetters } from 'vuex';
 import {
     GET_EDIT_PRODUCT,
     GET_PACKAGING_PRODUCTS,
-    GET_L3_CATEGORIES
+    GET_L3_CATEGORIES,
+    GET_L3_DICT
 } from '../../store/getters.type';
 import { generateProductRequest } from '../../helper/utils';
 import {
@@ -253,7 +254,8 @@ export default {
         ...mapGetters({
             products: GET_PACKAGING_PRODUCTS,
             editProduct: GET_EDIT_PRODUCT,
-            l3_categories: GET_L3_CATEGORIES
+            l3_categories: GET_L3_CATEGORIES,
+            l3_dict: GET_L3_DICT
         })
     },
     props: {
@@ -375,9 +377,8 @@ export default {
             showListLoader: true
         };
     },
-    mounted() {
-        this.setCategoryList({}, this.l3_categories);
-        this.setEditProduct();
+    async mounted() {
+        await this.setCategoryList({}, this.l3_categories);
         this.getGroupCategories();
     },
     methods: {
@@ -460,21 +461,26 @@ export default {
                 });
                 // if the l3 drop down is checked then replace the state array with BE value
                 if (this.l3Checked) {
+                    console.log(this.l3_categories, 'l3_categories');
                     if (this.l3_categories.length) {
                         this.selectedCategories = [];
                         this.categoryValue = this.editProduct.default_package.l3_categories;
                         this.editProduct.default_package.l3_categories.forEach(
                             (id) => {
-                                let category = this.l3_categories
-                                    .map((a) => {
-                                        if (a.uid == id) return a;
-                                    })
-                                    .filter((a) => a !== undefined)[0];
-                                if (category) {
-                                    category.text = category.name;
-                                    category.value = category.uid;
-                                    this.selectedCategories.push(category);
-                                }
+                                this.selectedCategories.push({
+                                    text: this.l3_dict[id],
+                                    value: id
+                                });
+                                // let category = this.l3_categories
+                                //     .map((a) => {
+                                //         if (a.uid == id) return a;
+                                //     })
+                                //     .filter((a) => a !== undefined)[0];
+                                // if (category) {
+                                //     category.text = category.name;
+                                //     category.value = category.uid;
+                                //     this.selectedCategories.push(category);
+                                // }
                             }
                         );
                         this.l3loader = false;
@@ -487,20 +493,24 @@ export default {
                                     this.categoryValue = this.editProduct.default_package.l3_categories;
                                     this.editProduct.default_package.l3_categories.forEach(
                                         (id) => {
-                                            let category = data
-                                                .map((a) => {
-                                                    if (a.uid == id) return a;
-                                                })
-                                                .filter(
-                                                    (a) => a !== undefined
-                                                )[0];
-                                            if (category) {
-                                                category.text = category.name;
-                                                category.value = category.uid;
-                                                this.selectedCategories.push(
-                                                    category
-                                                );
-                                            }
+                                            this.selectedCategories.push({
+                                                text: this.l3_dict[id],
+                                                value: id
+                                            });
+                                            // let category = data
+                                            //     .map((a) => {
+                                            //         if (a.uid == id) return a;
+                                            //     })
+                                            //     .filter(
+                                            //         (a) => a !== undefined
+                                            //     )[0];
+                                            // if (category) {
+                                            //     category.text = category.name;
+                                            //     category.value = category.uid;
+                                            //     this.selectedCategories.push(
+                                            //         category
+                                            //     );
+                                            // }
                                         }
                                     );
                                 } else {
@@ -735,6 +745,7 @@ export default {
                 });
                 this.searchableCategoryList = tempList;
                 this.l3loader = false;
+                this.setEditProduct();
             } else {
                 this.$store
                     .dispatch(FETCH_L3_CATEGORIES, query)
@@ -754,6 +765,7 @@ export default {
                                 'Could not fetch l3 categories'
                             );
                         }
+                        this.setEditProduct();
                         this.l3loader = false;
                     })
                     .finally(() => {
