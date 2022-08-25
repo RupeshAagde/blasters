@@ -528,7 +528,7 @@ export default {
     computed: {
         pageTitle() {
             if (!this.editMode) {
-                return 'Create Atttribute';
+                return 'Create Attribute';
             }
             if (_.isEmpty(this.attribute)) {
                 return 'Edit Attribute';
