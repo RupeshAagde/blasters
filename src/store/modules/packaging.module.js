@@ -15,7 +15,8 @@ import {
     GET_CATEGORIES,
     GET_EDIT_CATEGORY,
     GET_EDIT_PRODUCT,
-    GET_PACKAGING_PRODUCTS
+    GET_PACKAGING_PRODUCTS,
+    GET_L3_CATEGORIES
 } from '../getters.type';
 
 import {
@@ -24,7 +25,8 @@ import {
     SET_CLEAR_PRODUCT,
     SET_EDIT_CATEGORY,
     SET_EDIT_PRODUCT,
-    SET_PACKAGING_PRODUCTS
+    SET_PACKAGING_PRODUCTS,
+    SET_L3_CATEGORIES
 } from '../mutation.type';
 import PackagingService from '../../services/packaging.service';
 import CompanyService from '../../services/company-admin.service';
@@ -33,7 +35,8 @@ const getDefaultState = () => {
         products: [],
         categories: [],
         categoryConfiguration: {},
-        packagingProduct: {}
+        packagingProduct: {},
+        l3_categories: []
     };
 };
 
@@ -49,6 +52,9 @@ const getters = {
     },
     [GET_EDIT_PRODUCT](state) {
         return state.packagingProduct;
+    },
+    [GET_L3_CATEGORIES](state) {
+        return state.l3_categories;
     }
 };
 
@@ -70,6 +76,9 @@ const mutations = {
     },
     [SET_CLEAR_CATEGORY](state) {
         state.categoryConfiguration = {};
+    },
+    [SET_L3_CATEGORIES](state, data) {
+        state.l3_categories = data;
     }
 };
 
@@ -144,10 +153,12 @@ const actions = {
         params.page_size = 10000;
         return CompanyService.fetchCategory_v2(params)
             .then((res) => {
-                return res.data.items.sort(function(a, b) {
+                let l3Items = res.data.items.sort(function(a, b) {
                     // Sort alphabetically for better redability
                     return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
                 });
+                commit(SET_L3_CATEGORIES, data);
+                return l3Items;
             })
             .catch((err) => {
                 return { error: true };
