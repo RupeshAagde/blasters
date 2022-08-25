@@ -168,6 +168,7 @@ const actions = {
                 });
                 if (!params.q) {
                     commit(SET_L3_CATEGORIES, l3Items);
+                    // create a dictionary of name and UID for the purpose of fetching names by UID
                     let dict = {};
                     l3Items.forEach((a) => {
                         dict[a.uid] = a.name;
