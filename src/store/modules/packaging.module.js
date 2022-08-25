@@ -157,7 +157,9 @@ const actions = {
                     // Sort alphabetically for better redability
                     return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
                 });
-                commit(SET_L3_CATEGORIES, data);
+                if (!params.q) {
+                    commit(SET_L3_CATEGORIES, l3Items);
+                }
                 return l3Items;
             })
             .catch((err) => {
