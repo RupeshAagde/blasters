@@ -1724,6 +1724,7 @@ export default {
             }
             if (this.authStatus == true && this.password.length == 0) {
                 this.passwordValidation = true;
+                this.saveButtonClicked=false;
                 return;
             }
             // this.startLoader = true;
