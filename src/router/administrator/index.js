@@ -52,6 +52,10 @@ import IntegrationsListVue from '@/pages/integration/list';
 import IntegrationsCreateVue from '@/pages/integration/create';
 const OrdersPage =()=>import('@/pages/orders');
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
+import PackagingHome from '@/pages/packaging/packaging-home.vue'
+import CategoryConfig from '@/pages/packaging/category-config.vue'
+import PackagingCreate from '@/pages/packaging/create-packaging.vue'
+import CreateCategory from '@/pages/packaging/create-category-home.vue'
 
 import { authenticatedUser, checkUserPermission } from './../guards';
 
@@ -697,6 +701,51 @@ export default [
                 return checkUserPermission(to, from, next, ['integration']);
             }
         },
+        /**
+         * packaging related routes 
+         */
+      {
+        name: 'packaging-home',
+        path: 'packaging/items',
+        component: PackagingHome,
+        beforeEnter: (to, from, next) => {
+            return checkUserPermission(to, from, next, [
+                'admin-access'
+            ]);
+        }
+    },
+    {
+        name: 'packaging-create',
+        path: 'packaging/create',
+        alias:'packaging/edit',
+        component: PackagingCreate,
+        beforeEnter: (to, from, next) => {
+            return checkUserPermission(to, from, next, [
+                'admin-access'
+            ]);
+        }
+    },
+    {
+        name: 'category-config',
+        path: 'packaging/category-configuration',
+        component: CategoryConfig,
+        beforeEnter: (to, from, next) => {
+            return checkUserPermission(to, from, next, [
+                'admin-access'
+            ]);
+        }
+    },
+    {
+        name: 'category-config-create',
+        path: 'packaging/category-configuration/create',
+        alias: 'packaging/category-configuration/edit',
+        component: CreateCategory,
+        beforeEnter: (to, from, next) => {
+            return checkUserPermission(to, from, next, [
+                'admin-access'
+            ]);
+        }
+    },
         ]
     },
     {
