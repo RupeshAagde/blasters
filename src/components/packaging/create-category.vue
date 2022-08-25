@@ -69,7 +69,7 @@ import CategoryMultiSelect from './common/category-multi-select.vue';
 import { generateGroupCategoryRequest } from '../../helper/utils';
 import { FETCH_L3_CATEGORIES } from '../../store/action.type';
 import { mapGetters } from 'vuex';
-import { GET_EDIT_CATEGORY } from '../../store/getters.type';
+import { GET_EDIT_CATEGORY, GET_L3_CATEGORIES } from '../../store/getters.type';
 import LoaderVue from '../common/loader.vue';
 export default {
     name: 'create-category',
@@ -81,14 +81,14 @@ export default {
     },
     computed: {
         ...mapGetters({
-            selectedCatgegory: GET_EDIT_CATEGORY
+            selectedCatgegory: GET_EDIT_CATEGORY,
+            l3_categories: GET_L3_CATEGORIES
         })
     },
     mounted() {
-        this.setCategoryList();
+        this.setCategoryList({}, this.l3_categories);
         // only if there is data in the store call the edit functionality
         if (Object.keys(this.selectedCatgegory).length) {
-            // change header if scren is in edit mode
             this.formHeader = 'Edit Category';
             this.handleEditCategoryGroup(this.selectedCatgegory);
         } else {
@@ -121,7 +121,6 @@ export default {
          * @description Sets the necessary data in the state for the edit category feature
          */
         handleEditCategoryGroup(categoryInfo) {
-            console.log(categoryInfo, 'categoryInfo');
             this.groupName.value = categoryInfo.categoryName;
             this.selectedCategories = categoryInfo.selectedCategories;
             this.categoryValue = categoryInfo.categoryValue;
@@ -247,7 +246,7 @@ export default {
          * @description Generate category list based on user input
          * Designed to return all when called first time or without any input
          */
-        setCategoryList(e = {}) {
+        setCategoryList(e = {}, l3_categories) {
             this.searchableCategoryList = [];
             let query = {
                 is_active: true
@@ -256,29 +255,41 @@ export default {
             if (e.text && e.text.length) {
                 query.q = e.text;
             }
-            this.$store
-                .dispatch(FETCH_L3_CATEGORIES, query)
-                .then((data) => {
-                    if (!data.error) {
-                        let tempList = [];
-                        data.forEach((a) => {
-                            tempList.push({
-                                text: a.name,
-                                value: a.uid
-                            });
-                        });
-                        this.searchableCategoryList = tempList;
-                    } else {
-                        // call snackbar and return
-                        this.$snackbar.global.showError(
-                            'Could not fetch l3 categories'
-                        );
-                    }
-                    this.l3loader = false;
-                })
-                .finally(() => {
-                    this.l3loader = false;
+            if (l3_categories && l3_categories.length) {
+                let tempList = [];
+                l3_categories.forEach((a) => {
+                    tempList.push({
+                        text: a.name,
+                        value: a.uid
+                    });
                 });
+                this.searchableCategoryList = tempList;
+                this.l3loader = false;
+            } else {
+                this.$store
+                    .dispatch(FETCH_L3_CATEGORIES, query)
+                    .then((data) => {
+                        if (!data.error) {
+                            let tempList = [];
+                            data.forEach((a) => {
+                                tempList.push({
+                                    text: a.name,
+                                    value: a.uid
+                                });
+                            });
+                            this.searchableCategoryList = tempList;
+                        } else {
+                            // call snackbar and return
+                            this.$snackbar.global.showError(
+                                'Could not fetch l3 categories'
+                            );
+                        }
+                        this.l3loader = false;
+                    })
+                    .finally(() => {
+                        this.l3loader = false;
+                    });
+            }
         },
         checkForError() {
             if (

@@ -1,7 +1,7 @@
 'use strict';
 const convict = require('convict');
 
-const platformDomain = process.env['FYND_PLATFORM_DOMAIN'] || "";
+const platformDomain = process.env['FYND_PLATFORM_DOMAIN'] || '';
 
 const conf = convict({
     env: {
@@ -26,25 +26,25 @@ const conf = convict({
             arg: 'fynd_platform_domain'
         },
         MIRAGE_MAIN_DOMAIN: {
-            doc: "Mirage Main Domain",
+            doc: 'Mirage Main Domain',
             format: String,
             default: `https://platform.${platformDomain}`,
-            env: "MIRAGE_MAIN_DOMAIN",
-            arg: "mirage_main_domain"
+            env: 'MIRAGE_MAIN_DOMAIN',
+            arg: 'mirage_main_domain'
         },
         BOMBSHELL_MAIN_DOMAIN: {
-            doc: "Bombshell Main Domain",
+            doc: 'Bombshell Main Domain',
             format: String,
             default: `https://partners.${platformDomain}`,
-            env: "BOMBSHELL_MAIN_DOMAIN",
-            arg: "bombshell_main_domain"
+            env: 'BOMBSHELL_MAIN_DOMAIN',
+            arg: 'bombshell_main_domain'
         },
         BLASTER_MAIN_DOMAIN: {
-            doc: "Blaster Main Domain",
+            doc: 'Blaster Main Domain',
             format: String,
             default: ``,
-            env: "BLASTER_MAIN_DOMAIN",
-            arg: "blaster_main_domain"
+            env: 'BLASTER_MAIN_DOMAIN',
+            arg: 'blaster_main_domain'
         },
         SLINGSHOT_ADMIN_URL: {
             doc: 'Slingshot Admin URL',
@@ -336,21 +336,24 @@ const conf = convict({
         MARKETPLACES_ADMIN_URL: {
             doc: 'Marketpalces Admin URL',
             format: String,
-            default: 'https://api.fyndx0.de/service/___/administrator/marketplaces/',
+            default:
+                'https://api.fyndx0.de/service/___/administrator/marketplaces/',
             env: 'MARKETPLACES_ADMIN_URL',
             arg: 'marketplaces_admin_url'
         },
         MARKETPLACES_ADMIN_SVC: {
             doc: 'Marketpalces Kube Service',
             format: String,
-            default: 'https://api.fyndx0.de/service/___/administrator/marketplaces/',
+            default:
+                'https://api.fyndx0.de/service/___/administrator/marketplaces/',
             env: 'MARKETPLACES_ADMIN_SVC',
             arg: 'marketplaces_admin_svc'
         },
         MIXMASTER_ADMIN_URL: {
             doc: 'Mixmaster Admin URL',
             format: String,
-            default: 'https://api.fyndx0.de/service/___/administrator/partners/',
+            default:
+                'https://api.fyndx0.de/service/___/administrator/partners/',
             env: 'MIXMASTER_ADMIN_URL',
             arg: 'mixmaster_admin_url'
         },
@@ -364,7 +367,8 @@ const conf = convict({
         MIXMASTER_ADMIN_SVC: {
             doc: 'Mixmaster Kube Service',
             format: String,
-            default: 'https://api.fyndx0.de/service/___/administrator/partners/',
+            default:
+                'https://api.fyndx0.de/service/___/administrator/partners/',
             env: 'MIXMASTER_ADMIN_SVC',
             arg: 'mixmaster_admin_svc'
         },
@@ -385,21 +389,22 @@ const conf = convict({
         WEIRDWOLF_ADMIN_URL: {
             doc: 'Packaging admin service',
             format: String,
-            default: 'https://api.fyndx1.de/service/___/administrator/packaging',
+            default:
+                'https://api.fyndx1.de/service/___/administrator/packaging',
             env: 'WEIRDWOLF_ADMIN_URL',
             arg: 'weirdwolf_admin_url'
         },
         PACKAGING_COMPANY_ID: {
             doc: 'packaging company id',
             format: String,
-            default:'884',
+            default: '884',
             env: 'PACKAGING_COMPANY_ID',
             arg: 'company_id'
         },
         PACKAGING_APPLICATION_ID: {
             doc: 'packaging application id',
             format: String,
-            default:'60792ded7826bd09330ed90d',
+            default: '60792ded7826bd09330ed90d',
             env: 'PACKAGING_APPLICATION_ID',
             arg: 'application_id'
         },
@@ -433,7 +438,7 @@ const conf = convict({
         default: 'hdn-1.addsale.com',
         env: 'CDN_ITEM_DOMAINS',
         arg: 'cdn_item_domains'
-      },
+    },
     // New Relic
     NEW_RELIC_APP_NAME: {
         doc: 'newrelic app name.',
