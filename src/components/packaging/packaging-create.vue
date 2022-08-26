@@ -222,7 +222,9 @@ import { debounce } from '@/helper/utils';
 import { mapGetters } from 'vuex';
 import {
     GET_EDIT_PRODUCT,
-    GET_PACKAGING_PRODUCTS
+    GET_PACKAGING_PRODUCTS,
+    GET_L3_CATEGORIES,
+    GET_L3_DICT
 } from '../../store/getters.type';
 import { generateProductRequest } from '../../helper/utils';
 import {
@@ -251,7 +253,9 @@ export default {
         },
         ...mapGetters({
             products: GET_PACKAGING_PRODUCTS,
-            editProduct: GET_EDIT_PRODUCT
+            editProduct: GET_EDIT_PRODUCT,
+            l3_categories: GET_L3_CATEGORIES,
+            l3_dict: GET_L3_DICT
         })
     },
     props: {
@@ -373,9 +377,8 @@ export default {
             showListLoader: true
         };
     },
-    mounted() {
-        this.setCategoryList();
-        this.setEditProduct();
+    async mounted() {
+        await this.setCategoryList({}, this.l3_categories);
         this.getGroupCategories();
     },
     methods: {
@@ -458,39 +461,70 @@ export default {
                 });
                 // if the l3 drop down is checked then replace the state array with BE value
                 if (this.l3Checked) {
-                    this.$store
-                        .dispatch(FETCH_L3_CATEGORIES, { is_active: true })
-                        .then((data) => {
-                            if (!data.error) {
-                                this.selectedCategories = [];
-                                this.categoryValue = this.editProduct.default_package.l3_categories;
-                                this.editProduct.default_package.l3_categories.forEach(
-                                    (id) => {
-                                        let category = data
-                                            .map((a) => {
-                                                if (a.uid == id) return a;
-                                            })
-                                            .filter((a) => a !== undefined)[0];
-                                        if (category) {
-                                            category.text = category.name;
-                                            category.value = category.uid;
-                                            this.selectedCategories.push(
-                                                category
-                                            );
-                                        }
-                                    }
-                                );
-                            } else {
-                                // call snackbar and return
-                                this.$snackbar.global.showError(
-                                    'Could not fetch l3 categories'
-                                );
+                    console.log(this.l3_categories, 'l3_categories');
+                    if (this.l3_categories.length) {
+                        this.selectedCategories = [];
+                        this.categoryValue = this.editProduct.default_package.l3_categories;
+                        this.editProduct.default_package.l3_categories.forEach(
+                            (id) => {
+                                this.selectedCategories.push({
+                                    text: this.l3_dict[id],
+                                    value: id
+                                });
+                                // let category = this.l3_categories
+                                //     .map((a) => {
+                                //         if (a.uid == id) return a;
+                                //     })
+                                //     .filter((a) => a !== undefined)[0];
+                                // if (category) {
+                                //     category.text = category.name;
+                                //     category.value = category.uid;
+                                //     this.selectedCategories.push(category);
+                                // }
                             }
-                            this.l3loader = false;
-                        })
-                        .finally(() => {
-                            this.l3loader = false;
-                        });
+                        );
+                        this.l3loader = false;
+                    } else {
+                        this.$store
+                            .dispatch(FETCH_L3_CATEGORIES, { is_active: true })
+                            .then((data) => {
+                                if (!data.error) {
+                                    this.selectedCategories = [];
+                                    this.categoryValue = this.editProduct.default_package.l3_categories;
+                                    this.editProduct.default_package.l3_categories.forEach(
+                                        (id) => {
+                                            this.selectedCategories.push({
+                                                text: this.l3_dict[id],
+                                                value: id
+                                            });
+                                            // let category = data
+                                            //     .map((a) => {
+                                            //         if (a.uid == id) return a;
+                                            //     })
+                                            //     .filter(
+                                            //         (a) => a !== undefined
+                                            //     )[0];
+                                            // if (category) {
+                                            //     category.text = category.name;
+                                            //     category.value = category.uid;
+                                            //     this.selectedCategories.push(
+                                            //         category
+                                            //     );
+                                            // }
+                                        }
+                                    );
+                                } else {
+                                    // call snackbar and return
+                                    this.$snackbar.global.showError(
+                                        'Could not fetch l3 categories'
+                                    );
+                                }
+                                this.l3loader = false;
+                            })
+                            .finally(() => {
+                                this.l3loader = false;
+                            });
+                    }
                 }
                 // only if the bulkchecked option is true
                 if (this.bulkChecked) {
@@ -551,7 +585,7 @@ export default {
             } else {
                 // dont redirect if the user has hit refresh
                 if (!this.$router.history.current.fullPath.includes('create'))
-                this.$router.push('/administrator/packaging/create');
+                    this.$router.push('/administrator/packaging/create');
             }
         },
         /**
@@ -692,7 +726,7 @@ export default {
          * @description Generate category list based on user input
          * Designed to return all when called first time or without any input
          */
-        setCategoryList(e = {}) {
+        setCategoryList(e = {}, l3_categories) {
             this.searchableCategoryList = [];
             const query = {
                 is_active: true
@@ -701,29 +735,43 @@ export default {
             if (e.text && e.text.length) {
                 query.q = e.text;
             }
-            this.$store
-                .dispatch(FETCH_L3_CATEGORIES, query)
-                .then((data) => {
-                    if (!data.error) {
-                        let tempList = [];
-                        data.forEach((a) => {
-                            tempList.push({
-                                text: a.name,
-                                value: a.uid
-                            });
-                        });
-                        this.searchableCategoryList = tempList;
-                    } else {
-                        // call snackbar and return
-                        this.$snackbar.global.showError(
-                            'Could not fetch l3 categories'
-                        );
-                    }
-                    this.l3loader = false;
-                })
-                .finally(() => {
-                    this.l3loader = false;
+            if (l3_categories && l3_categories.length) {
+                let tempList = [];
+                l3_categories.forEach((a) => {
+                    tempList.push({
+                        text: a.name,
+                        value: a.uid
+                    });
                 });
+                this.searchableCategoryList = tempList;
+                this.l3loader = false;
+                this.setEditProduct();
+            } else {
+                this.$store
+                    .dispatch(FETCH_L3_CATEGORIES, query)
+                    .then((data) => {
+                        if (!data.error) {
+                            let tempList = [];
+                            data.forEach((a) => {
+                                tempList.push({
+                                    text: a.name,
+                                    value: a.uid
+                                });
+                            });
+                            this.searchableCategoryList = tempList;
+                        } else {
+                            // call snackbar and return
+                            this.$snackbar.global.showError(
+                                'Could not fetch l3 categories'
+                            );
+                        }
+                        this.setEditProduct();
+                        this.l3loader = false;
+                    })
+                    .finally(() => {
+                        this.l3loader = false;
+                    });
+            }
         },
         /**
          *

@@ -5,7 +5,7 @@ export PORT=8086
 
 
 #API's
-export FYND_PLATFORM_DOMAIN=fyndx0.de
+export FYND_PLATFORM_DOMAIN=fyndx1.de
 export PINPOINTER_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/audit-trail/
 export POINTBLANK_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/communication/
 export BLITZKRIEG_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/platform/theme/
@@ -52,8 +52,8 @@ export MIXMASTER_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/admin
 export MIXMASTER_PNL_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/panel/partners/
 export MIXMASTER_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/partners/
 export WEIRDWOLF_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/packaging
-export PACKAGING_COMPANY_ID=84
-export PACKAGING_APPLICATION_ID=629616a1d7c74d3915f8f4e8
+export PACKAGING_COMPANY_ID=884
+export PACKAGING_APPLICATION_ID=60792ded7826bd09330ed90d
 export EXTENSION_PAGE_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/partner/partners
 export BLASTER_MAIN_DOMAIN=https://administrator.${FYND_PLATFORM_DOMAIN}
 export BOMBSHELL_MAIN_DOMAIN=https://partners.${FYND_PLATFORM_DOMAIN}
