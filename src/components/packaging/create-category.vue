@@ -315,7 +315,7 @@ export default {
             slugName: {
                 value: '',
                 error: '',
-                label: 'Slug name',
+                label: 'Slug',
                 placeHolder: 'Name of the slug'
             },
             searchableCategoryList: [],
