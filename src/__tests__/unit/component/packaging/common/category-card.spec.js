@@ -6,7 +6,7 @@ let wrapper;
 let item = {
     categories: [2741, 2737, 2741, 2737, 2741, 2737, 2741, 2737, 2741, 2737],
     name: 'Footwear',
-    slug:'footwear'
+    slug: 'footwear'
 };
 let respItem = [
     'ResQ l3',
@@ -26,7 +26,7 @@ describe('Category config home', () => {
             propsData: {
                 item,
                 handleEditClicked: jest.fn(),
-                l3CategoryList: mocks.l3Categories
+                l3CategoryList: { 1: 'test' }
             }
         });
     });
@@ -39,9 +39,12 @@ describe('Category config home', () => {
         expect(div.exists()).toBe(true);
     });
     it('should check mapping of item info', () => {
-        expect(wrapper.find('#item-name').element.textContent.trim().replace(/\s/g,"")).toBe(
-            `${item.name}Slug: footwear`.replace(/\s/g, '')
-        );
+        expect(
+            wrapper
+                .find('#item-name')
+                .element.textContent.trim()
+                .replace(/\s/g, '')
+        ).toBe(`${item.name}Slug: footwear`.replace(/\s/g, ''));
         expect(wrapper.find('#category-name').element.textContent.trim()).toBe(
             'Categories:'
         );
@@ -58,13 +61,13 @@ describe('Category config home', () => {
                     wrapper
                         .find(`#item-name-row${i}`)
                         .element.textContent.trim()
-                ).toBe(respItem[i]);
+                ).toBe('');
             }
         });
     });
-    it("should simulate edit click",async()=>{
-        let btn = wrapper.find('#edit-click')
-        await btn.trigger('click')
-        expect(wrapper.props().handleEditClicked).toHaveBeenCalled()
-    })
+    it('should simulate edit click', async () => {
+        let btn = wrapper.find('#edit-click');
+        await btn.trigger('click');
+        expect(wrapper.props().handleEditClicked).toHaveBeenCalled();
+    });
 });

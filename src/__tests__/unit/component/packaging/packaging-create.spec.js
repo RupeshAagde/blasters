@@ -4,13 +4,15 @@ import { mount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import {
     GET_PACKAGING_PRODUCTS,
-    GET_EDIT_PRODUCT
+    GET_EDIT_PRODUCT,
+    GET_L3_CATEGORIES
 } from '../../../../store/getters.type';
 import {
     FETCH_GROUP_CATEGORIES,
     FETCH_L3_CATEGORIES
 } from '../../../../store/action.type';
 import mocks from './fixtures/mocks';
+import VueRouter from 'vue-router';
 let wrapper;
 let category = {
     id: 1,
@@ -18,6 +20,8 @@ let category = {
 };
 const localVue = createLocalVue();
 localVue.use(Vuex);
+localVue.use(VueRouter);
+let router = new VueRouter();
 let store = new Vuex.Store({
     modules: {
         packaging: {
@@ -28,6 +32,9 @@ let store = new Vuex.Store({
                 },
                 async [GET_EDIT_PRODUCT]() {
                     return {};
+                },
+                async [GET_L3_CATEGORIES]() {
+                    return [];
                 }
             },
             actions: {
@@ -35,7 +42,7 @@ let store = new Vuex.Store({
                     return mocks.l3Categories;
                 },
                 async [FETCH_GROUP_CATEGORIES](data) {
-                    return mocks.groupCategories;
+                    return { items: mocks.groupCategories };
                 }
             }
         },
@@ -50,6 +57,7 @@ describe('Packaging Create', () => {
         wrapper = mount(PackagingCreate, {
             localVue,
             store,
+            router,
             propsData: {
                 toggleBtn: jest.fn()
             }
@@ -527,49 +535,55 @@ describe('Packaging Create', () => {
         wrapper.vm.handleBulkDropdown(0, 1);
         expect(wrapper.vm.bulkPackaging[0].categoryConfig).toBe(1);
     });
-    it("should test for handleCategoryChange",()=>{
-        wrapper.vm.searchableCategoryList=[{
-            value:1,
-            name:"category1"
-        },
-        {
-            value:2,
-            name:"category2"
-        }]
-        wrapper.vm.handleCategoryChange([1,2])
-        expect(wrapper.vm.selectedCategories).toStrictEqual([{
-            value:1,
-            name:"category1"
-        },
-        {
-            value:2,
-            name:"category2"
-        }])
-        expect(wrapper.vm.categoryValue).toStrictEqual([1,2])
-        wrapper.vm.handleCategoryChange([])
-        expect(wrapper.vm.selectedCategories).toStrictEqual([{value:1,name:'category1'}])
-        expect(wrapper.vm.categoryValue).toStrictEqual([1])
+    it('should test for handleCategoryChange', () => {
+        wrapper.vm.searchableCategoryList = [
+            {
+                value: 1,
+                name: 'category1'
+            },
+            {
+                value: 2,
+                name: 'category2'
+            }
+        ];
+        wrapper.vm.handleCategoryChange([1, 2]);
+        expect(wrapper.vm.selectedCategories).toStrictEqual([
+            {
+                value: 1,
+                name: 'category1'
+            },
+            {
+                value: 2,
+                name: 'category2'
+            }
+        ]);
+        expect(wrapper.vm.categoryValue).toStrictEqual([1, 2]);
+        wrapper.vm.handleCategoryChange([]);
+        expect(wrapper.vm.selectedCategories).toStrictEqual([
+            { value: 1, name: 'category1' }
+        ]);
+        expect(wrapper.vm.categoryValue).toStrictEqual([1]);
         // expect(wrapper.vm.checkForButtonToggle).toHaveBeenCalled()
-    })
-    it("should test for handleCategoryRemove",()=>{
-        wrapper.vm.selectedCategories = [{value:1,name:'cat1'}]
-        wrapper.vm.categoryValue = [1]
-        wrapper.vm.handleCategoryRemove({value:1,name:'cat1'},0)
-        expect(wrapper.vm.selectedCategories).toStrictEqual([])
-        expect(wrapper.vm.categoryValue).toStrictEqual([])
-    })
-    it("should test for handleSearchInput",()=>{
-        wrapper.vm.handleSearchInput("test")
-        sleep(1000).then(()=>{
-            expect(wrapper.vm.showListLoader).toBe(false)
-            expect(wrapper.vm.showSearchList).toBe(true)
-        })
-        wrapper.vm.handleSearchInput("")
-        sleep(1000).then(()=>{
-            expect(wrapper.vm.showListLoader).toBe(false)
-            expect(wrapper.vm.showSearchList).toBe(false)
-            expect(wrapper.vm.packagingSelected).toBe(false)
-            expect(wrapper.vm.searchedProductList).toStrictEqual([])
-        })
-    })
+    });
+    it('should test for handleCategoryRemove', () => {
+        wrapper.vm.selectedCategories = [{ value: 1, name: 'cat1' }];
+        wrapper.vm.categoryValue = [1];
+        wrapper.vm.handleCategoryRemove({ value: 1, name: 'cat1' }, 0);
+        expect(wrapper.vm.selectedCategories).toStrictEqual([]);
+        expect(wrapper.vm.categoryValue).toStrictEqual([]);
+    });
+    it('should test for handleSearchInput', () => {
+        wrapper.vm.handleSearchInput('test');
+        sleep(1000).then(() => {
+            expect(wrapper.vm.showListLoader).toBe(false);
+            expect(wrapper.vm.showSearchList).toBe(true);
+        });
+        wrapper.vm.handleSearchInput('');
+        sleep(1000).then(() => {
+            expect(wrapper.vm.showListLoader).toBe(false);
+            expect(wrapper.vm.showSearchList).toBe(false);
+            expect(wrapper.vm.packagingSelected).toBe(false);
+            expect(wrapper.vm.searchedProductList).toStrictEqual([]);
+        });
+    });
 });

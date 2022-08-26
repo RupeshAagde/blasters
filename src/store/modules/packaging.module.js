@@ -15,7 +15,9 @@ import {
     GET_CATEGORIES,
     GET_EDIT_CATEGORY,
     GET_EDIT_PRODUCT,
-    GET_PACKAGING_PRODUCTS
+    GET_PACKAGING_PRODUCTS,
+    GET_L3_CATEGORIES,
+    GET_L3_DICT
 } from '../getters.type';
 
 import {
@@ -24,7 +26,9 @@ import {
     SET_CLEAR_PRODUCT,
     SET_EDIT_CATEGORY,
     SET_EDIT_PRODUCT,
-    SET_PACKAGING_PRODUCTS
+    SET_PACKAGING_PRODUCTS,
+    SET_L3_CATEGORIES,
+    SET_L3_DICT
 } from '../mutation.type';
 import PackagingService from '../../services/packaging.service';
 import CompanyService from '../../services/company-admin.service';
@@ -33,7 +37,9 @@ const getDefaultState = () => {
         products: [],
         categories: [],
         categoryConfiguration: {},
-        packagingProduct: {}
+        packagingProduct: {},
+        l3_categories: [],
+        l3Dict: {}
     };
 };
 
@@ -49,6 +55,12 @@ const getters = {
     },
     [GET_EDIT_PRODUCT](state) {
         return state.packagingProduct;
+    },
+    [GET_L3_CATEGORIES](state) {
+        return state.l3_categories;
+    },
+    [GET_L3_DICT](state) {
+        return state.l3Dict;
     }
 };
 
@@ -70,6 +82,12 @@ const mutations = {
     },
     [SET_CLEAR_CATEGORY](state) {
         state.categoryConfiguration = {};
+    },
+    [SET_L3_CATEGORIES](state, data) {
+        state.l3_categories = data;
+    },
+    [SET_L3_DICT](state, data) {
+        state.l3Dict = data;
     }
 };
 
@@ -144,10 +162,20 @@ const actions = {
         params.page_size = 10000;
         return CompanyService.fetchCategory_v2(params)
             .then((res) => {
-                return res.data.items.sort(function(a, b) {
+                let l3Items = res.data.items.sort(function(a, b) {
                     // Sort alphabetically for better redability
                     return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
                 });
+                if (!params.q) {
+                    commit(SET_L3_CATEGORIES, l3Items);
+                    // create a dictionary of name and UID for the purpose of fetching names by UID
+                    let dict = {};
+                    l3Items.forEach((a) => {
+                        dict[a.uid] = a.name;
+                    });
+                    commit(SET_L3_DICT, dict);
+                }
+                return l3Items;
             })
             .catch((err) => {
                 return { error: true };

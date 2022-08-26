@@ -72,7 +72,7 @@ import CreateCategory from '../../components/packaging/create-category.vue';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
 import BaseModal from '../../components/common/dialogs/base-modal.vue';
 import InlineSvg from '../../components/common/inline-svg.vue';
-import { SAVE_CATEGORY } from '../../store/action.type';
+import { SAVE_CATEGORY, FETCH_GROUP_CATEGORIES } from '../../store/action.type';
 import { mapGetters } from 'vuex';
 import { GET_EDIT_CATEGORY } from '../../store/getters.type';
 import LoaderVue from '../../components/common/loader.vue';
@@ -137,14 +137,18 @@ export default {
                             : 'add new Category'
                     }`;
                     // only if the keyword slug is found in the error message then show duplicate slug name error
-                    if(res.statusCode == 409 && res.msg.includes('slug')){
-                        this.$refs.createCategory.showError()
+                    if (res.statusCode == 409 && res.msg.includes('slug')) {
+                        this.$refs.createCategory.showError();
                     }
                     return this.$snackbar.global.showError(
                         // only if the status code is 409 show the duplicate error else show generic error
                         res.statusCode == 409 ? res.msg : msg
                     );
                 }
+                this.$store.dispatch(FETCH_GROUP_CATEGORIES, {
+                    page_no: 1,
+                    page_size: 10
+                });
                 this.showLoader = false;
                 this.isModalOpen = true;
             });
