@@ -1754,6 +1754,7 @@ export default {
             this.saveButtonClicked = true;
             if (this.customHeaderToggle) {
                 if (!this.validateKey()) {
+                    this.saveButtonClicked=false;
                     return;
                 }
                 this.headers.forEach((element) => {

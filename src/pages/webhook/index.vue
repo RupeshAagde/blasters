@@ -1711,6 +1711,7 @@ export default {
             let headers = {};
             if (this.customHeaderToggle) {
                 if (!this.validateKey()) {
+                    this.saveButtonClicked=false;
                     return;
                 }
                 this.headers.forEach((element) => {
