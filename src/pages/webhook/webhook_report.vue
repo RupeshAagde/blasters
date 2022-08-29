@@ -2,7 +2,7 @@
     <div class="panel">
         <div class="header-position">
             <adm-page-header @backClick="onCancel" @openHelp="showHelpSection" :title="`Webhook Report`"
-                :contextMenuItems="isOrganisationUser ? [] : contextMenuItems">
+                :contextMenuItems="isOrganisationUser ? [] : contextMenuItems" :noContextMenu="true">
             </adm-page-header>
         </div>
         <loader v-if="startLoader" class="loading"></loader>
