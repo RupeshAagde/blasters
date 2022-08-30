@@ -2,7 +2,7 @@
     <div class="panel">
         <div class="header-position">
             <adm-page-header @backClick="onCancel" @openHelp="docRedirect" :title="`Edit Webhook`"
-                :contextMenuItems="isOrganisationUser ? [] : contextMenuItems">
+                :contextMenuItems="isOrganisationUser ? [] : contextMenuItems" :noContextMenu="true"> 
                 <div class="button-box">
                     <div class="toggle-text" :class="{ disabled: !requestStatus }">
                         {{ requestStatus ? 'Enabled' : 'Disabled' }}
