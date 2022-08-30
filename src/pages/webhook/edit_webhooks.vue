@@ -2,7 +2,7 @@
     <div class="panel">
         <div class="header-position">
             <adm-page-header @backClick="onCancel" @openHelp="docRedirect" :title="`Edit Webhook`"
-                :contextMenuItems="isOrganisationUser ? [] : contextMenuItems" :noContextMenu="true">
+                :contextMenuItems="isOrganisationUser ? [] : contextMenuItems">
                 <div class="button-box">
                     <div class="toggle-text" :class="{ disabled: !requestStatus }">
                         {{ requestStatus ? 'Enabled' : 'Disabled' }}
@@ -140,7 +140,7 @@
                         <div v-if="customHeaderToggle">
                             <span class="header-input" v-for="(item, index) in headers" :key="index">
                                 <nitrozen-input class="inputs width" :label="'Key'" type="text" v-model="item.key"
-                                    @keypress="enableButton"
+                                @keypress="enableButton"
                                     maxlength="500">
                                 </nitrozen-input>
                                 <nitrozen-input class="inputs width" :label="'Value'" type="text" v-model="item.value"
@@ -334,6 +334,204 @@
 " @change="eventTypeChange(item)" :searchable="false" label="Select Event Types" placeholder="Select Event Types"
                                         :multiple="true">
                                     </nitrozen-dropdown>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div
+                         v-show="groupedEventlist['application'] && Object.keys(groupedEventlist['application']).length > 0"
+                        class="event-grouping"
+                    >
+                        <div class="event-content">
+                            <div class="event-span">Sales Channel</div>
+                            <div class="event-span-text">
+                                Select channels and events you wish to receive
+                                for that channel.
+                            </div>
+                        </div>
+                        <template>
+                            <!-- <nitrozen-dropdown
+                                :class="'filter-dropdown-field filter-date'"
+                                :label="'Sales Channels'"
+                                :enable_select_all="true"
+                                :id="'ChannelFilter'"
+                                :items="applications"
+                                @change="selectedApplication()"
+                                @searchInputChange="searchApplication($event)"
+                                v-model="applicationSelected"
+                                placeholder="Sales Channels"
+                                :searchable="true"
+                                :multiple="true"
+                            >
+                            </nitrozen-dropdown> -->
+                            <div class="selectedItems">
+                                <div
+                                    v-for="(
+                                        item, index
+                                    ) in selectedApplications"
+                                    :key="index"
+                                    class="items"
+                                >
+                                    <span class="items-content">{{
+                                        item.text
+                                    }}</span>
+                                    <img
+                                        @click="deleteItem(item.value)"
+                                        class="cross-icon"
+                                        src="/public/admin/assets/admin/svgs/cross-black.svg"
+                                        alt="profile"
+                                    />
+                                </div>
+                                <div
+                                    v-if="selectedApplications.length > 0"
+                                    class="clear-section"
+                                    @click="deleteItem('all')"
+                                >
+                                    <span> Clear all </span>
+                                </div>
+                            </div>
+                            <div class="events-group span-header">
+                                <div
+                                    v-for="(item, key) in groupedEventlist[
+                                        'application'
+                                    ]"
+                                    :key="key.replace('_', ' ')"
+                                    class="checkbox-element"
+                                >
+                                    <div class="event_version">
+                                        <nitrozen-checkbox
+                                            @change.self="
+                                                checkmarkData(
+                                                    key,
+                                                    item,
+                                                    'application'
+                                                )
+                                            "
+                                            class="check-item"
+                                            :value="
+                                                selectedEventName.includes(
+                                                    key + 'application'
+                                                )
+                                            "
+                                        >
+                                            <p class="event-text">
+                                                {{ key.replace('_', ' ') }}
+                                            </p>
+                                            <a
+                                                target="_blank"
+                                                :href="
+                                                    baseDocUrl +
+                                                    key
+                                                        .replace(/\s+/g, '-')
+                                                        .toLowerCase() +
+                                                    (selectedVersionObject[
+                                                        key + 'application'
+                                                    ] == undefined
+                                                        ? ''
+                                                        : '/#v' +
+                                                          selectedVersionObject[
+                                                              key +
+                                                                  'application'
+                                                          ])
+                                                "
+                                                class="
+                                                    password-icon
+                                                    version-icon
+                                                "
+                                                v-html="linkIcon"
+                                            ></a>
+                                        </nitrozen-checkbox>
+                                        <div class="version-container">
+                                            <div class="tooltip">
+                                                <span
+                                                    class="
+                                                        tooltiptext
+                                                        tooltiptextlarge
+                                                    "
+                                                    >The current selected
+                                                    version is going to
+                                                    deprecate, please select the
+                                                    latest version</span
+                                                >
+                                                <a
+                                                    v-if="
+                                                        item['versions']
+                                                            .length >
+                                                            selectedVersionObject[
+                                                                key +
+                                                                    'application'
+                                                            ] &&
+                                                        selectedEventName.includes(
+                                                            key + 'application'
+                                                        )
+                                                    "
+                                                    class="alert-icon"
+                                                    v-html="alertIcon"
+                                                ></a>
+                                            </div>
+                                            <div class="tooltip">
+                                                <span class="tooltiptext"
+                                                    >Select an Event
+                                                    version</span
+                                                >
+                                                <nitrozen-dropdown
+                                                    :disabled="
+                                                        !selectedEventName.includes(
+                                                            key + 'application'
+                                                        )
+                                                    "
+                                                    class="version-dropdown"
+                                                    :id="key"
+                                                    placeholder="Versions"
+                                                    :items="item['versions']"
+                                                    v-model="
+                                                        selectedVersionObject[
+                                                            key + 'application'
+                                                        ]
+                                                    "
+                                                    @change="
+                                                        selectedVersion(
+                                                            $event,
+                                                            item,
+                                                            key + 'application'
+                                                        )
+                                                    "
+                                                ></nitrozen-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <nitrozen-dropdown
+                                        :disabled="
+                                            selectedVersionValue[
+                                                key + 'application'
+                                            ] == undefined ||
+                                            !selectedEventName.includes(
+                                                key + 'application'
+                                            )
+                                        "
+                                        :items="
+                                            item[
+                                                selectedVersionObject[
+                                                    key + 'application'
+                                                ]
+                                            ]
+                                        "
+                                        :id="key"
+                                        v-model="
+                                            eventsObj[
+                                                key +
+                                                    'application' +
+                                                    selectedVersionObject[
+                                                        key + 'application'
+                                                    ]
+                                            ]
+                                        "
+                                        @change="eventTypeChange(item)"
+                                        :searchable="false"
+                                        label="Select Event Types"
+                                        placeholder="Select Event Types"
+                                        :multiple="true"
+                                    ></nitrozen-dropdown>
                                 </div>
                             </div>
                         </template>
@@ -1325,7 +1523,7 @@ import admInlineSvg from '@/components/common/adm-inline-svg.vue';
 import admpageheader from '@/components/common/layout/page-header';
 import path from 'path';
 import root from 'window-or-global';
-import svg from '@/auto_gen/svgs.js';
+import svg from '@/auto_gen/admin-svgs.js';
 import admjumbotron from '@/components/common/jumbotron';
 // import AdminSellerService from '../../services/admin/admin-seller.service';
 // import {
@@ -1754,7 +1952,6 @@ export default {
             this.saveButtonClicked = true;
             if (this.customHeaderToggle) {
                 if (!this.validateKey()) {
-                    this.saveButtonClicked=false;
                     return;
                 }
                 this.headers.forEach((element) => {
@@ -1765,7 +1962,6 @@ export default {
             }
             if (this.authStatus == true && this.password.length == 0) {
                 this.passwordValidation = true;
-                this.saveButtonClicked=false;
                 return;
             }
             this.startLoader = true;
