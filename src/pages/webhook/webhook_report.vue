@@ -996,7 +996,6 @@ input {
     .search {
         margin-right: 30px;
     }
-
     .date-range-label {
         margin-right: 7%;
     }
