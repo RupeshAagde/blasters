@@ -1,0 +1,18 @@
+{
+    "updated_on": "2022-08-04T06:44:39.902Z",
+    "created_on": "2022-08-04T06:44:39.902Z",
+    "id": 809,
+    "name": "ddffd",
+    "webhook_url": "https://webhook.site/eeb1a32f-9be2-4c27-a5fb-ac3ca00364d7",
+    "association": {
+      "company_id": null,
+      "application_id": [],
+      "criteria": "EMPTY"
+    },
+    "status": "active",
+    "auth_meta": {},
+    "email_id": "souravkhurana@gofynd.com",
+    "custom_headers": {},
+    "type": "global",
+    "modified_by": "sourav khurana"
+  }
