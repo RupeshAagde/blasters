@@ -1682,24 +1682,6 @@ const ADMIN_URLS = {
     GET_PRODUCT_ATTRIBUTE_BY_SLUG: (slug) => {
         return urlJoin(SILVERBOLT_PCAT_URL, `/v1.0/company/${getCompInfo()}/product-attributes/${slug}`)
     },
-    WEBHOOK_EVENT_LIST: () => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/events/`);
-    },
-    SUBSCRIBER_BY_COMPANY_ID: () => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/subscriber`);
-    },
-    GET_WEBHOOK_REPORT: () => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/reports/event_processed`);
-    },
-    TEST_WEBHOOK: () => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/subscriber/ping`);
-    },
-    GET_SUBSCRIBER_BY_ID :(id) => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/subscriber/${id}`);
-    },
-    GET_FILTER_LIST :() => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/filters`);
-    },
     FETCH_VERIFICATION_COMPANY: () => {
         return urlJoin(SILVERBOLT_PCAT_URL, `/v1.0/company/${getCompInfo()}/verification/company`);
     },

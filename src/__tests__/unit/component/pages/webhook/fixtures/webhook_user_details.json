@@ -1,0 +1,48 @@
+{
+    "user": {
+      "debug": {
+        "source": "grimlock",
+        "platform": "000000000000000000000001"
+      },
+      "gender": null,
+      "roles": [],
+      "active": true,
+      "_id": "a67a57d2597a6a38b9b27b3d",
+      "emails": [
+        {
+          "active": true,
+          "primary": true,
+          "verified": true,
+          "email": "praveenraturi@gofynd.com"
+        },
+        {
+          "active": true,
+          "primary": false,
+          "verified": true,
+          "email": "praveenraturi@fynd.com"
+        },
+        {
+          "active": true,
+          "primary": false,
+          "verified": true,
+          "email": "praveenraturi@uniket.store"
+        }
+      ],
+      "username": "praveenraturi_gofynd_com_55455",
+      "uid": "213",
+      "account_type": "user",
+      "first_name": "Praveen",
+      "last_name": "Raturi",
+      "phone_numbers": [
+        {
+          "active": true,
+          "primary": true,
+          "verified": true,
+          "phone": "8193971153",
+          "country_code": 91
+        }
+      ],
+      "created_at": "2021-07-15T09:25:16.255Z",
+      "updated_at": "2021-07-15T09:25:16.255Z"
+    }
+  }
