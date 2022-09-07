@@ -626,6 +626,7 @@ export default {
             callbackUrl: '',
             issuer: '',
             query_param: {},
+            dateEvent:{},
             dates: {},
             rows: [5, 10, 15, 20, 25],
             pageObject: {
@@ -652,14 +653,22 @@ export default {
             this.dates['end_date'] = moment()
                 .utc()
                 .format('YYYY-MM-DDTHH:mm:ss');
+            this.dateEvent=event;
+            localStorage.setItem('Date',this.dateEvent);
         },
         report(name) {
             this.dateRangeChanges(1);
-            let start_date = encodeURIComponent(this.dates['start_date']);
-            let end_date = encodeURIComponent(this.dates['end_date']);
-            name = encodeURIComponent(name);
+            let date={
+                "start_date": this.dates['start_date'],
+                "end_date": this.dates['end_date'],
+            };
+            let subs={
+                "Subscriber Name":[name],
+            };
+            localStorage.setItem("data",JSON.stringify(date));
+            localStorage.setItem("filtersSelected",JSON.stringify(subs));
             this.$router.push({
-                path: `webhook-report?page_no=1&page_size=10&start_date=${start_date}&end_date=${end_date}&subscriber_name=${name}`
+                path: `webhook-report`
             });
         },
         selectedEvent(item) {

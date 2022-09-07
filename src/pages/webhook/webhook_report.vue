@@ -287,7 +287,7 @@
                             <adm-no-content v-if="
                                 webhookReport && webhookReport.length === 0
                             " :helperText="'No Data Found'"></adm-no-content>
-                            <nitrozen-pagination name="Items" v-model="pageObject" value="pageObjectValue"
+                            <nitrozen-pagination name="Items" v-model="pageObject" value="pageObjectValue" :class="{'visible':!visible}"
                                 @change="paginationChange" :pageSizeOptions="rows">
                             </nitrozen-pagination>
                         </div>
@@ -1006,6 +1006,9 @@ input {
         width: 50%;
     }
 }
+.visible{
+    display: none;
+}
 </style>
 <script>
 import { GET_HELP_SECTION_DATA } from '@/store/getters.type';
@@ -1137,6 +1140,8 @@ export default {
             subscriberIdMap: {},
             eventsToShow: {},
             selectedEvents: new Set(),
+            dateEvent:'',
+            visible:true,
             docUrl:
                 env.SEARCHLIGHT_MAIN_DOMAIN +
                 '/docs/company-settings/webhook/webhook',
@@ -1145,6 +1150,7 @@ export default {
     mounted() {
         this.populateDate();
         this.fetchQueryFilter();
+        this.dateSelected = localStorage.getItem('Date')||'1';
     },
     methods: {
         searchFilter(event) {
@@ -1170,6 +1176,8 @@ export default {
             this.query_param['end_date'] = moment()
                 .utc()
                 .format('YYYY-MM-DDTHH:mm:ss');
+            this.dateEvent=event
+            localStorage.setItem('Date',this.dateEvent)
             this.search(this.query_param);
         },
         deleteItem(itemName, key) {
@@ -1178,7 +1186,7 @@ export default {
                 this.filtersToshow['Event'] = [];
                 this.query_param['event'] = '';
                 this.query_param['subscriber_name'] = '';
-
+                localStorage.removeItem("filtersSelected");
                 this.selectedFilters = false;
             } else {
                 if (this.filtersToshow[key]) {
@@ -1234,22 +1242,6 @@ export default {
             this.query_param['search_text'] = e.search.trim();
             this.search(this.query_param);
         }, 200),
-        setRouteQuery(query) {
-            this.$router
-                .push({
-                    path: this.$route.path,
-                    query: {
-                        page_no: query['page_no'],
-                        page_size: query['page_size'],
-                        event: query['event'],
-                        search_text: query['search_text'],
-                        start_date: query['start_date'],
-                        end_date: query['end_date'],
-                        subscriber_name: encodeURIComponent(query['subscriber_name']),
-                    },
-                })
-                .catch((e) => { });
-        },
         filterInputChange(filterName) {
             if (filterName == 'Event') {
                 this.query_param['event'] =
@@ -1278,6 +1270,7 @@ export default {
             delete this.query_param['start_date'];
             delete this.query_param['end_date'];
             this.search(this.query_param);
+            localStorage.removeItem("Date");
         },
         fetchQueryFilter() {
             AdminWebhookService.getFilterList().then((res) => {
@@ -1303,39 +1296,51 @@ export default {
                     }
                 );
                 this.actualFilters = JSON.parse(JSON.stringify(this.filters));
-                // this.actualFilters[1].values = this.filters[1].values;
-                Object.keys(this.$route.query).forEach((key) => {
-                    var value = this.$route.query[key];
-                    if (value != '') {
-                        this.query_param[key] = value;
-                    }
-                    if (key == 'page_no') {
-                        this.pageObject.current = value;
-                    }
-                    if (key == 'page_size') {
-                        this.pageObject.limit = value;
-                    }
-                    if (key == 'search_text') {
-                        this.searchText = value;
-                    }
-                    if (key == 'event') {
-                        if (value) {
-                            this.filtersToshow['Event'] = value.split(',');
+                this.actualFilters[1].values = this.filters[1].values;
+                let local_query = JSON.parse(localStorage.getItem('data'));
+                if(local_query!=null){
+                    Object.keys(local_query).forEach((key) => {
+                        var value = local_query[key];
+                        if (value != '') {
+                            this.query_param[key] = value;
                         }
-                    }
-                    if (key == 'start_date') {
-                        this.query_param['start_date'] = value;
-                    }
-                    if (key == 'end_date') {
-                        this.query_param['end_date'] = value;
-                    }
-                    if (key == 'subscriber_name') {
-                        if (value && value != 'undefined') {
-                            this.filtersToshow['Subscriber Name'] =
-                                decodeURIComponent(value).split(',');
+                        if (key == 'page_no') {
+                            this.pageObject.current = value;
                         }
-                    }
-                });
+                        if (key == 'page_size') {
+                            this.pageObject.limit = this.pageObject.limit;
+                        }
+                        if (key == 'search_text') {
+                            this.searchText = value;
+                        }
+                        if (key == 'start_date') {
+                            this.query_param['start_date'] = value;
+                        }
+                        if (key == 'end_date') {
+                            this.query_param['end_date'] = value;
+                        }
+                    });
+                }
+                let filterDataSelected = JSON.parse(localStorage.getItem('filtersSelected'));
+                if(filterDataSelected!=null){
+                    Object.keys(filterDataSelected).forEach((key) => {
+                        var value = filterDataSelected[key];
+                        if (value != '') {
+                            this.query_param[key] = value;
+                        }
+                        if (key == 'Event') {
+                            if (value) {
+                                this.filtersToshow['Event'] = value;
+                            }
+                        }
+                        if (key == 'Subscriber Name') {
+                            if (value && value != 'undefined') {
+                                this.filtersToshow['Subscriber Name'] =
+                                    (value);
+                            }
+                        }
+                    });
+                }
                 let count = 0;
                 Object.keys(this.filtersToshow).forEach((item) => {
                     count = count + this.filtersToshow[item].length;
@@ -1349,6 +1354,7 @@ export default {
                     this.dateRangeChange(1);
                 } else {
                     this.search(this.query_param);
+                    this.dateSelected = localStorage.getItem('Date')
                 }
             });
         },
@@ -1363,6 +1369,9 @@ export default {
             event.preventDefault();
         },
         onCancel() {
+            localStorage.removeItem("Date");
+            localStorage.removeItem("data");
+            localStorage.removeItem("filtersSelected");
             this.$router.push({
                 path: 'webhook',
             });
@@ -1393,7 +1402,6 @@ export default {
             encoded_query_param['page_size'] = this.pageObject.limit;
             encoded_query_param['subscriber_name'] =
                 decodeURIComponent(query_param['subscriber_name']);
-            this.setRouteQuery(encoded_query_param);
             const data = {
                 page_no: this.pageObject.current,
                 page_size: this.pageObject.limit,
@@ -1420,6 +1428,8 @@ export default {
                     : [];
             }
             data["type"] = 'global'
+            localStorage.setItem("data",JSON.stringify(data));
+            localStorage.setItem("filtersSelected",JSON.stringify(this.filtersToshow));
             AdminWebhookService.getWebhookReport(data)
                 .then((res) => {
                     if (res.data.items.length > 0) {
@@ -1432,16 +1442,20 @@ export default {
                                 .format('MMM Do, YY hh:mm A');
                             return items;
                         });
+                        this.dateSelected=localStorage.getItem('Date');
                         this.pageObject.total = res.data.page.item_total;
                         this.pageObject.current = res.data.page.current;
                         this.startLoader = false;
+                        this.visible=true;
                     } else {
+                        this.dateSelected=localStorage.getItem('Date');
                         this.webhookReport = [];
                         this.startLoader = false;
                         this.showErrorPage = true;
                         this.pageObject.total = res.data.page.item_total;
                         this.pageObject.current = res.data.page.current;
                         this.startLoader = false;
+                        this.visible=false;
                     }
                 })
                 .catch((err) => {
