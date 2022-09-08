@@ -483,6 +483,12 @@ const URLS = {
             `/v1.0/${company_id}?q=${slug}&filter_type=auto`
         );
     },
+    GET_GENERAL_CONGIF: () => {
+        return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/general-config`);
+    },
+    GENERAL_CONGIF: () => {
+        return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/general-config`);
+    },
     PRODUCT: ({ companyId, itemId }) => {
         let url = `v1.0/company/${companyId}/products/`
         if (itemId) {
