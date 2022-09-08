@@ -1106,7 +1106,7 @@ export default {
             pageObject: {
                 total: 0,
                 current: 1,
-                limit: 10,
+                limit: localStorage.getItem('pageSize') || 10,
             },
             pageObjectValue: {},
             isOrganisationUser: [],
@@ -1142,6 +1142,7 @@ export default {
             selectedEvents: new Set(),
             dateEvent:'',
             visible:true,
+            pageSize:'',
             docUrl:
                 env.SEARCHLIGHT_MAIN_DOMAIN +
                 '/docs/company-settings/webhook/webhook',
@@ -1308,7 +1309,7 @@ export default {
                             this.pageObject.current = value;
                         }
                         if (key == 'page_size') {
-                            this.pageObject.limit = this.pageObject.limit;
+                            this.pageObject.limit = value;
                         }
                         if (key == 'search_text') {
                             this.searchText = value;
@@ -1372,6 +1373,7 @@ export default {
             localStorage.removeItem("Date");
             localStorage.removeItem("data");
             localStorage.removeItem("filtersSelected");
+            localStorage.removeItem("pageSize");
             this.$router.push({
                 path: 'webhook',
             });
@@ -1391,6 +1393,7 @@ export default {
             const { current, limit } = filter;
             this.pageObject.current = current;
             this.pageObject = Object.assign({}, this.pageObject, filter);
+            localStorage.setItem("pageSize",this.pageObject.limit)
             this.search(this.query_param);
         },
         search(query_param) {
