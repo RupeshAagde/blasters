@@ -1261,6 +1261,7 @@ export default {
             } else {
                 this.selectedFilters = false;
             }
+            this.pageObject.current = 1;
             this.search(this.query_param);
         },
         clearFilter(filterName) {
