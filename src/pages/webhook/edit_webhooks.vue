@@ -1952,6 +1952,7 @@ export default {
             this.saveButtonClicked = true;
             if (this.customHeaderToggle) {
                 if (!this.validateKey()) {
+                    this.saveButtonClicked = false;
                     return;
                 }
                 this.headers.forEach((element) => {
@@ -1962,6 +1963,7 @@ export default {
             }
             if (this.authStatus == true && this.password.length == 0) {
                 this.passwordValidation = true;
+                this.saveButtonClicked = false;
                 return;
             }
             this.startLoader = true;
