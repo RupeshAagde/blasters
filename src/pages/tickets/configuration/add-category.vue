@@ -2,7 +2,7 @@
     <div class="panel">
         <page-header
             title="Add New Category"
-            @backClick="$router.push({ name: 'support' })"
+            @backClick="$router.push({ path: '/administrator/support/configuration' })"
         >
             <nitrozen-button
                 v-flatBtn
@@ -217,7 +217,7 @@ import {
 import { Loader, PageHeader, MetaBox } from '@/components/common';
 import { validateNitrozenCustomFormInputs } from '@/helper/utils';
 import inlinesvg from '@/components/common/inline-svg';
-import SupportService from './../../services/support.service';
+import SupportService from '../../../services/support.service';
 import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
 import slugify from 'slugify';
 

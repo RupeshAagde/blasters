@@ -14,7 +14,8 @@ import AddSuperUserVue from './../../pages/super-user/add-user.vue';
 import Tickets from './../../pages/tickets/index.vue';
 import CreateTicket from './../../pages/tickets/create-ticket.vue';
 import VideoRoom from './../../pages/tickets/video-call/video-room.vue';
-import AddCategory from './../../pages/tickets/add-category.vue';
+import AddCategory from '../../pages/tickets/configuration/add-category.vue';
+import Configuration from './../../pages/tickets/configuration/configuration.vue';
 import SettingsVue from './../../pages/settings';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details.vue';
 import FeaturesSettingsVue from './../../pages/settings/features.vue';
@@ -199,7 +200,7 @@ export default [
             },
             {
                 name: 'support',
-                path: 'support',
+                path: 'support/ticket-listing',
                 component: Tickets,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['support']);
@@ -222,9 +223,17 @@ export default [
                 }
             },
             {
-                name: 'support-category',
-                path: 'support/add-category',
+                name: 'system-category',
+                path: 'support/configuration/category/default',
                 component: AddCategory,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'support-configuration',
+                path: 'support/configuration',
+                component: Configuration,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['support']);
                 }
