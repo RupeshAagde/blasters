@@ -576,7 +576,6 @@ import {
     strokeBtn
 } from '@gofynd/nitrozen-vue';
 import { mapGetters } from 'vuex';
-// import AdminWebhookService from '../../..//services/admin-webhook.service';
 import moment from 'moment';
 import svg from '@/auto_gen/admin-svgs.js';
 import AdminWebhookService from '../../services/admin-webhook.service';

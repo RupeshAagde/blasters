@@ -2,7 +2,7 @@
     <div class="panel">
         <div class="header-position">
             <adm-page-header @backClick="onCancel" @openHelp="showHelpSection" :title="`Webhook Report`"
-                :contextMenuItems="isOrganisationUser ? [] : contextMenuItems">
+                :contextMenuItems="isOrganisationUser ? [] : contextMenuItems" :noContextMenu="true">
             </adm-page-header>
         </div>
         <loader v-if="startLoader" class="loading"></loader>
@@ -474,7 +474,6 @@ table tr:last-child td:last-child {
 }
 
 ::v-deep .filter-Subscriber>label {
-    // width: 48%;
     align-self: center;
 }
 
@@ -1293,7 +1292,6 @@ export default {
                     (filter) => {
                         filter.text = filter.text;
                         filter.value = filter.text;
-                        // filter.value =JSON.stringify(filter.value)
                         return filter;
                     }
                 );
@@ -1378,7 +1376,6 @@ export default {
             this.$router.push({
                 path: 'webhook',
             });
-            // this.$router.go(-1);
         },
         showPayload(message, webhook_url_name, event_name) {
             this.startLoader = true;

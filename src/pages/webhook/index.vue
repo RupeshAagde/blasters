@@ -2,7 +2,7 @@
     <div class="panel">
         <div class="header-position">
             <adm-page-header @backClick="onCancel" @openHelp="docRedirect" :title="`Create Webhook`"
-                :contextMenuItems="isOrganisationUser ? [] : contextMenuItems">
+                :contextMenuItems="isOrganisationUser ? [] : contextMenuItems" :noContextMenu="true">
                 <div class="button-box">
                     <div class="toggle-text" :class="{ disabled: !requestStatus }">
                         {{ requestStatus ? 'Enabled' : 'Disabled' }}
@@ -1844,8 +1844,10 @@ export default {
             let isValid = true;
             let headerKeys = [];
             let headers = {};
+            this.saveButtonClicked = true;
             if (this.customHeaderToggle) {
                 if (!this.validateKey()) {
+                    this.saveButtonClicked = false;
                     return;
                 }
                 this.headers.forEach((element) => {
@@ -1859,6 +1861,7 @@ export default {
             }
             if (this.authStatus == true && this.password.length == 0) {
                 this.passwordValidation = true;
+                this.saveButtonClicked = false;
                 return;
             }
             // this.startLoader = true;
