@@ -223,6 +223,32 @@ export const getNavigations = () => {
             ]
         },
         {
+            display: 'Finance',
+            link: '/administrator/finance/bills-and-payouts',
+            title: 'finance',
+            icon: 'kycdetails',
+            highlightedIcon: 'home-highlighted',
+            active: false,
+            permission: 'finance',
+            children: [
+                {
+                    display: 'Reports and Ledger',
+                    link: '/administrator/finance/bills-and-payouts',
+                    title: 'bills-and-payouts',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Credit-Note/Debit-Note',
+                    link: '/administrator/finance/credit-debit-note',
+                    title: 'cndn',
+                    highlightedIcon: 'team-highlighted',
+                    active: false,
+                }
+            ]
+        },
+        {
             display: 'Support Center',
             link: '/administrator/support/configuration',
             title: 'support',

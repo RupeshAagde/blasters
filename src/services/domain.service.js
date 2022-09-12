@@ -98,6 +98,8 @@ const EXTENSION_PAGE_URL = isNode ?
     envVars.BROWSER_CONFIG.EXTENSION_PAGE_URL :
     envVars.EXTENSION_PAGE_URL;
 
+const DAYTRADER_ADMIN_URL = isNode ? envVars.BROWSER_CONFIG.DAYTRADER_ADMIN_URL : envVars.DAYTRADER_ADMIN_URL;
+
 const URLS = {
     // User Profile API's
     USER_PROFILE: () => {
@@ -703,7 +705,24 @@ const URLS = {
     },
     GET_AUDIT_TRAIL_ENTITY_TYPES:()=>{
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
-    }
+    },
+    // =============== Finance ==========================
+    GET_REPORT_TYPE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL,`/v1.0/get-report-list`);
+    },
+    GET_CHANNEL: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL,`/v1.0/get-data`);
+    },
+    GET_REPORT: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL,`/v1.0/download-report`);
+    },
+    GENERATE_REPORT: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL,`/v1.0/generate-report`);
+    },
+    GET_LOCATION_ID: (companyId) => {
+        return urlJoin(FIREBOLT_ADMIN_URL,`/v1.0/oms/stores?company_uids=${companyId}&fulfilment_type=JFC`);
+        //`/v1.0/company//?company_ids=${companyId}/&program_type=jfc`
+    },
 };
 
 export default URLS;

@@ -333,6 +333,13 @@ const conf = convict({
             env: 'DAYTRADER_MAIN_SVC',
             arg: 'daytrader_main_svc'
         },
+        DAYTRADER_ADMIN_URL: {
+            doc: "Daytrader Admin URL",
+            format: String,
+            default: '',
+            env: "DAYTRADER_ADMIN_URL",
+            arg: "daytrader_admin_url"
+        },
         MARKETPLACES_ADMIN_URL: {
             doc: 'Marketpalces Admin URL',
             format: String,
