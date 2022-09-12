@@ -354,6 +354,13 @@ const conf = convict({
             env: 'MIXMASTER_ADMIN_URL',
             arg: 'mixmaster_admin_url'
         },
+        SURESHOT_ADMIN_URL: {
+            doc: 'Sureshot Admin URL',
+            format: String,
+            default: 'https://api.fyndx0.de/service/___/administrator/webhook/',
+            env: 'SURESHOT_ADMIN_URL',
+            arg: 'sureshot_admin_url'
+        },
         MIXMASTER_PNL_URL: {
             doc: 'Mixmaster Panel URL',
             format: String,

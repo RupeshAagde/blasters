@@ -51,6 +51,11 @@ import ProductTaxationList from '@/pages/product/taxation/list';
 import ProductTaxationEdit from '@/pages/product/taxation/edit';
 import IntegrationsListVue from '@/pages/integration/list';
 import IntegrationsCreateVue from '@/pages/integration/create';
+import ListWebhooks from './../../pages/webhook/list_webhooks.vue';
+import CreateWebhooks from './../../pages/webhook/index.vue';
+import EditWebhooks from './../../pages/webhook/edit_webhooks.vue';
+import WebhookReport from './../../pages/webhook/webhook_report.vue';
+
 const OrdersPage =()=>import('@/pages/orders');
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
 import PackagingHome from '@/pages/packaging/packaging-home.vue'
@@ -74,6 +79,38 @@ export default [
                 component: CompanyListVue,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['company']);
+                }
+            },
+            {
+                name: 'webhook',
+                path: 'webhook',
+                component: ListWebhooks,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'create-webhook',
+                path: 'create-webhook',
+                component: CreateWebhooks,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'edit-webhook',
+                path: 'edit-webhook/:id',
+                component: EditWebhooks,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'webhook-report',
+                path: 'webhook-report',
+                component: WebhookReport,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
                 }
             },
             {
@@ -764,5 +801,5 @@ export default [
         beforeEnter: (to, from, next) => {
             return checkUserPermission(to, from, next, ['settings']);
         }
-    },
+    }
 ];
