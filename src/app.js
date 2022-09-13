@@ -4,6 +4,7 @@ import App from './App.vue'
 import { createStore } from './store'
 import { createRouter } from './router'
 import { sync } from 'vuex-router-sync'
+import "./registerServiceWorker";
 
 import VueLazyLoad from 'vue-lazyload'
 Vue.use(VueLazyLoad)
