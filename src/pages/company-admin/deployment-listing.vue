@@ -258,7 +258,7 @@ export default {
 
             const payLoad = {
                 company_id: this.$route.params.companyId,
-                deployment_ingress: DEPLOYMENT_CONFIG.value,
+                deployment_service: DEPLOYMENT_CONFIG.value,
                 deployment_name: DEPLOYMENT_CONFIG.text,
             };
 

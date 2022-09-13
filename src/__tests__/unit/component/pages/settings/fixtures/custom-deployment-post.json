@@ -1,7 +1,7 @@
 {
     "_id": "61ccb9a49904a842a9f5ed9d",
     "company_id": 150,
-    "deployment_ingress": "0-basic.fyndx0.de",
+    "deployment_service": "0-basic.fyndx0.de",
     "deployment_name": "fplt-jetfire-basic-0-rsrvr-dply",
     "created_at": "2021-12-29T19:40:20.470Z",
     "updated_at": "2021-12-29T19:40:20.470Z",
