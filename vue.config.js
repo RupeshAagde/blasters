@@ -1,6 +1,5 @@
 module.exports = {
-    pwa: {  
-      // configure the workbox plugin
+    pwa: {
       workboxPluginMode: 'GenerateSW',
       workboxOptions: {
         skipWaiting: true,
