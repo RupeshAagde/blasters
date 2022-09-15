@@ -60,7 +60,7 @@
                 <!-- logo Image -->
                 <form-input class="mt-sm" :custom="true">
                     <image-uploader-tile
-                        label="Logo"
+                        label="Logo *"
                         aspectRatio="1:1"
                         :minimumResolution="{
                             width: 80,
