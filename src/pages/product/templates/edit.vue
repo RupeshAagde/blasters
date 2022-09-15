@@ -72,7 +72,6 @@
                 <!-- Logo -->
                 <form-input
                     class="mt-sm"
-                    label="Logo"
                     :required="true"
                     :custom="true"
                 >
