@@ -155,7 +155,6 @@
             </div>
             <div class="logo-container">
                 <div class="row">
-                    <div class="n-input-label">Logo*</div>
                     <image-uploader-tile
                         label="Logo"
                         aspectRatio="1:1"
@@ -170,7 +169,6 @@
                     }}</nitrozen-error>
                 </div>
                 <div class="row">
-                    <div class="n-input-label">Portrait*</div>
                     <image-uploader-tile
                         label="Portrait Image"
                         aspectRatio="13:20"
@@ -185,7 +183,6 @@
                     }}</nitrozen-error>
                 </div>
                 <div>
-                    <div class="n-input-label">Landscape*</div>
                     <image-uploader-tile
                         label="Landscape Image"
                         aspectRatio="27:20"
