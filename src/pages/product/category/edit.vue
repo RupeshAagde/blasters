@@ -156,7 +156,7 @@
             <div class="logo-container">
                 <div class="row">
                     <image-uploader-tile
-                        label="Logo"
+                        label="Logo *"
                         aspectRatio="1:1"
                         @delete="logo.value = ''"
                         @save="logo.value = $event"
@@ -170,7 +170,7 @@
                 </div>
                 <div class="row">
                     <image-uploader-tile
-                        label="Portrait Image"
+                        label="Portrait Image *"
                         aspectRatio="13:20"
                         @delete="banner = ''"
                         @save="banner = $event"
@@ -184,7 +184,7 @@
                 </div>
                 <div>
                     <image-uploader-tile
-                        label="Landscape Image"
+                        label="Landscape Image *"
                         aspectRatio="27:20"
                         @delete="landscape = ''"
                         @save="landscape = $event"
