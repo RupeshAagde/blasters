@@ -6,6 +6,12 @@
                 @backClick="onCancel"
             >
                 <div class="button-box">
+                    <div 
+                        class="toggle-text"
+                        :class="{ disabled: !hidden }"
+                    >
+                        {{hidden ? "Hide" : "Visible"}}
+                    </div>
                     <nitrozen-toggle-btn
                         v-if="isEditOnly"
                         id="visibility"
@@ -846,5 +852,13 @@ export default {
 }
 .pointer {
     cursor: pointer;
+}
+.toggle-text {
+    font-size: 12px;
+    font-weight: 700;
+    color: @RoyalBlue;
+    &.disabled {
+        color: @DustyGray2;
+    }
 }
 </style>
