@@ -124,7 +124,7 @@
                                                 </label>
                                                 <nitrozen-dropdown :class="'filter-dropdown-field filter-date'"
                                                     :label="'Date Range'" :items="dateItems" @change="
-                                                        dateRangeChange($event)
+                                                        dateRangeChange($event , true)
                                                     " @searchInputChange="
     clearDateFilter()
 " v-model="dateSelected" placeholder="Select Date Range"
