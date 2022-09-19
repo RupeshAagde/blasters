@@ -6,6 +6,11 @@
                 @backClick="onCancel"
             >
                 <div class="button-box">
+                    <nitrozen-toggle-btn
+                        v-if="isEditOnly"
+                        id="visibility"
+                        v-model="hidden"
+                    ></nitrozen-toggle-btn>
                     <nitrozen-button
                         :theme="'secondary'"
                         @click="saveForm"
@@ -322,7 +327,8 @@ import {
     NitrozenDialog,
     NitrozenCustomForm,
     flatBtn,
-    strokeBtn
+    strokeBtn,
+    NitrozenToggleBtn
 } from '@gofynd/nitrozen-vue';
 import {
     Loader,
@@ -359,7 +365,8 @@ export default {
         NitrozenInline,
         NitrozenRadio,
         NitrozenDialog,
-        NitrozenCustomForm
+        NitrozenCustomForm,
+        'nitrozen-toggle-btn': NitrozenToggleBtn
     },
     directives: {
         flatBtn,
@@ -400,7 +407,8 @@ export default {
             token: '',
             integrationId: this.$route.params.integrationId,
             pagination: { ...PAGINATION },
-            searchText: ''
+            searchText: '',
+            hidden: false
         };
     },
     mounted() {
@@ -431,6 +439,7 @@ export default {
                 return;
             }
             const obj = this.getFormData();
+            obj.hidden = this.hidden;
             this.inProgress = true;
             if (this.integrationId) {
                 return IntegrationService.saveIntegration(
@@ -726,6 +735,9 @@ export default {
                         (this.integrationData.validators.order &&
                             this.integrationData.validators.order.json_schema) ||
                         [];
+                    if(this.integrationData.hidden) {
+                        this.hidden = this.integrationData.hidden; 
+                    }
                     setTimeout(() => {
                         this.$refs['companyForm'].populateData();
                         this.$refs['storeForm'].populateData();
