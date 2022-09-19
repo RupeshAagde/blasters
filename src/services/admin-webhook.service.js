@@ -92,9 +92,9 @@ const AdminWebhookService = {
       axiosOption
     );
   },
-  postFilterList(request) {
+  postFilterList(query_param) {
     const axiosOption = Object.assign(
-      { data: {request} },
+      { data: {query_param} },
       { params: {} },
       getCommonHeaderOptions()
     );
