@@ -1079,6 +1079,7 @@ export default {
     },
     data() {
         return {
+            subscriberSelected: false,
             inProgress: false,
             pageError: false,
             pageLoading: false,
@@ -1149,8 +1150,11 @@ export default {
     },
     mounted() {
         this.populateDate();
-        this.fetchQueryFilter();
+        this.fetchQueryFilter().then(res=>{
+        this.search(this.query_param); 
         this.dateSelected = localStorage.getItem('Date')||'1';
+        })
+       
     },
     methods: {
         searchFilter(event) {
@@ -1168,7 +1172,8 @@ export default {
                 }
             });
         },
-        dateRangeChange(event) {
+        dateRangeChange(event , searchCall ) {
+            this.subscriberSelected=false
             this.query_param['start_date'] = moment()
                 .subtract(event, 'days')
                 .utc()
@@ -1178,6 +1183,7 @@ export default {
                 .format('YYYY-MM-DDTHH:mm:ss');
             this.dateEvent=event
             localStorage.setItem('Date',this.dateEvent)
+            if(searchCall==true)
             this.search(this.query_param);
         },
         deleteItem(itemName, key) {
@@ -1244,9 +1250,14 @@ export default {
         }, 200),
         filterInputChange(filterName) {
             if (filterName == 'Event') {
+                this.subscriberSelected = false;  
                 this.query_param['event'] =
                     this.filtersToshow[filterName].join(',');
             } else {
+                if (filterName == 'Subscriber Name')
+                    this.subscriberSelected = true;
+                else
+                    this.subscriberSelected = false;   
                 var key = filterName.toLowerCase().replace(/ /g, '_');
                 this.query_param[key] =
                     this.filtersToshow[filterName].join(',');
@@ -1274,7 +1285,10 @@ export default {
             localStorage.removeItem("Date");
         },
         fetchQueryFilter() {
-            AdminWebhookService.getFilterList().then((res) => {
+            const data= {
+                subscriber_ids: JSON.parse(localStorage.getItem('filtersSelected') ? localStorage.getItem('filtersSelected') :"{\"Subscriber Name\":[]}")['Subscriber Name'] || []
+            }
+            return AdminWebhookService.postFilterList(data).then((res) => {
                 this.filters = res.data;
                 this.eventMap = this.filters[0].values.reduce((a, i) => {
                     a[i.text] = i.value;
@@ -1351,11 +1365,9 @@ export default {
                     this.selectedFilters = false;
                 }
                 if (Object.keys(this.query_param).length === 0) {
-                    this.dateRangeChange(1);
-                } else {
-                    this.search(this.query_param);
-                    this.dateSelected = localStorage.getItem('Date')
-                }
+                    this.dateRangeChange(1 , false);
+                } 
+                return res
             });
         },
         onCopyCode(event, data, type) {
@@ -1431,6 +1443,8 @@ export default {
             data["type"] = 'global'
             localStorage.setItem("data",JSON.stringify(data));
             localStorage.setItem("filtersSelected",JSON.stringify(this.filtersToshow));
+            if (this.subscriberSelected == true)
+                this.fetchQueryFilter()
             AdminWebhookService.getWebhookReport(data)
                 .then((res) => {
                     if (res.data.items.length > 0) {

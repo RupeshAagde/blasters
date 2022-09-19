@@ -92,6 +92,17 @@ const AdminWebhookService = {
       axiosOption
     );
   },
+  postFilterList(request) {
+    const axiosOption = Object.assign(
+      { data: {request} },
+      { params: {} },
+      getCommonHeaderOptions()
+    );
+    return ApiService.post(
+      URLS.GET_FILTER_LIST(),
+      axiosOption
+    );
+  },
 };
 
 export default AdminWebhookService;
