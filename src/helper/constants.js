@@ -169,13 +169,13 @@ export const ADMINISTRATOR_PERMISSIONS = {
     "permissions": [
         {
             "title": "Company",
-            "key": "application/company",
+            "key": "company",
             "description": "Verify the brands, selling locations, company documents. Manage sales channel and settlement rules",
             "group": "common"
         },
         {
             "title": "Product",
-            "key": "application/product",
+            "key": "product",
             "description": "Manage attributes, templates and other features related to product",
             "group": "common"
         }
@@ -185,8 +185,8 @@ export const ADMINISTRATOR_PERMISSIONS = {
             "title": "Full Access",
             "key": "admin",
             "permissions": [
-                "application/company",
-                "application/product",
+                "company",
+                "product",
             ]
         },
         {
