@@ -10,7 +10,7 @@
                         class="toggle-text"
                         :class="{ disabled: !visible }"
                     >
-                        {{visible ? "Visible": "Hide"}}
+                        {{visible ? "Visible": "Hidden"}}
                     </div>
                     <nitrozen-toggle-btn
                         v-if="isEditOnly"
