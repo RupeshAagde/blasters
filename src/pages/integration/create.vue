@@ -8,14 +8,14 @@
                 <div class="button-box">
                     <div 
                         class="toggle-text"
-                        :class="{ disabled: !hidden }"
+                        :class="{ disabled: !visible }"
                     >
-                        {{hidden ? "Hide" : "Visible"}}
+                        {{visible ? "Visible": "Hide"}}
                     </div>
                     <nitrozen-toggle-btn
                         v-if="isEditOnly"
                         id="visibility"
-                        v-model="hidden"
+                        v-model="visible"
                     ></nitrozen-toggle-btn>
                     <nitrozen-button
                         :theme="'secondary'"
@@ -414,7 +414,7 @@ export default {
             integrationId: this.$route.params.integrationId,
             pagination: { ...PAGINATION },
             searchText: '',
-            hidden: false
+            visible: true
         };
     },
     mounted() {
@@ -445,7 +445,7 @@ export default {
                 return;
             }
             const obj = this.getFormData();
-            obj.hidden = this.hidden;
+            obj.hidden = !this.visible;
             this.inProgress = true;
             if (this.integrationId) {
                 return IntegrationService.saveIntegration(
@@ -742,7 +742,7 @@ export default {
                             this.integrationData.validators.order.json_schema) ||
                         [];
                     if(this.integrationData.hidden) {
-                        this.hidden = this.integrationData.hidden; 
+                        this.visible = !this.integrationData.hidden; 
                     }
                     setTimeout(() => {
                         this.$refs['companyForm'].populateData();
