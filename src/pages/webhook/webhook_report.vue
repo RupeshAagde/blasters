@@ -1285,9 +1285,13 @@ export default {
             localStorage.removeItem("Date");
         },
         fetchQueryFilter() {
-            const data= {
-                subscriber_ids: JSON.parse(localStorage.getItem('filtersSelected') ? localStorage.getItem('filtersSelected') :"{\"Subscriber Name\":[]}")['Subscriber Name'] || []
-            }
+            let subscriber_ids
+            let local_query= JSON.parse(localStorage.getItem('data'))
+                if(local_query!=null){
+                    subscriber_ids= local_query['subscriber_ids'] || []
+                }
+                else
+                subscriber_ids=[]
             return AdminWebhookService.postFilterList(data).then((res) => {
                 this.filters = res.data;
                 this.eventMap = this.filters[0].values.reduce((a, i) => {
