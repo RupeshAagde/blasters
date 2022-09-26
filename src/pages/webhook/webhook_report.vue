@@ -81,10 +81,26 @@
                         <div class="sub-header">
                             <template>
                                 <div class="filter">
-                                    <nitrozen-input :showSearchIcon="true" class="search" type="search"
-                                        placeholder="Search by Trace ID or Message ID" v-model="searchText" @input="
-                                            webhookInput({ search: searchText })
-                                        "></nitrozen-input>
+                                    <div class="top-filters">
+                                        <nitrozen-input
+                                            :showSearchIcon="true"
+                                            class="search"
+                                            type="search"
+                                            placeholder="Search by Trace ID or Message ID"
+                                            v-model="searchText"
+                                            @input="webhookInput({ search: searchText})"
+                                        ></nitrozen-input>
+
+                                        <div class="status-filter">
+                                            <nitrozen-dropdown
+                                                @change="filterStatus"
+                                                :items="statusFilterItems"
+                                                label="Status"
+                                                placeholder="Select Status"
+                                                v-model="selectedStatusFilter"
+                                            ></nitrozen-dropdown>
+                                        </div>
+                                    </div>
                                     <div class="filter-dynamic">
                                         <div v-for="(filter, index) in filters" :key="filter.filter_name"
                                             class="filter-dropdown">
@@ -327,6 +343,15 @@ table tr:last-child td:last-child {
     line-height: 21px;
     text-align: center;
     color: #2e31be;
+}
+.top-filters {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+.status-filter {
+    min-width: 15%;
 }
 
 .url-content {
@@ -596,6 +621,7 @@ td {
 .search {
     align-self: flex-end;
     margin-right: 10px;
+    margin-top: 40px;
     margin-bottom: 20px;
     width: 100%;
     float: left;
@@ -993,6 +1019,7 @@ input {
     }
 
     .search {
+        margin-top: 40px;
         margin-right: 30px;
     }
     .date-range-label {
@@ -1319,6 +1346,10 @@ export default {
                         if (key == 'end_date') {
                             this.query_param['end_date'] = value;
                         }
+                        if(key=='status'){
+                            this.query_param['status']=value
+                        }
+
                     });
                 }
                 let filterDataSelected = JSON.parse(localStorage.getItem('filtersSelected'));
@@ -1416,6 +1447,9 @@ export default {
             if (query_param['start_date']) {
                 data['start_date'] = query_param['start_date'];
             }
+            if(query_param['status']){
+                data['status']=query_param['status'];
+            }
             if (this.filtersToshow['Subscriber Name']) {
                 data['subscriber_ids'] = this.filtersToshow['Subscriber Name']
                     ? this.filtersToshow['Subscriber Name'].map(
@@ -1492,6 +1526,16 @@ export default {
         },
         showHelpSection: function () {
             window.open(this.docUrl, '_blank');
+        },
+        filterStatus() {
+            this.pageObject.current = 1;
+            if(this.selectedStatusFilter !== 'All') {
+                this.query_param['status'] = this.selectedStatusFilter;
+                this.search(this.query_param);
+            } else {
+                delete this.query_param['status'];
+                this.search(this.query_param);
+            }
         },
     },
 };
