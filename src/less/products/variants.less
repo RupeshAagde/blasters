@@ -1,20 +1,81 @@
-.main-page {
+@import './../color.less';
+
+.v-list-page {
     margin: 24px;
-}
-.search-filter {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
-    background: #F5F5F5;
-    
-    & .search {
-        flex: 0 0 50%;
+    .search-filter {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px;
+        background: #f5f5f5;
+
+        & .search {
+            flex: 0 0 50%;
+        }
+        & .filter {
+            flex: 0 0 20%;
+        }
     }
-    & .filter {
-        flex: 0 0 20%;
+    .list-container {
+        border: 1px solid #e0e0e0;
+        padding: 24px;
+        display: flex;
+        cursor: pointer;
+        transition: box-shadow 0.4s;
+        &:hover {
+            box-shadow: 0px 9px 13px 0px rgba(221, 221, 221, 0.5);
+        }
+        .card-content-section {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            justify-content: center;
+            .full-name {
+                -webkit-font-smoothing: antialiased;
+                font-family: Inter;
+                font-size: 18px;
+                font-weight: 600;
+                line-height: 23px;
+                letter-spacing: 0em;
+                text-align: left;
+            }
+            .card-content-line-2 {
+                display: flex;
+                flex: 1;
+                flex-direction: row;
+            }
+            .card-content-line-3 {
+            }
+        }
     }
 }
+
+.label {
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 17px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: @DustyGray2;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+.label-data {
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 17px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.chips {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 8px 12px;
+    display: inline-block;
+}
+
 .mr-xs {
     margin-right: 8px;
 }
@@ -26,6 +87,9 @@
 }
 .mr-xl {
     margin-right: 24px;
+}
+.mr-xxl {
+    margin-right: 48px;
 }
 
 .ml-xs {
@@ -39,6 +103,9 @@
 }
 .ml-xl {
     margin-left: 24px;
+}
+.ml-xxl {
+    margin-left: 48px;
 }
 
 .mt-xs {

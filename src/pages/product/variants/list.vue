@@ -1,5 +1,5 @@
 <template>
-    <div class="main-page">
+    <div class="v-list-page">
         <div>
             <jumbotron
                 :title="'Variants'"
@@ -62,51 +62,53 @@
                 <div
                     v-for="(item, index) in variantList"
                     :key="index"
-                    class="container"
+                    class="list-container"
                     @click="editVariant(item)"
                 >
                     <div class="card-content-section">
-                        <div class="card-content-line-1 full-name">
+                        <div class="full-name mb-l">
                             {{ item.display }}
                         </div>
-                        <!-- <div
-                            class="card-content-line-2"
-                            v-if="item.created_by && item.created_by.username"
-                        >
-                            <span>Created By :</span>
-                            <span class="left-space-co">
-                                <user-info-tooltip
-                                    :userId="userObj[item.created_by.user_id]"
-                                ></user-info-tooltip>
-                            </span>
-                            <span v-if="item.created_on" class="meta-space"
-                                >On</span
-                            >
-                            <span v-if="item.created_on">{{
-                                new Date(item.created_on).toLocaleString()
-                            }}</span>
+                        <div class="card-content-line-2 mb-s">
+                            <div class="mr-xxl" v-if="item.created_on">
+                                <span class="label">Created</span>
+                                <div class="label-data">
+                                    {{
+                                        new Date(
+                                            item.created_on
+                                        ).toLocaleString()
+                                    }}
+                                </div>
+                            </div>
+
+                            <div>
+                                <span class="label">Modified By</span>
+                                <div
+                                    class="label-data"
+                                    v-if="item.modified_by && item.modified_on"
+                                >
+                                    {{ item.modified_by.username }} on
+                                    {{
+                                        new Date(
+                                            item.modified_on
+                                        ).toLocaleString()
+                                    }}
+                                </div>
+                            </div>
                         </div>
-                        <div
-                            class="card-content-line-2"
-                            v-if="item.modified_by && item.modified_by.username"
-                        >
-                            <span>Modified By :</span>
-                            <span class="left-space-mo">
-                                <user-info-tooltip
-                                    :userId="userObj[item.modified_by.user_id]"
-                                ></user-info-tooltip>
-                            </span>
-                            <span class="meta-space" v-if="item.modified_on"
-                                >On</span
-                            >
-                            <span v-if="item.modified_on">
-                                {{
-                                    new Date(item.modified_on).toLocaleString()
-                                }}
-                            </span>
-                        </div> -->
+                        <div class="card-content-line-3">
+                            <span class="label">Templates</span>
+                            <div v-if="item.departments" class="label-data">
+                                <span
+                                    v-for="(dep, ind) of item.departments"
+                                    class="chips mr-s"
+                                >
+                                    {{ dep }}
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="cust-button">
+                    <div>
                         <nitrozen-badge v-if="item.is_active" state="success"
                             >Active</nitrozen-badge
                         >
@@ -200,16 +202,21 @@ export default {
     },
     methods: {
         getVariants() {
+            this.isLoading = true;
             const params = this.getQueryParams();
             this.$store
                 .dispatch(FETCH_VARIANTS, params)
                 .then((res) => {
-                    this.variantList = res.items
+                    this.variantList = res.items;
                 })
                 .catch((err) => {
                     console.log(err);
+                })
+                .finally(() => {
+                    this.isLoading = false;
                 });
         },
+        editVariant(i) {},
         test() {
             console.log(this.selectedTemplate);
         },
