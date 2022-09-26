@@ -24,7 +24,6 @@ const actions = {
         return CatalogService.fetchVariants(params, uid)
             .then((res) => {
                 // commit(SET_VARIANTS, res.data)
-                console.log(res)
                 return res.data
             }).catch((err) => {
                 return err
