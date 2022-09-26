@@ -1079,6 +1079,24 @@ export default {
     },
     data() {
         return {
+            statusFilterItems: [
+                {
+                    id: 'all',
+                    text: 'All',
+                    value: 'All'
+                },
+                {
+                    id: 'success',
+                    text: 'SUCCESS',
+                    value: 'SUCCESS'
+                },
+                {
+                    id: 'failed',
+                    text: 'FAILED',
+                    value: 'FAILED'
+                }
+            ],
+            selectedStatusFilter: 'All',
             subscriberSelected: false,
             inProgress: false,
             pageError: false,
@@ -1292,7 +1310,7 @@ export default {
                 }
                 else
                 subscriber_ids=[]
-            return AdminWebhookService.postFilterList(data).then((res) => {
+            return AdminWebhookService.postFilterList({subscriber_ids}).then((res) => {
                 this.filters = res.data;
                 this.eventMap = this.filters[0].values.reduce((a, i) => {
                     a[i.text] = i.value;
@@ -1440,8 +1458,12 @@ export default {
                     : [];
             }
             if (this.filtersToshow['Event']) {
-                data['event'] = this.filtersToshow['Event']
-                    ? this.filtersToshow['Event'].map((x) => this.eventMap[x])
+                data['event'] = this.filtersToshow['Event']      
+                    ? this.filtersToshow['Event'].reduce((res , x) => {
+                            if(this.eventMap[x])
+                            res.push(this.eventMap[x])
+                            return res
+                    },[])
                     : [];
             }
             data["type"] = 'global'
