@@ -3,10 +3,35 @@
         <div class="header-position">
             <adm-page-header @backClick="onCancel" @openHelp="showHelpSection" :title="`Webhook Report`"
                 :contextMenuItems="isOrganisationUser ? [] : contextMenuItems" :noContextMenu="true">
+                <span :class="{'disableBtn': webhookReport && webhookReport.length === 0 || salesDumpJob}" class="export" @click="openExportConfirmation">
+                    <uktInlineSvg
+                        class="export-icon"
+                        :src="'download-export'"
+                    >
+                    </uktInlineSvg>
+                    Reports
+                </span>
             </adm-page-header>
         </div>
+        <export-dialog
+        :title="'Confirm Reports export?'"
+            :body="'This will download the entire webhook report and might take few minutes to process.'"
+            ref="export-confirm"
+            @Yes="downloadSalesDump"
+        ></export-dialog>
         <loader v-if="startLoader" class="loading"></loader>
         <div class="main-container">
+           
+                <exportDialogBox
+                    v-if="salesDumpJob"
+                    :visible="salesDumpStatus"
+                    :retry= "shouldRetry"
+                    class="sales-dump-progress-panel"
+                    @Cancel="onCancelDownload"
+                    @Retry="onExportDialogAction"
+                    :failed_msg="failedMsg"
+                    :export_msg="exportMsg"
+                ></exportDialogBox>
             <div class="full-width">
                 <nitrozen-dialog class="status_dialog" ref="status_dialog" :title="selectedPayloadName">
                     <template v-if="ifJson" slot="body">
@@ -581,6 +606,10 @@ td {
     text-align: left;
 }
 
+.disableBtn{
+    opacity: 0.4;
+    pointer-events : none;
+}
 .filter-sub-header {
     margin-bottom: 5px;
 }
@@ -999,6 +1028,29 @@ input {
         margin-right: 7%;
     }
 }
+.export {
+  font-size: 14px;
+  font-weight: 700;
+  color: #2e31be;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 5.5rem;
+
+  .export-icon {
+    margin-top: 2px;
+    margin-right: 8px;
+  }
+}
+.main-container{
+    display: flex;
+    flex-direction: column;
+    margin-top:60px;
+}
+.page-container{
+    margin : 0px;
+    margin-top: 12px ;
+}
 
 @media (max-width: 1435px) {
     ::v-deep .filter-Subscriber>label {
@@ -1039,6 +1091,10 @@ import { copyToClipboard, debounce } from '@/helper/utils';
 import AdminWebhookService from '../../services/admin-webhook.service';
 import datePicker from '@/components/common/date-picker.vue';
 import admnocontent from '@/components/common/adm-no-content';
+import uktInlineSvg from '@/components/common/ukt-inline-svg.vue';
+import exportDialog from '@/components/common/export-dialog.vue';
+import {FAILED_REPORTS_TEXT, EXPORT_REPORTS_TEXT } from "@/components/common/export/exportDialog-constant.js";
+import exportDialogBox from '@/components/common/export/exportDialog.vue';
 const env = root.env || {};
 const extraDateRange = [
     {
@@ -1050,6 +1106,9 @@ const extraDateRange = [
 export default {
     name: 'webhook-report',
     components: {
+        uktInlineSvg,
+        exportDialog,
+        exportDialogBox,
         'mirage-image-uploader': mirageimageuploader,
         'adm-jumbotron': admjumbotron,
         'nitrozen-button': NitrozenButton,
@@ -1096,6 +1155,8 @@ export default {
             startLoader: true,
             query_param: {},
             dialogMessageJson: {},
+            salesDumpJob:false,
+            salesDumpStatus:false,
             contextMenuItems: [
                 {
                     text: 'Remove',
@@ -1145,6 +1206,12 @@ export default {
             docUrl:
                 env.SEARCHLIGHT_MAIN_DOMAIN +
                 '/docs/company-settings/webhook/webhook',
+            timer: null,
+            exportMsg: EXPORT_REPORTS_TEXT,
+            failedMsg: FAILED_REPORTS_TEXT,
+            fileName: null,
+            shouldRetry: true,
+            load_reports: true,
         };
     },
     mounted() {
@@ -1493,6 +1560,99 @@ export default {
         showHelpSection: function () {
             window.open(this.docUrl, '_blank');
         },
+        openExportOnLargeDataConfirmation() {
+            this.$refs['large-data-dialog-box'].open();
+        },
+        openExportConfirmation() {
+            this.$refs['export-confirm'].open();
+        },
+        checkExportStatus(fileName) {
+
+        this.timer = setInterval(() => {
+
+        AdminWebhookService.checkWebhookReport(fileName).then((res) => {
+
+            if (res.status === 200) {
+                this.salesDumpJob = false;
+                window.open(res.data.cdn, '_blank');
+                this.$snackbar.global.showSuccess('Reports data downloaded successfully');
+                clearInterval(this.timer);
+            }
+        }).catch((err) => {
+            if (err.response.status === 400) {
+                clearInterval(this.timer);
+                console.log(err);
+                this.checkExportStatus(fileName);
+            }
+            else if (err.response.status === 503) {
+                this.shouldRetry = false;
+                this.salesDumpStatus = false;
+                clearInterval(this.timer);
+                this.$snackbar.global.showError('File does not exists!');
+            }
+            else {
+                this.salesDumpStatus = false;
+                clearInterval(this.timer);
+            }
+            console.log(err.response);
+        })
+    }, 5000);
+
+},
+        downloadSalesDump(){
+            this.salesDumpJob=true;
+            this.salesDumpStatus=true;
+            this.shouldRetry = true;
+            const data = {};
+            if (this.searchText && this.searchText.length != 0) {
+                data['search_text'] = this.searchText;
+            }
+            if (this.query_param['end_date']) {
+                data['end_date'] = this.query_param['end_date'];
+            }
+            if (this.query_param['start_date']) {
+                data['start_date'] = this.query_param['start_date'];
+            }
+            if (this.filtersToshow['Subscriber Name']) {
+                data['subscriber_ids'] = this.filtersToshow['Subscriber Name']
+                    ? this.filtersToshow['Subscriber Name'].map(
+                        (x) => this.subscriberIdMap[(x)]
+                    )
+                    : [];
+            }
+            if (this.filtersToshow['Event']) {
+                data['event'] = this.filtersToshow['Event']
+                    ? this.filtersToshow['Event'].map((x) => this.eventMap[x])
+                    : [];
+            }
+            data["type"] = 'global'
+            AdminWebhookService.downloadWebhookReport(data)
+                .then((res) => {
+               
+                    if (this.salesDumpJob && this.salesDumpStatus) {
+                    this.checkExportStatus(res.data.file_name);
+                    this.fileName = res.data.file_name;
+                }
+                })
+                .catch((err) => {
+                    this.salesDumpStatus=false;
+                    clearInterval(this.timer);
+                console.error(err);
+                });
+        },
+        onExportDialogAction(){
+            clearInterval(this.timer);
+            if(this.fileName){
+                this.checkExportStatus(this.fileName);
+            }else{
+                this.downloadSalesDump()
+            }
+            this.salesDumpStatus = true;
+        },
+        onCancelDownload() {
+            clearInterval(this.timer);
+            this.salesDumpJob = false;
+        }
     },
 };
 </script>

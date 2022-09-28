@@ -60,6 +60,27 @@ const AdminWebhookService = {
       axiosOption
     );
   },
+  downloadWebhookReport(query_param) {
+    const axiosOption = Object.assign(
+      { data: query_param },
+      { params: {} },
+      getCommonHeaderOptions()
+    );
+    return ApiService.post(
+      URLS.DOWNLOAD_WEBHOOK_REPORT(),
+      axiosOption
+    );
+  },
+  checkWebhookReport(fileName) {
+    const axiosOption = Object.assign(
+      { params: {} },
+      getCommonHeaderOptions()
+    );
+    return ApiService.get(
+      URLS.CHECK_STATUS_WEBHOOK_REPORT(fileName),
+      axiosOption
+    );
+  },
   registerSubscriber(request) {
     const axiosOption = Object.assign(
       { data: request },
