@@ -149,7 +149,7 @@
                                                 </label>
                                                 <nitrozen-dropdown :class="'filter-dropdown-field filter-date'"
                                                     :label="'Date Range'" :items="dateItems" @change="
-                                                        dateRangeChange($event)
+                                                        dateRangeChange($event , true)
                                                     " @searchInputChange="
     clearDateFilter()
 " v-model="dateSelected" placeholder="Select Date Range"
@@ -1138,6 +1138,25 @@ export default {
     },
     data() {
         return {
+            statusFilterItems: [
+                {
+                    id: 'all',
+                    text: 'All',
+                    value: 'All'
+                },
+                {
+                    id: 'success',
+                    text: 'SUCCESS',
+                    value: 'SUCCESS'
+                },
+                {
+                    id: 'failed',
+                    text: 'FAILED',
+                    value: 'FAILED'
+                }
+            ],
+            selectedStatusFilter: 'All',
+            subscriberSelected: false,
             inProgress: false,
             pageError: false,
             pageLoading: false,
@@ -1216,8 +1235,11 @@ export default {
     },
     mounted() {
         this.populateDate();
-        this.fetchQueryFilter();
+        this.fetchQueryFilter().then(res=>{
+        this.search(this.query_param); 
         this.dateSelected = localStorage.getItem('Date')||'1';
+        })
+       
     },
     methods: {
         searchFilter(event) {
@@ -1235,7 +1257,8 @@ export default {
                 }
             });
         },
-        dateRangeChange(event) {
+        dateRangeChange(event , searchCall ) {
+            this.subscriberSelected=false
             this.query_param['start_date'] = moment()
                 .subtract(event, 'days')
                 .utc()
@@ -1245,6 +1268,7 @@ export default {
                 .format('YYYY-MM-DDTHH:mm:ss');
             this.dateEvent=event
             localStorage.setItem('Date',this.dateEvent)
+            if(searchCall==true)
             this.search(this.query_param);
         },
         deleteItem(itemName, key) {
@@ -1311,9 +1335,14 @@ export default {
         }, 200),
         filterInputChange(filterName) {
             if (filterName == 'Event') {
+                this.subscriberSelected = false;  
                 this.query_param['event'] =
                     this.filtersToshow[filterName].join(',');
             } else {
+                if (filterName == 'Subscriber Name')
+                    this.subscriberSelected = true;
+                else
+                    this.subscriberSelected = false;   
                 var key = filterName.toLowerCase().replace(/ /g, '_');
                 this.query_param[key] =
                     this.filtersToshow[filterName].join(',');
@@ -1341,7 +1370,14 @@ export default {
             localStorage.removeItem("Date");
         },
         fetchQueryFilter() {
-            AdminWebhookService.getFilterList().then((res) => {
+            let subscriber_ids
+            let local_query= JSON.parse(localStorage.getItem('data'))
+                if(local_query!=null){
+                    subscriber_ids= local_query['subscriber_ids'] || []
+                }
+                else
+                subscriber_ids=[]
+            return AdminWebhookService.postFilterList({subscriber_ids}).then((res) => {
                 this.filters = res.data;
                 this.eventMap = this.filters[0].values.reduce((a, i) => {
                     a[i.text] = i.value;
@@ -1418,11 +1454,9 @@ export default {
                     this.selectedFilters = false;
                 }
                 if (Object.keys(this.query_param).length === 0) {
-                    this.dateRangeChange(1);
-                } else {
-                    this.search(this.query_param);
-                    this.dateSelected = localStorage.getItem('Date')
-                }
+                    this.dateRangeChange(1 , false);
+                } 
+                return res
             });
         },
         onCopyCode(event, data, type) {
@@ -1491,13 +1525,19 @@ export default {
                     : [];
             }
             if (this.filtersToshow['Event']) {
-                data['event'] = this.filtersToshow['Event']
-                    ? this.filtersToshow['Event'].map((x) => this.eventMap[x])
+                data['event'] = this.filtersToshow['Event']      
+                    ? this.filtersToshow['Event'].reduce((res , x) => {
+                            if(this.eventMap[x])
+                            res.push(this.eventMap[x])
+                            return res
+                    },[])
                     : [];
             }
             data["type"] = 'global'
             localStorage.setItem("data",JSON.stringify(data));
             localStorage.setItem("filtersSelected",JSON.stringify(this.filtersToshow));
+            if (this.subscriberSelected == true)
+                this.fetchQueryFilter()
             AdminWebhookService.getWebhookReport(data)
                 .then((res) => {
                     if (res.data.items.length > 0) {

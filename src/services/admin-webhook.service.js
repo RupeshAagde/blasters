@@ -113,6 +113,17 @@ const AdminWebhookService = {
       axiosOption
     );
   },
+  postFilterList(query_param) {
+    const axiosOption = Object.assign(
+      { data: query_param },
+      { params: {} },
+      getCommonHeaderOptions()
+    );
+    return ApiService.post(
+      URLS.GET_FILTER_LIST(),
+      axiosOption
+    );
+  },
 };
 
 export default AdminWebhookService;

@@ -29,11 +29,9 @@ const WebhookModal = {
 let wrapper = null
 describe('Webhook Report', () => {
     beforeEach(async () => {
-        console.log('testtt')
         localVue = createLocalVue();
         localVue.use(VueRouter);
         mock.reset();
-        console.log('testtt')
         router = new VueRouter({
             routes: [{
                 path: '/',
@@ -41,7 +39,7 @@ describe('Webhook Report', () => {
             }]
         })
         router.push('/administrator/webhook-report');
-        mock.onGet(URLS.GET_FILTER_LIST()).reply(200, WEBHOOK_FILTER_LIST);
+        mock.onPost(URLS.GET_FILTER_LIST()).reply(200, WEBHOOK_FILTER_LIST);
         mock.onPost(URLS.GET_WEBHOOK_REPORT()).reply(200, WEBHOOK_REPORT);
         wrapper = shallowMount(ReportWebhooks, {
             localVue,
