@@ -9,13 +9,17 @@
             >
                 <nitrozen-button
                     theme="secondary"
-                    v-flatBtn
+                    v-strokeBtn
                     @click=""
                     class="mr-s"
                 >
                     Group & Sequence</nitrozen-button
                 >
-                <nitrozen-button theme="secondary" v-strokeBtn @click="test()">
+                <nitrozen-button
+                    theme="secondary"
+                    v-flatBtn
+                    @click="editVariant()"
+                >
                     Create Variant</nitrozen-button
                 >
             </jumbotron>
@@ -63,7 +67,7 @@
                     v-for="(item, index) in variantList"
                     :key="index"
                     class="list-container"
-                    @click="editVariant(item)"
+                    @click="editVariant(item.uid)"
                 >
                     <div class="card-content-section">
                         <div class="full-name mb-l">
@@ -201,25 +205,6 @@ export default {
         this.getVariants();
     },
     methods: {
-        getVariants() {
-            this.isLoading = true;
-            const params = this.getQueryParams();
-            this.$store
-                .dispatch(FETCH_VARIANTS, params)
-                .then((res) => {
-                    this.variantList = res.items;
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                });
-        },
-        editVariant(i) {},
-        test() {
-            console.log(this.selectedTemplate);
-        },
         getQueryParams() {
             let params = {
                 page: this.pagination.current,
@@ -272,6 +257,32 @@ export default {
             this.pagination.current = current;
             this.pagination.limit = limit;
             this.getVariants();
+        },
+        getVariants() {
+            this.isLoading = true;
+            const params = this.getQueryParams();
+            this.$store
+                .dispatch(FETCH_VARIANTS, params)
+                .then((res) => {
+                    this.variantList = res.items;
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
+        editVariant(uid = null) {
+            if (uid) {
+                this.$router.push({
+                    path: `/administrator/product/variants/edit/${uid}`
+                });
+            } else {
+                this.$router.push({
+                    path: '/administrator/product/variants/create'
+                });
+            }
         }
     }
 };
