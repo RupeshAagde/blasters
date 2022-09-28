@@ -3,7 +3,7 @@
         <div class="header-position">
             <adm-page-header @backClick="onCancel" @openHelp="showHelpSection" :title="`Webhook Report`"
                 :contextMenuItems="isOrganisationUser ? [] : contextMenuItems" :noContextMenu="true">
-                <span :class="{'disableBtn': webhookReport && webhookReport.length === 0 || salesDumpJob}" class="export" @click="openExportConfirmation">
+               <span class="export" @click="openExportConfirmation" :class="{'disableBtn': webhookReport && webhookReport.length === 0 && load_reports || salesDumpJob }">
                     <uktInlineSvg
                         class="export-icon"
                         :src="'download-export'"
@@ -13,6 +13,14 @@
                 </span>
             </adm-page-header>
         </div>
+        <!-- dialog box for >1lac records -->
+        <export-dialog
+            :title="'Confirm Reports download?'"
+            :body="'Event count for selected filters exceeds 1 lakh records'"
+            ref="large-data-dialog-box"
+            @Yes="downloadSalesDump"
+        ></export-dialog>
+
         <export-dialog
         :title="'Confirm Reports export?'"
             :body="'This will download the entire webhook report and might take few minutes to process.'"
@@ -32,7 +40,7 @@
                     :failed_msg="failedMsg"
                     :export_msg="exportMsg"
                 ></exportDialogBox>
-            <div class="full-width">
+            <div class="full-width" :class="{'disableBtn': salesDumpJob && !load_reports}">
                 <nitrozen-dialog class="status_dialog" ref="status_dialog" :title="selectedPayloadName">
                     <template v-if="ifJson" slot="body">
                         <div>
@@ -323,9 +331,12 @@
                                     </template>
                                 </table>
                             </div>
-                            <adm-no-content v-if="
-                                webhookReport && webhookReport.length === 0
-                            " :helperText="'No Data Found'"></adm-no-content>
+                            <adm-no-content 
+                                v-if="
+                                    webhookReport && webhookReport.length === 0
+                                "
+                                :helperText= "load_reports ? 'No Data Found' : 'Aww! Data is too large'"
+                            ></adm-no-content>
                             <nitrozen-pagination name="Items" v-model="pageObject" value="pageObjectValue" :class="{'visible':!visible}"
                                 @change="paginationChange" :pageSizeOptions="rows">
                             </nitrozen-pagination>
@@ -1623,6 +1634,11 @@ export default {
             sessionStorage.setItem("filtersSelected",JSON.stringify(this.filtersToshow));
             AdminWebhookService.getWebhookReport(data)
                 .then((res) => {
+                    this.load_reports = res.data.load_reports;
+                    if(!res.data.load_reports){
+                        this.openExportOnLargeDataConfirmation();
+                    }
+
                     if (res.data.items.length > 0) {
                         this.webhookReport = res.data.items.map((items) => {
                             items['webhook_url_trimmed'] =

@@ -506,5 +506,6 @@
       "item_total":118,
       "size":10,
       "type":"number"
-    }
+    },
+    "load_reports":true
   }
