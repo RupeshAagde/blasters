@@ -1743,10 +1743,6 @@ export default {
             }
             if (this.filtersToshow['Subscriber Name']) {
                 data['subscriber_ids'] = this.filtersToshow['Subscriber Name']
-                    ? this.filtersToshow['Subscriber Name'].map(
-                        (x) => this.subscriberIdMap[(x)]
-                    )
-                    : [];
             }
             if (this.filtersToshow['Event']) {
                 data['event'] = this.filtersToshow['Event']
