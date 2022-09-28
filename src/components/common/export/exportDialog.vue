@@ -85,6 +85,8 @@ span {
   font-family: "Inter";
   font-style: normal;
   font-size: 12px;
+  margin-top: 24px;
+  margin-bottom:12px;
 }
 .dialogBox {
   background: #f5f8ff;
@@ -94,6 +96,7 @@ span {
   background: #ffe7e7;
   border: 1px#FFE7E7;
 }
+
 .text {
   flex-grow: 1;
   font-family: "Inter";
@@ -111,6 +114,7 @@ span {
 #cancel {
   color: #2e31be;
 }
+
 #alertText {
   padding-left: 0px;
 }
