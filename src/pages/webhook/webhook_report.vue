@@ -348,7 +348,6 @@ table tr:last-child td:last-child {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1rem;
 }
 .status-filter {
     min-width: 15%;
@@ -499,7 +498,7 @@ table tr:last-child td:last-child {
 }
 
 ::v-deep .filter-Subscriber>label {
-    align-self: center;
+    align-self: left;
 }
 
 ::v-deep .filter-Subscriber .nitrozen-option-container {
@@ -581,6 +580,7 @@ tr:hover {
 }
 
 ::v-deep .n-input {
+    width:44rem;
     height: 38px;
 }
 
@@ -789,10 +789,12 @@ input {
         min-width: 30%;
         display: flex;
         float: left;
+        flex-direction:column;
     }
 
     ::v-deep .nitrozen-select-wrapper {
         width: 100%;
+        min-width:15rem;
     }
 
     .pagination-dropdown {
@@ -971,10 +973,15 @@ input {
 
 .date-search {
     display: flex;
+    flex-direction:column
+
 }
 
+::v-deep .nitrozen-dropdown-container{
+    margin-left:-67px
+}
 ::v-deep .nitrozen-dropdown-label {
-    align-self: center;
+    align-self: left;
     margin-right: 25px;
     white-space: nowrap;
 }
@@ -1106,6 +1113,26 @@ export default {
     },
     data() {
         return {
+            statusFilterItems: [
+                {
+                    id: 'all',
+                    text: 'All',
+                    value: 'All'
+                },
+                {
+                    id: 'success',
+                    text: 'SUCCESS',
+                    value: 'SUCCESS'
+                },
+                {
+                    id: 'failed',
+                    text: 'FAILED',
+                    value: 'FAILED'
+                }
+            ],
+            selectedStatusFilter: sessionStorage.getItem('data') ?
+            JSON.parse(sessionStorage.getItem('data'))['status'] ?
+            JSON.parse(sessionStorage.getItem('data'))['status']  : 'All'  : 'All',
             inProgress: false,
             pageError: false,
             pageLoading: false,
