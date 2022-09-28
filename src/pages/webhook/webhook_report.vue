@@ -1170,8 +1170,7 @@ export default {
         this.populateDate();
         this.fetchQueryFilter().then(res=>{
         this.search(this.query_param); 
-        this.dateSelected = localStorage.getItem('Date')||'1';
-        this.clearStorage();
+        this.dateSelected = sessionStorage.getItem('Date')||'1';
         })
        
     },
@@ -1200,8 +1199,8 @@ export default {
             this.query_param['end_date'] = moment()
                 .utc()
                 .format('YYYY-MM-DDTHH:mm:ss');
-            this.dateEvent=event
-            localStorage.setItem('Date',this.dateEvent)
+            this.dateEvent=event;
+            sessionStorage.setItem('Date',this.dateEvent)
             this.pageObject.current = 1;
             if(searchCall==true)
             this.search(this.query_param);
@@ -1313,9 +1312,8 @@ export default {
         },
         fetchQueryFilter() {
             let subscriber_ids
-            let local_query= JSON.parse(localStorage.getItem('data'))
-                if(local_query!=null){
-                    subscriber_ids= local_query['subscriber_ids'] || []
+                if(this.filtersToshow['Subscriber Name']!=null){
+                    subscriber_ids= this.filtersToshow['Subscriber Name'] || []
                 }
                 else
                 subscriber_ids=[]
@@ -1582,11 +1580,6 @@ export default {
         showHelpSection: function () {
             window.open(this.docUrl, '_blank');
         },
-        clearStorage(){
-            if(sessionStorage.getItem("companyId")!=this.companyId){
-                sessionStorage.clear();
-            }
-        }
     },
 };
 </script>
