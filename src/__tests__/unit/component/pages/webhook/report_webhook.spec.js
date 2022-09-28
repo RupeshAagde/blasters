@@ -29,11 +29,9 @@ const WebhookModal = {
 let wrapper = null
 describe('Webhook Report', () => {
     beforeEach(async () => {
-        console.log('testtt')
         localVue = createLocalVue();
         localVue.use(VueRouter);
         mock.reset();
-        console.log('testtt')
         router = new VueRouter({
             routes: [{
                 path: '/',
@@ -41,7 +39,7 @@ describe('Webhook Report', () => {
             }]
         })
         router.push('/administrator/webhook-report');
-        mock.onGet(URLS.GET_FILTER_LIST()).reply(200, WEBHOOK_FILTER_LIST);
+        mock.onPost(URLS.GET_FILTER_LIST()).reply(200, WEBHOOK_FILTER_LIST);
         mock.onPost(URLS.GET_WEBHOOK_REPORT()).reply(200, WEBHOOK_REPORT);
         wrapper = shallowMount(ReportWebhooks, {
             localVue,
@@ -110,6 +108,13 @@ describe('Webhook Report', () => {
         await wrapper.vm.sortTable('processed_time_in_millis');
         await flushPromises();
         expect(wrapper.vm.webhookReport[0].processed_time_in_millis).toBe(71);
+    });
+    it('On status filter', async () => {
+        wrapper.vm.selectedStatusFilter = 'SUCCESS'
+        await wrapper.vm.filterStatus();
+        await flushPromises();
+        let onlyFailedResults = wrapper.vm.webhookReport.every(item => item.status === "FAILED");
+        expect(onlyFailedResults).toBe(true);
     });
     
     
