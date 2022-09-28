@@ -186,15 +186,13 @@
                                         <img @click="deleteItem(name, 'Event')" class="cross-icon"
                                             src="/public/assets/admin/svgs/cross-black.svg" alt="profile" />
                                     </div>
-                                    <div v-for="(name, index) in filtersToshow[
-                                        'Subscriber Name'
-                                    ]" :key="index + 'subscriber_name'" class="items">
+                                    <div v-for="(name, index) in subscriberIdNames['Subscriber Name']" :key="index + 'subscriber_name'" class="items">
                                         <span class="items-content">{{
                                                 name
                                         }}</span>
                                         <img @click="
                                             deleteItem(
-                                                name,
+                                                index,
                                                 'Subscriber Name'
                                             )
                                         " class="cross-icon" src="/public/assets/admin/svgs/cross-black.svg"
@@ -262,7 +260,7 @@
                                                 method, index
                                             ) in webhookReport">
                                             <td>
-                                                <div class="no-wrap">
+                                                <div>
                                                     {{ method.subscriber_name }}
                                                 </div>
                                             </td>
@@ -1222,7 +1220,7 @@ export default {
             pageObject: {
                 total: 0,
                 current: 1,
-                limit: localStorage.getItem('pageSize') || 10,
+                limit: sessionStorage.getItem('pageSize') || 10,
             },
             pageObjectValue: {},
             isOrganisationUser: [],
@@ -1258,7 +1256,9 @@ export default {
             selectedEvents: new Set(),
             dateEvent:'',
             visible:true,
-            pageSize:'',
+            allFilters:[],
+            actualEventMap: {},
+            subscriberIdNames:{},
             docUrl:
                 env.SEARCHLIGHT_MAIN_DOMAIN +
                 '/docs/company-settings/webhook/webhook',
@@ -1274,7 +1274,7 @@ export default {
         this.populateDate();
         this.fetchQueryFilter().then(res=>{
         this.search(this.query_param); 
-        this.dateSelected = localStorage.getItem('Date')||'1';
+        this.dateSelected = sessionStorage.getItem('Date')||'1';
         })
        
     },
@@ -1303,8 +1303,9 @@ export default {
             this.query_param['end_date'] = moment()
                 .utc()
                 .format('YYYY-MM-DDTHH:mm:ss');
-            this.dateEvent=event
-            localStorage.setItem('Date',this.dateEvent)
+            this.dateEvent=event;
+            sessionStorage.setItem('Date',this.dateEvent)
+            this.pageObject.current = 1;
             if(searchCall==true)
             this.search(this.query_param);
         },
@@ -1314,7 +1315,7 @@ export default {
                 this.filtersToshow['Event'] = [];
                 this.query_param['event'] = '';
                 this.query_param['subscriber_name'] = '';
-                localStorage.removeItem("filtersSelected");
+                sessionStorage.removeItem("filtersSelected");
                 this.selectedFilters = false;
             } else {
                 if (this.filtersToshow[key]) {
@@ -1325,6 +1326,13 @@ export default {
                         );
                         this.filtersToshow[key] = [];
                         this.filtersToshow[key] = filtersVariable;
+                    }
+                    if (key == 'Subscriber Name') {
+                        if (this.filtersToshow[key].length > 0) {
+                            this.filtersToshow[key].splice(itemName, 1);
+                        } else {
+                            this.filtersToshow[key] = [];
+                        }
                     }
                     if (key == 'Event') {
                         if (this.filtersToshow[key].length > 0) {
@@ -1404,13 +1412,12 @@ export default {
             delete this.query_param['start_date'];
             delete this.query_param['end_date'];
             this.search(this.query_param);
-            localStorage.removeItem("Date");
+            sessionStorage.removeItem("Date");
         },
         fetchQueryFilter() {
             let subscriber_ids
-            let local_query= JSON.parse(localStorage.getItem('data'))
-                if(local_query!=null){
-                    subscriber_ids= local_query['subscriber_ids'] || []
+                if(this.filtersToshow['Subscriber Name']!=null){
+                    subscriber_ids= this.filtersToshow['Subscriber Name'] || []
                 }
                 else
                 subscriber_ids=[]
@@ -1421,7 +1428,7 @@ export default {
                     return a;
                 }, {});
                 this.subscriberIdMap = this.filters[1].values.reduce((a, i) => {
-                    a[i.text] = i.value;
+                    a[i.value] = i.text;
                     return a;
                 }, {});
                 this.filters[0].values = this.filters[0].values.map((v) => ({
@@ -1431,13 +1438,13 @@ export default {
                 this.filters[1].values = this.filters[1].values.map(
                     (filter) => {
                         filter.text = filter.text;
-                        filter.value = filter.text;
+                        filter.value = filter.value;
                         return filter;
                     }
                 );
                 this.actualFilters = JSON.parse(JSON.stringify(this.filters));
                 this.actualFilters[1].values = this.filters[1].values;
-                let local_query = JSON.parse(localStorage.getItem('data'));
+                let local_query = JSON.parse(sessionStorage.getItem('data'));
                 if(local_query!=null){
                     Object.keys(local_query).forEach((key) => {
                         var value = local_query[key];
@@ -1465,7 +1472,7 @@ export default {
 
                     });
                 }
-                let filterDataSelected = JSON.parse(localStorage.getItem('filtersSelected'));
+                let filterDataSelected = JSON.parse(sessionStorage.getItem('filtersSelected'));
                 if(filterDataSelected!=null){
                     Object.keys(filterDataSelected).forEach((key) => {
                         var value = filterDataSelected[key];
@@ -1481,6 +1488,15 @@ export default {
                             if (value && value != 'undefined') {
                                 this.filtersToshow['Subscriber Name'] =
                                     (value);
+                            }
+                        }
+                        if (key == 'Subscriber Name') {
+                            if (value && value != 'undefined') {
+                                this.subscriberIdNames['Subscriber Name'] = this.filtersToshow['Subscriber Name']
+                                    ? this.filtersToshow['Subscriber Name'].map(
+                                        (value) => this.subscriberIdMap[(value)]
+                                    )
+                                    : [];
                             }
                         }
                     });
@@ -1511,10 +1527,7 @@ export default {
             event.preventDefault();
         },
         onCancel() {
-            localStorage.removeItem("Date");
-            localStorage.removeItem("data");
-            localStorage.removeItem("filtersSelected");
-            localStorage.removeItem("pageSize");
+            sessionStorage.clear();
             this.$router.push({
                 path: 'webhook',
             });
@@ -1533,22 +1546,27 @@ export default {
             const { current, limit } = filter;
             this.pageObject.current = current;
             this.pageObject = Object.assign({}, this.pageObject, filter);
-            localStorage.setItem("pageSize",this.pageObject.limit)
+            sessionStorage.setItem("pageSize",this.pageObject.limit)
             this.search(this.query_param);
         },
         search(query_param) {
-            const encoded_query_param = Object.create(query_param);
-            this.dialogMessageJson = {};
-            this.ifJson = false;
-            this.startLoader = true;
-            encoded_query_param['page_no'] = this.pageObject.current;
-            encoded_query_param['page_size'] = this.pageObject.limit;
-            encoded_query_param['subscriber_name'] =
-                decodeURIComponent(query_param['subscriber_name']);
+            //Resetting Webhook download file state
+            this.fileName = null;
             const data = {
                 page_no: this.pageObject.current,
                 page_size: this.pageObject.limit,
             };
+            const encoded_query_param = Object.create(query_param);
+            this.dialogMessageJson = {};
+            this.ifJson = false;
+            this.startLoader = true;
+            this.subscriberIdNames['Subscriber Name'] = this.filtersToshow['Subscriber Name'] ?
+                this.filtersToshow['Subscriber Name'].map(
+                    (x) => this.subscriberIdMap[(x)]) : [];
+            encoded_query_param['page_no'] = this.pageObject.current;
+            encoded_query_param['page_size'] = this.pageObject.limit;
+            encoded_query_param['subscriber_name'] =
+                decodeURIComponent(query_param['subscriber_name']);
             if (this.searchText && this.searchText.length != 0) {
                 data['search_text'] = this.searchText;
             }
@@ -1563,10 +1581,6 @@ export default {
             }
             if (this.filtersToshow['Subscriber Name']) {
                 data['subscriber_ids'] = this.filtersToshow['Subscriber Name']
-                    ? this.filtersToshow['Subscriber Name'].map(
-                        (x) => this.subscriberIdMap[(x)]
-                    )
-                    : [];
             }
             if (this.filtersToshow['Event']) {
                 data['event'] = this.filtersToshow['Event']      
@@ -1577,11 +1591,36 @@ export default {
                     },[])
                     : [];
             }
-            data["type"] = 'global'
-            localStorage.setItem("data",JSON.stringify(data));
-            localStorage.setItem("filtersSelected",JSON.stringify(this.filtersToshow));
-            if (this.subscriberSelected == true)
-                this.fetchQueryFilter()
+            this.filtersToshow['Event'] = this.filtersToshow['Event']      
+                    ? this.filtersToshow['Event'].reduce((res , x) => {
+                        if(this.eventMap[x])
+                            res.push(x)
+                            return res
+                    },[])
+                    : [];
+            sessionStorage.setItem("companyId",this.companyId);
+            sessionStorage.setItem("data",JSON.stringify(data));
+            sessionStorage.setItem("filtersSelected",JSON.stringify(this.filtersToshow));
+            this.fetchQueryFilter().then((res)=>{
+            if (this.filtersToshow['Event']) {
+                data['event'] = this.filtersToshow['Event']      
+                    ? this.filtersToshow['Event'].reduce((res , x) => {
+                            if(this.eventMap[x])
+                            res.push(this.eventMap[x])
+                            return res
+                    },[])
+                    :[]
+            }
+            this.filtersToshow['Event'] = this.filtersToshow['Event']      
+                    ? this.filtersToshow['Event'].reduce((res , x) => {
+                        if(this.eventMap[x])
+                            res.push(x)
+                            return res
+                    },[])
+                    : [];
+            sessionStorage.setItem("companyId",this.companyId);
+            sessionStorage.setItem("data",JSON.stringify(data));
+            sessionStorage.setItem("filtersSelected",JSON.stringify(this.filtersToshow));
             AdminWebhookService.getWebhookReport(data)
                 .then((res) => {
                     if (res.data.items.length > 0) {
@@ -1594,13 +1633,13 @@ export default {
                                 .format('MMM Do, YY hh:mm A');
                             return items;
                         });
-                        this.dateSelected=localStorage.getItem('Date');
+                        this.dateSelected=sessionStorage.getItem('Date');
                         this.pageObject.total = res.data.page.item_total;
                         this.pageObject.current = res.data.page.current;
                         this.startLoader = false;
-                        this.visible=true;
+                        this.visible=true;  
                     } else {
-                        this.dateSelected=localStorage.getItem('Date');
+                        this.dateSelected=sessionStorage.getItem('Date');
                         this.webhookReport = [];
                         this.startLoader = false;
                         this.showErrorPage = true;
@@ -1617,6 +1656,11 @@ export default {
                     this.showErrorPage = true;
                     this.openRemoveDialog('500px', 'auto');
                 });
+                })
+                .catch((err)=>{
+                    console.log('err',err)
+                })
+
         },
         sortTable(key) {
             this.webhookReport.sort(function (a, b) {

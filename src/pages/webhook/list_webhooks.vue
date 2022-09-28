@@ -23,7 +23,7 @@
                     </template>
                 </nitrozen-dialog>
                 <loader v-if="startLoader" class="loading"></loader>
-                <adm-no-content v-if="subscriberList.length == 0" :helperText="'No Subscriber Registered'">
+                <adm-no-content v-if="!startLoader && subscriberList.length === 0" :helperText="'No Subscriber Registered'">
                 </adm-no-content>
                 <div v-if="subscriberList && subscriberList.length > 0" class="webhook-list">
                     <div v-for="items in subscriberList" :key="items.id" class="full-width">
@@ -67,7 +67,7 @@
                                 <nitrozen-badge v-if="items.status == 'inactive'" class="tag" state="default">Inactive
                                 </nitrozen-badge>
                                 <div class="card-detail">
-                                    <nitrozen-button @click="report(items.name)" class="webhook-report-btn" v-strokeBtn
+                                    <nitrozen-button @click="report(items.id)" class="webhook-report-btn" v-strokeBtn
                                         :theme="'secondary'">View Report</nitrozen-button>
                                     <span class="copy" v-html="copyIcon"
                                         @click="onCopyCode($event, items.webhook_url)"></span>
@@ -641,6 +641,7 @@ export default {
         };
     },
     mounted() {
+        sessionStorage.clear();
         this.getSubscriberList()
     },
     methods: {
@@ -653,20 +654,21 @@ export default {
                 .utc()
                 .format('YYYY-MM-DDTHH:mm:ss');
             this.dateEvent=event;
-            localStorage.setItem('Date',this.dateEvent);
+            sessionStorage.setItem('Date',this.dateEvent);
         },
         report(name) {
             this.dateRangeChanges(1);
             let date={
                 "start_date": this.dates['start_date'],
                 "end_date": this.dates['end_date'],
-                "subscriber_ids":[name]
+                "subscriber_ids":[name],
             };
             let subs={
                 "Subscriber Name":[name],
             };
-            localStorage.setItem("data",JSON.stringify(date));
-            localStorage.setItem("filtersSelected",JSON.stringify(subs));
+            sessionStorage.setItem("data",JSON.stringify(date));
+            sessionStorage.setItem("companyId",this.companyId);
+            sessionStorage.setItem("filtersSelected",JSON.stringify(subs));
             this.$router.push({
                 path: `webhook-report`
             });
