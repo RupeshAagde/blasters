@@ -660,6 +660,7 @@ export default {
             let date={
                 "start_date": this.dates['start_date'],
                 "end_date": this.dates['end_date'],
+                "subscriber_ids":[name]
             };
             let subs={
                 "Subscriber Name":[name],

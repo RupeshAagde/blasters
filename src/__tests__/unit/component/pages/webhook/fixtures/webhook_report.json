@@ -246,7 +246,8 @@
           ],
           "company_id": 61,
           "application_id": "5e14c0b93b34463b62526ae3"
-        }
+        },
+        "status":"FAILED"
       },
       {
         "webhook_url": "https://api.fyndx1.de/api/v2/update",
@@ -494,7 +495,8 @@
           ],
           "company_id": 61,
           "application_id": "5e14c0b93b34463b62526ae3"
-        }
+        },
+        "status":"FAILED"
       }
     ],
     "page": {

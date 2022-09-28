@@ -109,6 +109,13 @@ describe('Webhook Report', () => {
         await flushPromises();
         expect(wrapper.vm.webhookReport[0].processed_time_in_millis).toBe(71);
     });
+    it('On status filter', async () => {
+        wrapper.vm.selectedStatusFilter = 'SUCCESS'
+        await wrapper.vm.filterStatus();
+        await flushPromises();
+        let onlyFailedResults = wrapper.vm.webhookReport.every(item => item.status === "FAILED");
+        expect(onlyFailedResults).toBe(true);
+    });
     
     
 })
