@@ -1012,7 +1012,7 @@ input {
         margin: 20px 20px 20px 0px;
     }
 }
-
+ 
 .date-picker {
     width: 33%;
     margin-right: 10px;
