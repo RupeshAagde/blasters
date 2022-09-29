@@ -135,6 +135,7 @@
                                         </div>
                                     </div>
                                     <div class="filter-dynamic">
+                                         <div class="filter-dynamic-child">
                                         <div v-for="(filter, index) in filters" :key="filter.filter_name"
                                             class="filter-dropdown">
                                             <nitrozen-dropdown :class="
@@ -156,6 +157,7 @@
     'Select ' +
     filter.filter_name
 " :searchable="true" :multiple="true"></nitrozen-dropdown>
+                                        </div>
                                         </div>
                                         <div class="date-content">
                                             <div class="date-search">
@@ -381,13 +383,15 @@ table tr:last-child td:last-child {
 .top-filters {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    // justify-content: space-between;
     flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
 }
-.status-filter {
-    min-width: 15%;
+.status-filter, .date-content {
+    // min-width: 15%;
+    width: 13vw;
 }
-
 .url-content {
     margin: 15px 0 10px 0;
 }
@@ -615,9 +619,10 @@ tr:hover {
 }
 
 ::v-deep .n-input {
-    width:44rem;
+    // width: 72%;
     height: 38px;
 }
+
 
 .filter {
     padding-bottom: 16px;
@@ -659,13 +664,25 @@ td {
 
 .search {
     align-self: flex-end;
-    margin-right: 10px;
+    // margin-right: 10px;
     // margin-top: 40px;
     // margin-bottom: 20px;
     width: 80%;
-    float: left;
+    // float: left;
 }
 
+.filter-dynamic-child {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .filter-dynamic-child, .search{
+        width: 80%;
+    }
+
+    .top-filters, .filter-dynamic{
+        justify-content: space-between;
+    }
 .search-button-box {
     align-self: flex-end;
     margin-top: 10px;
@@ -822,13 +839,12 @@ input {
     .filter-dropdown-field {
         display: contents;
     }
-
     .filter-dropdown {
         align-self: flex-end;
-        min-width: 30%;
+        min-width: 49%;
         display: flex;
         float: left;
-        flex-direction:column;
+        flex-direction: column;
     }
 
     ::v-deep .nitrozen-select-wrapper {
@@ -1006,27 +1022,29 @@ input {
 }
 
 .date-content {
-    margin-left: auto;
     align-self: flex-end;
     display: flex;
     float: left;
-    @media @mobile{
+    // min-width: 15%;
+
+    @media @mobile {
         margin: 0 !important;
     }
 }
 
 .date-search {
     display: flex;
-    flex-direction:column
-
+    flex-direction: column;
+    width: 100%;
 }
 
-::v-deep .nitrozen-dropdown-container{
-    margin-left:-67px;
-    @media @mobile{
+::v-deep .nitrozen-dropdown-container {
+    @media @mobile {
         margin-left: unset;
     }
 }
+
+
 ::v-deep .nitrozen-dropdown-label {
     align-self: left;
     margin-right: 25px;
@@ -1074,7 +1092,7 @@ input {
 
     .search {
         margin-top: 40px;
-        margin-right: 30px;
+        // margin-right: 30px;
     }
     .date-range-label {
         margin-right: 7%;
