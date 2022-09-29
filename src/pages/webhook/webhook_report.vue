@@ -3,7 +3,7 @@
         <div class="header-position">
             <adm-page-header @backClick="onCancel" @openHelp="showHelpSection" :title="`Webhook Report`"
                 :contextMenuItems="isOrganisationUser ? [] : contextMenuItems" :noContextMenu="true">
-               <span class="export" @click="openExportConfirmation" :class="{'disableBtn': webhookReport && webhookReport.length === 0 && load_reports || salesDumpJob }">
+               <span class="export" @click="openExportConfirmation" :class="{'disableBtn': webhookReport && webhookReport.length === 0 && load_reports || (salesDumpJob && salesDumpStatus) }">
                     <uktInlineSvg
                         class="export-icon"
                         :src="'download-export'"
@@ -40,7 +40,7 @@
                     :failed_msg="failedMsg"
                     :export_msg="exportMsg"
                 ></exportDialogBox>
-            <div class="full-width" :class="{'disableBtn': salesDumpJob && !load_reports}">
+            <div class="full-width">
                 <nitrozen-dialog class="status_dialog" ref="status_dialog" :title="selectedPayloadName">
                     <template v-if="ifJson" slot="body">
                         <div>
@@ -113,7 +113,7 @@
                     <div class="page-container common-container report-container">
                         <div class="sub-header">
                             <template>
-                                <div class="filter">
+                                <div class="filter" :class="{'disableBtn': (salesDumpJob && salesDumpStatus)}">
                                     <div class="top-filters">
                                         <nitrozen-input
                                             :showSearchIcon="true"
@@ -184,7 +184,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="selectedItems">
+                                <div class="selectedItems" :class="{'disableBtn': (salesDumpJob && salesDumpStatus)}">
                                     <div v-for="(name, index) in filtersToshow[
                                         'Event'
                                     ]" :key="index" class="items">
