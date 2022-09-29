@@ -348,6 +348,7 @@ table tr:last-child td:last-child {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 .status-filter {
     min-width: 15%;
@@ -592,10 +593,10 @@ tr:hover {
 
 .filter-dynamic {
     align-items: flex-end;
-    display: flex !important;
-    display: inline-block;
+    display: flex;
     width: 100%;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 td {
@@ -621,9 +622,9 @@ td {
 .search {
     align-self: flex-end;
     margin-right: 10px;
-    margin-top: 40px;
-    margin-bottom: 20px;
-    width: 100%;
+    // margin-top: 40px;
+    // margin-bottom: 20px;
+    width: 80%;
     float: left;
 }
 
@@ -969,6 +970,9 @@ input {
     align-self: flex-end;
     display: flex;
     float: left;
+    @media @mobile{
+        margin: 0 !important;
+    }
 }
 
 .date-search {
@@ -978,7 +982,10 @@ input {
 }
 
 ::v-deep .nitrozen-dropdown-container{
-    margin-left:-67px
+    margin-left:-67px;
+    @media @mobile{
+        margin-left: unset;
+    }
 }
 ::v-deep .nitrozen-dropdown-label {
     align-self: left;
