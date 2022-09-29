@@ -26,37 +26,89 @@
         </div>
         <div class="v-edit-page">
             <div class="template-box">
-                <div class="input-box">
+                <div>
                     <nitrozen-dropdown
-                        :label="'Choose Template'"
+                        :label="'Template'"
                         class="filter-dropdown"
                         :multiple="true"
                         :searchable="true"
                         :required="true"
                         :items="filteredTemplateList"
-                        placeholder="select departments"
+                        placeholder="select templates"
                         v-model="selectedTemplates.value"
-                        @change="getAttributes"
+                        @change="getCurrentDep"
                         @searchInputChange="setFilteredTemplateList"
+                        :enable_select_all="true"
                     ></nitrozen-dropdown>
                     <nitrozen-error v-if="selectedTemplates.showerror"
                         >{{ selectedTemplates.errortext }}
                     </nitrozen-error>
                 </div>
-                <div
-                    v-for="(item, index) of selectedTemplates.value"
-                    :key="index"
-                >
-                    <nitrozen-chips class="chip">
-                        {{ item }}
+
+                <div v-if="selectedTemplates.value" class="label-data">
+                    <span
+                        v-for="(temp, index) of selectedTemplates.value"
+                        class="chips mr-s mt-s"
+                    >
+                        {{ temp }}
                         <nitrozen-inline
                             icon="cross"
-                            class="nitrozen-icon"
-                            @click="removeTemplate()"
+                            class="pointer ml-xs"
+                            @click="removeTemplate(index)"
                         ></nitrozen-inline>
-                    </nitrozen-chips>
+                    </span>
                 </div>
             </div>
+            <div class="input-row mt-l">
+                <div class="row-item">
+                    <nitrozen-dropdown
+                        :label="'Attribute'"
+                        :required="true"
+                        class="filter-dropdown"
+                        :disabled="
+                            !selectedTemplates.value.length ||
+                                !attributeList.length
+                        "
+                        :items="attributeList"
+                        placeholder="Choose Attribute"
+                        v-model="selectedAttribute.value"
+                    ></nitrozen-dropdown>
+                    <nitrozen-error v-if="selectedAttribute.showerror"
+                        >{{ selectedAttribute.errortext }}
+                    </nitrozen-error>
+                </div>
+                <div class="row-item">
+                    <nitrozen-input
+                        label="Display Name *"
+                        placeholder="Give a name to the variant"
+                        v-model="name.value"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="name.showerror"
+                        >{{ name.errortext }}
+                    </nitrozen-error>
+                </div>
+            </div>
+
+            <div class="mt-l">
+                <nitrozen-dropdown
+                    :label="'Display type '"
+                    class="filter-dropdown"
+                    :searchable="true"
+                    :multiple="true"
+                    :required="true"
+                    :items="displayTypeList"
+                    placeholder="Select display type"
+                    v-model="selectedDisplayType.value"
+                    @change="setFields"
+                    :enable_select_all="true"
+                ></nitrozen-dropdown>
+                <nitrozen-error v-if="selectedDisplayType.showerror"
+                    >{{ selectedDisplayType.errortext }}
+                </nitrozen-error>
+            </div>
+
+            <!-- image configuration based on display type -->
+            <div v-if="selectedDisplayType.value.includes('color')"></div>
         </div>
     </div>
 </template>
@@ -70,7 +122,8 @@ import PageHeader from '@/components/common/layout/page-header';
 import PageError from '@/components/common/page-error';
 import {
     FETCH_VARIANT_DISPLAY_TYPE,
-    FETCH_TEMPLATES
+    FETCH_TEMPLATES,
+    FETCH_ATTRIBUTES
 } from '@/store/action.type.js';
 import cloneDeep from 'lodash/cloneDeep';
 import {
@@ -116,8 +169,12 @@ export default {
             selectedTemplates: this.getInitialValue(),
             templateList: [],
             filteredTemplateList: [],
+            temp_dep_set: {},
+            selectedDisplayType: this.getInitialValue(),
             displayTypeList: [],
-            attributeList: []
+            selectedAttribute: this.getInitialValue(''),
+            attributeList: [],
+            name: this.getInitialValue('')
         };
     },
     mounted() {
@@ -170,10 +227,11 @@ export default {
 
                     //template list
                     if (res[1]) {
-                        this.templateList = res[1];
+                        this.templateList = res[1].temp;
                         this.filteredTemplateList = cloneDeep(
                             this.templateList
                         );
+                        this.temp_dep_set = res[1].temp_dep_set;
                     }
                 })
                 .catch((err) => {
@@ -197,14 +255,52 @@ export default {
         //         });
         // },
         save() {},
-        setFilteredTemplateList() {},
+        setFilteredTemplateList: debounce(function(e) {
+            this.filteredTemplateList = [];
+            this.templateList.forEach((t) => {
+                if (
+                    !e ||
+                    !e.text ||
+                    t.text.toLowerCase().includes(e.text.toLowerCase())
+                ) {
+                    this.filteredTemplateList.push(t);
+                }
+            });
+        }, 400),
         removeTemplate(index) {
             this.selectedTemplates.value.splice(index, 1);
-            this.getAttributes();
+            this.getCurrentDep();
         },
-        getAttributes: debounce(function() {
-            console.log('Got attributes');
+        getAttributes: debounce(function(dep) {
+            this.pageLoading = true;
+            const params = {
+                page_no: 1,
+                page_size: 9999,
+                department: dep
+            };
+            this.$store
+                .dispatch(FETCH_ATTRIBUTES, params)
+                .then((res) => {
+                    this.attributeList = res;
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+                .finally(() => {
+                    this.pageLoading = false;
+                });
         }, 500),
+        getCurrentDep() {
+            let departments = [];
+            this.selectedTemplates.value.forEach((temp) => {
+                if (this.temp_dep_set[temp]) {
+                    departments.push(this.temp_dep_set[temp]);
+                }
+            });
+            if (this.selectedTemplates.value.length > 0)
+                this.getAttributes(departments);
+        },
+        setFields() {},
 
         redirectToListing() {
             this.$router.push({ path: '/administrator/product/variants' });

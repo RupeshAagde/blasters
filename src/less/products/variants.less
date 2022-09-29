@@ -74,6 +74,34 @@
     border-radius: 4px;
     padding: 8px 12px;
     display: inline-block;
+    cursor: default;
+}
+
+// variant editing page classes
+.v-edit-page {
+    margin: 84px 24px;
+    padding: 12px;
+    background: @White;
+    border-radius: 12px;
+    min-height: calc(100vh - 300px);
+
+    .template-box {
+    }
+    .chips-div {
+        display: inline-block;
+    }
+    .input-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .row-item {
+            flex: 0 0 48%;
+        }
+    }
+}
+
+.pointer {
+    cursor: pointer;
 }
 
 .mr-xs {

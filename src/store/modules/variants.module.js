@@ -2,6 +2,7 @@ import {
     FETCH_VARIANTS,
     FETCH_VARIANT_DISPLAY_TYPE,
     FETCH_TEMPLATES,
+    FETCH_ATTRIBUTES
 } from '../action.type'
 
 import {
@@ -54,24 +55,50 @@ const actions = {
     [FETCH_TEMPLATES]({ commit }, params) {
         return CompanyService.fetchProductTemplates(params)
             .then((res) => {
-                let data = []
+                let temp = []
+                let temp_dep_set = {}
                 res.data.items.forEach((ele) => {
                     if (ele.is_active) {
-                        data.push({
+                        temp.push({
                             text: ele.name,
                             value: ele.slug,
-                            id: ele.id
+                            id: ele.id,
+                            attribute: ele.attributes,
+                            departments: ele.departments
                         })
+                        if (temp_dep_set.hasOwnProperty(ele.slug)) {
+                            temp_dep_set[ele.slug] = temp_dep_set[ele.slug].concat(ele.slug)
+                        } else {
+                            temp_dep_set[ele.slug] = ele.slug
+                        }
+
                     }
                 });
                 return new Promise((resolve, reject) => {
-                    return resolve(data)
+                    return resolve({ temp, temp_dep_set })
                 })
             })
             .catch((err) => {
                 return new Promise((resolve, reject) => {
                     return reject(err)
                 })
+            });
+    },
+    [FETCH_ATTRIBUTES]({ commit }, params) {
+        return CatalogService.fetchAttributes(params)
+            .then((res) => {
+                let data = []
+                res.data.items.map((element) => {
+                    data.push({
+                        text: element.name,
+                        value: element.slug
+                    })
+                });
+                return data
+            })
+            .catch((err) => {
+                console.log(err);
+
             });
     }
 }
