@@ -1002,7 +1002,7 @@ input {
     margin-right: 10px;
     align-self: flex-end;
     display: flex;
-    float: right;
+    float: right; 
 }
 
 .date-content {
