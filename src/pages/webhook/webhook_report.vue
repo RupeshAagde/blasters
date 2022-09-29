@@ -850,9 +850,6 @@ input {
     ::v-deep .nitrozen-select-wrapper {
         width: 100%;
     }
-    ::v-deep .filter .nitrozen-select-wrapper {
-        min-width:15rem;
-    }
 
     .pagination-dropdown {
         width: 50%;
