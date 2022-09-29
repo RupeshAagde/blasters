@@ -849,7 +849,7 @@ input {
 
     ::v-deep .nitrozen-select-wrapper {
         width: 100%;
-    }
+    } 
 
     .pagination-dropdown {
         width: 50%;
