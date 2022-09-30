@@ -99,7 +99,6 @@
                     :items="displayTypeList"
                     placeholder="Select display type"
                     v-model="selectedDisplayType.value"
-                    @change="setFields"
                     :enable_select_all="true"
                 ></nitrozen-dropdown>
                 <nitrozen-error v-if="selectedDisplayType.showerror"
@@ -108,7 +107,91 @@
             </div>
 
             <!-- image configuration based on display type -->
-            <div v-if="selectedDisplayType.value.includes('color')"></div>
+            <div v-if="isSwatchSSelected" class="mt-xl">
+                <div class="cust-sh2">Image Configurations</div>
+
+                <div class="input-row mt-l">
+                    <!-- minimum height -->
+                    <div class="row-item">
+                        <nitrozen-input
+                            label="Minimum Height *"
+                            placeholder=""
+                            v-model="image_config.min_height.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="image_config.min_height.showerror"
+                            >{{ image_config.min_height.errortext }}
+                        </nitrozen-error>
+                    </div>
+
+                    <!-- minimum width -->
+                    <div class="row-item">
+                        <nitrozen-input
+                            label="Minimum Width *"
+                            placeholder=""
+                            v-model="image_config.min_width.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="image_config.min_width.showerror"
+                            >{{ image_config.min_width.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+
+                <div class="input-row mt-l">
+                    <!-- maximum height -->
+                    <div class="row-item">
+                        <nitrozen-input
+                            label="Maximum Height *"
+                            placeholder=""
+                            v-model="image_config.max_height.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="image_config.showerror"
+                            >{{ image_config.errortext }}
+                        </nitrozen-error>
+                    </div>
+
+                    <!-- maximum width -->
+                    <div class="row-item">
+                        <nitrozen-input
+                            label="Maximum Width *"
+                            placeholder=""
+                            v-model="image_config.max_width.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="image_config.max_width.showerror"
+                            >{{ image_config.max_width.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+
+                <div class="input-row mt-l">
+                    <!-- maximum file size -->
+                    <div class="row-item">
+                        <nitrozen-input
+                            label="Maximum File Size *"
+                            placeholder=""
+                            v-model="image_config.max_size.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="image_config.max_size.showerror"
+                            >{{ image_config.max_size.errortext }}
+                        </nitrozen-error>
+                    </div>
+
+                    <!-- file type selection -->
+                    <div class="row-item">
+                        <nitrozen-input
+                            label="Choose File Type *"
+                            placeholder=""
+                            v-model="image_config.file_type.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="image_config.file_type.showerror"
+                            >{{ image_config.file_type.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+                <!-- maintain aspect ratio  -->
+                <div>
+                    <span>maintain aspect ratio</span>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -138,6 +221,11 @@ import {
     NitrozenToggleBtn,
     strokeBtn
 } from '@gofynd/nitrozen-vue';
+const FILE_TYPE = [
+    { text: 'PNG', value: 'png' },
+    { text: 'JPEG', value: 'jpeg' },
+    { text: 'PDF', value: 'pdf' }
+];
 
 export default {
     name: 'create-update-variant',
@@ -174,8 +262,15 @@ export default {
             displayTypeList: [],
             selectedAttribute: this.getInitialValue(''),
             attributeList: [],
-            name: this.getInitialValue('')
+            name: this.getInitialValue(''),
+            image_config: this.getInitialImageConfig(),
+            fileTypeList: FILE_TYPE
         };
+    },
+    computed: {
+        isSwatchSSelected() {
+            return this.selectedDisplayType.value.includes('color');
+        }
     },
     mounted() {
         this.init();
@@ -183,12 +278,6 @@ export default {
             this.pageLoading = true;
             this.uid = this.$route.params.uid;
             this.headerText = 'Update Variant';
-            // this.getDisplayType();
-            // this.init();
-            // this.updateData();
-        } else {
-            // this.getDisplayType();
-            // this.init();
         }
     },
     methods: {
@@ -197,6 +286,25 @@ export default {
                 value: val,
                 showerror: false,
                 errortext: ''
+            };
+        },
+        getInitialImageConfig(
+            minH = 0,
+            maxH = 0,
+            minW = 0,
+            maxW = 0,
+            maxS = 0,
+            fileT = '',
+            mAR = false
+        ) {
+            return {
+                min_height: this.getInitialValue(minH),
+                max_height: this.getInitialValue(maxH),
+                min_width: this.getInitialValue(minW),
+                max_width: this.getInitialValue(maxW),
+                max_size: this.getInitialValue(maxS),
+                file_type: this.getInitialValue(fileT),
+                maintain_aspect_ratio: mAR
             };
         },
         init() {
@@ -241,20 +349,8 @@ export default {
                     this.pageLoading = true;
                 });
         },
-        // getDepartment() {
-        //     const query = {
-        //         page_size: 9999,
-        //         page_no: 1
-        //     };
-        //     CatalogService.fetchDepartment(query)
-        //         .then(({ data }) => {
-        //             this.departmentList = data.items;
-        //         })
-        //         .catch((err) => {
-        //             console.log(err);
-        //         });
-        // },
-        save() {},
+
+        // template listing, adding removing template, calculating departments and then getting related attributes
         setFilteredTemplateList: debounce(function(e) {
             this.filteredTemplateList = [];
             this.templateList.forEach((t) => {
@@ -270,6 +366,16 @@ export default {
         removeTemplate(index) {
             this.selectedTemplates.value.splice(index, 1);
             this.getCurrentDep();
+        },
+        getCurrentDep() {
+            let departments = [];
+            this.selectedTemplates.value.forEach((temp) => {
+                if (this.temp_dep_set[temp]) {
+                    departments.push(this.temp_dep_set[temp]);
+                }
+            });
+            if (this.selectedTemplates.value.length > 0)
+                this.getAttributes(departments);
         },
         getAttributes: debounce(function(dep) {
             this.pageLoading = true;
@@ -290,17 +396,8 @@ export default {
                     this.pageLoading = false;
                 });
         }, 500),
-        getCurrentDep() {
-            let departments = [];
-            this.selectedTemplates.value.forEach((temp) => {
-                if (this.temp_dep_set[temp]) {
-                    departments.push(this.temp_dep_set[temp]);
-                }
-            });
-            if (this.selectedTemplates.value.length > 0)
-                this.getAttributes(departments);
-        },
-        setFields() {},
+
+        save() {},
 
         redirectToListing() {
             this.$router.push({ path: '/administrator/product/variants' });
