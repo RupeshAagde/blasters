@@ -22,6 +22,7 @@ describe('Mounted Extension Review Page', () => {
         localVue.use(VueRouter);
         mock.reset();
         mock.onGet(URLS.EXTENSION_REVIEW(`${MOCK_DATA.extensiondata.items[0]._id}`)).reply(200, MOCK_DATA.extensiondata.items[0]);
+        mock.onGet(URLS.ADMIN_EXTENSION_CATEGORIES()).reply(200, MOCK_DATA.categoryData);
         router = new VueRouter({
             routes: [{
                 path: '/administrator/extensions/review/:review_id',
@@ -45,5 +46,11 @@ describe('Mounted Extension Review Page', () => {
     });
     it('check extension review page', async () => {
         expect(wrapper.vm.pageLoading).toBeFalsy();
+    });
+    it('change the category', async () => {
+        wrapper.vm.onChangeCategoryL1();
+        wrapper.vm.onChangeCategoryL2();
+        wrapper.vm.removeSelectedCategory(0, true, 0);
+        expect(wrapper.vm.companyId).toBe(1234);
     });
 })
