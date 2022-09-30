@@ -129,6 +129,12 @@
                     target="_blank"
                     >Link to extension</a
                 >
+                <a v-if="companyId"
+                    class="cl-RoyalBlue extension-link"
+                    :href="`${fyndPlatformDomain}/company/${companyId}/extensions/${extension_id}`"
+                    target="_blank"
+                    >Launch extension</a
+                >
                 <nitrozen-input
                     :disabled="true"
                     :type="'textarea'"
@@ -233,6 +239,9 @@
             }
         }
     }
+    .extension-link {
+        padding-top: 15px;
+    }
 }
 .default-image {
     width: auto;
@@ -321,12 +330,16 @@ export default {
             reviewer_name: '',
             reviewer_email: '',
             reviewer_phone: '',
-            showScopes: false
+            showScopes: false,
+            companyId: ''
         };
     },
     computed: {
         fynd_partners_domain() {
             return env.BOMBSHELL_MAIN_DOMAIN;
+        },
+        fyndPlatformDomain() {
+            return env.MIRAGE_MAIN_DOMAIN;
         },
         extension_id() {
             return this.extension_info.extension_id;
@@ -381,6 +394,7 @@ export default {
                     if (this.extension_info.current_status !== 'pending') {
                         this.getUserInfo(this.extension_info.reviewed_by);
                     }
+                    this.companyId = this.extension_info.admin_dev_account_uid;
                     this.categoryInfo.category_l1 =
                         extensionCategoriesInfo.data.data.category_l1.map(
                             (ext) => ({
