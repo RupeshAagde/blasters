@@ -16,7 +16,7 @@
                         <nitrozen-button
                             class="left-space-txb"
                             :theme="'secondary'"
-                            @click="validateForm"
+                            @click="save"
                             v-flatBtn
                             >Save</nitrozen-button
                         >
@@ -236,7 +236,6 @@
                             :multiple="true"
                             :items="fileTypeList"
                             v-model="image_config.file_type.value"
-                            :enable_select_all="true"
                         ></nitrozen-dropdown>
                         <nitrozen-error v-if="image_config.file_type.showerror"
                             >{{ image_config.file_type.errortext }}
@@ -244,8 +243,20 @@
                     </div>
                 </div>
                 <!-- maintain aspect ratio  -->
-                <div>
-                    <span>maintain aspect ratio</span>
+                <div class="mt-xl">
+                    <span class="n-input-label mb-xs"
+                        >Maintain Aspect Ratio</span
+                    >
+                    <radio-group
+                        class="radios"
+                        @on-change="changeOption($event)"
+                        :options="[
+                            { display: 'True', value: true },
+                            { display: 'False', value: false }
+                        ]"
+                        :selectedOpt="this.image_config.maintain_aspect_ratio"
+                        :align="2"
+                    ></radio-group>
                 </div>
             </div>
         </div>
@@ -253,6 +264,7 @@
 </template>
 <style lang="less" scoped>
 .suffix {
+    animation: show 2s forwards;
     ::v-deep .nitrozen-input-suffix {
         background: none;
         border-left: 0px;
@@ -263,6 +275,22 @@
         text-align: left;
     }
 }
+.radios {
+    ::v-deep .radio-item {
+        padding: 12px 14px 2px 6px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        margin-right: 12px;
+    }
+}
+@keyframes show {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 </style>
 <script>
 import CatalogService from '@/services/catalog.service';
@@ -271,6 +299,7 @@ import { debounce } from '@/helper/utils';
 import Shimmer from '@/components/common/shimmer';
 import PageHeader from '@/components/common/layout/page-header';
 import PageError from '@/components/common/page-error';
+import RadioGroup from '@/components/common/radio-group.vue';
 import {
     FETCH_VARIANT_DISPLAY_TYPE,
     FETCH_TEMPLATES,
@@ -296,10 +325,10 @@ const FILE_TYPE = [
 ];
 
 const ALLOWED_VALUE = {
-    hMin: 100,
+    hMin: 1,
     hMax: 1000,
 
-    wMin: 100,
+    wMin: 1,
     wMax: 1000,
 
     fsMin: 1,
@@ -320,7 +349,8 @@ export default {
         NitrozenChips,
         NitrozenInline,
         NitrozenBadge,
-        NitrozenToggleBtn
+        NitrozenToggleBtn,
+        RadioGroup
     },
     directives: {
         flatBtn,
@@ -384,7 +414,10 @@ export default {
                 max_width: this.getInitialValue(maxW),
                 max_size: this.getInitialValue(maxS),
                 file_type: this.getInitialValue(fileT),
-                maintain_aspect_ratio: mAR
+                maintain_aspect_ratio: {
+                    display: mAR ? 'True' : 'False',
+                    value: mAR
+                }
             };
         },
         init() {
@@ -477,11 +510,20 @@ export default {
                 });
         }, 500),
 
-        save() {},
+        save() {
+            let isValid = this.validateForm();
+            if (isValid) {
+                let obj = this.getFormData();
+                // console.log(obj);
+            } else {
+                this.$snackbar.global.showError(
+                    'Please correct inputs displayed in red',
+                    1000
+                );
+            }
+        },
         validateForm() {
             let isValid = true;
-            const imgForm = this.image_config;
-
             // validate image config if swatch is selected
             if (this.isSwatchSSelected) {
                 //check if entered maximum height and minimum height values are not contradicting each other if not then validate rest things
@@ -561,6 +603,30 @@ export default {
             return isValid;
         },
 
+        getFormData() {
+            let obj = {
+                is_active: this.is_active,
+                priority: null,
+                templates: this.selectedTemplates.value,
+                key: this.selectedAttribute.value,
+                display: this.name.value,
+                display_type: this.selectedDisplayType.value
+            };
+            if (this.isSwatchSSelected) {
+                obj.image_config = {
+                    min_height: this.image_config.min_height.value,
+                    max_height: this.image_config.max_height.value,
+                    min_width: this.image_config.min_width.value,
+                    max_width: this.image_config.max_width.value,
+                    max_size: this.image_config.max_size.value,
+                    file_type: this.image_config.file_type.value,
+                    maintain_aspect_ratio: this.image_config
+                        .maintain_aspect_ratio.value
+                };
+            }
+            return obj;
+        },
+
         /*
         methodName: minMaxValidation
         paramCount: 4
@@ -633,17 +699,25 @@ export default {
                 if (name.length >= 3 && name.length <= 30) {
                     this.name.showerror = false;
                     this.name.errortext = '';
+                    return true;
                 } else {
                     this.name.showerror = true;
                     this.name.errortext =
                         'Display name should be between 3 to 30 characters';
+                    return false;
                 }
             } else {
                 this.name.showerror = true;
                 this.name.errortext = 'Display name is required';
+                return false;
             }
         },
-
+        changeOption(e) {
+            this.image_config.maintain_aspect_ratio = e;
+        },
+        getRadioDisplay(e) {
+            return e ? 'True' : 'False';
+        },
         redirectToListing() {
             this.$router.push({ path: '/administrator/product/variants' });
         }
