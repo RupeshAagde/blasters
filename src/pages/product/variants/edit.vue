@@ -293,9 +293,9 @@
 }
 </style>
 <script>
-import CatalogService from '@/services/catalog.service';
 import loader from '@/components/common/loader';
 import { debounce } from '@/helper/utils';
+import get from 'lodash/get';
 import Shimmer from '@/components/common/shimmer';
 import PageHeader from '@/components/common/layout/page-header';
 import PageError from '@/components/common/page-error';
@@ -303,7 +303,8 @@ import RadioGroup from '@/components/common/radio-group.vue';
 import {
     FETCH_VARIANT_DISPLAY_TYPE,
     FETCH_TEMPLATES,
-    FETCH_ATTRIBUTES
+    FETCH_ATTRIBUTES,
+    FETCH_VARIANTS
 } from '@/store/action.type.js';
 import cloneDeep from 'lodash/cloneDeep';
 import {
@@ -362,6 +363,7 @@ export default {
             PageError: false,
             uid: null,
             is_active: true,
+            priority: null,
             headerText: 'Create Variant',
             selectedTemplates: this.getInitialValue(),
             templateList: [],
@@ -388,6 +390,7 @@ export default {
             this.pageLoading = true;
             this.uid = this.$route.params.uid;
             this.headerText = 'Update Variant';
+            this.fetchVariant(this.uid);
         }
     },
     methods: {
@@ -460,6 +463,50 @@ export default {
                 })
                 .finally(() => {
                     this.pageLoading = true;
+                });
+        },
+        fetchVariant(uid) {
+            this.pageLoading = true;
+            this.pageError = false;
+            const reqBody = {
+                uid,
+                params: {}
+            };
+            this.$store
+                .dispatch(FETCH_VARIANTS, reqBody)
+                .then(({ items }) => {
+                    console.log(items);
+                    this.is_active = get(items, 'is_active', true);
+                    this.priority = get(items, 'priority', null);
+                    this.selectedTemplates = this.getInitialValue(
+                        get(items, 'templates', [])
+                    );
+                    this.selectedAttribute = this.getInitialValue(
+                        get(items, 'key', '')
+                    );
+                    this.name = this.getInitialValue(get(items, 'display', ''));
+                    this.selectedDisplayType = this.getInitialValue(
+                        get(items, 'display_type', [])
+                    );
+                    if (get(items, 'image_config', false)) {
+                        const imgConfig = items.image_config;
+                        this.image_config = this.getInitialImageConfig(
+                            get(imgConfig, 'min_height', 0),
+                            get(imgConfig, 'max_height', 0),
+                            get(imgConfig, 'min_width', 0),
+                            get(imgConfig, 'max_width', 0),
+                            get(imgConfig, 'max_size', 0),
+                            get(imgConfig, 'file_type', []),
+                            get(imgConfig, 'maintain_aspect_ratio', false)
+                        );
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+                .finally(() => {
+                    this.pageLoading = false;
+                    this.pageError = false;
                 });
         },
 
@@ -606,7 +653,7 @@ export default {
         getFormData() {
             let obj = {
                 is_active: this.is_active,
-                priority: null,
+                priority: this.priority,
                 templates: this.selectedTemplates.value,
                 key: this.selectedAttribute.value,
                 display: this.name.value,
@@ -623,6 +670,9 @@ export default {
                     maintain_aspect_ratio: this.image_config
                         .maintain_aspect_ratio.value
                 };
+            }
+            if (this.uid) {
+                obj.uid = this.uid;
             }
             return obj;
         },
