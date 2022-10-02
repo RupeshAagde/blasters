@@ -24,7 +24,8 @@ const getDefaultState = () => {
 }
 
 const actions = {
-    [FETCH_VARIANTS]({ commit }, params, uid) {
+    [FETCH_VARIANTS]({ commit }, req) {
+        const { params, uid } = req
         return CatalogService.fetchVariants(params, uid)
             .then((res) => {
                 // commit(SET_VARIANTS, res.data)

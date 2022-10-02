@@ -260,9 +260,12 @@ export default {
         },
         getVariants() {
             this.isLoading = true;
-            const params = this.getQueryParams();
+            const reqBody = {
+                params: this.getQueryParams(),
+                uid: null
+            };
             this.$store
-                .dispatch(FETCH_VARIANTS, params)
+                .dispatch(FETCH_VARIANTS, reqBody)
                 .then((res) => {
                     this.variantList = res.items;
                 })
