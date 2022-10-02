@@ -50,7 +50,7 @@
                         v-for="(temp, index) of selectedTemplates.value"
                         class="chips mr-s mt-s"
                     >
-                        {{ temp }}
+                        {{ formatDisplay(temp) }}
                         <nitrozen-inline
                             icon="cross"
                             class="pointer ml-xs"
@@ -304,7 +304,8 @@ import {
     FETCH_VARIANT_DISPLAY_TYPE,
     FETCH_TEMPLATES,
     FETCH_ATTRIBUTES,
-    FETCH_VARIANTS
+    FETCH_VARIANTS,
+    CREATE_EDIT_VARIANTS
 } from '@/store/action.type.js';
 import cloneDeep from 'lodash/cloneDeep';
 import {
@@ -475,7 +476,6 @@ export default {
             this.$store
                 .dispatch(FETCH_VARIANTS, reqBody)
                 .then(({ items }) => {
-                    console.log(items);
                     this.is_active = get(items, 'is_active', true);
                     this.priority = get(items, 'priority', null);
                     this.selectedTemplates = this.getInitialValue(
@@ -547,10 +547,11 @@ export default {
             this.$store
                 .dispatch(FETCH_ATTRIBUTES, params)
                 .then((res) => {
+                    if (res.error) {
+                        console.log('Error fetching attributes', res.err);
+                        return;
+                    }
                     this.attributeList = res;
-                })
-                .catch((err) => {
-                    console.log(err);
                 })
                 .finally(() => {
                     this.pageLoading = false;
@@ -558,10 +559,39 @@ export default {
         }, 500),
 
         save() {
+            this.pageLoading = true;
             let isValid = this.validateForm();
             if (isValid) {
                 let obj = this.getFormData();
-                // console.log(obj);
+                this.$store
+                    .dispatch(CREATE_EDIT_VARIANTS, obj)
+                    .then((res) => {
+                        if (res.error) {
+                            this.$snackbar.global.showError(
+                                get(
+                                    res,
+                                    'err.response.data.message',
+                                    'Failed to save'
+                                )
+                            );
+                            return;
+                        }
+
+                        this.$snackbar.global.showSuccess(
+                            `${
+                                this.uid
+                                    ? 'Updated variant successfully'
+                                    : 'Created variant successfully'
+                            }`
+                        );
+                        setTimeout(() => {}, 2000);
+                        this.$router.push({
+                            path: `/administrator/product/variants`
+                        });
+                    })
+                    .finally(() => {
+                        this.pageLoading = false;
+                    });
             } else {
                 this.$snackbar.global.showError(
                     'Please correct inputs displayed in red',
@@ -765,9 +795,11 @@ export default {
         changeOption(e) {
             this.image_config.maintain_aspect_ratio = e;
         },
-        getRadioDisplay(e) {
-            return e ? 'True' : 'False';
+        formatDisplay(val) {
+            const tempObj = this.templateList.find((ele) => ele.value == val);
+            return tempObj ? tempObj.text : val;
         },
+
         redirectToListing() {
             this.$router.push({ path: '/administrator/product/variants' });
         }

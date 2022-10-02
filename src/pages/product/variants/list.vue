@@ -149,6 +149,7 @@ import PageEmpty from '@/components/common/page-empty';
 import PageError from '@/components/common/page-error';
 import { debounce } from '@/helper/utils';
 import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
 import { FETCH_VARIANTS } from '@/store/action.type.js';
 import {
     NitrozenInput,
@@ -267,6 +268,16 @@ export default {
             this.$store
                 .dispatch(FETCH_VARIANTS, reqBody)
                 .then((res) => {
+                    if (res.error) {
+                        this.$snackbar.global.showError(
+                            get(
+                                res,
+                                'err.response.data.message',
+                                'Something went wrong'
+                            )
+                        );
+                        return
+                    }
                     this.variantList = res.items;
                 })
                 .catch((err) => {

@@ -1,5 +1,6 @@
 import {
     FETCH_VARIANTS,
+    CREATE_EDIT_VARIANTS,
     FETCH_VARIANT_DISPLAY_TYPE,
     FETCH_TEMPLATES,
     FETCH_ATTRIBUTES
@@ -31,8 +32,21 @@ const actions = {
                 // commit(SET_VARIANTS, res.data)
                 return res.data
             }).catch((err) => {
-                console.log(err)
+                return { error: true, err }
             })
+    },
+    [CREATE_EDIT_VARIANTS]({ commit }, req) {
+        let promise;
+        if (req.uid) {
+            promise = CatalogService.updateVariant(req)
+        } else {
+            promise = CatalogService.saveVariant(req)
+        }
+        return promise.then((res) => {
+            return res
+        }).catch((err) => {
+            return { error: true, err }
+        })
     },
     [FETCH_VARIANT_DISPLAY_TYPE]({ commit }, params) {
         return CatalogService.fetchChoices(params)
@@ -48,7 +62,7 @@ const actions = {
             })
             .catch((err) => {
                 return new Promise((resolve, reject) => {
-                    return reject(err)
+                    return reject({ error: true, err })
                 })
             });
 
@@ -81,7 +95,7 @@ const actions = {
             })
             .catch((err) => {
                 return new Promise((resolve, reject) => {
-                    return reject(err)
+                    return reject({ error: true, err })
                 })
             });
     },
@@ -98,20 +112,16 @@ const actions = {
                 return data
             })
             .catch((err) => {
-                console.log(err);
-
+                return { error: true, err }
             });
     }
 }
 
 const mutations = {
-
 }
 
 const getters = {
-
 }
-
 
 export function createVariantStore() {
     return {
