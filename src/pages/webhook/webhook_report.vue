@@ -1787,6 +1787,9 @@ export default {
                     ? this.filtersToshow['Event'].map((x) => this.eventMap[x])
                     : [];
             }
+            if(this.query_param['status']){
+                data['status']=this.query_param['status'];
+            }
             data["type"] = 'global'
             AdminWebhookService.downloadWebhookReport(data)
                 .then((res) => {
