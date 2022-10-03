@@ -364,7 +364,7 @@ export default {
             PageError: false,
             uid: null,
             is_active: true,
-            priority: null,
+            priority: 1,
             headerText: 'Create Variant',
             selectedTemplates: this.getInitialValue(),
             templateList: [],
@@ -477,7 +477,7 @@ export default {
                 .dispatch(FETCH_VARIANTS, reqBody)
                 .then(({ items }) => {
                     this.is_active = get(items, 'is_active', true);
-                    this.priority = get(items, 'priority', null);
+                    this.priority = get(items, 'priority', 1);
                     this.selectedTemplates = this.getInitialValue(
                         get(items, 'templates', [])
                     );
@@ -531,11 +531,13 @@ export default {
             let departments = [];
             this.selectedTemplates.value.forEach((temp) => {
                 if (this.temp_dep_set[temp]) {
-                    departments.push(this.temp_dep_set[temp]);
+                    departments = departments.concat(this.temp_dep_set[temp]);
                 }
             });
-            if (this.selectedTemplates.value.length > 0)
+            if (this.selectedTemplates.value.length > 0) {
+                departments = [...new Set(departments)];
                 this.getAttributes(departments);
+            }
         },
         getAttributes: debounce(function(dep) {
             this.pageLoading = true;

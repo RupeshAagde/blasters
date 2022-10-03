@@ -82,9 +82,9 @@ const actions = {
                             departments: ele.departments
                         })
                         if (temp_dep_set.hasOwnProperty(ele.slug)) {
-                            temp_dep_set[ele.slug] = temp_dep_set[ele.slug].concat(ele.slug)
+                            temp_dep_set[ele.slug] = temp_dep_set[ele.slug].concat(ele.departments)
                         } else {
-                            temp_dep_set[ele.slug] = ele.slug
+                            temp_dep_set[ele.slug] = ele.departments
                         }
 
                     }
