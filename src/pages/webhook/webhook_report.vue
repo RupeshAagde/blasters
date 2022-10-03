@@ -1790,7 +1790,7 @@ export default {
             if(this.query_param['status']){
                 data['status']=this.query_param['status'];
             }
-            data["type"] = 'global'
+            data["type"] = 'global' 
             AdminWebhookService.downloadWebhookReport(data)
                 .then((res) => {
                
