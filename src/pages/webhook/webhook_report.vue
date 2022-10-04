@@ -1398,6 +1398,7 @@ export default {
             } else {
                 this.selectedFilters = false;
             }
+            this.pageObject.current = 1;
             this.search(this.query_param);
         },
         populateDate() {
@@ -1409,6 +1410,7 @@ export default {
         },
         webhookInput: debounce(function (e) {
             this.query_param['search_text'] = e.search.trim();
+            this.pageObject.current = 1;
             this.search(this.query_param);
         }, 200),
         filterInputChange(filterName) {
