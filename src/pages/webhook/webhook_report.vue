@@ -1635,7 +1635,7 @@ export default {
             sessionStorage.setItem("data",JSON.stringify(data));
             sessionStorage.setItem("filtersSelected",JSON.stringify(this.filtersToshow));
             data['end_date']=moment()
-                .utc()
+                .utc() 
                 .format('YYYY-MM-DDTHH:mm:ss');
             this.fetchQueryFilter().then((res)=>{
             if (this.filtersToshow['Event']) {
