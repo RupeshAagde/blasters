@@ -39,11 +39,11 @@
             ></nitrozen-input>
             <div class="filter">
                 <nitrozen-dropdown
-                    :items="filter"
+                    :items="filteredTemplates"
                     v-model="selectedTemplate"
                     placeholder="template"
                     :searchable="true"
-                    @change="() => {}"
+                    @change="getVariants"
                     @searchInputChange="setTemplateList"
                 ></nitrozen-dropdown>
             </div>
@@ -51,7 +51,7 @@
                 <nitrozen-dropdown
                     :items="filter"
                     v-model="selectedFilter"
-                    @change="() => {}"
+                    @change="getVariants"
                 ></nitrozen-dropdown>
             </div>
         </div>
@@ -123,7 +123,7 @@
                 </div>
             </div>
             <page-empty v-else :text="'No department found'"></page-empty>
-            <div
+            <!-- <div
                 class="pagination"
                 v-if="variantList && variantList.length > 0"
             >
@@ -133,7 +133,7 @@
                     @change="paginationChange"
                     :pageSizeOptions="[5, 10, 20, 50]"
                 ></nitrozen-pagination>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -150,7 +150,8 @@ import PageError from '@/components/common/page-error';
 import { debounce } from '@/helper/utils';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
-import { FETCH_VARIANTS } from '@/store/action.type.js';
+import sortBy from 'lodash/sortBy';
+import { FETCH_VARIANTS, FETCH_TEMPLATES } from '@/store/action.type.js';
 import {
     NitrozenInput,
     NitrozenDropdown,
@@ -164,7 +165,7 @@ import {
 const PAGINATION = {
     total: 0,
     current: 1,
-    limit: 50
+    limit: 999
 };
 const FILTER = [
     { value: 'all', text: 'All Stage' },
@@ -203,6 +204,7 @@ export default {
         };
     },
     mounted() {
+        this.getTemplates();
         this.getVariants();
     },
     methods: {
@@ -235,19 +237,53 @@ export default {
             this.pagination = { ...PAGINATION };
             this.getVariants();
         }, 500),
+        getTemplates() {
+            const reqBody = {
+                page_no: 1,
+                page_size: 9999,
+                sort: 'created_desc'
+            };
+            this.$store
+                .dispatch(FETCH_TEMPLATES, reqBody)
+                .then((res) => {
+                    if (res.error) {
+                        this.$snackbar.global.showError(
+                            get(
+                                res,
+                                'err.response.data.message',
+                                'Unable to fetch templates'
+                            )
+                        );
+                        return;
+                    }
+
+                    this.templateList = sortBy(res.temp, [
+                        (t) => {
+                            return t.text;
+                        }
+                    ]);
+                    this.filteredTemplates = cloneDeep(this.templateList);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         setTemplateList(e) {
-            if (!e) {
+            this.filteredTemplates = [];
+            if (!e || !e.text) {
                 this.filteredTemplates = cloneDeep(this.templateList);
+                this.selectedTemplate = '';
+                this.getVariants();
                 return;
             }
             this.templateList.forEach((temp) => {
                 if (
                     !e ||
                     !e.text ||
-                    temp.name.toLowerCase().includes(e.text.toLowerCase())
+                    temp.text.toLowerCase().includes(e.text.toLowerCase())
                 ) {
-                    this.searchBrandList.push({
-                        text: temp.name,
+                    this.filteredTemplates.push({
+                        text: temp.text,
                         value: temp.uid
                     });
                 }
@@ -276,7 +312,7 @@ export default {
                                 'Something went wrong'
                             )
                         );
-                        return
+                        return;
                     }
                     this.variantList = res.items;
                 })
