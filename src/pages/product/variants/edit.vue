@@ -382,7 +382,7 @@ export default {
     },
     computed: {
         isSwatchSSelected() {
-            return this.selectedDisplayType.value.includes('color');
+            return this.selectedDisplayType.value.includes('swatch_image');
         }
     },
     mounted() {
@@ -500,6 +500,7 @@ export default {
                             get(imgConfig, 'maintain_aspect_ratio', false)
                         );
                     }
+                    this.getCurrentDep();
                 })
                 .catch((err) => {
                     console.log(err);
