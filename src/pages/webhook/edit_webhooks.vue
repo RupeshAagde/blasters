@@ -78,10 +78,21 @@
                     </div>
                     <div>
                         <div>
-                            <nitrozen-input class="inputs url-webhook" :autofocus="true" @focusout="isFormValid"
-                                :showTooltip="true" :tooltipText="'Name- Title of subscriber.'" :label="'Name*'"
-                                :type="'text'" v-model="name" maxlength="30">
+                            <nitrozen-input :class="[
+                                specialChar
+                                    ? 'inputs '
+                                    : 'inputs url-webhook',
+                            ]" @focusout="isFormValid" :autofocus="true" :showTooltip="true"
+                                :tooltipText="'Name- Title of subscriber.'" :label="'Name*'" :type="'text'"
+                                v-model="name" maxlength="30" @keypress="onlyString($event)">
                             </nitrozen-input>
+                            <nitrozen-error :class="[
+                                specialChar
+                                    ? 'visibility-visible url-webhook'
+                                    : 'visibility-hidden',
+                                'error',
+                            ]">{{ 'special characters are not allowed' }}
+                            </nitrozen-error>
                             <nitrozen-error :class="[
                                 false
                                     ? 'visibility-visible url-webhook'
@@ -1696,6 +1707,7 @@ export default {
             alertIcon: svg['alert-icon'],
             selectedVersionValue: {},
             selectedVersionObject: {},
+            specialChar: false
         };
     },
     mounted() {
@@ -2430,6 +2442,14 @@ export default {
         },
         closeTestDialog: function () {
             this.$refs['test_status_dialog'].close();
+        },
+        onlyString(e) {
+            if (/^\W$/.test(e.key) && e.key != ' ' && e.key != '-') {
+                e.preventDefault();
+                this.specialChar = true;
+            } else {
+                this.specialChar = false;
+            }
         },
     },
 };
