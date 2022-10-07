@@ -41,7 +41,7 @@
                         <nitrozen-input
                             label="Meta Title *"
                             placeholder="Enter Platform Meta Title"
-                            v-model="metaTitle.value"
+                            v-model.trim="metaTitle.value"
                         ></nitrozen-input>
                         <nitrozen-error v-if="metaTitle.showerror">
                             {{ metaTitle.errortext }}
@@ -55,7 +55,7 @@
                             label="Meta Description *"
                             type="textarea"
                             placeholder="Enter Platform Meta Description"
-                            v-model="metaDescription.value"
+                            v-model.trim="metaDescription.value"
                         ></nitrozen-input>
                         <nitrozen-error v-if="metaDescription.showerror">
                             {{ metaDescription.errortext }}
