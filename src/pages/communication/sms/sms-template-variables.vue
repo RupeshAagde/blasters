@@ -995,6 +995,9 @@ export default {
                 this.messagePreviewError = '';
                 this.messagePreview = this.urlify(template);
             }
+            if(this.data.message.template.value.length > 100){
+                this.data.message.template.value = this.data.message.template.value.substr(0,100)
+            }
         },
         getPrimaryVerifiedActivePhoneNumber() {
             return this.userData.user.phone_numbers

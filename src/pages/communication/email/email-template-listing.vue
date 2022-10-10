@@ -267,8 +267,8 @@ export default {
         },
         getTemplatesBasedOnFilter() {
             if (this.selectedFilter == 'all') {
-                this.setPagination();
                 this.fetchEmailTemplates().then(() => {
+                    this.setPagination();
                     this.mapEmailTemplates();
                     return this.emailTemplates;
                 });
@@ -300,11 +300,17 @@ export default {
             }
         },
         setPagination() {
-            // this.pagination = {
-            //     limit: this.emailTemplatesStore.page.size,
-            //     total: this.emailTemplatesStore.page.item_total,
-            //     current: this.emailTemplatesStore.page.current
-            // };
+            this.selectedFilter == 'all' ? this.pagination = {
+                 limit: this.emailTemplatesStore.page.size,
+                 total: this.emailTemplatesStore.page.item_total,
+                 current: this.emailTemplatesStore.page.current
+            }
+            :
+            this.pagination = {
+                limit: this.emailTemplatesStore.limit,
+                total: this.emailTemplatesStore.total,
+                current: this.emailTemplatesStore.page
+            }
             // this.$router.replace({
             //     name: 'email-listing',
             //     query: {
@@ -373,7 +379,6 @@ export default {
                 })
                 .then(data => {
                     this.emailTemplatesStore = data.data
-                    console.log("p1",this.emailTemplatesStore);
                     this.pageLoading = false;
                     this.pageError = false;
                     //return data;

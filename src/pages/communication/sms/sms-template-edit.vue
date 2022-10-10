@@ -11,6 +11,7 @@
                             v-model="data.name.value"
                             :label="'Title *'"
                             :disabled="systemDisableEdit"
+                            v-on:keyup="trimTitleBy100"
                         >
                         </nitrozen-input>
                         <nitrozen-error v-if="data.name.showerror"
@@ -817,6 +818,11 @@ export default {
         trimLengthMoreThan100(){
             if(this.data.description.value.length>100){
                 this.data.description.value=String(this.data.description.value).substr(0,100);
+            }
+        },
+        trimTitleBy100(){
+            if(this.data.name.value.length > 100){
+                this.data.name.value = this.data.name.value.substr(0,100);
             }
         },
         validate() {

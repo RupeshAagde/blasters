@@ -375,7 +375,7 @@ export default {
         //     }
         // },
         changeType() {
-            if (this.filters.type == 'email' || this.filters.type == 'phone') {
+            if (this.filters.type == 'email' || this.filters.type == 'phone' || this.filters.type == 'identifier') {
                 this.filters.plainTextSearch = '';
                 this.emailphoneErr.showerror = false;
             }
@@ -875,7 +875,7 @@ export default {
     }
 }
 /deep/.nitrozen-pagination__left {
-    visibility: hidden;
+    //visibility: hidden;
 }
 .date-container {
     @media @mobile {
