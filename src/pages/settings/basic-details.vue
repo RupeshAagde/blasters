@@ -36,6 +36,33 @@
                     </div>
                 </div>
                 <div class="input-row">
+                    <!-- Meta Title -->
+                    <div class="input-field">
+                        <nitrozen-input
+                            label="Meta Title *"
+                            placeholder="Enter Platform Meta Title"
+                            v-model.trim="metaTitle.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="metaTitle.showerror">
+                            {{ metaTitle.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <!-- Meta Description -->
+                    <div class="input-field">
+                        <nitrozen-input
+                            label="Meta Description *"
+                            type="textarea"
+                            placeholder="Enter Platform Meta Description"
+                            v-model.trim="metaDescription.value"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="metaDescription.showerror">
+                            {{ metaDescription.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+                <div class="input-row">
                     <!-- Logo -->
                     <div class="input-field">
                         <!-- <div class="n-input-label">Logo *</div> -->
@@ -354,6 +381,8 @@ export default {
             pristineData: null,
 
             title: this.getInitialValue(''),
+            metaTitle: this.getInitialValue(''),
+            metaDescription: this.getInitialValue(''),
             logo: this.getInitialValue(''),
             favicon: this.getInitialValue(''),
             authDescription: this.getInitialValue(''),
@@ -390,6 +419,8 @@ export default {
                     this.basicSettings = data;
 
                     this.title.value = this.basicSettings.title;
+                    this.metaTitle.value = this.basicSettings.meta_title;
+                    this.metaDescription.value = this.basicSettings.meta_description;
                     this.logo.value = this.basicSettings.logo_url;
                     this.favicon.value = this.basicSettings.favicon_url;
                     this.whats_new = this.basicSettings.whats_new;
@@ -444,6 +475,8 @@ export default {
                 logo_url: this.logo.value,
                 favicon_url: this.favicon.value,
                 title: this.title.value,
+                meta_title: this.metaTitle.value,
+                meta_description: this.metaDescription.value,
                 whats_new: this.basicSettings.whats_new.filter(
                     (wnew) => wnew.description != ''
                 ),
@@ -463,6 +496,8 @@ export default {
         checkEmpty(key) {
             const emptyErorrs = {
                 title: 'Title is required',
+                metaTitle: "Meta Title is required",
+                metaDescription: "Meta Description is required",
                 logo: 'Logo is required',
                 favicon: 'Favicon is required',
                 authDescription: 'Description is required',
@@ -494,12 +529,16 @@ export default {
         },
         cleanErrors() {
             this.title.showerror = false;
+            this.metaTitle.showerror = false;
+            this.metaDescription.showerror = false;
             this.logo.showerror = false;
             this.favicon.showerror = false;
         },
         validate() {
             let formValid = true;
             formValid = this.checkEmpty('title') && formValid;
+            formValid = this.checkEmpty('metaTitle') && formValid;
+            formValid = this.checkEmpty('metaDescription') && formValid;
             formValid = this.checkEmpty('logo') && formValid;
             formValid = this.checkEmpty('favicon') && formValid;
             formValid = this.checkEmpty('authDescription') && formValid;
