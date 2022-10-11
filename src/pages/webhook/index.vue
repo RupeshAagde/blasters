@@ -2156,7 +2156,7 @@ export default {
             this.$refs['test_status_dialog'].close();
         },
         checkSpecialChar(e) {
-            if (/^\W$/.test(e.key) && e.key != ' ' && e.key != '-') {
+            if (/^\W$/.test(e.key) && (e.key === ',' || e.key === "\"")) {
                 e.preventDefault();
                 this.specialChar = true;
             } else {
