@@ -85,7 +85,6 @@ export default {
         import('grapesjs')
             .then(res => {
                 grapesjs = res;
-                import('grapesjs-preset-webpage')
                 return import('grapesjs-preset-newsletter');
             })
             .then(() => {
@@ -131,25 +130,25 @@ export default {
                         // stepsBeforeSave: 1 // If autosave enabled, indicates how many changes are necessary before store method is triggered
                     }
                 });
-                //this.editor.render();
-                //this.editor.on('load', () => {
-                //    this.editorLoaded = true;
-                //
-                //    const panelManager = this.editor.Panels;
-                //    panelManager.addButton({
-                //        id: 'options',
-                //        buttons: [
-                //            {
-                //                id: 'preview',
-                //                className: 'fa fa-eye',
-                //                command: 'preview',
-                //                context: 'preview',
-                //                attributes: { title: 'Preview' }
-                //            }
-                //        ]
-                //    });
-                //     this.editor.setComponents(this.html)
-                //}); // todo emit event
+                this.editor.render();
+                this.editor.on('load', () => {
+                    this.editorLoaded = true;
+
+                    const panelManager = this.editor.Panels;
+                    panelManager.addButton({
+                        id: 'options',
+                        buttons: [
+                            {
+                                id: 'preview',
+                                className: 'fa fa-eye',
+                                command: 'preview',
+                                context: 'preview',
+                                attributes: { title: 'Preview' }
+                            }
+                        ]
+                    });
+                    // this.editor.setComponents(this.html)
+                }); // todo emit event
                 this.loading = false;
             })
             .catch(err => {

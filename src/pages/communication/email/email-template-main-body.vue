@@ -1469,9 +1469,6 @@ ${template}
                 this.subjectPreviewError = '';
                 this.subjectPreview = template;
             }
-            if(this.data.subject.template.value.length > 100){
-                this.data.subject.template.value = this.data.subject.template.value.substr(0,100)
-            }
         },
         getPrimaryVerifiedActivePhoneNumber() {
             return this.userData.user.phone_numbers

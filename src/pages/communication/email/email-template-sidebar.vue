@@ -36,7 +36,6 @@
                             :type="'textarea'"
                             class="form-field"
                             :placeholder="'Enter description'"
-                            v-on:keyup="trimLengthBy100"
                         >
                         </nitrozen-input>
                         <nitrozen-error v-if="data.description.showerror"
@@ -804,11 +803,6 @@ appSubscriptions: {}
                 );
             } else {
                 this.subscriptionsFiltered = this.subscriptions;
-            }
-        },
-        trimLengthBy100(){
-            if(this.data.description.value.length > 100){
-                this.data.description.value = this.data.description.value.substr(0,100)
             }
         },
         validate() {
