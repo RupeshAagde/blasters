@@ -258,6 +258,53 @@
                         :align="2"
                     ></radio-group>
                 </div>
+                <div
+                    class="input-row mt-l"
+                    v-if="
+                        image_config.maintain_aspect_ratio &&
+                            image_config.maintain_aspect_ratio.value
+                    "
+                >
+                    <!-- aspect ratio width -->
+                    <div class="row-item">
+                        <nitrozen-input
+                            label="Width for aspect ratio *"
+                            placeholder=""
+                            type="number"
+                            v-model="image_config.arWidthV.value"
+                            @input="
+                                checkValidValue(
+                                    'arWidthV',
+                                    allowedValue.arMin,
+                                    allowedValue.arMax
+                                )
+                            "
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="image_config.arWidthV.showerror"
+                            >{{ image_config.arWidthV.errortext }}
+                        </nitrozen-error>
+                    </div>
+
+                    <!--height for aspect ratio -->
+                    <div class="row-item">
+                        <nitrozen-input
+                            label="Height for aspect ratio *"
+                            placeholder=""
+                            type="number"
+                            v-model="image_config.arHeightV.value"
+                            @input="
+                                checkValidValue(
+                                    'arHeightV',
+                                    allowedValue.arMin,
+                                    allowedValue.arMax
+                                )
+                            "
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="image_config.arHeightV.showerror"
+                            >{{ image_config.arHeightV.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -294,7 +341,7 @@
 </style>
 <script>
 import loader from '@/components/common/loader';
-import { debounce } from '@/helper/utils';
+import { debounce, getAspectRatioFromString } from '@/helper/utils';
 import get from 'lodash/get';
 import Shimmer from '@/components/common/shimmer';
 import PageHeader from '@/components/common/layout/page-header';
@@ -333,7 +380,10 @@ const ALLOWED_VALUE = {
     wMax: 2040,
 
     fsMin: 1,
-    fsMax: 10
+    fsMax: 10,
+
+    arMin: 1,
+    arMax: 100
 };
 
 export default {
@@ -408,7 +458,9 @@ export default {
             maxW = 0,
             maxS = 0,
             fileT = [],
-            mAR = false
+            mAR = false,
+            arWidthV = 1,
+            arHeightV = 1
         ) {
             return {
                 min_height: this.getInitialValue(minH),
@@ -420,7 +472,9 @@ export default {
                 maintain_aspect_ratio: {
                     display: mAR ? 'True' : 'False',
                     value: mAR
-                }
+                },
+                arWidthV: this.getInitialValue(arWidthV),
+                arHeightV: this.getInitialValue(arHeightV)
             };
         },
         init() {
@@ -489,6 +543,13 @@ export default {
                     );
                     if (get(items, 'image_config', false)) {
                         const imgConfig = items.image_config;
+                        /**check if aspect ratio is enabled, if then extract aspect ratio value */
+                        let arObject = {};
+                        if (imgConfig.maintain_aspect_ratio) {
+                            arObject = getAspectRatioFromString(
+                                get(imgConfig, 'aspect_ratio', '1:1')
+                            );
+                        }
                         this.image_config = this.getInitialImageConfig(
                             get(imgConfig, 'min_height', 0),
                             get(imgConfig, 'max_height', 0),
@@ -496,7 +557,9 @@ export default {
                             get(imgConfig, 'max_width', 0),
                             get(imgConfig, 'max_size', 0),
                             get(imgConfig, 'file_type', []),
-                            get(imgConfig, 'maintain_aspect_ratio', false)
+                            get(imgConfig, 'maintain_aspect_ratio', false),
+                            arObject.width,
+                            arObject.height
                         );
                     }
                     this.getCurrentDep();
@@ -667,6 +730,20 @@ export default {
                         this.image_config.file_type,
                         'file type'
                     ) && isValid;
+                if (this.image_config.maintain_aspect_ratio) {
+                    isValid =
+                        this.checkValidValue(
+                            'arWidthV',
+                            this.allowedValue.arMin,
+                            this.allowedValue.arMax
+                        ) && isValid;
+                    isValid =
+                        this.checkValidValue(
+                            'arHeightV',
+                            this.allowedValue.arMin,
+                            this.allowedValue.arMax
+                        ) && isValid;
+                }
             }
 
             isValid =
@@ -702,6 +779,15 @@ export default {
                     maintain_aspect_ratio: this.image_config
                         .maintain_aspect_ratio.value
                 };
+            }
+            if (
+                this.isSwatchSSelected &&
+                this.image_config.maintain_aspect_ratio.value
+            ) {
+                obj.image_config.aspect_ratio = getAspectRatioFromString(
+                    `${this.image_config.arWidthV.value}: ${this.image_config.arHeightV.value}`,
+                    false
+                );
             }
             if (this.uid) {
                 obj.uid = this.uid;
