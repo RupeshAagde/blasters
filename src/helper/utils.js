@@ -623,7 +623,14 @@ export const getAspectRatioFromString = function (aspectRatio = '1:1', getObject
     } catch (e) {
         console.log('Error', e)
         // throwing default aspect ratio
-        return { width: 1, height: 1 }
+        if (getObject){
+            return {
+                width: 1,
+                height: 1
+            }
+        } else {
+            return `1:1`
+        }
     }
     function gcd(a,b){
         if (b==0){
