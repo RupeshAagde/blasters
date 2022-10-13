@@ -192,6 +192,7 @@ export default {
                     this.isDataLoaded=true;
                 })
             }
+            this.isCloneMode = true
         }
         else{
             this.isDataLoaded=true;

@@ -416,18 +416,18 @@ export default {
             }
         );
     },
-    // updated() {
+    updated() {
     //     this.$router.replace({
     //         name: 'email-listing',
     //         query: { ...this.$route.query }
     //     }).catch(() => {});
-    //     if (this.$refs['previewbody']) {
-    //         let iframe = this.$refs['previewbody'];
-    //         var iframedoc =
-    //             iframe.contentDocument || iframe.contentWindow.document;
-    //         iframedoc.body.innerHTML = this.messagePreview;
-    //     }
-    // },
+         if (this.$refs['previewbody']) {
+             let iframe = this.$refs['previewbody'];
+             var iframedoc =
+                 iframe.contentDocument || iframe.contentWindow.document;
+             iframedoc.body.innerHTML = this.messagePreview;
+         }
+     },
     methods: {
         fetchEventsOrder() {
             return CommunicationServices.getEventsOrder().then(({ data }) => {

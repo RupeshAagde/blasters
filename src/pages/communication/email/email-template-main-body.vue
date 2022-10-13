@@ -1396,13 +1396,11 @@ ${template}
             if (id) {
                 return adminCommsService
                     .getEventSubscription({
-                        params: {
                             limit: 200,
                             page: 1,
                             query: JSON.stringify({
                                 'template.email.template': id
                             })
-                        }
                     })
                     .then(res => res.data)
                     .then(data => {
