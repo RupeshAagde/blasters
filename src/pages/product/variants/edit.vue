@@ -322,19 +322,18 @@ import {
 } from '@gofynd/nitrozen-vue';
 const FILE_TYPE = [
     { text: 'PNG', value: 'png' },
-    { text: 'JPEG', value: 'jpeg' },
-    { text: 'PDF', value: 'pdf' }
+    { text: 'JPEG', value: 'jpeg' }
 ];
 
 const ALLOWED_VALUE = {
     hMin: 1,
-    hMax: 1000,
+    hMax: 2040,
 
     wMin: 1,
-    wMax: 1000,
+    wMax: 2040,
 
     fsMin: 1,
-    fsMax: 20
+    fsMax: 10
 };
 
 export default {
@@ -722,7 +721,7 @@ export default {
             const enteredMax = parseInt(this.image_config[key2].value);
             const validMin = range1 <= enteredMin && enteredMin <= range2;
             const validMax = range1 <= enteredMax && enteredMax <= range2;
-            if (validMin && validMax && enteredMin >= enteredMax) {
+            if (validMin && validMax && enteredMin > enteredMax) {
                 this.image_config[key1].showerror = true;
                 this.image_config[key2].showerror = true;
                 this.image_config[key1].errortext =
