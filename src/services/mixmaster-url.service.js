@@ -90,6 +90,12 @@ const URLS = {
     GET_WEBHOOK_REPORT: () => {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/reports/event_processed`);
     },
+    DOWNLOAD_WEBHOOK_REPORT: () => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/reports/download`);
+    },
+    CHECK_STATUS_WEBHOOK_REPORT: (fileName) => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/reports/download/file/${fileName}`);
+    },
     REGISTER_SUBSCRIBERS: () => {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscriber`);
     },
