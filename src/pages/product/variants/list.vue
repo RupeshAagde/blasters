@@ -33,7 +33,7 @@
                 :showSearchIcon="true"
                 class="search"
                 type="search"
-                placeholder="Search by name..."
+                placeholder="Search by name"
                 v-model="searchText"
                 @input="debounceInput"
             ></nitrozen-input>
@@ -100,11 +100,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-content-line-3">
+                        <div class="card-content-line-3" v-if="item.templates">
                             <span class="label">Templates</span>
-                            <div v-if="item.departments" class="label-data">
+                            <div class="label-data">
                                 <span
-                                    v-for="(dep, ind) of item.departments"
+                                    v-for="(dep, ind) of item.templates"
                                     class="chips mr-s"
                                 >
                                     {{ dep }}

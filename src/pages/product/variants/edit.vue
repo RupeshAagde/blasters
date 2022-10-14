@@ -27,12 +27,16 @@
         <div class="v-edit-page">
             <div class="template-box">
                 <div>
+                    <div class="custom-label">
+                        <span class="custom-label-text "
+                            >Choose Template *
+                        </span>
+                    </div>
                     <nitrozen-dropdown
                         :label="'Template'"
                         class="filter-dropdown"
                         :multiple="true"
                         :searchable="true"
-                        :required="true"
                         :items="filteredTemplateList"
                         placeholder="select templates"
                         v-model="selectedTemplates.value"
@@ -61,9 +65,11 @@
             </div>
             <div class="input-row mt-l">
                 <div class="row-item">
+                    <div class="custom-label">
+                        <span class="custom-label-text ">Attribute * </span>
+                    </div>
                     <nitrozen-dropdown
                         :label="'Attribute'"
-                        :required="true"
                         class="filter-dropdown"
                         :disabled="
                             !selectedTemplates.value.length ||
@@ -78,6 +84,14 @@
                     </nitrozen-error>
                 </div>
                 <div class="row-item">
+                    <div class="custom-label">
+                        <span class="custom-label-text ">Display Name * </span>
+                        <nitrozen-tooltip
+                            icon="help"
+                            :position="'top'"
+                            tooltipText="Name shown to the sellers while adding a variant type in the seller panel."
+                        ></nitrozen-tooltip>
+                    </div>
                     <nitrozen-input
                         label="Display Name *"
                         placeholder="Give a name to the variant"
@@ -91,12 +105,21 @@
             </div>
 
             <div class="mt-l">
+                <div class="custom-label">
+                    <span class="custom-label-text "
+                        >Choose Display Type *
+                    </span>
+                    <nitrozen-tooltip
+                        icon="help"
+                        :position="'top'"
+                        tooltipText="Note: The display type you select here will be visible to the sellers in variant configuration of application"
+                    ></nitrozen-tooltip>
+                </div>
                 <nitrozen-dropdown
                     :label="'Display type '"
                     class="filter-dropdown"
                     :searchable="true"
                     :multiple="true"
-                    :required="true"
                     :items="displayTypeList"
                     placeholder="Select display type"
                     v-model="selectedDisplayType.value"
@@ -114,9 +137,13 @@
                 <div class="input-row mt-l">
                     <!-- minimum height -->
                     <div class="row-item">
+                        <div class="custom-label">
+                            <span class="custom-label-text "
+                                >Minimum Height *
+                            </span>
+                        </div>
                         <nitrozen-input
-                            label="Minimum Height *"
-                            placeholder=""
+                            placeholder="enter the minimum height"
                             type="number"
                             v-model="image_config.min_height.value"
                             @input="
@@ -136,8 +163,12 @@
 
                     <!-- minimum width -->
                     <div class="row-item">
+                        <div class="custom-label">
+                            <span class="custom-label-text "
+                                >Minimum Width *
+                            </span>
+                        </div>
                         <nitrozen-input
-                            label="Minimum Width *"
                             placeholder=""
                             type="number"
                             v-model="image_config.min_width.value"
@@ -160,8 +191,12 @@
                 <div class="input-row mt-l">
                     <!-- maximum height -->
                     <div class="row-item">
+                        <div class="custom-label">
+                            <span class="custom-label-text "
+                                >Maximum Height *
+                            </span>
+                        </div>
                         <nitrozen-input
-                            label="Maximum Height *"
                             placeholder=""
                             type="number"
                             v-model="image_config.max_height.value"
@@ -182,6 +217,11 @@
 
                     <!-- maximum width -->
                     <div class="row-item">
+                        <div class="custom-label">
+                            <span class="custom-label-text "
+                                >Maximum Width *
+                            </span>
+                        </div>
                         <nitrozen-input
                             label="Maximum Width *"
                             placeholder=""
@@ -206,8 +246,12 @@
                 <div class="input-row mt-l">
                     <!-- maximum file size -->
                     <div class="row-item">
+                        <div class="custom-label">
+                            <span class="custom-label-text "
+                                >Maximum File Size *
+                            </span>
+                        </div>
                         <nitrozen-input
-                            label="Maximum File Size *"
                             placeholder=""
                             type="number"
                             v-model="image_config.max_size.value"
@@ -228,11 +272,13 @@
 
                     <!-- file type selection -->
                     <div class="row-item">
+                        <div class="custom-label">
+                            <span class="custom-label-text ">File Type * </span>
+                        </div>
                         <nitrozen-dropdown
-                            label="File Type "
+                            label="File Type *"
                             placeholder="select file type"
                             :required="true"
-                            :searchable="true"
                             :multiple="true"
                             :items="fileTypeList"
                             v-model="image_config.file_type.value"
@@ -267,8 +313,12 @@
                 >
                     <!-- aspect ratio width -->
                     <div class="row-item">
+                        <div class="custom-label">
+                            <span class="custom-label-text "
+                                >Width For Aspect Ratio *
+                            </span>
+                        </div>
                         <nitrozen-input
-                            label="Width for aspect ratio *"
                             placeholder=""
                             type="number"
                             v-model="image_config.arWidthV.value"
@@ -287,6 +337,11 @@
 
                     <!--height for aspect ratio -->
                     <div class="row-item">
+                        <div class="custom-label">
+                            <span class="custom-label-text "
+                                >Height For Aspect Ratio *
+                            </span>
+                        </div>
                         <nitrozen-input
                             label="Height for aspect ratio *"
                             placeholder=""
@@ -338,6 +393,35 @@
         opacity: 1;
     }
 }
+.custom-label {
+    display: flex;
+    align-items: center;
+    height: 27px;
+    .custom-label-text {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 17px;
+        letter-spacing: 0px;
+        color: @DustyGray2;
+    }
+}
+::v-deep .v-edit-page {
+    .nitrozen-dropdown-label {
+        display: none !important;
+    }
+    .n-input-label-container {
+        display: none !important;
+    }
+    .nitrozen-tooltiptext {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 19px;
+        text-align: left;
+        background-color: #3D3D3D;
+        color: @White;
+        width: 306px;
+    }
+}
 </style>
 <script>
 import loader from '@/components/common/loader';
@@ -365,7 +449,8 @@ import {
     NitrozenInline,
     NitrozenInput,
     NitrozenToggleBtn,
-    strokeBtn
+    strokeBtn,
+    NitrozenTooltip
 } from '@gofynd/nitrozen-vue';
 const FILE_TYPE = [
     { text: 'PNG', value: 'png' },
@@ -401,6 +486,7 @@ export default {
         NitrozenInline,
         NitrozenBadge,
         NitrozenToggleBtn,
+        NitrozenTooltip,
         RadioGroup
     },
     directives: {
