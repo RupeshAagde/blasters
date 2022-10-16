@@ -650,9 +650,6 @@ export default {
                     }
                     this.getCurrentDep();
                 })
-                .catch((err) => {
-                    console.log(err);
-                })
                 .finally(() => {
                     this.pageLoading = false;
                     this.pageError = false;

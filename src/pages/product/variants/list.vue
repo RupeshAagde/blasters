@@ -16,6 +16,7 @@
                     Group & Sequence</nitrozen-button
                 >
                 <nitrozen-button
+                    id="create-btn"
                     theme="secondary"
                     v-flatBtn
                     @click="editVariant()"
@@ -243,30 +244,25 @@ export default {
                 page_size: 9999,
                 sort: 'created_desc'
             };
-            this.$store
-                .dispatch(FETCH_TEMPLATES, reqBody)
-                .then((res) => {
-                    if (res.error) {
-                        this.$snackbar.global.showError(
-                            get(
-                                res,
-                                'err.response.data.message',
-                                'Unable to fetch templates'
-                            )
-                        );
-                        return;
-                    }
+            this.$store.dispatch(FETCH_TEMPLATES, reqBody).then((res) => {
+                if (res.error) {
+                    this.$snackbar.global.showError(
+                        get(
+                            res,
+                            'err.response.data.message',
+                            'Unable to fetch templates'
+                        )
+                    );
+                    return;
+                }
 
-                    this.templateList = sortBy(res.temp, [
-                        (t) => {
-                            return t.text;
-                        }
-                    ]);
-                    this.filteredTemplates = cloneDeep(this.templateList);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+                this.templateList = sortBy(res.temp, [
+                    (t) => {
+                        return t.text;
+                    }
+                ]);
+                this.filteredTemplates = cloneDeep(this.templateList);
+            });
         },
         setTemplateList(e) {
             this.filteredTemplates = [];
@@ -289,12 +285,12 @@ export default {
                 }
             });
         },
-        paginationChange(filter) {
-            const { current, limit } = filter;
-            this.pagination.current = current;
-            this.pagination.limit = limit;
-            this.getVariants();
-        },
+        // paginationChange(filter) {
+        //     const { current, limit } = filter;
+        //     this.pagination.current = current;
+        //     this.pagination.limit = limit;
+        //     this.getVariants();
+        // },
         getVariants() {
             this.isLoading = true;
             const reqBody = {
@@ -315,9 +311,6 @@ export default {
                         return;
                     }
                     this.variantList = res.items;
-                })
-                .catch((err) => {
-                    console.log(err);
                 })
                 .finally(() => {
                     this.isLoading = false;
