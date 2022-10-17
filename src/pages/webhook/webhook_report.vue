@@ -838,6 +838,7 @@ input {
 }
 
 .page-container {
+    margin: 0px !important;
     display: flex;
     flex-direction: column;
 
@@ -1151,37 +1152,35 @@ import admInlineSvg from '@/components/common/adm-inline-svg.vue';
 import admjumbotron from '@/components/common/jumbotron';
 import SamlProvider from '@/components/settings/saml-provider';
 import {dateRangeShortcuts} from '@/helper/datetime.util';
-import admpageheader from '@/components/common/layout/adm-page-header';
+import admpageheader from '@/components/common/layout/page-header';
 import path from 'path';
 import moment from 'moment';
 import {TreeView} from 'vue-json-tree-view';
 import {
-  flatBtn,
-  NitrozenBadge,
-  NitrozenButton,
-  NitrozenCheckBox,
-  NitrozenDialog,
-  NitrozenDropdown,
-  NitrozenError,
-  NitrozenInput,
-  NitrozenPagination,
-  NitrozenToggleBtn,
-  NitrozenTooltip,
-  strokeBtn,
+    flatBtn,
+    NitrozenBadge,
+    NitrozenButton,
+    NitrozenCheckBox,
+    NitrozenDialog,
+    NitrozenDropdown,
+    NitrozenError,
+    NitrozenInput,
+    NitrozenPagination,
+    NitrozenToggleBtn,
+    NitrozenTooltip,
+    strokeBtn,
 } from '@gofynd/nitrozen-vue';
 import {mapGetters} from 'vuex';
+import root from 'window-or-global';
 import {copyToClipboard, debounce} from '@/helper/utils';
 import AdminWebhookService from '@/services/admin-webhook.service';
 import datePicker from '@/components/common/date-picker.vue';
 import admnocontent from '@/components/common/adm-no-content';
-import uktInlineSvg from '@/components/common/ukt-inline-svg.vue'
-import exportDialogBox from '@/components/common/export/exportDialog.vue';
-
-
-import {EXPORT_REPORTS_TEXT, FAILED_REPORTS_TEXT} from "@/components/common/export/exportDialog-constant"
-// import {DownloaderHelper} from "node-downloader-helper";
-// const d1 = new DownloaderHelper(ADMIN_URLS.CHECK_WEBHOOK_REPORT(fileName), '/temp');
+import uktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import exportDialog from '@/components/common/export-dialog.vue';
+import {FAILED_REPORTS_TEXT, EXPORT_REPORTS_TEXT } from "@/components/common/export/exportDialog-constant.js";
+import exportDialogBox from '@/components/common/export/exportDialog.vue';
+const env = root.env || {};
 import {ADMIN_SET_SUBSCRIBER_ID_MAP} from "@/store/action.type";
 
 const extraDateRange = [
