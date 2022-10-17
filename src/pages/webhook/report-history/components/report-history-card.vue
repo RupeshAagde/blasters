@@ -11,7 +11,7 @@
             <adm-inline-svg src="copy"></adm-inline-svg>
           </div>
           <div @click="onDownload" class="clickable">
-            <adm-inline-svg src="download"></adm-inline-svg>
+            <inline-svg src="download"></inline-svg>
           </div>
         </div>
       </div>
@@ -35,6 +35,7 @@
 
 <script>
 import admInlineSvg from "@/components/common/adm-inline-svg";
+import inlineSvg from "@/components/common/inline-svg.vue"
 import pick from "lodash/pick";
 import {FILTER_KEYS_TO_SHOW, REPORT_HISTORY_STATUS} from "../utils/constants";
 import values from "lodash/values";
@@ -44,11 +45,12 @@ import cloneDeep from "lodash/cloneDeep";
 import {ADMIN_CANCEL_WEBHOOK_REPORT} from "@/store/action.type";
 import {mapGetters} from "vuex";
 import {GET_SUBSCRIBER_ID_MAP} from "@/store/getters.type";
+import keys from "lodash/keys";
 
 export default {
   name: "report-history-card",
   props: {card: {type: Object}, index: {type: Number, required: true}},
-  components: {ShowMoreFiltersPopup, 'adm-inline-svg': admInlineSvg},
+  components: {ShowMoreFiltersPopup, 'adm-inline-svg': admInlineSvg, 'inline-svg':inlineSvg},
   data: () => ({
     FILTER_LIMIT: 5,
   }),
@@ -80,7 +82,14 @@ export default {
       }
     },
     filtersToShow() {
-      const filtersToShow = cloneDeep(this.card.filters);
+      const filters = cloneDeep(this.card.filters);
+      const order = ['events', 'start_date', 'end_date', 'subscribers'];
+      const filtersToShow = keys(filters).sort((a, b) => {
+        return order.indexOf(a) - order.indexOf(b);
+      }).reduce((acc, key) => {
+        acc[key] = filters[key];
+        return acc;
+      }, {});
       if (filtersToShow.subscribers) {
         filtersToShow.subscribers = filtersToShow.subscribers.map(id => this.subscriberIdMap[id] ? this.subscriberIdMap[id] : id);
       }
@@ -202,6 +211,7 @@ export default {
       font-family: 'Inter', serif;
       font-style: normal;
       font-size: 0.9rem;
+      line-height: 150%;
 
       & > span > span {
         color: #2E31BE !important;
@@ -212,6 +222,7 @@ export default {
       display: flex;
       gap: 1rem;
       align-items: center;
+      flex-wrap: wrap;
 
       .extra-controls {
         display: flex;
@@ -247,9 +258,9 @@ export default {
   }
 
   .status {
-    width: calc(100% - (@container-text-width + @container-image-width + 3%));
+    width: 9rem;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
     background: #FFFFFF;
     gap: 0.4rem;
@@ -258,6 +269,9 @@ export default {
       width: max-content;
     }
 
+    @media (min-width: 1428px){
+      justify-content: flex-end;
+    }
     .cross-wrapper {
       border: 1px solid #8F8F8F;
       border-radius: 3px;

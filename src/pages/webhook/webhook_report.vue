@@ -659,9 +659,6 @@ tr:hover {
     width: 100%;
 }
 
-::v-deep .n-input {
-    //height: 38px;
-}
 
 .filter {
     padding-bottom: 16px;
@@ -1131,9 +1128,6 @@ input {
         width: 40%;
     }
 
-    .search {
-        //margin-top:40px;
-    }
     .date-range-label {
         margin-right: 7%;
     }

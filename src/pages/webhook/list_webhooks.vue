@@ -253,8 +253,8 @@ span{
 }
 
 ::v-deep .nitrozen-badge-success{
-    border: 1px solid #0A5F23;
-    color: #0A5F23;
+    border: 1px solid #0A5F23 !important;
+    color: #0A5F23 !important;
 }
 
 .card-badge-section ::v-deep .nitrozen-badge{
