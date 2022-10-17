@@ -3,7 +3,7 @@
         <div class="header-position">
             <adm-page-header @backClick="onCancel" @openHelp="showHelpSection" :title="`Webhook Report`"
                 :contextMenuItems="isOrganisationUser ? [] : contextMenuItems" :noContextMenu="true">
-               <span class="export" @click="openExportConfirmation" :class="{'disableBtn': webhookReport && webhookReport.length === 0 && load_reports || (salesDumpJob && salesDumpStatus) }">
+               <span class="export" @click="openExportConfirmation" :class="{'disableBtn': webhookReport && webhookReport.length === 0 }">
                     <uktInlineSvg
                         class="export-icon"
                         :src="'download-export'"
@@ -26,28 +26,17 @@
             :title="'Confirm Reports download?'"
             :body="'Event count for selected filters exceeds 1 lakh records'"
             ref="large-data-dialog-box"
-            @Yes="downloadSalesDump"
+            @Yes="downloadWebhookReport"
         ></export-dialog>
 
         <export-dialog
         :title="'Confirm Reports export?'"
             :body="'This will download the entire webhook report and might take few minutes to process.'"
-            ref="export-confirm"
-            @Yes="downloadSalesDump"
+            ref="download-confirm"
+            @Yes="downloadWebhookReport"
         ></export-dialog>
         <loader v-if="startLoader" class="loading"></loader>
         <div class="main-container">
-           
-                <exportDialogBox
-                    v-if="salesDumpJob"
-                    :visible="salesDumpStatus"
-                    :retry= "shouldRetry"
-                    class="sales-dump-progress-panel"
-                    @Cancel="onCancelDownload"
-                    @Retry="onExportDialogAction"
-                    :failed_msg="failedMsg"
-                    :export_msg="exportMsg"
-                ></exportDialogBox>
             <div class="full-width">
                 <nitrozen-dialog class="status_dialog" ref="status_dialog" :title="selectedPayloadName">
                     <template v-if="ifJson" slot="body">
@@ -121,7 +110,7 @@
                     <div class="page-container common-container report-container">
                         <div class="sub-header">
                             <template>
-                                <div class="filter" :class="{'disableBtn': (salesDumpJob && salesDumpStatus)}">
+                                <div class="filter" :class="{'disableBtn': (exportActive && exportStatus)}">
                                     <div class="top-filters">
                                         <nitrozen-input
                                             :showSearchIcon="true"
@@ -143,14 +132,23 @@
                                         </div>
                                     </div>
                                     <div class="filter-dynamic">
-                                         <div class="filter-dynamic-child">
-                                        <div v-for="(filter, index) in filters" :key="filter.filter_name"
-                                            class="filter-dropdown">
-                                            <nitrozen-dropdown :class="
-                                                'filter-dropdown-field filter-' +
-                                                filter.filter_name
-                                            " :label="filter.filter_name" :enable_select_all="true"
-                                                :items="filter.values" :id="filter.filter_name" @searchInputChange="
+                                        <div class="filter-dynamic-child">
+                                        <div
+                                            v-for="(filter, index) in filters"
+                                            :key="filter.filter_name"
+                                            class="filter-dropdown"
+                                        >
+                                            <nitrozen-dropdown
+                                                :class="
+                                                    'filter-dropdown-field filter-' +
+                                                    filter.filter_name
+                                                "
+                                                :label="filter.filter_name"
+                                                :enable_select_all="true"
+                                                :items="filter.values"
+                                                :id="filter.filter_name"
+                                                @searchInputChange="
+
                                                     searchFilter($event)
                                                 " v-model="
     filtersToshow[
@@ -181,20 +179,28 @@
                                                         </p>
                                                     </nitrozen-tooltip>
                                                 </label>
-                                                <nitrozen-dropdown :class="'filter-dropdown-field filter-date'"
-                                                    :label="'Date Range'" :items="dateItems" @change="
-                                                        dateRangeChange($event , true)
-                                                    " @searchInputChange="
-    clearDateFilter()
-" v-model="dateSelected" placeholder="Select Date Range"
-                                                    :searchable="true" :multiple="false">
+                                                <nitrozen-dropdown
+                                                    :class="'filter-dropdown-field filter-date'"
+                                                    :label="'Date Range'"
+                                                    :items="dateItems"
+                                                    @change="
+                                                        dateRangeChange($event,true)
+                                                    "
+                                                    @searchInputChange="
+                                                        clearDateFilter()
+                                                    "
+                                                    v-model="dateSelected"
+                                                    placeholder="Select Date Range"
+                                                    :searchable="true"
+                                                    :multiple="false"
+                                                >
                                                     <label>Date Range</label>
                                                 </nitrozen-dropdown>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="selectedItems" :class="{'disableBtn': (salesDumpJob && salesDumpStatus)}">
+                                <div class="selectedItems" :class="{'disableBtn': (exportActive && exportStatus)}">
                                     <div v-for="(name, index) in filtersToshow[
                                         'Event'
                                     ]" :key="index" class="items">
@@ -374,6 +380,14 @@ table tr:last-child td:last-child {
     width: 15%;
 }
 
+.main-container {
+    flex-direction: column;
+}
+
+.export-progress-panel {
+    margin-bottom: 20px;
+}
+
 ::v-deep .nitrozen-dialog-footer {
     justify-content: center !important;
 }
@@ -387,14 +401,6 @@ table tr:last-child td:last-child {
     line-height: 21px;
     text-align: center;
     color: #2e31be;
-}
-.top-filters {
-    display: flex;
-    align-items: center;
-    // justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
-    width: 100%;
 }
 .status-filter, .date-content {
     // min-width: 15%;
@@ -433,6 +439,14 @@ table tr:last-child td:last-child {
     flex-grow: 0;
     margin: 0px 12px;
 }
+.top-filters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+}
+
 
 ::v-deep .filter-date>label {
     display: none;
@@ -452,6 +466,26 @@ table tr:last-child td:last-child {
     flex-wrap: wrap;
     display: flex;
     margin-bottom: 16px;
+}
+
+.export {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2e31be;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: 6rem;
+
+    .export-icon {
+        margin-top: 2px;
+        margin-right: 8px;
+    }
+}
+
+.disableBtn{
+    opacity: 0.4;
+    pointer-events : none;
 }
 
 .cross-icon {
@@ -543,9 +577,8 @@ table tr:last-child td:last-child {
 ::v-deep .filter-Events>div {
     width: 73% !important;
 }
-
-::v-deep .filter-Subscriber>label {
-    align-self: left;
+::v-deep .filter-Subscriber > label {
+    align-self: flex-start;
 }
 
 ::v-deep .filter-Subscriber .nitrozen-option-container {
@@ -627,10 +660,8 @@ tr:hover {
 }
 
 ::v-deep .n-input {
-    // width: 72%;
-    height: 38px;
+    //height: 38px;
 }
-
 
 .filter {
     padding-bottom: 16px;
@@ -654,10 +685,6 @@ td {
     text-align: left;
 }
 
-.disableBtn{
-    opacity: 0.4;
-    pointer-events : none;
-}
 .filter-sub-header {
     margin-bottom: 5px;
 }
@@ -1030,8 +1057,6 @@ input {
     align-self: flex-end;
     display: flex;
     float: left;
-    // min-width: 15%;
-
     @media @mobile {
         margin: 0 !important;
     }
@@ -1107,35 +1132,11 @@ input {
     }
 
     .search {
-        margin-top: 40px;
-        // margin-right: 30px;
+        //margin-top:40px;
     }
     .date-range-label {
         margin-right: 7%;
     }
-}
-.export {
-  font-size: 14px;
-  font-weight: 700;
-  color: #2e31be;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  width: 5.5rem;
-
-  .export-icon {
-    margin-top: 2px;
-    margin-right: 8px;
-  }
-}
-.main-container{
-    display: flex;
-    flex-direction: column;
-    margin-top:60px;
-}
-.page-container{
-    margin : 0px;
-    margin-top: 12px ;
 }
 
 @media (max-width: 1435px) {
@@ -1148,41 +1149,47 @@ input {
 }
 </style>
 <script>
-import { GET_HELP_SECTION_DATA } from '@/store/getters.type';
+import inlinesvg from '@/components/common/ukt-inline-svg.vue';
+import {GET_HELP_SECTION_DATA} from '@/store/getters.type';
 import loader from '@/components/common/loader.vue';
 import mirageimageuploader from '@/components/common/image-uploader/index.vue';
+import admInlineSvg from '@/components/common/adm-inline-svg.vue';
 import admjumbotron from '@/components/common/jumbotron';
-import { dateRangeShortcuts } from '@/helper/datetime.util';
-import admpageheader from '@/components/common/layout/page-header';
+import SamlProvider from '@/components/settings/saml-provider';
+import {dateRangeShortcuts} from '@/helper/datetime.util';
+import admpageheader from '@/components/common/layout/adm-page-header';
 import path from 'path';
 import moment from 'moment';
-import { TreeView } from 'vue-json-tree-view';
+import {TreeView} from 'vue-json-tree-view';
 import {
-    flatBtn,
-    NitrozenBadge,
-    NitrozenButton,
-    NitrozenCheckBox,
-    NitrozenDialog,
-    NitrozenDropdown,
-    NitrozenError,
-    NitrozenInput,
-    NitrozenPagination,
-    NitrozenToggleBtn,
-    NitrozenTooltip,
-    strokeBtn,
+  flatBtn,
+  NitrozenBadge,
+  NitrozenButton,
+  NitrozenCheckBox,
+  NitrozenDialog,
+  NitrozenDropdown,
+  NitrozenError,
+  NitrozenInput,
+  NitrozenPagination,
+  NitrozenToggleBtn,
+  NitrozenTooltip,
+  strokeBtn,
 } from '@gofynd/nitrozen-vue';
-import { mapGetters } from 'vuex';
-import root from 'window-or-global';
-import { copyToClipboard, debounce } from '@/helper/utils';
-import AdminWebhookService from '../../services/admin-webhook.service';
+import {mapGetters} from 'vuex';
+import {copyToClipboard, debounce} from '@/helper/utils';
+import AdminWebhookService from '@/services/admin-webhook.service';
 import datePicker from '@/components/common/date-picker.vue';
 import admnocontent from '@/components/common/adm-no-content';
-import uktInlineSvg from '@/components/common/ukt-inline-svg.vue';
-import exportDialog from '@/components/common/export-dialog.vue';
-import {FAILED_REPORTS_TEXT, EXPORT_REPORTS_TEXT } from "@/components/common/export/exportDialog-constant.js";
-import {ADMIN_SET_SUBSCRIBER_ID_MAP} from "@/store/action.type";
+import uktInlineSvg from '@/components/common/ukt-inline-svg.vue'
 import exportDialogBox from '@/components/common/export/exportDialog.vue';
-const env = root.env || {};
+
+
+import {EXPORT_REPORTS_TEXT, FAILED_REPORTS_TEXT} from "@/components/common/export/exportDialog-constant"
+// import {DownloaderHelper} from "node-downloader-helper";
+// const d1 = new DownloaderHelper(ADMIN_URLS.CHECK_WEBHOOK_REPORT(fileName), '/temp');
+import exportDialog from '@/components/common/export-dialog.vue';
+import {ADMIN_SET_SUBSCRIBER_ID_MAP} from "@/store/action.type";
+
 const extraDateRange = [
     {
         text: 'Last 6 Months',
@@ -1193,9 +1200,10 @@ const extraDateRange = [
 export default {
     name: 'webhook-report',
     components: {
-        uktInlineSvg,
-        exportDialog,
         exportDialogBox,
+        uktInlineSvg,
+        'export-dialog' : exportDialog,
+        'inline-svg': inlinesvg,
         'mirage-image-uploader': mirageimageuploader,
         'adm-jumbotron': admjumbotron,
         'nitrozen-button': NitrozenButton,
@@ -1204,6 +1212,8 @@ export default {
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-error': NitrozenError,
         'nitrozen-toggle': NitrozenToggleBtn,
+        'saml-provider': SamlProvider,
+        'adm-inline-svg': admInlineSvg,
         'nitrozen-badge': NitrozenBadge,
         'nitrozen-pagination': NitrozenPagination,
         'nitrozen-dialog': NitrozenDialog,
@@ -1225,6 +1235,7 @@ export default {
     },
     data() {
         return {
+            subscriberSelected: false,
             statusFilterItems: [
                 {
                     id: 'all',
@@ -1262,8 +1273,6 @@ export default {
             startLoader: true,
             query_param: {},
             dialogMessageJson: {},
-            salesDumpJob:false,
-            salesDumpStatus:false,
             contextMenuItems: [
                 {
                     text: 'Remove',
@@ -1309,12 +1318,16 @@ export default {
             selectedEvents: new Set(),
             dateEvent:'',
             visible:true,
+            pageSize:'',
             allFilters:[],
             actualEventMap: {},
             subscriberIdNames:{},
             docUrl:
                 env.SEARCHLIGHT_MAIN_DOMAIN +
                 '/docs/company-settings/webhook/webhook',
+            jobId: '',
+            exportActive: false,
+            exportStatus: true,
             timer: null,
             exportMsg: EXPORT_REPORTS_TEXT,
             failedMsg: FAILED_REPORTS_TEXT,
@@ -1439,10 +1452,7 @@ export default {
                 this.query_param['event'] =
                     this.filtersToshow[filterName].join(',');
             } else {
-                if (filterName == 'Subscriber Name')
-                    this.subscriberSelected = true;
-                else
-                    this.subscriberSelected = false;   
+                this.subscriberSelected=filterName=='Subscriber Name'
                 var key = filterName.toLowerCase().replace(/ /g, '_');
                 this.query_param[key] =
                     this.filtersToshow[filterName].join(',');
@@ -1726,6 +1736,41 @@ export default {
                 })
 
         },
+        downloadWebhookReport() {
+
+            let query_param = this.query_param;
+            const data = {};
+            if (this.searchText && this.searchText.length != 0) {
+                data['search_text'] = this.searchText;
+            }
+            if (query_param['end_date']) {
+                data['end_date'] = query_param['end_date'];
+            }
+            if (query_param['start_date']) {
+                data['start_date'] = query_param['start_date'];
+            }
+            if (this.filtersToshow['Subscriber Name']) {
+                data['subscriber_ids'] = this.filtersToshow['Subscriber Name']
+                    ? this.filtersToshow['Subscriber Name']
+                    : [];
+            }
+            if (this.filtersToshow['Event']) {
+                data['event'] = this.filtersToshow['Event']
+                    ? this.filtersToshow['Event'].map((x) => this.eventMap[x])
+                    : [];
+            }
+
+            AdminWebhookService.downloadWebhookReport(data).then((res) => {
+                this.goTo('report-history')
+
+            }).catch((err) => {
+                this.$snackbar.global.showError('File cannot be downloded');
+                console.error(err);
+            })
+
+
+
+        },
         sortTable(key) {
             this.webhookReport.sort(function (a, b) {
                 var key_a = eval('a.' + key);
@@ -1752,91 +1797,11 @@ export default {
         showHelpSection: function () {
             window.open(this.docUrl, '_blank');
         },
+        openExportConfirmation() {
+            this.$refs['download-confirm'].open();
+        },
         openExportOnLargeDataConfirmation() {
             this.$refs['large-data-dialog-box'].open();
-        },
-        openExportConfirmation() {
-            this.$refs['export-confirm'].open();
-        },
-        checkExportStatus(fileName) {
-
-        this.timer = setInterval(() => {
-
-        AdminWebhookService.checkWebhookReport(fileName).then((res) => {
-
-            if (res.status === 200) {
-                this.salesDumpJob = false;
-                window.open(res.data.cdn, '_blank');
-                this.$snackbar.global.showSuccess('Reports data downloaded successfully');
-                clearInterval(this.timer);
-            }
-        }).catch((err) => {
-            if (err.response.status === 400) {
-                clearInterval(this.timer);
-                console.log(err);
-                this.checkExportStatus(fileName);
-            }
-            else if (err.response.status === 503) {
-                this.shouldRetry = false;
-                this.salesDumpStatus = false;
-                clearInterval(this.timer);
-                this.$snackbar.global.showError('File does not exists!');
-            }
-            else {
-                this.salesDumpStatus = false;
-                clearInterval(this.timer);
-            }
-            console.log(err.response);
-        })
-    }, 5000);
-
-},
-        downloadSalesDump(){
-            this.salesDumpJob=true;
-            this.salesDumpStatus=true;
-            this.shouldRetry = true;
-            const data = {};
-            if (this.searchText && this.searchText.length != 0) {
-                data['search_text'] = this.searchText;
-            }
-            if (this.query_param['end_date']) {
-                data['end_date'] = this.query_param['end_date'];
-            }
-            if (this.query_param['start_date']) {
-                data['start_date'] = this.query_param['start_date'];
-            }
-            if (this.filtersToshow['Subscriber Name']) {
-                data['subscriber_ids'] = this.filtersToshow['Subscriber Name']
-            }
-            if (this.filtersToshow['Event']) {
-                data['event'] = this.filtersToshow['Event']
-                    ? this.filtersToshow['Event'].map((x) => this.eventMap[x])
-                    : [];
-            }
-            if(this.query_param['status']){
-                data['status']=this.query_param['status'];
-            }
-            data["type"] = 'global'
-            AdminWebhookService.downloadWebhookReport(data).then((res) => {
-                this.goTo('report-history')
-
-            }).catch((err) => {
-                this.$snackbar.global.showError('File cannot be downloded');
-                console.error(err);
-            })
-        },
-        onExportDialogAction(){
-            clearInterval(this.timer);
-            if(this.fileName){
-                this.checkExportStatus(this.fileName);
-            }else{
-                this.downloadSalesDump()
-            }
-            this.salesDumpStatus = true;
-        },
-        onCancelDownload() {
-            clearInterval(this.timer);
-            this.salesDumpJob = false;
         },
         filterStatus() {
             this.pageObject.current = 1;

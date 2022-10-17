@@ -72,7 +72,7 @@ export default {
     }),
     displayCard() {
       return {
-        message: this.card.message || 'nothing..',
+        message: this.card.message || 'nothing...',
         filename: this.card.filename || 'nothing...',
         filters: this.buildFilters(this.card.filters),
         status: this.card.status || 'nothing...',
@@ -81,9 +81,6 @@ export default {
     },
     filtersToShow() {
       const filtersToShow = cloneDeep(this.card.filters);
-      if (filtersToShow.events) {
-        filtersToShow.events = filtersToShow.events.map(x => x.event_name);
-      }
       if (filtersToShow.subscribers) {
         filtersToShow.subscribers = filtersToShow.subscribers.map(id => this.subscriberIdMap[id] ? this.subscriberIdMap[id] : id);
       }
@@ -116,7 +113,7 @@ export default {
             return '' + elem;
           }
           if (!isNaN(elem)){
-            return this.subscriberIdMap[elem];
+            return this.subscriberIdMap[elem] ? this.subscriberIdMap[elem] : elem;
           }
           if (Array.isArray(elem)) {
             elem.join(', ')
@@ -220,6 +217,7 @@ export default {
         display: flex;
         gap: 1rem;
         align-items: center;
+        height: 0.4rem;
 
         span {
           width: 1.37rem;

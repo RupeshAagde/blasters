@@ -8,8 +8,12 @@ const WebhookHelpMixins = {
     }),
     methods: {
         onCancel() {
+            let url = urlJoin('webhook-report');
+            if (this.$route.params.subscriberId) {
+                url = urlJoin(url, this.$route.params.subscriberId);
+            }
             this.$router.push({
-                path: urlJoin( 'webhook-report'),
+                path: url,
             });
         },
         docRedirect() {

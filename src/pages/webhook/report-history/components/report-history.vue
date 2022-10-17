@@ -25,14 +25,15 @@
 </template>
 
 <script>
-import admpageheader from '../../../../components/common/layout/adm-page-header.vue';
+import admpageheader from '@/components/common/layout/adm-page-header';
 import {WebhookHelpMixins} from "../mixins/webhook-help.mixins";
 import ReportHistoryBody from "./report-history-body";
 import {mapGetters} from "vuex";
 import {GET_REPORT_HISTORIES, GET_REPORT_HISTORY_PAGINATION} from "@/store/getters.type";
 import {
-  ADMIN_CHANGE_REPORT_HISTORY_PAGINATION,
-  ADMIN_GET_REPORT_HISTORIES
+  ADMIN_CHANGE_REPORT_HISTORY_PAGINATION, ADMIN_CLEAR_TO_DEFAULTS,
+  ADMIN_GET_REPORT_HISTORIES,
+  ADMIN_SET_SUBSCRIBER_ID
 } from "@/store/action.type";
 import AdmNoContent from "@/components/common/adm-no-content";
 import {NitrozenPagination} from "@gofynd/nitrozen-vue";
@@ -103,14 +104,24 @@ export default {
         current,
         limit: Math.max(size, this.paginationRows[0])
       }
+    },
+    setSubscriberIdToStore() {
+      if (this.$route.params.subscriberId) {
+        this.$store.dispatch(ADMIN_SET_SUBSCRIBER_ID, this.$route.params.subscriberId);
+      }
+    },
+    clearPresets() {
+        this.$store.dispatch(ADMIN_CLEAR_TO_DEFAULTS);
     }
   },
   mounted() {
+    this.setSubscriberIdToStore();
     this.fetchData();
     this.fetchDataForEveryTimeInterval();
   },
   destroyed() {
     this.clearTimer();
+    this.clearPresets();
   }
 }
 </script>

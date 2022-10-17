@@ -5,12 +5,6 @@
       class="show-more-filters-popup"
   >
     <template slot="body">
-      <!--      <table class="event-type-content">-->
-      <!--        <tr v-for="(item, key) in filtersToShow" :key="key">-->
-      <!--          <td class="event-key">{{ key }}:</td>-->
-      <!--          <td class="event-value">&nbsp; {{ item | displayValues }}</td>-->
-      <!--        </tr>-->
-      <!--      </table>-->
       <div v-for="(item, key) in filtersToShow" :key="key" class="grid">
         <div class="filter-key"><p>{{ key }}:</p></div>
         <div class="filter-value"><p>{{ item | displayValues }}</p></div>

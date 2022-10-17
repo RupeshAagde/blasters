@@ -124,7 +124,7 @@ const AdminWebhookService = {
       axiosOption
     );
   },
-  getReportHistories(subscriberIds, page = { page_size: 10, page_no: 1 }, type = 'adminstrator') {
+  getReportHistories(subscriberIds, page = { page_size: 10, page_no: 1 }, type = 'admin') {
     page = { ...(page && { ...page }), ...(subscriberIds && subscriberIds.length > 0 && { subscriber_ids: subscriberIds }) }
     const axiosOption = Object.assign(
       { data: { type, ...page } },
@@ -136,7 +136,7 @@ const AdminWebhookService = {
       axiosOption
     );
   },
-  cancelWebhookReport(filename, type = 'administrator') {
+  cancelWebhookReport(filename, type = 'admin') {
     const axiosOption = Object.assign(
       { data: {} },
       { params: {} },
