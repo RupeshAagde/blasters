@@ -162,6 +162,7 @@
                             v-model="categoryInfo.categoriesL1Array"
                             :value="categoryInfo.categoriesL1Array"
                             @change="onChangeCategoryL1()"
+                            ref="input-category-1"
                         ></nitrozen-dropdown>
                     </div>
                     <div>
@@ -173,6 +174,7 @@
                             v-model="categoryInfo.categoriesL2Array"
                             :value="categoryInfo.categoriesL2Array"
                             @change="onChangeCategoryL2()"
+                            ref="input-category-2"
                         ></nitrozen-dropdown>
                         <nitrozen-chips
                             class="nitrozen-form-input"
