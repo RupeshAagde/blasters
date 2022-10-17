@@ -11,6 +11,14 @@
                     </uktInlineSvg>
                     Reports
                 </span>
+                <nitrozen-button
+                  @click="goTo('report-history')"
+                  class="history-btn"
+                  v-flat-btn
+                  :theme="'secondary'"
+              >
+                History
+              </nitrozen-button>
             </adm-page-header>
         </div>
         <!-- dialog box for >1lac records -->
@@ -1068,6 +1076,17 @@ input {
     white-space: nowrap;
 }
 
+::v-deep .page-slot{
+    margin-left: auto;
+}
+
+.history-btn {
+  width: 6rem;
+  height: 2.5rem;
+  margin-left: 0.625rem;
+  border-radius: 4px;
+}
+
 @media (max-width: 1320px) {
     .date-picker {
         width: 35%;
@@ -1161,6 +1180,7 @@ import admnocontent from '@/components/common/adm-no-content';
 import uktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import exportDialog from '@/components/common/export-dialog.vue';
 import {FAILED_REPORTS_TEXT, EXPORT_REPORTS_TEXT } from "@/components/common/export/exportDialog-constant.js";
+import {ADMIN_SET_SUBSCRIBER_ID_MAP} from "@/store/action.type";
 import exportDialogBox from '@/components/common/export/exportDialog.vue';
 const env = root.env || {};
 const extraDateRange = [
@@ -1466,6 +1486,7 @@ export default {
                     a[i.value] = i.text;
                     return a;
                 }, {});
+                this.$store.dispatch(ADMIN_SET_SUBSCRIBER_ID_MAP, this.subscriberIdMap);
                 this.filters[0].values = this.filters[0].values.map((v) => ({
                     ...v,
                     value: v.text,
@@ -1796,19 +1817,13 @@ export default {
                 data['status']=this.query_param['status'];
             }
             data["type"] = 'global'
-            AdminWebhookService.downloadWebhookReport(data)
-                .then((res) => {
-               
-                    if (this.salesDumpJob && this.salesDumpStatus) {
-                    this.checkExportStatus(res.data.file_name);
-                    this.fileName = res.data.file_name;
-                }
-                })
-                .catch((err) => {
-                    this.salesDumpStatus=false;
-                    clearInterval(this.timer);
+            AdminWebhookService.downloadWebhookReport(data).then((res) => {
+                this.goTo('report-history')
+
+            }).catch((err) => {
+                this.$snackbar.global.showError('File cannot be downloded');
                 console.error(err);
-                });
+            })
         },
         onExportDialogAction(){
             clearInterval(this.timer);
@@ -1833,6 +1848,9 @@ export default {
                 this.search(this.query_param);
             }
         },
+        goTo(url) {
+        this.$router.push(url)
+      }
     },
 };
 </script>

@@ -124,6 +124,29 @@ const AdminWebhookService = {
       axiosOption
     );
   },
+  getReportHistories(subscriberIds, page = { page_size: 10, page_no: 1 }, type = 'adminstrator') {
+    page = { ...(page && { ...page }), ...(subscriberIds && subscriberIds.length > 0 && { subscriber_ids: subscriberIds }) }
+    const axiosOption = Object.assign(
+      { data: { type, ...page } },
+      { params: {} },
+      getCommonHeaderOptions()
+    );
+    return ApiService.post(
+      URLS.REPORT_HISTORY_URL(),
+      axiosOption
+    );
+  },
+  cancelWebhookReport(filename, type = 'administrator') {
+    const axiosOption = Object.assign(
+      { data: {} },
+      { params: {} },
+      getCommonHeaderOptions()
+    );
+    return ApiService.get(
+      URLS.REPORT_HISTORY_URL('cancel/file/' + filename),
+      axiosOption
+    );
+  }
 };
 
 export default AdminWebhookService;

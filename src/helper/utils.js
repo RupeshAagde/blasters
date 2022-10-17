@@ -591,3 +591,10 @@ export const convertKebabCaseToString = str => {
         return str.join(' ');
     }
 };
+
+export const detectFPApp = () => {
+    if (isBrowser) {
+        return window.__fpAppDetails;
+    };
+    return false;
+};
