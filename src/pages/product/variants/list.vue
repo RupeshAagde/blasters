@@ -7,14 +7,14 @@
                     'Manage or create new variants for products that have more than one option, such as image, size or color.'
                 "
             >
-                <nitrozen-button
+                <!-- <nitrozen-button
                     theme="secondary"
                     v-strokeBtn
                     @click=""
                     class="mr-s"
                 >
                     Group & Sequence</nitrozen-button
-                >
+                > -->
                 <nitrozen-button
                     id="create-btn"
                     theme="secondary"
