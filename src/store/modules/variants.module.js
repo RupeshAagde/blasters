@@ -16,6 +16,7 @@ import {
 
 import CatalogService from '@/services/catalog.service';
 import CompanyService from '@/services/company-admin.service';
+import sortBy from 'lodash/sortBy';
 
 const getDefaultState = () => {
     return {
@@ -109,6 +110,7 @@ const actions = {
                         value: element.slug
                     })
                 });
+                data = sortBy(data, ['text'])
                 return data
             })
             .catch((err) => {

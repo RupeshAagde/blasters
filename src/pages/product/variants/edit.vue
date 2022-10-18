@@ -73,11 +73,13 @@
                         class="filter-dropdown"
                         :disabled="
                             !selectedTemplates.value.length ||
-                                !attributeList.length
+                                !filteredAttributeList.length
                         "
-                        :items="attributeList"
+                        :items="filteredAttributeList"
                         placeholder="Choose Attribute"
                         v-model="selectedAttribute.value"
+                        :searchable="true"
+                        @searchInputChange="setFilteredAttributeList"
                     ></nitrozen-dropdown>
                     <nitrozen-error v-if="selectedAttribute.showerror"
                         >{{ selectedAttribute.errortext }}
@@ -509,6 +511,7 @@ export default {
             displayTypeList: [],
             selectedAttribute: this.getInitialValue(''),
             attributeList: [],
+            filteredAttributeList: [],
             name: this.getInitialValue(''),
             image_config: this.getInitialImageConfig(),
             fileTypeList: FILE_TYPE,
@@ -700,12 +703,28 @@ export default {
                         return;
                     }
                     this.attributeList = res;
+                    this.setFilteredAttributeList();
                 })
                 .finally(() => {
                     this.pageLoading = false;
                 });
         }, 500),
-
+        setFilteredAttributeList: debounce(function(e) {
+            if(!e || !e.text){
+                this.filteredAttributeList = this.attributeList
+                return
+            }
+            this.filteredAttributeList = [];
+            this.attributeList.forEach((t) => {
+                if (
+                    !e ||
+                    !e.text ||
+                    t.text.toLowerCase().includes(e.text.toLowerCase())
+                ) {
+                    this.filteredAttributeList.push(t);
+                }
+            });
+        }, 300),
         save() {
             this.pageLoading = true;
             let isValid = this.validateForm();
