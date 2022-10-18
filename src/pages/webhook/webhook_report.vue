@@ -732,6 +732,7 @@ td {
 .full-width {
     display: inline-flex;
     width: 100%;
+    margin-top: 60px;
 }
 
 .bold-xs {
@@ -1435,9 +1436,11 @@ export default {
             this.dateItems.push({ value: '31', text: 'Last 1 month' });
         },
         webhookInput: debounce(function (e) {
-            this.query_param['search_text'] = e.search.trim();
-            this.pageObject.current = 1;
-            this.search(this.query_param);
+            if(!this.checkSpecialChar(e.search.trim())){
+                this.query_param['search_text'] = e.search.trim();
+                this.pageObject.current = 1;
+                this.search(this.query_param);
+            }
         }, 200),
         filterInputChange(filterName) {
             if (filterName == 'Event') {
@@ -1457,7 +1460,7 @@ export default {
             if (count > 0) {
                 this.selectedFilters = true;
             } else {
-                this.selectedFilters = false;
+                this.selectedFilters = false; 
             }
             this.pageObject.current = 1;
             this.search(this.query_param);
@@ -1588,7 +1591,7 @@ export default {
         onCancel() {
             sessionStorage.clear();
             this.$router.push({
-                path: 'webhook',
+                path: `/administrator`+ '/webhook',
             });
         },
         showPayload(message, webhook_url_name, event_name) {
@@ -1807,8 +1810,19 @@ export default {
             }
         },
         goTo(url) {
-        this.$router.push(url)
-      }
+        let constructedUrl = `/administrator`+ `/${url}`;
+          if (this.$route.params.subscriberId) {
+            constructedUrl = `/administrator`+ `/${url}`+`/${this.$route.params.subscriberId}`;
+          }
+          this.$router.push({path: constructedUrl});
+        },
+        checkSpecialChar(str) {
+            const specialChars = /[^a-zA-Z0-9 +=/._-]/g;
+            if (specialChars.test(str)){
+                this.searchText =  this.searchText.replaceAll(specialChars , '');
+                this.$snackbar.global.showError('Special Characters are not allowed!');
+            }
+        }
     },
 };
 </script>

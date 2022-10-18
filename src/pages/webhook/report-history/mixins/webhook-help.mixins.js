@@ -8,9 +8,9 @@ const WebhookHelpMixins = {
     }),
     methods: {
         onCancel() {
-            let url = urlJoin('webhook-report');
+            let url = 'webhook-report';
             if (this.$route.params.subscriberId) {
-                url = urlJoin(url, this.$route.params.subscriberId);
+                url= `/administrator`+ `/${url}`+`/${this.$route.params.subscriberId}`
             }
             this.$router.push({
                 path: url,

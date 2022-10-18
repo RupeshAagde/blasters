@@ -90,17 +90,6 @@ export default [
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
                 },
-                // children: [
-                //     {
-                //         name: 'report-history',
-                //         path: 'report-history',
-                //         component: ReportHistory,
-                //         beforeEnter: (to, from, next) => {
-                //             return checkUserPermission(to, from, next, ['settings']);
-                //         }
-
-                //     }
-                // ]
             },
             {
                 name: 'create-webhook',
@@ -128,8 +117,25 @@ export default [
 
             },
             {
+                name: 'report-history',
+                path: 'report-history/:subscriberId',
+                component: ReportHistory,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+
+            },
+            {
                 name: 'webhook-report',
                 path: 'webhook-report',
+                component: WebhookReport,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'webhook-report',
+                path: 'webhook-report/:subscriberId',
                 component: WebhookReport,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);

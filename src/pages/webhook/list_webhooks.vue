@@ -423,14 +423,14 @@ span{
     height: 40px;
     width: 400px;
 }
-.mirage-list-card-container {
+.blaster-list-card-container {
         width: 100%;
         overflow: visible;
 }
 .staff-list {
     width: auto;
     background-color: @White;
-    .mirage-list-card-container {
+    .blaster-list-card-container{
         width: 100%;
         overflow: visible;
         .verified-icon {
@@ -640,8 +640,9 @@ export default {
             sessionStorage.setItem("data",JSON.stringify(date));
             sessionStorage.setItem("companyId",this.companyId);
             sessionStorage.setItem("filtersSelected",JSON.stringify(subs));
+            let path = `webhook-report` + `/${name}`
             this.$router.push({
-                path: `webhook-report`
+                path: path
             });
         },
         selectedEvent(item) {

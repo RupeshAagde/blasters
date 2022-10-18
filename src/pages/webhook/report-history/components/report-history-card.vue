@@ -6,7 +6,7 @@
     <div class="container-body">
       <div class="body-heading">
         <p>{{ displayCard.filename }}</p>
-        <div  v-if="isSuccess" class="extra-controls">
+        <div v-if="isSuccess" class="extra-controls">
           <div @click="onCopy" class="clickable">
             <adm-inline-svg src="copy"></adm-inline-svg>
           </div>
@@ -16,10 +16,13 @@
         </div>
       </div>
       <p :class="colorCode">{{ displayCard.message }}</p>
-      <p>
-        {{ displayCard.filters | limitFilters(FILTER_LIMIT) }}
-        <span v-if="limitObject.hasExceeded" class="show-more clickable" @click="onShowMore"> +{{ limitObject.exceededQuantity }} more</span>
-      </p>
+      <div class="tags-wrapper">
+        <div class="tags-container">
+          <span v-for="(tag, index) in displayCard.filters " ref="dynamic-tags" class="dynamic-tags">{{ tag | addComma(index) }}</span>
+        </div>
+        <span v-if="exceededQuantity > 0" class="show-more clickable"
+              @click="onShowMore"> +{{ exceededQuantity }} more</span>
+      </div>
     </div>
     <div :class="colorCode" class="status">
       <span class="tags">
@@ -46,13 +49,16 @@ import {ADMIN_CANCEL_WEBHOOK_REPORT} from "@/store/action.type";
 import {mapGetters} from "vuex";
 import {GET_SUBSCRIBER_ID_MAP} from "@/store/getters.type";
 import keys from "lodash/keys";
+import {dynamicTagsCountMixins} from "../mixins/dynamic-tags-count.mixins";
 
 export default {
   name: "report-history-card",
   props: {card: {type: Object}, index: {type: Number, required: true}},
+  mixins: [dynamicTagsCountMixins],
   components: {ShowMoreFiltersPopup, 'adm-inline-svg': admInlineSvg, 'inline-svg':inlineSvg},
   data: () => ({
     FILTER_LIMIT: 5,
+    exceededQuantity: 0
   }),
   filters: {
     formatStatus(value) {
@@ -61,12 +67,12 @@ export default {
       }
       return value
     },
-    limitFilters(value, limit) {
-      if (value.length > limit) {
-        return value.slice(0, limit).join(', ')
+    addComma(value, index) {
+      if (index === 0) {
+        return value.trim();
       }
-      return value.join(', ')
-    },
+      return ', ' + value.trim();
+    }
   },
   computed: {
     ...mapGetters({
@@ -98,16 +104,12 @@ export default {
     colorCode() {
       return this.displayCard.status.toLowerCase();
     },
-    limitObject() {
-      const filterLength = this.displayCard.filters.length;
-      return {hasExceeded: filterLength > this.FILTER_LIMIT, exceededQuantity: filterLength - this.FILTER_LIMIT}
-    },
     isSuccess() {
       return this.displayCard.status === REPORT_HISTORY_STATUS.SUCCESS;
     },
     isProcessing() {
       return this.displayCard.status === REPORT_HISTORY_STATUS.PROCESSING;
-    }
+    },
   },
   methods: {
 
@@ -145,7 +147,16 @@ export default {
     },
     onCancelReport() {
       this.$store.dispatch(ADMIN_CANCEL_WEBHOOK_REPORT, {index: this.index, filename: this.displayCard.filename})
-    }
+    },
+    limitFilters(value, limit) {
+      if (value.length > limit) {
+        return value.slice(0, limit);
+      }
+      return value;
+    },
+  },
+  mounted() {
+    this.exceededQuantity = this.calculateTagsOrientation();
   }
 }
 </script>
@@ -207,6 +218,10 @@ export default {
   .container-body {
     width: @container-text-width;
 
+    @media (max-width: 1357px) {
+      width: 91%;
+    }
+
     p, div p {
       font-family: 'Inter', serif;
       font-style: normal;
@@ -248,17 +263,42 @@ export default {
       margin-block: 0.6rem;
     }
 
-    p:nth-child(3) {
-      color: #9B9B9B;
+    .tags-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 0.7rem;
+
+      .tags-container {
+        color: #9B9B9B;
+        width: 80%;
+      }
+      .dynamic-tags {
+        width: max-content;
+        //overflow: hidden;
+        white-space: nowrap;
+        height: 1.5rem;
+      }
 
       .show-more {
         color: @processing;
+        width: 10%;
+      }
+
+      .tags-container {
+        display: flex;
+        //gap: 0.7rem;
+        overflow-x: hidden;
+        //width: 10rem;
+        //height: 2rem;
       }
     }
   }
 
   .status {
     width: 9rem;
+    //width: calc(100% - (@container-text-width + @container-image-width + 3%));
     display: flex;
     justify-content: flex-start;
     align-items: center;
