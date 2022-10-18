@@ -10,6 +10,7 @@
                             v-model="data.name.value"
                             :label="'Template Title*'"
                             :placeholder="'Enter Template Title'"
+                            v-on:keyup="trimLengthBy100"
                         >
                         </nitrozen-input>
                         <nitrozen-error v-if="data.name.showerror"
@@ -809,6 +810,9 @@ appSubscriptions: {}
         trimLengthBy100(){
             if(this.data.description.value.length > 100){
                 this.data.description.value = this.data.description.value.substr(0,100)
+            }
+            if(this.data.name.value.length >50){
+                this.data.name.value = this.data.name.value.substr(0,50)
             }
         },
         validate() {
