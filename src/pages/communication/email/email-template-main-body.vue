@@ -463,6 +463,10 @@
 .no-top-margin {
     margin-top: 0px;
 }
+/deep/.page-container{
+    width: 100% ;
+    margin: 24px 0px 0px 0px;
+}
 .page-container {
     background: @Alabaster2;
     padding: 0px;
