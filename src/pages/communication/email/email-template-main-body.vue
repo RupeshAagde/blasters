@@ -64,6 +64,7 @@
                             :label="'Subject*'"
                             :placeholder="'Enter Subject'"
                             v-on:keyup="renderSubjectTemplate"
+                            maxlength= 200
                         >
                         </nitrozen-input>
                         <nitrozen-error v-if="data.subject.template.showerror"
@@ -346,6 +347,9 @@
 // @import './../../less/form.less';
 // @import './../../less/page-ui.less';
 // @import './../../less/page-header.less';
+/deep/.n-input-maxlength{
+    display:none;
+}
 .panel {
     min-height: 100%;
 }
@@ -1470,9 +1474,6 @@ ${template}
                 this.subjectPreviewHasError = false;
                 this.subjectPreviewError = '';
                 this.subjectPreview = template;
-            }
-            if(this.data.subject.template.value.length > 100){
-                this.data.subject.template.value = this.data.subject.template.value.substr(0,100)
             }
         },
         getPrimaryVerifiedActivePhoneNumber() {

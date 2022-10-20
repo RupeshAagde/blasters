@@ -11,7 +11,7 @@
                             v-model="data.name.value"
                             :label="'Title *'"
                             :disabled="systemDisableEdit"
-                            v-on:keyup="trimTitleBy100"
+                            maxlength= 200
                         >
                         </nitrozen-input>
                         <nitrozen-error v-if="data.name.showerror"
@@ -38,7 +38,7 @@
                             :type="'textarea'"
                             class="form-field"
                             :disabled="systemDisableEdit"
-                            v-on:keyup="trimLengthMoreThan100()"
+                            maxlength= 100
                         >
                         </nitrozen-input>
                         <nitrozen-error v-if="data.description.showerror"
@@ -231,6 +231,9 @@
 
 <style lang="less" scoped>
 
+/deep/.n-input-maxlength{
+    display:none;
+}
 .accordion-container {
     /deep/.title {
         font-size: 18px;
@@ -813,16 +816,6 @@ export default {
                     });
                 }
                 return finalObj
-            }
-        },
-        trimLengthMoreThan100(){
-            if(this.data.description.value.length>100){
-                this.data.description.value=String(this.data.description.value).substr(0,100);
-            }
-        },
-        trimTitleBy100(){
-            if(this.data.name.value.length > 100){
-                this.data.name.value = this.data.name.value.substr(0,100);
             }
         },
         validate() {

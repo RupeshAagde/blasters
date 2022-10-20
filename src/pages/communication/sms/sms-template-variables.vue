@@ -221,6 +221,7 @@
                                 class="form-field height100 margin-bottom-0"
                                 v-on:keyup="renderMessageTemplate"
                                 :disabled="systemDisableEdit"
+                                maxlength= 100
                             >
                             </nitrozen-input>
                             <nitrozen-error
@@ -282,6 +283,9 @@
 </template>
 
 <style lang="less" scoped>
+/deep/.n-input-maxlength{
+    display:none;
+}
 .panel {
     min-height: 100%;
 }

@@ -10,7 +10,7 @@
                             v-model="data.name.value"
                             :label="'Template Title*'"
                             :placeholder="'Enter Template Title'"
-                            v-on:keyup="trimLengthBy100"
+                            maxlength= 200
                         >
                         </nitrozen-input>
                         <nitrozen-error v-if="data.name.showerror"
@@ -37,7 +37,7 @@
                             :type="'textarea'"
                             class="form-field"
                             :placeholder="'Enter description'"
-                            v-on:keyup="trimLengthBy100"
+                            maxlength=100
                         >
                         </nitrozen-input>
                         <nitrozen-error v-if="data.description.showerror"
@@ -807,14 +807,6 @@ appSubscriptions: {}
                 this.subscriptionsFiltered = this.subscriptions;
             }
         },
-        trimLengthBy100(){
-            if(this.data.description.value.length > 100){
-                this.data.description.value = this.data.description.value.substr(0,100)
-            }
-            if(this.data.name.value.length >50){
-                this.data.name.value = this.data.name.value.substr(0,50)
-            }
-        },
         validate() {
             this.formFieldNames.forEach(key => {
                 if (!this.data[key]) {
@@ -903,6 +895,9 @@ appSubscriptions: {}
 // @import './../../less/form.less';
 // @import './../../less/page-ui.less';
 // @import './../../less/page-header.less';
+/deep/.n-input-maxlength{
+    display:none;
+}
 /deep/.nitrozen-dropdown-container
     .nitrozen-option
     .nitrozen-checkbox-container {
