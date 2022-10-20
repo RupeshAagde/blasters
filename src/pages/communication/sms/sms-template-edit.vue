@@ -859,6 +859,16 @@ export default {
                 this.data.template_id.showerror = false
                 this.data.template_id.errortext = ""
             }
+            if(this.data.name.value && this.data.name.value.length > 200){
+                has_error = true;
+                this.data.name.showerror = true;
+                this.data.name.errortext = 'Limit Exceeded';
+            }
+            if(this.data.description.value && this.data.description.value.length > 100){
+                has_error = true;
+                this.data.description.showerror = true;
+                this.data.description.errortext = 'Limit Exceeded';
+            }
             return requiredEmptyArr.length == 0 && !has_error;
         }
     }

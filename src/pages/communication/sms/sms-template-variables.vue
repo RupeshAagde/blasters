@@ -1130,6 +1130,10 @@ export default {
                 this.data.message.template.errortext =
                     'Message cannot be empty';
                 return false;
+            }else if(this.data.message.template.value.length > 100){
+                this.data.message.template.showerror = true;
+                this.data.message.template.errortext = 'Limit Exceeded';
+                return false
             } else {
                 this.data.message.template.showerror = false;
                 this.data.message.template.errortext = '';
