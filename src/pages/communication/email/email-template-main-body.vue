@@ -64,7 +64,7 @@
                             :label="'Subject*'"
                             :placeholder="'Enter Subject'"
                             v-on:keyup="renderSubjectTemplate"
-                            maxlength= 200
+                            :maxlength= charValidation200
                         >
                         </nitrozen-input>
                         <nitrozen-error v-if="data.subject.template.showerror"
@@ -952,7 +952,8 @@ export default {
             emailTemplateStore: {},
             emailTemplateToClone: {},
             emailProvidersStore: {},
-            emailTemplateStore:{}
+            emailTemplateStore:{},
+            charValidation200:200
         };
     },
     computed: {

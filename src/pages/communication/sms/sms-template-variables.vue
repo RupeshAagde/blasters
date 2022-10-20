@@ -221,7 +221,7 @@
                                 class="form-field height100 margin-bottom-0"
                                 v-on:keyup="renderMessageTemplate"
                                 :disabled="systemDisableEdit"
-                                maxlength= 100
+                                :maxlength= charValidation100
                             >
                             </nitrozen-input>
                             <nitrozen-error
@@ -749,6 +749,7 @@ export default {
             },
             initialHash: '',
             providersDropdownOptions: [],
+            charValidation100:100
         };
     },
     computed: {

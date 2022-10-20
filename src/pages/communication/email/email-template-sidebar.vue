@@ -10,7 +10,7 @@
                             v-model="data.name.value"
                             :label="'Template Title*'"
                             :placeholder="'Enter Template Title'"
-                            maxlength= 200
+                            :maxlength= charValidation200
                         >
                         </nitrozen-input>
                         <nitrozen-error v-if="data.name.showerror"
@@ -37,7 +37,7 @@
                             :type="'textarea'"
                             class="form-field"
                             :placeholder="'Enter description'"
-                            maxlength=100
+                            :maxlength=charValidation100
                         >
                         </nitrozen-input>
                         <nitrozen-error v-if="data.description.showerror"
@@ -463,6 +463,8 @@ export default {
             showEventLinkingModal: false,
             emailTemplateStore: {},
             emailTemplateToClone: {},
+            charValidation100:100,
+            charValidation200:200,
 appSubscriptions: {}
         };
     },
