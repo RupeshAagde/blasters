@@ -34,10 +34,8 @@ import AuditLogsDetails from './../../pages/audit-trail/log-detail.vue';
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
-import ListVariants from './../../pages/catalogue/list-variants.vue';
-import ListVariants2 from './../../pages/product/variants/list.vue'
-import CreateUpdateVariant from './../../pages/catalogue/create-update-variant.vue';
-import CreateUpdateVariant2 from '@/pages/product/variants/edit.vue';
+import ListVariants from './../../pages/product/variants/list.vue'
+import CreateUpdateVariant from '@/pages/product/variants/edit.vue';
 import Product from './../../pages/product/index';
 import ProductAttributesList from '@/pages/product/attributes/list';
 import ProductAttributesEdit from '@/pages/product/attributes/edit';
@@ -391,7 +389,7 @@ export default [
             {
                 name: 'variants',
                 path: 'product/variants',
-                component: ListVariants2,
+                component: ListVariants,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(
                         to,
@@ -404,7 +402,7 @@ export default [
             {
                 name: 'create-variant',
                 path: 'product/variants/create',
-                component: CreateUpdateVariant2,
+                component: CreateUpdateVariant,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(
                         to,
@@ -417,7 +415,7 @@ export default [
             {
                 name: 'edit-variant',
                 path: 'product/variants/edit/:uid',
-                component: CreateUpdateVariant2,
+                component: CreateUpdateVariant,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(
                         to,
