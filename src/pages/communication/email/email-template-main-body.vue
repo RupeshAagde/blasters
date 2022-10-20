@@ -1283,6 +1283,11 @@ ${template}
                 this.data.html.template.showerror = true;
                 this.data.html.template.errortext = `Click "Open editor" to design the email template`;
             }
+            if (this.data.subject.template.value.length > 200){
+                isValid = false
+                this.data.subject.template.showerror = true;
+                this.data.subject.template.errortext = `Limit Exceeded`;
+            }
             return isValid;
         },
         sendEmail() {

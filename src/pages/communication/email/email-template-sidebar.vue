@@ -810,6 +810,8 @@ appSubscriptions: {}
             }
         },
         validate() {
+            this.data.description.showerror = false;
+            this.data.description.errortext = '';
             this.formFieldNames.forEach(key => {
                 if (!this.data[key]) {
                     this.data[key] = {};
@@ -887,7 +889,20 @@ appSubscriptions: {}
                     this.data[key].showerror = true;
                 });
             }
-            return requiredEmptyArr.length == 0 && invalidEmailArr.length == 0;
+            let validLen = true
+            if(this.data.name.value && this.data.description ){
+                if (this.data.name.value.length > 200) {
+                    validLen = false
+                    this.data.name.showerror = true;
+                    this.data.name.errortext = `Limit Exceeded`;
+                }
+                if (this.data.description.value.length > 100) {
+                    validLen = false
+                    this.data.description.showerror = true;
+                    this.data.description.errortext = `Limit Exceeded`
+                }
+            }
+            return requiredEmptyArr.length == 0 && invalidEmailArr.length == 0 && validLen;
         }
     }
 };
