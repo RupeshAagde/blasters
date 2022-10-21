@@ -34,8 +34,8 @@ import AuditLogsDetails from './../../pages/audit-trail/log-detail.vue';
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
-import ListVariants from './../../pages/catalogue/list-variants.vue';
-import CreateUpdateVariant from './../../pages/catalogue/create-update-variant.vue';
+import ListVariants from './../../pages/product/variants/list.vue'
+import CreateUpdateVariant from '@/pages/product/variants/edit.vue';
 import Product from './../../pages/product/index';
 import ProductAttributesList from '@/pages/product/attributes/list';
 import ProductAttributesEdit from '@/pages/product/attributes/edit';
