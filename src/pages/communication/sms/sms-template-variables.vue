@@ -221,7 +221,7 @@
                                 class="form-field height100 margin-bottom-0"
                                 v-on:keyup="renderMessageTemplate"
                                 :disabled="systemDisableEdit"
-                                :maxlength= charValidation100
+                                :maxlength= charValidation
                             >
                             </nitrozen-input>
                             <nitrozen-error
@@ -749,7 +749,7 @@ export default {
             },
             initialHash: '',
             providersDropdownOptions: [],
-            charValidation100:100
+            charValidation:300
         };
     },
     computed: {
@@ -1000,8 +1000,8 @@ export default {
                 this.messagePreviewError = '';
                 this.messagePreview = this.urlify(template);
             }
-            if(this.data.message.template.value.length > 100){
-                this.data.message.template.value = this.data.message.template.value.substr(0,100)
+            if(this.data.message.template.value.length > 300){
+                this.data.message.template.value = this.data.message.template.value.substr(0,300)
             }
         },
         getPrimaryVerifiedActivePhoneNumber() {
@@ -1130,7 +1130,7 @@ export default {
                 this.data.message.template.errortext =
                     'Message cannot be empty';
                 return false;
-            }else if(this.data.message.template.value.length > 100){
+            }else if(this.data.message.template.value.length > 300){
                 this.data.message.template.showerror = true;
                 this.data.message.template.errortext = 'Limit Exceeded';
                 return false
