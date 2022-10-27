@@ -63,7 +63,7 @@
                 v-else-if="pageError && !isLoading"
                 @tryAgain="getVariants"
             ></page-error>
-            <div v-else-if="variantList && variantList.length">
+            <div v-else-if="variantList && variantList.length && !isLoading">
                 <div
                     v-for="(item, index) in variantList"
                     :key="index"
@@ -92,7 +92,13 @@
                                     class="label-data"
                                     v-if="item.modified_by && item.modified_on"
                                 >
-                                    {{ item.modified_by.username }} on
+                                    {{
+                                        getUserName(
+                                            item.modified_by.user_id,
+                                            item.modified_by.username
+                                        )
+                                    }}
+                                    on
                                     {{
                                         new Date(
                                             item.modified_on
@@ -148,7 +154,12 @@ import Jumbotron from '@/components/common/jumbotron';
 import Shimmer from '@/components/common/shimmer';
 import PageEmpty from '@/components/common/page-empty';
 import PageError from '@/components/common/page-error';
-import { debounce } from '@/helper/utils';
+import {
+    debounce,
+    generateArrItem,
+    filterDuplicateObject,
+    fetchUserMetaObjects
+} from '@/helper/utils';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
@@ -201,7 +212,8 @@ export default {
             templateList: [],
             filteredTemplates: [],
             pagination: { ...PAGINATION },
-            variantList: []
+            variantList: [],
+            userObj: {}
         };
     },
     mounted() {
@@ -297,24 +309,39 @@ export default {
                 params: this.getQueryParams(),
                 uid: null
             };
-            this.$store
-                .dispatch(FETCH_VARIANTS, reqBody)
-                .then((res) => {
-                    if (res.error) {
-                        this.$snackbar.global.showError(
-                            get(
-                                res,
-                                'err.response.data.message',
-                                'Something went wrong'
-                            )
-                        );
-                        return;
-                    }
-                    this.variantList = res.items;
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                });
+            this.$store.dispatch(FETCH_VARIANTS, reqBody).then((res) => {
+                if (res.error) {
+                    this.$snackbar.global.showError(
+                        get(
+                            res,
+                            'err.response.data.message',
+                            'Something went wrong'
+                        )
+                    );
+                    return;
+                }
+                this.variantList = res.items;
+                let tempUserList = generateArrItem(this.variantList);
+                tempUserList = filterDuplicateObject(tempUserList);
+
+                fetchUserMetaObjects(tempUserList)
+                    .then((response) => {
+                        response.map((element) => {
+                            if (this.userObj && !this.userObj[element._id]) {
+                                this.userObj[element._id] = element;
+                            }
+                            if (this.userObj && !this.userObj[element.uid]) {
+                                this.userObj[element.uid] = element;
+                            }
+                        });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
+                    .finally(() => {
+                        this.isLoading = false;
+                    });
+            });
         },
         editVariant(uid = null) {
             if (uid) {
@@ -325,6 +352,17 @@ export default {
                 this.$router.push({
                     path: '/administrator/product/variants/create'
                 });
+            }
+        },
+        getUserName(user_id, username) {
+            let tempObj = this.userObj[user_id];
+            if (tempObj && tempObj.hasOwnProperty('first_name')) {
+                return (
+                    tempObj.first_name + " " +
+                    (tempObj.last_name ? tempObj.last_name : '')
+                );
+            } else {
+                return username;
             }
         }
     }
