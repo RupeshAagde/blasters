@@ -21,13 +21,6 @@
               </nitrozen-button>
             </adm-page-header>
         </div>
-        <!-- dialog box for >1lac records -->
-        <export-dialog
-            :title="'Confirm Reports download?'"
-            :body="'Event count for selected filters exceeds 1 lakh records'"
-            ref="large-data-dialog-box"
-            @Yes="downloadWebhookReport"
-        ></export-dialog>
 
         <export-dialog
         :title="'Confirm Reports export?'"
@@ -285,50 +278,46 @@
                                             ) in webhookReport">
                                             <td>
                                                 <div>
-                                                    {{ method.subscriber_name }}
+                                                    {{ method.name }}
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="no-wrap">
                                                     {{
-                                                            method.request.event
-                                                                .name
-                                                    }}.{{
-        method.request.event
-            .type
-}}
+                                                        method.event_name
+                                                    }}
                                                 </div>
                                             </td>
                                             <td>
                                                 <div>
-                                                    {{ method.response.status }}
+                                                    {{ method.status }}
                                                 </div>
                                             </td>
                                             <td>
                                                 <div>
                                                     {{
-                                                            method.response.message
+                                                            method.response_message
                                                     }}
                                                 </div>
                                             </td>
                                             <td>
                                                 <div>
                                                     {{
-                                                            method.processed_time_in_millis
+                                                            method.response_time
                                                     }}
                                                 </div>
                                             </td>
 
                                             <td>
                                                 <div class="no-wrap">
-                                                    {{ method.processed_on }}
+                                                    {{ epochToDate(method.last_attempted_on) }}
                                                 </div>
                                             </td>
                                             <td class="clickable-payload" @click="
                                                 showPayload(
-                                                    method.request,
+                                                    method.data,
                                                     method.webhook_url,
-                                                    method.subscriber_name
+                                                    method.name
                                                 )
                                             ">
                                                 <a class="payload"> Payload </a>
@@ -351,7 +340,7 @@
                                 v-if="
                                     webhookReport && webhookReport.length === 0
                                 "
-                                :helperText= "load_reports ? 'No Data Found' : 'Aww! Data is too large'"
+                                :helperText= "'No Data Found'"
                             ></adm-no-content>
                             <nitrozen-pagination name="Items" v-model="pageObject" value="pageObjectValue" :class="{'visible':!visible}"
                                 @change="paginationChange" :pageSizeOptions="rows">
@@ -1327,7 +1316,6 @@ export default {
             failedMsg: FAILED_REPORTS_TEXT,
             fileName: null,
             shouldRetry: true,
-            load_reports: true,
         };
     },
     mounted() {
@@ -1353,6 +1341,9 @@ export default {
                     });
                 }
             });
+        },
+        epochToDate(timestamp){
+            return moment.unix(timestamp).format('MMM Do, YY h:mm A')
         },
         dateRangeChange(event , searchCall ) {
             this.subscriberSelected=false
@@ -1600,7 +1591,7 @@ export default {
             this.dialogInfo = 'Payload';
             (this.selectedPayloadName = event_name),
                 (this.dialodWebhookUrl = webhook_url_name);
-            (this.dialogMessageJson = message),
+            (this.dialogMessageJson = JSON.parse(message)),
                 this.openRemoveDialog('750px', '570px');
             this.startLoader = false;
         },
@@ -1688,13 +1679,8 @@ export default {
             sessionStorage.setItem("filtersSelected",JSON.stringify(this.filtersToshow));
             AdminWebhookService.getWebhookReport(data)
                 .then((res) => {
-                    this.load_reports = res.data.load_reports;
-                    if(!res.data.load_reports){
-                        this.openExportOnLargeDataConfirmation();
-                    }
-
-                    if (res.data.items.length > 0) {
-                        this.webhookReport = res.data.items.map((items) => {
+                    if (res.data.rows.length > 0) {
+                        this.webhookReport = res.data.rows.map((items) => {
                             items['webhook_url_trimmed'] =
                                 items.webhook_url.substring(0, 30) + '...';
                             items['processed_on'] = moment

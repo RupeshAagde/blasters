@@ -15,13 +15,15 @@
           </div>
         </div>
       </div>
-      <p :class="colorCode">{{ displayCard.message }}</p>
+      <p :class="colorCode">{{ displayCard.message }} <span class="date">
+          <span class="created-on">Started On:</span>
+          <span>{{ formatDate(displayCard.created_on) }}</span>
+        </span></p>
       <div class="tags-wrapper">
         <div class="tags-container">
           <span v-for="(tag, index) in displayCard.filters " ref="dynamic-tags" class="dynamic-tags">{{ tag | addComma(index) }}</span>
         </div>
-        <span v-if="exceededQuantity > 0" class="show-more clickable"
-              @click="onShowMore"> +{{ exceededQuantity }} more</span>
+        <span v-if="exceededQuantity > 0" class="show-more clickable" @click="onShowMore"> ...+{{ exceededQuantity }} more</span>
       </div>
     </div>
     <div :class="colorCode" class="status">
@@ -50,6 +52,7 @@ import {mapGetters} from "vuex";
 import {GET_SUBSCRIBER_ID_MAP} from "@/store/getters.type";
 import keys from "lodash/keys";
 import {dynamicTagsCountMixins} from "../mixins/dynamic-tags-count.mixins";
+import moment from 'moment'
 
 export default {
   name: "report-history-card",
@@ -84,7 +87,8 @@ export default {
         filename: this.card.filename || 'nothing...',
         filters: this.buildFilters(this.card.filters),
         status: this.card.status || 'nothing...',
-        url: this.card.upload_service_response && this.card.upload_service_response.cdn && this.card.upload_service_response.cdn.url && this.card.upload_service_response.cdn.url
+        url: this.card.upload_service_response && this.card.upload_service_response.cdn && this.card.upload_service_response.cdn.url && this.card.upload_service_response.cdn.url,
+        created_on : this.card.created_on
       }
     },
     filtersToShow() {
@@ -112,7 +116,9 @@ export default {
     },
   },
   methods: {
-
+    formatDate(date){
+      return moment(date).format('MMM Do, YY h:mm A');
+    },
     buildFilters(filters) {
       return values(pick(filters, FILTER_KEYS_TO_SHOW)).reduce((acc, item) => {
         acc.push(...item.map(elem => {
@@ -227,10 +233,6 @@ export default {
       font-style: normal;
       font-size: 0.9rem;
       line-height: 150%;
-
-      & > span > span {
-        color: #2E31BE !important;
-      }
     }
 
     .body-heading {
@@ -268,7 +270,7 @@ export default {
       display: flex;
       justify-content: flex-start;
       align-items: flex-start;
-      gap: 0.7rem;
+      font-size: 0.875rem;
 
       .tags-container {
         color: #9B9B9B;
@@ -284,16 +286,19 @@ export default {
       .show-more {
         color: @processing;
         width: 10%;
+        box-shadow: -28px 0 15px 6px #fff;
       }
 
       .tags-container {
         display: flex;
-        //gap: 0.7rem;
         overflow-x: hidden;
         //width: 10rem;
         //height: 2rem;
       }
     }
+    .status-date{
+    display: flex;
+  }
   }
 
   .status {
@@ -337,6 +342,13 @@ export default {
         min-width: max-content;
       }
     }
+  }
+}
+.date{
+  color: @cancelled !important;
+  margin-left: 1rem;
+  span{
+    font-size: 0.725rem;
   }
 }
 </style>

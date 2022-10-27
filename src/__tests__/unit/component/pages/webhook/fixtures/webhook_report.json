@@ -1,8 +1,8 @@
 {
-    "items": [
+    "rows": [
       {
         "webhook_url": "https://api.fyndx1.de/api/v2/update",
-        "processed_time_in_millis": 71,
+        "response_time": 71,
         "processed_on": "2021-06-29T19:08:01.599Z",
         "response": {
           "status": 200,
