@@ -109,6 +109,16 @@ export const getNavigations = () => {
             // ]
         },
         {
+            display: 'RMA',
+            link: '/administrator/rma/list',
+            title: 'RMA',
+            icon: 'team',
+            highlightedIcon: 'team-highlighted',
+            active: false,
+            permission: 'settings',
+            children: []
+        },
+        {
             display: 'Integrations',
             link: '/administrator/integrations/list',
             title: 'integrations',
