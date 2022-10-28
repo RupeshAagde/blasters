@@ -1857,6 +1857,7 @@ export default {
                 });
             }
             if (!isValid) {
+                this.saveButtonClicked = false;
                 return;
             }
             if (this.authStatus == true && this.password.length == 0) {
