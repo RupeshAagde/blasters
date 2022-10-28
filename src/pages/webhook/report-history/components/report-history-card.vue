@@ -351,4 +351,7 @@ export default {
     font-size: 0.725rem;
   }
 }
+::v-deep .csv-img rect{
+    fill: @processing;
+}
 </style>
