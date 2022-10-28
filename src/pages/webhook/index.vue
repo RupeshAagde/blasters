@@ -1854,7 +1854,7 @@ export default {
                     if (element.key != '' && element.value != '') {
                         headers[element.key] = element.value;
                     }
-                });
+                }); 
             }
             if (!isValid) {
                 this.saveButtonClicked = false;
