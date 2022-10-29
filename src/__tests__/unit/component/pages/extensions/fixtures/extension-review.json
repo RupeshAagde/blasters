@@ -68,11 +68,6 @@
                     }
                 ],
                 "_id": "611b413a16b8c96c0b1b7cf3",
-                "extension_id": "611b40be16b8c9dd811b7cf1",
-                "slug": "egpubext",
-                "plan_type": "free",
-                "plans_url": "",
-                "review_instructions": "",
                 "current_status": "pending",
                 "organization_id": "611654b195dcfa75cb409235",
                 "created_at": "2021-08-17T04:55:22.330Z",
@@ -94,7 +89,7 @@
                     ],
                     "categories_l2": [
                         {
-                            "_id": "62c47bce25d9f3c8fd6df26f",
+                            "_id": "62c47bce25d9f3c8fd6df251",
                             "level": 2,
                             "slug": "pricing",
                             "__v": 0,
@@ -887,105 +882,9 @@
                     "display": "Marketing",
                     "logo": "https://hdn-1.fynd.com/misc/pictures/free-icon/original/AwR8IOay9-logo.svg",
                     "value": "Marketing"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df1fb",
-                    "level": 1,
-                    "slug": "merchandising",
-                    "__v": 0,
-                    "description": "description for this category in not more than 2 lines",
-                    "display": "Merchandising",
-                    "logo": "https://hdn-1.fynd.com/misc/pictures/free-icon/original/FSjm2jdJV-logo.svg",
-                    "value": "Merchandising"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df201",
-                    "level": 1,
-                    "slug": "customer-service",
-                    "__v": 0,
-                    "description": "description for this category in not more than 2 lines",
-                    "display": "Customer Service",
-                    "logo": "https://hdn-1.fynd.com/misc/pictures/free-icon/original/aZfL_-SVX-logo.svg",
-                    "value": "Customer Service"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df20a",
-                    "level": 1,
-                    "slug": "channel-management",
-                    "__v": 0,
-                    "description": "description for this category in not more than 2 lines",
-                    "display": "Channel Management",
-                    "logo": "https://hdn-1.fynd.com/misc/pictures/free-icon/original/1L76N5bIi-logo.svg",
-                    "value": "Channel Management"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df204",
-                    "level": 1,
-                    "slug": "source-and-selling-product",
-                    "__v": 0,
-                    "description": "description for this category in not more than 2 lines",
-                    "display": "Source and Selling Product",
-                    "logo": "https://hdn-1.fynd.com/misc/pictures/free-icon/original/b1RWy2RDX-logo.svg",
-                    "value": "Source and Selling Product"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df1fe",
-                    "level": 1,
-                    "slug": "fulfillment",
-                    "__v": 0,
-                    "description": "description for this category in not more than 2 lines",
-                    "display": "Fulfillment",
-                    "logo": "https://hdn-1.fynd.com/misc/pictures/free-icon/original/ZljF5fGlH-logo.svg",
-                    "value": "Fulfillment"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df207",
-                    "level": 1,
-                    "slug": "inventory",
-                    "__v": 0,
-                    "description": "description for this category in not more than 2 lines",
-                    "display": "Inventory",
-                    "logo": "https://hdn-1.fynd.com/misc/pictures/free-icon/original/i9dKQLPxY-logo.svg",
-                    "value": "Inventory"
                 }
             ],
             "category_l2": [
-                {
-                    "_id": "62c47bce25d9f3c8fd6df226",
-                    "level": 2,
-                    "slug": "managing-inventory-and-order",
-                    "__v": 0,
-                    "display": "Managing inventory and order",
-                    "parent": "62c47bce25d9f3c8fd6df1fe",
-                    "value": "Managing inventory and order"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df22a",
-                    "level": 2,
-                    "slug": "support",
-                    "__v": 0,
-                    "display": "Support",
-                    "parent": "62c47bce25d9f3c8fd6df201",
-                    "value": "Support"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df228",
-                    "level": 2,
-                    "slug": "managing-order",
-                    "__v": 0,
-                    "display": "Managing order",
-                    "parent": "62c47bce25d9f3c8fd6df1fe",
-                    "value": "Managing order"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df245",
-                    "level": 2,
-                    "slug": "business-insight",
-                    "__v": 0,
-                    "display": "Business Insight",
-                    "parent": "62c47bce25d9f3c8fd6df20a",
-                    "value": "Business Insight"
-                },
                 {
                     "_id": "62c47bce25d9f3c8fd6df251",
                     "level": 2,
@@ -996,114 +895,6 @@
                     "value": "Cart modification"
                 },
                 {
-                    "_id": "62c47bce25d9f3c8fd6df242",
-                    "level": 2,
-                    "slug": "shipping-solution",
-                    "__v": 0,
-                    "display": "Shipping solution",
-                    "parent": "62c47bce25d9f3c8fd6df20a",
-                    "value": "Shipping solution"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df230",
-                    "level": 2,
-                    "slug": "managing-inventory",
-                    "__v": 0,
-                    "display": "Managing inventory",
-                    "parent": "62c47bce25d9f3c8fd6df207",
-                    "value": "Managing inventory"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df231",
-                    "level": 2,
-                    "slug": "dropshipping",
-                    "__v": 0,
-                    "display": "Dropshipping",
-                    "parent": "62c47bce25d9f3c8fd6df204",
-                    "value": "Dropshipping"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df22e",
-                    "level": 2,
-                    "slug": "marketplace",
-                    "__v": 0,
-                    "display": "Marketplace",
-                    "parent": "62c47bce25d9f3c8fd6df204",
-                    "value": "Marketplace"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df24e",
-                    "level": 2,
-                    "slug": "upselling-and-cross-selling",
-                    "__v": 0,
-                    "display": "Upselling and cross-selling",
-                    "parent": "62c47bce25d9f3c8fd6df1f9",
-                    "value": "Upselling and cross-selling"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df252",
-                    "level": 2,
-                    "slug": "recovering-orders",
-                    "__v": 0,
-                    "display": "Recovering orders",
-                    "parent": "62c47bce25d9f3c8fd6df1f9",
-                    "value": "Recovering orders"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df255",
-                    "level": 2,
-                    "slug": "customer-feedback",
-                    "__v": 0,
-                    "display": "Customer feedback",
-                    "parent": "62c47bce25d9f3c8fd6df1f9",
-                    "value": "Customer feedback"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df234",
-                    "level": 2,
-                    "slug": "channel-management-internalization",
-                    "__v": 0,
-                    "display": "Internalization",
-                    "parent": "62c47bce25d9f3c8fd6df20a",
-                    "value": "Internalization"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df22f",
-                    "level": 2,
-                    "slug": "customer-account",
-                    "__v": 0,
-                    "display": "Customer account",
-                    "parent": "62c47bce25d9f3c8fd6df201",
-                    "value": "Customer account"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df23b",
-                    "level": 2,
-                    "slug": "policy-and-security",
-                    "__v": 0,
-                    "display": "Policy and security",
-                    "parent": "62c47bce25d9f3c8fd6df20a",
-                    "value": "Policy and security"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df238",
-                    "level": 2,
-                    "slug": "operation",
-                    "__v": 0,
-                    "display": "Operation",
-                    "parent": "62c47bce25d9f3c8fd6df20a",
-                    "value": "Operation"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df246",
-                    "level": 2,
-                    "slug": "promotions",
-                    "__v": 0,
-                    "display": "Promotions",
-                    "parent": "62c47bce25d9f3c8fd6df1f9",
-                    "value": "Promotions"
-                },
-                {
                     "_id": "62c47bce25d9f3c8fd6df256",
                     "level": 2,
                     "slug": "notification",
@@ -1111,87 +902,6 @@
                     "display": "Notification",
                     "parent": "62c47bce25d9f3c8fd6df1fa",
                     "value": "Notification"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df268",
-                    "level": 2,
-                    "slug": "marketing-analytics",
-                    "__v": 0,
-                    "display": "Marketing analytics",
-                    "parent": "62c47bce25d9f3c8fd6df1fa",
-                    "value": "Marketing analytics"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df275",
-                    "level": 2,
-                    "slug": "product-display",
-                    "__v": 0,
-                    "display": "Product display",
-                    "parent": "62c47bce25d9f3c8fd6df1fb",
-                    "value": "Product display"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df26c",
-                    "level": 2,
-                    "slug": "marketing-internalization",
-                    "__v": 0,
-                    "display": "Internalization",
-                    "parent": "62c47bce25d9f3c8fd6df1fa",
-                    "value": "Internalization"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df27b",
-                    "level": 2,
-                    "slug": "additional-purchase",
-                    "__v": 0,
-                    "display": "Additional purchase",
-                    "parent": "62c47bce25d9f3c8fd6df1fb",
-                    "value": "Additional purchase"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df25f",
-                    "level": 2,
-                    "slug": "email-and-sms-marketing",
-                    "__v": 0,
-                    "display": "Email and SMS marketing",
-                    "parent": "62c47bce25d9f3c8fd6df1fa",
-                    "value": "Email and SMS marketing"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df272",
-                    "level": 2,
-                    "slug": "announcement-and-banner",
-                    "__v": 0,
-                    "display": "Announcement and banner",
-                    "parent": "62c47bce25d9f3c8fd6df1fb",
-                    "value": "Announcement and banner"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df263",
-                    "level": 2,
-                    "slug": "page-enhancement",
-                    "__v": 0,
-                    "display": "Page enhancement",
-                    "parent": "62c47bce25d9f3c8fd6df1fa",
-                    "value": "Page enhancement"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df269",
-                    "level": 2,
-                    "slug": "advertisement",
-                    "__v": 0,
-                    "display": "Advertisement",
-                    "parent": "62c47bce25d9f3c8fd6df1fa",
-                    "value": "Advertisement"
-                },
-                {
-                    "_id": "62c47bce25d9f3c8fd6df26f",
-                    "level": 2,
-                    "slug": "pricing",
-                    "__v": 0,
-                    "display": "Pricing",
-                    "parent": "62c47bce25d9f3c8fd6df1f9",
-                    "value": "Pricing"
                 }
             ]
         }

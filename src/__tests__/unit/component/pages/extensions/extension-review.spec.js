@@ -48,9 +48,10 @@ describe('Mounted Extension Review Page', () => {
         expect(wrapper.vm.pageLoading).toBeFalsy();
     });
     it('change the category', async () => {
-        wrapper.vm.onChangeCategoryL1();
-        wrapper.vm.onChangeCategoryL2();
-        wrapper.vm.removeSelectedCategory(0, true, 0);
-        expect(wrapper.vm.companyId).toBe(1234);
+        const inputCategory1 = wrapper.findComponent({ ref: 'input-category-1' });
+        inputCategory1.vm.$emit('change');
+        const inputCategory2 = wrapper.findComponent({ ref: 'input-category-2' });
+        inputCategory2.vm.$emit('change');
+        expect(wrapper.vm.categoryInfo.category.categories_l2.length).toBe(1);
     });
 })
