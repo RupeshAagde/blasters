@@ -562,9 +562,15 @@ export default {
                     this.onCancel();
                 })
                 .catch((err) => {
-                    console.log(err);
+                    let errorMsg = 'Failed to update extension status';
+                    if (err.response && err.response.status == 403 && err.response.data && err.response.data.message) {
+                        errorMsg = err.response.data.message;
+                    }
+                    else {
+                        console.log(err);
+                    }
                     this.$snackbar.global.showError(
-                        'Failed to update extension status'
+                        errorMsg
                     );
                 })
                 .finally(() => {
