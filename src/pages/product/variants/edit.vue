@@ -54,7 +54,7 @@
                         v-for="(temp, index) of selectedTemplates.value"
                         class="chips mr-s mt-s"
                     >
-                        {{ formatDisplay(temp) }}
+                        {{ formatDisplay(temp, templateList) }}
                         <nitrozen-inline
                             icon="cross"
                             class="pointer ml-xs"
@@ -130,6 +130,19 @@
                 <nitrozen-error v-if="selectedDisplayType.showerror"
                     >{{ selectedDisplayType.errortext }}
                 </nitrozen-error>
+                <div v-if="selectedDisplayType.value" class="label-data">
+                    <span
+                        v-for="(temp, index) of selectedDisplayType.value"
+                        class="chips mr-s mt-s"
+                    >
+                        {{ formatDisplay(temp, displayTypeList) }}
+                        <nitrozen-inline
+                            icon="cross"
+                            class="pointer ml-xs"
+                            @click="removeDisplayType(index)"
+                        ></nitrozen-inline>
+                    </span>
+                </div>
             </div>
 
             <!-- image configuration based on display type -->
@@ -419,7 +432,7 @@
         font-weight: 400;
         line-height: 19px;
         text-align: left;
-        background-color: #3D3D3D;
+        background-color: #3d3d3d;
         color: @White;
         width: 306px;
     }
@@ -676,6 +689,9 @@ export default {
             this.selectedTemplates.value.splice(index, 1);
             this.getCurrentDep();
         },
+        removeDisplayType(index) {
+            this.selectedDisplayType.value.splice(index, 1);
+        },
         getCurrentDep() {
             let departments = [];
             this.selectedTemplates.value.forEach((temp) => {
@@ -710,9 +726,9 @@ export default {
                 });
         }, 500),
         setFilteredAttributeList: debounce(function(e) {
-            if(!e || !e.text){
-                this.filteredAttributeList = this.attributeList
-                return
+            if (!e || !e.text) {
+                this.filteredAttributeList = this.attributeList;
+                return;
             }
             this.filteredAttributeList = [];
             this.attributeList.forEach((t) => {
@@ -985,8 +1001,8 @@ export default {
         changeOption(e) {
             this.image_config.maintain_aspect_ratio = e;
         },
-        formatDisplay(val) {
-            const tempObj = this.templateList.find((ele) => ele.value == val);
+        formatDisplay(val, targetList) {
+            const tempObj = targetList.find((ele) => ele.value == val);
             return tempObj ? tempObj.text : val;
         },
 

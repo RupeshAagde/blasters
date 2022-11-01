@@ -115,7 +115,7 @@
                             <div class="label-data">
                                 <span
                                     v-for="(dep, ind) of item.templates"
-                                    class="chips mr-s"
+                                    class="chips mr-s mb-s"
                                 >
                                     {{ dep }}
                                 </span>
