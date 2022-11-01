@@ -52,7 +52,10 @@
                 <nitrozen-dropdown
                     :items="filter"
                     v-model="selectedFilter"
+                    placeholder="status"
+                    :searchable="true"
                     @change="getVariants"
+                    @searchInputChange="resetStatus"
                 ></nitrozen-dropdown>
             </div>
         </div>
@@ -180,7 +183,6 @@ const PAGINATION = {
     limit: 999
 };
 const FILTER = [
-    { value: 'all', text: 'All Stage' },
     { value: 'true', text: 'Active' },
     { value: 'false', text: 'Disabled' }
 ];
@@ -206,7 +208,7 @@ export default {
             isLoading: false,
             pageError: false,
             searchText: '',
-            selectedFilter: 'all',
+            selectedFilter: '',
             selectedTemplate: '',
             filter: [...FILTER],
             templateList: [],
@@ -230,9 +232,8 @@ export default {
             if (this.searchText) params.q = this.searchText;
             else params.q = undefined;
 
-            if (this.selectedFilter != 'all')
+            if (this.selectedFilter)
                 params.stage = this.selectedFilter;
-            else params.stage = undefined;
 
             if (this.selectedTemplate) params.template = this.selectedTemplate;
             else params.template = undefined;
@@ -296,6 +297,13 @@ export default {
                     });
                 }
             });
+        },
+        resetStatus(e) {
+            if (!e || !e.text) {
+                this.selectedFilter= ''
+                this.getVariants();
+                return
+            }
         },
         // paginationChange(filter) {
         //     const { current, limit } = filter;
