@@ -40,7 +40,7 @@
                         :items="filteredTemplateList"
                         placeholder="select templates"
                         v-model="selectedTemplates.value"
-                        @change="getCurrentDep"
+                        @change="getCurrentAttrSlugs"
                         @searchInputChange="setFilteredTemplateList"
                         :enable_select_all="true"
                     ></nitrozen-dropdown>
@@ -380,6 +380,7 @@
     </div>
 </template>
 <style lang="less" scoped>
+@import './../../../../src/less/products/variants.less';
 .suffix {
     animation: show 2s forwards;
     ::v-deep .nitrozen-input-suffix {
@@ -442,6 +443,7 @@
 import loader from '@/components/common/loader';
 import { debounce, getAspectRatioFromString } from '@/helper/utils';
 import get from 'lodash/get';
+import chunk from 'lodash/chunk';
 import Shimmer from '@/components/common/shimmer';
 import PageHeader from '@/components/common/layout/page-header';
 import PageError from '@/components/common/page-error';
@@ -519,7 +521,7 @@ export default {
             selectedTemplates: this.getInitialValue(),
             templateList: [],
             filteredTemplateList: [],
-            temp_dep_set: {},
+            temp_attr_set: {},
             selectedDisplayType: this.getInitialValue(),
             displayTypeList: [],
             selectedAttribute: this.getInitialValue(''),
@@ -611,7 +613,7 @@ export default {
                         this.filteredTemplateList = cloneDeep(
                             this.templateList
                         );
-                        this.temp_dep_set = res[1].temp_dep_set;
+                        this.temp_attr_set = res[1].temp_attr_set;
                     }
                 })
                 .catch((err) => {
@@ -664,7 +666,7 @@ export default {
                             arObject.height
                         );
                     }
-                    this.getCurrentDep();
+                    this.getCurrentAttrSlugs();
                 })
                 .finally(() => {
                     this.pageLoading = false;
@@ -687,29 +689,40 @@ export default {
         }, 400),
         removeTemplate(index) {
             this.selectedTemplates.value.splice(index, 1);
-            this.getCurrentDep();
+            this.getCurrentAttrSlugs();
         },
         removeDisplayType(index) {
             this.selectedDisplayType.value.splice(index, 1);
         },
-        getCurrentDep() {
-            let departments = [];
+        getCurrentAttrSlugs: debounce(async function() {
+            let attributes = [];
             this.selectedTemplates.value.forEach((temp) => {
-                if (this.temp_dep_set[temp]) {
-                    departments = departments.concat(this.temp_dep_set[temp]);
+                if (this.temp_attr_set[temp]) {
+                    attributes = attributes.concat(this.temp_attr_set[temp]);
                 }
             });
             if (this.selectedTemplates.value.length > 0) {
-                departments = [...new Set(departments)];
-                this.getAttributes(departments);
+                //resetting attributeList which is used in dropdown
+                this.attributeList = []
+                /**
+                 * keeping attributes extracted from selected templates
+                 * batching of 100 and fetching the data
+                 */
+                attributes = [...new Set(attributes)];
+                attributes = chunk(attributes, 20)
+                await this.getAttributes(0,attributes)
+
             }
-        },
-        getAttributes: debounce(function(dep) {
+        }, 400),
+        getAttributes (ind, attr) {
             this.pageLoading = true;
+            if (ind>=attr.length){
+                return
+            }
             const params = {
                 page_no: 1,
-                page_size: 9999,
-                department: dep
+                page_size: 100,
+                slug: attr[ind]
             };
             this.$store
                 .dispatch(FETCH_ATTRIBUTES, params)
@@ -718,13 +731,14 @@ export default {
                         console.log('Error fetching attributes', res.err);
                         return;
                     }
-                    this.attributeList = res;
+                    this.attributeList = this.attributeList.concat(res);
                     this.setFilteredAttributeList();
                 })
                 .finally(() => {
+                    this.getAttributes(ind+1, attr)
                     this.pageLoading = false;
                 });
-        }, 500),
+        },
         setFilteredAttributeList: debounce(function(e) {
             if (!e || !e.text) {
                 this.filteredAttributeList = this.attributeList;
