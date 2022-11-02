@@ -520,13 +520,13 @@ export default {
             display: block;
         }
         .left-container {
-            width: calc(100% - 300px);
+            width: 74%;
             @media @mobile {
                 width: 100%;
             }
         }
         .right-container {
-            width: 300px;
+            width: 26%;
             @media @mobile {
                 width: 100%;
             }
