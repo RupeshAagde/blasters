@@ -126,17 +126,20 @@
                     placeholder="Select display type"
                     v-model="selectedDisplayType.value"
                     :enable_select_all="true"
-                ></nitrozen-dropdown>
+                    @change="preventDisablingText($event)"
+                >
+                </nitrozen-dropdown>
                 <nitrozen-error v-if="selectedDisplayType.showerror"
                     >{{ selectedDisplayType.errortext }}
                 </nitrozen-error>
                 <div v-if="selectedDisplayType.value" class="label-data">
                     <span
-                        v-for="(temp, index) of selectedDisplayType.value"
+                        v-for="(dType, index) of selectedDisplayType.value"
                         class="chips mr-s mt-s"
                     >
-                        {{ formatDisplay(temp, displayTypeList) }}
+                        {{ formatDisplay(dType, displayTypeList) }}
                         <nitrozen-inline
+                            v-if="dType != 'text'"
                             icon="cross"
                             class="pointer ml-xs"
                             @click="removeDisplayType(index)"
@@ -605,7 +608,19 @@ export default {
             ])
                 .then((res) => {
                     //display type
-                    if (res[0]) this.displayTypeList = res[0];
+                    if (res[0]) {
+                        this.displayTypeList = res[0];
+                        // check if text option is available if yes, add it default
+                        if (
+                            this.displayTypeList.find((e) => e.value === 'text')
+                        ) {
+                            if (
+                                !this.selectedDisplayType.value.includes('text')
+                            ) {
+                                this.selectedDisplayType.value.unshift('text');
+                            }
+                        }
+                    }
 
                     //template list
                     if (res[1]) {
@@ -617,7 +632,7 @@ export default {
                     }
                 })
                 .catch((err) => {
-                    console.log('Something is wrong');
+                    console.log('Something is wrong', err);
                 })
                 .finally(() => {
                     this.pageLoading = true;
@@ -703,21 +718,20 @@ export default {
             });
             if (this.selectedTemplates.value.length > 0) {
                 //resetting attributeList which is used in dropdown
-                this.attributeList = []
+                this.attributeList = [];
                 /**
                  * keeping attributes extracted from selected templates
                  * batching of 100 and fetching the data
                  */
                 attributes = [...new Set(attributes)];
-                attributes = chunk(attributes, 20)
-                await this.getAttributes(0,attributes)
-
+                attributes = chunk(attributes, 20);
+                await this.getAttributes(0, attributes);
             }
         }, 400),
-        getAttributes (ind, attr) {
+        getAttributes(ind, attr) {
             this.pageLoading = true;
-            if (ind>=attr.length){
-                return
+            if (ind >= attr.length) {
+                return;
             }
             const params = {
                 page_no: 1,
@@ -735,7 +749,7 @@ export default {
                     this.setFilteredAttributeList();
                 })
                 .finally(() => {
-                    this.getAttributes(ind+1, attr)
+                    this.getAttributes(ind + 1, attr);
                     this.pageLoading = false;
                 });
         },
@@ -1018,6 +1032,15 @@ export default {
         formatDisplay(val, targetList) {
             const tempObj = targetList.find((ele) => ele.value == val);
             return tempObj ? tempObj.text : val;
+        },
+        preventDisablingText(e) {
+            //if 'text' is not in selectedDisplayType but option is available in choice api, add it again if user unselect it.
+            if (
+                !this.selectedDisplayType.value.includes('text') &&
+                this.displayTypeList.find((e) => e.value === 'text')
+            ) {
+                this.selectedDisplayType.value.unshift('text');
+            }
         },
 
         redirectToListing() {
