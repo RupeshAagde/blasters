@@ -110,7 +110,7 @@ export const getNavigations = () => {
         },
         {
             display: 'RMA',
-            link: '/administrator/rma/list',
+            link: '/administrator/rma/rules',
             title: 'RMA',
             icon: 'team',
             highlightedIcon: 'team-highlighted',

@@ -1,20 +1,5 @@
 <template>
     <div class="panel">
-        <adm-page-header
-            class="titlize"
-            :showBackButton="true"
-            :title="'Return Merchandise Authorisation'"
-            :noContextMenu="true"
-        >
-            <nitrozen-button
-                v-flat-btn
-                :rounded="false"
-                :theme="'secondary'"
-                @click="save()"
-            >
-                Save
-            </nitrozen-button></adm-page-header
-        >
         <drawer :direction="'right'" :exist="true" ref="RightDrawer"
             ><div class="reason-drawer">
                 <div class="header">
@@ -103,7 +88,7 @@
                     ></nitrozen-dropdown>
                     <div class="sales-channel-subcategory-container">
                         <nitrozen-dropdown
-                            label="L1 (Optional)"
+                            label="L1"
                             class="platform-dropdown"
                             :items="salesChannelCategoryList"
                             placeholder="Select L1"
@@ -113,7 +98,7 @@
                             @change="handleDropdown"
                         ></nitrozen-dropdown>
                         <nitrozen-dropdown
-                            label="L2 (Optional)"
+                            label="L2"
                             class="platform-dropdown"
                             :items="salesChannelCategoryList"
                             placeholder="Select L2"
@@ -123,7 +108,7 @@
                             @change="handleDropdown"
                         ></nitrozen-dropdown>
                         <nitrozen-dropdown
-                            label="L3 (Optional)"
+                            label="L3"
                             class="platform-dropdown"
                             :items="salesChannelCategoryList"
                             placeholder="Select L3"
@@ -177,7 +162,6 @@ import {
     NitrozenInput,
     NitrozenCheckBox
 } from '@gofynd/nitrozen-vue';
-import AdmPageHeader from '@/components/common/layout/page-header.vue';
 import InlineSvg from '@/components/common/ukt-inline-svg';
 import uktinlinesvg from '@/components/common/ukt-inline-svg.vue';
 import ProductReturnQC from './product-return-qc.vue';
@@ -186,7 +170,6 @@ import Draggable from 'vuedraggable';
 export default {
     name: 'rma-setup',
     components: {
-        AdmPageHeader,
         InlineSvg,
         NitrozenButton,
         NitrozenDropdown,
