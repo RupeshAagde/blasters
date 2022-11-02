@@ -756,7 +756,7 @@ export default [
         component: PackagingHome,
         beforeEnter: (to, from, next) => {
             return checkUserPermission(to, from, next, [
-                'admin-access'
+                'packaging'
             ]);
         }
     },

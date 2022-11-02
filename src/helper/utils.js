@@ -2,6 +2,7 @@ import { isBrowser, isNode } from 'browser-or-node';
 import CompanyService from '@/services/company-admin.service';
 import { Array, console } from 'window-or-global';
 import InputTypes from './NitrozenCustomFormInputTypes';
+import { getNavigations } from '../pages/administrator/navigations';
 
 export const debounce = (func, wait, immediate) => {
     var timeout;
@@ -591,3 +592,20 @@ export const convertKebabCaseToString = str => {
         return str.join(' ');
     }
 };
+
+export const getFirstAllowedRoute = userPermissions => {
+    let matchingRoute = "/";
+    if(userPermissions && userPermissions.length){
+        const firstRoute = getNavigations().find(nav=>(!nav.permission || userPermissions.includes(nav.permission) ));
+        if (firstRoute) {
+            matchingRoute = firstRoute.link || matchingRoute;
+            if (firstRoute.children && firstRoute.children.length) {
+                const matchingFirstChild = firstRoute.children.find(nav=>(!nav.permission || userPermissions.includes(nav.permission)));
+                if (matchingFirstChild) {
+                    matchingRoute = matchingFirstChild.link || matchingRoute;
+                }
+            }
+        }
+    }
+    return matchingRoute;
+}
