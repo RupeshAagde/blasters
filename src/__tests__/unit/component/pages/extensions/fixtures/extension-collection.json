@@ -1,0 +1,414 @@
+{
+    "items": [
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/o9UhZ5Em6-logo.jpeg",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/dU3kXnGwR-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/PR-OVVImt-logo.png"
+            },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the"
+            },
+            "tags": ["asdsa", "asdas", "my"],
+            "published": false,
+            "_id": "623847d0ec3c4b10b1f5fed6",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "New Extension collection",
+            "description": "fdsdssdasdsdsd d d sddas dsd sd d",
+            "slug": "new-extension-collection",
+            "__v": 0,
+            "created_at": "2022-06-02T15:24:26.203Z",
+            "modified_at": "2022-06-02T15:24:26.203Z"
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/q7Ex7-oAT-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/HCrbg2uGD-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/0cyP63leb-logo.png"
+            },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the"
+            },
+            "tags": ["adsa", "dsad", "asdas"],
+            "published": true,
+            "_id": "62384f66ec3c4b4e6ff5fee6",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "NEW ONE",
+            "description": "sadasdasd",
+            "slug": "new-one",
+            "__v": 0,
+            "created_at": "2022-06-01T08:19:13.070Z",
+            "modified_at": "2022-06-01T08:19:13.070Z"
+        },
+        {
+            "banner": { "logo": "", "portrait": "", "landscape": "" },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the"
+            },
+            "tags": [],
+            "published": true,
+            "_id": "62385ac9ec3c4b28e9f5ff05",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "test",
+            "description": "",
+            "__v": 0
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/BEMFKB858-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/KKukThM7Q-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/izikmUFVD-logo.png"
+            },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the"
+            },
+            "tags": ["test", "asasas"],
+            "published": true,
+            "_id": "623b4d518087776e618af270",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "Mac collection ",
+            "description": "test",
+            "slug": "mac-collection",
+            "__v": 0,
+            "created_at": "2022-05-31T11:02:32.745Z",
+            "modified_at": "2022-06-01T08:56:59.071Z"
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/lOyFu1NjT-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/LLbfmTiyf-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/1hvSt917P-logo.png"
+            },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the collection"
+            },
+            "tags": ["dfg"],
+            "published": true,
+            "_id": "625fe7c726e867d85730af1a",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "Test3",
+            "description": "gdfdfd",
+            "slug": "qwer-tyui-tyu",
+            "__v": 0,
+            "created_at": "2022-06-08T09:49:38.324Z",
+            "modified_at": "2022-06-08T09:49:38.324Z"
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/zSDeCO5GF-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/wMNtZox9F-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/LctdogpHF-logo.png"
+            },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the collection"
+            },
+            "tags": ["as", "sad", "dsda"],
+            "published": true,
+            "_id": "625fe8ac26e86741c830af2b",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "main-extension",
+            "description": "sadsad",
+            "slug": "main-extension",
+            "__v": 0
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/tLyIWubai-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/lKuwhvJuo-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/kYs9a-q62-logo.png"
+            },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the collection"
+            },
+            "tags": ["rrr"],
+            "published": true,
+            "_id": "625fec4226e8671c7730af2e",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "test1",
+            "description": "tyyutxd",
+            "slug": "test1",
+            "__v": 0
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/844q5hUne-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/mMEClTHZf-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/szDg6dJvf-logo.png"
+            },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the collection"
+            },
+            "tags": ["rrr"],
+            "published": true,
+            "_id": "625fed4326e867575a30af35",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "test12",
+            "description": "rshhthsh",
+            "slug": "test12",
+            "__v": 0
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/-WVnF2Q7S-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/l7dpJG8bD-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/lIZMHK3dV-logo.png"
+            },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the collection"
+            },
+            "tags": [],
+            "published": true,
+            "_id": "625feeda26e8670cf630af3c",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "Get 20 % off ",
+            "description": "efsddfcs",
+            "slug": "get-20",
+            "__v": 0
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/tz2RG2AqL-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/ZTo5cEkgo-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/9aT_xnkVS-logo.png"
+            },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the collection"
+            },
+            "tags": [],
+            "published": true,
+            "_id": "625fefa126e867aee330af40",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "get20 % off on summer ",
+            "description": "h",
+            "slug": "get20--off-on-summer",
+            "__v": 0
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/x6DBQbzdL-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/BO0Rrq4Hm-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/3dNvcQw43-logo.png"
+            },
+            "seo": {
+                "title": "final testing ",
+                "description": "Breif description about the collection final testing "
+            },
+            "tags": ["dsf", "dc", "dxc"],
+            "published": true,
+            "_id": "627b964a1171f742281232c2",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "Final testing ",
+            "description": "Breif description about the collection",
+            "slug": "breif-description-about",
+            "__v": 0
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/jezw0zPO5-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/hOI9quAlf-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/uTrs8XuIu-logo.png"
+            },
+            "seo": {
+                "title": "Title final",
+                "description": "Breif description about the collection round "
+            },
+            "tags": [],
+            "published": true,
+            "_id": "627b97261171f73ba41232cb",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "final round teting",
+            "description": "final round ",
+            "slug": "final-round",
+            "__v": 0
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/K9KPPFs8t-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/NJuQbeYEU-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/JCefnevVn-logo.png"
+            },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the collection"
+            },
+            "tags": ["yyuyu"],
+            "published": true,
+            "_id": "627b97b11171f739a41232cd",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "final round",
+            "description": "hfhgf ",
+            "slug": "finalround",
+            "__v": 0
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/qusYZsLV4-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/mLQhQ2wbJ-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/B72wNAwnt-logo.png"
+            },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the collection"
+            },
+            "tags": [],
+            "published": true,
+            "_id": "627ba4191171f716891232df",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "TitleBreif description about the collection",
+            "description": "Breif description about the collectionBreif description about the collectionBreif description about the collectionBreif description about the collecti",
+            "slug": "titlebreif-description-a",
+            "__v": 0
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/bhfjhn3VE-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/l0-s9JvhE-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/LteAn4jyc-logo.png"
+            },
+            "seo": {
+                "title": "TitleBreif description about the collectionBreif description about the",
+                "description": "Breif description about the collectionTitleBreif description about the collectionBreif description about theTitleBreif description about the cTitleBreif description about the collectionBreif description about theTitleBreif description about the collectionBreif description about theTiollectionBreif description about the"
+            },
+            "tags": [],
+            "published": true,
+            "_id": "627ba4361171f763fe1232f1",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "ravindra ",
+            "description": "TitleBreif description about the collectionBreif description about the",
+            "slug": "ravindra-sdkhc",
+            "__v": 0
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/OOElzPhUR-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/BLXWQVZHe-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/Ciy5WOe0j-logo.png"
+            },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the collection"
+            },
+            "tags": [],
+            "published": true,
+            "_id": "627ba4811171f7d0131232f4",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "hdsfkj ksdf",
+            "description": "dgdg",
+            "slug": "hdsfkj-ksdf",
+            "__v": 0
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/buyexs3Ut-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/LufG-3HXI-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/OJk7mH0ZR-logo.png"
+            },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the collection"
+            },
+            "tags": ["h"],
+            "published": true,
+            "_id": "627ba4eb1171f701311232f7",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "on about the collection",
+            "description": "on about the collection",
+            "slug": "on-about-the-collection",
+            "__v": 0
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/VpvIpwHin-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/JpijZFMiy-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/_KaZpV-pQ-logo.png"
+            },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the collection"
+            },
+            "tags": ["dd"],
+            "published": true,
+            "_id": "627ba53a1171f753151232f9",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "iption about the collection",
+            "description": "iption about the collection  iption about the collection ",
+            "slug": "iption-about-the-collect",
+            "__v": 0
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/UfpkANDlu-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/heEbDB0we-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/R7MpW7Dlm-logo.png"
+            },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the collection"
+            },
+            "tags": ["dcd"],
+            "published": true,
+            "_id": "627ba5b11171f71929123318",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "ravi",
+            "description": "iption about the collection",
+            "slug": "ravi",
+            "__v": 0
+        },
+        {
+            "banner": {
+                "logo": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/S7uxojeTi-logo.png",
+                "portrait": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/Jj1Wz9nSJ-logo.png",
+                "landscape": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/TFSdLi6qT-logo.png"
+            },
+            "seo": {
+                "title": "Title",
+                "description": "Breif description about the collection"
+            },
+            "tags": ["ss"],
+            "published": true,
+            "_id": "627ba60c1171f774e312332b",
+            "collection_category": "extension",
+            "collection_type": "handpicked",
+            "name": "raviuuiu jj jj ",
+            "description": "iption about the collection",
+            "slug": "raviuuiu-jj-jj",
+            "__v": 0
+        }
+    ],
+    "page": {
+        "type": "number",
+        "current": 1,
+        "size": 20,
+        "item_total": 32,
+        "has_next": true
+    }
+}

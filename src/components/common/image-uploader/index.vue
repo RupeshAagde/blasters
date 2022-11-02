@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div v-if="label" class="n-input-label-container"><label class="n-input-label">{{label}}</label></div>
         <div class="image-uploader-container">
             <div class="image-uploader">
                 <div v-if="value" class="image">
@@ -16,7 +17,10 @@
                     </div>
                 </div>
                 <div v-else class="no-image" @click.stop="openDialog">
-                    <inline-svg src="plus-black" class="add-image"></inline-svg>
+                    <inline-svg
+                        src="plus-black"
+                        class="add-image"
+                    ></inline-svg>
                     <span class="label">{{ text }}</span>
                 </div>
             </div>
@@ -56,12 +60,12 @@
             @delete="$emit('delete', $event)"
             @save="$emit('save', $event)"
             v-model="value"
+            :height="dialogHeight"
         ></image-uploader-dialog>
     </div>
 </template>
 
 <script>
-// Copied from mirage on 20/07/2020
 import { NitrozenDialog } from '@gofynd/nitrozen-vue';
 import loader from '@/components/common/loader';
 import InlineSvg from '@/components/common/inline-svg.vue';
@@ -124,6 +128,14 @@ export default {
         showGallery: {
             type: Boolean,
             default: true
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+        dialogHeight: {
+            type: String,
+            default: ''
         }
     },
     methods: {

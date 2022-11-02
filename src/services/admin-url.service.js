@@ -86,17 +86,17 @@ const SILVERBOLT_PCAT_SVC = isNode
     ? envVars.BROWSER_CONFIG.SILVERBOLT_PCAT_SVC
     : envVars.SILVERBOLT_PCAT_SVC;
 
-const SILVERBOLT_PCPR_URL = isNode
-    ? envVars.BROWSER_CONFIG.SILVERBOLT_PCPR_URL
-    : envVars.SILVERBOLT_PCPR_URL;
+const WHEELJACK_PCPR_URL = isNode
+    ? envVars.BROWSER_CONFIG.WHEELJACK_PCPR_URL
+    : envVars.WHEELJACK_PCPR_URL;
 
 const SILVERBOLT_PCAT_URL = isNode
     ? envVars.BROWSER_CONFIG.SILVERBOLT_PCAT_URL
     : envVars.SILVERBOLT_PCAT_URL;
 
-const SILVERBOLT_PNLCPR_URL = isNode
-    ? envVars.BROWSER_CONFIG.SILVERBOLT_PNLCPR_URL
-    : envVars.SILVERBOLT_PNLCPR_URL;
+const WHEELJACK_PNLCPR_URL = isNode
+    ? envVars.BROWSER_CONFIG.WHEELJACK_PNLCPR_URL
+    : envVars.WHEELJACK_PNLCPR_URL;
 
 const MARKETPLACES_PLTM_URL = isNode
     ? envVars.BROWSER_CONFIG.MARKETPLACES_PLTM_URL
@@ -122,14 +122,6 @@ const AVIS_MAIN_URL = isNode
     ? envVars.BROWSER_CONFIG.AVIS_MAIN_SVC
     : envVars.AVIS_MAIN_URL;
 
-const MIXMASTER_MAIN_URL = isNode
-    ? envVars.BROWSER_CONFIG.MIXMASTER_MAIN_URL
-    : envVars.MIXMASTER_MAIN_URL;
-
-const MIXMASTER_PNL_URL = isNode
-    ? envVars.BROWSER_CONFIG.MIXMASTER_PNL_URL
-    : envVars.MIXMASTER_PNL_URL;
-
 const GALVATRON_MAIN_URL = isNode
     ? envVars.BROWSER_CONFIG.GALVATRON_MAIN_URL
     : envVars.GALVATRON_MAIN_URL;
@@ -150,7 +142,7 @@ const BLASTER_MAIN_DOMAIN= isNode
     ? envVars.BROWSER_CONFIG.BLASTER_MAIN_DOMAIN
     : envVars.BLASTER_MAIN_DOMAIN;
 
-const MIXMASTER_PLTM_URL = isNode 
+const MIXMASTER_PLTM_URL = isNode
     ? envVars.BROWSER_CONFIG.MIXMASTER_PLTM_URL
         : envVars.MIXMASTER_PLTM_URL;
 
@@ -252,7 +244,7 @@ const ADMIN_URLS = {
             '/admin/config'
         );
     },
-    
+
     // Invite
     INVITE_USER: (company_id) => {
         return urlJoin(SKYWARP_PLTM_BASE, `/v1.0/company/${company_id}/invite/send`);
@@ -1012,7 +1004,7 @@ const ADMIN_URLS = {
             `v1.0/company/${company_id}/application/${application_id}/domain/domain-status/`
         );
     },
-    
+
     // Redirection domain API's
     GET_APP_REDIRECTION_DOMAINS: (company_id, application_id, domain_name = '') => {
         return urlJoin(
@@ -1038,33 +1030,33 @@ const ADMIN_URLS = {
     },
 
     GET_COMPANY_BRANDS: () => {
-        return urlJoin(SILVERBOLT_PCPR_URL, `/v1.0/company/${getCompInfo()}/company-brand/`);
+        return urlJoin(WHEELJACK_PCPR_URL, `/v1.0/company/${getCompInfo()}/company-brand/`);
     },
     COMPANY_FRANCHISE: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, 'v1/onboarding/company/franchise/');
     },
     ADD_BRAND: () => {
-        return urlJoin(SILVERBOLT_PCPR_URL, `/v1.0/company/${getCompInfo()}/brand/`);
+        return urlJoin(WHEELJACK_PCPR_URL, `/v1.0/company/${getCompInfo()}/brand/`);
     },
     COMPANY_BRAND_BY_ID: params => {
-        return urlJoin(SILVERBOLT_PCPR_URL, `/v1.0/company/${getCompInfo()}/brand/${params.brandId}`);
+        return urlJoin(WHEELJACK_PCPR_URL, `/v1.0/company/${getCompInfo()}/brand/${params.brandId}`);
     },
     COMPANY_BRAND_TO_PROFILE: () => {
-        return urlJoin(SILVERBOLT_PCPR_URL, `/v1.0/company/${getCompInfo()}/company-brand/`);
+        return urlJoin(WHEELJACK_PCPR_URL, `/v1.0/company/${getCompInfo()}/company-brand/`);
     },
     GET_CHOICE_TYPES: () => {
-        return urlJoin(SILVERBOLT_PNLCPR_URL, '/v1.0/choices/');
+        return urlJoin(WHEELJACK_PNLCPR_URL, '/v1.0/choices/');
     },
     COMPANY_STORES: () => {
-        return urlJoin(SILVERBOLT_PCPR_URL, `/v1.0/company/${getCompInfo()}/location/`);
+        return urlJoin(WHEELJACK_PCPR_URL, `/v1.0/company/${getCompInfo()}/location/`);
     },
     ONE_STORE: params => {
         return urlJoin(
-            SILVERBOLT_PCPR_URL,
+            WHEELJACK_PCPR_URL,
             `/v1.0/company/${getCompInfo()}/location/${params.locationId}`);
     },
     GET_COMPANY_LIST: () => {
-        return urlJoin(SILVERBOLT_PNLCPR_URL, '/v1.0/companies');
+        return urlJoin(WHEELJACK_PNLCPR_URL, '/v1.0/companies');
     },
     INVENTORY: (item_id, size) => {
         return urlJoin(SILVERBOLT_PCAT_URL, `v1.0/company/${getCompInfo()}/products/${item_id}/sizes/${size}`);
@@ -1176,7 +1168,7 @@ const ADMIN_URLS = {
         return urlJoin(SILVERBOLT_PCAT_URL,
             `/v1.0/company/${getCompInfo()}/products/templates/categories/`);
     },
-    // remove and and new api from 
+    // remove and and new api from
     HSN_COUNTRY_CODES: () => {
         return urlJoin(SILVERBOLT_PCAT_URL, `/v1.0/company/${getCompInfo()}/products/hsn`);
     },
@@ -1261,13 +1253,13 @@ const ADMIN_URLS = {
         return urlJoin(SILVERBOLT_PCAT_URL, `v1.0/company/${getCompInfo()}/category/`);
     },
     COMPANY_PROFILE: () => {
-        return urlJoin(SILVERBOLT_PCPR_URL, `/v1.0/company/${getCompInfo()}`);
+        return urlJoin(WHEELJACK_PCPR_URL, `/v1.0/company/${getCompInfo()}`);
     },
     GET_BUSINESS_COUNTRIES: () => {
-        return urlJoin(SILVERBOLT_PNLCPR_URL, '/v1.0/countries');
+        return urlJoin(WHEELJACK_PNLCPR_URL, '/v1.0/countries');
     },
     GET_METRICS_API: () => {
-        return urlJoin(SILVERBOLT_PCPR_URL, `/v1.0/company/${getCompInfo()}/metrics`);
+        return urlJoin(WHEELJACK_PCPR_URL, `/v1.0/company/${getCompInfo()}/metrics`);
     },
     GET_COMPANY_METRICS_API: (params = null) => {
         return urlJoin(
@@ -1277,10 +1269,7 @@ const ADMIN_URLS = {
         );
     },
     VALIDATE_DOCUMENT: () => {
-        return urlJoin(SILVERBOLT_PNLCPR_URL, '/v1.0/documents/verification/config');
-    },
-    VALIDATE_REFERRAL: () => {
-        return urlJoin(MIXMASTER_PNL_URL, '/v1.0/referralcode/validate');
+        return urlJoin(WHEELJACK_PNLCPR_URL, '/v1.0/documents/verification/config');
     },
     SAVE_DOCUMENT: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/edit-documents');
@@ -1630,7 +1619,7 @@ const ADMIN_URLS = {
 
     FETCH_DRIs: (company_id = '') => {
         return urlJoin(
-            SILVERBOLT_PCPR_URL,
+            WHEELJACK_PCPR_URL,
             `/v1.0/company/${company_id}/poc/?status=true`
         );
     },
@@ -1668,7 +1657,7 @@ const ADMIN_URLS = {
 
     GET_JOB_BY_CODE: (job_code = '') => {
         return urlJoin(SWOOP_BASE, `/v1.0/company/${getCompInfo()}/jobs/code/${job_code}`)
-    }, // get job by code  
+    }, // get job by code
 
     GET_DEFAULT_JOB_CONFIG: () => {
         return urlJoin(SWOOP_BASE, `/v1.0/company/${getCompInfo()}/jobs/defaults`)
@@ -1692,24 +1681,6 @@ const ADMIN_URLS = {
 
     GET_PRODUCT_ATTRIBUTE_BY_SLUG: (slug) => {
         return urlJoin(SILVERBOLT_PCAT_URL, `/v1.0/company/${getCompInfo()}/product-attributes/${slug}`)
-    },
-    WEBHOOK_EVENT_LIST: () => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/events/`);
-    },
-    SUBSCRIBER_BY_COMPANY_ID: () => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/subscriber`);
-    },
-    GET_WEBHOOK_REPORT: () => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/reports/event_processed`);
-    },
-    TEST_WEBHOOK: () => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/subscriber/ping`);
-    },
-    GET_SUBSCRIBER_BY_ID :(id) => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/subscriber/${id}`);
-    },
-    GET_FILTER_LIST :() => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/filters`);
     },
     FETCH_VERIFICATION_COMPANY: () => {
         return urlJoin(SILVERBOLT_PCAT_URL, `/v1.0/company/${getCompInfo()}/verification/company`);

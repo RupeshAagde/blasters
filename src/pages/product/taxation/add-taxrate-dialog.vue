@@ -13,6 +13,7 @@
                                 class="st-date"
                                 v-model="slab1.effective_date.value"
                                 :useNitrozenTheme="true"
+                                @input="checkExistigDate($event)"
                             />
                             <nitrozen-error
                                 v-if="slab1.effective_date.showerror"
@@ -26,7 +27,6 @@
                                 type="number"
                                 placeholder="cess value (optional)"
                                 v-model="slab1.cess.value"
-                                @input=""
                             ></nitrozen-input>
                             <nitrozen-error v-if="slab1.cess.showerror">
                                 {{ slab1.cess.errortext }}
@@ -39,18 +39,14 @@
                             <nitrozen-input
                                 label="Threshold value"
                                 :required="true"
+                                disabled
                                 type="number"
                                 placeholder="eg. 99999"
                                 v-model="slab1.threshold.value"
                                 :custom="true"
                                 :showPrefix="true"
                             >
-                                <div
-                                    class=".
-                            custom-label"
-                                >
-                                    &#62;
-                                </div>
+                                <div class=". custom-label">&#62;</div>
                             </nitrozen-input>
                             <nitrozen-error v-if="slab1.threshold.showerror">
                                 {{ slab1.threshold.errortext }}
@@ -80,29 +76,12 @@
                         @click.stop.native="removeRate()"
                     ></ukt-inline-svg>
                     <div class="row">
-                        <div class="input-box">
-                            <adm-date-picker
-                                label="Effective date *"
-                                required
-                                date_format="YYYY-MM-DD"
-                                :picker_type="'date'"
-                                class="st-date"
-                                v-model="slab1.effective_date.value"
-                                :useNitrozenTheme="true"
-                            />
-                            <nitrozen-error
-                                v-if="slab1.effective_date.showerror"
-                            >
-                                {{ slab1.effective_date.errortext }}
-                            </nitrozen-error>
-                        </div>
-                        <div class="input-box">
+                        <div class="input-box2">
                             <nitrozen-input
                                 label="Cess"
                                 type="number"
                                 placeholder="cess value (optional)"
                                 v-model="slab2.cess.value"
-                                @input=""
                             ></nitrozen-input>
                             <nitrozen-error v-if="slab2.cess.showerror">
                                 {{ slab2.cess.errortext }}
@@ -118,16 +97,10 @@
                                 type="number"
                                 placeholder="eg. 99999rs"
                                 v-model="slab2.threshold.value"
-                                @input=""
                                 :custom="true"
                                 :showPrefix="true"
                             >
-                                <div
-                                    class=".
-                            custom-label"
-                                >
-                                    &#62;
-                                </div>
+                                <div class=". custom-label">&#62;</div>
                             </nitrozen-input>
                             <nitrozen-error v-if="slab2.threshold.showerror">
                                 {{ slab2.threshold.errortext }}
@@ -148,14 +121,15 @@
                     </div>
                 </div>
                 <div v-if="!isSlab2">
-                    <NitrozenButton
+                    <nitrozen-button
                         title="add new rate"
-                        theme="secondary"
-                        class="ml-sm"
+                        :theme="'secondary'"
+                        class="meta-btn"
+                        :disabled="checkHighestValue(slab1.rate.value)"
                         @click.stop="addRate()"
                     >
                         + Add Slab
-                    </NitrozenButton>
+                    </nitrozen-button>
                 </div>
             </div>
         </template>
@@ -183,14 +157,16 @@
 
 <script>
 const RATE_LIST = [
+    { text: '0%', value: '0' },
     { text: '3%', value: 3 },
     { text: '5%', value: 5 },
     { text: '10%', value: 10 },
     { text: '12%', value: 12 },
     { text: '18%', value: 18 },
-    { text: '28%', value: 28 }
+    { text: '28%', value: 28 },
 ];
 import { debounce } from '@/helper/utils';
+import cloneDeep from 'lodash/cloneDeep';
 import AdmDatePicker from '@/components/common/date-picker.vue';
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import {
@@ -200,7 +176,7 @@ import {
     NitrozenError,
     NitrozenDialog,
     flatBtn,
-    strokeBtn
+    strokeBtn,
 } from '@gofynd/nitrozen-vue';
 
 export default {
@@ -212,100 +188,140 @@ export default {
         NitrozenError,
         NitrozenDialog,
         AdmDatePicker,
-        UktInlineSvg
+        UktInlineSvg,
     },
     props: {
         description: {
             type: String,
-            default: 'Add GST'
+            default: 'Add GST',
         },
-        taxes: Object
+        taxes: Object,
+        selectedDates: {
+            type: Array,
+        },
     },
     directives: {
         flatBtn,
-        strokeBtn
+        strokeBtn,
     },
     computed: {},
     watch: {
         taxes: {
             immediate: true,
             handler(newVal, oldVal) {
-                this.datedTax = { ...newVal };
-            }
-        }
+                this.datedTax = cloneDeep(newVal);
+                if (this.datedTax) {
+                    for (let tax in this.datedTax) {
+                        for (let temp of this.datedTax[tax]) {
+                            if (!temp.effective_date.includes('.000Z')) {
+                                temp.effective_date = new Date(
+                                    temp.effective_date + '.000Z'
+                                )
+                                    .toLocaleString('sv')
+                                    .replace(' ', 'T');
+                            }
+                        }
+                    }
+                }
+            },
+        },
     },
-    data: function() {
+    data: function () {
         return {
             datedTax: {},
             rateList1: [
+                { text: '0%', value: '0' },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
                 { text: '12%', value: 12 },
                 { text: '18%', value: 18 },
-                { text: '28%', value: 28 }
+                { text: '28%', value: 28 },
             ],
             rateList2: [
+                { text: '0%', value: '0' },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
                 { text: '12%', value: 12 },
                 { text: '18%', value: 18 },
-                { text: '28%', value: 28 }
+                { text: '28%', value: 28 },
             ],
             slab1: {
                 cess: {
                     value: 0,
                     showerror: false,
-                    errortext: ''
+                    errortext: '',
                 },
                 effective_date: {
                     value: '',
                     showerror: false,
-                    errortext: ''
+                    errortext: '',
                 },
                 rate: {
-                    value: 0,
+                    value: '0',
                     showerror: false,
-                    errortext: ''
+                    errortext: '',
                 },
                 threshold: {
                     value: 0,
                     showerror: false,
-                    errortext: ''
-                }
+                    errortext: '',
+                },
             },
             slab2: {
                 cess: {
                     value: 0,
                     showerror: false,
-                    errortext: ''
+                    errortext: '',
                 },
                 effective_date: {
                     value: '',
                     showerror: false,
-                    errortext: ''
+                    errortext: '',
                 },
                 rate: {
-                    value: 0,
+                    value: '0',
                     showerror: false,
-                    errortext: ''
+                    errortext: '',
                 },
                 threshold: {
                     value: 0,
                     showerror: false,
-                    errortext: ''
-                }
+                    errortext: '',
+                },
             },
-            isSlab2: false
+            isSlab2: false,
         };
     },
     mounted() {},
     methods: {
+        checkExistigDate(selectedDate) {
+            const date1 = new Date(selectedDate);
+            this.selectedDates.forEach((eachDate) => {
+                const date2 = new Date(eachDate);
+                const date1WithoutTime = new Date(date1.getTime());
+                const date2WithoutTime = new Date(date2.getTime());
+                date1WithoutTime.setUTCHours(0, 0, 0, 0);
+                date2WithoutTime.setUTCHours(0, 0, 0, 0);
+                if (date1WithoutTime.getTime() === date2WithoutTime.getTime()) {
+                    this.$snackbar.global.showError('Slab already exist for selected effective date');
+                    this.slab1.effective_date.value = ""
+                    return;
+                }
+            });
+        },
+        checkHighestValue(value) {
+            const rateList = cloneDeep(RATE_LIST);
+            const highest = rateList
+                .sort((a, b) => a.value - b.value)
+                .pop().value;
+            return highest === value;
+        },
         open(data) {
             this.$refs.dialog.open({
                 width: '600px',
-                height: '80%'
+                height: '80%',
             });
         },
         validate(data) {
@@ -319,20 +335,25 @@ export default {
         addRate() {
             let isValid = this.checkFirstSlab(this.slab1);
             if (isValid) {
+                this.getRateList2(this.slab1.rate.value);
                 this.isSlab2 = true;
             } else {
             }
         },
         getRateList2(data) {
             let tempList = [
+                { text: '0%', value: '0' },
                 { text: '3%', value: 3 },
                 { text: '5%', value: 5 },
                 { text: '10%', value: 10 },
                 { text: '12%', value: 12 },
                 { text: '18%', value: 18 },
-                { text: '28%', value: 28 }
+                { text: '28%', value: 28 },
             ];
             this.rateList2 = tempList.filter((rate) => rate.value > data);
+            if(data == 28){
+                this.removeRate()
+            }
         },
         getFormValues() {
             let objData = [];
@@ -340,14 +361,14 @@ export default {
                 threshold: this.slab1.threshold.value,
                 rate: this.slab1.rate.value,
                 effective_date: this.slab1.effective_date.value,
-                cess: this.slab1.cess.value
+                cess: this.slab1.cess.value,
             });
             if (this.isSlab2) {
                 objData.push({
                     threshold: this.slab2.threshold.value,
                     rate: this.slab2.rate.value,
                     effective_date: this.slab2.effective_date.value,
-                    cess: this.slab2.cess.value
+                    cess: this.slab2.cess.value,
                 });
             }
             return objData;
@@ -379,8 +400,8 @@ export default {
             if (this.checkSlab1Required(data)) {
                 let date_dict = this.getDateDict();
                 let newdate = new Date(data.effective_date.value).setHours(
-                    23,
-                    59,
+                    1,
+                    35,
                     0,
                     0
                 );
@@ -394,7 +415,7 @@ export default {
                     if (rateCount >= 2) {
                         this.slab1.effective_date.showerror = true;
                         this.slab1.effective_date.errortext =
-                            'Select another date, two GST rate for selected date already exist';
+                            'Select another date, two GST rate for selected dates already exist';
                         return false;
                     } else if (rateCount == 1) {
                         this.$snackbar.global.showError(
@@ -407,7 +428,7 @@ export default {
         },
         checkSlab1Required(data) {
             let isValid = true;
-            if (data.threshold.value >=0 && data.threshold.value <= 999999) {
+            if (data.threshold.value >= 0 && data.threshold.value <= 999999) {
                 this.slab1.threshold.showerror = false;
             } else if (data.threshold.value > 999999) {
                 this.slab1.threshold.showerror = true;
@@ -419,7 +440,7 @@ export default {
                 this.slab1.threshold.errortext = 'Threshold should be a number';
                 isValid = false;
             }
-            if (data.rate.value > 0) {
+            if (data.rate.value >= 0) {
                 this.slab1.rate.showerror = false;
             } else {
                 this.slab1.rate.showerror = true;
@@ -447,15 +468,17 @@ export default {
         },
         checkSlab2Required(slab2, slab1) {
             let isValid = true;
-            if (slab2.threshold.value > slab1.threshold.value && slab2.threshold.value <=999999) {
+            if (
+                slab2.threshold.value > slab1.threshold.value &&
+                slab2.threshold.value <= 999999
+            ) {
                 this.slab2.threshold.showerror = false;
             } else if (slab2.threshold.value > 999999) {
                 this.slab2.threshold.showerror = true;
                 this.slab2.threshold.errortext =
                     'Threshold should be lesser than 99999';
                 isValid = false;
-            }
-            else {
+            } else {
                 this.slab2.threshold.showerror = true;
                 this.slab2.threshold.errortext =
                     'Threshold should be greater than first threshold';
@@ -465,8 +488,7 @@ export default {
                 this.slab2.rate.showerror = false;
             } else {
                 this.slab2.rate.showerror = true;
-                this.slab2.rate.errortext =
-                    'Rate is required';
+                this.slab2.rate.errortext = 'Rate is required';
                 isValid = false;
             }
             if (
@@ -500,7 +522,7 @@ export default {
 
                 let newdate = new Date(
                     this.slab1.effective_date.value
-                ).setHours(23, 59, 0, 0);
+                ).setHours(0, 35, 0, 0);
                 this.slab1.effective_date.value = new Date(
                     newdate
                 ).toISOString();
@@ -540,7 +562,8 @@ export default {
                     }
                 } else {
                     if (this.isSlab2) {
-                        this.slab2.effective_date.value = this.slab1.effective_date.value;
+                        this.slab2.effective_date.value =
+                            this.slab1.effective_date.value;
                     }
                     return true;
                 }
@@ -561,23 +584,23 @@ export default {
                 cess: {
                     value: 0,
                     showerror: false,
-                    errortext: ''
+                    errortext: '',
                 },
                 effective_date: {
                     value: '',
                     showerror: false,
-                    errortext: ''
+                    errortext: '',
                 },
                 rate: {
-                    value: 0,
+                    value: '0',
                     showerror: false,
-                    errortext: ''
+                    errortext: '',
                 },
                 threshold: {
                     value: 0,
                     showerror: false,
-                    errortext: ''
-                }
+                    errortext: '',
+                },
             };
         },
         resetSlab2() {
@@ -585,26 +608,26 @@ export default {
                 cess: {
                     value: 0,
                     showerror: false,
-                    errortext: ''
+                    errortext: '',
                 },
                 effective_date: {
                     value: '',
                     showerror: false,
-                    errortext: ''
+                    errortext: '',
                 },
                 rate: {
-                    value: 0,
+                    value: '0',
                     showerror: false,
-                    errortext: ''
+                    errortext: '',
                 },
                 threshold: {
                     value: 0,
                     showerror: false,
-                    errortext: ''
-                }
+                    errortext: '',
+                },
             };
-        }
-    }
+        },
+    },
 };
 </script>
 
@@ -619,6 +642,9 @@ export default {
 
         .input-box {
             width: 48%;
+        }
+        .input-box2 {
+            width: 100%;
         }
         .input-date {
             width: 100%;
@@ -683,5 +709,8 @@ export default {
     .footer-btn {
         margin-left: 12px;
     }
+}
+::v-deep .n-button:disabled {
+    opacity: 0.5;
 }
 </style>

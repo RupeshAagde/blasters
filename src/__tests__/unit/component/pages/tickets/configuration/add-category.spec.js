@@ -4,12 +4,11 @@ import axios from 'axios';
 import VueRouter from 'vue-router';
 import MockAdapter from 'axios-mock-adapter';
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
-import ticketCategory from '@/pages/tickets/add-category.vue'
+import ticketCategory from '@/pages/tickets/configuration/add-category.vue'
 import ADMIN_URLS from '@/services/domain.service';
 
 let localVue;
 const mock = new MockAdapter(axios);
-//${getRoute(this.$route)}/administrator/support/add-category
 describe('Ticket Category Page', () => {
 
     beforeEach(() => {
@@ -27,10 +26,10 @@ describe('Ticket Category Page', () => {
     it('test categories rendering after call', async () => {
         const router = new VueRouter({
             routes: [
-                { path: '/administrator/support/add-category', component: ticketCategory }
+                { path: '/administrator/support/configuration/category/default', component: ticketCategory }
             ]
         })
-        router.push('/administrator/support/add-category');
+        router.push('/administrator/support/configuration/category/default');
         const wrapper = mount(ticketCategory, {
             localVue,
             router
@@ -44,10 +43,10 @@ describe('Ticket Category Page', () => {
     it('test categories edit a category', async () => {
         const router = new VueRouter({
             routes: [
-                { path: '/administrator/support/add-category', component: ticketCategory }
+                { path: '/administrator/support/configuration/category/default', component: ticketCategory }
             ]
         })
-        router.push('/administrator/support/add-category');
+        router.push('/administrator/support/configuration/category/default');
         const wrapper = mount(ticketCategory, {
             localVue,
             router
@@ -78,10 +77,10 @@ describe('Ticket Category Page', () => {
     it('test add a category', async () => {
         const router = new VueRouter({
             routes: [
-                { path: '/administrator/support/add-category', component: ticketCategory }
+                { path: '/administrator/support/configuration/category/default', component: ticketCategory }
             ]
         })
-        router.push('/administrator/support/add-category');
+        router.push('/administrator/support/configuration/category/default');
         const wrapper = mount(ticketCategory, {
             localVue,
             router

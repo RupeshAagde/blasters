@@ -1,0 +1,290 @@
+{
+  "event_configs": [
+    {
+      "id": 1,
+      "event_name": "integration",
+      "event_type": "update",
+      "event_category": "company",
+      "version": "1",
+      "display_name": "store integration config",
+      "description": "this event is for store integration config",
+      "created_on": "2021-05-06T09:41:50.379Z",
+      "updated_on": "2021-05-06T09:41:50.379Z"
+    },
+    {
+      "id": 2,
+      "event_name": "product-size",
+      "event_type": "create",
+      "event_category": "company",
+      "version": "1",
+      "display_name": "product-size",
+      "description": "This event gets triggered on new product size creation",
+      "created_on": "2021-05-06T09:42:12.853Z",
+      "updated_on": "2021-05-06T09:42:12.853Z"
+    },
+    {
+      "id": 3,
+      "event_name": "product-size",
+      "event_type": "update",
+      "event_category": "company",
+      "version": "1",
+      "display_name": "product-size",
+      "description": "This event gets triggered on product size update",
+      "created_on": "2021-05-06T09:42:23.167Z",
+      "updated_on": "2021-05-06T09:42:23.167Z"
+    },
+    {
+      "id": 4,
+      "event_name": "product-size",
+      "event_type": "delete",
+      "event_category": "company",
+      "version": "1",
+      "display_name": "product-size",
+      "description": "This event gets triggered on product size delete",
+      "created_on": "2021-05-06T09:42:33.456Z",
+      "updated_on": "2021-05-06T09:42:33.456Z"
+    },
+    {
+      "id": 10,
+      "event_name": "article",
+      "event_type": "create",
+      "event_category": "company",
+      "version": "1",
+      "display_name": "article-create",
+      "description": "This event gets triggered when article is create",
+      "created_on": "2021-07-02T07:55:50.506Z",
+      "updated_on": "2021-07-02T07:55:50.506Z"
+    },
+    {
+      "id": 11,
+      "event_name": "article",
+      "event_type": "update",
+      "event_category": "company",
+      "version": "1",
+      "display_name": "article-update",
+      "description": "This event gets triggered when article is update",
+      "created_on": "2021-07-02T07:56:20.260Z",
+      "updated_on": "2021-07-02T07:56:20.260Z"
+    },
+    {
+      "id": 18,
+      "event_name": "extension",
+      "event_type": "install",
+      "event_category": "company",
+      "version": "1",
+      "display_name": "extension-install",
+      "description": "This event gets triggered when extension is install",
+      "created_on": "2021-07-02T11:37:42.365Z",
+      "updated_on": "2021-07-02T11:37:42.365Z"
+    },
+    {
+      "id": 20,
+      "event_name": "location",
+      "event_type": "update",
+      "event_category": "company",
+      "version": "1",
+      "display_name": "location-update",
+      "description": "This event gets triggered when location is update",
+      "created_on": "2021-07-13T04:32:45.264Z",
+      "updated_on": "2021-07-13T04:32:45.264Z"
+    },
+    {
+      "id": 21,
+      "event_name": "brand",
+      "event_type": "update",
+      "event_category": "company",
+      "version": "1",
+      "display_name": "brand-update",
+      "description": "This event gets triggered when brand is update",
+      "created_on": "2021-07-13T04:48:02.692Z",
+      "updated_on": "2021-07-13T04:48:02.692Z"
+    },
+    {
+      "id": 22,
+      "event_name": "theme",
+      "event_type": "unpublished",
+      "event_category": "company",
+      "version": "1",
+      "display_name": "Theme",
+      "description": "This event gets triggered when theme is unpublished",
+      "created_on": "2021-08-11T12:31:13.291Z",
+      "updated_on": "2021-08-11T12:31:13.293Z"
+    },
+    {
+      "id": 23,
+      "event_name": "theme",
+      "event_type": "published",
+      "event_category": "company",
+      "version": "1",
+      "display_name": "Theme",
+      "description": "This event gets triggered when theme is published",
+      "created_on": "2021-08-11T12:31:22.319Z",
+      "updated_on": "2021-08-11T12:31:22.320Z"
+    },
+    {
+      "id": 24,
+      "event_name": "theme",
+      "event_type": "delete",
+      "event_category": "company",
+      "version": "1",
+      "display_name": "Theme",
+      "description": "This event gets triggered when theme is deleted",
+      "created_on": "2021-08-11T12:31:32.863Z",
+      "updated_on": "2021-08-11T12:31:32.863Z"
+    },
+    {
+      "id": 25,
+      "event_name": "theme",
+      "event_type": "update",
+      "event_category": "company",
+      "version": "1",
+      "display_name": "Theme",
+      "description": "This event gets triggered when theme is updated",
+      "created_on": "2021-08-11T12:31:44.855Z",
+      "updated_on": "2021-08-11T12:31:44.857Z"
+    },
+    {
+      "id": 26,
+      "event_name": "theme",
+      "event_type": "create",
+      "event_category": "company",
+      "version": "1",
+      "display_name": "Theme",
+      "description": "This event gets triggered when theme is created",
+      "created_on": "2021-08-11T12:31:54.482Z",
+      "updated_on": "2021-08-11T12:31:54.482Z"
+    },
+    {
+      "id": 5,
+      "event_name": "coupon",
+      "event_type": "create",
+      "event_category": "application",
+      "version": "1",
+      "display_name": "coupon-create",
+      "description": "This event gets triggered on coupon creation",
+      "created_on": "2021-06-24T06:39:12.575Z",
+      "updated_on": "2021-06-24T06:39:12.575Z"
+    },
+    {
+      "id": 6,
+      "event_name": "coupon",
+      "event_type": "update",
+      "event_category": "application",
+      "version": "1",
+      "display_name": "coupon-update",
+      "description": "This event gets triggered on coupon updation",
+      "created_on": "2021-06-24T06:39:35.854Z",
+      "updated_on": "2021-06-24T06:39:35.854Z"
+    },
+    {
+      "id": 7,
+      "event_name": "cart",
+      "event_type": "create",
+      "event_category": "application",
+      "version": "1",
+      "display_name": "cart-create",
+      "description": "This event gets triggered when new cart is created",
+      "created_on": "2021-06-24T06:40:27.968Z",
+      "updated_on": "2021-06-24T06:40:27.968Z"
+    },
+    {
+      "id": 8,
+      "event_name": "cart",
+      "event_type": "update",
+      "event_category": "application",
+      "version": "1",
+      "display_name": "cart-update",
+      "description": "This event gets triggered when cart is updated",
+      "created_on": "2021-06-24T06:40:44.306Z",
+      "updated_on": "2021-06-24T06:40:44.306Z"
+    },
+    {
+      "id": 9,
+      "event_name": "order",
+      "event_type": "create",
+      "event_category": "application",
+      "version": "1",
+      "display_name": "order-create",
+      "description": "This event gets triggered when order is create",
+      "created_on": "2021-07-02T07:54:27.279Z",
+      "updated_on": "2021-07-02T07:54:27.279Z"
+    },
+    {
+      "id": 12,
+      "event_name": "support-ticket",
+      "event_type": "create",
+      "event_category": "application",
+      "version": "1",
+      "display_name": "support-ticket-create",
+      "description": "This event gets triggered when support-ticket is create",
+      "created_on": "2021-07-02T08:05:26.093Z",
+      "updated_on": "2021-07-02T08:05:26.093Z"
+    },
+    {
+      "id": 13,
+      "event_name": "support-ticket",
+      "event_type": "update",
+      "event_category": "application",
+      "version": "1",
+      "display_name": "support-ticket-update",
+      "description": "This event gets triggered when support-ticket is update",
+      "created_on": "2021-07-02T08:05:41.564Z",
+      "updated_on": "2021-07-02T08:05:41.564Z"
+    },
+    {
+      "id": 14,
+      "event_name": "order",
+      "event_type": "update",
+      "event_category": "application",
+      "version": "1",
+      "display_name": "order-update",
+      "description": "This event gets triggered when order is update",
+      "created_on": "2021-07-02T09:12:58.288Z",
+      "updated_on": "2021-07-02T09:12:58.288Z"
+    },
+    {
+      "id": 15,
+      "event_name": "order",
+      "event_type": "placed",
+      "event_category": "application",
+      "version": "1",
+      "display_name": "order-placed",
+      "description": "This event gets triggered when order is placed",
+      "created_on": "2021-07-02T10:16:21.197Z",
+      "updated_on": "2021-07-02T10:16:21.197Z"
+    },
+    {
+      "id": 16,
+      "event_name": "shipment",
+      "event_type": "create",
+      "event_category": "application",
+      "version": "1",
+      "display_name": "shipment-create",
+      "description": "This event gets triggered when shipment is create",
+      "created_on": "2021-07-02T07:55:03.741Z",
+      "updated_on": "2021-07-02T07:55:03.741Z"
+    },
+    {
+      "id": 17,
+      "event_name": "shipment",
+      "event_type": "update",
+      "event_category": "application",
+      "version": "1",
+      "display_name": "shipment-update",
+      "description": "This event gets triggered when shipment is update",
+      "created_on": "2021-07-02T07:55:34.804Z",
+      "updated_on": "2021-07-02T07:55:34.804Z"
+    },
+    {
+      "id": 19,
+      "event_name": "company",
+      "event_type": "update",
+      "event_category": "application",
+      "version": "1",
+      "display_name": "company-update",
+      "description": "This event gets triggered when company is update",
+      "created_on": "2021-07-09T17:59:23.197Z",
+      "updated_on": "2021-07-09T17:59:23.197Z"
+    }
+  ]
+}

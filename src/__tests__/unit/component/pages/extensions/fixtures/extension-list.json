@@ -1,0 +1,2075 @@
+{
+    "config": [{ "total": 176, "page": 1 }],
+    "items": [
+        {
+            "_id": "60bf7f734fe0a3c8e90e5b83",
+            "listing_info": {
+                "keywords": [],
+                "name": "Newsletter Subscription",
+                "tagline": "dsvsv",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/F9IzVxMC2-logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/nKlrV_01V-desk-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/UZ0zmE2sW-desk-sc-2.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/cGtO7qpge-desk-sc-3.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/10Twf0N0R-mob-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/CRHrGZf5n-mob-sc-2.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/nDsWxx2rB-mob-sc-3.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "623db9405ce44ba088b9c5bc",
+                        "title": "dsvsv",
+                        "description": "dvssdvdvdv"
+                    }
+                ],
+                "description": "<p>Now you can run referral campaigns that lets you and your existing customers refer their friends and family to register on your website.<br /><br />Features<br />&bull; Configure reward for the referrer<br />&bull; Configure reward for the one being referred<br />&bull; Set validity of referral and the reward<br />&bull; Enable/Disable referral campaigns</p>",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "aayushvjain@gofynd.com",
+                    "phone": "8767087087",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": ["company/saleschannel", "company/application/settings"],
+            "plans": [
+                {
+                    "name": "dbfd",
+                    "features": "ngfnfgm",
+                    "type": "free",
+                    "price": { "amount": 0, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": ""
+                }
+            ],
+            "extension_id": "609400409d0dcbdc2e6b76a5",
+            "slug": "newsletter-subscription",
+            "plan_type": "free",
+            "current_status": "active",
+            "organization_id": "610d178e2ab8f356aa98481b",
+            "created_at": "2021-06-08T14:32:19.574Z",
+            "modified_at": "2022-03-25T12:44:48.325Z",
+            "plans_url": "",
+            "coming_soon": { "upvote_count": 0, "is_coming_soon": false },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f44c",
+                        "slug": "marketing",
+                        "_id": "62320b45f4213eb19aa8f44c"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4aa",
+                        "slug": "advertisement",
+                        "_id": "62320b45f4213eb19aa8f4aa",
+                        "parent": "62320b45f4213eb19aa8f44c"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4c6",
+                        "slug": "marketing-analytics",
+                        "_id": "62320b45f4213eb19aa8f4c6",
+                        "parent": "62320b45f4213eb19aa8f44c"
+                    }
+                ]
+            },
+            "organization": { "name": "Fynd", "slug": "Fynd-s8f-32" }
+        },
+        {
+            "_id": "61109ded41dc073111c38f59",
+            "listing_info": {
+                "keywords": [],
+                "name": "Tag Manager Local",
+                "tagline": "Google Tag Manager",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/St-C8mG8_-logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/bNNRnl-IE-desk-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/P0IcHYNbA-desk-sc-2.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/PlY2R2xgo-desk-sc-3.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/30gIT73MK-mob-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/XoAtVMhIn-mob-sc-2.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/XoAtVMhIn-mob-sc-2.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "61109ded41dc072bf4c38f5a",
+                        "title": "Feature 1",
+                        "description": "Description 1"
+                    }
+                ],
+                "description": "Local tag manager",
+                "demo_url": "https://honest-rattlesnake-7.loca.lt/",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "akashmane@gofynd.com",
+                    "phone": "8652523958",
+                    "website_url": "https://honest-rattlesnake-7.loca.lt/",
+                    "faq_url": "https://honest-rattlesnake-7.loca.lt/",
+                    "privacy_policy_url": "https://honest-rattlesnake-7.loca.lt/"
+                }
+            },
+            "scope": ["company/saleschannel", "company/application/settings"],
+            "plans": [
+                {
+                    "name": "Basic",
+                    "features": "Basic ",
+                    "type": "recurring",
+                    "price": { "amount": 99, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "month",
+                        "recurring_time": 30,
+                        "yearly_amount": 1188
+                    }
+                }
+            ],
+            "extension_id": "61109c6795dcfa38cb408c70",
+            "slug": "tag-manager-local",
+            "plan_type": "recurring",
+            "plans_url": "https://honest-rattlesnake-7.loca.lt/company/1/pricing",
+            "current_status": "active",
+            "organization_id": "6110967d95dcfaf485408c60",
+            "created_at": "2021-08-09T03:15:57.074Z",
+            "modified_at": "2022-03-21T12:27:06.809Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f45b",
+                        "_id": "62320b45f4213eb19aa8f45b",
+                        "slug": "inventory"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f45a",
+                        "_id": "62320b45f4213eb19aa8f45a",
+                        "slug": "customer-service"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4d9",
+                        "_id": "62320b45f4213eb19aa8f4d9",
+                        "parent": "62320b45f4213eb19aa8f45b",
+                        "slug": "managing-inventory"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4d4",
+                        "_id": "62320b45f4213eb19aa8f4d4",
+                        "parent": "62320b45f4213eb19aa8f45a",
+                        "slug": "support"
+                    }
+                ]
+            },
+            "organization": {
+                "name": "Akash Organization",
+                "slug": "AkashO-2xk-98"
+            }
+        },
+        {
+            "_id": "6111fc2741dc07b7bbc38f5b",
+            "listing_info": {
+                "keywords": ["facebook"],
+                "name": "Facebook Catalogue",
+                "tagline": "Export products in Facebook compatible format",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/JdPFZDJ-y-logo.jpeg"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/TknKwu-cj-desk-sc-1.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/Q30Y33G-c-mob-sc-1.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "6111fc2741dc070437c38f5c",
+                        "title": "Catalogue Export",
+                        "description": "Export catalogue in a format that is fully compatible to be readily used on Facebook Commerce Manager."
+                    }
+                ],
+                "description": "<p>Your catalogue on Fynd Platform is readily usable on Facebook Commerce Manager. This app helps you transform your Fynd Platform catalogue into Facebook's import products CSV file format without much manual intervention. You may use this exported CSV file readily on Facebook Commerce Manager to upload your products to Facebook Marketplace.</p>\n<p><strong>Features</strong></p>\n<ul>\n<li>Catalogue Export\n<ul>\n<li>Export catalogue in a format that is fully compatible to be readily used on Facebook Commerce Manager.</li>\n<li>Filter the catalogue based on 'brands' to be exported. You can select multiple brands at once.</li>\n<li>Get the count of products that will be exported after applying filters.</li>\n</ul>\n</li>\n<li>Scheduled Catalogue Export\n<ul>\n<li>Set a recurring event to export the catalogue. For example- every 4 hours, every day, every Friday, etc.</li>\n<li>Get a constant URL that will have the latest catalogue data. You may use this URL in your system to always fetch fresh catalogue data.</li>\n</ul>\n</li>\n<li>Download History\n<ul>\n<li>A list of all the export events in past will be available. You can download the catalogue from the past export events as well.</li>\n</ul>\n</li>\n</ul>\n<p><strong>Upcoming Features</strong></p>\n<ul>\n<li>Catalogue Import\n<ul>\n<li>Upload your catalogue present on the Facebook marketplace to Fynd Platform using the exported CSV from Facebook Commerce Manager.</li>\n</ul>\n</li>\n</ul>",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "piyushvishwakarma@gofynd.com",
+                    "phone": "7208229699",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": [
+                "company/profile",
+                "company/product",
+                "company/application/catalogue"
+            ],
+            "plans": [
+                {
+                    "name": "Premium",
+                    "features": "Unlimited catalogue export   \nSchedule catalogue generation\nView export event history ",
+                    "type": "recurring",
+                    "price": { "amount": 199, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "month",
+                        "recurring_time": 30,
+                        "yearly_amount": 2388
+                    }
+                }
+            ],
+            "extension_id": "6111ec7e95dcfa8e12408dd8",
+            "slug": "facebook-catalogue",
+            "plan_type": "recurring",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "6111ec0095dcfac23e408dd1",
+            "created_at": "2021-08-10T04:10:15.269Z",
+            "modified_at": "2022-03-21T12:27:06.810Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f44e",
+                        "_id": "62320b45f4213eb19aa8f44e",
+                        "slug": "merchandising"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f458",
+                        "_id": "62320b45f4213eb19aa8f458",
+                        "slug": "source-and-selling-product"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4e1",
+                        "_id": "62320b45f4213eb19aa8f4e1",
+                        "parent": "62320b45f4213eb19aa8f458",
+                        "slug": "dropshipping"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f483",
+                        "_id": "62320b45f4213eb19aa8f483",
+                        "parent": "62320b45f4213eb19aa8f44e",
+                        "slug": "product-display"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4e5",
+                        "_id": "62320b45f4213eb19aa8f4e5",
+                        "parent": "62320b45f4213eb19aa8f458",
+                        "slug": "marketplace"
+                    }
+                ]
+            },
+            "organization": { "name": "Piyush Org", "slug": "Piyush-ph2-25" }
+        },
+        {
+            "_id": "6111fc5841dc070042c38f5d",
+            "listing_info": {
+                "keywords": ["bulk", "multi", "locations"],
+                "name": "Multi Location Manager",
+                "tagline": "Create and update multiple selling locations at once using Excel and CSV",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/RUnu34gmJ-logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/Og8k9HyMY-desk-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/M5VGePGD7-desk-sc-2.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/NMZQDEpZN-mob-sc-1.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "6111fc5841dc0705d7c38f5e",
+                        "title": "Location Management",
+                        "description": "Download our Excel or CSV template to add and update selling locations"
+                    }
+                ],
+                "description": "Create and update multiple selling locations at once using Excel and CSV",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "abhinavmaurya@gofynd.com",
+                    "phone": "7905339667",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": ["company/profile"],
+            "plans": [
+                {
+                    "name": "Standard",
+                    "features": "Create and update multiple selling locations at once using Excel and CSV",
+                    "type": "recurring",
+                    "price": { "amount": 99, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "month",
+                        "recurring_time": 30,
+                        "yearly_amount": 1188
+                    }
+                }
+            ],
+            "extension_id": "61117dab95dcfa5db7408dba",
+            "slug": "multi-location-manager",
+            "plan_type": "recurring",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "61117d3295dcfa7f9a408db3",
+            "created_at": "2021-08-10T04:11:04.509Z",
+            "modified_at": "2022-03-21T12:27:07.205Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f458",
+                        "_id": "62320b45f4213eb19aa8f458",
+                        "slug": "source-and-selling-product"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f45c",
+                        "_id": "62320b45f4213eb19aa8f45c",
+                        "slug": "channel-management"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4f4",
+                        "_id": "62320b45f4213eb19aa8f4f4",
+                        "parent": "62320b45f4213eb19aa8f45c",
+                        "slug": "shipping-solution"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4ec",
+                        "_id": "62320b45f4213eb19aa8f4ec",
+                        "parent": "62320b45f4213eb19aa8f45c",
+                        "slug": "operation"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4e5",
+                        "_id": "62320b45f4213eb19aa8f4e5",
+                        "parent": "62320b45f4213eb19aa8f458",
+                        "slug": "marketplace"
+                    }
+                ]
+            },
+            "organization": { "name": "Abhinav", "slug": "MultiL-fnm-55" }
+        },
+        {
+            "_id": "6113c85841dc073aebc38f5f",
+            "listing_info": {
+                "keywords": [],
+                "name": "Newsletter-Local-Aayush",
+                "tagline": "This is tagline for test2",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/2lonu-tXG-logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/cKylPAkW_-desk-sc-1.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/LqwXrhZGR-mob-sc-1.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "6113c85841dc074febc38f60",
+                        "title": "feature 1",
+                        "description": "feature 1"
+                    }
+                ],
+                "description": "Newsletter local by aayush",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "regrowth@gofynd.com",
+                    "phone": "8767087087",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": ["company/saleschannel", "company/application/settings"],
+            "plans": [
+                {
+                    "name": "free",
+                    "features": "free\nfree\nfree\nfree",
+                    "type": "free",
+                    "price": { "amount": 0, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": ""
+                }
+            ],
+            "extension_id": "61138cf895dcfa08a5408fc4",
+            "slug": "newsletter-local-aayush",
+            "plan_type": "free",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "610d178e2ab8f356aa98481b",
+            "created_at": "2021-08-11T12:53:45.001Z",
+            "modified_at": "2022-03-21T12:27:06.810Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f455",
+                        "_id": "62320b45f4213eb19aa8f455",
+                        "slug": "fulfillment"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4cb",
+                        "_id": "62320b45f4213eb19aa8f4cb",
+                        "parent": "62320b45f4213eb19aa8f455",
+                        "slug": "managing-inventory-and-order"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4cd",
+                        "_id": "62320b45f4213eb19aa8f4cd",
+                        "parent": "62320b45f4213eb19aa8f455",
+                        "slug": "managing-order"
+                    }
+                ]
+            },
+            "organization": { "name": "Fynd", "slug": "Fynd-s8f-32" }
+        },
+        {
+            "_id": "61160b0041dc073a0fc38f61",
+            "listing_info": {
+                "keywords": [],
+                "name": "APK ",
+                "tagline": "Downloadable apk",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/d24Vi-aC_-logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/ld0bkv7uE-desk-sc-1.jpeg",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/haYr70MB6-desk-sc-2.jpeg",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/1ywtXQaRo-desk-sc-3.jpeg"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/WsLyDAES9-mob-sc-1.jpeg",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/akmpv_h_V-mob-sc-2.jpeg",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/Rw60j7I5r-mob-sc-3.jpeg"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "61262f2ebec3d618918f7561",
+                        "title": "APk ",
+                        "description": "test"
+                    }
+                ],
+                "description": "xyz",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "venkhatesharunachalam@gofynd.com",
+                    "phone": "8369903075",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": [
+                "company/profile",
+                "company/saleschannel",
+                "company/product",
+                "company/order",
+                "company/application/customer",
+                "company/application/analytics",
+                "company/application/storage",
+                "company/application/marketing",
+                "company/application/catalogue",
+                "company/application/communication",
+                "company/application/support",
+                "company/application/order",
+                "company/application/settings"
+            ],
+            "plans": [
+                {
+                    "name": "apk",
+                    "features": "xyz",
+                    "type": "free",
+                    "price": { "amount": 0, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": ""
+                }
+            ],
+            "extension_id": "6116026a95dcfa05eb4091e3",
+            "slug": "apk",
+            "plan_type": "free",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "6116013e95dcfa31f64091dc",
+            "created_at": "2021-08-13T06:02:40.313Z",
+            "modified_at": "2022-03-21T12:27:06.810Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f447",
+                        "_id": "62320b45f4213eb19aa8f447",
+                        "slug": "conversion"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f44e",
+                        "_id": "62320b45f4213eb19aa8f44e",
+                        "slug": "merchandising"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f47a",
+                        "_id": "62320b45f4213eb19aa8f47a",
+                        "parent": "62320b45f4213eb19aa8f447",
+                        "slug": "cart-modification"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f480",
+                        "_id": "62320b45f4213eb19aa8f480",
+                        "parent": "62320b45f4213eb19aa8f44e",
+                        "slug": "announcement-and-banner"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f479",
+                        "_id": "62320b45f4213eb19aa8f479",
+                        "parent": "62320b45f4213eb19aa8f447",
+                        "slug": "customer-feedback"
+                    }
+                ]
+            },
+            "organization": { "name": "Strikers", "slug": "ApkExt-ze8-72" }
+        },
+        {
+            "_id": "611cd216a1b26463522c8ec4",
+            "listing_info": {
+                "keywords": ["whatsapp", "business", "chat"],
+                "name": "Whatsapp Business",
+                "tagline": "Get business chats in one place",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/Uay5XXq__-logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/yyNFueLob-desk-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/hSzEH7oe4-desk-sc-2.jpeg",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/G3jyOn6jB-desk-sc-3.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/yTbBwOfin-mob-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/m0tcbVuRl-mob-sc-2.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/5RyXaOoiY-mob-sc-3.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "6160291dae93de2514658a47",
+                        "title": "Convenient Two-Way Communications",
+                        "description": "The app offers businesses a convenient and direct gateway to a variety of customer communications and campaigns."
+                    },
+                    {
+                        "_id": "6160291dae93de5222658a48",
+                        "title": "Improved Customer Care",
+                        "description": "By providing the information and support your customers are looking for, WhatsApp Business fosters loyalty and trust."
+                    },
+                    {
+                        "_id": "6160291dae93de45da658a49",
+                        "title": "Brand-Verified Conversations",
+                        "description": "You can add contact numbers, website URLs, store locations, promotional details, and more."
+                    },
+                    {
+                        "_id": "6160291dae93de9a35658a4a",
+                        "title": "Global Reach",
+                        "description": "WhatsApp is the most popular messaging app in more than 100 countries, with a global customer base of more than 2 billion."
+                    },
+                    {
+                        "_id": "6160291dae93de3edb658a4b",
+                        "title": "Automatically Initiate More Conversations",
+                        "description": "By imposing strict policies for content quality and response times, WhatsApp ensures users don’t receive spammy or irrelevant communications."
+                    },
+                    {
+                        "_id": "6160291dae93de588d658a4c",
+                        "title": "Added Security With Customer Messaging Opt-In",
+                        "description": "WhatsApp bakes in security features like end-to-end encryption and two-factor authentication to keep both consumers and businesses safe."
+                    }
+                ],
+                "description": "<p>Connect your WhatsApp Business account and manage chats with your customers. WhatsApp Business is an OTT (over-the-top) chat app that brings the functionality and convenience of personal messaging to customer communications.</p>",
+                "demo_url": "https://tradespark.hostx0.de",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "onlydemo70@gmail.com",
+                    "phone": "8369642274",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": [
+                "company/profile",
+                "company/saleschannel",
+                "company/product",
+                "company/order"
+            ],
+            "plans": [
+                {
+                    "name": "Free Tier",
+                    "features": "2 free chats simultaneously\n3 calls per day",
+                    "type": "free",
+                    "price": { "amount": 0, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "free",
+                        "recurring_time": 0,
+                        "yearly_amount": 0
+                    }
+                },
+                {
+                    "name": "Monthly Tier",
+                    "features": "5 simultaneous chats\nUnlimited calls",
+                    "type": "recurring",
+                    "price": { "amount": 299, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "month",
+                        "recurring_time": 30,
+                        "yearly_amount": 3588
+                    }
+                },
+                {
+                    "name": "Annual Tier",
+                    "features": "Unlimited chats\nUnlimited calls",
+                    "type": "recurring",
+                    "price": { "amount": 1299, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "year",
+                        "recurring_time": 365,
+                        "yearly_amount": 0
+                    }
+                }
+            ],
+            "extension_id": "611cbb6ee6ed286298c0f471",
+            "slug": "whatsapp-business",
+            "plan_type": "recurring",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "611caf9b575968b3aa98aee4",
+            "created_at": "2021-08-18T09:25:42.614Z",
+            "modified_at": "2022-03-21T12:27:07.204Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f45b",
+                        "_id": "62320b45f4213eb19aa8f45b",
+                        "slug": "inventory"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f45c",
+                        "_id": "62320b45f4213eb19aa8f45c",
+                        "slug": "channel-management"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4f7",
+                        "_id": "62320b45f4213eb19aa8f4f7",
+                        "parent": "62320b45f4213eb19aa8f45c",
+                        "slug": "business-insight"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4f1",
+                        "_id": "62320b45f4213eb19aa8f4f1",
+                        "parent": "62320b45f4213eb19aa8f45c",
+                        "slug": "policy-and-security"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4d9",
+                        "_id": "62320b45f4213eb19aa8f4d9",
+                        "parent": "62320b45f4213eb19aa8f45b",
+                        "slug": "managing-inventory"
+                    }
+                ]
+            },
+            "organization": {
+                "name": "Tradespark Union",
+                "slug": "Trades-qgu-21"
+            }
+        },
+        {
+            "_id": "61232bb99b84cb780e583a35",
+            "listing_info": {
+                "keywords": ["file", "products", "collections"],
+                "name": "File Attachment Manager",
+                "tagline": "Attach extra files with products and collections ",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/6ZX0MGDLJ-logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/NRCRdrfPR-desk-sc-1.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/wvqJjjr0r-mob-sc-1.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "6153f3a7ae93def7e3658a46",
+                        "title": "Attach File",
+                        "description": "Add additional files with bulk products or collections"
+                    }
+                ],
+                "description": "File attachment is an extension that helps us to attach additional files to collections, products etc",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "piyushvishwakarma@gofynd.com",
+                    "phone": "7208229699",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": ["company/product"],
+            "plans": [
+                {
+                    "name": "Basic",
+                    "features": "Attach Files\nSupport for products ",
+                    "type": "free",
+                    "price": { "amount": 0, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": ""
+                }
+            ],
+            "extension_id": "61232a4eedf098bb31a4f82f",
+            "slug": "file-attachment-manager",
+            "plan_type": "free",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "6111ec0095dcfac23e408dd1",
+            "created_at": "2021-08-23T05:01:45.400Z",
+            "modified_at": "2022-03-21T12:27:07.204Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f45a",
+                        "_id": "62320b45f4213eb19aa8f45a",
+                        "slug": "customer-service"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f44e",
+                        "_id": "62320b45f4213eb19aa8f44e",
+                        "slug": "merchandising"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f480",
+                        "_id": "62320b45f4213eb19aa8f480",
+                        "parent": "62320b45f4213eb19aa8f44e",
+                        "slug": "announcement-and-banner"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4d6",
+                        "_id": "62320b45f4213eb19aa8f4d6",
+                        "parent": "62320b45f4213eb19aa8f45a",
+                        "slug": "customer-account"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f483",
+                        "_id": "62320b45f4213eb19aa8f483",
+                        "parent": "62320b45f4213eb19aa8f44e",
+                        "slug": "product-display"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f486",
+                        "_id": "62320b45f4213eb19aa8f486",
+                        "parent": "62320b45f4213eb19aa8f44e",
+                        "slug": "additional-purchase"
+                    }
+                ]
+            },
+            "organization": { "name": "Piyush Org", "slug": "Piyush-ph2-25" }
+        },
+        {
+            "_id": "61233a429b84cb6fbc583a37",
+            "listing_info": {
+                "keywords": ["moengage"],
+                "name": "MoEngage Catalogue",
+                "tagline": "Export products in MoEngage compatible format",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/vWxBbWFrp-B9wLASdAHG-moengage.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/JhlATdOsi-desk-sc-1.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/0wvnfnWC_-mob-sc-1.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "61233a429b84cb3de6583a38",
+                        "title": "Catalogue Export",
+                        "description": "Export catalogue in a format that is fully compatible to be readily used on MoEngage Commerce Manager."
+                    }
+                ],
+                "description": "<p>Your catalogue on Fynd Platform is readily usable on MoEngage Commerce Manager. This app helps you transform your Fynd Platform catalogue into MoEngage's import products CSV file format without much manual intervention. You may use this exported CSV file readily on MoEngage Commerce Manager to upload your products to MoEngage Marketplace.</p>\n<p><strong>Features</strong></p>\n<ul>\n<li>Catalogue Export\n<ul>\n<li>Export catalogue in a format that is fully compatible to be readily used on MoEngage Commerce Manager.</li>\n<li>Filter the catalogue based on 'brands' to be exported. You can select multiple brands at once.</li>\n<li>Get the count of products that will be exported after applying filters.</li>\n</ul>\n</li>\n<li>Scheduled Catalogue Export\n<ul>\n<li>Set a recurring event to export the catalogue. For example- every 4 hours, every day, every Friday, etc.</li>\n<li>Get a constant URL that will have the latest catalogue data. You may use this URL in your system to always fetch fresh catalogue data.</li>\n</ul>\n</li>\n<li>Download History\n<ul>\n<li>A list of all the export events in past will be available. You can download the catalogue from the past export events as well.</li>\n</ul>\n</li>\n</ul>\n<p><strong>Upcoming Features</strong></p>\n<ul>\n<li>Catalogue Import\n<ul>\n<li>Upload your catalogue present on the MoEngage marketplace to Fynd Platform using the exported CSV from MoEngage Commerce Manager.</li>\n</ul>\n</li>\n</ul>",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "piyushvishwakarma@gofynd.com",
+                    "phone": "7208229699",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": [
+                "company/saleschannel",
+                "company/product",
+                "company/application/storage",
+                "company/application/catalogue"
+            ],
+            "plans": [
+                {
+                    "name": "Premium",
+                    "features": "Unlimited catalogue export\nSchedule catalogue generation\nView export event history ",
+                    "type": "recurring",
+                    "price": { "amount": 199, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "month",
+                        "recurring_time": 30,
+                        "yearly_amount": 2388
+                    }
+                }
+            ],
+            "extension_id": "6123332eedf09868f0a4f85f",
+            "slug": "moengage-catalogue",
+            "plan_type": "recurring",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "6111ec0095dcfac23e408dd1",
+            "created_at": "2021-08-23T06:03:46.561Z",
+            "modified_at": "2022-03-21T12:27:07.204Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f447",
+                        "_id": "62320b45f4213eb19aa8f447",
+                        "slug": "conversion"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f45c",
+                        "_id": "62320b45f4213eb19aa8f45c",
+                        "slug": "channel-management"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4ec",
+                        "_id": "62320b45f4213eb19aa8f4ec",
+                        "parent": "62320b45f4213eb19aa8f45c",
+                        "slug": "operation"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4f4",
+                        "_id": "62320b45f4213eb19aa8f4f4",
+                        "parent": "62320b45f4213eb19aa8f45c",
+                        "slug": "shipping-solution"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f471",
+                        "_id": "62320b45f4213eb19aa8f471",
+                        "parent": "62320b45f4213eb19aa8f447",
+                        "slug": "promotions"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f47a",
+                        "_id": "62320b45f4213eb19aa8f47a",
+                        "parent": "62320b45f4213eb19aa8f447",
+                        "slug": "cart-modification"
+                    }
+                ]
+            },
+            "organization": { "name": "Piyush Org", "slug": "Piyush-ph2-25" }
+        },
+        {
+            "_id": "61233a459b84cb3915583a39",
+            "listing_info": {
+                "keywords": ["google"],
+                "name": "Google Catalogue",
+                "tagline": "Export products in Google compatible format",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/ac9iCurNz-LVyW_2dhfQ-google.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/A3HJAoKOS-desk-sc-1.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/s10A53MQJ-mob-sc-1.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "61233a459b84cb663e583a3a",
+                        "title": "Catalogue Export",
+                        "description": "Export catalogue in a format that is fully compatible to be readily used on Google Commerce Manager."
+                    }
+                ],
+                "description": "<p>Your catalogue on Fynd Platform is readily usable on Google Commerce Manager. This app helps you transform your Fynd Platform catalogue into Google's import products Text file format without much manual intervention. You may use this exported Text file readily on Google Commerce Manager to upload your products to Google Marketplace.</p>\n<p><strong>Features</strong></p>\n<ul>\n<li>Catalogue Export\n<ul>\n<li>Export catalogue in a format that is fully compatible to be readily used on Google Commerce Manager.</li>\n<li>Filter the catalogue based on 'brands' to be exported. You can select multiple brands at once.</li>\n<li>Get the count of products that will be exported after applying filters.</li>\n</ul>\n</li>\n<li>Scheduled Catalogue Export\n<ul>\n<li>Set a recurring event to export the catalogue. For example- every 4 hours, every day, every Friday, etc.</li>\n<li>Get a constant URL that will have the latest catalogue data. You may use this URL in your system to always fetch fresh catalogue data.</li>\n</ul>\n</li>\n<li>Download History\n<ul>\n<li>A list of all the export events in past will be available. You can download the catalogue from the past export events as well.</li>\n</ul>\n</li>\n</ul>\n<p><strong>Upcoming Features</strong></p>\n<ul>\n<li>Catalogue Import\n<ul>\n<li>Upload your catalogue present on the Google marketplace to Fynd Platform using the exported Text file from Google Commerce Manager.</li>\n</ul>\n</li>\n</ul>",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "piyushvishwakarma@gofynd.com",
+                    "phone": "7208229699",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": [
+                "company/saleschannel",
+                "company/product",
+                "company/application/storage",
+                "company/application/catalogue"
+            ],
+            "plans": [
+                {
+                    "name": "Premium",
+                    "features": "Unlimited catalogue export\nSchedule catalogue generation\nView export event history ",
+                    "type": "recurring",
+                    "price": { "amount": 199, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "month",
+                        "recurring_time": 30,
+                        "yearly_amount": 2388
+                    }
+                }
+            ],
+            "extension_id": "61233915edf0985b52a4f86d",
+            "slug": "google-catalogue",
+            "plan_type": "recurring",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "6111ec0095dcfac23e408dd1",
+            "created_at": "2021-08-23T06:03:49.669Z",
+            "modified_at": "2022-03-21T12:27:07.204Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f45a",
+                        "_id": "62320b45f4213eb19aa8f45a",
+                        "slug": "customer-service"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f455",
+                        "_id": "62320b45f4213eb19aa8f455",
+                        "slug": "fulfillment"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4cb",
+                        "_id": "62320b45f4213eb19aa8f4cb",
+                        "parent": "62320b45f4213eb19aa8f455",
+                        "slug": "managing-inventory-and-order"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4cd",
+                        "_id": "62320b45f4213eb19aa8f4cd",
+                        "parent": "62320b45f4213eb19aa8f455",
+                        "slug": "managing-order"
+                    }
+                ]
+            },
+            "organization": { "name": "Piyush Org", "slug": "Piyush-ph2-25" }
+        },
+        {
+            "_id": "61233a489b84cb6eca583a3b",
+            "listing_info": {
+                "keywords": ["adyogi"],
+                "name": "Adyogi Catalogue",
+                "tagline": "Export products in Adyogi compatible format",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/RWrB493lZ-logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/b5Lc1lSw2-Ltz5kJjB4-desk-sc-1.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/FTwxLuWL0-mob-sc-1.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "61233a489b84cbfafd583a3c",
+                        "title": "Catalogue Export",
+                        "description": "Export catalogue in a format that is fully compatible to be readily used on Adyogi Commerce Manager."
+                    }
+                ],
+                "description": "<p>Your catalogue on Fynd Platform is readily usable on Adyogi Commerce Manager. This app helps you transform your Fynd Platform catalogue into Adyogi's import products CSV file format without much manual intervention. You may use this exported CSV file readily on Adyogi Commerce Manager to upload your products to Adyogi Marketplace.</p>\n<p><strong>Features</strong></p>\n<ul>\n<li>Catalogue Export\n<ul>\n<li>Export catalogue in a format that is fully compatible to be readily used on Adyogi Commerce Manager.</li>\n<li>Filter the catalogue based on 'brands' to be exported. You can select multiple brands at once.</li>\n<li>Get the count of products that will be exported after applying filters.</li>\n</ul>\n</li>\n<li>Scheduled Catalogue Export\n<ul>\n<li>Set a recurring event to export the catalogue. For example- every 4 hours, every day, every Friday, etc.</li>\n<li>Get a constant URL that will have the latest catalogue data. You may use this URL in your system to always fetch fresh catalogue data.</li>\n</ul>\n</li>\n<li>Download History\n<ul>\n<li>A list of all the export events in past will be available. You can download the catalogue from the past export events as well.</li>\n</ul>\n</li>\n</ul>\n<p><strong>Upcoming Features</strong></p>\n<ul>\n<li>Catalogue Import\n<ul>\n<li>Upload your catalogue present on the Adyogi marketplace to Fynd Platform using the exported CSV from Adyogi Commerce Manager.</li>\n</ul>\n</li>\n</ul>",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "piyushvishwakarma@gofynd.com",
+                    "phone": "7208229699",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": [
+                "company/saleschannel",
+                "company/product",
+                "company/application/catalogue",
+                "company/application/storage"
+            ],
+            "plans": [
+                {
+                    "name": "Premium",
+                    "features": "Unlimited catalogue export\nSchedule catalogue generation\nView export event history ",
+                    "type": "recurring",
+                    "price": { "amount": 199, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "month",
+                        "recurring_time": 30,
+                        "yearly_amount": 2388
+                    }
+                }
+            ],
+            "extension_id": "612339deedf09829f5a4f870",
+            "slug": "adyogi-catalogue",
+            "plan_type": "recurring",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "6111ec0095dcfac23e408dd1",
+            "created_at": "2021-08-23T06:03:52.749Z",
+            "modified_at": "2022-03-21T12:27:07.601Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f447",
+                        "_id": "62320b45f4213eb19aa8f447",
+                        "slug": "conversion"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f45b",
+                        "_id": "62320b45f4213eb19aa8f45b",
+                        "slug": "inventory"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f478",
+                        "_id": "62320b45f4213eb19aa8f478",
+                        "parent": "62320b45f4213eb19aa8f447",
+                        "slug": "recovering-orders"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f479",
+                        "_id": "62320b45f4213eb19aa8f479",
+                        "parent": "62320b45f4213eb19aa8f447",
+                        "slug": "customer-feedback"
+                    }
+                ]
+            },
+            "organization": { "name": "Piyush Org", "slug": "Piyush-ph2-25" }
+        },
+        {
+            "_id": "612340349b84cb1aeb583a3d",
+            "listing_info": {
+                "keywords": ["social", "media"],
+                "name": "Instagram Feed",
+                "tagline": "Instagram",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/aE1R009D8-logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/T9Xo0b9eo-1600x900.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/-cirXkFsh-1600x900.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/N36OOCWny-1700x950.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/N36OOCWny-1700x950.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/9hOiSwT07-mob-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/tgRZGu0oB-800x1200.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/tgRZGu0oB-800x1200.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "619e1fba54e6683758b79258",
+                        "title": "Instagram Feed",
+                        "description": "Instagram Feed"
+                    }
+                ],
+                "description": "Instagram Feed",
+                "demo_url": "https://zaid.fyndx0.de",
+                "video_url": [
+                    {
+                        "type": "video",
+                        "url": "https://hdn-1.addsale.com/x0/products/videos/item/free/original/pl_ghwgAI-video-sc-2.mp4"
+                    },
+                    {
+                        "type": "video",
+                        "url": "https://hdn-1.addsale.com/x0/products/videos/item/free/original/NzrJGLDcE-video-sc-2.mp4"
+                    }
+                ]
+            },
+            "contact_info": {
+                "support": {
+                    "email": "regrowth@gofynd.com",
+                    "phone": "8767087087",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": ["company/profile", "company/application/customer"],
+            "plans": [
+                {
+                    "name": "Monthly Plan",
+                    "features": "Unlimited feeds\nCustom rows/columns\nSupports Grid and Slider\nShow caption",
+                    "type": "recurring",
+                    "price": { "amount": 199, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "month",
+                        "recurring_time": 30,
+                        "yearly_amount": 2388
+                    }
+                },
+                {
+                    "name": "Yearly Plan",
+                    "features": "Unlimited feeds\nCustom rows/columns\nSupports Grid and Slider\nShow caption",
+                    "type": "recurring",
+                    "price": { "amount": 1999, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "year",
+                        "recurring_time": 365,
+                        "yearly_amount": 0
+                    }
+                }
+            ],
+            "extension_id": "61233531edf09832a2a4f86b",
+            "slug": "instagram-feed",
+            "plan_type": "recurring",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "610d178e2ab8f356aa98481b",
+            "created_at": "2021-08-23T06:29:08.295Z",
+            "modified_at": "2022-03-21T12:27:07.601Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f45a",
+                        "_id": "62320b45f4213eb19aa8f45a",
+                        "slug": "customer-service"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f455",
+                        "_id": "62320b45f4213eb19aa8f455",
+                        "slug": "fulfillment"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4cb",
+                        "_id": "62320b45f4213eb19aa8f4cb",
+                        "parent": "62320b45f4213eb19aa8f455",
+                        "slug": "managing-inventory-and-order"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4d6",
+                        "_id": "62320b45f4213eb19aa8f4d6",
+                        "parent": "62320b45f4213eb19aa8f45a",
+                        "slug": "customer-account"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4d4",
+                        "_id": "62320b45f4213eb19aa8f4d4",
+                        "parent": "62320b45f4213eb19aa8f45a",
+                        "slug": "support"
+                    }
+                ]
+            },
+            "organization": { "name": "Fynd", "slug": "Fynd-s8f-32" }
+        },
+        {
+            "_id": "612f24c360e7227d542e7f38",
+            "listing_info": {
+                "keywords": [],
+                "name": "Myntra",
+                "tagline": "Sell and sell",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/m247Bi86O-logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/vv2lTxmn4-desk-sc-1.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/-h9_R8xrh-mob-sc-2.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "612f24c360e722512d2e7f39",
+                        "title": "lots off",
+                        "description": "Sell it "
+                    }
+                ],
+                "description": "Purchase and sell",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "piyushvishwakarma@gofynd.com",
+                    "phone": "7208229699",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": [
+                "company/profile",
+                "company/saleschannel",
+                "company/product",
+                "company/order",
+                "company/application/customer",
+                "company/application/analytics",
+                "company/application/storage",
+                "company/application/marketing",
+                "company/application/catalogue",
+                "company/application/communication",
+                "company/application/support",
+                "company/application/order",
+                "company/application/settings"
+            ],
+            "plans": [
+                {
+                    "name": "Full time",
+                    "features": "Add your own",
+                    "type": "free",
+                    "price": { "amount": 0, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": ""
+                }
+            ],
+            "extension_id": "612f229688de4807b1eaaf08",
+            "slug": "myntra",
+            "plan_type": "free",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "6111ec0095dcfac23e408dd1",
+            "created_at": "2021-09-01T06:59:15.132Z",
+            "modified_at": "2022-03-21T12:27:07.204Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f447",
+                        "_id": "62320b45f4213eb19aa8f447",
+                        "slug": "conversion"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f47a",
+                        "_id": "62320b45f4213eb19aa8f47a",
+                        "parent": "62320b45f4213eb19aa8f447",
+                        "slug": "cart-modification"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f478",
+                        "_id": "62320b45f4213eb19aa8f478",
+                        "parent": "62320b45f4213eb19aa8f447",
+                        "slug": "recovering-orders"
+                    }
+                ]
+            },
+            "organization": { "name": "Piyush Org", "slug": "Piyush-ph2-25" }
+        },
+        {
+            "_id": "612f7916c423dbb026a1fc82",
+            "listing_info": {
+                "keywords": ["custom-forms", "customer-support"],
+                "name": "Custom Form",
+                "tagline": "Create forms and get better insights from your customers",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/--unnamed--/logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/--unnamed--/desk-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/--unnamed--/desk-sc-2.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/--unnamed--/desk-sc-3.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/--unnamed--/mob-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/--unnamed--/mob-sc-2.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/--unnamed--/mob-sc-3.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "612f7916c423dbed8da1fc83",
+                        "title": "Create forms",
+                        "description": "Manage the form-reponses/tickets or get them as email"
+                    }
+                ],
+                "description": "<ul>\n<li>Create forms and get better insights from your customers</li>\n<li>Customer support for the form-responses/ticket</li>\n<li>Video call with your customers</li>\n<li>Additional feature for your website such as Product request</li>\n<li>Manage the form-reponses/tickets or get them as email</li>\n</ul>",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "satyenkumarmourya@gofynd.com",
+                    "phone": "8412805281",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": [
+                "company/order",
+                "company/application/customer",
+                "company/application/settings",
+                "company/application/order",
+                "company/application/catalogue",
+                "company/application/storage"
+            ],
+            "plans": [
+                {
+                    "name": "Basic",
+                    "features": "All features",
+                    "type": "free",
+                    "price": { "amount": 0, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": ""
+                }
+            ],
+            "extension_id": "612f7757bcb1ec08142636c9",
+            "slug": "custom-form",
+            "plan_type": "free",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "612c86441f6c5487545d9c44",
+            "created_at": "2021-09-01T12:59:02.491Z",
+            "modified_at": "2022-03-21T12:27:07.204Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f455",
+                        "_id": "62320b45f4213eb19aa8f455",
+                        "slug": "fulfillment"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f45b",
+                        "_id": "62320b45f4213eb19aa8f45b",
+                        "slug": "inventory"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4cd",
+                        "_id": "62320b45f4213eb19aa8f4cd",
+                        "parent": "62320b45f4213eb19aa8f455",
+                        "slug": "managing-order"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4d9",
+                        "_id": "62320b45f4213eb19aa8f4d9",
+                        "parent": "62320b45f4213eb19aa8f45b",
+                        "slug": "managing-inventory"
+                    }
+                ]
+            },
+            "organization": {
+                "name": "Satyenkumar Mourya",
+                "slug": "Satyen-z7d-1"
+            }
+        },
+        {
+            "_id": "6135e49d5a17605785fbfd7c",
+            "listing_info": {
+                "keywords": [],
+                "name": "EgTension",
+                "tagline": "EgTension",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/zdDKbSyfY-logo.jpeg"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/Yt3tQmKXK-desk-sc-1.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/XkyHoiYn7-mob-sc-1.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "6135e49d5a17604a75fbfd7d",
+                        "title": "egtension",
+                        "description": "egtension"
+                    }
+                ],
+                "description": "EgTension",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "gauravrai@gofynd.com",
+                    "phone": "9049753052",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": [
+                "company/product",
+                "company/profile",
+                "company/saleschannel",
+                "company/order",
+                "company/application/storage",
+                "company/application/customer",
+                "company/application/marketing",
+                "company/application/order"
+            ],
+            "plans": [
+                {
+                    "name": "egtension",
+                    "features": "egtension",
+                    "type": "free",
+                    "price": { "amount": 0, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": ""
+                }
+            ],
+            "extension_id": "6116566f95dcfa7d3640923c",
+            "slug": "egtension",
+            "plan_type": "free",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "611654b195dcfa75cb409235",
+            "created_at": "2021-09-06T09:51:25.710Z",
+            "modified_at": "2022-03-21T12:27:07.204Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f44c",
+                        "_id": "62320b45f4213eb19aa8f44c",
+                        "slug": "marketing"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f45b",
+                        "_id": "62320b45f4213eb19aa8f45b",
+                        "slug": "inventory"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4a7",
+                        "_id": "62320b45f4213eb19aa8f4a7",
+                        "parent": "62320b45f4213eb19aa8f44c",
+                        "slug": "page-enhancement"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4aa",
+                        "_id": "62320b45f4213eb19aa8f4aa",
+                        "parent": "62320b45f4213eb19aa8f44c",
+                        "slug": "advertisement"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4a4",
+                        "_id": "62320b45f4213eb19aa8f4a4",
+                        "parent": "62320b45f4213eb19aa8f44c",
+                        "slug": "email-and-sms-marketing"
+                    }
+                ]
+            },
+            "organization": { "name": "GR_enterprise", "slug": "GRente-ljo-3" }
+        },
+        {
+            "_id": "6149687d9e865808c8556baf",
+            "listing_info": {
+                "keywords": ["amazon"],
+                "name": "Amazon Catalogue",
+                "tagline": "Export products in Amazon compatible format",
+                "icon": "https://hdn-1.addsale.com/addsale/misc/pictures/free-icon/original/Gqsz5tKJN-logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/KrryVoFfH-desk-sc-1.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/YDwSZsoiV-mob-sc-1.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "6149687d9e8658092e556bb0",
+                        "title": "Catalogue Export",
+                        "description": "Export catalogue in a format that is fully compatible to be readily used on Facebook Commerce Manager."
+                    }
+                ],
+                "description": "<p>Your catalogue on Fynd Platform is readily usable on Facebook Commerce Manager. This app helps you transform your Fynd Platform catalogue into Facebook's import products CSV file format without much manual intervention. You may use this exported CSV file readily on Facebook Commerce Manager to upload your products to Facebook Marketplace.</p>\n<p><strong>Features</strong></p>\n<ul>\n<li>Catalogue Export\n<ul>\n<li>Export catalogue in a format that is fully compatible to be readily used on Facebook Commerce Manager.</li>\n<li>Filter the catalogue based on 'brands' to be exported. You can select multiple brands at once.</li>\n<li>Get the count of products that will be exported after applying filters.</li>\n</ul>\n</li>\n<li>Scheduled Catalogue Export\n<ul>\n<li>Set a recurring event to export the catalogue. For example- every 4 hours, every day, every Friday, etc.</li>\n<li>Get a constant URL that will have the latest catalogue data. You may use this URL in your system to always fetch fresh catalogue data.</li>\n</ul>\n</li>\n<li>Download History\n<ul>\n<li>A list of all the export events in past will be available. You can download the catalogue from the past export events as well.</li>\n</ul>\n</li>\n</ul>\n<p><strong>Upcoming Features</strong></p>\n<ul>\n<li>Catalogue Import\n<ul>\n<li>Upload your catalogue present on the Facebook marketplace to Fynd Platform using the exported CSV from Facebook Commerce Manager.</li>\n</ul>\n</li>\n</ul>",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "piyushvishwakarma@gofynd.com",
+                    "phone": "7208229699",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": [
+                "company/profile",
+                "company/product",
+                "company/application/catalogue"
+            ],
+            "plans": [
+                {
+                    "name": "Premium",
+                    "features": "Unlimited catalogue export   \nSchedule catalogue generation\nView export event history ",
+                    "type": "recurring",
+                    "price": { "amount": 199, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "month",
+                        "recurring_time": 30,
+                        "yearly_amount": 2388
+                    }
+                }
+            ],
+            "extension_id": "61155f5d95dcfad8294091c4",
+            "slug": "amazon-catalogue",
+            "plan_type": "recurring",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "6111ec0095dcfac23e408dd1",
+            "created_at": "2021-09-21T05:07:09.208Z",
+            "modified_at": "2022-03-21T12:27:07.601Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f45a",
+                        "_id": "62320b45f4213eb19aa8f45a",
+                        "slug": "customer-service"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f45c",
+                        "_id": "62320b45f4213eb19aa8f45c",
+                        "slug": "channel-management"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4f4",
+                        "_id": "62320b45f4213eb19aa8f4f4",
+                        "parent": "62320b45f4213eb19aa8f45c",
+                        "slug": "shipping-solution"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4e9",
+                        "_id": "62320b45f4213eb19aa8f4e9",
+                        "parent": "62320b45f4213eb19aa8f45c",
+                        "slug": "channel-management-internalization"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4d6",
+                        "_id": "62320b45f4213eb19aa8f4d6",
+                        "parent": "62320b45f4213eb19aa8f45a",
+                        "slug": "customer-account"
+                    }
+                ]
+            },
+            "organization": { "name": "Piyush Org", "slug": "Piyush-ph2-25" }
+        },
+        {
+            "_id": "618a29419b97db22e144a367",
+            "listing_info": {
+                "keywords": ["myntra"],
+                "name": "Myntra Catalogue",
+                "tagline": "Export products in Myntra compatible format",
+                "icon": "https://hdn-1.addsale.com/addsale/misc/pictures/free-icon/original/3FTl-_0tD-s9qg7VPmuS-myntra.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/addsale/misc/pictures/free-icon/original/yh8woeefR-sI2q5ilk4-desk-sc-1.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/addsale/misc/pictures/free-icon/original/ByV9_E2Jh-0EI21-wPl-mob-sc-1.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "618a29419b97db568744a368",
+                        "title": "Catalogue Export",
+                        "description": "Export catalogue in a format that is fully compatible to be readily used on Myntra Commerce Manager."
+                    }
+                ],
+                "description": "<p>Your catalogue on Fynd Platform is readily usable on Myntra Commerce Manager. This app helps you transform your Fynd Platform catalogue into Myntra's import products CSV file format without much manual intervention. You may use this exported CSV file readily on Myntra Commerce Manager to upload your products to Myntra Marketplace.</p>\n<p><strong>Features</strong></p>\n<ul>\n<li>Catalogue Export\n<ul>\n<li>Export catalogue in a format that is fully compatible to be readily used on Myntra Commerce Manager.</li>\n<li>Filter the catalogue based on 'brands' to be exported. You can select multiple brands at once.</li>\n<li>Get the count of products that will be exported after applying filters.</li>\n</ul>\n</li>\n<li>Scheduled Catalogue Export\n<ul>\n<li>Set a recurring event to export the catalogue. For example- every 4 hours, every day, every Friday, etc.</li>\n<li>Get a constant URL that will have the latest catalogue data. You may use this URL in your system to always fetch fresh catalogue data.</li>\n</ul>\n</li>\n<li>Download History\n<ul>\n<li>A list of all the export events in past will be available. You can download the catalogue from the past export events as well.</li>\n</ul>\n</li>\n</ul>\n<p><strong>Upcoming Features</strong></p>\n<ul>\n<li>Catalogue Import\n<ul>\n<li>Upload your catalogue present on the Myntra marketplace to Fynd Platform using the exported CSV from Myntra Commerce Manager.</li>\n</ul>\n</li>\n</ul>",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "piyushvishwakarma@gofynd.com",
+                    "phone": "7208229699",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": [
+                "company/saleschannel",
+                "company/product",
+                "company/application/storage",
+                "company/application/catalogue"
+            ],
+            "plans": [
+                {
+                    "name": "Premium",
+                    "features": "Unlimited catalogue export\nSchedule catalogue generation\nView export event history ",
+                    "type": "recurring",
+                    "price": { "amount": 199, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "month",
+                        "recurring_time": 30,
+                        "yearly_amount": 2388
+                    }
+                }
+            ],
+            "extension_id": "618a26405f86bf082dc7a6e1",
+            "slug": "myntra-catalogue",
+            "plan_type": "recurring",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "6111ec0095dcfac23e408dd1",
+            "created_at": "2021-11-09T07:54:41.662Z",
+            "modified_at": "2022-03-21T12:27:07.601Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f44c",
+                        "_id": "62320b45f4213eb19aa8f44c",
+                        "slug": "marketing"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f447",
+                        "_id": "62320b45f4213eb19aa8f447",
+                        "slug": "conversion"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f47a",
+                        "_id": "62320b45f4213eb19aa8f47a",
+                        "parent": "62320b45f4213eb19aa8f447",
+                        "slug": "cart-modification"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4a4",
+                        "_id": "62320b45f4213eb19aa8f4a4",
+                        "parent": "62320b45f4213eb19aa8f44c",
+                        "slug": "email-and-sms-marketing"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4a7",
+                        "_id": "62320b45f4213eb19aa8f4a7",
+                        "parent": "62320b45f4213eb19aa8f44c",
+                        "slug": "page-enhancement"
+                    }
+                ]
+            },
+            "organization": { "name": "Piyush Org", "slug": "Piyush-ph2-25" }
+        },
+        {
+            "_id": "618a29439b97dbe52844a369",
+            "listing_info": {
+                "keywords": ["flipkart"],
+                "name": "Flipkart Catalogue",
+                "tagline": "Export products in Flipkart compatible format",
+                "icon": "https://hdn-1.addsale.com/addsale/misc/pictures/free-icon/original/ZObrnzX1i-5DVhXfo4se-logo_lite-cbb357.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/addsale/misc/pictures/free-icon/original/SIc4lYH9Z-desk-sc-1.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/addsale/misc/pictures/free-icon/original/Pz7lC6Jne-mob-sc-1.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "618a29439b97db8e7f44a36a",
+                        "title": "Catalogue Export",
+                        "description": "Export catalogue in a format that is fully compatible to be readily used on Flipkart Commerce Manager."
+                    }
+                ],
+                "description": "<p>Your catalogue on Fynd Platform is readily usable on Flipkart Commerce Manager. This app helps you transform your Fynd Platform catalogue into Flipkart's import products CSV file format without much manual intervention. You may use this exported CSV file readily on Flipkart Commerce Manager to upload your products to Flipkart Marketplace.</p>",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "piyushvishwakarma@gofynd.com",
+                    "phone": "7208229699",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": [
+                "company/saleschannel",
+                "company/product",
+                "company/application/storage",
+                "company/application/catalogue"
+            ],
+            "plans": [
+                {
+                    "name": "Premium",
+                    "features": "Unlimited catalogue export",
+                    "type": "recurring",
+                    "price": { "amount": 99, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "month",
+                        "recurring_time": 30,
+                        "yearly_amount": 1188
+                    }
+                }
+            ],
+            "extension_id": "618a27195f86bfd0fcc7a6e4",
+            "slug": "flipkart-catalogue",
+            "plan_type": "recurring",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "6111ec0095dcfac23e408dd1",
+            "created_at": "2021-11-09T07:54:43.800Z",
+            "modified_at": "2022-03-21T12:27:07.601Z",
+            "coming_soon": { "upvote_count": 0 },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f447",
+                        "_id": "62320b45f4213eb19aa8f447",
+                        "slug": "conversion"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f472",
+                        "_id": "62320b45f4213eb19aa8f472",
+                        "parent": "62320b45f4213eb19aa8f447",
+                        "slug": "upselling-and-cross-selling"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f478",
+                        "_id": "62320b45f4213eb19aa8f478",
+                        "parent": "62320b45f4213eb19aa8f447",
+                        "slug": "recovering-orders"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f47a",
+                        "_id": "62320b45f4213eb19aa8f47a",
+                        "parent": "62320b45f4213eb19aa8f447",
+                        "slug": "cart-modification"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f471",
+                        "_id": "62320b45f4213eb19aa8f471",
+                        "parent": "62320b45f4213eb19aa8f447",
+                        "slug": "promotions"
+                    }
+                ]
+            },
+            "organization": { "name": "Piyush Org", "slug": "Piyush-ph2-25" }
+        },
+        {
+            "_id": "61934a54f8813e85ce506291",
+            "listing_info": {
+                "keywords": [],
+                "name": "Algolia",
+                "tagline": "algolia extension",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/uSjP2yMqC-logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/AMOQ_6uKb-desk-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/_aB4yp8Vx-1600x900.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/zZVFrKAdp-1600x900.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/dF9PL_Bz8-mob-sc-1.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/YGnItYITs-720x1080.png",
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/dJPk1Jpo8-720x1080.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "627a74764f1506adb6d3876e",
+                        "title": "Product Sync",
+                        "description": "Syncs products from Fynd Catalog to Algolia"
+                    }
+                ],
+                "description": "Extension to sync Fynd with Algolia",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "piyushvishwakarma@gofynd.com",
+                    "phone": "7208229699",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": ["company/application/catalogue"],
+            "plans": [
+                {
+                    "name": "Free Plan",
+                    "features": "Catalog Sync ",
+                    "type": "free",
+                    "price": { "amount": 0, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": ""
+                }
+            ],
+            "extension_id": "61926ed62521ca971566c90b",
+            "slug": "algolia",
+            "plan_type": "free",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "6111ec0095dcfac23e408dd1",
+            "created_at": "2021-11-16T06:06:12.657Z",
+            "modified_at": "2022-05-10T14:19:34.323Z",
+            "coming_soon": { "upvote_count": 0, "is_coming_soon": false },
+            "category": { "categories_l1": [], "categories_l2": [] },
+            "organization": { "name": "Piyush Org", "slug": "Piyush-ph2-25" }
+        },
+        {
+            "_id": "6194e16d6c36622d46df107f",
+            "listing_info": {
+                "keywords": ["ratings", "reviews"],
+                "name": "Reviews and Ratings",
+                "tagline": "Ratings and reviews management system",
+                "icon": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/_XZx-R_GS-logo.png"
+            },
+            "details": {
+                "screenshots": {
+                    "desktop": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/eFDc9BkJ9-desk-sc-1.png"
+                    ],
+                    "mobile": [
+                        "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/c-KMdXm87-mob-sc-1.png"
+                    ]
+                },
+                "integrations": [],
+                "benefits": [
+                    {
+                        "_id": "62209fa912ee3f0dee59f825",
+                        "title": "Give review and rating on various entities",
+                        "description": "Give review and rating on various entities"
+                    }
+                ],
+                "description": "Reviews and Ratings extension",
+                "demo_url": "",
+                "video_url": []
+            },
+            "contact_info": {
+                "support": {
+                    "email": "piyushvishwakarma@gofynd.com",
+                    "phone": "7208229699",
+                    "website_url": "",
+                    "faq_url": "",
+                    "privacy_policy_url": ""
+                }
+            },
+            "scope": [
+                "company/product",
+                "company/order",
+                "company/application/storage",
+                "company/application/settings"
+            ],
+            "plans": [
+                {
+                    "name": "Basic",
+                    "features": "Review and rate",
+                    "type": "recurring",
+                    "price": { "amount": 199, "currency": "INR" },
+                    "trial_days": 0,
+                    "additional_charges": "",
+                    "recurring": {
+                        "type": "month",
+                        "recurring_time": 30,
+                        "yearly_amount": 2388
+                    }
+                }
+            ],
+            "extension_id": "6194de6e092339dd78fd6df2",
+            "slug": "reviews-and-ratings",
+            "plan_type": "recurring",
+            "plans_url": "",
+            "current_status": "active",
+            "organization_id": "6111ec0095dcfac23e408dd1",
+            "created_at": "2021-11-17T11:03:09.112Z",
+            "modified_at": "2022-03-21T12:27:07.601Z",
+            "coming_soon": { "upvote_count": 0, "is_coming_soon": false },
+            "category": {
+                "categories_l1": [
+                    {
+                        "id": "62320b45f4213eb19aa8f45c",
+                        "_id": "62320b45f4213eb19aa8f45c",
+                        "slug": "channel-management"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f455",
+                        "_id": "62320b45f4213eb19aa8f455",
+                        "slug": "fulfillment"
+                    }
+                ],
+                "categories_l2": [
+                    {
+                        "id": "62320b45f4213eb19aa8f4f1",
+                        "_id": "62320b45f4213eb19aa8f4f1",
+                        "parent": "62320b45f4213eb19aa8f45c",
+                        "slug": "policy-and-security"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4ec",
+                        "_id": "62320b45f4213eb19aa8f4ec",
+                        "parent": "62320b45f4213eb19aa8f45c",
+                        "slug": "operation"
+                    },
+                    {
+                        "id": "62320b45f4213eb19aa8f4f7",
+                        "_id": "62320b45f4213eb19aa8f4f7",
+                        "parent": "62320b45f4213eb19aa8f45c",
+                        "slug": "business-insight"
+                    }
+                ]
+            },
+            "organization": { "name": "Piyush Org", "slug": "Piyush-ph2-25" }
+        }
+    ],
+    "page": {
+        "item_total": 176,
+        "type": "number",
+        "size": 20,
+        "current": 1,
+        "has_next": true,
+        "is_of": 20
+    }
+}

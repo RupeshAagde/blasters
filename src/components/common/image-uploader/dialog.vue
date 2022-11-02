@@ -19,7 +19,7 @@
                             :recommendedResolution="recommendedResolution"
                             :showGallery="showGallery"
                             v-model="imageURL"
-                            @cropped="$setCropping(false)"
+                            @cropped="$setCropping(false, true)"
                             ref="imageuploaderpanel"
                         ></image-uploader-panel>
                         <div class="dialog-saperator" v-if="showGallery"></div>
@@ -65,15 +65,15 @@
                         >
                     </div>
                     <div class="footer-saperator"></div>
-                    <div>
-                        <nitrozen-button
-                            theme="secondary"
-                            :disabled="edit || loading"
-                            v-flat-btn
-                            @click="$saveImage"
-                            >Save</nitrozen-button
-                        >
-                    </div>
+                    <nitrozen-button
+                        v-show="!isHDNImage || isEmpty || isCropped"
+                        theme="secondary"
+                        :disabled="edit || loading || isEmpty"
+                        v-flat-btn
+                        @click="$saveImage"
+                    >
+                        Upload
+                    </nitrozen-button>
                 </template>
             </nitrozen-dialog>
         </div>
@@ -96,57 +96,61 @@ export default {
         NitrozenDialog,
         ImageUploaderPanel,
         ImageUploaderList,
-        loader
+        loader,
     },
     directives: {
-        flatBtn
+        flatBtn,
     },
     props: {
         label: {
             type: String,
-            default: 'image'
+            default: 'image',
         },
         fileTypes: {
             type: Array,
             default: () => {
                 return ['png', 'jpeg'];
-            }
+            },
         },
         fileDomain: {
             type: String,
-            default: 'image'
+            default: 'image',
         },
         maxSize: {
             type: Number, // in KB
-            default: 2048
+            default: 2048,
         },
         aspectRatio: {
-            type: String
+            type: String,
         },
         minimumResolution: {
-            type: Object
+            type: Object,
         },
         maximumResolution: {
-            type: Object
+            type: Object,
         },
         recommendedResolution: {
-            type: Object
+            type: Object,
         },
         value: {
-            type: String
+            type: String,
         },
         mediaFolder: {
-            type: String
+            type: String,
         },
         namespace: {
-            type: String
+            type: String,
         },
         fileName: {
-            type: String
+            type: String,
         },
         showGallery: {
             type: Boolean,
-            default: true
+            default: true,
+        },
+        height: {
+            type: String,
+            default: ''
         }
     },
     computed: {
@@ -161,21 +165,28 @@ export default {
             const x = +splitted[0];
             const y = +splitted[1];
             return { x, y };
-        }
+        },
+        isHDNImage() {
+            return GrindorService.isHDNPath(this.imageURL);
+        },
+        isEmpty() {
+            return this.imageURL == '';
+        },
     },
     mounted() {
         this.$refs['dialog'].$on('close', (e) => {
             this.visible = false;
         });
     },
-    data: function() {
+    data: function () {
         return {
             loading: false,
             data: null, // use for data transfer
             imageURL: '',
             initialImageURL: '',
             edit: false,
-            visible: false
+            visible: false,
+            isCropped: false,
         };
     },
     methods: {
@@ -184,13 +195,13 @@ export default {
             this.imageURL = this.initialImageURL = this.value;
             this.$refs['dialog'].open({
                 width: '950px',
-                height: '632px',
+                height: this.height || '632px',
                 showCloseButton: true,
-                dismissible: false
+                dismissible: false,
             });
         },
         close(e) {
-            this.$refs['dialog'].close(e);
+            this.$refs['dialog'] && this.$refs['dialog'].close(e);
         },
         $saveImage() {
             const imagePath =
@@ -231,6 +242,7 @@ export default {
                 if (this.namespace && /^data:/i.test(this.imageURL)) {
                     this.uploadToGrindor(this.dataURItoFile(this.imageURL))
                         .then((cdn_url) => {
+                            this.isCropped = false;
                             this.$emit('save', cdn_url);
                             // this.$emit('input', cdn_url);
                         })
@@ -243,6 +255,7 @@ export default {
                         if (file) {
                             this.uploadToGrindor(file)
                                 .then((cdn_url) => {
+                                    this.isCropped = false;
                                     this.$emit('save', cdn_url);
                                     // this.$emit('input', cdn_url);
                                 })
@@ -306,12 +319,12 @@ export default {
             return axios({
                 type: 'get',
                 url: nonCORSURL,
-                responseType: 'blob'
+                responseType: 'blob',
             })
                 .then((response) => {
                     const f = response.data;
                     return new File([f], fileName, {
-                        type: mime.contentType(fileName)
+                        type: mime.contentType(fileName),
                     });
                 })
                 .catch((err) => {
@@ -372,7 +385,8 @@ export default {
                 return path;
             }
         },
-        $setCropping(edit) {
+        $setCropping(edit, cropped = false) {
+            this.isCropped = cropped;
             this.$refs.imageuploaderpanel.cropping = edit;
             this.edit = edit;
         },
@@ -388,6 +402,8 @@ export default {
         },
         $removeImage() {
             this.imageURL = '';
+            this.isCropped = false;
+            this.$refs.imageuploaderpanel.croppedImageFile = '';
         },
         uploadToGrindor(file) {
             if (!this.namespace) return;
@@ -395,7 +411,7 @@ export default {
                 let body = {
                     file_name: file.name,
                     content_type: file.type,
-                    size: file.size
+                    size: file.size,
                 };
                 let request = { body };
                 this.loading = true;
@@ -420,8 +436,8 @@ export default {
                         this.loading = false;
                     });
             }
-        }
-    }
+        },
+    },
 };
 </script>
 

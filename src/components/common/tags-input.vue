@@ -106,7 +106,7 @@ export default {
     },
     computed: {},
     methods: {
-        handleKeyDown(evt) {
+        handleKeyDown(event) {
             if (
                 event.keyCode == 32 ||
                 event.keyCode == 13 ||
@@ -114,7 +114,7 @@ export default {
                 event.keyCode == 9 ||
                 event.keyCode == 188
             ) {
-                this.addChip(evt);
+                this.addChip(event);
             }
             if (event.keyCode == 8 && !this.chipInput) {
                 if (this.tags.length) {
@@ -131,7 +131,7 @@ export default {
                 if (
                     this.tags.filter((it) => it === this.chipInput).length ===
                         0 &&
-                    this.tags.length <= this.maxTags
+                    this.tags.length < this.maxTags
                 )
                     this.tags.push(this.chipInput);
                 this.chipInput = '';

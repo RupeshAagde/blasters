@@ -1,29 +1,53 @@
 <template>
     <div>
-        <div
+        <div 
             class="bold-sm cl-Mako label outer-container"
             @click="isOpen = !isOpen"
-            :class="titleClass"
-        >
+            :class="titleClass">
             <span v-if="title" class="title">{{ title }}</span>
             <span class="title">
                 <slot name="header"></slot>
             </span>
-            <span
+            <span 
                 class="filter"
                 v-bind:class="{
                     'filter-arrow-down': !isOpen,
                     'filter-arrow-up': isOpen
-                }"
-            >
+                }">
                 <ukt-inline-svg :src="'arrow-dropdown-black'"></ukt-inline-svg>
             </span>
         </div>
+
         <div :class="{ hide: !isOpen }">
             <slot />
         </div>
     </div>
 </template>
+
+<script>
+/* Component imports */
+import uktinlinesvg from '@/components/common/ukt-inline-svg.vue';
+
+export default {
+    name: 'fy-accordion',
+    components: {
+        'ukt-inline-svg': uktinlinesvg
+    },
+    props: {
+        initialState: {
+            type: Boolean,
+            default: true
+        },
+        title: {},
+        titleClass: {}
+    },
+    data() {
+        return {
+            isOpen: this.initialState
+        }
+    }
+}
+</script>
 
 <style lang="less" scoped>
 .hide {
@@ -51,25 +75,3 @@
     }
 }
 </style>
-
-<script>
-import uktinlinesvg from './ukt-inline-svg.vue';
-
-export default {
-    name: 'fy-accordion',
-    components: {
-        'ukt-inline-svg': uktinlinesvg
-    },
-    props: {
-        initialState: {
-            type: Boolean,
-            default: true
-        },
-        title: {},
-        titleClass: {}
-    },
-    data() {
-        return { isOpen: this.initialState };
-    }
-};
-</script>

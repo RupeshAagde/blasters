@@ -34,13 +34,6 @@
         class="profile-dropdown-options"
         v-if="userData && userData.user && profileDropdownOpen"
       >
-        <div
-          v-if="$route.params.company_id"
-          class="username mobile-company-name"
-          :title="profileDetails.name"
-        >
-          {{ profileDetails.name }}
-        </div>
         <div class="username" :title="`@${userData.user.username}`">
           @{{ userData.user.username }}
         </div>
@@ -49,7 +42,7 @@
             My Profile
           </span>
         </div>
-        <div @click="naviagteToAuditTrail" class="profile-dropdown-option">
+        <div v-if="showAuditTrail" @click="naviagteToAuditTrail" class="profile-dropdown-option">
           <span class="new-org">
             Audit Trail
           </span>
@@ -75,7 +68,7 @@ const env = root.env || {};
 import { mapGetters } from 'vuex'
 import { GET_USER_INFO, GET_ORGANIZATION_LIST } from '@/store/getters.type'
 import { SIGNOUT_USER } from '@/store/action.type'
-import { IS_LOGGED_IN } from '@/store/getters.type'
+import { IS_LOGGED_IN, GET_USER_PERMISSIONS } from '@/store/getters.type'
 import inlineSvgVue from '../../common/inline-svg.vue'
 import uktinlinesvg from '../../common/ukt-inline-svg.vue'
 import adminlinesvg from '@/components/common/adm-inline-svg.vue'
@@ -112,7 +105,14 @@ export default {
     ...mapGetters({
       userData: GET_USER_INFO,
       isLoggedIn: IS_LOGGED_IN,
+      currentUserPermissions: GET_USER_PERMISSIONS
     }),
+    showAuditTrail(){
+      return this.currentUserPermissions && 
+        this.currentUserPermissions.permissions && 
+        this.currentUserPermissions.permissions.length && 
+        this.currentUserPermissions.permissions.includes('audit-trail')
+    }
   },
   data() {
     return {
@@ -132,7 +132,7 @@ export default {
       this.profileDropdownOpen = false
     },
     navigateToUserProfile() {
-      window.open(`https://platform.${env.FYND_PLATFORM_DOMAIN}/user-profile`,'_blank')
+      window.open(`${env.MIRAGR_MAIN_DOMAIN}/user-profile`,'_blank')
     },
     naviagteToAuditTrail(){
       this.closeProfileDropdown()

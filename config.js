@@ -1,6 +1,8 @@
 'use strict';
 const convict = require('convict');
 
+const platformDomain = process.env['FYND_PLATFORM_DOMAIN'] || "";
+
 const conf = convict({
     env: {
         doc: 'Env',
@@ -22,6 +24,27 @@ const conf = convict({
             default: '',
             env: 'FYND_PLATFORM_DOMAIN',
             arg: 'fynd_platform_domain'
+        },
+        MIRAGE_MAIN_DOMAIN: {
+            doc: "Mirage Main Domain",
+            format: String,
+            default: `https://platform.${platformDomain}`,
+            env: "MIRAGE_MAIN_DOMAIN",
+            arg: "mirage_main_domain"
+        },
+        BOMBSHELL_MAIN_DOMAIN: {
+            doc: "Bombshell Main Domain",
+            format: String,
+            default: `https://partners.${platformDomain}`,
+            env: "BOMBSHELL_MAIN_DOMAIN",
+            arg: "bombshell_main_domain"
+        },
+        BLASTER_MAIN_DOMAIN: {
+            doc: "Blaster Main Domain",
+            format: String,
+            default: ``,
+            env: "BLASTER_MAIN_DOMAIN",
+            arg: "blaster_main_domain"
         },
         SLINGSHOT_ADMIN_URL: {
             doc: 'Slingshot Admin URL',
@@ -212,12 +235,12 @@ const conf = convict({
             env: 'SILVERBOLT_MAIN_URL',
             arg: 'silverbolt_main_url'
         },
-        SILVERBOLT_ACPR_URL: {
+        WHEELJACK_ACPR_URL: {
             doc: 'Seller Kube Service',
             format: String,
             default: '',
-            env: 'SILVERBOLT_ACPR_URL',
-            arg: 'silverbolt_acpr_url'
+            env: 'WHEELJACK_ACPR_URL',
+            arg: 'wheeljack_acpr_url'
         },
         SILVERBOLT_ACAT_URL: {
             doc: 'Seller Kube Service',
@@ -226,19 +249,19 @@ const conf = convict({
             env: 'SILVERBOLT_ACAT_URL',
             arg: 'silverbolt_acat_url'
         },
-        SILVERBOLT_PCPR_URL: {
+        WHEELJACK_PCPR_URL: {
             doc: 'Platform Company profile Kube Service',
             format: String,
             default: '',
-            env: 'SILVERBOLT_PCPR_URL',
-            arg: 'silverbolt_pcpr_url'
+            env: 'WHEELJACK_PCPR_URL',
+            arg: 'wheeljack_pcpr_url'
         },
-        SILVERBOLT_PNLCPR_URL: {
+        WHEELJACK_PNLCPR_URL: {
             doc: 'Panel Company profile Kube Service',
             format: String,
             default: '',
-            env: 'SILVERBOLT_PNLCPR_URL',
-            arg: 'silverbolt_pnlcpr_url'
+            env: 'WHEELJACK_PNLCPR_URL',
+            arg: 'wheeljack_pnlcpr_url'
         },
         SKYWARP_MAIN_SVC: {
             doc: 'Skywrap Kube Service',
@@ -331,6 +354,20 @@ const conf = convict({
             env: 'MIXMASTER_ADMIN_URL',
             arg: 'mixmaster_admin_url'
         },
+        SURESHOT_ADMIN_URL: {
+            doc: 'Sureshot Admin URL',
+            format: String,
+            default: 'https://api.fyndx0.de/service/___/administrator/webhook/',
+            env: 'SURESHOT_ADMIN_URL',
+            arg: 'sureshot_admin_url'
+        },
+        MIXMASTER_PNL_URL: {
+            doc: 'Mixmaster Panel URL',
+            format: String,
+            default: 'https://api.fyndx0.de/service/panel/partners/',
+            env: 'MIXMASTER_PNL_URL',
+            arg: 'MIXMASTER_PNL_URL'
+        },
         MIXMASTER_ADMIN_SVC: {
             doc: 'Mixmaster Kube Service',
             format: String,
@@ -351,6 +388,34 @@ const conf = convict({
             default: '',
             env: 'PINPOINTER_ADMIN_URL',
             arg: 'PINPOINTER_ADMIN_URL'
+        },
+        WEIRDWOLF_ADMIN_URL: {
+            doc: 'Packaging admin service',
+            format: String,
+            default: 'https://api.fyndx0.de/service/___/administrator/packaging',
+            env: 'WEIRDWOLF_ADMIN_URL',
+            arg: 'weirdwolf_admin_url'
+        },
+        PACKAGING_COMPANY_ID: {
+            doc: 'packaging company id',
+            format: String,
+            default:'84',
+            env: 'PACKAGING_COMPANY_ID',
+            arg: 'packaging_company_id'
+        },
+        PACKAGING_APPLICATION_ID: {
+            doc: 'packaging application id',
+            format: String,
+            default:'629616a1d7c74d3915f8f4e8',
+            env: 'PACKAGING_APPLICATION_ID',
+            arg: 'packaging_application_id'
+        },
+        EXTENSION_PAGE_URL: {
+            doc: 'Extension Page URLS',
+            format: String,
+            default: '',
+            env: 'EXTENSION_PAGE_URL',
+            arg: 'EXTENSION_PAGE_URL'
         }
     },
 

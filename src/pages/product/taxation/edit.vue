@@ -6,7 +6,7 @@
                     <nitrozen-button
                         class="pad-left"
                         :theme="'secondary'"
-                        @click="saveForm"
+                        @click="debounceSaveForm"
                         v-flatBtn
                         >Save</nitrozen-button
                     >
@@ -31,10 +31,12 @@
                         label="HSN Code"
                         :disabled="editMode"
                         required
-                        type="text"
+                        :type="'text'"
+                        :maxlength="8"
                         placeholder="For eg. 61152010"
+                        :value="hsn_code.value"
                         v-model="hsn_code.value"
-                        @input="validateHSNCode"
+                        @input="validateNumber(hsn_code.value)"
                     ></nitrozen-input>
                     <nitrozen-error v-if="hsn_code.showerror">
                         {{ hsn_code.errortext }}
@@ -50,7 +52,6 @@
                         placeholder="For eg. 61152010"
                         v-model="reporting_hsn"
                         :disabled="true"
-                        @input=""
                     ></nitrozen-input>
                 </div>
             </div>
@@ -86,7 +87,7 @@
             <div class="row">
                 <div class="input-area">
                     <span class="char-count">{{
-                        `${description.value.length} / 100 Characters`
+                        `${description.value.length} / 500 Characters`
                     }}</span>
                     <nitrozen-input
                         label="Description"
@@ -212,6 +213,7 @@
         <add-taxrate-dailog
             ref="addTaxrateDialog"
             :taxes="datedTax"
+            :selectedDates="selectedDates"
             @close="$closeAddTaxRateDialog"
         >
         </add-taxrate-dailog>
@@ -219,13 +221,14 @@
             ref="editTaxrateDialog"
             :taxes="datedTax"
             :selectedRate="selectedRate"
+            :selectedDates="selectedDates"
             @close="$closeEditTaxrateDialog"
         >
         </edit-taxrate-dailog>
         <!--Confirmation dailog -->
         <nitrozen-dialog ref="confirm-dialog" title="Confirmation">
             <template slot="body">
-                <p>Are you sure you want to delete Rate</p>
+                <p>Are you sure you want to delete rate?</p>
             </template>
             <template slot="footer">
                 <div class="footer-actions-buttons">
@@ -267,6 +270,7 @@ import LocationService from '@/services/location.service';
 import admforminput from '@/components/common/form-input.vue';
 import AddTaxrateDailog from './add-taxrate-dialog';
 import EditTaxrateDailog from './edit-taxrate-dialog';
+import { debounce } from '@/helper/utils.js';
 // import _ from 'lodash';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
@@ -283,7 +287,7 @@ import {
     NitrozenDialog,
     NitrozenTooltip,
     flatBtn,
-    strokeBtn
+    strokeBtn,
 } from '@gofynd/nitrozen-vue';
 
 const GST_RATES = [0, 3, 5, 10, 12, 18, 28];
@@ -310,11 +314,11 @@ export default {
         loader,
         AddTaxrateDailog,
         EditTaxrateDailog,
-        NitrozenDialog
+        NitrozenDialog,
     },
     directives: {
         flatBtn,
-        strokeBtn
+        strokeBtn,
     },
     mixins: [dirtyCheckMixin],
     data() {
@@ -334,28 +338,28 @@ export default {
             hsn_code: {
                 value: '',
                 showerror: false,
-                errortext: 'HSN code is required'
+                errortext: 'HSN code is required',
             },
             type: {
                 value: '',
                 showerror: false,
-                errortext: 'Type is required'
+                errortext: 'Type is required',
             },
             country_code: {
                 value: '',
                 showerror: false,
-                errortext: 'Country is required'
+                errortext: 'Country is required',
             },
             description: {
                 value: '',
                 showerror: false,
                 errortext:
-                    "Description is required and it's length should be between 10 to 100 chars"
+                    "Description is required and it's length should be between 4 to 500 chars",
             },
             taxes: {
                 value: [],
                 showerror: false,
-                errortext: 'Tax rate is required'
+                errortext: 'Tax rate is required',
             },
             datedTax: {},
             // selectedRate: {
@@ -369,18 +373,19 @@ export default {
                 cess: 0,
                 effective_date: '',
                 rate: 0,
-                threshold: 0
+                threshold: 0,
             },
             newRates: [
                 {
                     cess: 0,
                     effective_date: '',
                     rate: 0,
-                    threshold: 0
-                }
+                    threshold: 0,
+                },
             ],
             markedForDelete: [],
-            errors: {}
+            errors: {},
+            selectedDates: [],
         };
     },
     mounted() {
@@ -402,10 +407,10 @@ export default {
             return HSN_TYPE.map((type) => {
                 return {
                     text: type,
-                    value: type.toLowerCase()
+                    value: type.toLowerCase(),
                 };
             });
-        }
+        },
     },
     watch: {
         value() {
@@ -422,7 +427,7 @@ export default {
                     }
                 }
             }
-        }
+        },
     },
     methods: {
         pageTitle() {
@@ -455,7 +460,7 @@ export default {
                     this.filteredCountries = data.items.map((country) => {
                         return {
                             text: country.name,
-                            value: country.iso2
+                            value: country.iso2,
                         };
                     });
                     this.filteredCountries.sort((a, b) =>
@@ -477,9 +482,8 @@ export default {
                         .includes(this.countrySearchInputText.toLowerCase())
                 ) {
                     this.countryCodeList[i].text = this.countryCodeList[i].name;
-                    this.countryCodeList[i].value = this.countryCodeList[
-                        i
-                    ].iso2;
+                    this.countryCodeList[i].value =
+                        this.countryCodeList[i].iso2;
                     this.filteredCountries.push(this.countryCodeList[i]);
                 }
             }
@@ -517,6 +521,7 @@ export default {
             this.datedTax = {};
 
             for (let item of this.taxes.value) {
+                const a = item.effective_date;
                 let date_key = item.effective_date;
                 date_key = date_key.split('T')[0];
                 if (date_key in datedTax) {
@@ -526,7 +531,7 @@ export default {
                 }
             }
             //to get latest active date
-            let currentDate = new Date().setHours(23);
+            let currentDate = new Date().setHours(1);
             currentDate = new Date(currentDate).toISOString().split('T')[0];
             currentDate = Number(currentDate.replaceAll('-', ''));
             let allDates = Object.keys(datedTax);
@@ -561,9 +566,10 @@ export default {
                 }
             }
             //assigning the newUpdated object to global variable
+            this.selectedDates = Object.keys(datedTax).map(
+                (date) => datedTax[date][0].effective_date
+            );
             this.datedTax = datedTax;
-
-            // console.log(this.datedTax);
         },
         isRateActive(state) {
             if (state == 'Active') {
@@ -574,12 +580,15 @@ export default {
         },
         saveForm() {
             let postData = {};
-            if (this.hsn_code.value !== '' && this.hsn_code.value.length==8) {
+            if (this.hsn_code.value !== '' && this.hsn_code.value.length >= 4) {
                 this.hsn_code.showerror = false;
                 postData.hsn_code = this.hsn_code.value;
-            } else if (this.hsn_code.value !== '' && this.hsn_code.value.length!=8){
+            } else if (
+                this.hsn_code.value !== '' &&
+                this.hsn_code.value.length < 4
+            ) {
                 this.hsn_code.showerror = true;
-                this.hsn_code.errortext = "HSN code must be of 8 digits";
+                this.hsn_code.errortext = 'HSN code must be minimum 4 digits';
             } else {
                 this.hsn_code.showerror = true;
             }
@@ -596,17 +605,18 @@ export default {
                 this.country_code.showerror = true;
             }
             if (
-                this.description.value !== '' &&
-                this.description.value.length > 9 &&
-                this.description.value.length <= 100
+                this.description.value.trim() !== '' &&
+                this.description.value.trim().length > 3 &&
+                this.description.value.trim().length <= 500
             ) {
                 this.description.showerror = false;
-                postData.description = this.description.value;
+                postData.description = this.description.value.trim();
             } else {
                 this.description.showerror = true;
             }
             if (this.taxes.value.length > 0) {
                 postData.taxes = this.taxes.value;
+                this.taxes.showerror = false;
             } else {
                 this.taxes.showerror = true;
             }
@@ -626,30 +636,40 @@ export default {
                 } else {
                     call = call = AdminService.createHsnCode(postData);
                 }
-                return call
-                    .then(() => {
-                        this.inProgress = false;
-                        if (this.editMode) {
-                            this.$snackbar.global.showSuccess(
-                                'Tax Rate Updated successfully'
-                            );
-                        } else {
-                            this.$snackbar.global.showSuccess(
-                                'Saved successfully'
-                            );
-                        }
-                        this.clearSelectedRate();
-                        if (this.markedForDelete.length <= 0) {
-                            this.redirectBack();
-                            this.markedForDelete = [];
-                        }
-                    })
-                    .catch((err) => {
-                        this.inProgress = false;
+                call.then((res) => {
+                    this.inProgress = false;
+                    if (this.editMode) {
+                        this.$snackbar.global.showSuccess(
+                            'Tax Rate Updated successfully'
+                        );
+                    } else {
+                        this.$snackbar.global.showSuccess('Saved successfully');
+                    }
+                    this.clearSelectedRate();
+                    if (this.markedForDelete.length <= 0) {
+                        !this.editMode && this.redirectBack();
+                        this.markedForDelete = [];
+                    }
+                }).catch((err) => {
+                    this.inProgress = false;
+                    if (
+                        err &&
+                        err.response &&
+                        err.response.data &&
+                        err.response.data.message.includes(
+                            'duplicate key error'
+                        )
+                    ) {
+                        this.$snackbar.global.showError(
+                            `HSN code ${postData.hsn_code} with GST configuration already exist`
+                        );
+                    } else {
                         this.$snackbar.global.showError('Failed to save');
-                        this.clearUnsavedRates();
-                        this.clearSelectedRate();
-                    });
+                    }
+                    this.clearUnsavedRates();
+                    this.clearSelectedRate();
+                });
+                return;
             } else if (
                 this.hsn_code.showerror ||
                 this.type.showerror ||
@@ -673,28 +693,45 @@ export default {
                 );
             }
         },
-        validateHSNCode() {
-            let isValid = true;
-            this.hsn_code.showerror = false;
-            this.$set(this.errors, 'hsn_code', '');
-
-            if (this.hsn_code.value.toString().length !== 8) {
-                isValid = false;
-                this.errors.hsn_code = 'HSN code must be of 8 digits';
+        debounceSaveForm: debounce(function () {
+            this.saveForm();
+        }, 800),
+        validateNumber(input) {
+            if(input.includes("+") || input.includes("-")){
+                this.hsn_code.value = '';
+                this.hsn_code.showerror = true;
+                this.hsn_code.errortext = 'HSN code must be of positive number';
+            }else if (!Number(input) && Number(input) !== 0) {
+                this.hsn_code.value = '';
+                this.hsn_code.showerror = true;
+                this.hsn_code.errortext = 'HSN code must be of positive number';
+            } else {
+                this.hsn_code.showerror = false;
+                this.hsn_code.errortext = 'HSN code is required';
             }
-            return isValid;
         },
+        // validateHSNCode() {
+        //     let isValid = true;
+        //     this.hsn_code.showerror = false;
+        //     this.$set(this.errors, 'hsn_code', '');
+
+        //     if (this.hsn_code.value.toString().length !== 8) {
+        //         isValid = false;
+        //         this.errors.hsn_code = 'HSN code must be of 8 digits';
+        //     }
+        //     return isValid;
+        // },
         validateDescription() {
             let isValid = true;
             this.description.showerror = false;
             this.$set(this.errors, 'description', '');
             if (
-                this.description.value.toString().length >= 101 ||
-                this.description.value.toString().length < 10
+                this.description.value.toString().length >= 501 ||
+                this.description.value.toString().length < 4
             ) {
                 isValid = false;
                 this.errors.description =
-                    "Description is required and it's length should be between 10 to 100 chars";
+                    "Description is required and it's length should be between 4 to 500 chars";
             }
             return isValid;
         },
@@ -713,6 +750,11 @@ export default {
         },
         format_date(value) {
             if (value) {
+                if (!value.includes('.000Z')) {
+                    value = new Date(value + '.000Z')
+                        .toLocaleString('sv')
+                        .replace(' ', 'T');
+                }
                 return moment(value).format('D MMM, YYYY');
             }
         },
@@ -730,8 +772,8 @@ export default {
                     cess: 0,
                     effective_date: '',
                     rate: 0,
-                    threshold: 0
-                }
+                    threshold: 0,
+                },
             ];
         },
         clearSelectedRate() {
@@ -810,9 +852,8 @@ export default {
                     'HSN has only one tax slab, it should not be deleted'
                 );
             } else {
-                let tempdate = this.markedForDelete[0].effective_date.split(
-                    'T'
-                )[0];
+                let tempdate =
+                    this.markedForDelete[0].effective_date.split('T')[0];
                 this.taxes.value = this.taxes.value.filter((rate) => {
                     let efdate = rate.effective_date.split('T')[0];
                     if (efdate == tempdate) {
@@ -831,14 +872,14 @@ export default {
             this.$refs['confirm-dialog'].open({
                 width: '400px',
                 height: '215px',
-                showCloseButton: true
+                showCloseButton: true,
             });
         },
         closeConfirmationDialog() {
             this.markedForDelete = [];
             this.$refs['confirm-dialog'].close();
-        }
-    }
+        },
+    },
 };
 </script>
 
@@ -943,5 +984,8 @@ export default {
 
 .left-space-txb {
     margin-left: 12px;
+}
+::v-deep .n-input-maxlength {
+    display: none;
 }
 </style>

@@ -1620,7 +1620,7 @@ export default {
             const { platform } = param;
             if (platform) {
                 window.open(
-                    `https://platform.${env.FYND_PLATFORM_DOMAIN}/company/${this.companyId}/products/${this.itemId}/edit/?brandId=${this.brandUid}&template=${this.templateSlug}&itemCode=${this.itemCode}&status=live`,
+                    `${env.MIRAGE_MAIN_DOMAIN}/company/${this.companyId}/products/${this.itemId}/edit/?brandId=${this.brandUid}&template=${this.templateSlug}&itemCode=${this.itemCode}&status=live`,
                     '_blank'
                 );
             }

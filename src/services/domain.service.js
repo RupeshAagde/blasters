@@ -18,17 +18,17 @@ const SILVERBOLT_MAIN_URL = isNode ?
     envVars.BROWSER_CONFIG.SILVERBOLT_MAIN_URL :
     envVars.SILVERBOLT_MAIN_URL;
 
-const SILVERBOLT_ACPR_URL = isNode ?
-    envVars.BROWSER_CONFIG.SILVERBOLT_ACPR_URL :
-    envVars.SILVERBOLT_ACPR_URL;
+const WHEELJACK_ACPR_URL = isNode ?
+    envVars.BROWSER_CONFIG.WHEELJACK_ACPR_URL :
+    envVars.WHEELJACK_ACPR_URL;
 
 const SILVERBOLT_ACAT_URL = isNode ?
     envVars.BROWSER_CONFIG.SILVERBOLT_ACAT_URL :
     envVars.SILVERBOLT_ACAT_URL;
 
-const SILVERBOLT_PNLCPR_URL = isNode ?
-    envVars.BROWSER_CONFIG.SILVERBOLT_PNLCPR_URL :
-    envVars.SILVERBOLT_PNLCPR_URL;
+const WHEELJACK_PNLCPR_URL = isNode ?
+    envVars.BROWSER_CONFIG.WHEELJACK_PNLCPR_URL :
+    envVars.WHEELJACK_PNLCPR_URL;
 
 const SKYWARP_PNL_URL = isNode ?
     envVars.BROWSER_CONFIG.SKYWARP_PNL_URL :
@@ -83,16 +83,20 @@ const GRINGOTTS_ADMIN_URL = isNode ?
 
 const COMMUNICATION_BASE_URL = isNode ?
     envVars.BROWSER_CONFIG.POINTBLANK_ADMIN_URL :
-    envVars.POINTBLANK_ADMIN_URL;   
-    
+    envVars.POINTBLANK_ADMIN_URL;
+
 const PINPOINTER_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.PINPOINTER_ADMIN_URL :
-    envVars.PINPOINTER_ADMIN_URL;    
-     
+    envVars.PINPOINTER_ADMIN_URL;
+
 
 const ADMIN_ORDER_BASE = isNode ?
     envVars.BROWSER_CONFIG.APEFACE_ADMIN_URL :
     envVars.APEFACE_ADMIN_URL;
+
+const EXTENSION_PAGE_URL = isNode ?
+    envVars.BROWSER_CONFIG.EXTENSION_PAGE_URL :
+    envVars.EXTENSION_PAGE_URL;
 
 const URLS = {
     // User Profile API's
@@ -137,7 +141,7 @@ const URLS = {
     },
     //Company Metrics
     FETCH_METRICS: (params) => {
-        return urlJoin(SILVERBOLT_ACPR_URL, `/v1.0/company/${params.company}/metrics`);
+        return urlJoin(WHEELJACK_ACPR_URL, `/v1.0/company/${params.company}/metrics/`);
     },
 
     //search dri
@@ -148,14 +152,14 @@ const URLS = {
     //fetch dri
     FETCH_DRI: (params) => {
         return urlJoin(
-            SILVERBOLT_ACPR_URL,
-            `/v1.0/company/${params.company_id}/poc`
+            WHEELJACK_ACPR_URL,
+            `/v1.0/company/${params.company_id}/poc/`
         );
     },
 
     FETCH_ONE_DRI: (params) => {
         return urlJoin(
-            SILVERBOLT_ACPR_URL,
+            WHEELJACK_ACPR_URL,
             `/v1.0/company/${params.company_id}/poc/${params.uid}`
         );
     },
@@ -189,7 +193,7 @@ const URLS = {
     //company details
     GET_COMPANY_LIST: () => {
         return urlJoin(
-            SILVERBOLT_ACPR_URL,
+            WHEELJACK_ACPR_URL,
             '/v1.0/companies/'
         );
     },
@@ -219,33 +223,33 @@ const URLS = {
     },
     VERIFY_COMPANY: (query_param) => {
         return urlJoin(
-            SILVERBOLT_ACPR_URL,
+            WHEELJACK_ACPR_URL,
             `/v1.0/company/${query_param.uid}/verify`
         )
     },
     BRAND_ADMIN_ACTION: (params) => {
         return urlJoin(
-            SILVERBOLT_ACPR_URL,
+            WHEELJACK_ACPR_URL,
             `/v1.0/company/${params.company}/brand/${params.brand}/verify/`
         );
     },
     STORE_ADMIN_ACTION: (params) => {
         return urlJoin(
-            SILVERBOLT_ACPR_URL,
+            WHEELJACK_ACPR_URL,
             `/v1.0/company/${params.company}/location/${params.uid}/verify/`
         );
     },
     GET_COMPANY_BRANDS: (params) => {
-        return urlJoin(SILVERBOLT_ACPR_URL, `/v1.0/company/${params.company_id}/company-brand/`);
+        return urlJoin(WHEELJACK_ACPR_URL, `/v1.0/company/${params.company_id}/company-brand/`);
     },
     GET_CHOICE_TYPES: () => {
-        return urlJoin(SILVERBOLT_PNLCPR_URL, '/v1.0/choices/');
+        return urlJoin(WHEELJACK_PNLCPR_URL, '/v1.0/choices/');
     },
     COMPANY_STORES: (params) => {
-        return urlJoin(SILVERBOLT_ACPR_URL, `/v1.0/company/${params.company_id}/location/`);
+        return urlJoin(WHEELJACK_ACPR_URL, `/v1.0/company/${params.company_id}/location`);
     },
     COMPANY_PROFILE: (params) => {
-        return urlJoin(SILVERBOLT_ACPR_URL, `/v1.0/company/${params.uid}`);
+        return urlJoin(WHEELJACK_ACPR_URL, `/v1.0/company/${params.uid}`);
     },
     ATTRIBUTES_MASTER: (slug = '') => {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/product-attributes', slug);
@@ -478,6 +482,12 @@ const URLS = {
             ADMIN_ORDERS_BASE,
             `/v1.0/${company_id}?q=${slug}&filter_type=auto`
         );
+    },
+    GET_GENERAL_CONGIF: () => {
+        return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/general-config`);
+    },
+    GENERAL_CONGIF: () => {
+        return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/general-config`);
     },
     PRODUCT: ({ companyId, itemId }) => {
         let url = `v1.0/company/${companyId}/products/`

@@ -7,6 +7,7 @@
             <nitrozen-button
                 v-flatBtn
                 theme="secondary"
+                ref="save-btn"
                 @click="saveSettings"
                 :disabled="!basicSettings"
             >

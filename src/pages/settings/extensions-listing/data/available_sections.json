@@ -1,0 +1,456 @@
+[
+    {
+        "type": "banner",
+        "name": "Banner",
+        "tags": [],
+        "page_type": "all",
+        "predicate": {
+            "screen": {
+                "mobile": true,
+                "table": true,
+                "desktop": true
+            }
+        },
+        "props": [
+            {
+                "id": "heading",
+                "label": "Heading",
+                "default": "",
+                "type": "textbox"
+            },
+            {
+                "id": "title",
+                "label": "Title",
+                "default": "",
+                "type": "textbox"
+            },
+            {
+                "id": "subtitle",
+                "label": "Subtitle",
+                "default": "",
+                "type": "textbox"
+            },
+            {
+                "id": "image",
+                "label": "Banner Image",
+                "default": "",
+                "type": "image_picker"
+            },
+            {
+                "id": "image_position",
+                "label": "Banner Position",
+                "default": "",
+                "predicate_prop": {
+                    "image": true
+                },
+                "type": "radio",
+                "options": [
+                    {
+                        "value": "left",
+                        "text": "Left"
+                    },
+                    {
+                        "value": "right",
+                        "text": "Right"
+                    }
+                ]
+            },
+            {
+                "id": "button_label",
+                "label": "Button Label",
+                "default": "",
+                "type": "text"
+            },
+            {
+                "id": "button_page_link",
+                "label": "Redirection Page",
+                "default": "",
+                "predicate_prop": {
+                    "button_label": true
+                },
+                "type": "select",
+                "options": [
+                    {
+                        "value": "Extensions List",
+                        "text": "/extensions"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "extension_item_list",
+        "name": "Extension Item List",
+        "tags": [],
+        "page_type": "extension",
+        "predicate": {
+            "screen": {
+                "mobile": true,
+                "table": true,
+                "desktop": true
+            }
+        },
+        "props": [
+            {
+                "id": "heading",
+                "label": "Heading",
+                "default": "",
+                "type": "textbox"
+            },
+            {
+                "id": "title",
+                "label": "Title",
+                "default": "",
+                "type": "textbox"
+            },
+            {
+                "id": "subtitle",
+                "label": "Subtitle",
+                "default": "",
+                "type": "textbox"
+            },
+            {
+                "id": "button_label",
+                "label": "Button Label",
+                "default": "View All",
+                "type": "text"
+            },
+            {
+                "id": "button_page_link",
+                "label": "Redirection Page",
+                "default": "/extensions",
+                "predicate_prop": {
+                    "button_label": true
+                },
+                "type": "select",
+                "options": [
+                    {
+                        "value": "/extensions",
+                        "text": "Extensions List"
+                    }
+                ]
+            },
+            {
+                "id": "button_position",
+                "label": "Button Position",
+                "default": "top_right",
+                "predicate_prop": {
+                    "button_label": true
+                },
+                "type": "select",
+                "options": [
+                    {
+                        "value": "top_right",
+                        "text": "Top Right"
+                    },
+                    {
+                        "value": "bottom_left",
+                        "text": "Bottom Left"
+                    },
+                    {
+                        "value": "bottom_center",
+                        "text": "Bottom Center"
+                    },
+                    {
+                        "value": "bottom_right",
+                        "text": "Bottom Right"
+                    }
+                ]
+            },
+            {
+                "id": "item_source",
+                "label": "List item source",
+                "default": "",
+                "type": "radio",
+                "options": [
+                    {
+                        "text": "Powered by API",
+                        "value": "api"
+                    },
+                    {
+                        "text": "Manual Select",
+                        "value": "manual"
+                    }
+                ]
+            },
+            {
+                "id": "api_source",
+                "label": "API Source",
+                "predicate_prop": {
+                    "item_source": "api"
+                },
+                "default": "extension_latest",
+                "type": "select",
+                "options": [
+                    {
+                        "text": "Latest Extensions",
+                        "value": "extension_latest"
+                    }
+                ]
+            }
+        ],
+        "item_type": "extension",
+        "items": []
+    },
+    {
+        "type": "collection_grid",
+        "name": "Collection Grid",
+        "tags": [],
+        "page_type": "all",
+        "predicate": {
+            "screen": {
+                "mobile": true,
+                "table": true,
+                "desktop": true
+            }
+        },
+        "props": [
+            {
+                "id": "heading",
+                "label": "Heading",
+                "default": "",
+                "type": "textbox"
+            },
+            {
+                "id": "title",
+                "label": "Title",
+                "default": "",
+                "type": "textbox"
+            },
+            {
+                "id": "subtitle",
+                "label": "Subtitle",
+                "default": "",
+                "type": "textbox"
+            },
+            {
+                "id": "button_label",
+                "label": "Button Label",
+                "default": "",
+                "type": "text"
+            },
+            {
+                "id": "button_page_link",
+                "label": "Redirection Page",
+                "default": "",
+                "predicate_prop": {
+                    "button_label": true
+                },
+                "type": "select",
+                "options": [
+                    {
+                        "value": "Collections",
+                        "text": "/collections"
+                    }
+                ]
+            },
+            {
+                "id": "item_source",
+                "label": "List item source",
+                "default": "manual",
+                "type": "radio",
+                "options": []
+            },
+            {
+                "id": "image",
+                "label": "Banner Image",
+                "default": "",
+                "type": "image_picker"
+            },
+            {
+                "id": "image_position",
+                "label": "Banner Position",
+                "default": "",
+                "predicate_prop": {
+                    "image": true
+                },
+                "type": "radio",
+                "options": [
+                    {
+                        "value": "left",
+                        "text": "Left"
+                    },
+                    {
+                        "value": "right",
+                        "text": "Right"
+                    }
+                ]
+            }
+        ],
+        "item_type": "collection",
+        "items": []
+    },
+    {
+        "type": "category_item_list",
+        "name": "Category Item List",
+        "tags": [],
+        "page_type": "extension",
+        "predicate": {
+            "screen": {
+                "mobile": true,
+                "table": true,
+                "desktop": true
+            }
+        },
+        "props": [
+            {
+                "id": "heading",
+                "label": "Heading",
+                "default": "",
+                "type": "textbox"
+            },
+            {
+                "id": "title",
+                "label": "Title",
+                "default": "",
+                "type": "textbox"
+            },
+            {
+                "id": "subtitle",
+                "label": "Subtitle",
+                "default": "",
+                "type": "textbox"
+            },
+            {
+                "id": "button_label",
+                "label": "Button Label",
+                "default": "View All",
+                "type": "text"
+            },
+            {
+                "id": "button_page_link",
+                "label": "Redirection Page",
+                "default": "/extensions",
+                "predicate_prop": {
+                    "button_label": true
+                },
+                "type": "select",
+                "options": []
+            },
+            {
+                "id": "button_position",
+                "label": "Button Position",
+                "default": "top_right",
+                "predicate_prop": {
+                    "button_label": true
+                },
+                "type": "select",
+                "options": [
+                    {
+                        "value": "top_right",
+                        "text": "Top Right"
+                    },
+                    {
+                        "value": "bottom_left",
+                        "text": "Bottom Left"
+                    },
+                    {
+                        "value": "bottom_center",
+                        "text": "Bottom Center"
+                    },
+                    {
+                        "value": "bottom_right",
+                        "text": "Bottom Right"
+                    }
+                ]
+            },
+            {
+                "id": "item_source",
+                "label": "List item source",
+                "default": "manual",
+                "type": "radio",
+                "options": []
+            }
+        ],
+        "item_type": "category",
+        "items": []
+    },
+    {
+        "type": "extension_grid",
+        "name": "Extension Grid",
+        "tags": [],
+        "page_type": "extension",
+        "predicate": {
+            "screen": {
+                "mobile": true,
+                "table": true,
+                "desktop": true
+            }
+        },
+        "props": [
+            {
+                "id": "heading",
+                "label": "Heading",
+                "default": "",
+                "type": "textbox"
+            },
+            {
+                "id": "title",
+                "label": "Title",
+                "default": "",
+                "type": "textbox"
+            },
+            {
+                "id": "subtitle",
+                "label": "Subtitle",
+                "default": "",
+                "type": "textbox"
+            },
+            {
+                "id": "button_label",
+                "label": "Button Label",
+                "default": "",
+                "type": "text"
+            },
+            {
+                "id": "button_page_link",
+                "label": "Redirection Page",
+                "default": "",
+                "predicate_prop": {
+                    "button_label": true
+                },
+                "type": "select",
+                "options": [
+                    {
+                        "value": "Collections",
+                        "text": "/collections"
+                    }
+                ]
+            },
+            {
+                "id": "item_source",
+                "label": "List item source",
+                "default": "manual",
+                "type": "radio",
+                "options": []
+            },
+            {
+                "id": "image",
+                "label": "Banner Image",
+                "default": "",
+                "type": "image_picker"
+            },
+            {
+                "id": "image_position",
+                "label": "Banner Position",
+                "default": "",
+                "predicate_prop": {
+                    "image": true
+                },
+                "type": "radio",
+                "options": [
+                    {
+                        "value": "left",
+                        "text": "Left"
+                    },
+                    {
+                        "value": "right",
+                        "text": "Right"
+                    }
+                ]
+            }
+        ],
+        "item_type": "extension",
+        "items": []
+    }
+]
