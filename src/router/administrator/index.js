@@ -86,7 +86,7 @@ export default [
                 path: 'webhook',
                 component: ListWebhooks,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['webhook']);
                 }
             },
             {
@@ -94,7 +94,7 @@ export default [
                 path: 'create-webhook',
                 component: CreateWebhooks,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['webhook']);
                 }
             },
             {
@@ -102,7 +102,7 @@ export default [
                 path: 'edit-webhook/:id',
                 component: EditWebhooks,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['webhook']);
                 }
             },
             {
@@ -110,7 +110,7 @@ export default [
                 path: 'webhook-report',
                 component: WebhookReport,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['webhook']);
                 }
             },
             {
