@@ -1,11 +1,5 @@
 <template>
     <div class="panel">
-        <adm-page-header
-            class="titlize"
-            :showBackButton="false"
-            :title="'Return Merchandise Authorisation'"
-            :noContextMenu="true"
-        ></adm-page-header>
         <div class="main-container">
             <div class="page-container">
                 <sales-channel/>
@@ -17,12 +11,10 @@
 <script>
 import { NitrozenButton, flatBtn } from '@gofynd/nitrozen-vue';
 import SalesChannel from './sales-channel';
-import AdmPageHeader from '@/components/common/layout/page-header.vue';
 
 export default {
     name: 'rma-sales-page',
     components: {
-        'adm-page-header': AdmPageHeader,
         'nitrozen-button': NitrozenButton,
         'sales-channel': SalesChannel
     },
@@ -69,11 +61,5 @@ export default {
             }
         }
     }
-}
-::v-deep .titlize {
-    text-transform: capitalize;
-    position: initial;
-    width: auto;
-    z-index: 6;
 }
 </style>

@@ -71,7 +71,6 @@
         <draggable
             class="reason-container"
             v-model="selectedConfig.reasons"
-            returnReasonSearchText,searchReturnReason,addNewReason,selectedConfig
             handle=".reorder"
             @start="drag = true"
             @end="drag = false"

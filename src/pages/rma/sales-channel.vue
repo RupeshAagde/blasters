@@ -3,15 +3,15 @@
         <jumbotron
             :title="'Company - FYND'"
             btnLabel="Add New"
-            @btnClick=""
+            @btnClick="redirectToSetup"
         ></jumbotron>
         <table class="mirage-table">
             <tr>
-                <td v-for="heading in tableHeadings">
+                <td v-for="(heading, index) of tableHeadings" :key="index">
                     {{heading}}
                 </td>
             </tr>
-            <tr v-for="(tableRow, index) in tableData">
+            <tr v-for="(tableRow, index) of tableData" :key="index">
                 <td>{{tableRow.channel}}</td>
                 <td>{{tableRow.category}}</td>
                 <td>{{tableRow.Subcategory}}</td>
@@ -20,7 +20,7 @@
                     <button class="row-cta">
                         <img src="/public/assets/svgs/delete_outline.svg"/>
                     </button>
-                    <button class="row-cta">
+                    <button @click="redirectToEdit" class="row-cta">
                         <img src="/public/assets/svgs/edit_outline.svg"/>
                     </button>
                 </td>
@@ -61,6 +61,7 @@ export default {
                 'QC',
                 'Action'
             ],
+            company: this.$route.params.company,
             tableData: [
                 {
                     channel: 'Amazon',
@@ -116,6 +117,12 @@ export default {
     methods:{
         paginationChange(){
             
+        },
+        redirectToSetup() {
+            this.$router.push({ path: `/administrator/rma/rules/${this.company}/setup` });
+        },
+        redirectToEdit() {
+            this.$router.push({ path: `/administrator/rma/rules/${this.company}/edit` });
         }
     }
 }
