@@ -2,42 +2,54 @@
     <div class="panel">
         <adm-page-header
             class="titlize"
-            :showBackButton="false"
+            :showBackButton="this.route.name !== 'rma-rules'"
+            @backClick="goBack"
             :title="'Return Merchandise Authorisation'"
             :noContextMenu="true"
-        ></adm-page-header>
-        <div class="main-container">
-            <div class="page-container">
-                <div class="header-container">
-                    <div class="caption-container">
-                        <span class="caption-title">RMA Rules History</span>
-                        <span class="caption-description">Small description which is around 1 line</span>
-                    </div>
-                    <div>
-                        <nitrozen-button :theme="'secondary'" v-flatBtn>Add New</nitrozen-button>
-                    </div>
-                </div>
-                <adm-no-content helperText="No Company or Sales Channel Added. Add Sales Channel"></adm-no-content>
-            </div>
-        </div>
+        >
+            <nitrozen-button
+                v-if="
+                    this.route.name === 'rma-setup' ||
+                        this.route.name === 'rma-edit'
+                "
+                v-flat-btn
+                :rounded="false"
+                :theme="'secondary'"
+                @click="save()"
+            >
+                Save
+            </nitrozen-button>
+        </adm-page-header>
+        <router-view name="rma-view" />
     </div>
 </template>
 
 <script>
-import { NitrozenButton, flatBtn } from '@gofynd/nitrozen-vue';
 import AdmPageHeader from '@/components/common/layout/page-header.vue';
-import AdmNoContent from '@/components/common/adm-no-content.vue';
+import { NitrozenButton } from '@gofynd/nitrozen-vue';
 
 export default {
     name: 'rma-page',
     components: {
         AdmPageHeader,
-        AdmNoContent,
-        'nitrozen-button': NitrozenButton,
+        NitrozenButton
     },
-    directives: {
-        flatBtn,
+    data() {
+        return {
+            route: this.$route
+        };
     },
+    updated() {
+        this.route = this.$route;
+    },
+    methods: {
+        goBack() {
+            this.$router.back();
+        },
+        save() {
+            console.log('save')
+        }
+    }
 };
 </script>
 
@@ -45,40 +57,6 @@ export default {
 @import './../less/page-header.less';
 @import './../less/page-ui.less';
 
-.page-container {
-    margin: 0;
-    flex-direction: column;
-
-    @media @mobile {
-        width: calc(100% - 48px);
-        margin-top: 48px;
-    }
-    .header-container {
-        font-family: Inter;
-        align-items: center;
-        display: flex;
-        justify-content: space-between;
-        background-color: @White;
-
-        .caption-container {
-            display: flex;
-            flex-direction: column;
-
-            .caption-title {
-                color: @Mako;
-                font-weight: bold;
-                font-size: 24px;
-                line-height: 40px;
-                text-align: left;
-            }
-            .caption-description {
-                color: #9b9b9b;
-                line-height: 22px;
-                font-size: 16px;
-            }
-        }
-    }
-}
 ::v-deep .titlize {
     text-transform: capitalize;
     position: initial;
