@@ -2,12 +2,13 @@
   <div class="container">
     <show-more-filters-popup ref="more-filters" :filters-to-show="filtersToShow"
                              :title="'Selected Filters'"></show-more-filters-popup>
+    <show-all-download-popup ref="show-all-download" :filedata-to-show="filedataToShow" :title="'Webhook Report Files'"></show-all-download-popup>
     <adm-inline-svg :src="'csv-file2'" class="csv-img"></adm-inline-svg>
     <div class="container-body">
       <div class="body-heading">
-        <p>{{ displayCard.filename }}</p>
+        <p>{{ displayCard.filename }} </p>
         <div v-if="isSuccess" class="extra-controls">
-          <div @click="onCopy" class="clickable">
+          <div @click="onCopy" class="clickable" v-if="!isMultipleDownloadExists">
             <adm-inline-svg src="copy"></adm-inline-svg>
           </div>
           <div @click="onDownload" class="clickable">
@@ -46,6 +47,8 @@ import {FILTER_KEYS_TO_SHOW, REPORT_HISTORY_STATUS} from "../utils/constants";
 import values from "lodash/values";
 import {copyToClipboard} from "@/helper/utils";
 import ShowMoreFiltersPopup from "./show-more-filters-popup";
+import ShowAllDownloadPopup from './show-all-download-popup';
+
 import cloneDeep from "lodash/cloneDeep";
 import {ADMIN_CANCEL_WEBHOOK_REPORT} from "@/store/action.type";
 import {mapGetters} from "vuex";
@@ -58,7 +61,7 @@ export default {
   name: "report-history-card",
   props: {card: {type: Object}, index: {type: Number, required: true}},
   mixins: [dynamicTagsCountMixins],
-  components: {ShowMoreFiltersPopup, 'adm-inline-svg': admInlineSvg, 'inline-svg':inlineSvg},
+  components: {ShowAllDownloadPopup,ShowMoreFiltersPopup, 'adm-inline-svg': admInlineSvg, 'inline-svg':inlineSvg},
   data: () => ({
     FILTER_LIMIT: 5,
     exceededQuantity: 0
@@ -87,7 +90,7 @@ export default {
         filename: this.card.filename || 'nothing...',
         filters: this.buildFilters(this.card.filters),
         status: this.card.status || 'nothing...',
-        url: this.card.upload_service_response && this.card.upload_service_response.cdn && this.card.upload_service_response.cdn.url && this.card.upload_service_response.cdn.url,
+        urls: this.card.upload_service_response && this.card.upload_service_response.cdn && this.card.upload_service_response.cdn.urls,
         created_on : this.card.created_on
       }
     },
@@ -105,11 +108,24 @@ export default {
       }
       return filtersToShow;
     },
+    filedataToShow() {
+     const data =
+      this.displayCard &&
+      this.displayCard.urls &&
+                this.displayCard.urls.reduce((previousdata, currentdata) => {
+                    previousdata[currentdata.name] = currentdata.url;
+                    return previousdata;
+                }, {});
+            return data;
+    },
     colorCode() {
       return this.displayCard.status.toLowerCase();
     },
     isSuccess() {
       return this.displayCard.status === REPORT_HISTORY_STATUS.SUCCESS;
+    },
+    isMultipleDownloadExists() {
+            return this.displayCard.urls && this.displayCard.urls.length > 1;
     },
     isProcessing() {
       return this.displayCard.status === REPORT_HISTORY_STATUS.PROCESSING;
@@ -141,11 +157,15 @@ export default {
       }, [])
     },
     onDownload() {
-      console.log('download called!')
-      window.open(this.displayCard.url);
+      const filedata = this.displayCard.urls;
+      console.log("----filedata",filedata);
+      if (filedata.length === 1) {
+        window.open(filedata[0].url);
+      } else 
+      this.$refs['show-all-download'].open();
     },
     onCopy() {
-      copyToClipboard(this.displayCard.url);
+      copyToClipboard(this.displayCard.urls[0].url);
       this.$snackbar.global.showInfo('Copied url to clipboard', 1000);
     },
     onShowMore() {
