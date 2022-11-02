@@ -59,6 +59,7 @@ import WebhookReport from './../../pages/webhook/webhook_report.vue';
 const OrdersPage =()=>import('@/pages/orders');
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
 import RMAPage from '@/pages/rma'
+import RMASalesChannel from '@/pages/rma/sales-channel-index';
 import PackagingHome from '@/pages/packaging/packaging-home.vue'
 import CategoryConfig from '@/pages/packaging/category-config.vue'
 import PackagingCreate from '@/pages/packaging/create-packaging.vue'
@@ -729,6 +730,14 @@ export default [
             name: 'rma',
             path: 'rma/list',
             component: RMAPage,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        {
+            name: 'rma-sales-channel',
+            path: 'rma/list/sales-channel',
+            component: RMASalesChannel,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['settings']);
             }
