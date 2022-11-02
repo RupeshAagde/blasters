@@ -165,7 +165,7 @@ export const getNavigations = () => {
             icon: 'packaging_icon',
             highlightedIcon: 'home-highlighted',
             active: false,
-            permission: 'admin-access',
+            permission: 'packaging',
             // sub items for packaging dashboard
             children: [
                 {

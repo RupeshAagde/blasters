@@ -51,7 +51,7 @@ export default {
                 ]
             }
         ],
-        "temp_dep_set": {
+        "temp_attr_set": {
             "activewear-accessories": ["fashion"],
             "automobiletemplate": ["automobile"],
             "medicine-mg": [

@@ -40,10 +40,14 @@
             ></nitrozen-input>
             <div class="filter">
                 <nitrozen-dropdown
+                    class="hide-label"
+                    :label="'Template'"
                     :items="filteredTemplates"
                     v-model="selectedTemplate"
                     placeholder="template"
                     :searchable="true"
+                    :multiple="true"
+                    :enable_select_all="true"
                     @change="getVariants"
                     @searchInputChange="setTemplateList"
                 ></nitrozen-dropdown>
@@ -148,8 +152,13 @@
     </div>
 </template>
 
-<style lang="less">
+<style lang="less" scoped>
 @import './../../../../src/less/products/variants.less';
+::v-deep .hide-label {
+    .nitrozen-dropdown-label {
+        display: none !important;
+    }
+}
 </style>
 
 <script>
@@ -209,7 +218,7 @@ export default {
             pageError: false,
             searchText: '',
             selectedFilter: '',
-            selectedTemplate: '',
+            selectedTemplate: [],
             filter: [...FILTER],
             templateList: [],
             filteredTemplates: [],
@@ -225,15 +234,14 @@ export default {
     methods: {
         getQueryParams() {
             let params = {
-                page: this.pagination.current,
+                page_no: this.pagination.current,
                 page_size: this.pagination.limit
             };
 
             if (this.searchText) params.q = this.searchText;
             else params.q = undefined;
 
-            if (this.selectedFilter)
-                params.stage = this.selectedFilter;
+            if (this.selectedFilter) params.stage = this.selectedFilter;
 
             if (this.selectedTemplate) params.template = this.selectedTemplate;
             else params.template = undefined;
@@ -281,7 +289,7 @@ export default {
             this.filteredTemplates = [];
             if (!e || !e.text) {
                 this.filteredTemplates = cloneDeep(this.templateList);
-                this.selectedTemplate = '';
+                // this.selectedTemplate = [];
                 this.getVariants();
                 return;
             }
@@ -300,9 +308,9 @@ export default {
         },
         resetStatus(e) {
             if (!e || !e.text) {
-                this.selectedFilter= ''
+                this.selectedFilter = '';
                 this.getVariants();
-                return
+                return;
             }
         },
         // paginationChange(filter) {
@@ -366,7 +374,8 @@ export default {
             let tempObj = this.userObj[user_id];
             if (tempObj && tempObj.hasOwnProperty('first_name')) {
                 return (
-                    tempObj.first_name + " " +
+                    tempObj.first_name +
+                    ' ' +
                     (tempObj.last_name ? tempObj.last_name : '')
                 );
             } else {
