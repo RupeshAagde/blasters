@@ -28,3 +28,6 @@ export const SET_CLEAR_CATEGORY = 'SET_CLEAR_CATEGORY';
 
 export const SET_L3_CATEGORIES = 'SET_L3_CATEGORIES';
 export const SET_L3_DICT = 'SET_L3_DICT';
+
+//variants
+export const SET_VARIANTS = 'SET_VARIANTS'

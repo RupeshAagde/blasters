@@ -22,3 +22,6 @@ export const GET_EDIT_PRODUCT = 'GET_EDIT_PRODUCT';
 
 export const GET_L3_CATEGORIES = 'GET_L3_CATEGORIES';
 export const GET_L3_DICT = 'GET_L3_DICT';
+
+//variants
+export const GET_VARIANTS = 'GET_VARIANTS'
