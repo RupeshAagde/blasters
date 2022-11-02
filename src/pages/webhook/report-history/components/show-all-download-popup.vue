@@ -11,7 +11,7 @@
                     <inline-svg class="export-icon" :src="'download-export'">
                     </inline-svg>
                     Download All
-                </span>
+                </span> 
             </div>
         </template>
         <template slot="body">
