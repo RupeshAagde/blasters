@@ -11,13 +11,22 @@
                 <div class="header-container">
                     <div class="caption-container">
                         <span class="caption-title">RMA Rules History</span>
-                        <span class="caption-description">Small description which is around 1 line</span>
+                        <span class="caption-description"
+                            >Small description which is around 1 line</span
+                        >
                     </div>
                     <div>
-                        <nitrozen-button :theme="'secondary'" v-flatBtn>Add New</nitrozen-button>
+                        <nitrozen-button
+                            @click="redirectToNewSetup"
+                            :theme="'secondary'"
+                            v-flatBtn
+                            >Add New</nitrozen-button
+                        >
                     </div>
                 </div>
-                <adm-no-content helperText="No Company or Sales Channel Added. Add Sales Channel"></adm-no-content>
+                <adm-no-content
+                    helperText="No Company or Sales Channel Added. Add Sales Channel"
+                ></adm-no-content>
             </div>
         </div>
     </div>
@@ -38,6 +47,11 @@ export default {
     directives: {
         flatBtn,
     },
+    methods: {
+        redirectToNewSetup() {
+            this.$router.push({ path: '/administrator/rma/setup/new' });
+        },
+    },
 };
 </script>
 
@@ -48,6 +62,7 @@ export default {
 .page-container {
     margin: 0;
     flex-direction: column;
+    border-radius: 12px;
 
     @media @mobile {
         width: calc(100% - 48px);

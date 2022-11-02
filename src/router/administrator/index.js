@@ -60,6 +60,7 @@ const OrdersPage =()=>import('@/pages/orders');
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
 import RMAPage from '@/pages/rma'
 import RMASalesChannel from '@/pages/rma/sales-channel-index';
+import RMASetup from '@/pages/rma/rma-setup';
 import PackagingHome from '@/pages/packaging/packaging-home.vue'
 import CategoryConfig from '@/pages/packaging/category-config.vue'
 import PackagingCreate from '@/pages/packaging/create-packaging.vue'
@@ -727,9 +728,17 @@ export default [
 
         // ========================== RMA ==========================
         {
-            name: 'rma',
+            name: 'rma-list',
             path: 'rma/list',
             component: RMAPage,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['settings']);
+            }
+        },
+        {
+            name: 'rma-setup',
+            path: 'rma/setup/new',
+            component: RMASetup,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['settings']);
             }
