@@ -40,8 +40,12 @@ const UserService = {
         });
         return ApiService.post(URLS.SAVE_EXTENSION_COLLECTION(), axiosOption);
     },
-    getExtensionCollectionDetails(id) {
-        return ApiService.get(URLS.GET_EXTENSION_COLLECTIONS_DETAILS(id));
+    getExtensionCollectionDetails(id = '', params) {
+        const axiosOptions = Object.assign(
+            { params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.GET_EXTENSION_COLLECTIONS_DETAILS(id), axiosOptions);
     },
     getExtensionCollections(params) {
         const axiosOptions = Object.assign(
@@ -60,7 +64,7 @@ const UserService = {
         );
     },
     getAllExtensionCategories() {
-        return ApiService.get(URLS.PUBLIC_EXTENSION_CATEGORIES());
+        return ApiService.get(URLS.ADMIN_EXTENSION_CATEGORIES());
     },
     checkDuplicateSlug(slug = '') {
         return ApiService.get(URLS.CHECK_DUPLICATE_SLUG(slug));

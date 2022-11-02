@@ -354,6 +354,13 @@ const conf = convict({
             env: 'MIXMASTER_ADMIN_URL',
             arg: 'mixmaster_admin_url'
         },
+        SURESHOT_ADMIN_URL: {
+            doc: 'Sureshot Admin URL',
+            format: String,
+            default: 'https://api.fyndx0.de/service/___/administrator/webhook/',
+            env: 'SURESHOT_ADMIN_URL',
+            arg: 'sureshot_admin_url'
+        },
         MIXMASTER_PNL_URL: {
             doc: 'Mixmaster Panel URL',
             format: String,
@@ -381,6 +388,34 @@ const conf = convict({
             default: '',
             env: 'PINPOINTER_ADMIN_URL',
             arg: 'PINPOINTER_ADMIN_URL'
+        },
+        WEIRDWOLF_ADMIN_URL: {
+            doc: 'Packaging admin service',
+            format: String,
+            default: 'https://api.fyndx0.de/service/___/administrator/packaging',
+            env: 'WEIRDWOLF_ADMIN_URL',
+            arg: 'weirdwolf_admin_url'
+        },
+        PACKAGING_COMPANY_ID: {
+            doc: 'packaging company id',
+            format: String,
+            default:'84',
+            env: 'PACKAGING_COMPANY_ID',
+            arg: 'packaging_company_id'
+        },
+        PACKAGING_APPLICATION_ID: {
+            doc: 'packaging application id',
+            format: String,
+            default:'629616a1d7c74d3915f8f4e8',
+            env: 'PACKAGING_APPLICATION_ID',
+            arg: 'packaging_application_id'
+        },
+        EXTENSION_PAGE_URL: {
+            doc: 'Extension Page URLS',
+            format: String,
+            default: '',
+            env: 'EXTENSION_PAGE_URL',
+            arg: 'EXTENSION_PAGE_URL'
         }
     },
 

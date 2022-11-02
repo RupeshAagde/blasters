@@ -586,19 +586,16 @@ export default {
                         })
                         .catch((error) => {
                             this.pageLoading = false;
-                            if (error &&
+                            if ( error &&
                                 error.response &&
                                 error.response.data &&
-                                error.response.data.errors &&
-                                error.response.data.errors.error) {
-                                this.$snackbar.global.showError(
-                                    `${error.response.data.errors.error}`
-                                );
-                                return;
-                            }
-                            this.$snackbar.global.showError(
-                                `Something went wrong`
-                            );
+                                error.response.data.message ) 
+                                {
+                                    this.$snackbar.global.showError(`${error.response.data.message}`);
+                                    return;
+                                }
+                            
+                            this.$snackbar.global.showError("Something went wrong!");
                         });
                     return;
                 }
@@ -616,19 +613,17 @@ export default {
                     })
                     .catch((error) => {
                         this.pageLoading = false;
-                        if (error &&
-                            error.response &&
-                            error.response.data &&
-                            error.response.data.errors &&
-                            error.response.data.errors.error) {
-                            this.$snackbar.global.showError(
-                                `${error.response.data.errors.error}`
-                            );
-                            return;
-                        }
-                        this.$snackbar.global.showError(
-                            `Something went wrong`
-                        );
+                                                    this.pageLoading = false;
+                            if ( error &&
+                                error.response &&
+                                error.response.data &&
+                                error.response.data.message ) 
+                                {
+                                    this.$snackbar.global.showError(`${error.response.data.message}`);
+                                    return;
+                                }
+                            
+                            this.$snackbar.global.showError("Something went wrong!");
                     });
             }
         }

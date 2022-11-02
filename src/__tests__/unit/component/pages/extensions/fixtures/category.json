@@ -1,0 +1,504 @@
+{
+    "filters": [
+        {
+            "key": { "display": "Price", "display_type": "heading" },
+            "values": [
+                {
+                    "display": "Free",
+                    "type": "price_filter",
+                    "value": "free",
+                    "kind": "single",
+                    "display_type": "radio",
+                    "slug": "free",
+                    "count": 141
+                },
+                {
+                    "display": "Paid",
+                    "type": "price_filter",
+                    "value": "paid",
+                    "kind": "single",
+                    "display_type": "radio",
+                    "slug": "paid",
+                    "count": 35
+                }
+            ]
+        },
+        {
+            "key": { "display": "Category", "display_type": "heading" },
+            "values": [
+                {
+                    "key": "l1",
+                    "id": "629461b2e6bf3c5f04e4f63a",
+                    "_id": "629461b2e6bf3c5f04e4f63a",
+                    "display": "Conversion",
+                    "value": "Conversion",
+                    "slug": "conversion",
+                    "logo": "https://i.ibb.co/Z6gPpqd/Rectangle-144.png",
+                    "childs": [
+                        {
+                            "key": "l2",
+                            "id": "629461b2e6bf3c5f04e4f676",
+                            "_id": "629461b2e6bf3c5f04e4f676",
+                            "display": "Promotions",
+                            "value": "Promotions",
+                            "parent": "629461b2e6bf3c5f04e4f63a",
+                            "slug": "promotions",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 17
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b2e6bf3c5f04e4f67a",
+                            "_id": "629461b2e6bf3c5f04e4f67a",
+                            "display": "Recovering orders",
+                            "value": "Recovering orders",
+                            "parent": "629461b2e6bf3c5f04e4f63a",
+                            "slug": "recovering-orders",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 24
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b2e6bf3c5f04e4f679",
+                            "_id": "629461b2e6bf3c5f04e4f679",
+                            "display": "Upselling and cross-selling",
+                            "value": "Upselling and cross-selling",
+                            "parent": "629461b2e6bf3c5f04e4f63a",
+                            "slug": "upselling-and-cross-selling",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 15
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b2e6bf3c5f04e4f680",
+                            "_id": "629461b2e6bf3c5f04e4f680",
+                            "display": "Customer feedback",
+                            "value": "Customer feedback",
+                            "parent": "629461b2e6bf3c5f04e4f63a",
+                            "slug": "customer-feedback",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 16
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b2e6bf3c5f04e4f67f",
+                            "_id": "629461b2e6bf3c5f04e4f67f",
+                            "display": "Cart modification",
+                            "value": "Cart modification",
+                            "parent": "629461b2e6bf3c5f04e4f63a",
+                            "slug": "cart-modification",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 23
+                        }
+                    ],
+                    "kind": "single",
+                    "display_type": "radio",
+                    "type": "category_filter_l1",
+                    "count": 42
+                },
+                {
+                    "key": "l1",
+                    "id": "629461b2e6bf3c5f04e4f63d",
+                    "_id": "629461b2e6bf3c5f04e4f63d",
+                    "display": "Marketing",
+                    "value": "Marketing",
+                    "slug": "marketing",
+                    "logo": "https://i.ibb.co/Z6gPpqd/Rectangle-144.png",
+                    "childs": [
+                        {
+                            "key": "l2",
+                            "id": "629461b2e6bf3c5f04e4f692",
+                            "_id": "629461b2e6bf3c5f04e4f692",
+                            "display": "Notification",
+                            "value": "Notification",
+                            "parent": "629461b2e6bf3c5f04e4f63d",
+                            "slug": "notification",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 10
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b2e6bf3c5f04e4f695",
+                            "_id": "629461b2e6bf3c5f04e4f695",
+                            "display": "Email and SMS marketing",
+                            "value": "Email and SMS marketing",
+                            "parent": "629461b2e6bf3c5f04e4f63d",
+                            "slug": "email-and-sms-marketing",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 16
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b3e6bf3c5f04e4f6b5",
+                            "_id": "629461b3e6bf3c5f04e4f6b5",
+                            "display": "Page enhancement",
+                            "value": "Page enhancement",
+                            "parent": "629461b2e6bf3c5f04e4f63d",
+                            "slug": "page-enhancement",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 12
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b3e6bf3c5f04e4f6b8",
+                            "_id": "629461b3e6bf3c5f04e4f6b8",
+                            "display": "Advertisement",
+                            "value": "Advertisement",
+                            "parent": "629461b2e6bf3c5f04e4f63d",
+                            "slug": "advertisement",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 13
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b3e6bf3c5f04e4f6bb",
+                            "_id": "629461b3e6bf3c5f04e4f6bb",
+                            "display": "Marketing analytics",
+                            "value": "Marketing analytics",
+                            "parent": "629461b2e6bf3c5f04e4f63d",
+                            "slug": "marketing-analytics",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 13
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b3e6bf3c5f04e4f6be",
+                            "_id": "629461b3e6bf3c5f04e4f6be",
+                            "display": "Internalization",
+                            "value": "Internalization",
+                            "parent": "629461b2e6bf3c5f04e4f63d",
+                            "slug": "marketing-internalization",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 14
+                        }
+                    ],
+                    "kind": "single",
+                    "display_type": "radio",
+                    "type": "category_filter_l1",
+                    "count": 37
+                },
+                {
+                    "key": "l1",
+                    "id": "629461b2e6bf3c5f04e4f63c",
+                    "_id": "629461b2e6bf3c5f04e4f63c",
+                    "display": "Merchandising",
+                    "value": "Merchandising",
+                    "slug": "merchandising",
+                    "logo": "https://i.ibb.co/Z6gPpqd/Rectangle-144.png",
+                    "childs": [
+                        {
+                            "key": "l2",
+                            "id": "629461b2e6bf3c5f04e4f68e",
+                            "_id": "629461b2e6bf3c5f04e4f68e",
+                            "display": "Additional purchase",
+                            "value": "Additional purchase",
+                            "parent": "629461b2e6bf3c5f04e4f63c",
+                            "slug": "additional-purchase",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 24
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b2e6bf3c5f04e4f68b",
+                            "_id": "629461b2e6bf3c5f04e4f68b",
+                            "display": "Product display",
+                            "value": "Product display",
+                            "parent": "629461b2e6bf3c5f04e4f63c",
+                            "slug": "product-display",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 21
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b2e6bf3c5f04e4f686",
+                            "_id": "629461b2e6bf3c5f04e4f686",
+                            "display": "Announcement and banner",
+                            "value": "Announcement and banner",
+                            "parent": "629461b2e6bf3c5f04e4f63c",
+                            "slug": "announcement-and-banner",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 20
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b2e6bf3c5f04e4f683",
+                            "_id": "629461b2e6bf3c5f04e4f683",
+                            "display": "Pricing",
+                            "value": "Pricing",
+                            "parent": "629461b2e6bf3c5f04e4f63c",
+                            "slug": "pricing",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 20
+                        }
+                    ],
+                    "kind": "single",
+                    "display_type": "radio",
+                    "type": "category_filter_l1",
+                    "count": 45
+                },
+                {
+                    "key": "l1",
+                    "id": "629461b2e6bf3c5f04e4f646",
+                    "_id": "629461b2e6bf3c5f04e4f646",
+                    "display": "Customer Service",
+                    "value": "Customer Service",
+                    "slug": "customer-service",
+                    "logo": "https://i.ibb.co/Z6gPpqd/Rectangle-144.png",
+                    "childs": [
+                        {
+                            "key": "l2",
+                            "id": "629461b3e6bf3c5f04e4f6c6",
+                            "_id": "629461b3e6bf3c5f04e4f6c6",
+                            "display": "Support",
+                            "value": "Support",
+                            "parent": "629461b2e6bf3c5f04e4f646",
+                            "slug": "support",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 19
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b3e6bf3c5f04e4f6c8",
+                            "_id": "629461b3e6bf3c5f04e4f6c8",
+                            "display": "Customer account",
+                            "value": "Customer account",
+                            "parent": "629461b2e6bf3c5f04e4f646",
+                            "slug": "customer-account",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 23
+                        }
+                    ],
+                    "kind": "single",
+                    "display_type": "radio",
+                    "type": "category_filter_l1",
+                    "count": 38
+                },
+                {
+                    "key": "l1",
+                    "id": "629461b2e6bf3c5f04e4f64b",
+                    "_id": "629461b2e6bf3c5f04e4f64b",
+                    "display": "Inventory",
+                    "value": "Inventory",
+                    "slug": "inventory",
+                    "logo": "https://i.ibb.co/Z6gPpqd/Rectangle-144.png",
+                    "childs": [
+                        {
+                            "key": "l2",
+                            "id": "629461b3e6bf3c5f04e4f6d6",
+                            "_id": "629461b3e6bf3c5f04e4f6d6",
+                            "display": "Managing inventory",
+                            "value": "Managing inventory",
+                            "parent": "629461b2e6bf3c5f04e4f64b",
+                            "slug": "managing-inventory",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 30
+                        }
+                    ],
+                    "kind": "single",
+                    "display_type": "radio",
+                    "type": "category_filter_l1",
+                    "count": 40
+                },
+                {
+                    "key": "l1",
+                    "id": "629461b2e6bf3c5f04e4f645",
+                    "_id": "629461b2e6bf3c5f04e4f645",
+                    "display": "Fulfillment",
+                    "value": "Fulfillment",
+                    "slug": "fulfillment",
+                    "logo": "https://i.ibb.co/Z6gPpqd/Rectangle-144.png",
+                    "childs": [
+                        {
+                            "key": "l2",
+                            "id": "629461b3e6bf3c5f04e4f6c0",
+                            "_id": "629461b3e6bf3c5f04e4f6c0",
+                            "display": "Managing inventory and order",
+                            "value": "Managing inventory and order",
+                            "parent": "629461b2e6bf3c5f04e4f645",
+                            "slug": "managing-inventory-and-order",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 24
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b3e6bf3c5f04e4f6c2",
+                            "_id": "629461b3e6bf3c5f04e4f6c2",
+                            "display": "Managing order",
+                            "value": "Managing order",
+                            "parent": "629461b2e6bf3c5f04e4f645",
+                            "slug": "managing-order",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 21
+                        }
+                    ],
+                    "kind": "single",
+                    "display_type": "radio",
+                    "type": "category_filter_l1",
+                    "count": 38
+                },
+                {
+                    "key": "l1",
+                    "id": "629461b2e6bf3c5f04e4f64a",
+                    "_id": "629461b2e6bf3c5f04e4f64a",
+                    "display": "Source and Selling Product",
+                    "value": "Source and Selling Product",
+                    "slug": "source-and-selling-product",
+                    "logo": "https://i.ibb.co/Z6gPpqd/Rectangle-144.png",
+                    "childs": [
+                        {
+                            "key": "l2",
+                            "id": "629461b3e6bf3c5f04e4f6ce",
+                            "_id": "629461b3e6bf3c5f04e4f6ce",
+                            "display": "Marketplace",
+                            "value": "Marketplace",
+                            "parent": "629461b2e6bf3c5f04e4f64a",
+                            "slug": "marketplace",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 21
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b3e6bf3c5f04e4f6cc",
+                            "_id": "629461b3e6bf3c5f04e4f6cc",
+                            "display": "Dropshipping",
+                            "value": "Dropshipping",
+                            "parent": "629461b2e6bf3c5f04e4f64a",
+                            "slug": "dropshipping",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 21
+                        }
+                    ],
+                    "kind": "single",
+                    "display_type": "radio",
+                    "type": "category_filter_l1",
+                    "count": 36
+                },
+                {
+                    "key": "l1",
+                    "id": "629461b2e6bf3c5f04e4f64c",
+                    "_id": "629461b2e6bf3c5f04e4f64c",
+                    "display": "Channel Management",
+                    "value": "Channel Management",
+                    "slug": "channel-management",
+                    "logo": "https://i.ibb.co/Z6gPpqd/Rectangle-144.png",
+                    "childs": [
+                        {
+                            "key": "l2",
+                            "id": "629461b3e6bf3c5f04e4f6e1",
+                            "_id": "629461b3e6bf3c5f04e4f6e1",
+                            "display": "Policy and security",
+                            "value": "Policy and security",
+                            "parent": "629461b2e6bf3c5f04e4f64c",
+                            "slug": "policy-and-security",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 9
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b3e6bf3c5f04e4f6e6",
+                            "_id": "629461b3e6bf3c5f04e4f6e6",
+                            "display": "Shipping solution",
+                            "value": "Shipping solution",
+                            "parent": "629461b2e6bf3c5f04e4f64c",
+                            "slug": "shipping-solution",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 16
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b3e6bf3c5f04e4f6d9",
+                            "_id": "629461b3e6bf3c5f04e4f6d9",
+                            "display": "Internalization",
+                            "value": "Internalization",
+                            "parent": "629461b2e6bf3c5f04e4f64c",
+                            "slug": "channel-management-internalization",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 12
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b3e6bf3c5f04e4f6de",
+                            "_id": "629461b3e6bf3c5f04e4f6de",
+                            "display": "Operation",
+                            "value": "Operation",
+                            "parent": "629461b2e6bf3c5f04e4f64c",
+                            "slug": "operation",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 21
+                        },
+                        {
+                            "key": "l2",
+                            "id": "629461b3e6bf3c5f04e4f6e8",
+                            "_id": "629461b3e6bf3c5f04e4f6e8",
+                            "display": "Business Insight",
+                            "value": "Business Insight",
+                            "parent": "629461b2e6bf3c5f04e4f64c",
+                            "slug": "business-insight",
+                            "display_type": "checkbox",
+                            "kind": "multivalues",
+                            "type": "category_filter_l2",
+                            "count": 16
+                        }
+                    ],
+                    "kind": "single",
+                    "display_type": "radio",
+                    "type": "category_filter_l1",
+                    "count": 34
+                }
+            ],
+            "all_count": 176
+        }
+    ]
+}

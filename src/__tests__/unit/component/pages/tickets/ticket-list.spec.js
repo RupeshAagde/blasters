@@ -24,11 +24,11 @@ describe('Application ticket List', () => {
     it('Render the Support ticket list', async () => {
         const router = new VueRouter({routes: [
             { 
-                path: '/administrator/support', 
+                path: '/administrator/suppor/ticket-listing', 
                 component: TicketListingPage
             }
         ]})
-        router.push(`/administrator/support`);
+        router.push(`/administrator/support/ticket-listing`);
         mock.onGet(ADMIN_URLS.FETCH_TICKETS()).reply(200, mockData);
         const wrapper = mount(TicketListingPage, {
             localVue,

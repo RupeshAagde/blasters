@@ -147,6 +147,35 @@ export const getNavigations = () => {
                 
             ]
         },
+        // Packaging related changes for adding navbar element
+        {
+            display: 'Packaging',
+            link: '/administrator/packaging/items',
+            title: 'packaging',
+            icon: 'packaging_icon',
+            highlightedIcon: 'home-highlighted',
+            active: false,
+            permission: 'admin-access',
+            // sub items for packaging dashboard
+            children: [
+                {
+                    display: 'Items',
+                    link: '/administrator/packaging/items',
+                    title: 'items',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Category configuration',
+                    link: '/administrator/packaging/category-configuration',
+                    title: 'category-configuration',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                }
+            ]
+        },
         {
             display: 'Communication',
             link: '/administrator/communication/reports',
@@ -195,23 +224,67 @@ export const getNavigations = () => {
         },
         {
             display: 'Support Center',
-            link: '/administrator/support',
+            link: '/administrator/support/configuration',
             title: 'support',
             icon: 'support-icon',
             highlightedIcon: 'home-highlighted',
             active: false,
             permission: 'support',
-            children: []
+            children: [
+                {
+                    display: 'Configuration',
+                    link: '/administrator/support/configuration',
+                    title: 'configuration',
+                    icon: 'support-icon',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Ticket Listing',
+                    link: '/administrator/support/ticket-listing',
+                    title: 'ticket-listing',
+                    icon: 'support-icon',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                }
+            ]
         },
         {
             display: 'Settings',
-            link: '/administrator/settings',
+            link: '/administrator/settings/platform',
             title: 'settings',
             icon: 'settings',
-            highlightedIcon: 'settings-highlighted',
+            highlightedIcon: 'home-highlighted',
             active: false,
             permission: 'settings',
+            children: [
+                {
+                    display: 'Platform',
+                    link: '/administrator/settings/platform',
+                    title: 'platform',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Partner',
+                    link: '/administrator/settings/partners',
+                    title: 'partner',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                }
+            ]
+        },
+        {
+            display: 'Webhooks',
+            link: '/administrator/webhook',
+            title: 'webhooks',
+            icon: 'webhook',
+            highlightedIcon: 'webhook',
+            active: false,
+            permission: 'support',
             children: []
-        }
+        },
     ];
 };

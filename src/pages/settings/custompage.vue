@@ -349,7 +349,8 @@ export default {
             if (this.pageTypeSelection) {
                 setTimeout(() => {
                     this.$router.push({
-                        path: `/administrator/settings/pages/${this.pageTypeSelection}/create`,
+                        // path: `/administrator/settings/pages/${this.pageTypeSelection}/create`,
+                        path: `pages/${this.pageTypeSelection}/create`,
                     });
                 });
             }

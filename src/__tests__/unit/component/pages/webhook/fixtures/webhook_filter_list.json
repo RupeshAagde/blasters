@@ -1,0 +1,508 @@
+[
+  {
+    "filter_name": "Event",
+    "values": [
+      {
+        "text": "article.create-v1 (company)",
+        "value": 10
+      },
+      {
+        "text": "article.create-v1 (sales channel)",
+        "value": 145
+      },
+      {
+        "text": "article.delete-v1 (company)",
+        "value": 12
+      },
+      {
+        "text": "article.delete-v1 (sales channel)",
+        "value": 150
+      },
+      {
+        "text": "article.update-v1 (company)",
+        "value": 11
+      },
+      {
+        "text": "article.update-v1 (sales channel)",
+        "value": 149
+      },
+      {
+        "text": "available_pages.create-v1 (sales channel)",
+        "value": 139
+      },
+      {
+        "text": "available_pages.delete-v1 (sales channel)",
+        "value": 141
+      },
+      {
+        "text": "available_pages.update-v1 (sales channel)",
+        "value": 140
+      },
+      {
+        "text": "brand.create-v1 (company)",
+        "value": 166
+      },
+      {
+        "text": "brand.update-v1 (company)",
+        "value": 16
+      },
+      {
+        "text": "cart.create-v1 (sales channel)",
+        "value": 18
+      },
+      {
+        "text": "cart.update-v1 (sales channel)",
+        "value": 19
+      },
+      {
+        "text": "collection.create-v1 (sales channel)",
+        "value": 22
+      },
+      {
+        "text": "company.update-v1 (company)",
+        "value": 15
+      },
+      {
+        "text": "coupon.create-v1 (sales channel)",
+        "value": 45
+      },
+      {
+        "text": "coupon.update-v1 (sales channel)",
+        "value": 46
+      },
+      {
+        "text": "discount.create-v1 (sales channel)",
+        "value": 54
+      },
+      {
+        "text": "domain.create-v1 (sales channel)",
+        "value": 136
+      },
+      {
+        "text": "domain.delete-v1 (sales channel)",
+        "value": 138
+      },
+      {
+        "text": "domain.update-v1 (sales channel)",
+        "value": 137
+      },
+      {
+        "text": "faq.create-v1 (sales channel)",
+        "value": 131
+      },
+      {
+        "text": "faq.delete-v1 (sales channel)",
+        "value": 130
+      },
+      {
+        "text": "faq.update-v1 (sales channel)",
+        "value": 65
+      },
+      {
+        "text": "integration.update-v1 (company)",
+        "value": 14
+      },
+      {
+        "text": "legal.update-v1 (sales channel)",
+        "value": 64
+      },
+      {
+        "text": "location.create-v1 (company)",
+        "value": 174
+      },
+      {
+        "text": "location.update-v1 (company)",
+        "value": 17
+      },
+      {
+        "text": "order.payment_failed-v1 (sales channel)",
+        "value": 70
+      },
+      {
+        "text": "order.pending-v1 (sales channel)",
+        "value": 67
+      },
+      {
+        "text": "order.placed-v1 (sales channel)",
+        "value": 69
+      },
+      {
+        "text": "product-size.create-v1 (company)",
+        "value": 1
+      },
+      {
+        "text": "product-size.create-v2 (company)",
+        "value": 157
+      },
+      {
+        "text": "product-size.delete-v1 (company)",
+        "value": 3
+      },
+      {
+        "text": "product-size.delete-v2 (company)",
+        "value": 159
+      },
+      {
+        "text": "product-size.update-v1 (company)",
+        "value": 2
+      },
+      {
+        "text": "product-size.update-v2 (company)",
+        "value": 158
+      },
+      {
+        "text": "product.create-v1 (company)",
+        "value": 156
+      },
+      {
+        "text": "product.create-v1 (sales channel)",
+        "value": 144
+      },
+      {
+        "text": "product.delete-v1 (company)",
+        "value": 155
+      },
+      {
+        "text": "product.delete-v1 (sales channel)",
+        "value": 154
+      },
+      {
+        "text": "product.update-v1 (company)",
+        "value": 55
+      },
+      {
+        "text": "product.update-v1 (sales channel)",
+        "value": 143
+      },
+      {
+        "text": "promotion.create-v1 (sales channel)",
+        "value": 148
+      },
+      {
+        "text": "promotion.update-v1 (sales channel)",
+        "value": 147
+      },
+      {
+        "text": "promotion_usage.update-v1 (sales channel)",
+        "value": 146
+      },
+      {
+        "text": "seo.update-v1 (sales channel)",
+        "value": 66
+      },
+      {
+        "text": "shipment.create-v1 (sales channel)",
+        "value": 142
+      },
+      {
+        "text": "shipment.update-v1 (sales channel)",
+        "value": 57
+      },
+      {
+        "text": "support-ticket.create-v1 (company)",
+        "value": 8
+      },
+      {
+        "text": "support-ticket.update-v1 (company)",
+        "value": 9
+      },
+      {
+        "text": "tags.create-v1 (sales channel)",
+        "value": 128
+      },
+      {
+        "text": "tags.delete-v1 (sales channel)",
+        "value": 129
+      },
+      {
+        "text": "tags.update-v1 (sales channel)",
+        "value": 63
+      },
+      {
+        "text": "theme.create-v1 (sales channel)",
+        "value": 49
+      },
+      {
+        "text": "theme.delete-v1 (sales channel)",
+        "value": 51
+      },
+      {
+        "text": "theme.published-v1 (sales channel)",
+        "value": 52
+      },
+      {
+        "text": "theme.unpublished-v1 (sales channel)",
+        "value": 53
+      },
+      {
+        "text": "theme.update-v1 (sales channel)",
+        "value": 50
+      }
+    ]
+  },
+  {
+    "filter_name": "Subscriber Name",
+    "values": [
+      {
+        "text": "acrticleUpdate(RESYNC)_ArticleCreate(Failed)_Brand",
+        "value": "acrticleUpdate(RESYNC)_ArticleCreate(Failed)_Brand"
+      },
+      {
+        "text": "acrticleUpdate(RESYNC)_ArticleCreate(Failed)_Brand_Praveen",
+        "value": "acrticleUpdate(RESYNC)_ArticleCreate(Failed)_Brand_Praveen"
+      },
+      {
+        "text": "article event_wrongwebhook",
+        "value": "article event_wrongwebhook"
+      },
+      {
+        "text": "ArticleUpdate-ArticleCreate-Brand-28apr22-WebhookBlockedIssueRevalidation",
+        "value": "ArticleUpdate-ArticleCreate-Brand-28apr22-WebhookBlockedIssueRevalidation"
+      },
+      {
+        "text": "ArticleUpdate-ArticleCreate-Brand-28apr22-WebhookBlockedIssueRevalidation-4:05pm",
+        "value": "ArticleUpdate-ArticleCreate-Brand-28apr22-WebhookBlockedIssueRevalidation-4:05pm"
+      },
+      {
+        "text": "articleUpdate_ArticleCreate_BrandUpdate",
+        "value": "articleUpdate_ArticleCreate_BrandUpdate"
+      },
+      {
+        "text": "articleUpdate_ArticleCreate_brandupdate_Retesing4:17",
+        "value": "articleUpdate_ArticleCreate_brandupdate_Retesing4:17"
+      },
+      {
+        "text": "articleupdate_create_Brand_Domain_Retesting 25apr22",
+        "value": "articleupdate_create_Brand_Domain_Retesting 25apr22"
+      },
+      {
+        "text": "articleupdate_create_Brand_Domain_Retesting 26apr22",
+        "value": "articleupdate_create_Brand_Domain_Retesting 26apr22"
+      },
+      {
+        "text": "articleupdate_create_Brand_Domain_Retesting 26apr22 Praveen",
+        "value": "articleupdate_create_Brand_Domain_Retesting 26apr22 Praveen"
+      },
+      {
+        "text": "articleUpdate_Create_BrandEvent_BlockedWebhookIssueRetesting",
+        "value": "articleUpdate_Create_BrandEvent_BlockedWebhookIssueRetesting"
+      },
+      {
+        "text": "articleupdate_create_BrandUpdate_Retesting 6pm",
+        "value": "articleupdate_create_BrandUpdate_Retesting 6pm"
+      },
+      {
+        "text": "articleupdate_SalesChannelEvent_barnd",
+        "value": "articleupdate_SalesChannelEvent_barnd"
+      },
+      {
+        "text": "discounteventtest",
+        "value": "discounteventtest"
+      },
+      {
+        "text": "event_processed API is giving 504 response- FPCO-2134",
+        "value": "event_processed API is giving 504 response- FPCO-2134"
+      },
+      {
+        "text": "FAQ testing",
+        "value": "FAQ testing"
+      },
+      {
+        "text": "FAQDomainTestSalesChannel",
+        "value": "FAQDomainTestSalesChannel"
+      },
+      {
+        "text": "FPCO-1545 retesting",
+        "value": "FPCO-1545 retesting"
+      },
+      {
+        "text": "FPCO-1640-Webhook json schema validation for events-BrandEvent_RegressionTesting",
+        "value": "FPCO-1640-Webhook json schema validation for events-BrandEvent_RegressionTesting"
+      },
+      {
+        "text": "FPCO-1640Webhook json schema validation for events_Brand ",
+        "value": "FPCO-1640Webhook json schema validation for events_Brand "
+      },
+      {
+        "text": "FPCO-1856-EventcategoryaddedInWebhookReport-EventFilter_V1Event",
+        "value": "FPCO-1856-EventcategoryaddedInWebhookReport-EventFilter_V1Event"
+      },
+      {
+        "text": "FPCO-1856-EventcategoryaddedInWebhookReport-EventFilter_V2Event",
+        "value": "FPCO-1856-EventcategoryaddedInWebhookReport-EventFilter_V2Event"
+      },
+      {
+        "text": "FPCO-2091-PartnerWebhookReport_ArticleSalesChannelEvent",
+        "value": "FPCO-2091-PartnerWebhookReport_ArticleSalesChannelEvent"
+      },
+      {
+        "text": "FPCO-219_ProductSizeEvent for version 1",
+        "value": "FPCO-219_ProductSizeEvent for version 1"
+      },
+      {
+        "text": "FPCO-219_ProductSizeEvent for version 2_Support different versions",
+        "value": "FPCO-219_ProductSizeEvent for version 2_Support different versions"
+      },
+      {
+        "text": "FPCO-2312-increaseResyncEventReattemptCount_Post reactivation of blocked webhook",
+        "value": "FPCO-2312-increaseResyncEventReattemptCount_Post reactivation of blocked webhook"
+      },
+      {
+        "text": "FPCO-2312-increaseResyncEventReattemptCount_Post reactivation of blocked webhook 29apr22",
+        "value": "FPCO-2312-increaseResyncEventReattemptCount_Post reactivation of blocked webhook 29apr22"
+      },
+      {
+        "text": "FPCO-2312-Regression Testing",
+        "value": "FPCO-2312-Regression Testing"
+      },
+      {
+        "text": "FPCO-2312-Sureshot: Failed webhook revamp-BrandDomainEvent",
+        "value": "FPCO-2312-Sureshot: Failed webhook revamp-BrandDomainEvent"
+      },
+      {
+        "text": "FPCO-2312-Sureshot: Failed webhook revamp-BrandDomainEvent_Retesting_webhookblocked-SEOadded",
+        "value": "FPCO-2312-Sureshot: Failed webhook revamp-BrandDomainEvent_Retesting_webhookblocked-SEOadded"
+      },
+      {
+        "text": "FPCO-2312-WebhookBlockedIssue-articleUpdateSalesChannelEvent_MultiEvent",
+        "value": "FPCO-2312-WebhookBlockedIssue-articleUpdateSalesChannelEvent_MultiEvent"
+      },
+      {
+        "text": "FPCO-2339-ShipmentOrderCartDomainBrandProductSizecretaeV1ProducSizedeleteV2",
+        "value": "FPCO-2339-ShipmentOrderCartDomainBrandProductSizecretaeV1ProducSizedeleteV2"
+      },
+      {
+        "text": "FPCO-2339-ShipmentOrderProductSizev1DomainCartBrandLocation",
+        "value": "FPCO-2339-ShipmentOrderProductSizev1DomainCartBrandLocation"
+      },
+      {
+        "text": "FPCO-2554_Brand_Domain_SEO_ProductSize",
+        "value": "FPCO-2554_Brand_Domain_SEO_ProductSize"
+      },
+      {
+        "text": "FPCO-2774",
+        "value": "FPCO-2774"
+      },
+      {
+        "text": "FPCO-2774-Sanity Testing",
+        "value": "FPCO-2774-Sanity Testing"
+      },
+      {
+        "text": "FPCO-2774_webhookBlockedScenarios_Latest",
+        "value": "FPCO-2774_webhookBlockedScenarios_Latest"
+      },
+      {
+        "text": "FPCO-787_create version dropdown in UI_Testing_V1",
+        "value": "FPCO-787_create version dropdown in UI_Testing_V1"
+      },
+      {
+        "text": "FPCO-787_create version dropdown in UI_Testing_V2",
+        "value": "FPCO-787_create version dropdown in UI_Testing_V2"
+      },
+      {
+        "text": "Packaging-order-webhooks",
+        "value": "Packaging-order-webhooks"
+      },
+      {
+        "text": "product-size subscriber",
+        "value": "product-size subscriber"
+      },
+      {
+        "text": "ProductSizeV1",
+        "value": "ProductSizeV1"
+      },
+      {
+        "text": "productSizeVersion1",
+        "value": "productSizeVersion1"
+      },
+      {
+        "text": "productSizeVersion2",
+        "value": "productSizeVersion2"
+      },
+      {
+        "text": "RetestingFPCO-2312-increaseResyncEventReattemptCount_Post reactivation of blocked webhook",
+        "value": "RetestingFPCO-2312-increaseResyncEventReattemptCount_Post reactivation of blocked webhook"
+      },
+      {
+        "text": "SEOTestDomainTestSalesChannel",
+        "value": "SEOTestDomainTestSalesChannel"
+      },
+      {
+        "text": "Shipment Order & Integration Events",
+        "value": "Shipment Order & Integration Events"
+      },
+      {
+        "text": "shipment test",
+        "value": "shipment test"
+      },
+      {
+        "text": "Tag-test",
+        "value": "Tag-test"
+      },
+      {
+        "text": "test",
+        "value": "test"
+      },
+      {
+        "text": "test1",
+        "value": "test1"
+      },
+      {
+        "text": "test29Apr22",
+        "value": "test29Apr22"
+      },
+      {
+        "text": "Test898",
+        "value": "Test898"
+      },
+      {
+        "text": "testdifferentVersionUIonMacv2",
+        "value": "testdifferentVersionUIonMacv2"
+      },
+      {
+        "text": "tester123",
+        "value": "tester123"
+      },
+      {
+        "text": "testfailedevent_Moving to success after correcting webhook url",
+        "value": "testfailedevent_Moving to success after correcting webhook url"
+      },
+      {
+        "text": "testfaq",
+        "value": "testfaq"
+      },
+      {
+        "text": "Testing custom headers",
+        "value": "Testing custom headers"
+      },
+      {
+        "text": "testing failed webhook",
+        "value": "testing failed webhook"
+      },
+      {
+        "text": "testing new headers",
+        "value": "testing new headers"
+      },
+      {
+        "text": "testing replica",
+        "value": "testing replica"
+      },
+      {
+        "text": "TestVersion",
+        "value": "TestVersion"
+      },
+      {
+        "text": "UItestdifferentversion",
+        "value": "UItestdifferentversion"
+      },
+      {
+        "text": "Webhook test",
+        "value": "Webhook test"
+      },
+      {
+        "text": "worngwebhookUrl_sanity",
+        "value": "worngwebhookUrl_sanity"
+      }
+    ]
+  }
+]
