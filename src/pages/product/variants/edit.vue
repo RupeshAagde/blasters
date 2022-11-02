@@ -648,6 +648,7 @@ export default {
             this.$store
                 .dispatch(FETCH_VARIANTS, reqBody)
                 .then(({ items }) => {
+                    this.headerText = `Update ${get(items, 'display', 'Variant')}`
                     this.is_active = get(items, 'is_active', true);
                     this.priority = get(items, 'priority', 1);
                     this.selectedTemplates = this.getInitialValue(
