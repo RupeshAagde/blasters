@@ -283,7 +283,7 @@ export const getNavigations = () => {
             icon: 'webhook',
             highlightedIcon: 'webhook',
             active: false,
-            permission: 'support',
+            permission: 'webhook',
             children: []
         },
     ];
