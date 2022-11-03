@@ -1,43 +1,5 @@
 <template>
     <div class="panel">
-        <drawer :direction="'right'" :exist="true" ref="RightDrawer"
-            ><div class="reason-drawer">
-                <div class="header">
-                    <span>Add reason for return</span
-                    ><ukt-inline-svg
-                        class="reason-drawer-cross"
-                        @click.stop.native="closeReasonDrawer()"
-                        :src="'cross-black'"
-                    ></ukt-inline-svg>
-                </div>
-                <div class="content">
-                    <nitrozen-input
-                        :type="'textarea'"
-                        :label="'Reason'"
-                        v-model="newReason"
-                    >
-                    </nitrozen-input>
-                </div>
-                <div class="footer">
-                    <nitrozen-button
-                        class="reason-cancel"
-                        :theme="'secondary'"
-                        v-stroke-btn
-                        @click="closeReasonDrawer"
-                    >
-                        Cancel
-                    </nitrozen-button>
-                    <nitrozen-button
-                        v-flat-btn
-                        :rounded="false"
-                        :theme="'secondary'"
-                        @click="save()"
-                    >
-                        Add
-                    </nitrozen-button>
-                </div>
-            </div></drawer
-        >
         <div class="main-container">
             <div class="page-container">
                 <div class="setup-container">
@@ -137,15 +99,13 @@
                         ></nitrozen-toggle-btn>
                     </div>
                 </div>
-                <div v-if="selectedConfig.qc_active" class="setup-container">
+                <div class="setup-container">
                     <product-return-qc
                         :returnReasonSearchText="returnReasonSearchText"
                         :searchReturnReason="searchReturnReason"
-                        :addNewReason="addNewReason"
                         :selectedConfig="selectedConfig"
                         :questionsList="questionsList"
                         :addMoreQuestions="addMoreQuestions"
-                        :qcType="qc_type"
                     ></product-return-qc>
                 </div>
             </div>
@@ -165,8 +125,6 @@ import {
 import InlineSvg from '@/components/common/ukt-inline-svg';
 import uktinlinesvg from '@/components/common/ukt-inline-svg.vue';
 import ProductReturnQC from './product-return-qc.vue';
-import Drawer from '@/components/common/drawer.vue';
-import Draggable from 'vuedraggable';
 export default {
     name: 'rma-setup',
     components: {
@@ -175,8 +133,6 @@ export default {
         NitrozenDropdown,
         NitrozenToggleBtn,
         NitrozenInput,
-        Draggable,
-        Drawer,
         'ukt-inline-svg': uktinlinesvg,
         'nitrozen-radio': NitrozenRadio,
         'nitrozen-checkbox': NitrozenCheckBox,
@@ -206,7 +162,6 @@ export default {
                     text: 'Check the Size'
                 }
             ],
-            qc_type: 'pre_qc',
             newReason: '',
             returnReasonSearchText: '',
             selectedConfig: {
@@ -226,21 +181,21 @@ export default {
                     {
                         id: 111223,
                         display_name: 'Received a wrong or defective product',
-                        qc_type: ['pre_qc', 'doorstep_qc'],
                         showReasons: false,
+                        qc_type: 'pre_qc',
                         question_set: [
                             {
                                 id: 1,
-                                display_name: 'Check the brand',
-                            },
-                        ],
+                                display_name: 'Check the brand'
+                            }
+                        ]
                     },
                     {
                         id: 20000,
                         display_name:
                             'Images shown did not match to the actual product',
-                        qc_type: ['pre_qc', 'doorstep_qc'],
                         showReasons: false,
+                        qc_type: 'doorstep_qc',
                         question_set: [
                             {
                                 id: 1,
@@ -255,8 +210,8 @@ export default {
                     {
                         id: 1968,
                         display_name: 'Received a wrong or defective product',
-                        qc_type: ['pre_qc', 'doorstep_qc'],
                         showReasons: false,
+                        qc_type: 'doorstep_qc',
                         question_set: [
                             {
                                 id: 1,
@@ -268,8 +223,8 @@ export default {
                         id: 212434,
                         display_name:
                             'Images shown did not match to the actual product',
-                        qc_type: ['pre_qc', 'doorstep_qc'],
                         showReasons: false,
+                        qc_type: 'doorstep_qc',
                         question_set: [
                             {
                                 id: 1,
@@ -284,8 +239,8 @@ export default {
                     {
                         id: 120912,
                         display_name: 'Received a wrong or defective product',
-                        qc_type: ['pre_qc', 'doorstep_qc'],
                         showReasons: false,
+                        qc_type: 'pre_qc',
                         question_set: [
                             {
                                 id: 1,
@@ -297,8 +252,8 @@ export default {
                         id: 2474746,
                         display_name:
                             'Images shown did not match to the actual product',
-                        qc_type: ['pre_qc', 'doorstep_qc'],
                         showReasons: false,
+                        qc_type: 'doorstep_qc',
                         question_set: [
                             {
                                 id: 1,
@@ -327,19 +282,8 @@ export default {
         searchReturnReason() {
             console.log('searchReturnReason');
         },
-        addNewReason() {
-            console.log('Add new');
-            if (this.$refs.RightDrawer.active) {
-                this.$refs.RightDrawer.close();
-            } else {
-                this.$refs.RightDrawer.open();
-            }
-        },
-        closeReasonDrawer() {
-            this.$refs.RightDrawer.close();
-        },
         addMoreQuestions() {
-            console.log('addMoreQuestions')
+            console.log('addMoreQuestions');
         }
     }
 };
@@ -436,53 +380,6 @@ export default {
     }
     .qc-active {
         padding-bottom: 0;
-    }
-}
-.reason-drawer {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    .header {
-        width: 100%;
-        height: 8%;
-        box-sizing: border-box;
-        border-bottom: 1px solid @Iron;
-        display: flex;
-        padding: 0 5%;
-        justify-content: space-between;
-        align-items: center;
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 31px;
-        .reason-drawer-cross {
-            cursor: pointer;
-            &:hover {
-                background-color: @Iron;
-                border-radius: 50%;
-            }
-        }
-    }
-    .content {
-        width: 100%;
-        height: 84%;
-        box-sizing: border-box;
-        border-bottom: 1px solid @Iron;
-        padding: 5%;
-    }
-    .footer {
-        width: 100%;
-        height: 8%;
-        box-sizing: border-box;
-        display: flex;
-        padding: 0 5%;
-        justify-content: flex-end;
-        align-items: center;
-        .reason-cancel {
-            margin-right: 16px;
-        }
     }
 }
 
