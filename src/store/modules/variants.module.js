@@ -72,26 +72,24 @@ const actions = {
         return CompanyService.fetchProductTemplates(params)
             .then((res) => {
                 let temp = []
-                let temp_dep_set = {}
+                let temp_attr_set = {}
                 res.data.items.forEach((ele) => {
                     if (ele.is_active) {
                         temp.push({
                             text: ele.name,
                             value: ele.slug,
                             id: ele.id,
-                            attribute: ele.attributes,
-                            departments: ele.departments
                         })
-                        if (temp_dep_set.hasOwnProperty(ele.slug)) {
-                            temp_dep_set[ele.slug] = temp_dep_set[ele.slug].concat(ele.departments)
+                        if (temp_attr_set.hasOwnProperty(ele.slug)) {
+                            temp_attr_set[ele.slug] = temp_attr_set[ele.slug].concat(ele.attributes)
                         } else {
-                            temp_dep_set[ele.slug] = ele.departments
+                            temp_attr_set[ele.slug] = ele.attributes
                         }
 
                     }
                 });
                 return new Promise((resolve, reject) => {
-                    return resolve({ temp, temp_dep_set })
+                    return resolve({ temp, temp_attr_set })
                 })
             })
             .catch((err) => {
