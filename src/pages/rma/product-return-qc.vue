@@ -1,45 +1,6 @@
 <template>
     <div class="container">
         <div class="caption">
-            <p class="title">Product Return Quality Check</p>
-            <span class="setup-subtitle"
-                >Choose the level at which you wish to decide the return window
-                for products returned by customers</span
-            >
-        </div>
-        <div class="qc-type-container">
-            <div
-                class="qc-type-element"
-                :class="qc_type === 'pre_qc' ? 'selected' : ''"
-            >
-                <nitrozen-radio
-                    :name="'pre_qc'"
-                    :radioValue="'pre_qc'"
-                    v-model="qc_type"
-                    >Pre &amp; Door Quality Check</nitrozen-radio
-                >
-                <span class="setup-subtitle"
-                    >Set an acceptable return before assign pickup and post
-                    pickup</span
-                >
-            </div>
-            <div
-                class="qc-type-element"
-                :class="qc_type === 'doorstep_qc' ? 'selected' : ''"
-            >
-                <nitrozen-radio
-                    :name="'doorstep_qc'"
-                    :radioValue="'doorstep_qc'"
-                    v-model="qc_type"
-                    >Door Quality Check</nitrozen-radio
-                >
-                <span class="setup-subtitle"
-                    >Set an acceptable return before assign pickup and post
-                    pickup</span
-                >
-            </div>
-        </div>
-        <div class="caption">
             <p class="title">Product Return Reason</p>
             <span class="setup-subtitle"
                 >Choose the level at which you wish to decide the return window
@@ -57,32 +18,14 @@
                         @input="searchReturnReason"
                     ></nitrozen-input>
                 </div>
-                <div class="add-new-reason">
-                    <nitrozen-button
-                        :theme="'secondary'"
-                        v-stroke-btn
-                        @click="addNewReason()"
-                    >
-                        Add New
-                    </nitrozen-button>
-                </div>
             </div>
         </div>
-        <draggable
-            class="reason-container"
-            v-model="selectedConfig.reasons"
-            handle=".reorder"
-            @start="drag = true"
-            @end="drag = false"
-        >
+        <div class="reason-container">
             <div
                 v-for="(reason, reasonIndex) of selectedConfig.reasons"
                 :key="reason.id"
                 class="reason-item-container"
             >
-                <div class="reason-item-caption-container">
-                    <inline-svg class="reorder" src="reorder"></inline-svg>
-                </div>
                 <div class="reason-question-accordion">
                     <div class="question-accordion-header">
                         <nitrozen-checkbox
@@ -106,63 +49,99 @@
                         </div>
                     </div>
                     <div v-if="reason.showReasons">
-                        <div
-                            v-for="(question, index) of reason.question_set"
-                            :key="`${reason.id}-${question.id}`"
-                            class="question-item"
-                        >
-                            <div class="question-dropdown-container">
-                                <nitrozen-dropdown
-                                    label="Question"
-                                    class="question-dropdown"
-                                    :items="questionsList"
-                                    placeholder="Enter Question"
-                                    v-model="
-                                        selectedConfig.reasons[reasonIndex]
-                                            .question_set[index].display_name
-                                    "
-                                    @change="handleQuestionsDropdown"
-                                ></nitrozen-dropdown>
-                                <nitrozen-button
-                                    v-if="
-                                        shouldShowAddMore(
-                                            reason.question_set,
-                                            index
-                                        )
-                                    "
-                                    :theme="'secondary'"
-                                    @click="addMoreQuestions"
-                                    class="add-more-question"
-                                    >Add More</nitrozen-button
+                        <div class="qc-type-container">
+                            <div
+                                class="qc-type-element"
+                                :class="
+                                    reason.qc_type === 'pre_qc'
+                                        ? 'selected'
+                                        : ''
+                                "
+                            >
+                                <nitrozen-radio
+                                    :name="'pre_qc' + reason.id"
+                                    :radioValue="'pre_qc'"
+                                    v-model="reason.qc_type"
+                                    >Pre &amp; Door Quality
+                                    Check</nitrozen-radio
                                 >
                             </div>
                             <div
+                                class="qc-type-element"
                                 :class="
-                                    shouldShowAddMore(
-                                        reason.question_set,
-                                        index
-                                    )
-                                        ? 'delete-question-button-last'
-                                        : 'delete-question-button'
+                                    reason.qc_type === 'doorstep_qc'
+                                        ? 'selected'
+                                        : ''
                                 "
                             >
-                                <ukt-inline-svg
+                                <nitrozen-radio
+                                    :name="'doorstep_qc' + reason.id"
+                                    :radioValue="'doorstep_qc'"
+                                    v-model="reason.qc_type"
+                                    >Door Quality Check</nitrozen-radio
+                                >
+                            </div>
+                        </div>
+                        <div
+                            v-for="(question, index) of reason.question_set"
+                            :key="`${reason.id}-${question.id}`"
+                            class="question-item-wrapper"
+                        >
+                            <div class="question-item">
+                                <div class="question-dropdown-container">
+                                    <nitrozen-dropdown
+                                        label="Question"
+                                        class="question-dropdown"
+                                        :items="questionsList"
+                                        placeholder="Enter Question"
+                                        v-model="
+                                            selectedConfig.reasons[reasonIndex]
+                                                .question_set[index]
+                                                .display_name
+                                        "
+                                        @change="handleQuestionsDropdown"
+                                    ></nitrozen-dropdown>
+                                    <nitrozen-button
+                                        v-if="
+                                            shouldShowAddMore(
+                                                reason.question_set,
+                                                index
+                                            )
+                                        "
+                                        :theme="'secondary'"
+                                        @click="addMoreQuestions"
+                                        class="add-more-question"
+                                        >Add More</nitrozen-button
+                                    >
+                                </div>
+                                <div
                                     :class="
                                         shouldShowAddMore(
                                             reason.question_set,
                                             index
                                         )
-                                            ? 'delete-question-last'
-                                            : 'delete-question'
+                                            ? 'delete-question-button-last'
+                                            : 'delete-question-button'
                                     "
-                                    :src="'delete_new'"
-                                ></ukt-inline-svg>
+                                >
+                                    <ukt-inline-svg
+                                        :class="
+                                            shouldShowAddMore(
+                                                reason.question_set,
+                                                index
+                                            )
+                                                ? 'delete-question-last'
+                                                : 'delete-question'
+                                        "
+                                        :src="'delete_new'"
+                                    ></ukt-inline-svg>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </draggable>
+        </div>
     </div>
 </template>
 
@@ -176,7 +155,6 @@ import {
 } from '@gofynd/nitrozen-vue';
 import InlineSvg from '@/components/common/ukt-inline-svg';
 import uktinlinesvg from '@/components/common/ukt-inline-svg.vue';
-import Draggable from 'vuedraggable';
 
 export default {
     name: 'product-return-qc',
@@ -185,7 +163,6 @@ export default {
         NitrozenButton,
         NitrozenDropdown,
         NitrozenInput,
-        Draggable,
         'ukt-inline-svg': uktinlinesvg,
         'nitrozen-radio': NitrozenRadio,
         'nitrozen-checkbox': NitrozenCheckBox
@@ -199,10 +176,6 @@ export default {
             type: Function,
             required: true
         },
-        addNewReason: {
-            type: Function,
-            required: true
-        },
         selectedConfig: {
             type: Object,
             required: true
@@ -213,10 +186,6 @@ export default {
         },
         addMoreQuestions: {
             type: Function,
-            required: true
-        },
-        qcType: {
-            type: String,
             required: true
         }
     },
@@ -283,16 +252,17 @@ export default {
 .qc-type-container {
     width: 100%;
     display: flex;
-    margin: 35px 0;
+    margin: 30px 0 8px 0;
     .qc-type-element {
         width: 349px;
-        height: 110px;
+        height: 40px;
         box-sizing: border-box;
         margin-right: 25px;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        padding: 25px;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 0 16px;
         background: #ffffff;
         border: 1px solid @Iron;
         border-radius: 4px;
@@ -342,12 +312,8 @@ export default {
         font-size: 14px;
         font-weight: 500;
         background-color: #ffffff;
-        .reason-item-caption-container {
-            width: 3%;
-            margin-top: 2.5px;
-        }
         .reason-question-accordion {
-            width: 97%;
+            width: 100%;
             display: flex;
             flex-direction: column;
             .question-accordion-header {
@@ -370,11 +336,15 @@ export default {
                 border-radius: 50%;
             }
         }
-        .question-item {
-            width: 100%;
+        .question-item-wrapper {
             display: flex;
-            align-items: center;
-            margin: 16px 0;
+            flex-direction: column;
+            .question-item {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                margin: 16px 0;
+            }
         }
         .question-dropdown-container {
             width: 98.5%;
@@ -414,10 +384,6 @@ export default {
         }
     }
 }
-.reorder {
-    cursor: -webkit-grab;
-}
-
 .qc-active {
     padding-bottom: 0;
 }

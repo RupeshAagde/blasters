@@ -2,15 +2,15 @@
     <div class="panel">
         <adm-page-header
             class="titlize"
-            :showBackButton="this.route.name !== 'rma-rules'"
+            :showBackButton="this.$route.name !== 'rma-rules'"
             @backClick="goBack"
             :title="'Return Merchandise Authorisation'"
             :noContextMenu="true"
         >
             <nitrozen-button
                 v-if="
-                    this.route.name === 'rma-setup' ||
-                        this.route.name === 'rma-edit'
+                    this.$route.name === 'rma-setup' ||
+                        this.$route.name === 'rma-edit'
                 "
                 v-flat-btn
                 :rounded="false"
@@ -34,20 +34,29 @@ export default {
         AdmPageHeader,
         NitrozenButton
     },
-    data() {
-        return {
-            route: this.$route
-        };
-    },
-    updated() {
-        this.route = this.$route;
-    },
     methods: {
         goBack() {
-            this.$router.back();
+            const currentRoute = this.$route.name;
+            switch (currentRoute) {
+                case 'rma-sales-channel':
+                    this.$router.push({ path: '/administrator/rma/rules' });
+                    break;
+                case 'rma-setup':
+                case 'rma-edit':
+                    this.$router.push({
+                        path: `/administrator/rma/rules/${this.$route.params.company}`
+                    });
+                    break;
+                default:
+                    this.$router.back();
+                    break;
+            }
         },
         save() {
-            console.log('save')
+            this.$router.push({
+                path: `/administrator/rma/rules/${this.$route.params.company}`
+            });
+            console.log('save', this.$route.params.company);
         }
     }
 };
