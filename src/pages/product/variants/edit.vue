@@ -1,0 +1,1052 @@
+<template>
+    <div>
+        <div>
+            <page-header :title="headerText" @backClick="redirectToListing">
+                <div class="page-slot">
+                    <nitrozen-toggle-btn
+                        v-model="is_active"
+                        :title="
+                            is_active
+                                ? 'Disable department'
+                                : 'Enable department'
+                        "
+                    ></nitrozen-toggle-btn>
+
+                    <span>
+                        <nitrozen-button
+                            class="left-space-txb"
+                            :theme="'secondary'"
+                            @click="save"
+                            v-flatBtn
+                            >Save</nitrozen-button
+                        >
+                    </span>
+                </div>
+            </page-header>
+        </div>
+        <div class="v-edit-page">
+            <div class="template-box">
+                <div>
+                    <div class="custom-label">
+                        <span class="custom-label-text "
+                            >Choose Template *
+                        </span>
+                    </div>
+                    <nitrozen-dropdown
+                        :label="'Template'"
+                        class="filter-dropdown"
+                        :multiple="true"
+                        :searchable="true"
+                        :items="filteredTemplateList"
+                        placeholder="select templates"
+                        v-model="selectedTemplates.value"
+                        @change="getCurrentAttrSlugs"
+                        @searchInputChange="setFilteredTemplateList"
+                        :enable_select_all="true"
+                    ></nitrozen-dropdown>
+                    <nitrozen-error v-if="selectedTemplates.showerror"
+                        >{{ selectedTemplates.errortext }}
+                    </nitrozen-error>
+                </div>
+
+                <div v-if="selectedTemplates.value" class="label-data">
+                    <span
+                        v-for="(temp, index) of selectedTemplates.value"
+                        class="chips mr-s mt-s"
+                    >
+                        {{ formatDisplay(temp, templateList) }}
+                        <nitrozen-inline
+                            icon="cross"
+                            class="pointer ml-xs"
+                            @click="removeTemplate(index)"
+                        ></nitrozen-inline>
+                    </span>
+                </div>
+            </div>
+            <div class="input-row mt-l">
+                <div class="row-item">
+                    <div class="custom-label">
+                        <span class="custom-label-text ">Attribute * </span>
+                    </div>
+                    <nitrozen-dropdown
+                        :label="'Attribute'"
+                        class="filter-dropdown"
+                        :disabled="
+                            !selectedTemplates.value.length ||
+                                !filteredAttributeList.length
+                        "
+                        :items="filteredAttributeList"
+                        placeholder="Choose Attribute"
+                        v-model="selectedAttribute.value"
+                        :searchable="true"
+                        @searchInputChange="setFilteredAttributeList"
+                    ></nitrozen-dropdown>
+                    <nitrozen-error v-if="selectedAttribute.showerror"
+                        >{{ selectedAttribute.errortext }}
+                    </nitrozen-error>
+                </div>
+                <div class="row-item">
+                    <div class="custom-label">
+                        <span class="custom-label-text ">Display Name * </span>
+                        <nitrozen-tooltip
+                            icon="help"
+                            :position="'top'"
+                            tooltipText="Name shown to the sellers while adding a variant type in the seller panel."
+                        ></nitrozen-tooltip>
+                    </div>
+                    <nitrozen-input
+                        label="Display Name *"
+                        placeholder="Give a name to the variant"
+                        v-model="name.value"
+                        @input="validateName"
+                    ></nitrozen-input>
+                    <nitrozen-error v-if="name.showerror"
+                        >{{ name.errortext }}
+                    </nitrozen-error>
+                </div>
+            </div>
+
+            <div class="mt-l">
+                <div class="custom-label">
+                    <span class="custom-label-text "
+                        >Choose Display Type *
+                    </span>
+                    <nitrozen-tooltip
+                        icon="help"
+                        :position="'top'"
+                        tooltipText="Note: The display type you select here will be visible to the sellers in variant configuration of application"
+                    ></nitrozen-tooltip>
+                </div>
+                <nitrozen-dropdown
+                    :label="'Display type '"
+                    class="filter-dropdown"
+                    :searchable="true"
+                    :multiple="true"
+                    :items="displayTypeList"
+                    placeholder="Select display type"
+                    v-model="selectedDisplayType.value"
+                    :enable_select_all="true"
+                    @change="preventDisablingText($event)"
+                >
+                </nitrozen-dropdown>
+                <nitrozen-error v-if="selectedDisplayType.showerror"
+                    >{{ selectedDisplayType.errortext }}
+                </nitrozen-error>
+                <div v-if="selectedDisplayType.value" class="label-data">
+                    <span
+                        v-for="(dType, index) of selectedDisplayType.value"
+                        class="chips mr-s mt-s"
+                    >
+                        {{ formatDisplay(dType, displayTypeList) }}
+                        <nitrozen-inline
+                            v-if="dType != 'text'"
+                            icon="cross"
+                            class="pointer ml-xs"
+                            @click="removeDisplayType(index)"
+                        ></nitrozen-inline>
+                    </span>
+                </div>
+            </div>
+
+            <!-- image configuration based on display type -->
+            <div v-if="isSwatchSSelected" class="mt-xl suffix">
+                <div class="cust-sh2">Image Configurations</div>
+
+                <div class="input-row mt-l">
+                    <!-- minimum height -->
+                    <div class="row-item">
+                        <div class="custom-label">
+                            <span class="custom-label-text "
+                                >Minimum Height *
+                            </span>
+                        </div>
+                        <nitrozen-input
+                            placeholder="enter the minimum height"
+                            type="number"
+                            v-model="image_config.min_height.value"
+                            @input="
+                                checkValidValue(
+                                    'min_height',
+                                    allowedValue.hMin,
+                                    allowedValue.hMax
+                                )
+                            "
+                            :showSuffix="true"
+                            suffix="Pixels"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="image_config.min_height.showerror"
+                            >{{ image_config.min_height.errortext }}
+                        </nitrozen-error>
+                    </div>
+
+                    <!-- minimum width -->
+                    <div class="row-item">
+                        <div class="custom-label">
+                            <span class="custom-label-text "
+                                >Minimum Width *
+                            </span>
+                        </div>
+                        <nitrozen-input
+                            placeholder=""
+                            type="number"
+                            v-model="image_config.min_width.value"
+                            @input="
+                                checkValidValue(
+                                    'min_width',
+                                    allowedValue.wMin,
+                                    allowedValue.wMax
+                                )
+                            "
+                            :showSuffix="true"
+                            suffix="Pixels"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="image_config.min_width.showerror"
+                            >{{ image_config.min_width.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+
+                <div class="input-row mt-l">
+                    <!-- maximum height -->
+                    <div class="row-item">
+                        <div class="custom-label">
+                            <span class="custom-label-text "
+                                >Maximum Height *
+                            </span>
+                        </div>
+                        <nitrozen-input
+                            placeholder=""
+                            type="number"
+                            v-model="image_config.max_height.value"
+                            @input="
+                                checkValidValue(
+                                    'max_height',
+                                    allowedValue.hMin,
+                                    allowedValue.hMax
+                                )
+                            "
+                            :showSuffix="true"
+                            suffix="Pixels"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="image_config.max_height.showerror"
+                            >{{ image_config.max_height.errortext }}
+                        </nitrozen-error>
+                    </div>
+
+                    <!-- maximum width -->
+                    <div class="row-item">
+                        <div class="custom-label">
+                            <span class="custom-label-text "
+                                >Maximum Width *
+                            </span>
+                        </div>
+                        <nitrozen-input
+                            label="Maximum Width *"
+                            placeholder=""
+                            type="number"
+                            v-model="image_config.max_width.value"
+                            @input="
+                                checkValidValue(
+                                    'max_width',
+                                    allowedValue.wMin,
+                                    allowedValue.wMax
+                                )
+                            "
+                            :showSuffix="true"
+                            suffix="Pixels"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="image_config.max_width.showerror"
+                            >{{ image_config.max_width.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+
+                <div class="input-row mt-l">
+                    <!-- maximum file size -->
+                    <div class="row-item">
+                        <div class="custom-label">
+                            <span class="custom-label-text "
+                                >Maximum File Size *
+                            </span>
+                        </div>
+                        <nitrozen-input
+                            placeholder=""
+                            type="number"
+                            v-model="image_config.max_size.value"
+                            @input="
+                                checkValidValue(
+                                    'max_size',
+                                    allowedValue.fsMin,
+                                    allowedValue.fsMax
+                                )
+                            "
+                            :showSuffix="true"
+                            suffix="MB"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="image_config.max_size.showerror"
+                            >{{ image_config.max_size.errortext }}
+                        </nitrozen-error>
+                    </div>
+
+                    <!-- file type selection -->
+                    <div class="row-item">
+                        <div class="custom-label">
+                            <span class="custom-label-text ">File Type * </span>
+                        </div>
+                        <nitrozen-dropdown
+                            label="File Type *"
+                            placeholder="select file type"
+                            :required="true"
+                            :multiple="true"
+                            :items="fileTypeList"
+                            v-model="image_config.file_type.value"
+                        ></nitrozen-dropdown>
+                        <nitrozen-error v-if="image_config.file_type.showerror"
+                            >{{ image_config.file_type.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+                <!-- maintain aspect ratio  -->
+                <div class="mt-xl">
+                    <span class="n-input-label mb-xs"
+                        >Maintain Aspect Ratio</span
+                    >
+                    <radio-group
+                        class="radios"
+                        @on-change="changeOption($event)"
+                        :options="[
+                            { display: 'True', value: true },
+                            { display: 'False', value: false }
+                        ]"
+                        :selectedOpt="this.image_config.maintain_aspect_ratio"
+                        :align="2"
+                    ></radio-group>
+                </div>
+                <div
+                    class="input-row mt-l"
+                    v-if="
+                        image_config.maintain_aspect_ratio &&
+                            image_config.maintain_aspect_ratio.value
+                    "
+                >
+                    <!-- aspect ratio width -->
+                    <div class="row-item">
+                        <div class="custom-label">
+                            <span class="custom-label-text "
+                                >Width For Aspect Ratio *
+                            </span>
+                        </div>
+                        <nitrozen-input
+                            placeholder=""
+                            type="number"
+                            v-model="image_config.arWidthV.value"
+                            @input="
+                                checkValidValue(
+                                    'arWidthV',
+                                    allowedValue.arMin,
+                                    allowedValue.arMax
+                                )
+                            "
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="image_config.arWidthV.showerror"
+                            >{{ image_config.arWidthV.errortext }}
+                        </nitrozen-error>
+                    </div>
+
+                    <!--height for aspect ratio -->
+                    <div class="row-item">
+                        <div class="custom-label">
+                            <span class="custom-label-text "
+                                >Height For Aspect Ratio *
+                            </span>
+                        </div>
+                        <nitrozen-input
+                            label="Height for aspect ratio *"
+                            placeholder=""
+                            type="number"
+                            v-model="image_config.arHeightV.value"
+                            @input="
+                                checkValidValue(
+                                    'arHeightV',
+                                    allowedValue.arMin,
+                                    allowedValue.arMax
+                                )
+                            "
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="image_config.arHeightV.showerror"
+                            >{{ image_config.arHeightV.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<style lang="less" scoped>
+@import './../../../../src/less/products/variants.less';
+.suffix {
+    animation: show 2s forwards;
+    ::v-deep .nitrozen-input-suffix {
+        background: none;
+        border-left: 0px;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 16px;
+        letter-spacing: 0em;
+        text-align: left;
+    }
+}
+.radios {
+    ::v-deep .radio-item {
+        padding: 12px 14px 2px 6px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        margin-right: 12px;
+    }
+}
+@keyframes show {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.custom-label {
+    display: flex;
+    align-items: center;
+    height: 27px;
+    .custom-label-text {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 17px;
+        letter-spacing: 0px;
+        color: @DustyGray2;
+    }
+}
+::v-deep .v-edit-page {
+    .nitrozen-dropdown-label {
+        display: none !important;
+    }
+    .n-input-label-container {
+        display: none !important;
+    }
+    .nitrozen-tooltiptext {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 19px;
+        text-align: left;
+        background-color: #3d3d3d;
+        color: @White;
+        width: 306px;
+    }
+}
+</style>
+<script>
+import loader from '@/components/common/loader';
+import { debounce, getAspectRatioFromString } from '@/helper/utils';
+import get from 'lodash/get';
+import chunk from 'lodash/chunk';
+import Shimmer from '@/components/common/shimmer';
+import PageHeader from '@/components/common/layout/page-header';
+import PageError from '@/components/common/page-error';
+import RadioGroup from '@/components/common/radio-group.vue';
+import {
+    FETCH_VARIANT_DISPLAY_TYPE,
+    FETCH_TEMPLATES,
+    FETCH_ATTRIBUTES,
+    FETCH_VARIANTS,
+    CREATE_EDIT_VARIANTS
+} from '@/store/action.type.js';
+import cloneDeep from 'lodash/cloneDeep';
+import {
+    flatBtn,
+    NitrozenBadge,
+    NitrozenButton,
+    NitrozenChips,
+    NitrozenDropdown,
+    NitrozenError,
+    NitrozenInline,
+    NitrozenInput,
+    NitrozenToggleBtn,
+    strokeBtn,
+    NitrozenTooltip
+} from '@gofynd/nitrozen-vue';
+const FILE_TYPE = [
+    { text: 'PNG', value: 'png' },
+    { text: 'JPEG', value: 'jpeg' }
+];
+
+const ALLOWED_VALUE = {
+    hMin: 1,
+    hMax: 2040,
+
+    wMin: 1,
+    wMax: 2040,
+
+    fsMin: 1,
+    fsMax: 10,
+
+    arMin: 1,
+    arMax: 100
+};
+
+export default {
+    name: 'create-update-variant',
+    components: {
+        loader,
+        Shimmer,
+        PageHeader,
+        PageError,
+        NitrozenInput,
+        NitrozenError,
+        NitrozenButton,
+        NitrozenDropdown,
+        NitrozenChips,
+        NitrozenInline,
+        NitrozenBadge,
+        NitrozenToggleBtn,
+        NitrozenTooltip,
+        RadioGroup
+    },
+    directives: {
+        flatBtn,
+        strokeBtn
+    },
+    data() {
+        return {
+            pageLoading: false,
+            PageError: false,
+            uid: null,
+            is_active: true,
+            priority: 1,
+            headerText: 'Create Variant',
+            selectedTemplates: this.getInitialValue(),
+            templateList: [],
+            filteredTemplateList: [],
+            temp_attr_set: {},
+            selectedDisplayType: this.getInitialValue(),
+            displayTypeList: [],
+            selectedAttribute: this.getInitialValue(''),
+            attributeList: [],
+            filteredAttributeList: [],
+            name: this.getInitialValue(''),
+            image_config: this.getInitialImageConfig(),
+            fileTypeList: FILE_TYPE,
+            allowedValue: ALLOWED_VALUE
+        };
+    },
+    computed: {
+        isSwatchSSelected() {
+            return this.selectedDisplayType.value.includes('swatch_image');
+        }
+    },
+    mounted() {
+        this.init();
+        if (this.$route.params.uid) {
+            this.pageLoading = true;
+            this.uid = this.$route.params.uid;
+            this.headerText = 'Update Variant';
+            this.fetchVariant(this.uid);
+        }
+    },
+    methods: {
+        getInitialValue(val = []) {
+            return {
+                value: val,
+                showerror: false,
+                errortext: ''
+            };
+        },
+        getInitialImageConfig(
+            minH = 0,
+            maxH = 0,
+            minW = 0,
+            maxW = 0,
+            maxS = 0,
+            fileT = [],
+            mAR = false,
+            arWidthV = 1,
+            arHeightV = 1
+        ) {
+            return {
+                min_height: this.getInitialValue(minH),
+                max_height: this.getInitialValue(maxH),
+                min_width: this.getInitialValue(minW),
+                max_width: this.getInitialValue(maxW),
+                max_size: this.getInitialValue(maxS),
+                file_type: this.getInitialValue(fileT),
+                maintain_aspect_ratio: {
+                    display: mAR ? 'True' : 'False',
+                    value: mAR
+                },
+                arWidthV: this.getInitialValue(arWidthV),
+                arHeightV: this.getInitialValue(arHeightV)
+            };
+        },
+        init() {
+            this.pageLoading = true;
+            this.pageError = false;
+            const templateParams = {
+                page_no: 1,
+                page_size: 9999,
+                sort: 'created_desc'
+            };
+            Promise.all([
+                this.$store
+                    .dispatch(FETCH_VARIANT_DISPLAY_TYPE, {
+                        choice_type: 'variants'
+                    })
+                    .catch(() => {
+                        console.log('Error in fetching display type');
+                    }),
+                this.$store
+                    .dispatch(FETCH_TEMPLATES, templateParams)
+                    .catch(() => {
+                        console.log('Error in fetching display type');
+                    })
+            ])
+                .then((res) => {
+                    //display type
+                    if (res[0]) {
+                        this.displayTypeList = res[0];
+                        // check if text option is available if yes, add it default
+                        if (
+                            this.displayTypeList.find((e) => e.value === 'text')
+                        ) {
+                            if (
+                                !this.selectedDisplayType.value.includes('text')
+                            ) {
+                                this.selectedDisplayType.value.unshift('text');
+                            }
+                        }
+                    }
+
+                    //template list
+                    if (res[1]) {
+                        this.templateList = res[1].temp;
+                        this.filteredTemplateList = cloneDeep(
+                            this.templateList
+                        );
+                        this.temp_attr_set = res[1].temp_attr_set;
+                    }
+                })
+                .catch((err) => {
+                    console.log('Something is wrong', err);
+                })
+                .finally(() => {
+                    this.pageLoading = true;
+                });
+        },
+        fetchVariant(uid) {
+            this.pageLoading = true;
+            this.pageError = false;
+            const reqBody = {
+                uid,
+                params: {}
+            };
+            this.$store
+                .dispatch(FETCH_VARIANTS, reqBody)
+                .then(({ items }) => {
+                    this.headerText = `Update ${get(items, 'display', 'Variant')}`
+                    this.is_active = get(items, 'is_active', true);
+                    this.priority = get(items, 'priority', 1);
+                    this.selectedTemplates = this.getInitialValue(
+                        get(items, 'templates', [])
+                    );
+                    this.selectedAttribute = this.getInitialValue(
+                        get(items, 'key', '')
+                    );
+                    this.name = this.getInitialValue(get(items, 'display', ''));
+                    this.selectedDisplayType = this.getInitialValue(
+                        get(items, 'display_type', [])
+                    );
+                    if (get(items, 'image_config', false)) {
+                        const imgConfig = items.image_config;
+                        /**check if aspect ratio is enabled, if then extract aspect ratio value */
+                        let arObject = {};
+                        if (imgConfig.maintain_aspect_ratio) {
+                            arObject = getAspectRatioFromString(
+                                get(imgConfig, 'aspect_ratio', '1:1')
+                            );
+                        }
+                        this.image_config = this.getInitialImageConfig(
+                            get(imgConfig, 'min_height', 0),
+                            get(imgConfig, 'max_height', 0),
+                            get(imgConfig, 'min_width', 0),
+                            get(imgConfig, 'max_width', 0),
+                            get(imgConfig, 'max_size', 0),
+                            get(imgConfig, 'file_type', []),
+                            get(imgConfig, 'maintain_aspect_ratio', false),
+                            arObject.width,
+                            arObject.height
+                        );
+                    }
+                    this.getCurrentAttrSlugs();
+                })
+                .finally(() => {
+                    this.pageLoading = false;
+                    this.pageError = false;
+                });
+        },
+
+        // template listing, adding removing template, calculating departments and then getting related attributes
+        setFilteredTemplateList: debounce(function(e) {
+            this.filteredTemplateList = [];
+            this.templateList.forEach((t) => {
+                if (
+                    !e ||
+                    !e.text ||
+                    t.text.toLowerCase().includes(e.text.toLowerCase())
+                ) {
+                    this.filteredTemplateList.push(t);
+                }
+            });
+        }, 400),
+        removeTemplate(index) {
+            this.selectedTemplates.value.splice(index, 1);
+            this.getCurrentAttrSlugs();
+        },
+        removeDisplayType(index) {
+            this.selectedDisplayType.value.splice(index, 1);
+        },
+        getCurrentAttrSlugs: debounce(async function() {
+            let attributes = [];
+            this.selectedTemplates.value.forEach((temp) => {
+                if (this.temp_attr_set[temp]) {
+                    attributes = attributes.concat(this.temp_attr_set[temp]);
+                }
+            });
+            if (this.selectedTemplates.value.length > 0) {
+                //resetting attributeList which is used in dropdown
+                this.attributeList = [];
+                /**
+                 * keeping attributes extracted from selected templates
+                 * batching of 100 and fetching the data
+                 */
+                attributes = [...new Set(attributes)];
+                attributes = chunk(attributes, 20);
+                await this.getAttributes(0, attributes);
+            }
+        }, 400),
+        getAttributes(ind, attr) {
+            this.pageLoading = true;
+            if (ind >= attr.length) {
+                return;
+            }
+            const params = {
+                page_no: 1,
+                page_size: 100,
+                slug: attr[ind]
+            };
+            this.$store
+                .dispatch(FETCH_ATTRIBUTES, params)
+                .then((res) => {
+                    if (res.error) {
+                        console.log('Error fetching attributes', res.err);
+                        return;
+                    }
+                    this.attributeList = this.attributeList.concat(res);
+                    this.setFilteredAttributeList();
+                })
+                .finally(() => {
+                    this.getAttributes(ind + 1, attr);
+                    this.pageLoading = false;
+                });
+        },
+        setFilteredAttributeList: debounce(function(e) {
+            if (!e || !e.text) {
+                this.filteredAttributeList = this.attributeList;
+                return;
+            }
+            this.filteredAttributeList = [];
+            this.attributeList.forEach((t) => {
+                if (
+                    !e ||
+                    !e.text ||
+                    t.text.toLowerCase().includes(e.text.toLowerCase())
+                ) {
+                    this.filteredAttributeList.push(t);
+                }
+            });
+        }, 300),
+        save() {
+            this.pageLoading = true;
+            let isValid = this.validateForm();
+            if (isValid) {
+                let obj = this.getFormData();
+                this.$store
+                    .dispatch(CREATE_EDIT_VARIANTS, obj)
+                    .then((res) => {
+                        if (res.error) {
+                            this.$snackbar.global.showError(
+                                get(
+                                    res,
+                                    'err.response.data.message',
+                                    'Failed to save'
+                                )
+                            );
+                            return;
+                        }
+
+                        this.$snackbar.global.showSuccess(
+                            `${
+                                this.uid
+                                    ? 'Updated variant successfully'
+                                    : 'Created variant successfully'
+                            }`
+                        );
+                        setTimeout(() => {}, 2000);
+                        this.$router.push({
+                            path: `/administrator/product/variants`
+                        });
+                    })
+                    .finally(() => {
+                        this.pageLoading = false;
+                    });
+            } else {
+                this.$snackbar.global.showError(
+                    'Please correct inputs displayed in red',
+                    1000
+                );
+            }
+        },
+        validateForm() {
+            let isValid = true;
+            // validate image config if swatch is selected
+            if (this.isSwatchSSelected) {
+                //check if entered maximum height and minimum height values are not contradicting each other if not then validate rest things
+                let heightMinMaxValid = this.minMaxValidation(
+                    'min_height',
+                    'max_height',
+                    this.allowedValue.hMin,
+                    this.allowedValue.hMax
+                )
+                    ? true
+                    : false;
+                isValid = isValid && heightMinMaxValid;
+                if (heightMinMaxValid) {
+                    isValid =
+                        this.checkValidValue(
+                            'min_height',
+                            this.allowedValue.hMin,
+                            this.allowedValue.hMax
+                        ) && isValid;
+                    isValid =
+                        this.checkValidValue(
+                            'max_height',
+                            this.allowedValue.hMin,
+                            this.allowedValue.hMax
+                        ) && isValid;
+                }
+
+                // check if entered maximum width and minimum width values are not contradicting each other if not then validate rest things
+                let widthMinMaxValid = this.minMaxValidation(
+                    'min_width',
+                    'max_width',
+                    this.allowedValue.wMin,
+                    this.allowedValue.wMax
+                )
+                    ? true
+                    : false;
+                isValid = isValid && widthMinMaxValid;
+                if (widthMinMaxValid) {
+                    isValid =
+                        this.checkValidValue(
+                            'min_width',
+                            this.allowedValue.wMin,
+                            this.allowedValue.wMax
+                        ) && isValid;
+                    isValid =
+                        this.checkValidValue(
+                            'max_width',
+                            this.allowedValue.wMin,
+                            this.allowedValue.wMax
+                        ) && isValid;
+                }
+
+                isValid =
+                    this.checkValidValue(
+                        'max_size',
+                        this.allowedValue.fsMin,
+                        this.allowedValue.fsMax
+                    ) && isValid;
+
+                isValid =
+                    this.arrayLength(
+                        this.image_config.file_type,
+                        'file type'
+                    ) && isValid;
+                if (this.image_config.maintain_aspect_ratio) {
+                    isValid =
+                        this.checkValidValue(
+                            'arWidthV',
+                            this.allowedValue.arMin,
+                            this.allowedValue.arMax
+                        ) && isValid;
+                    isValid =
+                        this.checkValidValue(
+                            'arHeightV',
+                            this.allowedValue.arMin,
+                            this.allowedValue.arMax
+                        ) && isValid;
+                }
+            }
+
+            isValid =
+                this.arrayLength(this.selectedTemplates, 'template') && isValid;
+            isValid =
+                this.arrayLength(this.selectedAttribute, 'attribute') &&
+                isValid;
+            isValid =
+                this.arrayLength(this.selectedDisplayType, 'template') &&
+                isValid;
+            isValid = this.validateName() && isValid;
+
+            return isValid;
+        },
+
+        getFormData() {
+            let obj = {
+                is_active: this.is_active,
+                priority: this.priority,
+                templates: this.selectedTemplates.value,
+                key: this.selectedAttribute.value,
+                display: this.name.value,
+                display_type: this.selectedDisplayType.value
+            };
+            if (this.isSwatchSSelected) {
+                obj.image_config = {
+                    min_height: this.image_config.min_height.value,
+                    max_height: this.image_config.max_height.value,
+                    min_width: this.image_config.min_width.value,
+                    max_width: this.image_config.max_width.value,
+                    max_size: this.image_config.max_size.value,
+                    file_type: this.image_config.file_type.value,
+                    maintain_aspect_ratio: this.image_config
+                        .maintain_aspect_ratio.value
+                };
+            }
+            if (
+                this.isSwatchSSelected &&
+                this.image_config.maintain_aspect_ratio.value
+            ) {
+                obj.image_config.aspect_ratio = getAspectRatioFromString(
+                    `${this.image_config.arWidthV.value}: ${this.image_config.arHeightV.value}`,
+                    false
+                );
+            }
+            if (this.uid) {
+                obj.uid = this.uid;
+            }
+            return obj;
+        },
+
+        /*
+        methodName: minMaxValidation
+        paramCount: 4
+            1. First and second params specify property name of input on which we need to perform validation
+            2. Third and fourth params specify the allowed min max range value.
+         */
+        minMaxValidation(key1, key2, range1, range2) {
+            let isValid = true;
+            const enteredMin = parseInt(this.image_config[key1].value);
+            const enteredMax = parseInt(this.image_config[key2].value);
+            const validMin = range1 <= enteredMin && enteredMin <= range2;
+            const validMax = range1 <= enteredMax && enteredMax <= range2;
+            if (validMin && validMax && enteredMin > enteredMax) {
+                this.image_config[key1].showerror = true;
+                this.image_config[key2].showerror = true;
+                this.image_config[key1].errortext =
+                    'Value should not more than maximum value';
+                this.image_config[key2].errortext =
+                    'Value should not less than minimum value';
+
+                isValid = false;
+            } else {
+                this.image_config[key1].showerror = false;
+                this.image_config[key2].showerror = false;
+                this.image_config[key1].errortext = '';
+                this.image_config[key2].errortext = '';
+            }
+            return isValid;
+        },
+        checkValidValue(key, min = 0, max = 0) {
+            let isValid = true;
+            const val = parseInt(this.image_config[key].value);
+
+            if (val) {
+                if (val < min) {
+                    isValid = false;
+                    this.image_config[key].showerror = true;
+                    this.image_config[
+                        key
+                    ].errortext = `Value should not less than allowed minimum value, which is ${min}`;
+                } else if (val > max) {
+                    isValid = false;
+                    this.image_config[key].showerror = true;
+                    this.image_config[
+                        key
+                    ].errortext = `Value should not more than allowed maximum value, which is ${max}`;
+                } else {
+                    this.image_config[key].showerror = false;
+                }
+            } else {
+                isValid = false;
+                this.image_config[key].showerror = true;
+                this.image_config[key].errortext = 'Field is required';
+            }
+            return isValid;
+        },
+        arrayLength(obj, name) {
+            if (obj.value.length) {
+                obj.showerror = false;
+                return true;
+            } else {
+                obj.showerror = true;
+                obj.errortext = `Choose at least one ${name}`;
+                return false;
+            }
+        },
+        validateName() {
+            const name = this.name.value.trim();
+            if (name) {
+                if (name.length >= 3 && name.length <= 30) {
+                    this.name.showerror = false;
+                    this.name.errortext = '';
+                    return true;
+                } else {
+                    this.name.showerror = true;
+                    this.name.errortext =
+                        'Display name should be between 3 to 30 characters';
+                    return false;
+                }
+            } else {
+                this.name.showerror = true;
+                this.name.errortext = 'Display name is required';
+                return false;
+            }
+        },
+        changeOption(e) {
+            this.image_config.maintain_aspect_ratio = e;
+        },
+        formatDisplay(val, targetList) {
+            const tempObj = targetList.find((ele) => ele.value == val);
+            return tempObj ? tempObj.text : val;
+        },
+        preventDisablingText(e) {
+            //if 'text' is not in selectedDisplayType but option is available in choice api, add it again if user unselect it.
+            if (
+                !this.selectedDisplayType.value.includes('text') &&
+                this.displayTypeList.find((e) => e.value === 'text')
+            ) {
+                this.selectedDisplayType.value.unshift('text');
+            }
+        },
+
+        redirectToListing() {
+            this.$router.push({ path: '/administrator/product/variants' });
+        }
+    }
+};
+</script>
