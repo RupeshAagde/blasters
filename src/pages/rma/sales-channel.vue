@@ -125,6 +125,12 @@ export default {
         redirectToEdit() {
             this.$router.push({ path: `/administrator/rma/rules/${this.company}/edit` });
         }
+    },
+    mounted() {
+        RMAService.getSalesChannel()
+        .then((data) => {
+            console.log(data);
+        })
     }
 }
 </script>

@@ -5,7 +5,7 @@ import { getCommonHeaderOptions } from './utils.service';
 import URLS from './domain.service';
 
 const RMAService = {
-    getSalesChannel(params = {}) {
+    getSalesChannel(params) {
         const axiosOption = Object.assign(
             {
                 params: params

@@ -722,7 +722,7 @@ const URLS = {
     },
     //RMA Sales Channel List
     GET_RMA_SALES_CHANNEL: () => {
-        return urlJoin(RMA_ADMIN_URL, '/api/v1.0/entity/sub_type/app/');
+        return urlJoin(FIREBOLT_LOGISTICS_ADMIN_URL, '/api/v1/entity/sub_type/app');
     }
 };
 
