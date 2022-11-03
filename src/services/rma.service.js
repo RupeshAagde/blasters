@@ -1,18 +1,19 @@
 'use strict';
 
-import URLS from './mixmaster-url.service';
 import ApiService from './api.service';
 import { getCommonHeaderOptions } from './utils.service';
 import URLS from './domain.service';
 
 const RMAService = {
-    getSalesChannel(params) {
+    getSalesChannel(params = {}) {
         const axiosOption = Object.assign(
             {
                 params: params
             },
             getCommonHeaderOptions()
         )
-        return ApiService.get()
-    } 
+        return ApiService.get(URLS.GET_RMA_SALES_CHANNEL(), axiosOption);
+    }
 }
+
+export default RMAService;

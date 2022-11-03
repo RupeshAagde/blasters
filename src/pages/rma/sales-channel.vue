@@ -43,6 +43,7 @@ import {
     NitrozenPagination
 } from '@gofynd/nitrozen-vue';
 import Jumbotron from '@/components/common/jumbotron';
+import RMAService from '@/services/rma.service';
 
 export default {
     name: 'sales-channel',
