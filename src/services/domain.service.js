@@ -98,6 +98,22 @@ const EXTENSION_PAGE_URL = isNode ?
     envVars.BROWSER_CONFIG.EXTENSION_PAGE_URL :
     envVars.EXTENSION_PAGE_URL;
 
+const RMA_URL = isNode ? 
+    envVars.BROWSER_CONFIG.RMA_URL : 
+    envVars.RMA_URL;
+
+const RMA_ADMIN_URL = isNode ? 
+    envVars.BROWSER_CONFIG.RMA_ADMIN_URL : 
+    envVars.RMA_ADMIN_URL;
+
+const AVIS_API = isNode ? 
+    envVars.BROWSER_CONFIG.AVIS_API : 
+    envVars.AVIS_API;
+
+const FIREBOLT_LOGISTICS_ADMIN_URL = isNode ? 
+    envVars.BROWSER_CONFIG.FIREBOLT_LOGISTICS_ADMIN_URL : 
+    envVars.FIREBOLT_LOGISTICS_ADMIN_URL;
+
 const URLS = {
     // User Profile API's
     USER_PROFILE: () => {
@@ -703,6 +719,10 @@ const URLS = {
     },
     GET_AUDIT_TRAIL_ENTITY_TYPES:()=>{
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
+    },
+    //RMA Sales Channel List
+    GET_RMA_SALES_CHANNEL: () => {
+        return urlJoin(FIREBOLT_LOGISTICS_ADMIN_URL, '/api/v1/entity/sub_type/app');
     }
 };
 
