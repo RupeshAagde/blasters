@@ -111,6 +111,9 @@ const URLS = {
     GET_FILTER_LIST: () => {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/reports/filters/`);
     },
+    REPORT_HISTORY_URL: (suffix = 'history') => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/reports/`, suffix);
+    },
 };
 
 export default URLS;

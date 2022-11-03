@@ -24,11 +24,11 @@
                             'hide-back-btn': !showBackButton && isMobile
                         }"
                     >
-                        {{ title }}
-                        <span class="breadcrumb" v-if="breadcrumb">/ {{breadcrumb}}</span>
+                        <img v-if="logo" :src="logo" class="page-logo" />
+                        <span>{{ title }}</span>
                     </div>
                 </div>
-                <div class="page-slot">
+                <div class="page-slot" :class="{'tags': tags}">
                     <slot></slot>
                 </div>
                 <div class="page-slot-mobile-add" v-show="hasPageMobileAdd">
@@ -37,26 +37,27 @@
                 <nitrozen-menu
                     v-if="!noContextMenu"
                     class="menu"
+                    ref="context-menu"
                     :inverted="isMobile"
                     mode="vertical"
                 >
                     <nitrozen-menu-item
                         v-for="(item, index) in contextMenuItems"
-                        @click.stop="$emit(item.action); $emit('click', item)"
+                        @click.stop="$emit(item.action); $emit('click', item); closeContextMenu()"
                         :key="index"
                     >
                         {{ item.text }}
                     </nitrozen-menu-item>
                     <nitrozen-menu-item
                         v-if="showContextMenuItemMeta"
-                        @click.stop="openMetaDialog('contextItemMeta')"
+                        @click.stop="openMetaDialog('contextItemMeta'); closeContextMenu()"
                     >
                         Meta
                     </nitrozen-menu-item>
-                    <nitrozen-menu-item @click.stop="$emit('openHelp')">
+                    <nitrozen-menu-item @click.stop="$emit('openHelp'); closeContextMenu()">
                         Help
                     </nitrozen-menu-item>
-                    <nitrozen-menu-item v-if="showLogout" @click.stop="$emit('logout')">
+                    <nitrozen-menu-item v-if="showLogout" @click.stop="$emit('logout'); closeContextMenu()">
                         Logout
                     </nitrozen-menu-item>
                 </nitrozen-menu>
@@ -91,12 +92,14 @@ import {
     NitrozenMenu,
     NitrozenMenuItem,
     NitrozenDialog,
-    NitrozenButton
+    NitrozenButton,
+    NitrozenBadge
 } from '@gofynd/nitrozen-vue';
 
 export default {
     name: 'adm-page-header',
     components: {
+        'nitrozen-badge': NitrozenBadge,
         'adm-meta-dialog': admMetaDialog,
         'nitrozen-button': NitrozenButton,
         'adm-inline-svg': adminlinesvg,
@@ -148,14 +151,17 @@ export default {
             type: Boolean,
             default: false
         },
-        breadcrumb: {
+        logo: {
             type: String
+        },
+        tags: {
+            type: Boolean,
+            default: false
         }
     },
     data: function() {
         return {
-            showModal: false,
-            tags: []
+            showModal: false
         };
     },
     computed: {
@@ -226,6 +232,9 @@ export default {
         },
         save(event, meta) {
             this.$emit(event, meta);
+        },
+        closeContextMenu(){
+            this.$refs['context-menu'].closeMenu()
         }
     }
 };
@@ -279,9 +288,9 @@ export default {
 }
 .back-button-title{
     display: flex;
-    margin-left: 24px;
-    position: fixed;
-    left: 250px;
+    // margin-left: 24px;
+    // position: fixed;
+    // left: 250px;
     @media @mobile{
         align-items: center;
         position: static;
@@ -311,7 +320,9 @@ export default {
         }   
     }
     .page-nav {
-        display: flex;
+        // display: flex;
+        display: grid;
+        grid-template-columns: auto 2fr auto;
         min-height: 56.5px;
         margin: auto 24px;
         align-items: center;
@@ -342,7 +353,8 @@ export default {
         }
         .page-nav-back-text {
             cursor: pointer;
-            margin-right: 18px;
+            // margin-right: 18px;
+            margin-right: 10px;
             @media @mobile {
                 display: none;
             }
@@ -351,6 +363,14 @@ export default {
             color: @Mako;
             font-size: 24px;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+
+            .page-logo {
+                height: 40px;
+                margin-right: 10px;
+            }
+
             @media @mobile {
                 .fp-app-color;
             }
@@ -368,9 +388,13 @@ export default {
             display: flex;
             flex: 1;
             justify-content: flex-end;
+            padding-left: 1rem;
             @media @mobile {
                 display: none;
             }
+        }
+        .tags {
+            justify-content: space-between;
         }
         .menu {
             margin-left: 8px;

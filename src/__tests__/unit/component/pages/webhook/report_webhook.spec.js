@@ -65,7 +65,7 @@ describe('Webhook Report', () => {
         mock.reset();
     });
     it('Show payload in dialog', async () => {
-        await wrapper.vm.showPayload({key:"value",event:{id:"test_id"}},"test_url.com","test_event");
+        await wrapper.vm.showPayload("{ \"key\": \"value\", \"event\": { \"id\": \"test_id\" } }", "test_url.com", "test_event");
         await flushPromises();
         expect(wrapper.vm.dialogInfo).toBe(`Payload`);
     });
@@ -105,9 +105,9 @@ describe('Webhook Report', () => {
             end_date: "2022-07-08T16:20:18"
         }
         await wrapper.vm.search(query_param);
-        await wrapper.vm.sortTable('processed_time_in_millis');
+        await wrapper.vm.sortTable('response_time');
         await flushPromises();
-        expect(wrapper.vm.webhookReport[0].processed_time_in_millis).toBe(71);
+        expect(wrapper.vm.webhookReport[0].response_time).toBe(71);
     });
     it('On status filter', async () => {
         wrapper.vm.selectedStatusFilter = 'SUCCESS'

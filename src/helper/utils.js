@@ -659,3 +659,9 @@ export const getAspectRatioFromString = function (aspectRatio = '1:1', getObject
         return gcd(b, a%b)
     }
 }
+export const detectFPApp = () => {
+    if (isBrowser) {
+        return window.__fpAppDetails;
+    };
+    return false;
+};

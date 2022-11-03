@@ -13,77 +13,92 @@
                     <template slot="body">
                         <table class="event-type-content">
                             <tr v-for="(item, key) in selectedWebhookEvent" :key="key">
-                                <td class="event-key">{{ key }}: </td>
-                                <td class="event-value">&nbsp; {{ item.join(",") }}</td>
-                            </tr>
+                            <td class="event-key">{{key}}: </td> <td class="event-value">&nbsp; {{item.join(",")}}</td>
+                        </tr>
                         </table>
-                    </template>
-                    <template slot="footer">
-                        <div></div>
-                    </template>
-                </nitrozen-dialog>
-                <loader v-if="startLoader" class="loading"></loader>
-                <adm-no-content v-if="!startLoader && subscriberList.length === 0" :helperText="'No Subscriber Registered'">
-                </adm-no-content>
-                <div v-if="subscriberList && subscriberList.length > 0" class="webhook-list">
-                    <div v-for="items in subscriberList" :key="items.id" class="full-width">
-                        <!-- new cards -->
-                        <div @click.self="redirectEdit(items.id)" class="blaster-list-card-container">
-                            <span @click="redirectEdit(items.id)" class="settings-icon">
-                                <img src="/public/assets/admin/svgs/webhook.svg" alt="profile" />
-                            </span>
-                            <div class="card-content-section">
-                                <div @click="redirectEdit(items.id)" class="full-name card-content-line-1">
-                                    <span class="webhook-span">{{ items.name ? items.name : 'NA' }} </span>
-                                </div>
-                                <!-- <div class="full-name card-content-line-2">
-                           Webhook Url: <span @click="redirectEdit(items.id)" class="webhook-span webhook-url-text">{{items.webhook_url_display}} </span>
-                           <img
-                                src="/public/assets/svgs/copy.svg"
-                                alt="copy"
-                                class="copy"
-                                @click="onCopyCode($event,items.webhook_url)"
-                            /> 
-                        </div> -->
-                                <div @click.self="redirectEdit(items.id)" class="full-name card-content-line-3">
-                                    Events: <span @click.self="redirectEdit(items.id)"
-                                        class="webhook-span list-events">{{ items.event_name.length > 3 ?
-                                                items.event_name.slice(0, 2).join(",") : items.event_name.join(",")
-                                        }}</span><a @click="selectedEvent(items)" class="event-type-count">{{
-        items.event_name.length > 3
-            ? "+" + (items.event_name.length - 3).toString() + "more" : ""
-}}</a>
-                                </div>
-                                <div @click="redirectEdit(items.id)" class="full-name card-content-line-3">
-                                    Modified by: <span class="webhook-span user-details">{{ items.modified_by }}</span>,
-                                    Modified on: <span class="webhook-span user-details">{{ items.updated_on }}</span>
-                                </div>
-                            </div>
-                            <div @click.self="redirectEdit(items.id)" class="card-badge-section">
-                                <nitrozen-badge v-if="items.status == 'active'" class="tag" state="success">Active
-                                </nitrozen-badge>
-                                <nitrozen-badge v-if="items.status == 'blocked'" class="tag" state="default">Blocked
-                                </nitrozen-badge>
-                                <nitrozen-badge v-if="items.status == 'inactive'" class="tag" state="default">Inactive
-                                </nitrozen-badge>
-                                <div class="card-detail">
-                                    <nitrozen-button @click="report(items.id)" class="webhook-report-btn" v-strokeBtn
-                                        :theme="'secondary'">View Report</nitrozen-button>
-                                    <span class="copy" v-html="copyIcon"
-                                        @click="onCopyCode($event, items.webhook_url)"></span>
-
-                                    <!-- <span class="copy" @click="onCopyCode($event, items.webhook_url)"> <img
-                                            src="/public/assets/admin/svgs/webhook-copy.svg" alt="profile" /></span> -->
-                                </div>
-                            </div>
+                </template>
+                <template slot="footer">
+                <div></div>
+            </template>
+            </nitrozen-dialog>
+        <loader v-if="startLoader" class="loading" ></loader>
+        <adm-no-content
+            v-if="!startLoader && subscriberList.length === 0"
+            :helperText="'No Subscriber Registered'"
+        ></adm-no-content>
+        <div v-if="subscriberList && subscriberList.length > 0" class="webhook-list" >
+            <div v-for="(items, index) in subscriberList" :key="items.id" class="full-width">
+                <!-- new cards -->
+                <div @click.self="redirectEdit(items.id)" class="blaster-list-card-container" :class="['full-width']">
+                    <span @click="redirectEdit(items.id)" class="settings-icon">
+                        <img
+                            src="/public/assets/admin/svgs/webhook.svg"
+                            alt="profile"
+                        />
+                    </span>
+                    <div class="card-content-section">
+                        <div @click="redirectEdit(items.id)" class="full-name card-content-line-1">
+                            <span class="webhook-span webhook-name">{{items.name? items.name :'NA'}} </span>
                         </div>
-
+                        <div class="card-content-body">
+                            <div  @click.self="redirectEdit(items.id)" class="full-name card-content-line-3">
+                            <span class="info-heading"> Events</span> <span @click.self="redirectEdit(items.id)"  class="webhook-span list-events">{{items.event_name.length> 3 ? items.event_name.slice(0,2).join(","):items.event_name.join(",")}}
+                            <a @click="selectedEvent(items)" class="event-type-count">{{items.event_name.length> 3 ?"+"+(items.event_name.length-3).toString()+"more":""}}</a></span>
+                        </div>
+                        <div @click="redirectEdit(items.id)" class="full-name card-content-line-3">
+                            <span class="info-heading"> Modified by  </span> <span class="webhook-span user-details">{{items.modified_by}}</span> 
+                        </div>
+                        <div @click="redirectEdit(items.id)" class="full-name card-content-line-3">
+                            <span class="info-heading">Modified on </span><span class="webhook-span user-details">{{items.updated_on}}</span>
+                        </div>
+                        </div>
+                        
                     </div>
-                    <nitrozen-pagination name="Items" v-model="pageObject" value="pageObjectValue"
-                        @change="paginationChange" :pageSizeOptions="rows">
-                    </nitrozen-pagination>
+                    <div @click.self="redirectEdit(items.id)" class="card-badge-section">
+                        <nitrozen-badge
+                            v-if="items.status=='active'"
+                            class="tag"
+                            state="success"
+                            >Active</nitrozen-badge
+                        >
+                        <nitrozen-badge
+                            v-if="items.status=='blocked'"
+                            class="tag"
+                            state="default"
+                            >Blocked</nitrozen-badge
+                        >
+                        <nitrozen-badge
+                            v-if="items.status=='inactive'"
+                            class="tag"
+                            state="default"
+                            >Inactive</nitrozen-badge
+                        >
+                        <nitrozen-menu 
+                        class="dot-menu"
+                        mode="vertical"
+                        ref="list-menu"
+                        >
+                            <nitrozen-menu-item @click="report(items.id)">
+                                View Report
+                            </nitrozen-menu-item>
+                            <nitrozen-menu-item @click="onCopyCode($event,items.webhook_url); closeContextMenu(index)">
+                                Copy
+                            </nitrozen-menu-item>
+                        </nitrozen-menu>
+                    </div>
                 </div>
+                
             </div>
+            <nitrozen-pagination
+                name="Items"
+                v-model="pageObject"
+                value= "pageObjectValue"
+                @change="paginationChange"
+                :pageSizeOptions="rows"
+            >
+            </nitrozen-pagination>
+        </div>
+        </div>
         </div>
     </div>
 </template>
@@ -91,22 +106,7 @@
 <style lang="less" scoped>
 @import './../less/page-header.less';
 @import './../less/page-ui.less';
-
-.blaster-list-card-container {
-    background: #ffffff;
-    margin: 16px 0px;
-    border: 1px solid #E4E5E6;
-    padding: 24px;
-    border-radius: 3px;
-    display: flex;
-    height: 70px;
-    overflow: auto;
-    max-height: 70px;
-    cursor: pointer;
-    transition: box-shadow 0.3s;
-}
-
-.webhook-report-btn {
+.webhook-report-btn{
     height: 30px;
     margin-right: 15px;
     padding: 12px;
@@ -118,8 +118,7 @@
     text-align: center;
     color: #2E31BE;
 }
-
-.list-events {
+.list-events{
     font-family: Inter;
     font-style: normal;
     font-weight: normal;
@@ -127,17 +126,27 @@
     line-height: 21px;
     color: #666666;
 }
-
-.card-content-line-3:hover {
+.card-content-line-3:hover{
     color: black
 }
 
-.event-type-content {
+.card-content-line-3{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    white-space: nowrap;
+}
+.event-type-content{
     border-collapse: separate;
     border-spacing: 0 1em;
 }
-
-.event-value {
+.webhook-name{
+    font-size: 1.125rem;
+}
+.info-heading{
+    color: #9B9B9B;
+}
+.event-value{
     font-family: Inter;
     font-style: normal;
     font-weight: normal;
@@ -145,8 +154,7 @@
     line-height: 20px;
     color: #41434C;
 }
-
-.event-key {
+.event-key{
     font-family: Inter;
     font-style: normal;
     font-weight: 600;
@@ -154,143 +162,148 @@
     line-height: 20px;
     color: #41434C;
 }
-
-.user-details {
+.user-details{
     font-family: Inter;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 400;
     font-size: 12px;
     line-height: 21px;
     color: #666666;
 }
-
-::v-deep .nitrozen-badge {
+::v-deep .nitrozen-badge{
     float: right;
 }
-
-.card-detail {
+.card-detail{
     margin-top: 50px;
 }
-
 ::v-deep #prefix__Capa_1 {
     fill: green;
     color: green;
     width: 15px;
     height: 15px;
 }
-
-::v-deep svg#prefix__Capa_1>g {
+::v-deep  svg#prefix__Capa_1 > g {
     fill: #494BC6
 }
 
-.webhook-list {
+.webhook-list{
     width: 100%
 }
-
-.card-content-line-badge-3 {
+.card-content-line-badge-3{
     margin-left: 8px;
 }
 
+.card-content-body{
+    width: 100%;
+    display: flex;
+    gap: 1.5rem;
+}
+
+
 .settings-icon {
-    min-width: 7%;
-    margin-right: 10px;
+    // min-width: 7%;
+    width: 4.375rem;
+    height: 4.375rem;
+    margin-right: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
     border-right: 1px solid @Alabaster2;
     background-color: @Alabaster2;
-
+    border-radius: 50%;
     img {
         width: auto;
     }
 }
-
-span {
+span{
     word-break: break-all;
 }
-
-.nitrozen-checkbox-container {
+.nitrozen-checkbox-container{
     color: #9b9b9b;
-    font-family: Inter, sans-serif;
+    font-family: Inter,sans-serif;
     font-size: 12px;
     font-weight: 500;
     line-height: 21px;
 }
-
 .jumbotron-h {
     margin-bottom: 15px;
     box-sizing: border-box;
     width: 100%;
-
     @media @mobile {
         min-height: initial;
     }
 }
-
-.test-webhook-btn {
+.test-webhook-btn{
     align-self: flex-start;
     background-color: #2E35BE;
     color: white;
 }
-
-.card-badge-section {
-    display: block !important;
+.card-badge-section{
+    display: flex;
     color: #9B9B9B;
     line-height: 15px;
     font-size: 12px;
     align-self: flex-end;
+    height: 100%;
+    gap: 1.125rem;
 }
 
+::v-deep #Shape-Copy-2{
+    fill: #8F8F8F;
+}
+
+::v-deep .nitrozen-badge-success{
+    border: 1px solid #0A5F23 !important;
+    color: #0A5F23 !important;
+}
+
+.card-badge-section ::v-deep .nitrozen-badge{
+    width: 5.688rem;
+    text-align: center;
+    border-radius: 4px;
+}
 .main-container {
     width: auto;
     display: block;
     margin: 24px;
     border-radius: 4px;
-
     @media @mobile {
         margin: 0px !important;
     }
 }
-
-.card-content-line-1 {
+.card-content-line-1{
     margin-bottom: 5px;
     word-break: break-all;
     font-size: 15px !important;
     line-height: 10px;
 }
-
-.card-content-line-2 {
+.card-content-line-2{
     margin-bottom: 1px;
     font-weight: 400;
     font-size: 14px !important;
     color: black !important;
 }
-
-.event-type-count {
+.event-type-count{
     color: #494BC6;
-    text-decoration: underline;
+    font-weight: 600;
+    text-decoration: none;
     z-index: 1000;
 }
-
-.inline_column {
+.inline_column{
     display: flex;
     margin-bottom: 35px;
 }
-
-.inline_test-webhook-column {
+.inline_test-webhook-column{
     display: flex;
     margin-top: 60px;
 }
-
-.width {
+.width{
     width: 100%;
 }
-
-.events_group {
+.events_group{
     border: 1px solid #ADADAD;
-    padding: 2%;
+    padding: 2%;  
 }
-
 .page-container {
     display: flex;
     flex-wrap: wrap;
@@ -298,42 +311,33 @@ span {
     padding: 24px;
     background-color: #fff;
     border-radius: 4px;
-
     .copy {
         cursor: pointer;
         float: right;
     }
-
     @media @mobile {
         padding: 24px 24px 0px 24px;
     }
 }
-
 .webhook-settings-container {
     width: 100%;
     margin-right: 24px;
-
     .page-container {
         padding-bottom: 24px;
     }
-
     @media @mobile {
         width: 100%;
         margin-right: 0px;
     }
-
     .error {
         margin-bottom: 10px;
     }
-
     .logo-upload {
         margin-bottom: 10px;
     }
-
     .visibility-visible {
         visibility: visible;
     }
-
     .visibility-hidden {
         visibility: hidden;
     }
@@ -341,47 +345,38 @@ span {
     .submit {
         width: 100px;
         align-self: flex-end;
-
         @media @mobile {
             width: 100%;
         }
     }
 }
-
-.webhook-url-text {
+.webhook-url-text{
     color: blue;
 }
-
 .sp-settings-container {
     width: 40%;
-
     @media @mobile {
         width: 100%;
         margin-bottom: 24px;
     }
 }
-
 .sub-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 0;
     line-height: 35px;
-
     .bold-xs {
         font-size: 18px;
     }
 }
-
 .full-width {
     width: 100%;
     display: flex;
-
     @media @mobile {
         flex-direction: column-reverse;
     }
 }
-
 .common-container {
     width: auto;
     padding: 0 24px 24px 24px;
@@ -389,101 +384,79 @@ span {
     display: flex;
     flex-direction: column;
 }
-
 .form-row {
     .input-container {
         display: flex;
-
         .nitrozen-form-input {
             flex-grow: 1;
         }
-
         nitrozen-button {
             margin-left: 15px;
         }
-
         .svg {
             margin-left: 5px;
         }
     }
 }
-
-.no-role-container {
-    display: flex;
+.no-role-container{
+    display:flex;
 }
-
-.refresh-icon {
-    margin: 0px 10px;
+.refresh-icon{
+    margin:0px 10px;
     cursor: pointer;
 }
-
-.check-item {
-    margin: 10px 0px 15px 0px;
-
-    /deep/label {
-        padding-top: 3px;
-    }
-
+.check-item{
+    margin:10px 0px 15px 0px;
+    /deep/label{
+        padding-top:3px;
+    }  
     color: #9b9b9b;
-    font-family: Inter,
-    sans-serif;
+    font-family: Inter,sans-serif;
     font-size: 12px;
     font-weight: 500;
     line-height: 21px;
 }
-
 .mb15 {
     margin: 15px 0;
 }
-
 .input-shimmer {
     height: 40px;
     width: 400px;
 }
-
 .blaster-list-card-container {
-    width: 100%;
+        width: 100%;
+        overflow: visible;
 }
-
 .staff-list {
     width: auto;
     background-color: @White;
-
-    .blaster-list-card-container {
+    .blaster-list-card-container{
         width: 100%;
         overflow: visible;
-
         .verified-icon {
             display: inline;
-
             ::v-deep svg {
                 cursor: pointer;
                 width: 12px;
                 height: 12px;
             }
         }
-
         .left-space-s {
             margin-left: 4px;
         }
-
         .left-space-md {
             margin-left: 12px;
         }
-
         .separator {
             width: 12px;
             text-align: center;
         }
-
         .tag {
             float: right;
         }
-
         .tooltip {
             text-transform: none;
             position: relative;
-
             &:hover {
                 .tooltiptext {
                     visibility: visible;
@@ -491,12 +464,10 @@ span {
                     overflow-y: scroll;
                 }
             }
-
             .nitrozen-tooltip-bottom {
                 top: 120%;
                 left: -5em;
                 margin-left: -20px;
-
                 &::after {
                     bottom: 100%;
                     left: 80%;
@@ -504,7 +475,6 @@ span {
                     transform: rotate(180deg);
                 }
             }
-
             .tooltiptext {
                 visibility: hidden;
                 color: black;
@@ -517,7 +487,6 @@ span {
                 min-width: 100px;
                 line-height: 1.7;
                 background-color: #ebedfb;
-
                 &::after {
                     content: ' ';
                     position: absolute;
@@ -527,11 +496,9 @@ span {
                 }
             }
         }
-
         .card-avatar {
             display: flex;
             align-items: center;
-
             img {
                 min-height: 60px;
                 max-height: 60px;
@@ -540,16 +507,15 @@ span {
                 border-radius: 50%;
             }
         }
-
         .full-name {
             color: @RoyalBlue;
         }
     }
 }
-
 .full-width {
     width: 100%;
 }
+
 </style>
 
 <script>
@@ -559,6 +525,7 @@ import loader from '@/components/common/loader.vue';
 import mirageimageuploader from '@/components/common/image-uploader/index.vue';
 import admInlineSvg from '@/components/common/adm-inline-svg.vue';
 import admjumbotron from '@/components/common/jumbotron';
+import SamlProvider from '@/components/settings/saml-provider';
 import admnocontent from '@/components/common/adm-no-content';
 import path from 'path';
 import { copyToClipboard } from '@/helper/utils';
@@ -573,16 +540,19 @@ import {
     NitrozenBadge,
     NitrozenPagination,
     NitrozenDialog,
-    strokeBtn
+    strokeBtn, NitrozenMenu,
+    NitrozenMenuItem
 } from '@gofynd/nitrozen-vue';
 import { mapGetters } from 'vuex';
 import moment from 'moment';
 import svg from '@/auto_gen/admin-svgs.js';
-import AdminWebhookService from '../../services/admin-webhook.service';
+import AdminWebhookService from '@/services/admin-webhook.service';
 
 export default {
     name: 'list-webhooks',
     components: {
+        'nitrozen-menu' : NitrozenMenu,
+        'nitrozen-menu-item': NitrozenMenuItem,
         'inline-svg': inlinesvg,
         'mirage-image-uploader': mirageimageuploader,
         'adm-jumbotron': admjumbotron,
@@ -592,6 +562,7 @@ export default {
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-error': NitrozenError,
         'nitrozen-toggle': NitrozenToggleBtn,
+        'saml-provider': SamlProvider,
         'adm-inline-svg': admInlineSvg,
         'nitrozen-badge': NitrozenBadge,
         'nitrozen-pagination': NitrozenPagination,
@@ -669,8 +640,9 @@ export default {
             sessionStorage.setItem("data",JSON.stringify(date));
             sessionStorage.setItem("companyId",this.companyId);
             sessionStorage.setItem("filtersSelected",JSON.stringify(subs));
+            let path = `webhook-report` + `/${name}`
             this.$router.push({
-                path: `webhook-report`
+                path: path
             });
         },
         selectedEvent(item) {
@@ -767,6 +739,10 @@ export default {
         closeTestDialog: function () {
             this.$refs['test_status_dialog'].close();
         },
+        closeContextMenu(i){
+            console.log("dqdqd",this.$refs['list-menu'])
+            this.$refs['list-menu'][i].closeMenu()
+        }
     },
 };
 </script>

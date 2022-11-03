@@ -3,7 +3,7 @@
         <div class="header-position">
             <adm-page-header @backClick="onCancel" @openHelp="showHelpSection" :title="`Webhook Report`"
                 :contextMenuItems="isOrganisationUser ? [] : contextMenuItems" :noContextMenu="true">
-               <span class="export" @click="openExportConfirmation" :class="{'disableBtn': webhookReport && webhookReport.length === 0 && load_reports || (salesDumpJob && salesDumpStatus) }">
+               <span class="export" @click="openExportConfirmation" :class="{'disableBtn': webhookReport && webhookReport.length === 0 }">
                     <uktInlineSvg
                         class="export-icon"
                         :src="'download-export'"
@@ -11,35 +11,25 @@
                     </uktInlineSvg>
                     Reports
                 </span>
+                <nitrozen-button
+                  @click="goTo('report-history')"
+                  class="history-btn"
+                  v-flat-btn
+                  :theme="'secondary'"
+              >
+                History
+              </nitrozen-button>
             </adm-page-header>
         </div>
-        <!-- dialog box for >1lac records -->
-        <export-dialog
-            :title="'Confirm Reports download?'"
-            :body="'Event count for selected filters exceeds 1 lakh records'"
-            ref="large-data-dialog-box"
-            @Yes="downloadSalesDump"
-        ></export-dialog>
 
         <export-dialog
         :title="'Confirm Reports export?'"
             :body="'This will download the entire webhook report and might take few minutes to process.'"
-            ref="export-confirm"
-            @Yes="downloadSalesDump"
+            ref="download-confirm"
+            @Yes="downloadWebhookReport"
         ></export-dialog>
         <loader v-if="startLoader" class="loading"></loader>
         <div class="main-container">
-           
-                <exportDialogBox
-                    v-if="salesDumpJob"
-                    :visible="salesDumpStatus"
-                    :retry= "shouldRetry"
-                    class="sales-dump-progress-panel"
-                    @Cancel="onCancelDownload"
-                    @Retry="onExportDialogAction"
-                    :failed_msg="failedMsg"
-                    :export_msg="exportMsg"
-                ></exportDialogBox>
             <div class="full-width">
                 <nitrozen-dialog class="status_dialog" ref="status_dialog" :title="selectedPayloadName">
                     <template v-if="ifJson" slot="body">
@@ -113,7 +103,7 @@
                     <div class="page-container common-container report-container">
                         <div class="sub-header">
                             <template>
-                                <div class="filter" :class="{'disableBtn': (salesDumpJob && salesDumpStatus)}">
+                                <div class="filter" :class="{'disableBtn': (exportActive && exportStatus)}">
                                     <div class="top-filters">
                                         <nitrozen-input
                                             :showSearchIcon="true"
@@ -135,14 +125,23 @@
                                         </div>
                                     </div>
                                     <div class="filter-dynamic">
-                                         <div class="filter-dynamic-child">
-                                        <div v-for="(filter, index) in filters" :key="filter.filter_name"
-                                            class="filter-dropdown">
-                                            <nitrozen-dropdown :class="
-                                                'filter-dropdown-field filter-' +
-                                                filter.filter_name
-                                            " :label="filter.filter_name" :enable_select_all="true"
-                                                :items="filter.values" :id="filter.filter_name" @searchInputChange="
+                                        <div class="filter-dynamic-child">
+                                        <div
+                                            v-for="(filter, index) in filters"
+                                            :key="filter.filter_name"
+                                            class="filter-dropdown"
+                                        >
+                                            <nitrozen-dropdown
+                                                :class="
+                                                    'filter-dropdown-field filter-' +
+                                                    filter.filter_name
+                                                "
+                                                :label="filter.filter_name"
+                                                :enable_select_all="true"
+                                                :items="filter.values"
+                                                :id="filter.filter_name"
+                                                @searchInputChange="
+
                                                     searchFilter($event)
                                                 " v-model="
     filtersToshow[
@@ -173,20 +172,28 @@
                                                         </p>
                                                     </nitrozen-tooltip>
                                                 </label>
-                                                <nitrozen-dropdown :class="'filter-dropdown-field filter-date'"
-                                                    :label="'Date Range'" :items="dateItems" @change="
-                                                        dateRangeChange($event , true)
-                                                    " @searchInputChange="
-    clearDateFilter()
-" v-model="dateSelected" placeholder="Select Date Range"
-                                                    :searchable="true" :multiple="false">
+                                                <nitrozen-dropdown
+                                                    :class="'filter-dropdown-field filter-date'"
+                                                    :label="'Date Range'"
+                                                    :items="dateItems"
+                                                    @change="
+                                                        dateRangeChange($event,true)
+                                                    "
+                                                    @searchInputChange="
+                                                        clearDateFilter()
+                                                    "
+                                                    v-model="dateSelected"
+                                                    placeholder="Select Date Range"
+                                                    :searchable="true"
+                                                    :multiple="false"
+                                                >
                                                     <label>Date Range</label>
                                                 </nitrozen-dropdown>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="selectedItems" :class="{'disableBtn': (salesDumpJob && salesDumpStatus)}">
+                                <div class="selectedItems" :class="{'disableBtn': (exportActive && exportStatus)}">
                                     <div v-for="(name, index) in filtersToshow[
                                         'Event'
                                     ]" :key="index" class="items">
@@ -271,50 +278,46 @@
                                             ) in webhookReport">
                                             <td>
                                                 <div>
-                                                    {{ method.subscriber_name }}
+                                                    {{ method.name }}
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="no-wrap">
                                                     {{
-                                                            method.request.event
-                                                                .name
-                                                    }}.{{
-        method.request.event
-            .type
-}}
+                                                        method.event_name
+                                                    }}
                                                 </div>
                                             </td>
                                             <td>
                                                 <div>
-                                                    {{ method.response.status }}
+                                                    {{ method.status }}
                                                 </div>
                                             </td>
                                             <td>
                                                 <div>
                                                     {{
-                                                            method.response.message
+                                                            method.response_message
                                                     }}
                                                 </div>
                                             </td>
                                             <td>
                                                 <div>
                                                     {{
-                                                            method.processed_time_in_millis
+                                                            method.response_time
                                                     }}
                                                 </div>
                                             </td>
 
                                             <td>
                                                 <div class="no-wrap">
-                                                    {{ method.processed_on }}
+                                                    {{ epochToDate(method.last_attempted_on) }}
                                                 </div>
                                             </td>
                                             <td class="clickable-payload" @click="
                                                 showPayload(
-                                                    method.request,
+                                                    method.data,
                                                     method.webhook_url,
-                                                    method.subscriber_name
+                                                    method.name
                                                 )
                                             ">
                                                 <a class="payload"> Payload </a>
@@ -337,7 +340,7 @@
                                 v-if="
                                     webhookReport && webhookReport.length === 0
                                 "
-                                :helperText= "load_reports ? 'No Data Found' : 'Aww! Data is too large'"
+                                :helperText= "'No Data Found'"
                             ></adm-no-content>
                             <nitrozen-pagination name="Items" v-model="pageObject" value="pageObjectValue" :class="{'visible':!visible}"
                                 @change="paginationChange" :pageSizeOptions="rows">
@@ -366,6 +369,14 @@ table tr:last-child td:last-child {
     width: 15%;
 }
 
+.main-container {
+    flex-direction: column;
+}
+
+.export-progress-panel {
+    margin-bottom: 20px;
+}
+
 ::v-deep .nitrozen-dialog-footer {
     justify-content: center !important;
 }
@@ -379,14 +390,6 @@ table tr:last-child td:last-child {
     line-height: 21px;
     text-align: center;
     color: #2e31be;
-}
-.top-filters {
-    display: flex;
-    align-items: center;
-    // justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
-    width: 100%;
 }
 .status-filter, .date-content {
     // min-width: 15%;
@@ -425,6 +428,14 @@ table tr:last-child td:last-child {
     flex-grow: 0;
     margin: 0px 12px;
 }
+.top-filters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+}
+
 
 ::v-deep .filter-date>label {
     display: none;
@@ -444,6 +455,26 @@ table tr:last-child td:last-child {
     flex-wrap: wrap;
     display: flex;
     margin-bottom: 16px;
+}
+
+.export {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2e31be;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: 6rem;
+
+    .export-icon {
+        margin-top: 2px;
+        margin-right: 8px;
+    }
+}
+
+.disableBtn{
+    opacity: 0.4;
+    pointer-events : none;
 }
 
 .cross-icon {
@@ -535,9 +566,8 @@ table tr:last-child td:last-child {
 ::v-deep .filter-Events>div {
     width: 73% !important;
 }
-
-::v-deep .filter-Subscriber>label {
-    align-self: left;
+::v-deep .filter-Subscriber > label {
+    align-self: flex-start;
 }
 
 ::v-deep .filter-Subscriber .nitrozen-option-container {
@@ -618,11 +648,6 @@ tr:hover {
     width: 100%;
 }
 
-::v-deep .n-input {
-    // width: 72%;
-    height: 38px;
-}
-
 
 .filter {
     padding-bottom: 16px;
@@ -646,10 +671,6 @@ td {
     text-align: left;
 }
 
-.disableBtn{
-    opacity: 0.4;
-    pointer-events : none;
-}
 .filter-sub-header {
     margin-bottom: 5px;
 }
@@ -700,6 +721,7 @@ td {
 .full-width {
     display: inline-flex;
     width: 100%;
+    margin-top: 60px;
 }
 
 .bold-xs {
@@ -806,6 +828,7 @@ input {
 }
 
 .page-container {
+    margin: 0px !important;
     display: flex;
     flex-direction: column;
 
@@ -1022,8 +1045,6 @@ input {
     align-self: flex-end;
     display: flex;
     float: left;
-    // min-width: 15%;
-
     @media @mobile {
         margin: 0 !important;
     }
@@ -1068,6 +1089,17 @@ input {
     white-space: nowrap;
 }
 
+::v-deep .page-slot{
+    margin-left: auto;
+}
+
+.history-btn {
+  width: 6rem;
+  height: 2.5rem;
+  margin-left: 0.625rem;
+  border-radius: 4px;
+}
+
 @media (max-width: 1320px) {
     .date-picker {
         width: 35%;
@@ -1087,36 +1119,9 @@ input {
         width: 40%;
     }
 
-    .search {
-        margin-top: 40px;
-        // margin-right: 30px;
-    }
     .date-range-label {
         margin-right: 7%;
     }
-}
-.export {
-  font-size: 14px;
-  font-weight: 700;
-  color: #2e31be;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  width: 5.5rem;
-
-  .export-icon {
-    margin-top: 2px;
-    margin-right: 8px;
-  }
-}
-.main-container{
-    display: flex;
-    flex-direction: column;
-    margin-top:60px;
-}
-.page-container{
-    margin : 0px;
-    margin-top: 12px ;
 }
 
 @media (max-width: 1435px) {
@@ -1129,15 +1134,18 @@ input {
 }
 </style>
 <script>
-import { GET_HELP_SECTION_DATA } from '@/store/getters.type';
+import inlinesvg from '@/components/common/ukt-inline-svg.vue';
+import {GET_HELP_SECTION_DATA} from '@/store/getters.type';
 import loader from '@/components/common/loader.vue';
 import mirageimageuploader from '@/components/common/image-uploader/index.vue';
+import admInlineSvg from '@/components/common/adm-inline-svg.vue';
 import admjumbotron from '@/components/common/jumbotron';
-import { dateRangeShortcuts } from '@/helper/datetime.util';
+import SamlProvider from '@/components/settings/saml-provider';
+import {dateRangeShortcuts} from '@/helper/datetime.util';
 import admpageheader from '@/components/common/layout/page-header';
 import path from 'path';
 import moment from 'moment';
-import { TreeView } from 'vue-json-tree-view';
+import {TreeView} from 'vue-json-tree-view';
 import {
     flatBtn,
     NitrozenBadge,
@@ -1152,10 +1160,10 @@ import {
     NitrozenTooltip,
     strokeBtn,
 } from '@gofynd/nitrozen-vue';
-import { mapGetters } from 'vuex';
+import {mapGetters} from 'vuex';
 import root from 'window-or-global';
-import { copyToClipboard, debounce } from '@/helper/utils';
-import AdminWebhookService from '../../services/admin-webhook.service';
+import {copyToClipboard, debounce} from '@/helper/utils';
+import AdminWebhookService from '@/services/admin-webhook.service';
 import datePicker from '@/components/common/date-picker.vue';
 import admnocontent from '@/components/common/adm-no-content';
 import uktInlineSvg from '@/components/common/ukt-inline-svg.vue';
@@ -1163,6 +1171,8 @@ import exportDialog from '@/components/common/export-dialog.vue';
 import {FAILED_REPORTS_TEXT, EXPORT_REPORTS_TEXT } from "@/components/common/export/exportDialog-constant.js";
 import exportDialogBox from '@/components/common/export/exportDialog.vue';
 const env = root.env || {};
+import {ADMIN_SET_SUBSCRIBER_ID_MAP} from "@/store/action.type";
+
 const extraDateRange = [
     {
         text: 'Last 6 Months',
@@ -1173,9 +1183,10 @@ const extraDateRange = [
 export default {
     name: 'webhook-report',
     components: {
-        uktInlineSvg,
-        exportDialog,
         exportDialogBox,
+        uktInlineSvg,
+        'export-dialog' : exportDialog,
+        'inline-svg': inlinesvg,
         'mirage-image-uploader': mirageimageuploader,
         'adm-jumbotron': admjumbotron,
         'nitrozen-button': NitrozenButton,
@@ -1184,6 +1195,8 @@ export default {
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-error': NitrozenError,
         'nitrozen-toggle': NitrozenToggleBtn,
+        'saml-provider': SamlProvider,
+        'adm-inline-svg': admInlineSvg,
         'nitrozen-badge': NitrozenBadge,
         'nitrozen-pagination': NitrozenPagination,
         'nitrozen-dialog': NitrozenDialog,
@@ -1205,6 +1218,7 @@ export default {
     },
     data() {
         return {
+            subscriberSelected: false,
             statusFilterItems: [
                 {
                     id: 'all',
@@ -1242,8 +1256,6 @@ export default {
             startLoader: true,
             query_param: {},
             dialogMessageJson: {},
-            salesDumpJob:false,
-            salesDumpStatus:false,
             contextMenuItems: [
                 {
                     text: 'Remove',
@@ -1289,18 +1301,21 @@ export default {
             selectedEvents: new Set(),
             dateEvent:'',
             visible:true,
+            pageSize:'',
             allFilters:[],
             actualEventMap: {},
             subscriberIdNames:{},
             docUrl:
                 env.SEARCHLIGHT_MAIN_DOMAIN +
                 '/docs/company-settings/webhook/webhook',
+            jobId: '',
+            exportActive: false,
+            exportStatus: true,
             timer: null,
             exportMsg: EXPORT_REPORTS_TEXT,
             failedMsg: FAILED_REPORTS_TEXT,
             fileName: null,
             shouldRetry: true,
-            load_reports: true,
         };
     },
     mounted() {
@@ -1326,6 +1341,9 @@ export default {
                     });
                 }
             });
+        },
+        epochToDate(timestamp){
+            return moment.unix(timestamp).format('MMM Do, YY h:mm A')
         },
         dateRangeChange(event , searchCall ) {
             this.subscriberSelected=false
@@ -1409,9 +1427,11 @@ export default {
             this.dateItems.push({ value: '31', text: 'Last 1 month' });
         },
         webhookInput: debounce(function (e) {
-            this.query_param['search_text'] = e.search.trim();
-            this.pageObject.current = 1;
-            this.search(this.query_param);
+            if(!this.checkSpecialChar(e.search.trim())){
+                this.query_param['search_text'] = e.search.trim();
+                this.pageObject.current = 1;
+                this.search(this.query_param);
+            }
         }, 200),
         filterInputChange(filterName) {
             if (filterName == 'Event') {
@@ -1419,10 +1439,7 @@ export default {
                 this.query_param['event'] =
                     this.filtersToshow[filterName].join(',');
             } else {
-                if (filterName == 'Subscriber Name')
-                    this.subscriberSelected = true;
-                else
-                    this.subscriberSelected = false;   
+                this.subscriberSelected=filterName=='Subscriber Name'
                 var key = filterName.toLowerCase().replace(/ /g, '_');
                 this.query_param[key] =
                     this.filtersToshow[filterName].join(',');
@@ -1434,7 +1451,7 @@ export default {
             if (count > 0) {
                 this.selectedFilters = true;
             } else {
-                this.selectedFilters = false;
+                this.selectedFilters = false; 
             }
             this.pageObject.current = 1;
             this.search(this.query_param);
@@ -1466,6 +1483,7 @@ export default {
                     a[i.value] = i.text;
                     return a;
                 }, {});
+                this.$store.dispatch(ADMIN_SET_SUBSCRIBER_ID_MAP, this.subscriberIdMap);
                 this.filters[0].values = this.filters[0].values.map((v) => ({
                     ...v,
                     value: v.text,
@@ -1564,7 +1582,7 @@ export default {
         onCancel() {
             sessionStorage.clear();
             this.$router.push({
-                path: 'webhook',
+                path: `/administrator`+ '/webhook',
             });
         },
         showPayload(message, webhook_url_name, event_name) {
@@ -1573,7 +1591,7 @@ export default {
             this.dialogInfo = 'Payload';
             (this.selectedPayloadName = event_name),
                 (this.dialodWebhookUrl = webhook_url_name);
-            (this.dialogMessageJson = message),
+            (this.dialogMessageJson = JSON.parse(message)),
                 this.openRemoveDialog('750px', '570px');
             this.startLoader = false;
         },
@@ -1661,13 +1679,8 @@ export default {
             sessionStorage.setItem("filtersSelected",JSON.stringify(this.filtersToshow));
             AdminWebhookService.getWebhookReport(data)
                 .then((res) => {
-                    this.load_reports = res.data.load_reports;
-                    if(!res.data.load_reports){
-                        this.openExportOnLargeDataConfirmation();
-                    }
-
-                    if (res.data.items.length > 0) {
-                        this.webhookReport = res.data.items.map((items) => {
+                    if (res.data.rows.length > 0) {
+                        this.webhookReport = res.data.rows.map((items) => {
                             items['webhook_url_trimmed'] =
                                 items.webhook_url.substring(0, 30) + '...';
                             items['processed_on'] = moment
@@ -1705,6 +1718,41 @@ export default {
                 })
 
         },
+        downloadWebhookReport() {
+
+            let query_param = this.query_param;
+            const data = {};
+            if (this.searchText && this.searchText.length != 0) {
+                data['search_text'] = this.searchText;
+            }
+            if (query_param['end_date']) {
+                data['end_date'] = query_param['end_date'];
+            }
+            if (query_param['start_date']) {
+                data['start_date'] = query_param['start_date'];
+            }
+            if (this.filtersToshow['Subscriber Name']) {
+                data['subscriber_ids'] = this.filtersToshow['Subscriber Name']
+                    ? this.filtersToshow['Subscriber Name']
+                    : [];
+            }
+            if (this.filtersToshow['Event']) {
+                data['event'] = this.filtersToshow['Event']
+                    ? this.filtersToshow['Event'].map((x) => this.eventMap[x])
+                    : [];
+            }
+
+            AdminWebhookService.downloadWebhookReport(data).then((res) => {
+                this.goTo('report-history')
+
+            }).catch((err) => {
+                this.$snackbar.global.showError('File cannot be downloded');
+                console.error(err);
+            })
+
+
+
+        },
         sortTable(key) {
             this.webhookReport.sort(function (a, b) {
                 var key_a = eval('a.' + key);
@@ -1731,97 +1779,11 @@ export default {
         showHelpSection: function () {
             window.open(this.docUrl, '_blank');
         },
+        openExportConfirmation() {
+            this.$refs['download-confirm'].open();
+        },
         openExportOnLargeDataConfirmation() {
             this.$refs['large-data-dialog-box'].open();
-        },
-        openExportConfirmation() {
-            this.$refs['export-confirm'].open();
-        },
-        checkExportStatus(fileName) {
-
-        this.timer = setInterval(() => {
-
-        AdminWebhookService.checkWebhookReport(fileName).then((res) => {
-
-            if (res.status === 200) {
-                this.salesDumpJob = false;
-                window.open(res.data.cdn, '_blank');
-                this.$snackbar.global.showSuccess('Reports data downloaded successfully');
-                clearInterval(this.timer);
-            }
-        }).catch((err) => {
-            if (err.response.status === 400) {
-                clearInterval(this.timer);
-                console.log(err);
-                this.checkExportStatus(fileName);
-            }
-            else if (err.response.status === 503) {
-                this.shouldRetry = false;
-                this.salesDumpStatus = false;
-                clearInterval(this.timer);
-                this.$snackbar.global.showError('File does not exists!');
-            }
-            else {
-                this.salesDumpStatus = false;
-                clearInterval(this.timer);
-            }
-            console.log(err.response);
-        })
-    }, 5000);
-
-},
-        downloadSalesDump(){
-            this.salesDumpJob=true;
-            this.salesDumpStatus=true;
-            this.shouldRetry = true;
-            const data = {};
-            if (this.searchText && this.searchText.length != 0) {
-                data['search_text'] = this.searchText;
-            }
-            if (this.query_param['end_date']) {
-                data['end_date'] = this.query_param['end_date'];
-            }
-            if (this.query_param['start_date']) {
-                data['start_date'] = this.query_param['start_date'];
-            }
-            if (this.filtersToshow['Subscriber Name']) {
-                data['subscriber_ids'] = this.filtersToshow['Subscriber Name']
-            }
-            if (this.filtersToshow['Event']) {
-                data['event'] = this.filtersToshow['Event']
-                    ? this.filtersToshow['Event'].map((x) => this.eventMap[x])
-                    : [];
-            }
-            if(this.query_param['status']){
-                data['status']=this.query_param['status'];
-            }
-            data["type"] = 'global' 
-            AdminWebhookService.downloadWebhookReport(data)
-                .then((res) => {
-               
-                    if (this.salesDumpJob && this.salesDumpStatus) {
-                    this.checkExportStatus(res.data.file_name);
-                    this.fileName = res.data.file_name;
-                }
-                })
-                .catch((err) => {
-                    this.salesDumpStatus=false;
-                    clearInterval(this.timer);
-                console.error(err);
-                });
-        },
-        onExportDialogAction(){
-            clearInterval(this.timer);
-            if(this.fileName){
-                this.checkExportStatus(this.fileName);
-            }else{
-                this.downloadSalesDump()
-            }
-            this.salesDumpStatus = true;
-        },
-        onCancelDownload() {
-            clearInterval(this.timer);
-            this.salesDumpJob = false;
         },
         filterStatus() {
             this.pageObject.current = 1;
@@ -1833,6 +1795,20 @@ export default {
                 this.search(this.query_param);
             }
         },
+        goTo(url) {
+        let constructedUrl = `/administrator`+ `/${url}`;
+          if (this.$route.params.subscriberId) {
+            constructedUrl = `/administrator`+ `/${url}`+`/${this.$route.params.subscriberId}`;
+          }
+          this.$router.push({path: constructedUrl});
+        },
+        checkSpecialChar(str) {
+            const specialChars = /[^a-zA-Z0-9 +=/._-]/g;
+            if (specialChars.test(str)){
+                this.searchText =  this.searchText.replaceAll(specialChars , '');
+                this.$snackbar.global.showError('Special Characters are not allowed!');
+            }
+        }
     },
 };
 </script>

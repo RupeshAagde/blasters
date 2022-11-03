@@ -55,8 +55,9 @@ import ListWebhooks from './../../pages/webhook/list_webhooks.vue';
 import CreateWebhooks from './../../pages/webhook/index.vue';
 import EditWebhooks from './../../pages/webhook/edit_webhooks.vue';
 import WebhookReport from './../../pages/webhook/webhook_report.vue';
+import ReportHistory from './../../pages/webhook/report-history/components/report-history.vue'
 
-const OrdersPage =()=>import('@/pages/orders');
+const OrdersPage = () => import('@/pages/orders');
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
 import PackagingHome from '@/pages/packaging/packaging-home.vue';
 import CategoryConfig from '@/pages/packaging/category-config.vue';
@@ -64,6 +65,7 @@ import PackagingCreate from '@/pages/packaging/create-packaging.vue';
 import CreateCategory from '@/pages/packaging/create-category-home.vue';
 
 import { authenticatedUser, checkUserPermission } from './../guards';
+import { children } from 'cheerio/lib/api/traversing';
 
 export default [
     {
@@ -87,7 +89,7 @@ export default [
                 component: ListWebhooks,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
-                }
+                },
             },
             {
                 name: 'create-webhook',
@@ -106,8 +108,34 @@ export default [
                 }
             },
             {
+                name: 'report-history',
+                path: 'report-history',
+                component: ReportHistory,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+
+            },
+            {
+                name: 'report-history',
+                path: 'report-history/:subscriberId',
+                component: ReportHistory,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+
+            },
+            {
                 name: 'webhook-report',
                 path: 'webhook-report',
+                component: WebhookReport,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'webhook-report',
+                path: 'webhook-report/:subscriberId',
                 component: WebhookReport,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
@@ -670,7 +698,7 @@ export default [
                 }
             },
             /**
-             * packaging related routes
+             * packaging related routes 
              */
             {
                 name: 'packaging-home',
@@ -713,7 +741,7 @@ export default [
                         'admin-access'
                     ]);
                 }
-            }
+            },
         ]
     },
     {
