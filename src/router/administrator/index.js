@@ -112,7 +112,7 @@ export default [
                 path: 'report-history',
                 component: ReportHistory,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['webhook']);
                 }
 
             },
@@ -121,7 +121,7 @@ export default [
                 path: 'report-history/:subscriberId',
                 component: ReportHistory,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['webhook']);
                 }
 
             },
@@ -138,7 +138,7 @@ export default [
                 path: 'webhook-report/:subscriberId',
                 component: WebhookReport,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['webhook']);
                 }
             },
             {
@@ -706,7 +706,7 @@ export default [
                 component: PackagingHome,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
-                        'admin-access'
+                        'packaging'
                     ]);
                 }
             },
@@ -717,7 +717,7 @@ export default [
                 component: PackagingCreate,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
-                        'admin-access'
+                        'packaging'
                     ]);
                 }
             },
@@ -727,7 +727,7 @@ export default [
                 component: CategoryConfig,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
-                        'admin-access'
+                        'packaging'
                     ]);
                 }
             },
@@ -738,14 +738,14 @@ export default [
                 component: CreateCategory,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
-                        'admin-access'
+                        'packaging'
                     ]);
                 }
             },
         ]
     },
     {
-        name: 'partners',
+        name: 'extension-listing',
         path: '/administrator/settings/partners/extensions-listing',
         component: ExtensionsListingVue,
         beforeEnter: (to, from, next) => {
