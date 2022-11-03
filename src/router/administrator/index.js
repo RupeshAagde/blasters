@@ -767,7 +767,7 @@ export default [
         component: PackagingCreate,
         beforeEnter: (to, from, next) => {
             return checkUserPermission(to, from, next, [
-                'admin-access'
+                'packaging'
             ]);
         }
     },
@@ -777,7 +777,7 @@ export default [
         component: CategoryConfig,
         beforeEnter: (to, from, next) => {
             return checkUserPermission(to, from, next, [
-                'admin-access'
+                'packaging'
             ]);
         }
     },
@@ -788,14 +788,14 @@ export default [
         component: CreateCategory,
         beforeEnter: (to, from, next) => {
             return checkUserPermission(to, from, next, [
-                'admin-access'
+                'packaging'
             ]);
         }
     },
         ]
     },
     {
-        name: 'partners',
+        name: 'extension-listing',
         path: '/administrator/settings/partners/extensions-listing',
         component: ExtensionsListingVue,
         beforeEnter: (to, from, next) => {
