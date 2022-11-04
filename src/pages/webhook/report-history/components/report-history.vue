@@ -142,6 +142,7 @@ export default {
   div {
     background: #FFFFFF;
     padding: @internal-padding;
+    padding-bottom:0.8rem;
     width: 94%;
   }
 }
@@ -150,7 +151,9 @@ export default {
   width: 94%;
   background: #FFFFFF;
   margin: 0 auto;
-  padding: 1.5rem;
+  padding: 0 1.5rem;
+  margin-bottom:1.5rem;
+
 }
 
 
