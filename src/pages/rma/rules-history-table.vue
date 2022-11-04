@@ -1,12 +1,5 @@
 <template>
     <div class="rules-history-table-container">
-        <search-container
-            :placeholder="'Search by Platform name'"
-            :id="'rma-platform-search'"
-            :value="platformSearchValue"
-            :handleChange="searchPlatforms"
-            :disabled="false"
-        />
         <table>
             <thead>
                 <tr class="header">
@@ -16,18 +9,18 @@
                 </tr>
             </thead>
             <tbody>
-                <template v-for="(item, key) in tableData">
+                <template v-for="item in tableData">
                     <tr
-                        @click="redirectToPlatformDetails(item.platform)"
+                        @click="redirectToPlatformDetails(item.display_name)"
                         class="row"
-                        :key="`${key}-values`"
+                        :key="item.uid"
                     >
-                        <td class="rowBorderStart">{{ item.platform }}</td>
+                        <td class="rowBorderStart">{{ item.display_name }}</td>
                         <td class="rowBorderMiddle">
-                            {{ item.sales_channel }}
+                            {{ item.channel ? item.channel : '0' }}
                         </td>
                         <td class="rowBorderEnd text-button-container">
-                            <span>{{ item.qc_config }}</span>
+                            <span>{{ item.total ? item.total : '0' }}</span>
                             <span
                                 ><inline-svg
                                     title="edit hsn"
@@ -36,42 +29,22 @@
                             ></span>
                         </td>
                     </tr>
-                    <tr :key="`${key}-break`">
+                    <tr :key="`${item.uid}-break`">
                         <td><br /></td>
                     </tr>
                 </template>
             </tbody>
         </table>
-        <nitrozen-pagination
-            name="Tags"
-            id="pagination"
-            v-model="pagination"
-            @change="setPagination"
-            :pageSizeOptions="[5, 10, 20, 50]"
-        ></nitrozen-pagination>
     </div>
 </template>
 
 <script>
-import SearchContainer from '@/components/packaging/common/search-container.vue';
 import InlineSvg from '@/components/common/ukt-inline-svg';
-import {
-    NitrozenPagination,
-    NitrozenButton,
-    strokeBtn
-} from '@gofynd/nitrozen-vue';
-
-const PAGINATION = {
-    limit: 0,
-    current: 0,
-    total: 0
-};
+import { NitrozenButton, strokeBtn } from '@gofynd/nitrozen-vue';
 
 export default {
     name: 'rules-history-table',
     components: {
-        SearchContainer,
-        'nitrozen-pagination': NitrozenPagination,
         'nitrozen-button': NitrozenButton,
         InlineSvg
     },
@@ -80,23 +53,9 @@ export default {
         tableData: {
             type: Array,
             required: true
-        }
-    },
-    data() {
-        return {
-            pagination: { ...PAGINATION },
-            platformSearchValue: ''
-        };
+        },
     },
     methods: {
-        setPagination(filter) {
-            const { current, limit } = filter;
-            filter = { page: current, limit };
-            this.pagination = Object.assign({}, this.pagination, filter);
-        },
-        searchPlatforms(inputValue) {
-            console.log(inputValue);
-        },
         redirectToPlatformDetails(company) {
             this.$router.push({ path: `/administrator/rma/rules/${company}` });
         }
