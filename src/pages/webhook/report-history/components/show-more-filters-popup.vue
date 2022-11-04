@@ -6,7 +6,7 @@
   >
     <template slot="body">
       <div v-for="(item, key) in filtersToShow" :key="key" class="grid">
-        <div class="filter-key"><p>{{ key }}:</p></div>
+        <div class="filter-key"><p>{{ key | showFileName }}:</p></div>
         <div class="filter-value"><p>{{ item | displayValues }}</p></div>
       </div>
     </template>
@@ -34,6 +34,9 @@ export default {
         return value.join(', ');
       }
       return value;
+    },
+    showFileName(value){
+      return value.replace("_"," ");
     }
   },
   methods: {
