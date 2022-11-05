@@ -461,7 +461,27 @@ export const allowNumbersOnly = function (event) {
     return false;
 }
 
-export const DecimalNumbersOnly = function (event, el) {
+export const allowAlphaNumbericOnly = function(event) {
+    if ((event.ctrlKey || event.metaKey) && event.keyCode == 65) {
+        return true; // allow control + A
+    }
+    if (!event.shiftKey && event.keyCode == 8 || event.keyCode == 46 ||
+        event.keyCode == 37 || event.keyCode == 39) {
+        return true;
+    }
+    if (
+        (
+            (!event.shiftKey && event.keyCode >= 48 && event.keyCode <= 57) ||
+            (event.keyCode >= 65 && event.keyCode <= 90) ||
+            (event.keyCode >= 97 && event.keyCode <= 122)
+        )
+    ) {
+        return true;
+    }
+    event.preventDefault();
+    return false;
+}
+export const DecimalNumbersOnly = function (event,el){
     if (event.keyCode == 190) {
         if (el.indexOf('.') === -1) {
             return true;
@@ -480,27 +500,27 @@ export const DecimalNumbersOnly = function (event, el) {
     event.preventDefault()
     return false;
 }
-
-export const allowAlphaNumbericOnly = function (event) {
-    if ((event.ctrlKey || event.metaKey) && event.keyCode == 65) {
-        return true; // allow control + A
-    }
-    if (!event.shiftKey && event.keyCode == 8 || event.keyCode == 46
-        || event.keyCode == 37 || event.keyCode == 39) {
-        return true;
-    }
-    if (
-        (
-            (!event.shiftKey && event.keyCode >= 48 && event.keyCode <= 57) ||
-            (event.keyCode >= 65 && event.keyCode <= 90) ||
-            (event.keyCode >= 97 && event.keyCode <= 122)
-        )
-    ) {
-        return true;
-    }
-    event.preventDefault();
-    return false;
-}
+// export const detectFPApp = () => {
+//     // return  {
+//     //     "user_agent": "fyndplatform",
+//     //     "navigation_bar": {
+//     //       "font-size": 22,
+//     //       "font-weight": 600,
+//     //       "height": 14,
+//     //       "title-alignment": "left"
+//     //     },
+//     //     "footer": {
+//     //       "font-size": 113,
+//     //       "font-weight": 400,
+//     //       "height": 54,
+//     //       "title-alignment": "center"
+//     //     }
+//     // };
+//     if (isBrowser) {
+//         return window.__fpAppDetails;
+//     };
+//     return false;
+// }
 
 export const convertSnakeCaseToString = str => {
     if (str) {
@@ -594,6 +614,7 @@ export const convertKebabCaseToString = str => {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export const detectFPApp = () => {
     if (isBrowser) {
         return window.__fpAppDetails;
@@ -601,6 +622,8 @@ export const detectFPApp = () => {
     return false;
 };
 =======
+=======
+>>>>>>> 8b9348e21431642125a9eebe740740955adf5548
 export const getFirstAllowedRoute = userPermissions => {
     let matchingRoute = "/";
     if(userPermissions && userPermissions.length){
@@ -664,4 +687,13 @@ export const getAspectRatioFromString = function (aspectRatio = '1:1', getObject
         return gcd(b, a%b)
     }
 }
+<<<<<<< HEAD
 >>>>>>> 6b28e134cf8076d03121319719df58cc24a3f1ec
+=======
+export const detectFPApp = () => {
+    if (isBrowser) {
+        return window.__fpAppDetails;
+    };
+    return false;
+};
+>>>>>>> 8b9348e21431642125a9eebe740740955adf5548

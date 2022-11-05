@@ -40,6 +40,9 @@ const UNICRON_BASE = isNode ?
 const UNICRON_PUBLIC_URL = isNode ?
     envVars.BROWSER_CONFIG.UNICRON_PUBLIC_SVC :
     envVars.UNICRON_PUBLIC_URL;
+    const DAYTRADER_BASE = isNode
+    ? envVars.BROWSER_CONFIG.DAYTRADER_MAIN_SVC
+    : envVars.DAYTRADER_MAIN_URL;
 
 const PLATFORM_LEADS_BASE = isNode ?
     envVars.BROWSER_CONFIG.HIGHBROW_ADMIN_SVC :
@@ -200,7 +203,7 @@ const URLS = {
     GET_DEPLOYMENT_MAPPING: () => {
         return urlJoin(
             SLINGSHOT_ADMIN_URL,
-            '/v1.0/deployment_mapping'
+            '/v1.0/deployment_mapping/'
         );
     },
     GET_DEPLOYMENT_LIST: () => {
@@ -214,6 +217,9 @@ const URLS = {
             SLINGSHOT_ADMIN_URL,
             '/v1.0/deployment_mapping/'
         );
+    },
+        FETCH_DAYTRADER_FILTERS: () => {
+        return urlJoin(DAYTRADER_BASE, 'api/v1/get-data');
     },
     DELETE_DEPLOYMENT_MAPPING_BY_ID: (id) => {
         return urlJoin(
@@ -285,9 +291,6 @@ const URLS = {
     DEPARTMENT: () => {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/departments');
     },
-    CATEGORY: () => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/category');
-    },
     CATEGORY_v2: (id = '') => {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/category', id);
     },
@@ -327,7 +330,7 @@ const URLS = {
         return urlJoin(UNICRON_BASE, `v1.0/plan-editor/${planId}`);
     },
     FETCH_SUBSCRIPTION_COMPONENTS: () => {
-        return urlJoin(UNICRON_BASE, 'v1.0//component');
+        return urlJoin(UNICRON_BASE, 'v1.0/component');
     },
     FETCH_COMPONENT_PRICES: (componentId) => {
         return urlJoin(UNICRON_BASE, `v1.0//component/${componentId}/prices`);
@@ -424,6 +427,9 @@ const URLS = {
         return urlJoin(UNICRON_BASE, `/v1.0/customer`)},
     SUBSCRIPTION_ACTIVATE: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/activate`)
+    },
+    FETCH_DAYTRADER_CONFIG: () => {
+        return urlJoin(DAYTRADER_BASE, 'api/v1/get-output-fields_v2');
     },
 
     //#########Tickets########
@@ -542,6 +548,10 @@ const URLS = {
     PLATFORM_PRICING_BANNER: () => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/pricing-banner');
     },
+    PLATFORM_CUSTOM_TAGS: (id = '') => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/', id);
+    },
+
 
     //Grindor
     GRINDOR_EXPLORER: (namespace) => {
@@ -595,9 +605,6 @@ const URLS = {
     },
     ADD_INTEGRATION: () => {
         return urlJoin(SLINGSHOT_ADMIN_URL, '/v1.0/integration');
-    },
-    FETCH_COMPANY_LIST: () => {
-        return urlJoin(SILVERBOLT_MAIN_URL, 'v1/onboarding/company/info-view');
     },
     // Product Verification
     FETCH_VERIFICATION_COMPANY_LIST: (companyId) => {

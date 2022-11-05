@@ -141,16 +141,21 @@ export default {
 
   div {
     background: #FFFFFF;
-    border-radius: 12px;
     padding: @internal-padding;
+    padding-bottom:0.8rem;
     width: 94%;
-    margin-block: @internal-padding;
   }
 }
 
 .pagination {
-  margin-inline: 2em;
+  width: 94%;
+  background: #FFFFFF;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  margin-bottom:1.5rem;
+
 }
+
 
 ::v-deep .page-error > img {
   width: 50%;

@@ -2416,7 +2416,7 @@ export default {
                 );
             }
         },
-        openDialog(route) {
+        openDialog(route) { 
             if (this.dialogInfo == 'ERROR') {
                 this.$snackbar.global.showError(this.dialogMessage, 1000);
             } else {

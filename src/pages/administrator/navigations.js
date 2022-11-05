@@ -12,6 +12,7 @@ export const getNavigations = () => {
             permission: 'company',
             children: []
         },
+        
         {
             display: 'Admin User Access',
             link: '/administrator/user-management',
@@ -135,7 +136,16 @@ export const getNavigations = () => {
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
-                }, 
+                },
+                {
+                    display: 'Plans',
+                    link: `/administrator/subscription-plans`,
+                    title: 'plan',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false,
+                    children: []
+                },
                 {
                     display: 'Coupons',
                     link: '/administrator/subscription/coupons',
