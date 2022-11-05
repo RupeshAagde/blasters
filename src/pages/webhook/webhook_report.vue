@@ -1507,6 +1507,7 @@ export default {
                         }
                         if (key == 'status') {
                             this.query_param['status'] = value
+                            this.filtersToshow['status'] = value
                         }
 
                     });
