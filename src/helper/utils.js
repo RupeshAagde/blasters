@@ -593,6 +593,17 @@ export const convertKebabCaseToString = str => {
     }
 };
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+export const detectFPApp = () => {
+    if (isBrowser) {
+        return window.__fpAppDetails;
+    };
+    return false;
+};
+=======
+=======
+>>>>>>> 8b9348e21431642125a9eebe740740955adf5548
 export const getFirstAllowedRoute = userPermissions => {
     let matchingRoute = "/";
     if(userPermissions && userPermissions.length){
@@ -656,3 +667,10 @@ export const getAspectRatioFromString = function (aspectRatio = '1:1', getObject
         return gcd(b, a%b)
     }
 }
+
+export const detectFPApp = () => {
+    if (isBrowser) {
+        return window._fpAppDetails;
+    };
+    return false;
+};
