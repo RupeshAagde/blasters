@@ -88,18 +88,8 @@ export default [
                 path: 'webhook',
                 component: ListWebhooks,
                 beforeEnter: (to, from, next) => {
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    return checkUserPermission(to, from, next, ['settings']);
-                },
-=======
                     return checkUserPermission(to, from, next, ['webhook']);
                 }
->>>>>>> 6b28e134cf8076d03121319719df58cc24a3f1ec
-=======
-                    return checkUserPermission(to, from, next, ['webhook']);
-                }
->>>>>>> 8b9348e21431642125a9eebe740740955adf5548
             },
             {
                 name: 'create-webhook',
@@ -683,10 +673,6 @@ export default [
             },
             // =============================================================
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 8b9348e21431642125a9eebe740740955adf5548
             {
                 name: 'integrations-list',
                 path: 'integrations/list',
@@ -756,80 +742,6 @@ export default [
                     ]);
                 }
             },
-<<<<<<< HEAD
-=======
-        {
-            name: 'integrations-list',
-            path: 'integrations/list',
-            component: IntegrationsListVue,
-            beforeEnter: (to, from, next) => {
-                return checkUserPermission(to, from, next, ['integration']);
-            }
-        },
-        {
-            name: 'integration-edit',
-            path: 'integration/edit/:integrationId',
-            component: IntegrationsCreateVue,
-            beforeEnter: (to, from, next) => {
-                return checkUserPermission(to, from, next, ['integration']);
-            }
-        },
-        {
-            name: 'integration-create',
-            path: 'integration/create',
-            component: IntegrationsCreateVue,
-            beforeEnter: (to, from, next) => {
-                return checkUserPermission(to, from, next, ['integration']);
-            }
-        },
-        /**
-         * packaging related routes 
-         */
-      {
-        name: 'packaging-home',
-        path: 'packaging/items',
-        component: PackagingHome,
-        beforeEnter: (to, from, next) => {
-            return checkUserPermission(to, from, next, [
-                'packaging'
-            ]);
-        }
-    },
-    {
-        name: 'packaging-create',
-        path: 'packaging/create',
-        alias:'packaging/edit',
-        component: PackagingCreate,
-        beforeEnter: (to, from, next) => {
-            return checkUserPermission(to, from, next, [
-                'packaging'
-            ]);
-        }
-    },
-    {
-        name: 'category-config',
-        path: 'packaging/category-configuration',
-        component: CategoryConfig,
-        beforeEnter: (to, from, next) => {
-            return checkUserPermission(to, from, next, [
-                'packaging'
-            ]);
-        }
-    },
-    {
-        name: 'category-config-create',
-        path: 'packaging/category-configuration/create',
-        alias: 'packaging/category-configuration/edit',
-        component: CreateCategory,
-        beforeEnter: (to, from, next) => {
-            return checkUserPermission(to, from, next, [
-                'packaging'
-            ]);
-        }
-    },
->>>>>>> 6b28e134cf8076d03121319719df58cc24a3f1ec
-=======
->>>>>>> 8b9348e21431642125a9eebe740740955adf5548
         ]
     },
     {
