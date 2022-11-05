@@ -183,7 +183,10 @@ export default {
   },
   mounted() {
     this.exceededQuantity = this.calculateTagsOrientation();
-  }
+  },
+  updated() {
+    this.exceededQuantity = this.calculateTagsOrientation();
+  },
 }
 </script>
 
@@ -233,9 +236,6 @@ export default {
   gap: 0.9rem;
   padding: 0.8em;
 
-  //cursor: pointer;
-  flex-wrap: wrap;
-
 
   .csv-img {
     width: @container-image-width;
@@ -243,10 +243,6 @@ export default {
 
   .container-body {
     width: @container-text-width;
-
-    @media (max-width: 1357px) {
-      width: 91%;
-    }
 
     p, div p {
       font-family: 'Inter', serif;
@@ -307,6 +303,7 @@ export default {
         color: @processing;
         width: 10%;
         box-shadow: -28px 0 15px 6px #fff;
+        white-space: nowrap;
       }
 
       .tags-container {
