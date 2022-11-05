@@ -1727,6 +1727,9 @@ export default {
                     ? this.filtersToshow['Event'].map((x) => this.eventMap[x])
                     : [];
             }
+            if (this.filtersToshow['status']) {
+                data['status'] = this.filtersToshow['status']
+            }
 
             AdminWebhookService.downloadWebhookReport(data).then((res) => {
                 this.goTo('report-history')
@@ -1775,9 +1778,11 @@ export default {
             this.pageObject.current = 1;
             if (this.selectedStatusFilter !== 'All') {
                 this.query_param['status'] = this.selectedStatusFilter;
+                this.filtersToshow['status'] = this.selectedStatusFilter;
                 this.search(this.query_param);
             } else {
                 delete this.query_param['status'];
+                delete this.filtersToshow['status'];
                 this.search(this.query_param);
             }
         },
