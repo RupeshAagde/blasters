@@ -6,6 +6,7 @@ import { createCompanyStore } from './modules/company.module.js';
 import { createBillingStore } from './modules/billing.module.js';
 import { createPackagingStore } from './modules/packaging.module';
 import {createAdminWebhookStore} from "./modules/admin-webhook.module";
+import { createVariantStore } from './modules/variants.module'
 
 Vue.use(Vuex);
 export function createStore() {
@@ -13,8 +14,9 @@ export function createStore() {
     const server = createServerStore();
     const company = createCompanyStore();
     const billing = createBillingStore();
-    const packaging = createPackagingStore();
     const webhook = createAdminWebhookStore();
+    const packaging = createPackagingStore()
+    const variants = createVariantStore()
     return new Vuex.Store({
         modules: {
             auth,
@@ -22,7 +24,8 @@ export function createStore() {
             company,
             billing,
             packaging,
-            webhook
+            webhook,
+            variants
         }
     });
 }
