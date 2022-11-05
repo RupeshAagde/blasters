@@ -3,31 +3,21 @@
         <div class="header-position">
             <adm-page-header @backClick="onCancel" @openHelp="showHelpSection" :title="`Webhook Report`"
                 :contextMenuItems="isOrganisationUser ? [] : contextMenuItems" :noContextMenu="true">
-               <span class="export" @click="openExportConfirmation" :class="{'disableBtn': webhookReport && webhookReport.length === 0 }">
-                    <uktInlineSvg
-                        class="export-icon"
-                        :src="'download-export'"
-                    >
+                <span class="export" @click="openExportConfirmation"
+                    :class="{ 'disableBtn': webhookReport && webhookReport.length === 0 }">
+                    <uktInlineSvg class="export-icon" :src="'download-export'">
                     </uktInlineSvg>
                     Reports
                 </span>
-                <nitrozen-button
-                  @click="goTo('report-history')"
-                  class="history-btn"
-                  v-flat-btn
-                  :theme="'secondary'"
-              >
-                History
-              </nitrozen-button>
+                <nitrozen-button @click="goTo('report-history')" class="history-btn" v-flat-btn :theme="'secondary'">
+                    History
+                </nitrozen-button>
             </adm-page-header>
         </div>
 
-        <export-dialog
-        :title="'Confirm Reports export?'"
+        <export-dialog :title="'Confirm Reports export?'"
             :body="'This will download the entire webhook report and might take few minutes to process.'"
-            ref="download-confirm"
-            @Yes="downloadWebhookReport"
-        ></export-dialog>
+            ref="download-confirm" @Yes="downloadWebhookReport"></export-dialog>
         <loader v-if="startLoader" class="loading"></loader>
         <div class="main-container">
             <div class="full-width">
@@ -103,47 +93,30 @@
                     <div class="page-container common-container report-container">
                         <div class="sub-header">
                             <template>
-                                <div class="filter" :class="{'disableBtn': (exportActive && exportStatus)}">
+                                <div class="filter" :class="{ 'disableBtn': (exportActive && exportStatus) }">
                                     <div class="top-filters">
-                                        <nitrozen-input
-                                            :showSearchIcon="true"
-                                            class="search"
-                                            type="search"
-                                            placeholder="Search by Trace ID or Message ID"
-                                            v-model="searchText"
-                                            @input="webhookInput({ search: searchText})"
-                                        ></nitrozen-input>
+                                        <nitrozen-input :showSearchIcon="true" class="search" type="search"
+                                            placeholder="Search by Trace ID or Message ID" v-model="searchText"
+                                            @input="webhookInput({ search: searchText })"></nitrozen-input>
 
                                         <div class="status-filter">
-                                            <nitrozen-dropdown
-                                                @change="filterStatus"
-                                                :items="statusFilterItems"
-                                                label="Status"
-                                                placeholder="Select Status"
-                                                v-model="selectedStatusFilter"
-                                            ></nitrozen-dropdown>
+                                            <nitrozen-dropdown @change="filterStatus" :items="statusFilterItems"
+                                                label="Status" placeholder="Select Status"
+                                                v-model="selectedStatusFilter"></nitrozen-dropdown>
                                         </div>
                                     </div>
                                     <div class="filter-dynamic">
                                         <div class="filter-dynamic-child">
-                                        <div
-                                            v-for="(filter, index) in filters"
-                                            :key="filter.filter_name"
-                                            class="filter-dropdown"
-                                        >
-                                            <nitrozen-dropdown
-                                                :class="
+                                            <div v-for="(filter, index) in filters" :key="filter.filter_name"
+                                                class="filter-dropdown">
+                                                <nitrozen-dropdown :disabled="isDisable(filter.filter_name)" :class="
                                                     'filter-dropdown-field filter-' +
                                                     filter.filter_name
-                                                "
-                                                :label="filter.filter_name"
-                                                :enable_select_all="true"
-                                                :items="filter.values"
-                                                :id="filter.filter_name"
-                                                @searchInputChange="
-
-                                                    searchFilter($event)
-                                                " v-model="
+                                                " :label="filter.filter_name" :enable_select_all="true"
+                                                    :items="filter.values" :id="filter.filter_name" @searchInputChange="
+                                                    
+                                                        searchFilter($event)
+                                                    " v-model="
     filtersToshow[
     filter.filter_name
     ]
@@ -156,7 +129,7 @@
     'Select ' +
     filter.filter_name
 " :searchable="true" :multiple="true"></nitrozen-dropdown>
-                                        </div>
+                                            </div>
                                         </div>
                                         <div class="date-content">
                                             <div class="date-search">
@@ -172,28 +145,20 @@
                                                         </p>
                                                     </nitrozen-tooltip>
                                                 </label>
-                                                <nitrozen-dropdown
-                                                    :class="'filter-dropdown-field filter-date'"
-                                                    :label="'Date Range'"
-                                                    :items="dateItems"
-                                                    @change="
-                                                        dateRangeChange($event,true)
-                                                    "
-                                                    @searchInputChange="
-                                                        clearDateFilter()
-                                                    "
-                                                    v-model="dateSelected"
-                                                    placeholder="Select Date Range"
-                                                    :searchable="true"
-                                                    :multiple="false"
-                                                >
+                                                <nitrozen-dropdown :class="'filter-dropdown-field filter-date'"
+                                                    :label="'Date Range'" :items="dateItems" @change="
+                                                        dateRangeChange($event, true)
+                                                    " @searchInputChange="
+    clearDateFilter()
+" v-model="dateSelected" placeholder="Select Date Range"
+                                                    :searchable="true" :multiple="false">
                                                     <label>Date Range</label>
                                                 </nitrozen-dropdown>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="selectedItems" :class="{'disableBtn': (exportActive && exportStatus)}">
+                                <div class="selectedItems" :class="{ 'disableBtn': (exportActive && exportStatus) }">
                                     <div v-for="(name, index) in filtersToshow[
                                         'Event'
                                     ]" :key="index" class="items">
@@ -203,11 +168,12 @@
                                         <img @click="deleteItem(name, 'Event')" class="cross-icon"
                                             src="/public/assets/admin/svgs/cross-black.svg" alt="profile" />
                                     </div>
-                                    <div v-for="(name, index) in subscriberIdNames['Subscriber Name']" :key="index + 'subscriber_name'" class="items">
+                                    <div v-for="(name, index) in subscriberIdNames['Subscriber Name']"
+                                        :key="index + 'subscriber_name'" class="items">
                                         <span class="items-content">{{
                                                 name
                                         }}</span>
-                                        <img @click="
+                                        <img v-if="isVisible()" @click="
                                             deleteItem(
                                                 index,
                                                 'Subscriber Name'
@@ -215,7 +181,8 @@
                                         " class="cross-icon" src="/public/assets/admin/svgs/cross-black.svg"
                                             alt="profile" />
                                     </div>
-                                    <div v-if="selectedFilters" class="clear-section" @click="deleteItem('all', null)">
+                                    <div v-if="selectedFilters && isVisible()" class="clear-section"
+                                        @click="deleteItem('all', null)">
                                         <span> Clear all </span>
                                     </div>
                                 </div>
@@ -284,7 +251,7 @@
                                             <td>
                                                 <div class="no-wrap">
                                                     {{
-                                                        method.event_name
+                                                            method.event_name
                                                     }}
                                                 </div>
                                             </td>
@@ -336,14 +303,11 @@
                                     </template>
                                 </table>
                             </div>
-                            <adm-no-content 
-                                v-if="
-                                    webhookReport && webhookReport.length === 0
-                                "
-                                :helperText= "'No Data Found'"
-                            ></adm-no-content>
-                            <nitrozen-pagination name="Items" v-model="pageObject" value="pageObjectValue" :class="{'visible':!visible}"
-                                @change="paginationChange" :pageSizeOptions="rows">
+                            <adm-no-content v-if="
+                                webhookReport && webhookReport.length === 0
+                            " :helperText="'No Data Found'"></adm-no-content>
+                            <nitrozen-pagination name="Items" v-model="pageObject" value="pageObjectValue"
+                                :class="{ 'visible': !visible }" @change="paginationChange" :pageSizeOptions="rows">
                             </nitrozen-pagination>
                         </div>
                     </div>
@@ -391,10 +355,13 @@ table tr:last-child td:last-child {
     text-align: center;
     color: #2e31be;
 }
-.status-filter, .date-content {
+
+.status-filter,
+.date-content {
     // min-width: 15%;
     width: 13vw;
 }
+
 .url-content {
     margin: 15px 0 10px 0;
 }
@@ -428,6 +395,7 @@ table tr:last-child td:last-child {
     flex-grow: 0;
     margin: 0px 12px;
 }
+
 .top-filters {
     display: flex;
     align-items: center;
@@ -472,9 +440,9 @@ table tr:last-child td:last-child {
     }
 }
 
-.disableBtn{
+.disableBtn {
     opacity: 0.4;
-    pointer-events : none;
+    pointer-events: none;
 }
 
 .cross-icon {
@@ -566,7 +534,8 @@ table tr:last-child td:last-child {
 ::v-deep .filter-Events>div {
     width: 73% !important;
 }
-::v-deep .filter-Subscriber > label {
+
+::v-deep .filter-Subscriber>label {
     align-self: flex-start;
 }
 
@@ -693,17 +662,20 @@ td {
 }
 
 .filter-dynamic-child {
-        display: flex;
-        justify-content: space-between;
-    }
+    display: flex;
+    justify-content: space-between;
+}
 
-    .filter-dynamic-child, .search{
-        width: 80%;
-    }
+.filter-dynamic-child,
+.search {
+    width: 80%;
+}
 
-    .top-filters, .filter-dynamic{
-        justify-content: space-between;
-    }
+.top-filters,
+.filter-dynamic {
+    justify-content: space-between;
+}
+
 .search-button-box {
     align-self: flex-end;
     margin-top: 10px;
@@ -862,6 +834,7 @@ input {
     .filter-dropdown-field {
         display: contents;
     }
+
     .filter-dropdown {
         align-self: flex-end;
         min-width: 49%;
@@ -872,7 +845,7 @@ input {
 
     ::v-deep .nitrozen-select-wrapper {
         width: 100%;
-    } 
+    }
 
     .pagination-dropdown {
         width: 50%;
@@ -1032,19 +1005,20 @@ input {
         margin: 20px 20px 20px 0px;
     }
 }
- 
+
 .date-picker {
     width: 33%;
     margin-right: 10px;
     align-self: flex-end;
     display: flex;
-    float: right; 
+    float: right;
 }
 
 .date-content {
     align-self: flex-end;
     display: flex;
     float: left;
+
     @media @mobile {
         margin: 0 !important;
     }
@@ -1089,15 +1063,15 @@ input {
     white-space: nowrap;
 }
 
-::v-deep .page-slot{
+::v-deep .page-slot {
     margin-left: auto;
 }
 
 .history-btn {
-  width: 6rem;
-  height: 2.5rem;
-  margin-left: 0.625rem;
-  border-radius: 4px;
+    width: 6rem;
+    height: 2.5rem;
+    margin-left: 0.625rem;
+    border-radius: 4px;
 }
 
 @media (max-width: 1320px) {
@@ -1129,23 +1103,24 @@ input {
         width: 50%;
     }
 }
-.visible{
+
+.visible {
     display: none;
 }
 </style>
 <script>
 import inlinesvg from '@/components/common/ukt-inline-svg.vue';
-import {GET_HELP_SECTION_DATA} from '@/store/getters.type';
+import { GET_HELP_SECTION_DATA } from '@/store/getters.type';
 import loader from '@/components/common/loader.vue';
 import mirageimageuploader from '@/components/common/image-uploader/index.vue';
 import admInlineSvg from '@/components/common/adm-inline-svg.vue';
 import admjumbotron from '@/components/common/jumbotron';
 import SamlProvider from '@/components/settings/saml-provider';
-import {dateRangeShortcuts} from '@/helper/datetime.util';
+import { dateRangeShortcuts } from '@/helper/datetime.util';
 import admpageheader from '@/components/common/layout/page-header';
 import path from 'path';
 import moment from 'moment';
-import {TreeView} from 'vue-json-tree-view';
+import { TreeView } from 'vue-json-tree-view';
 import {
     flatBtn,
     NitrozenBadge,
@@ -1160,18 +1135,18 @@ import {
     NitrozenTooltip,
     strokeBtn,
 } from '@gofynd/nitrozen-vue';
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex';
 import root from 'window-or-global';
-import {copyToClipboard, debounce} from '@/helper/utils';
+import { copyToClipboard, debounce } from '@/helper/utils';
 import AdminWebhookService from '@/services/admin-webhook.service';
 import datePicker from '@/components/common/date-picker.vue';
 import admnocontent from '@/components/common/adm-no-content';
 import uktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import exportDialog from '@/components/common/export-dialog.vue';
-import {FAILED_REPORTS_TEXT, EXPORT_REPORTS_TEXT } from "@/components/common/export/exportDialog-constant.js";
+import { FAILED_REPORTS_TEXT, EXPORT_REPORTS_TEXT } from "@/components/common/export/exportDialog-constant.js";
 import exportDialogBox from '@/components/common/export/exportDialog.vue';
 const env = root.env || {};
-import {ADMIN_SET_SUBSCRIBER_ID_MAP} from "@/store/action.type";
+import { ADMIN_SET_SUBSCRIBER_ID_MAP } from "@/store/action.type";
 
 const extraDateRange = [
     {
@@ -1185,7 +1160,7 @@ export default {
     components: {
         exportDialogBox,
         uktInlineSvg,
-        'export-dialog' : exportDialog,
+        'export-dialog': exportDialog,
         'inline-svg': inlinesvg,
         'mirage-image-uploader': mirageimageuploader,
         'adm-jumbotron': admjumbotron,
@@ -1237,12 +1212,13 @@ export default {
                 }
             ],
             selectedStatusFilter: sessionStorage.getItem('data') ?
-            JSON.parse(sessionStorage.getItem('data'))['status'] ?
-            JSON.parse(sessionStorage.getItem('data'))['status']  : 'All'  : 'All',
+                JSON.parse(sessionStorage.getItem('data'))['status'] ?
+                    JSON.parse(sessionStorage.getItem('data'))['status'] : 'All' : 'All',
             inProgress: false,
             pageError: false,
             pageLoading: false,
             companyId: this.$route.params.company_id,
+            subscriberId: this.$route.params.subscriberId,
             ssoUrl: '',
             certificate: '',
             entityId: '',
@@ -1299,12 +1275,12 @@ export default {
             subscriberIdMap: {},
             eventsToShow: {},
             selectedEvents: new Set(),
-            dateEvent:'',
-            visible:true,
-            pageSize:'',
-            allFilters:[],
+            dateEvent: '',
+            visible: true,
+            pageSize: '',
+            allFilters: [],
             actualEventMap: {},
-            subscriberIdNames:{},
+            subscriberIdNames: {},
             docUrl:
                 env.SEARCHLIGHT_MAIN_DOMAIN +
                 '/docs/company-settings/webhook/webhook',
@@ -1320,13 +1296,23 @@ export default {
     },
     mounted() {
         this.populateDate();
-        this.fetchQueryFilter().then(res=>{
-        this.search(this.query_param); 
-        this.dateSelected = sessionStorage.getItem('Date')||'1';
+        this.fetchQueryFilter().then(res => {
+            this.search(this.query_param);
+            this.dateSelected = sessionStorage.getItem('Date') || '1';
         })
-       
+
     },
     methods: {
+        isVisible() {
+            return !this.subscriberId
+        },
+        isDisable(filterName) {
+            if (filterName == 'Subscriber Name' && this.subscriberId) {
+                return true
+            } else {
+                return false
+            }
+        },
         searchFilter(event) {
             this.actualFilters.forEach((item, index) => {
                 if (item.filter_name == event.id) {
@@ -1342,11 +1328,11 @@ export default {
                 }
             });
         },
-        epochToDate(timestamp){
+        epochToDate(timestamp) {
             return moment.unix(timestamp).format('MMM Do, YY h:mm A')
         },
-        dateRangeChange(event , searchCall ) {
-            this.subscriberSelected=false
+        dateRangeChange(event, searchCall) {
+            this.subscriberSelected = false
             this.query_param['start_date'] = moment()
                 .subtract(event, 'days')
                 .utc()
@@ -1354,11 +1340,11 @@ export default {
             this.query_param['end_date'] = moment()
                 .utc()
                 .format('YYYY-MM-DDTHH:mm:ss');
-            this.dateEvent=event;
-            sessionStorage.setItem('Date',this.dateEvent)
+            this.dateEvent = event;
+            sessionStorage.setItem('Date', this.dateEvent)
             this.pageObject.current = 1;
-            if(searchCall==true)
-            this.search(this.query_param);
+            if (searchCall == true)
+                this.search(this.query_param);
         },
         deleteItem(itemName, key) {
             if (itemName == 'all') {
@@ -1427,7 +1413,7 @@ export default {
             this.dateItems.push({ value: '31', text: 'Last 1 month' });
         },
         webhookInput: debounce(function (e) {
-            if(!this.checkSpecialChar(e.search.trim())){
+            if (!this.checkSpecialChar(e.search.trim())) {
                 this.query_param['search_text'] = e.search.trim();
                 this.pageObject.current = 1;
                 this.search(this.query_param);
@@ -1435,11 +1421,11 @@ export default {
         }, 200),
         filterInputChange(filterName) {
             if (filterName == 'Event') {
-                this.subscriberSelected = false;  
+                this.subscriberSelected = false;
                 this.query_param['event'] =
                     this.filtersToshow[filterName].join(',');
             } else {
-                this.subscriberSelected=filterName=='Subscriber Name'
+                this.subscriberSelected = filterName == 'Subscriber Name'
                 var key = filterName.toLowerCase().replace(/ /g, '_');
                 this.query_param[key] =
                     this.filtersToshow[filterName].join(',');
@@ -1451,7 +1437,7 @@ export default {
             if (count > 0) {
                 this.selectedFilters = true;
             } else {
-                this.selectedFilters = false; 
+                this.selectedFilters = false;
             }
             this.pageObject.current = 1;
             this.search(this.query_param);
@@ -1468,12 +1454,12 @@ export default {
         },
         fetchQueryFilter() {
             let subscriber_ids
-                if(this.filtersToshow['Subscriber Name']!=null){
-                    subscriber_ids= this.filtersToshow['Subscriber Name'] || []
-                }
-                else
-                subscriber_ids=[]
-            return AdminWebhookService.postFilterList({subscriber_ids}).then((res) => {
+            if (this.filtersToshow['Subscriber Name'] != null) {
+                subscriber_ids = this.filtersToshow['Subscriber Name'] || []
+            }
+            else
+                subscriber_ids = []
+            return AdminWebhookService.postFilterList({ subscriber_ids }).then((res) => {
                 this.filters = res.data;
                 this.eventMap = this.filters[0].values.reduce((a, i) => {
                     a[i.text] = i.value;
@@ -1498,7 +1484,7 @@ export default {
                 this.actualFilters = JSON.parse(JSON.stringify(this.filters));
                 this.actualFilters[1].values = this.filters[1].values;
                 let local_query = JSON.parse(sessionStorage.getItem('data'));
-                if(local_query!=null){
+                if (local_query != null) {
                     Object.keys(local_query).forEach((key) => {
                         var value = local_query[key];
                         if (value != '') {
@@ -1519,14 +1505,14 @@ export default {
                         if (key == 'end_date') {
                             this.query_param['end_date'] = value;
                         }
-                        if(key=='status'){
-                            this.query_param['status']=value
+                        if (key == 'status') {
+                            this.query_param['status'] = value
                         }
 
                     });
                 }
                 let filterDataSelected = JSON.parse(sessionStorage.getItem('filtersSelected'));
-                if(filterDataSelected!=null){
+                if (filterDataSelected != null) {
                     Object.keys(filterDataSelected).forEach((key) => {
                         var value = filterDataSelected[key];
                         if (value != '') {
@@ -1564,8 +1550,8 @@ export default {
                     this.selectedFilters = false;
                 }
                 if (Object.keys(this.query_param).length === 0) {
-                    this.dateRangeChange(1 , false);
-                } 
+                    this.dateRangeChange(1, false);
+                }
                 return res
             });
         },
@@ -1582,7 +1568,7 @@ export default {
         onCancel() {
             sessionStorage.clear();
             this.$router.push({
-                path: `/administrator`+ '/webhook',
+                path: `/administrator` + '/webhook',
             });
         },
         showPayload(message, webhook_url_name, event_name) {
@@ -1599,7 +1585,7 @@ export default {
             const { current, limit } = filter;
             this.pageObject.current = current;
             this.pageObject = Object.assign({}, this.pageObject, filter);
-            sessionStorage.setItem("pageSize",this.pageObject.limit)
+            sessionStorage.setItem("pageSize", this.pageObject.limit)
             this.search(this.query_param);
         },
         search(query_param) {
@@ -1629,92 +1615,92 @@ export default {
             if (query_param['start_date']) {
                 data['start_date'] = query_param['start_date'];
             }
-            if(query_param['status']){
-                data['status']=query_param['status'];
+            if (query_param['status']) {
+                data['status'] = query_param['status'];
             }
             if (this.filtersToshow['Subscriber Name']) {
                 data['subscriber_ids'] = this.filtersToshow['Subscriber Name']
             }
             if (this.filtersToshow['Event']) {
-                data['event'] = this.filtersToshow['Event']      
-                    ? this.filtersToshow['Event'].reduce((res , x) => {
-                            if(this.eventMap[x])
+                data['event'] = this.filtersToshow['Event']
+                    ? this.filtersToshow['Event'].reduce((res, x) => {
+                        if (this.eventMap[x])
                             res.push(this.eventMap[x])
-                            return res
-                    },[])
+                        return res
+                    }, [])
                     : [];
             }
-            this.filtersToshow['Event'] = this.filtersToshow['Event']      
-                    ? this.filtersToshow['Event'].reduce((res , x) => {
-                        if(this.eventMap[x])
-                            res.push(x)
-                            return res
-                    },[])
-                    : [];
-            sessionStorage.setItem("companyId",this.companyId);
-            sessionStorage.setItem("data",JSON.stringify(data));
-            sessionStorage.setItem("filtersSelected",JSON.stringify(this.filtersToshow));
-            data['end_date']=moment()
-                .utc() 
+            this.filtersToshow['Event'] = this.filtersToshow['Event']
+                ? this.filtersToshow['Event'].reduce((res, x) => {
+                    if (this.eventMap[x])
+                        res.push(x)
+                    return res
+                }, [])
+                : [];
+            sessionStorage.setItem("companyId", this.companyId);
+            sessionStorage.setItem("data", JSON.stringify(data));
+            sessionStorage.setItem("filtersSelected", JSON.stringify(this.filtersToshow));
+            data['end_date'] = moment()
+                .utc()
                 .format('YYYY-MM-DDTHH:mm:ss');
-            this.fetchQueryFilter().then((res)=>{
-            if (this.filtersToshow['Event']) {
-                data['event'] = this.filtersToshow['Event']      
-                    ? this.filtersToshow['Event'].reduce((res , x) => {
-                            if(this.eventMap[x])
-                            res.push(this.eventMap[x])
+            this.fetchQueryFilter().then((res) => {
+                if (this.filtersToshow['Event']) {
+                    data['event'] = this.filtersToshow['Event']
+                        ? this.filtersToshow['Event'].reduce((res, x) => {
+                            if (this.eventMap[x])
+                                res.push(this.eventMap[x])
                             return res
-                    },[])
-                    :[]
-            }
-            this.filtersToshow['Event'] = this.filtersToshow['Event']      
-                    ? this.filtersToshow['Event'].reduce((res , x) => {
-                        if(this.eventMap[x])
+                        }, [])
+                        : []
+                }
+                this.filtersToshow['Event'] = this.filtersToshow['Event']
+                    ? this.filtersToshow['Event'].reduce((res, x) => {
+                        if (this.eventMap[x])
                             res.push(x)
-                            return res
-                    },[])
+                        return res
+                    }, [])
                     : [];
-            sessionStorage.setItem("companyId",this.companyId);
-            sessionStorage.setItem("data",JSON.stringify(data));
-            sessionStorage.setItem("filtersSelected",JSON.stringify(this.filtersToshow));
-            AdminWebhookService.getWebhookReport(data)
-                .then((res) => {
-                    if (res.data.rows.length > 0) {
-                        this.webhookReport = res.data.rows.map((items) => {
-                            items['webhook_url_trimmed'] =
-                                items.webhook_url.substring(0, 30) + '...';
-                            items['processed_on'] = moment
-                                .utc(items.processed_on)
-                                .utcOffset('+05:30')
-                                .format('MMM Do, YY hh:mm A');
-                            return items;
-                        });
-                        this.dateSelected=sessionStorage.getItem('Date');
-                        this.pageObject.total = res.data.page.item_total;
-                        this.pageObject.current = res.data.page.current;
-                        this.startLoader = false;
-                        this.visible=true;  
-                    } else {
-                        this.dateSelected=sessionStorage.getItem('Date');
-                        this.webhookReport = [];
+                sessionStorage.setItem("companyId", this.companyId);
+                sessionStorage.setItem("data", JSON.stringify(data));
+                sessionStorage.setItem("filtersSelected", JSON.stringify(this.filtersToshow));
+                AdminWebhookService.getWebhookReport(data)
+                    .then((res) => {
+                        if (res.data.rows.length > 0) {
+                            this.webhookReport = res.data.rows.map((items) => {
+                                items['webhook_url_trimmed'] =
+                                    items.webhook_url.substring(0, 30) + '...';
+                                items['processed_on'] = moment
+                                    .utc(items.processed_on)
+                                    .utcOffset('+05:30')
+                                    .format('MMM Do, YY hh:mm A');
+                                return items;
+                            });
+                            this.dateSelected = sessionStorage.getItem('Date');
+                            this.pageObject.total = res.data.page.item_total;
+                            this.pageObject.current = res.data.page.current;
+                            this.startLoader = false;
+                            this.visible = true;
+                        } else {
+                            this.dateSelected = sessionStorage.getItem('Date');
+                            this.webhookReport = [];
+                            this.startLoader = false;
+                            this.showErrorPage = true;
+                            this.pageObject.total = res.data.page.item_total;
+                            this.pageObject.current = res.data.page.current;
+                            this.startLoader = false;
+                            this.visible = false;
+                        }
+                    })
+                    .catch((err) => {
+                        this.dialogInfo = 'ERROR';
+                        this.dialogMessage = err.toString();
                         this.startLoader = false;
                         this.showErrorPage = true;
-                        this.pageObject.total = res.data.page.item_total;
-                        this.pageObject.current = res.data.page.current;
-                        this.startLoader = false;
-                        this.visible=false;
-                    }
-                })
+                        this.openRemoveDialog('500px', 'auto');
+                    });
+            })
                 .catch((err) => {
-                    this.dialogInfo = 'ERROR';
-                    this.dialogMessage = err.toString();
-                    this.startLoader = false;
-                    this.showErrorPage = true;
-                    this.openRemoveDialog('500px', 'auto');
-                });
-                })
-                .catch((err)=>{
-                    console.log('err',err)
+                    console.log('err', err)
                 })
 
         },
@@ -1787,7 +1773,7 @@ export default {
         },
         filterStatus() {
             this.pageObject.current = 1;
-            if(this.selectedStatusFilter !== 'All') {
+            if (this.selectedStatusFilter !== 'All') {
                 this.query_param['status'] = this.selectedStatusFilter;
                 this.search(this.query_param);
             } else {
@@ -1796,16 +1782,16 @@ export default {
             }
         },
         goTo(url) {
-        let constructedUrl = `/administrator`+ `/${url}`;
-          if (this.$route.params.subscriberId) {
-            constructedUrl = `/administrator`+ `/${url}`+`/${this.$route.params.subscriberId}`;
-          }
-          this.$router.push({path: constructedUrl});
+            let constructedUrl = `/administrator` + `/${url}`;
+            if (this.$route.params.subscriberId) {
+                constructedUrl = `/administrator` + `/${url}` + `/${this.$route.params.subscriberId}`;
+            }
+            this.$router.push({ path: constructedUrl });
         },
         checkSpecialChar(str) {
             const specialChars = /[^a-zA-Z0-9 +=/._-]/g;
-            if (specialChars.test(str)){
-                this.searchText =  this.searchText.replaceAll(specialChars , '');
+            if (specialChars.test(str)) {
+                this.searchText = this.searchText.replaceAll(specialChars, '');
                 this.$snackbar.global.showError('Special Characters are not allowed!');
             }
         }
