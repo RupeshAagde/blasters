@@ -169,7 +169,12 @@
                                     'min_height',
                                     allowedValue.hMin,
                                     allowedValue.hMax
-                                )
+                                ),
+                                    checkValidValue(
+                                        'max_height',
+                                        allowedValue.hMin,
+                                        allowedValue.hMax
+                                    )
                             "
                             :showSuffix="true"
                             suffix="Pixels"
@@ -195,7 +200,12 @@
                                     'min_width',
                                     allowedValue.wMin,
                                     allowedValue.wMax
-                                )
+                                ),
+                                    checkValidValue(
+                                        'max_width',
+                                        allowedValue.wMin,
+                                        allowedValue.wMax
+                                    )
                             "
                             :showSuffix="true"
                             suffix="Pixels"
@@ -223,7 +233,12 @@
                                     'max_height',
                                     allowedValue.hMin,
                                     allowedValue.hMax
-                                )
+                                ),
+                                    checkValidValue(
+                                        'min_height',
+                                        allowedValue.hMin,
+                                        allowedValue.hMax
+                                    )
                             "
                             :showSuffix="true"
                             suffix="Pixels"
@@ -250,7 +265,12 @@
                                     'max_width',
                                     allowedValue.wMin,
                                     allowedValue.wMax
-                                )
+                                ),
+                                    checkValidValue(
+                                        'min_width',
+                                        allowedValue.wMin,
+                                        allowedValue.wMax
+                                    )
                             "
                             :showSuffix="true"
                             suffix="Pixels"
@@ -648,7 +668,11 @@ export default {
             this.$store
                 .dispatch(FETCH_VARIANTS, reqBody)
                 .then(({ items }) => {
-                    this.headerText = `Update ${get(items, 'display', 'Variant')}`
+                    this.headerText = `Update ${get(
+                        items,
+                        'display',
+                        'Variant'
+                    )}`;
                     this.is_active = get(items, 'is_active', true);
                     this.priority = get(items, 'priority', 1);
                     this.selectedTemplates = this.getInitialValue(
