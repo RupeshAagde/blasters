@@ -155,3 +155,10 @@ export default {
   margin-bottom:1.5rem;
 
 }
+
+
+::v-deep .page-error > img {
+  width: 50%;
+  height: unset;
+}
+</style>

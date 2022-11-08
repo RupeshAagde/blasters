@@ -89,7 +89,7 @@ export default [
                 component: ListWebhooks,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['webhook']);
-                }
+                },
             },
             {
                 name: 'create-webhook',
@@ -698,7 +698,7 @@ export default [
                 }
             },
             /**
-             * packaging related routes 
+             * packaging related routes
              */
             {
                 name: 'packaging-home',
