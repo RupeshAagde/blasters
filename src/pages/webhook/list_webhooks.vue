@@ -251,7 +251,12 @@ span{
 ::v-deep #Shape-Copy-2{
     fill: #8F8F8F;
 }
-
+::v-deep .nitrozen-dialog{
+    max-height: 50%;
+}
+::v-deep .nitrozen-dialog-footer {
+    height: unset;
+}
 ::v-deep .nitrozen-badge-success{
     border: 1px solid #0A5F23 !important;
     color: #0A5F23 !important;
