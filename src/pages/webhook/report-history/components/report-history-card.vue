@@ -183,7 +183,10 @@ export default {
   },
   mounted() {
     this.exceededQuantity = this.calculateTagsOrientation();
-  }
+  },
+  updated() {
+    this.exceededQuantity = this.calculateTagsOrientation();
+  },
 }
 </script>
 
@@ -307,6 +310,7 @@ export default {
         color: @processing;
         width: 10%;
         box-shadow: -28px 0 15px 6px #fff;
+        white-space: nowrap;
       }
 
       .tags-container {

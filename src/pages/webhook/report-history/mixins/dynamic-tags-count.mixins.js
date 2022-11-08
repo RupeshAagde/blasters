@@ -2,7 +2,7 @@ const dynamicTagsCountMixins = {
     methods: {
         calculateTagsOrientation(extraOffset = 0) {
             const tags = this.$refs['dynamic-tags'];
-            if (!tags){
+            if (!tags || !tags[0]){
                 return 0;
             }
             let totalOverFlowingElements = [];
