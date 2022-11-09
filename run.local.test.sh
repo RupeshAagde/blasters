@@ -56,6 +56,7 @@ export SILVERBOLT_PCAT_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/
 export BLASTER_MAIN_DOMAIN=https://administrator.${FYND_PLATFORM_DOMAIN}
 export BOMBSHELL_MAIN_DOMAIN=https://partners.${FYND_PLATFORM_DOMAIN}
 export MIRAGE_MAIN_DOMAIN=https://platform.${FYND_PLATFORM_DOMAIN}
+export FRENZY_PLTM_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/insights/
 
 #ENV's
 export SENTRY_DSN=''

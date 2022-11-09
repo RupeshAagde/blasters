@@ -1691,7 +1691,18 @@ const ADMIN_URLS = {
     },
     PARTNER_INVITES(id = ''){
         return urlJoin(MIXMASTER_PLTM_URL, `/v1.0/company/${getCompInfo()}/partner-request/${id}`);
-    }
+    },
+    //Analytics
+    ANALYTICS_LAYOUT: (app_id = '000000000000000000000005', layout, suffix = 'get') => {
+        const baseUrl = FRENZY_PLTM_URL
+        const apiUrl = `v1.0/company/${getCompInfo()}/application/${app_id}/layout/${layout}/${suffix}`;
+        return urlJoin(baseUrl, apiUrl);
+    },
+    ANALYTICS_GENERIC_URL_SCHEMES: (suffixUrl = "", app_id = "000000000000000000000005", extremeSuffix) => {
+        const baseUrl = FRENZY_PLTM_URL;
+        const apiUrl = `v1.0/company/${getCompInfo()}/application/${app_id}/${suffixUrl}/${extremeSuffix}`;
+        return urlJoin(baseUrl, apiUrl);
+    },
 };
 
 export default ADMIN_URLS;

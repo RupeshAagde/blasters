@@ -416,7 +416,15 @@ const conf = convict({
             default: '',
             env: 'EXTENSION_PAGE_URL',
             arg: 'EXTENSION_PAGE_URL'
-        }
+        },
+        FRENZY_PLTM_URL: {
+            doc: 'url to get analytics api for sales channel',
+            format: String,
+            default: '',
+            env: 'FRENZY_PLTM_URL',
+            args: 'frenzy_pltm_url'
+        },
+
     },
 
     // Sentry
