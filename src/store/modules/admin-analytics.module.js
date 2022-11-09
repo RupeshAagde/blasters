@@ -1,4 +1,4 @@
-import {DASHBOARD_PAGE_PANELS, GRAPH_HEADER_STATE} from "../../../constants/chart/dashboardConstants";
+import {DASHBOARD_PAGE_PANELS, GRAPH_HEADER_STATE} from "@/constants/chart/dashboardConstants";
 import {
     ADMIN_CHANGE_GRAPH_FILTER,
     ADMIN_CHANGE_TAB,
@@ -75,16 +75,16 @@ import {
     TOGGLE_REFRESH_FOR_ALL_FILTERS,
     TURN_PAGINATION_CONTROL_FLAG
 } from "../mutation.type";
-import {ChartData} from "../../../components/generic-graphs/data/data";
-import AdminAnalyticsService from "../../../services/admin/admin-analytics.service";
-import adminAnalyticsService from "../../../services/admin/admin-analytics.service";
+import {ChartData} from "@/components/generic-graphs/data/data";
+import AdminAnalyticsService from "@/services/admin/admin-analytics.service";
+import adminAnalyticsService from "@/services/admin/admin-analytics.service";
 import {
     ANALYTICS_PAGES,
     CANVAS_HEIGHT,
     GRAPH_TYPES,
     HTTP_STATUS_CODES,
     REPORT_PAGE_PANELS
-} from "../../../components/generic-graphs/data/constants";
+} from "@/components/generic-graphs/data/constants";
 import {
     checkIfDashboardCategory,
     cleanFilters,
@@ -95,7 +95,7 @@ import {
     setDefaultRefreshTokens,
     setDefaultValuesForPages,
     spliceIndices
-} from "../../../helper/analytics-helper";
+} from "@/helper/analytics-helper";
 import {
     GET_ADDITIONAL_FILTER_NAMES,
     GET_ALL_FILTERS,
@@ -113,8 +113,8 @@ import {
 import {
     constructFilterControlFlags,
     organiseDataForReports
-} from "../../../components/generic-graphs/utils/reportDataUtil";
-import {FILTER_CONDITIONS} from "../../../constants/chart/reportConstants";
+} from "@/components/generic-graphs/utils/reportDataUtil";
+import {FILTER_CONDITIONS} from "@/constants/chart/reportConstants";
 import {cloneDeep} from "lodash";
 
 export const ANALYTICS_STATE = {
@@ -757,8 +757,8 @@ const mutations = {
             existingGraphInfo = state[ANALYTICS_STATE.REPORT_DATA][dataKey].graphInfo;
         }
         let sacredData = {
-            dataSource: url ? url : existingGraphInfo?.dataSource,
-            graphType: graphType ? graphType : existingGraphInfo?.graphType,
+            dataSource: url ? url : existingGraphInfo.dataSource,
+            graphType: graphType ? graphType : existingGraphInfo.graphType,
             xAxes: xAxes,
             yAxes: yAxes,
             statusCode: statusCode

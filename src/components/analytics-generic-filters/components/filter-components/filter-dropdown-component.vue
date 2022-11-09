@@ -77,7 +77,7 @@ import {filterComponentSharedProps, filterMixin,} from '../../mixins/filter.mixi
 import {mapGetters} from 'vuex';
 import {GET_ALL_FILTERS, GET_GLOBALLY_STAGED_FILTER,} from '@/store/getters.type';
 import {ANALYTICS_STATE, FILTER_TYPES,} from '@/store/modules/admin-analytics.module';
-import {ANALYTICS_PAGES} from '../../../../generic-graphs/data/constants';
+import {ANALYTICS_PAGES} from '@/generic-graphs/data/constants';
 import {ANALYTICS_FILTER_TYPES} from '../../constants/constants';
 import AppliedFilter from '../../../common/tags/applied-filter.vue';
 

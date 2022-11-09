@@ -524,7 +524,7 @@ import AnalyticsGenericFilters from '@/components/analytics-generic-filters';
 import TagsContainer from '@/components/common/tags/tags-container';
 import {ADMIN_FETCH_DASHBOARD_DATA} from "../../../store/modules/admin-analytics.module";
 import {ANALYTICS_PAGES, REPORT_PAGE_PANELS} from "@/components/generic-graphs/data/constants";
-import {mediaScreensMixins} from "../../../mixins/mediaScreenMixins";
+import {mediaScreensMixins} from "../../../mixins/media-screens-mixins";
 import {DashboardReportSharedMixins} from "../../overview/dashboard/mixins/dashboard-report-shared.mixins";
 import {DashboardCommonMixins} from "../../overview/dashboard/mixins/dashboard-common.mixins";
 import GraphLoadingController from "../../overview/dashboard/graph-loading-controller";

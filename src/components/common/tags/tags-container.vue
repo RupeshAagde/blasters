@@ -18,11 +18,11 @@ import {
   GET_ADDITIONAL_FILTER_NAMES,
   GET_ALL_FILTERS,
   GET_GLOBAL_SEED_FILTERS,
-} from '../../../../store/getters.type';
-import {ANALYTICS_PAGES} from '../../../generic-graphs/data/constants';
-import {ANALYTICS_STATE, FILTER_TYPES,} from '../../../../store/modules/admin-analytics.module';
+} from '@/store/getters.type';
+import {ANALYTICS_PAGES} from '@/components/generic-graphs/data/constants';
+import {ANALYTICS_STATE, FILTER_TYPES,} from "@/store/modules/admin-analytics.module";
 import pick from 'lodash/pick';
-import {ADMIN_CLEAR_FILTERS, ADMIN_RESET_ALL_REFRESH_TOKENS,} from '../../../../store/action.type';
+import {ADMIN_CLEAR_FILTERS, ADMIN_RESET_ALL_REFRESH_TOKENS,} from '@/store/action.type';
 
 export default {
   name: 'tags-container',
