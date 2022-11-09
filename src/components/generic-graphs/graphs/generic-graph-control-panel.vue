@@ -14,10 +14,10 @@
 
 <script>
 import {navLinkMixins} from "./mixins/navLink.mixins";
-import {ADMIN_CLONE_GLOBAL_FILTERS, ADMIN_SAVE_FILTERS, ADMIN_SET_ACTIVE_TAB} from "../../../store/action.type";
+import {ADMIN_CLONE_GLOBAL_FILTERS, ADMIN_SAVE_FILTERS, ADMIN_SET_ACTIVE_TAB} from "@/store/action.type";
 import {ANALYTICS_PAGES} from "../data/constants";
-import {getRedirectionUrl} from "../../../pages/admin/overview/dashboard/utils/redirect.util";
-import uktInlineSvg from "../../common/ukt-inline-svg";
+import {getRedirectionUrl} from "@/pages/overview/dashboard/utils/redirect.util";
+import uktInlineSvg from "@/components/common/ukt-inline-svg";
 import {timeFiltersMixins} from "./mixins/timeFilters.mixins";
 import graphFilters from "../graphs/filters/index";
 import TimeFilter from "../timeFilter";

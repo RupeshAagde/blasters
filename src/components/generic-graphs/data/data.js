@@ -1,5 +1,4 @@
 import { FILTER_VIEW } from "./constants";
-import {ANALYTICS_FILTER_TYPES} from "../../admin/analytics-generic-filters/constants/constants";
 
 const valueFormatterDummy = {
   prefixSymbol: "₹",

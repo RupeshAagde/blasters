@@ -1,7 +1,7 @@
-import {ANALYTICS_PAGES} from '../../../generic-graphs/data/constants';
+import {ANALYTICS_PAGES} from '@/components/generic-graphs/data/constants';
 import {ANALYTICS_FILTER_TYPES} from '../constants/constants';
 import {mapGetters} from 'vuex';
-import {GET_GLOBAL_SEED_FILTERS} from '../../../../store/getters.type';
+import {GET_GLOBAL_SEED_FILTERS} from '@/store/getters.type';
 
 const filterMixin = {
     props: {

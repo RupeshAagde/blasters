@@ -30,13 +30,13 @@
 <script>
 import moment from "moment";
 import DatePicker from "@/components/common/date-picker.vue";
-import {ANALYTICS_PAGES} from "../../../generic-graphs/data/constants";
+import {ANALYTICS_PAGES} from "@/components/generic-graphs/data/constants";
 import {
   API_DATE_FORMAT,
   COMPARE_DATE_OFFSET,
   DATE_FORMAT,
   DATE_RANGE_LOWER_LIMIT
-} from "../../../../constants/chart/dashboardConstants";
+} from "@/constants/chart/dashboardConstants";
 import {ADMIN_RESET_ALL_REFRESH_TOKENS, ADMIN_SAVE_FILTERS} from "@/store/action.type";
 import {
   ANALYTICS_STATE,
@@ -125,7 +125,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "src/pages/overview/dashboard/some-common.less";
+@import "../../../pages/overview/dashboard/some-common.less";
 
 ::v-deep .date-picker .n-input-label {
   display: none;

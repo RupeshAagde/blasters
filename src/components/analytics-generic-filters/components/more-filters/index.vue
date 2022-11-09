@@ -35,7 +35,7 @@ import {
     ADMIN_CLEAR_FILTERS,
     ADMIN_MAKE_STAGING_FILTERS_LIVE,
     ADMIN_RESET_ALL_REFRESH_TOKENS,
-} from '../../../../../store/action.type';
+} from '@/store/action.type';
 
 export default {
     name: 'index',

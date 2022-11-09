@@ -237,8 +237,8 @@ export default {
 
 
 <style lang="less" scoped>
-@import '@/pages/admin/less/page-header.less';
-@import '@/pages/admin/less/page-ui.less';
+@import '../../../../pages/less/page-header.less';
+@import '../../../../pages/less/page-ui.less';
 @import "./../graph.less";
 
 @first-table-element-padding: 1.7em;

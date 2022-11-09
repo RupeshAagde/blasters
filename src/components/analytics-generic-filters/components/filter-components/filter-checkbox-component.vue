@@ -39,12 +39,12 @@
 
 <script>
 import { NitrozenRadio } from '@gofynd/nitrozen-vue';
-import collapse from '../../../../common/collapse.vue';
-import uktInlineSvg from '../../../../common/ukt-inline-svg.vue';
+import collapse from '@/components/common/collapse.vue';
+import uktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import {
     ADMIN_RESET_ALL_REFRESH_TOKENS,
     ADMIN_SAVE_FILTERS,
-} from '../../../../../store/action.type';
+} from '@/store/action.type';
 import {
     filterComponentSharedProps,
     filterMixin,
@@ -53,14 +53,14 @@ import { mapGetters } from 'vuex';
 import {
     GET_ALL_FILTERS,
     GET_GLOBALLY_STAGED_FILTER,
-} from '../../../../../store/getters.type';
+} from '@/store/getters.type';
 import {
     ANALYTICS_STATE,
     FILTER_TYPES,
-} from '../../../../../store/modules/admin-analytics.module';
-import { ANALYTICS_PAGES } from '../../../../generic-graphs/data/constants';
+} from '@/store/modules/admin-analytics.module';
+import { ANALYTICS_PAGES } from '@/components/generic-graphs/data/constants';
 import { ANALYTICS_FILTER_TYPES } from '../../constants/constants';
-import AppliedFilter from '../../../common/tags/applied-filter.vue';
+import AppliedFilter from '@/components/common/tags/applied-filter.vue';
 export default {
     name: 'filter-checkbox-components',
     components: { NitrozenRadio, AppliedFilter, collapse, uktInlineSvg },

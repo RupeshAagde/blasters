@@ -76,8 +76,8 @@ import {
     TURN_PAGINATION_CONTROL_FLAG
 } from "../mutation.type";
 import {ChartData} from "@/components/generic-graphs/data/data";
-import AdminAnalyticsService from "@/services/admin/admin-analytics.service";
-import adminAnalyticsService from "@/services/admin/admin-analytics.service";
+import AdminAnalyticsService from "@/services/admin-analytics.service";
+import adminAnalyticsService from "@/services/admin-analytics.service";
 import {
     ANALYTICS_PAGES,
     CANVAS_HEIGHT,

@@ -59,7 +59,7 @@ import NoSSR from "vue-no-ssr";
 import {analyticsGenericGraphMixins, analyticsTablePropsMixins} from "./graphs/mixins/analytics-props.mixins";
 import {GENERIC_GRAPHS, HTTP_STATUS_CODES} from "./data/constants";
 import ErrorHandlers from "./graphs/error-handlers";
-import TableGeneric from "./../../pages/admin/dunzo/table.vue"
+import TableGeneric from "./graphs/table-v2/table.vue"
 
 const GenericImplementation = () =>
     import(

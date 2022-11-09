@@ -18,13 +18,13 @@ import ChangeInValue from "../../change-in-value";
 import {
   ADMIN_FLOAT_INDIVIDUAL_FILTER_CARD_DATA,
   ADMIN_RESET_INDIVIDUAL_FILTER_CARD_DATA
-} from "../../../../store/action.type";
-import loader from "../../../admin/common/adm-loader";
-import {DASHBOARD_PAGE_PANELS} from "../../../../constants/chart/dashboardConstants";
+} from "@/store/action.type";
+import loader from "@/components/common/loader";
+import {DASHBOARD_PAGE_PANELS} from "@/constants/chart/dashboardConstants";
 import {ANALYTICS_PAGES} from "../../data/constants";
 import {loadingMixins} from "../mixins/loading.mixins";
-import {SET_REFRESH_TOKENS} from "../../../../store/mutation.type";
-import {DashboardCommonMixins} from "../../../../pages/admin/overview/dashboard/mixins/dashboard-common.mixins";
+import {SET_REFRESH_TOKENS} from "@/store/mutation.type";
+import {DashboardCommonMixins} from "@/pages/overview/dashboard/mixins/dashboard-common.mixins";
 
 export default {
   name: "filter-metrics",

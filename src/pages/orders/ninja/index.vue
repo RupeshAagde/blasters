@@ -518,11 +518,11 @@ import {
 import admforminput from '@/components/common/form-input.vue';
 import datePicker from '@/components/common/date-picker.vue';
 import GenericGraph from '@/components/generic-graphs';
-import DateRangeFilter from '@/components/admin/analytics-generic-filters/components/date-range-filter';
+import DateRangeFilter from '@/components/analytics-generic-filters/components/date-range-filter';
 import uktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import AnalyticsGenericFilters from '@/components/analytics-generic-filters';
 import TagsContainer from '@/components/common/tags/tags-container';
-import {ADMIN_FETCH_DASHBOARD_DATA} from "@/store/modules/admin-analytics.module";
+import {ADMIN_FETCH_DASHBOARD_DATA} from "@/store/action.type";
 import {ANALYTICS_PAGES, REPORT_PAGE_PANELS} from "@/components/generic-graphs/data/constants";
 import {mediaScreensMixins} from "../../../mixins/media-screens-mixins";
 import {DashboardReportSharedMixins} from "../../overview/dashboard/mixins/dashboard-report-shared.mixins";

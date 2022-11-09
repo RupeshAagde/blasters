@@ -42,8 +42,8 @@
     </div>
 </template>
 <script>
-import Uktinlinesvg from '../../../common/ukt-inline-svg';
-import ClearFilters from '../../../../pages/admin/reports/report-filters/clear-filters';
+import Uktinlinesvg from '@/components/common/ukt-inline-svg';
+import ClearFilters from '@/components/common/clear-filters';
 
 export default {
     name: 'applied-filters',

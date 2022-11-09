@@ -15,11 +15,11 @@
 <script>
 import changeInValue from "@/components/generic-graphs/change-in-value";
 import {loadingMixins} from "@/components/generic-graphs/graphs/mixins/loading.mixins";
-import loading from "@/components/common/ukt-loader";
+import loading from "@/components/common/loader";
 import {
   ADMIN_FLOAT_INDIVIDUAL_FILTER_CARD_DATA,
   ADMIN_RESET_INDIVIDUAL_FILTER_CARD_DATA
-} from "@/store/admin/action.type";
+} from "@/store/action.type";
 import {DASHBOARD_PAGE_PANELS} from "@/constants/chart/dashboardConstants";
 import {ANALYTICS_PAGES} from "@/components/generic-graphs/data/constants";
 import GraphValueFormatter from "@/components/generic-graphs/graph-value-formatter";

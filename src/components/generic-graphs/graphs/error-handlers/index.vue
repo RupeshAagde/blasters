@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import AdmNoContent from "../../../admin/common/adm-no-content";
-import AdmPageError from "../../../admin/common/adm-page-error";
+import AdmNoContent from "@/components/common/adm-no-content";
+import AdmPageError from "@/components/common/page-error";
 import {ERROR_MESSAGES, HTTP_STATUS_CODES} from "../../data/constants";
 
 export default {

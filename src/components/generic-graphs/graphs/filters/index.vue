@@ -51,15 +51,15 @@ import FilterCard from "./filter-cards.vue";
 import {ANALYTICS_PAGES, FILTER_VIEW} from "../../data/constants";
 import {NitrozenDropdown} from "@gofynd/nitrozen-vue";
 import draggable from "vuedraggable";
-import {SCREEN_SIZES} from "../../../../helper/media-helper";
-import {mediaScreensMixins} from "../../../../mixins/media-screens-mixins";
+import {SCREEN_SIZES} from "@/helper/media-helper";
+import {mediaScreensMixins} from "@/mixins/media-screens-mixins";
 import {
   ADMIN_CHANGE_GRAPH_FILTER,
   ADMIN_SAVE_DASHBOARD_DRAGGABLE,
   ADMIN_SAVE_FILTERS
-} from "../../../../store/action.type";
+} from "@/store/action.type";
 import {graphFilterMixins} from "../mixins/graphFilter.mixins";
-import {DashboardCommonMixins} from "../../../../pages/admin/overview/dashboard/mixins/dashboard-common.mixins";
+import {DashboardCommonMixins} from "@/pages/overview/dashboard/mixins/dashboard-common.mixins";
 
 export default {
   name: "graph-filters",

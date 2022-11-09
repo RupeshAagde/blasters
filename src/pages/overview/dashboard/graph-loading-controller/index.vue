@@ -26,18 +26,18 @@
 </template>
 
 <script>
-import GenericGraph from "../../../../../components/generic-graphs";
-import loader from "./../../../../../components/admin/common/adm-loader";
+import GenericGraph from "@/components/generic-graphs";
+import loader from "@/components/common/loader";
 import {
   ADMIN_FLOAT_INDIVIDUAL_CHART_DATA,
   ADMIN_RESET_INDIVIDUAL_CHART_DATA
-} from "../../../../../store/action.type";
-import {ANALYTICS_PAGES} from "../../../../../components/generic-graphs/data/constants";
-import GraphFilters from "../../../../../components/generic-graphs/graphs/filters";
-import {loadingMixins} from "../../../../../components/generic-graphs/graphs/mixins/loading.mixins";
+} from "@/store/action.type";
+import {ANALYTICS_PAGES} from "@/components/generic-graphs/data/constants";
+import GraphFilters from "@/components/generic-graphs/graphs/filters";
+import {loadingMixins} from "@/components/generic-graphs/graphs/mixins/loading.mixins";
 import {DashboardCommonMixins} from "../mixins/dashboard-common.mixins";
 import {graphLoadingCondition} from "../utils/graph-loading.utils";
-import admshimmer from "@/components/admin/common/adm-shimmer.vue";
+import admshimmer from "@/components/common/shimmer.vue";
 
 export default {
   name: "graph-loading-controller",

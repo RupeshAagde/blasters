@@ -76,17 +76,17 @@
 </template>
 
 <script>
-import adminlinesvg from './../../../components/admin/common/adm-inline-svg.vue'
+import adminlinesvg from '@/components/common/adm-inline-svg.vue'
 // import layout from "./layout.json"
 // import layoutColumn from "./layoutColumn.json"
 import { NitrozenBadge, NitrozenPagination } from '@gofynd/nitrozen-vue';
-import uktInlineSvg from '../../../components/common/ukt-inline-svg.vue';
-import admnocontent from '@/components/admin/common/adm-no-content';
+import uktInlineSvg from '@/components/common/ukt-inline-svg.vue';
+import admnocontent from '@/components/common/adm-no-content';
 import { analyticsTablePropsMixins } from "@/components/generic-graphs/graphs/mixins/analytics-props.mixins.js";
 import { mapGetters } from "vuex";
 import { ANALYTICS_STATE } from "@/store/modules/admin-analytics.module";
 import { ADMIN_SAVE_PAGINATION_CHANGE } from "@/store/action.type";
-import { TABLE_COLUMN_TYPES } from "../../../components/generic-graphs/data/constants"
+import { TABLE_COLUMN_TYPES } from "@/components/generic-graphs/data/constants"
 export default {
     name: "table-component",
     mixins: [analyticsTablePropsMixins],
