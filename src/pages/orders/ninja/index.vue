@@ -522,7 +522,7 @@ import DateRangeFilter from '@/components/admin/analytics-generic-filters/compon
 import uktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import AnalyticsGenericFilters from '@/components/analytics-generic-filters';
 import TagsContainer from '@/components/common/tags/tags-container';
-import {ADMIN_FETCH_DASHBOARD_DATA} from "../../../store/modules/admin-analytics.module";
+import {ADMIN_FETCH_DASHBOARD_DATA} from "@/store/modules/admin-analytics.module";
 import {ANALYTICS_PAGES, REPORT_PAGE_PANELS} from "@/components/generic-graphs/data/constants";
 import {mediaScreensMixins} from "../../../mixins/media-screens-mixins";
 import {DashboardReportSharedMixins} from "../../overview/dashboard/mixins/dashboard-report-shared.mixins";

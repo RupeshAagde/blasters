@@ -204,7 +204,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '@/less/common';
+@import '../../../../less/common';
 .width {
     min-width: 9rem;
 }
