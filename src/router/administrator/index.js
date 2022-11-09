@@ -57,6 +57,7 @@ import EditWebhooks from './../../pages/webhook/edit_webhooks.vue';
 import WebhookReport from './../../pages/webhook/webhook_report.vue';
 
 const OrdersPage =()=>import('@/pages/orders');
+const OrdersNinjaPage = () => import('@/pages/orders/ninja')
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
 import PackagingHome from '@/pages/packaging/packaging-home.vue'
 import CategoryConfig from '@/pages/packaging/category-config.vue'
@@ -706,6 +707,14 @@ export default [
             name: 'orders',
             path: 'orders/list',
             component: OrdersPage,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['order']);
+            }
+        },
+        {
+            name: 'orders-ninja',
+            path: 'orders/ninja',
+            component: OrdersNinjaPage,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['order']);
             }
