@@ -282,8 +282,6 @@ export default {
             this.filteredTemplates = [];
             if (!e || !e.text) {
                 this.filteredTemplates = cloneDeep(this.templateList);
-                // this.selectedTemplate = [];
-                this.getVariants();
                 return;
             }
             this.templateList.forEach((temp) => {
@@ -294,7 +292,8 @@ export default {
                 ) {
                     this.filteredTemplates.push({
                         text: temp.text,
-                        value: temp.uid
+                        value: temp.value,
+                        id: temp.id
                     });
                 }
             });
