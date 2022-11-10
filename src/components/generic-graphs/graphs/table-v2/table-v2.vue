@@ -19,7 +19,7 @@
                 </td>
                 <td v-else v-for="(column, idx) in columns" :key="idx">
                     <p v-if="column.type === 'arrow'" class="table-content-content">
-                        <adm-inline-svg :id="'rotate'+rowIndex" src="keyboard_arrow_right"></adm-inline-svg>
+                        <ukt-inline-svg :id="'rotate'+rowIndex" src="keyboard_arrow_right"></ukt-inline-svg>
                         <span class="first-arrow-content">{{row[column.field]}}</span>
                     </p>
                     <p v-if="column.type === 'array'" class="table-content-content">
@@ -33,7 +33,7 @@
                         </span>
                     </p>
                     <p v-if="column.type === TABLE_COLUMN_TYPES.ICON" class="table-content-content" :class="['icon']" @click="linkTodirect(row[column.field].url)">
-                        <adm-inline-svg class="platform-icons" src="location"></adm-inline-svg>
+                        <ukt-inline-svg class="platform-icons" src="location"></ukt-inline-svg>
                     </p>
                     <p v-if="column.type === TABLE_COLUMN_TYPES.STATUS" class="table-content-content">
                         <span>
@@ -76,7 +76,6 @@
 </template>
 
 <script>
-import adminlinesvg from '@/components/common/adm-inline-svg.vue'
 // import layout from "./table-v2-column.json"
 // import layoutColumn from "./table-v2-rows.json"
 import { NitrozenBadge, NitrozenPagination } from '@gofynd/nitrozen-vue';
@@ -106,7 +105,6 @@ export default {
         }
     },
     components: {
-        'adm-inline-svg': adminlinesvg,
         NitrozenBadge,
         uktInlineSvg,
         "nitrozen-pagination": NitrozenPagination,

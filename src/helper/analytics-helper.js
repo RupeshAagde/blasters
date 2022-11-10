@@ -8,10 +8,9 @@ import {
     SAVE_COMPONENT_SPECIFIC_FILTERS,
     SET_IS_DEFAULT_LAYOUT,
     SET_NAV_LINK,
-    SET_NINJA_SEED_FILTERS,
     SET_SEED_FILTERS
 } from "../store/mutation.type";
-import {ANALYTICS_PAGES, NINJA_PAGES} from "../components/generic-graphs/data/constants";
+import {ANALYTICS_PAGES} from "../components/generic-graphs/data/constants";
 import {FILTER_TYPES, SALES_CHANNEL_TYPE} from "../store/modules/admin-analytics.module";
 import {getPrimaryDomain} from "./domains.util";
 import {cloneDeep} from "lodash";
@@ -59,24 +58,12 @@ function makeRestOfTheCardsInactive(data, index) {
     });
 }
 
-const mutations_selector = {
-    'NINJA': {
-        'setDashboardData': ADMIN_SET_NINJA_DASHBOARD_DATA,
-        'setSeedFilters': SET_NINJA_SEED_FILTERS
-    },
-    'ANALYTICS': {
-        'setDashboardData': ADMIN_SET_DASHBOARD_DATA,
-        'setSeedFilters': SET_SEED_FILTERS
-    },
-}
-
 export function checkIfDashboardCategory(pageName) {
     return pageName === ANALYTICS_PAGES.DASHBOARD || pageName === ANALYTICS_PAGES.NINJA;
 }
 
-export function saveSeedFilters(commit, seedFilters, pageName = ANALYTICS_PAGES.DASHBOARD, mutationPage = "ANALYTICS") {
-    const selected_mutations = mutations_selector[mutationPage]
-    commit(selected_mutations.setSeedFilters, {
+export function saveSeedFilters(commit, seedFilters, pageName = ANALYTICS_PAGES.DASHBOARD) {
+    commit(SET_SEED_FILTERS, {
         page: pageName,
         value: {[FILTER_TYPES.GLOBAL_FILTERS]: seedFilters}
     });
@@ -85,14 +72,6 @@ export function saveSeedFilters(commit, seedFilters, pageName = ANALYTICS_PAGES.
         return acc;
     }, {})
     commit(SAVE_ALL_FILTERS, {pageName: pageName, [FILTER_TYPES.GLOBAL_FILTERS]: globalFilters});
-}
-
-export function setNinjaDashboardData(res, commit) {
-    const data = addInfinity(res.data.dlayout.panels);
-    commit(ADMIN_SET_NINJA_DASHBOARD_DATA, data);
-    if (res.data.seedFilters) {
-        saveSeedFilters(commit, res.data.seedFilters, NINJA_PAGES.DASHBOARD, 'NINJA' );
-    }
 }
 
 function setNavLinkForScorecards(data, commit) {
