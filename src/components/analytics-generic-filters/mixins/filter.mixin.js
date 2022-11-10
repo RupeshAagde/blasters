@@ -12,6 +12,9 @@ const filterMixin = {
     }),
 };
 const sharedDataMixins = {
+    data: () => ({
+        FILTER_COUNT_TO_SHOW_UPFRONT: 3
+    }),
     computed: {
         ...mapGetters({
             seedFiltersFunction: GET_GLOBAL_SEED_FILTERS,
@@ -29,9 +32,9 @@ const sharedDataMixins = {
             return this.seedFilterData.sort((a, b) => a.priority - b.priority);
         },
         displayFilters() {
-            return this.sortedFilters.slice(0, 2);
+            return this.sortedFilters.slice(0, this.FILTER_COUNT_TO_SHOW_UPFRONT);
         }, restOfFilters() {
-            return this.sortedFilters.slice(2);
+            return this.sortedFilters.slice(this.FILTER_COUNT_TO_SHOW_UPFRONT);
         },
     },
 };

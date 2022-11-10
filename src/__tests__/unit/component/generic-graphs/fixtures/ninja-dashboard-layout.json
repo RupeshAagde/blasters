@@ -16,7 +16,7 @@
             },
             "graphInfo": {
               "statusCode": 200,
-              "graphType": "line",
+              "graphType": "bar",
               "dataSource": "dashboard/line/sales",
               "xAxes": [
                 "25 Oct",
@@ -35,14 +35,14 @@
                   "borderColor": "#2E31BE",
                   "fill": true,
                   "data": [
+                    32,
+                    118,
                     0,
                     0,
                     0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0
+                    60,
+                    20,
+                    78
                   ],
                   "valueFormatter": {
                     "prefixSymbol": "₹",
@@ -92,15 +92,11 @@
       {
         "cards": [
           {
-            "id": "card_tpsbu",
+            "id": "card_total_lists",
             "hidden": false,
             "pinned": false,
             "filters": {},
-            "heading": "Top Products Sold By Units",
-            "navlink": {
-              "tab": "Sales",
-              "filter_id": "sale_by_prod"
-            },
+            "heading": "Total Lists",
             "position": {
               "h": 3,
               "w": 5.5,
@@ -108,6 +104,7 @@
               "y": 3
             },
             "graphInfo": {
+              "statusCode": 200,
               "columns": [
                 {
                   "id": "total_list_channel_name",
@@ -282,7 +279,138 @@
                   }
                 }
               ],
-              "graphType": "table",
+              "rows": [
+                {
+                  "channel name": "Fynd",
+                  "shipment id": [
+                    "16645101948401757414",
+                    "Sep 30, 2022, 02:05 AM"
+                  ],
+                  "store details": "2380",
+                  "customer details": "Bipin shinde",
+                  "rider details": [
+                    "Dil Bahadur",
+                    "+91 6361699614"
+                  ],
+                  "in state since": "00:28 hrs",
+                  "status": {
+                    "state":"success",
+                    "name": "Delivery done",
+                    "time": "Sep 30, 2022, 04:54 PM"
+                  },
+                  "track": {
+                    "url": "https://www.google.co.in/",
+                    "icon": "track"
+                  }
+                },
+                {
+                  "channel name": "Fynd",
+                  "shipment id": [
+                    "16645101948401757414",
+                    "Sep 30, 2022, 02:05 AM"
+                  ],
+                  "store details": "2380",
+                  "customer details": "Bipin shinde",
+                  "rider details": [
+                    "Dil Bahadur",
+                    "+916361699614"
+                  ],
+                  "in state since": "00:28 hrs",
+                  "status": {
+                    "state":"default",
+                    "name": "Credit note generated",
+                    "time": "Sep 30, 2022, 04:54 PM"
+                  },
+                  "class":"collapse1",
+                  "track": {
+                    "url": "https://www.google.co.in/",
+                    "icon": "track"
+                  }
+                },
+                {
+                  "collapse":true,
+                  "class":"collapse1",
+                  "fields": [
+                    {
+                      "name": "Reference ID",
+                      "value": "564d0592-405d-41c9-ba41 9294eb89a3d7"
+                    },
+                    {
+                      "name": "OTP",
+                      "value": "{'drop': '1261', 'pick': '3193'}"
+                    },
+                    {
+                      "name": "Other Rider Details",
+                      "value": "Siva +91 6361699614"
+                    }
+                  ]
+                },{
+                  "channel name": "Fynd",
+                  "shipment id": [
+                    "16645101948401757414",
+                    "Sep 30, 2022, 02:05 AM"
+                  ],
+                  "store details": "2380",
+                  "customer details": "Bipin shinde",
+                  "rider details": [
+                    "Dil Bahadur",
+                    "+916361699614"
+                  ],
+                  "in state since": "00:28 hrs",
+                  "status": {
+                    "state":"default",
+                    "name": "Refund Completed",
+                    "time": "Sep 30, 2022, 04:54 PM"
+                  },
+                  "class":"collapse2",
+                  "track": {
+                    "url": "www.google.com",
+                    "icon": "track"
+                  }
+                },
+                {
+                  "collapse":true,
+                  "class":"collapse2",
+                  "fields": [
+                    {
+                      "name": "Reference ID",
+                      "value": "564d0592-405d-41c9-ba41 9294eb89a3d7"
+                    },
+                    {
+                      "name": "OTP",
+                      "value": "{'drop': '1261', 'pick': '3193'}"
+                    },
+                    {
+                      "name": "Other Rider Details",
+                      "value": "Siva +91 6361699614"
+                    }
+                  ]
+                },
+                {
+                  "channel name": "Fynd",
+                  "shipment id": [
+                    "16645101948401757414",
+                    "Sep 30, 2022, 02:05 AM"
+                  ],
+                  "store details": "2380",
+                  "customer details": "Bipin shinde",
+                  "rider details": [
+                    "Dil Bahadur",
+                    "+91 6361699614"
+                  ],
+                  "in state since": "00:28 hrs",
+                  "status": {
+                    "state":"failed",
+                    "name": "RTO IN TRANSIT",
+                    "time": "Sep 30, 2022, 04:54 PM"
+                  },
+                  "track": {
+                    "url": "https://www.google.co.in/",
+                    "icon": "track"
+                  }
+                }
+              ],
+              "graphType": "table-v2",
               "dataSource": "dashboard_dunzo/table/delivery_lists",
               "showPagination": false
             },
@@ -310,29 +438,31 @@
   "isDefault": true,
   "seedFilters": [
     {
-      "id": "brands",
-      "name": "Brand",
+      "id": "status",
+      "name": "Status",
       "closed": true,
       "values": [
-        "Superdry"
-      ],
-      "priority": 4,
-      "filterType": "MULTI_SELECT_DROPDOWN",
-      "defaultValue": "",
-      "hasClearOption": true
-    },
-    {
-      "id": "order_status",
-      "name": "Order Status",
-      "closed": true,
-      "values": [
-        "Placed",
-        "Delivery Done"
+        "Active",
+        "Closed/RTO"
       ],
       "priority": 1,
       "filterType": "SINGLE_SELECT_DROPDOWN",
-      "defaultValue": "Placed",
+      "defaultValue": "Active",
       "hasClearOption": false
+    },
+    {
+      "id": "company_id",
+      "name": "Company",
+      "closed": true,
+      "values": [
+        "Default company 1",
+        "Default company 2",
+        "Default company 3"
+      ],
+      "priority": 2,
+      "filterType": "MULTI_SELECT_DROPDOWN",
+      "defaultValue": "",
+      "hasClearOption": true
     },
     {
       "id": "stores",
@@ -386,117 +516,10 @@
         "TZ51",
         "TZTK"
       ],
-      "priority": 2,
-      "filterType": "MULTI_SELECT_DROPDOWN",
-      "defaultValue": "",
-      "hasClearOption": true
-    },
-    {
-      "id": "categories",
-      "name": "Category",
-      "closed": true,
-      "values": [
-        "Activewear Accessories",
-        "Activewear Jackets",
-        "Activewear Shorts",
-        "Activewear T-Shirts",
-        "Activewear Tops",
-        "Backpacks",
-        "Bags",
-        "Baseball Caps",
-        "Basic Bra",
-        "Beachwear Bikini Tops",
-        "Beanie Caps",
-        "Belts",
-        "Boardshorts",
-        "Body Bags",
-        "Body Sprays",
-        "Body Wash",
-        "Bomber Jackets",
-        "Boxers",
-        "Bralette",
-        "Briefs",
-        "Bucket Hats",
-        "Caps",
-        "Cardigans",
-        "Cargos",
-        "Casual Joggers",
-        "Casual Lace-ups",
-        "Casual Pants",
-        "Casual Shirts",
-        "Casual Slip-ons",
-        "Chinos",
-        "Crop Top",
-        "Denim Jackets",
-        "Dresses",
-        "Duffles",
-        "Dungarees",
-        "Flat Slip-ons",
-        "Flip Flops",
-        "Front Open Jackets",
-        "Gilet",
-        "Hoodies",
-        "Jeans",
-        "Leather Jackets",
-        "Leggings",
-        "Maxi Dress",
-        "Others level 3",
-        "Outdoor Sports Shoes",
-        "Perfume",
-        "Polos",
-        "Pouches",
-        "Pyjamas",
-        "Running Shoes",
-        "Shift Dress",
-        "Shirt Dress",
-        "Shorts",
-        "Skirts",
-        "Sleepwear T-Shirt",
-        "Slip Dress",
-        "Slippers",
-        "Sneakers",
-        "Socks",
-        "Sports Bra",
-        "Suitcases",
-        "Sweater Dress",
-        "Sweaters",
-        "Sweatshirts",
-        "T-Shirts",
-        "Tank Top",
-        "Tapered Jeans",
-        "Thermal Gloves",
-        "Tights",
-        "Tops",
-        "Totes",
-        "Trackpants",
-        "Trainers",
-        "Travel Pouches",
-        "Trousers",
-        "Trunks",
-        "Vests",
-        "Waist Bags",
-        "Wallets",
-        "Water Bottle",
-        "Western Jackets",
-        "Windcheater"
-      ],
       "priority": 3,
       "filterType": "MULTI_SELECT_DROPDOWN",
       "defaultValue": "",
       "hasClearOption": true
-    },
-    {
-      "id": "value_type",
-      "name": "Values",
-      "closed": true,
-      "values": [
-        "Net Values",
-        "Total Values"
-      ],
-      "priority": 0,
-      "filterType": "SINGLE_SELECT_DROPDOWN",
-      "defaultValue": "Net Values",
-      "hasClearOption": false
     }
   ]
 }

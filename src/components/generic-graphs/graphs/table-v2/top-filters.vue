@@ -39,7 +39,7 @@
 
 <script>
     import { NitrozenDropdown, NitrozenInput} from '@gofynd/nitrozen-vue';
-    import filters from "./filter.json"
+    import filters from "./table-v2-seed-filters.json"
     export default {
         name: "top-filters",
         components: {

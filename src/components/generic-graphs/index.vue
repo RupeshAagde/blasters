@@ -36,15 +36,16 @@
       ></custom-table-graph>
     </div>
     <div v-else-if="graphType === availableGraphs.TABLE_V2">
-      <table-generic
+      <table-v2
           :columns="columns"
           :rows="rows"
           :chart-id="chartId"
+          :graph-type="graphType"
           :showPagination="showPagination"
           :analytic-page="analyticPage"
           :extra-props="extraProps"
           :status-code="statusCode"
-      ></table-generic>
+      ></table-v2>
     </div>
   </div>
   <div v-else>
@@ -59,7 +60,7 @@ import NoSSR from "vue-no-ssr";
 import {analyticsGenericGraphMixins, analyticsTablePropsMixins} from "./graphs/mixins/analytics-props.mixins";
 import {GENERIC_GRAPHS, HTTP_STATUS_CODES} from "./data/constants";
 import ErrorHandlers from "./graphs/error-handlers";
-import TableGeneric from "./graphs/table-v2/table.vue"
+import TableGeneric from "./graphs/table-v2"
 
 const GenericImplementation = () =>
     import(
@@ -73,7 +74,7 @@ export default {
     ErrorHandlers,
     CustomTableGraph,
     ProgressBarGraph,
-    TableGeneric,
+    'table-v2': TableGeneric,
     "generic-implementation": GenericImplementation,
     "no-ssr": NoSSR
   },

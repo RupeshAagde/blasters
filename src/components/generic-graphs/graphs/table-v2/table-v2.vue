@@ -77,8 +77,8 @@
 
 <script>
 import adminlinesvg from '@/components/common/adm-inline-svg.vue'
-// import layout from "./layout.json"
-// import layoutColumn from "./layoutColumn.json"
+// import layout from "./table-v2-column.json"
+// import layoutColumn from "./table-v2-rows.json"
 import { NitrozenBadge, NitrozenPagination } from '@gofynd/nitrozen-vue';
 import uktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import admnocontent from '@/components/common/adm-no-content';

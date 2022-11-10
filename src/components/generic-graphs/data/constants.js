@@ -4,7 +4,7 @@ export const GRAPH_TYPES = {
     TABLE: "table",
     PROGRESS_BAR: "progress-bar",
     FUNNEL: "funnel",
-    TABLE_V2: "table_v2"
+    TABLE_V2: "table-v2"
 };
 
 export const FILTER_VIEW = {

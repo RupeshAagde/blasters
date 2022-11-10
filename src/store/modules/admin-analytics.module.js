@@ -336,22 +336,22 @@ const actions = {
         pageName = ANALYTICS_PAGES.DASHBOARD
     }) {
         const salesChannelType = state[ANALYTICS_STATE.SALES_CHANNEL_TYPES][appId] && state[ANALYTICS_STATE.SALES_CHANNEL_TYPES][appId].type;
-        return AdminAnalyticsService.getLayoutDataById(appId, emailId, mobileNumber, pageName, salesChannelType)
-            .then(res => {
-                setDashboardData(res, commit);
-                console.log('state: ', state);
-            }).catch(err => {
-                commit(ADMIN_SET_DASHBOARD_DATA, null);
-                let screen_width = screen.width;
-                if (screen_width < 1050) {
-                    commit(LAYOUT_FOR_MOBILE_DEVICE);
-                } else if (screen_width > 1200) {
-                    commit(LAYOUT_FOR_EXTRA_LARGER_DEVICE, screen_width);
-                } else if (screen_width < 1220) {
-                    commit(LAYOUT_FOR_LARGER_DEVICE);
-                }
-            });
-        // setDashboardData({data: ninjaJson}, commit);
+        // return AdminAnalyticsService.getLayoutDataById(appId, emailId, mobileNumber, pageName, salesChannelType)
+        //     .then(res => {
+        //         setDashboardData(res, commit);
+        //         console.log('state: ', state);
+        //     }).catch(err => {
+        //         commit(ADMIN_SET_DASHBOARD_DATA, null);
+        //         let screen_width = screen.width;
+        //         if (screen_width < 1050) {
+        //             commit(LAYOUT_FOR_MOBILE_DEVICE);
+        //         } else if (screen_width > 1200) {
+        //             commit(LAYOUT_FOR_EXTRA_LARGER_DEVICE, screen_width);
+        //         } else if (screen_width < 1220) {
+        //             commit(LAYOUT_FOR_LARGER_DEVICE);
+        //         }
+        //     });
+        setDashboardData({data: ninjaJson}, commit);
     },
     [ADMIN_FETCH_REPORT_DATA]({commit, state}, {appId, emailId, mobileNumber}) {
         const salesChannelType = state[ANALYTICS_STATE.SALES_CHANNEL_TYPES][appId].type;

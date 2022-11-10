@@ -16,11 +16,11 @@
 </style>
 
 <script>
-import topFilters from "./topFilters.vue"
-import tableComponent from "./tableComponent.vue"
+import topFilters from "./top-filters.vue"
+import tableComponent from "./table-v2.vue"
 import { analyticsTablePropsMixins } from "@/components/generic-graphs/graphs/mixins/analytics-props.mixins.js";
 export default{
-    name: "table-dunzo", 
+    name: "index",
     mixins: [analyticsTablePropsMixins],
     components:{
         topFilters,
