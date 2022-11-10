@@ -115,6 +115,7 @@ import {
 } from "@/components/generic-graphs/utils/reportDataUtil";
 import {FILTER_CONDITIONS} from "@/constants/chart/reportConstants";
 import {cloneDeep} from "lodash";
+import ninjaJson from '../../__tests__/unit/component/generic-graphs/fixtures/ninja-dashboard-layout.json'
 
 export const ANALYTICS_STATE = {
     DASHBOARD_DATA: "DASHBOARD_DATA",
@@ -350,7 +351,7 @@ const actions = {
                     commit(LAYOUT_FOR_LARGER_DEVICE);
                 }
             });
-        // setDashboardData({data: ninjaJson}, commit)
+        // setDashboardData({data: ninjaJson}, commit);
     },
     [ADMIN_FETCH_REPORT_DATA]({commit, state}, {appId, emailId, mobileNumber}) {
         const salesChannelType = state[ANALYTICS_STATE.SALES_CHANNEL_TYPES][appId].type;

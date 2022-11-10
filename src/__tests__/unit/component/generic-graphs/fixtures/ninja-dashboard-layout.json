@@ -1,0 +1,502 @@
+{
+  "dlayout": {
+    "panels": [
+      {
+        "cards": [
+          {
+            "id": "panel_filter_card",
+            "hidden": false,
+            "pinned": true,
+            "heading": "",
+            "position": {
+              "h": 4,
+              "w": 12,
+              "x": 0,
+              "y": 0
+            },
+            "graphInfo": {
+              "statusCode": 200,
+              "graphType": "line",
+              "dataSource": "dashboard/line/sales",
+              "xAxes": [
+                "25 Oct",
+                "26 Oct",
+                "27 Oct",
+                "28 Oct",
+                "29 Oct",
+                "30 Oct",
+                "31 Oct",
+                "01 Nov"
+              ],
+              "yAxes": [
+                {
+                  "label": "In Rupees",
+                  "backgroundColor": "#E7EEFF",
+                  "borderColor": "#2E31BE",
+                  "fill": true,
+                  "data": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                  ],
+                  "valueFormatter": {
+                    "prefixSymbol": "₹",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": true
+                  }
+                }
+              ]
+            },
+            "extraProps": {
+              "height": 300,
+              "hideGraphOptions": {
+                "display": true,
+                "navLink": "",
+                "timeFilters": {
+                  "values": [
+                    {
+                      "id": "daily",
+                      "name": "daily",
+                      "text": "Daily"
+                    },
+                    {
+                      "id": "monthly",
+                      "name": "monthly",
+                      "text": "Monthly"
+                    }
+                  ],
+                  "default": "daily"
+                }
+              }
+            },
+            "isClosable": false,
+            "toolTipInfo": "Tooltip info"
+          }
+        ],
+        "margin": 5,
+        "boxCount": 4,
+        "bubbleUp": true,
+        "gridClasses": "header-grid-box",
+        "maxRowCount": 1,
+        "dragSelector": "div.card-header",
+        "resizeVisible": false,
+        "containerClass": "header",
+        "maxColumnCount": 12,
+        "fixLayoutOnLoad": true
+      },
+      {
+        "cards": [
+          {
+            "id": "card_tpsbu",
+            "hidden": false,
+            "pinned": false,
+            "filters": {},
+            "heading": "Top Products Sold By Units",
+            "navlink": {
+              "tab": "Sales",
+              "filter_id": "sale_by_prod"
+            },
+            "position": {
+              "h": 3,
+              "w": 5.5,
+              "x": 5.5,
+              "y": 3
+            },
+            "graphInfo": {
+              "columns": [
+                {
+                  "id": "total_list_channel_name",
+                  "type": "string",
+                  "field": "channel name",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "normal",
+                    "line-height": "17px"
+                  },
+                  "headerName": "Channel Name",
+                  "isExpandable": true,
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": false
+                  }
+                },
+                {
+                  "id": "total_list_shipment_id",
+                  "type": "string",
+                  "field": "shipment id",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "normal",
+                    "line-height": "17px"
+                  },
+                  "headerName": "Shipment Id",
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": false
+                  }
+                },
+                {
+                  "id": "total_list_store_details",
+                  "type": "string",
+                  "field": "store details",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "500",
+                    "line-height": "17px"
+                  },
+                  "headerName": "Store Details",
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": true
+                  }
+                },
+                {
+                  "id": "total_table_customer_details",
+                  "type": "string",
+                  "field": "customer details",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "500",
+                    "line-height": "17px"
+                  },
+                  "headerName": "Customer Details",
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": true
+                  }
+                },
+                {
+                  "id": "total_table_customer_details",
+                  "type": "string",
+                  "field": "customer details",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "500",
+                    "line-height": "17px"
+                  },
+                  "headerName": "Customer Details",
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": true
+                  }
+                },
+                {
+                  "id": "total_table_rider_details",
+                  "type": "COLLAPSE",
+                  "field": "rider details",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "500",
+                    "line-height": "17px"
+                  },
+                  "headerName": "Rider Details",
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": true
+                  }
+                },
+                {
+                  "id": "total_table_state",
+                  "type": "string",
+                  "field": "in state since",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "500",
+                    "line-height": "17px"
+                  },
+                  "headerName": "In State Since",
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": true
+                  }
+                },
+                {
+                  "id": "total_table_status",
+                  "type": "status",
+                  "field": "status",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "500",
+                    "line-height": "17px"
+                  },
+                  "headerName": "Status",
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": true
+                  }
+                },
+                {
+                  "id": "total_table_track",
+                  "type": "icon",
+                  "field": "track",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "500",
+                    "line-height": "17px"
+                  },
+                  "headerName": "Track",
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": true
+                  }
+                }
+              ],
+              "graphType": "table",
+              "dataSource": "dashboard_dunzo/table/delivery_lists",
+              "showPagination": false
+            },
+            "resizable": false,
+            "extraProps": {
+              "height": 200
+            },
+            "isClosable": true,
+            "toolTipInfo": "Details about the top-selling products"
+          }
+        ],
+        "margin": 5,
+        "boxCount": 4,
+        "bubbleUp": false,
+        "gridClasses": "sub-panel-grid-box",
+        "maxRowCount": null,
+        "dragSelector": "div",
+        "resizeVisible": false,
+        "containerClass": "",
+        "maxColumnCount": 11,
+        "fixLayoutOnLoad": false
+      }
+    ]
+  },
+  "isDefault": true,
+  "seedFilters": [
+    {
+      "id": "brands",
+      "name": "Brand",
+      "closed": true,
+      "values": [
+        "Superdry"
+      ],
+      "priority": 4,
+      "filterType": "MULTI_SELECT_DROPDOWN",
+      "defaultValue": "",
+      "hasClearOption": true
+    },
+    {
+      "id": "order_status",
+      "name": "Order Status",
+      "closed": true,
+      "values": [
+        "Placed",
+        "Delivery Done"
+      ],
+      "priority": 1,
+      "filterType": "SINGLE_SELECT_DROPDOWN",
+      "defaultValue": "Placed",
+      "hasClearOption": false
+    },
+    {
+      "id": "stores",
+      "name": "Store",
+      "closed": true,
+      "values": [
+        "5386",
+        "5410",
+        "5411",
+        "5415",
+        "5429",
+        "5437",
+        "5581",
+        "5630",
+        "5727",
+        "5773",
+        "5865",
+        "5918",
+        "5955",
+        "9564",
+        "9688",
+        "T599",
+        "T773",
+        "T813",
+        "T873",
+        "TB52",
+        "TC66",
+        "TC92",
+        "TCD9",
+        "TE82",
+        "TFM1",
+        "TI01",
+        "TIV0",
+        "TJB7",
+        "TJE8",
+        "TJG7",
+        "TJT8",
+        "TKE3",
+        "TLU0",
+        "TLW5",
+        "TM62",
+        "TO56",
+        "TPL7",
+        "TS80",
+        "TTX1",
+        "TU26",
+        "TUB8",
+        "TX15",
+        "TXEJ",
+        "TY45",
+        "TZ51",
+        "TZTK"
+      ],
+      "priority": 2,
+      "filterType": "MULTI_SELECT_DROPDOWN",
+      "defaultValue": "",
+      "hasClearOption": true
+    },
+    {
+      "id": "categories",
+      "name": "Category",
+      "closed": true,
+      "values": [
+        "Activewear Accessories",
+        "Activewear Jackets",
+        "Activewear Shorts",
+        "Activewear T-Shirts",
+        "Activewear Tops",
+        "Backpacks",
+        "Bags",
+        "Baseball Caps",
+        "Basic Bra",
+        "Beachwear Bikini Tops",
+        "Beanie Caps",
+        "Belts",
+        "Boardshorts",
+        "Body Bags",
+        "Body Sprays",
+        "Body Wash",
+        "Bomber Jackets",
+        "Boxers",
+        "Bralette",
+        "Briefs",
+        "Bucket Hats",
+        "Caps",
+        "Cardigans",
+        "Cargos",
+        "Casual Joggers",
+        "Casual Lace-ups",
+        "Casual Pants",
+        "Casual Shirts",
+        "Casual Slip-ons",
+        "Chinos",
+        "Crop Top",
+        "Denim Jackets",
+        "Dresses",
+        "Duffles",
+        "Dungarees",
+        "Flat Slip-ons",
+        "Flip Flops",
+        "Front Open Jackets",
+        "Gilet",
+        "Hoodies",
+        "Jeans",
+        "Leather Jackets",
+        "Leggings",
+        "Maxi Dress",
+        "Others level 3",
+        "Outdoor Sports Shoes",
+        "Perfume",
+        "Polos",
+        "Pouches",
+        "Pyjamas",
+        "Running Shoes",
+        "Shift Dress",
+        "Shirt Dress",
+        "Shorts",
+        "Skirts",
+        "Sleepwear T-Shirt",
+        "Slip Dress",
+        "Slippers",
+        "Sneakers",
+        "Socks",
+        "Sports Bra",
+        "Suitcases",
+        "Sweater Dress",
+        "Sweaters",
+        "Sweatshirts",
+        "T-Shirts",
+        "Tank Top",
+        "Tapered Jeans",
+        "Thermal Gloves",
+        "Tights",
+        "Tops",
+        "Totes",
+        "Trackpants",
+        "Trainers",
+        "Travel Pouches",
+        "Trousers",
+        "Trunks",
+        "Vests",
+        "Waist Bags",
+        "Wallets",
+        "Water Bottle",
+        "Western Jackets",
+        "Windcheater"
+      ],
+      "priority": 3,
+      "filterType": "MULTI_SELECT_DROPDOWN",
+      "defaultValue": "",
+      "hasClearOption": true
+    },
+    {
+      "id": "value_type",
+      "name": "Values",
+      "closed": true,
+      "values": [
+        "Net Values",
+        "Total Values"
+      ],
+      "priority": 0,
+      "filterType": "SINGLE_SELECT_DROPDOWN",
+      "defaultValue": "Net Values",
+      "hasClearOption": false
+    }
+  ]
+}
