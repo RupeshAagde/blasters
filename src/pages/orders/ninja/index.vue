@@ -18,8 +18,6 @@
             :page-name="ANALYTICS_PAGES.DASHBOARD"
         ></tags-container>
         <div class="main-wrapper">
-          <div class="tab-row">
-          </div>
             <div v-for="(card, index) in cards" class="graph-loading--controller-wrapper">
               <dashboard-grid-header :card="card" :is-header-card="card.showHeader === true"
                                      :card-index="0"></dashboard-grid-header>

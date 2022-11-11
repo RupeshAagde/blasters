@@ -37,6 +37,31 @@ const defaultOptions = {
                 callback: tickFormatter, fontColor: "#BDBDBD", fontFamily: "Inter", offsetGridLines: true, beginAtZero: true, stepSize: ''
             },
         }]
+    },
+    tooltips: {
+        enabled: true,
+        backgroundColor: "#fff",
+        bodyFontColor: "#41434C",
+        borderColor: '#0000000f',
+        borderWidth: 1,
+        boxPadding: 2,
+        titleFontColor: '#BDBDBD',
+        titleFontStyle: 'normal',
+        titleFontFamily: 'Inter',
+        footerFontColor: '#41434C',
+        footerFontStyle: 'normal',
+        footerFontWeight: '600',
+        footerFontFamily: 'Inter',
+        footerFontSize: 14,
+        xPadding: 10,
+        yPadding: 10,
+        titleSpacing: 4,
+        callbacks: {
+            title: toolTipTitleFormatter,
+            footer: toolTipLabelFormatter,
+            afterFooter: toolTipAfterFooterFormatter,
+            label: () => null,
+        }
     }
 };
 export const CHART_OPTIONS = {
@@ -108,30 +133,5 @@ export const CHART_OPTIONS = {
             }]
         },
         elements: {line: {borderWidth: 2}, point: {radius: 2}},
-        tooltips: {
-            enabled: true,
-            backgroundColor: "#fff",
-            bodyFontColor: "#41434C",
-            borderColor: '#0000000f',
-            borderWidth: 1,
-            boxPadding: 2,
-            titleFontColor: '#BDBDBD',
-            titleFontStyle: 'normal',
-            titleFontFamily: 'Inter',
-            footerFontColor: '#41434C',
-            footerFontStyle: 'normal',
-            footerFontWeight: '600',
-            footerFontFamily: 'Inter',
-            footerFontSize: 14,
-            xPadding: 10,
-            yPadding: 10,
-            titleSpacing: 4,
-            callbacks: {
-                title: toolTipTitleFormatter,
-                footer: toolTipLabelFormatter,
-                afterFooter: toolTipAfterFooterFormatter,
-                label: () => null,
-            }
-        }
     }
 };

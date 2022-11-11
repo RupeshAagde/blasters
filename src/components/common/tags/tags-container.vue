@@ -7,7 +7,6 @@
             @clear-all="clear(-1)"
             :should-wrap="true"
         ></applied-filters>
-        {{selectedFilters}}
     </div>
 </template>
 

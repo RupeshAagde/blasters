@@ -97,7 +97,24 @@ export const getNavigations = () => {
             highlightedIcon: 'orders-cart-highlighted',
             active: false,
             permission: 'order',
-            children: []
+            children: [
+                {
+                    display: 'List Orders',
+                    link: '/administrator/orders/list',
+                    title: 'orders-list',
+                    icon: 'orders-cart',
+                    highlightedIcon: 'orders-cart-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Hyper Local Tracking',
+                    link: '/administrator/orders/ninja',
+                    title: 'hyper-local-tracking',
+                    icon: 'home',
+                    highlightedIcon: 'orders-cart-highlighted',
+                    active: false
+                }
+            ]
             //     {
             //         display: 'Orders',
             //         link: '/administrator/orders/list',
