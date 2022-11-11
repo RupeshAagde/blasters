@@ -8,7 +8,8 @@ import {
     SAVE_COMPONENT_SPECIFIC_FILTERS,
     SET_IS_DEFAULT_LAYOUT,
     SET_NAV_LINK,
-    SET_SEED_FILTERS
+    SET_SEED_FILTERS,
+    SET_ADDITIONAL_FILTERS
 } from "../store/mutation.type";
 import {ANALYTICS_PAGES} from "../components/generic-graphs/data/constants";
 import {FILTER_TYPES, SALES_CHANNEL_TYPE} from "../store/modules/admin-analytics.module";
@@ -66,6 +67,10 @@ export function saveSeedFilters(commit, seedFilters, pageName = ANALYTICS_PAGES.
     commit(SET_SEED_FILTERS, {
         page: pageName,
         value: {[FILTER_TYPES.GLOBAL_FILTERS]: seedFilters}
+    });
+    commit(SET_ADDITIONAL_FILTERS, {
+        page: pageName,
+        values: seedFilters.map(x => x.id)
     });
     const globalFilters = seedFilters.filter(x => !!x.defaultValue).reduce((acc, x) => {
         acc[x.id] = x.defaultValue;

@@ -521,7 +521,7 @@ import uktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import AnalyticsGenericFilters from '@/components/analytics-generic-filters';
 import TagsContainer from '@/components/common/tags/tags-container';
 import {ADMIN_FETCH_DASHBOARD_DATA} from "@/store/action.type";
-import {ANALYTICS_PAGES, REPORT_PAGE_PANELS} from "@/components/generic-graphs/data/constants";
+import {ANALYTICS_PAGES} from "@/components/generic-graphs/data/constants";
 import {mediaScreensMixins} from "../../../mixins/media-screens-mixins";
 import {DashboardReportSharedMixins} from "../../overview/dashboard/mixins/dashboard-report-shared.mixins";
 import {DashboardCommonMixins} from "../../overview/dashboard/mixins/dashboard-common.mixins";
@@ -536,7 +536,6 @@ export default {
   data() {
     return {
       ANALYTICS_PAGES: ANALYTICS_PAGES,
-      REPORT_PAGE_PANELS: REPORT_PAGE_PANELS,
       isDataLoading: false,
     }
   },
