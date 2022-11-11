@@ -76,8 +76,14 @@ const analyticsGenericGraphMixins = {
         },
         filters: {type: Object, default: null},
         extraProps: {type: Object},
-        dataSource: {type: String ,required: true}
+        dataSource: {type: String, required: true}
     }
 };
 
-export {analyticsTablePropsMixins, analyticsGenericGraphMixins};
+const analyticsTableV2 = {
+    props: {
+        seedFilters: {type: Array, default: () => null},
+    }
+};
+
+export {analyticsTablePropsMixins, analyticsGenericGraphMixins, analyticsTableV2};

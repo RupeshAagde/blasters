@@ -95,7 +95,68 @@
             "id": "card_total_lists",
             "hidden": false,
             "pinned": false,
-            "filters": {},
+            "seedFilters": [
+              {
+                "filter_name": "Date Created",
+                "values": [
+                  {
+                    "text": "Last 24 hrs",
+                    "value":"Last 24 hrs"
+                  },
+                  {
+                    "text": "Last 2 days",
+                    "value":"Last 2 days"
+                  },
+                  {
+                    "text": "Last 7 days",
+                    "value":"Last 7 days"
+                  },
+                  {
+                    "text": "Last 15 days",
+                    "value":"Last 15 days"
+                  },
+                  {
+                    "text": "Last 1 Months",
+                    "value":"Last 1 Months"
+                  },
+                  {
+                    "text": "Last 6 Months",
+                    "value":"Last 6 Months"
+                  }
+                ],
+                "multiple":false
+              },
+              {
+                "filter_name": "Status",
+                "values": [
+                  {
+                    "text": "Delivery done",
+                    "value":"Delivered"
+                  },
+                  {
+                    "text": "Out For Delivery",
+                    "value":"Under Delivery"
+                  },
+                  {
+                    "text": "Refund Completed",
+                    "value":"Refund"
+                  },
+                  {
+                    "text": "Credit note generated",
+                    "value":"Credit not generated"
+                  },
+                  {
+                    "text": "RTO bag delivered",
+                    "value":"rto bag delivered"
+                  },
+                  {
+                    "text": "RTO in transit",
+                    "value":"Rto in transit"
+                  }
+                ],
+                "multiple":true
+              }
+            ],
             "heading": "Total Lists",
             "position": {
               "h": 3,
@@ -328,23 +389,6 @@
                   }
                 },
                 {
-                  "collapse":true,
-                  "class":"collapse1",
-                  "fields": [
-                    {
-                      "name": "Reference ID",
-                      "value": "564d0592-405d-41c9-ba41 9294eb89a3d7"
-                    },
-                    {
-                      "name": "OTP",
-                      "value": "{'drop': '1261', 'pick': '3193'}"
-                    },
-                    {
-                      "name": "Other Rider Details",
-                      "value": "Siva +91 6361699614"
-                    }
-                  ]
-                },{
                   "channel name": "Fynd",
                   "shipment id": [
                     "16645101948401757414",

@@ -45,6 +45,7 @@
           :analytic-page="analyticPage"
           :extra-props="extraProps"
           :status-code="statusCode"
+          :seed-filters="seedFilters"
       ></table-v2>
     </div>
   </div>
@@ -57,7 +58,11 @@ import {GRAPH_TYPES} from "@/components/generic-graphs/data/constants";
 import ProgressBarGraph from "@/components/generic-graphs/graphs/progress-bar-graph";
 import CustomTableGraph from "@/components/generic-graphs/graphs/table";
 import NoSSR from "vue-no-ssr";
-import {analyticsGenericGraphMixins, analyticsTablePropsMixins} from "./graphs/mixins/analytics-props.mixins";
+import {
+  analyticsGenericGraphMixins,
+  analyticsTablePropsMixins,
+  analyticsTableV2
+} from "./graphs/mixins/analytics-props.mixins";
 import {GENERIC_GRAPHS, HTTP_STATUS_CODES} from "./data/constants";
 import ErrorHandlers from "./graphs/error-handlers";
 import TableGeneric from "./graphs/table-v2"
@@ -69,7 +74,7 @@ const GenericImplementation = () =>
 
 export default {
   name: "generic-graph",
-  mixins: [analyticsTablePropsMixins, analyticsGenericGraphMixins],
+  mixins: [analyticsTablePropsMixins, analyticsGenericGraphMixins, analyticsTableV2],
   components: {
     ErrorHandlers,
     CustomTableGraph,

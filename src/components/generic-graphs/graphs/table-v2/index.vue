@@ -18,13 +18,17 @@
 <script>
 import topFilters from "./top-filters.vue"
 import tableComponent from "./table-v2.vue"
-import { analyticsTablePropsMixins } from "@/components/generic-graphs/graphs/mixins/analytics-props.mixins.js";
-export default{
-    name: "index",
-    mixins: [analyticsTablePropsMixins],
-    components:{
-        topFilters,
-        tableComponent
-    }
+import {analyticsTablePropsMixins} from "@/components/generic-graphs/graphs/mixins/analytics-props.mixins.js";
+
+export default {
+  name: "index",
+  mixins: [analyticsTablePropsMixins],
+  props: {
+    seedFilters: {type: Array, required: true}
+  },
+  components: {
+    topFilters,
+    tableComponent
+  }
 }
 </script>

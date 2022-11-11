@@ -38,26 +38,28 @@
 </style>
 
 <script>
-    import { NitrozenDropdown, NitrozenInput} from '@gofynd/nitrozen-vue';
-    import filters from "./table-v2-seed-filters.json"
-    export default {
-        name: "top-filters",
-        components: {
-            NitrozenDropdown,
-            NitrozenInput,
-        },
-        data() {
-            return {
-                filters: filters,
-                selectedStatus:{},
-                searchText:''
-            }
-        },
-        methods:{
-            filterChange(event){
-                console.log("EVENT",event);
-                console.log("Filter Selected",this.selectedStatus)
-            }
-        }
+import {NitrozenDropdown, NitrozenInput} from '@gofynd/nitrozen-vue';
+
+export default {
+  name: "top-filters",
+  components: {
+    NitrozenDropdown,
+    NitrozenInput,
+  },
+  props: {
+    filters: {type: Array | Object, required: true}
+  },
+  data() {
+    return {
+      selectedStatus: {},
+      searchText: ''
     }
+  },
+  methods: {
+    filterChange(event) {
+      console.log("EVENT", event);
+      console.log("Filter Selected", this.selectedStatus)
+    }
+  }
+}
 </script>

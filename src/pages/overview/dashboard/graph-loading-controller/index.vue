@@ -20,6 +20,7 @@
                    :analytic-page="pageName"
                    :status-code="item.graphInfo.statusCode"
                    :data-source="item.graphInfo.dataSource"
+                   :seed-filters="item.seedFilters"
                    @reset-data="resetData"
     ></generic-graph>
   </div>
@@ -28,10 +29,7 @@
 <script>
 import GenericGraph from "@/components/generic-graphs";
 import loader from "@/components/common/loader";
-import {
-  ADMIN_FLOAT_INDIVIDUAL_CHART_DATA,
-  ADMIN_RESET_INDIVIDUAL_CHART_DATA
-} from "@/store/action.type";
+import {ADMIN_FLOAT_INDIVIDUAL_CHART_DATA, ADMIN_RESET_INDIVIDUAL_CHART_DATA} from "@/store/action.type";
 import {ANALYTICS_PAGES} from "@/components/generic-graphs/data/constants";
 import GraphFilters from "@/components/generic-graphs/graphs/filters";
 import {loadingMixins} from "@/components/generic-graphs/graphs/mixins/loading.mixins";
