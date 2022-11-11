@@ -712,8 +712,8 @@ export default [
             }
         },
         {
-            name: 'orders-ninja',
-            path: 'orders/ninja',
+            name: 'orders-hyperlocal-tracking',
+            path: 'orders/hyperlocal-tracking',
             component: OrdersNinjaPage,
             beforeEnter: (to, from, next) => {
                 return checkUserPermission(to, from, next, ['order']);

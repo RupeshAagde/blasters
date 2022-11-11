@@ -101,15 +101,15 @@ export const getNavigations = () => {
                 {
                     display: 'List Orders',
                     link: '/administrator/orders/list',
-                    title: 'orders-list',
+                    title: 'list',
                     icon: 'orders-cart',
                     highlightedIcon: 'orders-cart-highlighted',
                     active: false
                 },
                 {
-                    display: 'Hyper Local Tracking',
-                    link: '/administrator/orders/ninja',
-                    title: 'hyper-local-tracking',
+                    display: 'Hyperlocal Tracking',
+                    link: '/administrator/orders/hyperlocal-tracking',
+                    title: 'hyperlocal-tracking',
                     icon: 'home',
                     highlightedIcon: 'orders-cart-highlighted',
                     active: false

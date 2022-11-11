@@ -4,7 +4,7 @@
         <div class="page-header">
           <div class="page-nav">
             <div class="page-title">
-              <span>Hyper Local Tracking</span>
+              <span>Hyperlocal Tracking</span>
             </div>
           </div>
         </div>
