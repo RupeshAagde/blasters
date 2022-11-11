@@ -8,32 +8,51 @@
               </div>
             </th>
           </tr>
-          <tr v-for="(row, rowIndex) in rows" :key="rowIndex" class="ninja-table-content">
-            <td v-if="row.collapse" :id="'hidden'+rowIndex" :ref="row.class" class="show-more-text" colspan="9">
-              <div class="hidden">
-                        <div v-for="item in row.fields">
-                            <p class="heading">{{ item.name }}</p>
-                            <p class="content">{{ item.value }}</p>
-                        </div>
+          <tr v-for="(row, rowIndex) in modifiedRows" :key="rowIndex" class="ninja-table-content">
+            <td v-if="row.collapse" :class="{'hidden': !rowMap[row.id]}" class="bg-color" colspan="9">
+              <div class="collapse-wrapper">
+                <div v-for="item in row.fields">
+                  <p class="heading mb-half-rem">{{ item.name }}</p>
+                  <p class="content">{{ item.value }}</p>
+                </div>
               </div>
             </td>
             <td v-for="(column, idx) in columns" v-else :key="idx">
-
               <!--              first column with arrow-->
-              <div v-if="column.type === 'arrow'" class="table-content-content">
-                <ukt-inline-svg :id="'rotate'+rowIndex" src="keyboard_arrow_right"></ukt-inline-svg>
+              <div v-if="idx === 0 && hasCollapse(row)" class="table-content-content cp"
+                   @click="toggleRow(row.id)">
+                <ukt-inline-svg :class="{'rotate': rowMap[row.id]}" src="keyboard_arrow_right"
+                ></ukt-inline-svg>
                 <span class="first-arrow-content">{{ row[column.field] }}</span>
+                <!--              If  has more details let this be collapsable-->
+                <p :class="{'hidden': column.type !== TABLE_COLUMN_TYPES.COLLAPSE && hasOtherRidersInfo(row)}"
+                   class="view-more-text cp"
+                   @click="toggleRow(row.id)">
+                  View {{ !rowMap[row.id] ? 'More' : 'Less' }}
+                </p>
               </div>
 
               <!--              if the value is array     -->
               <div v-else-if="Array.isArray( row[column.field])" class="table-content-content">
                 <p v-for="index in row[column.field]" :key="index" class="mb-half-rem">{{ index }}</p>
+                <!--              If  has more details let this be collapsable-->
+                <p :class="{'hidden': column.type !== TABLE_COLUMN_TYPES.COLLAPSE && hasOtherRidersInfo(row)}"
+                   class="view-more-text cp"
+                   @click="toggleRow(row.id)">
+                  View {{ !rowMap[row.id] ? 'More' : 'Less' }}
+                </p>
               </div>
 
               <!--              value is string       -->
               <div v-else-if="column.type === TABLE_COLUMN_TYPES.STRING" class="table-content-content">
 
                 <p>{{ row[column.field] }}</p>
+                <!--              If  has more details let this be collapsable-->
+                <p :class="{'hidden': column.type !== TABLE_COLUMN_TYPES.COLLAPSE && hasOtherRidersInfo(row)}"
+                   class="view-more-text cp"
+                   @click="toggleRow(row.id)">
+                  View {{ !rowMap[row.id] ? 'More' : 'Less' }}
+                </p>
 
               </div>
 
@@ -41,19 +60,14 @@
               <div v-else-if="column.type === TABLE_COLUMN_TYPES.ICON" :class="['icon']" class="table-content-content"
                    @click="linkTodirect(row[column.field].url)">
                 <ukt-inline-svg class="platform-icons" src="location"></ukt-inline-svg>
-              </div>
-
-              <!--              If  has more details let this be collapsable-->
-              <div v-else-if="column.type === TABLE_COLUMN_TYPES.COLLAPSE" class="table-content-content">
-                <p v-for="index in row[column.field]" :key="index">{{ index }}</p>
-                <p v-if="row[column.class]"
-                   :id="'expandRow'+(rowIndex)"
-                   class="button-more"
-                   @click="showHideRow('hidden'+(rowIndex+1),'expandRow'+(rowIndex),'rotate'+rowIndex)">
-                  View More
+                <!--              If  has more details let this be collapsable-->
+                <p :class="{'hidden': column.type !== TABLE_COLUMN_TYPES.COLLAPSE && hasOtherRidersInfo(row)}"
+                   class="view-more-text cp"
+                   @click="toggleRow(row.id)">
+                  View {{ !rowMap[row.id] ? 'More' : 'Less' }}
                 </p>
-
               </div>
+
 
               <!--              Status fields     -->
               <div v-else-if="column.type === TABLE_COLUMN_TYPES.STATUS" class="table-content-content">
@@ -68,8 +82,13 @@
 
                 <NitrozenBadge v-else class="mb-half-rem " state="default">{{ row[column.field].name }}</NitrozenBadge>
                 <p>{{ row[column.field].time }}</p>
+                <!--              If  has more details let this be collapsable-->
+                <p :class="{'hidden': column.type !== TABLE_COLUMN_TYPES.COLLAPSE && hasOtherRidersInfo(row)}"
+                   class="view-more-text cp"
+                   @click="toggleRow(row.id)">
+                  View {{ !rowMap[row.id] ? 'More' : 'Less' }}
+                </p>
               </div>
-
             </td>
 
           </tr>
@@ -85,8 +104,6 @@
 </template>
 
 <script>
-// import layout from "./table-v2-column.json"
-// import layoutColumn from "./table-v2-rows.json"
 import {NitrozenBadge, NitrozenPagination} from '@gofynd/nitrozen-vue';
 import uktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import admnocontent from '@/components/common/adm-no-content';
@@ -101,8 +118,6 @@ export default {
   mixins: [analyticsTablePropsMixins],
   data() {
     return {
-      // layout: layout,
-      // layoutColumn: layoutColumn,
       showErrorPage: false,
       showTablePagination: true,
       paginationRows: [10, 25, 50, 100],
@@ -111,7 +126,8 @@ export default {
         current: 1,
         limit: 10
       },
-      TABLE_COLUMN_TYPES: TABLE_COLUMN_TYPES
+      TABLE_COLUMN_TYPES: TABLE_COLUMN_TYPES,
+      rowIndices: {}
     }
   },
   components: {
@@ -122,6 +138,7 @@ export default {
   },
   mounted() {
     this.pageObject(this.pageConfig);
+    // this.initialiseRowMap();
   },
   computed: {
     ...mapGetters({
@@ -140,7 +157,32 @@ export default {
       set(val) {
         this.pageObjectValue = val;
       }
-    }
+    },
+    rowMap: {
+      get() {
+        // console.log('log: ', this.rows.reduce((a, i) => {
+        //       a[i.id] = false;
+        //       return a;
+        //     }, {})
+        // )
+        this.rowIndices = this.modifiedRows.reduce((a, i) => {
+          a[i.id] = false;
+          return a;
+        }, {});
+        return this.rowIndices;
+      }, set(index) {
+        this.rowIndices[index] = !this.rowIndices[index];
+      }
+    },
+    modifiedRows() {
+      return this.rows && this.rows.reduce((a, i, index) => {
+        a.push({...i, id: index});
+        if (i.collapseModel) {
+          a.push({...i.collapseModel, collapse: true, id: index});
+        }
+        return a;
+      }, [])
+    },
   },
   watch: {
     pageConfig(value) {
@@ -153,21 +195,8 @@ export default {
     linkTodirect(event) {
       window.open(`${event}`, '_blank');
     },
-    showHideRow(row, expandRow, rotate) {
-      var x = document.getElementById(row);
-      let y = document.getElementById(expandRow)
-      let z = document.getElementById(rotate)
-      if (x.style.display === "none") {
-        x.style.display = "table-cell";
-        z.style.transition = "all 300ms ease-in-out";
-        z.style.transform = "rotate(-90deg)";
-        y.innerHTML = "View Less"
-      } else {
-        x.style.display = "none";
-        z.style.transition = "all 300ms ease-in-out";
-        y.innerHTML = "View More";
-        z.style.transform = "rotate(0deg)";
-      }
+    toggleRow(rowIndex) {
+      this.rowMap = rowIndex;
     },
     paginationChange(pageConfigs) {
       this.$store.dispatch(ADMIN_SAVE_PAGINATION_CHANGE, {graphId: this.chartId, ...pageConfigs});
@@ -181,6 +210,12 @@ export default {
         }
       this._pageObject = this.mapToPaginationFormat(pageConfig[this.chartId]);
     },
+    hasCollapse(row) {
+      return row.collapseModel;
+    },
+    hasOtherRidersInfo(row) {
+      return row.collapseModel && row.collapseModel.fields.some(f => f.name !== 'Other Rider Details');
+    }
   }
 }
 </script>
@@ -251,54 +286,77 @@ th {
     text-align: left;
 }
 
-.hidden {
-    display: flex;
-    gap: 3.5rem;
-    padding: 1.5rem;
+.collapse-wrapper {
+  display: flex;
+  gap: 3.5rem;
+  padding: 1.5rem;
 }
 
-.show-more-text {
-    display: none;
-    background: #F7F7F7;
+.bg-color {
+
+  background: #F7F7F7;
+}
+
+.hidden {
+  display: none;
+}
+
+.view-more-text {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 130%;
+  /* identical to box height, or 16px */
+
+
+  /* Brand Color/Accent or Primary */
+
+  color: #2E31BE;
 }
 
 .rotate {
-    transition: all 300ms ease-in-out;
-    transform: rotate(-90deg);
+  transition: all 300ms ease-in-out;
+  transform: rotate(-90deg);
 }
 
 .content {
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
 }
 
 .heading {
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 12px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
 }
 
 .button-more {
-    color: #2E31BE;
-    font-weight: 600;
+  color: #2E31BE;
+  font-weight: 600;
 }
-.button-more, .icon{
-    cursor: pointer;
+
+.button-more, .icon {
+  cursor: pointer;
 }
 
 td:last-child {
-    vertical-align: middle;
+  vertical-align: middle;
+}
+
+.cp {
+  cursor: pointer;
 }
 
 .pagination {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 ::v-deep .nitrozen-pagination__count::before {
