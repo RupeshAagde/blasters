@@ -413,24 +413,6 @@
                   }
                 },
                 {
-                  "collapse":true,
-                  "class":"collapse2",
-                  "fields": [
-                    {
-                      "name": "Reference ID",
-                      "value": "564d0592-405d-41c9-ba41 9294eb89a3d7"
-                    },
-                    {
-                      "name": "OTP",
-                      "value": "{'drop': '1261', 'pick': '3193'}"
-                    },
-                    {
-                      "name": "Other Rider Details",
-                      "value": "Siva +91 6361699614"
-                    }
-                  ]
-                },
-                {
                   "channel name": "Fynd",
                   "shipment id": [
                     "16645101948401757414",
@@ -451,6 +433,24 @@
                   "track": {
                     "url": "https://www.google.co.in/",
                     "icon": "track"
+                  },
+                  "collapseModel": {
+                    "collapse":true,
+                    "class":"collapse2",
+                    "fields": [
+                      {
+                        "name": "Reference ID",
+                        "value": "564d0592-405d-41c9-ba41 9294eb89a3d7"
+                      },
+                      {
+                        "name": "OTP",
+                        "value": "{'drop': '1261', 'pick': '3193'}"
+                      },
+                      {
+                        "name": "Other Rider Details",
+                        "value": "Siva +91 6361699614"
+                      }
+                    ]
                   }
                 }
               ],
