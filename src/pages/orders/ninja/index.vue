@@ -539,6 +539,9 @@ export default {
       isDataLoading: false,
     }
   },
+  provide() {
+    return {pageName: ANALYTICS_PAGES.DASHBOARD}
+  },
   mixins: [
     mediaScreensMixins,
     DashboardReportSharedMixins,

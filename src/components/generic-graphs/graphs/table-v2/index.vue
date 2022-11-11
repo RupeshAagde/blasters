@@ -1,6 +1,6 @@
 <template>
     <div class="table">
-        <topFilters></topFilters>
+        <topFilters :filters="seedFilters"></topFilters>
         <tableComponent :columns="columns" :rows="rows" :chart-id="chartId"
             :showPagination="showPagination" :analytic-page="analyticPage" :extra-props="extraProps"
             :status-code="statusCode"></tableComponent>
@@ -23,6 +23,9 @@ import {analyticsTablePropsMixins} from "@/components/generic-graphs/graphs/mixi
 export default {
   name: "index",
   mixins: [analyticsTablePropsMixins],
+  provide() {
+    return {'chartId': this.chartId}
+  },
   props: {
     seedFilters: {type: Array, required: true}
   },

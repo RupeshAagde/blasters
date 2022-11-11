@@ -40,6 +40,9 @@ import admshimmer from "@/components/common/shimmer.vue";
 export default {
   name: "graph-loading-controller",
   mixins: [loadingMixins, DashboardCommonMixins],
+  provide() {
+    return {CHART_ID: this.item.id}
+  },
   components: {GraphFilters, "generic-graph": GenericGraph, loader, "adm-shimmer": admshimmer,},
   props: {
     item: {type: Object, default: null, required: true},

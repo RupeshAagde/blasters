@@ -1,12 +1,9 @@
 <template>
     <div class="topFilter">
-        <nitrozen-input :showSearchIcon="true" class="search" type="search" placeholder="Search shipment ID"
-            v-model="searchText"></nitrozen-input>
-        <div v-for="filter in filters" :key="filter.filter_name" class="filter-dropdown">
-            <nitrozen-dropdown :items="filter.values" label=" " :placeholder=filter.filter_name
-                v-model="selectedStatus[filter.filter_name]" :searchable="true" :enable_select_all="filter.multiple"
-                :multiple="filter.multiple" @change="filterChange(filter.filter_name)" ></nitrozen-dropdown>
-        </div>
+      <nitrozen-input v-model="searchText" :showSearchIcon="true" class="search" placeholder="Search shipment ID"
+                      type="search" @input="filterChange()"></nitrozen-input>
+      <filter-components :page-name="pageName" :seed-data="filters" :should-show-tool-tip="false"
+                         class="components-specific-styles"></filter-components>
     </div>
 </template>
 
@@ -39,16 +36,22 @@
 
 <script>
 import {NitrozenDropdown, NitrozenInput} from '@gofynd/nitrozen-vue';
+import FilterComponents from "@/components/analytics-generic-filters/components/filter-components";
 
 export default {
   name: "top-filters",
   components: {
     NitrozenDropdown,
     NitrozenInput,
+    FilterComponents
+  },
+  provide(){
+    return {}
   },
   props: {
     filters: {type: Array | Object, required: true}
   },
+  inject: ['pageName'],
   data() {
     return {
       selectedStatus: {},

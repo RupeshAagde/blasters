@@ -4,12 +4,13 @@
         class="rest-of-filters"
     >
     <nitrozen-tooltip
-                :position="toolTipPosition"
-                icon="help"
-                class="questionmark-icon tool-tip-control"
-            >
-            <p>{{genericTooltipText}}</p>
-        </nitrozen-tooltip>
+        v-if="shouldShowToolTip"
+        :position="toolTipPosition"
+        class="questionmark-icon tool-tip-control"
+        icon="help"
+    >
+      <p>{{ genericTooltipText }}</p>
+    </nitrozen-tooltip>
         <div
             v-for="(filter, index) in seedData"
             :key="index"
@@ -40,10 +41,7 @@
 
 <script>
 import {NitrozenTooltip} from "@gofynd/nitrozen-vue";
-import {
-    filterComponentSharedProps,
-    filterMixin,
-} from '../../mixins/filter.mixin';
+import {filterComponentSharedProps, filterMixin,} from '../../mixins/filter.mixin';
 import {GENERIC_TOOLTIP_TEXT} from "./constant/tooltip-message"
 import FilterCheckboxComponents from './filter-checkbox-component';
 import FilterDropdownComponent from './filter-dropdown-component';
@@ -52,7 +50,8 @@ export default {
     name: 'index',
     components: { FilterDropdownComponent, FilterCheckboxComponents, "nitrozen-tooltip": NitrozenTooltip },
     props: {
-        alignVertically: { type: Boolean, default: false },
+      alignVertically: {type: Boolean, default: false},
+      shouldShowToolTip: {type: Boolean, default: true}
     },
     mixins: [filterMixin, filterComponentSharedProps],
     methods: {
@@ -68,8 +67,8 @@ export default {
         },
     },
     data: () => ({
-        genericTooltipText: GENERIC_TOOLTIP_TEXT
-    }
+          genericTooltipText: GENERIC_TOOLTIP_TEXT
+        }
   ),
 };
 </script>
