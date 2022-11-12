@@ -68,15 +68,10 @@
 import {NitrozenDropdown} from '@gofynd/nitrozen-vue';
 import collapse from '@/components/common/collapse.vue';
 import uktInlineSvg from '@/components/common/ukt-inline-svg.vue';
-import {ADMIN_CLEAR_FILTERS, ADMIN_RESET_ALL_REFRESH_TOKENS,} from '@/store/action.type';
+import {ADMIN_CLEAR_FILTERS,} from '@/store/action.type';
 import {filterComponentSharedProps, filterMixin, filtersSharedValueMixins,} from '../../mixins/filter.mixin';
-import {mapGetters} from 'vuex';
-import {GET_ALL_FILTERS, GET_GLOBALLY_STAGED_FILTER,} from '@/store/getters.type';
-import {ANALYTICS_STATE, FILTER_TYPES,} from '@/store/modules/admin-analytics.module';
-import {ANALYTICS_PAGES} from '@/components/generic-graphs/data/constants';
 import {ANALYTICS_FILTER_TYPES} from '../../constants/constants';
 import AppliedFilter from '@/components/common/tags/applied-filter.vue';
-import {ADMIN_SAVE_FILTERS} from "../../../../store/action.type";
 
 export default {
   name: 'filter-dropdown-component',
@@ -118,15 +113,6 @@ export default {
     formatPlaceholder(name) {
       return `${this.value.length} ${name}(s) selected`;
     },
-    saveValueToStore: function (val) {
-      this.$store.dispatch(ADMIN_SAVE_FILTERS, {
-        pageName: this.pageName,
-        saveOnStaging: !this.applyFilter,
-        globalFilters: {
-          [this.seedData.id]: val,
-        },
-      });
-    }
   },
   computed: {
     getValues() {

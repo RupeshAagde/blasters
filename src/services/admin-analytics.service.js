@@ -76,6 +76,14 @@ const AdminAnalyticsService = {
         }, {params: {}}, getCommonHeaderOptions());
         return ApiService.get(ADMIN_URLS.ANALYTICS_GENERIC_URL_SCHEMES('sales_dump', appId, `${extremeSuffix}/${jobId}`), axiosOption);
     },
+    componentSpecificDownload(filters, downloadUrl) {
+        const axiosOption = Object.assign({
+            data: {
+                ...filters
+            }
+        }, {params: {}}, getCommonHeaderOptions());
+        return ApiService.post(ADMIN_URLS.ANALYTICS_GENERIC_URL_SCHEMES(downloadUrl, null, ''), axiosOption);
+    },
 };
 
 export default AdminAnalyticsService;

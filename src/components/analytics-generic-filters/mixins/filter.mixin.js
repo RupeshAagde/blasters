@@ -2,8 +2,9 @@ import {ANALYTICS_PAGES} from '@/components/generic-graphs/data/constants';
 import {ANALYTICS_FILTER_TYPES} from '../constants/constants';
 import {mapGetters} from 'vuex';
 import {GET_GLOBAL_SEED_FILTERS} from '@/store/getters.type';
-import {ANALYTICS_STATE} from "../../../store/modules/admin-analytics.module";
+import {ANALYTICS_STATE, FILTER_TYPES} from "../../../store/modules/admin-analytics.module";
 import {GET_ALL_FILTERS, GET_GLOBALLY_STAGED_FILTER} from "../../../store/getters.type";
+import {ADMIN_RESET_ALL_REFRESH_TOKENS, ADMIN_SAVE_FILTERS} from "../../../store/action.type";
 
 const filterMixin = {
     props: {
@@ -53,6 +54,17 @@ const filterComponentSharedProps = {
     },
 };
 const filtersSharedValueMixins = {
+    methods: {
+        saveValueToStore: function (val) {
+            this.$store.dispatch(ADMIN_SAVE_FILTERS, {
+                pageName: this.pageName,
+                saveOnStaging: !this.applyFilter,
+                globalFilters: {
+                    [this.seedData.id]: val,
+                },
+            });
+        }
+    },
     computed: {
         ...mapGetters({
             allFilters: GET_ALL_FILTERS,

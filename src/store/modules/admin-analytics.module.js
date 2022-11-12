@@ -28,7 +28,7 @@ import {
     ADMIN_SAVE_PAGINATION_CHANGE,
     ADMIN_SET_ACTIVE_TAB,
     ADMIN_SET_IS_DEFAULT_FLAG,
-    ADMIN_SET_SALES_CHANNEL,
+    ADMIN_START_COMPONENT_SPECIFIC_DOWNLOAD,
     ADMIN_TOGGLE_REFRESH_TOKENS
 } from "../action.type";
 import {
@@ -109,13 +109,9 @@ import {
     SALES_DUMP_TRACKER,
     TABLE_FILTERS_SEED_DATA
 } from "../getters.type";
-import {
-    constructFilterControlFlags,
-    organiseDataForReports
-} from "@/components/generic-graphs/utils/reportDataUtil";
+import {constructFilterControlFlags, organiseDataForReports} from "@/components/generic-graphs/utils/reportDataUtil";
 import {FILTER_CONDITIONS} from "@/constants/chart/reportConstants";
 import {cloneDeep} from "lodash";
-import ninjaJson from '../../__tests__/unit/component/generic-graphs/fixtures/ninja-dashboard-layout.json'
 
 export const ANALYTICS_STATE = {
     DASHBOARD_DATA: "DASHBOARD_DATA",
@@ -581,7 +577,7 @@ const actions = {
         };
 
         let page = state[ANALYTICS_STATE.PAGINATION][chartId] && Object.keys(state[ANALYTICS_STATE.PAGINATION][chartId]).length > 0 ? state[ANALYTICS_STATE.PAGINATION][chartId] : null;
-        return adminAnalyticsService.getChartOrStatData(suffixUrl, appId, filters, page, 'export').then(
+        return AdminAnalyticsService.getChartOrStatData(suffixUrl, appId, filters, page, 'export').then(
             res => {
                 const url = res.data;
                 window.open(url);
@@ -590,7 +586,7 @@ const actions = {
         );
     },
     [ADMIN_RESET_DASHBOARD_LAYOUT]({commit}, {appId, emailId, mobileNumber}) {
-        return adminAnalyticsService.resetLayoutDataByEmailId(appId, emailId, mobileNumber).then(res => setDashboardData(res, commit));
+        return AdminAnalyticsService.resetLayoutDataByEmailId(appId, emailId, mobileNumber).then(res => setDashboardData(res, commit));
     },
     [ADMIN_SET_IS_DEFAULT_FLAG]({commit}, data) {
         commit(SET_IS_DEFAULT_LAYOUT, data);
@@ -674,8 +670,22 @@ const actions = {
             .catch(err => {
             })
     },
-    [ADMIN_SET_SALES_CHANNEL]({commit}, data) {
-        commit(SET_SALES_CHANNELS_INFO, data);
+    [ADMIN_START_COMPONENT_SPECIFIC_DOWNLOAD]({commit, state}, {url, pageName, chartId}) {
+        const filterPageLocation = pageName === ANALYTICS_PAGES.DASHBOARD ? ANALYTICS_STATE.DASHBOARD_FILTERS : ANALYTICS_STATE.REPORT_FILTERS;
+        let {
+            [FILTER_TYPES.GRAPH_FILTERS]: graphFilter,
+            [FILTER_TYPES.GLOBAL_FILTERS]: globalFilters,
+            [FILTER_TYPES.COMPONENT_SPECIFIC]: componentSpecifics,
+            ...filters
+        } = state[filterPageLocation];
+        filters = {
+            ...filters, ...globalFilters, ...(componentSpecifics && componentSpecifics[chartId] && componentSpecifics[chartId]),
+        };
+        return AdminAnalyticsService.componentSpecificDownload(filters, url).then(res => {
+            const url = res.data;
+            window.open(url);
+            return url;
+        });
     },
 
 };

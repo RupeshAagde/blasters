@@ -25,6 +25,7 @@
       >
         See more
       </div>
+   <header-download-button v-if="hasDownloadOption" :download-options="this.card.graphInfo.download"></header-download-button>
     </div>
     <div
         v-if="card.growth"
@@ -40,19 +41,16 @@
 import {NitrozenTooltip} from "@gofynd/nitrozen-vue";
 import UktInlineSvg from "@/components/common/ukt-inline-svg";
 import GrowthFactor from "../growth-factor";
-import {
-  ADMIN_CLONE_GLOBAL_FILTERS,
-  ADMIN_SAVE_FILTERS,
-  ADMIN_SET_ACTIVE_TAB
-} from "@/store/action.type";
+import {ADMIN_CLONE_GLOBAL_FILTERS, ADMIN_SAVE_FILTERS, ADMIN_SET_ACTIVE_TAB} from "@/store/action.type";
 import {ANALYTICS_PAGES, HTTP_STATUS_CODES} from "@/components/generic-graphs/data/constants";
 import {getRedirectionUrl} from "../utils/redirect.util";
 import {mediaScreensMixins} from "@/mixins/media-screens-mixins";
+import HeaderDownloadButton from "./header-download-button";
 
 export default {
   name: "dashboard-grid-header",
   mixins: [mediaScreensMixins],
-  components: {GrowthFactor, "inline-svg": UktInlineSvg, "nitrozen-tooltip": NitrozenTooltip},
+  components: {HeaderDownloadButton, GrowthFactor, "inline-svg": UktInlineSvg, "nitrozen-tooltip": NitrozenTooltip},
   methods: {
     redirect() {
       const navLink = "reports"
@@ -90,6 +88,9 @@ export default {
     },
     isCardEmpty() {
       return this.card && this.card.graphInfo && this.card.graphInfo.statusCode !== HTTP_STATUS_CODES.SUCCESS;
+    },
+    hasDownloadOption() {
+      return !!this.card.graphInfo.download;
     }
   }
 };
