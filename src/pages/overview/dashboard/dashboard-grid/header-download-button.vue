@@ -1,5 +1,5 @@
 <template>
-  <div class="download-wrapper" @click="download">
+  <div :class="{'disabled': downloadInProgress}" class="download-wrapper" @click="download">
     <uktinlinesvg :src="'download-export'" class="download-icon"></uktinlinesvg>
     <p>{{ downloadOptions.displayText }}</p>
   </div>
@@ -17,21 +17,47 @@ export default {
     downloadOptions: {type: Object, required: true},
     pageName: {type: String, default: ANALYTICS_PAGES.DASHBOARD}
   },
+  data: () => ({
+    downloadInProgress: false
+  }),
   methods: {
     download() {
+      if (this.downloadInProgress) {
+        return;
+      }
+      this.downloadInProgress = true;
       this.$store.dispatch(ADMIN_START_COMPONENT_SPECIFIC_DOWNLOAD, {
         pageName: this.pageName,
         url: this.downloadOptions.downloadUrl
-      }).then();
+      }).then(finished => {
+        this.downloadInProgress = false;
+      }).catch(err => {
+        this.downloadInProgress = false;
+
+      })
+      ;
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
+
+.disabled {
+  cursor: not-allowed !important;
+
+  p {
+    color: #dadada !important;
+  }
+
+  ::v-deep svg > path {
+    stroke: #dadada;
+  }
+}
+
 .download-wrapper {
   display: flex;
-  justify-content: space-between;
+  gap: 0.4rem;
   margin-left: auto;
   padding-right: 0.2rem;
   cursor: pointer;
