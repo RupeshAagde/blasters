@@ -69,7 +69,7 @@ import {NitrozenDropdown} from '@gofynd/nitrozen-vue';
 import collapse from '@/components/common/collapse.vue';
 import uktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import {ADMIN_CLEAR_FILTERS, ADMIN_RESET_ALL_REFRESH_TOKENS,} from '@/store/action.type';
-import {filterComponentSharedProps, filterMixin,} from '../../mixins/filter.mixin';
+import {filterComponentSharedProps, filterMixin, filtersSharedValueMixins,} from '../../mixins/filter.mixin';
 import {mapGetters} from 'vuex';
 import {GET_ALL_FILTERS, GET_GLOBALLY_STAGED_FILTER,} from '@/store/getters.type';
 import {ANALYTICS_STATE, FILTER_TYPES,} from '@/store/modules/admin-analytics.module';
@@ -81,8 +81,7 @@ import {ADMIN_SAVE_FILTERS} from "../../../../store/action.type";
 export default {
   name: 'filter-dropdown-component',
   components: {NitrozenDropdown, AppliedFilter, collapse, uktInlineSvg},
-  inject: ['chartId'],
-  mixins: [filterMixin, filterComponentSharedProps],
+  mixins: [filterMixin, filterComponentSharedProps, filtersSharedValueMixins],
   data: () => ({val: '', collapse_state: null, getVals: []}),
   beforeMount() {
     this.collapse_state = !this.seedData.closed;
@@ -130,10 +129,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      allFilters: GET_ALL_FILTERS,
-      stagedFiltersFunction: GET_GLOBALLY_STAGED_FILTER,
-    }),
     getValues() {
       return this.seedData.values.map((x) => ({
         text: x,
@@ -145,49 +140,6 @@ export default {
           this.seedData.filterType ===
           ANALYTICS_FILTER_TYPES.MULTI_SELECT_DROPDOWN
       );
-    },
-    filterStoreSavedKey() {
-      console.log('CHART_ID: ', this.chartId)
-      return this.chartId
-    },
-
-    value: {
-      get() {
-        if (this.applyFilter) {
-          const page =
-              this.pageName === ANALYTICS_PAGES.DASHBOARD
-                  ? ANALYTICS_STATE.DASHBOARD_FILTERS
-                  : ANALYTICS_STATE.REPORT_FILTERS;
-          if (
-              !this.allFilters[page] ||
-              !this.allFilters[page][FILTER_TYPES.GLOBAL_FILTERS]
-          ) {
-            return '';
-          }
-          return this.allFilters[page][FILTER_TYPES.GLOBAL_FILTERS][
-              this.seedData.id
-              ]
-              ? this.allFilters[page][FILTER_TYPES.GLOBAL_FILTERS][
-                  this.seedData.id
-                  ]
-              : '';
-        }
-        return this.stagedFiltersFunction(
-            this.pageName,
-            this.seedData.id
-        );
-      },
-      set(val) {
-        this.val = val;
-        this.saveValueToStore(val);
-        if (this.applyFilter) {
-          const context = this;
-          context.$store.dispatch(ADMIN_RESET_ALL_REFRESH_TOKENS, {
-            toggle: true,
-            page: context.pageName,
-          });
-        }
-      },
     },
     shouldShowTags() {
       return this.showTags && typeof this.value !== 'string';
