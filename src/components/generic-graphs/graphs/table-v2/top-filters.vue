@@ -1,36 +1,40 @@
 <template>
     <div class="topFilter">
-      <nitrozen-input v-model="searchText" :showSearchIcon="true" class="search" placeholder="Search shipment ID"
-                      type="search" @input="filterChange()"></nitrozen-input>
       <filter-components :page-name="pageName" :seed-data="filters" :should-show-tool-tip="false"
-                         class="components-specific-styles"></filter-components>
+                         :chart-id="chartId" class="components-specific-styles"></filter-components>
     </div>
 </template>
 
-<style scoped>
-.topFilter{
-    padding: 12px;
-    background: #F5F5F5;
-    display: flex;
-    flex-direction: row;
-    gap:1rem;
-    border-radius: 4px
+<style lang="less" scoped>
+.topFilter {
+  padding: 12px;
+  background: #F5F5F5;
+  border-radius: 4px;
 }
-::v-deep .nitrozen-dropdown-container{
-    min-width: 12.687rem;
+
+::v-deep .rest-of-filters {
+  .component-wrapper:nth-child(1) {
+    width: 80% !important;
+  }
+
+  .component-wrapper:nth-child(2) {
+    width: 20% !important;
+  }
 }
+
+::v-deep .nitrozen-dropdown-container {
+  min-width: 12.687rem;
+}
+
 ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger span {
-    opacity: 0.8;
-    font-size: 12px;
+  opacity: 0.8;
+  font-size: 12px;
 }
+
 ::v-deep .nitrozen-dropdown-container .nitrozen-option.selected {
-    color: #2e31be;
-    background-color: inherit;
-    font-weight: 600;
-}
-.search{
-    width: 100%;
-    height: 2.5rem;
+  color: #2e31be;
+  background-color: inherit;
+  font-weight: 600;
 }
 </style>
 
@@ -49,7 +53,8 @@ export default {
     return {}
   },
   props: {
-    filters: {type: Array | Object, required: true}
+    filters: {type: Array | Object, required: true},
+    chartId: {type: String}
   },
   inject: ['pageName'],
   data() {
@@ -58,11 +63,5 @@ export default {
       searchText: ''
     }
   },
-  methods: {
-    filterChange(event) {
-      console.log("EVENT", event);
-      console.log("Filter Selected", this.selectedStatus)
-    }
-  }
 }
 </script>

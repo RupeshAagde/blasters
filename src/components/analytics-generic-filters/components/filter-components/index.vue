@@ -16,25 +16,35 @@
             :key="index"
             class="component-wrapper"
         >
-            <filter-checkbox-components
-                v-if="ANALYTICS_FILTER_TYPES.RADIO_BUTTON === filter.filterType"
-                :apply-filter="applyFilter"
-                :page-name="pageName"
-                :seed-data="filter"
-                :show-clear="showClear"
-                :show-name="showName"
-                :show-tags="showTags"
-            ></filter-checkbox-components>
-            <filter-dropdown-component
-                v-else
-                :ref="filter.name"
-                :apply-filter="applyFilter"
-                :page-name="pageName"
-                :seed-data="filter"
-                :show-clear="seedData.hasClearOption"
-                :show-name="showName"
-                :show-tags="showTags"
-            ></filter-dropdown-component>
+          <filter-checkbox-components
+              v-if="ANALYTICS_FILTER_TYPES.RADIO_BUTTON === filter.filterType"
+              :apply-filter="applyFilter"
+              :page-name="pageName"
+              :seed-data="filter"
+              :show-clear="showClear"
+              :show-name="showName"
+              :show-tags="showTags"
+          ></filter-checkbox-components>
+          <filter-search-component
+              v-else-if="ANALYTICS_FILTER_TYPES.SEARCH_INPUT === filter.filterType"
+              :ref="filter.name"
+              :apply-filter="applyFilter"
+              :page-name="pageName"
+              :seed-data="filter"
+              :show-clear="seedData.hasClearOption"
+              :show-name="showName"
+              :show-tags="showTags"
+          ></filter-search-component>
+          <filter-dropdown-component
+              v-else
+              :ref="filter.name"
+              :apply-filter="applyFilter"
+              :page-name="pageName"
+              :seed-data="filter"
+              :show-clear="seedData.hasClearOption"
+              :show-name="showName"
+              :show-tags="showTags"
+          ></filter-dropdown-component>
         </div>
     </div>
 </template>
@@ -45,30 +55,36 @@ import {filterComponentSharedProps, filterMixin,} from '../../mixins/filter.mixi
 import {GENERIC_TOOLTIP_TEXT} from "./constant/tooltip-message"
 import FilterCheckboxComponents from './filter-checkbox-component';
 import FilterDropdownComponent from './filter-dropdown-component';
+import FilterSearchComponent from "./filter-search-component";
 
 export default {
-    name: 'index',
-    components: { FilterDropdownComponent, FilterCheckboxComponents, "nitrozen-tooltip": NitrozenTooltip },
-    props: {
-      alignVertically: {type: Boolean, default: false},
-      shouldShowToolTip: {type: Boolean, default: true}
+  name: 'index',
+  components: {
+    FilterSearchComponent,
+    FilterDropdownComponent,
+    FilterCheckboxComponents,
+    "nitrozen-tooltip": NitrozenTooltip
+  },
+  props: {
+    alignVertically: {type: Boolean, default: false},
+    shouldShowToolTip: {type: Boolean, default: true}
+  },
+  mixins: [filterMixin, filterComponentSharedProps],
+  methods: {
+    callDropdownFunc() {
+      this.seedData.forEach((filter) => {
+        this.$refs[filter.name][0].clearSearchSlugs();
+      });
+    }
+  },
+  computed: {
+    toolTipPosition() {
+      return 'top';
     },
-    mixins: [filterMixin, filterComponentSharedProps],
-    methods: {
-        callDropdownFunc(){
-            this.seedData.forEach((filter) => {
-               this.$refs[filter.name][0].clearSearchSlugs();
-            });
-        }
-    },
-    computed: {
-        toolTipPosition() {
-        return 'top';
-        },
-    },
-    data: () => ({
-          genericTooltipText: GENERIC_TOOLTIP_TEXT
-        }
+  },
+  data: () => ({
+        genericTooltipText: GENERIC_TOOLTIP_TEXT
+      }
   ),
 };
 </script>

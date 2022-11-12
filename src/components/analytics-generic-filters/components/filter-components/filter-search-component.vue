@@ -1,0 +1,32 @@
+<template>
+  <nitrozen-input v-model="searchText" :showSearchIcon="true" class="search" placeholder="Search shipment ID"
+                  type="search" @input="filterChange()"></nitrozen-input>
+</template>
+
+<script>
+import {filterComponentSharedProps, filterMixin, filtersSharedValueMixins} from "../../mixins/filter.mixin";
+import {NitrozenInput} from "@gofynd/nitrozen-vue";
+
+export default {
+  name: "filter-search-component",
+  mixins: [filterMixin, filterComponentSharedProps, filtersSharedValueMixins],
+  components: {NitrozenInput},
+  data() {
+    return {
+      selectedStatus: {},
+      searchText: ''
+    }
+  },
+  methods: {
+    filterChange() {
+    }
+  }
+}
+</script>
+
+<style lang="less" scoped>
+.search {
+  height: 2.5rem;
+}
+
+</style>
