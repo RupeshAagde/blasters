@@ -17,3 +17,5 @@ export const DATE_RANGE_LOWER_LIMIT = 6 // in months
 export const DASHBOARD_LAYOUT_ORDER = [
     'a', 'b', 'c'
 ];
+
+export const DATE_RANGE_IN_DAYS = 2;

@@ -18,7 +18,7 @@
       />
     </div>
     <div
-        v-if="show_from_date && show_to_date"
+        v-if="show_from_date && show_to_date && shouldShow"
         class="date-text"
     >
       Compared to {{ show_from_date }} -
@@ -35,11 +35,11 @@ import {
   API_DATE_FORMAT,
   COMPARE_DATE_OFFSET,
   DATE_FORMAT,
-  DATE_RANGE_LOWER_LIMIT
+  DATE_RANGE_LOWER_LIMIT,
+  DATE_RANGE_IN_DAYS
 } from "@/constants/chart/dashboardConstants";
 import {ADMIN_RESET_ALL_REFRESH_TOKENS, ADMIN_SAVE_FILTERS} from "@/store/action.type";
-import {
-  ANALYTICS_STATE,
+import {ANALYTICS_STATE,
   FILTER_TYPES,
   GLOBAL_FILTERS_MODEL
 } from "@/store/modules/admin-analytics.module";
@@ -57,7 +57,7 @@ export default {
   },
   data: () => ({
     orderDateRange: [
-      moment().subtract(1, "weeks").toISOString(),
+      moment().subtract(DATE_RANGE_IN_DAYS, "days").toISOString(),
       moment().toISOString()
     ],
     notBefore: moment().subtract(DATE_RANGE_LOWER_LIMIT, "months").toISOString(),
@@ -69,6 +69,7 @@ export default {
       end: moment().subtract(1, "day"),
       index: 1
     }],
+    shouldShow : false
   }),
   methods: {
     dateRangeChange(shouldResetTokens = true) {
