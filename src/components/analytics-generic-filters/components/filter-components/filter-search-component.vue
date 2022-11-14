@@ -6,6 +6,7 @@
 <script>
 import {filterComponentSharedProps, filterMixin, filtersSharedValueMixins} from "../../mixins/filter.mixin";
 import {NitrozenInput} from "@gofynd/nitrozen-vue";
+import {debounce} from "@/helper/utils";
 
 export default {
   name: "filter-search-component",
@@ -18,8 +19,9 @@ export default {
     }
   },
   methods: {
-    filterChange() {
-    }
+    filterChange: debounce(function (search) {
+      console.log(search);
+    }),
   }
 }
 </script>

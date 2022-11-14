@@ -24,6 +24,7 @@
               :show-clear="showClear"
               :show-name="showName"
               :show-tags="showTags"
+              :chart-id="chartId"
           ></filter-checkbox-components>
           <filter-search-component
               v-else-if="ANALYTICS_FILTER_TYPES.SEARCH_INPUT === filter.filterType"
@@ -34,6 +35,7 @@
               :show-clear="seedData.hasClearOption"
               :show-name="showName"
               :show-tags="showTags"
+              :chart-id="chartId"
           ></filter-search-component>
           <filter-dropdown-component
               v-else
@@ -44,6 +46,7 @@
               :show-clear="seedData.hasClearOption"
               :show-name="showName"
               :show-tags="showTags"
+              :chart-id="chartId"
           ></filter-dropdown-component>
         </div>
     </div>

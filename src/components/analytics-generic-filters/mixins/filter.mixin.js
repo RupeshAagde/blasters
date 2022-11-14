@@ -5,6 +5,7 @@ import {GET_GLOBAL_SEED_FILTERS} from '@/store/getters.type';
 import {ANALYTICS_STATE, FILTER_TYPES} from "../../../store/modules/admin-analytics.module";
 import {GET_ALL_FILTERS, GET_GLOBALLY_STAGED_FILTER} from "../../../store/getters.type";
 import {ADMIN_RESET_ALL_REFRESH_TOKENS, ADMIN_SAVE_FILTERS} from "../../../store/action.type";
+import {pickValues} from "../../../helper/utils";
 
 const filterMixin = {
     props: {
@@ -56,14 +57,26 @@ const filterComponentSharedProps = {
 const filtersSharedValueMixins = {
     methods: {
         saveValueToStore: function (val) {
-            this.$store.dispatch(ADMIN_SAVE_FILTERS, {
-                pageName: this.pageName,
-                saveOnStaging: !this.applyFilter,
-                globalFilters: {
-                    [this.seedData.id]: val,
-                },
-            });
-        }
+            if (!this.chartId) {
+                this.$store.dispatch(ADMIN_SAVE_FILTERS, {
+                    pageName: this.pageName,
+                    saveOnStaging: !this.applyFilter,
+                    [FILTER_TYPES.GLOBAL_FILTERS]: {
+                        [this.seedData.id]: val,
+                    },
+                });
+            } else {
+                this.$store.dispatch(ADMIN_SAVE_FILTERS, {
+                    pageName: this.pageName,
+                    saveOnStaging: !this.applyFilter,
+                    isComponentSpecific: true,
+                    [FILTER_TYPES.COMPONENT_SPECIFIC]: {
+                        [this.seedData.id]: val,
+                    },
+                });
+            }
+        },
+
     },
     computed: {
         ...mapGetters({
@@ -72,28 +85,24 @@ const filtersSharedValueMixins = {
         }),
         value: {
             get() {
+                const locationUrl = this.chartId ? [FILTER_TYPES.COMPONENT_SPECIFIC, this.chartId] : [FILTER_TYPES.GLOBAL_FILTERS];
                 if (this.applyFilter) {
                     const page =
                         this.pageName === ANALYTICS_PAGES.DASHBOARD
                             ? ANALYTICS_STATE.DASHBOARD_FILTERS
                             : ANALYTICS_STATE.REPORT_FILTERS;
+                    // console.log(page + '.' + locationUrl, this.chartId, get(this.allFilters, [page, locationUrl].join('.')));
                     if (
-                        !this.allFilters[page] ||
-                        !this.allFilters[page][FILTER_TYPES.GLOBAL_FILTERS]
+                        !pickValues(this.allFilters, [page, ...locationUrl])
                     ) {
                         return '';
                     }
-                    return this.allFilters[page][FILTER_TYPES.GLOBAL_FILTERS][
-                        this.seedData.id
-                        ]
-                        ? this.allFilters[page][FILTER_TYPES.GLOBAL_FILTERS][
-                            this.seedData.id
-                            ]
-                        : '';
+                    return pickValues(this.allFilters, [page, ...locationUrl, this.seedData.id]) ? pickValues(this.allFilters, [page, ...locationUrl, this.seedData.id]) : '';
                 }
                 return this.stagedFiltersFunction(
                     this.pageName,
-                    this.seedData.id
+                    this.seedData.id,
+                    locationUrl
                 );
             },
             set(val) {
@@ -109,6 +118,6 @@ const filtersSharedValueMixins = {
             },
         },
     }
-}
+};
 
 export {filterMixin, sharedDataMixins, filterComponentSharedProps, filtersSharedValueMixins};

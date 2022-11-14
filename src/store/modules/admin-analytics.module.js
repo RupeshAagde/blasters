@@ -112,6 +112,7 @@ import {
 import {constructFilterControlFlags, organiseDataForReports} from "@/components/generic-graphs/utils/reportDataUtil";
 import {FILTER_CONDITIONS} from "@/constants/chart/reportConstants";
 import {cloneDeep} from "lodash";
+import {pickValues} from "../../helper/utils";
 
 export const ANALYTICS_STATE = {
     DASHBOARD_DATA: "DASHBOARD_DATA",
@@ -302,11 +303,11 @@ const getters = {
         };
     },
     [GET_GLOBALLY_STAGED_FILTER](state) {
-        return function (pageName, filterName = null) {
-            if (!state[ANALYTICS_STATE.STAGED_FILTERS] || !state[ANALYTICS_STATE.STAGED_FILTERS][pageName] || !state[ANALYTICS_STATE.STAGED_FILTERS][pageName][FILTER_TYPES.GLOBAL_FILTERS]) {
+        return function (pageName, filterName = null, locationUrl = FILTER_TYPES.GLOBAL_FILTERS) {
+            if (!state[ANALYTICS_STATE.STAGED_FILTERS] || !state[ANALYTICS_STATE.STAGED_FILTERS][pageName] || !pickValues(state[ANALYTICS_STATE.STAGED_FILTERS][pageName], locationUrl)) {
                 return '';
             }
-            return filterName ? state[ANALYTICS_STATE.STAGED_FILTERS][pageName][FILTER_TYPES.GLOBAL_FILTERS][filterName] : state[ANALYTICS_STATE.STAGED_FILTERS][pageName][FILTER_TYPES.GLOBAL_FILTERS];
+            return filterName ? pickValues(state[ANALYTICS_STATE.STAGED_FILTERS][pageName], [...locationUrl, filterName]) : pickValues(state[ANALYTICS_STATE.STAGED_FILTERS][pageName], locationUrl);
         };
     },
     [SALES_DUMP_DOWNLOAD_STATUS](state) {
@@ -1096,7 +1097,7 @@ const mutations = {
     [SAVE_COMPONENT_SPECIFIC_FILTERS](state, {
         pageName,
         filterId,
-        timeFilter,
+        timeFilter
     }) {
         const url = checkIfDashboardCategory(pageName) ? ANALYTICS_STATE.DASHBOARD_FILTERS : ANALYTICS_STATE.REPORT_FILTERS;
         if (!filterId) {
