@@ -109,11 +109,20 @@
                         <div class="card-content-line-3" v-if="item.templates">
                             <span class="label">Templates</span>
                             <div class="label-data">
-                                <span
-                                    v-for="(dep, ind) of item.templates"
-                                    class="chips mr-xs mb-xs"
-                                >
-                                    {{ dep }}
+                                <span v-for="(dep, ind) of item.templates">
+                                    <span
+                                        v-if="ind < 8"
+                                        class="chips mr-xs mb-xs"
+                                        >{{ dep }}
+                                    </span>
+                                    <span
+                                        class="plusMoreBtn mr-xs mb-xs"
+                                        v-else-if="
+                                            ind >= 8 &&
+                                                ind == item.templates.length - 1
+                                        "
+                                        >+{{ ind + 1 - 8 }} More</span
+                                    >
                                 </span>
                             </div>
                         </div>
@@ -375,10 +384,10 @@ export default {
             }
         },
         formatDate(d) {
-            try{
+            try {
                 return dateFormat(d, 'mmm dd, yyyy HH:MM:ss TT');
-            } catch(err){
-                console.log(err)
+            } catch (err) {
+                console.log(err);
             }
         }
     }
