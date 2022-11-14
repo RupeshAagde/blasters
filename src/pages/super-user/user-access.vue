@@ -423,7 +423,8 @@ export default {
         requestQuery() {
             const query = {
                 page: this.pagination.current,
-                limit: this.pagination.limit
+                limit: this.pagination.limit,
+                org_users: false
             };
             if (this.userId) {
                 query['query'] = JSON.stringify({

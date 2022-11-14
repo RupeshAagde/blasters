@@ -60,7 +60,7 @@ export default {
                 neutralButtonLabel: false
             });
             if (this.edit_mode) {
-                UserService.getUserList({}, this.active_user._id)
+                UserService.getUserList({ org_users: false }, this.active_user._id)
                     .then(({ data }) => {
                         this.userCompanyData = data.companies;
                     })
