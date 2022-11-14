@@ -82,7 +82,7 @@
                             {{ item.display }}
                         </div>
                         <div class="card-content-line-2 mb-s">
-                            <div class="mr-xxl" v-if="item.created_on">
+                            <div class="mr-xl" v-if="item.created_on">
                                 <span class="label">Created</span>
                                 <div class="label-data">
                                     {{ formatDate(item.created_on) }}
@@ -111,7 +111,7 @@
                             <div class="label-data">
                                 <span
                                     v-for="(dep, ind) of item.templates"
-                                    class="chips mr-s mb-s"
+                                    class="chips mr-xs mb-xs"
                                 >
                                     {{ dep }}
                                 </span>

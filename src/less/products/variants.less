@@ -2,15 +2,21 @@
 
 .v-list-page {
     margin: 24px;
+    padding: 24px;
+    background-color: @White;
+    border-radius: 12px;
     .search-filter {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 12px;
         background: #f5f5f5;
+        margin: 24px 0px 16px 0px;
+        border-radius: 4px;
+        grid-gap: 16px;
 
         & .search {
-            flex: 0 0 57%;
+            flex: 0 0 56%;
         }
         & .filter {
             flex: 0 0 20%;
@@ -19,6 +25,7 @@
     .list-container {
         border: 1px solid #e0e0e0;
         padding: 24px;
+        border-radius: 4px;
         display: flex;
         cursor: pointer;
         transition: box-shadow 0.4s;
@@ -59,7 +66,7 @@
     text-align: left;
     color: @DustyGray2;
     display: inline-block;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 .label-data {
     font-family: Inter;
@@ -75,18 +82,17 @@
     padding: 8px 12px;
     display: inline-block;
     cursor: default;
+    color: @Mako;
 }
 
 // variant editing page classes
 .v-edit-page {
     margin: 84px 24px;
-    padding: 12px;
+    padding: 24px;
     background: @White;
     border-radius: 12px;
     min-height: calc(100vh - 300px);
 
-    .template-box {
-    }
     .chips-div {
         display: inline-block;
     }

@@ -25,7 +25,7 @@
             </page-header>
         </div>
         <div class="v-edit-page">
-            <div class="template-box">
+            <div>
                 <div>
                     <div class="custom-label">
                         <span class="custom-label-text "
@@ -52,7 +52,7 @@
                 <div v-if="selectedTemplates.value" class="label-data">
                     <span
                         v-for="(temp, index) of selectedTemplates.value"
-                        class="chips mr-s mt-s"
+                        class="chips mr-xs mt-xs"
                     >
                         {{ formatDisplay(temp, templateList) }}
                         <nitrozen-inline
