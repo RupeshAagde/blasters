@@ -87,7 +87,12 @@ export default {
             anchor: 'end',
             align: 'top',
           }
+        },
+        layout: {
+        padding: {
+            top: 30,
         }
+    }
       };
       options = this.setOptions(options, yAxes[0].label, yAxes[0].valueFormatter, this.shouldSetMinMax(yAxes[0].data));
       this.analyticsChart = new Chart(ctx, {
