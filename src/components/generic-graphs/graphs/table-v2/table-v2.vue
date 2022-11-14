@@ -112,6 +112,7 @@ import {mapGetters} from "vuex";
 import {ANALYTICS_STATE} from "@/store/modules/admin-analytics.module";
 import {ADMIN_SAVE_PAGINATION_CHANGE} from "@/store/action.type";
 import {TABLE_COLUMN_TYPES} from "@/components/generic-graphs/data/constants"
+import {ANALYTICS_PAGES} from "../../data/constants";
 
 export default {
   name: "table-component",
@@ -207,7 +208,12 @@ export default {
       this.rowMap = rowIndex;
     },
     paginationChange(pageConfigs) {
-      this.$store.dispatch(ADMIN_SAVE_PAGINATION_CHANGE, {graphId: this.chartId, ...pageConfigs});
+      this.$store.dispatch(ADMIN_SAVE_PAGINATION_CHANGE, {
+        graphId: this.chartId, ...pageConfigs,
+        panelIndex: 1,
+        cardIndex: 0,
+        pageName: ANALYTICS_PAGES.DASHBOARD
+      });
     },
     pageObject(pageConfig) {
       if (!this.chartId || !pageConfig[this.chartId])

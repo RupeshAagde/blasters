@@ -1,5 +1,5 @@
 <template>
-  <nitrozen-input v-model="searchText" :showSearchIcon="true" class="search" placeholder="Search shipment ID"
+  <nitrozen-input :value="value" :showSearchIcon="true" class="search" placeholder="Search shipment ID"
                   type="search" @input="filterChange"></nitrozen-input>
 </template>
 
@@ -20,7 +20,6 @@ export default {
   },
   methods: {
     filterChange: debounce(function (search) {
-      console.log(search);
       this.$emit('reset-data')
     }, 300),
   }

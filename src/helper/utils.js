@@ -1,8 +1,8 @@
-import { isBrowser, isNode } from 'browser-or-node';
+import {isBrowser} from 'browser-or-node';
 import CompanyService from '@/services/company-admin.service';
-import { Array, console } from 'window-or-global';
+import {Array, console} from 'window-or-global';
 import InputTypes from './NitrozenCustomFormInputTypes';
-import { getNavigations } from '../pages/administrator/navigations';
+import {getNavigations} from '../pages/administrator/navigations';
 import get from "lodash/get";
 
 export const debounce = (func, wait, immediate) => {
@@ -659,5 +659,6 @@ export const getAspectRatioFromString = function (aspectRatio = '1:1', getObject
 }
 
 export const  pickValues = function (obj, keys) {
+    console.log("get: ", get(obj, keys.join('.')), keys.join('.'), obj);
     return get(obj, keys.join('.'));
 };

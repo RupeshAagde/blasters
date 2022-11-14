@@ -5,7 +5,7 @@ import {GET_GLOBAL_SEED_FILTERS} from '@/store/getters.type';
 import {ANALYTICS_STATE, FILTER_TYPES} from "../../../store/modules/admin-analytics.module";
 import {GET_ALL_FILTERS, GET_GLOBALLY_STAGED_FILTER} from "../../../store/getters.type";
 import {ADMIN_RESET_ALL_REFRESH_TOKENS, ADMIN_SAVE_FILTERS} from "../../../store/action.type";
-import {pickValues} from "../../../helper/utils";
+import {pickValues} from "@/helper/utils";
 
 const filterMixin = {
     props: {

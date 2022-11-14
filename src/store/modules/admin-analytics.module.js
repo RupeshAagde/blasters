@@ -401,7 +401,7 @@ const actions = {
         const controlFileKey = checkIfDashboardCategory(pageName) ? ANALYTICS_STATE.DASHBOARD_FILTERS : ANALYTICS_STATE.REPORT_FILTERS;
         const selectedFilters = allFilters[checkIfDashboardCategory(pageName) ? ANALYTICS_STATE.DASHBOARD_FILTERS : ANALYTICS_STATE.REPORT_FILTERS];
         let filters = selectedFilters[FILTER_TYPES.GLOBAL_FILTERS];
-        let page = null
+        let page = null;
         if (state[ANALYTICS_STATE.FILTER_CONTROL_FLAGS][controlFileKey]) {
             page = state[ANALYTICS_STATE.FILTER_CONTROL_FLAGS][controlFileKey].pagination && state[ANALYTICS_STATE.PAGINATION][chartId] && Object.keys(state[ANALYTICS_STATE.PAGINATION][chartId]).length > 0 ? state[ANALYTICS_STATE.PAGINATION][chartId] : null;
         } else {
@@ -556,10 +556,10 @@ const actions = {
             filterType: [FILTER_TYPES.TABLE_FILTERS,]
         })
     },
-    [ADMIN_SAVE_PAGINATION_CHANGE]({commit}, {graphId, current, limit, pageName = ANALYTICS_PAGES.REPORTS}) {
-        commit(NAVIGATE_PAGE, {graphId, current});
-        commit(CHANGE_PAGES_SIZE, {graphId, limit});
+    [ADMIN_SAVE_PAGINATION_CHANGE]({commit}, {graphId, current, limit, pageName = ANALYTICS_PAGES.REPORTS, panelIndex, cardIndex}) {
         commit(TURN_PAGINATION_CONTROL_FLAG, {pageName: pageName, flagValue: true});
+        commit(CHANGE_PAGES_SIZE, {graphId, limit});
+        commit(NAVIGATE_PAGE, {graphId, current, panelIndex, cardIndex});
     },
     [ADMIN_CLONE_GLOBAL_FILTERS]({commit}, data) {
         commit(CLONE_GLOBAL_FILTERS, data);
@@ -932,7 +932,7 @@ const mutations = {
             if (panelIndex === null && cardIndex === null) {
                 state[ANALYTICS_STATE.REPORT_DATA].table.graphInfo.rows = null;
             } else {
-
+                state[ANALYTICS_STATE.DASHBOARD_DATA][panelIndex].cards[cardIndex].graphInfo.rows = null;
             }
         }
     }, [CHANGE_PAGES_SIZE](state, {graphId, limit}) {
