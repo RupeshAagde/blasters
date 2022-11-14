@@ -250,6 +250,24 @@ export const getNavigations = () => {
             ]
         },
         {
+            display: 'Finance',
+            link: '/administrator/finance/credit-debit-note',
+            title: 'finance',
+            icon: 'kycdetails',
+            highlightedIcon: 'home-highlighted',
+            active: false,
+            permission: 'finance',
+            children: [
+                {
+                    display: 'Credit-Note/Debit-Note',
+                    link: '/administrator/finance/credit-debit-note',
+                    title: 'cndn',
+                    highlightedIcon: 'team-highlighted',
+                    active: false,
+                }
+            ]
+        },
+        {
             display: 'Settings',
             link: '/administrator/settings/platform',
             title: 'settings',

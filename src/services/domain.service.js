@@ -98,6 +98,10 @@ const EXTENSION_PAGE_URL = isNode ?
     envVars.BROWSER_CONFIG.EXTENSION_PAGE_URL :
     envVars.EXTENSION_PAGE_URL;
 
+const DAYTRADER_ADMIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.DAYTRADER_ADMIN_URL :
+    envVars.DAYTRADER_ADMIN_URL;
+    
 const URLS = {
     // User Profile API's
     USER_PROFILE: () => {
@@ -703,7 +707,68 @@ const URLS = {
     },
     GET_AUDIT_TRAIL_ENTITY_TYPES:()=>{
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
-    }
+    },
+
+    //================ Credit Debit Note =================
+    // Credit Debit Note --------------------------------
+    GET_LIST_DATA: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/get-data')
+        //return `https://api.jiomarketx0.de/service/___/administrator/finance/v1.0/get-data` // will be replaced with SDK variable
+    },
+    // data for purpose dropdown
+    GET_PURPOSE_DATA: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/get-data')
+        //return `https://api.jiomarketx0.de/service/___/administrator/finance/v1.0/get-data` // will be replaced with SDK variable
+    },
+    // save note details
+    SAVE_NOTE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/credit-debit-note')
+        //return `https://api.jiomarketx0.de/service/___/administrator/finance/v1.0/credit-debit-note`
+    },
+    // get service invoice details for gst fee invoice and gst service invoice
+    GET_SERVICE_INVOICE_DETAILS: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/get-service-invoice-details')
+        // return `https://api.jiomarketx0.de/service/___/administrator/finance/v1.0/get-service-invoice-details`
+    },
+
+    GET_NOTE_DATA: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/get-credit-debit-note')
+        //return `https://api.jiomarketx0.de/service/___/administrator/finance/v1.0/get-credit-debit-note` // will be replaced with SDK variable
+    },
+
+    GET_ENTITY: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/credit-debit-note')
+        //return `https://api.jiomarketx0.de/service/___/administrator/finance/v1.0/credit-debit-note` // will be replaced with SDK variable
+    },
+    // get user details from user id
+    GET_USER_DETAILS: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/seller-info')
+        //return `https://api.jiomarketx0.de/service/___/administrator/finance/v1.0/seller-info` // will be replaced with SDK variable
+    },
+    //approver side cn-dn
+    UPDATE_NOTE_STATUS: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/update-cn-dn-note-status')
+        //return `https://api.jiomarketx0.de/service/___/administrator/finance/v1.0/update-cn-dn-note-status` // will be replaced with SDK variable
+    },
+    // SKYWARP  Platform Config
+    PLATFORM_CONFIG: () => {
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/platform/config/');
+    },
+    // get gst service invoice details
+    GET_INVOICE_DETAILS: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/get-service-invoice-details')
+        //return `https://api.jiomarketx0.de/service/___/administrator/finance/v1.0/get-service-invoice-details` // will be replaced with SDK variable
+    },
+    // validate invoice number for gst service 
+    VALIDATE_INVOICE_NUMBER: () =>{
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/validate-service-invoice-number')
+        //return `https://api.jiomarketx0.de/service/___/administrator/finance/v1.0/validate-service-invoice-number` // will be replaced with SDK variable
+    },
+    // download approved credit/debit note
+    DOWNLOAD_NOTE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/download-credit-debit-note')
+        //return `https://api.jiomarketx0.de/service/___/administrator/finance/v1.0/download-credit-debit-note`
+    },
 };
 
 export default URLS;
