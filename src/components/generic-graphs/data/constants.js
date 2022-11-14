@@ -29,7 +29,7 @@ export const ARROW_COLORS = {
 export const CANVAS_HEIGHT = {
     MOBILE: 180,
     TABLET: 150,
-    LARGE_SCREEN: 260,
+    LARGE_SCREEN: 290,
     EXTRA_LARGE_SCREEN: 300
 };
 
