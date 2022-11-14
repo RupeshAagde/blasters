@@ -1097,7 +1097,8 @@ const mutations = {
     [SAVE_COMPONENT_SPECIFIC_FILTERS](state, {
         pageName,
         filterId,
-        timeFilter
+        timeFilter,
+        searchFilter
     }) {
         const url = checkIfDashboardCategory(pageName) ? ANALYTICS_STATE.DASHBOARD_FILTERS : ANALYTICS_STATE.REPORT_FILTERS;
         if (!filterId) {
@@ -1110,6 +1111,12 @@ const mutations = {
 
         if (timeFilter) {
             state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId][FILTER_TYPES.TIME_FILTERS] = timeFilter;
+        }
+        if(searchFilter){
+            if(!state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId]){
+                state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId] = {}
+            }
+            state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId][searchFilter.id] = searchFilter.searchText
         }
     },
 };
