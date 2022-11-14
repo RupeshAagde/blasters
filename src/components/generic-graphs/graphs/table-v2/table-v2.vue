@@ -34,7 +34,7 @@
 
               <!--              if the value is array     -->
               <div v-else-if="Array.isArray( row[column.field])" class="table-content-content">
-                <p v-for="index in row[column.field]" :key="index" class="mb-half-rem">{{ index }}</p>
+                <p v-for="(index, i) in row[column.field]" :key="i" class="mb-half-rem">{{ index }}</p>
                 <!--              If  has more details let this be collapsable-->
                 <p :class="{'hidden': column.type !== TABLE_COLUMN_TYPES.COLLAPSE && hasOtherRidersInfo(row)}"
                    class="view-more-text cp"
