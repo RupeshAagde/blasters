@@ -200,6 +200,9 @@
         <div v-show="activeTabIndex === 5">
             <list-deployment :company_name="profileDetails.name" />
         </div>
+        <div v-show="activeTabIndex === 6">
+            <seller-request-list />
+        </div>
     </div>
 </template>
 <style lang="less" scoped>
@@ -413,6 +416,7 @@ import {
 } from '@gofynd/nitrozen-vue';
 import { FETCH_METRICS } from '@/store/action.type';
 import marketplaceChannels from './mkp-channels.vue';
+import sellerRequestList from '../seller-request/seller-request-list.vue';
 import invoiceListing from './invoice-listing.vue';
 import admcompanysubscription from './subscription.vue';
 import deploymentList from './deployment-listing.vue';
@@ -427,6 +431,7 @@ const TAB_NAMES = [
     'Subscription',
     'Invoices',
     'Infra',
+    'Seller Request'
 ];
 export default {
     name: 'adm-company-profile',
@@ -447,6 +452,7 @@ export default {
         'adm-inline-svg': admInlineSVG,
         'invoice-listing': invoiceListing,
         'list-deployment': deploymentList,
+        'seller-request-list':sellerRequestList
     },
     computed: {},
     data() {
