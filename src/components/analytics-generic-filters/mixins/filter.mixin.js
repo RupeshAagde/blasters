@@ -70,7 +70,8 @@ const filtersSharedValueMixins = {
                     pageName: this.pageName,
                     saveOnStaging: !this.applyFilter,
                     isComponentSpecific: true,
-                    [FILTER_TYPES.COMPONENT_SPECIFIC]: {
+                    filterId: this.chartId,
+                    genericComponentSpecific: {
                         [this.seedData.id]: val,
                     },
                 });
@@ -109,6 +110,10 @@ const filtersSharedValueMixins = {
                 this.val = val;
                 this.saveValueToStore(val);
                 if (this.applyFilter) {
+                    if (this.chartId) {
+                        this.$emit('reset-data');
+                        return;
+                    }
                     const context = this;
                     context.$store.dispatch(ADMIN_RESET_ALL_REFRESH_TOKENS, {
                         toggle: true,

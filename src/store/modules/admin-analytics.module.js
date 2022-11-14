@@ -1102,7 +1102,8 @@ const mutations = {
         pageName,
         filterId,
         timeFilter,
-        searchFilter
+        searchFilter,
+        genericComponentSpecific
     }) {
         const url = checkIfDashboardCategory(pageName) ? ANALYTICS_STATE.DASHBOARD_FILTERS : ANALYTICS_STATE.REPORT_FILTERS;
         if (!filterId) {
@@ -1113,11 +1114,18 @@ const mutations = {
             state[url][FILTER_TYPES.COMPONENT_SPECIFIC] = {[filterId]: {}}
         }
 
+        if (genericComponentSpecific) {
+            if (!state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId]) {
+                state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId] = {}
+            }
+            state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId] = {...state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId], ...genericComponentSpecific};
+        }
+
         if (timeFilter) {
             state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId][FILTER_TYPES.TIME_FILTERS] = timeFilter;
         }
-        if(searchFilter){
-            if(!state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId]){
+        if (searchFilter) {
+            if (!state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId]) {
                 state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId] = {}
             }
             state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId][searchFilter.id] = searchFilter.searchText

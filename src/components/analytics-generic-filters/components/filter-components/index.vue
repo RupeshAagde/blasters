@@ -25,6 +25,7 @@
               :show-name="showName"
               :show-tags="showTags"
               :chart-id="chartId"
+              @reset-data="$emit('reset-data')"
           ></filter-checkbox-components>
           <filter-search-component
               v-else-if="ANALYTICS_FILTER_TYPES.SEARCH_INPUT === filter.filterType"
@@ -48,6 +49,7 @@
               :show-name="showName"
               :show-tags="showTags"
               :chart-id="chartId"
+              @reset-data="$emit('reset-data')"
           ></filter-dropdown-component>
         </div>
     </div>
