@@ -21,6 +21,7 @@ export default {
   methods: {
     filterChange: debounce(function (search) {
       console.log(search);
+      this.$emit('reset-data')
     }),
   }
 }

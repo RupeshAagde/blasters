@@ -272,7 +272,7 @@ const getters = {
     },
     [GET_DASHBOARD_CARD_NAV_LINK](state) {
         return function (pageName) {
-            const page = checkIfDashboardCategory(pageName) ? ANALYTICS_STATE.DASHBOARD_FILTERS : ANALYTICS_STATE.REPORT_FILTERS
+            const page = checkIfDashboardCategory(pageName) ? ANALYTICS_STATE.DASHBOARD_FILTERS : ANALYTICS_STATE.REPORT_FILTERS;
             return state[page][FILTER_TYPES.CARD_NAV_LINK];
         };
     },
@@ -556,10 +556,10 @@ const actions = {
             filterType: [FILTER_TYPES.TABLE_FILTERS,]
         })
     },
-    [ADMIN_SAVE_PAGINATION_CHANGE]({commit}, {graphId, current, limit}) {
+    [ADMIN_SAVE_PAGINATION_CHANGE]({commit}, {graphId, current, limit, pageName = ANALYTICS_PAGES.REPORTS}) {
         commit(NAVIGATE_PAGE, {graphId, current});
         commit(CHANGE_PAGES_SIZE, {graphId, limit});
-        commit(TURN_PAGINATION_CONTROL_FLAG, {pageName: ANALYTICS_PAGES.REPORTS, flagValue: true});
+        commit(TURN_PAGINATION_CONTROL_FLAG, {pageName: pageName, flagValue: true});
     },
     [ADMIN_CLONE_GLOBAL_FILTERS]({commit}, data) {
         commit(CLONE_GLOBAL_FILTERS, data);
@@ -925,11 +925,15 @@ const mutations = {
             [PAGINATION_MODEL.HAS_NEXT]: has_next,
             [PAGINATION_MODEL.HAS_PREV]: has_previous,
         };
-    }, [NAVIGATE_PAGE](state, {graphId, current}) {
-
+    }, [NAVIGATE_PAGE](state, {graphId, current, panelIndex = null, cardIndex = null}) {
+        console.log('graphId: ', graphId, ' and refreshToken: ', state);
         if (current) {
             state[ANALYTICS_STATE.PAGINATION][graphId][PAGINATION_MODEL.CURRENT] = current;
-            state[ANALYTICS_STATE.REPORT_DATA].table.graphInfo.rows = null
+            if (panelIndex === null && cardIndex === null) {
+                state[ANALYTICS_STATE.REPORT_DATA].table.graphInfo.rows = null;
+            } else {
+
+            }
         }
     }, [CHANGE_PAGES_SIZE](state, {graphId, limit}) {
         if (limit) {

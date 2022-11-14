@@ -36,6 +36,7 @@
               :show-name="showName"
               :show-tags="showTags"
               :chart-id="chartId"
+              @reset-data="$emit('reset-data')"
           ></filter-search-component>
           <filter-dropdown-component
               v-else

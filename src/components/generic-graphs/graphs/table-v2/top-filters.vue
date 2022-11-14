@@ -1,7 +1,7 @@
 <template>
     <div class="topFilter">
       <filter-components :page-name="pageName" :seed-data="filters" :should-show-tool-tip="false"
-                         :chart-id="chartId" class="components-specific-styles"></filter-components>
+                         :chart-id="chartId" class="components-specific-styles" @reset-data="$emit('reset-data')"></filter-components>
     </div>
 </template>
 

@@ -46,6 +46,7 @@
           :extra-props="extraProps"
           :status-code="statusCode"
           :seed-filters="seedFilters"
+          @reset-data="$emit('reset-data')"
       ></table-v2>
     </div>
   </div>
