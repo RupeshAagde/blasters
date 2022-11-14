@@ -13,7 +13,7 @@
               <div class="collapse-wrapper">
                 <div v-for="item in row.fields">
                   <p class="heading mb-half-rem">{{ item.name }}</p>
-                  <p class="content">{{ item.value }}</p>
+                  <p class="content">{{ item.value | valueDisplayFormatter }}</p>
                 </div>
               </div>
             </td>
@@ -135,6 +135,14 @@ export default {
     uktInlineSvg,
     "nitrozen-pagination": NitrozenPagination,
     'adm-no-content': admnocontent,
+  },
+  filters: {
+    valueDisplayFormatter(value) {
+      if (!Array.isArray(value)) {
+        return value;
+      }
+      return value.join(', ')
+    }
   },
   mounted() {
     this.pageObject(this.pageConfig);

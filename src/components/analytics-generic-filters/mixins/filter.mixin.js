@@ -2,10 +2,15 @@ import {ANALYTICS_PAGES} from '@/components/generic-graphs/data/constants';
 import {ANALYTICS_FILTER_TYPES} from '../constants/constants';
 import {mapGetters} from 'vuex';
 import {GET_GLOBAL_SEED_FILTERS} from '@/store/getters.type';
+import {ANALYTICS_STATE, FILTER_TYPES} from "../../../store/modules/admin-analytics.module";
+import {GET_ALL_FILTERS, GET_GLOBALLY_STAGED_FILTER} from "../../../store/getters.type";
+import {ADMIN_RESET_ALL_REFRESH_TOKENS, ADMIN_SAVE_FILTERS} from "../../../store/action.type";
+import {pickValues} from "../../../helper/utils";
 
 const filterMixin = {
     props: {
         pageName: {type: String, default: ANALYTICS_PAGES.DASHBOARD},
+        chartId: {type: String, default: null},
     },
     data: () => ({
         ANALYTICS_FILTER_TYPES: ANALYTICS_FILTER_TYPES,
@@ -41,13 +46,78 @@ const sharedDataMixins = {
 
 const filterComponentSharedProps = {
     props: {
-        seedData: { type: [Object, Array], required: true },
-        showName: { type: Boolean, default: false },
-        showTags: { type: Boolean, default: false },
-        showClear: { type: Boolean, default: false },
-        applyFilter: { type: Boolean, default: true },
-        collapsed: { type: Boolean, default: false },
+        seedData: {type: [Object, Array], required: true},
+        showName: {type: Boolean, default: false},
+        showTags: {type: Boolean, default: false},
+        showClear: {type: Boolean, default: false},
+        applyFilter: {type: Boolean, default: true},
+        collapsed: {type: Boolean, default: false},
     },
 };
+const filtersSharedValueMixins = {
+    methods: {
+        saveValueToStore: function (val) {
+            if (!this.chartId) {
+                this.$store.dispatch(ADMIN_SAVE_FILTERS, {
+                    pageName: this.pageName,
+                    saveOnStaging: !this.applyFilter,
+                    [FILTER_TYPES.GLOBAL_FILTERS]: {
+                        [this.seedData.id]: val,
+                    },
+                });
+            } else {
+                this.$store.dispatch(ADMIN_SAVE_FILTERS, {
+                    pageName: this.pageName,
+                    saveOnStaging: !this.applyFilter,
+                    isComponentSpecific: true,
+                    [FILTER_TYPES.COMPONENT_SPECIFIC]: {
+                        [this.seedData.id]: val,
+                    },
+                });
+            }
+        },
 
-export { filterMixin, sharedDataMixins, filterComponentSharedProps };
+    },
+    computed: {
+        ...mapGetters({
+            allFilters: GET_ALL_FILTERS,
+            stagedFiltersFunction: GET_GLOBALLY_STAGED_FILTER,
+        }),
+        value: {
+            get() {
+                const locationUrl = this.chartId ? [FILTER_TYPES.COMPONENT_SPECIFIC, this.chartId] : [FILTER_TYPES.GLOBAL_FILTERS];
+                if (this.applyFilter) {
+                    const page =
+                        this.pageName === ANALYTICS_PAGES.DASHBOARD
+                            ? ANALYTICS_STATE.DASHBOARD_FILTERS
+                            : ANALYTICS_STATE.REPORT_FILTERS;
+                    // console.log(page + '.' + locationUrl, this.chartId, get(this.allFilters, [page, locationUrl].join('.')));
+                    if (
+                        !pickValues(this.allFilters, [page, ...locationUrl])
+                    ) {
+                        return '';
+                    }
+                    return pickValues(this.allFilters, [page, ...locationUrl, this.seedData.id]) ? pickValues(this.allFilters, [page, ...locationUrl, this.seedData.id]) : '';
+                }
+                return this.stagedFiltersFunction(
+                    this.pageName,
+                    this.seedData.id,
+                    locationUrl
+                );
+            },
+            set(val) {
+                this.val = val;
+                this.saveValueToStore(val);
+                if (this.applyFilter) {
+                    const context = this;
+                    context.$store.dispatch(ADMIN_RESET_ALL_REFRESH_TOKENS, {
+                        toggle: true,
+                        page: context.pageName,
+                    });
+                }
+            },
+        },
+    }
+};
+
+export {filterMixin, sharedDataMixins, filterComponentSharedProps, filtersSharedValueMixins};
