@@ -7,8 +7,9 @@
 import {filterComponentSharedProps, filterMixin, filtersSharedValueMixins} from "../../mixins/filter.mixin";
 import {NitrozenInput} from "@gofynd/nitrozen-vue";
 import {debounce} from "@/helper/utils";
-import {ADMIN_SAVE_FILTERS, ADMIN_RESET_ALL_REFRESH_TOKENS} from "@/store/action.type"
-import { ANALYTICS_PAGES } from "../../../generic-graphs/data/constants";
+import {ADMIN_SAVE_FILTERS} from "@/store/action.type"
+import {ANALYTICS_PAGES} from "../../../generic-graphs/data/constants";
+
 export default {
   name: "filter-search-component",
   mixins: [filterMixin, filterComponentSharedProps, filtersSharedValueMixins],
@@ -20,16 +21,17 @@ export default {
     }
   },
   methods: {
-    filterChange: debounce(function () {
+    filterChange: debounce(function (searchText) {
       this.$store.dispatch(ADMIN_SAVE_FILTERS, {
-        pageName : ANALYTICS_PAGES.DASHBOARD,
-        isComponentSpecific :true,
-        filterId : this.chartId,
-        searchFilter : {
-          id : this.seedData.id,
-          searchText : this.searchText
+        pageName: ANALYTICS_PAGES.DASHBOARD,
+        isComponentSpecific: true,
+        filterId: this.chartId,
+        searchFilter: {
+          id: this.seedData.id,
+          searchText: searchText
         }
       });
+      this.searchText = searchText;
       this.$emit('reset-data')
     },250),
   }
