@@ -1,15 +1,14 @@
 import {
     ADMIN_SET_DASHBOARD_DATA,
-    ADMIN_SET_NINJA_DASHBOARD_DATA,
     LAYOUT_FOR_EXTRA_LARGER_DEVICE,
     LAYOUT_FOR_LARGER_DEVICE,
     LAYOUT_FOR_MOBILE_DEVICE,
     SAVE_ALL_FILTERS,
     SAVE_COMPONENT_SPECIFIC_FILTERS,
+    SET_ADDITIONAL_FILTERS,
     SET_IS_DEFAULT_LAYOUT,
     SET_NAV_LINK,
-    SET_SEED_FILTERS,
-    SET_ADDITIONAL_FILTERS
+    SET_SEED_FILTERS
 } from "../store/mutation.type";
 import {ANALYTICS_PAGES} from "../components/generic-graphs/data/constants";
 import {FILTER_TYPES, SALES_CHANNEL_TYPE} from "../store/modules/admin-analytics.module";
@@ -93,8 +92,11 @@ function setNavLinkForScorecards(data, commit) {
 }
 
 export function setDashboardData(res, commit) {
-    const data = addInfinity(res.data.dlayout.panels);
+    let data = addInfinity(res.data.dlayout.panels);
     const isDefault = res.data.isDefault;
+    if (res.data.dunzoStatusFilter) {
+        data = saveDunzoFilters(data, res.data.dunzoStatusFilter, ANALYTICS_PAGES.DASHBOARD, 1, 0);
+    }
     setNavLinkForScorecards(data, commit);
     commit(ADMIN_SET_DASHBOARD_DATA, data);
     setDefaultFilters(data, commit);
@@ -102,7 +104,17 @@ export function setDashboardData(res, commit) {
     if (res.data.seedFilters) {
         saveSeedFilters(commit, res.data.seedFilters);
     }
+
     setHeaderHeight(commit);
+}
+
+function saveDunzoFilters(data, dunzoFilterData, pageName, panelIndex = 1, cardIndex = 0) {
+
+    if (pageName === ANALYTICS_PAGES.REPORTS) {
+        return;
+    }
+    data[panelIndex].cards[cardIndex].seedFilters = dunzoFilterData;
+    return data;
 }
 
 function cleanData(data) {
