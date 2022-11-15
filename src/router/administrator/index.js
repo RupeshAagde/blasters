@@ -35,8 +35,8 @@ import AuditLogsDetails from './../../pages/audit-trail/log-detail.vue';
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
-import ListVariants from './../../pages/catalogue/list-variants.vue';
-import CreateUpdateVariant from './../../pages/catalogue/create-update-variant.vue';
+import ListVariants from './../../pages/product/variants/list.vue'
+import CreateUpdateVariant from '@/pages/product/variants/edit.vue';
 import Product from './../../pages/product/index';
 import ProductAttributesList from '@/pages/product/attributes/list';
 import ProductAttributesEdit from '@/pages/product/attributes/edit';
@@ -88,7 +88,7 @@ export default [
                 path: 'webhook',
                 component: ListWebhooks,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['webhook']);
                 }
             },
             {
@@ -96,7 +96,7 @@ export default [
                 path: 'create-webhook',
                 component: CreateWebhooks,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['webhook']);
                 }
             },
             {
@@ -104,7 +104,7 @@ export default [
                 path: 'edit-webhook/:id',
                 component: EditWebhooks,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['webhook']);
                 }
             },
             {
@@ -112,7 +112,7 @@ export default [
                 path: 'webhook-report',
                 component: WebhookReport,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['webhook']);
                 }
             },
             {
@@ -758,7 +758,7 @@ export default [
         component: PackagingHome,
         beforeEnter: (to, from, next) => {
             return checkUserPermission(to, from, next, [
-                'admin-access'
+                'packaging'
             ]);
         }
     },
@@ -769,7 +769,7 @@ export default [
         component: PackagingCreate,
         beforeEnter: (to, from, next) => {
             return checkUserPermission(to, from, next, [
-                'admin-access'
+                'packaging'
             ]);
         }
     },
@@ -779,7 +779,7 @@ export default [
         component: CategoryConfig,
         beforeEnter: (to, from, next) => {
             return checkUserPermission(to, from, next, [
-                'admin-access'
+                'packaging'
             ]);
         }
     },
@@ -790,14 +790,14 @@ export default [
         component: CreateCategory,
         beforeEnter: (to, from, next) => {
             return checkUserPermission(to, from, next, [
-                'admin-access'
+                'packaging'
             ]);
         }
     },
         ]
     },
     {
-        name: 'partners',
+        name: 'extension-listing',
         path: '/administrator/settings/partners/extensions-listing',
         component: ExtensionsListingVue,
         beforeEnter: (to, from, next) => {

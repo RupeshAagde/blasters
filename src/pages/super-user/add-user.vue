@@ -307,6 +307,10 @@ export default {
                 access: {
                     all: true,
                     company: []
+                },
+                partner_access: {
+                    all: false,
+                    organization: []
                 }
             },
             limit: 1000,
@@ -367,7 +371,8 @@ export default {
                     user: userData._id,
                     permissions: userData.permissions,
                     roles: userData.roles,
-                    access: userData.access
+                    access: userData.access,
+                    partner_access: userData.partner_access
                 };
                 return UserService.addUser(userData)
                     .then((res) => {

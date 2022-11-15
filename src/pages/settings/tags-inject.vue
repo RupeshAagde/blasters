@@ -137,14 +137,14 @@ export default {
         openTag(item) {
             if (item) {
                 this.$router.push({
-                    path: `/administrator/settings/update-tag/${item._id}`
+                    path: `/administrator/settings/platform/update-tag/${item._id}`
                 })
                 .catch(()=>{})
             }
         },
         createTag(){
             this.$router.push({
-                    path: `/administrator/settings/create-tag`
+                    path: `/administrator/settings/platform/create-tag`
                 });
 
         },

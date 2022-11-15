@@ -6,6 +6,17 @@
                 @backClick="onCancel"
             >
                 <div class="button-box">
+                    <div 
+                        class="toggle-text"
+                        :class="{ disabled: !visible }"
+                    >
+                        {{visible ? "Visible": "Hidden"}}
+                    </div>
+                    <nitrozen-toggle-btn
+                        v-if="isEditOnly"
+                        id="visibility"
+                        v-model="visible"
+                    ></nitrozen-toggle-btn>
                     <nitrozen-button
                         :theme="'secondary'"
                         @click="saveForm"
@@ -322,7 +333,8 @@ import {
     NitrozenDialog,
     NitrozenCustomForm,
     flatBtn,
-    strokeBtn
+    strokeBtn,
+    NitrozenToggleBtn
 } from '@gofynd/nitrozen-vue';
 import {
     Loader,
@@ -359,7 +371,8 @@ export default {
         NitrozenInline,
         NitrozenRadio,
         NitrozenDialog,
-        NitrozenCustomForm
+        NitrozenCustomForm,
+        'nitrozen-toggle-btn': NitrozenToggleBtn
     },
     directives: {
         flatBtn,
@@ -400,7 +413,8 @@ export default {
             token: '',
             integrationId: this.$route.params.integrationId,
             pagination: { ...PAGINATION },
-            searchText: ''
+            searchText: '',
+            visible: true
         };
     },
     mounted() {
@@ -431,6 +445,7 @@ export default {
                 return;
             }
             const obj = this.getFormData();
+            obj.hidden = !this.visible;
             this.inProgress = true;
             if (this.integrationId) {
                 return IntegrationService.saveIntegration(
@@ -726,6 +741,9 @@ export default {
                         (this.integrationData.validators.order &&
                             this.integrationData.validators.order.json_schema) ||
                         [];
+                    if(this.integrationData.hidden) {
+                        this.visible = !this.integrationData.hidden; 
+                    }
                     setTimeout(() => {
                         this.$refs['companyForm'].populateData();
                         this.$refs['storeForm'].populateData();
@@ -834,5 +852,13 @@ export default {
 }
 .pointer {
     cursor: pointer;
+}
+.toggle-text {
+    font-size: 12px;
+    font-weight: 700;
+    color: @RoyalBlue;
+    &.disabled {
+        color: @DustyGray2;
+    }
 }
 </style>

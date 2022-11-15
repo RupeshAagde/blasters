@@ -86,7 +86,7 @@
                                     : 'inputs url-webhook',
                             ]" @focusout="isFormValid" :autofocus="true" :showTooltip="true"
                                 :tooltipText="'Name- Title of subscriber.'" :label="'Name*'" :type="'text'"
-                                v-model="name" maxlength="30" @keypress="onlyString($event)">
+                                v-model="name" maxlength="30" @keypress="checkSpecialChar($event)">
                             </nitrozen-input>
                             <nitrozen-error :class="[
                                 specialChar
@@ -1854,9 +1854,10 @@ export default {
                     if (element.key != '' && element.value != '') {
                         headers[element.key] = element.value;
                     }
-                });
+                }); 
             }
             if (!isValid) {
+                this.saveButtonClicked = false;
                 return;
             }
             if (this.authStatus == true && this.password.length == 0) {
@@ -2155,8 +2156,8 @@ export default {
         closeTestDialog: function () {
             this.$refs['test_status_dialog'].close();
         },
-        onlyString(e) {
-            if (/^\W$/.test(e.key) && e.key != ' ' && e.key != '-') {
+        checkSpecialChar(e) {
+            if (/^\W$/.test(e.key) && (e.key === ',' || e.key === "\"")) {
                 e.preventDefault();
                 this.specialChar = true;
             } else {
