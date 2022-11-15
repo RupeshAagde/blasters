@@ -2,7 +2,7 @@
     <div class="panel">
         <div class="main-container">
             <div class="page-container">
-                <sales-channel/>
+                <custom-sales-channel/>
             </div>
         </div>
     </div>
@@ -10,13 +10,13 @@
 
 <script>
 import { NitrozenButton, flatBtn } from '@gofynd/nitrozen-vue';
-import SalesChannel from './sales-channel';
+import CustomSalesChannel from './custom-sales-channel';
 
 export default {
     name: 'rma-sales-page',
     components: {
         'nitrozen-button': NitrozenButton,
-        'sales-channel': SalesChannel
+        'custom-sales-channel': CustomSalesChannel
     },
     directives: {
         flatBtn,
