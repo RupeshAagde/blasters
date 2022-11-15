@@ -14,6 +14,15 @@ const RMAService = {
         );
         return ApiService.get(URLS.GET_RMA_SALES_CHANNEL(), axiosOption);
     },
+    getOptedSalesChannelList(params) {
+        const axiosOption = Object.assign(
+            {
+                params
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.GET_OPTED_RMA_SALES_CHANNEL(), axiosOption);
+    },
     getOrderingChannel(query_param) {
         const axiosOption = Object.assign(
             { data: {} },

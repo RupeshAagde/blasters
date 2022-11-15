@@ -38,13 +38,22 @@ export default {
         goBack() {
             const currentRoute = this.$route.name;
             switch (currentRoute) {
-                case 'rma-sales-channel':
-                    this.$router.push({ path: '/administrator/rma/rules' });
-                    break;
-                case 'rma-setup':
-                case 'rma-edit':
+                case 'rma-global-rules':
+                case 'rma-custom-rules':
                     this.$router.push({
-                        path: `/administrator/rma/rules/${this.$route.params.company}`
+                        path: '/administrator/settings/platform/rma/rules'
+                    });
+                    break;
+                case 'rma-global-rule-setup':
+                case 'rma-global-rule-edit':
+                    this.$router.push({
+                        path: `/administrator/settings/platform/rma/rules/global`
+                    });
+                    break;
+                case 'rma-custom-rule-setup':
+                case 'rma-custom-rule-edit':
+                    this.$router.push({
+                        path: `/administrator/settings/platform/rma/rules/custom/${this.$route.params.sales_channel}`
                     });
                     break;
                 default:
@@ -54,9 +63,8 @@ export default {
         },
         save() {
             this.$router.push({
-                path: `/administrator/rma/rules/${this.$route.params.company}`
+                path: `/administrator/settings/platform/rma/rules/global`
             });
-            console.log('save', this.$route.params.company);
         }
     }
 };

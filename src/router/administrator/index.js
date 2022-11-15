@@ -601,6 +601,86 @@ export default [
                     return checkUserPermission(to, from, next, ['settings']);
                 }
             },
+            {
+                name: 'rma',
+                path: 'settings/platform/rma',
+                component: RMAPage,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                },
+                children: [
+                    {
+                        name: 'rma-rules',
+                        path: 'rules',
+                        components: { 'rma-view': Rules },
+                        beforeEnter: (to, from, next) => {
+                            return checkUserPermission(to, from, next, [
+                                'settings'
+                            ]);
+                        }
+                    },
+                    {
+                        name: 'rma-global-rules',
+                        path: 'rules/global',
+                        components: { 'rma-view': RMASalesChannel },
+                        beforeEnter: (to, from, next) => {
+                            return checkUserPermission(to, from, next, [
+                                'settings'
+                            ]);
+                        }
+                    },
+                    {
+                        name: 'rma-global-rule-setup',
+                        path: 'rules/global/setup',
+                        components: { 'rma-view': RMASetup },
+                        beforeEnter: (to, from, next) => {
+                            return checkUserPermission(to, from, next, [
+                                'settings'
+                            ]);
+                        }
+                    },
+                    {
+                        name: 'rma-global-rule-edit',
+                        path: 'rules/global/edit',
+                        components: { 'rma-view': RMASetup },
+                        beforeEnter: (to, from, next) => {
+                            return checkUserPermission(to, from, next, [
+                                'settings'
+                            ]);
+                        }
+                    },
+                    {
+                        name: 'rma-custom-rules',
+                        path: 'rules/custom/:sales_channel',
+                        components: { 'rma-view': RMASalesChannel },
+                        beforeEnter: (to, from, next) => {
+                            return checkUserPermission(to, from, next, [
+                                'settings'
+                            ]);
+                        }
+                    },
+                    {
+                        name: 'rma-custom-rule-setup',
+                        path: 'rules/custom/:sales_channel/setup',
+                        components: { 'rma-view': RMASetup },
+                        beforeEnter: (to, from, next) => {
+                            return checkUserPermission(to, from, next, [
+                                'settings'
+                            ]);
+                        }
+                    },
+                    {
+                        name: 'rma-custom-rule-edit',
+                        path: 'rules/custom/:sales_channel/edit',
+                        components: { 'rma-view': RMASetup },
+                        beforeEnter: (to, from, next) => {
+                            return checkUserPermission(to, from, next, [
+                                'settings'
+                            ]);
+                        }
+                    }
+                ]
+            },
             // Category
             {
                 name: 'category',
@@ -649,57 +729,57 @@ export default [
             },
             // =============================================================
 
-            // ========================== RMA ==========================
-            {
-                name: 'rma',
-                path: 'rma/',
-                component: RMAPage,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
-                },
-                children: [
-                    {
-                        name: 'rma-rules',
-                        path: 'rules',
-                        components: { 'rma-view': Rules },
-                        beforeEnter: (to, from, next) => {
-                            return checkUserPermission(to, from, next, [
-                                'settings'
-                            ]);
-                        }
-                    },
-                    {
-                        name: 'rma-sales-channel',
-                        path: 'rules/:company',
-                        components: { 'rma-view': RMASalesChannel },
-                        beforeEnter: (to, from, next) => {
-                            return checkUserPermission(to, from, next, [
-                                'settings'
-                            ]);
-                        }
-                    },
-                    {
-                        name: 'rma-setup',
-                        path: 'rules/:company/setup',
-                        components: { 'rma-view': RMASetup },
-                        beforeEnter: (to, from, next) => {
-                            return checkUserPermission(to, from, next, [
-                                'settings'
-                            ]);
-                        }
-                    },
-                    {
-                        name: 'rma-edit',
-                        path: 'rules/:company/edit',
-                        components: { 'rma-view': RMASetup },
-                        beforeEnter: (to, from, next) => {
-                            return checkUserPermission(to, from, next, [
-                                'settings'
-                            ]);
-                        }
-                    }
-                ]
-            },
+            // // ========================== RMA ==========================
+            // {
+            //     name: 'rma',
+            //     path: 'rma/',
+            //     component: RMAPage,
+            //     beforeEnter: (to, from, next) => {
+            //         return checkUserPermission(to, from, next, ['settings']);
+            //     },
+            //     children: [
+            //         {
+            //             name: 'rma-rules',
+            //             path: 'rules',
+            //             components: { 'rma-view': Rules },
+            //             beforeEnter: (to, from, next) => {
+            //                 return checkUserPermission(to, from, next, [
+            //                     'settings'
+            //                 ]);
+            //             }
+            //         },
+            //         {
+            //             name: 'rma-sales-channel',
+            //             path: 'rules/:company',
+            //             components: { 'rma-view': RMASalesChannel },
+            //             beforeEnter: (to, from, next) => {
+            //                 return checkUserPermission(to, from, next, [
+            //                     'settings'
+            //                 ]);
+            //             }
+            //         },
+            //         {
+            //             name: 'rma-setup',
+            //             path: 'rules/:company/setup',
+            //             components: { 'rma-view': RMASetup },
+            //             beforeEnter: (to, from, next) => {
+            //                 return checkUserPermission(to, from, next, [
+            //                     'settings'
+            //                 ]);
+            //             }
+            //         },
+            //         {
+            //             name: 'rma-edit',
+            //             path: 'rules/:company/edit',
+            //             components: { 'rma-view': RMASetup },
+            //             beforeEnter: (to, from, next) => {
+            //                 return checkUserPermission(to, from, next, [
+            //                     'settings'
+            //                 ]);
+            //             }
+            //         }
+            //     ]
+            // },
 
             {
                 name: 'integrations-list',
