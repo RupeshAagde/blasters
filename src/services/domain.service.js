@@ -721,12 +721,31 @@ const URLS = {
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
     },
     //RMA Sales Channel List
-    GET_RMA_SALES_CHANNEL: () => {
-        return urlJoin(FIREBOLT_LOGISTICS_ADMIN_URL, '/api/v1/entity/sub_type/app');
-    },
     RMA_RULES: () => {
         return urlJoin(RMA_URL, '/api/v1/rule');
-    }
+    },
+    //RMA Sales Channel List
+    GET_RMA_SALES_CHANNEL: () =>
+        urlJoin(FIREBOLT_LOGISTICS_ADMIN_URL, '/api/v1/entity/sub_type/app/'),
+    //RMA Sales Channel Opt in List
+    GET_OPTED_RMA_SALES_CHANNEL: () =>
+        urlJoin(RMA_ADMIN_URL, '/api/v1/channel'),
+    //RMA Ordering Channel List
+    GET_RMA_ORDERING_CHANNEL: () =>
+        urlJoin(
+            FIREBOLT_LOGISTICS_ADMIN_URL,
+            'api/v1/entity/sub_type/ordering_channel/'
+        ),
+    //RMA Departments List
+    GET_DEPARTMENTS: () => urlJoin(SILVERBOLT_ACAT_URL, 'v1.0/departments'),
+    //RMA Categories List
+    GET_CATEGORIES: () =>
+        urlJoin(FIREBOLT_LOGISTICS_ADMIN_URL, 'api/v1/category/'),
+    //RMA Reasons List
+    GET_REASONS: () => urlJoin(RMA_ADMIN_URL, 'api/v1/reason/'),
+    //RMA Questions List
+    GET_QUESTIONS: () => urlJoin(RMA_ADMIN_URL, 'api/v1/question/'),
+    GET_PLATFORM_COUNTS: () => urlJoin(RMA_ADMIN_URL, 'api/v1/rule/summary')
 };
 
 export default URLS;

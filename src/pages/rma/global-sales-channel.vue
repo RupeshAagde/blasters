@@ -28,19 +28,11 @@
                             </div>
                         </template>
                     </nitrozen-dialog>
-                    <sales-channel-header
-                        :title="company"
+                    <jumbotron
+                        title="Global Rules"
                         btnLabel="Add Rule"
                         @btnClick="redirectToSetup"
-                        @toggleClick="customListing"
-                    ></sales-channel-header>
-                    <search-container
-                        :placeholder="'Search by Sales Channel name'"
-                        :id="'rma-platform-search'"
-                        :value="'test'"
-                        :handleChange="() => {}"
-                        :disabled="false"
-                    />
+                    ></jumbotron>
                     <loader v-if="tableData.length === 0 && !isListLoaded"/>
                     <div v-if="tableData.length > 0 && isListLoaded" class="sales-channels-table">
                         <table class="blaster-table">
@@ -101,7 +93,7 @@ import RMAService from '@/services/rma.service';
 import inlineSvgVue from '@/components/common/inline-svg';
 import loader from '@/components/common/loader';
 import AdmNoContent from '@/components/common/adm-no-content.vue';
-import SearchContainer from '@/components/packaging/common/search-container.vue';
+import Jumbotron from '@/components/common/jumbotron';
 
 export default {
     name: 'custom-sales-channel',
@@ -115,7 +107,7 @@ export default {
         'loader': loader,
         'adm-no-content': AdmNoContent,
         'nitrozen-badge': NitrozenBadge,
-        'search-container': SearchContainer
+        jumbotron: Jumbotron,
     },
     directives: {
         flatBtn,
@@ -123,6 +115,7 @@ export default {
     },
     data(){
         return {
+            globalPath: '/administrator/settings/platform/rma/rules/global/',
             tableHeadings: [
                 'Department',
                 'Subcategory',
@@ -145,7 +138,7 @@ export default {
         loadSalesChannels(params = {
                 page_size: 5,
                 page_no: 1,
-                channel: '636bf115db706e94c5f0009b'
+                rule_type: 'global'
             }){
             RMAService.getRulesList(params)
             .then((result) => {
@@ -167,10 +160,10 @@ export default {
             });
         },
         redirectToSetup() {
-            this.$router.push({ path: `/administrator/rma/rules/${this.company}/setup` });
+            this.$router.push({ path: `${this.globalPath}/setup`});
         },
         redirectToEdit() {
-            this.$router.push({ path: `/administrator/rma/rules/${this.company}/edit` });
+            this.$router.push({ path: `${this.globalPath}/edit`});
         },
         deleteRule(){
             RMAService.deleteRule(this.deleteRuleData)
@@ -196,7 +189,6 @@ export default {
     },
     mounted() {
         this.loadSalesChannels();
-        console.log(this.$route);
     }
 }
 </script>

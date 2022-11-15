@@ -199,6 +199,14 @@ const GENERAL_MENUS = [
         active: false,
         desc: 'Change platform pricing banner'
     },
+    {
+        title: 'Return Exchange Authorization',
+        link: 'platform/rma/rules',
+        icon: 'settings',
+        permissions: [],
+        active: false,
+        desc: 'Set rules for return authorization'
+    },
 ];
 const CUSTOM_MENUS = [
     {
