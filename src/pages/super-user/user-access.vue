@@ -455,7 +455,8 @@ export default {
                 validatePhone(this.searchText)
             ) {
                 UserService.searchGrimlockUser({
-                    query: this.searchText
+                    query: this.searchText,
+                    org_users: false
                 })
                     .then(({ data }) => {
                         searchUserId = data[0] ? data[0]._id : null;

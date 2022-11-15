@@ -438,7 +438,8 @@ export default {
                 let validEmail = validateEmail(this.searchText);
                 if (validPhone) {
                     let params = {
-                        query: this.searchText
+                        query: this.searchText,
+                        org_users: false
                     };
                     this.noUserFound = false;
                     this.pageLoading = true;
@@ -475,7 +476,8 @@ export default {
                 } else {
                     if (validEmail) {
                         let params = {
-                            query: this.searchText
+                            query: this.searchText,
+                            org_users: false
                         };
                         this.noUserFound = false;
                         this.pageLoading = true;
