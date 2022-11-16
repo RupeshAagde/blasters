@@ -152,8 +152,7 @@ export default {
             this.isListLoaded = false;
             this.loadSalesChannels({
                 page_no: paginationData.current,
-                page_size: paginationData.limit,
-                platform: this.company
+                page_size: paginationData.limit
             });
         },
         redirectToSetup() {
