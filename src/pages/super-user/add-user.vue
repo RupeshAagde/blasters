@@ -341,7 +341,8 @@ export default {
         requestQuery() {
             const query = {
                 page: this.current,
-                limit: this.limit
+                limit: this.limit,
+                org_users: false
             };
             if (this.userId) {
                 query['query'] = JSON.stringify({
