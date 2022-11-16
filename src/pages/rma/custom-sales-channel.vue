@@ -163,7 +163,6 @@ export default {
             this.loadSalesChannels({
                 page_no: paginationData.current,
                 page_size: paginationData.limit,
-                platform: this.company
             });
         },
         redirectToSetup() {
