@@ -59,7 +59,8 @@ import WebhookReport from './../../pages/webhook/webhook_report.vue';
 const OrdersPage = () => import('@/pages/orders');
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
 import RMAPage from '@/pages/rma';
-import RMASalesChannel from '@/pages/rma/sales-channel-index';
+import RMACustomSalesChannel from '@/pages/rma/custom-sales-channel';
+import RMAGlobalSalesChannel from '@/pages/rma/global-sales-channel';
 import RMASetup from '@/pages/rma/rma-setup';
 import Rules from '@/pages/rma/rules'
 import PackagingHome from '@/pages/packaging/packaging-home.vue';
@@ -622,7 +623,7 @@ export default [
                     {
                         name: 'rma-global-rules',
                         path: 'rules/global',
-                        components: { 'rma-view': RMASalesChannel },
+                        components: { 'rma-view': RMAGlobalSalesChannel },
                         beforeEnter: (to, from, next) => {
                             return checkUserPermission(to, from, next, [
                                 'settings'
@@ -652,7 +653,7 @@ export default [
                     {
                         name: 'rma-custom-rules',
                         path: 'rules/custom/:sales_channel',
-                        components: { 'rma-view': RMASalesChannel },
+                        components: { 'rma-view': RMACustomSalesChannel },
                         beforeEnter: (to, from, next) => {
                             return checkUserPermission(to, from, next, [
                                 'settings'
