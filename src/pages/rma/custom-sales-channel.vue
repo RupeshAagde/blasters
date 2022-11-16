@@ -70,7 +70,6 @@
                     </div>
                     <div class="pagination-parent" v-if="tableData.length > 0 && isListLoaded">
                         <nitrozen-pagination
-                            :name="company"
                             v-model="pagination"
                             @change="paginationChange"
                             :pageSizeOptions="[5, 8, 20, 50]"
@@ -123,12 +122,13 @@ export default {
     },
     data(){
         return {
+            globalPath: '/administrator/settings/platform/rma/rules/custom',
             tableHeadings: [
                 'Department',
                 'Subcategory',
                 'Quality Check',
             ],
-            company: this.$route.params.company,
+            company: this.$route.params.sales_channel,
             tableData: [],
             pagination: {
                 total: 0,
@@ -150,7 +150,6 @@ export default {
             }){
             RMAService.getRulesList(params)
             .then((result) => {
-                console.log(result);
                 this.tableData = result.data.items
                 this.isListLoaded = true
                 this.pagination.total = result.data.page.item_total
@@ -168,10 +167,10 @@ export default {
             });
         },
         redirectToSetup() {
-            this.$router.push({ path: `/administrator/rma/rules/${this.company}/setup` });
+            this.$router.push({ path: `${this.globalPath}/${this.company}/setup`});
         },
         redirectToEdit() {
-            this.$router.push({ path: `/administrator/rma/rules/${this.company}/edit` });
+            this.$router.push({ path: `${this.globalPath}/${this.company}/edit`});
         },
         deleteRule(){
             RMAService.deleteRule(this.deleteRuleData)
@@ -182,7 +181,6 @@ export default {
             });
         },
         openDeleteModal(data){
-            console.log(data);
             this.deleteRuleData = {...data, is_active: false};
             this.$refs['delete-channel-dialog'].open({
                 neutralButtonLabel: false,
@@ -199,7 +197,6 @@ export default {
     },
     mounted() {
         this.loadSalesChannels();
-        console.log(this.$route);
     }
 }
 </script>

@@ -33,7 +33,6 @@ import { NitrozenButton,
     flatBtn,
     NitrozenToggleBtn
  } from '@gofynd/nitrozen-vue';
-import * as _ from 'lodash';
 
 export default {
     name: 'custom-sales-channel-header',

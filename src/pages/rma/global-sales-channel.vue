@@ -62,7 +62,6 @@
                     </div>
                     <div class="pagination-parent" v-if="tableData.length > 0 && isListLoaded">
                         <nitrozen-pagination
-                            :name="company"
                             v-model="pagination"
                             @change="paginationChange"
                             :pageSizeOptions="[5, 8, 20, 50]"
@@ -121,7 +120,7 @@ export default {
                 'Quality Check',
                 'Action'
             ],
-            company: this.$route.params.company,
+            company: this.$route.params.sales_channel,
             tableData: [],
             pagination: {
                 total: 0,
@@ -176,7 +175,6 @@ export default {
         },
         openDeleteModal(data){
             delete data.channel;
-            console.log(data);
             this.deleteRuleData = {
                 ...data,
                 is_active: false
