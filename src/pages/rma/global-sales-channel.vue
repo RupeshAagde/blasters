@@ -193,7 +193,6 @@ export default {
     mounted() {
         this.loadSalesChannels();
         utils.foo();
-        console.log(this.$store);
     }
 }
 </script>
