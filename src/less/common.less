@@ -375,3 +375,29 @@ p.content-desc {
         }
     }
 }
+
+.blaster-table {
+    width: 100%;
+    font-family: Inter;
+    font-size: 12px;
+    border: 1px solid @Iron;
+    border-radius: 4px;
+
+    tr:first-child {
+        background: @WhiteGray;
+        border: 1px solid #e0e0e0;
+        color: #4F4F4F;
+
+        td:first-child{
+            border-top-left-radius: 4px;
+        }
+    }
+    tr:not(:first-child) {
+        border-bottom: 1px solid @Iron;
+        color: #333333;
+    }
+    td {
+        vertical-align: middle;
+        padding: 18px 16px;
+    }
+}

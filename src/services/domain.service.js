@@ -721,6 +721,10 @@ const URLS = {
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
     },
     //RMA Sales Channel List
+    RMA_RULES: (id = '') => {
+        return urlJoin(RMA_URL, `/api/v1/rule/${id}`);
+    },
+    //RMA Sales Channel List
     GET_RMA_SALES_CHANNEL: () =>
         urlJoin(FIREBOLT_LOGISTICS_ADMIN_URL, '/api/v1/entity/sub_type/app/'),
     //RMA Sales Channel Opt in List

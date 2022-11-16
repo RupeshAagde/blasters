@@ -8,7 +8,7 @@
             >
                 <div
                     class="card-wrapper"
-                    @click="redirectToPlatformDetails(salesChannel.name)"
+                    @click="redirectToPlatformDetails(salesChannel)"
                 >
                     <div class="card-header">
                         <div class="sales-channel-name">
@@ -73,9 +73,14 @@ export default {
     },
     methods: {
         redirectToPlatformDetails(salesChannel) {
-            this.$router.push({
-                path: `/administrator/settings/platform/rma/rules/custom/${salesChannel}`
-            });
+            salesChannel.qc_config === 'global' ? 
+                this.$router.push({
+                    path: `/administrator/settings/platform/rma/rules/global`
+                })
+                :
+                this.$router.push({
+                    path: `/administrator/settings/platform/rma/rules/custom/${salesChannel.id}`
+                })
         }
     }
 };
