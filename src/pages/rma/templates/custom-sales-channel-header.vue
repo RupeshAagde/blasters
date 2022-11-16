@@ -36,7 +36,7 @@ import { NitrozenButton,
 import * as _ from 'lodash';
 
 export default {
-    name: 'sales-channel-header',
+    name: 'custom-sales-channel-header',
     components: {
         NitrozenTooltip,
         'nitrozen-button': NitrozenButton,

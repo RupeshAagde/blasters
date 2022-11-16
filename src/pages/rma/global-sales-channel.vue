@@ -88,8 +88,8 @@ import {
     strokeBtn,
     NitrozenBadge,
 } from '@gofynd/nitrozen-vue';
-import SalesChannelHeader from './templates/sales-channel-header';
 import RMAService from '@/services/rma.service';
+import utils from './utils/rma-utils';
 import inlineSvgVue from '@/components/common/inline-svg';
 import loader from '@/components/common/loader';
 import AdmNoContent from '@/components/common/adm-no-content.vue';
@@ -99,7 +99,6 @@ export default {
     name: 'custom-sales-channel',
     components: {
         'nitrozen-input': NitrozenInput,
-        'sales-channel-header': SalesChannelHeader,
         'nitrozen-pagination': NitrozenPagination,
         'nitrozen-dialog': NitrozenDialog,
         'nitrozen-button': NitrozenButton,
@@ -115,7 +114,7 @@ export default {
     },
     data(){
         return {
-            globalPath: '/administrator/settings/platform/rma/rules/global/',
+            globalPath: '/administrator/settings/platform/rma/rules/global',
             tableHeadings: [
                 'Department',
                 'Subcategory',
@@ -142,7 +141,6 @@ export default {
             }){
             RMAService.getRulesList(params)
             .then((result) => {
-                console.log(result);
                 this.tableData = result.data.items
                 this.isListLoaded = true
                 this.pagination.total = result.data.page.item_total
@@ -167,14 +165,22 @@ export default {
         },
         deleteRule(){
             RMAService.deleteRule(this.deleteRuleData)
-            .then(() => this.loadSalesChannels())
+            .then(() => {
+                this.loadSalesChannels();
+                this.$refs['delete-channel-dialog'].close();
+            })
             .catch((err) => {
                 const msg = err.response.data.error;
                 this.$snackbar.global.showInfo(msg)
             });
         },
         openDeleteModal(data){
-            this.deleteRuleData = {...data, is_active: false};
+            delete data.channel;
+            console.log(data);
+            this.deleteRuleData = {
+                ...data,
+                is_active: false
+            };
             this.$refs['delete-channel-dialog'].open({
                 neutralButtonLabel: false,
                 width: '383px'
@@ -189,6 +195,7 @@ export default {
     },
     mounted() {
         this.loadSalesChannels();
+        utils.foo();
     }
 }
 </script>

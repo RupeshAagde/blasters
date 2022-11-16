@@ -28,12 +28,12 @@
                             </div>
                         </template>
                     </nitrozen-dialog>
-                    <sales-channel-header
-                        :title="company"
+                    <custom-sales-channel-header
+                        :title="'Company'"
                         btnLabel="Add Rule"
                         @btnClick="redirectToSetup"
                         @toggleClick="customListing"
-                    ></sales-channel-header>
+                    ></custom-sales-channel-header>
                     <search-container
                         :placeholder="'Search by Sales Channel name'"
                         :id="'rma-platform-search'"
@@ -57,7 +57,7 @@
                                         {{tableRow.qn_elabled ? 'Active' : 'Inactive'}}
                                     </nitrozen-badge>
                                 </td>
-                                <td class="table-ctas">
+                                <td class="table-ctas" v-if="showCustom">
                                     <button class="row-cta" @click="openDeleteModal(tableRow)">
                                         <img src="/public/assets/svgs/delete_outline.svg"/>
                                     </button>
@@ -96,7 +96,7 @@ import {
     strokeBtn,
     NitrozenBadge,
 } from '@gofynd/nitrozen-vue';
-import SalesChannelHeader from './templates/sales-channel-header';
+import CustomSalesChannelHeader from './templates/custom-sales-channel-header';
 import RMAService from '@/services/rma.service';
 import inlineSvgVue from '@/components/common/inline-svg';
 import loader from '@/components/common/loader';
@@ -107,7 +107,7 @@ export default {
     name: 'custom-sales-channel',
     components: {
         'nitrozen-input': NitrozenInput,
-        'sales-channel-header': SalesChannelHeader,
+        'custom-sales-channel-header': CustomSalesChannelHeader,
         'nitrozen-pagination': NitrozenPagination,
         'nitrozen-dialog': NitrozenDialog,
         'nitrozen-button': NitrozenButton,
@@ -127,7 +127,6 @@ export default {
                 'Department',
                 'Subcategory',
                 'Quality Check',
-                'Action'
             ],
             company: this.$route.params.company,
             tableData: [],
@@ -138,14 +137,16 @@ export default {
             },
             isListLoaded: false,
             deleteRuleData: {},
-            toggleValue: false
+            toggleValue: false,
+            showCustom: false
         }
     },
     methods:{
         loadSalesChannels(params = {
                 page_size: 5,
                 page_no: 1,
-                channel: '636bf115db706e94c5f0009b'
+                // channel: '636bf115db706e94c5f0009b'
+                rule_type: 'custom' 
             }){
             RMAService.getRulesList(params)
             .then((result) => {
@@ -181,6 +182,7 @@ export default {
             });
         },
         openDeleteModal(data){
+            console.log(data);
             this.deleteRuleData = {...data, is_active: false};
             this.$refs['delete-channel-dialog'].open({
                 neutralButtonLabel: false,
@@ -190,8 +192,9 @@ export default {
         closeDeleteModal(){
             this.$refs['delete-channel-dialog'].close();
         },
-        customListing(e){
-            
+        customListing(enabled){
+            enabled ? this.tableHeadings.push('Action') : this.tableHeadings.pop();
+            this.showCustom = enabled;
         }
     },
     mounted() {
@@ -283,6 +286,9 @@ export default {
     td{
         width: 22%;
     }
+}
+.search-box-container{
+    margin-bottom: 16px;
 }
 .nitrozen-dialog{
     border-radius: 12px;

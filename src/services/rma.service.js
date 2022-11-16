@@ -41,7 +41,7 @@ const RMAService = {
                 data: data
             }
         )
-        return ApiService.post(URLS.RMA_RULES(), axiosOption);
+        return ApiService.put(URLS.RMA_RULES(data.id), axiosOption);
     },
     getOptedSalesChannelList(params) {
         const axiosOption = Object.assign(
