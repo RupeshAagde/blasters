@@ -2,8 +2,8 @@
     <div class="panel">
         <div class="breadcrumb-parent">
             <breadcrumb
-            :routes="breadcrumbRoutes"
-        />
+                :routes="breadcrumbRoutes"
+            />
         </div>
         <div class="main-container">
             <div class="page-container">

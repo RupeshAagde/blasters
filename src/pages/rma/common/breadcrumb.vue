@@ -5,7 +5,7 @@
             v-for="(route, index) in routes"
             :key="index"
         >
-            <span :class="{'text': true, 'active': index === routes.length - 1}" @click="redirectTo(index, route.path)">
+            <span :class="{'text': true, 'active': index === routes.length - 1}" @click="redirectTo(index, route)">
                 {{route.name}}
             </span>
             <ukt-inline-svg
@@ -28,22 +28,18 @@ export default {
         }
     },
     methods: {
-        redirectTo(index, path){
+        redirectTo(index, route){
             if (index < this.routes.length - 1)
-            this.$router.push({ path: path});
+            this.$router.push({ path: route.path});
         }
     },
     components:{
         UktInlineSvg,
-
-    },
-    mounted(){
     }
 }
 </script>
 
 <style lang="less" scoped>
-
     .breadcrumb-container{
         display: flex;
         align-items: center;
