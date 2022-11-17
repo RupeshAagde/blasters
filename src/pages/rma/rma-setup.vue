@@ -254,7 +254,7 @@ export default {
                 departments: this.selectedDepartment.split('--')[0],
                 page_size: 50,
                 page_number: 1,
-                search: this.l3SearchText
+                q: this.l3SearchText
             };
             RMAService.getCategories(query_params)
                 .then((res) => {
