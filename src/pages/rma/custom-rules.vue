@@ -105,6 +105,7 @@ export default {
             toggleValue: false,
             showCustom: false,
             searchInput: '',
+            channelName: '',
             breadcrumbRoutes: [
                 {
                     name: 'Return Merchandise Authorisation',
@@ -128,6 +129,7 @@ export default {
                 this.tableData = result.data.items
                 this.isListLoaded = true
                 this.pagination.total = result.data.page.item_total
+                // this.companyName = result.data.
             })
         },
         paginationChange(paginationData){
