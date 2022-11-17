@@ -18,7 +18,7 @@
                     <button class="row-cta" @click="$emit('onDelete', tableRow)">
                         <img src="/public/assets/svgs/delete_outline.svg"/>
                     </button>
-                    <button @click="$emit('onEdit')" class="row-cta">
+                    <button @click="$emit('onEdit', tableRow)" class="row-cta">
                         <img src="/public/assets/svgs/edit_outline.svg"/>
                     </button>
                 </td>

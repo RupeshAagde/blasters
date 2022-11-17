@@ -121,8 +121,7 @@ export default {
         loadSalesChannels(params = {
                 page_size: 5,
                 page_no: 1,
-                // channel: '636bf115db706e94c5f0009b',
-                rule_type: 'custom' 
+                channel: this.company,
             }){
             RMAService.getRulesList(params)
             .then((result) => {
@@ -139,14 +138,23 @@ export default {
             this.loadSalesChannels({
                 page_no: paginationData.current,
                 page_size: paginationData.limit,
-                // channel: '636bf115db706e94c5f0009b',
-                rule_type: 'custom' 
+                channel: this.company,
             });
         },
         redirectToSetup() {
             this.$router.push({ path: `${this.globalPath}/${this.company}/setup`});
         },
-        redirectToEdit() {
+        redirectToEdit(data) {
+            const rmaRuleData = JSON.stringify({
+                actions: data.actions,
+                id: data.id,
+                unique_hash: data.unique_hash, 
+                meta: data.meta
+            })
+            console.log(rmaRuleData);
+            const storageItem = localStorage.getItem('rma_rule_data');
+            if (storageItem) localStorage.removeItem('rma_rule_data');
+            localStorage.setItem('rma_rule_data', rmaRuleData);
             this.$router.push({ path: `${this.globalPath}/${this.company}/edit`});
         },
         deleteRule(){

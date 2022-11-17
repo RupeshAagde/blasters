@@ -273,6 +273,9 @@ export default {
                     )
                 );
         }
+    },
+    beforeDestroy(){
+        if(localStorage.getItem('rma_rule_data')) localStorage.removeItem('rma_rule_data')
     }
 };
 </script>
