@@ -145,10 +145,11 @@ export default {
             this.$router.push({ path: `${this.globalPath}/${this.company}/setup`});
         },
         redirectToEdit(data) {
+            console.log(data);
             const rmaRuleData = JSON.stringify({
                 actions: data.actions,
                 id: data.id,
-                unique_hash: data.unique_hash, 
+                channel: data.channel, 
                 meta: data.meta
             })
             if (localStorage.getItem('rma_rule_data')) localStorage.removeItem('rma_rule_data');
