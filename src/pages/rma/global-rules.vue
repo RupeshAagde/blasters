@@ -32,7 +32,7 @@
                         :isListLoaded="isListLoaded"
                         :tableHeadings="tableHeadings"
                         @onDelete="openDeleteModal"
-                        @onEdit="redirectToEdit(tableData)"
+                        @onEdit="redirectToEdit"
                     />
                     <div class="pagination-parent" v-if="tableData.length > 0 && isListLoaded">
                         <nitrozen-pagination
@@ -142,7 +142,14 @@ export default {
             this.$router.push({ path: `${this.globalPath}/setup`});
         },
         redirectToEdit(data) {
-            console.log(data);
+            const rmaRuleData = JSON.stringify({
+                actions: data.actions,
+                id: data.id,
+                unique_hash: data.unique_hash, 
+                meta: data.meta
+            })
+            if (localStorage.getItem('rma_rule_data')) localStorage.removeItem('rma_rule_data');
+            localStorage.setItem('rma_rule_data', rmaRuleData);
             this.$router.push({ path: `${this.globalPath}/edit`});
         },
         deleteRule(){
