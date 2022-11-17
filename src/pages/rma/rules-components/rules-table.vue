@@ -97,7 +97,7 @@ export default {
         width: 22%;
     }
     td:last-child{
-        width: 10%;
+        width: 5%;
     }
 }
 </style>

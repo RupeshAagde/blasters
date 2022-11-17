@@ -105,6 +105,7 @@ export default {
             toggleValue: false,
             showCustom: false,
             searchInput: '',
+            channelName: '',
             breadcrumbRoutes: [
                 {
                     name: 'Return Merchandise Authorisation',
@@ -128,6 +129,7 @@ export default {
                 this.tableData = result.data.items
                 this.isListLoaded = true
                 this.pagination.total = result.data.page.item_total
+                // this.companyName = result.data.
             })
         },
         paginationChange(paginationData){
@@ -148,7 +150,7 @@ export default {
             const rmaRuleData = JSON.stringify({
                 actions: data.actions,
                 id: data.id,
-                unique_hash: data.unique_hash, 
+                channel: data.channel, 
                 meta: data.meta
             })
             if (localStorage.getItem('rma_rule_data')) localStorage.removeItem('rma_rule_data');
