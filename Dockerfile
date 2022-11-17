@@ -1,7 +1,7 @@
-FROM node:14-alpine3.13 as buildimage
+FROM node:14.21.1-alpine3.16 as buildimage
 
 RUN apk add --no-cache --virtual .build-deps \
-        python2-dev \
+        python3-dev \
         gcc \ 
         g++ \
         binutils-gold \
@@ -36,7 +36,8 @@ RUN rm -rf ./node_modules \
 && npm cache clean --force \
 && apk del .build-deps
 
-FROM node:14-alpine3.13
+FROM node:14.21.1-alpine3.16
+RUN npm install npm -g
 
 COPY --from=buildimage /srv/bombshell /srv/bombshell
 WORKDIR /srv/bombshell
