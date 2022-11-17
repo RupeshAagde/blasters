@@ -34,8 +34,8 @@ import AuditLogsDetails from './../../pages/audit-trail/log-detail.vue';
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
-import ListVariants from './../../pages/catalogue/list-variants.vue';
-import CreateUpdateVariant from './../../pages/catalogue/create-update-variant.vue';
+import ListVariants from './../../pages/product/variants/list.vue'
+import CreateUpdateVariant from '@/pages/product/variants/edit.vue';
 import Product from './../../pages/product/index';
 import ProductAttributesList from '@/pages/product/attributes/list';
 import ProductAttributesEdit from '@/pages/product/attributes/edit';
@@ -91,7 +91,7 @@ export default [
                 path: 'webhook',
                 component: ListWebhooks,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['webhook']);
                 }
             },
             {
@@ -99,7 +99,7 @@ export default [
                 path: 'create-webhook',
                 component: CreateWebhooks,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['webhook']);
                 }
             },
             {
@@ -107,7 +107,7 @@ export default [
                 path: 'edit-webhook/:id',
                 component: EditWebhooks,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['webhook']);
                 }
             },
             {
@@ -115,7 +115,7 @@ export default [
                 path: 'webhook-report',
                 component: WebhookReport,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['webhook']);
                 }
             },
             {
@@ -730,58 +730,6 @@ export default [
             },
             // =============================================================
 
-            // // ========================== RMA ==========================
-            // {
-            //     name: 'rma',
-            //     path: 'rma/',
-            //     component: RMAPage,
-            //     beforeEnter: (to, from, next) => {
-            //         return checkUserPermission(to, from, next, ['settings']);
-            //     },
-            //     children: [
-            //         {
-            //             name: 'rma-rules',
-            //             path: 'rules',
-            //             components: { 'rma-view': Rules },
-            //             beforeEnter: (to, from, next) => {
-            //                 return checkUserPermission(to, from, next, [
-            //                     'settings'
-            //                 ]);
-            //             }
-            //         },
-            //         {
-            //             name: 'rma-sales-channel',
-            //             path: 'rules/:company',
-            //             components: { 'rma-view': RMASalesChannel },
-            //             beforeEnter: (to, from, next) => {
-            //                 return checkUserPermission(to, from, next, [
-            //                     'settings'
-            //                 ]);
-            //             }
-            //         },
-            //         {
-            //             name: 'rma-setup',
-            //             path: 'rules/:company/setup',
-            //             components: { 'rma-view': RMASetup },
-            //             beforeEnter: (to, from, next) => {
-            //                 return checkUserPermission(to, from, next, [
-            //                     'settings'
-            //                 ]);
-            //             }
-            //         },
-            //         {
-            //             name: 'rma-edit',
-            //             path: 'rules/:company/edit',
-            //             components: { 'rma-view': RMASetup },
-            //             beforeEnter: (to, from, next) => {
-            //                 return checkUserPermission(to, from, next, [
-            //                     'settings'
-            //                 ]);
-            //             }
-            //         }
-            //     ]
-            // },
-
             {
                 name: 'integrations-list',
                 path: 'integrations/list',
@@ -854,7 +802,7 @@ export default [
         ]
     },
     {
-        name: 'partners',
+        name: 'extension-listing',
         path: '/administrator/settings/partners/extensions-listing',
         component: ExtensionsListingVue,
         beforeEnter: (to, from, next) => {

@@ -98,6 +98,12 @@ const RMAService = {
             getCommonHeaderOptions()
         );
         return ApiService.get(URLS.GET_QUESTIONS(), axiosOption);
+    },
+    postRule(data) {
+        const axiosOption = Object.assign({}, getCommonHeaderOptions(), {
+            data
+        });
+        return ApiService.post(URLS.POST_RMA_RULE(), axiosOption);
     }
 };
 
