@@ -19,8 +19,8 @@ RUN curl -s "https://gitlab.com/api/v4/projects/9905046/repository/files/gitlab%
 
 RUN ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
 
-RUN mkdir /srv/bombshell
-WORKDIR /srv/bombshell
+RUN mkdir /srv/blaster
+WORKDIR /srv/blaster
 
 COPY ./package.json ./package.json
 COPY ./package-lock.json ./package-lock.json
@@ -39,8 +39,8 @@ RUN rm -rf ./node_modules \
 FROM node:14.21.1-alpine3.16
 RUN npm install npm -g
 
-COPY --from=buildimage /srv/bombshell /srv/bombshell
-WORKDIR /srv/bombshell
+COPY --from=buildimage /srv/blaster /srv/blaster
+WORKDIR /srv/blaster
 
  
 ENTRYPOINT ["node", "server/index.js","--env","production"]
