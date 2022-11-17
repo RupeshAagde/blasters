@@ -722,7 +722,7 @@ const URLS = {
     },
     //RMA Sales Channel List
     RMA_RULES: (id = '') => {
-        return urlJoin(RMA_URL, `/api/v1/rule/${id}`);
+        return urlJoin(RMA_URL, `/api/v1/rule${id}`);
     },
     //RMA Sales Channel List
     GET_RMA_SALES_CHANNEL: () =>
