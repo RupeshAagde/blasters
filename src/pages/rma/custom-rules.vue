@@ -151,7 +151,6 @@ export default {
                 unique_hash: data.unique_hash, 
                 meta: data.meta
             })
-            console.log(rmaRuleData);
             const storageItem = localStorage.getItem('rma_rule_data');
             if (storageItem) localStorage.removeItem('rma_rule_data');
             localStorage.setItem('rma_rule_data', rmaRuleData);
@@ -167,7 +166,6 @@ export default {
                 const msg = err.response.data.error;
                 this.$snackbar.global.showInfo(msg)
             });
-            console.log('test');
         },
         openDeleteModal(data){
             delete data.channel;
