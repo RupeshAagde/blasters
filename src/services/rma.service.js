@@ -41,7 +41,7 @@ const RMAService = {
                 data: data
             }
         )
-        return ApiService.put(URLS.RMA_RULES(data.id), axiosOption);
+        return ApiService.put(URLS.RMA_RULES('/' + data.id), axiosOption);
     },
     getOptedSalesChannelList(params) {
         const axiosOption = Object.assign(
@@ -63,8 +63,14 @@ const RMAService = {
     getPlatformCounts() {
         return ApiService.get(URLS.GET_PLATFORM_COUNTS());
     },
-    getDepartments() {
-        return ApiService.get(URLS.GET_DEPARTMENTS());
+    getDepartments(params) {
+        const axiosOption = Object.assign(
+            {
+                params
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.GET_DEPARTMENTS(), axiosOption);
     },
     getCategories(params) {
         const axiosOption = Object.assign(

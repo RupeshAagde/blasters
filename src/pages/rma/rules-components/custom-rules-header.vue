@@ -35,7 +35,7 @@ import { NitrozenButton,
  } from '@gofynd/nitrozen-vue';
 
 export default {
-    name: 'custom-sales-channel-header',
+    name: 'custom-rules-channel-header',
     components: {
         NitrozenTooltip,
         'nitrozen-button': NitrozenButton,
