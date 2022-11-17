@@ -4,7 +4,7 @@
             class="titlize"
             :showBackButton="this.$route.name !== 'rma-rules'"
             @backClick="goBack"
-            :title="'Return Merchandise Authorisation'"
+            :title="'Return Authorisation'"
             :noContextMenu="true"
         >
             <nitrozen-button

@@ -744,8 +744,9 @@ const URLS = {
     //RMA Reasons List
     GET_REASONS: () => urlJoin(RMA_ADMIN_URL, 'api/v1/reason/'),
     //RMA Questions List
-    GET_QUESTIONS: () => urlJoin(RMA_ADMIN_URL, 'api/v1/question/'),
-    GET_PLATFORM_COUNTS: () => urlJoin(RMA_ADMIN_URL, 'api/v1/rule/summary')
+    GET_QUESTIONS: () => urlJoin(RMA_ADMIN_URL, 'api/v1/question'),
+    GET_PLATFORM_COUNTS: () => urlJoin(RMA_ADMIN_URL, 'api/v1/rule/summary'),
+    POST_RMA_RULE: () => urlJoin(RMA_ADMIN_URL, 'api/v1/rule')
 };
 
 export default URLS;

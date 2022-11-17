@@ -120,16 +120,16 @@ export default {
             
         },
         redirectToSetup() {
-            this.$router.push({ path: `/administrator/rma/rules/${this.company}/setup` });
+            this.$router.push({ path: `/administrator/settings/platform/rma/rules/global/setup` });
         },
         redirectToEdit() {
-            this.$router.push({ path: `/administrator/rma/rules/${this.company}/edit` });
+            this.$router.push({ path: `/administrator/settings/platform/rma/rules/global/edit` });
         }
     },
     mounted() {
         RMAService.getSalesChannel()
         .then((data) => {
-            console.log(data);
+            // console.log(data);
         })
     }
 }

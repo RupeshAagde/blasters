@@ -2,110 +2,50 @@
     <div class="panel">
         <div class="main-container">
             <div class="page-container">
-                <div class="setup-container">
-                    <div class="caption">
-                        <p class="setup-title">Setup</p>
-                        <span class="setup-subtitle"
-                            >Some description about Setup</span
-                        >
-                    </div>
-                    <nitrozen-dropdown
-                        label="Company"
-                        class="platform-dropdown"
-                        :items="companyList"
-                        placeholder="Select Company"
-                        v-model="selectedConfig.platform"
-                        @change="handleDropdown"
-                    ></nitrozen-dropdown>
+                <div class="setup-header">
+                    <p class="setup-title">Rule Setup</p>
+                    <nitrozen-button
+                        :disabled="
+                            shouldDisableSaveReasons || shouldDisableSaveDept
+                        "
+                        v-flat-btn
+                        :rounded="false"
+                        :theme="'secondary'"
+                        @click="save()"
+                    >
+                        Save
+                    </nitrozen-button>
                 </div>
                 <div class="setup-container">
-                    <div class="caption">
-                        <p class="setup-title">Sales Channels Details</p>
-                        <span class="setup-subtitle"
-                            >Some description about Sales Channels</span
-                        >
-                    </div>
-                    <nitrozen-dropdown
-                        label="Sales Channel"
-                        class="platform-dropdown"
-                        :items="companyList"
-                        placeholder="Select Sales Channel"
-                        v-model="selectedConfig.sales_channels.name"
-                        @change="handleDropdown"
-                    ></nitrozen-dropdown>
                     <div class="sales-channel-category-container">
-                        <p class="setup-title">Categories</p>
-                        <span class="setup-subtitle"
-                            >Some description about Sales Channels
-                            Categories</span
-                        >
+                        <p class="setup-title">Department</p>
                     </div>
                     <nitrozen-dropdown
                         label="Department"
                         class="platform-dropdown"
-                        :items="salesChannelCategoryList"
+                        :items="departmentsDropdownList"
                         placeholder="Select Department"
-                        v-model="selectedConfig.sales_channels.category"
-                        @change="handleDropdown"
+                        v-model="selectedDepartment"
+                        @change="handleDepartmentDropdown"
+                        :searchable="true"
+                        @searchInputChange="onSearchDepartmentDropdownList"
                     ></nitrozen-dropdown>
-                    <div class="sales-channel-subcategory-container">
-                        <nitrozen-dropdown
-                            label="L1"
-                            class="platform-dropdown"
-                            :items="salesChannelCategoryList"
-                            placeholder="Select L1"
-                            v-model="
-                                selectedConfig.sales_channels.subcategories.L1
-                            "
-                            @change="handleDropdown"
-                        ></nitrozen-dropdown>
-                        <nitrozen-dropdown
-                            label="L2"
-                            class="platform-dropdown"
-                            :items="salesChannelCategoryList"
-                            placeholder="Select L2"
-                            v-model="
-                                selectedConfig.sales_channels.subcategories.L2
-                            "
-                            @change="handleDropdown"
-                        ></nitrozen-dropdown>
-                        <nitrozen-dropdown
-                            label="L3"
-                            class="platform-dropdown"
-                            :items="salesChannelCategoryList"
-                            placeholder="Select L3"
-                            v-model="
-                                selectedConfig.sales_channels.subcategories.L3
-                            "
-                            @change="handleDropdown"
-                        ></nitrozen-dropdown>
-                    </div>
-                </div>
-                <div class="setup-container qc-active">
-                    <div class="qc-active-container">
-                        <div class="qc-active-caption">
-                            <p class="qc-active-title">
-                                Enable Quality Check for this category
-                            </p>
-                            <span class="setup-subtitle"
-                                >Choose the level at which you wish to decide
-                                the return window for products returned by
-                                customers</span
-                            >
-                        </div>
-                        <nitrozen-toggle-btn
-                            @change="handleQCType"
-                            v-model="selectedConfig.qc_active"
-                        ></nitrozen-toggle-btn>
-                    </div>
+                    <nitrozen-dropdown
+                        :disabled="selectedDepartment === ''"
+                        label="L3"
+                        class="platform-dropdown"
+                        :items="l3DropdownList"
+                        placeholder="Select L3"
+                        v-model="selectedL3"
+                        @change="handleL3Dropdown"
+                        :searchable="true"
+                        @searchInputChange="onSearchL3DropdownList"
+                    ></nitrozen-dropdown>
                 </div>
                 <div class="setup-container">
                     <product-return-qc
-                        :returnReasonSearchText="returnReasonSearchText"
-                        :searchReturnReason="searchReturnReason"
-                        :selectedConfig="selectedConfig"
-                        :questionsList="questionsList"
-                        :addMoreQuestions="addMoreQuestions"
+                        @getSelectedReasons="getSelectedReasons"
+                        @disableSave="disableSave"
                     ></product-return-qc>
                 </div>
             </div>
@@ -125,6 +65,9 @@ import {
 import InlineSvg from '@/components/common/ukt-inline-svg';
 import uktinlinesvg from '@/components/common/ukt-inline-svg.vue';
 import ProductReturnQC from './product-return-qc.vue';
+import RMAService from '@/services/rma.service';
+import { debounce } from '@/helper/utils';
+
 export default {
     name: 'rma-setup',
     components: {
@@ -140,150 +83,195 @@ export default {
     },
     data() {
         return {
-            companyList: [
-                { value: 1, text: 'FYND' },
-                { value: 2, text: 'Amazon' },
-                { value: 3, text: 'JioMart' },
-                { value: 4, text: 'Flipkart' }
-            ],
-            salesChannelCategoryList: [
-                { value: 1, text: 'Electronics' },
-                { value: 2, text: 'Fashion' },
-                { value: 3, text: 'Food' },
-                { value: 4, text: 'Kitchen' }
-            ],
-            questionsList: [
-                {
-                    value: 19800,
-                    text: 'Check the Brand'
-                },
-                {
-                    value: 2323,
-                    text: 'Check the Size'
-                }
-            ],
-            newReason: '',
-            returnReasonSearchText: '',
-            selectedConfig: {
-                platform: '',
-                sales_channels: {
-                    name: '',
-                    category: '',
-                    subcategories: {
-                        L1: '',
-                        L2: '',
-                        L3: ''
-                    }
-                },
-                qc_active: true,
-                qc_type: [],
-                reasons: [
-                    {
-                        id: 111223,
-                        display_name: 'Received a wrong or defective product',
-                        showReasons: false,
-                        qc_type: 'pre_qc',
-                        question_set: [
-                            {
-                                id: 1,
-                                display_name: 'Check the brand'
-                            }
-                        ]
-                    },
-                    {
-                        id: 20000,
-                        display_name:
-                            'Images shown did not match to the actual product',
-                        showReasons: false,
-                        qc_type: 'doorstep_qc',
-                        question_set: [
-                            {
-                                id: 1,
-                                display_name: 'Check the brand'
-                            },
-                            {
-                                id: 2,
-                                display_name: 'Check the Size'
-                            }
-                        ]
-                    },
-                    {
-                        id: 1968,
-                        display_name: 'Received a wrong or defective product',
-                        showReasons: false,
-                        qc_type: 'doorstep_qc',
-                        question_set: [
-                            {
-                                id: 1,
-                                display_name: 'Check the brand'
-                            }
-                        ]
-                    },
-                    {
-                        id: 212434,
-                        display_name:
-                            'Images shown did not match to the actual product',
-                        showReasons: false,
-                        qc_type: 'doorstep_qc',
-                        question_set: [
-                            {
-                                id: 1,
-                                display_name: 'Check the brand'
-                            },
-                            {
-                                id: 2,
-                                display_name: 'Check the Size'
-                            }
-                        ]
-                    },
-                    {
-                        id: 120912,
-                        display_name: 'Received a wrong or defective product',
-                        showReasons: false,
-                        qc_type: 'pre_qc',
-                        question_set: [
-                            {
-                                id: 1,
-                                display_name: 'Check the brand'
-                            }
-                        ]
-                    },
-                    {
-                        id: 2474746,
-                        display_name:
-                            'Images shown did not match to the actual product',
-                        showReasons: false,
-                        qc_type: 'doorstep_qc',
-                        question_set: [
-                            {
-                                id: 1,
-                                display_name: 'Check the brand'
-                            },
-                            {
-                                id: 2,
-                                display_name: 'Check the Size'
-                            }
-                        ]
-                    }
-                ]
-            }
+            departmentsDropdownList: [],
+            l3DropdownList: [],
+            selectedDepartment: '',
+            selectedL3: '',
+            salesChannelSearchText: '',
+            departmentSearchText: '',
+            l3SearchText: '',
+            shouldDisableSaveReasons: true,
+            shouldDisableSaveDept: true,
+            reasonsData: []
         };
     },
+    mounted() {
+        this.fetchDepartmentsList();
+    },
+    updated() {
+        if (this.selectedDepartment.length !== 0) {
+            this.shouldDisableSaveDept = false;
+        } else {
+            this.shouldDisableSaveDept = true;
+        }
+        console.log(this.shouldDisableSaveReasons, this.shouldDisableSaveDept);
+    },
     methods: {
+        handleDepartmentDropdown() {
+            console.log('handleDepartmentDropdown');
+            this.getCategoryTypes();
+        },
+        handleL3Dropdown() {
+            console.log('handleL3Dropdown');
+        },
+        onSearchDepartmentDropdownList: debounce(function(e) {
+            console.log('onSearchDepartmentDropdownList', e);
+            this.departmentSearchText = e.text;
+            this.fetchDepartmentsList();
+        }, 300),
+        onSearchL3DropdownList: debounce(function(e) {
+            console.log('onSearchL3DropdownList', e);
+            this.l3SearchText = e.text;
+            this.getCategoryTypes();
+        }, 300),
+        getSelectedReasons(selectedReasons) {
+            console.log('selectedReasons', selectedReasons);
+            this.reasonsData = [...selectedReasons];
+        },
+        disableSave(disable) {
+            console.log('dis', disable);
+            this.shouldDisableSaveReasons = disable;
+        },
         save() {
-            console.log('saved');
+            console.log('save');
+            console.log(
+                'savepost',
+                this.selectedDepartment,
+                this.selectedL3,
+                this.reasonsData
+            );
+            const postData = {
+                entity_type: this.selectedL3.length === 0 ? 'department' : 'l3',
+                value:
+                    this.selectedL3.length === 0
+                        ? this.selectedDepartment.split('--')[0]
+                        : this.selectedL3.split('--')[0],
+                channel: null,
+                rule_type: 'global',
+                qc_enabled: true,
+                is_active: true,
+                meta: {
+                    department: {
+                        id: this.selectedDepartment.split('--')[0],
+                        display_name: this.selectedDepartment.split('--')[1]
+                    }
+                },
+                actions: {
+                    reasons: []
+                }
+            };
+            if (this.selectedL3.length !== 0) {
+                postData.conditions[
+                    'department'
+                ] = this.selectedDepartment.split('--')[0];
+                postData.meta['l3'] = {
+                    id: this.selectedL3.split('--')[0],
+                    display_name: this.selectedL3.split('--')[1]
+                };
+            }
+
+            const reasonsPostData = [];
+            for (let selectedReason of this.reasonsData) {
+                const reasonsObj = {
+                    id: selectedReason.id,
+                    display_name: selectedReason.display_name,
+                    qc_type: [],
+                    question_set: [],
+                    is_active: selectedReason.is_active,
+                    reasons: []
+                };
+                const subReasonsData = selectedReason.reasons;
+                for (let sub of subReasonsData) {
+                    let qc_selected = [];
+                    if (sub.qc_type === 'pre_qc') {
+                        qc_selected = ['pre_qc', 'doorstep_qc'];
+                    } else if (sub.qc_type === 'doorstep_qc') {
+                        qc_selected = ['doorstep_qc'];
+                    }
+                    const questionSetFormat = sub.question_set.map((ques) => ({
+                        id: ques.split('--')[0],
+                        display_name: ques.split('--')[1]
+                    }));
+                    const subReasonsObj = {
+                        id: sub.reasonDetails.id,
+                        display_name: sub.reasonDetails.display_name,
+                        qc_type: qc_selected,
+                        question_set: questionSetFormat,
+                        reasons: []
+                    };
+                    reasonsObj.reasons.push({ ...subReasonsObj });
+                }
+                reasonsPostData.push({ ...reasonsObj });
+            }
+            postData.actions['reasons'] = [...reasonsPostData];
+            console.log('postdata', postData);
+
+            RMAService.postRule(postData)
+                .then((res) => {
+                    if (res.data.success) {
+                        this.$snackbar.global.showSuccess(
+                            'Rule Created Successfully',
+                            { duration: 2000 }
+                        );
+                    } else {
+                        this.$snackbar.global.showError(
+                            res.data.error.message,
+                            { duration: 2000 }
+                        );
+                    }
+                })
+                .catch(() => {
+                    this.$snackbar.global.showError('Failed to create Rule', {
+                        duration: 2000
+                    });
+                });
         },
-        handleDropdown() {
-            console.log('handleDropdown', this.selectedConfig);
+        fetchDepartmentsList() {
+            const param = {
+                search: this.departmentSearchText
+            };
+            RMAService.getDepartments(param)
+                .then((res) => {
+                    this.departmentsDropdownList = res.data.items.map(
+                        (department) => {
+                            return {
+                                id: department.id,
+                                value: `${department.uid}--${department.name}`,
+                                text: department.name
+                            };
+                        }
+                    );
+                })
+                .catch(() =>
+                    this.$snackbar.global.showError(
+                        'Failed to get Departments List',
+                        { duration: 2000 }
+                    )
+                );
         },
-        handleQCType() {
-            console.log('handleQCType', this.selectedConfig);
-        },
-        searchReturnReason() {
-            console.log('searchReturnReason');
-        },
-        addMoreQuestions() {
-            console.log('addMoreQuestions');
+        getCategoryTypes() {
+            const query_params = {
+                departments: this.selectedDepartment.split('--')[0],
+                page_size: 50,
+                page_number: 1,
+                search: this.l3SearchText
+            };
+            RMAService.getCategories(query_params)
+                .then((res) => {
+                    this.l3DropdownList = res.data.items.map((category) => {
+                        return {
+                            id: category.uid,
+                            value: `${category.uid}--${category.name}`,
+                            text: category.name
+                        };
+                    });
+                })
+                .catch(() =>
+                    this.$snackbar.global.showError(
+                        'Failed to get L3 Subcategories',
+                        { duration: 2000 }
+                    )
+                );
         }
     }
 };
@@ -303,6 +291,24 @@ export default {
         margin-top: 48px;
     }
 
+    .setup-header {
+        padding-bottom: 16px;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid @Iron;
+        align-items: center;
+        p {
+            align-self: center;
+            font-size: 20px;
+        }
+    }
+    .setup-title {
+        font-size: 18px;
+        color: #41434c;
+        font-weight: 500;
+        margin: 5px 0;
+    }
+
     .setup-container {
         display: flex;
         flex-direction: column;
@@ -311,13 +317,7 @@ export default {
         padding-bottom: 32px;
         margin-bottom: 25px;
         .sales-channel-category-container {
-            margin-top: 50px;
-        }
-        .setup-title {
-            font-size: 18px;
-            color: #41434c;
-            font-weight: 500;
-            margin: 5px 0;
+            margin-top: 24px;
         }
         .setup-subtitle {
             color: #9b9b9b;
@@ -338,48 +338,6 @@ export default {
             flex-direction: column;
             justify-content: space-between;
         }
-        .qc-active-container {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-
-            .qc-active-caption {
-                width: 30%;
-            }
-
-            .qc-active-title {
-                font-size: 14px;
-                color: #41434c;
-                font-weight: 500;
-                margin: 5px 0;
-            }
-        }
-        .qc-type-container {
-            width: 100%;
-            display: flex;
-            margin: 35px 0;
-            .qc-type-element {
-                width: 349px;
-                height: 110px;
-                box-sizing: border-box;
-                margin-right: 25px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                padding: 25px;
-                background: #ffffff;
-                border: 1px solid @Iron;
-                border-radius: 4px;
-            }
-            .selected {
-                background: #e7eeff;
-                border: 1px solid #2e31be;
-                border-radius: 4px;
-            }
-        }
-    }
-    .qc-active {
-        padding-bottom: 0;
     }
 }
 

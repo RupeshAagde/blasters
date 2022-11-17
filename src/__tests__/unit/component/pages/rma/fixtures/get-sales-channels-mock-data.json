@@ -1,0 +1,1118 @@
+{
+    "success": true,
+    "error": { "type": null, "value": null, "message": null },
+    "items": [
+        {
+            "uid": "app:63203ab8fdb5b87705b71c10",
+            "name": "63203ab8fdb5b87705b71c10",
+            "display_name": "ECOMM",
+            "sub_type": "app",
+            "type": "platform",
+            "parent_id": null,
+            "meta": {
+                "ordering_channel": "ECOMM",
+                "rules": [
+                    "AppHandler",
+                    "FromPincodeHandler",
+                    "ToPincodeHandler",
+                    "AttributesHandler",
+                    "CategoryHandler"
+                ],
+                "api_log_config": {
+                    "logistics": {
+                        "actions": [
+                            "create_shipment",
+                            "get_dp",
+                            "create_return_shipment"
+                        ]
+                    },
+                    "entity": true
+                }
+            },
+            "logistics": {
+                "dp": {
+                    "4": {
+                        "fm_priority": 4,
+                        "lm_priority": 4,
+                        "rvp_priority": 3,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "4",
+                        "external_account_id": null
+                    },
+                    "7": {
+                        "fm_priority": 6,
+                        "lm_priority": 6,
+                        "rvp_priority": 2,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "7",
+                        "external_account_id": null
+                    },
+                    "22": {
+                        "fm_priority": 1,
+                        "lm_priority": 1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "22",
+                        "external_account_id": null
+                    },
+                    "24": {
+                        "fm_priority": 9,
+                        "lm_priority": 9,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "24",
+                        "external_account_id": null
+                    },
+                    "27": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "27",
+                        "external_account_id": null
+                    },
+                    "28": {
+                        "fm_priority": 5,
+                        "lm_priority": 5,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "28",
+                        "external_account_id": null
+                    },
+                    "29": {
+                        "fm_priority": 3,
+                        "lm_priority": 3,
+                        "rvp_priority": 1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "29",
+                        "external_account_id": null
+                    },
+                    "31": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "prepaid",
+                        "operations": ["intra_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "31",
+                        "external_account_id": null
+                    },
+                    "32": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "32",
+                        "external_account_id": null
+                    },
+                    "33": {
+                        "fm_priority": 7,
+                        "lm_priority": 7,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": "TEST",
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "33",
+                        "external_account_id": null
+                    },
+                    "34": {
+                        "fm_priority": 8,
+                        "lm_priority": 8,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "34",
+                        "external_account_id": null
+                    },
+                    "35": {
+                        "fm_priority": 2,
+                        "lm_priority": 2,
+                        "rvp_priority": -1,
+                        "payment_mode": "prepaid",
+                        "operations": ["intra_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "35",
+                        "external_account_id": null
+                    },
+                    "36": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "36",
+                        "external_account_id": null
+                    },
+                    "37": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "37",
+                        "external_account_id": null
+                    },
+                    "38": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "38",
+                        "external_account_id": null
+                    },
+                    "40": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["intra_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "40",
+                        "external_account_id": null
+                    },
+                    "42": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "42",
+                        "external_account_id": null
+                    }
+                }
+            },
+            "processing_time": 86400,
+            "is_active": true
+        },
+        {
+            "name": "6113fa697e67ca2a9993e1c5",
+            "display_name": "ECOMM",
+            "is_active": true,
+            "logistics": {
+                "dp": {
+                    "4": {
+                        "fm_priority": 4,
+                        "lm_priority": 4,
+                        "rvp_priority": 3,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "4",
+                        "external_account_id": null
+                    },
+                    "7": {
+                        "fm_priority": 6,
+                        "lm_priority": 6,
+                        "rvp_priority": 2,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "7",
+                        "external_account_id": null
+                    },
+                    "22": {
+                        "fm_priority": 1,
+                        "lm_priority": 1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "22",
+                        "external_account_id": null
+                    },
+                    "24": {
+                        "fm_priority": 9,
+                        "lm_priority": 9,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "24",
+                        "external_account_id": null
+                    },
+                    "27": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "27",
+                        "external_account_id": null
+                    },
+                    "28": {
+                        "fm_priority": 5,
+                        "lm_priority": 5,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "28",
+                        "external_account_id": null
+                    },
+                    "29": {
+                        "fm_priority": 3,
+                        "lm_priority": 3,
+                        "rvp_priority": 1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "29",
+                        "external_account_id": null
+                    },
+                    "31": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "prepaid",
+                        "operations": ["intra_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "31",
+                        "external_account_id": null
+                    },
+                    "32": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "32",
+                        "external_account_id": null
+                    },
+                    "33": {
+                        "fm_priority": 7,
+                        "lm_priority": 7,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": "TEST",
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "33",
+                        "external_account_id": null
+                    },
+                    "34": {
+                        "fm_priority": 8,
+                        "lm_priority": 8,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "34",
+                        "external_account_id": null
+                    },
+                    "35": {
+                        "fm_priority": 2,
+                        "lm_priority": 2,
+                        "rvp_priority": -1,
+                        "payment_mode": "prepaid",
+                        "operations": ["intra_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "35",
+                        "external_account_id": null
+                    },
+                    "36": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "36",
+                        "external_account_id": null
+                    },
+                    "37": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "37",
+                        "external_account_id": null
+                    },
+                    "38": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "38",
+                        "external_account_id": null
+                    },
+                    "40": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["intra_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "40",
+                        "external_account_id": null
+                    },
+                    "42": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "42",
+                        "external_account_id": null
+                    }
+                }
+            },
+            "meta": {
+                "ordering_channel": "ECOMM",
+                "rules": [
+                    "AppHandler",
+                    "FromPincodeHandler",
+                    "ToPincodeHandler",
+                    "AttributesHandler",
+                    "CategoryHandler"
+                ],
+                "api_log_config": {
+                    "logistics": {
+                        "actions": [
+                            "create_shipment",
+                            "get_dp",
+                            "create_return_shipment"
+                        ]
+                    },
+                    "entity": true
+                }
+            },
+            "parent_id": null,
+            "processing_time": 86400,
+            "sub_type": "app",
+            "type": "platform",
+            "uid": "app:6113fa697e67ca2a9993e1c5"
+        },
+        {
+            "name": "611a716b24cd0f2cd922482b",
+            "display_name": "ECOMM",
+            "is_active": true,
+            "logistics": {
+                "dp": {
+                    "4": {
+                        "fm_priority": 4,
+                        "lm_priority": 4,
+                        "rvp_priority": 3,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "4",
+                        "external_account_id": null
+                    },
+                    "7": {
+                        "fm_priority": 6,
+                        "lm_priority": 6,
+                        "rvp_priority": 2,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "7",
+                        "external_account_id": null
+                    },
+                    "22": {
+                        "fm_priority": 1,
+                        "lm_priority": 1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "22",
+                        "external_account_id": null
+                    },
+                    "24": {
+                        "fm_priority": 9,
+                        "lm_priority": 9,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "24",
+                        "external_account_id": null
+                    },
+                    "27": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "27",
+                        "external_account_id": null
+                    },
+                    "28": {
+                        "fm_priority": 5,
+                        "lm_priority": 5,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "28",
+                        "external_account_id": null
+                    },
+                    "29": {
+                        "fm_priority": 3,
+                        "lm_priority": 3,
+                        "rvp_priority": 1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "29",
+                        "external_account_id": null
+                    },
+                    "31": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "prepaid",
+                        "operations": ["intra_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "31",
+                        "external_account_id": null
+                    },
+                    "32": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "32",
+                        "external_account_id": null
+                    },
+                    "33": {
+                        "fm_priority": 7,
+                        "lm_priority": 7,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": "TEST",
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "33",
+                        "external_account_id": null
+                    },
+                    "34": {
+                        "fm_priority": 8,
+                        "lm_priority": 8,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "34",
+                        "external_account_id": null
+                    },
+                    "35": {
+                        "fm_priority": 2,
+                        "lm_priority": 2,
+                        "rvp_priority": -1,
+                        "payment_mode": "prepaid",
+                        "operations": ["intra_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "35",
+                        "external_account_id": null
+                    },
+                    "36": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "36",
+                        "external_account_id": null
+                    },
+                    "37": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "37",
+                        "external_account_id": null
+                    },
+                    "38": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "38",
+                        "external_account_id": null
+                    },
+                    "40": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["intra_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "40",
+                        "external_account_id": null
+                    },
+                    "42": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "42",
+                        "external_account_id": null
+                    }
+                }
+            },
+            "meta": {
+                "ordering_channel": "ECOMM",
+                "rules": [
+                    "AppHandler",
+                    "FromPincodeHandler",
+                    "ToPincodeHandler",
+                    "AttributesHandler",
+                    "CategoryHandler"
+                ],
+                "api_log_config": {
+                    "logistics": {
+                        "actions": [
+                            "create_shipment",
+                            "get_dp",
+                            "create_return_shipment"
+                        ]
+                    },
+                    "entity": true
+                }
+            },
+            "parent_id": null,
+            "processing_time": 86400,
+            "sub_type": "app",
+            "type": "platform",
+            "uid": "app:611a716b24cd0f2cd922482b"
+        },
+        {
+            "name": "611b8a3324cd0f2b7e224aed",
+            "display_name": "ECOMM",
+            "is_active": true,
+            "logistics": {
+                "dp": {
+                    "4": {
+                        "fm_priority": 4,
+                        "lm_priority": 4,
+                        "rvp_priority": 3,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "4",
+                        "external_account_id": null
+                    },
+                    "7": {
+                        "fm_priority": 6,
+                        "lm_priority": 6,
+                        "rvp_priority": 2,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "7",
+                        "external_account_id": null
+                    },
+                    "22": {
+                        "fm_priority": 1,
+                        "lm_priority": 1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "22",
+                        "external_account_id": null
+                    },
+                    "24": {
+                        "fm_priority": 9,
+                        "lm_priority": 9,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "24",
+                        "external_account_id": null
+                    },
+                    "27": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "27",
+                        "external_account_id": null
+                    },
+                    "28": {
+                        "fm_priority": 5,
+                        "lm_priority": 5,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "28",
+                        "external_account_id": null
+                    },
+                    "29": {
+                        "fm_priority": 3,
+                        "lm_priority": 3,
+                        "rvp_priority": 1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "29",
+                        "external_account_id": null
+                    },
+                    "31": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "prepaid",
+                        "operations": ["intra_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "31",
+                        "external_account_id": null
+                    },
+                    "32": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "32",
+                        "external_account_id": null
+                    },
+                    "33": {
+                        "fm_priority": 7,
+                        "lm_priority": 7,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": "TEST",
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "33",
+                        "external_account_id": null
+                    },
+                    "34": {
+                        "fm_priority": 8,
+                        "lm_priority": 8,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "34",
+                        "external_account_id": null
+                    },
+                    "35": {
+                        "fm_priority": 2,
+                        "lm_priority": 2,
+                        "rvp_priority": -1,
+                        "payment_mode": "prepaid",
+                        "operations": ["intra_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "35",
+                        "external_account_id": null
+                    },
+                    "36": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "36",
+                        "external_account_id": null
+                    },
+                    "37": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "37",
+                        "external_account_id": null
+                    },
+                    "38": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "38",
+                        "external_account_id": null
+                    },
+                    "40": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["intra_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "40",
+                        "external_account_id": null
+                    },
+                    "42": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "42",
+                        "external_account_id": null
+                    }
+                }
+            },
+            "meta": {
+                "ordering_channel": "ECOMM",
+                "rules": [
+                    "AppHandler",
+                    "FromPincodeHandler",
+                    "ToPincodeHandler",
+                    "AttributesHandler",
+                    "CategoryHandler"
+                ],
+                "api_log_config": {
+                    "logistics": {
+                        "actions": [
+                            "create_shipment",
+                            "get_dp",
+                            "create_return_shipment"
+                        ]
+                    },
+                    "entity": true
+                }
+            },
+            "parent_id": null,
+            "processing_time": 86400,
+            "sub_type": "app",
+            "type": "platform",
+            "uid": "app:611b8a3324cd0f2b7e224aed"
+        },
+        {
+            "uid": "app:613f207e3006094498437acb",
+            "display_name": "ECOMM",
+            "is_active": true,
+            "logistics": {
+                "dp": {
+                    "4": {
+                        "fm_priority": 4,
+                        "lm_priority": 4,
+                        "rvp_priority": 3,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "4",
+                        "external_account_id": null
+                    },
+                    "7": {
+                        "fm_priority": 6,
+                        "lm_priority": 6,
+                        "rvp_priority": 2,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "7",
+                        "external_account_id": null
+                    },
+                    "22": {
+                        "fm_priority": 1,
+                        "lm_priority": 1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "22",
+                        "external_account_id": null
+                    },
+                    "24": {
+                        "fm_priority": 9,
+                        "lm_priority": 9,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "24",
+                        "external_account_id": null
+                    },
+                    "27": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "27",
+                        "external_account_id": null
+                    },
+                    "28": {
+                        "fm_priority": 5,
+                        "lm_priority": 5,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "28",
+                        "external_account_id": null
+                    },
+                    "29": {
+                        "fm_priority": 3,
+                        "lm_priority": 3,
+                        "rvp_priority": 1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "29",
+                        "external_account_id": null
+                    },
+                    "31": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "prepaid",
+                        "operations": ["intra_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "31",
+                        "external_account_id": null
+                    },
+                    "32": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "32",
+                        "external_account_id": null
+                    },
+                    "33": {
+                        "fm_priority": 7,
+                        "lm_priority": 7,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": "TEST",
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "33",
+                        "external_account_id": null
+                    },
+                    "34": {
+                        "fm_priority": 8,
+                        "lm_priority": 8,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "34",
+                        "external_account_id": null
+                    },
+                    "35": {
+                        "fm_priority": 2,
+                        "lm_priority": 2,
+                        "rvp_priority": -1,
+                        "payment_mode": "prepaid",
+                        "operations": ["intra_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "35",
+                        "external_account_id": null
+                    },
+                    "36": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "36",
+                        "external_account_id": null
+                    },
+                    "37": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "37",
+                        "external_account_id": null
+                    },
+                    "38": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "38",
+                        "external_account_id": null
+                    },
+                    "40": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["intra_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "40",
+                        "external_account_id": null
+                    },
+                    "42": {
+                        "fm_priority": -1,
+                        "lm_priority": -1,
+                        "rvp_priority": -1,
+                        "payment_mode": "all",
+                        "operations": ["inter_city"],
+                        "area_code": null,
+                        "assign_dp_from_sb": true,
+                        "internal_account_id": "42",
+                        "external_account_id": null
+                    }
+                }
+            },
+            "meta": {
+                "ordering_channel": "ECOMM",
+                "rules": [
+                    "AppHandler",
+                    "FromPincodeHandler",
+                    "ToPincodeHandler",
+                    "AttributesHandler",
+                    "CategoryHandler"
+                ],
+                "api_log_config": {
+                    "logistics": {
+                        "actions": [
+                            "create_shipment",
+                            "get_dp",
+                            "create_return_shipment"
+                        ]
+                    },
+                    "entity": true
+                }
+            },
+            "name": "613f207e3006094498437acb",
+            "parent_id": null,
+            "processing_time": 86400,
+            "sub_type": "app",
+            "type": "platform"
+        }
+    ],
+    "page": {
+        "type": "number",
+        "size": 10,
+        "current": 1,
+        "has_next": true,
+        "item_total": 534
+    }
+}
