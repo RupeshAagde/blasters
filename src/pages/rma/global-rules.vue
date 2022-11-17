@@ -148,8 +148,7 @@ export default {
                 unique_hash: data.unique_hash, 
                 meta: data.meta
             })
-            const storageItem = localStorage.getItem('rma_rule_data');
-            if (storageItem) localStorage.removeItem('rma_rule_data');
+            if (localStorage.getItem('rma_rule_data')) localStorage.removeItem('rma_rule_data');
             localStorage.setItem('rma_rule_data', rmaRuleData);
             this.$router.push({ path: `${this.globalPath}/edit`});
         },
