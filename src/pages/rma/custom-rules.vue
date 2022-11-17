@@ -147,7 +147,6 @@ export default {
             this.$router.push({ path: `${this.globalPath}/${this.company}/setup`});
         },
         redirectToEdit(data) {
-            console.log(data);
             const rmaRuleData = JSON.stringify({
                 actions: data.actions,
                 id: data.id,
