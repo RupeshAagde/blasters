@@ -21,17 +21,18 @@ const RMAService = {
         )
         return ApiService.get(URLS.GET_RMA_SALES_CHANNEL(), axiosOption);
     },
-    getRulesList(params = {}) {
+    getRulesList(data = {}) {
         const axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(),
             {
-                params: {
+                data: {
                     ...this.defaultPagination,
-                    ...params
+                    ...data
                 }
-            },
-            getCommonHeaderOptions()
+            }
         )
-        return ApiService.get(URLS.RMA_RULES(), axiosOption);
+        return ApiService.post(URLS.RMA_RULES('', '/list'), axiosOption);
     },
     deleteRule(data = {}){
         const axiosOption = Object.assign(
@@ -41,7 +42,7 @@ const RMAService = {
                 data: data
             }
         )
-        return ApiService.put(URLS.RMA_RULES('/' + data.id), axiosOption);
+        return ApiService.post(URLS.RMA_RULES('/' + data.id), axiosOption);
     },
     getOptedSalesChannelList(params) {
         const axiosOption = Object.assign(

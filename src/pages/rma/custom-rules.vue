@@ -93,7 +93,7 @@ export default {
                 'Subcategory',
                 'Quality Check',
             ],
-            company: this.$route.params.sales_channel,
+            company: [this.$route.params.sales_channel.toString()],
             tableData: [],
             pagination: {
                 total: 0,
@@ -106,6 +106,12 @@ export default {
             showCustom: false,
             searchInput: '',
             channelName: '',
+            rulesParams: {
+                page_size: 5,
+                page_no: 1,
+                channel: this.company,
+                is_active: true
+            },
             breadcrumbRoutes: [
                 {
                     name: 'Return Merchandise Authorisation',
@@ -119,17 +125,12 @@ export default {
         }
     },
     methods:{
-        loadSalesChannels(params = {
-                page_size: 5,
-                page_no: 1,
-                channel: this.company,
-            }){
+        loadRules(params = this.rulesParams){
             RMAService.getRulesList(params)
             .then((result) => {
                 this.tableData = result.data.items
                 this.isListLoaded = true
                 this.pagination.total = result.data.page.item_total
-                // this.companyName = result.data.
             })
         },
         paginationChange(paginationData){
@@ -137,10 +138,10 @@ export default {
             this.pagination.limit = paginationData.limit;
             this.tableData = [];
             this.isListLoaded = false;
-            this.loadSalesChannels({
+            this.loadRules({
+                ...this.rulesParams,
                 page_no: paginationData.current,
                 page_size: paginationData.limit,
-                channel: this.company,
             });
         },
         redirectToSetup() {
@@ -161,11 +162,12 @@ export default {
             RMAService.deleteRule(this.deleteRuleData)
             .then(() => {
                 this.$snackbar.global.showInfo('Rule Deleted')
-                this.loadSalesChannels()
+                this.$refs['delete-rule-dialog'].close();
+                this.loadRules()
             })
             .catch((err) => {
                 const msg = err.response.data.error;
-                this.$snackbar.global.showInfo(msg)
+                this.$snackbar.global.showError(msg)
             });
         },
         openDeleteModal(data){
@@ -181,6 +183,10 @@ export default {
             this.showCustom = enabled;
         },
         filterRulesList(){
+            if (this.searchInput === '') {
+                this.loadRules()
+                return;
+            }
             RMAService.getOptedSalesChannelList({
                 page_no: 1,
                 page_size: 9999,
@@ -188,20 +194,14 @@ export default {
                 fields: 'id'
             })
             .then(result => {
-                const ids = result.data.items
-                return ids.map(item => item.id);
+                const items = result.data.items
+                return items.map(item => item.id.toString());
             })
             .then((ids) => { 
                 console.log(ids);
-                if (this.searchInput === '') {
-                    this.loadSalesChannels()
-                    return;
-                }
-                this.loadSalesChannels({
-                    page_no: 1,
-                    page_size: 5,
-                    channel: ids,
-                    rule_type: 'custom'
+                this.loadRules({
+                    ...this.rulesParams,
+                    channel: ids
                 })
             })
         },
@@ -211,7 +211,7 @@ export default {
         }, 300)
     },
     mounted() {
-        this.loadSalesChannels();
+        this.loadRules();
     }
 }
 </script>

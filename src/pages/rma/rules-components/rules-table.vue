@@ -10,8 +10,8 @@
                 <td>{{tableRow.meta.department ? tableRow.meta.department.display_name : 'All'}}</td>
                 <td>{{tableRow.meta.l2 ? tableRow.meta.l2.display_name : 'All'}}</td>
                 <td>
-                    <nitrozen-badge :state="tableRow.qn_elabled ? 'success' : 'warn'">
-                        {{tableRow.qn_elabled ? 'Active' : 'Inactive'}}
+                    <nitrozen-badge :state="tableRow.qc_enabled ? 'success' : 'warn'">
+                        {{tableRow.qc_enabled ? 'Active' : 'Inactive'}}
                     </nitrozen-badge>
                 </td>
                 <td class="table-ctas" v-if="rulesType === 'global' || showCustom">

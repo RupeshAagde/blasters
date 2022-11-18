@@ -103,6 +103,11 @@ export default {
             deleteRuleData: {},
             toggleValue: false,
             searchInput: '',
+            rulesParams: {
+                page_size: 5,
+                page_no: 1,
+                is_active: true
+            },
             breadcrumbRoutes: [
                 {
                     name: 'Return Merchandise Authorisation',
@@ -116,11 +121,7 @@ export default {
         }
     },
     methods:{
-        loadSalesChannels(params = {
-                page_size: 5,
-                page_no: 1,
-                rule_type: 'global'
-            }){
+        loadRules(params = this.rulesParams){
             RMAService.getRulesList(params)
             .then((result) => {
                 this.tableData = result.data.items
@@ -133,9 +134,10 @@ export default {
             this.pagination.limit = paginationData.limit;
             this.tableData = [];
             this.isListLoaded = false;
-            this.loadSalesChannels({
+            this.loadRules({
+                ...this.rulesParams,
                 page_no: paginationData.current,
-                page_size: paginationData.limit
+                page_size: paginationData.limit,
             });
         },
         redirectToSetup() {
@@ -156,11 +158,12 @@ export default {
             RMAService.deleteRule(this.deleteRuleData)
             .then(() => {
                 this.$snackbar.global.showInfo('Rule Deleted')
-                this.loadSalesChannels()
+                this.$refs['delete-rule-dialog'].close();
+                this.loadRules()
             })
             .catch((err) => {
                 const msg = err.response.data.error;
-                this.$snackbar.global.showInfo(msg)
+                this.$snackbar.global.showError(msg)
             });
         },
         openDeleteModal(data){
@@ -172,6 +175,10 @@ export default {
             this.$refs['delete-rule-dialog'].close();
         },
         filterRulesList(){
+            if (this.searchInput === '') {
+                this.loadRules()
+                return;
+            }
             RMAService.getDepartments({
                 page_no: 1,
                 page_size: 9999,
@@ -180,20 +187,13 @@ export default {
             .then(result => {
                 console.log(result);
                 const items = result.data.items
-                return items.map(item => item.uid).join(', ');
+                return items.map(item => item.uid.toString());
             })
             .then((uids) => {
-                console.log(uids);
-                // if (this.searchInput === '') {
-                //     this.loadSalesChannels()
-                //     return;
-                // }
-                // this.loadSalesChannels({
-                //     page_no: 1,
-                //     page_size: 5,
-                //     channel: ids,
-                //     rule_type: 'global'
-                // })
+                this.loadRules({
+                    ...this.rulesParams,
+                    department: uids,
+                })
             })
         },
         searchChannels: debounce(function(input){ 
@@ -202,7 +202,7 @@ export default {
         }, 300)
     },
     mounted() {
-        this.loadSalesChannels();
+        this.loadRules();
     }
 }
 </script>
