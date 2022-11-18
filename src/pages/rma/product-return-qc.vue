@@ -288,12 +288,18 @@ export default {
                 group: 'description',
                 disabled: false,
                 ghostClass: 'ghost'
-            }
+            },
+            ruleData: {}
         };
     },
     mounted() {
         this.fetchReasonsList();
         this.fetchQuestionsList();
+        const rule_data = localStorage.getItem('rma_rule_data');
+        if (rule_data) {
+            this.ruleData = JSON.parse(rule_data);
+            this.selectedReasonsList = JSON.parse(JSON.stringify(this.getSelectedReasonsList()));
+        }
     },
     updated() {
         let flag = true;
@@ -341,8 +347,40 @@ export default {
             const index = this.selectedReasonsList.findIndex(
                 (reason) => reason.id === id
             );
+            console.log(this.selectedReasonsList.findIndex(
+                (reason) => reason.id === id
+            ))
             this.selectedReasonsList[index].showReason = !this
                 .selectedReasonsList[index].showReason;
+                console.log(this.selectedReasonsList)
+        },
+        getSelectedReasonsList() {
+            if (this.$route.name === 'rma-custom-rule-edit') {
+                console.log('rule-data', this.ruleData);
+            } else if (this.$route.name === 'rma-global-rule-edit') {
+                console.log('rule-data pppp', this.ruleData.actions.reasons);
+                // return this.ruleData.actions.reasons;
+                const editedReasons = [...this.ruleData.actions.reasons]
+                for(let res of editedReasons) {
+                    res.showReason = false
+                    let subReasons = res.reasons;
+                    for(let sub of subReasons) {
+                        sub['reasonDetails'] = {id: sub.id, display_name: sub.display_name}
+                        sub.question_set = sub.question_set.map(ques => `${ques.id}--${ques.display_name}`)
+                        if(sub.qc_type.includes('pre_qc') && sub.qc_type.includes('doorstep_qc')) {
+                            sub.qc_type = 'pre_qc'
+                        } else if(sub.qc_type.includes('doorstep_qc')){
+                            sub.qc_type = 'doorstep_qc'
+                        } else {
+                            sub.qc_type = 'no_qc'
+                        }
+                    }
+                }
+                console.log('ppspspspspspsppspspspspspspsppspsps', editedReasons)
+                return [...editedReasons]
+            } else {
+                return [];
+            }
         },
         onSearchReasonsDropdownList: debounce(function(searchValue) {
             console.log('onSearchReasonsDropdownList', searchValue);
@@ -547,7 +585,7 @@ export default {
                     this.questionsList = res.data.items.map((question) => {
                         return {
                             id: question.id,
-                            value: `${question.id} -- ${question.display_name}`,
+                            value: `${question.id}--${question.display_name}`,
                             text: question.display_name
                         };
                     });
@@ -711,22 +749,7 @@ export default {
                     margin: 16px 0 0 28px;
                     .question-dropdown {
                         margin-left: 2%;
-                        width: 98%;
-                        ::v-deep .nitrozen-select-wrapper {
-                            height: 40px;
-                            .nitrozen-select {
-                                height: 40px;
-                            }
-                        }
-                        ::v-deep .nitrozen-checkbox-container {
-                            height: 30px !important;
-                        }
-                        ::v-deep .nitrozen-option-image {
-                            height: 20px;
-                        }
-                        &.channel-dropdown {
-                            width: 120px;
-                        }
+                        width: 67.5vw;
                     }
                 }
             }

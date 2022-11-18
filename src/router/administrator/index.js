@@ -34,7 +34,7 @@ import AuditLogsDetails from './../../pages/audit-trail/log-detail.vue';
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
-import ListVariants from './../../pages/product/variants/list.vue'
+import ListVariants from './../../pages/product/variants/list.vue';
 import CreateUpdateVariant from '@/pages/product/variants/edit.vue';
 import Product from './../../pages/product/index';
 import ProductAttributesList from '@/pages/product/attributes/list';
@@ -61,8 +61,8 @@ const OrderDetails = () => import('@/pages/orders/order-details.vue');
 import RMAPage from '@/pages/rma';
 import RMACustomRulesChannel from '@/pages/rma/custom-rules';
 import RMAGlobalRulesChannel from '@/pages/rma/global-rules';
-import RMASetup from '@/pages/rma/rma-setup';
-import Rules from '@/pages/rma/rules'
+import RMASetup from '@/pages/rma/rma-setup-new.vue';
+import Rules from '@/pages/rma/rules';
 import PackagingHome from '@/pages/packaging/packaging-home.vue';
 import CategoryConfig from '@/pages/packaging/category-config.vue';
 import PackagingCreate from '@/pages/packaging/create-packaging.vue';
@@ -603,6 +603,38 @@ export default [
                 }
             },
             {
+                name: 'rma-global-rule-setup',
+                path: 'settings/platform/rma/rules/global/setup',
+                component: RMASetup,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'rma-global-rule-edit',
+                path: 'settings/platform/rma/rules/global/edit',
+                component: RMASetup,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'rma-custom-rule-setup',
+                path: 'settings/platform/rma/rules/custom/:sales_channel/setup',
+                component: RMASetup,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'rma-custom-rule-edit',
+                path: 'settings/platform/rma/rules/custom/:sales_channel/edit',
+                component: RMASetup,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
                 name: 'rma',
                 path: 'settings/platform/rma',
                 component: RMAPage,
@@ -631,26 +663,6 @@ export default [
                         }
                     },
                     {
-                        name: 'rma-global-rule-setup',
-                        path: 'rules/global/setup',
-                        components: { 'rma-view': RMASetup },
-                        beforeEnter: (to, from, next) => {
-                            return checkUserPermission(to, from, next, [
-                                'settings'
-                            ]);
-                        }
-                    },
-                    {
-                        name: 'rma-global-rule-edit',
-                        path: 'rules/global/edit',
-                        components: { 'rma-view': RMASetup },
-                        beforeEnter: (to, from, next) => {
-                            return checkUserPermission(to, from, next, [
-                                'settings'
-                            ]);
-                        }
-                    },
-                    {
                         name: 'rma-custom-rules',
                         path: 'rules/custom/:sales_channel',
                         components: { 'rma-view': RMACustomRulesChannel },
@@ -660,26 +672,6 @@ export default [
                             ]);
                         }
                     },
-                    {
-                        name: 'rma-custom-rule-setup',
-                        path: 'rules/custom/:sales_channel/setup',
-                        components: { 'rma-view': RMASetup },
-                        beforeEnter: (to, from, next) => {
-                            return checkUserPermission(to, from, next, [
-                                'settings'
-                            ]);
-                        }
-                    },
-                    {
-                        name: 'rma-custom-rule-edit',
-                        path: 'rules/custom/:sales_channel/edit',
-                        components: { 'rma-view': RMASetup },
-                        beforeEnter: (to, from, next) => {
-                            return checkUserPermission(to, from, next, [
-                                'settings'
-                            ]);
-                        }
-                    }
                 ]
             },
             // Category
