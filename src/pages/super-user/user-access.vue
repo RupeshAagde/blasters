@@ -424,14 +424,13 @@ export default {
             const query = {
                 page: this.pagination.current,
                 limit: this.pagination.limit,
-                org_users: false
+                org_users: "false"
             };
             if (this.userId) {
                 query['query'] = JSON.stringify({
                     user: this.userId
                 });
             }
-
             return query;
         },
         fetchUsers() {
@@ -456,7 +455,7 @@ export default {
             ) {
                 UserService.searchGrimlockUser({
                     query: this.searchText,
-                    org_users: false
+                    org_users: "false"
                 })
                     .then(({ data }) => {
                         searchUserId = data[0] ? data[0]._id : null;

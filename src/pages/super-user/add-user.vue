@@ -342,7 +342,7 @@ export default {
             const query = {
                 page: this.current,
                 limit: this.limit,
-                org_users: false
+                org_users: "false"
             };
             if (this.userId) {
                 query['query'] = JSON.stringify({
@@ -440,7 +440,7 @@ export default {
                 if (validPhone) {
                     let params = {
                         query: this.searchText,
-                        org_users: false
+                        org_users: "false"
                     };
                     this.noUserFound = false;
                     this.pageLoading = true;
@@ -478,7 +478,7 @@ export default {
                     if (validEmail) {
                         let params = {
                             query: this.searchText,
-                            org_users: false
+                            org_users: "false"
                         };
                         this.noUserFound = false;
                         this.pageLoading = true;
