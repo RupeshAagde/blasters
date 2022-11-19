@@ -63,9 +63,11 @@ describe('Finance', () => {
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
     });
+    
     it('should render to a snapshot', () => {
         expect(wrapper.element).toMatchSnapshot();
     });
+
     it('it changes the pagination method when the pagination is changed by the user', async () => {
         const clickEvent = jest.spyOn(wrapper.vm, 'handlePageChanges');
         await flushPromises();
@@ -78,15 +80,29 @@ describe('Finance', () => {
             "current": 2,
             "total": 70
         });
+        const pageObject = {
+            "limit": 10,
+            "current": 2,
+            "total": 70
+        };
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(wrapper.vm.pageObject).toEqual(pageObject);
     });
-    it('filter fullfilment array', async() => {
+
+    it('filter fullfilment should populate the data', async() => {
         const clickEvent = jest.spyOn(wrapper.vm, 'filterFulfillment');
         await flushPromises();
         wrapper.setData({
             selectedModel: ['JFC'],
-            fulfillmentModel: ['JFC','DFC'],
+            fulfillmentModel: [{
+                    text: 'JFC',
+                    value: 'JFC'
+                },
+                {
+                    text: 'DFC',
+                    value: 'DFC'
+                }
+            ],
         });
         
         let reportTypes = wrapper.vm.filterFulfillment();
@@ -94,12 +110,21 @@ describe('Finance', () => {
         await wrapper.vm.$nextTick();
         expect(clickEvent).toHaveBeenCalled();
     });
-    it('placeholder change in fulfilment Type DD', async () => {
+
+    it('placeholder change in fulfilment Type Dropdown', async () => {
         const clickEvent = jest.spyOn(wrapper.vm, 'selectedFMT');
         await flushPromises();
         wrapper.setData({
             selectedModel: ['JFC'],
-            fulfillmentModel: ['JFC','DFC'],
+            fulfillmentModel: [{
+                    text: 'JFC',
+                    value: 'JFC'
+                },
+                {
+                    text: 'DFC',
+                    value: 'DFC'
+                }
+            ],
         });
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
@@ -107,10 +132,11 @@ describe('Finance', () => {
         const copyClick = wrapper.find('#fullfilment-type');
         await wrapper.vm.$nextTick();
         expect(clickEvent).toHaveBeenCalled();
-
     });
+
     it('changed fulfilment Type value DD', async () => {
         const clickEvent = jest.spyOn(wrapper.vm, 'runLocation');
+        const fullfilmentEvent = jest.spyOn(wrapper.vm, 'filterFulfillment');
         await flushPromises();
         wrapper.setData({
             selectedModel: ['JFC'],
@@ -123,20 +149,27 @@ describe('Finance', () => {
         const copyClick = wrapper.find('#fullfilment-type');
         copyClick.vm.$emit('change');
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(fullfilmentEvent).toHaveBeenCalledTimes(1);
 
     });
     it('Change Seller selected', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'searchCompany');
+        /*const clickEvent = jest.spyOn(wrapper.vm, 'searchCompany');
         await flushPromises();
         await wrapper.vm.$forceUpdate();
-        await wrapper.vm.$nextTick();
+        await wrapper.vm.$nextTick(); */
 
         const copyClick = wrapper.find('#seller-name');
         copyClick.vm.$emit('searchInputChange', {text:'chandra'});
         jest.advanceTimersByTime(1000);
+        const clickEvent = jest.spyOn(wrapper.vm, 'fetchCompany');
+        await flushPromises();
+        wrapper.setData({
+            sellerNames: 'chandra'
+        });
+        await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        //await wrapper.vm.$nextTick();
+        expect(wrapper.vm.sellerNames).toBe('chandra');
     });
     it('selected seller name', async () => {
         const clickEvent = jest.spyOn(wrapper.vm, 'setCompanyList');
@@ -153,7 +186,11 @@ describe('Finance', () => {
         expect(clickEvent).toHaveBeenCalled();
     });
 
-    it('selected Location IDs', () => {
+    it('selected Location IDs', async() => {
+        const copyClick = wrapper.find('#seller-name');
+        copyClick.vm.$emit('change');
+        await wrapper.vm.$nextTick();
+        const clickEvent = jest.spyOn(wrapper.vm, 'selectedIDT');
         wrapper.setData({
             selectedID: ['Hs-01'],
             locationID: [
@@ -163,9 +200,17 @@ describe('Finance', () => {
                 }
             ],
         })
-        wrapper.vm.selectedIDT();
+        await flushPromises();
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        expect(clickEvent).toHaveBeenCalled();
     });
-    it('disable fulfillment dd on this reports', () => {
+    it('disable fulfillment dd on this reports', async() => {
+        const copyClick = wrapper.find('#report-type');
+        
+        await wrapper.vm.$nextTick();
+        const clickEvent = jest.spyOn(wrapper.vm, 'getReportDesc');//.mockImplementation();
+        //wrapper.vm.getReportDesc('GST Credit Note Report');
         wrapper.setData({
             reportType: [
                 {
@@ -174,8 +219,14 @@ describe('Finance', () => {
                     description: 'GST Credit Note Report'
                 }
             ],
+            selectedReportType: 'GST Credit Note Report',
         })
-        wrapper.vm.getReportDesc('GST Credit Note Report');
+        copyClick.vm.$emit('change', 'GST Credit Note Report');
+        //wrapper.vm.getReportDesc('GST Credit Note Report');
+        await flushPromises();
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.reportDescription).toBe('GST Credit Note Report');
     });
     it('selectStageTab', async() => {
         wrapper.vm.tabChange({ index: 0 });
@@ -183,7 +234,7 @@ describe('Finance', () => {
         await wrapper.vm.$nextTick();
     });
     it('Get Date', () => {
-        wrapper.vm.getDates();
+        //wrapper.vm.getDates();
         wrapper.vm.dateFormat('1657825752');
         wrapper.vm.autoRefresh();
         jest.advanceTimersByTime(10000);

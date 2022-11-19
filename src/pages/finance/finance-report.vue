@@ -417,7 +417,6 @@ export default {
         if(this.selectedModel.length > 0 && this.locationDisable == false && this.selectedModel !== 'DFC'){
             this.haveFM = false;
             this.getLocation();
-            //console.log('this is executing....');
         }
         this.getReportType();
     },
@@ -438,7 +437,6 @@ export default {
                 })
                 .catch((err) => {
                     this.$snackbar.global.showError('No Location IDs found'); 
-                    console.log(err,'this is the error');
                 })
         },
         runLocation(){
@@ -450,7 +448,6 @@ export default {
                 this.haveFM = false;
                 this.filterFulfillment();
                 this.getLocation();
-                //console.log('this is executing....');
             }else{
                 this.haveFM = true;
                 this.selectedID = [];
@@ -482,7 +479,6 @@ export default {
             if (query) {
                 params.q = query;
             }
-            //console.log(params);
             return CompanyService.getCompanyList(params)
                 .then(({ data }) => {
                     //this.sellerNames = data.items;
@@ -500,7 +496,6 @@ export default {
                 })
                 .catch((err) => {
                     this.$snackbar.global.showError('Failed to load companies');
-                    console.log(err);
                 });
         },
         getDates(){
@@ -546,7 +541,6 @@ export default {
                     this.$snackbar.global.showError(
                         `Failed due to ${err.message}`
                     );
-                    console.log(err);
                 })
                 .finally(() => {
                     //this.inProgress = false;
@@ -593,7 +587,6 @@ export default {
             const caller = FinanceService.getReportType(params);
             caller
                 .then(( res ) => {
-                    console.log("Report Type API:", res)
                     this.reportType = res.data.items.map((item) => {
                         return {
                             text: item.name,
@@ -607,7 +600,6 @@ export default {
                     this.$snackbar.global.showError(
                         `Failed due to ${err.message}`
                     );
-                    console.log(err);
                 })
                 .finally(() => {
                     this.inProgress = false;
@@ -633,7 +625,6 @@ export default {
                             return item.status !== 'Failed' || item.msg !== 'No data available.';
                         }); */
                         this.tableData = res.data;
-                        //console.log(this.tableData);
                         this.pageObject.total = res.data.item_count;
                         this.isPending = this.tableData.items.some(item => {
                             return ['pending','in process'].includes(item.status.toLowerCase());
@@ -648,7 +639,6 @@ export default {
                     this.$snackbar.global.showError(
                         `Failed due to ${err.message}`
                     );
-                    console.log(err);
                 })
                 .finally(() => {
                     this.errorAlert = false;
@@ -663,7 +653,6 @@ export default {
             }, 10000);
         },
         formatStrings(str){
-            //console.log(str);
             let dataArray = str.split(',');
             return dataArray[0];
         },
@@ -677,10 +666,8 @@ export default {
             let report = find(this.reportType,(item) => {
                 return item.value === this.selectedReportType;
             });
-            //console.log(this.companyChips);
             let companyId = this.companyChips.map(item => item.value);
             let companyName = this.companyChips.map(item => item.text);
-            //console.log(companyId, '-', companyName);
             this.$refs.reportGenerationDialog.open({
                 reportType: this.selectedReportType,
                 displayDate: report.date,
@@ -728,23 +715,6 @@ export default {
             this.selectedSeller.splice(comIndex, 1);
             this.companyChips.splice(index, 1);
         },
-        /* filterSellerNames() {
-            if(!this.locationDisable && !this.haveFM){
-                console.log('getting callled on jfc select');
-                this.getLocation();
-            }
-            console.log(this.selectedSeller);
-            let sellers = [];
-            this.selectedSeller.map(item => {
-                find(this.sellerNames,(obj) => {
-                    if( obj.value === item ){
-                        sellers.push(obj);
-                    }
-                });
-            });
-            console.log(sellers);
-            return sellers;
-        }, */
         filterFulfillment() {
             let selectedFM = this.selectedModel.map(item => {
                 let fulfilmentItem = find(this.fulfillmentModel,(obj) => {
@@ -752,7 +722,6 @@ export default {
                 });
                 return fulfilmentItem;
             });
-            //console.log(selectedFM);
             return selectedFM;
         },
         /////can be used in future
@@ -763,7 +732,6 @@ export default {
                 });
                 return name.text;
             });
-            //console.log(fulfilmentName);
             return sellerName;
         }, */
         selectedFMT(){
@@ -773,7 +741,6 @@ export default {
                 });
                 return name.text;
             });
-            //console.log(fulfilmentName);
             return fulfilmentName;
         },
         selectedIDT(){
@@ -783,7 +750,6 @@ export default {
                 });
                 return name.text;
             });
-            //console.log(rfcID);
             return rfcID;
         },
         openLink(e){
@@ -809,12 +775,10 @@ export default {
             //let cnReports = ['Commercial Credit Note Report','Commercial Debit Note Report','GST Credit Note Report','GST Debit Note Report'];
             let reportSelected = find(this.reportType,(obj) => {
                 if(obj.value === reportValue){
-                    //console.log(obj);
                     this.locationDisable = cnReports.has(obj.text);
                     this.haveFM = true;
                     this.selectedModel = [];
                     this.selectedID = [];
-                    //console.log(this.locationDisable);
                 }
                 return obj.value === reportValue
             });
@@ -863,7 +827,6 @@ export default {
                     his.$snackbar.global.showError(
                         `Failed due to ${err.message}`
                     );
-                    console.log(err);
                 })
                 .finally(() => {
                     this.inProgress = false;
