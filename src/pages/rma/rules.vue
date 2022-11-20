@@ -138,7 +138,7 @@ export default {
 @import './../less/page-ui.less';
 
 .page-container {
-    margin: 0;
+    margin: 60px 0 0 0;
     flex-direction: column;
     border-radius: 12px;
 

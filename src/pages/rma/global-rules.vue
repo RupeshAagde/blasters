@@ -25,7 +25,9 @@
                         :handleChange="searchChannels"
                         :disabled="false"
                     />
-                    <loader v-if="tableData.length === 0 && !isListLoaded"/>
+                    <div class="loader-container">
+                        <loader v-if="tableData.length === 0 && !isListLoaded"/>
+                    </div>
                     <rules-table
                         :tableData="tableData"
                         rulesType="global"
@@ -87,6 +89,7 @@ export default {
         return {
             globalPath: '/administrator/settings/platform/rma/rules/global',
             tableHeadings: [
+                'ID',
                 'Department',
                 'Subcategory',
                 'Quality Check',
@@ -157,7 +160,7 @@ export default {
         deleteRule(){
             RMAService.deleteRule(this.deleteRuleData)
             .then(() => {
-                this.$snackbar.global.showInfo('Rule Deleted')
+                this.$snackbar.global.showSuccess('Rule Deleted')
                 this.$refs['delete-rule-dialog'].close();
                 this.loadRules()
             })
@@ -167,7 +170,6 @@ export default {
             });
         },
         openDeleteModal(data){
-            delete data.channel;
             this.deleteRuleData = {...data, is_active: false};
             this.$refs['delete-rule-dialog'].open();
         },

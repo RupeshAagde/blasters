@@ -1,5 +1,5 @@
 <template>
-    <div v-if="tableData.length > 0 && isListLoaded" class="rules-table">
+    <div v-if="tableData.length > 0 && !showLoader" class="rules-table">
         <table class="blaster-table">
             <tr>
                 <td v-for="(heading, index) of tableHeadings" :key="index">
@@ -7,6 +7,7 @@
                 </td>
             </tr>
             <tr v-for="(tableRow, index) of tableData" :key="index">
+                <td>{{tableRow.id}}</td>
                 <td>{{tableRow.meta.department ? tableRow.meta.department.display_name : 'All'}}</td>
                 <td>{{tableRow.meta.l2 ? tableRow.meta.l2.display_name : 'All'}}</td>
                 <td>
@@ -41,7 +42,7 @@ export default {
             type: Array,
             default: [],
         },
-        isListLoaded: {
+        showLoader: {
             type: Boolean,
             default: false
         },

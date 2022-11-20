@@ -97,7 +97,16 @@ export const getNavigations = () => {
             highlightedIcon: 'orders-cart-highlighted',
             active: false,
             permission: 'order',
-            children: []
+            children: [
+                {
+                    display: 'Platform',
+                    link: '/administrator/settings/platform',
+                    title: 'platform',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                }
+            ]
             //     {
             //         display: 'Orders',
             //         link: '/administrator/orders/list',

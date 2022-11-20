@@ -42,7 +42,7 @@ const RMAService = {
                 data: data
             }
         )
-        return ApiService.post(URLS.RMA_RULES('/' + data.id), axiosOption);
+        return ApiService.post(URLS.RMA_RULES(), axiosOption);
     },
     getOptedSalesChannelList(params) {
         const axiosOption = Object.assign(
@@ -105,6 +105,12 @@ const RMAService = {
             data
         });
         return ApiService.post(URLS.POST_RMA_RULE(), axiosOption);
+    },
+    toggleRulesType(data, id){
+        const axiosOption = Object.assign({}, getCommonHeaderOptions(), {
+            data
+        });
+        return ApiService.put(URLS.PUT_RMA_CONFIG_UPDATE('/' + id), axiosOption);
     }
 };
 

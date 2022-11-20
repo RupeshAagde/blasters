@@ -20,6 +20,16 @@
                     <div class="sales-channel-category-container">
                         <p class="setup-title">Department</p>
                     </div>
+                    <!-- <nitrozen-dropdown
+                        label="Department"
+                        class="platform-dropdown"
+                        :items="dlist"
+                        placeholder="Select Department"
+                        :value="selectedD"
+                        @change="handleD"
+                        :searchable="true"
+                        @searchInputChange="onSearchD"
+                    ></nitrozen-dropdown> -->
                     <nitrozen-dropdown
                         label="Department"
                         class="platform-dropdown"
@@ -92,11 +102,20 @@ export default {
             l3SearchText: '',
             shouldDisableSaveReasons: true,
             shouldDisableSaveDept: true,
-            reasonsData: []
+            reasonsData: [],
+            ruleData: {},
+            selectedD: '',
+            // dlist: [{value: '1', text: 'One'}, {value: '2', text: 'Two'}, {value: '3', text: 'Three'}]
         };
     },
     mounted() {
         this.fetchDepartmentsList();
+        const rule_data = localStorage.getItem('rma_rule_data')
+        if(rule_data) {
+            this.ruleData = JSON.parse(rule_data)
+            this.selectedDepartment = [...this.getSelectedDeptValue()]
+            this.selectedL3 = [...this.getSelectedL3Value()]
+        }
     },
     updated() {
         if (this.selectedDepartment.length !== 0) {
@@ -105,11 +124,43 @@ export default {
             this.shouldDisableSaveDept = true;
         }
         console.log(this.shouldDisableSaveReasons, this.shouldDisableSaveDept);
+        console.log(this.ruleData)
+        console.log(this.$route.name)
     },
     methods: {
+//         handleD(sel) {
+// console.log(sel, 'ldldl')
+// this.selectedD = this.dlist.filter((d) => d.value !== sel).text;
+// // this.selectedD = ''
+// // this.dlist = this.dlist.filter((d) => d.value !== sel)
+//         },
+//         onSearchD(e){
+//             console.log(e, 'lll')
+//             // this.dlist = this.dlist.filter((d) => d.value !== e)
+//         },
         handleDepartmentDropdown() {
-            console.log('handleDepartmentDropdown');
+            console.log('handleDepartmentDropdown', this.selectedDepartment);
             this.getCategoryTypes();
+        },
+        getSelectedL3Value() {
+            switch(this.$route.name) {
+                case 'rma-global-rule-setup':
+                case 'rma-custom-rule-setup': return ''
+                case 'rma-custom-rule-edit':
+                case 'rma-global-rule-edit': if(this.ruleData.meta.l3) {
+                    return `${this.ruleData.meta.l3.id}--${this.ruleData.meta.l3.display_name}`
+                } else return ''
+            }
+        },
+        getSelectedDeptValue() {
+            switch(this.$route.name) {
+                case 'rma-global-rule-setup':
+                case 'rma-custom-rule-setup': return ''
+                case 'rma-custom-rule-setup':
+                case 'rma-global-rule-edit': if(this.ruleData.meta.department) {
+                    return `${this.ruleData.meta.department.id}--${this.ruleData.meta.department.display_name}`
+                } else return ''
+            }
         },
         handleL3Dropdown() {
             console.log('handleL3Dropdown');
@@ -285,7 +336,7 @@ export default {
 @import './../less/page-ui.less';
 
 .page-container {
-    margin: 0;
+    margin: 60px 0 0 0;
     flex-direction: column;
     border-radius: 12px;
 
@@ -342,12 +393,5 @@ export default {
             justify-content: space-between;
         }
     }
-}
-
-::v-deep .titlize {
-    text-transform: capitalize;
-    position: initial;
-    width: auto;
-    z-index: 6;
 }
 </style>

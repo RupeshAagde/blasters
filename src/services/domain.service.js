@@ -746,7 +746,8 @@ const URLS = {
     //RMA Questions List
     GET_QUESTIONS: () => urlJoin(RMA_ADMIN_URL, 'api/v1/question'),
     GET_PLATFORM_COUNTS: () => urlJoin(RMA_ADMIN_URL, 'api/v1/rule/summary'),
-    POST_RMA_RULE: () => urlJoin(RMA_ADMIN_URL, 'api/v1/rule')
+    POST_RMA_RULE: () => urlJoin(RMA_ADMIN_URL, 'api/v1/rule'),
+    PUT_RMA_CONFIG_UPDATE: (id = '') => urlJoin(RMA_ADMIN_URL, 'api/v1/channel' + id),
 };
 
 export default URLS;

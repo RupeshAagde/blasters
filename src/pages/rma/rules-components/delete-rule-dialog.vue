@@ -4,7 +4,7 @@
             <div class="dialog-body">
                 <img src='/public/assets/svgs/yellow-alert-badge.svg'/>
                 <div class="heading">Are you sure?</div>
-                <div class="description">If you delete this sales channel, all of the applied rules will be revoked and you will be unable to retrieve them again.</div>
+                <div class="description">Upon deletion, this rule will not work if it has been enabled in any sales channel</div>
             </div>
         </template>
         <template slot="footer">

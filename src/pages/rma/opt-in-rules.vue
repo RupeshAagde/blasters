@@ -31,21 +31,44 @@
                         <div class="sales-channel-content">
                             <div class="details">
                                 <div class="txt-description-heading">
-                                    Created By
+                                    Created By :-
+                                    {{
+                                        salesChannel.created_by === null
+                                            ? '-'
+                                            : salesChannel.created_by
+                                    }}
+                                    on
+                                    {{
+                                        salesChannel.created_at === null
+                                            ? '-'
+                                            : new Date(
+                                                  salesChannel.created_at
+                                              ).toLocaleString()
+                                    }}
                                 </div>
-                                <div>{{ salesChannel.created_by === null ? '-' : salesChannel.created_by }}</div>
                             </div>
                             <div class="details">
                                 <div class="txt-description-heading">
-                                    Modified By
+                                    Modified By :-
+                                    {{
+                                        salesChannel.updated_by === null
+                                            ? '-'
+                                            : salesChannel.updated_by
+                                    }}
+                                    on
+                                    {{
+                                        salesChannel.updated_at === null
+                                            ? '-'
+                                            : new Date(salesChannel.updated_at)
+                                                  .toLocaleString()
+                                    }}
                                 </div>
-                                <div>{{ salesChannel.updated_by === null ? '-' : salesChannel.updated_by }}</div>
                             </div>
                         </div>
-                        <inline-svg
+                        <!-- <inline-svg
                             title="edit hsn"
                             src="bordered_arrow"
-                        ></inline-svg>
+                        ></inline-svg> -->
                     </div>
                 </div>
             </div>
@@ -73,14 +96,27 @@ export default {
     },
     methods: {
         redirectToPlatformDetails(salesChannel) {
-            salesChannel.qc_config === 'global' ? 
+            console.log(salesChannel)
+            if(salesChannel.qc_config === 'global'){
                 this.$router.push({
-                    path: `/administrator/settings/platform/rma/rules/global`
+                      path: `/administrator/settings/platform/rma/rules/global`
                 })
-                :
-                this.$router.push({
-                    path: `/administrator/settings/platform/rma/rules/custom/${salesChannel.id}`
-                })
+                return;
+            }
+            const STORAGE_KEY = 'rma_custom_rule_data';
+            const ruleData = JSON.stringify({
+                id: salesChannel.id,
+                name: salesChannel.name,
+                type: salesChannel.type,
+                qc_enabled: salesChannel.qc_enabled,
+                qc_config: salesChannel.qc_config,
+                meta: salesChannel.meta
+            })
+            if (localStorage.getItem(STORAGE_KEY)) localStorage.removeItem(STORAGE_KEY);
+            localStorage.setItem(STORAGE_KEY, ruleData);
+            this.$router.push({
+                path: `/administrator/settings/platform/rma/rules/custom/${salesChannel.id}`
+            })
         }
     }
 };
@@ -98,7 +134,6 @@ export default {
     .container {
         border: 1px solid #e4e5e6;
         cursor: pointer;
-        min-height: 120px;
         padding: 0px 24px;
         border-radius: 3px;
         margin-bottom: 16px;
@@ -124,7 +159,7 @@ export default {
             margin-bottom: 12px;
             .card-header {
                 display: flex;
-                margin-bottom: 24px;
+                margin-bottom: 12px;
                 .sales-channel-name {
                     width: 80%;
                     color: #2e31be;
@@ -147,7 +182,7 @@ export default {
                     .details {
                         display: flex;
                         flex-direction: column;
-                        margin-right: 94px;
+                        margin-right: 36px;
                         .txt-description-heading {
                             color: #9b9b9b;
                             line-height: 22px;
