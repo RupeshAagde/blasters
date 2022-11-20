@@ -1,9 +1,7 @@
 <template>
     <div class="panel">
         <div class="breadcrumb-parent">
-            <breadcrumb
-                :routes="breadcrumbRoutes"
-            />
+            <breadcrumb :routes="breadcrumbRoutes" />
         </div>
         <div class="main-container">
             <div class="page-container">
@@ -25,7 +23,7 @@
                         :handleChange="searchChannels"
                         :disabled="false"
                     />
-                    <loader v-if="tableData.length === 0 && !isListLoaded"/>
+                    <loader v-if="tableData.length === 0 && !isListLoaded" />
                     <rules-table
                         :tableData="tableData"
                         rulesType="global"
@@ -34,7 +32,10 @@
                         @onDelete="openDeleteModal"
                         @onEdit="redirectToEdit"
                     />
-                    <div class="pagination-parent" v-if="tableData.length > 0 && isListLoaded">
+                    <div
+                        class="pagination-parent"
+                        v-if="tableData.length > 0 && isListLoaded"
+                    >
                         <nitrozen-pagination
                             v-model="pagination"
                             @change="paginationChange"
@@ -55,7 +56,7 @@
 import {
     NitrozenInput,
     NitrozenPagination,
-    NitrozenBadge,
+    NitrozenBadge
 } from '@gofynd/nitrozen-vue';
 import RMAService from '@/services/rma.service';
 import inlineSvgVue from '@/components/common/inline-svg';
@@ -74,16 +75,16 @@ export default {
         'nitrozen-input': NitrozenInput,
         'nitrozen-pagination': NitrozenPagination,
         'inline-svg': inlineSvgVue,
-        'loader': loader,
+        loader: loader,
         'adm-no-content': AdmNoContent,
         'nitrozen-badge': NitrozenBadge,
-        'jumbotron': Jumbotron,
+        jumbotron: Jumbotron,
         'delete-rule-dialog': DeleteRuleDialog,
         'rules-table': RulesTable,
         'search-container': SearchContainer,
-        'breadcrumb': Breadcrumb
+        breadcrumb: Breadcrumb
     },
-    data(){
+    data() {
         return {
             globalPath: '/administrator/settings/platform/rma/rules/global',
             tableHeadings: [
@@ -111,24 +112,30 @@ export default {
                 {
                     name: 'Global Rules',
                     path: ''
-                },
+                }
             ]
-        }
+        };
     },
-    methods:{
-        loadSalesChannels(params = {
+    methods: {
+        loadSalesChannels(
+            params = {
                 page_size: 5,
                 page_no: 1,
                 rule_type: 'global'
-            }){
+            }
+        ) {
+            this.isListLoaded = true;
             RMAService.getRulesList(params)
-            .then((result) => {
-                this.tableData = result.data.items
-                this.isListLoaded = true
-                this.pagination.total = result.data.page.item_total
-            })
+                .then((result) => {
+                    this.tableData = result.data.items;
+                    this.pagination.total = result.data.page.item_total;
+                    this.isListLoaded = false;
+                })
+                .catch(() => {
+                    this.isListLoaded = false;
+                });
         },
-        paginationChange(paginationData){
+        paginationChange(paginationData) {
             this.pagination.current = paginationData.current;
             this.pagination.limit = paginationData.limit;
             this.tableData = [];
@@ -139,72 +146,73 @@ export default {
             });
         },
         redirectToSetup() {
-            this.$router.push({ path: `${this.globalPath}/setup`});
+            this.$router.push({ path: `${this.globalPath}/setup` });
         },
         redirectToEdit(data) {
             const rmaRuleData = JSON.stringify({
                 actions: data.actions,
                 id: data.id,
-                channel: data.channel, 
+                channel: data.channel,
                 meta: data.meta
-            })
-            if (localStorage.getItem('rma_rule_data')) localStorage.removeItem('rma_rule_data');
-            localStorage.setItem('rma_rule_data', rmaRuleData);
-            this.$router.push({ path: `${this.globalPath}/edit`});
-        },
-        deleteRule(){
-            RMAService.deleteRule(this.deleteRuleData)
-            .then(() => {
-                this.$snackbar.global.showInfo('Rule Deleted')
-                this.loadSalesChannels()
-            })
-            .catch((err) => {
-                const msg = err.response.data.error;
-                this.$snackbar.global.showInfo(msg)
             });
+            if (localStorage.getItem('rma_rule_data'))
+                localStorage.removeItem('rma_rule_data');
+            localStorage.setItem('rma_rule_data', rmaRuleData);
+            this.$router.push({ path: `${this.globalPath}/edit` });
         },
-        openDeleteModal(data){
+        deleteRule() {
+            RMAService.deleteRule(this.deleteRuleData)
+                .then(() => {
+                    this.$snackbar.global.showInfo('Rule Deleted');
+                    this.loadSalesChannels();
+                })
+                .catch((err) => {
+                    const msg = err.response.data.error;
+                    this.$snackbar.global.showInfo(msg);
+                });
+        },
+        openDeleteModal(data) {
             delete data.channel;
-            this.deleteRuleData = {...data, is_active: false};
+            this.deleteRuleData = { ...data, is_active: false };
             this.$refs['delete-rule-dialog'].open();
         },
-        closeDeleteModal(){
+        closeDeleteModal() {
             this.$refs['delete-rule-dialog'].close();
         },
-        filterRulesList(){
+        filterRulesList() {
             RMAService.getDepartments({
                 page_no: 1,
                 page_size: 9999,
-                search: this.searchInput,
+                search: this.searchInput
             })
-            .then(result => {
-                console.log(result);
-                const items = result.data.items
-                return items.map(item => item.uid).join(', ');
-            })
-            .then((uids) => {
-                console.log(uids);
-                // if (this.searchInput === '') {
-                //     this.loadSalesChannels()
-                //     return;
-                // }
-                // this.loadSalesChannels({
-                //     page_no: 1,
-                //     page_size: 5,
-                //     channel: ids,
-                //     rule_type: 'global'
-                // })
-            })
+                .then((result) => {
+                    console.log(result);
+                    const items = result.data.items;
+                    return items.map((item) => item.uid).join(', ');
+                })
+                .then((uids) => {
+                    console.log(uids);
+                    // if (this.searchInput === '') {
+                    //     this.loadSalesChannels()
+                    //     return;
+                    // }
+                    // this.loadSalesChannels({
+                    //     page_no: 1,
+                    //     page_size: 5,
+                    //     channel: ids,
+                    //     rule_type: 'global'
+                    // })
+                });
         },
-        searchChannels: debounce(function(input){ 
-            this.searchInput = input
-            this.filterRulesList()
+        searchChannels: debounce(function(input) {
+            this.searchInput = input;
+            this.filterRulesList();
         }, 300)
     },
     mounted() {
         this.loadSalesChannels();
     }
-}
+};
 </script>
 
 <style lang="less" scoped>

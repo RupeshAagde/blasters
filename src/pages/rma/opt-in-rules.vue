@@ -59,16 +59,13 @@
                                     {{
                                         salesChannel.updated_at === null
                                             ? '-'
-                                            : new Date(salesChannel.updated_at)
-                                                  .toLocaleString()
+                                            : new Date(
+                                                  salesChannel.updated_at
+                                              ).toLocaleString()
                                     }}
                                 </div>
                             </div>
                         </div>
-                        <!-- <inline-svg
-                            title="edit hsn"
-                            src="bordered_arrow"
-                        ></inline-svg> -->
                     </div>
                 </div>
             </div>
@@ -96,13 +93,9 @@ export default {
     },
     methods: {
         redirectToPlatformDetails(salesChannel) {
-            salesChannel.qc_config === 'global'
-                ? this.$router.push({
-                      path: `/administrator/settings/platform/rma/rules/global`
-                  })
-                : this.$router.push({
-                      path: `/administrator/settings/platform/rma/rules/custom/${salesChannel.id}`
-                  });
+            this.$router.push({
+                path: `/administrator/settings/platform/rma/rules/custom/${salesChannel.id}`
+            });
         }
     }
 };

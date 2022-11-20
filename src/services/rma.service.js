@@ -7,19 +7,7 @@ import URLS from './domain.service';
 const RMAService = {
     defaultPagination: {
         page_no: 1,
-        page_size: 10,
-    },
-    getSalesChannels(params = {}) {
-        const axiosOption = Object.assign(
-            {
-                params: {
-                    ...this.defaultPagination,
-                    ...params
-                }
-            },
-            getCommonHeaderOptions()
-        )
-        return ApiService.get(URLS.GET_RMA_SALES_CHANNEL(), axiosOption);
+        page_size: 10
     },
     getRulesList(params = {}) {
         const axiosOption = Object.assign(
@@ -30,17 +18,13 @@ const RMAService = {
                 }
             },
             getCommonHeaderOptions()
-        )
+        );
         return ApiService.get(URLS.RMA_RULES(), axiosOption);
     },
-    deleteRule(data = {}){
-        const axiosOption = Object.assign(
-            {},
-            getCommonHeaderOptions(),
-            {
-                data: data
-            }
-        )
+    deleteRule(data = {}) {
+        const axiosOption = Object.assign({}, getCommonHeaderOptions(), {
+            data: data
+        });
         return ApiService.put(URLS.RMA_RULES('/' + data.id), axiosOption);
     },
     getOptedSalesChannelList(params) {
@@ -104,6 +88,12 @@ const RMAService = {
             data
         });
         return ApiService.post(URLS.POST_RMA_RULE(), axiosOption);
+    },
+    editRule(id, data) {
+        const axiosOption = Object.assign({}, getCommonHeaderOptions(), {
+            data
+        });
+        return ApiService.put(URLS.PUT_RMA_RULE(id), axiosOption);
     }
 };
 
