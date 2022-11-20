@@ -27,9 +27,10 @@
                     <p class="setup-title">
                         {{
                             this.$route.name.includes('custom')
-                                ? this.editRuleData.channel
+                                ? this.channel.name
                                 : ''
-                        }}Rule
+                        }}
+                        Rule
                         {{
                             this.$route.name.includes('edit') ? 'Edit' : 'Setup'
                         }}
@@ -482,6 +483,7 @@ export default {
             selectedDepartmentId: null,
             l3DropdownList: [],
             selectedL3: null,
+            selectedL3Id: null,
             parentReasonsDropdownList: [],
             childReasonsDropdownList: [],
             selectedParentReason: null,
@@ -503,7 +505,7 @@ export default {
                         this.$route.name === 'rma-global-rule-edit'
                             ? 'Global'
                             : this.editRuleData
-                            ? this.editRuleData.channel
+                            ? this.channel.name
                             : 'Sales Channel',
                     path:
                         this.$route.name === 'rma-global-rule-setup' ||
@@ -525,19 +527,7 @@ export default {
             return this.selectedDepartment === null;
         },
         isSaveDisabled() {
-            if (
-                this.$route.name.includes('edit') &&
-                this.editRuleData.meta !== undefined
-            ) {
-                if (
-                    this.editRuleData.meta.l3 !== undefined &&
-                    this.editRuleData.meta.department.display_name ===
-                        this.selectedDepartment &&
-                    this.editRuleData.meta.l3.display_name === this.selectedL3
-                ) {
-                    return true;
-                }
-            } else if (this.selectedDepartment === null) {
+            if (this.selectedDepartment === null) {
                 return true;
             } else if (!this.chosenParentReasonsList.length) {
                 return true;
@@ -579,6 +569,7 @@ export default {
             this.fetchL3Categories(this.editRuleData.meta.department.id);
             if (this.editRuleData.meta.l3) {
                 this.selectedL3 = `${this.editRuleData.meta.l3.display_name}`;
+                this.selectedL3Id = this.editRuleData.meta.l3.id;
             }
             const reasonList = [];
             if (this.editRuleData.actions.reasons.length) {
@@ -600,7 +591,7 @@ export default {
                             storedVal: `${res.id}-|-${res.display_name}-|-${res.is_active}`
                         }
                     ];
-                    let subReasons = [...res.reasons];
+                    let subReasons = res.reasons ? [...res.reasons] : [];
                     subReasons = subReasons.map((sub) => {
                         this.selectedArrayOfReasons[
                             `${res.id}-|-${res.display_name}-|-${res.is_active}`
@@ -631,14 +622,22 @@ export default {
             console.log(
                 '---------------------------mounted---------------------------------'
             );
-        } else if(this.$route.name === 'rma-custom-rules' && this.editRuleData) {
-            this.channel = {...this.editRuleData.channel}
+        }
+        if (this.$route.name.includes('custom')) {
+            const channelData = JSON.parse(
+                localStorage.getItem('rma_sales_channel_data')
+            );
+            if (channelData) {
+                this.channel = { ...channelData };
+            }
+            console.log('llllllll m-->', channelData);
         }
     },
     updated() {
         // console.log(
         //     '------------------------------------updated----------------------------------------------'
         // );
+        console.log('llllllll-->', this.channel);
         // console.log(
         //     '------------------------------------updated--------------------------------------------'
         // );
@@ -657,10 +656,6 @@ export default {
         this.collapsedReason = {};
         this.questionsList = [];
     },
-    // beforeDestroy() {
-    //     if (localStorage.getItem('rma_rule_data'))
-    //         localStorage.removeItem('rma_rule_data');
-    // },
     methods: {
         init() {
             this.fetchDepartmentsList();
@@ -745,7 +740,6 @@ export default {
             this.parentReasonsDropdownSearchText = '';
         },
         handleParentReasonsDropdownSearch: debounce(function({ text }) {
-            this.selectedDepartmentId = null;
             this.parentReasonsDropdownSearchText = text;
             this.fetchReasonsList(['parent'], text);
         }, 300),
@@ -996,7 +990,9 @@ export default {
                     this.selectedL3 !== null
                         ? this.selectedL3.split('-|-')[0]
                         : this.selectedDepartment.split('-|-')[0],
-                channel: this.$route.name.includes('global') ? null : this.channel.id,
+                channel: this.$route.name.includes('global')
+                    ? null
+                    : this.channel.id,
                 rule_type: this.$route.name.includes('global')
                     ? 'global'
                     : 'custom',
@@ -1024,13 +1020,22 @@ export default {
                     reasons: []
                 }
             };
-            if(this.$route.name === 'rma-custom-rules') {
-                postData.meta['channel'] = {...this.channel}
+            if (this.$route.name === 'rma-custom-rules') {
+                postData.meta['channel'] = {
+                    id: this.channel.id,
+                    display_name: this.channel.name
+                };
             }
             if (this.selectedL3 !== null) {
                 postData.meta['l3'] = {
-                    id: this.selectedL3.split('-|-')[0],
-                    display_name: this.selectedL3.split('-|-')[1]
+                    id:
+                        this.selectedL3Id !== null
+                            ? this.selectedL3Id
+                            : this.selectedL3.split('-|-')[0],
+                    display_name:
+                        this.selectedL3Id !== null
+                            ? this.selectedL3
+                            : this.selectedL3.split('-|-')[1]
                 };
                 postData.conditions['l3'] = this.selectedL3.split('-|-')[0];
             }
@@ -1071,7 +1076,12 @@ export default {
 
             let apiCall = () =>
                 this.$route.name.includes('edit')
-                    ? RMAService.editRule(this.editRuleData.id, postData)
+                    ? RMAService.editRule(
+                          this.$route.name.includes('global')
+                              ? this.editRuleData.id
+                              : this.channel.id,
+                          postData
+                      )
                     : RMAService.postRule(postData);
 
             apiCall()

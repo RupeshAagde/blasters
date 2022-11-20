@@ -50,7 +50,9 @@
 
                 <div class="settings-head">
                     <inline-svg src="settings"></inline-svg>
-                    <span class="bold-xs cl-Mako title">Custom Page and Tag</span>
+                    <span class="bold-xs cl-Mako title"
+                        >Custom Page and Tag</span
+                    >
                 </div>
 
                 <div class="settings-main">
@@ -87,8 +89,6 @@
                         </router-link>
                     </span>
                 </div>
-
-                
 
                 <div class="settings-head">
                     <inline-svg src="settings"></inline-svg>
@@ -129,7 +129,11 @@
                         </router-link>
                     </span>
 
-                    <span class="settings-menu" @click="openHomePage" key="home-page">
+                    <span
+                        class="settings-menu"
+                        @click="openHomePage"
+                        key="home-page"
+                    >
                         <span>
                             <div class="settings-body">
                                 <span class="settings-icon">
@@ -172,7 +176,7 @@ import {
     NitrozenBadge
 } from '@gofynd/nitrozen-vue';
 import _ from 'lodash';
-import HomePage from "./home-page"
+import HomePage from './home-page';
 
 const GENERAL_MENUS = [
     {
@@ -198,15 +202,7 @@ const GENERAL_MENUS = [
         permissions: [],
         active: false,
         desc: 'Change platform pricing banner'
-    },
-    {
-        title: 'Return Exchange Authorization',
-        link: 'platform/rma/rules',
-        icon: 'settings',
-        permissions: [],
-        active: false,
-        desc: 'Set rules for return authorization'
-    },
+    }
 ];
 const CUSTOM_MENUS = [
     {
@@ -217,7 +213,7 @@ const CUSTOM_MENUS = [
         active: false,
         desc: 'Use this section to develop and manage custom webpages'
     },
-     {
+    {
         title: 'Custom Tags',
         link: 'platform/list-tags',
         icon: 'settings',
@@ -225,9 +221,9 @@ const CUSTOM_MENUS = [
         active: false,
         desc: 'Inject Script/CSS'
     }
-]
+];
 const CUSTOMIZE_MENUS = [
-{
+    {
         title: 'Navbar',
         link: 'platform/navbar',
         icon: 'settings',
@@ -243,7 +239,7 @@ const CUSTOMIZE_MENUS = [
         active: false,
         desc: 'Use this section to change platform footer'
     }
-]
+];
 export default {
     name: 'settings',
     components: {
@@ -270,8 +266,8 @@ export default {
     mounted() {},
     methods: {
         titleCase,
-        openHomePage(){
-            this.$refs["custom-home-page"].open()
+        openHomePage() {
+            this.$refs['custom-home-page'].open();
         }
     }
 };
