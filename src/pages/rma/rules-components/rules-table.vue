@@ -8,7 +8,7 @@
             </tr>
             <tr v-for="(tableRow, index) of tableData" :key="index">
                 <td>{{tableRow.id}}</td>
-                <td>{{tableRow.meta.department ? tableRow.meta.department.display_name : 'All'}}</td>
+                <td>{{tableRow.meta.department ? tableRow.meta.department ? tableRow.meta.department.display_name ? tableRow.meta.department.display_name : 'All' : '' : ''}}</td>
                 <td>{{tableRow.meta.l2 ? tableRow.meta.l2.display_name : 'All'}}</td>
                 <td>
                     <nitrozen-badge :state="tableRow.qc_enabled ? 'success' : 'warn'">

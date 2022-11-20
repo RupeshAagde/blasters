@@ -107,7 +107,7 @@ export default {
             localStorage.getItem(STORAGE_KEY) && localStorage.removeItem(STORAGE_KEY);
             localStorage.setItem(STORAGE_KEY, channelData);
             this.$router.push({
-                    path: `/administrator/settings/platform/rma/rules/${channelType}/${salesChannel.id}` 
+                path: `/administrator/settings/platform/rma/rules/${channelType}/${salesChannel.id}` 
             });
         }
     }

@@ -59,8 +59,6 @@ import WebhookReport from './../../pages/webhook/webhook_report.vue';
 const OrdersPage = () => import('@/pages/orders');
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
 import RMAPage from '@/pages/rma';
-import RMACustomRulesChannel from '@/pages/rma/custom-rules';
-import RMAGlobalRulesChannel from '@/pages/rma/global-rules';
 import RMARulesListing from '@/pages/rma/rules-listing';
 import RMASetup from '@/pages/rma/rma-setup.vue';
 import Rules from '@/pages/rma/rules';

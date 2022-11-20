@@ -99,9 +99,9 @@ export const getNavigations = () => {
             permission: 'order',
             children: [
                 {
-                    display: 'Platform',
-                    link: '/administrator/settings/platform',
-                    title: 'platform',
+                    display: 'RMA',
+                    link: '/administrator/settings/platform/rma/rules',
+                    title: 'RMA',
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false

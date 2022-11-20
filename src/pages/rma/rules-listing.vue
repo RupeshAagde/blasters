@@ -29,7 +29,7 @@
                         @onToggleClick="customListing"
                     ></custom-rules-header>
                     <search-container
-                        :placeholder="'Search by Custom Rule'"
+                        :placeholder="'Search by ID or Department'"
                         :id="'rules-search'"
                         :value="searchInput"
                         :handleChange="searchChannels"
@@ -51,7 +51,7 @@
                         <nitrozen-pagination
                             v-model="pagination"
                             @change="paginationChange"
-                            :pageSizeOptions="[5, 8, 20, 50]"
+                            :pageSizeOptions="[5, 10, 20, 50]"
                         ></nitrozen-pagination>
                     </div>
                     <adm-no-content
@@ -122,8 +122,7 @@ export default {
             breadcrumbRoutes: [],
             departmentIds: [],
             channelIds: [],
-            ruleIds: [],
-            noRulesFound: false
+            ruleIds: []
         }
     },
     methods:{
@@ -136,7 +135,6 @@ export default {
                 this.showLoader = false
                 !this.channelName && (this.channelName = this.channelData.name)
                 this.pagination.total = result.data.page.item_total
-                this.noRulesFound = !this.noRulesFound && this.tableData.length === 0
             })
         },
         updateRuleParams(){
@@ -150,7 +148,7 @@ export default {
             } : {
                 page_size: 5,
                 page_no: 1,
-                channel: [this.channelId, ...this.channelIds],
+                channel: this.channelIds,
                 is_active: true,
                 id: this.ruleIds
             }
@@ -191,6 +189,7 @@ export default {
             .catch((err) => {
                 const msg = err.response.data.error
                 this.$snackbar.global.showError(msg)
+                this.$refs['delete-rule-dialog'].close()
             })
         },
         openDeleteModal(data){
@@ -202,7 +201,6 @@ export default {
         },
         customListing(isEnabled){
             this.showLoader = true
-            this.noRulesFound = false
             RMAService.toggleRulesType(this.channelData.id, {
                 ...this.channelData,
                 qc_config: isEnabled ? 'custom' : 'global'
@@ -221,7 +219,7 @@ export default {
         filterRulesList({searchById = false}){
             if (this.searchInput === '') {
                 this.departmentIds = []
-                this.channelIds = []
+                this.channelIds = [this.channelId]
                 this.ruleIds = []
                 this.updateRuleParams()
                 this.loadRules()
@@ -265,6 +263,11 @@ export default {
                 return items.map(item => item.id.toString())
             })
             .then((channels) => { 
+                if (channels.length === 0) {
+                    this.tableData = []
+                    this.showLoader = false
+                    return
+                }
                 this.channelIds = channels
                 this.updateRuleParams()
                 this.loadRules()
@@ -274,7 +277,6 @@ export default {
             this.showCustom ? this.tableHeadings.push('Action') : this.tableHeadings.pop()
         },
         searchChannels: debounce(function(input){
-            if (this.noRulesFound) return;
             this.searchInput = input
             this.pagination.current = 1
             const inputStartsWithNumber = input.length >= 1 && !isNaN(parseInt(input.charAt(0)))
@@ -314,6 +316,7 @@ export default {
             'Quality Check',
         ]
         this.channelId = this.isGlobal ? '' : this.$route.params.sales_channel.toString()
+        this.channelIds = [this.channelId]
         this.updateRuleParams()
         this.setChannelData()
         this.loadRules()
