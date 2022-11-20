@@ -97,16 +97,7 @@ export const getNavigations = () => {
             highlightedIcon: 'orders-cart-highlighted',
             active: false,
             permission: 'order',
-            children: [
-                {
-                    display: 'RMA',
-                    link: '/administrator/settings/platform/rma/rules',
-                    title: 'RMA',
-                    icon: 'home',
-                    highlightedIcon: 'home-highlighted',
-                    active: false
-                }
-            ]
+            children: []
             //     {
             //         display: 'Orders',
             //         link: '/administrator/orders/list',
@@ -295,5 +286,15 @@ export const getNavigations = () => {
             permission: 'webhook',
             children: []
         },
+        {
+            display: 'RMA',
+            link: '/administrator/settings/platform/rma/rules',
+            title: 'RMA',
+            icon: 'home',
+            highlightedIcon: 'home-highlighted',
+            active: false,
+            permission: 'settings',
+            children: []
+        }
     ];
 };
