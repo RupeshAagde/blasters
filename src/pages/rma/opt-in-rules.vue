@@ -93,8 +93,21 @@ export default {
     },
     methods: {
         redirectToPlatformDetails(salesChannel) {
+            const channelType = salesChannel.qc_config;
+            const STORAGE_KEY = 'rma_sales_channel_data';
+            const {id, name, type, qc_enabled, qc_config, meta} = salesChannel;
+            const channelData = JSON.stringify({
+                id,
+                name,
+                type,
+                qc_enabled,
+                qc_config,
+                meta
+            });
+            localStorage.getItem(STORAGE_KEY) && localStorage.removeItem(STORAGE_KEY);
+            localStorage.setItem(STORAGE_KEY, channelData);
             this.$router.push({
-                path: `/administrator/settings/platform/rma/rules/custom/${salesChannel.id}`
+                path: `/administrator/settings/platform/rma/rules/${channelType}/${salesChannel.id}` 
             });
         }
     }

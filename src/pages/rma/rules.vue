@@ -40,7 +40,7 @@
                         id="rma_ordering_channel"
                         v-model="pageObject"
                         @change="paginationChange"
-                        :pageSizeOptions="[5, 10, 20, 5000]"
+                        :pageSizeOptions="[5, 10, 20, 50]"
                     ></nitrozen-pagination>
                 </div>
             </div>

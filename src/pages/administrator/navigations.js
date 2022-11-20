@@ -286,5 +286,15 @@ export const getNavigations = () => {
             permission: 'webhook',
             children: []
         },
+        {
+            display: 'RMA',
+            link: '/administrator/settings/platform/rma/rules',
+            title: 'RMA',
+            icon: 'home',
+            highlightedIcon: 'home-highlighted',
+            active: false,
+            permission: 'settings',
+            children: []
+        }
     ];
 };

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="tableData.length > 0 && isListLoaded" class="rules-table">
+    <div v-if="tableData.length > 0 && !showLoader" class="rules-table">
         <table class="blaster-table">
             <tr>
                 <td v-for="(heading, index) of tableHeadings" :key="index">
@@ -7,14 +7,15 @@
                 </td>
             </tr>
             <tr v-for="(tableRow, index) of tableData" :key="index">
-                <td>{{tableRow.meta.department ? tableRow.meta.department.display_name : 'All'}}</td>
+                <td>{{tableRow.id}}</td>
+                <td>{{tableRow.meta.department ? tableRow.meta.department ? tableRow.meta.department.display_name ? tableRow.meta.department.display_name : 'All' : '' : ''}}</td>
                 <td>{{tableRow.meta.l2 ? tableRow.meta.l2.display_name : 'All'}}</td>
                 <td>
-                    <nitrozen-badge :state="tableRow.qn_elabled ? 'success' : 'warn'">
-                        {{tableRow.qn_elabled ? 'Active' : 'Inactive'}}
+                    <nitrozen-badge :state="tableRow.qc_enabled ? 'success' : 'warn'">
+                        {{tableRow.qc_enabled ? 'Active' : 'Inactive'}}
                     </nitrozen-badge>
                 </td>
-                <td class="table-ctas" v-if="rulesType === 'global' || showCustom">
+                <td class="table-ctas" v-if="isGlobal || showCustom">
                     <button class="row-cta" @click="$emit('onDelete', tableRow)">
                         <img src="/public/assets/svgs/delete_outline.svg"/>
                     </button>
@@ -33,15 +34,15 @@ import {
 export default {
     name: 'rules-table',
     props: {
-        rulesType: {
-            type: String,
-            default: 'global'
+        isGlobal: {
+            type: Boolean,
+            default: false
         },
         tableData: {
             type: Array,
             default: [],
         },
-        isListLoaded: {
+        showLoader: {
             type: Boolean,
             default: false
         },

@@ -7,9 +7,9 @@ import URLS from './domain.service';
 const RMAService = {
     defaultPagination: {
         page_no: 1,
-        page_size: 10
+        page_size: 10,
     },
-    getRulesList(params = {}) {
+    getSalesChannels(params = {}) {
         const axiosOption = Object.assign(
             {
                 params: {
@@ -18,14 +18,31 @@ const RMAService = {
                 }
             },
             getCommonHeaderOptions()
-        );
-        return ApiService.get(URLS.RMA_RULES(), axiosOption);
+        )
+        return ApiService.get(URLS.GET_RMA_SALES_CHANNEL(), axiosOption);
     },
-    deleteRule(data = {}) {
-        const axiosOption = Object.assign({}, getCommonHeaderOptions(), {
-            data: data
-        });
-        return ApiService.put(URLS.RMA_RULES('/' + data.id), axiosOption);
+    getRulesList(data = {}) {
+        const axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+            {
+                data: {
+                    ...this.defaultPagination,
+                    ...data
+                }
+            }
+        )
+        return ApiService.post(URLS.RMA_RULES('', '/list'), axiosOption);
+    },
+    deleteRule(data = {}){
+        const axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+            {
+                data: data
+            }
+        )
+        return ApiService.post(URLS.RMA_RULES(), axiosOption);
     },
     getOptedSalesChannelList(params) {
         const axiosOption = Object.assign(
@@ -94,6 +111,12 @@ const RMAService = {
             data
         });
         return ApiService.put(URLS.PUT_RMA_RULE(id), axiosOption);
+    },
+    toggleRulesType(id, data){
+        const axiosOption = Object.assign({}, getCommonHeaderOptions(), {
+            data
+        });
+        return ApiService.put(URLS.PUT_RMA_CONFIG_UPDATE('/' + id), axiosOption);
     }
 };
 

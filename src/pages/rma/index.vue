@@ -40,7 +40,8 @@ export default {
             const currentRoute = this.$route.name;
             switch (currentRoute) {
                 case 'rma-global-rules':
-                case 'rma-custom-rules':
+                    case 'rma-global-channel-rules':
+                    case 'rma-custom-channel-rules':
                     this.$router.push({
                         path: '/administrator/settings/platform/rma/rules'
                     });

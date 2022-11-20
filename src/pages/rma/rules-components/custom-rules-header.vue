@@ -58,27 +58,25 @@ export default {
             type: String,
             default: 'illustration'
         },
-        toggleClicked: {
+        onToggleClick: {
             type: Function
+        },
+        toggleValue: {
+            type: Boolean,
+            default: false
         }
     },
     directives: {
         flatBtn
     },
     watch: {},
-    data: function() {
-        return {
-            toggleValue: false
-        };
-    },
     mounted() {},
     methods: {
         btnClick() {
             this.$emit('btnClick');
         },
         toggleClick(){
-            this.toggleValue = !this.toggleValue;
-            this.$emit('toggleClick', this.toggleValue);
+            this.$emit('onToggleClick', !this.toggleValue);
         }
     }
 };

@@ -59,8 +59,7 @@ import WebhookReport from './../../pages/webhook/webhook_report.vue';
 const OrdersPage = () => import('@/pages/orders');
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
 import RMAPage from '@/pages/rma';
-import RMACustomRulesChannel from '@/pages/rma/custom-rules';
-import RMAGlobalRulesChannel from '@/pages/rma/global-rules';
+import RMARulesListing from '@/pages/rma/rules-listing';
 import RMASetup from '@/pages/rma/rma-setup.vue';
 import Rules from '@/pages/rma/rules';
 import PackagingHome from '@/pages/packaging/packaging-home.vue';
@@ -655,7 +654,7 @@ export default [
                     {
                         name: 'rma-global-rules',
                         path: 'rules/global',
-                        components: { 'rma-view': RMAGlobalRulesChannel },
+                        components: { 'rma-view': RMARulesListing },
                         beforeEnter: (to, from, next) => {
                             return checkUserPermission(to, from, next, [
                                 'settings'
@@ -663,15 +662,25 @@ export default [
                         }
                     },
                     {
-                        name: 'rma-custom-rules',
-                        path: 'rules/custom/:sales_channel',
-                        components: { 'rma-view': RMACustomRulesChannel },
+                        name: 'rma-global-channel-rules',
+                        path: 'rules/global/:sales_channel',
+                        components: { 'rma-view': RMARulesListing },
                         beforeEnter: (to, from, next) => {
                             return checkUserPermission(to, from, next, [
                                 'settings'
                             ]);
                         }
                     },
+                    {
+                        name: 'rma-custom-channel-rules',
+                        path: 'rules/custom/:sales_channel',
+                        components: { 'rma-view': RMARulesListing },
+                        beforeEnter: (to, from, next) => {
+                            return checkUserPermission(to, from, next, [
+                                'settings'
+                            ]);
+                        }
+                    }
                 ]
             },
             // Category
