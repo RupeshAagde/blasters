@@ -22,10 +22,11 @@
                     ></jumbotron>
                     <custom-rules-header
                         v-if="!isGlobal"
-                        :title="channelName ? channelName : 'Company'"
+                        :title="channelName ? channelName : ''"
                         btnLabel="Add Rule"
+                        :toggleValue="showCustom"
                         @btnClick="redirectTo('setup')"
-                        @toggleClick="customListing"
+                        @onToggleClick="customListing"
                     ></custom-rules-header>
                     <search-container
                         :placeholder="'Search by Custom Rule'"
@@ -39,7 +40,7 @@
                     </div>
                     <rules-table
                         :tableData="tableData"
-                        rulesType="custom"
+                        :isGlobal="isGlobal"
                         :showLoader="showLoader"
                         :showCustom="showCustom"
                         :tableHeadings="tableHeadings"
@@ -99,21 +100,11 @@ export default {
     },
     data(){
         return {
-            isGlobal: this.$route.name === 'rma-global-rules',
-            defaultPath: `/administrator/settings/platform/rma/rules/`,
-            tableHeadings: this.isGlobal ? [
-                'ID',
-                'Department',
-                'Subcategory',
-                'Quality Check',
-                'Actions'
-            ] : [
-                'ID',
-                'Department',
-                'Subcategory',
-                'Quality Check',
-            ],
-            channelId: !this.isGlobal && this.$route.params.sales_channel.toString(),
+            isGlobal: false,
+            localStorageKey: 'rma_sales_channel_data',
+            defaultPath: '',
+            tableHeadings: [],
+            channelId: '',
             tableData: [],
             pagination: {
                 total: 0,
@@ -126,34 +117,47 @@ export default {
             showCustom: false,
             searchInput: '',
             channelName: '',
+            channelData: {},
             rulesParams: {},
-            breadcrumbRoutes: [
-                {
-                    name: 'Return Merchandise Authorisation',
-                    path: '/administrator/settings/platform/rma/rules'
-                },
-                {
-                    name: this.isGlobal ? 'Global Rules' : 'Custom Rules',
-                    path: ''
-                },
-            ]
+            breadcrumbRoutes: [],
+            departmentIds: [],
+            channelIds: [],
+            ruleIds: [],
+            noRulesFound: false
         }
     },
     methods:{
         loadRules(params = this.rulesParams){
+            this.tableData = [];
+            this.showLoader = true
             RMAService.getRulesList(params)
             .then((result) => {
                 this.tableData = result.data.items
                 this.showLoader = false
-                !this.channelName && (this.channelName = this.tableData[0].meta.display_name);
+                !this.channelName && (this.channelName = this.channelData.name)
                 this.pagination.total = result.data.page.item_total
+                this.noRulesFound = !this.noRulesFound && this.tableData.length === 0
             })
+        },
+        updateRuleParams(){
+            this.rulesParams = this.isGlobal ?
+            {
+                page_size: 5,
+                page_no: 1,
+                is_active: true,
+                department: this.departmentIds,
+                id: this.ruleIds
+            } : {
+                page_size: 5,
+                page_no: 1,
+                channel: [this.channelId, ...this.channelIds],
+                is_active: true,
+                id: this.ruleIds
+            }
         },
         paginationChange(paginationData){
             this.pagination.current = paginationData.current
             this.pagination.limit = paginationData.limit
-            this.tableData = []
-            this.showLoader = true
             this.loadRules({
                 ...this.rulesParams,
                 page_no: paginationData.current,
@@ -190,7 +194,6 @@ export default {
             })
         },
         openDeleteModal(data){
-            delete data.channel
             this.deleteRuleData = {...data, is_active: false}
             this.$refs['delete-rule-dialog'].open()
         },
@@ -198,20 +201,35 @@ export default {
             this.$refs['delete-rule-dialog'].close()
         },
         customListing(isEnabled){
-            const ruleData = JSON.parse(localStorage.getItem('rma_custom_rule_data'))
             this.showLoader = true
-            RMAService.toggleRulesType({
-                ...ruleData,
+            this.noRulesFound = false
+            RMAService.toggleRulesType(this.channelData.id, {
+                ...this.channelData,
                 qc_config: isEnabled ? 'custom' : 'global'
-            }, ruleData.id)
+            })
             .then(() => {
                 this.loadRules({...this.rulesParams})
                 this.showCustom = isEnabled
-                isEnabled ? this.tableHeadings.push('Action') : this.tableHeadings.pop()
+                this.setCustomTableHeader()
             })
+        },
+        setChannelData(){
+            this.channelData = JSON.parse(localStorage.getItem(this.localStorageKey))
+            this.channelData && (this.showCustom = this.channelData.qc_config === 'custom')
+            this.showCustom && this.setCustomTableHeader()
         },
         filterRulesList({searchById = false}){
             if (this.searchInput === '') {
+                this.departmentIds = []
+                this.channelIds = []
+                this.ruleIds = []
+                this.updateRuleParams()
+                this.loadRules()
+                return
+            }
+            if (searchById) {
+                this.ruleIds = [parseInt(this.searchInput)]
+                this.updateRuleParams()
                 this.loadRules()
                 return
             }
@@ -222,15 +240,18 @@ export default {
                     search: this.searchInput,
                 })
                 .then(result => {
-                    console.log(result);
                     const items = result.data.items
-                    return items.map(item => item.uid.toString());
+                    return items.map(item => item.uid.toString())
                 })
-                .then((uids) => {
-                    this.loadRules({
-                        ...this.rulesParams,
-                        department: uids,
-                    })
+                .then((departmentUids) => {
+                    if (departmentUids.length === 0) {
+                        this.tableData = []
+                        this.showLoader = false
+                        return
+                    }
+                    this.departmentIds = departmentUids
+                    this.updateRuleParams()
+                    this.loadRules()
                 })
                 return
             }
@@ -241,23 +262,21 @@ export default {
             })
             .then(result => {
                 const items = result.data.items
-                if (searchById) return [parseInt(this.searchInput)]
                 return items.map(item => item.id.toString())
             })
-            .then((ids) => { 
-                console.log(ids)
-                searchById ? this.loadRules({
-                    ...this.rulesParams,
-                    id: ids
-                }) :
-                this.loadRules({
-                    ...this.rulesParams,
-                    channel: ids
-                }) 
+            .then((channels) => { 
+                this.channelIds = channels
+                this.updateRuleParams()
+                this.loadRules()
             })
         },
-        searchChannels: debounce(function(input){ 
+        setCustomTableHeader(){
+            this.showCustom ? this.tableHeadings.push('Action') : this.tableHeadings.pop()
+        },
+        searchChannels: debounce(function(input){
+            if (this.noRulesFound) return;
             this.searchInput = input
+            this.pagination.current = 1
             const inputStartsWithNumber = input.length >= 1 && !isNaN(parseInt(input.charAt(0)))
             if (inputStartsWithNumber){
                 this.filterRulesList({searchById: true})
@@ -265,27 +284,46 @@ export default {
             }
             this.showLoader = true
             this.filterRulesList({})
-        }, 300)
+        }, 300),
+        setBreadcrumbRoutes(){
+            this.breadcrumbRoutes = [
+                {
+                    name: 'Return Merchandise Authorisation',
+                    path: '/administrator/settings/platform/rma/rules'
+                },
+                {
+                    name: this.isGlobal ? 'Global Rules' : 'Custom Rules',
+                    path: ''
+                }
+            ]
+        }
     },
     mounted() {
-        this.rulesParams = this.isGlobal ?
-            {
-                page_size: 5,
-                page_no: 1,
-                is_active: true
-            } : {
-                page_size: 5,
-                page_no: 1,
-                channel: [this.channelId],
-                is_active: true
-            }
-        this.loadRules();
+        this.isGlobal = this.$route.name === 'rma-global-rules'
+        this.defaultPath = `/administrator/settings/platform/rma/rules/${this.isGlobal ? 'global' : 'custom'}`
+        this.tableHeadings = this.isGlobal ? [
+            'ID',
+            'Department',
+            'Subcategory',
+            'Quality Check',
+            'Actions'
+        ] : [
+            'ID',
+            'Department',
+            'Subcategory',
+            'Quality Check',
+        ]
+        this.channelId = this.isGlobal ? '' : this.$route.params.sales_channel.toString()
+        this.updateRuleParams()
+        this.setChannelData()
+        this.loadRules()
+        this.setBreadcrumbRoutes()
     }
 }
 </script>
 
 <style lang="less" scoped>
-@import './../less/page-header.less';
-@import './../less/page-ui.less';
-@import './rules-components/rules-listing.less';
+    @import './../less/page-header.less';
+    @import './../less/page-ui.less';
+    @import './rules-components/rules-listing.less';
 </style>

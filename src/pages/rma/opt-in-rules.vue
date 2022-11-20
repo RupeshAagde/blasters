@@ -59,16 +59,13 @@
                                     {{
                                         salesChannel.updated_at === null
                                             ? '-'
-                                            : new Date(salesChannel.updated_at)
-                                                  .toLocaleString()
+                                            : new Date(
+                                                  salesChannel.updated_at
+                                              ).toLocaleString()
                                     }}
                                 </div>
                             </div>
                         </div>
-                        <!-- <inline-svg
-                            title="edit hsn"
-                            src="bordered_arrow"
-                        ></inline-svg> -->
                     </div>
                 </div>
             </div>
@@ -96,27 +93,22 @@ export default {
     },
     methods: {
         redirectToPlatformDetails(salesChannel) {
-            console.log(salesChannel)
-            if(salesChannel.qc_config === 'global'){
-                this.$router.push({
-                      path: `/administrator/settings/platform/rma/rules/global`
-                })
-                return;
-            }
-            const STORAGE_KEY = 'rma_custom_rule_data';
-            const ruleData = JSON.stringify({
-                id: salesChannel.id,
-                name: salesChannel.name,
-                type: salesChannel.type,
-                qc_enabled: salesChannel.qc_enabled,
-                qc_config: salesChannel.qc_config,
-                meta: salesChannel.meta
-            })
-            if (localStorage.getItem(STORAGE_KEY)) localStorage.removeItem(STORAGE_KEY);
-            localStorage.setItem(STORAGE_KEY, ruleData);
+            const channelType = salesChannel.qc_config;
+            const STORAGE_KEY = 'rma_sales_channel_data';
+            const {id, name, type, qc_enabled, qc_config, meta} = salesChannel;
+            const channelData = JSON.stringify({
+                id,
+                name,
+                type,
+                qc_enabled,
+                qc_config,
+                meta
+            });
+            localStorage.getItem(STORAGE_KEY) && localStorage.removeItem(STORAGE_KEY);
+            localStorage.setItem(STORAGE_KEY, channelData);
             this.$router.push({
-                path: `/administrator/settings/platform/rma/rules/custom/${salesChannel.id}`
-            })
+                    path: `/administrator/settings/platform/rma/rules/${channelType}/${salesChannel.id}` 
+            });
         }
     }
 };

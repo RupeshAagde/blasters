@@ -103,7 +103,7 @@ export default {
                 current: 1,
                 limit: 5
             },
-            isListLoaded: false,
+            isListLoaded: true,
             deleteRuleData: {},
             toggleValue: false,
             showCustom: false,

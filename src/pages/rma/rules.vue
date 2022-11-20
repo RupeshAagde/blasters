@@ -1,41 +1,48 @@
 <template>
-    <div class="main-container">
-        <div class="page-container">
-            <div class="header-container">
-                <div class="caption-container">
-                    <span class="caption-title">Rules</span>
-                    <span class="caption-description"
-                        >Small description which is around 1 line</span
+    <div>
+        <div class="breadcrumb-parent">
+            <breadcrumb :routes="breadcrumbRoutes" />
+        </div>
+        <div class="main-container">
+            <div class="page-container">
+                <div class="header-container">
+                    <div class="caption-container">
+                        <span class="caption-title">Rules</span>
+                        <span class="caption-description"
+                            >Review configured rules</span
+                        >
+                    </div>
+                    <nitrozen-button
+                        :theme="'secondary'"
+                        v-flatBtn
+                        @click="redirectToGlobalRuleList"
+                        >Global Rules</nitrozen-button
                     >
                 </div>
-                <nitrozen-button
-                    :theme="'secondary'"
-                    v-flatBtn
-                    @click="redirectToGlobalRuleList"
-                    >Global Rule</nitrozen-button
-                >
-            </div>
-            <search-container
-                :placeholder="'Search by Sales Channel name'"
-                :id="'rma-platform-search'"
-                :value="optInSearchValue"
-                :handleChange="searchPlatforms"
-                :disabled="false"
-            />
-            <shimmer v-if="startLoader" :count="4"></shimmer>
-            <adm-no-content
-                v-else-if="optInSearchValue === '' && rulesData.length === 0"
-                helperText="No sales channel has been opted to setup global rules."
-            ></adm-no-content>
-            <div v-else>
-                <opt-in-rules :tableData="rulesData" />
-                <nitrozen-pagination
-                    name="RMA Rules History"
-                    id="rma_ordering_channel"
-                    v-model="pageObject"
-                    @change="paginationChange"
-                    :pageSizeOptions="[5, 10, 20, 50]"
-                ></nitrozen-pagination>
+                <search-container
+                    :placeholder="'Search by Sales Channel name'"
+                    :id="'rma-platform-search'"
+                    :value="optInSearchValue"
+                    :handleChange="searchPlatforms"
+                    :disabled="false"
+                />
+                <shimmer v-if="startLoader" :count="4"></shimmer>
+                <adm-no-content
+                    v-else-if="
+                        optInSearchValue === '' && rulesData.length === 0
+                    "
+                    helperText="No sales channel has been opted to setup global rules."
+                ></adm-no-content>
+                <div v-else>
+                    <opt-in-rules :tableData="rulesData" />
+                    <nitrozen-pagination
+                        name="RMA Rules History"
+                        id="rma_ordering_channel"
+                        v-model="pageObject"
+                        @change="paginationChange"
+                        :pageSizeOptions="[5, 10, 20, 5000]"
+                    ></nitrozen-pagination>
+                </div>
             </div>
         </div>
     </div>
@@ -52,6 +59,7 @@ import Shimmer from '@/components/common/shimmer';
 import OptInRules from '@/pages/rma/opt-in-rules.vue';
 import SearchContainer from '@/components/packaging/common/search-container.vue';
 import RMAService from '@/services/rma.service';
+import Breadcrumb from './common/breadcrumb.vue';
 import { debounce } from '@/helper/utils';
 
 export default {
@@ -62,7 +70,8 @@ export default {
         OptInRules,
         NitrozenPagination,
         SearchContainer,
-        Shimmer
+        Shimmer,
+        Breadcrumb
     },
     directives: {
         flatBtn
@@ -77,7 +86,17 @@ export default {
                 total: 0,
                 current: 1,
                 limit: 5
-            }
+            },
+            breadcrumbRoutes: [
+                {
+                    name: 'Return Merchandise Authorisation',
+                    path: ''
+                },
+                {
+                    name: 'Global Rules',
+                    path: ''
+                }
+            ]
         };
     },
     mounted() {
@@ -103,16 +122,9 @@ export default {
             };
             RMAService.getOptedSalesChannelList(query_param)
                 .then((res) => {
-                    if (res.data.success) {
-                        this.rulesData = res.data.items;
-                        this.pageObject.total = res.data.page.item_total;
-                        this.pageObject.current = res.data.page.current;
-                    } else {
-                        this.$snackbar.global.showError(
-                            'Failed to receive Opted Rules',
-                            { duration: 2000 }
-                        );
-                    }
+                    this.rulesData = res.data.items;
+                    this.pageObject.total = res.data.page.item_total;
+                    this.pageObject.current = res.data.page.current;
                     this.startLoader = false;
                 })
                 .catch(() => {
@@ -138,7 +150,7 @@ export default {
 @import './../less/page-ui.less';
 
 .page-container {
-    margin: 60px 0 0 0;
+    margin: 0;
     flex-direction: column;
     border-radius: 12px;
 
@@ -171,5 +183,10 @@ export default {
             }
         }
     }
+}
+.breadcrumb-parent {
+    margin-top: 60px;
+    padding-top: 24px;
+    padding-left: 24px;
 }
 </style>

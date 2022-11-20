@@ -15,7 +15,7 @@
                         {{tableRow.qc_enabled ? 'Active' : 'Inactive'}}
                     </nitrozen-badge>
                 </td>
-                <td class="table-ctas" v-if="rulesType === 'global' || showCustom">
+                <td class="table-ctas" v-if="isGlobal || showCustom">
                     <button class="row-cta" @click="$emit('onDelete', tableRow)">
                         <img src="/public/assets/svgs/delete_outline.svg"/>
                     </button>
@@ -34,9 +34,9 @@ import {
 export default {
     name: 'rules-table',
     props: {
-        rulesType: {
-            type: String,
-            default: 'global'
+        isGlobal: {
+            type: Boolean,
+            default: false
         },
         tableData: {
             type: Array,

@@ -1,9 +1,7 @@
 <template>
     <div class="panel">
         <div class="breadcrumb-parent">
-            <breadcrumb
-                :routes="breadcrumbRoutes"
-            />
+            <breadcrumb :routes="breadcrumbRoutes" />
         </div>
         <div class="main-container">
             <div class="page-container">
@@ -36,7 +34,10 @@
                         @onDelete="openDeleteModal"
                         @onEdit="redirectToEdit"
                     />
-                    <div class="pagination-parent" v-if="tableData.length > 0 && isListLoaded">
+                    <div
+                        class="pagination-parent"
+                        v-if="tableData.length > 0 && isListLoaded"
+                    >
                         <nitrozen-pagination
                             v-model="pagination"
                             @change="paginationChange"
@@ -57,7 +58,7 @@
 import {
     NitrozenInput,
     NitrozenPagination,
-    NitrozenBadge,
+    NitrozenBadge
 } from '@gofynd/nitrozen-vue';
 import RMAService from '@/services/rma.service';
 import inlineSvgVue from '@/components/common/inline-svg';
@@ -76,16 +77,16 @@ export default {
         'nitrozen-input': NitrozenInput,
         'nitrozen-pagination': NitrozenPagination,
         'inline-svg': inlineSvgVue,
-        'loader': loader,
+        loader: loader,
         'adm-no-content': AdmNoContent,
         'nitrozen-badge': NitrozenBadge,
-        'jumbotron': Jumbotron,
+        jumbotron: Jumbotron,
         'delete-rule-dialog': DeleteRuleDialog,
         'rules-table': RulesTable,
         'search-container': SearchContainer,
-        'breadcrumb': Breadcrumb
+        breadcrumb: Breadcrumb
     },
-    data(){
+    data() {
         return {
             globalPath: '/administrator/settings/platform/rma/rules/global',
             tableHeadings: [
@@ -119,20 +120,23 @@ export default {
                 {
                     name: 'Global Rules',
                     path: ''
-                },
+                }
             ]
-        }
+        };
     },
     methods:{
         loadRules(params = this.rulesParams){
             RMAService.getRulesList(params)
-            .then((result) => {
-                this.tableData = result.data.items
-                this.isListLoaded = true
-                this.pagination.total = result.data.page.item_total
-            })
+                .then((result) => {
+                    this.tableData = result.data.items;
+                    this.pagination.total = result.data.page.item_total;
+                    this.isListLoaded = false;
+                })
+                .catch(() => {
+                    this.isListLoaded = false;
+                });
         },
-        paginationChange(paginationData){
+        paginationChange(paginationData) {
             this.pagination.current = paginationData.current;
             this.pagination.limit = paginationData.limit;
             this.tableData = [];
@@ -144,13 +148,13 @@ export default {
             });
         },
         redirectToSetup() {
-            this.$router.push({ path: `${this.globalPath}/setup`});
+            this.$router.push({ path: `${this.globalPath}/setup` });
         },
         redirectToEdit(data) {
             const rmaRuleData = JSON.stringify({
                 actions: data.actions,
                 id: data.id,
-                channel: data.channel, 
+                channel: data.channel,
                 meta: data.meta
             })
             if (localStorage.getItem('rma_rule_data')) localStorage.removeItem('rma_rule_data');
@@ -173,7 +177,7 @@ export default {
             this.deleteRuleData = {...data, is_active: false};
             this.$refs['delete-rule-dialog'].open();
         },
-        closeDeleteModal(){
+        closeDeleteModal() {
             this.$refs['delete-rule-dialog'].close();
         },
         filterRulesList(){
@@ -198,15 +202,15 @@ export default {
                 })
             })
         },
-        searchChannels: debounce(function(input){ 
-            this.searchInput = input
-            this.filterRulesList()
+        searchChannels: debounce(function(input) {
+            this.searchInput = input;
+            this.filterRulesList();
         }, 300)
     },
     mounted() {
         this.loadRules();
     }
-}
+};
 </script>
 
 <style lang="less" scoped>

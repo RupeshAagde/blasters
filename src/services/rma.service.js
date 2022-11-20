@@ -106,7 +106,13 @@ const RMAService = {
         });
         return ApiService.post(URLS.POST_RMA_RULE(), axiosOption);
     },
-    toggleRulesType(data, id){
+    editRule(id, data) {
+        const axiosOption = Object.assign({}, getCommonHeaderOptions(), {
+            data
+        });
+        return ApiService.put(URLS.PUT_RMA_RULE(id), axiosOption);
+    },
+    toggleRulesType(id, data){
         const axiosOption = Object.assign({}, getCommonHeaderOptions(), {
             data
         });

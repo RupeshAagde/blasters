@@ -1,20 +1,12 @@
 <template>
     <div class="panel">
         <adm-page-header
-            v-if="
-                ![
-                    'rma-global-rule-setup-new',
-                    'rma-global-rule-setup',
-                    'rma-global-rule-edit',
-                    'rma-custom-rule-setup',
-                    'rma-custom-rule-edit'
-                ].includes(this.$route.name)
-            "
             class="titlize"
             :showBackButton="this.$route.name !== 'rma-rules'"
             @backClick="goBack"
-            :title="'Return Authorisation'"
+            :title="'Return Merchandise Authorisation'"
             :noContextMenu="true"
+            :headerIcon="'review_rating'"
         >
             <nitrozen-button
                 v-if="
@@ -48,7 +40,8 @@ export default {
             const currentRoute = this.$route.name;
             switch (currentRoute) {
                 case 'rma-global-rules':
-                case 'rma-channel-rules':
+                    case 'rma-global-channel-rules':
+                    case 'rma-custom-channel-rules':
                     this.$router.push({
                         path: '/administrator/settings/platform/rma/rules'
                     });
