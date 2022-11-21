@@ -158,6 +158,7 @@ export default {
             })
         },
         redirectTo(to = 'edit') {
+            console.log(this.defaultPath);
             this.isGlobal ?
                 this.$router.push({ path: `${this.defaultPath}/${to}`})
                 :
@@ -203,6 +204,7 @@ export default {
             })
             .then(() => {
                 this.showCustom = isEnabled
+                this.updateLocalStorage()
                 this.updateRuleParams()
                 this.setCustomTableHeader()
                 this.loadRules()
@@ -213,6 +215,14 @@ export default {
             this.channelData = JSON.parse(localStorage.getItem(this.localStorageKey))
             this.channelData && (this.showCustom = this.channelData.qc_config === 'custom')
             this.showCustom && this.setCustomTableHeader()
+        },
+        updateLocalStorage(){
+            localStorage.getItem(this.localStorageKey) && localStorage.removeItem(this.localStorageKey)
+            const updatedJSON = JSON.stringify({
+                ...this.channelData,
+                qc_config: this.showCustom ? 'custom' : 'global'
+            });
+            localStorage.setItem(this.localStorageKey, updatedJSON)
         },
         getChannelId(){
             return this.$route.params.sales_channel.toString()
@@ -295,7 +305,7 @@ export default {
             'Quality Check',
         ]
         this.setChannelData()
-        this.defaultPath = `/administrator/rma/rules/${this.showCustom && !this.isGlobal ? 'custom' : 'global'}`
+        this.defaultPath = `/administrator/rma/rules/${this.isGlobal ? 'global' : 'custom'}`
         this.channelId = this.showCustom ? this.getChannelId() : ''
         this.channelIds = this.channelId ? [this.channelId] : []
         this.updateRuleParams()
