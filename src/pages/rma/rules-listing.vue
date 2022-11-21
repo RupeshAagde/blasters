@@ -205,7 +205,7 @@ export default {
                 this.showCustom = isEnabled
                 this.updateRuleParams()
                 this.setCustomTableHeader()
-                this.loadRules({...this.rulesParams})
+                this.loadRules()
             })
         },
         setChannelData(){
