@@ -209,7 +209,7 @@ export default {
             })
         },
         setChannelData(){
-            if (this.isGlobal) return
+            if (this.isGlobal) { return }
             this.channelData = JSON.parse(localStorage.getItem(this.localStorageKey))
             this.channelData && (this.showCustom = this.channelData.qc_config === 'custom')
             this.showCustom && this.setCustomTableHeader()
@@ -283,7 +283,6 @@ export default {
     mounted() {
         this.isGlobal = this.$route.name === 'rma-global-rules'
         this.defaultPath = `/administrator/rma/rules/${this.isGlobal ? 'global' : 'custom'}`
-        this.setChannelData()
         this.tableHeadings = this.isGlobal ? [
             'ID',
             'Department',
@@ -296,6 +295,7 @@ export default {
             'Subcategory',
             'Quality Check',
         ]
+        this.setChannelData()
         this.channelId = this.showCustom ? this.getChannelId() : ''
         this.channelIds = this.channelId ? [this.channelId] : []
         this.updateRuleParams()
