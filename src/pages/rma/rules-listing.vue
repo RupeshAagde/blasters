@@ -209,11 +209,8 @@ export default {
             })
         },
         setChannelData(){
+            if (this.isGlobal) return
             this.channelData = JSON.parse(localStorage.getItem(this.localStorageKey))
-            if (this.isGlobal) {
-                localStorage.removeItem(this.localStorageKey)
-                return
-            }
             this.channelData && (this.showCustom = this.channelData.qc_config === 'custom')
             this.showCustom && this.setCustomTableHeader()
         },
