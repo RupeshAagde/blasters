@@ -573,7 +573,7 @@ export default {
             margin-left: 12px;
             width: 40%;
         }
-        ::v-deep.delete-icon svg {
+        ::v-deep .delete-icon svg {
             width: 24px;
             height: 24px;
             cursor: pointer;

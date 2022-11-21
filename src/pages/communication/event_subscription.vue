@@ -920,7 +920,7 @@ export default {
     }
 }
 .preview-modal-container {
-    ::v-deep.modal-container {
+    ::v-deep .modal-container {
         width: 720px;
         .preview-body {
             min-height: 500px;

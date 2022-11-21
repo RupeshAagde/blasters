@@ -690,7 +690,7 @@
     }
 }
 .modal-test-email {
-    ::v-deep.modal-container {
+    ::v-deep .modal-container {
         width: 500px;
         padding: 0px;
         .modal-header {

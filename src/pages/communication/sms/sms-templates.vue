@@ -91,11 +91,11 @@
     }
 }
 .wizard-modal {
-    ::v-deep.modal-search {
+    ::v-deep .modal-search {
         margin: 0px 6px 24px 6px;
         position: relative;
     }
-    ::v-deep.modal-body-title {
+    ::v-deep .modal-body-title {
         color: #212121;
         font-family: Inter;
         font-size: 16px;
@@ -104,17 +104,17 @@
         line-height: 23px;
         margin-bottom: 18px;
     }
-    ::v-deep.modal-body-description {
+    ::v-deep .modal-body-description {
         color: #9b9b9b;
         font-family: Inter;
         font-size: 14px;
         letter-spacing: 0;
         line-height: 20px;
     }
-    ::v-deep.modal-preview-container {
+    ::v-deep .modal-preview-container {
         margin-top: 24px;
     }
-    ::v-deep.preview {
+    ::v-deep .preview {
         margin-top: 18px;
         color: black;
         font-family: Inter;
@@ -123,7 +123,7 @@
         font-weight: 100;
         background: #f9f9f9;
     }
-    // ::v-deep.wizard-body-wrapper {
+    // ::v-deep .wizard-body-wrapper {
     // }
 }
 
