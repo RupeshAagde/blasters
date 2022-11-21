@@ -98,13 +98,13 @@ const EXTENSION_PAGE_URL = isNode ?
     envVars.BROWSER_CONFIG.EXTENSION_PAGE_URL :
     envVars.EXTENSION_PAGE_URL;
 
-const RMA_URL = isNode ? 
-    envVars.BROWSER_CONFIG.RMA_URL : 
-    envVars.RMA_URL;
-
 const RMA_ADMIN_URL = isNode ? 
     envVars.BROWSER_CONFIG.RMA_ADMIN_URL : 
     envVars.RMA_ADMIN_URL;
+
+const FIREBOLT_LOGISTICS_ADMIN_URL = isNode ? 
+    envVars.BROWSER_CONFIG.FIREBOLT_LOGISTICS_ADMIN_URL : 
+    envVars.FIREBOLT_LOGISTICS_ADMIN_URL;
 
 const URLS = {
     // User Profile API's
