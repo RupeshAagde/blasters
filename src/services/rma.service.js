@@ -9,18 +9,6 @@ const RMAService = {
         page_no: 1,
         page_size: 10,
     },
-    getSalesChannels(params = {}) {
-        const axiosOption = Object.assign(
-            {
-                params: {
-                    ...this.defaultPagination,
-                    ...params
-                }
-            },
-            getCommonHeaderOptions()
-        )
-        return ApiService.get(URLS.GET_RMA_SALES_CHANNEL(), axiosOption);
-    },
     getRulesList(data = {}) {
         const axiosOption = Object.assign(
             {},
@@ -52,14 +40,6 @@ const RMAService = {
             getCommonHeaderOptions()
         );
         return ApiService.get(URLS.GET_OPTED_RMA_SALES_CHANNEL(), axiosOption);
-    },
-    getOrderingChannel(query_param) {
-        const axiosOption = Object.assign(
-            { data: {} },
-            { params: query_param },
-            getCommonHeaderOptions()
-        );
-        return ApiService.get(URLS.GET_RMA_ORDERING_CHANNEL(), axiosOption);
     },
     getPlatformCounts() {
         return ApiService.get(URLS.GET_PLATFORM_COUNTS());

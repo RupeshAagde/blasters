@@ -724,18 +724,9 @@ const URLS = {
     RMA_RULES: (id = '', additionEndPoint = '') => {
         return urlJoin(RMA_URL, `/api/v1/rule${id}${additionEndPoint}`);
     },
-    //RMA Sales Channel List
-    GET_RMA_SALES_CHANNEL: () =>
-        urlJoin(FIREBOLT_LOGISTICS_ADMIN_URL, '/api/v1/entity/sub_type/app/'),
     //RMA Sales Channel Opt in List
     GET_OPTED_RMA_SALES_CHANNEL: () =>
         urlJoin(RMA_ADMIN_URL, '/api/v1/channel'),
-    //RMA Ordering Channel List
-    GET_RMA_ORDERING_CHANNEL: () =>
-        urlJoin(
-            FIREBOLT_LOGISTICS_ADMIN_URL,
-            'api/v1/entity/sub_type/ordering_channel/'
-        ),
     //RMA Departments List
     GET_DEPARTMENTS: () => urlJoin(SILVERBOLT_ACAT_URL, 'v1.0/departments'),
     //RMA Categories List
