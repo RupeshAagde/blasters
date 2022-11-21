@@ -63,6 +63,7 @@
                             :items="l3DropdownList"
                             placeholder="Select L3"
                             v-model="selectedL3"
+                            @change="handleL3Dropdown"
                             :searchable="true"
                             @searchInputChange="handleL3DropdownSearch"
                         ></nitrozen-dropdown
@@ -690,15 +691,28 @@ export default {
             }
         },
         handleDepartmentDropdown(selectedDept) {
+            this.selectedDepartmentId = null;
+            this.selectedL3Id = null;
             this.selectedL3 = null;
             this.fetchL3Categories(selectedDept.split('-|-')[0]);
         },
+        handleL3Dropdown() {
+            this.selectedL3Id = null;
+        },
         handleDepartmentDropdownSearch: debounce(function({ text }) {
+            if (!text.length) {
+                this.selectedDepartmentId = null;
+                this.selectedDepartment = null;
+            }
+            this.selectedL3Id = null;
+            this.selectedL3 = null;
             this.fetchDepartmentsList(text);
         }, 300),
         handleL3DropdownSearch: debounce(function({ text }) {
             this.fetchL3Categories(
-                this.selectedDepartment.split('-|-')[0],
+                this.selectedDepartmentId !== null
+                    ? this.selectedDepartmentId
+                    : this.selectedDepartment.split('-|-')[0],
                 text
             );
         }, 300),
