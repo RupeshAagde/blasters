@@ -277,10 +277,9 @@
                                                             >
                                                                 <nitrozen-radio
                                                                     :disabled="
-                                                                        childReason
-                                                                            .storedVal
-                                                                            .length ===
-                                                                            0
+                                                                        childReason.storedVal.includes(
+                                                                            'default'
+                                                                        )
                                                                     "
                                                                     :name="
                                                                         'pre_qc' +
@@ -309,10 +308,9 @@
                                                             >
                                                                 <nitrozen-radio
                                                                     :disabled="
-                                                                        childReason
-                                                                            .storedVal
-                                                                            .length ===
-                                                                            0
+                                                                        childReason.storedVal.includes(
+                                                                            'default'
+                                                                        )
                                                                     "
                                                                     :name="
                                                                         'doorstep_qc' +
@@ -341,10 +339,9 @@
                                                             >
                                                                 <nitrozen-radio
                                                                     :disabled="
-                                                                        childReason
-                                                                            .storedVal
-                                                                            .length ===
-                                                                            0
+                                                                        childReason.storedVal.includes(
+                                                                            'default'
+                                                                        )
                                                                     "
                                                                     :name="
                                                                         'no_qc' +
@@ -374,10 +371,9 @@
                                                                 :disabled="
                                                                     childReason.qc_type ===
                                                                         'no_qc' ||
-                                                                        childReason
-                                                                            .storedVal
-                                                                            .length ===
-                                                                            0
+                                                                        childReason.storedVal.includes(
+                                                                            'default'
+                                                                        )
                                                                 "
                                                                 :multiple="true"
                                                                 label="Question"
@@ -748,7 +744,7 @@ export default {
                         display_name: null,
                         qc_type: 'doorstep_qc',
                         question_set: [],
-                        storedVal: ''
+                        storedVal: 'default' + Math.random()
                     }
                 ]
             });
@@ -786,7 +782,7 @@ export default {
                 display_name: null,
                 qc_type: 'doorstep_qc',
                 question_set: [],
-                storedVal: ''
+                storedVal: 'default' + Math.random()
             });
             this.fetchReasonsList(['child']);
         },
@@ -835,7 +831,7 @@ export default {
         childReasonDropdownSearch: debounce(function({ text }) {
             this.fetchReasonsList(['child'], text);
         }, 300),
-        deleteSubReason(parentReasonId, childReasonId) {
+        deleteSubReason(parentReasonId, childReasonStoredVal) {
             const parentReasonIndex = this.chosenParentReasonsList.findIndex(
                 (parent) => parent.id === parentReasonId
             );
@@ -844,12 +840,12 @@ export default {
                     this.chosenParentReasonsList[parentReasonIndex].reasons
                 )
             );
-            let childReasonStoredVal = '';
+            let childReasonVal = '';
             subReasons = subReasons.filter((sub) => {
-                if (sub.storedVal !== childReasonId) {
+                if (sub.storedVal !== childReasonStoredVal) {
                     return true;
                 } else {
-                    childReasonStoredVal = sub.storedVal;
+                    childReasonVal = sub.storedVal;
                 }
             });
             this.chosenParentReasonsList[
@@ -859,7 +855,7 @@ export default {
                 this.chosenParentReasonsList[parentReasonIndex].storedVal
             ];
             selectedArrayMap = selectedArrayMap.filter(
-                (sel) => sel.storedVal !== childReasonStoredVal
+                (sel) => sel.storedVal !== childReasonVal
             );
             this.selectedArrayOfReasons[
                 this.chosenParentReasonsList[parentReasonIndex].storedVal
