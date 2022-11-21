@@ -115,6 +115,7 @@
                                 ref="drag"
                                 v-model="chosenParentReasonsList"
                                 handle=".reorder"
+                                :disabled="isDragDisabled"
                             >
                                 <div
                                     v-for="parentReason of chosenParentReasonsList"
@@ -491,6 +492,7 @@ export default {
             questionsList: [],
             editRuleData: {},
             channel: {},
+            isDragDisabled: false,
             breadcrumbRoutes: [
                 {
                     name: 'Return Merchandise Authorisation',
@@ -758,6 +760,7 @@ export default {
             this.fetchReasonsList(['parent'], text);
         }, 300),
         toggleParentReason(reasonId) {
+            let flag = false;
             this.chosenParentReasonsList.forEach((res) => {
                 if (res.id === reasonId && !res.collapse) {
                     res.collapse = true;
@@ -765,7 +768,11 @@ export default {
                 } else {
                     res.collapse = false;
                 }
+                if (res.collapse) {
+                    flag = true;
+                }
             });
+            this.isDragDisabled = flag;
             this.fetchReasonsList(['child']);
         },
         deleteParentReason(reasonId) {
