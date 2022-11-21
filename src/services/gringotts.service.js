@@ -34,7 +34,16 @@ const PaymentServices = {
         return ApiService.post(URLS.FETCH_COD_CONFIG(params),axiosOptions)
 
 
-    }
+    },
+    /* changes from jiomarket: cbs configuration */
+    getPlatformConfig(){
+        let axiosOption = Object.assign({},getCommonHeaderOptions());
+        return ApiService.get(URLS.PAYOUT_CONFIG(), axiosOption);
+    },
+    savePlatformConfig(data){
+        const axiosOptions = Object.assign({},{data}, getCommonHeaderOptions());
+        return ApiService.post(URLS.PAYOUT_CONFIG(), axiosOptions);
+    },
 
 }
 

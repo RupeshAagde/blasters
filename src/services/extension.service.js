@@ -66,6 +66,14 @@ const UserService = {
     getAllExtensionCategories() {
         return ApiService.get(URLS.ADMIN_EXTENSION_CATEGORIES());
     },
+    /* changes from jiomarket: cbs configuration */
+    getExtensionsList(params) {
+        const axiosOptions = Object.assign(
+            { params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(URLS.GET_EXTENSIONS(), axiosOptions);
+    },
     checkDuplicateSlug(slug = '') {
         return ApiService.get(URLS.CHECK_DUPLICATE_SLUG(slug));
     }
