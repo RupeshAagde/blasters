@@ -105,7 +105,7 @@ export default {
     methods: {
         redirectToGlobalRuleList() {
             this.$router.push({
-                path: '/administrator/settings/platform/rma/rules/global'
+                path: '/administrator/rma/rules/global'
             });
         },
         searchPlatforms: debounce(function(inputValue) {

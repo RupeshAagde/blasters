@@ -291,7 +291,7 @@ export default {
             this.breadcrumbRoutes = [
                 {
                     name: 'Return Merchandise Authorisation',
-                    path: '/administrator/settings/platform/rma/rules'
+                    path: '/administrator/rma/rules'
                 },
                 {
                     name: this.isGlobal ? 'Global Rules' : 'Custom Rules',
@@ -302,7 +302,7 @@ export default {
     },
     mounted() {
         this.isGlobal = this.$route.name === 'rma-global-rules'
-        this.defaultPath = `/administrator/settings/platform/rma/rules/${this.isGlobal ? 'global' : 'custom'}`
+        this.defaultPath = `/administrator/rma/rules/${this.isGlobal ? 'global' : 'custom'}`
         this.tableHeadings = this.isGlobal ? [
             'ID',
             'Department',

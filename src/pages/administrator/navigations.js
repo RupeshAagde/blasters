@@ -288,8 +288,8 @@ export const getNavigations = () => {
         },
         {
             display: 'RMA',
-            link: '/administrator/settings/platform/rma/rules',
-            title: 'RMA',
+            link: '/administrator/rma/rules',
+            title: 'rma',
             icon: 'home',
             highlightedIcon: 'home-highlighted',
             active: false,

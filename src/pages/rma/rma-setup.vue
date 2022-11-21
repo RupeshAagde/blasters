@@ -497,7 +497,7 @@ export default {
             breadcrumbRoutes: [
                 {
                     name: 'Return Merchandise Authorisation',
-                    path: '/administrator/settings/platform/rma/rules'
+                    path: '/administrator/rma/rules'
                 },
                 {
                     name:
@@ -510,8 +510,8 @@ export default {
                     path:
                         this.$route.name === 'rma-global-rule-setup' ||
                         this.$route.name === 'rma-global-rule-edit'
-                            ? '/administrator/settings/platform/rma/rules/global'
-                            : `/administrator/settings/platform/rma/rules/custom/${this.$route.params.sales_channel}`
+                            ? '/administrator/rma/rules/global'
+                            : `/administrator/rma/rules/custom/${this.$route.params.sales_channel}`
                 },
                 {
                     name: this.$route.name.includes('edit')
@@ -668,14 +668,14 @@ export default {
                 this.$route.name === 'rma-global-rule-edit'
             ) {
                 this.$router.push({
-                    path: '/administrator/settings/platform/rma/rules/global'
+                    path: '/administrator/rma/rules/global'
                 });
             } else if (
                 this.$route.name === 'rma-custom-rule-setup' ||
                 this.$route.name === 'rma-custom-rule-edit'
             ) {
                 this.$router.push({
-                    path: `/administrator/settings/platform/rma/rules/custom/${this.$route.params.sales_channel}`
+                    path: `/administrator/rma/rules/custom/${this.$route.params.sales_channel}`
                 });
             }
         },
