@@ -93,7 +93,6 @@ export default {
     },
     methods: {
         redirectToPlatformDetails(salesChannel) {
-            const channelType = salesChannel.qc_config;
             const STORAGE_KEY = 'rma_sales_channel_data';
             const {id, name, type, qc_enabled, qc_config, meta} = salesChannel;
             const channelData = JSON.stringify({
@@ -107,7 +106,7 @@ export default {
             localStorage.getItem(STORAGE_KEY) && localStorage.removeItem(STORAGE_KEY);
             localStorage.setItem(STORAGE_KEY, channelData);
             this.$router.push({
-                path: `/administrator/rma/rules/${channelType}/${salesChannel.id}` 
+                path: `/administrator/rma/rules/custom/${salesChannel.id}`
             });
         }
     }
@@ -126,7 +125,6 @@ export default {
     .container {
         border: 1px solid #e4e5e6;
         cursor: pointer;
-        padding: 0px 24px;
         border-radius: 3px;
         margin-bottom: 16px;
         transition: box-shadow 0.3s;
@@ -147,8 +145,7 @@ export default {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            margin-top: 24px;
-            margin-bottom: 12px;
+            padding: 20px;
             .card-header {
                 display: flex;
                 margin-bottom: 12px;

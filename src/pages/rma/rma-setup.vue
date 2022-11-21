@@ -709,6 +709,10 @@ export default {
             this.fetchDepartmentsList(text);
         }, 300),
         handleL3DropdownSearch: debounce(function({ text }) {
+            if (!text.length) {
+                this.selectedL3Id = null;
+                this.selectedL3 = null;
+            }
             this.fetchL3Categories(
                 this.selectedDepartmentId !== null
                     ? this.selectedDepartmentId
@@ -1001,7 +1005,9 @@ export default {
             const postData = {
                 entity_type: this.selectedL3 !== null ? 'l3' : 'department',
                 value:
-                    this.selectedL3 !== null
+                    this.selectedL3Id !== null
+                        ? this.selectedL3Id
+                        : this.selectedL3 !== null
                         ? this.selectedL3.split('-|-')[0]
                         : this.selectedDepartment.split('-|-')[0],
                 channel: this.$route.name.includes('global')
@@ -1051,7 +1057,10 @@ export default {
                             ? this.selectedL3
                             : this.selectedL3.split('-|-')[1]
                 };
-                postData.conditions['l3'] = this.selectedL3.split('-|-')[0];
+                postData.conditions['l3'] =
+                    this.selectedL3Id !== null
+                        ? this.selectedL3Id
+                        : this.selectedL3.split('-|-')[0];
             }
             const postReasonsData = [];
             for (let parent of this.chosenParentReasonsList) {
