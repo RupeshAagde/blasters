@@ -158,7 +158,6 @@ export default {
             })
         },
         redirectTo(to = 'edit') {
-            console.log(this.defaultPath);
             this.isGlobal ?
                 this.$router.push({ path: `${this.defaultPath}/${to}`})
                 :
