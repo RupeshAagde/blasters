@@ -106,14 +106,6 @@ const RMA_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.RMA_ADMIN_URL : 
     envVars.RMA_ADMIN_URL;
 
-const AVIS_API = isNode ? 
-    envVars.BROWSER_CONFIG.AVIS_API : 
-    envVars.AVIS_API;
-
-const FIREBOLT_LOGISTICS_ADMIN_URL = isNode ? 
-    envVars.BROWSER_CONFIG.FIREBOLT_LOGISTICS_ADMIN_URL : 
-    envVars.FIREBOLT_LOGISTICS_ADMIN_URL;
-
 const URLS = {
     // User Profile API's
     USER_PROFILE: () => {
