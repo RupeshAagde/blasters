@@ -1091,8 +1091,8 @@ export default {
                         this.showSnackBar(
                             'success',
                             this.$route.name.includes('edit')
-                                ? 'Rule Edited Successfully'
-                                : 'Rule Created Successfully',
+                                ? `Rule ${res.data.id} Edited Successfully`
+                                : `Rule ${res.data.id} Created Successfully`,
                             2000
                         );
                         // this.isSaveDisabled = true;
@@ -1108,7 +1108,15 @@ export default {
                 })
                 .catch(() => {
                     this.pageLoading = false;
-                    this.showSnackBar('error', 'Failed to create Rule', 2000);
+                    this.showSnackBar(
+                        'error',
+                        `Failed to ${
+                            this.$route.name.includes('edit')
+                                ? 'edit'
+                                : 'create'
+                        } Rule`,
+                        2000
+                    );
                 });
         }
     }
