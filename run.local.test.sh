@@ -57,7 +57,7 @@ export BLASTER_MAIN_DOMAIN=https://administrator.${FYND_PLATFORM_DOMAIN}
 export BOMBSHELL_MAIN_DOMAIN=https://partners.${FYND_PLATFORM_DOMAIN}
 export MIRAGE_MAIN_DOMAIN=https://platform.${FYND_PLATFORM_DOMAIN}
 export RMA_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/rma
-export FIREBOLT_LOGISTICS_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/logistics
+export FIREBOLT_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/logistics
 
 #ENV's
 export SENTRY_DSN=''
@@ -66,4 +66,4 @@ export CDN_ITEM_DOMAINS=https://hdn-1.addsale.com
 export NEW_RELIC_APP_NAME=blaster
 export NEW_RELIC_LICENSE_KEY=''
 
-npm run test -- -u src/__tests__/unit/component/pages/rma
+npm run test -- -u

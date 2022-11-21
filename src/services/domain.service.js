@@ -102,9 +102,9 @@ const RMA_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.RMA_ADMIN_URL : 
     envVars.RMA_ADMIN_URL;
 
-const FIREBOLT_LOGISTICS_ADMIN_URL = isNode ? 
-    envVars.BROWSER_CONFIG.FIREBOLT_LOGISTICS_ADMIN_URL : 
-    envVars.FIREBOLT_LOGISTICS_ADMIN_URL;
+const FIREBOLT_ADMIN_URL = isNode ? 
+    envVars.BROWSER_CONFIG.FIREBOLT_ADMIN_URL : 
+    envVars.FIREBOLT_ADMIN_URL;
 
 const URLS = {
     // User Profile API's
@@ -723,7 +723,7 @@ const URLS = {
     GET_DEPARTMENTS: () => urlJoin(SILVERBOLT_ACAT_URL, 'v1.0/departments'),
     //RMA Categories List
     GET_CATEGORIES: () =>
-        urlJoin(FIREBOLT_LOGISTICS_ADMIN_URL, 'api/v1/category/'),
+        urlJoin(FIREBOLT_ADMIN_URL, 'api/v1/category/'),
     //RMA Reasons List
     GET_REASONS: () => urlJoin(RMA_ADMIN_URL, 'api/v1/reason/'),
     //RMA Questions List
