@@ -104,7 +104,6 @@ export default {
             localStorageKey: 'rma_sales_channel_data',
             defaultPath: '',
             tableHeadings: [],
-            channelId: '',
             tableData: [],
             pagination: {
                 total: 0,
@@ -121,6 +120,7 @@ export default {
             rulesParams: {},
             breadcrumbRoutes: [],
             departmentIds: [],
+            channelId: '',
             channelIds: [],
             ruleIds: []
         }
@@ -138,19 +138,14 @@ export default {
             })
         },
         updateRuleParams(){
-            this.rulesParams = this.isGlobal ?
-            {
-                page_size: 5,
-                page_no: 1,
+            this.rulesParams = {
+                page_size: this.pagination.limit,
+                page_no: this.pagination.current,
                 is_active: true,
-                department: this.departmentIds,
-                id: this.ruleIds
-            } : {
-                page_size: 5,
-                page_no: 1,
                 channel: this.channelIds,
-                is_active: true,
-                id: this.ruleIds
+                department: this.departmentIds,
+                id: this.ruleIds,
+                rule_type: this.showCustom ? 'custom' : 'global'
             }
         },
         paginationChange(paginationData){
@@ -201,26 +196,36 @@ export default {
         },
         customListing(isEnabled){
             this.showLoader = true
+            this.channelIds = isEnabled ? [this.getChannelId()] : []
             RMAService.toggleRulesType(this.channelData.id, {
                 ...this.channelData,
                 qc_config: isEnabled ? 'custom' : 'global'
             })
             .then(() => {
-                this.loadRules({...this.rulesParams})
                 this.showCustom = isEnabled
+                this.updateRuleParams()
                 this.setCustomTableHeader()
+                this.loadRules({...this.rulesParams})
             })
         },
         setChannelData(){
             this.channelData = JSON.parse(localStorage.getItem(this.localStorageKey))
+            if (this.isGlobal) {
+                localStorage.removeItem(this.localStorageKey)
+                return
+            }
             this.channelData && (this.showCustom = this.channelData.qc_config === 'custom')
             this.showCustom && this.setCustomTableHeader()
+        },
+        getChannelId(){
+            return this.$route.params.sales_channel.toString()
         },
         filterRulesList({searchById = false}){
             if (this.searchInput === '') {
                 this.departmentIds = []
-                this.channelIds = [this.channelId]
+                this.channelIds = this.showCustom ? [this.getChannelId()] : [];
                 this.ruleIds = []
+                this.pagination.current = 1
                 this.updateRuleParams()
                 this.loadRules()
                 return
@@ -231,44 +236,22 @@ export default {
                 this.loadRules()
                 return
             }
-            if (this.isGlobal){
-                RMAService.getDepartments({
-                    page_no: 1,
-                    page_size: 9999,
-                    search: this.searchInput,
-                })
-                .then(result => {
-                    const items = result.data.items
-                    return items.map(item => item.uid.toString())
-                })
-                .then((departmentUids) => {
-                    if (departmentUids.length === 0) {
-                        this.tableData = []
-                        this.showLoader = false
-                        return
-                    }
-                    this.departmentIds = departmentUids
-                    this.updateRuleParams()
-                    this.loadRules()
-                })
-                return
-            }
-            RMAService.getOptedSalesChannelList({
+            RMAService.getDepartments({
                 page_no: 1,
                 page_size: 9999,
-                q: this.searchInput,
+                search: this.searchInput
             })
             .then(result => {
                 const items = result.data.items
-                return items.map(item => item.id.toString())
+                return items.map(item => item.uid.toString())
             })
-            .then((channels) => { 
-                if (channels.length === 0) {
+            .then((departmentUids) => {
+                if (departmentUids.length === 0) {
                     this.tableData = []
                     this.showLoader = false
                     return
                 }
-                this.channelIds = channels
+                this.departmentIds = departmentUids
                 this.updateRuleParams()
                 this.loadRules()
             })
@@ -303,6 +286,7 @@ export default {
     mounted() {
         this.isGlobal = this.$route.name === 'rma-global-rules'
         this.defaultPath = `/administrator/rma/rules/${this.isGlobal ? 'global' : 'custom'}`
+        this.setChannelData()
         this.tableHeadings = this.isGlobal ? [
             'ID',
             'Department',
@@ -315,10 +299,9 @@ export default {
             'Subcategory',
             'Quality Check',
         ]
-        this.channelId = this.isGlobal ? '' : this.$route.params.sales_channel.toString()
-        this.channelIds = [this.channelId]
+        this.channelId = this.showCustom ? this.getChannelId() : ''
+        this.channelIds = this.channelId ? [this.channelId] : []
         this.updateRuleParams()
-        this.setChannelData()
         this.loadRules()
         this.setBreadcrumbRoutes()
     }
