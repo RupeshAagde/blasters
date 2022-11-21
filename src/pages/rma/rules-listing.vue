@@ -161,7 +161,7 @@ export default {
             this.isGlobal ?
                 this.$router.push({ path: `${this.defaultPath}/${to}`})
                 :
-                this.$router.push({ path: `${this.defaultPath}/${this.channelId}/${to}`})
+                this.$router.push({ path: `${this.defaultPath}/${this.getChannelId()}/${to}`})
         },
         redirectToEdit(data) {
             const rmaRuleData = JSON.stringify({
