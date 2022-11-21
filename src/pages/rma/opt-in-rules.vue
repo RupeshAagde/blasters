@@ -126,7 +126,6 @@ export default {
     .container {
         border: 1px solid #e4e5e6;
         cursor: pointer;
-        padding: 0px 24px;
         border-radius: 3px;
         margin-bottom: 16px;
         transition: box-shadow 0.3s;
@@ -147,8 +146,7 @@ export default {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            margin-top: 24px;
-            margin-bottom: 12px;
+            padding: 20px;
             .card-header {
                 display: flex;
                 margin-bottom: 12px;
