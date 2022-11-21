@@ -72,11 +72,13 @@ import {ADMIN_CLEAR_FILTERS,} from '@/store/action.type';
 import {filterComponentSharedProps, filterMixin, filtersSharedValueMixins,} from '../../mixins/filter.mixin';
 import {ANALYTICS_FILTER_TYPES} from '../../constants/constants';
 import AppliedFilter from '@/components/common/tags/applied-filter.vue';
+import {loadingMixins} from "../../../generic-graphs/graphs/mixins/loading.mixins";
+import {ADMIN_LOAD_FILTER_DROPDOWN_VALUES} from "../../../../store/action.type";
 
 export default {
   name: 'filter-dropdown-component',
   components: {NitrozenDropdown, AppliedFilter, collapse, uktInlineSvg},
-  mixins: [filterMixin, filterComponentSharedProps, filtersSharedValueMixins],
+  mixins: [filterMixin, filterComponentSharedProps, filtersSharedValueMixins, loadingMixins],
   data: () => ({val: '', collapse_state: null, getVals: []}),
   beforeMount() {
     this.collapse_state = !this.seedData.closed;
@@ -113,13 +115,29 @@ export default {
     formatPlaceholder(name) {
       return `${this.value.length} ${name}(s) selected`;
     },
+    loadingCondition() {
+      return !this.seedData.values;
+    },
+    setPageName() {
+      this._pageName = this.pageName;
+    },
+    loadData() {
+      this.$store.dispatch(ADMIN_LOAD_FILTER_DROPDOWN_VALUES, {
+        url: this.seedData.dataSource,
+        pageName: this.pageName,
+        chartId: this.chartId,
+        panelIndex: 1,
+        cardIndex: 0,
+        filterIndex: 1
+      });
+    }
   },
   computed: {
     getValues() {
-      return this.seedData.values.map((x) => ({
+      return this.seedData.values ? this.seedData.values.map((x) => ({
         text: x,
         value: x,
-      }));
+      })) : [];
     },
     isMultiSelect() {
       return (

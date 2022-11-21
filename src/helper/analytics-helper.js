@@ -10,8 +10,8 @@ import {
     SET_NAV_LINK,
     SET_SEED_FILTERS
 } from "../store/mutation.type";
-import {ANALYTICS_PAGES} from "../components/generic-graphs/data/constants";
-import {FILTER_TYPES, SALES_CHANNEL_TYPE} from "../store/modules/admin-analytics.module";
+import {ANALYTICS_PAGES, GRAPH_TYPES} from "../components/generic-graphs/data/constants";
+import {ANALYTICS_STATE, FILTER_TYPES, SALES_CHANNEL_TYPE} from "../store/modules/admin-analytics.module";
 import {getPrimaryDomain} from "./domains.util";
 import {cloneDeep} from "lodash";
 
@@ -94,9 +94,9 @@ function setNavLinkForScorecards(data, commit) {
 export function setDashboardData(res, commit) {
     let data = addInfinity(res.data.dlayout.panels);
     const isDefault = res.data.isDefault;
-    if (res.data.dunzoStatusFilter) {
-        data = saveDunzoFilters(data, res.data.dunzoStatusFilter, ANALYTICS_PAGES.DASHBOARD, 1, 0);
-    }
+    // if (res.data.dunzoStatusFilter) {
+    //     data = saveDunzoFilters(data, res.data.dunzoStatusFilter, ANALYTICS_PAGES.DASHBOARD, 1, 0);
+    // }
     setNavLinkForScorecards(data, commit);
     commit(ADMIN_SET_DASHBOARD_DATA, data);
     setDefaultFilters(data, commit);
@@ -216,4 +216,42 @@ export function getLayoutName(pageName) {
         default:
             return 'dashboard';
     }
+}
+
+export function preparePayloads(pageName, allFilters, state, chartId, graphType) {
+    const controlFileKey = checkIfDashboardCategory(pageName) ? ANALYTICS_STATE.DASHBOARD_FILTERS : ANALYTICS_STATE.REPORT_FILTERS;
+    const selectedFilters = allFilters[checkIfDashboardCategory(pageName) ? ANALYTICS_STATE.DASHBOARD_FILTERS : ANALYTICS_STATE.REPORT_FILTERS];
+    let filters = selectedFilters[FILTER_TYPES.GLOBAL_FILTERS];
+    let page = null;
+    if (state[ANALYTICS_STATE.FILTER_CONTROL_FLAGS][controlFileKey]) {
+        page = state[ANALYTICS_STATE.FILTER_CONTROL_FLAGS][controlFileKey].pagination && state[ANALYTICS_STATE.PAGINATION][chartId] && Object.keys(state[ANALYTICS_STATE.PAGINATION][chartId]).length > 0 ? state[ANALYTICS_STATE.PAGINATION][chartId] : null;
+    } else {
+        page = state[ANALYTICS_STATE.PAGINATION][chartId] && Object.keys(state[ANALYTICS_STATE.PAGINATION][chartId]).length > 0 ? state[ANALYTICS_STATE.PAGINATION][chartId] : null;
+    }
+    if (pageName === ANALYTICS_PAGES.REPORTS) {
+        const conditionFilters = graphType === GRAPH_TYPES.TABLE && allFilters[ANALYTICS_STATE.REPORT_FILTERS][FILTER_TYPES.TABLE_FILTERS]
+            ? allFilters[ANALYTICS_STATE.REPORT_FILTERS][FILTER_TYPES.TABLE_FILTERS].filter(x => x.column_name && (x.value || x.value === 0))
+            : null;
+        filters = {
+            ...filters,
+            [FILTER_TYPES.TABLE_FILTERS]: conditionFilters,
+            [FILTER_TYPES.TIME_FILTERS]: allFilters[ANALYTICS_STATE.REPORT_FILTERS][FILTER_TYPES.TIME_FILTERS],
+        }
+        if (filters[FILTER_TYPES.TABLE_FILTERS] && !filters[FILTER_TYPES.TABLE_FILTERS].length) {
+            delete filters[FILTER_TYPES.TABLE_FILTERS];
+        }
+    }
+    if (selectedFilters[FILTER_TYPES.COMPONENT_SPECIFIC] && selectedFilters[FILTER_TYPES.COMPONENT_SPECIFIC][chartId]) {
+        filters = {...filters, ...selectedFilters[FILTER_TYPES.COMPONENT_SPECIFIC][chartId]};
+    }
+    return {filters, page};
+}
+
+export function constructAnalyticsBeginningUrl(pageName, isFilters = false){
+    let url = '';
+    if (!isFilters)
+        url += checkIfDashboardCategory(pageName) ? ANALYTICS_STATE.DASHBOARD_DATA : ANALYTICS_STATE.REPORT_DATA;
+    else
+        url += checkIfDashboardCategory(pageName) ? ANALYTICS_STATE.DASHBOARD_FILTERS : ANALYTICS_STATE.REPORT_FILTERS;
+    return url;
 }

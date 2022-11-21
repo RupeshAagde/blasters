@@ -13,10 +13,12 @@ import {
     ADMIN_LAYOUT_FOR_EXTRA_LARGER_DEVICE,
     ADMIN_LAYOUT_FOR_LARGER_DEVICE,
     ADMIN_LAYOUT_FOR_MOBILE_DEVICE,
+    ADMIN_LOAD_FILTER_DROPDOWN_VALUES,
     ADMIN_MAKE_STAGING_FILTERS_LIVE,
     ADMIN_REQUEST_SALES_DUMP,
     ADMIN_RESET_ALL_REFRESH_TOKENS,
     ADMIN_RESET_DASHBOARD_LAYOUT,
+    ADMIN_RESET_DROPDOWN_SEED_FILTERS_FOR_DUNZO_DASHBOARD,
     ADMIN_RESET_INDIVIDUAL_CHART_DATA,
     ADMIN_RESET_INDIVIDUAL_FILTER_CARD_DATA,
     ADMIN_RESIZE_REPORT_PAGE,
@@ -58,6 +60,7 @@ import {
     SAVE_COMPONENT_SPECIFIC_FILTERS,
     SAVE_DASHBOARD_FILTER_ORDER,
     SAVE_DASHBOARD_GRID_ORDER,
+    SAVE_SEED_FILTER_FOR_DROPDOWNS,
     SET_ADDITIONAL_FILTERS,
     SET_IS_DEFAULT_LAYOUT,
     SET_NAV_LINK,
@@ -80,7 +83,6 @@ import AdminAnalyticsService from "@/services/admin-analytics.service";
 import {
     ANALYTICS_PAGES,
     CANVAS_HEIGHT,
-    GRAPH_TYPES,
     HTTP_STATUS_CODES,
     REPORT_PAGE_PANELS
 } from "@/components/generic-graphs/data/constants";
@@ -113,6 +115,7 @@ import {constructFilterControlFlags, organiseDataForReports} from "@/components/
 import {FILTER_CONDITIONS} from "@/constants/chart/reportConstants";
 import {cloneDeep} from "lodash";
 import {pickValues} from "../../helper/utils";
+import {constructAnalyticsBeginningUrl, preparePayloads} from "../../helper/analytics-helper";
 
 export const ANALYTICS_STATE = {
     DASHBOARD_DATA: "DASHBOARD_DATA",
@@ -398,31 +401,7 @@ const actions = {
     [ADMIN_FLOAT_INDIVIDUAL_CHART_DATA]({commit, state}, {
         panelIndex, cardIndex, url, pageName, appId, allFilters, chartId, graphType
     }) {
-        const controlFileKey = checkIfDashboardCategory(pageName) ? ANALYTICS_STATE.DASHBOARD_FILTERS : ANALYTICS_STATE.REPORT_FILTERS;
-        const selectedFilters = allFilters[checkIfDashboardCategory(pageName) ? ANALYTICS_STATE.DASHBOARD_FILTERS : ANALYTICS_STATE.REPORT_FILTERS];
-        let filters = selectedFilters[FILTER_TYPES.GLOBAL_FILTERS];
-        let page = null;
-        if (state[ANALYTICS_STATE.FILTER_CONTROL_FLAGS][controlFileKey]) {
-            page = state[ANALYTICS_STATE.FILTER_CONTROL_FLAGS][controlFileKey].pagination && state[ANALYTICS_STATE.PAGINATION][chartId] && Object.keys(state[ANALYTICS_STATE.PAGINATION][chartId]).length > 0 ? state[ANALYTICS_STATE.PAGINATION][chartId] : null;
-        } else {
-            page = state[ANALYTICS_STATE.PAGINATION][chartId] && Object.keys(state[ANALYTICS_STATE.PAGINATION][chartId]).length > 0 ? state[ANALYTICS_STATE.PAGINATION][chartId] : null;
-        }
-        if (pageName === ANALYTICS_PAGES.REPORTS) {
-            const conditionFilters = graphType === GRAPH_TYPES.TABLE && allFilters[ANALYTICS_STATE.REPORT_FILTERS][FILTER_TYPES.TABLE_FILTERS]
-                ? allFilters[ANALYTICS_STATE.REPORT_FILTERS][FILTER_TYPES.TABLE_FILTERS].filter(x => x.column_name && (x.value || x.value === 0))
-                : null;
-            filters = {
-                ...filters,
-                [FILTER_TYPES.TABLE_FILTERS]: conditionFilters,
-                [FILTER_TYPES.TIME_FILTERS]: allFilters[ANALYTICS_STATE.REPORT_FILTERS][FILTER_TYPES.TIME_FILTERS],
-            }
-            if (filters[FILTER_TYPES.TABLE_FILTERS] && !filters[FILTER_TYPES.TABLE_FILTERS].length) {
-                delete filters[FILTER_TYPES.TABLE_FILTERS];
-            }
-        }
-        if (selectedFilters[FILTER_TYPES.COMPONENT_SPECIFIC] && selectedFilters[FILTER_TYPES.COMPONENT_SPECIFIC][chartId]) {
-            filters = {...filters, ...selectedFilters[FILTER_TYPES.COMPONENT_SPECIFIC][chartId]};
-        }
+        let {filters, page} = preparePayloads(pageName, allFilters, state, chartId, graphType);
         return AdminAnalyticsService.getChartOrStatData(url, appId, cleanFilters(filters), page).then(res => {
             const data = res.data;
             if (res.status === 204) {
@@ -686,6 +665,32 @@ const actions = {
             const url = res.data;
             window.open(url);
             return url;
+        });
+    },
+    [ADMIN_LOAD_FILTER_DROPDOWN_VALUES]({commit, state}, {url, pageName, chartId, panelIndex, cardIndex, filterIndex}) {
+        const allFilters = {
+            [ANALYTICS_STATE.DASHBOARD_FILTERS]: state[ANALYTICS_STATE.DASHBOARD_FILTERS],
+            [ANALYTICS_STATE.REPORT_FILTERS]: state[ANALYTICS_STATE.REPORT_FILTERS]
+        };
+        let {filters} = preparePayloads(pageName, allFilters, state, chartId, null);
+        return AdminAnalyticsService.getChartOrStatData(url, null, filters, null).then(res => {
+            const values = res.data;
+            commit(SAVE_SEED_FILTER_FOR_DROPDOWNS, {
+                values,
+                panelIndex: panelIndex,
+                cardIndex: cardIndex,
+                filterIndex: filterIndex,
+                pageName
+            });
+        });
+    },
+    [ADMIN_RESET_DROPDOWN_SEED_FILTERS_FOR_DUNZO_DASHBOARD]({commit, state}, {pageName, panelIndex, cardIndex, filterIndex}) {
+        commit(SAVE_SEED_FILTER_FOR_DROPDOWNS, {
+            values: null,
+            panelIndex: panelIndex,
+            cardIndex: cardIndex,
+            filterIndex: filterIndex,
+            pageName
         });
     },
 
@@ -1130,6 +1135,19 @@ const mutations = {
             }
             state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId][searchFilter.id] = searchFilter.searchText
         }
+    },
+    [SAVE_SEED_FILTER_FOR_DROPDOWNS](state, {
+        pageName,
+        panelIndex,
+        cardIndex,
+        filterIndex,
+        values = null
+    }) {
+        const url = constructAnalyticsBeginningUrl(pageName);
+        state[url][panelIndex].cards[cardIndex].seedFilters[filterIndex] = {
+            ...state[url][panelIndex].cards[cardIndex].seedFilters[filterIndex],
+            values: values
+        };
     },
 };
 

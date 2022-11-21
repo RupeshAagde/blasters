@@ -110,6 +110,13 @@ const filtersSharedValueMixins = {
                 this.val = val;
                 this.saveValueToStore(val);
                 if (this.applyFilter) {
+                    if (this.seedData.resetSeedFilter) {
+                        this.$store.dispatch(this.seedData.resetSeedFilter.action, {
+                            pageName: this.pageName, panelIndex: 1,
+                            cardIndex: 0,
+                            filterIndex: 1
+                        });
+                    }
                     if (this.chartId) {
                         this.$emit('reset-data');
                         return;
