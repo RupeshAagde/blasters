@@ -714,7 +714,7 @@ const URLS = {
     },
     //RMA Sales Channel List
     RMA_RULES: (id = '', additionEndPoint = '') => {
-        return urlJoin(RMA_URL, `/api/v1/rule${id}${additionEndPoint}`);
+        return urlJoin(RMA_ADMIN_URL, `/api/v1/rule${id}${additionEndPoint}`);
     },
     //RMA Sales Channel Opt in List
     GET_OPTED_RMA_SALES_CHANNEL: () =>
