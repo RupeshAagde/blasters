@@ -362,7 +362,7 @@ export default {
     .feature-list {
         .feature-list-item {
             display: flex;
-            ::v-deep.nitrozen-form-input {
+            ::v-deep .nitrozen-form-input {
                 margin: 6px 0;
                 width: 600px;
             }
