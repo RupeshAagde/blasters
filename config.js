@@ -424,20 +424,6 @@ const conf = convict({
             env: 'FIREBOLT_LOGISTICS_ADMIN_URL',
             arg: 'FIREBOLT_LOGISTICS_ADMIN_URL'
         },
-        AVIS_API: {
-            doc: 'Avis',
-            format: String,
-            default: 'https://api.fyndx0.de/avis/',
-            env: 'AVIS_API',
-            arg: 'AVIS_API'
-        },
-        RMA_URL: {
-            doc: 'RMA',
-            format: String,
-            default: 'https://api.fyndx0.de/rma',
-            env: 'RMA_URL',
-            arg: 'RMA_URL'
-        },
         RMA_ADMIN_URL: {
             doc: 'RMA Admin',
             format: String,
