@@ -174,11 +174,11 @@
     margin-top: 24px;
 }
 .wizard-modal {
-    ::v-deep.modal-search {
+    ::v-deep .modal-search {
         margin: 0px 6px 24px 6px;
         position: relative;
     }
-    ::v-deep.modal-body-title {
+    ::v-deep .modal-body-title {
         color: #212121;
         font-family: Inter;
         font-size: 16px;
@@ -187,7 +187,7 @@
         line-height: 23px;
         margin-bottom: 12px;
     }
-    ::v-deep.modal-body-description {
+    ::v-deep .modal-body-description {
         color: #9b9b9b;
         font-family: Inter;
         font-size: 14px;

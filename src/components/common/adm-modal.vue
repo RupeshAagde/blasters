@@ -184,7 +184,7 @@ export default {
 
 <style lang="less" scoped>
 .wizard-container.modal {
-    ::v-deep.modal-container {
+    ::v-deep .modal-container {
         width: 1100px;
         height: 600px;
         max-width: 1100px;

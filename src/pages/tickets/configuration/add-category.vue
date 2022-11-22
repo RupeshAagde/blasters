@@ -617,7 +617,7 @@ export default {
         font-size: 12px;
         font-weight: 400;
         margin: 4px;
-        ::v-deep.n-input {
+        ::v-deep .n-input {
             height: 30px;
             padding: 5px 10px;
             font-size: 12px;

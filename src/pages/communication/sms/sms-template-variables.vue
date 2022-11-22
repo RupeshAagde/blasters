@@ -474,7 +474,7 @@
     }
 }
 .modal {
-    ::v-deep.modal-container {
+    ::v-deep .modal-container {
         padding: 0px;
         .modal-header {
             border-bottom: 1px solid #d0d0d0;
