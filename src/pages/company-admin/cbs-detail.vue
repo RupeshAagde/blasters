@@ -201,7 +201,7 @@
             <list-deployment :company_name="profileDetails.name" />
         </div>
         <div v-show="activeTabIndex === 6">
-            <seller-request-list />
+            <seller-request-list ></seller-request-list >
         </div>
     </div>
 </template>

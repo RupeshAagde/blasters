@@ -5,7 +5,7 @@
                 class="extensions-jmbtrn"
                 :title="
                     `Seller Request ${
-                        extensionList && extensionList.length
+                        RequestList && RequestList.length
                             ? '(' + pagination.total + ')'
                             : ''
                     }`
@@ -22,7 +22,7 @@
                         placeholder="Search by name"
                         ref="search-box"
                         v-model="searchText"
-                        @input="debounceInput"
+                        @input="debounceInput({ name: searchText })"
                     ></nitrozen-input>
 
                     <div class="filter">
@@ -34,7 +34,7 @@
                             ref="filter-dropdown"
                             @change="
                                 setRouteQuery({
-                                    current_status: selectedFilter
+                                    status: selectedFilter
                                 })
                             "
                         ></nitrozen-dropdown>
@@ -50,26 +50,25 @@
                 ></list-shimmer>
                 <page-error
                     v-else-if="pageError && !pageLoading"
-                    @retry="fetchExtensions()"
+                    @retry="fetchDowngradeRequest()"
                 ></page-error>
 
                 <div
-                    v-for="(extension, index) in extensionList"
+                    v-for="(extension, index) in RequestList"
                     :key="extension._id"
                 >
                     <seller-request-card
                         :extension="extension"
                         :ref="'extension-' + index"
-                        @click="edit(extension)"
                     >
                     </seller-request-card>
                 </div>
             </div>
             <page-empty
-                v-if="extensionList.length == 0"
+                v-if="RequestList.length == 0"
                 text="No request for review"
             ></page-empty>
-            <div v-if="extensionList.length" class="pagination">
+            <div v-if="RequestList.length" class="pagination">
                 <nitrozen-pagination
                     name="Extensions"
                     v-model="pagination"
@@ -194,7 +193,13 @@ import pageError from '@/components/common/page-error.vue';
 import listShimmer from '@/components/common/shimmer.vue';
 import sellerRequestCard from '../company-admin/seller-request-card.vue';
 import { debounce } from '@/helper/utils';
-import ExtensionService from '@/services/extension.service';
+import BillingService from '@/services/billing.service';
+import { GET_CURRENT_ACTIVE_SUBSCRIPTION } from '@/store/getters.type';
+import {
+    FETCH_CURRENT_ACTIVE_SUBSCRIPTION
+} from '@/store/action.type';
+import { mapGetters } from 'vuex';
+import get from 'lodash/get';
 
 const PAGINATION = {
     current: 1,
@@ -204,8 +209,8 @@ const PAGINATION = {
 
 const ROLE_FILTER = [
     { value: 'pending', text: 'Pending' },
-    { value: 'rejected', text: 'Rejected' },
-    { value: 'published', text: 'Published' }
+    { value: 'cancelled', text: 'Cancelled' },
+    { value: 'approved', text: 'Approved' }
 ];
 
 export default {
@@ -231,47 +236,73 @@ export default {
             pageError: false,
             pageLoading: false,
             searchText: '',
-            extensionList: [],
+            RequestList: [],
             filters: [...ROLE_FILTER],
             pagination: {
                 current: 1,
                 limit: 10,
                 total: 0
             },
-            selectedFilter: 'pending'
+            selectedFilter: 'pending',
+            company_id: this.$route.params.companyId,
+            currentPlan:"",
         };
     },
     mounted() {
+        this.pageLoading = true;
         this.populateFromURL();
-        this.fetchExtensions();
+        this.$store
+                .dispatch(FETCH_CURRENT_ACTIVE_SUBSCRIPTION, {
+                    params: {
+                        unique_id: this.company_id,
+                        product_suite: 'fynd-platform',
+                        type: 'company'
+                    }
+                })
+                .then((val)=>{
+                    this.currentPlan=val.subscription;
+                    return this.fetchDowngradeRequest();
+                })
+    },
+    computed:{
+        ...mapGetters({
+            currentActivePlan: GET_CURRENT_ACTIVE_SUBSCRIPTION
+        }),
     },
     methods: {
         populateFromURL() {
-            const { search, page, limit, current_status } = this.$route.query;
+            const { search, page, limit, status } = this.$route.query;
             this.searchText = search || this.searchText;
-            // this.pagination.page = +page || this.pagination.current;
-            // this.pagination.limit = +limit || this.pagination.limit;
-            this.selectedFilter = current_status || 'pending';
+            this.selectedFilter = status || 'pending';
         },
         debounceInput: debounce(function(e) {
             if (this.searchText.length === 0) {
-                this.setRouteQuery({ search: undefined });
+                this.clearSearchFilter();
+            } else {
+                this.setRouteQuery({ name: this.searchText });
             }
-            this.setRouteQuery({ search: this.searchText });
+            this.fetchDowngradeRequest();
         }, 500),
-        fetchExtensions() {
+        clearSearchFilter() {
+            this.searchText = '';
+            this.setRouteQuery({ name: undefined });
+        },
+        fetchDowngradeRequest() {
+            let subscription_id = this.safeGet(this.currentPlan,'subscriber_id')
             let params = {
-                page_no: this.pagination.current,
-                page_size: this.pagination.limit,
-                current_status: this.selectedFilter,
-                name: this.searchText
+                // page_no: this.pagination.current,
+                // page_size: this.pagination.limit,
+                // status: this.selectedFilter,
+                // name: this.searchText,
+                subscriber_id: subscription_id
             };
             this.pageLoading = true;
             this.pageError = false;
-            ExtensionService.getExtensionReviewList(params)
+             BillingService.getDowngradeRequestList(params,this.company_id)
                 .then(({ data }) => {
-                    this.extensionList = data.items;
-                    this.pagination.total = data.page.item_total;
+                    console.log(data)
+                    this.RequestList = data.data;
+                    // this.pagination.total = data.page.item_total;
                     this.pageLoading = false;
                 })
                 .catch((err) => {
@@ -279,15 +310,12 @@ export default {
                     console.log(err);
                 });
         },
-        edit(review) {
-            const { params } = this.$route;
-            this.$router.push({
-                path: `/administrator/extensions/review/${review._id}`
-            });
-        },
         paginationChange(e) {
             this.pagination = e;
-            this.fetchExtensions();
+            this.fetchDowngradeRequest();
+        },
+        safeGet(obj, path, defaultValue) {
+            return get(obj, path, defaultValue);
         },
         setRouteQuery(query) {
             if (query.search) {
@@ -303,15 +331,15 @@ export default {
                     ...query
                 }
             });
-            if (query.current_status) {
+            if (query.status) {
                 // clear pagination if search or filter applied
-                //this.selectedFilter=query.current_status;
+                //this.selectedFilter=query.status;
                 this.pagination = { ...PAGINATION };
                 query.page = undefined;
                 query.limit = undefined;
             }
 
-            this.fetchExtensions();
+            this.fetchDowngradeRequest();
         }
     }
 };
