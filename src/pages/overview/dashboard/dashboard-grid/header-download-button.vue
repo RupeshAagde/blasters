@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'disabled': downloadInProgress}" class="download-wrapper" @click="download">
+  <div :class="{'disabled': isDisabled}" class="download-wrapper" @click="download">
     <uktinlinesvg :src="'download-export'" class="download-icon"></uktinlinesvg>
     <p>{{ downloadOptions.displayText }}</p>
   </div>
@@ -15,11 +15,17 @@ export default {
   components: {Uktinlinesvg},
   props: {
     downloadOptions: {type: Object, required: true},
-    pageName: {type: String, default: ANALYTICS_PAGES.DASHBOARD}
+    pageName: {type: String, default: ANALYTICS_PAGES.DASHBOARD},
+    dataExistsToDownload: {type: Boolean, default: true}
   },
   data: () => ({
     downloadInProgress: false
   }),
+  computed: {
+    isDisabled() {
+      return this.dataExistsToDownload || this.downloadInProgress;
+    }
+  },
   methods: {
     download() {
       if (this.downloadInProgress) {

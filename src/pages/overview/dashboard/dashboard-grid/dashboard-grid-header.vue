@@ -25,7 +25,8 @@
       >
         See more
       </div>
-   <header-download-button v-if="hasDownloadOption" :download-options="this.card.graphInfo.download"></header-download-button>
+   <header-download-button v-if="hasDownloadOption" :data-exists-to-download="isCardEmpty"
+                           :download-options="this.card.graphInfo.download"></header-download-button>
     </div>
     <div
         v-if="card.growth"
@@ -80,7 +81,7 @@ export default {
       }
     },
     isHeaderCard: {type: Boolean, default: true},
-    cardIndex: {type: Number, required: true}
+    cardIndex: {type: Number, required: true},
   },
   computed: {
     toolTipPosition() {
@@ -91,7 +92,7 @@ export default {
     },
     hasDownloadOption() {
       return !!this.card.graphInfo.download;
-    }
+    },
   }
 };
 </script>

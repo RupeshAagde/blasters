@@ -530,6 +530,7 @@ import ErrorHandlers from "@/components/generic-graphs/graphs/error-handlers";
 import AdmLoader from "@/components/common/loader";
 import {ANALYTICS_STATE} from "@/store/modules/admin-analytics.module";
 import DashboardGridHeader from "@/pages/overview/dashboard/dashboard-grid/dashboard-grid-header.vue";
+import {HTTP_STATUS_CODES} from "../../../components/generic-graphs/data/constants";
 
 export default {
   name: 'adm-orders-ninja',
@@ -541,6 +542,11 @@ export default {
   },
   provide() {
     return {pageName: ANALYTICS_PAGES.DASHBOARD}
+  },
+  methods: {
+    cardExists(card) {
+      return card.graphInfo.statusCode !== HTTP_STATUS_CODES.NO_CONTENT
+    }
   },
   mixins: [
     mediaScreensMixins,
@@ -581,7 +587,7 @@ export default {
         if (!this.dashboardData || !Object.keys(this.dashboardData).length) {
           return [];
         }
-        console.log('data: ', this.dashboardData)
+        // console.log('data: ', this.dashboardData)
         return this.dashboardData.reduce((a, d) => {
           a.push(...d.cards);
           return a;
