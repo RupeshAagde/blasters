@@ -1,0 +1,666 @@
+{
+    "business_registration": {
+        "configuration_type": "business-registration",
+        "configuration": {
+            "business_verification": {
+                "auto_verify": true,
+                "verified_bank_required": false
+            },
+            "preinstalled_extensions": {
+                "extensions": [
+                    {
+                        "id": "62699af29eb4c517776eb2e1",
+                        "seller_panel": true
+                    },
+                    {
+                        "id": "626a179d9eb4c54d896eb2ea",
+                        "seller_panel": true
+                    }
+                ],
+                "enabled": true
+            },
+            "referral_code": {
+                "enabled": true
+            },
+            "optin_application": {
+                "show_application": false,
+                "applications": {
+                    "jiomarket": false
+                }
+            },
+            "sales_channel": {
+                "auto_create_website": false,
+                "channels": {
+                    "amazon": false,
+                    "flipkart": false,
+                    "myntra": false,
+                    "ajio": false,
+                    "tata_cliq": false
+                },
+                "enabled": true
+            },
+            "business_location_auto_create": {
+                "enabled": false
+            },
+            "generic_brand_auto_optin": {
+                "enabled": false
+            }
+        }
+    },
+    "extensions": {
+        "items": [
+            {
+                "logo": {
+                    "small": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/IW5vYGilq-DKAmLNbik-logo.png",
+                    "large": "https://hdn-1.addsale.com/x0/misc/pictures/free-icon/original/IW5vYGilq-DKAmLNbik-logo.png"
+                },
+                "callbacks": {
+                    "setup": "https://recommendation.extensions.jiomarketx0.de/api/platform/v1.0/fp/setup",
+                    "auth": "https://recommendation.extensions.jiomarketx0.de/api/platform/v1.0/fp/auth",
+                    "install": "https://recommendation.extensions.jiomarketx0.de/api/platform/v1.0/fp/install",
+                    "uninstall": "https://recommendation.extensions.jiomarketx0.de/api/platform/v1.0/fp/uninstall",
+                    "auto_install": "https://recommendation.extensions.jiomarketx0.de/api/platform/v1.0/fp/auto_install"
+                },
+                "description": "Product Recommendation",
+                "whitelisted_urls": [],
+                "ext_version": "1.0.0",
+                "extention_type": "public",
+                "is_application_level": false,
+                "is_saleschannel": false,
+                "scope": [
+                    "company/profile",
+                    "company/saleschannel",
+                    "company/product",
+                    "company/order",
+                    "company/application/customer",
+                    "company/application/analytics",
+                    "company/application/storage",
+                    "company/application/marketing",
+                    "company/application/catalogue",
+                    "company/application/communication",
+                    "company/application/order",
+                    "company/application/support",
+                    "company/application/settings"
+                ],
+                "is_hidden": false,
+                "_id": "624ebf0b3182690bd7e63794",
+                "name": "Product Recommendation",
+                "base_url": "https://recommendation.extensions.jiomarketx0.de/api/platform/v1.0",
+                "developed_by_name": "Kaa",
+                "contact_email": "aa@gmail.com",
+                "organization_id": "624ebeb93182696b95e6378d",
+                "created_at": "2022-04-07T10:38:03.245Z",
+                "modified_at": "2022-06-16T15:17:42.223Z",
+                "__v": 0
+            },
+            {
+                "logo": {
+                    "small": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/0usFtYLTI-logo.png",
+                    "large": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/0usFtYLTI-logo.png"
+                },
+                "callbacks": {
+                    "setup": "https://reviews.extensions.jiomarketx0.de/fp/setup",
+                    "auth": "https://reviews.extensions.jiomarketx0.de/fp/auth",
+                    "install": "https://reviews.extensions.jiomarketx0.de/fp/install",
+                    "uninstall": "https://reviews.extensions.jiomarketx0.de/fp/uninstall",
+                    "auto_install": "https://reviews.extensions.jiomarketx0.de/fp/auto_install"
+                },
+                "description": "Reviews and Ratings extension",
+                "whitelisted_urls": [],
+                "ext_version": "1.0.0",
+                "extention_type": "public",
+                "is_application_level": false,
+                "is_saleschannel": false,
+                "scope": [
+                    "company/product",
+                    "company/order",
+                    "company/application/storage",
+                    "company/application/settings"
+                ],
+                "is_hidden": false,
+                "_id": "62699af29eb4c517776eb2e1",
+                "name": "Reviews and Ratings",
+                "base_url": "https://reviews.extensions.jiomarketx0.de",
+                "developed_by_name": "Kaa",
+                "contact_email": "aa@gmail.com",
+                "organization_id": "624ebeb93182696b95e6378d",
+                "created_at": "2022-04-27T19:35:14.603Z",
+                "modified_at": "2022-06-16T15:17:42.303Z",
+                "__v": 0,
+                "is_coming_soon": false
+            },
+            {
+                "logo": {
+                    "small": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/wkaqeVpw3-3AqRPZ_hA-logo.png",
+                    "large": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/wkaqeVpw3-3AqRPZ_hA-logo.png"
+                },
+                "callbacks": {
+                    "setup": "https://algolia.extensions.jiomarketx0.de/fp/setup",
+                    "auth": "https://algolia.extensions.jiomarketx0.de/fp/auth",
+                    "install": "https://algolia.extensions.jiomarketx0.de/fp/install",
+                    "uninstall": "https://algolia.extensions.jiomarketx0.de/fp/uninstall",
+                    "auto_install": "https://algolia.extensions.jiomarketx0.de/fp/auto_install"
+                },
+                "description": "Power your store with the Algolia search",
+                "whitelisted_urls": [],
+                "ext_version": "1.0.0",
+                "extention_type": "public",
+                "is_application_level": true,
+                "is_saleschannel": false,
+                "scope": [
+                    "company/product",
+                    "company/application/catalogue"
+                ],
+                "is_hidden": false,
+                "_id": "626a179d9eb4c54d896eb2ea",
+                "name": "Algolia",
+                "base_url": "https://algolia.extensions.jiomarketx0.de",
+                "developed_by_name": "Kaa",
+                "contact_email": "sourabhnilakhe@gofynd.com",
+                "organization_id": "624ebeb93182696b95e6378d",
+                "created_at": "2022-04-28T04:27:09.526Z",
+                "modified_at": "2022-06-16T15:17:42.308Z",
+                "__v": 0,
+                "is_coming_soon": false
+            },
+            {
+                "logo": {
+                    "small": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/oLr7ttVOP-logo.png",
+                    "large": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/oLr7ttVOP-logo.png"
+                },
+                "callbacks": {
+                    "setup": "https://google-tag-manager.extensions.jiomarketx0.de/fp/setup",
+                    "auth": "https://google-tag-manager.extensions.jiomarketx0.de/fp/auth",
+                    "install": "https://google-tag-manager.extensions.jiomarketx0.de/fp/install",
+                    "uninstall": "https://google-tag-manager.extensions.jiomarketx0.de/fp/uninstall",
+                    "auto_install": "https://google-tag-manager.extensions.jiomarketx0.de/fp/auto_install"
+                },
+                "description": "Google Tag Manager",
+                "whitelisted_urls": [],
+                "ext_version": "1.0.0",
+                "extention_type": "private",
+                "is_application_level": false,
+                "is_saleschannel": false,
+                "scope": [
+                    "company/saleschannel",
+                    "company/profile",
+                    "company/application/settings",
+                    "company/application/analytics"
+                ],
+                "is_hidden": false,
+                "_id": "626a706d9eb4c546be6eb329",
+                "name": "Google Tag Manager",
+                "base_url": "https://google-tag-manager.extensions.jiomarketx0.de",
+                "developed_by_name": "Fynd",
+                "contact_email": "regrowth-vikings@gofynd.com",
+                "organization_id": "624ebeb93182696b95e6378d",
+                "created_at": "2022-04-28T10:46:05.769Z",
+                "modified_at": "2022-06-16T15:17:42.313Z",
+                "__v": 0
+            },
+            {
+                "logo": {
+                    "small": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/_37KyUdI4-logo.png",
+                    "large": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/_37KyUdI4-logo.png"
+                },
+                "callbacks": {
+                    "setup": "https://fulfillment-centre.extensions.jiomarketx0.de/fp/setup",
+                    "auth": "https://fulfillment-centre.extensions.jiomarketx0.de/fp/auth",
+                    "install": "https://fulfillment-centre.extensions.jiomarketx0.de/fp/install",
+                    "uninstall": "https://fulfillment-centre.extensions.jiomarketx0.de/fp/uninstall",
+                    "auto_install": "https://fulfillment-centre.extensions.jiomarketx0.de/fp/auto_install"
+                },
+                "description": "Jio Market Fulfilment Center",
+                "whitelisted_urls": [],
+                "ext_version": "1.0.0",
+                "extention_type": "public",
+                "is_application_level": false,
+                "is_saleschannel": false,
+                "scope": [
+                    "company/profile",
+                    "company/product"
+                ],
+                "is_hidden": false,
+                "_id": "6274cb3d9eb4c5477a6eb377",
+                "name": "Jio Market Fulfilment Center",
+                "base_url": "https://fulfillment-centre.extensions.jiomarketx0.de",
+                "developed_by_name": "Fynd",
+                "contact_email": "regrowth-vikings@gofynd.com",
+                "organization_id": "624ebeb93182696b95e6378d",
+                "created_at": "2022-05-06T07:16:13.597Z",
+                "modified_at": "2022-06-16T15:17:42.317Z",
+                "__v": 0,
+                "is_coming_soon": false
+            },
+            {
+                "logo": {
+                    "small": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/lOouiDIXz-logo.jpeg",
+                    "large": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/lOouiDIXz-logo.jpeg"
+                },
+                "callbacks": {
+                    "setup": "https://e812-106-202-145-106.in.ngrok.io/fp/setup",
+                    "auth": "https://e812-106-202-145-106.in.ngrok.io/fp/auth",
+                    "install": "https://e812-106-202-145-106.in.ngrok.io/fp/install",
+                    "uninstall": "https://e812-106-202-145-106.in.ngrok.io/fp/uninstall",
+                    "auto_install": "https://e812-106-202-145-106.in.ngrok.io/fp/auto_install"
+                },
+                "description": "Private JFC Ext for Shubham",
+                "whitelisted_urls": [],
+                "ext_version": "1.0.0",
+                "extention_type": "public",
+                "is_application_level": false,
+                "is_saleschannel": false,
+                "scope": [
+                    "company/profile",
+                    "company/product"
+                ],
+                "is_hidden": false,
+                "_id": "627919dd9eb4c564f16eb3e1",
+                "name": "Jfc-Shubham",
+                "base_url": "https://e812-106-202-145-106.in.ngrok.io",
+                "developed_by_name": "Fynd",
+                "contact_email": "regrowth-vikings@gofynd.com",
+                "organization_id": "624ebeb93182696b95e6378d",
+                "created_at": "2022-05-09T13:40:45.475Z",
+                "modified_at": "2022-06-21T07:54:08.876Z",
+                "__v": 0,
+                "is_coming_soon": false
+            },
+            {
+                "logo": {
+                    "small": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/xMUB09I6r-logo.png",
+                    "large": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/xMUB09I6r-logo.png"
+                },
+                "callbacks": {
+                    "setup": "https://facebook-styrnj.loca.lt/fp/setup",
+                    "auth": "https://facebook-styrnj.loca.lt/fp/auth",
+                    "install": "https://facebook-styrnj.loca.lt/fp/install",
+                    "uninstall": "https://facebook-styrnj.loca.lt/fp/uninstall",
+                    "auto_install": "https://facebook-styrnj.loca.lt/fp/auto_install"
+                },
+                "description": "Catalogue Import Export",
+                "whitelisted_urls": [],
+                "ext_version": "1.0.0",
+                "extention_type": "public",
+                "is_application_level": true,
+                "is_saleschannel": false,
+                "scope": [
+                    "company/product",
+                    "company/application/catalogue"
+                ],
+                "is_hidden": false,
+                "_id": "627943569eb4c56c0b6eb3f8",
+                "name": "Catalogue Import Export",
+                "base_url": "https://facebook-styrnj.loca.lt",
+                "developed_by_name": "Fynd",
+                "contact_email": "regrowth-vikings@gofynd.com",
+                "organization_id": "624ebeb93182696b95e6378d",
+                "created_at": "2022-05-09T16:37:42.449Z",
+                "modified_at": "2022-06-16T15:17:42.324Z",
+                "__v": 0,
+                "is_coming_soon": false
+            },
+            {
+                "logo": {
+                    "small": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/JwZANuwtX-logo.jpeg",
+                    "large": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/JwZANuwtX-logo.jpeg"
+                },
+                "callbacks": {
+                    "setup": "https://fynd-jfc-vasu.loca.lt/fp/setup",
+                    "auth": "https://fynd-jfc-vasu.loca.lt/fp/auth",
+                    "install": "https://fynd-jfc-vasu.loca.lt/fp/install",
+                    "uninstall": "https://fynd-jfc-vasu.loca.lt/fp/uninstall",
+                    "auto_install": "https://fynd-jfc-vasu.loca.lt/fp/auto_install"
+                },
+                "description": "this Extension is being created for RFC Developement purposes.",
+                "whitelisted_urls": [],
+                "ext_version": "1.0.0",
+                "extention_type": "public",
+                "is_application_level": false,
+                "is_saleschannel": false,
+                "scope": [
+                    "company/profile",
+                    "company/product",
+                    "company/order"
+                ],
+                "is_hidden": false,
+                "_id": "627a00159eb4c52ef86eb412",
+                "name": "JFC-VasuM",
+                "base_url": "https://fynd-jfc-vasu.loca.lt",
+                "developed_by_name": "Fynd",
+                "contact_email": "regrowth-vikings@gofynd.com",
+                "organization_id": "624ebeb93182696b95e6378d",
+                "created_at": "2022-05-10T06:03:01.443Z",
+                "modified_at": "2022-06-16T15:17:42.328Z",
+                "__v": 0,
+                "is_coming_soon": false
+            },
+            {
+                "logo": {
+                    "small": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/OCY8JsPjx-logo.jpeg",
+                    "large": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/OCY8JsPjx-logo.jpeg"
+                },
+                "callbacks": {
+                    "setup": "https://b025-223-190-38-55.in.ngrok.io/fp/setup",
+                    "auth": "https://b025-223-190-38-55.in.ngrok.io/fp/auth",
+                    "install": "https://b025-223-190-38-55.in.ngrok.io/fp/install",
+                    "uninstall": "https://b025-223-190-38-55.in.ngrok.io/fp/uninstall",
+                    "auto_install": "https://b025-223-190-38-55.in.ngrok.io/fp/auto_install"
+                },
+                "description": "JFC extension for personal dev",
+                "whitelisted_urls": [],
+                "ext_version": "1.0.0",
+                "extention_type": "public",
+                "is_application_level": false,
+                "is_saleschannel": false,
+                "scope": [
+                    "company/profile",
+                    "company/saleschannel",
+                    "company/product",
+                    "company/order",
+                    "company/application/marketing",
+                    "company/application/settings"
+                ],
+                "is_hidden": false,
+                "_id": "627a01559eb4c50df76eb422",
+                "name": "Abhinav-JFC",
+                "base_url": "https://b025-223-190-38-55.in.ngrok.io",
+                "developed_by_name": "Fynd",
+                "contact_email": "regrowth-vikings@gofynd.com",
+                "organization_id": "624ebeb93182696b95e6378d",
+                "created_at": "2022-05-10T06:08:21.144Z",
+                "modified_at": "2022-06-19T20:15:49.869Z",
+                "__v": 1,
+                "is_coming_soon": false
+            },
+            {
+                "logo": {
+                    "small": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/rgtD2y3Ob-logo.png",
+                    "large": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/rgtD2y3Ob-logo.png"
+                },
+                "callbacks": {
+                    "setup": "https://local-ladder-pricing-006.loca.lt/fp/setup",
+                    "auth": "https://local-ladder-pricing-006.loca.lt/fp/auth",
+                    "install": "https://local-ladder-pricing-006.loca.lt/fp/install",
+                    "uninstall": "https://local-ladder-pricing-006.loca.lt/fp/uninstall",
+                    "auto_install": "https://local-ladder-pricing-006.loca.lt/fp/auto_install"
+                },
+                "description": "local-jfc",
+                "whitelisted_urls": [],
+                "ext_version": "1.0.0",
+                "extention_type": "public",
+                "is_application_level": false,
+                "is_saleschannel": false,
+                "scope": [
+                    "company/profile",
+                    "company/product"
+                ],
+                "is_hidden": false,
+                "_id": "628e2dd8e43d571be07a5d4c",
+                "name": "local-jfc",
+                "base_url": "https://local-ladder-pricing-006.loca.lt",
+                "developed_by_name": "Fynd",
+                "contact_email": "regrowth-vikings@gofynd.com",
+                "organization_id": "624ebeb93182696b95e6378d",
+                "created_at": "2022-05-25T13:23:36.274Z",
+                "modified_at": "2022-06-16T15:17:42.335Z",
+                "__v": 0
+            }
+        ],
+        "page": {
+            "type": "number",
+            "current": 1,
+            "size": 10,
+            "item_total": 21,
+            "has_next": true
+        }
+    },
+    "selected_extensions":{"items":[{" logo":{"small":"https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/0usFtYLTI-logo.png","large":"https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/0usFtYLTI-logo.png"},"callbacks":{"setup":"https://reviews.extensions.jiomarketx0.de/fp/setup","auth":"https://reviews.extensions.jiomarketx0.de/fp/auth","install":"https://reviews.extensions.jiomarketx0.de/fp/install","uninstall":"https://reviews.extensions.jiomarketx0.de/fp/uninstall","auto_install":"https://reviews.extensions.jiomarketx0.de/fp/auto_install"},"description":"Reviews and Ratings extension","whitelisted_urls":[],"ext_version":"1.0.0","extention_type":"public","is_application_level":false,"is_saleschannel":false,"scope":["company/product","company/order","company/application/storage","company/application/settings"],"is_hidden":false,"_id":"62699af29eb4c517776eb2e1","name":"Reviews and Ratings","base_url":"https://reviews.extensions.jiomarketx0.de","developed_by_name":"Kaa","contact_email":"aa@gmail.com","organization_id":"624ebeb93182696b95e6378d","created_at":"2022-04-27T19:35:14.603Z","modified_at":"2022-06-16T15:17:42.303Z","__v":0,"is_coming_soon":false},{"logo":{"small":"https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/wkaqeVpw3-3AqRPZ_hA-logo.png","large":"https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/wkaqeVpw3-3AqRPZ_hA-logo.png"},"callbacks":{"setup":"https://algolia.extensions.jiomarketx0.de/fp/setup","auth":"https://algolia.extensions.jiomarketx0.de/fp/auth","install":"https://algolia.extensions.jiomarketx0.de/fp/install","uninstall":"https://algolia.extensions.jiomarketx0.de/fp/uninstall","auto_install":"https://algolia.extensions.jiomarketx0.de/fp/auto_install"},"description":"Power your store with the Algolia search","whitelisted_urls":[],"ext_version":"1.0.0","extention_type":"public","is_application_level":true,"is_saleschannel":false,"scope":["company/product","company/application/catalogue"],"is_hidden":false,"_id":"626a179d9eb4c54d896eb2ea","name":"Algolia","base_url":"https://algolia.extensions.jiomarketx0.de","developed_by_name":"Kaa","contact_email":"sourabhnilakhe@gofynd.com","organization_id":"624ebeb93182696b95e6378d","created_at":"2022-04-28T04:27:09.526Z","modified_at":"2022-06-16T15:17:42.308Z","__v":0,"is_coming_soon":false}],"page":{"type":"number","current":1,"size":10,"item_total":2,"has_next":false}},
+    "marketplaces":{"items":[{"key":"Amazon","value":"amazon","priority":1,"logo":"https://hdn-1.fynd.com/misc/general/free/original/ovS-Ady6mT-shfsffAS6-Logo.png"},{"key":"Flipkart","value":"flipkart","priority":2,"logo":"https://hdn-1.fynd.com/misc/general/free/original/cbmUDU-qYC-85HHiWr3Y-Logo.png"},{"key":"Myntra","value":"myntra","priority":3,"logo":"https://hdn-1.fynd.com/misc/general/free/original/tQ5hce2CVI-A1S7vx700-Logo.png"},{"key":"Ajio","value":"ajio","priority":4,"logo":"https://hdn-1.fynd.com/misc/general/free/original/34oZk4tO9S-ZqiZADj8N-Logo.png"},{"key":"Tata Cliq","value":"tata_cliq","priority":5,"logo":"https://hdn-1.fynd.com/misc/general/free/original/MFcj6I_tPf-VI6xyr7YH-Logo.png"}],"type":"marketplaces"},
+    "applications":{
+        "items": [
+            {
+                "name": "Fynd",
+                "validation": {
+                    "location": {
+                        "stage": "verified"
+                    },
+                    "brand": {
+                        "stage": "verified",
+                        "assets": true
+                    }
+                },
+                "logo": "",
+                "slug": "fynd",
+                "_id": "629af016aadff1a5fae98618",
+                "app_id": "000000000000000000000001",
+                "description": "This is Fynd Marketplace"
+            },
+            {
+                "name": "Fynd",
+                "validation": {
+                    "location": {
+                        "stage": "verified"
+                    },
+                    "brand": {
+                        "stage": "verified",
+                        "assets": true
+                    }
+                },
+                "logo": "",
+                "slug": "fynd",
+                "_id": "629af06aaadff1a5fae98619",
+                "app_id": "000000000000000000000001",
+                "description": "This is Fynd Marketplace"
+            },
+            {
+                "name": "Fynd",
+                "validation": {
+                    "location": {
+                        "stage": "verified"
+                    },
+                    "brand": {
+                        "stage": "verified",
+                        "assets": true
+                    }
+                },
+                "logo": "",
+                "slug": "fynd",
+                "_id": "629af639aadff1a5fae9861a",
+                "app_id": "000000000000000000000001",
+                "description": "This is Fynd"
+            },
+            {
+                "name": "Fynd Abhinav 8",
+                "validation": {
+                    "location": {
+                        "stage": "verified"
+                    },
+                    "brand": {
+                        "stage": "verified"
+                    }
+                },
+                "modified_on": "2022-06-09T11:45:00.607970",
+                "logo": "",
+                "slug": "fynd-abhinav-8",
+                "modified_by": {
+                    "username": "abhinavmishra_fynd_external_com_88738",
+                    "user_id": "165"
+                },
+                "created_on": "2022-06-09T11:45:00.607961",
+                "_id": "62a1dd3ce707f07dafe24791",
+                "created_by": {
+                    "username": "abhinavmishra_fynd_external_com_88738",
+                    "user_id": "165"
+                },
+                "app_id": "f17495b2-7388-4011-be69-bf0be4c99605",
+                "description": "Marketplace v8 "
+            },
+            {
+                "name": "Fynd a",
+                "validation": {
+                    "location": {
+                        "stage": "verified"
+                    },
+                    "brand": {
+                        "stage": "all"
+                    }
+                },
+                "modified_on": "2022-06-15T07:21:32.677559",
+                "logo": "https://hdn-1.jiomarketx0.de/x0/platform/pictures/favicon/original/61sP_XrDo-ZRUyKPaqt-Fcc3nVj5V-yMR0n04lf-iwjJlsOZD-logo.png",
+                "slug": "fynd-9",
+                "modified_by": {
+                    "username": "abhinavmishra_fynd_external_com_88738",
+                    "user_id": "165"
+                },
+                "created_on": "2022-06-09T11:58:30.683374",
+                "_id": "62a1e066e707f07dafe24792",
+                "created_by": {
+                    "username": "abhinavmishra_fynd_external_com_88738",
+                    "user_id": "165"
+                },
+                "app_id": "4ba79d7b-4697-4a23-94d1-80f26fab6f70",
+                "description": "Marketplace v9 "
+            },
+            {
+                "name": "Fynd abhinav",
+                "validation": {
+                    "location": {
+                        "gst_required": false,
+                        "stage": "verified"
+                    },
+                    "brand": {
+                        "stage": "all"
+                    }
+                },
+                "modified_on": "2022-06-15T08:45:58.160217",
+                "logo": "https://hdn-1.jiomarketx0.de/x0/platform/pictures/favicon/original/61sP_XrDo-ZRUyKPaqt-Fcc3nVj5V-yMR0n04lf-iwjJlsOZD-logo.png",
+                "slug": "fynd-abhinav",
+                "modified_by": {
+                    "username": "abhinavmishra_fynd_external_com_88738",
+                    "user_id": "165"
+                },
+                "created_on": "2022-06-14T16:03:07.239776",
+                "_id": "62a8b13bfbbc68ffeb4d2a5f",
+                "created_by": {
+                    "username": "abhinavmishra_fynd_external_com_88738",
+                    "user_id": "165"
+                },
+                "app_id": "1a716d37-1ef9-4d86-a705-29fb40c24217",
+                "description": "Marketplace v9 "
+            },
+            {
+                "name": "FyndTestMarket19245",
+                "validation": {
+                    "location": {
+                        "stage": "verified"
+                    },
+                    "brand": {
+                        "stage": "verified"
+                    }
+                },
+                "modified_on": "2022-06-14T16:03:38.232060",
+                "logo": "",
+                "slug": "fyndtestmarket19245",
+                "modified_by": {
+                    "username": "abhinavmishra_fynd_external_com_88738",
+                    "user_id": "165"
+                },
+                "created_on": "2022-06-14T16:03:38.232051",
+                "_id": "62a8b15afbbc68ffeb4d2a60",
+                "created_by": {
+                    "username": "abhinavmishra_fynd_external_com_88738",
+                    "user_id": "165"
+                },
+                "app_id": "e549b352-d0d1-4ff3-9979-d8d747cd2f37",
+                "description": "New Fynd Test Market 2"
+            },
+            {
+                "name": "FyndTestMarket19245123",
+                "validation": {
+                    "location": {
+                        "stage": "verified"
+                    },
+                    "brand": {
+                        "stage": "verified"
+                    }
+                },
+                "modified_on": "2022-06-14T16:04:39.914810",
+                "logo": "",
+                "slug": "fyndtestmarket19245123",
+                "modified_by": {
+                    "username": "abhinavmishra_fynd_external_com_88738",
+                    "user_id": "165"
+                },
+                "created_on": "2022-06-14T16:04:39.914802",
+                "_id": "62a8b197fbbc68ffeb4d2a61",
+                "created_by": {
+                    "username": "abhinavmishra_fynd_external_com_88738",
+                    "user_id": "165"
+                },
+                "app_id": "add4c076-7f5f-4494-80cd-e48c678e7c4a",
+                "description": "New Fynd Test Market 2"
+            },
+            {
+                "name": "FyndTestMarket19245124",
+                "validation": {
+                    "location": {
+                        "stage": "verified"
+                    },
+                    "brand": {
+                        "stage": "verified"
+                    }
+                },
+                "modified_on": "2022-06-14T16:07:12.327212",
+                "logo": "",
+                "slug": "fyndtestmarket19245124",
+                "modified_by": {
+                    "username": "abhinavmishra_fynd_external_com_88738",
+                    "user_id": "165"
+                },
+                "created_on": "2022-06-14T16:07:12.327205",
+                "_id": "62a8b230fbbc68ffeb4d2a62",
+                "created_by": {
+                    "username": "abhinavmishra_fynd_external_com_88738",
+                    "user_id": "165"
+                },
+                "app_id": "62987211-1065-49e2-9d52-1ed3c71f864c",
+                "description": "New Fynd Test Market 2"
+            },
+            {
+                "name": "Fynd Abhinav 18",
+                "validation": {
+                    "location": {
+                        "stage": "verified"
+                    },
+                    "brand": {
+                        "stage": "verified"
+                    }
+                },
+                "modified_on": "2022-06-15T05:29:21.452129",
+                "logo": "",
+                "slug": "fynd-abhinav-18",
+                "modified_by": {
+                    "username": "abhinavmishra_fynd_external_com_88738",
+                    "user_id": "165"
+                },
+                "created_on": "2022-06-15T05:29:21.452121",
+                "_id": "62a96e31fbbc68ffeb4d2a63",
+                "created_by": {
+                    "username": "abhinavmishra_fynd_external_com_88738",
+                    "user_id": "165"
+                },
+                "app_id": "0e58236a-433d-43a2-94b3-e563ab944790",
+                "description": "Marketplace v18 "
+            }
+        ],
+        "page": {
+            "current": 1,
+            "type": "number",
+            "size": 2,
+            "has_previous": false,
+            "has_next": true,
+            "item_total": 11
+        }
+    }
+}

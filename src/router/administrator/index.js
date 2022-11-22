@@ -676,6 +676,7 @@ export default [
                 return checkUserPermission(to, from, next, ['settings']);
             }
         },
+        /* changes from jiomarket: cbs configuration */
         {
             name: 'business-registration',
             path: 'settings/platform/business-registration',

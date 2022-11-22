@@ -1,0 +1,13 @@
+{ 
+    "configuration_type":"location",
+    "configuration": 
+        { 
+            "program_types": [
+                {
+                    "name": "Direct Fulfillment Center",
+                    "short_code": "DFC",
+                    "auto_verify": true
+                }
+            ]
+        }
+}
