@@ -1,0 +1,1161 @@
+{
+    "globalRulesList": {
+        "page": {
+            "current": 1,
+            "type": "number",
+            "size": 10,
+            "has_previous": false,
+            "has_next": true,
+            "item_total": 13
+        },
+        "items": [
+            {
+                "id": "1",
+                "entity_type": "l3",
+                "value": "168",
+                "channel": null,
+                "actions": {
+                    "reasons": [
+                        {
+                            "id": 7,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 6,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Product out of stock",
+                                    "question_set": [
+                                        {
+                                            "id": 1,
+                                            "display_name": "check formal-shirt size "
+                                        },
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the brand"
+                                        },
+                                        {
+                                            "id": 3,
+                                            "display_name": "Check the Size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 5,
+                                    "qc_type": [],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "others",
+                                    "question_set": []
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Size %s not available",
+                            "question_set": []
+                        },
+                        {
+                            "id": 13,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 1,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Not available",
+                                    "question_set": [
+                                        {
+                                            "id": 1,
+                                            "display_name": "check formal-shirt size "
+                                        },
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the brand"
+                                        },
+                                        {
+                                            "id": 3,
+                                            "display_name": "Check the Size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Happay card not working",
+                            "question_set": []
+                        },
+                        {
+                            "id": 33,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 3,
+                                    "qc_type": [],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Printer not working",
+                                    "question_set": []
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Store Closed",
+                            "question_set": []
+                        }
+                    ]
+                },
+                "qc_enabled": true,
+                "is_active": true,
+                "conditions": {
+                    "l3": "168",
+                    "department": "21"
+                },
+                "meta": {
+                    "l3": {
+                        "id": "168",
+                        "display_name": "Boat Shoes"
+                    },
+                    "department": {
+                        "id": "21",
+                        "display_name": "Fashion"
+                    }
+                },
+                "rule_type": "global"
+            },
+            {
+                "id": "3",
+                "entity_type": "l3",
+                "value": "190989",
+                "channel": null,
+                "actions": {
+                    "reasons": [
+                        {
+                            "id": 1,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 9,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too Large",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 10,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too small",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Size or Fit Issue",
+                            "question_set": []
+                        },
+                        {
+                            "id": 2,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 19,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Stiching of the product was damaged",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 20,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Product was dirty and has stains",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Received a wrong or defective product",
+                            "question_set": []
+                        }
+                    ]
+                },
+                "qc_enabled": true,
+                "is_active": true,
+                "conditions": {
+                    "l1": "10",
+                    "l2": "20",
+                    "department": "1"
+                },
+                "meta": {
+                    "l1": {
+                        "id": "10",
+                        "display_name": "Footwears"
+                    },
+                    "l2": {
+                        "id": "20",
+                        "display_name": "Shoes"
+                    },
+                    "l3": {
+                        "id": "30",
+                        "display_name": "Running Shoes"
+                    },
+                    "department": {
+                        "id": "1",
+                        "display_name": "Fashion"
+                    }
+                },
+                "rule_type": "global"
+            },
+            {
+                "id": "6",
+                "entity_type": "l3",
+                "value": "1909889899",
+                "channel": null,
+                "actions": {
+                    "reasons": [
+                        {
+                            "id": 1,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 9,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too Large",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 10,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too small",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Size or Fit Issue",
+                            "question_set": []
+                        },
+                        {
+                            "id": 2,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 19,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Stiching of the product was damaged",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 20,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Product was dirty and has stains",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Received a wrong or defective product",
+                            "question_set": []
+                        }
+                    ]
+                },
+                "qc_enabled": true,
+                "is_active": true,
+                "conditions": {},
+                "meta": {
+                    "l1": {
+                        "id": "10",
+                        "display_name": "Footwears"
+                    },
+                    "l2": {
+                        "id": "20",
+                        "display_name": "Shoes"
+                    },
+                    "l3": {
+                        "id": "30",
+                        "display_name": "Running Shoes"
+                    },
+                    "department": {
+                        "id": "1",
+                        "display_name": "Fashion"
+                    }
+                },
+                "rule_type": "global"
+            },
+            {
+                "id": "7",
+                "entity_type": "l3",
+                "value": "1909889898",
+                "channel": null,
+                "actions": {
+                    "reasons": [
+                        {
+                            "id": 1,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 9,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too Large",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 10,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too small",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Size or Fit Issue",
+                            "question_set": []
+                        },
+                        {
+                            "id": 2,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 19,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Stiching of the product was damaged",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 20,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Product was dirty and has stains",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Received a wrong or defective product",
+                            "question_set": []
+                        }
+                    ]
+                },
+                "qc_enabled": true,
+                "is_active": true,
+                "conditions": {},
+                "meta": {
+                    "l1": {
+                        "id": "10",
+                        "display_name": "Footwears"
+                    },
+                    "l2": {
+                        "id": "20",
+                        "display_name": "Shoes"
+                    },
+                    "l3": {
+                        "id": "30",
+                        "display_name": "Running Shoes"
+                    },
+                    "department": {
+                        "id": "1",
+                        "display_name": "Fashion"
+                    }
+                },
+                "rule_type": "global"
+            },
+            {
+                "id": "8",
+                "entity_type": "l3",
+                "value": "1909889898",
+                "channel": null,
+                "actions": {
+                    "reasons": [
+                        {
+                            "id": 1,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 9,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too Large",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 10,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too small",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Size or Fit Issue",
+                            "question_set": []
+                        },
+                        {
+                            "id": 2,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 19,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Stiching of the product was damaged",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 20,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Product was dirty and has stains",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Received a wrong or defective product",
+                            "question_set": []
+                        }
+                    ]
+                },
+                "qc_enabled": true,
+                "is_active": true,
+                "conditions": {
+                    "department": 1
+                },
+                "meta": {
+                    "l1": {
+                        "id": "10",
+                        "display_name": "Footwears"
+                    },
+                    "l2": {
+                        "id": "20",
+                        "display_name": "Shoes"
+                    },
+                    "l3": {
+                        "id": "30",
+                        "display_name": "Running Shoes"
+                    },
+                    "department": {
+                        "id": "1",
+                        "display_name": "Fashion"
+                    }
+                },
+                "rule_type": "global"
+            },
+            {
+                "id": "10",
+                "entity_type": "l3",
+                "value": "1909889818",
+                "channel": null,
+                "actions": {
+                    "reasons": [
+                        {
+                            "id": 1,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 9,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too Large",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 10,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too small",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Size or Fit Issue",
+                            "question_set": []
+                        },
+                        {
+                            "id": 2,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 19,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Stiching of the product was damaged",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 20,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Product was dirty and has stains",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Received a wrong or defective product",
+                            "question_set": []
+                        }
+                    ]
+                },
+                "qc_enabled": true,
+                "is_active": true,
+                "conditions": {
+                    "department": 1
+                },
+                "meta": {
+                    "l1": {
+                        "id": "10",
+                        "display_name": "Footwears"
+                    },
+                    "l2": {
+                        "id": "20",
+                        "display_name": "Shoes"
+                    },
+                    "l3": {
+                        "id": "30",
+                        "display_name": "Running Shoes"
+                    },
+                    "department": {
+                        "id": "1",
+                        "display_name": "Fashion"
+                    }
+                },
+                "rule_type": "global"
+            },
+            {
+                "id": "11",
+                "entity_type": "l3",
+                "value": "1909889918",
+                "channel": null,
+                "actions": {
+                    "reasons": [
+                        {
+                            "id": 1,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 9,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too Large",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 10,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too small",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Size or Fit Issue",
+                            "question_set": []
+                        },
+                        {
+                            "id": 2,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 19,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Stiching of the product was damaged",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 20,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Product was dirty and has stains",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Received a wrong or defective product",
+                            "question_set": []
+                        }
+                    ]
+                },
+                "qc_enabled": true,
+                "is_active": true,
+                "conditions": {
+                    "department": 1
+                },
+                "meta": {
+                    "l1": {
+                        "id": "10",
+                        "display_name": "gully"
+                    },
+                    "l2": {
+                        "id": "20",
+                        "display_name": "Shgullyes"
+                    },
+                    "l3": {
+                        "id": "30",
+                        "display_name": "Running Shoes"
+                    },
+                    "department": {
+                        "id": "1",
+                        "display_name": "Gullu"
+                    }
+                },
+                "rule_type": "global"
+            },
+            {
+                "id": "12",
+                "entity_type": "l3",
+                "value": "1909889918",
+                "channel": null,
+                "actions": {
+                    "reasons": [
+                        {
+                            "id": 1,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 9,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too Large",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 10,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too small",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Size or Fit Issue",
+                            "question_set": []
+                        },
+                        {
+                            "id": 2,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 19,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Stiching of the product was damaged",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 20,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Product was dirty and has stains",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Received a wrong or defective product",
+                            "question_set": []
+                        }
+                    ]
+                },
+                "qc_enabled": true,
+                "is_active": true,
+                "conditions": {
+                    "department": 18768574635245
+                },
+                "meta": {
+                    "l1": {
+                        "id": "10",
+                        "display_name": "gully"
+                    },
+                    "l2": {
+                        "id": "20",
+                        "display_name": "Shgullyes"
+                    },
+                    "l3": {
+                        "id": "30",
+                        "display_name": "Running Shoes"
+                    },
+                    "department": {
+                        "id": "1",
+                        "display_name": "Gullu"
+                    }
+                },
+                "rule_type": "global"
+            },
+            {
+                "id": "4",
+                "entity_type": "l3",
+                "value": "7267",
+                "channel": null,
+                "actions": {
+                    "reasons": [
+                        {
+                            "id": 1,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 9,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too Large",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 10,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too small",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Size or Fit Issue",
+                            "question_set": []
+                        },
+                        {
+                            "id": 2,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 19,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Stiching of the product was damaged",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 20,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Product was dirty and has stains",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Received a wrong or defective product",
+                            "question_set": []
+                        }
+                    ]
+                },
+                "qc_enabled": true,
+                "is_active": true,
+                "conditions": {
+                    "department": 18768574635245
+                },
+                "meta": {
+                    "l1": {
+                        "id": "10",
+                        "display_name": "gully"
+                    },
+                    "l2": {
+                        "id": "20",
+                        "display_name": "Shgullyes"
+                    },
+                    "l3": {
+                        "id": "30",
+                        "display_name": "Running Shoes"
+                    },
+                    "department": {
+                        "id": "1",
+                        "display_name": "Gullu"
+                    }
+                },
+                "rule_type": "global"
+            },
+            {
+                "id": "15",
+                "entity_type": "l3",
+                "value": "72671",
+                "channel": null,
+                "actions": {
+                    "reasons": [
+                        {
+                            "id": 1,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 9,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too Large",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 10,
+                                    "qc_type": [
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Size is too small",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "paise dedo bhai, month end hai",
+                            "question_set": []
+                        },
+                        {
+                            "id": 2,
+                            "qc_type": [],
+                            "reasons": [
+                                {
+                                    "id": 19,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Stiching of the product was damaged",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 20,
+                                    "qc_type": [
+                                        "pre_qc",
+                                        "doorstep_qc"
+                                    ],
+                                    "reasons": [],
+                                    "is_active": true,
+                                    "display_name": "Product was dirty and has stains",
+                                    "question_set": [
+                                        {
+                                            "id": 2,
+                                            "display_name": "Check the size"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "is_active": true,
+                            "display_name": "Received a wrong or defective product",
+                            "question_set": []
+                        }
+                    ]
+                },
+                "qc_enabled": true,
+                "is_active": true,
+                "conditions": {
+                    "department": 18768574635245
+                },
+                "meta": {
+                    "l1": {
+                        "id": "10",
+                        "display_name": "gully"
+                    },
+                    "l2": {
+                        "id": "20",
+                        "display_name": "Shgullyes"
+                    },
+                    "l3": {
+                        "id": "30",
+                        "display_name": "Running Shoes"
+                    },
+                    "department": {
+                        "id": "1",
+                        "display_name": "Gullu"
+                    }
+                },
+                "rule_type": "global"
+            }
+        ],
+        "success": true,
+        "error": {
+            "type": null,
+            "value": null,
+            "message": null
+        }
+    }
+}
