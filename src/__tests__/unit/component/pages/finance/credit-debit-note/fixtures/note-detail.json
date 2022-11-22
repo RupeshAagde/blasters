@@ -1,0 +1,43 @@
+{
+    "success": true,
+    "items": {
+        "id": "7053f6cb-5ff5-4b9e-b562-5b2197a9a4ff",
+        "note_type": "credit",
+        "category": "gst_fee",
+        "seller_name": "ABC1 Seller",
+        "seller_id": "test_123",
+        "document_number": "test_document",
+        "invoice_number": "123456",
+        "invoice_type": "fee",
+        "total_amount": 123.4,
+        "purpose_id": "d1f13b02-ab71-4832-83f3-9ec1e0af8928",
+        "note_narration": "Note created for testing",
+        "pdf_s3_url": null,
+        "approver_remark": null,
+        "status": "Init",
+        "approved_at": null,
+        "created_at": 1655371450,
+        "created_by": "shivanishah_fynd_external_com_45981",
+        "approved_by": null,
+        "noteDetails": [
+            {
+                "id": "a10749ef-b235-43a4-94b2-71b33b2c2f44",
+                "note_id": "7053f6cb-5ff5-4b9e-b562-5b2197a9a4ff",
+                "invoice_number": "B2C_invoicID",
+                "bag_id": "bag_id",
+                "shipment_id": "12321",
+                "order_id": "121212",
+                "sac_code": "12121",
+                "fee_type": "commission",
+                "purpose_id": "d1f13b02-ab71-4832-83f3-9ec1e0af8928",
+                "gross_amount": 120.0,
+                "igst_tax_rate": 9.0,
+                "cgst_tax_rate": 0.0,
+                "sgst_tax_rate": 9.0,
+                "total_amount": 121.0,
+                "remark": "Excess commission charged",
+                "kapture_sr_id": "SR12343"
+            }
+        ]
+    }
+}

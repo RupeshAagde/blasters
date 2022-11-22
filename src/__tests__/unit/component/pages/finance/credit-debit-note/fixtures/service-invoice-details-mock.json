@@ -1,0 +1,41 @@
+{
+    "success": true,
+    "items": [
+        {
+            "shipment_id": "16390447195021943579",
+            "bag_id": "13720204",
+            "order_id": "FY61B1D66E01202B3FFA",
+            "charge_components": [
+                {
+                    "type": "labelling_fee",
+                    "display_name": "Labelling Fee",
+                    "amount": 138.96,
+                    "sac_code": "996211",
+                    "igst_tax_rate": 18
+                },
+                {
+                    "type": "storage_fee",
+                    "display_name": "Storage Fee",
+                    "amount": 34.74,
+                    "sac_code": "998540",
+                    "igst_tax_rate": 18
+                }
+            ]
+        },
+        {
+            "shipment_id": "16439548995171199145",
+            "bag_id": "15440101",
+            "order_id": "FY61F83DEA0108C4C55D",
+            "charge_components": [
+                {
+                    "type": "storage_fee",
+                    "display_name": "Storage Fee",
+                    "amount": 19.98,
+                    "sac_code": "998540",
+                    "sgst_tax_rate": 9,
+                    "cgst_tax_rate": 9
+                }
+            ]
+        }
+    ]
+}

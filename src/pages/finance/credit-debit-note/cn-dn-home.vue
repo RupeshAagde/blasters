@@ -403,7 +403,7 @@ export default {
                 );
             }
         },
-        updateDrawerData(tab, add) {
+        /* updateDrawerData(tab, add) {
             if(add){
                 if(tab['category'] in this.drawerData.notesSet){
                     this.drawerData.notesSet[tab['category']].push({
@@ -432,8 +432,8 @@ export default {
                     delete this.drawerData.notesSet[tab['category']];
                 }
             }
-        },
-        select(tab) {
+        }, */
+        /* select(tab) {
             if((this.tab).indexOf(tab.document_number) != -1){
                 (this.tab).splice((this.tab).indexOf(tab.document_number),1);
                 this.updateDrawerData(tab, false);
@@ -441,8 +441,8 @@ export default {
                 (this.tab).push(tab.document_number);
                 this.updateDrawerData(tab, true);
             }
-        },
-        closeApproverDrawerView(event){
+        }, */
+        /* closeApproverDrawerView(event){
             this.quickApproveView = false;
             if(event != false){
                 this.drawerData = {
@@ -452,7 +452,7 @@ export default {
                 this.tab = [];
                 this.getListData();
             }
-        },
+        }, */
         searchByInput: debounce(function (e) {
             this.initialPayload.data.page = 1;
             this.initialPayload.data.pageSize = this.pageObject.limit;

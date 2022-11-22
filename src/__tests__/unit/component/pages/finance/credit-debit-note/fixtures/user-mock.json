@@ -1,0 +1,64 @@
+{
+    "getpg": { "status": true, "data": [[{ "payment_gateway": "payumoney", "is_active": true, "comments": "", "id": 45, "app_id": "000000000000000000000001", "reviewer": "omanshlavania@gofynd.com", "collect_by": "fynd", "refund_by": "fynd", "api_key": "EPbQ3UMB", "is_reviewed": false, "merchant_profile_id": null }, { "payment_gateway": "payubiz", "is_active": true, "comments": "", "id": 51, "app_id": "000000000000000000000001", "reviewer": "omanshlavania@gofynd.com", "collect_by": "fynd", "refund_by": "fynd", "api_key": "lu7Y7O", "is_reviewed": false, "merchant_profile_id": null }], {}] },
+    "postpg": { "status": true, "data": [[{ "payment_gateway": "payumoney", "is_active": true, "comments": "", "id": 45, "app_id": "000000000000000000000001", "reviewer": "omanshlavania@gofynd.com", "collect_by": "fynd", "refund_by": "fynd", "api_key": "EPbQ3UMB", "is_reviewed": false, "merchant_profile_id": null }], {}] },
+    "getcod": { "success": true, "id": 1, "app_id": "000000000000000000000001", "delivery_config": { "cod": { "refund_by": "fynd", "collect_by": "fynd" } } },
+    "postcod": {"success":true,"updated_id":0,"delivery_config":{"cod":{"refund_by":"fynd","collect_by":"fynd"}}},
+    "computedFix" : {
+        "user": {
+            "debug": {
+                "source": "grimlock",
+                "platform": "000000000000000000000001"
+            },
+            "gender": null,
+            "roles": [],
+            "permissions" : ["credit-debit-note-create","credit-debit-note-approve"],
+            "active": true,
+            "_id": "6dea800ff2befc54a6342d52",
+            "emails": [
+                {
+                    "active": true,
+                    "primary": true,
+                    "verified": true,
+                    "email": "omanshlavania@gofynd.com"
+                },
+                {
+                    "active": true,
+                    "primary": false,
+                    "verified": true,
+                    "email": "omanshlavania@fynd.com"
+                },
+                {
+                    "active": true,
+                    "primary": false,
+                    "verified": true,
+                    "email": "omanshlavania@uniket.store"
+                }
+            ],
+            "username": "omanshlavania_gofynd_com_69493",
+            "uid": "66",
+            "account_type": "user",
+            "first_name": "Omansh",
+            "last_name": "Lavania",
+            "phone_numbers": [
+                {
+                    "active": true,
+                    "primary": true,
+                    "verified": true,
+                    "phone": "9557999334",
+                    "country_code": 91
+                }
+            ],
+            "created_at": "2021-08-20T09:36:54.325Z",
+            "updated_at": "2021-08-20T09:36:54.325Z"
+        }
+      },
+      "dataRaw" : {
+        "payment_gateway": "payumoney",
+        "is_reviewed": true,
+        "reviewer": "omanshlavania@gofynd.com",
+        "comments": "live",
+        "is_active": true,
+        "is_sub_fynd_account": false,
+        "password": "unicron@admin@fynd#2021"
+      }
+}
