@@ -659,6 +659,5 @@ export const getAspectRatioFromString = function (aspectRatio = '1:1', getObject
 }
 
 export const  pickValues = function (obj, keys) {
-    console.log("get: ", get(obj, keys.join('.')), keys.join('.'), obj);
     return get(obj, keys.join('.'));
 };

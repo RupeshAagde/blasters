@@ -22,7 +22,7 @@
           <div slot="collapse-body" class="drop-down">
             <nitrozen-dropdown
                 v-model="value"
-                :items="getVals"
+                :items="getValues"
                 :label="seedData.name"
                 :multiple="isMultiSelect"
                 :placeholder="
@@ -39,7 +39,7 @@
         <nitrozen-dropdown
             v-else
             v-model="value"
-            :items="getVals"
+            :items="getValues"
             :label="seedData.name"
             :placeholder="
                 value && value.length > 0
@@ -73,7 +73,11 @@ import {filterComponentSharedProps, filterMixin, filtersSharedValueMixins,} from
 import {ANALYTICS_FILTER_TYPES} from '../../constants/constants';
 import AppliedFilter from '@/components/common/tags/applied-filter.vue';
 import {loadingMixins} from "../../../generic-graphs/graphs/mixins/loading.mixins";
-import {ADMIN_LOAD_FILTER_DROPDOWN_VALUES} from "../../../../store/action.type";
+import {
+  ADMIN_LOAD_FILTER_DROPDOWN_VALUES,
+  ADMIN_RESET_DROPDOWN_SEED_FILTERS_FOR_DUNZO_DASHBOARD
+} from "../../../../store/action.type";
+import {SET_REFRESH_TOKENS} from "../../../../store/mutation.type";
 
 export default {
   name: 'filter-dropdown-component',
@@ -123,16 +127,29 @@ export default {
     },
     loadData() {
       this.$store.dispatch(ADMIN_LOAD_FILTER_DROPDOWN_VALUES, {
-        url: this.seedData.dataSource,
+        url: this.refreshToken,
         pageName: this.pageName,
         chartId: this.chartId,
         panelIndex: 1,
         cardIndex: 0,
         filterIndex: 1
       });
-    }
+    },
+    resetData() {
+      this.$store.dispatch(ADMIN_RESET_DROPDOWN_SEED_FILTERS_FOR_DUNZO_DASHBOARD, {
+        url: this.refreshToken,
+        pageName: this.pageName,
+        chartId: this.chartId,
+        panelIndex: 1,
+        cardIndex: 0,
+        filterIndex: 1
+      });
+    },
   },
   computed: {
+    refreshToken() {
+      return this.seedData.dataSource;
+    },
     getValues() {
       return this.seedData.values ? this.seedData.values.map((x) => ({
         text: x,
@@ -146,7 +163,7 @@ export default {
       );
     },
     shouldShowTags() {
-      return this.showTags && typeof this.value !== 'string';
+      return this.showTags && (typeof this.value) !== 'string';
     },
     shouldShowClearOption() {
       if (!this.value || !this.seedData) {
@@ -155,12 +172,12 @@ export default {
       return this.value.length > 0 && this.seedData.hasClearOption
     }
   },
-    mounted() {
-        if (this.seedData.defaultValue) {
-            this.value = this.seedData.defaultValue;
-        }
-        this.getVals = this.getValues;
-    },
+  mounted() {
+    if (this.seedData.defaultValue) {
+      this.value = this.seedData.defaultValue;
+    }
+    this.getVals = this.getValues;
+  },
 };
 </script>
 

@@ -43,28 +43,28 @@
           :disabled="loadingFlag || disabled"
       ></nitrozen-dropdown>
     </div>
+    <topFilters v-if="filters.filterView === FILTER_VIEWS.TABLE_V2_FILTERS" :chart-id="chartId" :filters="filters.data"
+                @reset-data="$emit('reset-data')"></topFilters>
   </div>
 </template>
 
 <script>
 import FilterCard from "./filter-cards.vue";
-import {ANALYTICS_PAGES, FILTER_VIEW} from "../../data/constants";
+import {FILTER_VIEW} from "../../data/constants";
 import {NitrozenDropdown} from "@gofynd/nitrozen-vue";
 import draggable from "vuedraggable";
 import {SCREEN_SIZES} from "@/helper/media-helper";
 import {mediaScreensMixins} from "@/mixins/media-screens-mixins";
-import {
-  ADMIN_CHANGE_GRAPH_FILTER,
-  ADMIN_SAVE_DASHBOARD_DRAGGABLE,
-  ADMIN_SAVE_FILTERS
-} from "@/store/action.type";
+import {ADMIN_CHANGE_GRAPH_FILTER, ADMIN_SAVE_DASHBOARD_DRAGGABLE, ADMIN_SAVE_FILTERS} from "@/store/action.type";
 import {graphFilterMixins} from "../mixins/graphFilter.mixins";
 import {DashboardCommonMixins} from "@/pages/overview/dashboard/mixins/dashboard-common.mixins";
+import TopFilters from "./top-filters";
 
 export default {
   name: "graph-filters",
   mixins: [mediaScreensMixins, graphFilterMixins, DashboardCommonMixins],
   components: {
+    TopFilters,
     draggable,
     FilterCard,
     "nitrozen-dropdown": NitrozenDropdown
@@ -82,6 +82,7 @@ export default {
     filters: {type: Object, required: true},
     isLoading: {type: Boolean, required: true},
     disabled: {type: Boolean, default: false},
+    chartId: {type: [String, Number]},
   },
   computed: {
     getFilterData: {

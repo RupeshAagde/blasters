@@ -1,6 +1,7 @@
 <template>
   <div>
-    <graph-filters v-if="item.filters" :filters="item.filters" :is-loading="isLoading" :disabled="disabled" :page-name="pageName"></graph-filters>
+    <graph-filters v-if="item.filters" :disabled="disabled" :filters="item.filters" :is-loading="isLoading"
+                   :page-name="pageName" @reset-data="resetData" :chart-id="getRandomId(item.id)"></graph-filters>
     <div class="is-loading" v-if="isLoading">
       <adm-shimmer
           :count="2"

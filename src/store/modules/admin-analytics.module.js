@@ -682,7 +682,11 @@ const actions = {
                 filterIndex: filterIndex,
                 pageName
             });
-        });
+        }).finally(
+            () => {
+                commit(SET_REFRESH_TOKENS, {key: url, toggleValue: false, page: pageName});
+            }
+        );
     },
     [ADMIN_RESET_DROPDOWN_SEED_FILTERS_FOR_DUNZO_DASHBOARD]({commit, state}, {pageName, panelIndex, cardIndex, filterIndex}) {
         commit(SAVE_SEED_FILTER_FOR_DROPDOWNS, {
@@ -1144,10 +1148,11 @@ const mutations = {
         values = null
     }) {
         const url = constructAnalyticsBeginningUrl(pageName);
-        state[url][panelIndex].cards[cardIndex].seedFilters[filterIndex] = {
-            ...state[url][panelIndex].cards[cardIndex].seedFilters[filterIndex],
+        state[url][panelIndex].cards[cardIndex].filters.data[filterIndex] = {
+            ...state[url][panelIndex].cards[cardIndex].filters.data[filterIndex],
             values: values
         };
+        state[url][panelIndex].cards[cardIndex].filters = cloneDeep(state[url][panelIndex].cards[cardIndex].filters);
     },
 };
 

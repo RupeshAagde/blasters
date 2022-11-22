@@ -11,6 +11,7 @@ export const FILTER_VIEW = {
     CARDS: "CARDS",
     DROP_DOWN: "DROP_DOWN",
     CONDITIONAL: "CONDITIONAL",
+    TABLE_V2_FILTERS: "TABLE_V2_FILTERS",
 };
 /**
  * file names for the up and down arrow svgs

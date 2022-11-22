@@ -1,6 +1,6 @@
 <template>
     <div class="table">
-        <topFilters :filters="seedFilters" :chart-id="chartId" @reset-data="$emit('reset-data')"></topFilters>
+<!--        <topFilters :filters="seedFilters" :chart-id="chartId" @reset-data="$emit('reset-data')"></topFilters>-->
         <tableComponent :columns="columns" :rows="rows" :chart-id="chartId"
             :showPagination="showPagination" :analytic-page="analyticPage" :extra-props="extraProps"
             :status-code="statusCode"></tableComponent>
@@ -16,7 +16,7 @@
 </style>
 
 <script>
-import topFilters from "./top-filters.vue"
+import topFilters from "../filters/top-filters.vue"
 import tableComponent from "./table-v2.vue"
 import {analyticsTablePropsMixins} from "@/components/generic-graphs/graphs/mixins/analytics-props.mixins.js";
 
@@ -27,7 +27,7 @@ export default {
     return {'chartId': this.chartId}
   },
   props: {
-    seedFilters: {type: Array, required: true}
+    // seedFilters: {type: Array, required: true}
   },
   components: {
     topFilters,
