@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <nitrozen-dialog
     class="filter-dialog"
     ref="reconFiltersDialog"
@@ -67,7 +67,6 @@
         v-flat-btn
         @click="generateRecon"
       >
-      <!-- @click="generateReport" -->
         Apply
       </nitrozen-button>
     </template>
@@ -370,3 +369,4 @@ export default {
     }
   }
 </style>
+ -->
