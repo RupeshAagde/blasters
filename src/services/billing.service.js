@@ -91,10 +91,10 @@ const BillingService = {
             axiosOptions
         );
     },
-    updateSubscriptionOnRequest(params,company_id) {
+    updateSubscriptionOnRequest(params,company_id, payload) {
         const axiosOptions = Object.assign(
             {},
-            { params: params },
+            { params: params, data: payload },
             getCommonHeaderOptions()
         );
         return ApiService.put(

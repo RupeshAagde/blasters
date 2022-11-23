@@ -1,5 +1,5 @@
 <template>
-    <div class="blaster-list-card-container card-list-wrapper" v-if="extension">
+    <div class="blaster-list-card-container card-list-wrapper" v-if="extension" @click="viewDetailsDialog()">
         <div class="card-content-section">
             <div >
                 Reason: {{ extension.reason }}
@@ -21,9 +21,7 @@
                 </div>
         </div>
         <div class="rightside-card-section">
-                <div>
-                    <nitrozen-button theme="secondary" v-flatBtn @click="vieDetailsDialog()">View Details</nitrozen-button>
-                </div>
+               
         <!--Confirmation dailog -->
         <nitrozen-dialog ref="view-details-dialog" title="Plan Details">
             <template slot="body">
@@ -35,7 +33,7 @@
                         theme="secondary"
                         @click="updateSubscription('cancelled')"
                         v-strokeBtn
-                        >Cancelled
+                        >Cancel
                     </nitrozen-button>
                     <nitrozen-button
                         theme="secondary"
@@ -43,7 +41,7 @@
                         @click="updateSubscription('approved')"
                         v-flatBtn
                         ref="delete-btn"
-                        >Approved
+                        >Approve
                     </nitrozen-button>
                 </div>
             </template>
@@ -76,9 +74,7 @@
     display: flex;
     align-items: center;
 }
-.blaster-list-card-container.card-list-wrapper{
-    cursor: default;
-}
+
 </style>
 
 <script>
@@ -89,7 +85,9 @@ import {
     NitrozenButton,
     NitrozenMenu,
     NitrozenMenuItem,
-    NitrozenDialog
+    NitrozenDialog,
+    strokeBtn,
+    flatBtn
 } from '@gofynd/nitrozen-vue';
 import { GET_CURRENT_ACTIVE_SUBSCRIPTION } from '@/store/getters.type';
 import { mapGetters } from 'vuex';
@@ -105,6 +103,10 @@ export default {
         'inline-svg': inlineSvg,
         'nitrozen-dialog': NitrozenDialog
     },
+    directives: {
+        flatBtn,
+        strokeBtn
+    },
     props: {
         extension: {
             type: Object
@@ -117,12 +119,16 @@ export default {
 
     },
     methods: {
-        vieDetailsDialog(data) {
+        viewDetailsDialog(data) {
             this.$refs['view-details-dialog'].open({
                 width: '400px',
                 height: '215px',
                 showCloseButton: true,
             });
+        },
+        updateSubscription(status) {
+            this.$refs['view-details-dialog'].close();
+            this.$emit('updateStatus', status);
         },
         toDateTimeString(date) {
             return moment(date).format('MMMM Do YYYY, h:mm a');

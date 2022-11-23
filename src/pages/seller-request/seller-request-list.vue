@@ -1,18 +1,16 @@
 <template>
     <div class="panel">
         <div class="page-container">
-            <jumbotron
-                class="extensions-jmbtrn"
-                :title="
-                    `Seller Request ${
-                        RequestList && RequestList.length
-                            ? '(' + pagination.total + ')'
-                            : ''
-                    }`
-                "
-                :desc="'Seller Requests for review'"
-            ></jumbotron>
-            <!--Search Baar-->
+             <div class="text-heading">
+                <label>Downgrade Requests {{
+                        '(' + (pagination.total || RequestList.length) + ')'
+                    }}</label>
+                <nitrozen-tooltip
+                    :position="'top'"
+                    :tooltipText="'Seller Plan downgrade request for review'"
+                ></nitrozen-tooltip> 
+            </div>
+            <!--Search Bar-->
             <template>
                 <div class="search-filter">
                     <nitrozen-input
@@ -58,6 +56,7 @@
                     :key="extension._id"
                 >
                     <seller-request-card
+                        @updateStatus="(status)=>updateDowngradeRequestStatus(status)"
                         :extension="extension"
                         :ref="'extension-' + index"
                     >
@@ -86,6 +85,20 @@
     height: 100%;
     .page-container {
         width: 100%;
+    }
+}
+.text-heading {
+    font-size: 18px;
+    color: #41434c;
+    font-weight: bold;
+    // margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+
+    .nitrozen-tooltip {
+        margin-left: 6px;
     }
 }
 .extensions-jmbtrn {
@@ -182,10 +195,12 @@ import jumbotronVue from '@/components/common/jumbotron.vue';
 import {
     NitrozenButton,
     flatBtn,
+    strokeBtn,
     NitrozenInput,
     NitrozenPagination,
     NitrozenBadge,
-    NitrozenDropdown
+    NitrozenDropdown,
+    NitrozenTooltip
 } from '@gofynd/nitrozen-vue';
 
 import pageEmpty from '@/components/common/page-empty.vue';
@@ -222,13 +237,15 @@ export default {
         'nitrozen-pagination': NitrozenPagination,
         'nitrozen-badge': NitrozenBadge,
         'nitrozen-dropdown': NitrozenDropdown,
+        'nitrozen-tooltip': NitrozenTooltip,
         'page-empty': pageEmpty,
         'page-error': pageError,
         'list-shimmer': listShimmer,
         'seller-request-card': sellerRequestCard
     },
     directives: {
-        flatBtn
+        flatBtn,
+        strokeBtn
     },
     data() {
         return {
@@ -290,23 +307,45 @@ export default {
         fetchDowngradeRequest() {
             let subscription_id = this.safeGet(this.currentPlan,'subscriber_id')
             let params = {
-                // page_no: this.pagination.current,
-                // page_size: this.pagination.limit,
-                // status: this.selectedFilter,
+                page_no: this.pagination.current,
+                page_size: this.pagination.limit,
+                status: this.selectedFilter,
                 // name: this.searchText,
                 subscriber_id: subscription_id
             };
             this.pageLoading = true;
             this.pageError = false;
-             BillingService.getDowngradeRequestList(params,this.company_id)
+            return BillingService.getDowngradeRequestList(params,this.company_id)
                 .then(({ data }) => {
-                    console.log(data)
-                    this.RequestList = data.data;
-                    // this.pagination.total = data.page.item_total;
+                    this.RequestList = data.items;
+                    this.pagination.total = data.page.item_total;
                     this.pageLoading = false;
                 })
                 .catch((err) => {
                     this.pageError = true;
+                    this.$snackbar.global.showError("Failed to fetch downgrade plan requests");
+                    console.log(err);
+                });
+        },
+        updateDowngradeRequestStatus(status) {
+            let subscription_id = this.safeGet(this.currentPlan,'subscriber_id')
+            let params = {
+                page_no: this.pagination.current,
+                page_size: this.pagination.limit,
+                status: this.selectedFilter,
+                // name: this.searchText,
+                subscriber_id: subscription_id
+            };
+            this.pageLoading = true;
+            this.pageError = false;
+             BillingService.updateSubscriptionOnRequest(params,this.company_id, {status})
+                .then(() => {
+                    this.fetchDowngradeRequest();
+                    this.$snackbar.global.showSuccess("Updated downgrade plan request successfully");
+                })
+                .catch((err) => {
+                    this.pageError = true;
+                    this.$snackbar.global.showError("Failed to fetch downgrade plan requests");
                     console.log(err);
                 });
         },
