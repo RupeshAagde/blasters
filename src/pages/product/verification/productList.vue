@@ -126,7 +126,7 @@
                                                 >
                                                     {{
                                                         new Date( 
-                                                            product.modified_on * 1000
+                                                            product.modified_on
                                                         ).toLocaleString()
                                                     }}
                                                 </span>
