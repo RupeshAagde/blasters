@@ -67,6 +67,7 @@ import WebhookReport from './../../pages/webhook/webhook_report.vue';
 import ReportHistory from './../../pages/webhook/report-history/components/report-history.vue'
 
 const OrdersPage = () => import('@/pages/orders');
+const OrdersNinjaPage = () => import('@/pages/orders/ninja')
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
 import PackagingHome from '@/pages/packaging/packaging-home.vue';
 import CategoryConfig from '@/pages/packaging/category-config.vue';
@@ -826,7 +827,15 @@ export default [
                 }
             },
             {
-                name: 'application-order-details',
+                name: 'orders-hyperlocal-tracking',
+            path: 'orders/hyperlocal-tracking',
+            component: OrdersNinjaPage,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['order']);
+            }
+        },
+        {
+            name: 'application-order-details',
                 path: '/order/:orderId/shipments',
                 component: OrderDetails,
                 beforeEnter: (to, from, next) => {
@@ -863,7 +872,7 @@ export default [
                 }
             },
             /**
-             * packaging related routes 
+             * packaging related routes
              */
             {
                 name: 'packaging-home',
