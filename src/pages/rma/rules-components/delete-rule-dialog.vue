@@ -10,12 +10,14 @@
         <template slot="footer">
             <div class="dialog-footer">
                 <nitrozen-button
+                    class="delete-no"
                     theme="secondary"       
                     @click="$emit('onNo')"
                     v-strokeBtn
                     >No
                 </nitrozen-button>
                 <nitrozen-button
+                    class="delete-yes"
                     theme="secondary"
                     @click="$emit('onYes')"
                     v-flatBtn

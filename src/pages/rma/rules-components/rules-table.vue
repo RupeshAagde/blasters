@@ -16,10 +16,10 @@
                     </nitrozen-badge>
                 </td>
                 <td class="table-ctas" v-if="isGlobal || showCustom">
-                    <button class="row-cta" @click="$emit('onDelete', tableRow)">
+                    <button class="row-cta delete" @click="$emit('onDelete', tableRow)">
                         <img src="/public/assets/svgs/delete_outline.svg"/>
                     </button>
-                    <button @click="$emit('onEdit', tableRow)" class="row-cta">
+                    <button @click="$emit('onEdit', tableRow)" class="row-cta edit">
                         <img src="/public/assets/svgs/edit_outline.svg"/>
                     </button>
                 </td>

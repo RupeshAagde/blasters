@@ -39,8 +39,7 @@ describe('RulesListing', () => {
             router
         });
         mock.onPost(
-            URLS.RMA_RULES('', '/list'),
-            apiParams
+            URLS.RMA_RULES('', '/list')
         )
         .reply(200, mocks.globalRulesList);
         await flushPromises();
@@ -59,17 +58,76 @@ describe('RulesListing', () => {
         expect(wrapper.vm.rulesParams.page_size).toBeGreaterThanOrEqual(1);
         expect(wrapper.vm.rulesParams.page_no).toBeGreaterThanOrEqual(1);
     });
-    it('Updates rules params', () => {
+    it('Updates rules params', async () => {
         wrapper.vm.updateRuleParams();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.find('.rules-table').exists()).toBe(true);
     });
-    it('Checks for table headings', () => {
-        
+    it('Checks for rule type', () => {
+        wrapper.vm.showCustom = true;
+        wrapper.vm.updateRuleParams();
+        expect(wrapper.vm.rulesParams.rule_type).toBe('custom')
+        wrapper.vm.showCustom = false;
+        wrapper.vm.updateRuleParams();
+        expect(wrapper.vm.rulesParams.rule_type).toBe('global')
     });
-    it('Renders rules', async () => {
-        expect(wrapper.vm.showLoader).toBe(true);
-        await wrapper.vm.loadRules();
-        await flushPromises();
-        expect(wrapper.vm.showLoader).toBe(false);
-        expect(wrapper.vm.tableData.length).toBeGreaterThanOrEqual(1);
+    it('Tests delete modal', () => {
+        wrapper.find('.row-cta.delete').trigger('click');
+        expect(wrapper.find('.delete-channel-dialog').exists()).toBe(true);
+        wrapper.find('.delete-no').trigger('click');
+        expect(wrapper.find('.delete-channel-dialog').element.style.display).toBe('none');
     });
+    it('Table headings', () => {
+        wrapper.vm.isGlobal = true;
+        expect(wrapper.vm.tableHeadings).toStrictEqual([
+            'ID',
+            'Department',
+            'Subcategory',
+            'Quality Check',
+            'Actions'
+        ]);
+    })
+    it('Breadcrumb routes', () => {
+        wrapper.vm.isGlobal = true;
+        wrapper.vm.setBreadcrumbRoutes();
+        expect(wrapper.vm.breadcrumbRoutes).toStrictEqual([
+            {
+                name: 'Return Merchandise Authorisation',
+                path: '/administrator/rma/rules'
+            },
+            {
+                name: 'Global Rules',
+                path: ''
+            }
+        ])
+        wrapper.vm.isGlobal = false;
+        wrapper.vm.setBreadcrumbRoutes();
+        expect(wrapper.vm.breadcrumbRoutes).toStrictEqual([
+            {
+                name: 'Return Merchandise Authorisation',
+                path: '/administrator/rma/rules'
+            },
+            {
+                name: 'Custom Rules',
+                path: ''
+            }
+        ])
+    })
+    it('Rules listing search', () => {
+        wrapper.vm.searchInput = '';
+        wrapper.vm.showCustom = false;
+        wrapper.vm.filterRulesList({searchById: false});
+        expect(wrapper.vm.departmentIds).toStrictEqual([]);
+        expect(wrapper.vm.channelIds).toStrictEqual([]);
+        expect(wrapper.vm.ruleIds).toStrictEqual([]);
+        expect(wrapper.vm.pagination.current).toBe(1);
+    })
+    // it('Tests delete modal', () => {})
+    // it('Renders rules', async () => {
+    //     expect(wrapper.vm.showLoader).toBe(true);
+    //     await wrapper.vm.loadRules();
+    //     await flushPromises();
+    //     expect(wrapper.vm.showLoader).toBe(false);
+    //     expect(wrapper.vm.tableData.length).toBeGreaterThanOrEqual(1);
+    // });
 })
