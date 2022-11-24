@@ -1,29 +1,30 @@
 <template>
-    <div class="blaster-list-card-container card-list-wrapper" v-if="extension">
+    <div class="blaster-list-card-container card-list-wrapper" v-if="sellerRequest">
         <div class="card-content-section">
             <div >
-                Reason: {{ extension.reason }}
+                Reason: {{ sellerRequest.reason }}
             </div>
             <div class="card-content-line-2">
-                Modified at : {{ toDateTimeString(extension.modified_at) }}
+                Modified at : {{ toDateTimeString(sellerRequest.modified_at) }}
             </div>
                 <div
                     class="card-content-line-3"
-                    v-if="extension.status !== 'pending'"
+                    v-if="sellerRequest.status !== 'pending'"
                 >
-                    <span v-if="extension.status === 'approved'"
+                    <span v-if="sellerRequest.status === 'approved'"
                         >Published</span
                     >
-                    <span v-if="extension.status === 'cancelled'"
+                    <span v-if="sellerRequest.status === 'cancelled'"
                         >Rejected</span
                     >
-                    On: {{ toDateTimeString(extension.modified_at) }}
+                    On: {{ toDateTimeString(sellerRequest.modified_at) }}
                 </div>
         </div>
         <div class="rightside-card-section">
-                <div>
-                    <nitrozen-button theme="secondary" v-flatBtn @click="vieDetailsDialog()">View Details</nitrozen-button>
-                </div>
+            <div>
+                <nitrozen-button theme="secondary" @click="viewDetailsDialog()">View Details</nitrozen-button>
+            </div>
+
         <!--Confirmation dailog -->
         <nitrozen-dialog ref="view-details-dialog" title="Plan Details">
             <template slot="body">
@@ -48,35 +49,37 @@
                     <nitrozen-button
                         theme="secondary"
                         @click="updateSubscription('cancelled')"
+                        :disabled="sellerRequest.status != 'pending'"
                         v-strokeBtn
-                        >Cancelled
+                        >Cancel
                     </nitrozen-button>
                     <nitrozen-button
                         theme="secondary"
                         class="mr-24"
+                        :disabled="sellerRequest.status != 'pending'"
                         @click="updateSubscription('approved')"
                         v-flatBtn
                         ref="delete-btn"
-                        >Approved
+                        >Approve
                     </nitrozen-button>
                 </div>
             </template>
         </nitrozen-dialog>
         <div class="card-badge-section">
             <nitrozen-badge
-                v-if="extension.status === 'pending'"
+                v-if="sellerRequest.status === 'pending'"
                 state="warn"
             >
                 Pending
             </nitrozen-badge>
             <nitrozen-badge
-                v-if="extension.status === 'cancelled'"
+                v-if="sellerRequest.status === 'cancelled'"
                 state="error"
             >
              Cancelled
             </nitrozen-badge>
             <nitrozen-badge
-                v-if="extension.status === 'approved'"
+                v-if="sellerRequest.status === 'approved'"
                 state="success"
             >
              Approved
@@ -90,7 +93,7 @@
     display: flex;
     align-items: center;
 }
-.blaster-list-card-container.card-list-wrapper{
+.card-list-wrapper {
     cursor: default;
 }
 .interval{
@@ -175,8 +178,12 @@ export default {
         'inline-svg': inlineSvg,
         'nitrozen-dialog': NitrozenDialog
     },
+    directives: {
+        flatBtn,
+        strokeBtn
+    },
     props: {
-        extension: {
+        sellerRequest: {
             type: Object
         }
     },
@@ -200,12 +207,16 @@ export default {
         this.getDowngraadePlanName();
     },
     methods: {
-        vieDetailsDialog(data) {
+        viewDetailsDialog(data) {
             this.$refs['view-details-dialog'].open({
                 width: '650px',
                 height: '300px',
                 showCloseButton: true,
             });
+        },
+        updateSubscription(status) {
+            this.$refs['view-details-dialog'].close();
+            this.$emit('updateStatus', status);
         },
         toDateTimeString(date) {
             return moment(date).format('MMMM Do YYYY, h:mm a');

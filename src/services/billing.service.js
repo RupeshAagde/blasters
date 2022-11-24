@@ -91,14 +91,14 @@ const BillingService = {
             axiosOptions
         );
     },
-    updateSubscriptionOnRequest(params,company_id) {
+    updateSubscriptionOnRequest(requestId, company_id, payload) {
         const axiosOptions = Object.assign(
             {},
-            { params: params },
+            { data: payload },
             getCommonHeaderOptions()
         );
-        return ApiService.put(
-            URLS.UPDATE_SUBSCRIPTION_ON_REQUEST(company_id),
+        return ApiService.patch(
+            URLS.UPDATE_SUBSCRIPTION_ON_REQUEST(company_id, requestId),
             axiosOptions
         );
     },

@@ -1,18 +1,16 @@
 <template>
     <div class="panel">
         <div class="page-container">
-            <jumbotron
-                class="extensions-jmbtrn"
-                :title="
-                    `Seller Request ${
-                        RequestList && RequestList.length
-                            ? '(' + pagination.total + ')'
-                            : ''
-                    }`
-                "
-                :desc="'Seller Requests for review'"
-            ></jumbotron>
-            <!--Search Baar-->
+             <div class="text-heading">
+                <label>Downgrade Requests {{
+                        '(' + (pagination.total || RequestList.length) + ')'
+                    }}</label>
+                <nitrozen-tooltip
+                    :position="'top'"
+                    :tooltipText="'Seller Plan downgrade request for review'"
+                ></nitrozen-tooltip> 
+            </div>
+            <!--Search Bar-->
             <template>
                 <div class="search-filter">
                     <nitrozen-input
@@ -43,7 +41,7 @@
             </template>
 
             <!--Staff List-->
-            <div class="extension-card-list">
+            <div class="seller-request-card-list">
                 <list-shimmer
                     v-if="pageLoading && !pageError"
                     :count="4"
@@ -54,12 +52,13 @@
                 ></page-error>
 
                 <div
-                    v-for="(extension, index) in RequestList"
-                    :key="extension._id"
+                    v-for="(request, index) in RequestList"
+                    :key="request._id"
                 >
                     <seller-request-card
-                        :extension="extension"
-                        :ref="'extension-' + index"
+                        @updateStatus="(status)=>updateDowngradeRequestStatus(request._id, status)"
+                        :sellerRequest="request"
+                        :ref="'seller-request-' + index"
                     >
                     </seller-request-card>
                 </div>
@@ -70,7 +69,7 @@
             ></page-empty>
             <div v-if="RequestList.length" class="pagination">
                 <nitrozen-pagination
-                    name="Extensions"
+                    name="Downgrade requests"
                     v-model="pagination"
                     ref="ext-paginagtion"
                     @change="paginationChange"
@@ -88,22 +87,36 @@
         width: 100%;
     }
 }
-.extensions-jmbtrn {
+.text-heading {
+    font-size: 18px;
+    color: #41434c;
+    font-weight: bold;
+    // margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+
+    .nitrozen-tooltip {
+        margin-left: 6px;
+    }
+}
+.seller-requests-jmbtrn {
     width: 100%;
 }
 
-.extension-card-list {
+.seller-request-card-list {
     width: 100%;
     background-color: @White;
 
-    .extension-card {
-        & + .extension-card {
+    .seller-request-card {
+        & + .seller-request-card {
             margin-top: 24px;
         }
     }
 }
 
-.extension-filters {
+.seller-request-filters {
     display: flex;
     .dropdown-filters {
         display: flex;
@@ -125,7 +138,7 @@
 }
 
 .nitrozen-pagination-container,
-.extension-card-list {
+.seller-request-card-list {
     margin-top: 20px;
 }
 .search-filter {
@@ -182,10 +195,12 @@ import jumbotronVue from '@/components/common/jumbotron.vue';
 import {
     NitrozenButton,
     flatBtn,
+    strokeBtn,
     NitrozenInput,
     NitrozenPagination,
     NitrozenBadge,
-    NitrozenDropdown
+    NitrozenDropdown,
+    NitrozenTooltip
 } from '@gofynd/nitrozen-vue';
 
 import pageEmpty from '@/components/common/page-empty.vue';
@@ -222,13 +237,15 @@ export default {
         'nitrozen-pagination': NitrozenPagination,
         'nitrozen-badge': NitrozenBadge,
         'nitrozen-dropdown': NitrozenDropdown,
+        'nitrozen-tooltip': NitrozenTooltip,
         'page-empty': pageEmpty,
         'page-error': pageError,
         'list-shimmer': listShimmer,
         'seller-request-card': sellerRequestCard
     },
     directives: {
-        flatBtn
+        flatBtn,
+        strokeBtn
     },
     data() {
         return {
@@ -290,15 +307,15 @@ export default {
         fetchDowngradeRequest() {
             let subscription_id = this.safeGet(this.currentPlan,'subscriber_id')
             let params = {
-                // page_no: this.pagination.current,
-                // page_size: this.pagination.limit,
-                // status: this.selectedFilter,
+                page_no: this.pagination.current,
+                page_size: this.pagination.limit,
+                status: this.selectedFilter,
                 // name: this.searchText,
                 subscriber_id: subscription_id
             };
             this.pageLoading = true;
             this.pageError = false;
-             BillingService.getDowngradeRequestList(params,this.company_id)
+            return BillingService.getDowngradeRequestList(params,this.company_id)
                 .then(({ data }) => {
                     this.RequestList = data.items;
                     this.pagination.total = data.page.item_total;
@@ -306,6 +323,21 @@ export default {
                 })
                 .catch((err) => {
                     this.pageError = true;
+                    this.$snackbar.global.showError("Failed to fetch downgrade plan requests");
+                    console.log(err);
+                });
+        },
+        updateDowngradeRequestStatus(requestId, status) {
+            this.pageLoading = true;
+            this.pageError = false;
+             BillingService.updateSubscriptionOnRequest(requestId,this.company_id, {status})
+                .then(() => {
+                    this.fetchDowngradeRequest();
+                    this.$snackbar.global.showSuccess("Updated downgrade plan request successfully");
+                })
+                .catch((err) => {
+                    this.pageError = true;
+                    this.$snackbar.global.showError("Failed to fetch downgrade plan requests");
                     console.log(err);
                 });
         },
