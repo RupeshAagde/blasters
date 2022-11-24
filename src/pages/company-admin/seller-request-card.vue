@@ -1,27 +1,30 @@
 <template>
-    <div class="blaster-list-card-container card-list-wrapper" v-if="extension" @click="viewDetailsDialog()">
+    <div class="blaster-list-card-container card-list-wrapper" v-if="sellerRequest">
         <div class="card-content-section">
             <div >
-                Reason: {{ extension.reason }}
+                Reason: {{ sellerRequest.reason }}
             </div>
             <div class="card-content-line-2">
-                Modified at : {{ toDateTimeString(extension.modified_at) }}
+                Modified at : {{ toDateTimeString(sellerRequest.modified_at) }}
             </div>
                 <div
                     class="card-content-line-3"
-                    v-if="extension.status !== 'pending'"
+                    v-if="sellerRequest.status !== 'pending'"
                 >
-                    <span v-if="extension.status === 'approved'"
+                    <span v-if="sellerRequest.status === 'approved'"
                         >Published</span
                     >
-                    <span v-if="extension.status === 'cancelled'"
+                    <span v-if="sellerRequest.status === 'cancelled'"
                         >Rejected</span
                     >
-                    On: {{ toDateTimeString(extension.modified_at) }}
+                    On: {{ toDateTimeString(sellerRequest.modified_at) }}
                 </div>
         </div>
         <div class="rightside-card-section">
-               
+            <div>
+                <nitrozen-button theme="secondary" @click="viewDetailsDialog()">View Details</nitrozen-button>
+            </div>
+
         <!--Confirmation dailog -->
         <nitrozen-dialog ref="view-details-dialog" title="Plan Details">
             <template slot="body">
@@ -32,12 +35,14 @@
                     <nitrozen-button
                         theme="secondary"
                         @click="updateSubscription('cancelled')"
+                        :disabled="sellerRequest.status != 'pending'"
                         v-strokeBtn
                         >Cancel
                     </nitrozen-button>
                     <nitrozen-button
                         theme="secondary"
                         class="mr-24"
+                        :disabled="sellerRequest.status != 'pending'"
                         @click="updateSubscription('approved')"
                         v-flatBtn
                         ref="delete-btn"
@@ -48,19 +53,19 @@
         </nitrozen-dialog>
         <div class="card-badge-section">
             <nitrozen-badge
-                v-if="extension.status === 'pending'"
+                v-if="sellerRequest.status === 'pending'"
                 state="warn"
             >
                 Pending
             </nitrozen-badge>
             <nitrozen-badge
-                v-if="extension.status === 'cancelled'"
+                v-if="sellerRequest.status === 'cancelled'"
                 state="error"
             >
              Cancelled
             </nitrozen-badge>
             <nitrozen-badge
-                v-if="extension.status === 'approved'"
+                v-if="sellerRequest.status === 'approved'"
                 state="success"
             >
              Approved
@@ -74,7 +79,9 @@
     display: flex;
     align-items: center;
 }
-
+.card-list-wrapper {
+    cursor: default;
+}
 </style>
 
 <script>
@@ -108,7 +115,7 @@ export default {
         strokeBtn
     },
     props: {
-        extension: {
+        sellerRequest: {
             type: Object
         }
     },

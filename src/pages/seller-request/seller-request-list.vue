@@ -41,7 +41,7 @@
             </template>
 
             <!--Staff List-->
-            <div class="extension-card-list">
+            <div class="seller-request-card-list">
                 <list-shimmer
                     v-if="pageLoading && !pageError"
                     :count="4"
@@ -57,8 +57,8 @@
                 >
                     <seller-request-card
                         @updateStatus="(status)=>updateDowngradeRequestStatus(request._id, status)"
-                        :extension="request"
-                        :ref="'extension-' + index"
+                        :sellerRequest="request"
+                        :ref="'seller-request-' + index"
                     >
                     </seller-request-card>
                 </div>
@@ -69,7 +69,7 @@
             ></page-empty>
             <div v-if="RequestList.length" class="pagination">
                 <nitrozen-pagination
-                    name="Extensions"
+                    name="Downgrade requests"
                     v-model="pagination"
                     ref="ext-paginagtion"
                     @change="paginationChange"
@@ -101,22 +101,22 @@
         margin-left: 6px;
     }
 }
-.extensions-jmbtrn {
+.seller-requests-jmbtrn {
     width: 100%;
 }
 
-.extension-card-list {
+.seller-request-card-list {
     width: 100%;
     background-color: @White;
 
-    .extension-card {
-        & + .extension-card {
+    .seller-request-card {
+        & + .seller-request-card {
             margin-top: 24px;
         }
     }
 }
 
-.extension-filters {
+.seller-request-filters {
     display: flex;
     .dropdown-filters {
         display: flex;
@@ -138,7 +138,7 @@
 }
 
 .nitrozen-pagination-container,
-.extension-card-list {
+.seller-request-card-list {
     margin-top: 20px;
 }
 .search-filter {
