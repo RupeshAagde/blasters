@@ -2,6 +2,7 @@ import {displayValueFormatter, getValueFormatterConsideringAmountWeight} from '.
 import {CHART_OPTIONS} from '../data/chartOptions';
 import {cloneDeep} from 'lodash';
 
+const STEP_SIZE_MAX_LIMITER = 50;
 export const OptionsUtil = {
     set(options, graphType) {
         const defaultOptions = CHART_OPTIONS[graphType];
@@ -27,7 +28,11 @@ export const OptionsUtil = {
         this.options.scales.yAxes[0].ticks.suggestedMax = max;
         return this;
     },
-    setGraphStep(step) {
+    setGraphStep(step, dataPoints = [0]) {
+        const max = Math.max(...dataPoints);
+        if (max > STEP_SIZE_MAX_LIMITER) {
+            return this;
+        }
         this.options.scales.yAxes[0].ticks.stepSize = step;
         return this;
     },
