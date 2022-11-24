@@ -490,7 +490,7 @@ export default {
             selectedArrayOfReasons: {},
             collapsedReason: {},
             questionsList: [],
-            editRuleData: {},
+            editRuleData: undefined,
             channel: {},
             isDragDisabled: false,
             breadcrumbRoutes: [
@@ -526,6 +526,7 @@ export default {
             return this.selectedDepartment === null;
         },
         isSaveDisabled() {
+            console.log(this.editRuleData);
             if (this.selectedDepartment === null) {
                 return true;
             } else if (!this.chosenParentReasonsList.length) {
@@ -555,111 +556,103 @@ export default {
         }
     },
     mounted() {
-        console.log(
-            '---------------------------mounted---------------------------------'
-        );
         this.init();
         this.selectedArrayOfReasons = {};
-        this.editRuleData = JSON.parse(localStorage.getItem('rma_rule_data'));
-        console.log('this.editRuleData', this.editRuleData);
-        if (this.$route.name.includes('edit') && this.editRuleData) {
-            this.selectedDepartmentId = this.editRuleData.meta.department.id;
-            this.selectedDepartment = `${this.editRuleData.meta.department.display_name}`;
-            this.fetchL3Categories(this.editRuleData.meta.department.id);
-            if (this.editRuleData.meta.l3) {
-                this.selectedL3 = `${this.editRuleData.meta.l3.display_name}`;
-                this.selectedL3Id = this.editRuleData.meta.l3.id;
-            }
-            const reasonList = [];
-            if (this.editRuleData.actions.reasons.length) {
-                this.editRuleData.actions.reasons.forEach((res) => {
-                    const obj = {
-                        id: res.id,
-                        display_name: res.display_name,
-                        is_active: res.is_active,
-                        qc_type: res.qc_type,
-                        question_set: res.question_set,
-                        collapse: false,
-                        storedVal: `${res.id}-|-${res.display_name}-|-${res.is_active}`,
-                        reasons: []
-                    };
-                    this.selectedArrayOfReasons[
-                        `${res.id}-|-${res.display_name}-|-${res.is_active}`
-                    ] = [
-                        {
-                            storedVal: `${res.id}-|-${res.display_name}-|-${res.is_active}`
-                        }
-                    ];
-                    let subReasons = res.reasons ? [...res.reasons] : [];
-                    subReasons = subReasons.map((sub) => {
-                        this.selectedArrayOfReasons[
-                            `${res.id}-|-${res.display_name}-|-${res.is_active}`
-                        ].push({
-                            storedVal: `${sub.id}-|-${sub.display_name}-|-${sub.is_active}`
-                        });
-                        return {
-                            id: sub.display_name,
-                            display_name: sub.display_name,
-                            qc_type: sub.qc_type.length
-                                ? sub.qc_type.length === 2
-                                    ? 'pre_qc'
-                                    : 'doorstep_qc'
-                                : 'no_qc',
-                            question_set: sub.question_set.map(
-                                (ques) => `${ques.id}-|-${ques.display_name}`
-                            ),
-                            storedVal: `${sub.id}-|-${sub.display_name}-|-${sub.is_active}`
-                        };
-                    });
-                    obj.reasons = [...subReasons];
-                    reasonList.push(JSON.parse(JSON.stringify(obj)));
-                });
-            }
-            this.chosenParentReasonsList = JSON.parse(
-                JSON.stringify(reasonList)
-            );
-            console.log(
-                '---------------------------mounted---------------------------------'
-            );
-        }
-        if (this.$route.name.includes('custom')) {
-            const channelData = JSON.parse(
-                localStorage.getItem('rma_sales_channel_data')
-            );
-            if (channelData) {
-                this.channel = { ...channelData };
-            }
-            console.log('llllllll m-->', channelData);
-        }
     },
-    updated() {
-        // console.log(
-        //     '------------------------------------updated----------------------------------------------'
-        // );
-        console.log('llllllll-->', this.channel);
-        // console.log(
-        //     '------------------------------------updated--------------------------------------------'
-        // );
-    },
-    onDestroy() {
-        this.departmentsDropdownList = [];
-        this.selectedDepartment = null;
-        this.l3DropdownList = [];
-        this.selectedL3 = null;
-        this.parentReasonsDropdownList = [];
-        this.childReasonsDropdownList = [];
-        this.selectedParentReason = null;
-        this.chosenParentReasonsList = [];
-        this.parentReasonsDropdownSearchText = '';
-        this.selectedArrayOfReasons = {};
-        this.collapsedReason = {};
-        this.questionsList = [];
+    destroyed() {
+        this.destroyComponent();
     },
     methods: {
         init() {
             this.fetchDepartmentsList();
             this.fetchReasonsList(['parent', 'child']);
             this.fetchQuestionsList();
+            this.editRuleData = JSON.parse(
+                localStorage.getItem('rma_rule_data')
+            );
+            if (
+                this.$route.name.includes('edit') &&
+                this.editRuleData !== undefined
+            ) {
+                this.selectedDepartmentId = this.editRuleData.meta.department.id;
+                this.selectedDepartment = `${this.editRuleData.meta.department.display_name}`;
+                this.fetchL3Categories(this.editRuleData.meta.department.id);
+                if (this.editRuleData.meta.l3) {
+                    this.selectedL3 = `${this.editRuleData.meta.l3.display_name}`;
+                    this.selectedL3Id = this.editRuleData.meta.l3.id;
+                }
+                const reasonList = [];
+                if (this.editRuleData.actions.reasons.length) {
+                    this.editRuleData.actions.reasons.forEach((res) => {
+                        const obj = {
+                            id: res.id,
+                            display_name: res.display_name,
+                            is_active: res.is_active,
+                            qc_type: res.qc_type,
+                            question_set: res.question_set,
+                            collapse: false,
+                            storedVal: `${res.id}-|-${res.display_name}-|-${res.is_active}`,
+                            reasons: []
+                        };
+                        this.selectedArrayOfReasons[
+                            `${res.id}-|-${res.display_name}-|-${res.is_active}`
+                        ] = [
+                            {
+                                storedVal: `${res.id}-|-${res.display_name}-|-${res.is_active}`
+                            }
+                        ];
+                        let subReasons = res.reasons ? [...res.reasons] : [];
+                        subReasons = subReasons.map((sub) => {
+                            this.selectedArrayOfReasons[
+                                `${res.id}-|-${res.display_name}-|-${res.is_active}`
+                            ].push({
+                                storedVal: `${sub.id}-|-${sub.display_name}-|-${sub.is_active}`
+                            });
+                            return {
+                                id: sub.display_name,
+                                display_name: sub.display_name,
+                                qc_type: sub.qc_type.length
+                                    ? sub.qc_type.length === 2
+                                        ? 'pre_qc'
+                                        : 'doorstep_qc'
+                                    : 'no_qc',
+                                question_set: sub.question_set.map(
+                                    (ques) =>
+                                        `${ques.id}-|-${ques.display_name}`
+                                ),
+                                storedVal: `${sub.id}-|-${sub.display_name}-|-${sub.is_active}`
+                            };
+                        });
+                        obj.reasons = [...subReasons];
+                        reasonList.push(JSON.parse(JSON.stringify(obj)));
+                    });
+                }
+                this.chosenParentReasonsList = JSON.parse(
+                    JSON.stringify(reasonList)
+                );
+            }
+            if (this.$route.name.includes('custom')) {
+                const channelData = JSON.parse(
+                    localStorage.getItem('rma_sales_channel_data')
+                );
+                if (channelData) {
+                    this.channel = { ...channelData };
+                }
+            }
+        },
+        destroyComponent() {
+            this.departmentsDropdownList = [];
+            this.selectedDepartment = null;
+            this.l3DropdownList = [];
+            this.selectedL3 = null;
+            this.parentReasonsDropdownList = [];
+            this.childReasonsDropdownList = [];
+            this.selectedParentReason = null;
+            this.chosenParentReasonsList = [];
+            this.parentReasonsDropdownSearchText = '';
+            this.selectedArrayOfReasons = {};
+            this.collapsedReason = {};
+            this.questionsList = [];
         },
         goBack() {
             if (
@@ -720,13 +713,18 @@ export default {
         }, 300),
         filterValues(parent, child) {
             return parent.filter((el) => {
-                return child.every((f) => {
-                    return (
-                        f.storedVal.split('-|-')[0] !==
-                            el.value.split('-|-')[0] ||
-                        f.storedVal.split('-|-')[1] !== el.value.split('-|-')[1]
-                    );
-                });
+                return child !== undefined
+                    ? child.every((f) => {
+                          if (typeof f === 'string') {
+                              return (
+                                  f.storedVal.split('-|-')[0] !==
+                                      el.value.split('-|-')[0] ||
+                                  f.storedVal.split('-|-')[1] !==
+                                      el.value.split('-|-')[1]
+                              );
+                          } else return false;
+                      })
+                    : false;
             });
         },
         handleParentReasonsDropdown(selectedRes) {
@@ -861,9 +859,12 @@ export default {
             let selectedArrayMap = this.selectedArrayOfReasons[
                 this.chosenParentReasonsList[parentReasonIndex].storedVal
             ];
-            selectedArrayMap = selectedArrayMap.filter(
-                (sel) => sel.storedVal !== childReasonVal
-            );
+            selectedArrayMap =
+                selectedArrayMap !== undefined
+                    ? selectedArrayMap.filter(
+                          (sel) => sel.storedVal !== childReasonVal
+                      )
+                    : [];
             this.selectedArrayOfReasons[
                 this.chosenParentReasonsList[parentReasonIndex].storedVal
             ] = [...selectedArrayMap];
@@ -876,22 +877,14 @@ export default {
             }
             RMAService.getDepartments(params)
                 .then((res) => {
-                    if (res.status === 200) {
-                        this.departmentsDropdownList = res.data.items.map(
-                            (department) => {
-                                return {
-                                    value: `${department.uid}-|-${department.name}`,
-                                    text: department.name
-                                };
-                            }
-                        );
-                    } else {
-                        this.showSnackBar(
-                            'error',
-                            'Failed to get Departments List',
-                            2000
-                        );
-                    }
+                    this.departmentsDropdownList = res.data.items.map(
+                        (department) => {
+                            return {
+                                value: `${department.uid}-|-${department.name}`,
+                                text: department.name
+                            };
+                        }
+                    );
                     this.deptLoading = false;
                 })
                 .catch(() => {
@@ -916,20 +909,12 @@ export default {
             }
             RMAService.getCategories(query_params)
                 .then((res) => {
-                    if (res.data.success) {
-                        this.l3DropdownList = res.data.items.map((category) => {
-                            return {
-                                value: `${category.uid}-|-${category.name}`,
-                                text: category.name
-                            };
-                        });
-                    } else {
-                        this.showSnackBar(
-                            'error',
-                            res.data.error.message,
-                            2000
-                        );
-                    }
+                    this.l3DropdownList = res.data.items.map((category) => {
+                        return {
+                            value: `${category.uid}-|-${category.name}`,
+                            text: category.name
+                        };
+                    });
                     this.L3Loading = false;
                 })
                 .catch(() => {
@@ -1043,7 +1028,7 @@ export default {
                     reasons: []
                 }
             };
-            if (this.$route.name === 'rma-custom-rules') {
+            if (this.$route.name.includes('custom')) {
                 postData.meta['channel'] = {
                     id: this.channel.id,
                     display_name: this.channel.name
@@ -1112,7 +1097,6 @@ export default {
 
             apiCall()
                 .then((res) => {
-                    console.log('res');
                     if (res.data.success) {
                         this.showSnackBar(
                             'success',
