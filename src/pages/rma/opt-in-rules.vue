@@ -103,7 +103,6 @@ export default {
                 qc_config,
                 meta
             });
-            localStorage.getItem(STORAGE_KEY) && localStorage.removeItem(STORAGE_KEY);
             localStorage.setItem(STORAGE_KEY, channelData);
             this.$router.push({
                 path: `/administrator/rma/rules/custom/${salesChannel.id}`

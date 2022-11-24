@@ -109,7 +109,6 @@ export default {
             });
         },
         searchPlatforms: debounce(function(inputValue) {
-            console.log(inputValue);
             this.optInSearchValue = inputValue;
             this.fetchOptedSalesChannels();
         }, 300),

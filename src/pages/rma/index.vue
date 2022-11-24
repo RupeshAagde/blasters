@@ -8,18 +8,6 @@
             :noContextMenu="true"
             :headerIcon="'review_rating'"
         >
-            <nitrozen-button
-                v-if="
-                    this.$route.name === 'rma-setup' ||
-                        this.$route.name === 'rma-edit'
-                "
-                v-flat-btn
-                :rounded="false"
-                :theme="'secondary'"
-                @click="save()"
-            >
-                Save
-            </nitrozen-button>
         </adm-page-header>
         <router-view name="rma-view" />
     </div>
@@ -27,46 +15,27 @@
 
 <script>
 import AdmPageHeader from '@/components/common/layout/page-header.vue';
-import { NitrozenButton } from '@gofynd/nitrozen-vue';
 
 export default {
     name: 'rma-page',
     components: {
-        AdmPageHeader,
-        NitrozenButton
+        AdmPageHeader
     },
     methods: {
         goBack() {
             const currentRoute = this.$route.name;
             switch (currentRoute) {
                 case 'rma-global-rules':
-                    case 'rma-global-channel-rules':
-                    case 'rma-custom-channel-rules':
+                case 'rma-global-channel-rules':
+                case 'rma-custom-channel-rules':
                     this.$router.push({
                         path: '/administrator/rma/rules'
-                    });
-                    break;
-                case 'rma-global-rule-setup':
-                case 'rma-global-rule-edit':
-                    this.$router.push({
-                        path: `/administrator/rma/rules/global`
-                    });
-                    break;
-                case 'rma-custom-rule-setup':
-                case 'rma-custom-rule-edit':
-                    this.$router.push({
-                        path: `/administrator/rma/rules/custom/${this.$route.params.sales_channel}`
                     });
                     break;
                 default:
                     this.$router.back();
                     break;
             }
-        },
-        save() {
-            this.$router.push({
-                path: `/administrator/rma/rules/global`
-            });
         }
     }
 };
