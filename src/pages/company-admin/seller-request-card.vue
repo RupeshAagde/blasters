@@ -27,7 +27,21 @@
         <!--Confirmation dailog -->
         <nitrozen-dialog ref="view-details-dialog" title="Plan Details">
             <template slot="body">
-                <p>Are you sure you want to delete rate?</p>
+                <div>
+                        <div class="interval">
+                            <div class="plan-title">
+                                <img src='/public/assets/admin/svgs/plan-downgrade.svg' alt="plan Downgrade"/>
+                                <span>Plan Downgrade</span>
+                            </div>
+                            <div class="upgrade-details">
+                                <div class="previous-plan">{{safeGet(this.currentActivePlan,"subscription.plan_data.name")}}</div>
+                                <img src='/public/assets/admin/svgs/arrow_right_alt.svg' alt="arrow right"/>
+                                <!-- <div class="new-plan">{{safeGet(selectedPlan,"name")}}</div> -->
+                            </div>
+                        </div>
+                        <p class="plan-details">As a result of this, plan for the Seller will be downgraded to Plan from Next Billing cycle.</p>
+                        <!-- {{safeGet(selectedPlan,"name")}}  -->
+                    </div>
             </template>
             <template slot="footer">
                 <div class="footer-actions-buttons">
@@ -79,6 +93,59 @@
 .blaster-list-card-container.card-list-wrapper{
     cursor: default;
 }
+.interval{
+        margin-top:16px;
+        display: flex;
+        justify-content: space-between;
+        width:100%;
+        padding: 17px;
+        margin-bottom:12px;
+        background: #E7EEFF;
+        border: 1px solid #2E31BE;
+        box-sizing: border-box;
+        border-radius: 4px;
+        .plan-title{
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 140%;
+            color: #666666;
+            align-items: center;
+            display: flex;
+            span{
+                margin-left: 12px;
+            }
+            @media @mobile{
+                font-size: 14px;
+            }
+        }
+        .upgrade-details{
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 22px;
+            letter-spacing: 0em;
+            text-align: right;
+            color: #41434C;
+            display: flex;
+            align-items: center;
+
+            img{
+                margin-left: 12px;
+                margin-right: 12px;
+            }
+            @media @mobile{
+                font-size: 14px;
+            }
+        }
+    }
+    .plan-details{
+        color: #CD0909;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 140%;
+    }
+
 </style>
 
 <script>
@@ -89,9 +156,12 @@ import {
     NitrozenButton,
     NitrozenMenu,
     NitrozenMenuItem,
-    NitrozenDialog
+    NitrozenDialog,
+    strokeBtn,
+    flatBtn
 } from '@gofynd/nitrozen-vue';
 import { GET_CURRENT_ACTIVE_SUBSCRIPTION } from '@/store/getters.type';
+import BillingSubscriptionService from '../../services/billing.service';
 import { mapGetters } from 'vuex';
 import get from 'lodash/get';
 
@@ -110,17 +180,30 @@ export default {
             type: Object
         }
     },
+    directives: {
+        flatBtn,
+        strokeBtn,
+    },
+    data(){
+        return{
+            planDetails:null
+        }
+    },
     computed:{
         ...mapGetters({
             currentActivePlan: GET_CURRENT_ACTIVE_SUBSCRIPTION
         }),
 
     },
+    mounted(){
+        this.getDetailPlans();
+        this.getDowngraadePlanName();
+    },
     methods: {
         vieDetailsDialog(data) {
             this.$refs['view-details-dialog'].open({
-                width: '400px',
-                height: '215px',
+                width: '650px',
+                height: '300px',
                 showCloseButton: true,
             });
         },
@@ -130,6 +213,26 @@ export default {
         safeGet(obj, path, defaultValue) {
             return get(obj, path, defaultValue);
         },
+        getDetailPlans(){
+            BillingSubscriptionService.getAvailablePlansDetailed(
+                'fynd-platform'
+            )
+                .then(res => {
+                     this.planDetails=res.data
+                    console.log(this.planDetails)
+                    
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
+        },
+        getDowngraadePlanName(){
+            let planId=safeGet(this.extension,"plan_id")
+            this.planDetails
+            console.log(planId)
+            this.planDetails
+        }
+
     }
 };
 </script>

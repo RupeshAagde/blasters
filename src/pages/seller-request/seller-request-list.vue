@@ -300,9 +300,8 @@ export default {
             this.pageError = false;
              BillingService.getDowngradeRequestList(params,this.company_id)
                 .then(({ data }) => {
-                    console.log(data)
-                    this.RequestList = data.data;
-                    // this.pagination.total = data.page.item_total;
+                    this.RequestList = data.items;
+                    this.pagination.total = data.page.item_total;
                     this.pageLoading = false;
                 })
                 .catch((err) => {
