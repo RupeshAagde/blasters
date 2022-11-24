@@ -9,6 +9,7 @@ import flushPromises from 'flush-promises';
 import MOCK_DATA from './fixtures/cbs-mock.json';
 import MOCK_DATA_DEPL_MAP from "./fixtures/custom-deployment-mapping.json";
 import MOCK_DATA_DEPLMNTS from "./fixtures/custom-deployment-list.json";
+import MOCK_DOWNGRADE_DATA from "./fixtures/downgrade-plan-mock.json";
 import AdminRoutes from '@/router/administrator/index.js';
 import URLS from '../../../../../services/domain.service.js';
 
@@ -53,6 +54,8 @@ describe('Mounted Company Detail Page', () => {
         );
         mock.onGet(URLS.GET_DEPLOYMENT_MAPPING()).reply(200, MOCK_DATA_DEPL_MAP);
         mock.onGet(URLS.GET_DEPLOYMENT_LIST()).reply(200, MOCK_DATA_DEPLMNTS);
+        mock.onGet(URLS.GET_DEPLOYMENT_LIST()).reply(200, MOCK_DATA_DEPLMNTS);
+        mock.onGet(URLS.GET_DOWNGRADEPLAN_REQUEST({subscriber_id:"610d1a8254fff1207157f606"},1)).reply(200, MOCK_DOWNGRADE_DATA.items);
 
         wrapper = mount(CbsDetail, {
             localVue,
