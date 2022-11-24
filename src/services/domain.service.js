@@ -347,8 +347,8 @@ const URLS = {
     GET_DOWNGRADEPLAN_REQUEST: (company_id) => {
         return urlJoin(UNICRON_BASE, `v1.0/company/${company_id}/company-subscription/downgrade-request`);
     },
-    UPDATE_SUBSCRIPTION_ON_REQUEST: (company_id) => {
-        return urlJoin(UNICRON_BASE, `v1.0/company/${company_id}/company-subscription/downgrade-request`);
+    UPDATE_SUBSCRIPTION_ON_REQUEST: (company_id, requestId) => {
+        return urlJoin(UNICRON_BASE, `v1.0/company/${company_id}/company-subscription/downgrade-request/${requestId}`);
     },
     SUBSCRIPTION_DAYTRADER_RULES: (subscriptionId) => {
         return urlJoin(

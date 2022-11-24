@@ -52,12 +52,12 @@
                 ></page-error>
 
                 <div
-                    v-for="(extension, index) in RequestList"
-                    :key="extension._id"
+                    v-for="(request, index) in RequestList"
+                    :key="request._id"
                 >
                     <seller-request-card
-                        @updateStatus="(status)=>updateDowngradeRequestStatus(status)"
-                        :extension="extension"
+                        @updateStatus="(status)=>updateDowngradeRequestStatus(request._id, status)"
+                        :extension="request"
                         :ref="'extension-' + index"
                     >
                     </seller-request-card>
@@ -327,18 +327,10 @@ export default {
                     console.log(err);
                 });
         },
-        updateDowngradeRequestStatus(status) {
-            let subscription_id = this.safeGet(this.currentPlan,'subscriber_id')
-            let params = {
-                page_no: this.pagination.current,
-                page_size: this.pagination.limit,
-                status: this.selectedFilter,
-                // name: this.searchText,
-                subscriber_id: subscription_id
-            };
+        updateDowngradeRequestStatus(requestId, status) {
             this.pageLoading = true;
             this.pageError = false;
-             BillingService.updateSubscriptionOnRequest(params,this.company_id, {status})
+             BillingService.updateSubscriptionOnRequest(requestId,this.company_id, {status})
                 .then(() => {
                     this.fetchDowngradeRequest();
                     this.$snackbar.global.showSuccess("Updated downgrade plan request successfully");
