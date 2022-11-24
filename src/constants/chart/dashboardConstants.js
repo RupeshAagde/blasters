@@ -18,4 +18,4 @@ export const DASHBOARD_LAYOUT_ORDER = [
     'a', 'b', 'c'
 ];
 
-export const DATE_RANGE_IN_DAYS = 2;
+export const DATE_RANGE_IN_DAYS = 1;
