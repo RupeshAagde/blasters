@@ -58,10 +58,10 @@
                     <div class="dropdown-loader-container">
                         <nitrozen-dropdown
                             :disabled="isL3DropdownDisabled"
-                            label="L3"
+                            label="Category (L3)"
                             class="setup-dropdown"
                             :items="l3DropdownList"
-                            placeholder="Select L3"
+                            placeholder="Select Category (L3)"
                             v-model="selectedL3"
                             @change="handleL3Dropdown"
                             :searchable="true"
@@ -147,6 +147,21 @@
                                                 ></nitrozen-toggle-btn>
                                                 <ukt-inline-svg
                                                     class="collapse-button"
+                                                    :src="'delete_new'"
+                                                    @click.stop.native="
+                                                        deleteParentReason(
+                                                            parentReason.id
+                                                        )
+                                                    "
+                                                ></ukt-inline-svg>
+                                                <ukt-inline-svg
+                                                    v-if="
+                                                        parentReason.storedVal
+                                                            .split('-|-')[1]
+                                                            .toLowerCase() !==
+                                                            'others'
+                                                    "
+                                                    class="collapse-button"
                                                     @click.stop.native="
                                                         toggleParentReason(
                                                             parentReason.id
@@ -158,15 +173,10 @@
                                                             : 'arrow-dropdown-black'
                                                     "
                                                 ></ukt-inline-svg>
-                                                <ukt-inline-svg
-                                                    class="collapse-button"
-                                                    :src="'delete_new'"
-                                                    @click.stop.native="
-                                                        deleteParentReason(
-                                                            parentReason.id
-                                                        )
-                                                    "
-                                                ></ukt-inline-svg>
+                                                <span
+                                                    v-else
+                                                    class="blank-button"
+                                                ></span>
                                             </div>
                                         </div>
                                         <div
@@ -496,7 +506,7 @@ export default {
             breadcrumbRoutes: [
                 {
                     name: 'Return Merchandise Authorisation',
-                    path: '/administrator/rma/rules'
+                    path: '/administrator/orders/rma/rules'
                 },
                 {
                     name:
@@ -509,8 +519,8 @@ export default {
                     path:
                         this.$route.name === 'rma-global-rule-setup' ||
                         this.$route.name === 'rma-global-rule-edit'
-                            ? '/administrator/rma/rules/global'
-                            : `/administrator/rma/rules/custom/${this.$route.params.sales_channel}`
+                            ? '/administrator/orders/rma/rules/global'
+                            : `/administrator/orders/rma/rules/custom/${this.$route.params.sales_channel}`
                 },
                 {
                     name: this.$route.name.includes('edit')
@@ -590,22 +600,23 @@ export default {
                             qc_type: res.qc_type,
                             question_set: res.question_set,
                             collapse: false,
-                            storedVal: `${res.id}-|-${res.display_name}-|-${res.is_active}`,
+                            meta: res.meta ? res.meta : {},
+                            storedVal: `${res.id}-|-${res.display_name}-|-${res.is_active}-|-${JSON.stringify(res.meta)}`,
                             reasons: []
                         };
                         this.selectedArrayOfReasons[
-                            `${res.id}-|-${res.display_name}-|-${res.is_active}`
+                            `${res.id}-|-${res.display_name}-|-${res.is_active}-|-${JSON.stringify(res.meta)}`
                         ] = [
                             {
-                                storedVal: `${res.id}-|-${res.display_name}-|-${res.is_active}`
+                                storedVal: `${res.id}-|-${res.display_name}-|-${res.is_active}-|-${JSON.stringify(res.meta)}`
                             }
                         ];
                         let subReasons = res.reasons ? [...res.reasons] : [];
                         subReasons = subReasons.map((sub) => {
                             this.selectedArrayOfReasons[
-                                `${res.id}-|-${res.display_name}-|-${res.is_active}`
+                                `${res.id}-|-${res.display_name}-|-${res.is_active}-|-${JSON.stringify(res.meta)}`
                             ].push({
-                                storedVal: `${sub.id}-|-${sub.display_name}-|-${sub.is_active}`
+                                storedVal: `${sub.id}-|-${sub.display_name}-|-${sub.is_active}-|-${JSON.stringify(sub.meta)}`
                             });
                             return {
                                 id: sub.display_name,
@@ -619,7 +630,7 @@ export default {
                                     (ques) =>
                                         `${ques.id}-|-${ques.display_name}`
                                 ),
-                                storedVal: `${sub.id}-|-${sub.display_name}-|-${sub.is_active}`
+                                storedVal: `${sub.id}-|-${sub.display_name}-|-${sub.is_active}-|-${JSON.stringify(sub.meta)}`
                             };
                         });
                         obj.reasons = [...subReasons];
@@ -659,14 +670,14 @@ export default {
                 this.$route.name === 'rma-global-rule-edit'
             ) {
                 this.$router.push({
-                    path: '/administrator/rma/rules/global'
+                    path: '/administrator/orders/rma/rules/global'
                 });
             } else if (
                 this.$route.name === 'rma-custom-rule-setup' ||
                 this.$route.name === 'rma-custom-rule-edit'
             ) {
                 this.$router.push({
-                    path: `/administrator/rma/rules/custom/${this.$route.params.sales_channel}`
+                    path: `/administrator/orders/rma/rules/custom/${this.$route.params.sales_channel}`
                 });
             }
         },
@@ -729,22 +740,28 @@ export default {
             setTimeout(() => {
                 this.selectedParentReason = null;
             }, 0);
-            const [id, display_name, is_active] = selectedRes.split('-|-');
+            const [id, display_name, is_active, meta] = selectedRes.split('-|-');
+            let dummySubReason = [
+                {
+                    id: 'default' + Math.random(),
+                    display_name: null,
+                    qc_type: 'doorstep_qc',
+                    question_set: [],
+                    meta: {},
+                    storedVal: 'default' + Math.random()
+                }
+            ];
+            if (display_name.toLowerCase() === 'others') {
+                dummySubReason = [];
+            }
             this.chosenParentReasonsList.push({
                 storedVal: selectedRes,
                 id: parseInt(id),
                 display_name,
+                meta: JSON.parse(meta),
                 is_active: is_active === 'true' ? true : false,
                 collapse: false,
-                reasons: [
-                    {
-                        id: 'default' + Math.random(),
-                        display_name: null,
-                        qc_type: 'doorstep_qc',
-                        question_set: [],
-                        storedVal: 'default' + Math.random()
-                    }
-                ]
+                reasons: [...dummySubReason]
             });
             this.selectedArrayOfReasons[selectedRes] = [
                 { storedVal: selectedRes }
@@ -785,6 +802,7 @@ export default {
                 display_name: null,
                 qc_type: 'doorstep_qc',
                 question_set: [],
+                meta: {},
                 storedVal: 'default' + Math.random()
             });
             this.fetchReasonsList(['child']);
@@ -934,7 +952,7 @@ export default {
                 .then((res) => {
                     let list = res.data.items.map((reason) => {
                         return {
-                            value: `${reason.id}-|-${reason.display_name}-|-${reason.is_active}`,
+                            value: `${reason.id}-|-${reason.display_name}-|-${reason.is_active}-|-${JSON.stringify(reason.meta)}`,
                             text: reason.display_name
                         };
                     });
@@ -1054,6 +1072,7 @@ export default {
                     display_name: parent.display_name,
                     qc_type: [],
                     question_set: [],
+                    meta: parent.meta,
                     is_active: parent.is_active,
                     reasons: []
                 };
@@ -1074,7 +1093,8 @@ export default {
                         id: parseInt(childData.split('-|-')[0]),
                         display_name: childData.split('-|-')[1],
                         qc_type: [...qcType],
-                        question_set: [...questionSet]
+                        question_set: [...questionSet],
+                        meta: childData.split('-|-').length > 3 ? JSON.parse(childData.split('-|-')[3]) : {}
                     };
                     reasonsObj.reasons.push({ ...subReasonsObj });
                 }
@@ -1423,5 +1443,10 @@ export default {
             height: 75px;
         }
     }
+}
+.blank-button {
+    height: 25px;
+    width: 25px;
+    margin-left: 10px;
 }
 </style>

@@ -32,7 +32,7 @@ describe('RMA Global Setup Component', () => {
         router = new VueRouter({
             routes: [
                 {
-                    path: '/administrator/rma/rules/global/setup',
+                    path: '/administrator/orders/rma/rules/global/setup',
                     name: 'rma-global-rule-setup',
                     component: RmaSetup
                 }
@@ -48,7 +48,7 @@ describe('RMA Global Setup Component', () => {
     });
 
     it('mount global setup page', async () => {
-        router.push('/administrator/rma/rules/global/setup');
+        router.push('/administrator/orders/rma/rules/global/setup');
 
         wrapperGlobalSetup = mount(RmaSetup, {
             localVue,
@@ -131,7 +131,7 @@ describe('RMA Global Edit Component', () => {
         router = new VueRouter({
             routes: [
                 {
-                    path: '/administrator/rma/rules/global/edit',
+                    path: '/administrator/orders/rma/rules/global/edit',
                     name: 'rma-global-rule-edit',
                     component: RmaSetup
                 }
@@ -147,7 +147,7 @@ describe('RMA Global Edit Component', () => {
     });
 
     it('mount global edit page', async () => {
-        router.push('/administrator/rma/rules/global/edit');
+        router.push('/administrator/orders/rma/rules/global/edit');
         const getItem = jest
             .spyOn(Storage.prototype, 'getItem')
             .mockReturnValue(JSON.stringify(editRuleDataMock));
@@ -182,7 +182,7 @@ describe('RMA Global Edit Component', () => {
 
     it('test toggle parent reason', async () => {
         let collapseButton = wrapperGlobalEdit.findAll('.collapse-button');
-        collapseButton = collapseButton.at(0);
+        collapseButton = collapseButton.at(1);
         await collapseButton.trigger('click');
         await new Promise((resolve) => setTimeout(resolve, 600));
         await wrapperGlobalEdit.vm.$nextTick();
@@ -199,9 +199,9 @@ describe('RMA Global Edit Component', () => {
         ).toBe(false);
         wrapperGlobalEdit.setData({
             selectedArrayOfReasons: {
-                '7-|-Size not available-|-true': [
-                    { storedVal: '7-|-Size not available-|-true' },
-                    { storedVal: '6-|-Product out of stock-|-true' }
+                '7-|-Size not available-|-true-|-{}': [
+                    { storedVal: '7-|-Size not available-|-true-|-{}' },
+                    { storedVal: '6-|-Product out of stock-|-true-|-{}' }
                 ]
             }
         });
@@ -212,7 +212,7 @@ describe('RMA Global Edit Component', () => {
 
     it('delete parent reason', async () => {
         let deleteButton = wrapperGlobalEdit.findAll('.collapse-button');
-        deleteButton = deleteButton.at(1);
+        deleteButton = deleteButton.at(0);
         await deleteButton.trigger('click');
         await new Promise((resolve) => setTimeout(resolve, 600));
         await wrapperGlobalEdit.vm.$nextTick();
@@ -222,7 +222,7 @@ describe('RMA Global Edit Component', () => {
 
     it('delete sub reason', async () => {
         let collapseButton = wrapperGlobalEdit.findAll('.collapse-button');
-        collapseButton = collapseButton.at(0);
+        collapseButton = collapseButton.at(1);
         await collapseButton.trigger('click');
         await new Promise((resolve) => setTimeout(resolve, 600));
         await wrapperGlobalEdit.vm.$nextTick();
@@ -291,7 +291,7 @@ describe('RMA Custom Edit Component', () => {
         router = new VueRouter({
             routes: [
                 {
-                    path: '/administrator/rma/rules/custom/FyndStore/edit',
+                    path: '/administrator/orders/rma/rules/custom/FyndStore/edit',
                     name: 'rma-custom-rule-edit',
                     component: RmaSetup
                 }
@@ -307,7 +307,7 @@ describe('RMA Custom Edit Component', () => {
     });
 
     it('mount custom edit page', async () => {
-        router.push('/administrator/rma/rules/custom/FyndStore/edit');
+        router.push('/administrator/orders/rma/rules/custom/FyndStore/edit');
         const getItem = jest
             .spyOn(Storage.prototype, 'getItem')
             .mockReturnValue(JSON.stringify(editRuleDataMock));

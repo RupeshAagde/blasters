@@ -97,16 +97,25 @@ export const getNavigations = () => {
             highlightedIcon: 'orders-cart-highlighted',
             active: false,
             permission: 'order',
-            children: []
-            //     {
-            //         display: 'Orders',
-            //         link: '/administrator/orders/list',
-            //         title: 'orders',
-            //         icon: 'orders-bag',
-            //         highlightedIcon: 'orders-highlighted',
-            //         active: false
-            //     }
-            // ]
+            children: [
+                {
+                    display: 'List Orders',
+                    link: '/administrator/orders/list',
+                    title: 'list',
+                    icon: 'orders-cart',
+                    highlightedIcon: 'orders-cart-highlighted',
+                    active: false
+                },
+                {
+                    display: 'RMA',
+                    link: '/administrator/orders/rma/rules',
+                    title: 'rma',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false,
+                    permission: 'order'
+                }
+            ]
         },
         {
             display: 'Integrations',
@@ -127,7 +136,6 @@ export const getNavigations = () => {
             active: false,
             permission: 'plans',
             children: [
-               
                 {
                     display: 'Invoices',
                     link: '/administrator/subscription/invoices',
@@ -135,7 +143,7 @@ export const getNavigations = () => {
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
-                }, 
+                },
                 {
                     display: 'Coupons',
                     link: '/administrator/subscription/coupons',
@@ -143,8 +151,7 @@ export const getNavigations = () => {
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
-                },
-                
+                }
             ]
         },
         // Packaging related changes for adding navbar element
@@ -286,15 +293,5 @@ export const getNavigations = () => {
             permission: 'webhook',
             children: []
         },
-        {
-            display: 'RMA',
-            link: '/administrator/rma/rules',
-            title: 'rma',
-            icon: 'home',
-            highlightedIcon: 'home-highlighted',
-            active: false,
-            permission: 'settings',
-            children: []
-        }
     ];
 };

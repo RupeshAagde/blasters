@@ -603,7 +603,7 @@ export default [
             },
             {
                 name: 'rma-global-rule-setup',
-                path: 'rma/rules/global/setup',
+                path: 'orders/rma/rules/global/setup',
                 component: RMASetup,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
@@ -611,7 +611,7 @@ export default [
             },
             {
                 name: 'rma-global-rule-edit',
-                path: 'rma/rules/global/edit',
+                path: 'orders/rma/rules/global/edit',
                 component: RMASetup,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
@@ -619,7 +619,7 @@ export default [
             },
             {
                 name: 'rma-custom-rule-setup',
-                path: 'rma/rules/custom/:sales_channel/setup',
+                path: 'orders/rma/rules/custom/:sales_channel/setup',
                 component: RMASetup,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
@@ -627,7 +627,7 @@ export default [
             },
             {
                 name: 'rma-custom-rule-edit',
-                path: 'rma/rules/custom/:sales_channel/edit',
+                path: 'orders/rma/rules/custom/:sales_channel/edit',
                 component: RMASetup,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
@@ -635,7 +635,7 @@ export default [
             },
             {
                 name: 'rma',
-                path: 'rma',
+                path: 'orders/rma',
                 component: RMAPage,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);

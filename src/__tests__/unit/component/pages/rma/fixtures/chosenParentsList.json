@@ -1,6 +1,6 @@
 [
     {
-        "storedVal": "7-|-Size not available-|-true",
+        "storedVal": "7-|-Size not available-|-true-|-{}",
         "id": 7,
         "display_name": "Size not available",
         "is_active": false,
@@ -14,7 +14,7 @@
                     "2-|-Check the brand",
                     "1-|-check formal-shirt size "
                 ],
-                "storedVal": "6-|-Product out of stock-|-true"
+                "storedVal": "6-|-Product out of stock-|-true-|-{}"
             }
         ]
     }

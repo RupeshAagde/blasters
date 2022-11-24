@@ -280,7 +280,7 @@ export default {
             this.breadcrumbRoutes = [
                 {
                     name: 'Return Merchandise Authorisation',
-                    path: '/administrator/rma/rules'
+                    path: '/administrator/orders/rma/rules'
                 },
                 {
                     name: this.isGlobal ? 'Global Rules' : 'Custom Rules',
@@ -304,7 +304,7 @@ export default {
             'Quality Check',
         ]
         this.setChannelData()
-        this.defaultPath = `/administrator/rma/rules/${this.isGlobal ? 'global' : 'custom'}`
+        this.defaultPath = `/administrator/orders/rma/rules/${this.isGlobal ? 'global' : 'custom'}`
         this.channelId = this.showCustom ? this.getChannelId() : ''
         this.channelIds = this.channelId ? [this.channelId] : []
         this.updateRuleParams()

@@ -120,10 +120,10 @@ export default {
             
         },
         redirectToSetup() {
-            this.$router.push({ path: `/administrator/rma/rules/global/setup` });
+            this.$router.push({ path: `/administrator/orders/rma/rules/global/setup` });
         },
         redirectToEdit() {
-            this.$router.push({ path: `/administrator/rma/rules/global/edit` });
+            this.$router.push({ path: `/administrator/orders/rma/rules/global/edit` });
         }
     },
     mounted() {
