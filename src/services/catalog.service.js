@@ -114,5 +114,19 @@ const CatalogService = {
         }
         return ApiService.put(URLS.FETCH_VERIFICATION_PRODUCT_DATA({ companyId, itemId }), axiosOption);
     },
+    // bulk
+    bulkHistory(job_type, params) {
+        let axiosOption = Object.assign(
+            {},
+            {
+                params
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(
+            `${URLS.BULK_HISTORY_REQUEST()}/${job_type}`,
+            axiosOption
+        );
+    },
 };
 export default CatalogService;

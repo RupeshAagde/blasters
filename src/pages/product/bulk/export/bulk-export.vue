@@ -1,0 +1,334 @@
+<template>
+    <div class="panel">
+        <div class="header-position">
+            <adm-page-header
+                title="Export"
+                @backClick="redirectToList"
+            ></adm-page-header>
+        </div>
+        <loader v-if="pageLoading" class="loading"></loader>
+        <page-error v-else-if="pageError" @tryAgain="loadData"></page-error>
+        <div class="upload-container">
+            <div class="top-content">
+                <div class="title-content">
+                    <p class="cl-mako darker-md title">{{ getTitle }}</p>
+                    <p class="regular-xxxs subtitle">
+                        Need help in exporting?
+                        <span class="link" @click="goToLearnMore">
+                            Learn Here</span
+                        >
+                    </p>
+                </div>
+                <div class="filters">
+                    <nitrozen-dropdown
+                        label="Download Sample"
+                        :placeholder="'Export'"
+                        class="file-download-dropdown"
+                        :items="fileTypes"
+                        v-model="selectedFileType"
+                        @change=""
+                    ></nitrozen-dropdown>
+                </div>
+            </div>
+        </div>
+        <div>
+            <export-history></export-history>
+        </div>
+        <side-bar
+            v-if="sidebarToggle"
+            ref="sidebar"
+            :closeOverlay="closeOverlay"
+            :title="'Learn More'"
+        >
+            <learn-more></learn-more>
+        </side-bar>
+    </div>
+</template>
+
+<style lang="less" scoped>
+.header-position {
+    height: 58.5px;
+    .set-upload {
+        line-height: 56.5px;
+        cursor: pointer;
+        color: @RoyalBlue;
+        -webkit-font-smoothing: antialiased;
+    }
+    .set-upload-disabled {
+        color: @DustyGray2;
+    }
+}
+
+.upload-container {
+    margin: 24px;
+    padding: 24px;
+    background-color: #fff;
+    border-radius: 4px;
+    .top-content {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .title {
+        line-height: 130%;
+    }
+
+    .subtitle {
+        color: #757575;
+        line-height: 160%;
+
+        .link {
+            color: #2e31be;
+            font-weight: 700;
+            cursor: pointer;
+            padding-top: 4px;
+        }
+    }
+
+    .filters {
+        display: flex;
+        ::v-deep .nitrozen-dropdown-label {
+            display: none;
+        }
+
+        ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger span {
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 140%;
+            color: #2e31be;
+        }
+
+        ::v-deep .nitrozen-dropdown-container .nitrozen-select {
+            border: 1px solid #2e31be;
+        }
+
+        .arrow-icon {
+            cursor: pointer;
+            padding-left: 24px;
+        }
+    }
+
+    .divider {
+        border: 1px solid #e0e0e0;
+        margin: 24px 0 24px 0;
+    }
+}
+
+.bottom-container {
+    .t-content {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .history-content {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        p {
+            padding-left: 4px;
+        }
+    }
+
+    .file-upload-box {
+        width: 100%;
+        height: 200px;
+        background: rgba(240, 244, 255, 0.5);
+        border: 1px dashed rgba(46, 49, 190, 0.5);
+        border-radius: 4px;
+        margin-top: 16px;
+        position: relative;
+        cursor: pointer;
+
+        .box-content {
+            text-align: center;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            .select {
+                padding: 10px 0;
+            }
+
+            .type {
+                padding-top: 12px;
+            }
+        }
+    }
+}
+
+.inline {
+    display: flex;
+}
+</style>
+
+<script>
+// import CatalogService from '@/services/catalog.service';
+import admpageheader from '@/components/common/layout/page-header';
+import {
+    NitrozenButton,
+    NitrozenRadio,
+    NitrozenInput,
+    NitrozenInline,
+    NitrozenMenu,
+    NitrozenMenuItem,
+    NitrozenDropdown,
+    NitrozenError,
+    NitrozenDialog,
+    NitrozenToggleBtn,
+    flatBtn,
+    strokeBtn
+} from '@gofynd/nitrozen-vue';
+
+// import BulkHistory from './bulk-history.vue';
+import PageError from '@/components/common/page-error';
+import loader from '@/components/common/loader';
+import InlineSvg from '@/components/common/adm-inline-svg.vue';
+import LearnMore from '../components/learn-more.vue';
+import sidebar from '../components/side-bar.vue';
+import exportHistory from './export-history.vue';
+// import CsvView from '@/components/common/adm-csv-viewer.vue';
+// import XLSX from 'xlsx';
+// import { CatalogueSchemaService } from '@/services/bulk-upload.service';
+import GrindorService from '@/services/grindor.service';
+// import { saveAs } from 'file-saver';
+import moment from 'moment';
+import groupBy from 'lodash/groupBy';
+import mapValues from 'lodash/mapValues';
+import values from 'lodash/values';
+import pickBy from 'lodash/pickBy';
+import uniqBy from 'lodash/uniqBy';
+import keys from 'lodash/keys';
+import uniq from 'lodash/uniq';
+import find from 'lodash/find';
+import chunk from 'lodash/chunk';
+import startCase from 'lodash/startCase';
+import toLower from 'lodash/toLower';
+import Base64 from 'crypto-js/enc-base64';
+import Utf8 from 'crypto-js/enc-utf8';
+import cloneDeep from 'lodash/cloneDeep';
+
+const PRODUCT_NAME_MAPPING = {
+    attribute: 'attributes',
+    hsn: 'taxation',
+    template: 'templates',
+    department: 'department',
+    category: 'category'
+};
+
+const FILE_TYPES = [
+    { value: 'excel', text: 'Excel (.xlsx)' },
+    { value: 'csv', text: 'CSV (.csv)' }
+];
+
+export default {
+    name: 'bulk-import',
+    components: {
+        NitrozenButton,
+        NitrozenInput,
+        NitrozenInline,
+        NitrozenDropdown,
+        NitrozenDialog,
+        NitrozenError,
+        NitrozenMenu,
+        NitrozenMenuItem,
+        NitrozenToggleBtn,
+        'adm-page-header': admpageheader,
+        'adm-inline-svg': InlineSvg,
+        'side-bar': sidebar,
+        'learn-more': LearnMore,
+        'export-history': exportHistory,
+        loader,
+        PageError
+    },
+    directives: {
+        flatBtn,
+        strokeBtn
+    },
+    computed: {
+        getTitle() {
+            return `Export ${this.capitalize(this.$route.params.type)} Data`;
+        }
+    },
+    data() {
+        return {
+            productType: this.$route.params.type,
+            pageLoading: false,
+            pageError: false,
+            sidebarToggle: false,
+            selectedFileType: null,
+            fileTypes: FILE_TYPES,
+            highlight: false,
+            label: 'CSV file',
+            file: null,
+            acceptedMIMETypesString: [
+                'text/csv',
+                'application/vnd.ms-excel',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            ],
+            errorMessage: '',
+            inputFileMeta: {},
+            productsTable: {
+                meta: { fields: [] },
+                data: []
+            },
+            templateSchema: null,
+            templateDetails: null,
+            productsImages: {},
+            companyId: this.$route.params.company_id,
+            productsArray: [],
+            showErrorsTable: false,
+            errorsArray: [],
+            validSchema: false,
+            item_type: '',
+            productTypeList: [],
+            departmentsList: [],
+            templates: [],
+            selectedTemplate: null,
+            isSet: false,
+            categoriesList: [
+                { value: 'l1_l2', text: 'Level 1 and Level 2 Categories' },
+                { value: 'l3', text: 'Level 3 Category' }
+            ],
+            templatesList: [
+                { value: 'update_delete_hsn', text: 'Update HSN Codes' },
+                { value: 'create_hsn', text: 'Add New HSN Codes' }
+            ],
+            selectedCategory: null,
+            brandsList: [],
+            selectedBrands: []
+        };
+    },
+    mounted() {
+        // if(['attribute', 'department', 'template'].includes(this.productType)) {
+        //     this.refetchTemplate(null);
+        // }
+        console.log(this.$route.params);
+    },
+    methods: {
+        redirectToList() {
+            this.$router.push(
+                `/administrator/product/${
+                    PRODUCT_NAME_MAPPING[this.productType]
+                }`
+            );
+        },
+        capitalize(str) {
+            return str && str.charAt(0).toUpperCase() + str.slice(1);
+        },
+        goToLearnMore() {
+            this.sidebarToggle = true;
+        },
+        closeOverlay() {
+            this.sidebarToggle = !this.sidebarToggle;
+        },
+        navigateToHistory() {
+            this.$router.push({
+                path: `/administrator/product/${this.productType}/import/upload-history`
+            });
+        }
+    }
+};
+</script>

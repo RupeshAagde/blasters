@@ -703,7 +703,14 @@ const URLS = {
     },
     GET_AUDIT_TRAIL_ENTITY_TYPES:()=>{
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
-    }
+    },
+    // bulk import export
+    BULK_HISTORY_REQUEST: () => {
+        return urlJoin(
+            SILVERBOLT_ACAT_URL,
+            `v1.0/bulk/import`
+        );
+    },
 };
 
 export default URLS;
