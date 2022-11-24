@@ -166,7 +166,7 @@ export default {
       }
 
       if (setStep.shouldSet) {
-        optionsToReturn.setGraphStep(setStep.stepSize);
+        optionsToReturn.setGraphStep(setStep.stepSize, this.yAxes[0].data);
       }
       return optionsToReturn.get();
     }

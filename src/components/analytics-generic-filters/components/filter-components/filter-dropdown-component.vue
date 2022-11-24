@@ -33,6 +33,7 @@
                 :searchable="isMultiSelect"
                 class="width"
                 @searchInputChange="searchFilter($event)"
+                :disabled="isLoading"
             ></nitrozen-dropdown>
           </div>
         </collapse>
@@ -50,6 +51,7 @@
             :searchable="isMultiSelect"
             @searchInputChange="searchFilter($event)"
             class="width"
+            :disabled="isLoading"
         ></nitrozen-dropdown>
         <applied-filter
             class="dropdown-tags"

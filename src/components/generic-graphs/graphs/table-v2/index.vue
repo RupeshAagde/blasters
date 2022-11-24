@@ -1,6 +1,5 @@
 <template>
     <div class="table">
-<!--        <topFilters :filters="seedFilters" :chart-id="chartId" @reset-data="$emit('reset-data')"></topFilters>-->
         <tableComponent :columns="columns" :rows="rows" :chart-id="chartId"
             :showPagination="showPagination" :analytic-page="analyticPage" :extra-props="extraProps"
             :status-code="statusCode"></tableComponent>
