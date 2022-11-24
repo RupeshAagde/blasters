@@ -526,7 +526,6 @@ export default {
             return this.selectedDepartment === null;
         },
         isSaveDisabled() {
-            console.log(this.editRuleData);
             if (this.selectedDepartment === null) {
                 return true;
             } else if (!this.chosenParentReasonsList.length) {
@@ -556,8 +555,8 @@ export default {
         }
     },
     mounted() {
-        this.init();
         this.selectedArrayOfReasons = {};
+        this.init();
     },
     destroyed() {
         this.destroyComponent();
@@ -714,11 +713,15 @@ export default {
         filterValues(parent, child) {
             return parent.filter((el) => {
                 return child.every((f) => {
-                    return (
-                        f.storedVal.split('-|-')[0] !==
-                            el.value.split('-|-')[0] ||
-                        f.storedVal.split('-|-')[1] !== el.value.split('-|-')[1]
-                    );
+                    if (f.storedVal) {
+                        return (
+                            f.storedVal.split('-|-')[0] !==
+                                el.value.split('-|-')[0] ||
+                            f.storedVal.split('-|-')[1] !==
+                                el.value.split('-|-')[1]
+                        );
+                    }
+                    return false;
                 });
             });
         },
@@ -854,12 +857,9 @@ export default {
             let selectedArrayMap = this.selectedArrayOfReasons[
                 this.chosenParentReasonsList[parentReasonIndex].storedVal
             ];
-            selectedArrayMap =
-                selectedArrayMap !== undefined
-                    ? selectedArrayMap.filter(
-                          (sel) => sel.storedVal !== childReasonVal
-                      )
-                    : [];
+            selectedArrayMap = selectedArrayMap.filter(
+                (sel) => sel.storedVal !== childReasonVal
+            );
             this.selectedArrayOfReasons[
                 this.chosenParentReasonsList[parentReasonIndex].storedVal
             ] = [...selectedArrayMap];
@@ -992,6 +992,8 @@ export default {
                         ? this.selectedL3Id
                         : this.selectedL3 !== null
                         ? this.selectedL3.split('-|-')[0]
+                        : this.selectedDepartmentId !== null
+                        ? this.selectedDepartmentId
                         : this.selectedDepartment.split('-|-')[0],
                 channel: this.$route.name.includes('global')
                     ? null
@@ -1082,12 +1084,7 @@ export default {
 
             let apiCall = () =>
                 this.$route.name.includes('edit')
-                    ? RMAService.editRule(
-                          this.$route.name.includes('global')
-                              ? this.editRuleData.id
-                              : this.channel.id,
-                          postData
-                      )
+                    ? RMAService.editRule(this.editRuleData.id, postData)
                     : RMAService.postRule(postData);
 
             apiCall()

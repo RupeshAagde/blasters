@@ -275,6 +275,7 @@ describe('RMA Global Edit Component', () => {
         await wrapperGlobalEdit.vm.$nextTick();
         await flushPromises();
         expect(deleteFn).toHaveBeenCalled();
+        console.log(wrapperGlobalEdit.vm.selectedArrayOfReasons)
     });
 
     it('test onDestroy', async () => {
