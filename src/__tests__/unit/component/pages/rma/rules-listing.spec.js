@@ -154,22 +154,7 @@ describe('RulesListing', () => {
         expect(wrapper.vm.ruleIds).toStrictEqual([]);
         expect(wrapper.vm.pagination.current).toBe(1);
     })
-    it('Tests redirection', async () => {
-        wrapper.vm.isGlobal = true;
-        let redirectSetupFunction = jest.spyOn(wrapper.vm, "redirectToEdit");
-        let redirectEditFunction = jest.spyOn(wrapper.vm, "redirectToEdit");
-        let redirectToFunction = jest.spyOn(wrapper.vm, "redirectTo");
-        wrapper.find('.row-cta.edit').trigger('click');
-        sleep(100).then(() => {
-            expect(redirectEditFunction).toHaveBeenCalled();
-            expect(redirectToFunction).toHaveBeenCalledWith('edit');
-        });
-        wrapper.find('.jumbotron-container button').trigger('click');
-        sleep(100).then(() => {
-            expect(redirectSetupFunction).toHaveBeenCalled();
-            expect(redirectToFunction).toHaveBeenCalledWith('setup');
-        });
-    })
+
     it('Checks Default Path', () => {
         wrapper.vm.isGlobal = true;
         sleep(100).then(() => {
