@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     download() {
-      if (this.downloadInProgress) {
+      if (this.downloadInProgress || this.isDisabled) {
         return;
       }
       this.downloadInProgress = true;
