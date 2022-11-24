@@ -41,12 +41,12 @@ describe('RulesListing', () => {
         mock.reset();
         router = new VueRouter({
             routes: [{
-                path: '/administrator/rma/rules/global',
+                path: '/administrator/orders/rma/rules/global',
                 name: 'rma-global-rules',
                 component: RulesListing
             }]
         });
-        router.push('/administrator/rma/rules/global');
+        router.push('/administrator/orders/rma/rules/global');
         wrapper = mount(RulesListing, {
             localVue,
             router
@@ -125,7 +125,7 @@ describe('RulesListing', () => {
         expect(wrapper.vm.breadcrumbRoutes).toStrictEqual([
             {
                 name: 'Return Merchandise Authorisation',
-                path: '/administrator/rma/rules'
+                path: '/administrator/orders/rma/rules'
             },
             {
                 name: 'Global Rules',
@@ -137,7 +137,7 @@ describe('RulesListing', () => {
         expect(wrapper.vm.breadcrumbRoutes).toStrictEqual([
             {
                 name: 'Return Merchandise Authorisation',
-                path: '/administrator/rma/rules'
+                path: '/administrator/orders/rma/rules'
             },
             {
                 name: 'Custom Rules',
@@ -158,11 +158,11 @@ describe('RulesListing', () => {
     it('Checks Default Path', () => {
         wrapper.vm.isGlobal = true;
         sleep(100).then(() => {
-            expect(wrapper.vm.defaultPath).toBe('/administrator/rma/rules/global');
+            expect(wrapper.vm.defaultPath).toBe('/administrator/orders/rma/rules/global');
         })
         wrapper.vm.isGlobal = false;
         sleep(100).then(() => {
-            expect(wrapper.vm.defaultPath).toBe('/administrator/rma/rules/custom');
+            expect(wrapper.vm.defaultPath).toBe('/administrator/orders/rma/rules/custom');
         })
     })
     it('Local Storage test', () => {

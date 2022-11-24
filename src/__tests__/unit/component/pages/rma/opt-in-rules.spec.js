@@ -29,13 +29,13 @@ describe('Mounted OptInRules Component', () => {
         router = new VueRouter({
             routes: [
                 {
-                    path: '/administrator/rma/rules',
+                    path: '/administrator/orders/rma/rules',
                     name: 'rma-rules',
                     component: OptInRules
                 }
             ]
         });
-        router.push('/administrator/rma/rules');
+        router.push('/administrator/orders/rma/rules');
 
         wrapper = mount(OptInRules, {
             localVue,

@@ -19,7 +19,7 @@ describe('RMA Global Setup Component', () => {
         router = new VueRouter({
             routes: [
                 {
-                    path: '/administrator/rma/rules/global',
+                    path: '/administrator/orders/rma/rules/global',
                     name: 'rma-global-rules',
                     component: Rma
                 },
@@ -28,7 +28,7 @@ describe('RMA Global Setup Component', () => {
     });
 
     it('mount RMA', async () => {
-        router.push('/administrator/rma/rules/global');
+        router.push('/administrator/orders/rma/rules/global');
 
         wrapper = mount(Rma, {
             localVue,
@@ -49,7 +49,7 @@ describe('RMA Global Setup Component', () => {
     });
 
     it('test back click default', async () => {
-        router.push('/administrator/rma/rules/global/setup');
+        router.push('/administrator/orders/rma/rules/global/setup');
         const pageHeader = wrapper.findComponent(AdmPageHeader)
         const backFn = jest.spyOn(wrapper.vm.$router, 'push')
         pageHeader.vm.$emit('backClick');

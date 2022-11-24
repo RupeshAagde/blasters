@@ -29,7 +29,7 @@ export default {
                 case 'rma-global-channel-rules':
                 case 'rma-custom-channel-rules':
                     this.$router.push({
-                        path: '/administrator/rma/rules'
+                        path: '/administrator/orders/rma/rules'
                     });
                     break;
                 default:

@@ -105,7 +105,7 @@ export default {
             });
             localStorage.setItem(STORAGE_KEY, channelData);
             this.$router.push({
-                path: `/administrator/rma/rules/custom/${salesChannel.id}`
+                path: `/administrator/orders/rma/rules/custom/${salesChannel.id}`
             });
         }
     }
