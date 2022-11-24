@@ -182,7 +182,7 @@ export default {
                 this.loadRules()
             })
             .catch((err) => {
-                const msg = err.response.data.error
+                const msg = 'Rule Couldn\'t be deleted'
                 this.$snackbar.global.showError(msg)
                 this.$refs['delete-rule-dialog'].close()
             })

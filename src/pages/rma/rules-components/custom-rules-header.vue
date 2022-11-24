@@ -54,10 +54,6 @@ export default {
         btnLabel: {
             type: String
         },
-        illustration: {
-            type: String,
-            default: 'illustration'
-        },
         onToggleClick: {
             type: Function
         },

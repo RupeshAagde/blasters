@@ -1,5 +1,5 @@
 {
-    "globalRulesList": {
+    "global_rules_list": {
         "page": {
             "current": 1,
             "type": "number",
@@ -1151,6 +1151,15 @@
                 "rule_type": "global"
             }
         ],
+        "success": true,
+        "error": {
+            "type": null,
+            "value": null,
+            "message": null
+        }
+    },
+    "delete_rule_data": {
+        "id": 147,
         "success": true,
         "error": {
             "type": null,
