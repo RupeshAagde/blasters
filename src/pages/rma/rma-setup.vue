@@ -713,18 +713,13 @@ export default {
         }, 300),
         filterValues(parent, child) {
             return parent.filter((el) => {
-                return child !== undefined
-                    ? child.every((f) => {
-                          if (typeof f === 'string') {
-                              return (
-                                  f.storedVal.split('-|-')[0] !==
-                                      el.value.split('-|-')[0] ||
-                                  f.storedVal.split('-|-')[1] !==
-                                      el.value.split('-|-')[1]
-                              );
-                          } else return false;
-                      })
-                    : false;
+                return child.every((f) => {
+                    return (
+                        f.storedVal.split('-|-')[0] !==
+                            el.value.split('-|-')[0] ||
+                        f.storedVal.split('-|-')[1] !== el.value.split('-|-')[1]
+                    );
+                });
             });
         },
         handleParentReasonsDropdown(selectedRes) {
