@@ -35,9 +35,9 @@ export default {
       this.$store.dispatch(ADMIN_START_COMPONENT_SPECIFIC_DOWNLOAD, {
         pageName: this.pageName,
         url: this.downloadOptions.downloadUrl
-      }).then(finished => {
+      }).then((finished) => {
         this.downloadInProgress = false;
-      }).catch(err => {
+      }).catch((err) => {
         this.downloadInProgress = false;
 
       })
