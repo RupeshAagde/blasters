@@ -22,7 +22,7 @@
           <div slot="collapse-body" class="drop-down">
             <nitrozen-dropdown
                 v-model="value"
-                :items="getValues"
+                :items="getVals"
                 :label="seedData.name"
                 :multiple="isMultiSelect"
                 :placeholder="
@@ -40,7 +40,7 @@
         <nitrozen-dropdown
             v-else
             v-model="value"
-            :items="getValues"
+            :items="getVals"
             :label="seedData.name"
             :placeholder="
                 value && value.length > 0
