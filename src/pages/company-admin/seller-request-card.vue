@@ -5,7 +5,7 @@
                 Reason: {{ sellerRequest.reason }}
             </div>
             <div class="card-content-line-2">
-                Modified at : {{ toDateTimeString(sellerRequest.modified_at) }}
+                Created at : {{ toDateTimeString(sellerRequest.created_at) }}
             </div>
                 <div
                     class="card-content-line-3"
@@ -22,7 +22,7 @@
         </div>
         <div class="rightside-card-section">
             <div>
-                <nitrozen-button theme="secondary" @click="viewDetailsDialog()">View Details</nitrozen-button>
+                <nitrozen-button theme="secondary" v-if="sellerRequest.status == 'pending'" @click="viewDetailsDialog()">View Details</nitrozen-button>
             </div>
 
         <!--Confirmation dailog -->
@@ -37,11 +37,10 @@
                             <div class="upgrade-details">
                                 <div class="previous-plan">{{safeGet(this.currentActivePlan,"subscription.plan_data.name")}}</div>
                                 <img src='/public/assets/admin/svgs/arrow_right_alt.svg' alt="arrow right"/>
-                                <!-- <div class="new-plan">{{safeGet(selectedPlan,"name")}}</div> -->
+                                <div class="new-plan">{{this.planName}}</div>
                             </div>
                         </div>
-                        <p class="plan-details">As a result of this, plan for the Seller will be downgraded to Plan from Next Billing cycle.</p>
-                        <!-- {{safeGet(selectedPlan,"name")}}  -->
+                        <p class="plan-details">As a result of this, plan for the Seller will be downgraded to Plan {{this.planName}} from Next Billing cycle.</p>
                     </div>
             </template>
             <template slot="footer">
@@ -49,18 +48,16 @@
                     <nitrozen-button
                         theme="secondary"
                         @click="updateSubscription('cancelled')"
-                        :disabled="sellerRequest.status != 'pending'"
                         v-strokeBtn
-                        >Cancel
+                        >Cancel Request
                     </nitrozen-button>
                     <nitrozen-button
                         theme="secondary"
                         class="mr-24"
-                        :disabled="sellerRequest.status != 'pending'"
                         @click="updateSubscription('approved')"
                         v-flatBtn
                         ref="delete-btn"
-                        >Approve
+                        >Approve Request
                     </nitrozen-button>
                 </div>
             </template>
@@ -193,7 +190,8 @@ export default {
     },
     data(){
         return{
-            planDetails:null
+            planDetails:null,
+            planName:''
         }
     },
     computed:{
@@ -204,7 +202,6 @@ export default {
     },
     mounted(){
         this.getDetailPlans();
-        this.getDowngraadePlanName();
     },
     methods: {
         viewDetailsDialog(data) {
@@ -230,18 +227,21 @@ export default {
             )
                 .then(res => {
                      this.planDetails=res.data
-                    console.log(this.planDetails)
                     
                 })
+                .then(()=>{
+                    this.planName=this.getDowngraadePlanName();
+                }
+                )
                 .catch(err=>{
                     console.log(err)
                 })
         },
         getDowngraadePlanName(){
-            let planId=safeGet(this.extension,"plan_id")
-            this.planDetails
-            console.log(planId)
-            this.planDetails
+            if(this.planDetails){
+        let planName=this.planDetails.plans.filter((plan) => plan._id === this.sellerRequest.plan_id)
+            return planName[0].name
+            }
         }
 
     }

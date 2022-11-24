@@ -20,7 +20,7 @@
                         placeholder="Search by name"
                         ref="search-box"
                         v-model="searchText"
-                        @input="debounceInput({ name: searchText })"
+                        @input="debounceInput({ reason: searchText })"
                     ></nitrozen-input>
 
                     <div class="filter">
@@ -223,9 +223,10 @@ const PAGINATION = {
 };
 
 const ROLE_FILTER = [
+    { value: 'all', text: 'All' },
     { value: 'pending', text: 'Pending' },
     { value: 'cancelled', text: 'Cancelled' },
-    { value: 'approved', text: 'Approved' }
+    { value: 'approved', text: 'Approved' },
 ];
 
 export default {
@@ -260,9 +261,9 @@ export default {
                 limit: 10,
                 total: 0
             },
-            selectedFilter: 'pending',
+            selectedFilter: 'all',
             company_id: this.$route.params.companyId,
-            currentPlan:"",
+            currentPlan:'',
         };
     },
     mounted() {
@@ -290,31 +291,34 @@ export default {
         populateFromURL() {
             const { search, page, limit, status } = this.$route.query;
             this.searchText = search || this.searchText;
-            this.selectedFilter = status || 'pending';
+            this.selectedFilter = status || 'all';
         },
         debounceInput: debounce(function(e) {
             if (this.searchText.length === 0) {
                 this.clearSearchFilter();
             } else {
-                this.setRouteQuery({ name: this.searchText });
+                this.setRouteQuery({ reason: this.searchText });
             }
             this.fetchDowngradeRequest();
         }, 500),
         clearSearchFilter() {
             this.searchText = '';
-            this.setRouteQuery({ name: undefined });
+            this.setRouteQuery({ reason: undefined });
         },
         fetchDowngradeRequest() {
             let subscription_id = this.safeGet(this.currentPlan,'subscriber_id')
             let params = {
                 page_no: this.pagination.current,
                 page_size: this.pagination.limit,
-                status: this.selectedFilter,
-                // name: this.searchText,
-                subscriber_id: subscription_id
+                reason: this.searchText,
+                subscriber_id: subscription_id,
+                sort: JSON.stringify({ modified_at: -1 }),
             };
+            if (this.selectedFilter != 'all')
+                params.status = this.selectedFilter;
             this.pageLoading = true;
             this.pageError = false;
+            // let param=params.sort({'modified_at':'-1'})
             return BillingService.getDowngradeRequestList(params,this.company_id)
                 .then(({ data }) => {
                     this.RequestList = data.items;
@@ -367,9 +371,8 @@ export default {
                 //this.selectedFilter=query.status;
                 this.pagination = { ...PAGINATION };
                 query.page = undefined;
-                query.limit = undefined;
+                query.limit = PAGINATION.limit;
             }
-
             this.fetchDowngradeRequest();
         }
     }
