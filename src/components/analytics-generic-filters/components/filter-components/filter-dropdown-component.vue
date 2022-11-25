@@ -79,7 +79,6 @@ import {
   ADMIN_LOAD_FILTER_DROPDOWN_VALUES,
   ADMIN_RESET_DROPDOWN_SEED_FILTERS_FOR_DUNZO_DASHBOARD
 } from "../../../../store/action.type";
-import {SET_REFRESH_TOKENS} from "../../../../store/mutation.type";
 
 export default {
   name: 'filter-dropdown-component',
@@ -180,6 +179,13 @@ export default {
     }
     this.getVals = this.getValues;
   },
+  watch: {
+    getValues: {
+      handler(val) {
+        this.getVals = val;
+      }
+    }
+  }
 };
 </script>
 

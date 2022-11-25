@@ -339,7 +339,7 @@ const actions = {
         return AdminAnalyticsService.getLayoutDataById(appId, emailId, mobileNumber, pageName, salesChannelType)
             .then(res => {
                 setDashboardData(res, commit);
-                console.log('state: ', state);
+                // console.log('state: ', state);
             }).catch(err => {
                 commit(ADMIN_SET_DASHBOARD_DATA, null);
                 let screen_width = screen.width;
