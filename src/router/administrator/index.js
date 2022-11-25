@@ -606,7 +606,7 @@ export default [
                 path: 'orders/rma/rules/global/setup',
                 component: RMASetup,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['order']);
                 }
             },
             {
@@ -614,7 +614,7 @@ export default [
                 path: 'orders/rma/rules/global/edit',
                 component: RMASetup,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['order']);
                 }
             },
             {
@@ -622,7 +622,7 @@ export default [
                 path: 'orders/rma/rules/custom/:sales_channel/setup',
                 component: RMASetup,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['order']);
                 }
             },
             {
@@ -630,7 +630,7 @@ export default [
                 path: 'orders/rma/rules/custom/:sales_channel/edit',
                 component: RMASetup,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['order']);
                 }
             },
             {
@@ -638,7 +638,7 @@ export default [
                 path: 'orders/rma',
                 component: RMAPage,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['order']);
                 },
                 children: [
                     {
@@ -647,7 +647,7 @@ export default [
                         components: { 'rma-view': Rules },
                         beforeEnter: (to, from, next) => {
                             return checkUserPermission(to, from, next, [
-                                'settings'
+                                'order'
                             ]);
                         }
                     },
@@ -657,7 +657,7 @@ export default [
                         components: { 'rma-view': RMARulesListing },
                         beforeEnter: (to, from, next) => {
                             return checkUserPermission(to, from, next, [
-                                'settings'
+                                'order'
                             ]);
                         }
                     },
@@ -667,7 +667,7 @@ export default [
                         components: { 'rma-view': RMARulesListing },
                         beforeEnter: (to, from, next) => {
                             return checkUserPermission(to, from, next, [
-                                'settings'
+                                'order'
                             ]);
                         }
                     },
@@ -677,7 +677,7 @@ export default [
                         components: { 'rma-view': RMARulesListing },
                         beforeEnter: (to, from, next) => {
                             return checkUserPermission(to, from, next, [
-                                'settings'
+                                'order'
                             ]);
                         }
                     }
