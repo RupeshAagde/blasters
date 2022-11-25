@@ -20,7 +20,7 @@ const RMAService = {
                 }
             }
         )
-        return ApiService.post(URLS.RMA_RULES('', '/list'), axiosOption);
+        return ApiService.post(URLS.RMA_RULES_LIST(), axiosOption);
     },
     deleteRule(data = {}){
         const axiosOption = Object.assign(
@@ -30,7 +30,7 @@ const RMAService = {
                 data: data
             }
         )
-        return ApiService.post(URLS.RMA_RULES(), axiosOption);
+        return ApiService.put(URLS.RMA_DELETE_RULE(data.id), axiosOption);
     },
     getOptedSalesChannelList(params) {
         const axiosOption = Object.assign(
@@ -96,7 +96,7 @@ const RMAService = {
         const axiosOption = Object.assign({}, getCommonHeaderOptions(), {
             data
         });
-        return ApiService.put(URLS.PUT_RMA_CONFIG_UPDATE('/' + id), axiosOption);
+        return ApiService.put(URLS.PUT_RMA_CONFIG_UPDATE(id), axiosOption);
     }
 };
 

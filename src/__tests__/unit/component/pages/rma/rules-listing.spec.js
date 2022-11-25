@@ -52,7 +52,7 @@ describe('RulesListing', () => {
             router
         });
         mock.onPost(
-            URLS.RMA_RULES('', '/list')
+            URLS.RMA_RULES_LIST()
         )
         .reply(200, mocks.global_rules_list);
         await flushPromises();

@@ -713,8 +713,11 @@ const URLS = {
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
     },
     //RMA Sales Channel List
-    RMA_RULES: (id = '', additionEndPoint = '') => {
-        return urlJoin(RMA_ADMIN_URL, `/api/v1/rule${id}${additionEndPoint}`);
+    RMA_RULES_LIST: () => {
+        return urlJoin(RMA_ADMIN_URL, `/api/v1/rule/list`);
+    },
+    RMA_DELETE_RULE: (id = '') => {
+        return urlJoin(RMA_ADMIN_URL, `/api/v1/rule/${id}`);
     },
     //RMA Sales Channel Opt in List
     GET_OPTED_RMA_SALES_CHANNEL: () =>
@@ -731,7 +734,7 @@ const URLS = {
     GET_PLATFORM_COUNTS: () => urlJoin(RMA_ADMIN_URL, 'api/v1/rule/summary'),
     POST_RMA_RULE: () => urlJoin(RMA_ADMIN_URL, 'api/v1/rule'),
     PUT_RMA_RULE: (id) => urlJoin(RMA_ADMIN_URL, `api/v1/rule/${id}`),
-    PUT_RMA_CONFIG_UPDATE: (id = '') => urlJoin(RMA_ADMIN_URL, `api/v1/channel${id}`)
+    PUT_RMA_CONFIG_UPDATE: (id = '') => urlJoin(RMA_ADMIN_URL, `api/v1/channel/${id}`)
 };
 
 export default URLS;
