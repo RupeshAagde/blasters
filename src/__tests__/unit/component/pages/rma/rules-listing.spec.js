@@ -8,6 +8,7 @@ import URLS from '../../../../../services/domain.service';
 import flushPromises from "flush-promises";
 import RulesListing from '../../../../../pages/rma/rules-listing.vue';
 import CustomRulesHeader from '../../../../../pages/rma/rules-components/custom-rules-header.vue';
+import Breadcrumb from '../../../../../pages/rma/common/breadcrumb.vue';
 import mocks from './fixtures/rules-listing-mock.json';
 
 let localVue, wrapper, router;
@@ -155,16 +156,16 @@ describe('RulesListing', () => {
         expect(wrapper.vm.pagination.current).toBe(1);
     })
 
-    it('Checks Default Path', () => {
-        wrapper.vm.isGlobal = true;
-        sleep(100).then(() => {
-            expect(wrapper.vm.defaultPath).toBe('/administrator/orders/rma/rules/global');
-        })
-        wrapper.vm.isGlobal = false;
-        sleep(100).then(() => {
-            expect(wrapper.vm.defaultPath).toBe('/administrator/orders/rma/rules/custom');
-        })
-    })
+    // it('Checks Default Path', () => {
+    //     wrapper.vm.isGlobal = true;
+    //     sleep(100).then(() => {
+    //         expect(wrapper.vm.defaultPath).toBe('/administrator/orders/rma/rules/global');
+    //     })
+    //     wrapper.vm.isGlobal = false;
+    //     sleep(100).then(() => {
+    //         expect(wrapper.vm.defaultPath).toBe('/administrator/orders/rma/rules/custom');
+    //     })
+    // })
     it('Local Storage test', () => {
         const mockData = {
             dummy: 'dummy',
@@ -212,5 +213,39 @@ describe('RulesListing', () => {
         sleep(100).then(expect(btnClick).toHaveBeenCalled);
         headerWrapper.find('.jumbotron-btns input').trigger('change');
         sleep(100).then(expect(toggleClick).toHaveBeenCalled);
+    })
+    it('Breadcrumb Component', () => {
+        const breadcrumbWrapper = mount(Breadcrumb, {
+            propsData: {
+                routes: [
+                {
+                    name: 'Return Merchandise Authorisation',
+                    path: '/administrator/rma/rules'
+                },
+                {
+                    name: 'Global Rules',
+                    path: ''
+                }
+                ]
+            }
+        });
+        let redirectTo = jest.spyOn(breadcrumbWrapper.vm, "redirectTo");
+        expect(breadcrumbWrapper.vm.$options.props.routes.default.call()).toEqual([])
+        expect(wrapper.find('.breadcrumb-parent').exists()).toBeTruthy();
+        wrapper.find('.breadcrumb-parent .text').trigger('click');
+        sleep(100).then(() => expect(redirectTo).toBeCalledWith(0, {
+            name: 'Return Merchandise Authorisation',
+            path: '/administrator/rma/rules'
+        }));
+    });
+    it('Redirection test', () => {
+        let redirectTo = jest.spyOn(wrapper.vm, "redirectToEdit");
+        expect(wrapper.find('.row-cta.edit').exists()).toBeTruthy();
+        wrapper.find('.row-cta.edit').trigger('click');
+        sleep(100).then(expect(redirectTo).toHaveBeenCalled);
+    });
+    it('Get channel Id', () => {
+        wrapper.vm.$route.params.sales_channel = 123;
+        expect(wrapper.vm.getChannelId()).toBe('123');
     })
 })
