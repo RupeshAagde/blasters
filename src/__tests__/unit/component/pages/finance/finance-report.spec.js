@@ -153,11 +153,6 @@ describe('Finance', () => {
 
     });
     it('Change Seller selected', async () => {
-        /*const clickEvent = jest.spyOn(wrapper.vm, 'searchCompany');
-        await flushPromises();
-        await wrapper.vm.$forceUpdate();
-        await wrapper.vm.$nextTick(); */
-
         const copyClick = wrapper.find('#seller-name');
         copyClick.vm.$emit('searchInputChange', {text:'chandra'});
         jest.advanceTimersByTime(1000);
@@ -168,7 +163,6 @@ describe('Finance', () => {
         });
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
-        //await wrapper.vm.$nextTick();
         expect(wrapper.vm.sellerNames).toBe('chandra');
     });
     it('selected seller name', async () => {
@@ -228,38 +222,174 @@ describe('Finance', () => {
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.reportDescription).toBe('GST Credit Note Report');
     });
-    it('selectStageTab', async() => {
+
+    it('should change the nitrozen tab and the screen according', async () => {
+        wrapper.setData({
+            selectedReportTabIndex: 0,
+            selectedReportTab: 'download-report'
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const advFilters = wrapper.findComponent({ref:'tabs'});
+        advFilters.vm.$emit('tab-change', { index: 0 });
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.selectedReportTabIndex).toBe(0);
+    });
+
+    it('should change the nitrozen tab and the screen according', async () => {
+        wrapper.setData({
+            selectedReportTabIndex: 0,
+            selectedReportTab: 'download-report'
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const advFilters = wrapper.findComponent({ref:'tabs'});
+        advFilters.vm.$emit('tab-change', { index: 1 });
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.selectedReportTabIndex).toBe(0);
+    });
+
+    /* it('selectStageTab', async() => {
         wrapper.vm.tabChange({ index: 0 });
         wrapper.vm.tabChange({ index: 1 });
         await wrapper.vm.$nextTick();
+    }); */
+
+    it('should format the dates from unix to readable format', async() => {
+        let clickEvent = jest.spyOn(wrapper.vm, 'dateFormat');
+        //clickEvent = jest.fn().mockReturnValue('1657825752');
+        clickEvent('1657825752');
+        //expect(drink).toHaveReturnedWith('La Croix');
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        expect(clickEvent).toHaveReturnedWith('15-07-2022 00:39 am');
     });
-    it('Get Date', () => {
-        //wrapper.vm.getDates();
-        wrapper.vm.dateFormat('1657825752');
-        wrapper.vm.autoRefresh();
+
+    it('auto refresh should run after 10 seconds', async() => {
+        let clickEvent = jest.spyOn(wrapper.vm, 'autoRefresh');
+        wrapper.setData({
+            count: 1,
+            inProgress: false
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        clickEvent();
         jest.advanceTimersByTime(10000);
+        expect(wrapper.vm.inProgress).toBe(false);
     });
-    it('generatedReport', async() => {
-        wrapper.vm.selectedIDT();
-        wrapper.vm.showError({},1);
-        wrapper.vm.hideAlert({},1);
+
+    it('should show error when clicked on', async() => {
+        const copyClick = wrapper.find('#report-error-btn');
+        await wrapper.vm.$nextTick();
+        const clickEvent = jest.spyOn(wrapper.vm, 'showError');
+        clickEvent({},1)
+        wrapper.setData({
+            errorIndex: 1,
+            cacheParams: {},
+            errorAlert: true,
+        });
         await flushPromises();
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.errorAlert).toBe(true);
     });
-    it('clear DropDown value', () => {
-        wrapper.vm.clearDD('report-type');
-        wrapper.vm.clearDD('fulfillment-type');
-        wrapper.vm.clearDD('location-id');
-    })
-    it('pending status test', () => {
-        let tab = {
-            status: 'pending',
-        }
-        wrapper.vm.inPending(tab);
-    })
-    it('open link', async() => {
+
+    it('should show make noData true when clicked on if the msg is No data available', async() => {
+        const copyClick = wrapper.find('#report-error-btn');
+        await wrapper.vm.$nextTick();
+        const clickEvent = jest.spyOn(wrapper.vm, 'showError');
+        clickEvent({msg: 'No data available.'},1)
+        wrapper.setData({
+            noData: true
+        });
+        await flushPromises();
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.noData).toBe(true);
+    });
+
+    it('should close and delete the error message on click of cross icon', async() => {
+        const copyClick = wrapper.find('#hide-error');
+        await wrapper.vm.$nextTick();
+        const clickEvent = jest.spyOn(wrapper.vm, 'hideAlert');
+        clickEvent({},1)
+        wrapper.setData({
+            noData: false,
+            errorAlert: false
+        });
+        await flushPromises();
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.noData).toBe(false);
+    });
+
+    it('Should clear the dropdown and change the location disable to true', async () => {
+        const copyClick = wrapper.find('#report-type');
+        const clickEvent = jest.spyOn(wrapper.vm, 'clearDD');
+        copyClick.vm.$emit('searchInputChange', 'report-type');
+        await flushPromises();
+        wrapper.setData({
+            selectedReportType: '',
+            locationDisable: true
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.locationDisable).toBe(true);
+    });
+
+    it('Should clear the dropdown and disable the location id dropdown', async () => {
+        const copyClick = wrapper.find('#report-type');
+        const clickEvent = jest.spyOn(wrapper.vm, 'clearDD');
+        clickEvent('fulfillment-type')
+        copyClick.vm.$emit('searchInputChange', 'fulfillment-type');
+        await flushPromises();
+        wrapper.setData({
+            selectedModel: '',
+            haveFM: true
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.haveFM).toBe(true);
+    });
+
+    it('Should clear the Location ID dropdown', async () => {
+        const copyClick = wrapper.find('#report-type');
+        const clickEvent = jest.spyOn(wrapper.vm, 'clearDD');
+        clickEvent('location-id')
+        copyClick.vm.$emit('searchInputChange', 'fulfillment-type');
+        await flushPromises();
+        wrapper.setData({
+            selectedID: '',
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.selectedID).toBe('');
+    });
+
+    it('should return the pending state of the item', async() => {
+        let clickEvent = jest.spyOn(wrapper.vm, 'inPending');
+        clickEvent({ status: 'pending' });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        expect(clickEvent).toHaveReturnedWith(true);
+    });
+
+    it('Should open the link on click of download icon', async () => {
+        wrapper.setData({
+            errorAlert: true,
+        });
+        await flushPromises();
+        const consentDrawer = wrapper.find('.report-download');
+        consentDrawer.trigger('click','https://gen.xyz.com')
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.errorAlert).toBe(false);
+
+    });
+
+    /* it('open link', async() => {
         wrapper.vm.openLink(`https://gen.xyz.com`);
         await wrapper.vm.$nextTick();
-    });
+    }); */
     it('format string', async() => {
         wrapper.vm.formatStrings('xyz abc pqr');
         wrapper.vm.dataLength('xyz abc pqr');
