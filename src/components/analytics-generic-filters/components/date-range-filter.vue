@@ -60,7 +60,7 @@ export default {
       moment().subtract(DATE_RANGE_IN_DAYS, "days").toISOString(),
       moment().toISOString()
     ],
-    notBefore: moment().subtract(DATE_RANGE_LOWER_LIMIT, "months").toISOString(),
+    notBefore: moment().subtract(DATE_RANGE_LOWER_LIMIT, "days").toISOString(),
     dateFormat: DATE_FORMAT,
     excludedShortcuts: ['Last 15 days', 'Last 3 Months'],
     includedShortcuts: [{

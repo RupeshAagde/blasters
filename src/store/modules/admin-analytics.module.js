@@ -1128,6 +1128,7 @@ const mutations = {
                 state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId] = {}
             }
             state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId] = {...state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId], ...genericComponentSpecific};
+            state[url] = cloneDeep(state[url]);
         }
 
         if (timeFilter) {
