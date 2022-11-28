@@ -108,12 +108,39 @@ describe('credit-debit-note home page', () => {
         wrapper.vm.autoSearchNote();
     })
 
-    it('auto search status', () => {
-        wrapper.vm.autoSearchStatus();
+    it('auto search status', async() => {
+        const getListfn = jest.spyOn(wrapper.vm, 'getListData');
+        wrapper.setData({
+            filterType: 'Recon'
+        })
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const statusDD = wrapper.find('#search-status');
+        statusDD.vm.$emit('change');
+        expect(getListfn).toHaveBeenCalled();
     })
+
+    /* it('date picker', async() => {
+        const getListfn = jest.spyOn(wrapper.vm, 'dateRangeChange');
+        wrapper.setData({
+            reconDate: ['1669372339','1669372188'],
+        })
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const statusDD = wrapper.find('.date-picker');
+        statusDD.vm.$emit('input');
+        expect(getListfn).toHaveBeenCalled();
+    }) */
 
     it('handles page changes', () => {
         wrapper.vm.handlePageChanges({});
+    })
+
+    it('date picker', async() => {
+        wrapper.setData({
+            reconDate: ['1669372339','1669372188'],
+        });
+        wrapper.vm.dateRangeChange();
     })
 
     // it('should go to edit screen', () => {
@@ -131,8 +158,34 @@ describe('credit-debit-note home page', () => {
     }) */
 
     it('tests search by input function', () => {
-        wrapper.vm.autoSearchNote();
+        wrapper.setData({
+            filterTypeList: [
+                {
+                    text: 'aaa',
+                    value: 'aaa'
+                }
+            ]
+        });
+        wrapper.vm.searchStatus({text: 'aaa'});
+        wrapper.vm.autoSearchNote();  
+        wrapper.vm.closeBulkUpload({});
     })
+
+    it('Search with debounce', async() => {
+        //wrapper.vm.getDates();
+        wrapper.setData({
+            noteTypeItems: [
+                {
+                    text: 'aaa',
+                    value: 'aaa'
+                }
+            ]
+        })
+        wrapper.vm.changeNoteType({text: 'aaa'});
+        wrapper.vm.searchByInput({});
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    });
+
 
     it('opens approve drawer',() => {
         wrapper.vm.quickApproverViewSection('approve');

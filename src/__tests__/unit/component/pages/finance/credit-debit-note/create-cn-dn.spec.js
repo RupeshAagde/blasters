@@ -284,6 +284,15 @@ describe('credit-debit-note page', () => {
 
     it('should get seller details', async() => {
         await wrapper.vm.getSellerDetails();
+    });
+
+    it('reset form', async() => {
+        wrapper.setData({
+            kaptureId: {
+                value: ''
+            }
+        })
+        wrapper.vm.resetForm();
     })
 
     /* it('should reset form', () => {
@@ -563,7 +572,18 @@ describe('credit-debit-note page', () => {
     })
 
     it('validates form for credit amount', () => {
+        wrapper.setData({
+            kaptureId: {
+                value: '',
+            },
+            shipmentIdCommercial: {
+                value: '',
+            }
+        })
         wrapper.vm.validateForm({}, 'amount');
+        wrapper.vm.validateForm({}, 'feeType');
+        wrapper.vm.validateForm({}, 'kaptureId');
+        wrapper.vm.validateForm({}, 'shipmentIdCommercial');
     })
 
     it('validates form for credit amount for 0', () => {

@@ -13,6 +13,7 @@
                 ></nitrozen-input>
                 <!-- @change="changeFilterType" -->
                 <nitrozen-dropdown
+                    id="search-status"
                     class="filter-type filter-input-sm"
                     :items="modifiedFilterList"
                     :searchable="true"

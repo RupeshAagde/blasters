@@ -365,7 +365,7 @@
         }
       },
   
-      consoleAllProperties() {
+      /* consoleAllProperties() {
         console.log(this.componentDataList);
         console.log(this.componentSelected);
         console.log(this.purposeSelected);
@@ -377,7 +377,7 @@
         console.log(this.totalAmount);
         console.log(this.remark);
         console.log(this.kaptureId);  
-      },
+      }, */
   
       spliceAllFields(index) {  
         this.componentSelected.value.splice(index, 1);
