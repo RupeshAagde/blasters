@@ -25,11 +25,7 @@
                 :items="getVals"
                 :label="seedData.name"
                 :multiple="isMultiSelect"
-                :placeholder="
-                        value && value.length > 0
-                            ? formatPlaceholder(seedData.name)
-                            : 'Select '+seedData.name
-                    "
+                :placeholder="placeholderName"
                 :searchable="isMultiSelect"
                 class="width"
                 @searchInputChange="searchFilter($event)"
@@ -42,11 +38,7 @@
             v-model="value"
             :items="getVals"
             :label="seedData.name"
-            :placeholder="
-                value && value.length > 0
-                    ? formatPlaceholder(seedData.name)
-                    : seedData.name
-            "
+            :placeholder="placeholderName"
             :multiple="isMultiSelect"
             :searchable="isMultiSelect"
             @searchInputChange="searchFilter($event)"
@@ -133,7 +125,7 @@ export default {
         chartId: this.chartId,
         panelIndex: 1,
         cardIndex: 0,
-        filterIndex: 1
+        filterIndex: 2
       });
     },
     resetData() {
@@ -143,7 +135,7 @@ export default {
         chartId: this.chartId,
         panelIndex: 1,
         cardIndex: 0,
-        filterIndex: 1
+        filterIndex: 2
       });
     },
   },
@@ -171,6 +163,11 @@ export default {
         return false;
       }
       return this.value.length > 0 && this.seedData.hasClearOption
+    },
+    placeholderName() {
+      return this.value && this.value.length > 0
+          ? this.formatPlaceholder(this.seedData.name)
+          : 'Select ' + this.seedData.name
     }
   },
   mounted() {

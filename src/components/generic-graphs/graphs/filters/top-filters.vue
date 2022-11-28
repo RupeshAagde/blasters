@@ -14,10 +14,10 @@
 
 ::v-deep .rest-of-filters {
   .component-wrapper:nth-child(1) {
-    width: 80% !important;
+    width: 60% !important;
   }
 
-  .component-wrapper:nth-child(2) {
+  .component-wrapper:nth-child(2), .component-wrapper:nth-child(3) {
     width: 20% !important;
   }
 }
