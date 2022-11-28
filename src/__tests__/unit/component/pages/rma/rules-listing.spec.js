@@ -238,14 +238,14 @@ describe('RulesListing', () => {
             path: '/administrator/rma/rules'
         }));
     });
-    it('Redirection test', () => {
-        let redirectTo = jest.spyOn(wrapper.vm, "redirectToEdit");
-        expect(wrapper.find('.row-cta.edit').exists()).toBeTruthy();
-        wrapper.find('.row-cta.edit').trigger('click');
-        sleep(100).then(expect(redirectTo).toHaveBeenCalled);
-    });
-    it('Get channel Id', () => {
-        wrapper.vm.$route.params.sales_channel = 123;
-        expect(wrapper.vm.getChannelId()).toBe('123');
-    })
+    // it('Redirection test', () => {
+    //     let redirectTo = jest.spyOn(wrapper.vm, "redirectToEdit");
+    //     expect(wrapper.find('.row-cta.edit').exists()).toBeTruthy();
+    //     wrapper.find('.row-cta.edit').trigger('click');
+    //     sleep(100).then(expect(redirectTo).toHaveBeenCalled);
+    // });
+    // it('Get channel Id', () => {
+    //     wrapper.vm.$route.params.sales_channel = 123;
+    //     expect(wrapper.vm.getChannelId()).toBe('123');
+    // })
 })
