@@ -92,7 +92,7 @@ const filtersSharedValueMixins = {
                         this.pageName === ANALYTICS_PAGES.DASHBOARD
                             ? ANALYTICS_STATE.DASHBOARD_FILTERS
                             : ANALYTICS_STATE.REPORT_FILTERS;
-                    // console.log(page + '.' + locationUrl, this.chartId, get(this.allFilters, [page, locationUrl].join('.')));
+                    // console.log(page + '.' + locationUrl, pickValues(this.allFilters, [page, ...locationUrl, this.seedData.id]));
                     if (
                         !pickValues(this.allFilters, [page, ...locationUrl])
                     ) {
@@ -114,7 +114,7 @@ const filtersSharedValueMixins = {
                         this.$store.dispatch(this.seedData.resetSeedFilter.action, {
                             pageName: this.pageName, panelIndex: 1,
                             cardIndex: 0,
-                            filterIndex: 1
+                            filterIndex: 2
                         });
                     }
                     if (this.chartId) {

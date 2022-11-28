@@ -133,7 +133,7 @@ export default {
         chartId: this.chartId,
         panelIndex: 1,
         cardIndex: 0,
-        filterIndex: 1
+        filterIndex: 2
       });
     },
     resetData() {
@@ -143,7 +143,7 @@ export default {
         chartId: this.chartId,
         panelIndex: 1,
         cardIndex: 0,
-        filterIndex: 1
+        filterIndex: 2
       });
     },
   },

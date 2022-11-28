@@ -1127,7 +1127,7 @@ const mutations = {
             if (!state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId]) {
                 state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId] = {}
             }
-            state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId] = {...state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId], ...genericComponentSpecific};
+            state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId] = cloneDeep({...state[url][FILTER_TYPES.COMPONENT_SPECIFIC][filterId], ...genericComponentSpecific});
         }
 
         if (timeFilter) {

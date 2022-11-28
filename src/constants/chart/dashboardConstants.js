@@ -12,7 +12,7 @@ export const DASHBOARD_PAGE_PANELS = {
 export const DATE_FORMAT = 'MMM Do, YY';
 export const API_DATE_FORMAT = 'yyyy-MM-DD';
 export const COMPARE_DATE_OFFSET = 1; // in days
-export const DATE_RANGE_LOWER_LIMIT = 6 // in months
+export const DATE_RANGE_LOWER_LIMIT = 1; // in days
 
 export const DASHBOARD_LAYOUT_ORDER = [
     'a', 'b', 'c'
