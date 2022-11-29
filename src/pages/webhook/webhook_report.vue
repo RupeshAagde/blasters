@@ -1543,7 +1543,9 @@ export default {
                 }
                 let count = 0;
                 Object.keys(this.filtersToshow).forEach((item) => {
-                    count = count + this.filtersToshow[item].length;
+                    if (item != 'status') {
+                        count = count + this.filtersToshow[item].length;
+                    }
                 });
                 if (count > 0) {
                     this.selectedFilters = true;
