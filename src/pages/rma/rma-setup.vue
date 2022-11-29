@@ -26,13 +26,13 @@
                 <div class="setup-header">
                     <p class="setup-title">
                         {{
-                            this.$route.name.includes('custom')
-                                ? this.channel.name
+                            $route.name.includes('custom')
+                                ? channel.name
                                 : ''
                         }}
                         Rule
                         {{
-                            this.$route.name.includes('edit') ? 'Edit' : 'Setup'
+                            $route.name.includes('edit') ? 'Edit' : 'Setup'
                         }}
                     </p>
                 </div>
@@ -1019,6 +1019,7 @@ export default {
                 rule_type: this.$route.name.includes('global')
                     ? 'global'
                     : 'custom',
+                is_deleted: false,
                 conditions: {
                     department:
                         this.selectedDepartmentId !== null
