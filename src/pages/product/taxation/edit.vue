@@ -580,15 +580,15 @@ export default {
         },
         saveForm() {
             let postData = {};
-            if (this.hsn_code.value !== '' && this.hsn_code.value.length == 8) {
+            if (this.hsn_code.value !== '' && this.hsn_code.value.length >= 4) {
                 this.hsn_code.showerror = false;
                 postData.hsn_code = this.hsn_code.value;
             } else if (
                 this.hsn_code.value !== '' &&
-                this.hsn_code.value.length != 8
+                this.hsn_code.value.length < 4
             ) {
                 this.hsn_code.showerror = true;
-                this.hsn_code.errortext = 'HSN code must be of 8 digits';
+                this.hsn_code.errortext = 'HSN code must be minimum 4 digits';
             } else {
                 this.hsn_code.showerror = true;
             }

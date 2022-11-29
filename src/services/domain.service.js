@@ -94,6 +94,10 @@ const ADMIN_ORDER_BASE = isNode ?
     envVars.BROWSER_CONFIG.APEFACE_ADMIN_URL :
     envVars.APEFACE_ADMIN_URL;
 
+const EXTENSION_PAGE_URL = isNode ?
+    envVars.BROWSER_CONFIG.EXTENSION_PAGE_URL :
+    envVars.EXTENSION_PAGE_URL;
+
 const URLS = {
     // User Profile API's
     USER_PROFILE: () => {
@@ -478,6 +482,12 @@ const URLS = {
             ADMIN_ORDERS_BASE,
             `/v1.0/${company_id}?q=${slug}&filter_type=auto`
         );
+    },
+    GET_GENERAL_CONGIF: () => {
+        return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/general-config`);
+    },
+    GENERAL_CONGIF: () => {
+        return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/general-config`);
     },
     PRODUCT: ({ companyId, itemId }) => {
         let url = `v1.0/company/${companyId}/products/`

@@ -4,6 +4,8 @@ import { createAuthStore } from './modules/auth.module';
 import { createServerStore } from './modules/server.module';
 import { createCompanyStore } from './modules/company.module.js';
 import { createBillingStore } from './modules/billing.module.js';
+import { createPackagingStore } from './modules/packaging.module';
+import { createVariantStore } from './modules/variants.module'
 
 Vue.use(Vuex);
 export function createStore() {
@@ -11,12 +13,16 @@ export function createStore() {
     const server = createServerStore();
     const company = createCompanyStore();
     const billing = createBillingStore();
+    const packaging = createPackagingStore()
+    const variants = createVariantStore()
     return new Vuex.Store({
         modules: {
             auth,
             server,
             company,
-            billing
+            billing,
+            packaging,
+            variants
         }
     });
 }

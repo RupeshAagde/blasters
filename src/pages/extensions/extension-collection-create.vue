@@ -16,6 +16,7 @@
                         v-model="collection_data.published"
                     ></nitrozen-toggle-btn>
                     <nitrozen-button
+                        class="save-form-button"
                         :theme="'secondary'"
                         @click="saveForm(true)"
                         v-flatBtn
@@ -44,6 +45,7 @@
                             placeholder="For eg. Summer Styles, Suit Up, etc."
                             v-model="collection_data.name"
                             @input="onNameInput"
+                            class="collection-name"
                             :custom="true"
                             :maxlength="30"
                         >
@@ -72,6 +74,7 @@
                             @blur="handleDuplicateSlug"
                             :maxlength="24"
                             :disabled="checkSlugDisable()"
+                            class="collection-slug"
                         ></nitrozen-input>
                         <div class="three col" v-if="is_slug_loading">
                             <div class="loader-main" id="loader-1"></div>
@@ -148,14 +151,10 @@
                                         :showGallery="false"
                                         class="nitrozen-form-input logo-container"
                                         label="Icon*"
-                                        aspectRatio="1:1"
+                                        aspectRatio="94:87"
                                         :minimumResolution="{
-                                            width: 200,
-                                            height: 200
-                                        }"
-                                        :maximumResolution="{
-                                            width: 256,
-                                            height: 256
+                                            width: 282,
+                                            height: 261
                                         }"
                                         @delete="
                                             collection_data.banner.logo = ''
@@ -177,7 +176,7 @@
                     <div class="no-image-container">
                         <div class="main-label">
                             <div class="sub-label-top">
-                                Portrait Banner *
+                                Mobile Banner *
                             </div>
                             <div class="sub-label-bottom">(Mobile)</div>
                         </div>
@@ -189,14 +188,10 @@
                                         :showGallery="false"
                                         class="nitrozen-form-input logo-container"
                                         label="Icon*"
-                                        aspectRatio="13:20"
+                                        aspectRatio="75:37"
                                         :minimumResolution="{
-                                            width: 130,
-                                            height: 200
-                                        }"
-                                        :maximumResolution="{
-                                            width: 312,
-                                            height: 480
+                                            width: 375,
+                                            height: 185
                                         }"
                                         @delete="
                                             collection_data.banner.portrait =
@@ -236,14 +231,10 @@
                                         :showGallery="false"
                                         class="nitrozen-form-input logo-container land"
                                         label="Icon*"
-                                        aspectRatio="27:20"
+                                        aspectRatio="35:8"
                                         :minimumResolution="{
-                                            width: 540,
-                                            height: 400
-                                        }"
-                                        :maximumResolution="{
-                                            width: 1242,
-                                            height: 920
+                                            width: 1400,
+                                            height: 320
                                         }"
                                         @delete="
                                             collection_data.banner.landscape =
@@ -318,6 +309,7 @@
                     :isCancelable="true"
                     :title="'Extension List'"
                     @onAddExtensions="addSelectedExtensions"
+                    class="item-drawer-main"
                     :selected_extensions="collection_data.selected_items"
                     @closeProductModal="closeModal"
                     @handleModalRef="setModalRef"
@@ -640,6 +632,7 @@ export default {
                         });
                     })
                     .catch((err) => {
+                        console.log('>> err', err);
                         if (err.response.data.message) {
                             this.$snackbar.global.showError(
                                 err.response.data.message
@@ -716,7 +709,7 @@ export default {
                         this.collection_data.slug = this.nameToSlug(slug);
                     }
                     this.is_slug_loading = false;
-                });
+                })
             } else {
                 this.is_slug_loading = false;
                 this.$set(this.duplicate_slug, 'error', null);

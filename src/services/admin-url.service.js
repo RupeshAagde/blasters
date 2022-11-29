@@ -118,14 +118,6 @@ const AVIS_MAIN_URL = isNode
     ? envVars.BROWSER_CONFIG.AVIS_MAIN_SVC
     : envVars.AVIS_MAIN_URL;
 
-const MIXMASTER_MAIN_URL = isNode
-    ? envVars.BROWSER_CONFIG.MIXMASTER_MAIN_URL
-    : envVars.MIXMASTER_MAIN_URL;
-
-const MIXMASTER_PNL_URL = isNode
-    ? envVars.BROWSER_CONFIG.MIXMASTER_PNL_URL
-    : envVars.MIXMASTER_PNL_URL;
-
 const GALVATRON_MAIN_URL = isNode
     ? envVars.BROWSER_CONFIG.GALVATRON_MAIN_URL
     : envVars.GALVATRON_MAIN_URL;
@@ -1217,9 +1209,6 @@ const ADMIN_URLS = {
     VALIDATE_DOCUMENT: () => {
         return urlJoin(WHEELJACK_PNLCPR_URL, '/v1.0/documents/verification/config');
     },
-    VALIDATE_REFERRAL: () => {
-        return urlJoin(MIXMASTER_PNL_URL, '/v1.0/referralcode/validate');
-    },
     SAVE_DOCUMENT: () => {
         return urlJoin(SILVERBOLT_MAIN_URL, '/v1/onboarding/edit-documents');
     },
@@ -1626,24 +1615,6 @@ const ADMIN_URLS = {
 
     GET_PRODUCT_ATTRIBUTE_BY_SLUG: (slug) => {
         return urlJoin(SILVERBOLT_PCAT_URL, `/v1.0/company/${getCompInfo()}/product-attributes/${slug}`)
-    },
-    WEBHOOK_EVENT_LIST: () => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/events/`);
-    },
-    SUBSCRIBER_BY_COMPANY_ID: () => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/subscriber`);
-    },
-    GET_WEBHOOK_REPORT: () => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/reports/event_processed`);
-    },
-    TEST_WEBHOOK: () => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/subscriber/ping`);
-    },
-    GET_SUBSCRIBER_BY_ID :(id) => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/subscriber/${id}`);
-    },
-    GET_FILTER_LIST :() => {
-        return urlJoin(SURESHOT_PLTM_URL, `/v1.0/company/${getCompInfo()}/filters`);
     },
     FETCH_VERIFICATION_COMPANY: () => {
         return urlJoin(SILVERBOLT_PCAT_URL, `/v1.0/company/${getCompInfo()}/verification/company`);

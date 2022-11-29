@@ -196,3 +196,15 @@ export const ADMINISTRATOR_PERMISSIONS = {
         }
     ]
 }
+
+export const PREVIEW_EVENTS = {
+    ADD_SECTION: 'add_section',
+    REMOVE_SECTION: 'remove_section',
+    UPDATE_SECTION: 'update_section',
+    DRAG_SECTION_START: 'drag_section_start',
+    DRAGGING_SECTION: 'dragging_section',
+    DRAG_SECTION_END: 'drag_section_end',
+    UPDATE_CONFIG: 'update_config',
+    SELECT_SECTION: 'select_section',
+    SECTIONS_FILTER_PREDICATE: 'filter_section_predicate'
+};

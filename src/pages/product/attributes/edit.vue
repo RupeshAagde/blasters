@@ -121,7 +121,7 @@
                     ></nitrozen-toggle-btn>
                 </div>
                 <!-- Variant toggle -->
-                <div class="mt-md inline apart">
+                <!-- <div class="mt-md inline apart">
                     <div class="inline">
                         <div class="cl-Mako dark-xxxs mr-xxxs">
                             Variant Permissable
@@ -133,7 +133,7 @@
                     <nitrozen-toggle-btn
                         v-model="attribute.variant"
                     ></nitrozen-toggle-btn>
-                </div>
+                </div> -->
                 <loader v-if="inProgress" class="loading"></loader>
             </div>
             <!-- ############################################# -->
@@ -528,7 +528,7 @@ export default {
     computed: {
         pageTitle() {
             if (!this.editMode) {
-                return 'Create Atttribute';
+                return 'Create Attribute';
             }
             if (_.isEmpty(this.attribute)) {
                 return 'Edit Attribute';

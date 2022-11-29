@@ -2,6 +2,7 @@ import { isBrowser, isNode } from 'browser-or-node';
 import CompanyService from '@/services/company-admin.service';
 import { Array, console } from 'window-or-global';
 import InputTypes from './NitrozenCustomFormInputTypes';
+import { getNavigations } from '../pages/administrator/navigations';
 
 export const debounce = (func, wait, immediate) => {
     var timeout;
@@ -16,7 +17,7 @@ export const debounce = (func, wait, immediate) => {
 
         // The function to be called after
         // the debounce time has elapsed
-        var later = function() {
+        var later = function () {
             // null timeout to indicate the debounce ended
             timeout = null;
 
@@ -95,7 +96,7 @@ export const transformRequestOptions = (params) => {
 };
 
 export const camelCase = (str) => {
-    return str.replace(/\W+(.)/g, function(match, chr) {
+    return str.replace(/\W+(.)/g, function (match, chr) {
         return chr.toUpperCase();
     });
 };
@@ -109,19 +110,19 @@ export const getSelectedCurrencyPrice = (amount, exchangeRate) => {
 };
 
 export const detectMobile = () => {
-  if (
-    navigator.userAgent.match(/Android/i) ||
-    navigator.userAgent.match(/webOS/i) ||
-    navigator.userAgent.match(/iPhone/i) ||
-    navigator.userAgent.match(/iPad/i) ||
-    navigator.userAgent.match(/iPod/i) ||
-    navigator.userAgent.match(/BlackBerry/i) ||
-    navigator.userAgent.match(/Windows Phone/i)
-  ) {
-    return true
-  } else {
-    return false
-  }
+    if (
+        navigator.userAgent.match(/Android/i) ||
+        navigator.userAgent.match(/webOS/i) ||
+        navigator.userAgent.match(/iPhone/i) ||
+        navigator.userAgent.match(/iPad/i) ||
+        navigator.userAgent.match(/iPod/i) ||
+        navigator.userAgent.match(/BlackBerry/i) ||
+        navigator.userAgent.match(/Windows Phone/i)
+    ) {
+        return true
+    } else {
+        return false
+    }
 }
 
 export const detectMobileWidth = () => {
@@ -143,10 +144,10 @@ export const copyToClipboard = (str) => {
     document.body.appendChild(el); // Append the <textarea> element to the HTML document
     const selected =
         document.getSelection().rangeCount > 0 // Check if there is any content selected previously
-        ?
-        document.getSelection().getRangeAt(0) // Store selection if found
-        :
-        false; // Mark as false to know no selection existed before
+            ?
+            document.getSelection().getRangeAt(0) // Store selection if found
+            :
+            false; // Mark as false to know no selection existed before
     el.select(); // Select the <textarea> content
     document.execCommand('copy'); // Copy - only works as a result of a user action (e.g. click events)
     document.body.removeChild(el); // Remove the <textarea> element
@@ -166,7 +167,7 @@ export const convertToSlug = (text) => {
 
 export const getQueryObj = (searchURL) => {
     return Array.from(new URLSearchParams(searchURL)).reduce(
-        (o, i) => ({...o, [i[0]]: i[1] }), {}
+        (o, i) => ({ ...o, [i[0]]: i[1] }), {}
     );
 };
 export const getURLSearchParams = (url) => {
@@ -191,7 +192,7 @@ export const normalizeAPIError = (error) => {
         if (data !== Object(data)) {
             obj = { message: data, code: status };
         } else {
-            obj = {...data, message: data.message, code: status };
+            obj = { ...data, message: data.message, code: status };
         }
         return obj;
     } else if (error.request) {
@@ -394,15 +395,15 @@ export const validateNitrozenCustomFormInput = (input, skipKey = false) => {
             return false
     }
 }
- export const validUrl = (url) => {
-     let regexp = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
-     if (regexp.test(url)) {
-         return true;
-     }
-     return false
- }
+export const validUrl = (url) => {
+    let regexp = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+    if (regexp.test(url)) {
+        return true;
+    }
+    return false
+}
 
- export const isLive = schedule => {
+export const isLive = schedule => {
     let isLive = false;
     const s = schedule.next_schedule; // next schedules
     if (!s) return false;
@@ -451,53 +452,53 @@ export const detectFPApp = () => {
     return false;
 };
 
-export const allowNumbersOnly = function (event){
-    if((event.ctrlKey || event.metaKey) && event.keyCode == 65){
+export const allowNumbersOnly = function (event) {
+    if ((event.ctrlKey || event.metaKey) && event.keyCode == 65) {
         return true; // allow control + A
     }
     if (!event.shiftKey && event.keyCode == 8 || event.keyCode == 46
         || event.keyCode == 37 || event.keyCode == 39) {
-            return true;
+        return true;
     }
-    else if ( (event.keyCode >= 48 && event.keyCode <= 57) && !event.shiftKey) {
+    else if ((event.keyCode >= 48 && event.keyCode <= 57) && !event.shiftKey) {
         return true;
     }
     event.preventDefault()
     return false;
 }
 
-export const DecimalNumbersOnly = function (event,el){
+export const DecimalNumbersOnly = function (event, el) {
     if (event.keyCode == 190) {
         if (el.indexOf('.') === -1) {
             return true;
         }
     }
-    if((event.ctrlKey || event.metaKey) && event.keyCode == 65){
+    if ((event.ctrlKey || event.metaKey) && event.keyCode == 65) {
         return true; // allow control + A
     }
     if (!event.shiftKey && event.keyCode == 8 || event.keyCode == 46
         || event.keyCode == 37 || event.keyCode == 39) {
-            return true;
+        return true;
     }
-    else if ( (event.keyCode >= 48 && event.keyCode <= 57) && !event.shiftKey) {
+    else if ((event.keyCode >= 48 && event.keyCode <= 57) && !event.shiftKey) {
         return true;
     }
     event.preventDefault()
     return false;
 }
 
-export const allowAlphaNumbericOnly = function(event){
-    if((event.ctrlKey || event.metaKey) && event.keyCode == 65){
+export const allowAlphaNumbericOnly = function (event) {
+    if ((event.ctrlKey || event.metaKey) && event.keyCode == 65) {
         return true; // allow control + A
     }
     if (!event.shiftKey && event.keyCode == 8 || event.keyCode == 46
         || event.keyCode == 37 || event.keyCode == 39) {
-            return true;
+        return true;
     }
     if (
         (
-            (!event.shiftKey && event.keyCode >= 48 && event.keyCode <= 57) || 
-            (event.keyCode >= 65 && event.keyCode <= 90) || 
+            (!event.shiftKey && event.keyCode >= 48 && event.keyCode <= 57) ||
+            (event.keyCode >= 65 && event.keyCode <= 90) ||
             (event.keyCode >= 97 && event.keyCode <= 122)
         )
     ) {
@@ -516,3 +517,148 @@ export const convertSnakeCaseToString = str => {
         return str.join(' ');
     }
 };
+
+//*Packaging related helpers
+
+/**
+ * @author Rohan Shah
+ * @param {Object} product 
+ * @description Based on the arguments creates a request body and returns it
+ * @returns Request body
+ */
+export const generateProductRequest = (product) => {
+    const {
+        bulkChecked,
+        l3Checked,
+        errorRate,
+        itemId,
+        deadWeight,
+        length,
+        width,
+        height,
+        orderThreshold,
+        weight,
+        l3Categories,
+        bulkPackaging
+    } = product;
+    // default request object
+    let createProductRequestBody = {
+        item_id: itemId,
+        is_bulk: bulkChecked,
+        error_rate: errorRate,
+        is_l3_specific: l3Checked,
+        dead_weight_in_kg: deadWeight,
+        dimensions: {
+            length,
+            width,
+            height,
+        },
+        maximum_order: orderThreshold,
+        weight,
+        default_package: {
+            quantity: {
+                max: 1,
+                min: 1
+            },
+            l3_categories: []
+        },
+        l3_mapping: []
+    };
+    // pass L3 default package if toggle is checked
+    if (l3Checked) {
+        createProductRequestBody.default_package.l3_categories = l3Categories;
+    }
+    // pass bulk group categories if the bulkChecked flag is true
+    if (bulkChecked) {
+        createProductRequestBody.l3_mapping = bulkPackaging
+    }
+    // return the createProductRequestBody
+    return createProductRequestBody
+};
+/**
+ * @author Rohan Shah
+ * @param {Object} groupCategory 
+ * @description Based on the arguments creates a request body and returns it
+ * @returns Request body
+ */
+export const generateGroupCategoryRequest = (groupCategory) => {
+    const { categories, categoryName, slug } = groupCategory;
+    return {
+        name: categoryName.charAt(0).toUpperCase() + categoryName.slice(1),
+        categories: categories,
+        slug
+    };
+}
+export const convertKebabCaseToString = str => {
+    if (str) {
+        str = str.toLowerCase().split('-');
+        for (var i = 0; i < str.length; i++) {
+            str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+        }
+        return str.join(' ');
+    }
+};
+
+export const getFirstAllowedRoute = userPermissions => {
+    let matchingRoute = "/";
+    if(userPermissions && userPermissions.length){
+        const firstRoute = getNavigations().find(nav=>(!nav.permission || userPermissions.includes(nav.permission) ));
+        if (firstRoute) {
+            matchingRoute = firstRoute.link || matchingRoute;
+            if (firstRoute.children && firstRoute.children.length) {
+                const matchingFirstChild = firstRoute.children.find(nav=>(!nav.permission || userPermissions.includes(nav.permission)));
+                if (matchingFirstChild) {
+                    matchingRoute = matchingFirstChild.link || matchingRoute;
+                }
+            }
+        }
+    }
+    return matchingRoute;
+}
+/**
+ * method name: getAspectRatioFromString
+ * usage: provides aspect ratio from a valid string value
+ * params: takes two parameters first is the value from which we extracts data, second is optional and used to determine whether a string or object needed.
+ */
+
+export const getAspectRatioFromString = function (aspectRatio = '1:1', getObject = true) {
+    try {
+        aspectRatio = aspectRatio.split(":")
+        if (aspectRatio.length != 2) {
+            throw `aspect ratio ${aspectRatio} isn't in correct format`
+
+        } else {
+            let width = parseInt(aspectRatio[0].trim())
+            let height = parseInt(aspectRatio[1].trim())
+            const greatestCommonD = gcd(width,height)
+            width = width/greatestCommonD
+            height = height/greatestCommonD
+            if (getObject){
+                return {
+                    width,
+                    height
+                }
+            } else {
+                return `${width}:${height}`
+            }
+           
+        }
+    } catch (e) {
+        console.log('Error', e)
+        // throwing default aspect ratio
+        if (getObject){
+            return {
+                width: 1,
+                height: 1
+            }
+        } else {
+            return `1:1`
+        }
+    }
+    function gcd(a,b){
+        if (b==0){
+            return a
+        }
+        return gcd(b, a%b)
+    }
+}

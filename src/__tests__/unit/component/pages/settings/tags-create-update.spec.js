@@ -26,11 +26,11 @@ describe('Mounted Create tags', () => {
 
         router = new VueRouter({
             routes: [{
-                path: '/administrator/settings/create-tag',
+                path: '/administrator/settings/platform/create-tag',
                 component: TagsCreateUpdatePage
             }]
         })
-        router.push('/administrator/settings/create-tag');
+        router.push('/administrator/settings/platform/create-tag');
         wrapper = mount( TagsCreateUpdatePage , {
             localVue,
             router,
