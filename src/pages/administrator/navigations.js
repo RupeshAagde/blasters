@@ -287,9 +287,9 @@ export const getNavigations = () => {
             children: []
         },
         {
-            display: 'Clients',
+            display: 'Oauth Clients',
             link: '/administrator/oauthclient',
-            title: 'Clients',
+            title: 'Oauth Clients',
             icon: 'developers',
             highlightedIcon: 'developers-highlighted',
             active: false,
