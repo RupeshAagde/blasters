@@ -1,11 +1,16 @@
 import {ANALYTICS_PAGES} from '@/components/generic-graphs/data/constants';
-import {ANALYTICS_FILTER_TYPES} from '../constants/constants';
+import {ANALYTICS_FILTER_TYPES, FILTER_RETURN_TYPES} from '../constants/constants';
 import {mapGetters} from 'vuex';
 import {GET_GLOBAL_SEED_FILTERS} from '@/store/getters.type';
 import {ANALYTICS_STATE, FILTER_TYPES} from "../../../store/modules/admin-analytics.module";
 import {GET_ALL_FILTERS, GET_GLOBALLY_STAGED_FILTER} from "../../../store/getters.type";
-import {ADMIN_RESET_ALL_REFRESH_TOKENS, ADMIN_SAVE_FILTERS} from "../../../store/action.type";
+import {
+    ADMIN_RESET_ALL_REFRESH_TOKENS,
+    ADMIN_RESET_DROPDOWN_SEED_FILTERS_FOR_DUNZO_DASHBOARD,
+    ADMIN_SAVE_FILTERS
+} from "../../../store/action.type";
 import {pickValues} from "@/helper/utils";
+
 
 const filterMixin = {
     props: {
@@ -92,13 +97,12 @@ const filtersSharedValueMixins = {
                         this.pageName === ANALYTICS_PAGES.DASHBOARD
                             ? ANALYTICS_STATE.DASHBOARD_FILTERS
                             : ANALYTICS_STATE.REPORT_FILTERS;
-                    // console.log(page + '.' + locationUrl, pickValues(this.allFilters, [page, ...locationUrl, this.seedData.id]));
                     if (
                         !pickValues(this.allFilters, [page, ...locationUrl])
                     ) {
                         return '';
                     }
-                    return pickValues(this.allFilters, [page, ...locationUrl, this.seedData.id]) ? pickValues(this.allFilters, [page, ...locationUrl, this.seedData.id]) : '';
+                    return pickValues(this.allFilters, [page, ...locationUrl, this.seedData.id]) ? pickValues(this.allFilters, [page, ...locationUrl, this.seedData.id]) : FILTER_RETURN_TYPES[this.seedData.filterType];
                 }
                 return this.stagedFiltersFunction(
                     this.pageName,
@@ -110,11 +114,14 @@ const filtersSharedValueMixins = {
                 this.val = val;
                 this.saveValueToStore(val);
                 if (this.applyFilter) {
-                    if (this.seedData.resetSeedFilter) {
-                        this.$store.dispatch(this.seedData.resetSeedFilter.action, {
-                            pageName: this.pageName, panelIndex: 1,
+                    if (this.seedData.dependency) {
+                        this.$store.dispatch(ADMIN_RESET_DROPDOWN_SEED_FILTERS_FOR_DUNZO_DASHBOARD, {
+                            pageName: this.pageName,
+                            panelIndex: 1,
                             cardIndex: 0,
-                            filterIndex: 2
+                            filterIndex: 2,
+                            dependency: this.seedData.dependency.dependentOn,
+                            chartId: this.chartId
                         });
                     }
                     if (this.chartId) {
