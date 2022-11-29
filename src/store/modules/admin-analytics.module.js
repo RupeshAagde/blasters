@@ -55,6 +55,7 @@ import {
     RESET_FILTERS,
     RESET_INDIVIDUAL_GRAPH_DATA,
     RESET_REFRESH_TOKENS,
+    RESET_SEED_FILTERS_ON_EVENT,
     RESIZE_REPORT_PAGE,
     SAVE_ALL_FILTERS,
     SAVE_COMPONENT_SPECIFIC_FILTERS,
@@ -688,13 +689,29 @@ const actions = {
             }
         );
     },
-    [ADMIN_RESET_DROPDOWN_SEED_FILTERS_FOR_DUNZO_DASHBOARD]({commit, state}, {pageName, panelIndex, cardIndex, filterIndex}) {
+    [ADMIN_RESET_DROPDOWN_SEED_FILTERS_FOR_DUNZO_DASHBOARD]({commit, state}, {
+        pageName,
+        panelIndex,
+        cardIndex,
+        filterIndex,
+        dependency,
+        chartId
+    }) {
         commit(SAVE_SEED_FILTER_FOR_DROPDOWNS, {
             values: null,
             panelIndex: panelIndex,
             cardIndex: cardIndex,
             filterIndex: filterIndex,
             pageName
+        });
+        commit(RESET_SEED_FILTERS_ON_EVENT, {
+            values: null,
+            panelIndex: panelIndex,
+            cardIndex: cardIndex,
+            filterIndex: filterIndex,
+            pageName,
+            dependency,
+            chartId
         });
     },
 
@@ -1154,6 +1171,34 @@ const mutations = {
             values: values
         };
         state[url][panelIndex].cards[cardIndex].filters = cloneDeep(state[url][panelIndex].cards[cardIndex].filters);
+    }, [RESET_SEED_FILTERS_ON_EVENT](state, {
+        pageName,
+        panelIndex,
+        cardIndex,
+        dependency = [],
+        chartId
+    }) {
+        const startingUrlForData = constructAnalyticsBeginningUrl(pageName);
+        const startingUrlForFilters = constructAnalyticsBeginningUrl(pageName, true);
+        state[startingUrlForData][panelIndex].cards[cardIndex].filters.data = state[startingUrlForData][panelIndex].cards[cardIndex].filters.data.map(x => ({
+            ...x,
+            ...(x.dataSource && dependency.includes(x.id) && {values: null})
+        }));
+
+        // remove all filters applied for those dependent ones
+        const componentFilters = state[startingUrlForFilters][FILTER_TYPES.COMPONENT_SPECIFIC][chartId];
+        const dependencyMap = dependency.reduce((a, item) => {
+            a[item] = 1;
+            return a;
+        }, {});
+        const finalSetOfFilters = Object.keys(componentFilters).reduce((a, item) => {
+            if (!dependencyMap[item]) {
+                a[item] = componentFilters[item];
+            }
+            return a;
+        }, {});
+        state[startingUrlForFilters][FILTER_TYPES.COMPONENT_SPECIFIC][chartId] = finalSetOfFilters;
+        state[startingUrlForData] = cloneDeep(state[startingUrlForData]);
     },
 };
 

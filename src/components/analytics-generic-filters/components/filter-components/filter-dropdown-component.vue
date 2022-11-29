@@ -22,7 +22,7 @@
           <div slot="collapse-body" class="drop-down">
             <nitrozen-dropdown
                 v-model="value"
-                :items="getVals"
+                :items="getVals || []"
                 :label="seedData.name"
                 :multiple="isMultiSelect"
                 :placeholder="placeholderName"
@@ -36,7 +36,7 @@
         <nitrozen-dropdown
             v-else
             v-model="value"
-            :items="getVals"
+            :items="getVals || []"
             :label="seedData.name"
             :placeholder="placeholderName"
             :multiple="isMultiSelect"
@@ -138,6 +138,9 @@ export default {
         filterIndex: 2
       });
     },
+    setGetVals(vals = this.getValues) {
+      this.getVals = vals;
+    }
   },
   computed: {
     refreshToken() {
@@ -168,18 +171,18 @@ export default {
       return this.value && this.value.length > 0
           ? this.formatPlaceholder(this.seedData.name)
           : 'Select ' + this.seedData.name
-    }
+    },
   },
   mounted() {
     if (this.seedData.defaultValue) {
       this.value = this.seedData.defaultValue;
     }
-    this.getVals = this.getValues;
+    this.setGetVals();
   },
   watch: {
     getValues: {
       handler(val) {
-        this.getVals = val;
+        this.setGetVals(val);
       }
     }
   }
