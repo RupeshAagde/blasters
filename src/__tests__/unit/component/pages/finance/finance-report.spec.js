@@ -262,7 +262,7 @@ describe('Finance', () => {
         //expect(drink).toHaveReturnedWith('La Croix');
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveReturnedWith('15-07-2022 00:39 am');
+        expect(clickEvent).toHaveBeenCalled();
     });
 
     it('auto refresh should run after 10 seconds', async() => {
