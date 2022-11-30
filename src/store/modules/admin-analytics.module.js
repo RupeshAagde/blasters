@@ -668,7 +668,15 @@ const actions = {
             return url;
         });
     },
-    [ADMIN_LOAD_FILTER_DROPDOWN_VALUES]({commit, state}, {url, pageName, chartId, panelIndex, cardIndex, filterIndex}) {
+    [ADMIN_LOAD_FILTER_DROPDOWN_VALUES]({commit, state}, {
+        url,
+        pageName,
+        chartId,
+        panelIndex,
+        cardIndex,
+        filterIndex,
+        id
+    }) {
         const allFilters = {
             [ANALYTICS_STATE.DASHBOARD_FILTERS]: state[ANALYTICS_STATE.DASHBOARD_FILTERS],
             [ANALYTICS_STATE.REPORT_FILTERS]: state[ANALYTICS_STATE.REPORT_FILTERS]
@@ -695,7 +703,8 @@ const actions = {
         cardIndex,
         filterIndex,
         dependency,
-        chartId
+        chartId,
+        resetSelf = null
     }) {
         commit(SAVE_SEED_FILTER_FOR_DROPDOWNS, {
             values: null,
@@ -711,7 +720,8 @@ const actions = {
             filterIndex: filterIndex,
             pageName,
             dependency,
-            chartId
+            chartId,
+            resetSelf
         });
     },
 
@@ -929,6 +939,7 @@ const mutations = {
             [key]: toggleValue
         };
         state[ANALYTICS_STATE.REFRESH_ALL_PAGE][page] = {...state[ANALYTICS_STATE.REFRESH_ALL_PAGE][page], ...newObject};
+        console.log('state: ', state);
     }, [RESET_REFRESH_TOKENS](state, {toggle, page}) {
         state[ANALYTICS_STATE.REFRESH_ALL_PAGE][page] = Object.keys(state[ANALYTICS_STATE.REFRESH_ALL_PAGE][page]).reduce((a, i) => {
             a[i] = toggle;
@@ -1176,7 +1187,8 @@ const mutations = {
         panelIndex,
         cardIndex,
         dependency = [],
-        chartId
+        chartId,
+        resetSelf
     }) {
         const startingUrlForData = constructAnalyticsBeginningUrl(pageName);
         const startingUrlForFilters = constructAnalyticsBeginningUrl(pageName, true);
@@ -1186,6 +1198,9 @@ const mutations = {
         }));
 
         // remove all filters applied for those dependent ones
+        if (resetSelf) {
+            dependency.push(resetSelf.id);
+        }
         const componentFilters = state[startingUrlForFilters][FILTER_TYPES.COMPONENT_SPECIFIC][chartId];
         const dependencyMap = dependency.reduce((a, item) => {
             a[item] = 1;

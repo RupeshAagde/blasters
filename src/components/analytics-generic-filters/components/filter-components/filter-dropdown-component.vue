@@ -125,7 +125,7 @@ export default {
         chartId: this.chartId,
         panelIndex: 1,
         cardIndex: 0,
-        filterIndex: 2
+        filterIndex: 2,
       });
     },
     resetData() {
@@ -135,7 +135,8 @@ export default {
         chartId: this.chartId,
         panelIndex: 1,
         cardIndex: 0,
-        filterIndex: 2
+        filterIndex: 2,
+        resetSelf: {id: this.seedData.id}
       });
     },
     setGetVals(vals = this.getValues) {
