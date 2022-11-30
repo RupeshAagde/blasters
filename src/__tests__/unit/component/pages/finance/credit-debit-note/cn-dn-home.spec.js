@@ -6,11 +6,11 @@ import axios from 'axios';
 import URLS from '@/services/domain.service';
 import MockAdapter from 'axios-mock-adapter';
 import flushPromises from 'flush-promises';
-import CreditHomeVue from '../../../../../../../src/pages/finance/credit-debit-note/cn-dn-home.Vue';
+import CreditHomeVue from '../../../../../../../src/pages/finance/credit-debit-note/cn-dn-home.vue';
 import USER_MOCK from './fixtures/user-mock.json';
 import INITIAL_PAYLOAD_MOCK from './fixtures/initial-payload.json';
 import NOTE_DETAIL_MOCK from './fixtures/note-detail.json';
-import CreditNoteVue from '../../../../../../../src/pages/finance/credit-debit-note/create-cn-dn.Vue';
+import CreditNoteVue from '../../../../../../../src/pages/finance/credit-debit-note/create-cn-dn.vue';
 
 let wrapper, router, localVue;
 const mock = new MockAdapter(axios);

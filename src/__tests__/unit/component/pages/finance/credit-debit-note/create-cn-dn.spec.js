@@ -1,7 +1,7 @@
 'use strict';
 
 import { shallowMount, createLocalVue, mount } from "@vue/test-utils";
-import CreditNote from '../../../../../../../src/pages/finance/credit-debit-note/create-cn-dn.Vue';
+import CreditNote from '@/pages/finance/credit-debit-note/create-cn-dn.vue';
 //import SaveNoteDialog from '../../../../../pages/finance/save-note-dialog.vue';
 //import GoBackDialog from '../../../../../pages/finance/go-back-dialog.vue';
 //import ExpandableTable from '../../../../../pages/credit-debit-note/expandable-table.vue';
