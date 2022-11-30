@@ -152,6 +152,7 @@
                                 placeholder="Enter Shipment ID"
                                 :disabled="readOnlyMode"
                                 v-model="shipmentIdCommercial.value"
+                                :required="isRequired"
                                 @click="validateForm($event,'shipmentIdCommercial')"
                                 @input="validateForm($event,'shipmentIdCommercial')"
                             ></nitrozen-input>
@@ -164,6 +165,7 @@
                                 placeholder="Enter Invoice Number"
                                 :disabled="readOnlyMode"
                                 v-model="invoiceNumber.value"
+                                :required="isRequired"
                                 @click="validateForm($event,'invoiceNumber', false)"
                                 @input="validateForm($event,'invoiceNumber', false)"
                             ></nitrozen-input>
