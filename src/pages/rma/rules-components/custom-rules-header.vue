@@ -7,14 +7,15 @@
             </nitrozen-tooltip>
         </div>
         <div class="jumbotron-btns">
-            <div>  
+            <!--  Not removing the logic as of now, will remove after x0 testing and demo -->
+            <!-- <div>  
                 <span class="custom-txt">Custom</span>
                 <nitrozen-toggle
                     :value="toggleValue"
                     @change="toggleClick"
                     :disabled="false"
                 />
-            </div> 
+            </div>  -->
             <nitrozen-button
                 v-if="btnLabel"
                 :theme="'secondary'"
