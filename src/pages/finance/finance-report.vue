@@ -213,11 +213,12 @@
                                         <td>
                                             <span
                                                 class="report-download"
+                                                id="report-download"
                                                 v-if="tab.download_link"
                                                 @click="openLink(tab.download_link)"
                                                 title="Download Report"
                                             >
-                                                <ukt-inline-svg src="report-download"></ukt-inline-svg>
+                                                <adm-inline-svg src="report-download"></adm-inline-svg>
                                             </span>
                                             <span
                                                 v-else-if="inPending(tab)"
@@ -226,7 +227,6 @@
                                             </span>
                                             <span
                                                 v-else
-                                                
                                                 title="No Download Link"
                                             >
                                                 <span
@@ -235,7 +235,7 @@
                                                     @click="hideAlert(tab, index)"
                                                     v-if="errorAlert && errorIndex == index"
                                                 >
-                                                    <ukt-inline-svg src="cross-black"></ukt-inline-svg>
+                                                    <adm-inline-svg src="cross-black"></adm-inline-svg>
                                                 </span>
                                                 <span
                                                     id="report-error-btn"
@@ -243,7 +243,7 @@
                                                     @click="showError(tab, index)"
                                                     v-else
                                                 >
-                                                    <ukt-inline-svg src="report-error"></ukt-inline-svg>
+                                                    <adm-inline-svg src="report-error"></adm-inline-svg>
                                                 </span>
                                             </span>
                                         </td>
@@ -307,7 +307,7 @@
 import MirageAlert from '@/components/orders/alert.vue';
 import ReportGenerationDialog from './report-generation-dialog.vue';
 import moment from 'moment';
-import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
+import AdmInlineSvg from '@/components/common/adm-inline-svg.vue';
 import CompanyService from '@/services/company-admin.service';
 import FinanceService from '@/services/finance.service.js';
 //import loader from '@/components/admin/common/adm-loader.vue';
@@ -358,7 +358,7 @@ export default {
         //CsvView,
         'nitrozen-badge': NitrozenBadge,
         //'adm-inline-svg': adminlinesvg,
-        'ukt-inline-svg': UktInlineSvg,
+        'adm-inline-svg': AdmInlineSvg,
         'fy-loader': loader,
         ReportGenerationDialog,
     },
@@ -787,6 +787,7 @@ export default {
             if(cache.msg == 'No data available.'){
                 this.noData = true;
             }
+            console.log('this function is getting hit');
             this.errorIndex = index;
             this.cacheParams = cache;
             this.errorAlert = true;

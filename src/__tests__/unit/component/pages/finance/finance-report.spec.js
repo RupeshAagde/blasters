@@ -374,22 +374,22 @@ describe('Finance', () => {
         expect(clickEvent).toHaveReturnedWith(true);
     });
 
-    it('Should open the link on click of download icon', async () => {
+    /* it('Should open the link on click of download icon', async () => {
         wrapper.setData({
-            errorAlert: true,
+            errorAlert: false,
         });
         await flushPromises();
-        const consentDrawer = wrapper.find('.report-download');
+        const consentDrawer = wrapper.find('#report-download');
         consentDrawer.trigger('click','https://gen.xyz.com')
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.errorAlert).toBe(false);
 
-    });
+    }); */
 
-    /* it('open link', async() => {
+    it('open link', async() => {
         wrapper.vm.openLink(`https://gen.xyz.com`);
         await wrapper.vm.$nextTick();
-    }); */
+    });
     it('format string', async() => {
         wrapper.vm.formatStrings('xyz abc pqr');
         wrapper.vm.dataLength('xyz abc pqr');
