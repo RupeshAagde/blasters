@@ -211,7 +211,7 @@ describe('RulesListing', () => {
         expect(headerWrapper.exists()).toBeTruthy();
         headerWrapper.find('.jumbotron-btns button').trigger('click');
         sleep(100).then(expect(btnClick).toHaveBeenCalled);
-        headerWrapper.find('.jumbotron-btns input').trigger('change');
+        //headerWrapper.find('.jumbotron-btns input').trigger('change');
         sleep(100).then(expect(toggleClick).toHaveBeenCalled);
     })
     it('Breadcrumb Component', () => {

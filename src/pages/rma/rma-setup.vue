@@ -586,11 +586,9 @@ export default {
                 this.$route.name.includes('edit') &&
                 this.editRuleData !== undefined
             ) {
-                if(this.editRuleData.meta.department) {
-                    this.selectedDepartmentId = this.editRuleData.meta.department.id;
-                    this.selectedDepartment = `${this.editRuleData.meta.department.display_name}`;
-                    this.fetchL3Categories(this.editRuleData.meta.department.id);
-                }
+                this.selectedDepartmentId = this.editRuleData.meta.department.id;
+                this.selectedDepartment = `${this.editRuleData.meta.department.display_name}`;
+                //this.fetchL3Categories(this.editRuleData.meta.department.id);
                 if (this.editRuleData.meta.l3) {
                     this.selectedL3 = `${this.editRuleData.meta.l3.display_name}`;
                     this.selectedL3Id = this.editRuleData.meta.l3.id;
@@ -696,36 +694,36 @@ export default {
                     break;
             }
         },
-        handleDepartmentDropdown(selectedDept) {
-            this.selectedDepartmentId = null;
-            this.selectedL3Id = null;
-            this.selectedL3 = null;
-            this.fetchL3Categories(selectedDept.split('-|-')[0]);
-        },
-        handleL3Dropdown() {
-            this.selectedL3Id = null;
-        },
-        handleDepartmentDropdownSearch: debounce(function({ text }) {
-            if (!text.length) {
-                this.selectedDepartmentId = null;
-                this.selectedDepartment = null;
-            }
-            this.selectedL3Id = null;
-            this.selectedL3 = null;
-            this.fetchDepartmentsList(text);
-        }, 300),
-        handleL3DropdownSearch: debounce(function({ text }) {
-            if (!text.length) {
-                this.selectedL3Id = null;
-                this.selectedL3 = null;
-            }
-            this.fetchL3Categories(
-                this.selectedDepartmentId !== null
-                    ? this.selectedDepartmentId
-                    : this.selectedDepartment.split('-|-')[0],
-                text
-            );
-        }, 300),
+        // handleDepartmentDropdown(selectedDept) {
+        //     this.selectedDepartmentId = null;
+        //     this.selectedL3Id = null;
+        //     this.selectedL3 = null;
+        //     //this.fetchL3Categories(selectedDept.split('-|-')[0]);
+        // },
+        // handleL3Dropdown() {
+        //     this.selectedL3Id = null;
+        // },
+        // handleDepartmentDropdownSearch: debounce(function({ text }) {
+        //     if (!text.length) {
+        //         this.selectedDepartmentId = null;
+        //         this.selectedDepartment = null;
+        //     }
+        //     this.selectedL3Id = null;
+        //     this.selectedL3 = null;
+        //     //this.fetchDepartmentsList(text);
+        // }, 300),
+        // handleL3DropdownSearch: debounce(function({ text }) {
+        //     if (!text.length) {
+        //         this.selectedL3Id = null;
+        //         this.selectedL3 = null;
+        //     }
+        //     this.fetchL3Categories(
+        //         this.selectedDepartmentId !== null
+        //             ? this.selectedDepartmentId
+        //             : this.selectedDepartment.split('-|-')[0],
+        //         text
+        //     );
+        // }, 300),
         filterValues(parent, child) {
             return parent.filter((el) => {
                 return child.every((f) => {

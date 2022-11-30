@@ -65,45 +65,45 @@ describe('RMA Global Setup Component', () => {
         expect(wrapperGlobalSetup.element).toMatchSnapshot();
     });
 
-    it('search department dropdown', async () => {
-        let departmentDropdown = wrapperGlobalSetup.findAllComponents(
-            NitrozenDropdown
-        );
-        departmentDropdown = departmentDropdown.at(0);
-        departmentDropdown.vm.$emit('searchInputChange', { text: 'test' });
-        expect(wrapperGlobalSetup.vm.selectedL3).toBe(null);
-    });
+    // it('search department dropdown', async () => {
+    //     let departmentDropdown = wrapperGlobalSetup.findAllComponents(
+    //         NitrozenDropdown
+    //     );
+    //     departmentDropdown = departmentDropdown.at(0);
+    //     departmentDropdown.vm.$emit('searchInputChange', { text: 'test' });
+    //     expect(wrapperGlobalSetup.vm.selectedL3).toBe(null);
+    // });
 
-    it('select department dropdown', async () => {
-        let departmentDropdown = wrapperGlobalSetup.findAllComponents(
-            NitrozenDropdown
-        );
-        departmentDropdown = departmentDropdown.at(0);
-        departmentDropdown.vm.$emit('input', 'ECOMM');
-        departmentDropdown.vm.$emit('change');
-        expect(wrapperGlobalSetup.vm.selectedDepartment).toBe('ECOMM');
-    });
+    // it('select department dropdown', async () => {
+    //     let departmentDropdown = wrapperGlobalSetup.findAllComponents(
+    //         NitrozenDropdown
+    //     );
+    //     departmentDropdown = departmentDropdown.at(0);
+    //     departmentDropdown.vm.$emit('input', 'ECOMM');
+    //     departmentDropdown.vm.$emit('change');
+    //     expect(wrapperGlobalSetup.vm.selectedDepartment).toBe('ECOMM');
+    // });
 
-    it('search L3 dropdown', async () => {
-        let L3Dropdown = wrapperGlobalSetup.findAllComponents(NitrozenDropdown);
-        L3Dropdown = L3Dropdown.at(1);
-        L3Dropdown.vm.$emit('searchInputChange', { text: '' });
-        expect(wrapperGlobalSetup.vm.selectedL3).toBe(null);
-    });
+    // it('search L3 dropdown', async () => {
+    //     let L3Dropdown = wrapperGlobalSetup.findAllComponents(NitrozenDropdown);
+    //     L3Dropdown = L3Dropdown.at(1);
+    //     L3Dropdown.vm.$emit('searchInputChange', { text: '' });
+    //     expect(wrapperGlobalSetup.vm.selectedL3).toBe(null);
+    // });
 
-    it('select L3 dropdown', async () => {
-        let L3Dropdown = wrapperGlobalSetup.findAllComponents(NitrozenDropdown);
-        L3Dropdown = L3Dropdown.at(1);
-        L3Dropdown.vm.$emit('input', 'ECOMM');
-        L3Dropdown.vm.$emit('change');
-        expect(wrapperGlobalSetup.vm.selectedDepartment).toBe('ECOMM');
-    });
+    // it('select L3 dropdown', async () => {
+    //     let L3Dropdown = wrapperGlobalSetup.findAllComponents(NitrozenDropdown);
+    //     L3Dropdown = L3Dropdown.at(1);
+    //     L3Dropdown.vm.$emit('input', 'ECOMM');
+    //     L3Dropdown.vm.$emit('change');
+    //     expect(wrapperGlobalSetup.vm.selectedDepartment).toBe('ECOMM');
+    // });
 
     it('search Reasons dropdown', async () => {
         let reasonsDropdown = wrapperGlobalSetup.findAllComponents(
             NitrozenDropdown
         );
-        reasonsDropdown = reasonsDropdown.at(2);
+        reasonsDropdown = reasonsDropdown.at(0);
         reasonsDropdown.vm.$emit('searchInputChange', { text: 'test' });
         await new Promise((resolve) => setTimeout(resolve, 600));
         await wrapperGlobalSetup.vm.$nextTick();
@@ -117,7 +117,7 @@ describe('RMA Global Setup Component', () => {
         let reasonsDropdown = wrapperGlobalSetup.findAllComponents(
             NitrozenDropdown
         );
-        reasonsDropdown = reasonsDropdown.at(2);
+        reasonsDropdown = reasonsDropdown.at(0);
         reasonsDropdown.vm.$emit('input', 'ECOMM');
         reasonsDropdown.vm.$emit('change');
         expect(wrapperGlobalSetup.vm.selectedParentReason).toBe('ECOMM');
@@ -181,7 +181,7 @@ describe('RMA Global Edit Component', () => {
     });
 
     it('test toggle parent reason', async () => {
-        let collapseButton = wrapperGlobalEdit.findAll('.collapse-button');
+        let collapseButton = wrapperGlobalEdit?.findAll('.collapse-button');
         collapseButton = collapseButton.at(1);
         await collapseButton.trigger('click');
         await new Promise((resolve) => setTimeout(resolve, 600));
@@ -242,7 +242,7 @@ describe('RMA Global Edit Component', () => {
         let childDropdown = wrapperGlobalEdit.findAllComponents(
             NitrozenDropdown
         );
-        childDropdown = childDropdown.at(3);
+        childDropdown = childDropdown.at(1);
         childDropdown.vm.$emit('input', 'ECOMM');
         childDropdown.vm.$emit('change');
         expect(handleFn).toHaveBeenCalled();
