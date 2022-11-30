@@ -36,8 +36,8 @@
                         }}
                     </p>
                 </div>
-
-                <div class="setup-container">
+            <!-- Not requires in P0 release, will take this in p1 -->
+                <!-- <div class="setup-container">
                     <div class="sales-channel-category-container">
                         <p class="setup-title">Department</p>
                     </div>
@@ -69,17 +69,17 @@
                         ></nitrozen-dropdown
                         ><loader class="loader" v-if="L3Loading"></loader>
                     </div>
-                </div>
+                </div> -->
                 <div class="setup-container">
                     <div class="container">
-                        <div class="caption">
+                        <!-- <div class="caption">
                             <p class="setup-title">Product Return Reason</p>
                             <span class="setup-subtitle"
                                 >Choose the level at which you wish to decide
                                 the return window for products returned by
                                 customers</span
                             >
-                        </div>
+                        </div> -->
                         <div class="search-filter">
                             <div class="search-box">
                                 <div class="search">
@@ -536,9 +536,12 @@ export default {
             return this.selectedDepartment === null;
         },
         isSaveDisabled() {
-            if (this.selectedDepartment === null) {
-                return true;
-            } else if (!this.chosenParentReasonsList.length) {
+
+            // We removed department dropdown from p0 release
+            // if (this.selectedDepartment === null) {
+            //     return true;
+            // }
+            if (!this.chosenParentReasonsList.length) {
                 return true;
             } else if (this.chosenParentReasonsList.length) {
                 for (let parentRes of this.chosenParentReasonsList) {
@@ -573,7 +576,7 @@ export default {
     },
     methods: {
         init() {
-            this.fetchDepartmentsList();
+            //this.fetchDepartmentsList();
             this.fetchReasonsList(['parent', 'child']);
             this.fetchQuestionsList();
             this.editRuleData = JSON.parse(
@@ -583,9 +586,11 @@ export default {
                 this.$route.name.includes('edit') &&
                 this.editRuleData !== undefined
             ) {
-                this.selectedDepartmentId = this.editRuleData.meta.department.id;
-                this.selectedDepartment = `${this.editRuleData.meta.department.display_name}`;
-                this.fetchL3Categories(this.editRuleData.meta.department.id);
+                if(this.editRuleData.meta.department) {
+                    this.selectedDepartmentId = this.editRuleData.meta.department.id;
+                    this.selectedDepartment = `${this.editRuleData.meta.department.display_name}`;
+                    this.fetchL3Categories(this.editRuleData.meta.department.id);
+                }
                 if (this.editRuleData.meta.l3) {
                     this.selectedL3 = `${this.editRuleData.meta.l3.display_name}`;
                     this.selectedL3Id = this.editRuleData.meta.l3.id;
@@ -1004,15 +1009,8 @@ export default {
         saveRule() {
             this.pageLoading = true;
             const postData = {
-                entity_type: this.selectedL3 !== null ? 'l3' : 'department',
-                value:
-                    this.selectedL3Id !== null
-                        ? this.selectedL3Id
-                        : this.selectedL3 !== null
-                        ? this.selectedL3.split('-|-')[0]
-                        : this.selectedDepartmentId !== null
-                        ? this.selectedDepartmentId
-                        : this.selectedDepartment.split('-|-')[0],
+                entity_type: 'default',
+                value: null,
                 channel: this.$route.name.includes('global')
                     ? null
                     : this.channel.id,
@@ -1021,22 +1019,9 @@ export default {
                     : 'custom',
                 is_deleted: false,
                 conditions: {
-                    department:
-                        this.selectedDepartmentId !== null
-                            ? this.selectedDepartmentId
-                            : this.selectedDepartment.split('-|-')[0]
                 },
+                is_deleted: false,
                 meta: {
-                    department: {
-                        id:
-                            this.selectedDepartmentId !== null
-                                ? this.selectedDepartmentId
-                                : this.selectedDepartment.split('-|-')[0],
-                        display_name:
-                            this.selectedDepartmentId !== null
-                                ? this.selectedDepartment
-                                : this.selectedDepartment.split('-|-')[1]
-                    }
                 },
                 qc_enabled: true,
                 is_active: true,
@@ -1049,22 +1034,6 @@ export default {
                     id: this.channel.id,
                     display_name: this.channel.name
                 };
-            }
-            if (this.selectedL3 !== null) {
-                postData.meta['l3'] = {
-                    id:
-                        this.selectedL3Id !== null
-                            ? this.selectedL3Id
-                            : this.selectedL3.split('-|-')[0],
-                    display_name:
-                        this.selectedL3Id !== null
-                            ? this.selectedL3
-                            : this.selectedL3.split('-|-')[1]
-                };
-                postData.conditions['l3'] =
-                    this.selectedL3Id !== null
-                        ? this.selectedL3Id
-                        : this.selectedL3.split('-|-')[0];
             }
             const postReasonsData = [];
             for (let parent of this.chosenParentReasonsList) {

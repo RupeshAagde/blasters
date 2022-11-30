@@ -141,7 +141,7 @@ export default {
             this.rulesParams = {
                 page_size: this.pagination.limit,
                 page_no: this.pagination.current,
-                is_active: true,
+                is_deleted: false,
                 channel: this.channelIds,
                 department: this.departmentIds,
                 id: this.ruleIds,
@@ -188,7 +188,7 @@ export default {
             })
         },
         openDeleteModal(data){
-            this.deleteRuleData = {...data, is_active: false}
+            this.deleteRuleData = {...data, is_deleted: true}
             this.$refs['delete-rule-dialog'].open()
         },
         closeDeleteModal(){
