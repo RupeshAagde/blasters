@@ -25,22 +25,13 @@
                 ></ukt-inline-svg>
                 <span class="first-arrow-content">{{ row[column.field] }}</span>
                 <!--              If  has more details let this be collapsable-->
-                <p :class="{'hidden': column.type !== TABLE_COLUMN_TYPES.COLLAPSE && hasOtherRidersInfo(row)}"
-                   class="view-more-text cp"
-                   @click="toggleRow(row.id)">
-                  View {{ !rowMap[row.id] ? 'More' : 'Less' }}
-                </p>
               </div>
 
               <!--              if the value is array     -->
               <div v-else-if="Array.isArray( row[column.field])" class="table-content-content">
                 <p v-for="(index, i) in row[column.field]" :key="i" class="mb-half-rem">{{ index }}</p>
                 <!--              If  has more details let this be collapsable-->
-                <p :class="{'hidden': column.type !== TABLE_COLUMN_TYPES.COLLAPSE && hasOtherRidersInfo(row)}"
-                   class="view-more-text cp"
-                   @click="toggleRow(row.id)">
-                  View {{ !rowMap[row.id] ? 'More' : 'Less' }}
-                </p>
+                <other-riders :column="column" :row="row" :row-map="rowMap" @toggleRow="toggleRow"></other-riders>
               </div>
 
               <!--              value is string       -->
@@ -48,11 +39,7 @@
 
                 <p>{{ row[column.field] }}</p>
                 <!--              If  has more details let this be collapsable-->
-                <p :class="{'hidden': column.type !== TABLE_COLUMN_TYPES.COLLAPSE && hasOtherRidersInfo(row)}"
-                   class="view-more-text cp"
-                   @click="toggleRow(row.id)">
-                  View {{ !rowMap[row.id] ? 'More' : 'Less' }}
-                </p>
+                <other-riders :column="column" :row="row" :row-map="rowMap" @toggleRow="toggleRow"></other-riders>
 
               </div>
 
@@ -61,11 +48,7 @@
                    @click="linkTodirect(row[column.field].url)">
                 <ukt-inline-svg class="platform-icons" src="location"></ukt-inline-svg>
                 <!--              If  has more details let this be collapsable-->
-                <p :class="{'hidden': column.type !== TABLE_COLUMN_TYPES.COLLAPSE && hasOtherRidersInfo(row)}"
-                   class="view-more-text cp"
-                   @click="toggleRow(row.id)">
-                  View {{ !rowMap[row.id] ? 'More' : 'Less' }}
-                </p>
+                <other-riders :column="column" :row="row" :row-map="rowMap" @toggleRow="toggleRow"></other-riders>
               </div>
 
 
@@ -83,11 +66,7 @@
                 <NitrozenBadge v-else class="mb-half-rem " state="default">{{ row[column.field].name }}</NitrozenBadge>
                 <p>{{ row[column.field].time }}</p>
                 <!--              If  has more details let this be collapsable-->
-                <p :class="{'hidden': column.type !== TABLE_COLUMN_TYPES.COLLAPSE && hasOtherRidersInfo(row)}"
-                   class="view-more-text cp"
-                   @click="toggleRow(row.id)">
-                  View {{ !rowMap[row.id] ? 'More' : 'Less' }}
-                </p>
+                <other-riders :column="column" :row="row" :row-map="rowMap" @toggleRow="toggleRow"></other-riders>
               </div>
             </td>
 
@@ -113,6 +92,7 @@ import {ANALYTICS_STATE} from "@/store/modules/admin-analytics.module";
 import {ADMIN_SAVE_PAGINATION_CHANGE} from "@/store/action.type";
 import {TABLE_COLUMN_TYPES} from "@/components/generic-graphs/data/constants"
 import {ANALYTICS_PAGES} from "../../data/constants";
+import OtherRiders from "./other-riders";
 
 export default {
   name: "table-component",
@@ -132,6 +112,7 @@ export default {
     }
   },
   components: {
+    OtherRiders,
     NitrozenBadge,
     uktInlineSvg,
     "nitrozen-pagination": NitrozenPagination,
@@ -227,9 +208,7 @@ export default {
     hasCollapse(row) {
       return row.collapseModel;
     },
-    hasOtherRidersInfo(row) {
-      return row.collapseModel && row.collapseModel.fields.some(f => f.name !== 'Other Rider Details');
-    }
+
   }
 }
 </script>
@@ -311,24 +290,6 @@ th {
   background: #F7F7F7;
 }
 
-.hidden {
-  display: none;
-}
-
-.view-more-text {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 130%;
-  /* identical to box height, or 16px */
-
-
-  /* Brand Color/Accent or Primary */
-
-  color: #2E31BE;
-}
-
 .rotate {
   transition: all 300ms ease-in-out;
   transform: rotate(-90deg);
@@ -393,5 +354,9 @@ td:last-child {
 
 .mb-half-rem {
   margin-bottom: 0.5rem;
+}
+
+.hidden {
+  display: none;
 }
 </style>

@@ -62,7 +62,7 @@ export default {
     ],
     notBefore: moment().subtract(DATE_RANGE_LOWER_LIMIT, "days").toISOString(),
     dateFormat: DATE_FORMAT,
-    excludedShortcuts: ['Last 15 days', 'Last 3 Months'],
+    excludedShortcuts: ['Last 15 days', 'Last 3 Months', 'Last Week', 'Last Month'],
     includedShortcuts: [{
       text: 'Yesterday',
       start: moment().subtract(1, "day"),
