@@ -33,9 +33,9 @@
                         title="Download"
                         @click="downloadReport()"
                     >
-                        <ukt-inline-svg
+                        <adm-inline-svg
                             src="report-download"
-                        ></ukt-inline-svg>
+                        ></adm-inline-svg>
                     </div>
                 </div>
                 <div class="chip-wrapper inline tag-chips">
@@ -130,9 +130,9 @@
                                                 state="success"
                                             >{{ tab[tableColumns.length - 2] }}</nitrozen-badge>
                                             <nitrozen-badge
-                                                v-if="tab[tableColumns.length - 2] === 'reported' || tab[tableColumns.length - 2] === 'pending'"
+                                                v-else-if="tab[tableColumns.length - 2] === 'reported' || tab[tableColumns.length - 2] === 'pending'"
                                                 state="warn"
-                                            >{{ tab[7] }}</nitrozen-badge>
+                                            >{{ tab[tableColumns.length - 2] }}</nitrozen-badge>
                                             <!-- <nitrozen-badge
                                                 v-if="tab[tableColumns.length - 2] === 'rejected' || tab[tableColumns.length - 2] === null || tab[tableColumns.length - 2] === 'discard' "
                                                 state="error"
@@ -171,7 +171,12 @@
                                                                 v-for="(item, index) in Object.values(tab).slice(tableColumns.length - 1)"
                                                                 :key="'item-' + index"
                                                             >
-                                                                {{ item || '-' }}
+                                                                <span
+                                                                    v-if="item !== true"
+                                                                >
+                                                                    {{ item || '-' }}
+                                                                </span>
+                                                                
                                                             </td>
                                                             <!-- <td>{{ tab[9] ? tab[9] : '-' }}</td>
                                                             <td>{{ tab[10] ? tab[10] : '-' }}</td>
