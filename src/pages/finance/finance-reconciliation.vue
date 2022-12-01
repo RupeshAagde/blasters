@@ -110,25 +110,35 @@
                                                 <ukt-inline-svg src="arrow-right-black"></ukt-inline-svg>
                                             </span>
                                         </td>
-                                        <td>{{ tab[0] }}</td>
+                                        <td
+                                            v-for="(item, index) in Object.values(tab).slice(0,tableColumns.length - 2)"
+                                            :key="'item-' + index"
+                                        >
+                                            {{ item }}
+                                        </td>
+                                        <!-- <td>{{ tab[0] }}</td>
                                         <td>{{ tab[1] ? tab[1] : '-' }}</td>
                                         <td>{{ tab[2] }}</td>
                                         <td>{{ tab[3] }}</td>
                                         <td>{{ tab[4] }}</td>
                                         <td>{{ tab[5] }}</td>
                                         <td>{{ tab[6] }}</td>
-                                        <td>{{ dateFormat(tab[7]) }}</td>
+                                        <td>{{ dateFormat(tab[7]) }}</td> -->
                                         <td>
                                             <nitrozen-badge
-                                                v-if="tab[8] === 'recon' || tab[8] === 'processed' || tab[8] === 'settled'"
+                                                v-if="tab[tableColumns.length - 2] === 'reconciled' || tab[tableColumns.length - 2] === 'processed' || tab[tableColumns.length - 2] === 'settled'"
                                                 state="success"
-                                            >{{ tab[8] }}</nitrozen-badge>
+                                            >{{ tab[tableColumns.length - 2] }}</nitrozen-badge>
                                             <nitrozen-badge
-                                                v-if="tab[8] === 'reported' || tab[8] === 'raised'"
+                                                v-if="tab[tableColumns.length - 2] === 'reported' || tab[tableColumns.length - 2] === 'pending'"
                                                 state="warn"
                                             >{{ tab[7] }}</nitrozen-badge>
+                                            <!-- <nitrozen-badge
+                                                v-if="tab[tableColumns.length - 2] === 'rejected' || tab[tableColumns.length - 2] === null || tab[tableColumns.length - 2] === 'discard' "
+                                                state="error"
+                                            >Rejected</nitrozen-badge> -->
                                             <nitrozen-badge
-                                                v-if="tab[8] === 'rejected' || tab[8] === null "
+                                                v-else
                                                 state="error"
                                             >Rejected</nitrozen-badge>
                                         </td>
@@ -157,7 +167,13 @@
                                                     </tr>
                                                     <template>
                                                         <tr>
-                                                            <td>{{ tab[9] ? tab[9] : '-' }}</td>
+                                                            <td
+                                                                v-for="(item, index) in Object.values(tab).slice(tableColumns.length - 1)"
+                                                                :key="'item-' + index"
+                                                            >
+                                                                {{ item || '-' }}
+                                                            </td>
+                                                            <!-- <td>{{ tab[9] ? tab[9] : '-' }}</td>
                                                             <td>{{ tab[10] ? tab[10] : '-' }}</td>
                                                             <td>{{ tab[11] ? tab[11] : '-' }}</td>
                                                             <td>{{ tab[12] ? tab[12] : '-' }}</td>
@@ -170,7 +186,7 @@
                                                             <td>{{ tab[19] ? tab[19] : '-' }}</td>
                                                             <td>{{ tab[20] ? tab[20] : '-' }}</td>
                                                             <td>{{ tab[21] ? tab[21] : '-' }}</td>
-                                                            <td>{{ tab[22] ? dateFormat(tab[22]) : '-' }}</td>
+                                                            <td>{{ tab[22] ? dateFormat(tab[22]) : '-' }}</td> -->
                                                         </tr>
                                                     </template>
                                                 </table>
@@ -539,9 +555,9 @@ export default {
             let values = data.items;
             this.tableValues = data.items;
             //Ensure primary Headers are part of headers
-            const valid = this.primaryHeaders.every((val) =>
+            /* const valid = this.primaryHeaders.every((val) =>
             this.headers.includes(val)
-            );
+            ); */
             let excludedPrimaryHeaders = this.headers.filter(val => !this.primaryHeaders.includes(val));
             this.additionColumns = excludedPrimaryHeaders;
 
