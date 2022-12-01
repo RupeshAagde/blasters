@@ -56,15 +56,18 @@ export default {
   },
   methods: {
     loadData() {
-      this.$store.dispatch(ADMIN_FLOAT_INDIVIDUAL_CHART_DATA, {
-        panelIndex: this.panelIndex,
-        cardIndex: this.cardIndex,
-        url: this.item.graphInfo.dataSource,
-        pageName: this.pageName,
-        appId: this.appId,
-        allFilters: this.allFilters,
-        chartId: this.item.id,
-        graphType: this.item.graphInfo.graphType
+      this.$nextTick(function () {
+
+        this.$store.dispatch(ADMIN_FLOAT_INDIVIDUAL_CHART_DATA, {
+          panelIndex: this.panelIndex,
+          cardIndex: this.cardIndex,
+          url: this.item.graphInfo.dataSource,
+          pageName: this.pageName,
+          appId: this.appId,
+          allFilters: this.allFilters,
+          chartId: this.item.id,
+          graphType: this.item.graphInfo.graphType
+        });
       });
     },
     loadingCondition() {
