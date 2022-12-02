@@ -49,13 +49,13 @@
                 />
             </div>
             <div class="cn-buttons" v-if="!isApprover">
-                <nitrozen-button 
+                <!-- <nitrozen-button 
                     theme="secondary"
                     :disabled="true"
                     v-strokeBtn
                     @click="routeNoteCheck('BULK_UPLOAD')"
                 > Bulk Upload
-                </nitrozen-button>
+                </nitrozen-button> -->
                 <nitrozen-button 
                 theme="secondary"
                 v-flatBtn

@@ -85,19 +85,19 @@
                 </div>
             </mirage-alert>
             <div class="first">
-                    <!-- Note Type -->
-                    <label class="label">{{dropdownLabel}}</label>
+                <!-- Note Type -->
+                <label class="label">{{dropdownLabel}}</label>
                     <nitrozen-dropdown
-                            class="filter-dropdown"
-                            v-model="selectedType"
-                            placeholder="Search Note Type"
-                            :items="filteredCnTypes"
-                            :disabled="readOnlyMode || editingMode"
-                            :searchable="true"
-                            @change="resetForm"
-                            @searchInputChange="changeNoteType($event)"
-                        ></nitrozen-dropdown>
-                    <nitrozen-error v-if="isEmpty(selectedType)">Please Select a Note Type</nitrozen-error>
+                        class="filter-dropdown"
+                        v-model="selectedType"
+                        placeholder="Search Note Type"
+                        :items="filteredCnTypes"
+                        :disabled="readOnlyMode || editingMode"
+                        :searchable="true"
+                        @change="resetForm"
+                        @searchInputChange="changeNoteType($event)"
+                    ></nitrozen-dropdown>
+                <nitrozen-error v-if="isEmpty(selectedType)">Please Select a Note Type</nitrozen-error>
             </div>
             
             <div class="commercial-cn" v-show="selectedType === 'commercial'">
@@ -112,8 +112,7 @@
                                 v-model="sellerId.value"
                                 :required="isRequired"
                                 @blur="getSellerDetails"
-                                @click="validateForm($event,'sellerId')"
-                                @input="validateForm($event,'sellerId')"
+                                @input="validateForm('sellerId')"
                                 @keyup.enter.tab="getSellerDetails"
                                 @keyup.delete.backspace="resetSellerName"
                                 :disabled="readOnlyMode || editingMode"
@@ -122,25 +121,25 @@
                         </div>
 
                         <div class="input-field seller-name">
-                                <nitrozen-input
-                                    label="Seller Name"
-                                    placeholder="Seller Name"
-                                    v-model="sellerName"
-                                    :disabled="isDisabled"
-                                ></nitrozen-input>
+                            <nitrozen-input
+                                label="Seller Name"
+                                placeholder="Seller Name"
+                                v-model="sellerName"
+                                :disabled="isDisabled"
+                            ></nitrozen-input>
                         </div>
                     </div>
                     
                     <div class="row-2">
                         <div class="input-field purpose">
-                                <nitrozen-dropdown
+                            <nitrozen-dropdown
                                 label="Purpose"
                                 v-model="purposeType.value"
                                 :items="filteredPurposeList"
                                 :disabled="readOnlyMode"
                                 :required="isRequired"
                                 :searchable="true"
-                                @change="validateForm($event,'purpose')"
+                                @change="validateForm('purpose')"
                                 @searchInputChange="changePurposeType($event)"
                             ></nitrozen-dropdown>
                             <nitrozen-error v-if="purposeType.errorMessage">{{ purposeType.errorMessage }}</nitrozen-error>
@@ -153,8 +152,7 @@
                                 :disabled="readOnlyMode"
                                 v-model="shipmentIdCommercial.value"
                                 :required="isRequired"
-                                @click="validateForm($event,'shipmentIdCommercial')"
-                                @input="validateForm($event,'shipmentIdCommercial')"
+                                @input="validateForm('shipmentIdCommercial')"
                             ></nitrozen-input>
                             <nitrozen-error v-if="shipmentIdCommercial.errorMessage">{{ shipmentIdCommercial.errorMessage }}</nitrozen-error>
                         </div>
@@ -166,8 +164,7 @@
                                 :disabled="readOnlyMode"
                                 v-model="invoiceNumber.value"
                                 :required="isRequired"
-                                @click="validateForm($event,'invoiceNumber', false)"
-                                @input="validateForm($event,'invoiceNumber', false)"
+                                @input="validateForm('invoiceNumber')"
                             ></nitrozen-input>
                             <nitrozen-error v-if="invoiceNumber.errorMessage">{{ invoiceNumber.errorMessage }}</nitrozen-error>
                         </div>
@@ -186,28 +183,22 @@
                                 :required="isRequired"
                                 :disabled="readOnlyMode"
                                 v-model="feeType.value"
-                                @click="validateForm($event,'feeType')"
-                                @input="validateForm($event,'feeType')"
+                                @input="validateForm('feeType')"
                             ></nitrozen-input>
                             <nitrozen-error v-if="feeType.errorMessage">{{ feeType.errorMessage }}</nitrozen-error>
                         </div>
 
                         <div class="credit-debit-note-amount">
-                            <!-- <span class="currency-icon">
-                                <inline-svg :src=currencyIcon></inline-svg>
-                            </span> -->
-                            <!-- <label class="rupee">Rs</label> -->
                             <nitrozen-input
-                                    :label=noteAmountLabel
-                                    :placeholder=noteAmountPlaceholder
-                                    :required="isRequired"
-                                    :disabled="readOnlyMode"
-                                    :showPrefix=true
-                                    :prefix=currency
-                                    @click="validateForm($event,'amount')"
-                                    @input="validateForm($event,'amount')"
-                                    @keypress="omit_special_char($event)"
-                                    v-model="creditDebitNoteAmount.value"
+                                :label=noteAmountLabel
+                                :placeholder=noteAmountPlaceholder
+                                :required="isRequired"
+                                :disabled="readOnlyMode"
+                                :showPrefix=true
+                                :prefix=currency
+                                @input="validateForm('amount')"
+                                @keypress="omit_special_char($event)"
+                                v-model="creditDebitNoteAmount.value"
                             >
                             </nitrozen-input>
                             <nitrozen-error v-if="creditDebitNoteAmount.errorMessage">{{ creditDebitNoteAmount.errorMessage }}</nitrozen-error>
@@ -215,14 +206,13 @@
 
                         <div class="kapture-id">
                             <nitrozen-input
-                                    label="Kapture ID"
-                                    placeholder="Enter Kapture ID"
-                                    :disabled="readOnlyMode"
-                                    v-model="kaptureId.value"
-                                    @click="validateForm($event,'kaptureId', false)"
-                                    @input="validateForm($event,'kaptureId', false)"
-                                ></nitrozen-input>
-                                <nitrozen-error v-if="kaptureId.errorMessage">{{ kaptureId.errorMessage }}</nitrozen-error>
+                                label="Kapture ID"
+                                placeholder="Enter Kapture ID"
+                                :disabled="readOnlyMode"
+                                v-model="kaptureId.value"
+                                @input="validateForm('kaptureId', false)"
+                            ></nitrozen-input>
+                            <nitrozen-error v-if="kaptureId.errorMessage">{{ kaptureId.errorMessage }}</nitrozen-error>
                         </div>
                     </div>
 
@@ -230,28 +220,26 @@
                         
                         <div class="remarks">
                         <nitrozen-input
-                                label="Remarks"
-                                placeholder="Enter Remarks"
-                                :required="isRequired"
-                                :disabled="readOnlyMode"
-                                v-model="remarks.value"
-                                @click="validateForm($event,'remarks')"
-                                @input="validateForm($event,'remarks')"
-                            ></nitrozen-input>
-                            <nitrozen-error v-if="remarks.errorMessage">{{ remarks.errorMessage }}</nitrozen-error>
+                            label="Remarks"
+                            placeholder="Enter Remarks"
+                            :required="isRequired"
+                            :disabled="readOnlyMode"
+                            v-model="remarks.value"
+                            @input="validateForm('remarks')"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="remarks.errorMessage">{{ remarks.errorMessage }}</nitrozen-error>
                         </div>
 
                         <div class="note-narration">
                         <nitrozen-input
-                                label="Note Narration"
-                                placeholder="Enter Note Narration"
-                                :required="isRequired"
-                                :disabled="readOnlyMode"
-                                v-model="noteNarration.value"
-                                @click="validateForm($event,'noteNarration')"
-                                @input="validateForm($event,'noteNarration')"
-                            ></nitrozen-input>
-                            <nitrozen-error v-if="noteNarration.errorMessage">{{ noteNarration.errorMessage }}</nitrozen-error>
+                            label="Note Narration"
+                            placeholder="Enter Note Narration"
+                            :required="isRequired"
+                            :disabled="readOnlyMode"
+                            v-model="noteNarration.value"
+                            @input="validateForm('noteNarration')"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="noteNarration.errorMessage">{{ noteNarration.errorMessage }}</nitrozen-error>
                         </div>
 
                     </div>    
@@ -272,8 +260,7 @@
                             v-model="invoiceNumber.value"
                             @keyup.enter.tab="getFeeInvoiceDetails"
                             @blur="getFeeInvoiceDetails"
-                            @click="validateForm($event,'invoiceNumber')"
-                            @input="validateForm($event,'invoiceNumber')"
+                            @input="validateForm('invoiceNumber')"
                         ></nitrozen-input>
                         <nitrozen-error v-if="invoiceNumber.errorMessage">{{ invoiceNumber.errorMessage }}</nitrozen-error>
                     </div>
@@ -285,8 +272,7 @@
                             :required="isRequired"
                             :disabled="readOnlyMode"
                             v-model="noteNarration.value"
-                            @click="validateForm($event,'noteNarration')"
-                            @input="validateForm($event,'noteNarration')"
+                            @input="validateForm('noteNarration')"
                         ></nitrozen-input>
                         <nitrozen-error v-if="noteNarration.errorMessage">{{ noteNarration.errorMessage }}</nitrozen-error>
                     </div>
@@ -322,8 +308,7 @@
                                 v-model="invoiceNumber.value"
                                 @keyup.enter.tab="validateServiceInvoice"
                                 @blur="validateServiceInvoice"
-                                @click="validateForm($event,'invoiceNumber')"
-                                @input="validateForm($event,'invoiceNumber')"
+                                @input="validateForm('invoiceNumber')"
                             ></nitrozen-input>
                             <nitrozen-error v-if="invoiceNumber.errorMessage">{{ invoiceNumber.errorMessage }}</nitrozen-error>
                         </div>
@@ -335,8 +320,7 @@
                                 :required="isRequired"
                                 :disabled="readOnlyMode"
                                 v-model="noteNarration.value"
-                                @click="validateForm($event,'noteNarration')"
-                                @input="validateForm($event,'noteNarration')"
+                                @input="validateForm('noteNarration')"
                             ></nitrozen-input>
                             <nitrozen-error v-if="noteNarration.errorMessage">{{ noteNarration.errorMessage }}</nitrozen-error>
                         </div>
@@ -360,7 +344,7 @@
                                     <nitrozen-inline
                                         :icon="'cross'"
                                         class="nitrozen-icon"
-                                        v-on:click="removeSearchInput(index), validateForm($event,'shipmentId'), selectShipment(), getInvoiceDetails().then(()=>unselectBags())"
+                                        v-on:click="removeSearchInput(index), validateForm('shipmentId'), selectShipment(), getInvoiceDetails().then(()=>unselectBags())"
                                     ></nitrozen-inline>
                                 </nitrozen-chips>
                                 <input
@@ -370,9 +354,9 @@
                                     @keydown="getSearchText"
                                     ref="chips"
                                     v-model="chips"
-                                    @input="validateForm($event,'shipmentId'), selectShipment()"
-                                    @keyup.enter.space.188="getInvoiceDetails(), selectShipment(), validateForm($event,'shipmentId')"
-                                    @keydown.tab="getInvoiceDetails(), selectShipment(), validateForm($event,'shipmentId')"
+                                    @input="validateForm('shipmentId'), selectShipment()"
+                                    @keyup.enter.space.188="getInvoiceDetails(), selectShipment(), validateForm('shipmentId')"
+                                    @keydown.tab="getInvoiceDetails(), selectShipment(), validateForm('shipmentId')"
                                 />
                             </div>
                             <div class="message" v-if="shipmentId.value">
@@ -380,10 +364,9 @@
                             </div>
                             <nitrozen-error v-if="shipmentId.errorMessage">{{ shipmentId.errorMessage }}</nitrozen-error>
                         </div>
-                            
 
-                            <div class="dropdown bag-id">
-                                <nitrozen-dropdown
+                        <div class="dropdown bag-id">
+                            <nitrozen-dropdown
                                 label="Bag ID"
                                 v-model="bagId.value"
                                 :required="isRequired"
@@ -413,14 +396,11 @@
                                             class="nitrozen-icon"
                                             @click="bagId.value.splice(index,1), getInvoiceDetails().then(()=>unselectBags())"
                                         >
-
                                         </nitrozen-inline>
                                     </nitrozen-chips>
                                  </div>
                              </div>
                         </div>
-
-
                         </div>
                     </div>
                 </div>
@@ -545,13 +525,9 @@
         NitrozenChips,
         NitrozenInline
     }from '@gofynd/nitrozen-vue';
-
-    //import { call, currency } from '../../auto_gen/svgs';
     import ExpandableTable from './expandable-table.vue';
     import CreditDebitNoteServices from '@/services/cn-dn.service';
     import isEmpty from 'lodash/isEmpty';
-//import itemDialogVue from '../extensions/dialog/item-dialog.vue';
-
 
     export default{
         name: 'CreditNote',
@@ -600,7 +576,7 @@
                 chips: '',
                 selectedType: 'commercial',
                 sellerId: {
-                    value: '',
+                    value: '1',
                     errorMessage: '',
                     isValid: false
                 },
@@ -610,7 +586,6 @@
                 noteDetails: [],
                 cnTypes: [{text:"Commercial",value:"commercial"},{text:"GST Fee Invoice",value:"gst_fee"},{text:"GST Service Invoice",value:"gst_service"}],
                 filteredCnTypes : [{text:"Commercial",value:"commercial"},{text:"GST Fee Invoice",value:"gst_fee"},{text:"GST Service Invoice",value:"gst_service"}],
-                //currencyIcon: currency,
                 isDisabled: true,
                 isRequired: true,
                 isPreview: false,
@@ -667,7 +642,7 @@
                     isValid: false
                 },
                 bagId: {
-                    value: [], //bag_id+shipment_id
+                    value: [],
                     data:[],
                     errorMessage: '',
                     isValid: false
@@ -710,6 +685,7 @@
         mounted() {
             //this.isApprover = this.$route.params.isApprover;
             this.getNoteType();
+            this.getSellerDetails();
             if(this.noteType === 'credit'){
                 this.title = 'Create Credit Note';
                 this.dropdownLabel = 'Credit Note Type *';
@@ -723,7 +699,6 @@
             }
             this.setPurposeList();
             if(this.$route.params.noteId){
-                // console.log('in if......', this.$route.params)
                 if(this.$route.params.preview && this.$route.params.preview == 'preview'){
                     this.isPreview = true;
                 }
@@ -748,7 +723,6 @@
             omit_special_char(e) {
                 let keyCode = e.keyCode ? e.keyCode : e.which;
                 if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
-                    // 46 is dot
                     e.preventDefault();
                 }
             },
@@ -833,7 +807,7 @@
                 return true;
             },
 
-            validateForm(e, input, required=true){
+            validateForm(input, required=true){
                 switch (input) {
                     case 'sellerId':
                         if(this.sellerId.value.trim() === ''){
@@ -975,7 +949,7 @@
                             this.shipmentId.isValid = false;
                             this.disableShipmentInput = true;
                         } else {
-                            let res = true; // assume no duplicate shipments
+                            let res = true;
                             this.shipmentId.value.map(shipment => {
                                 if (this.shipmentId.value.indexOf(shipment) !== this.shipmentId.value.lastIndexOf(shipment)) {
                                     res = false
