@@ -974,7 +974,7 @@
         }
     }
 }
-::v-deep.delete-icon svg {
+::v-deep .delete-icon svg {
     width: 24px;
     height: 24px;
     cursor: pointer;
@@ -982,13 +982,13 @@
     border: 1px solid @Iron;
     border-radius: 2px;
 }
-::v-deep.reorder-icon svg {
+::v-deep .reorder-icon svg {
     width: 18px;
     height: 18px;
     cursor: move;
     margin-right: 12px;
 }
-::v-deep.add-highlight svg {
+::v-deep .add-highlight svg {
     cursor: pointer;
     width: 38px;
     margin-left: 12px;
@@ -999,7 +999,7 @@
         stroke: @RoyalBlue;
     }
 }
-::v-deep.remove-highlight svg {
+::v-deep .remove-highlight svg {
     width: 32px;
     height: 32px;
     cursor: pointer;
@@ -1008,7 +1008,7 @@
     border: 1px solid @Iron;
     border-radius: 3px;
 }
-::v-deep.remove-highlight-disabled svg {
+::v-deep .remove-highlight-disabled svg {
     opacity: 0.3;
     cursor: not-allowed;
 }
