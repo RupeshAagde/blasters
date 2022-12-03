@@ -22,7 +22,7 @@
         </div>
         <div class="rightside-card-section">
             <div>
-                <nitrozen-button theme="secondary" v-if="sellerRequest.status == 'pending'" @click="viewDetailsDialog()">View Details</nitrozen-button>
+                <nitrozen-button theme="secondary" @click="viewDetailsDialog()">View Details</nitrozen-button>
             </div>
 
         <!--Confirmation dailog -->
@@ -40,16 +40,17 @@
                                 <div class="new-plan">{{this.planName}}</div>
                             </div>
                         </div>
-                        <p class="plan-details">As a result of this, plan for the Seller will be downgraded to Plan {{this.planName}} from Next Billing cycle.</p>
+                        <p class="plan-details" v-if="sellerRequest.status == 'pending'" >As a result of this, plan for the Seller will be downgraded to Plan {{this.planName}} from Next Billing cycle.</p>
+                        <p class="plan-details green" v-if="sellerRequest.status == 'approved'">Current plan for the Seller will be downgraded to Plan {{this.planName}} from Next Billing cycle.</p>
                     </div>
             </template>
-            <template slot="footer">
+            <template slot="footer" v-if="sellerRequest.status == 'pending'">
                 <div class="footer-actions-buttons">
                     <nitrozen-button
                         theme="secondary"
                         @click="updateSubscription('cancelled')"
                         v-strokeBtn
-                        >Cancel Request
+                        >Cancel
                     </nitrozen-button>
                     <nitrozen-button
                         theme="secondary"
@@ -57,7 +58,7 @@
                         @click="updateSubscription('approved')"
                         v-flatBtn
                         ref="delete-btn"
-                        >Approve Request
+                        >Approve
                     </nitrozen-button>
                 </div>
             </template>
@@ -139,11 +140,14 @@
         }
     }
     .plan-details{
-        color: #CD0909;
+        color: @Required;
         font-style: normal;
         font-weight: 400;
         font-size: 12px;
         line-height: 140%;
+        &.green {
+            color: @Profit;
+        }
     }
 
 </style>
