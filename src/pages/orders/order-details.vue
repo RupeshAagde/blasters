@@ -973,7 +973,7 @@ export default {
 }
 
 .shipment {
-    ::v-deep.shipment-tracking {
+    ::v-deep .shipment-tracking {
         .status {
             @media @mobile {
                 padding-right: 115px;
@@ -981,7 +981,7 @@ export default {
         }
     }
 
-    ::v-deep.bag-details {
+    ::v-deep .bag-details {
         @media @mobile {
             display: flex;
             flex-direction: column-reverse;
