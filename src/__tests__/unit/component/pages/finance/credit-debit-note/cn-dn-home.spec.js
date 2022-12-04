@@ -219,7 +219,16 @@ describe('credit-debit-note home page', () => {
 
     it('navigates to new component', () => {
         wrapper.vm.routeNoteCheck();
-    })
+    });
+
+    it('update drawer data', async() => {
+        wrapper.setData({
+            tab: ['22']
+        })
+        wrapper.vm.updateDrawerData({},true);
+        wrapper.vm.updateDrawerData({},false);
+        wrapper.vm.select({ document_number: '2323' });
+    });
 
     it('downloads note', () => {
         mock.onPost(URLS.DOWNLOAD_NOTE()).reply(200, {

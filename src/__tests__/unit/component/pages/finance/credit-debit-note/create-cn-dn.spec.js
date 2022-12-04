@@ -542,7 +542,7 @@ describe('credit-debit-note page', () => {
     })
 
     it('validates form for seller ID', () => {
-        wrapper.vm.validateForm({}, 'sellerId');
+        wrapper.vm.validateForm('sellerId');
     })
 
     it('validates form for seller ID empty', () => {
@@ -553,11 +553,11 @@ describe('credit-debit-note page', () => {
                 isValid: false
             }
         })
-        wrapper.vm.validateForm({}, 'sellerId');
+        wrapper.vm.validateForm('sellerId');
     })
 
     it('validates form for shipping fee', () => {
-        wrapper.vm.validateForm({}, 'shippingFee');
+        wrapper.vm.validateForm('shippingFee');
     })
 
     it('validates form for shipping fee non empty', () => {
@@ -568,7 +568,7 @@ describe('credit-debit-note page', () => {
                 isValid: false
             }
         })
-        wrapper.vm.validateForm({}, 'shippingFee');
+        wrapper.vm.validateForm('shippingFee');
     })
 
     it('validates form for credit amount', () => {
@@ -580,10 +580,10 @@ describe('credit-debit-note page', () => {
                 value: '',
             }
         })
-        wrapper.vm.validateForm({}, 'amount');
-        wrapper.vm.validateForm({}, 'feeType');
-        wrapper.vm.validateForm({}, 'kaptureId');
-        wrapper.vm.validateForm({}, 'shipmentIdCommercial');
+        wrapper.vm.validateForm('amount');
+        wrapper.vm.validateForm('feeType');
+        wrapper.vm.validateForm('kaptureId');
+        wrapper.vm.validateForm('shipmentIdCommercial');
     })
 
     it('validates form for credit amount for 0', () => {
@@ -595,7 +595,7 @@ describe('credit-debit-note page', () => {
                 isValid: false
             }
         })
-        wrapper.vm.validateForm({}, 'amount');
+        wrapper.vm.validateForm('amount');
     })
 
     it('validates form for credit amount negative amount', () => {
@@ -607,7 +607,7 @@ describe('credit-debit-note page', () => {
                 isValid: false
             }
         })
-        wrapper.vm.validateForm({}, 'amount');
+        wrapper.vm.validateForm('amount');
     })
 
     it('validates form for credit amount more than 2 digits after decimal', () => {
@@ -619,7 +619,7 @@ describe('credit-debit-note page', () => {
                 isValid: false
             }
         })
-        wrapper.vm.validateForm({}, 'amount');
+        wrapper.vm.validateForm('amount');
     })
 
     it('validates form for credit correct amount', () => {
@@ -631,11 +631,11 @@ describe('credit-debit-note page', () => {
                 isValid: false
             }
         })
-        wrapper.vm.validateForm({}, 'amount');
+        wrapper.vm.validateForm('amount');
     })
 
     it('validates form for remarks', () => {
-        wrapper.vm.validateForm({}, 'remarks');
+        wrapper.vm.validateForm('remarks');
     })
 
     it('validates form for remarks non empty', () => {
@@ -646,11 +646,11 @@ describe('credit-debit-note page', () => {
                 isValid: false
             }
         })
-        wrapper.vm.validateForm({}, 'remarks');
+        wrapper.vm.validateForm('remarks');
     })
 
     it('validates form for note narration', () => {
-        wrapper.vm.validateForm({}, 'noteNarration');
+        wrapper.vm.validateForm('noteNarration');
     })
 
 
@@ -663,11 +663,11 @@ describe('credit-debit-note page', () => {
             }
         })
 
-        wrapper.vm.validateForm({}, 'noteNarration');
+        wrapper.vm.validateForm('noteNarration');
     })
 
     it('validates form for invoice number', () => {
-        wrapper.vm.validateForm({}, 'invoiceNumber');
+        wrapper.vm.validateForm('invoiceNumber');
     })
 
     it('validates form for invoice number non empty', () => {
@@ -679,11 +679,11 @@ describe('credit-debit-note page', () => {
                 // regex: /3P(C|D)N<\d{2}><\d{8}>/
             },
         })
-        wrapper.vm.validateForm({}, 'invoiceNumber');
+        wrapper.vm.validateForm('invoiceNumber');
     })
 
     it('validates form for purpose', () => {
-        wrapper.vm.validateForm({}, 'purpose');
+        wrapper.vm.validateForm('purpose');
     })
 
     it('validates form for remarks non empty', () => {
@@ -694,11 +694,11 @@ describe('credit-debit-note page', () => {
                 isValid: false
             }
         })
-        wrapper.vm.validateForm({}, 'purpose');
+        wrapper.vm.validateForm('purpose');
     })
 
     it('validates form for shipment Id', () => {
-        wrapper.vm.validateForm({}, 'shipmentId');
+        wrapper.vm.validateForm('shipmentId');
     })
 
     it('validates form for shipment Id empty' , () => {
@@ -709,7 +709,7 @@ describe('credit-debit-note page', () => {
                 isValid: false
             }
         })
-        wrapper.vm.validateForm({}, 'shipmentId');
+        wrapper.vm.validateForm('shipmentId');
     })
 
     it('validates form for shipment more than 10 shipments' , () => {
@@ -720,11 +720,11 @@ describe('credit-debit-note page', () => {
                 isValid: false
             }
         })
-        wrapper.vm.validateForm({}, 'shipmentId');
+        wrapper.vm.validateForm('shipmentId');
     })
 
     it('validates form for bag Id', () => {
-        wrapper.vm.validateForm({}, 'bagId');
+        wrapper.vm.validateForm('bagId');
     })
 
     it('validates form for bag Id non empty', () => {
@@ -736,7 +736,7 @@ describe('credit-debit-note page', () => {
                 isValid: false
             }
         })
-        wrapper.vm.validateForm({}, 'bagId');
+        wrapper.vm.validateForm('bagId');
     })
 
     it('reset seller name', () => {

@@ -28,7 +28,7 @@
                     Edit
                 </nitrozen-button>
                 
-                <!-- <div class="approver-buttons" v-if="isApprover === true">
+                <div class="approver-buttons" v-if="isApprover === true">
                     <nitrozen-button
                         v-strokeBtn
                         theme="secondary"
@@ -45,7 +45,7 @@
                     >
                         Approve
                     </nitrozen-button>
-                </div> -->
+                </div>
                 <nitrozen-button
                     v-flatBtn
                     v-if="!readOnlyMode"
@@ -471,7 +471,7 @@
 
         </div>
 
-        <!-- <transition name="slide">
+        <transition name="slide">
             <template v-if="quickApproveView">
                 <div class="slide-fade" ref="slide-fade" @click="close($event)">
                     <div class="container">
@@ -488,7 +488,7 @@
                     </div>
                 </div>
             </template>
-        </transition> -->
+        </transition>
 
     </div>
 
@@ -507,7 +507,7 @@
     import GoBackDialog from './go-back-dialog.vue';
     import accordion from '@/components/common/accordion.vue';
     import { mapGetters } from 'vuex'
-    //import ApproverDrawer from './approver-drawer.vue';
+    import ApproverDrawer from './approver-drawer.vue';
     import { GET_USER_INFO } from '@/store/getters.type';
     import { ADMIN_PERMISSIONS } from '../../../store/getters.type';
     import moment from 'moment';
@@ -548,7 +548,7 @@
             ExpandableTable,
             SaveNoteDialog,
             GoBackDialog,
-            //ApproverDrawer,
+            ApproverDrawer,
             NitrozenToggleBtn,
             NitrozenChips,
             MirageAlert,
@@ -567,7 +567,7 @@
         data() {
             return {
                 disableShipmentInput : false,
-                //isApprover: '',
+                isApprover: '',
                 drawerData: {
                     status: '',
                     notesSet:{}
@@ -676,14 +676,14 @@
         computed: {
             ...mapGetters({
                 userData: GET_USER_INFO,
-                aclPermissions: ADMIN_PERMISSIONS
+                aclPermissions: ADMIN_PERMISSIONS,
                 //isLoggedIn: IS_LOGGED_IN,
                 //currentUserPermissions: GET_USER_PERMISSIONS
             }),
         },
 
         mounted() {
-            //this.isApprover = this.$route.params.isApprover;
+            this.isApprover = this.$route.params.isApprover;
             this.getNoteType();
             this.getSellerDetails();
             if(this.noteType === 'credit'){
@@ -712,13 +712,13 @@
 
         methods: {
             isEmpty,
-            /* closeApproverDrawerView(event){
+            closeApproverDrawerView(event){
             this.quickApproveView = false;
                 if (event != false) {
                     this.$router.back();
                     return;
                 }
-            }, */
+            },
 
             omit_special_char(e) {
                 let keyCode = e.keyCode ? e.keyCode : e.which;
@@ -1866,7 +1866,7 @@
                 this.quickApproveView = false;
             },
 
-            /* quickApproverViewSection: function (action) {
+            quickApproverViewSection: function (action) {
                 this.quickApproveView = !this.quickApproveView;
                 this.drawerData.status = action;
                 this.drawerData.notesSet[this.selectedType]=[{
@@ -1875,7 +1875,7 @@
                         'requestNo' : this.tab.document_number,
                         'grossAmount' : this.tab.total_amount
                 }]
-            }, */
+            },
 
             getSearchText(event) {
             if (

@@ -63,7 +63,7 @@
                 > Create New
                 </nitrozen-button>
             </div>
-            <!-- <div class="cn-buttons" v-if="isApprover">   //////// UPCOMING CHANGES ////////////
+            <div class="cn-buttons" v-if="isApprover">   <!-- //////// UPCOMING CHANGES //////////// -->
                     <nitrozen-button
                         v-strokeBtn
                         theme="secondary"
@@ -80,7 +80,7 @@
                     >
                         Approve
                     </nitrozen-button>
-            </div> -->
+            </div>
         </div>
         <div v-if="inProgress">
             <loader class="loading"></loader>
@@ -90,13 +90,13 @@
                 class="mirage-table"
             >
                 <tr>
-                    <!-- <td v-if="isApprover"> //////// UPCOMING CHANGES ////////////
+                    <td v-if="isApprover"> <!-- //////// UPCOMING CHANGES //////////// -->
                         <nitrozen-checkbox
                             :disabled="true"
                         >
                             
                         </nitrozen-checkbox>
-                    </td> -->
+                    </td>
                     <td
                         v-for="(col, index) in tableColumns"
                         :key="'col-' + index"
@@ -114,16 +114,15 @@
                         :key="'tab-' + index"
                     >
                         <template>
-                            <!-- <td v-if="isApprover" class="icon-eye"> //////// UPCOMING CHANGES ////////////
+                            <td v-if="isApprover" class="icon-eye"> <!-- //////// UPCOMING CHANGES //////////// -->
                                 <nitrozen-checkbox
                                     :v-model="tab"
                                     @change="select(tab), disableButton()"
                                     :multiple="false"
                                     :disabled="tab.approved_at !== null"
                                 >
-                                    
                                 </nitrozen-checkbox>
-                            </td> -->
+                            </td>
                             <td> {{ tab.document_number }} </td>
                             <td> {{ tab.seller_name }} </td>
                             <td> {{ tab.total_amount }} </td>
@@ -200,7 +199,7 @@
             
         </div>
         
-        <!-- <transition name="slide">   //////// UPCOMING CHANGES ////////////
+        <transition name="slide">   <!-- //////// UPCOMING CHANGES //////////// -->
             <template v-if="quickApproveView">
                 <div class="slide-fade" ref="slide-fade" @click="close($event)">
                     <div class="container">
@@ -218,7 +217,7 @@
                     </div>
                 </div>
             </template>
-        </transition> -->
+        </transition>
     </div>
     <!-- <div v-else>  //////// UPCOMING CHANGES ////////////
     <BulkUploadVue  @is-bulk-upload-open="closeBulkUpload($event)" :noteType="this.noteType"></BulkUploadVue>
@@ -247,8 +246,8 @@ import { dateRangeShortcuts } from '@/helper/datetime.util';
 import loader from '@/components/common/loader';
 import moment from 'moment';
 import { mapGetters } from 'vuex'
-/* import ApproverDrawer from './approver-drawer.vue';
-import BulkUploadVue from './bulk-upload-creator.vue'; */
+import ApproverDrawer from './approver-drawer.vue';
+//import BulkUploadVue from './bulk-upload-creator.vue';
 import { GET_USER_INFO, GET_USER_PERMISSIONS } from '@/store/getters.type'
 
 const PAGINATION_OBJECT = {
@@ -272,7 +271,7 @@ export default {
       'nitrozen-checkbox':NitrozenCheckBox,
       'adm-inline-svg': admInlineSVG,
       loader,
-      //ApproverDrawer,
+      ApproverDrawer,
       //BulkUploadVue
     },
     directives: {
@@ -404,7 +403,7 @@ export default {
                 );
             }
         },
-        /* updateDrawerData(tab, add) {
+        updateDrawerData(tab, add) {
             if(add){
                 if(tab['category'] in this.drawerData.notesSet){
                     this.drawerData.notesSet[tab['category']].push({
@@ -433,8 +432,8 @@ export default {
                     delete this.drawerData.notesSet[tab['category']];
                 }
             }
-        }, */
-        /* select(tab) {
+        },
+        select(tab) {
             if((this.tab).indexOf(tab.document_number) != -1){
                 (this.tab).splice((this.tab).indexOf(tab.document_number),1);
                 this.updateDrawerData(tab, false);
@@ -442,8 +441,8 @@ export default {
                 (this.tab).push(tab.document_number);
                 this.updateDrawerData(tab, true);
             }
-        }, */
-        /* closeApproverDrawerView(event){
+        },
+        closeApproverDrawerView(event){
             this.quickApproveView = false;
             if(event != false){
                 this.drawerData = {
@@ -453,7 +452,7 @@ export default {
                 this.tab = [];
                 this.getListData();
             }
-        }, */
+        },
         searchByInput: debounce(function (e) {
             this.initialPayload.data.page = 1;
             this.initialPayload.data.pageSize = this.pageObject.limit;
