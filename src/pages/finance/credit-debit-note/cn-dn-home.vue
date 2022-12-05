@@ -340,7 +340,6 @@ export default {
         notBefore: moment().subtract(3, 'months').toISOString(),
         fromDate: '',
         toDate: '',
-        createdAt: '',
         inProgress: false,
         quickApproveView: false,
         paginationName: 'Credit Note',
