@@ -1854,9 +1854,10 @@ export default {
                     if (element.key != '' && element.value != '') {
                         headers[element.key] = element.value;
                     }
-                });
+                }); 
             }
             if (!isValid) {
+                this.saveButtonClicked = false;
                 return;
             }
             if (this.authStatus == true && this.password.length == 0) {

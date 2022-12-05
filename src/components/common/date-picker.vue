@@ -50,7 +50,7 @@
 ::v-deep .mx-calendar.mx-calendar-panel-date {
     font-family: 'Inter';
 }
-::v-deep.mx-input {
+::v-deep .mx-input {
     box-shadow: none !important;
     border: 1px solid #e4e5e6;
 }

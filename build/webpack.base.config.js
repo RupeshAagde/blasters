@@ -15,8 +15,8 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
-    new CopyWebpackPlugin([{ from: 'assets', to: 'assets' }], {
-      copyUnmodified: true
+    new CopyWebpackPlugin({
+      patterns: [{ from: 'assets', to: 'assets' }]
     })
   ],
   resolve: {
