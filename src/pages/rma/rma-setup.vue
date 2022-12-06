@@ -586,13 +586,13 @@ export default {
                 this.$route.name.includes('edit') &&
                 this.editRuleData !== undefined
             ) {
-                this.selectedDepartmentId = this.editRuleData.meta.department.id;
-                this.selectedDepartment = `${this.editRuleData.meta.department.display_name}`;
+                // this.selectedDepartmentId = this.editRuleData.meta.department.id;
+                // this.selectedDepartment = `${this.editRuleData.meta.department.display_name}`;
                 //this.fetchL3Categories(this.editRuleData.meta.department.id);
-                if (this.editRuleData.meta.l3) {
-                    this.selectedL3 = `${this.editRuleData.meta.l3.display_name}`;
-                    this.selectedL3Id = this.editRuleData.meta.l3.id;
-                }
+                // if (this.editRuleData.meta.l3) {
+                //     this.selectedL3 = `${this.editRuleData.meta.l3.display_name}`;
+                //     this.selectedL3Id = this.editRuleData.meta.l3.id;
+                // }
                 const reasonList = [];
                 if (this.editRuleData.actions.reasons.length) {
                     this.editRuleData.actions.reasons.forEach((res) => {

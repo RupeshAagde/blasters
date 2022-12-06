@@ -19,19 +19,28 @@
                         >Global Rules</nitrozen-button
                     >
                 </div>
-                <search-container
-                    :placeholder="'Search by Sales Channel name'"
-                    :id="'rma-platform-search'"
-                    :value="optInSearchValue"
-                    :handleChange="searchPlatforms"
-                    :disabled="false"
-                />
+                <div class="search-container">
+                    <nitrozen-input
+                        :id="'rma-platform-search'"
+                        class="search-input"
+                        :showSearchIcon="true"
+                        type="search"
+                        placeholder="Search by ID or Department"
+                        v-model="optInSearchValue"
+                        @input="searchPlatforms"
+                    />
+                    <nitrozen-dropdown
+                        :items="filterValues"
+                        :placeholder="'All'"
+                        v-model="filterValue"
+                        class="width"
+                        @change="handleFilterValue"
+                    ></nitrozen-dropdown>
+                </div>
                 <shimmer v-if="startLoader" :count="4"></shimmer>
                 <adm-no-content
-                    v-else-if="
-                        optInSearchValue === '' && rulesData.length === 0
-                    "
-                    helperText="No sales channel has been opted to setup global rules."
+                    v-else-if="rulesData.length === 0"
+                    helperText="No sales channel found."
                 ></adm-no-content>
                 <div v-else>
                     <opt-in-rules :tableData="rulesData" />
@@ -52,6 +61,8 @@
 import {
     NitrozenButton,
     NitrozenPagination,
+    NitrozenInput,
+    NitrozenDropdown,
     flatBtn
 } from '@gofynd/nitrozen-vue';
 import AdmNoContent from '@/components/common/adm-no-content.vue';
@@ -69,6 +80,8 @@ export default {
         'nitrozen-button': NitrozenButton,
         OptInRules,
         NitrozenPagination,
+        NitrozenInput,
+        NitrozenDropdown,
         SearchContainer,
         Shimmer,
         Breadcrumb
@@ -82,6 +95,21 @@ export default {
             platformSummary: [],
             startLoader: false,
             optInSearchValue: '',
+            filterValues: [
+                {
+                    value: 'All',
+                    text: 'All'
+                },
+                {
+                    value: 'global',
+                    text: 'Global'
+                },
+                {
+                    value: 'custom',
+                    text: 'Custom'
+                }
+            ],
+            filterValue: 'All',
             pageObject: {
                 total: 0,
                 current: 1,
@@ -90,10 +118,6 @@ export default {
             breadcrumbRoutes: [
                 {
                     name: 'Return Merchandise Authorisation',
-                    path: ''
-                },
-                {
-                    name: 'Global Rules',
                     path: ''
                 }
             ]
@@ -112,6 +136,9 @@ export default {
             this.optInSearchValue = inputValue;
             this.fetchOptedSalesChannels();
         }, 300),
+        handleFilterValue() {
+            this.fetchOptedSalesChannels();
+        },
         fetchOptedSalesChannels() {
             this.startLoader = true;
             const query_param = {
@@ -119,6 +146,9 @@ export default {
                 page_size: this.pageObject.limit,
                 q: this.optInSearchValue
             };
+            if (this.filterValue !== 'All') {
+                query_param['qc_config'] = this.filterValue;
+            }
             RMAService.getOptedSalesChannelList(query_param)
                 .then((res) => {
                     this.rulesData = res.data.items;
@@ -180,6 +210,24 @@ export default {
                 line-height: 22px;
                 font-size: 16px;
             }
+        }
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.03);
+        border-radius: 4px;
+        margin-block: 10px;
+
+        & > * {
+            width: 100%;
+        }
+
+        .nitrozen-dropdown-container {
+            max-width: 200px;
         }
     }
 }
