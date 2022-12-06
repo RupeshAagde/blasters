@@ -38,6 +38,7 @@
               :show-tags="showTags"
               :chart-id="chartId"
               @reset-data="$emit('reset-data')"
+              :is-global-loading="isGlobalLoading"
           ></filter-search-component>
           <filter-dropdown-component
               v-else
@@ -57,7 +58,7 @@
 
 <script>
 import {NitrozenTooltip} from "@gofynd/nitrozen-vue";
-import {filterComponentSharedProps, filterMixin,} from '../../mixins/filter.mixin';
+import {filterComponentSharedProps, filterMixin, isGlobalLoadingProps,} from '../../mixins/filter.mixin';
 import {GENERIC_TOOLTIP_TEXT} from "./constant/tooltip-message"
 import FilterCheckboxComponents from './filter-checkbox-component';
 import FilterDropdownComponent from './filter-dropdown-component';
@@ -75,7 +76,7 @@ export default {
     alignVertically: {type: Boolean, default: false},
     shouldShowToolTip: {type: Boolean, default: true}
   },
-  mixins: [filterMixin, filterComponentSharedProps],
+  mixins: [filterMixin, filterComponentSharedProps, isGlobalLoadingProps],
   methods: {
     callDropdownFunc() {
       this.seedData.forEach((filter) => {

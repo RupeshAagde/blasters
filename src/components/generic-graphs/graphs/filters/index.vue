@@ -44,7 +44,8 @@
       ></nitrozen-dropdown>
     </div>
     <topFilters v-if="filters.filterView === FILTER_VIEWS.TABLE_V2_FILTERS" :chart-id="chartId" :filters="filters.data"
-                @reset-data="$emit('reset-data')" :is-loading="isLoading"></topFilters>
+                :is-global-loading="isGlobalLoading"
+                @reset-data="$emit('reset-data')"></topFilters>
   </div>
 </template>
 
@@ -59,10 +60,11 @@ import {ADMIN_CHANGE_GRAPH_FILTER, ADMIN_SAVE_DASHBOARD_DRAGGABLE, ADMIN_SAVE_FI
 import {graphFilterMixins} from "../mixins/graphFilter.mixins";
 import {DashboardCommonMixins} from "@/pages/overview/dashboard/mixins/dashboard-common.mixins";
 import TopFilters from "./top-filters";
+import {isGlobalLoadingProps} from "../../../analytics-generic-filters/mixins/filter.mixin";
 
 export default {
   name: "graph-filters",
-  mixins: [mediaScreensMixins, graphFilterMixins, DashboardCommonMixins],
+  mixins: [mediaScreensMixins, graphFilterMixins, DashboardCommonMixins, isGlobalLoadingProps],
   components: {
     TopFilters,
     draggable,

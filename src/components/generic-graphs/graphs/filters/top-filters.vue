@@ -1,7 +1,9 @@
 <template>
     <div class="topFilter">
       <filter-components :page-name="pageName" :seed-data="filters" :should-show-tool-tip="false"
-                         :chart-id="chartId" class="components-specific-styles" @reset-data="$emit('reset-data')"></filter-components>
+                         :chart-id="chartId"
+                         :is-global-loading="isGlobalLoading" class="components-specific-styles"
+                         @reset-data="$emit('reset-data')"></filter-components>
     </div>
 </template>
 
@@ -41,15 +43,17 @@
 <script>
 import {NitrozenDropdown, NitrozenInput} from '@gofynd/nitrozen-vue';
 import FilterComponents from "@/components/analytics-generic-filters/components/filter-components";
+import {isGlobalLoadingProps} from "../../../analytics-generic-filters/mixins/filter.mixin";
 
 export default {
   name: "top-filters",
+  mixins: [isGlobalLoadingProps],
   components: {
     NitrozenDropdown,
     NitrozenInput,
     FilterComponents
   },
-  provide(){
+  provide() {
     return {}
   },
   props: {
