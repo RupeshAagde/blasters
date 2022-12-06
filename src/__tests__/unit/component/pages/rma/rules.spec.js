@@ -1,7 +1,6 @@
 import { mount, createLocalVue } from '@vue/test-utils';
 import flushPromises from 'flush-promises';
 import Rules from '../../../../../pages/rma/rules.vue';
-import SearchContainer from '../../../../../components/packaging/common/search-container.vue';
 import AdmNoContent from '../../../../../components/common/adm-no-content.vue';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
 import URLS from '../../../../../services/domain.service.js';
@@ -54,7 +53,7 @@ describe('Mounted Rules Component', () => {
     });
 
     it('Search Rules', async () => {
-        let searchContainer = wrapper.findComponent(SearchContainer);
+        let searchContainer = wrapper.find('.search-input');
         let searchInput = wrapper.find('#rma-platform-search')
         expect(searchContainer.exists()).toBe(true);
         await searchInput.setValue('some value')
