@@ -26,7 +26,7 @@
         See more
       </div>
    <header-download-button v-if="hasDownloadOption" :data-exists-to-download="isCardEmpty"
-                           :download-options="this.card.graphInfo.download"></header-download-button>
+                           :download-options="this.card.graphInfo.download" :chart-id="card.id"></header-download-button>
     </div>
     <div
         v-if="card.growth"

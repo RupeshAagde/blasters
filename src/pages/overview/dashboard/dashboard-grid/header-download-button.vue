@@ -16,7 +16,8 @@ export default {
   props: {
     downloadOptions: {type: Object, required: true},
     pageName: {type: String, default: ANALYTICS_PAGES.DASHBOARD},
-    dataExistsToDownload: {type: Boolean, default: true}
+    dataExistsToDownload: {type: Boolean, default: true},
+    chartId: {type: String, required: true}
   },
   data: () => ({
     downloadInProgress: false
@@ -34,7 +35,8 @@ export default {
       this.downloadInProgress = true;
       this.$store.dispatch(ADMIN_START_COMPONENT_SPECIFIC_DOWNLOAD, {
         pageName: this.pageName,
-        url: this.downloadOptions.downloadUrl
+        url: this.downloadOptions.downloadUrl,
+        chartId: this.chartId
       }).then(finished => {
         this.downloadInProgress = false;
       }).catch(err => {
