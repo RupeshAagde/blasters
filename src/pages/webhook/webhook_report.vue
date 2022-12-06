@@ -117,10 +117,10 @@
                                                     
                                                         searchFilter($event)
                                                     " v-model="
-    filtersToshow[
-    filter.filter_name
-    ]
-" @change="
+                                                        filtersToshow[
+                                                        filter.filter_name
+                                                        ]
+                                                    " @change="
     filterInputChange(
         filter.filter_name,
         index
@@ -149,8 +149,8 @@
                                                     :label="'Date Range'" :items="dateItems" @change="
                                                         dateRangeChange($event, true)
                                                     " @searchInputChange="
-    clearDateFilter()
-" v-model="dateSelected" placeholder="Select Date Range"
+                                                        clearDateFilter()
+                                                    " v-model="dateSelected" placeholder="Select Date Range"
                                                     :searchable="true" :multiple="false">
                                                     <label>Date Range</label>
                                                 </nitrozen-dropdown>
@@ -203,7 +203,7 @@
                                             Event
                                         </td>
                                         <td class="clickable line-height" @click="
-                                            sortTable('response.status')
+                                            sortTable('response.response_code')
                                         ">
                                             <div>Response</div>
                                             <div>Code</div>
@@ -257,7 +257,7 @@
                                             </td>
                                             <td>
                                                 <div>
-                                                    {{ method.status }}
+                                                    {{ method.response_code }}
                                                 </div>
                                             </td>
                                             <td>
@@ -277,7 +277,7 @@
 
                                             <td>
                                                 <div class="no-wrap">
-                                                    {{ epochToDate(method.last_attempted_on) }}
+                                                    {{ epochToDate(method.last_attempted_on / 1000) }}
                                                 </div>
                                             </td>
                                             <td class="clickable-payload" @click="
