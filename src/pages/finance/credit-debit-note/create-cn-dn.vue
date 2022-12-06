@@ -578,7 +578,7 @@
                 sellerId: {
                     value: '1',
                     errorMessage: '',
-                    isValid: false
+                    isValid: true
                 },
                 isValidForm: {},
                 calledFromChild: false,
@@ -1011,16 +1011,13 @@
 
             disableSave() {
                 if(Object.keys(this.isValidForm).length === 0) return true;
-
-                for(const value of Object.values(this.isValidForm)){
-                    if (value === false) {
-                        return true;
-                    }
+                if(Object.values(this.isValidForm).includes(false)){
+                    return true;
                 }
 
                 switch (this.selectedType) {
                     case 'commercial':
-                        if(Object.keys(this.isValidForm).length === 7) return false;
+                        if(Object.keys(this.isValidForm).length === 8) return false;
                         break;
                     case 'gst_fee':
                         if(Object.keys(this.isValidForm).length === 2) {
@@ -1623,10 +1620,12 @@
                     const res = await CreditDebitNoteServices.getSellerDetails(params);
                     this.sellerName = res.data.data.seller_name;
                     this.isValidForm["sellerName"] =  true;
+                    this.isValidForm["sellerId"] = true;
                 } catch (error) {
                     this.$snackbar.global.showError('Invalid user name');
                     this.sellerName = ''
                     this.isValidForm["sellerName"] =  false;
+                    this.isValidForm["sellerId"] = false;
                 }
             },
 

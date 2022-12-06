@@ -262,7 +262,8 @@ export const getNavigations = () => {
                     display: 'Credit-Note/Debit-Note',
                     link: '/administrator/finance/credit-debit-note',
                     title: 'cndn',
-                    highlightedIcon: 'team-highlighted',
+                    icon: 'kycdetails',
+                    highlightedIcon: 'home-highlighted',
                     active: false,
                 }
             ]
