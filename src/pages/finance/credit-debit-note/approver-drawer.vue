@@ -233,9 +233,9 @@
  } from '@gofynd/nitrozen-vue';
  import CreditDebitNoteServices from '@/services/cn-dn.service';
  import {
-     isEmptyValue,
      convertSnakeCaseToString
  } from '../../../helper/utils';
+ import { isEmpty } from 'lodash';
  
  export default {
      name: 'approver-drawer',
@@ -344,7 +344,7 @@
          getApprove(tab){
              let params = {
                  data: {
-                     note_id: tab.noteId,
+                     note_id: [tab.noteId],
                      status: this.status === 'Approve' ? 'approved' : 'rejected', //status (rejected or approved) prop on click of button this.status
                      remark: tab.comment,
                  }
@@ -390,7 +390,7 @@
          validateForm(index,tab) {
              var tabItem = this.tabs[this.currentIdx];
  
-             if (isEmptyValue(tab.comment) || tab.comment.trim() === '') {
+             if (isEmpty(tab.comment) || tab.comment.trim() === '') {
                  tab.errorMessage = 'Comment required'
                  tab.isValid = false
                  this.commentsSet[tabItem] = this.commentsSet[tabItem].filter((x) =>
