@@ -117,10 +117,10 @@
                                                     
                                                         searchFilter($event)
                                                     " v-model="
-                                                        filtersToshow[
-                                                        filter.filter_name
-                                                        ]
-                                                    " @change="
+    filtersToshow[
+    filter.filter_name
+    ]
+" @change="
     filterInputChange(
         filter.filter_name,
         index
@@ -149,8 +149,8 @@
                                                     :label="'Date Range'" :items="dateItems" @change="
                                                         dateRangeChange($event, true)
                                                     " @searchInputChange="
-                                                        clearDateFilter()
-                                                    " v-model="dateSelected" placeholder="Select Date Range"
+    clearDateFilter()
+" v-model="dateSelected" placeholder="Select Date Range"
                                                     :searchable="true" :multiple="false">
                                                     <label>Date Range</label>
                                                 </nitrozen-dropdown>
@@ -277,7 +277,7 @@
 
                                             <td>
                                                 <div class="no-wrap">
-                                                    {{ epochToDate(method.last_attempted_on / 1000) }}
+                                                    {{ epochToDate(method.last_attempted_on) }}
                                                 </div>
                                             </td>
                                             <td class="clickable-payload" @click="
