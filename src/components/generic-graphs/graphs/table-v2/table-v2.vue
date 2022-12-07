@@ -13,7 +13,10 @@
               <div class="collapse-wrapper">
                 <div v-for="item in row.fields">
                   <p class="heading mb-half-rem">{{ item.name }}</p>
-                  <p class="content">{{ item.value | valueDisplayFormatter }}</p>
+                  <div v-if="Array.isArray(item.value) ">
+                    <p v-for="(element, index) in item.value" class="content mb-half-rem">{{ element }}</p>
+                  </div>
+                  <p v-else class="content">{{ item.value }}</p>
                 </div>
               </div>
             </td>
