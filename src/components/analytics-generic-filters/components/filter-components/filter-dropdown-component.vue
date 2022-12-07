@@ -63,7 +63,12 @@ import {NitrozenDropdown} from '@gofynd/nitrozen-vue';
 import collapse from '@/components/common/collapse.vue';
 import uktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import {ADMIN_CLEAR_FILTERS,} from '@/store/action.type';
-import {filterComponentSharedProps, filterMixin, filtersSharedValueMixins,} from '../../mixins/filter.mixin';
+import {
+  filterComponentSharedProps,
+  filterMixin,
+  filtersSharedValueMixins,
+  isGlobalLoadingProps,
+} from '../../mixins/filter.mixin';
 import {ANALYTICS_FILTER_TYPES} from '../../constants/constants';
 import AppliedFilter from '@/components/common/tags/applied-filter.vue';
 import {loadingMixins} from "../../../generic-graphs/graphs/mixins/loading.mixins";
@@ -75,7 +80,7 @@ import {
 export default {
   name: 'filter-dropdown-component',
   components: {NitrozenDropdown, AppliedFilter, collapse, uktInlineSvg},
-  mixins: [filterMixin, filterComponentSharedProps, filtersSharedValueMixins, loadingMixins],
+  mixins: [filterMixin, filterComponentSharedProps, filtersSharedValueMixins, loadingMixins, isGlobalLoadingProps],
   data: () => ({val: '', collapse_state: null, getVals: []}),
   beforeMount() {
     this.collapse_state = !this.seedData.closed;
@@ -173,6 +178,9 @@ export default {
           ? this.formatPlaceholder(this.seedData.name)
           : 'Select ' + this.seedData.name
     },
+    isDisabled(){
+      return this.isLoading || this.isGlobalLoading
+    }
   },
   mounted() {
     if (this.seedData.defaultValue) {

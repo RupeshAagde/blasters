@@ -25,6 +25,7 @@
               :show-name="showName"
               :show-tags="showTags"
               :chart-id="chartId"
+              :is-global-loading="isGlobalLoading"
               @reset-data="$emit('reset-data')"
           ></filter-checkbox-components>
           <filter-search-component
@@ -51,6 +52,7 @@
               :show-tags="showTags"
               :chart-id="chartId"
               @reset-data="$emit('reset-data')"
+              :is-global-loading="isGlobalLoading"
           ></filter-dropdown-component>
         </div>
     </div>
