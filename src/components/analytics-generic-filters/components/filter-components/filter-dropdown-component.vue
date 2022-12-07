@@ -29,7 +29,7 @@
                 :searchable="isMultiSelect"
                 class="width"
                 @searchInputChange="searchFilter($event)"
-                :disabled="isLoading"
+                :disabled="isDisabled"
             ></nitrozen-dropdown>
           </div>
         </collapse>
@@ -43,7 +43,7 @@
             :searchable="isMultiSelect"
             @searchInputChange="searchFilter($event)"
             class="width"
-            :disabled="isLoading"
+            :disabled="isDisabled"
         ></nitrozen-dropdown>
         <applied-filter
             class="dropdown-tags"
@@ -179,7 +179,7 @@ export default {
           : 'Select ' + this.seedData.name
     },
     isDisabled(){
-      return this.isLoading || this.isGlobalLoading
+      return this.isLoading || this.isGlobalLoading;
     }
   },
   mounted() {
@@ -192,6 +192,11 @@ export default {
     getValues: {
       handler(val) {
         this.setGetVals(val);
+      }
+    },
+    isGlobalLoading: {
+      handler(val) {
+        console.log('global loading is: ', val);
       }
     }
   }

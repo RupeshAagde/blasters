@@ -44,7 +44,7 @@
       ></nitrozen-dropdown>
     </div>
     <topFilters v-if="filters.filterView === FILTER_VIEWS.TABLE_V2_FILTERS" :chart-id="chartId" :filters="filters.data"
-                :is-global-loading="isGlobalLoading"
+                :is-global-loading="isLoading"
                 @reset-data="$emit('reset-data')"></topFilters>
   </div>
 </template>
