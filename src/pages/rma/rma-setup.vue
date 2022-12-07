@@ -650,6 +650,7 @@ export default {
                 );
                 if (channelData) {
                     this.channel = { ...channelData };
+                    this.breadcrumbRoutes[1].name = channelData.name
                 }
             }
         },
