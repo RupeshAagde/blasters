@@ -145,6 +145,9 @@ const BLASTER_MAIN_DOMAIN= isNode
 const MIXMASTER_PLTM_URL = isNode
     ? envVars.BROWSER_CONFIG.MIXMASTER_PLTM_URL
         : envVars.MIXMASTER_PLTM_URL;
+const FRENZY_ADMIN_URL = isNode
+    ? envVars.BROWSER_CONFIG.FRENZY_ADMIN_URL
+    : envVars.FRENZY_ADMIN_URL;
 
 const ADMIN_URLS = {
     GET_BIG_QUERY_N_RECORDS: () => {
@@ -1691,7 +1694,18 @@ const ADMIN_URLS = {
     },
     PARTNER_INVITES(id = ''){
         return urlJoin(MIXMASTER_PLTM_URL, `/v1.0/company/${getCompInfo()}/partner-request/${id}`);
-    }
+    },
+    //Analytics
+    ANALYTICS_LAYOUT: (app_id = '000000000000000000000005', layout, suffix = 'get') => {
+        const baseUrl = FRENZY_ADMIN_URL
+        const apiUrl = `v1.0/analytics/layout/${layout}/${suffix}`;
+        return urlJoin(baseUrl, apiUrl);
+    },
+    ANALYTICS_GENERIC_URL_SCHEMES: (suffixUrl = "", app_id = "000000000000000000000005", extremeSuffix) => {
+        const baseUrl = FRENZY_ADMIN_URL;
+        const apiUrl = `v1.0/analytics/${suffixUrl}/${extremeSuffix}`;
+        return urlJoin(baseUrl, apiUrl);
+    },
 };
 
 export default ADMIN_URLS;
