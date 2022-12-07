@@ -81,7 +81,7 @@ export default {
   name: 'filter-dropdown-component',
   components: {NitrozenDropdown, AppliedFilter, collapse, uktInlineSvg},
   mixins: [filterMixin, filterComponentSharedProps, filtersSharedValueMixins, loadingMixins, isGlobalLoadingProps],
-  data: () => ({val: '', collapse_state: null, getVals: []}),
+  data: () => ({val: '', collapse_state: null, getVals: [], forFirstTime: false}),
   beforeMount() {
     this.collapse_state = !this.seedData.closed;
   },
@@ -184,7 +184,10 @@ export default {
   },
   mounted() {
     if (this.seedData.defaultValue) {
+      this.forFirstTime = true;
       this.value = this.seedData.defaultValue;
+      this.forFirstTime = false;
+
     }
     this.setGetVals();
   },
