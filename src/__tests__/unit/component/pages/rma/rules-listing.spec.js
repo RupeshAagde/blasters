@@ -89,14 +89,14 @@ describe('RulesListing', () => {
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.tableHeadings.length).toBeGreaterThanOrEqual(3);
     });
-    it('Checks for rule type', () => {
-        wrapper.vm.showCustom = true;
-        wrapper.vm.updateRuleParams();
-        expect(wrapper.vm.rulesParams.rule_type).toBe('custom')
-        wrapper.vm.showCustom = false;
-        wrapper.vm.updateRuleParams();
-        expect(wrapper.vm.rulesParams.rule_type).toBe('global')
-    });
+    // it('Checks for rule type', () => {
+    //     wrapper.vm.showCustom = true;
+    //     wrapper.vm.updateRuleParams();
+    //     expect(wrapper.vm.rulesParams.rule_type).toBe('custom')
+    //     wrapper.vm.showCustom = false;
+    //     wrapper.vm.updateRuleParams();
+    //     expect(wrapper.vm.rulesParams.rule_type).toBe('global')
+    // });
     it('Delete rule', async () => {
         let deletRuleMock = jest.spyOn(wrapper.vm, "deleteRule");
         let loadRulesMock = jest.spyOn(wrapper.vm, "loadRules");
@@ -134,6 +134,7 @@ describe('RulesListing', () => {
             }
         ])
         wrapper.vm.isGlobal = false;
+        wrapper.vm.channelName = 'Test name';
         wrapper.vm.setBreadcrumbRoutes();
         expect(wrapper.vm.breadcrumbRoutes).toStrictEqual([
             {
@@ -141,7 +142,7 @@ describe('RulesListing', () => {
                 path: '/administrator/orders/rma/rules'
             },
             {
-                name: 'Custom Rules',
+                name: 'Test name',
                 path: ''
             }
         ])

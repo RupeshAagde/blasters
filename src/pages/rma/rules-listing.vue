@@ -18,6 +18,7 @@
                         v-if="isGlobal"
                         title="Global Rules"
                         btnLabel="Add Rule"
+                        :btnDisabled="tableData.length >= 1"
                         @btnClick="redirectTo('setup')"
                     ></jumbotron>
                     <custom-rules-header
@@ -47,7 +48,7 @@
                         @onDelete="openDeleteModal"
                         @onEdit="redirectToEdit"
                     />
-                    <div class="pagination-parent" v-if="tableData.length > 0 && !showLoader">
+                    <div class="pagination-parent" v-if="(tableData.length > 0 && !showLoader && !isGlobal)">
                         <nitrozen-pagination
                             v-model="pagination"
                             @change="paginationChange"
@@ -56,7 +57,7 @@
                     </div>
                     <adm-no-content
                         v-if="tableData.length === 0 && !showLoader"
-                        helperText="No Custom Rules found"
+                        :helperText="`No ${isGlobal ? 'Global' : 'Custom'} Rules found ${!isGlobal ? `in ${channelName}` : ''}`"
                     ></adm-no-content>
                 </div>
             </div>
@@ -133,7 +134,6 @@ export default {
             .then((result) => {
                 this.tableData = result.data.items
                 this.showLoader = false
-                !this.channelName && (this.channelName = this.channelData.name)
                 this.pagination.total = result.data.page.item_total
             })
         },
@@ -145,7 +145,7 @@ export default {
                 channel: this.channelIds,
                 department: this.departmentIds,
                 id: this.ruleIds,
-                rule_type: this.showCustom ? 'custom' : 'global'
+                rule_type: this.isGlobal ? 'global' : 'custom'
             }
         },
         paginationChange(paginationData){
@@ -204,7 +204,7 @@ export default {
             .then(() => {
                 this.showCustom = isEnabled
                 this.updateLocalStorage()
-                this.updateRuleParams()
+                this.updateRuleParams() 
                 this.setCustomTableHeader()
                 this.loadRules()
             })
@@ -213,6 +213,7 @@ export default {
             if (this.isGlobal) { return }
             this.channelData = JSON.parse(localStorage.getItem(this.localStorageKey))
             this.channelData && (this.showCustom = this.channelData.qc_config === 'custom')
+            !this.channelName && (this.channelName = this.channelData.name)
             this.showCustom && this.setCustomTableHeader()
         },
         updateLocalStorage(){
@@ -224,12 +225,11 @@ export default {
             localStorage.setItem(this.localStorageKey, updatedJSON)
         },
         getChannelId(){
-            return this.$route.params.sales_channel.toString()
+            return this.$route.params.sales_channel ? this.$route.params.sales_channel.toString() : ''
         },
         filterRulesList({searchById = false}){
             if (this.searchInput === '') {
                 this.departmentIds = []
-                this.channelIds = this.showCustom ? [this.getChannelId()] : [];
                 this.ruleIds = []
                 this.pagination.current = 1
                 this.updateRuleParams()
@@ -283,7 +283,7 @@ export default {
                     path: '/administrator/orders/rma/rules'
                 },
                 {
-                    name: this.isGlobal ? 'Global Rules' : 'Custom Rules',
+                    name: this.isGlobal ? 'Global Rules' : this.channelName,
                     path: ''
                 }
             ]
@@ -305,7 +305,7 @@ export default {
         ]
         this.setChannelData()
         this.defaultPath = `/administrator/orders/rma/rules/${this.isGlobal ? 'global' : 'custom'}`
-        this.channelId = this.showCustom ? this.getChannelId() : ''
+        this.channelId = this.getChannelId()
         this.channelIds = this.channelId ? [this.channelId] : []
         this.updateRuleParams()
         this.loadRules()

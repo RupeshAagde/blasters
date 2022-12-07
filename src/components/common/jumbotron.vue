@@ -12,6 +12,7 @@
                 :theme="'secondary'"
                 v-flatBtn
                 @click="btnClick"
+                :disabled="btnDisabled"
                 >{{ btnLabel }}</nitrozen-button
             >
             <slot />
@@ -45,6 +46,10 @@ export default {
         illustration: {
             type: String,
             default: 'illustration'
+        },
+        btnDisabled: {
+            type: Boolean,
+            default: false
         }
     },
     directives: {
