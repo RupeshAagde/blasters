@@ -666,7 +666,7 @@ export default {
         cursor: pointer;
     }
     @media screen and (max-height: 600px) {
-        ::v-deep.not-found {
+        ::v-deep .not-found {
             width: auto;
             padding: unset;
             img {
@@ -675,7 +675,7 @@ export default {
             }
         }
     }
-    ::v-deep.not-found {
+    ::v-deep .not-found {
         width: auto;
     }
     ::v-deep img {
