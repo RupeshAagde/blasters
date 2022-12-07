@@ -111,6 +111,9 @@ const filtersSharedValueMixins = {
                 );
             },
             set(val) {
+                if (this.isDisabled){
+                    return;
+                }
                 this.val = val;
                 this.saveValueToStore(val);
                 if (this.applyFilter) {
