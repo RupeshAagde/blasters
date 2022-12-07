@@ -193,11 +193,6 @@ export default {
       handler(val) {
         this.setGetVals(val);
       }
-    },
-    isGlobalLoading: {
-      handler(val) {
-        console.log('global loading is: ', val);
-      }
     }
   }
 };
