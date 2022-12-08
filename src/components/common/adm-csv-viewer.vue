@@ -4,14 +4,14 @@
             <div v-if="title" class="grid-title">{{ title }}</div>
             <div v-else></div>
             <slot name="action-button"></slot>
-            <div
+            <!-- <div
                 class="csv-export-icon"
                 v-if="grid && csvExportFileName"
                 @click="exportErrorsInCsv"
                 title="Export as CSV"
             >
                 <ukt-inline-svg src="download"></ukt-inline-svg>
-            </div>
+            </div> -->
         </div>
         <div ref="grid" :id="id" :style="css" class="ag-theme-alpine"></div>
     </div>
@@ -19,7 +19,7 @@
 
 <script>
 import { Grid } from 'ag-grid-community';
-import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
+import UktInlineSvg from '@/components/common/adm-inline-svg.vue';
 import shortid from 'shortid';
 export default {
     name: 'csv-viewer',
@@ -28,17 +28,17 @@ export default {
         title: {
             type: String
         },
-        csvExportFileName: {
-            type: String,
-            default: null
-        },
+        // csvExportFileName: {
+        //     type: String,
+        //     default: null
+        // },
         css: {
             type: String,
             default: 'height:500px'
         }
     },
     data: function() {
-        return { id: `csvAgGrid-${shortid.generate()}`, grid: null };
+        return { id: `csvAgGrid-${shortid.generate()}`, grid: null, csvExportFileName: '' };
     },
     mounted() {
         this.id = `csvAgGrid-${shortid.generate()}`;

@@ -151,30 +151,33 @@
                     <div>
                         <p class="cl-Mako darker-md">Validation Summary</p>
                         <div class="record-status">
-                            <p class="cl-DustyGray2 regular-xxs">
+                            <p class="cl-DustyGray2 regular-xxs total-records">
                                 Total Records:
-                                <span class="cl-Mako darker-xxs">0</span>
+                                <span class="cl-Mako darker-xxs">{{
+                                    productsArray.length
+                                }}</span>
                             </p>
-                            <div class="status">
+                            <div class="status" v-if="isSuccessVisible">
                                 <adm-inline-svg
                                     src="completed_green"
                                 ></adm-inline-svg>
-                                <p
-                                    class="cl-DustyGray2 regular-xxs total-records"
-                                >
+                                <p class="cl-DustyGray2 regular-xxs">
                                     Success:
-                                    <span class="cl-Mako darker-xxs">0</span>
+                                    <span class="cl-Mako darker-xxs">{{
+                                        productsArray.length -
+                                            errorsTable().data.length
+                                    }}</span>
                                 </p>
                             </div>
-                            <div class="status">
+                            <div class="status" v-if="isErrorVisible">
                                 <adm-inline-svg
                                     src="error_status"
                                 ></adm-inline-svg>
-                                <p
-                                    class="cl-DustyGray2 regular-xxs total-records"
-                                >
+                                <p class="cl-DustyGray2 regular-xxs">
                                     Error:
-                                    <span class="cl-Mako darker-xxs">0</span>
+                                    <span class="cl-Mako darker-xxs">{{
+                                        errorsTable().data.length || 0
+                                    }}</span>
                                 </p>
                             </div>
                         </div>
@@ -189,15 +192,20 @@
                                 >Cancel</nitrozen-button
                             >
                         </div>
-                        <div v-else class="inline">
-                            <div class="inline">
+                        <div
+                            v-else-if="
+                                productsTable.data.length && isTableLoaded
+                            "
+                            class="inline"
+                        >
+                            <div class="inline" v-if="isErrorVisible">
                                 <adm-inline-svg
                                     src="cloud_download"
                                 ></adm-inline-svg>
                                 <nitrozen-button
                                     class=""
                                     theme="secondary"
-                                    @click="clearInputFile"
+                                    @click="downloadErrors"
                                     >Download File</nitrozen-button
                                 >
                             </div>
@@ -205,7 +213,7 @@
                                 <nitrozen-button
                                     class=""
                                     theme="secondary"
-                                    @click="openConfirmationDialogBox"
+                                    @click="reUploadConfirmationDialogBox"
                                     v-strokeBtn
                                     >Reupload</nitrozen-button
                                 >
@@ -214,7 +222,7 @@
                                 <nitrozen-button
                                     class=""
                                     theme="secondary"
-                                    @click="clearInputFile"
+                                    @click="confirmDialogBox"
                                     v-flatBtn
                                     >Confirm</nitrozen-button
                                 >
@@ -267,12 +275,29 @@
         </side-bar>
         <!-- confirmation dailog box -->
         <confirmation-dialog-box
-            ref="confirmation-dialog-box"
+            ref="reupload"
             cancelBtnTitle="No"
             saveBtnTitle="Yes"
             message="If you reupload, your current upload progress will be lost"
-            @save="closeConfirmationDialogBox($event)"
+            @save="clearInputFile"
         />
+        <confirmation-dialog-box
+            ref="confirm"
+            cancelBtnTitle="No"
+            saveBtnTitle="Yes"
+            message="Your file contains “20 error” records and “40 Validated” records.
+            If you confirm, only the validated records will get uploaded"
+            @save="uploadBulkProducts"
+        />
+        <csv-view
+            title="Errors"
+            ref="errors-preview"
+            class="errors-preview"
+            v-show="errorsTable().data.length"
+            :csvExportFileName="
+                file ? `validation-errors-${file.name}_.csv` : null
+            "
+        ></csv-view>
     </div>
 </template>
 
@@ -478,6 +503,14 @@
     }
 }
 
+.errors-preview {
+    visibility: hidden;
+}
+
+.total-records {
+    align-self: center;
+}
+
 .pointer {
     cursor: pointer;
 }
@@ -597,6 +630,14 @@ export default {
     computed: {
         getTitle() {
             return `Import ${this.capitalize(this.$route.params.type)} Data`;
+        },
+        isSuccessVisible() {
+            return !(
+                this.productsArray.length === this.errorsTable().data.length
+            );
+        },
+        isErrorVisible() {
+            return this.errorsTable().data.length;
         }
     },
     data() {
@@ -689,8 +730,11 @@ export default {
             this.sidebarToggle = !this.sidebarToggle;
         },
         /**Confirmation dialog box function*/
-        openConfirmationDialogBox() {
-            this.$refs['confirmation-dialog-box'].openConfirmation();
+        reUploadConfirmationDialogBox() {
+            this.$refs['reupload'].openConfirmation();
+        },
+        confirmDialogBox() {
+            this.$refs['confirm'].openConfirmation();
         },
         closeConfirmationDialogBox(e) {
             this.clearInputFile();
@@ -856,7 +900,7 @@ export default {
             this.processBulkProducts();
         },
         renderTable() {
-            console.log(this.productsTable)
+            console.log(this.productsTable);
             this.$refs['csv-preview'].createGrid({
                 column: this.productsTable.meta.fields.map((e) => ({
                     headerName: e,
@@ -920,7 +964,7 @@ export default {
                     this.schemaProp()
                 );
             } catch (err) {
-                console.log(err)
+                console.log(err);
                 this.$snackbar.global.showError(
                     'Validation schema error, please report an issue to support team'
                 );
@@ -1113,6 +1157,9 @@ export default {
                 );
             } else {
                 this.$snackbar.global.showError('File data is invalid');
+                // this.$refs['csv-preview'].csvExportFileName = this.file
+                //     ? `validation-errors-${this.file.name}_.csv`
+                //     : null;
                 const errorsData = this.errorsTable().data;
                 this.$refs[
                     'csv-preview'
@@ -1156,24 +1203,117 @@ export default {
                     Errors: msgs.join(', \n')
                 };
             });
-            // check for same brand - item_code combination have multiple error entries
-            const groupMap = groupBy(mappedErrors, (item) => {
-                return [item['Brand'], item['Item Code']];
-            });
-            const finalMappedErrors = mapValues(groupMap, (err) => {
-                const e = err[0];
-
-                e.Errors = err
-                    .filter((em) => em.Errors != 'should be > 0')
-                    .map((em) => em.Errors)
-                    .join(', ');
-                return e;
-            });
 
             return {
                 meta: { fields: ['Errors'] },
                 data: values(mappedErrors)
             };
+        },
+        downloadErrors() {
+            this.getErrorsTable();
+            this.$refs['errors-preview'].csvExportFileName = this.file
+                ? `validation-errors-${this.file.name}_.csv`
+                : null;
+            this.$refs['errors-preview'].exportErrorsInCsv();
+        },
+        getErrorsTable() {
+            // if (this.showErrorsTable) {
+            //     this.showErrorsTable = false;
+            //     return;
+            // }
+            // this.showErrorsTable = true;
+            this.$refs['errors-preview'].createGrid(
+                {
+                    column: this.errorsTable().meta.fields.map((e) => ({
+                        headerName: e,
+                        field: e,
+                        resizable: true,
+                        width: e == 'Errors' ? 600 : 120
+                    })),
+                    rows: this.errorsTable().data
+                },
+                { rowClass: 'error-row' }
+            );
+        },
+        uploadBulkProducts() {
+            this.pageLoading = true;
+            this.uploadToGrindor(this.file).then((filePath) => {
+                // bulk upload catalogue
+                if (filePath && this.productsArray.length) {
+                    const fileExtension = this.file.name.split('.').pop();
+                    let file_type;
+                    if (fileExtension === 'xls' || fileExtension === 'xlsx') {
+                        file_type = 'excel';
+                    } else if (fileExtension === 'csv') {
+                        file_type = 'csv';
+                    }
+                    this.bulkRequest(
+                        this.productsArray.length,
+                        filePath,
+                        file_type
+                    );
+                }
+                this.pageLoading = false; // for now
+            });
+        },
+        bulkRequest(count, file_path, file_type) {
+            let payload = {};
+            payload.stats = { total: count };
+            payload.tracking_url = file_path;
+            payload.file_type = file_type;
+            payload.notification_emails = ['sth@gmail.com'];
+            return CatalogService.bulkRequest(this.productType, payload)
+                .then(({ data }) => {
+                    // if (data && data.batch_id) {
+                    //     this.$refs.uploadHistory.loadHistory(true);
+                    //     return data.batch_id;
+                    // } else return false;
+                    this.navigateToHistory();
+                })
+                .catch((ex) => {
+                    this.$snackbar.global.showError(
+                        `Failed to request bulk upload ${
+                            ex && ex.message ? ' : ' + ex.message : ''
+                        }`
+                    );
+                    return false;
+                })
+                .finally(() => {
+                    this.inProgress = false;
+                });
+        },
+        uploadToGrindor(file) {
+            if (file) {
+                let body = {
+                    file_name: file.name,
+                    content_type: file.type,
+                    size: file.size,
+                    params: { company_id: this.companyId || '1' }
+                };
+                let request = { body };
+                this.loading = true;
+                return GrindorService.upload('test', body, file)
+                    .then(({ data }) => {
+                        if (data && data.cdn && data.cdn.url) {
+                            return data.cdn.url;
+                        }
+                    })
+                    .catch((err) => {
+                        this.$snackbar.global.showError(
+                            err &&
+                                err.response &&
+                                err.response.data &&
+                                err.response.data.message
+                                ? err.response.data.message
+                                : 'Failed to upload image'
+                        );
+                        console.error(err);
+                        return false;
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                    });
+            }
         }
     }
 };
