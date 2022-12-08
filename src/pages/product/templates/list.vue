@@ -1,12 +1,23 @@
 <template>
     <div class="main-container">
-        <div class="jumbotron-container">
+        <div class="jumbotron-container jumbo-wrapper">
             <jumbotron
                 :title="'Templates'"
-                :desc="'Product template is used to create a template structure per department wise.'"
+                :desc="
+                    'Product template is used to create a template structure per department wise.'
+                "
                 btnLabel="Create"
                 @btnClick="redirectEdit"
-            ></jumbotron>
+            >
+                <nitrozen-dropdown
+                    class="bulk-action-dropdown"
+                    label=" "
+                    :placeholder="'Bulk Action'"
+                    :items="bulkAction"
+                    v-model="selectedAction"
+                    @change="navigateToBulkAction"
+                ></nitrozen-dropdown>
+            </jumbotron>
         </div>
         <div class="second-container">
             <div
@@ -27,7 +38,9 @@
                             (selectedDepartment == '' &&
                                 templates.length > 0) ||
                             searchText == '' ||
-                            (selectedDepartment == '' && templates.length > 0) || searchText
+                            (selectedDepartment == '' &&
+                                templates.length > 0) ||
+                            searchText
                                 ? debounceInput({ search: searchText })
                                 : ''
                         "
@@ -44,7 +57,7 @@
                             @change="
                                 fetchProductTemplates(),
                                     setRouteQuery({
-                                        department: selectedDepartment,
+                                        department: selectedDepartment
                                     })
                             "
                         ></nitrozen-dropdown>
@@ -70,7 +83,7 @@
                                 <img
                                     :src="
                                         template.logo ||
-                                        '/public/assets/pngs/default_icon_listing.png'
+                                            '/public/assets/pngs/default_icon_listing.png'
                                     "
                                 />
                             </div>
@@ -91,7 +104,7 @@
                                         class="cb-box"
                                         v-if="
                                             template.modified_by &&
-                                            template.modified_by.username
+                                                template.modified_by.username
                                         "
                                     >
                                         <span>Modified By :</span>
@@ -175,6 +188,23 @@
 </template>
 
 <style lang="less" scoped>
+.jumbo-wrapper {
+    /deep/.jumbotron-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .txt-box + div {
+            width: 36%;
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-start;
+            button {
+                margin-left: 10px;
+                width: 100%;
+            }
+        }
+    }
+}
 .cb-lm {
     margin-left: 6px;
 }
@@ -184,6 +214,24 @@
     margin: 24px;
     padding: 24px;
     padding-bottom: 0;
+    /deep/.bulk-action-dropdown {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 140%;
+        display: flex;
+
+        .nitrozen-select__trigger {
+            color: #2e31be;
+        }
+
+        .nitrozen-option {
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 160%;
+        }
+    }
 }
 .second-container {
     margin: 24px 0px;
@@ -357,6 +405,11 @@ const PROPERTY_TYPES = {
     details: 'Details'
 };
 
+const BULK_ACTION = [
+    { value: 'import', text: 'Import' },
+    { value: 'export', text: 'Export' }
+];
+
 export default {
     name: 'TemplateList',
     components: {
@@ -394,7 +447,9 @@ export default {
             departments: [],
             selectedDepartment: '',
             tempList: [],
-            userObj: {}
+            userObj: {},
+            bulkAction: BULK_ACTION,
+            selectedAction: ''
         };
     },
     mounted() {
@@ -475,9 +530,9 @@ export default {
         fetchDepartments() {
             return new Promise((resolve, reject) => {
                 const query = {
-                    "page_size":9999,
-                    "page_no":1,
-                }
+                    page_size: 9999,
+                    page_no: 1
+                };
                 CompanyService.fetchDepartments(query)
                     .then(({ data }) => {
                         this.departments = data.items;
@@ -489,20 +544,27 @@ export default {
             });
         },
         templateSampleDownloadLink(slug) {
-            CompanyService.productTemplateDownload(slug).then(async (response) => {
-             const fileName = `${slug}_template`;
-             const url = URL.createObjectURL(new Blob([response.data], {
-                 type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-             }))
-             const link = document.createElement('a')
-             link.href = url
-             link.setAttribute('download', fileName);
-             document.body.appendChild(link)
-             link.click()
-
-           }).catch((response) => {
-            console.error("Could not Download the Excel report from the backend.", response);
-          });
+            CompanyService.productTemplateDownload(slug)
+                .then(async (response) => {
+                    const fileName = `${slug}_template`;
+                    const url = URL.createObjectURL(
+                        new Blob([response.data], {
+                            type:
+                                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                        })
+                    );
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', fileName);
+                    document.body.appendChild(link);
+                    link.click();
+                })
+                .catch((response) => {
+                    console.error(
+                        'Could not Download the Excel report from the backend.',
+                        response
+                    );
+                });
         },
         setDepartmentsList(e = {}) {
             this.departmentsList = [];
@@ -569,6 +631,11 @@ export default {
                     ...this.$route.query,
                     ...query
                 }
+            });
+        },
+        navigateToBulkAction() {
+            this.$router.push({
+                path: `/administrator/product/product-template/${this.selectedAction}`
             });
         }
     }

@@ -134,8 +134,8 @@ export default {
         background-color: #00c853;
     }
     ::v-deep.error-row {
-        color: white;
-        background-color: #fa3f4d;
+        color: #5C5C5C;
+        background-color: #FDEDED;
     }
     ::v-deep.warning-row {
         color: white;

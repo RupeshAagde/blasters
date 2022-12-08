@@ -1,12 +1,23 @@
 <template>
     <div class="img-container">
-        <img src="/public/assets/admin/pngs/empty.png" class="no-records" />
+        <img :src="getImageURL" class="no-records" />
     </div>
 </template>
 
 <script>
 export default {
     name: 'no-records',
+
+    computed: {
+        getImageURL() {
+            return `/public/assets/admin/pngs/${this.image}.png`;
+        }
+    },
+
+    props: {
+        image: String,
+        default: 'empty'
+    },
 
     data() {
         return {};
@@ -19,7 +30,7 @@ export default {
     text-align: center;
 
     img {
-        margin-top: 10px;
+        margin-top: 30px;
     }
 }
 </style>

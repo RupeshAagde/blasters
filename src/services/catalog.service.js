@@ -114,7 +114,18 @@ const CatalogService = {
         }
         return ApiService.put(URLS.FETCH_VERIFICATION_PRODUCT_DATA({ companyId, itemId }), axiosOption);
     },
-    // bulk
+    
+    //bulk feature
+    bulkRequest(job_type, data) {
+        let axiosOption = Object.assign(
+            {},
+            {
+                data
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.post(`${URLS.BULK_REQUEST(job_type)}`, axiosOption);
+    },
     bulkHistory(job_type, params) {
         let axiosOption = Object.assign(
             {},
@@ -124,9 +135,44 @@ const CatalogService = {
             getCommonHeaderOptions()
         );
         return ApiService.get(
-            `${URLS.BULK_HISTORY_REQUEST()}/${job_type}`,
+            `${URLS.BULK_HISTORY_REQUEST(job_type)}`,
             axiosOption
         );
+    },
+    //download sample product template
+    sampleBulkTemplateLink(job_type, file_type = 'excel', filter) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions()
+        );
+        let url = `${URLS.DOWNLOAD_SAMPLE_BULK_TEMPLATE(job_type)}?&file_type=${file_type}`;
+        let urlWithFilter = filter ? `${url}&filter=${filter}` : url;
+        return ApiService.get(
+            urlWithFilter, axiosOption, { 'responseType': 'blob' }
+        );
+    },
+    fetchTemplateSchema(job_type, params = {}, filter) {
+        let axiosOption = Object.assign(
+            {
+                params
+            },
+            getCommonHeaderOptions()
+        );
+        let url = filter ? `${URLS.BULK_TEMPLATE_VALIDATION(job_type)}?filter=${filter}` : URLS.BULK_TEMPLATE_VALIDATION(job_type);
+        return ApiService.get(
+            url,
+            axiosOption
+        );
+    },
+    bulkSend(data, job_id, job_type) {
+        let axiosOption = Object.assign(
+            {},
+            {
+                data
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.post(`${URLS.BULK_SEND(job_type)}/${job_id}`, axiosOption);
     },
 };
 export default CatalogService;

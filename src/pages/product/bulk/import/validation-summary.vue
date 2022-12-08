@@ -8,19 +8,71 @@
         <div>
             <no-records></no-records>
         </div>
+        <div
+            class="form-container csv-table"
+            v-show="productsTable.data.length"
+        >
+            <div class="csv-container">
+                <csv-view
+                    title="File Data"
+                    ref="csv-preview"
+                    class="csv-preview"
+                    v-show="productsTable.data.length && !showErrorsTable"
+                ></csv-view>
+                <!-- <csv-view
+                    title="Errors"
+                    ref="errors-preview"
+                    class="csv-preview"
+                    v-show="errorsTable().data.length && showErrorsTable"
+                    :csvExportFileName="
+                        file ? `validation-errors-${file.name}_.csv` : null
+                    "
+                ></csv-view> -->
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import NoRecords from '../components/no-records.vue';
+import CsvView from '@/components/common/adm-csv-viewer.vue';
 export default {
     name: 'validation-summary',
     components: {
-        'no-records': NoRecords
+        'no-records': NoRecords,
+        'csv-view': CsvView
+    },
+    props: {
+        productsTable: Object,
+        default: () => {
+            return {
+                meta: { fields: [] },
+                data: []
+            };
+        }
     },
 
     data() {
-        return {};
+        return {
+            showErrorsTable: false,
+        };
+    },
+    mounted() {
+        this.renderTable();
+    },
+    methods: {
+        renderTable() {
+            console.log(this.productsTable)
+            this.$refs['csv-preview'].createGrid({
+                column: this.productsTable.meta.fields.map((e) => ({
+                    headerName: e,
+                    field: e,
+                    resizable: true,
+                    width: 120
+                })),
+                rows: this.productsTable.data
+            });
+        }
     }
 };
 </script>

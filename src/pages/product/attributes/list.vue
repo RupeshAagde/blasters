@@ -1,14 +1,22 @@
 <template>
     <div class="main-container">
-        <div class="jumbotron-container">
+        <div class="jumbotron-container jumbo-wrapper">
             <jumbotron
                 :title="'Attributes'"
                 :desc="
                     'Use this section to create attributes that assist a user in knowing the characteristics of a product. Further, it serves as a standard for effectively describing an item and comparing them. Moreover, you can also create a variety of department-wise attributes.'
                 "
-                btnLabel="Create"
+                btnLabel="Create Attribute"
                 @btnClick="redirectEdit"
             >
+                <nitrozen-dropdown
+                    label=" "
+                    :placeholder="'Bulk Action'"
+                    class="bulk-action-dropdown"
+                    :items="bulkAction"
+                    v-model="selectedAction"
+                    @change="navigateToBulkAction"
+                ></nitrozen-dropdown>
                 <nitrozen-button
                     theme="secondary"
                     class="ml-sm"
@@ -39,7 +47,9 @@
                             (selectedDepartment == '' &&
                                 attributes.length > 0) ||
                             searchText == '' ||
-                            (selectedDepartment == '' && attributes.length > 0) || searchText
+                            (selectedDepartment == '' &&
+                                attributes.length > 0) ||
+                            searchText
                                 ? debounceInput({ search: searchText })
                                 : ''
                         "
@@ -186,12 +196,48 @@
 .cb-lm {
     margin-left: 6px;
 }
+.jumbo-wrapper {
+    /deep/.jumbotron-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .txt-box + div {
+            width: 54%;
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-start;
+            button {
+                margin-left: 10px;
+                width: 100%;
+            }
+        }
+    }
+}
 .main-container {
     width: 100%;
     background-color: white;
     margin: 24px;
     padding: 24px;
     padding-bottom: 0;
+
+    /deep/.bulk-action-dropdown {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 140%;
+        display: flex;
+        margin-left: 10px;
+        .nitrozen-select__trigger {
+            color: #2e31be;
+        }
+
+        .nitrozen-option {
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 160%;
+        }
+    }
 }
 .second-container {
     margin: 24px 0px;
@@ -264,7 +310,7 @@
         }
 
         .txt-company-heading {
-            color: #2E31BE;
+            color: #2e31be;
             font-weight: 600;
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
@@ -355,6 +401,11 @@ const PAGINATION = {
     current: 1
 };
 
+const BULK_ACTION = [
+    { value: 'import', text: 'Import' },
+    { value: 'export', text: 'Export' }
+];
+
 const PROPERTY_TYPES = {
     str: 'Text',
     int: 'Number',
@@ -403,7 +454,9 @@ export default {
             departments: [],
             selectedDepartment: '',
             tempList: [],
-            userObj: {}
+            userObj: {},
+            bulkAction: BULK_ACTION,
+            selectedAction: ''
         };
     },
     mounted() {
@@ -485,9 +538,9 @@ export default {
         fetchDepartments() {
             return new Promise((resolve, reject) => {
                 const query = {
-                    "page_size":9999,
-                    "page_no":1,
-                }
+                    page_size: 9999,
+                    page_no: 1
+                };
                 CompanyService.fetchDepartments(query)
                     .then(({ data }) => {
                         this.departments = data.items;
@@ -565,21 +618,22 @@ export default {
                 query.pageId = undefined;
                 query.limit = PAGINATION.limit;
             }
-            this.$router.push({
-                path: this.$route.path,
-                query: {
-                    ...this.$route.query,
-                    ...query
-                }
-            })
-            .catch((error) => {
-                this.$router.push({
-                path: this.$route.path,
-                query: {
-                    ...query
-                }
-            });
-            });
+            this.$router
+                .push({
+                    path: this.$route.path,
+                    query: {
+                        ...this.$route.query,
+                        ...query
+                    }
+                })
+                .catch((error) => {
+                    this.$router.push({
+                        path: this.$route.path,
+                        query: {
+                            ...query
+                        }
+                    });
+                });
         },
         $openGroupDialog() {
             this.$refs.groupAndOrderDialog.open();
@@ -596,6 +650,11 @@ export default {
             if (entity === 'filters') action = 'sequence';
             this.$router.push({
                 path: path.join(this.$route.path, action, entity)
+            });
+        },
+        navigateToBulkAction() {
+            this.$router.push({
+                path: `/administrator/product/attribute/${this.selectedAction}`
             });
         }
     }

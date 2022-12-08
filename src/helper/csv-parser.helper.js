@@ -162,7 +162,6 @@ export const parseCsv = function parseCsv(data, schema) {
 };
 
 export const parseCsvV1 = (files, validateCsv) => {
-    debugger
     if (files && files.length > 0) {
         let file = files[0];
         csvParser.parse(file, {
@@ -174,7 +173,7 @@ export const parseCsvV1 = (files, validateCsv) => {
                 validateCsv(data, null);
             },
             step: (data) => {
-                console.log(data)
+                console.log(data);
             },
             error: (err) => {
                 validateCsv(null, err);

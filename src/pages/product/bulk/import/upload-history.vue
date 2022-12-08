@@ -132,7 +132,7 @@
                     </div>
                 </div>
                 <nitrozen-pagination
-                    v-if="!isError && !inProgress"
+                    v-if="!isError && !inProgress && historyData.length"
                     name="Batches"
                     v-model="pagination"
                     @change="setPagination"
@@ -286,6 +286,8 @@
     .title-row {
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
     }
     .filter-row {
         margin-top: 6px;
@@ -323,7 +325,7 @@
         display: flex;
         align-items: center;
         cursor: pointer;
-      
+
         > p {
             margin-left: 5px;
         }
