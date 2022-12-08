@@ -4,14 +4,15 @@
         <div class="sidebar">
             <div class="sidebar-header">
                 <div class="flex-row">
-                    <div>{{ title }}</div>
+                    <div>{{ history.id }}</div>
+                    <slot name="header"></slot>
                 </div>
                 <div class="close-icon" @click="closeOverlay()">
                     <adm-inline-svg :src="'cross-black'"></adm-inline-svg>
                 </div>
             </div>
             <div class="sidebar-body">
-                <slot> </slot>
+                <slot name="body"></slot>
             </div>
             <div v-if="footer" class="sidebar-body-footer">
                 <nitrozen-button theme="secondary" v-flatBtn @click="">
@@ -45,6 +46,14 @@ export default {
         },
         footer: {
             default: false
+        },
+        history: {
+            type: Object,
+            default: () => {}
+        },
+        productType: {
+            type: String,
+            default: ''
         }
     },
     mounted() {},

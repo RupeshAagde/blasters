@@ -85,50 +85,93 @@
                     @click="openSidebar(history)"
                 >
                     <div class="card-avatar template-logo-image">
-                        <img
-                            v-if="history.template"
-                            :src="history.template.logo"
-                        />
-                        <!-- <adm-text-avatar
-                        v-else
-                        :text="type != 'assets' ? history.created_by.full_name : ''"
-                    ></adm-text-avatar> -->
+                        <img src="/public/assets/admin/pngs/csv_filetype.png" />
                     </div>
                     <div class="card-content-section">
                         <div class="card-content-line-1">
-                            {{
-                                history.template
-                                    ? history.template.name
-                                    : history.id
-                            }}
+                            {{ `${capitalize(productType)} ${history.id}` }}
 
                             <div class="svg-icons">
                                 <a
-                                    v-if="history.file_path"
+                                    v-if="history.tracking_url"
                                     class="download-source-file"
-                                    :href="history.file_path"
+                                    :href="history.tracking_url"
                                     download
                                     @click.stop=""
                                 >
-                                    <inline-svg :src="'download'"></inline-svg>
+                                    <inline-svg
+                                        :src="'cloud_download'"
+                                    ></inline-svg>
                                 </a>
                             </div>
                         </div>
-
-                        <div class="card-content-line-2 line-2">
-                            {{ successCountMessage(history) }}
+                        <div v-if="history.stage === 'in-progress'">
+                            <inline-svg :src="'loader'"></inline-svg>
+                            <p>01/47 records is being processed</p>
+                        </div>
+                        <div v-else class="card-content-line-2 line-2">
+                            <!-- {{ successCountMessage(history) }} -->
+                        </div>
+                        <div class="job-status">
+                            <p class="cl-DustyGray2 regular-xxs total">
+                                Total:
+                                <span class="cl-Mako darker-xxs">{{
+                                    history.stats.total
+                                }}</span>
+                            </p>
+                            <div class="status" v-if="history.stats.succeed">
+                                <inline-svg src="completed_green"></inline-svg>
+                                <p class="cl-DustyGray2 regular-xxs">
+                                    Success:
+                                    <span class="cl-Mako darker-xxs">{{
+                                        history.stats.succeed
+                                    }}</span>
+                                </p>
+                            </div>
+                            <div class="status" v-if="history.stats.failed">
+                                <inline-svg src="error_status"></inline-svg>
+                                <p class="cl-DustyGray2 regular-xxs">
+                                    Error:
+                                    <span class="cl-Mako darker-xxs">{{
+                                        history.stats.failed
+                                    }}</span>
+                                </p>
+                            </div>
                         </div>
                         <div class="card-content-line-3">
+                            Imported By {{ history.created_by.username }} on
                             {{ getFormattedDate(history.created_on) }}
                         </div>
                     </div>
-                    <div class="card-badge-section">
-                        <nitrozen-badge
-                            v-if="history.stage"
-                            :state="getBadgeState(history.stage)"
+                    <div class="status-buttons">
+                        <div class="card-badge-section">
+                            <nitrozen-badge
+                                v-if="history.stage"
+                                :state="getBadgeState(history.stage)"
+                            >
+                                {{ history.stage }}
+                            </nitrozen-badge>
+                        </div>
+                        <div
+                            class="notify ml-16"
+                            @click=""
+                            v-if="
+                                history.stage === 'running' ||
+                                    history.stage === 'in-progress'
+                            "
                         >
-                            {{ history.stage }}
-                        </nitrozen-badge>
+                            NOTIFY
+                        </div>
+                        <div
+                            class="cancel ml-16"
+                            @click=""
+                            v-if="
+                                history.stage === 'running' ||
+                                    history.stage === 'in-progress'
+                            "
+                        >
+                            CANCEL
+                        </div>
                     </div>
                 </div>
                 <nitrozen-pagination
@@ -145,76 +188,113 @@
                 ref="sidebar"
                 :closeOverlay="closeOverlay"
                 :productType="productType"
-                :title="'Batch Details'"
                 :footer="false"
                 :detailType="'batch'"
                 :history="history"
             >
-                <div class="sidebar-container">
-                    <div class="card-badge-section">
-                        <div class="header">Batch Status</div>
-                        <nitrozen-badge
-                            v-if="history.stage"
-                            :state="getBadgeState(history.stage)"
-                        >
-                            {{ history.stage }}
-                        </nitrozen-badge>
+                <template class="sidebar-header" slot="header">
+                    <div class="download-container">
+                        <inline-svg :src="'cloud_download'"></inline-svg>
+                        <p class="darker-xxxs cl-RoyalBlue ">Source File</p>
                     </div>
-                    <div>
-                        <div class="header">Total</div>
-                        <div class="value">{{ history.total }}</div>
-                    </div>
-                    <div>
-                        <div class="header">Success</div>
-                        <div class="value">{{ history.succeed }}</div>
-                    </div>
-                    <div>
-                        <div class="header">Failed</div>
-                        <div class="value">{{ history.failed }}</div>
-                    </div>
-                    <div>
-                        <div class="header">Cancelled</div>
-                        <div class="value">{{ history.cancelled }}</div>
-                    </div>
-                </div>
-                <div class="batch-details">
-                    <div>
-                        <div class="header">Batch Number</div>
-                        <div class="value">{{ history.id }}</div>
-                    </div>
-                </div>
-                <div class="batch-details">
-                    <div>
-                        <div class="header">Completed On</div>
-                        <div class="value">
-                            {{ getFormattedDate(history.modified_on) }}
+                </template>
+                <template slot="body">
+                    <div class="upload-summary">
+                        <div class="title">
+                            <p class="cl-Mako darker-sm">Upload Summary</p>
+                            <nitrozen-badge
+                                v-if="history.stage"
+                                :state="getBadgeState(history.stage)"
+                            >
+                                {{ history.stage }}
+                            </nitrozen-badge>
+                        </div>
+                        <div class="summary">
+                            <div>
+                                <div class="header">Total Records</div>
+                                <div class="value">
+                                    {{ history.stats.total }}
+                                </div>
+                            </div>
+                            <div>
+                                <div class="header">Valid Records</div>
+                                <div class="value">
+                                    {{ history.stats.succeed }}
+                                </div>
+                            </div>
+                            <div>
+                                <div class="header">Error Records</div>
+                                <div class="value">
+                                    {{ history.stats.failed }}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <div class="header">Batch Started On</div>
-                        <div class="value">
-                            {{ getFormattedDate(history.created_on) }}
+                    <div class="divider"></div>
+                    <div class="batch-details">
+                        <p class="cl-Mako darker-sm">Batch Details</p>
+                        <div class="batch">
+                            <div class="header">Imported By:</div>
+                            <div class="value">
+                                {{ history.created_by.username }}
+                            </div>
+                        </div>
+                        <div class="batch">
+                            <div class="header">Started On:</div>
+                            <div class="value">
+                                {{ getFormattedDate(history.created_on) }}
+                            </div>
+                        </div>
+                        <div class="batch">
+                            <div class="header">Completed On:</div>
+                            <div class="value">
+                                {{ getFormattedDate(history.modified_on) }}
+                            </div>
+                        </div>
+                        <div class="batch">
+                            <div class="header">Processing Time:</div>
+                            <div class="value">NA</div>
                         </div>
                     </div>
-                </div>
-                <div class="batch-details">
-                    <div>
-                        <div class="header">Processing Time</div>
-                        <div class="value">
-                            {{
-                                `${(new Date(history.modified_on) -
-                                    new Date(history.created_on)) /
-                                    1000} seconds`
-                            }}
+                    <!-- <div class="batch-details">
+                        <div>
+                            <div class="header">Batch Number</div>
+                            <div class="value">{{ history.id }}</div>
                         </div>
                     </div>
-                    <div>
-                        <div class="header">Uploaded By</div>
-                        <div class="value">
-                            {{ history.created_by.username }}
+                    <div class="batch-details">
+                        <div>
+                            <div class="header">Completed On</div>
+                            <div class="value">
+                                {{ getFormattedDate(history.modified_on) }}
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Batch Started On</div>
+                            <div class="value">
+                                {{ getFormattedDate(history.created_on) }}
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="batch-details">
+                        <div>
+                            <div class="header">Processing Time</div>
+                            <div class="value">
+                                {{
+                                    `${(new Date(history.modified_on) -
+                                        new Date(history.created_on)) /
+                                        1000} seconds`
+                                }}
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Uploaded By</div>
+                            <div class="value">
+                                {{ history.created_by.username }}
+                            </div>
+                        </div>
+                    </div> -->
+                </template>
             </adm-sidebar>
         </div>
     </div>
@@ -233,10 +313,14 @@
     }
 }
 .batch-details {
-    margin: 15px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    margin: 24px;
+    // display: flex;
+    // justify-content: space-between;
+    // flex-wrap: wrap;
+
+    .batch {
+        display: flex;
+    }
 
     .header {
         font-family: 'Inter';
@@ -253,7 +337,7 @@
         color: #41434c;
     }
     > div {
-        margin: 5px;
+        margin: 18px 0;
         flex-basis: 48%;
     }
 }
@@ -272,6 +356,25 @@
 .line-2 {
     color: #41434c !important;
     font-size: 14px !important;
+}
+
+.total {
+    align-self: center;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+
+    p {
+        padding-left: 4px;
+    }
+}
+
+.job-status {
+    display: flex;
+    padding-top: 8px;
 }
 
 .bulk-history {
@@ -344,7 +447,14 @@
         }
     }
 }
-
+.download-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    p {
+        padding-left: 4px;
+    }
+}
 .meta-space {
     margin: 0 6px;
 }
@@ -370,34 +480,41 @@
     display: flex;
     flex-direction: column;
 }
+.ml-24 {
+    margin-left: 24px;
+}
 /deep/.sidebar {
     width: 40%;
     .sidebar-body {
         display: block;
-        .sidebar-container {
-            display: flex;
-            justify-content: space-between;
-            border: 1px solid #e0e0e0;
-            border-radius: 4px;
+        .upload-summary {
             margin: 24px;
-            padding: 15px;
-            display: flex;
-            text-align: center;
 
-            .header {
-                font-family: 'Inter';
-                font-style: normal;
-                font-weight: 400;
-                font-size: 12px;
-                line-height: 160%;
-                color: #9b9b9b;
-                padding-bottom: 5px;
+            .title {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
             }
-            .value {
-                font-weight: 400;
-                font-size: 16px;
-                line-height: 140%;
-                color: #41434c;
+            .summary {
+                display: flex;
+                margin-top: 16px;
+                gap: 24px;
+
+                .header {
+                    font-family: 'Inter';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 12px;
+                    line-height: 160%;
+                    color: #9b9b9b;
+                    padding-bottom: 5px;
+                }
+                .value {
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 140%;
+                    color: #41434c;
+                }
             }
         }
     }
@@ -476,6 +593,40 @@
             text-align: center;
         }
     }
+}
+.divider {
+    border: 1px solid #e0e0e0;
+    margin: 24px;
+}
+.status-buttons {
+    display: flex;
+}
+.notify {
+    color: #2e31be;
+    font-size: 12px;
+    line-height: 160%;
+    text-align: center;
+    font-weight: 400;
+    border: 1px solid #2e31be;
+    cursor: pointer;
+    align-self: center;
+    padding: 2px 5px 2px 5px;
+    border-radius: 2px;
+}
+.cancel {
+    color: #ff3333;
+    font-size: 12px;
+    line-height: 160%;
+    text-align: center;
+    font-weight: 400;
+    border: 1px solid #ff3333;
+    cursor: pointer;
+    align-self: center;
+    padding: 2px 5px 2px 5px;
+    border-radius: 2px;
+}
+.ml-16 {
+    margin-left: 16px;
 }
 </style>
 <script>
@@ -559,9 +710,7 @@ export default {
             pageError: false,
             departmentList: [],
             pagination: {
-                total: 0,
-                current: 1,
-                limit: 10
+                ...PAGINATION
             },
             filter: FILTER,
             selectedFilter: 'all',
@@ -574,10 +723,12 @@ export default {
             stages: [
                 { text: 'All', value: 'all' },
                 { text: 'Completed', value: 'completed' },
-                { text: 'Running', value: 'pending' },
-                { text: 'Failed', value: 'failed' }
-                // { text: 'Processing', value: 'processing' },
-                // { text: 'Cancelled', value: 'cancelled' }
+                { text: 'Running', value: 'running' },
+                { text: 'In-Progress', value: 'in-progress' },
+                { text: 'Failed', value: 'failed' },
+                { text: 'Terminated', value: 'terminated' },
+                { text: 'Cancelled', value: 'cancelled' },
+                { text: 'Partial', value: 'partial' }
             ],
             selectedStageFilter: null,
             notBefore: moment('01012020', 'DDMMYYYY').toISOString(),
@@ -618,6 +769,9 @@ export default {
         goBack() {
             this.$router.go(-1);
         },
+        capitalize(str) {
+            return str && str.charAt(0).toUpperCase() + str.slice(1);
+        },
         openSidebar(history) {
             console.log('hist', history);
             if (history) {
@@ -656,8 +810,8 @@ export default {
                     this.isError = false;
                     this.pagination = {
                         limit: this.pagination.limit,
-                        total: this.historyData.total,
-                        current: this.historyData.current
+                        total: data.page.item_total,
+                        current: data.page.current
                     };
                     this.$nextTick(() => {
                         !initial &&
@@ -704,12 +858,13 @@ export default {
 
         getBadgeState(stage) {
             const states = {
-                processing: 'warn',
-                pending: 'warn', // if not need now, remove it
+                'in-progress': 'disable',
+                running: 'info', // if not need now, remove it
                 completed: 'success',
                 cancelled: 'info',
                 terminated: 'error',
-                failed: 'error'
+                failed: 'error',
+                partial: 'warn'
             };
             return states[stage] || 'info';
         },
