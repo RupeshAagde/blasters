@@ -28,6 +28,9 @@ export default {
   },
   methods: {
     filterChange: debounce(function (searchText) {
+      this.onFilterChangeInternal(searchText);
+    }, 700),
+    onFilterChangeInternal(searchText) {
       this.$store.dispatch(ADMIN_SAVE_FILTERS, {
         pageName: ANALYTICS_PAGES.DASHBOARD,
         isComponentSpecific: true,
@@ -49,7 +52,10 @@ export default {
         });
       }
       this.$emit('reset-data')
-    },250),
+    }
+  },
+  destroyed() {
+    this.onFilterChangeInternal('');
   }
 }
 </script>
