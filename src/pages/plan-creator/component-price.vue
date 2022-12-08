@@ -206,7 +206,7 @@
 </template>
 
 <style lang="less" scoped>
-::v-deep.price-form {
+::v-deep .price-form {
     box-sizing: border-box;
     flex-direction: column;
 

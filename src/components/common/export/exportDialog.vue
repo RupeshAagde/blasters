@@ -5,7 +5,7 @@
     <div class="text" :id="[visible ? 'text' : 'alertText']">
       {{ bodyText }}
     </div>
-    <div class="cancel" :id="[visible ? 'cancel' : 'retry']">
+    <div v-if="retry" class="cancel" :id="[visible ? 'cancel' : 'retry']">
       <a
           @click="$emit(buttonText, buttonText)"
       >{{ buttonText }}</a
@@ -19,25 +19,33 @@ import {CANCEL_TEXT, EXPORT_SALESDUMP_TEXT, FAILED_SALESDUMP_TEXT, RETRY_TEXT} f
 
 export default {
   name: "exportDialog",
-  props: {
-    visible: {type: Boolean, required: true, default: true}
-  },
+  
   data() {
     return {
-      exportText: EXPORT_SALESDUMP_TEXT,
-      failedText: FAILED_SALESDUMP_TEXT,
       cancelText: CANCEL_TEXT,
       retryText: RETRY_TEXT
     };
   },
+  props:{
+     visible: {type: Boolean, required: true, default: true},
+     retry: {type: Boolean,  default: true},
+        failed_msg: {
+            type: String,
+            default: FAILED_SALESDUMP_TEXT
+        },
+          export_msg:{
+            type:String,
+            default: EXPORT_SALESDUMP_TEXT
+        }
+    },
   computed: {
     buttonText() {
       return this.visible ? this.cancelText : this.retryText
     },
     bodyText() {
       return this.visible
-          ? this.exportText
-          : this.failedText
+          ? this.export_msg
+          : this.failed_msg
     }
   }
 }

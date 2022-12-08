@@ -1,5 +1,5 @@
 import AdministratorBaseViewVue from './../../pages/administrator/baseview.vue';
-import PlanCreator from './plan-creator';
+import PlanCreatorRoutes from './plan-creator';
 import ExtensionRoutes from './extension';
 import CompanyListVue from './../../pages/company-admin/company-list.vue';
 import CbsApplicationDetailsVue from './../../pages/company-admin/cbs-application-details.vue';
@@ -22,7 +22,7 @@ import BasicDetailSettingsVue from './../../pages/settings/basic-details.vue';
 import FeaturesSettingsVue from './../../pages/settings/features.vue';
 import PagesSettingsVue from './../../pages/settings/custompage.vue';
 import TagsInjectVue from './../../pages/settings/tags-inject.vue';
-import TagsCreateUpdateVue from '../../pages/settings/tags-create-update.vue'
+import TagsCreateUpdateVue from '../../pages/settings/tags-create-update.vue';
 import CreateCustomVue from './../../pages/settings/page-editor/create.vue';
 import NavbarSettingsVue from './../../pages/settings/navbar';
 import FooterSettingsVue from './../../pages/settings/footer';
@@ -57,15 +57,17 @@ import EditWebhooks from './../../pages/webhook/edit_webhooks.vue';
 import WebhookReport from './../../pages/webhook/webhook_report.vue';
 import CreditDebitHome from './../../pages/finance/credit-debit-note/index.vue';
 import CreditDebitNote from './../../pages/finance/credit-debit-note/create-cn-dn.vue';
+import ReportHistory from './../../pages/webhook/report-history/components/report-history.vue'
 
-const OrdersPage =()=>import('@/pages/orders');
+const OrdersPage = () => import('@/pages/orders');
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
-import PackagingHome from '@/pages/packaging/packaging-home.vue'
-import CategoryConfig from '@/pages/packaging/category-config.vue'
-import PackagingCreate from '@/pages/packaging/create-packaging.vue'
-import CreateCategory from '@/pages/packaging/create-category-home.vue'
+import PackagingHome from '@/pages/packaging/packaging-home.vue';
+import CategoryConfig from '@/pages/packaging/category-config.vue';
+import PackagingCreate from '@/pages/packaging/create-packaging.vue';
+import CreateCategory from '@/pages/packaging/create-category-home.vue';
 
 import { authenticatedUser, checkUserPermission } from './../guards';
+import { children } from 'cheerio/lib/api/traversing';
 
 export default [
     {
@@ -73,7 +75,7 @@ export default [
         beforeEnter: authenticatedUser,
         component: AdministratorBaseViewVue,
         children: [
-            // ...PlanCreator,
+            ...PlanCreatorRoutes,
             ...ExtensionRoutes,
             {
                 name: 'company-list',
@@ -89,7 +91,7 @@ export default [
                 component: ListWebhooks,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['webhook']);
-                }
+                },
             },
             {
                 name: 'create-webhook',
@@ -108,11 +110,37 @@ export default [
                 }
             },
             {
+                name: 'report-history',
+                path: 'report-history',
+                component: ReportHistory,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+
+            },
+            {
+                name: 'report-history',
+                path: 'report-history/:subscriberId',
+                component: ReportHistory,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+
+            },
+            {
                 name: 'webhook-report',
                 path: 'webhook-report',
                 component: WebhookReport,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['webhook']);
+                }
+            },
+            {
+                name: 'webhook-report',
+                path: 'webhook-report/:subscriberId',
+                component: WebhookReport,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
                 }
             },
             {
@@ -134,12 +162,7 @@ export default [
                 path: 'subscription/invoices',
                 component: InvoiceListingMain,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['plans']
-                    );
+                    return checkUserPermission(to, from, next, ['plans']);
                 }
             },
             {
@@ -147,12 +170,7 @@ export default [
                 path: 'subscription/coupons',
                 component: CouponListingMain,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['plans']
-                    );
+                    return checkUserPermission(to, from, next, ['plans']);
                 }
             },
             {
@@ -160,12 +178,7 @@ export default [
                 path: 'subscription/coupons/create/:couponType',
                 component: CouponCreateUpdate,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['plans']
-                    );
+                    return checkUserPermission(to, from, next, ['plans']);
                 }
             },
             {
@@ -173,12 +186,7 @@ export default [
                 path: 'subscription/coupons/edit/:couponType/:couponId',
                 component: CouponCreateUpdate,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['plans']
-                    );
+                    return checkUserPermission(to, from, next, ['plans']);
                 }
             },
             {
@@ -186,12 +194,9 @@ export default [
                 path: 'communication/reports',
                 component: ReportListingMain,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['communication']
-                    );
+                    return checkUserPermission(to, from, next, [
+                        'communication'
+                    ]);
                 }
             },
             {
@@ -199,12 +204,7 @@ export default [
                 path: 'subscription/invoices/:billingNo',
                 component: BillingVue,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['plans']
-                    );
+                    return checkUserPermission(to, from, next, ['plans']);
                 }
             },
             {
@@ -212,25 +212,15 @@ export default [
                 path: 'company-details/:companyId/billing-details/:billingNo',
                 component: BillingVue,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['company']
-                    );
+                    return checkUserPermission(to, from, next, ['company']);
                 }
             },
             {
                 name: 'company-application-details',
                 path: 'company-details/:companyId/application/:appId',
-                component: CbsApplicationDetailsVue ,
+                component: CbsApplicationDetailsVue,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['company']
-                    );
+                    return checkUserPermission(to, from, next, ['company']);
                 }
             },
             {
@@ -327,12 +317,7 @@ export default [
                 path: 'audit-trail',
                 component: AuditLogs,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['audit-trail']
-                    );
+                    return checkUserPermission(to, from, next, ['audit-trail']);
                 }
             },
             {
@@ -340,12 +325,7 @@ export default [
                 path: 'audit-trail/logs/:id',
                 component: AuditLogsDetails,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['audit-trail']
-                    );
+                    return checkUserPermission(to, from, next, ['audit-trail']);
                 }
             },
             //Catalog
@@ -354,12 +334,7 @@ export default [
                 path: 'product/department',
                 component: ListDepartment,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['product']
-                    );
+                    return checkUserPermission(to, from, next, ['product']);
                 }
             },
             {
@@ -367,12 +342,7 @@ export default [
                 path: 'product/department/create',
                 component: CreateUpdateDepartment,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['product']
-                    );
+                    return checkUserPermission(to, from, next, ['product']);
                 }
             },
             {
@@ -380,12 +350,7 @@ export default [
                 path: 'product/department/edit/:deptId',
                 component: CreateUpdateDepartment,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['product']
-                    );
+                    return checkUserPermission(to, from, next, ['product']);
                 }
             },
             {
@@ -393,12 +358,7 @@ export default [
                 path: 'product/variants',
                 component: ListVariants,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['product']
-                    );
+                    return checkUserPermission(to, from, next, ['product']);
                 }
             },
             {
@@ -406,12 +366,7 @@ export default [
                 path: 'product/variants/create',
                 component: CreateUpdateVariant,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['product']
-                    );
+                    return checkUserPermission(to, from, next, ['product']);
                 }
             },
             {
@@ -419,12 +374,7 @@ export default [
                 path: 'product/variants/edit/:uid',
                 component: CreateUpdateVariant,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['product']
-                    );
+                    return checkUserPermission(to, from, next, ['product']);
                 }
             },
             // Product
@@ -723,8 +673,6 @@ export default [
                     name: 'Application Order Details'
                 }
             },
-            // =============================================================
-
             {
                 name: 'integrations-list',
                 path: 'integrations/list',
@@ -750,7 +698,7 @@ export default [
                 }
             },
             /**
-             * packaging related routes 
+             * packaging related routes
              */
             {
                 name: 'packaging-home',
@@ -758,18 +706,18 @@ export default [
                 component: PackagingHome,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
-                        'packaging'
+                        'admin-access'
                     ]);
                 }
             },
             {
                 name: 'packaging-create',
                 path: 'packaging/create',
-                alias:'packaging/edit',
+                alias: 'packaging/edit',
                 component: PackagingCreate,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
-                        'packaging'
+                        'admin-access'
                     ]);
                 }
             },
@@ -779,7 +727,7 @@ export default [
                 component: CategoryConfig,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
-                        'packaging'
+                        'admin-access'
                     ]);
                 }
             },
@@ -790,10 +738,11 @@ export default [
                 component: CreateCategory,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
-                        'packaging'
+                        'admin-access'
                     ]);
                 }
             },
+            //======================== CN DN ========================
             {
                 name: 'credit-debit-note',
                 path: 'finance/credit-debit-note',
@@ -815,7 +764,6 @@ export default [
                     ]);
                 } 
             },
-
         ]
     },
     {
