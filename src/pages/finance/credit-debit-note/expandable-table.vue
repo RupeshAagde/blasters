@@ -296,7 +296,7 @@
       },
   
       populateFromProp() {
-        if (!this.bagData.bag_id) {
+        if (!this.bagData.row) {
           // console.log('in fee type bag', this.bagData.fee_type, this.tableSize)
           this.componentDataList.push({
             text: this.bagData.fee_type_display_name,
@@ -454,7 +454,7 @@
         if(this.amount.value.length < 1 ){
           this.$set(this.amount.errorMsg,index,true);
         }
-        else if(Number(this.amount.value[index]) <= this.chargeComponents[key]['amount']){
+        else if(Number(this.amount.value[index]) < this.chargeComponents[key]['amount']){
           if (this.amount.value[index]*1 <= 0) {
             this.validateErrIndex = index;
             this.amount.validationError = 'Amount should be greater than 0';
@@ -476,7 +476,7 @@
           this.$set(this.sgst,index,0);
           this.$set(this.cgst,index,0);
           this.$set(this.igst,index,0);
-          */this.amount.validationError = 'Amount should be less than or equal to the gross amount';
+          */this.amount.validationError = 'Amount should be less than the gross amount';
         }
       },
   
