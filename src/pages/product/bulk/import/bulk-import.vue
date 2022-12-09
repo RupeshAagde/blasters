@@ -6,8 +6,8 @@
                 @backClick="redirectToList"
             ></adm-page-header>
         </div>
-        <!-- <loader v-if="pageLoading" class="loading"></loader>
-        <page-error v-else-if="pageError" @tryAgain="loadData"></page-error> -->
+        <loader v-if="pageLoading" class="loading"></loader>
+        <!-- <page-error v-else-if="pageError" @tryAgain="loadData"></page-error> -->
         <div class="upload-container">
             <div class="top-content">
                 <div class="title-content">
@@ -271,7 +271,9 @@
             :closeOverlay="closeOverlay"
             :title="'Learn More'"
         >
-            <learn-more></learn-more>
+            <template slot="body">
+                <learn-more></learn-more>
+            </template>
         </side-bar>
         <!-- confirmation dailog box -->
         <confirmation-dialog-box
@@ -629,7 +631,11 @@ export default {
     },
     computed: {
         getTitle() {
-            return `Import ${this.capitalize(this.$route.params.type)} Data`;
+            return `Export ${this.capitalize(
+                this.$route.params.type === 'product-template'
+                    ? 'template'
+                    : this.$route.params.type
+            )} Data`;
         },
         isSuccessVisible() {
             return !(
@@ -1177,6 +1183,7 @@ export default {
             }
         },
         errorsTable() {
+            console.log(this.errorsArray);
             const mappedErrors = this.errorsArray.map((err) => {
                 const msgs = [];
                 err.map((e) => {
@@ -1253,7 +1260,7 @@ export default {
                         file_type
                     );
                 }
-                this.pageLoading = false; // for now
+                // this.pageLoading = false; // for now
             });
         },
         bulkRequest(count, file_path, file_type) {
@@ -1262,15 +1269,21 @@ export default {
             payload.tracking_url = file_path;
             payload.file_type = file_type;
             payload.notification_emails = ['sth@gmail.com'];
-            return CatalogService.bulkRequest(this.productType, payload)
+            return CatalogService.bulkRequest(
+                this.productType,
+                payload,
+                'import'
+            )
                 .then(({ data }) => {
                     // if (data && data.batch_id) {
                     //     this.$refs.uploadHistory.loadHistory(true);
                     //     return data.batch_id;
                     // } else return false;
                     this.navigateToHistory();
+                    this.pageLoading = false;
                 })
                 .catch((ex) => {
+                    this.pageLoading = false;
                     this.$snackbar.global.showError(
                         `Failed to request bulk upload ${
                             ex && ex.message ? ' : ' + ex.message : ''
@@ -1299,6 +1312,7 @@ export default {
                         }
                     })
                     .catch((err) => {
+                        this.pageLoading = false;
                         this.$snackbar.global.showError(
                             err &&
                                 err.response &&
@@ -1311,7 +1325,7 @@ export default {
                         return false;
                     })
                     .finally(() => {
-                        this.loading = false;
+                        // this.loading = false;
                     });
             }
         }

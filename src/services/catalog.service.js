@@ -116,7 +116,7 @@ const CatalogService = {
     },
     
     //bulk feature
-    bulkRequest(job_type, data) {
+    bulkRequest(job_type, data, action) {
         let axiosOption = Object.assign(
             {},
             {
@@ -124,9 +124,9 @@ const CatalogService = {
             },
             getCommonHeaderOptions()
         );
-        return ApiService.post(`${URLS.BULK_REQUEST(job_type)}`, axiosOption);
+        return ApiService.post(`${URLS.BULK_REQUEST(job_type, action)}`, axiosOption);
     },
-    bulkHistory(job_type, params) {
+    bulkHistory(job_type, params, action) {
         let axiosOption = Object.assign(
             {},
             {
@@ -135,7 +135,7 @@ const CatalogService = {
             getCommonHeaderOptions()
         );
         return ApiService.get(
-            `${URLS.BULK_HISTORY_REQUEST(job_type)}`,
+            `${URLS.BULK_HISTORY_REQUEST(job_type, action)}`,
             axiosOption
         );
     },
@@ -174,5 +174,25 @@ const CatalogService = {
         );
         return ApiService.post(`${URLS.BULK_SEND(job_type)}/${job_id}`, axiosOption);
     },
+    bulkUpdate(data, job_id, job_type) {
+        let axiosOption = Object.assign(
+            {},
+            {
+                data
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.put(`${URLS.BULK_SEND(job_type)}/${job_id}`, axiosOption);
+    },
+    bulkExport(job_type, data) {
+        let axiosOption = Object.assign(
+            {},
+            {
+                data
+            },
+            getCommonHeaderOptions()
+        );
+        return ApiService.post(`${URLS.BULK_EXPORT(job_type)}`, axiosOption);
+    }
 };
 export default CatalogService;

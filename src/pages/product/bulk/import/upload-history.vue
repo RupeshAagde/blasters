@@ -85,7 +85,11 @@
                     @click="openSidebar(history)"
                 >
                     <div class="card-avatar template-logo-image">
-                        <img src="/public/assets/admin/pngs/csv_filetype.png" />
+                        <img
+                            src="/public/assets/admin/pngs/csv_filetype.png"
+                            v-if="getFileType(history.tracking_url) === 'csv'"
+                        />
+                        <inline-svg v-else :src="'excel_filetype'"></inline-svg>
                     </div>
                     <div class="card-content-section">
                         <div class="card-content-line-1">
@@ -154,17 +158,19 @@
                         </div>
                         <div
                             class="notify ml-16"
-                            @click=""
+                            @click.stop="notifyByEmail(history)"
                             v-if="
                                 history.stage === 'running' ||
                                     history.stage === 'in-progress'
                             "
                         >
-                            NOTIFY
+                            <img
+                                src="/public/assets/admin/pngs/notification.png"
+                            />
                         </div>
                         <div
                             class="cancel ml-16"
-                            @click=""
+                            @click.stop="cancelImport(history)"
                             v-if="
                                 history.stage === 'running' ||
                                     history.stage === 'in-progress'
@@ -191,6 +197,7 @@
                 :footer="false"
                 :detailType="'batch'"
                 :history="history"
+                :title="history.id"
             >
                 <template class="sidebar-header" slot="header">
                     <div class="download-container">
@@ -230,73 +237,48 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="divider"></div>
+
+                    <!-- <div class="errors-table">
+                        <csv-view
+                            ref="errors-preview"
+                            class="errors-preview"
+                        ></csv-view>
+                    </div> -->
+
+                    <!-- <div class="divider"></div> -->
+
                     <div class="batch-details">
                         <p class="cl-Mako darker-sm">Batch Details</p>
+
                         <div class="batch">
-                            <div class="header">Imported By:</div>
-                            <div class="value">
+                            <div class="header column-1">Imported By:</div>
+                            <div class="value colum-2n">
                                 {{ history.created_by.username }}
                             </div>
                         </div>
                         <div class="batch">
-                            <div class="header">Started On:</div>
-                            <div class="value">
+                            <div class="header column-1">Started On:</div>
+                            <div class="value column-2">
                                 {{ getFormattedDate(history.created_on) }}
                             </div>
                         </div>
                         <div class="batch">
-                            <div class="header">Completed On:</div>
-                            <div class="value">
+                            <div class="header column-1">Completed On:</div>
+                            <div class="value column-2">
                                 {{ getFormattedDate(history.modified_on) }}
                             </div>
                         </div>
                         <div class="batch">
-                            <div class="header">Processing Time:</div>
-                            <div class="value">NA</div>
+                            <div class="header column-1">Processing Time:</div>
+                            <div class="value column-2">NA</div>
                         </div>
                     </div>
-                    <!-- <div class="batch-details">
-                        <div>
-                            <div class="header">Batch Number</div>
-                            <div class="value">{{ history.id }}</div>
-                        </div>
-                    </div>
-                    <div class="batch-details">
-                        <div>
-                            <div class="header">Completed On</div>
-                            <div class="value">
-                                {{ getFormattedDate(history.modified_on) }}
-                            </div>
-                        </div>
-                        <div>
-                            <div class="header">Batch Started On</div>
-                            <div class="value">
-                                {{ getFormattedDate(history.created_on) }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="batch-details">
-                        <div>
-                            <div class="header">Processing Time</div>
-                            <div class="value">
-                                {{
-                                    `${(new Date(history.modified_on) -
-                                        new Date(history.created_on)) /
-                                        1000} seconds`
-                                }}
-                            </div>
-                        </div>
-                        <div>
-                            <div class="header">Uploaded By</div>
-                            <div class="value">
-                                {{ history.created_by.username }}
-                            </div>
-                        </div>
-                    </div> -->
                 </template>
             </adm-sidebar>
         </div>
+        <!-- <csv-view ref="errors-preview" class="errors-preview"></csv-view> -->
     </div>
 </template>
 <style lang="less" scoped>
@@ -320,6 +302,15 @@
 
     .batch {
         display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+
+        .column-1 {
+            width: 25%;
+        }
+        .column-2 {
+        }
     }
 
     .header {
@@ -444,6 +435,10 @@
         overflow: hidden;
         img {
             height: 100%;
+        }
+        span {
+            height: 100%;
+            width: 100%;
         }
     }
 }
@@ -602,16 +597,20 @@
     display: flex;
 }
 .notify {
-    color: #2e31be;
-    font-size: 12px;
-    line-height: 160%;
-    text-align: center;
-    font-weight: 400;
-    border: 1px solid #2e31be;
+    // color: #2e31be;
+    // font-size: 12px;
+    // line-height: 160%;
+    // text-align: center;
+    // font-weight: 400;
+    // border: 1px solid #2e31be;
     cursor: pointer;
     align-self: center;
-    padding: 2px 5px 2px 5px;
-    border-radius: 2px;
+    // align-self: center;
+    // padding: 2px 5px 2px 5px;
+    // border-radius: 2px;
+    img {
+        width: 30px;
+    }
 }
 .cancel {
     color: #ff3333;
@@ -644,6 +643,9 @@ import userInfoTooltip from '@/components/common/feedback/userInfo-tooltip.vue';
 import moment from 'moment';
 import NoContent from '@/components/common/adm-no-content.vue';
 import admpageheader from '@/components/common/layout/page-header';
+import CsvView from '@/components/common/adm-csv-viewer.vue';
+import { mapGetters } from 'vuex';
+import { GET_USER_INFO } from '@/store/getters.type';
 
 import {
     NitrozenInput,
@@ -659,7 +661,7 @@ const FILTER = [
 ];
 const PAGINATION = {
     limit: 10,
-    current: 0,
+    current: 1,
     total: 0
 };
 
@@ -679,7 +681,8 @@ export default {
         DatePicker,
         AdmSidebar,
         NoContent,
-        'adm-page-header': admpageheader
+        'adm-page-header': admpageheader,
+        CsvView
     },
     props: {
         title: {
@@ -699,7 +702,10 @@ export default {
         setPlaceholder: function() {
             let text = 'Search by Batch ID';
             return this.type === 'catalogue' ? `${text} or Template` : text;
-        }
+        },
+        ...mapGetters({
+            userData: GET_USER_INFO
+        })
     },
     data() {
         return {
@@ -761,6 +767,7 @@ export default {
     },
     mounted() {
         this.loadHistory(true);
+        console.log(this.userData);
     },
     methods: {
         closeOverlay: function(index) {
@@ -770,7 +777,18 @@ export default {
             this.$router.go(-1);
         },
         capitalize(str) {
-            return str && str.charAt(0).toUpperCase() + str.slice(1);
+            return (
+                str &&
+                str
+                    .split('-')
+                    .pop()
+                    .charAt(0)
+                    .toUpperCase() +
+                    str
+                        .split('-')
+                        .pop()
+                        .slice(1)
+            );
         },
         openSidebar(history) {
             console.log('hist', history);
@@ -778,30 +796,38 @@ export default {
                 this.history = history;
             }
             this.isSidebarTogle = !this.isSidebarTogle;
+            // this.getErrorsTable();
         },
         loadHistory(initial) {
             this.getBulkHistory(
                 CatalogService.bulkHistory,
                 initial,
-                this.productType
+                this.productType,
+                'import'
             );
         },
-        getBulkHistory(caller, initial, type) {
+        getBulkHistory(caller, initial, type, action) {
             this.inProgress = true;
-
-            return caller(this.productType, {
-                page_no: this.pagination.current,
-                page_size: this.pagination.limit,
-                search: this.searchText,
-                stage:
-                    this.selectedStageFilter == 'all'
-                        ? ''
-                        : this.selectedStageFilter,
-                start_date: this.getQueryParamDateString(
-                    this.historyDateRange[0]
-                ),
-                end_date: this.getQueryParamDateString(this.historyDateRange[1])
-            })
+            console.log(this.pagination)
+            return caller(
+                this.productType,
+                {
+                    page_no: this.pagination.current,
+                    page_size: this.pagination.limit,
+                    search: this.searchText,
+                    stage:
+                        this.selectedStageFilter == 'all'
+                            ? ''
+                            : this.selectedStageFilter,
+                    start_date: this.getQueryParamDateString(
+                        this.historyDateRange[0]
+                    ),
+                    end_date: this.getQueryParamDateString(
+                        this.historyDateRange[1]
+                    )
+                },
+                action
+            )
                 .then(({ data }) => {
                     this.historyData = data.items.map((o) => {
                         o.type = '';
@@ -908,6 +934,232 @@ export default {
             let str = message + subMessage.join(', ');
             if (str.charAt(str.length - 1) == '|') str = str.replace(/.$/, '');
             return str;
+        },
+        getFileType(url) {
+            const fileExtension = url && url.split('.').pop();
+            let file_type;
+            if (fileExtension === 'xls' || fileExtension === 'xlsx') {
+                file_type = 'excel';
+            } else if (fileExtension === 'csv') {
+                file_type = 'csv';
+            }
+            return file_type;
+        },
+        getErrorsArray() {
+            let arr = [
+                {
+                    keyword: 'required',
+                    dataPath: '/data/2',
+                    schemaPath: '#/definitions/_Department/required',
+                    params: {
+                        missingProperty: 'slug'
+                    },
+                    message: "should have required property 'slug'",
+                    schema: {
+                        name: {
+                            title: 'Name',
+                            description: 'Name of the deplartment.',
+                            type: 'string'
+                        },
+                        slug: {
+                            title: 'Slug',
+                            description: 'Slug of the department.',
+                            type: 'string'
+                        },
+                        uid: {
+                            title: 'UID',
+                            description: 'Uique identifier for department.',
+                            type: 'integer'
+                        },
+                        logo: {
+                            title: 'Logo',
+                            description: 'URL of logo for department.',
+                            minLength: 1,
+                            maxLength: 2083,
+                            format: 'uri',
+                            type: 'string'
+                        },
+                        is_active: {
+                            title: 'Is Active',
+                            description:
+                                'Boolean value to track weather the department is active or not',
+                            type: 'boolean'
+                        },
+                        priority_order: {
+                            title: 'Priority',
+                            description:
+                                'Priority of the department in listing.',
+                            type: 'string'
+                        },
+                        synonyms: {
+                            title: 'Synonyms',
+                            description: 'Synonyms of the departments.',
+                            type: 'string'
+                        }
+                    },
+                    parentSchema: {
+                        title: '_Department',
+                        type: 'object',
+                        properties: {
+                            name: {
+                                title: 'Name',
+                                description: 'Name of the deplartment.',
+                                type: 'string'
+                            },
+                            slug: {
+                                title: 'Slug',
+                                description: 'Slug of the department.',
+                                type: 'string'
+                            },
+                            uid: {
+                                title: 'UID',
+                                description: 'Uique identifier for department.',
+                                type: 'integer'
+                            },
+                            logo: {
+                                title: 'Logo',
+                                description: 'URL of logo for department.',
+                                minLength: 1,
+                                maxLength: 2083,
+                                format: 'uri',
+                                type: 'string'
+                            },
+                            is_active: {
+                                title: 'Is Active',
+                                description:
+                                    'Boolean value to track weather the department is active or not',
+                                type: 'boolean'
+                            },
+                            priority_order: {
+                                title: 'Priority',
+                                description:
+                                    'Priority of the department in listing.',
+                                type: 'string'
+                            },
+                            synonyms: {
+                                title: 'Synonyms',
+                                description: 'Synonyms of the departments.',
+                                type: 'string'
+                            }
+                        },
+                        required: [
+                            'name',
+                            'slug',
+                            'logo',
+                            'is_active',
+                            'priority_order'
+                        ]
+                    },
+                    data: {
+                        name: 'sdhvb',
+                        logo:
+                            'https://hdn-1.addsale.com/x0/brands/pictures/square-logo/original/VIiKH16Qj-Logo.jpeg',
+                        priority_order: '3',
+                        is_active: true
+                    },
+                    index: '2',
+                    property: '2'
+                }
+            ];
+            return arr;
+        },
+        getErrorsTable() {
+            // if (this.showErrorsTable) {
+            //     this.showErrorsTable = false;
+            //     return;
+            // }
+            // this.showErrorsTable = true;
+            debugger;
+            this.$refs['errors-preview'].createGrid(
+                {
+                    column: this.errorsTable().meta.fields.map((e) => ({
+                        headerName: e,
+                        field: e,
+                        resizable: true,
+                        width: e == 'Errors' ? 600 : 120
+                    })),
+                    rows: this.errorsTable().data
+                },
+                { rowClass: 'error-row' }
+            );
+        },
+        errorsTable() {
+            const mappedErrors = this.getErrorsArray().map((err) => {
+                const msgs = [];
+                err.map((e) => {
+                    if (e.keyword == 'enum') {
+                        msgs.push(`${e.property}: '${e.data}' ${e.message}`);
+                    } else if (
+                        [
+                            'type',
+                            'maxLength',
+                            'minLength',
+                            'pattern',
+                            'minItems',
+                            'size-meta'
+                        ].includes(e.keyword)
+                    ) {
+                        msgs.push(`${e.property}: ${e.message}`);
+                    } else {
+                        msgs.push(`${e.property}: ${e.message}`);
+                    }
+                });
+                const index = err[0].index;
+                return {
+                    index,
+                    Errors: msgs.join(', \n')
+                };
+            });
+
+            return {
+                meta: { fields: ['Errors'] },
+                data: values(mappedErrors)
+            };
+        },
+        notifyByEmail(history) {
+            let payload = {};
+            let userEmail =
+                this.userData &&
+                this.userData.user.emails &&
+                this.userData.user.emails[0].email;
+            if (userEmail) {
+                payload.notification_emails = [
+                    ...history.notification_emails,
+                    userEmail
+                ];
+            }
+            CatalogService.bulkUpdate(payload, history.id, this.productType)
+                .then((res) => {
+                    // console.log(res);
+                    this.$snackbar.global.showSuccess('Notified');
+                    this.loadHistory();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        cancelImport(history) {
+            let payload = {};
+            let userEmail =
+                this.userData &&
+                this.userData.user.emails &&
+                this.userData.user.emails[0].email;
+            if (userEmail) {
+                payload.notification_emails = [
+                    ...history.notification_emails,
+                    userEmail
+                ];
+            }
+            payload.is_active = false;
+            CatalogService.bulkUpdate(payload, history.id, this.productType)
+                .then((res) => {
+                    // console.log(res);
+                    this.$snackbar.global.showError('Cancelled');
+                    this.loadHistory();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
     }
 };

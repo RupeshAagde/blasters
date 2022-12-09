@@ -80,39 +80,31 @@
                 >
                     <div class="card-avatar template-logo-image">
                         <img
-                            v-if="history.template"
-                            :src="history.template.logo"
+                            src="/public/assets/admin/pngs/csv_filetype.png"
+                            v-if="history.file_type === 'csv'"
                         />
-                        <!-- <adm-text-avatar
-                        v-else
-                        :text="type != 'assets' ? history.created_by.full_name : ''"
-                    ></adm-text-avatar> -->
+                        <inline-svg v-else :src="'excel_filetype'"></inline-svg>
                     </div>
                     <div class="card-content-section">
                         <div class="card-content-line-1">
-                            {{
-                                history.template
-                                    ? history.template.name
-                                    : history.id
-                            }}
+                            {{ `${capitalize(productType)} ${history.id}` }}
 
                             <div class="svg-icons">
                                 <a
-                                    v-if="history.file_path"
+                                    v-if="history.tracking_url"
                                     class="download-source-file"
-                                    :href="history.file_path"
+                                    :href="history.tracking_url"
                                     download
                                     @click.stop=""
                                 >
-                                    <inline-svg :src="'download'"></inline-svg>
+                                    <inline-svg
+                                        :src="'cloud_download'"
+                                    ></inline-svg>
                                 </a>
                             </div>
                         </div>
-
-                        <div class="card-content-line-2 line-2">
-                            {{ successCountMessage(history) }}
-                        </div>
-                        <div class="card-content-line-3">
+                        <div class="card-content-line-3 regular-xxs">
+                            Exported By {{ history.created_by.username }} on
                             {{ getFormattedDate(history.created_on) }}
                         </div>
                     </div>
@@ -126,7 +118,7 @@
                     </div>
                 </div>
                 <nitrozen-pagination
-                    v-if="!isError && !inProgress"
+                    v-if="!isError && !inProgress && historyData.length"
                     name="Batches"
                     v-model="pagination"
                     @change="setPagination"
@@ -139,76 +131,79 @@
                 ref="sidebar"
                 :closeOverlay="closeOverlay"
                 :productType="productType"
-                :title="'Batch Details'"
                 :footer="false"
                 :detailType="'batch'"
                 :history="history"
+                :title="history.id"
             >
-                <div class="sidebar-container">
-                    <div class="card-badge-section">
-                        <div class="header">Batch Status</div>
-                        <nitrozen-badge
-                            v-if="history.stage"
-                            :state="getBadgeState(history.stage)"
-                        >
-                            {{ history.stage }}
-                        </nitrozen-badge>
+                <template class="sidebar-header" slot="header">
+                    <div class="download-container">
+                        <inline-svg :src="'cloud_download'"></inline-svg>
+                        <p class="darker-xxxs cl-RoyalBlue ">Source File</p>
                     </div>
-                    <div>
-                        <div class="header">Total</div>
-                        <div class="value">{{ history.total }}</div>
-                    </div>
-                    <div>
-                        <div class="header">Success</div>
-                        <div class="value">{{ history.succeed }}</div>
-                    </div>
-                    <div>
-                        <div class="header">Failed</div>
-                        <div class="value">{{ history.failed }}</div>
-                    </div>
-                    <div>
-                        <div class="header">Cancelled</div>
-                        <div class="value">{{ history.cancelled }}</div>
-                    </div>
-                </div>
-                <div class="batch-details">
-                    <div>
-                        <div class="header">Batch Number</div>
-                        <div class="value">{{ history.id }}</div>
-                    </div>
-                </div>
-                <div class="batch-details">
-                    <div>
-                        <div class="header">Completed On</div>
-                        <div class="value">
-                            {{ getFormattedDate(history.modified_on) }}
+                </template>
+                <template slot="body">
+                    <div class="upload-summary">
+                        <div class="title">
+                            <p class="cl-Mako darker-sm">Upload Summary</p>
+                            <nitrozen-badge
+                                v-if="history.stage"
+                                :state="getBadgeState(history.stage)"
+                            >
+                                {{ history.stage }}
+                            </nitrozen-badge>
+                        </div>
+                        <div class="summary">
+                            <div>
+                                <div class="header">Total Records</div>
+                                <div class="value">
+                                    {{ history.stats.total }}
+                                </div>
+                            </div>
+                            <div>
+                                <div class="header">Valid Records</div>
+                                <div class="value">
+                                    {{ history.stats.succeed }}
+                                </div>
+                            </div>
+                            <div>
+                                <div class="header">Error Records</div>
+                                <div class="value">
+                                    {{ history.stats.failed }}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <div class="header">Batch Started On</div>
-                        <div class="value">
-                            {{ getFormattedDate(history.created_on) }}
+
+                    <div class="divider"></div>
+
+                    <div class="batch-details">
+                        <p class="cl-Mako darker-sm">Batch Details</p>
+
+                        <div class="batch">
+                            <div class="header column-1">Imported By:</div>
+                            <div class="value colum-2n">
+                                {{ history.created_by.username }}
+                            </div>
+                        </div>
+                        <div class="batch">
+                            <div class="header column-1">Started On:</div>
+                            <div class="value column-2">
+                                {{ getFormattedDate(history.created_on) }}
+                            </div>
+                        </div>
+                        <div class="batch">
+                            <div class="header column-1">Completed On:</div>
+                            <div class="value column-2">
+                                {{ getFormattedDate(history.modified_on) }}
+                            </div>
+                        </div>
+                        <div class="batch">
+                            <div class="header column-1">Processing Time:</div>
+                            <div class="value column-2">NA</div>
                         </div>
                     </div>
-                </div>
-                <div class="batch-details">
-                    <div>
-                        <div class="header">Processing Time</div>
-                        <div class="value">
-                            {{
-                                `${(new Date(history.modified_on) -
-                                    new Date(history.created_on)) /
-                                    1000} seconds`
-                            }}
-                        </div>
-                    </div>
-                    <div>
-                        <div class="header">Uploaded By</div>
-                        <div class="value">
-                            {{ history.created_by.username }}
-                        </div>
-                    </div>
-                </div>
+                </template>
             </adm-sidebar>
         </div>
     </div>
@@ -334,6 +329,10 @@
         img {
             height: 100%;
         }
+        span {
+            height: 100%;
+            width: 100%;
+        }
     }
 }
 
@@ -366,32 +365,78 @@
     width: 40%;
     .sidebar-body {
         display: block;
-        .sidebar-container {
-            display: flex;
-            justify-content: space-between;
-            border: 1px solid #e0e0e0;
-            border-radius: 4px;
+        .upload-summary {
             margin: 24px;
-            padding: 15px;
-            display: flex;
-            text-align: center;
 
-            .header {
-                font-family: 'Inter';
-                font-style: normal;
-                font-weight: 400;
-                font-size: 12px;
-                line-height: 160%;
-                color: #9b9b9b;
-                padding-bottom: 5px;
+            .title {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
             }
-            .value {
-                font-weight: 400;
-                font-size: 16px;
-                line-height: 140%;
-                color: #41434c;
+            .summary {
+                display: flex;
+                margin-top: 16px;
+                gap: 24px;
+
+                .header {
+                    font-family: 'Inter';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 12px;
+                    line-height: 160%;
+                    color: #9b9b9b;
+                    padding-bottom: 5px;
+                }
+                .value {
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 140%;
+                    color: #41434c;
+                }
             }
         }
+    }
+}
+.divider {
+    border: 1px solid #e0e0e0;
+    margin: 24px;
+}
+.batch-details {
+    margin: 24px;
+    // display: flex;
+    // justify-content: space-between;
+    // flex-wrap: wrap;
+
+    .batch {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+
+        .column-1 {
+            width: 25%;
+        }
+        .column-2 {
+        }
+    }
+
+    .header {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 160%;
+        color: #9b9b9b;
+    }
+    .value {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 140%;
+        color: #41434c;
+    }
+    > div {
+        margin: 18px 0;
+        flex-basis: 48%;
     }
 }
 .container {
@@ -500,7 +545,7 @@ const FILTER = [
 ];
 const PAGINATION = {
     limit: 10,
-    current: 0,
+    current: 1,
     total: 0
 };
 
@@ -551,9 +596,7 @@ export default {
             pageError: false,
             departmentList: [],
             pagination: {
-                total: 0,
-                current: 1,
-                limit: 10
+                ...PAGINATION
             },
             filter: FILTER,
             selectedFilter: 'all',
@@ -566,10 +609,12 @@ export default {
             stages: [
                 { text: 'All', value: 'all' },
                 { text: 'Completed', value: 'completed' },
-                { text: 'Running', value: 'pending' },
-                { text: 'Failed', value: 'failed' }
-                // { text: 'Processing', value: 'processing' },
-                // { text: 'Cancelled', value: 'cancelled' }
+                { text: 'Running', value: 'running' },
+                { text: 'In-Progress', value: 'in-progress' },
+                { text: 'Failed', value: 'failed' },
+                { text: 'Terminated', value: 'terminated' },
+                { text: 'Cancelled', value: 'cancelled' },
+                { text: 'Partial', value: 'partial' }
             ],
             selectedStageFilter: null,
             notBefore: moment('01012020', 'DDMMYYYY').toISOString(),
@@ -621,25 +666,32 @@ export default {
             this.getBulkHistory(
                 CatalogService.bulkHistory,
                 initial,
-                this.productType
+                this.productType,
+                'export'
             );
         },
-        getBulkHistory(caller, initial, type) {
+        getBulkHistory(caller, initial, type, action) {
             this.inProgress = true;
 
-            return caller(this.productType, {
-                page_no: this.pagination.current,
-                page_size: this.pagination.limit,
-                search: this.searchText,
-                stage:
-                    this.selectedStageFilter == 'all'
-                        ? ''
-                        : this.selectedStageFilter,
-                start_date: this.getQueryParamDateString(
-                    this.historyDateRange[0]
-                ),
-                end_date: this.getQueryParamDateString(this.historyDateRange[1])
-            })
+            return caller(
+                this.productType,
+                {
+                    page_no: this.pagination.current,
+                    page_size: this.pagination.limit,
+                    search: this.searchText,
+                    stage:
+                        this.selectedStageFilter == 'all'
+                            ? ''
+                            : this.selectedStageFilter,
+                    start_date: this.getQueryParamDateString(
+                        this.historyDateRange[0]
+                    ),
+                    end_date: this.getQueryParamDateString(
+                        this.historyDateRange[1]
+                    )
+                },
+                action
+            )
                 .then(({ data }) => {
                     this.historyData = data.items.map((o) => {
                         o.type = '';
@@ -648,8 +700,8 @@ export default {
                     this.isError = false;
                     this.pagination = {
                         limit: this.pagination.limit,
-                        total: this.historyData.total,
-                        current: this.historyData.current
+                        total: data.page.item_total,
+                        current: data.page.current
                     };
                     this.$nextTick(() => {
                         !initial &&
@@ -696,12 +748,13 @@ export default {
 
         getBadgeState(stage) {
             const states = {
-                processing: 'warn',
-                pending: 'warn', // if not need now, remove it
+                'in-progress': 'disable',
+                running: 'info',
                 completed: 'success',
                 cancelled: 'info',
                 terminated: 'error',
-                failed: 'error'
+                failed: 'error',
+                partial: 'warn'
             };
             return states[stage] || 'info';
         },
@@ -745,6 +798,20 @@ export default {
             let str = message + subMessage.join(', ');
             if (str.charAt(str.length - 1) == '|') str = str.replace(/.$/, '');
             return str;
+        },
+        capitalize(str) {
+            return (
+                str &&
+                str
+                    .split('-')
+                    .pop()
+                    .charAt(0)
+                    .toUpperCase() +
+                    str
+                        .split('-')
+                        .pop()
+                        .slice(1)
+            );
         }
     }
 };

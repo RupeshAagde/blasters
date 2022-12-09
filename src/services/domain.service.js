@@ -712,10 +712,10 @@ const URLS = {
             `v1.0/bulk/${job_type}/import/download`
         );
     },
-    BULK_HISTORY_REQUEST: (job_type) => {
+    BULK_HISTORY_REQUEST: (job_type, action) => {
         return urlJoin(
             SILVERBOLT_ACAT_URL,
-            `v1.0/bulk/${job_type}/import`
+            `v1.0/bulk/${job_type}/${action}`
         );
     },
     BULK_TEMPLATE_VALIDATION: (job_type) => {
@@ -727,8 +727,8 @@ const URLS = {
     BULK_SEND: (job_type) => {
         return urlJoin(SILVERBOLT_ACAT_URL, `v1.0/bulk/${job_type}/import`);
     },
-    BULK_REQUEST: (job_type) => {
-        return urlJoin(SILVERBOLT_ACAT_URL, `v1.0/bulk/${job_type}/import`);
+    BULK_REQUEST: (job_type, action) => {
+        return urlJoin(SILVERBOLT_ACAT_URL, `v1.0/bulk/${job_type}/${action}`);
     },
 };
 

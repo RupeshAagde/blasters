@@ -19,16 +19,121 @@
                         >
                     </p>
                 </div>
-                <div class="filters">
+                <div
+                    class="right-content"
+                    v-if="
+                        productType === 'department' ||
+                            productType === 'hsn' ||
+                            productType === 'attribute'
+                    "
+                >
+                    <div class="notify">
+                        <nitrozen-checkbox
+                            class="chekbox"
+                            v-model="notifyByEmail"
+                            @change=""
+                        ></nitrozen-checkbox>
+                        <p class="cl-Mako regular-xxxs">
+                            Notify on
+                            <span class="cl-RoyalBlue darker-xxxs">{{
+                                getUserEmail()
+                            }}</span>
+                        </p>
+                    </div>
+                    <div class="ml-16" v-if="productType === 'attribute'">
+                        <nitrozen-dropdown
+                            :placeholder="'Choose department(s)'"
+                            class="selection-dropdown"
+                            :class="[{ disabled: true }]"
+                            :items="departmentList"
+                            :required="true"
+                            :multiple="true"
+                            :enable_select_all="true"
+                            v-model="selectedDepartments"
+                            @change=""
+                        ></nitrozen-dropdown>
+                    </div>
+                    <div class="download-button ml-16">
+                        <nitrozen-dropdown
+                            label="Download Sample"
+                            :placeholder="'Export'"
+                            class="file-download-dropdown"
+                            :items="fileTypes"
+                            v-model="selectedFileType"
+                            @change="bulkExport"
+                        ></nitrozen-dropdown>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="bottom-content"
+                v-if="
+                    productType === 'category' ||
+                        productType === 'product-template'
+                "
+            >
+                <div class="department">
                     <nitrozen-dropdown
+                        label="Department"
+                        :placeholder="'Select department(s)'"
+                        class="selection-dropdown"
+                        :items="departmentList"
+                        v-model="selectedDepartments"
+                        :required="true"
+                        :multiple="true"
+                        :enable_select_all="true"
+                        @change=""
+                    ></nitrozen-dropdown>
+                </div>
+                <div class="category">
+                    <nitrozen-dropdown
+                        label="Category"
+                        :placeholder="'Select categories'"
+                        class="selection-dropdown"
+                        :items="templateCategories"
+                        :required="true"
+                        :multiple="true"
+                        :enable_select_all="true"
+                        v-model="selectedCategories"
+                        @change=""
+                    ></nitrozen-dropdown>
+                </div>
+                <div class="download-button">
+                    <nitrozen-dropdown
+                        :class="[
+                            {
+                                disabled:
+                                    !selectedCategories.length &&
+                                    !selectedDepartments.length
+                            }
+                        ]"
                         label="Download Sample"
                         :placeholder="'Export'"
                         class="file-download-dropdown"
                         :items="fileTypes"
                         v-model="selectedFileType"
-                        @change=""
+                        @change="bulkExport"
                     ></nitrozen-dropdown>
                 </div>
+            </div>
+            <div
+                class="notify-bottom"
+                v-if="
+                    productType === 'category' ||
+                        productType === 'product-template'
+                "
+            >
+                <nitrozen-checkbox
+                    class="chekbox"
+                    v-model="notifyByEmail"
+                    @change=""
+                ></nitrozen-checkbox>
+                <p class="cl-Mako regular-xxxs">
+                    Notify on
+                    <span class="cl-RoyalBlue darker-xxxs">{{
+                        getUserEmail()
+                    }}</span>
+                </p>
             </div>
         </div>
         <div>
@@ -40,7 +145,9 @@
             :closeOverlay="closeOverlay"
             :title="'Learn More'"
         >
-            <learn-more></learn-more>
+            <template slot="body">
+                <learn-more></learn-more>
+            </template>
         </side-bar>
     </div>
 </template>
@@ -85,7 +192,7 @@
         }
     }
 
-    .filters {
+    .download-button {
         display: flex;
         ::v-deep .nitrozen-dropdown-label {
             display: none;
@@ -159,13 +266,68 @@
     }
 }
 
+.right-content {
+    display: flex;
+    .notify {
+        display: flex;
+        align-items: center;
+
+        .chekbox {
+            position: relative;
+            bottom: 9px;
+        }
+    }
+    .download-button {
+        width: 150px;
+    }
+}
+
+.notify-bottom {
+    display: flex;
+    align-items: center;
+    margin-top: 18px;
+    .chekbox {
+        position: relative;
+        bottom: 9px;
+    }
+}
+
+.bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-top: 16px;
+    gap: 16px;
+
+    .department {
+        width: 42%;
+    }
+
+    .category {
+        width: 42%;
+    }
+
+    .download-button {
+        width: 16%;
+    }
+}
+
+.ml-16 {
+    margin-left: 16px;
+}
+
 .inline {
     display: flex;
+}
+.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 </style>
 
 <script>
-// import CatalogService from '@/services/catalog.service';
+import CatalogService from '@/services/catalog.service';
 import admpageheader from '@/components/common/layout/page-header';
 import {
     NitrozenButton,
@@ -179,7 +341,8 @@ import {
     NitrozenDialog,
     NitrozenToggleBtn,
     flatBtn,
-    strokeBtn
+    strokeBtn,
+    NitrozenCheckBox
 } from '@gofynd/nitrozen-vue';
 
 // import BulkHistory from './bulk-history.vue';
@@ -193,6 +356,7 @@ import exportHistory from './export-history.vue';
 // import XLSX from 'xlsx';
 // import { CatalogueSchemaService } from '@/services/bulk-upload.service';
 import GrindorService from '@/services/grindor.service';
+import CompanyService from '@/services/company-admin.service';
 // import { saveAs } from 'file-saver';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
@@ -209,6 +373,8 @@ import toLower from 'lodash/toLower';
 import Base64 from 'crypto-js/enc-base64';
 import Utf8 from 'crypto-js/enc-utf8';
 import cloneDeep from 'lodash/cloneDeep';
+import { mapGetters } from 'vuex';
+import { GET_USER_INFO } from '@/store/getters.type';
 
 const PRODUCT_NAME_MAPPING = {
     attribute: 'attributes',
@@ -240,6 +406,7 @@ export default {
         'side-bar': sidebar,
         'learn-more': LearnMore,
         'export-history': exportHistory,
+        'nitrozen-checkbox': NitrozenCheckBox,
         loader,
         PageError
     },
@@ -249,7 +416,24 @@ export default {
     },
     computed: {
         getTitle() {
-            return `Export ${this.capitalize(this.$route.params.type)} Data`;
+            return `Export ${this.capitalize(
+                this.$route.params.type === 'product-template'
+                    ? 'template'
+                    : this.$route.params.type
+            )} Data`;
+        },
+        ...mapGetters({
+            userData: GET_USER_INFO
+        }),
+        selectedDeptIds() {
+            if (_.isEmpty(this.departments)) return [];
+            const uids = [];
+            this.departments.forEach((dept) => {
+                if (this.selectedDepartments.includes(dept.slug)) {
+                    uids.push(dept.uid);
+                }
+            });
+            return uids;
         }
     },
     data() {
@@ -298,14 +482,25 @@ export default {
             ],
             selectedCategory: null,
             brandsList: [],
-            selectedBrands: []
+            selectedBrands: [],
+            notifyByEmail: false,
+            categories: [],
+            templateCategories: [],
+            selectedCategories: [],
+            departmentList: [],
+            departments: [],
+            selectedDepartments: [],
+            exportConfig: {
+                attribute: ['attribute'],
+                category: ['department', 'category'],
+                'product-template': ['department', 'category'],
+                hsn: [],
+                department: []
+            }
         };
     },
     mounted() {
-        // if(['attribute', 'department', 'template'].includes(this.productType)) {
-        //     this.refetchTemplate(null);
-        // }
-        console.log(this.$route.params);
+        this.init();
     },
     methods: {
         redirectToList() {
@@ -324,10 +519,125 @@ export default {
         closeOverlay() {
             this.sidebarToggle = !this.sidebarToggle;
         },
-        navigateToHistory() {
-            this.$router.push({
-                path: `/administrator/product/${this.productType}/import/upload-history`
+        getUserEmail() {
+            return this.userData.user.emails[0].email;
+        },
+        init() {
+            let typeConfig = this.exportConfig[this.productType];
+            typeConfig &&
+                typeConfig.length &&
+                typeConfig.forEach((type) => {
+                    if (type === 'department') {
+                        this.fetchDepartments();
+                    } else if (type === 'category') {
+                        this.fetchCategories();
+                    }
+                });
+        },
+        fetchDepartments() {
+            return new Promise((resolve, reject) => {
+                const query = {
+                    page_size: 9999,
+                    page_no: 1
+                };
+                CompanyService.fetchDepartments(query)
+                    .then(({ data }) => {
+                        this.departments = data.items;
+                        this.setDepartmentsList();
+                        return resolve();
+                    })
+                    .catch((err) => {
+                        return reject(err);
+                    });
             });
+        },
+        fetchCategories() {
+            const params = {
+                page_size: 999999,
+                page_no: 1,
+                department: this.selectedDeptIds,
+                level: 3
+            };
+            return new Promise((resolve, reject) => {
+                CompanyService.fetchCategory_v2(params)
+                    .then(({ data }) => {
+                        this.categories = data.items;
+                        this.setCategoriesList();
+                        return resolve();
+                    })
+                    .catch((err) => {
+                        return reject(err);
+                    });
+            });
+        },
+        setDepartmentsList(e = {}) {
+            this.departmentList = [];
+            this.departments.forEach((d) => {
+                if (
+                    !e.text ||
+                    d.name.toLowerCase().includes(e.text.toLowerCase())
+                ) {
+                    this.departmentList.push({
+                        text: d.name,
+                        value: d.slug
+                    });
+                }
+            });
+        },
+        setCategoriesList(e = {}) {
+            this.templateCategories = [];
+            this.categories.forEach((c) => {
+                if (
+                    !e.text ||
+                    c.name.toLowerCase().includes(e.text.toLowerCase())
+                ) {
+                    this.templateCategories.push({
+                        text: c.name,
+                        value: c.slug
+                    });
+                }
+            });
+        },
+        selectCategories(type) {
+            this.selectedCategories = [this.selectedCategories];
+        },
+        selectDepartments() {
+            this.selectedDepartments = [this.selectedDepartments];
+            if (this.productType === 'template') {
+                this.fetchCategories();
+            }
+        },
+        bulkExport(type) {
+            this.pageLoading = true;
+            let payload = {};
+            if (this.selectedDepartments.length) {
+                payload.department = this.selectedDepartments;
+            }
+            if (this.selectedCategories.length) {
+                payload.category = this.selectedCategories;
+            }
+            payload.file_type = type;
+            payload.notification_emails = ['sth@gmail.com'];
+            return CatalogService.bulkRequest(
+                this.productType,
+                payload,
+                'export'
+            )
+                .then(({ data }) => {
+                    this.pageLoading = false;
+                })
+                .catch((ex) => {
+                    this.pageLoading = false;
+                    this.$snackbar.global.showError(
+                        `Failed to request bulk upload ${
+                            ex && ex.message ? ' : ' + ex.message : ''
+                        }`
+                    );
+                    return false;
+                })
+                .finally(() => {
+                    this.inProgress = false;
+                });
         }
     }
 };

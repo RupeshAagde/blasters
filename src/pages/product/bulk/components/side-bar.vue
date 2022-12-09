@@ -4,7 +4,7 @@
         <div class="sidebar">
             <div class="sidebar-header">
                 <div class="flex-row">
-                    <div>{{ history.id }}</div>
+                    <div>{{ title }}</div>
                     <slot name="header"></slot>
                 </div>
                 <div class="close-icon" @click="closeOverlay()">
