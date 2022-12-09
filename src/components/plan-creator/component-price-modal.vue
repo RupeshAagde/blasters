@@ -24,7 +24,7 @@
 </template>
 
 <style lang="less" scoped>
-::v-deep.modal {
+::v-deep .modal {
     .modal-container {
         width: 1100px;
         height: 600px;
