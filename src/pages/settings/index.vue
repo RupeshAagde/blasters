@@ -116,7 +116,7 @@ const PLATFORM_CONFIGURATION_MENUS = [
     },
     {
         title: 'Seller Registration',
-        link: 'platform/seller-registration',
+        link: 'seller-registration',
         icon: 'settings',
         permissions: [],
         active: false,
@@ -154,14 +154,7 @@ const PLATFORM_CONFIGURATION_MENUS = [
         active: false,
         desc: 'Configure MarketPlaces'
     },
-    {
-        title: 'Bank Details',
-        link: 'platform/bank-details',
-        icon: 'settings',
-        permissions: [],
-        active: false,
-        desc: 'Configure Bank Verification'
-    },
+    
     {
         title: 'Locations',
         link: 'platform/location',

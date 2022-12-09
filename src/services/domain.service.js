@@ -712,14 +712,8 @@ const URLS = {
     INTERNAL_MARKETPLACES_ADMIN_SERVICE: (id = '') => {
         return urlJoin(INTERNAL_MARKETPLACES_ADMIN_URL, '/v1.0/channel/', id);
     },
-    PAYOUT_CONFIG: () => {
-        return  urlJoin(GRINGOTTS_ADMIN_URL, 'v1.0/payout/bank/config')
-    },
     ADMIN_PANEL_CONFIG: (id) => {
         return  urlJoin(WHEELJACK_ACPR_URL, '/v1.0/platform-configuration/', id)
-    },
-    PLATFORM_CONFIG: () => {
-        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/platform/config/');
     },
 
 };

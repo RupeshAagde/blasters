@@ -30,11 +30,9 @@ import PricingBannerVue from './../../pages/settings/pricing_banner.vue';
 import ExtensionsListingVue from './../../pages/settings/extensions-listing/index.vue';
 import CategoryList from '@/pages/product/category/list';
 import BusinessRegistration from './../../pages/settings/onboarding/business-registration.vue';
-import SellerRegistration from './../../pages/settings/onboarding/seller-registration.vue';
 import BusinessDetails from './../../pages/settings/onboarding/business-details.vue';
 import Brands from './../../pages/settings/onboarding/brands.vue';
 import ProductConfig from './../../pages/settings/onboarding/product.vue';
-import BankDetailsConfig from './../../pages/settings/onboarding/bank-details.vue';
 import LocationConfig from './../../pages/settings/onboarding/location.vue';
 import UpdateMarketplace from '../../pages/settings/onboarding/update-marketplace.vue';
 import ListMarketplace from './../../pages/settings/onboarding/list-marketplace.vue';
@@ -635,14 +633,7 @@ export default [
                 return checkUserPermission(to, from, next, ['settings']);
             }
         },
-        {
-            name: 'seller-registration',
-            path: 'settings/platform/seller-registration',
-            component: SellerRegistration,
-            beforeEnter: (to, from, next) => {
-                return checkUserPermission(to, from, next, ['settings']);
-            }
-        },
+
         {
             name: 'business-details',
             path: 'settings/platform/business-details',
@@ -667,14 +658,7 @@ export default [
                 return checkUserPermission(to, from, next, ['settings']);
             }
         },
-        {
-            name: 'bank-details',
-            path: 'settings/platform/bank-details',
-            component: BankDetailsConfig,
-            beforeEnter: (to, from, next) => {
-                return checkUserPermission(to, from, next, ['settings']);
-            }
-        },
+        
         {
             name: 'location',
             path: 'settings/platform/location',
