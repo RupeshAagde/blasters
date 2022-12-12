@@ -811,7 +811,6 @@ export default {
             );
         },
         openSidebar(history) {
-            console.log('hist', history);
             if (history) {
                 this.history = history;
             }

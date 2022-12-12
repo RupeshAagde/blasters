@@ -303,7 +303,7 @@
             ref="reupload"
             cancelBtnTitle="No"
             saveBtnTitle="Yes"
-            @save="clearInputFile"
+            @save="clearData"
         />
         <confirmation-dialog-box
             ref="confirm"
@@ -625,11 +625,12 @@ import toLower from 'lodash/toLower';
 import Base64 from 'crypto-js/enc-base64';
 import Utf8 from 'crypto-js/enc-utf8';
 import cloneDeep from 'lodash/cloneDeep';
+import { debounce } from '@/helper/utils';
 
 const PRODUCT_NAME_MAPPING = {
     attribute: 'attributes',
     hsn: 'taxation',
-    template: 'templates',
+    'product-template': 'templates',
     department: 'department',
     category: 'category'
 };
@@ -755,8 +756,6 @@ export default {
         ) {
             this.fetchTemplate(null);
         }
-        console.log(this.$refs.inputFile);
-        // console.log(this.$route.params);
     },
     methods: {
         redirectToList() {
@@ -785,14 +784,28 @@ export default {
             this.sidebarToggle = !this.sidebarToggle;
         },
         /**Confirmation dialog box function*/
-        reUploadConfirmationDialogBox() {
-            // this.$refs['reupload'].openConfirmation({
-            //     title: 'Are you sure?',
-            //     message:
-            //         'If you reupload, your current upload progress will be lost'
-            // });
-            console.log(this.$refs.inputFile);
-            this.clearInputFile();
+        reUploadConfirmationDialogBox: function() {
+            this.$refs['reupload'].openConfirmation({
+                title: 'Are you sure?',
+                message:
+                    'If you reupload, your current upload progress will be lost'
+            });
+        },
+        clearData() {
+            this.inputFileMeta = { name: '', fileSize: null, progress: null };
+            this.validSchema = false;
+            this.productsArray = [];
+            this.errorsArray = [];
+            this.showErrorsTable = false;
+            this.file = null;
+            this.isUploading;
+            this.isTableLoaded = false;
+            this.productsTable = {
+                meta: { fields: [] },
+                data: []
+            };
+            this.isDisabled = false;
+            this.isOpen = true;
         },
         confirmDialogBox() {
             if (
@@ -974,7 +987,6 @@ export default {
             this.processBulkProducts();
         },
         renderTable() {
-            console.log(this.productsTable);
             this.$refs['csv-preview'].createGrid({
                 column: this.productsTable.meta.fields.map((e) => ({
                     headerName: e,
@@ -1047,7 +1059,6 @@ export default {
                 );
                 return;
             }
-
             //map values
             let result = [];
             mapValues(this.productsTable.data, (item) => {
@@ -1057,35 +1068,23 @@ export default {
                 let attributes;
                 let categories;
                 if (item['Synonyms']) {
-                    synonyms =
-                        typeof item['Synonyms'] == 'string'
-                            ? item['Synonyms'].split(',')
-                            : [item['Synonyms']];
+                    synonyms = item['Synonyms'];
                 }
-                if (item['Tryouts']) {
-                    tryouts =
-                        typeof item['Tryouts'] == 'string'
-                            ? item['Tryouts'].split(',')
-                            : [item['Tryouts']];
-                }
+                // if (item['Tryouts']) {
+                //     tryouts =
+                //         typeof item['Tryouts'] == 'string'
+                //             ? item['Tryouts'].split('|')
+                //             : [item['Tryouts']];
+                // }
                 if (item['Departments']) {
-                    departments =
-                        typeof item['Departments'] == 'string'
-                            ? item['Departments'].split(',')
-                            : [item['Departments']];
+                    departments = item['Departments'];
                 }
 
                 if (item['Attributes']) {
-                    attributes =
-                        typeof item['Attributes'] == 'string'
-                            ? item['Attributes'].split(',')
-                            : [item['Attributes']];
+                    attributes = item['Attributes'];
                 }
-                if (item['Categories']) {
-                    categories =
-                        typeof item['Categories'] == 'string'
-                            ? item['Categories'].split(',')
-                            : [item['Categories']];
+                if (item['L3 Categories']) {
+                    categories = item['L3 Categories'];
                 }
 
                 if (this.productType === 'department') {
@@ -1095,17 +1094,16 @@ export default {
                         slug: item['Slug'],
                         priority_order: item['Priority'],
                         is_active: item['Active'],
-                        ...(synonyms &&
-                            synonyms.length && { synonyms: synonyms })
+                        synonyms: synonyms
                     });
                 } else if (this.productType === 'category') {
-                    let hierarchy;
-                    if (item['Department'] && item['L1'] && item['L2']) {
-                        let department = item['Department'];
-                        let l1 = item['L1'];
-                        let l2 = item['L2'];
-                        hierarchy = [{ department, l1, l2 }];
-                    }
+                    // let hierarchy;
+                    // if (item['Department'] && item['L1'] && item['L2']) {
+                    //     let department = item['Department'];
+                    //     let l1 = item['L1'];
+                    //     let l2 = item['L2'];
+                    //     hierarchy = [{ department, l1, l2 }];
+                    // }
                     let media;
                     if (item['Logo'] && item['Landscape'] && item['Portrait']) {
                         let logo = item['Logo'];
@@ -1116,59 +1114,61 @@ export default {
 
                     result.push({
                         level: item['Level'],
-                        name: item['Name'],
-                        ...(departments &&
-                            departments.length && { departments: departments }),
-                        ...(hierarchy &&
-                            hierarchy.length && { hierarchy: hierarchy }),
+                        name: item['Category Name'],
+                        departments: departments,
                         media: media,
-                        ...(synonyms &&
-                            synonyms.length && { synonyms: synonyms }),
+                        synonyms: synonyms,
                         priority: item['Priority'],
                         is_active: item['Active'],
-                        ...(tryouts && tryouts.length && { tryouts: tryouts })
+                        hierarchy: item['Hierarchy']
                     });
-                } else if (this.productType === 'template') {
+                } else if (this.productType === 'product-template') {
                     result.push({
                         slug: item['Slug'],
-                        name: item['Name'],
-                        ...(departments &&
-                            departments.length && { departments: departments }),
+                        name: item['Template Name'],
+                        departments: departments,
                         description: item['Description'],
                         tag: item['Tag'],
-                        ...(categories &&
-                            categories.length && { categories: categories }),
-                        ...(attributes &&
-                            attributes.length && { attributes: attributes }),
+                        categories: categories,
+                        attributes: attributes,
                         is_active: item['Active'],
                         is_archived: item['Is Archived'],
                         logo: item['Logo'],
-                        is_physical: item['Is Physical'],
-                        is_expirable: item['Is Expirable']
+                        is_physical: item['Physical'],
+                        is_expirable: item['Expirable']
                     });
                 } else if (this.productType === 'hsn') {
                     let taxes;
                     if (
-                        item['Rate'] >= 0 &&
+                        item['GST Rate #1'] >= 0 &&
                         item['Threshold'] >= 0 &&
                         item['Effective Date']
                     ) {
-                        let rate = item['Rate'];
+                        let rate = item['GST Rate #1'];
+                        let rate_1 = item['GST Rate #2'];
                         let threshold = item['Threshold'];
                         let effective_date = new Date(
                             item['Effective Date']
                         ).toISOString();
-                        let cess = item['Cess'];
-                        taxes = [{ rate, threshold, effective_date, cess }];
+                        let cess = item['CESS #1'];
+                        let cess_1 = item['CESS #2'];
+                        taxes = {
+                            rate,
+                            rate_1,
+                            threshold,
+                            effective_date,
+                            cess,
+                            cess_1
+                        };
                     }
                     result.push({
-                        reporting_hsn: item['Reporting Hsn'],
+                        reporting_hsn: item['Reporting HSN Code'],
                         type: item['Type'],
                         description: item['Description'],
-                        hsn_code: item['Hsn Code'],
+                        hsn_code: item['HSN Code'],
                         command: item['Command'],
-                        country_code: item['Country Code'],
-                        ...(taxes && taxes.length && { taxes: taxes })
+                        country: item['Country'],
+                        taxes: taxes
                     });
                 } else if (this.productType === 'attribute') {
                     let details;
@@ -1177,29 +1177,27 @@ export default {
                     if (item['Display Type']) {
                         details = { display_type: item['Display Type'] };
                     }
-                    if (item['Indexing']) {
-                        filters = {
-                            indexing: item['Indexing'],
-                            priority: item['Priority'],
-                            depends_on:
-                                item['Depends On'] &&
-                                item['Depends On'].split(',')
-                        };
-                    }
+                    // if (item['Indexing']) {
+                    //     filters = {
+                    //         indexing: item['Indexing'],
+                    //         priority: item['Priority'],
+                    //         depends_on:
+                    //             item['Depends On'] &&
+                    //             item['Depends On'].split(',')
+                    //     };
+                    // }
                     if (item['Min'] >= 0 && item['Max'] >= 0 && item['Type']) {
-                        let allowed_values = [];
-                        if (item['Allowed Values']) {
-                            allowed_values =
-                                typeof item['Allowed Values'] == 'string'
-                                    ? item['Allowed Values'].split(',')
-                                    : [item['Allowed Values']];
+                        let allowed_multi_values = [];
+                        if (item['Allow Multiple Values']) {
+                            allowed_multi_values =
+                                item['Allow Multiple Values'];
                         }
                         schema = {
                             type: item['Type'],
-                            allowed_values,
-                            multi: item['Multi'],
-                            mandatory: item['Mandatory'],
-                            format: item['Format'],
+                            allowed_values: item['Valid Values'],
+                            multi: allowed_multi_values,
+                            mandatory: item['Required'],
+                            format: item['Formatting'],
                             range: { min: item['Min'], max: item['Max'] }
                         };
                     }
@@ -1207,26 +1205,19 @@ export default {
                         slug: item['Slug'],
                         name: item['Name'],
                         description: item['Description'],
-                        suggestion: item['Suggestion'],
-                        raw_key: item['Raw Key'],
                         departments: departments,
-                        enabled_for_end_consumer:
-                            item['Enabled For End Consumer'],
-                        is_nested: item['Is Nested'],
-                        variant: item['Variant'],
-                        tags: item['tags'] && item['tags'].split(','),
+                        enabled_for_end_consumer: item['Public'],
+                        variant: item['Variant Permissable'],
                         logo: item['Logo'],
                         unit: item['Unit'],
-                        details: details,
-                        filters: filters,
-                        schema: schema
+                        filter: item['Filter'],
+                        attribute_schema: schema
                     });
                 }
             });
             this.productsArray = result;
             this.validSchema = cssObj.validate({ data: this.productsArray });
             this.errorsArray = cssObj.getSchemaErrors();
-            console.log(this.errorsArray);
             this.validSchema = this.validSchema && this.errorsArray.length == 0;
             if (this.validSchema) {
                 this.$snackbar.global.showSuccess(
@@ -1254,7 +1245,6 @@ export default {
             }
         },
         errorsTable() {
-            console.log(this.errorsArray);
             const mappedErrors = this.errorsArray.map((err) => {
                 const msgs = [];
                 err.map((e) => {

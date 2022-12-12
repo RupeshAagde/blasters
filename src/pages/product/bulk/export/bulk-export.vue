@@ -399,7 +399,7 @@ import { GET_USER_INFO } from '@/store/getters.type';
 const PRODUCT_NAME_MAPPING = {
     attribute: 'attributes',
     hsn: 'taxation',
-    template: 'templates',
+    'product-template': 'templates',
     department: 'department',
     category: 'category'
 };
@@ -645,6 +645,7 @@ export default {
                 'export'
             )
                 .then(({ data }) => {
+                    this.$snackbar.global.showSuccess(`Export Started`);
                     this.$refs.history.loadHistory();
                     this.pageLoading = false;
                 })
