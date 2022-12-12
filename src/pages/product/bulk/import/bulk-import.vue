@@ -1139,28 +1139,23 @@ export default {
                     });
                 } else if (this.productType === 'hsn') {
                     let taxes;
-                    if (
-                        item['GST Rate #1'] >= 0 &&
-                        item['Threshold'] >= 0 &&
+
+                    let rate = item['GST Rate #1'];
+                    let rate_1 = item['GST Rate #2'];
+                    let threshold = item['Threshold'];
+                    let effective_date = new Date(
                         item['Effective Date']
-                    ) {
-                        let rate = item['GST Rate #1'];
-                        let rate_1 = item['GST Rate #2'];
-                        let threshold = item['Threshold'];
-                        let effective_date = new Date(
-                            item['Effective Date']
-                        ).toISOString();
-                        let cess = item['CESS #1'];
-                        let cess_1 = item['CESS #2'];
-                        taxes = {
-                            rate,
-                            rate_1,
-                            threshold,
-                            effective_date,
-                            cess,
-                            cess_1
-                        };
-                    }
+                    ).toISOString();
+                    let cess = item['CESS #1'];
+                    let cess_1 = item['CESS #2'];
+                    taxes = {
+                        rate,
+                        rate_1,
+                        threshold,
+                        effective_date,
+                        cess,
+                        cess_1
+                    };
                     result.push({
                         reporting_hsn: item['Reporting HSN Code'],
                         type: item['Type'],
@@ -1186,21 +1181,14 @@ export default {
                     //             item['Depends On'].split(',')
                     //     };
                     // }
-                    if (item['Min'] >= 0 && item['Max'] >= 0 && item['Type']) {
-                        let allowed_multi_values = [];
-                        if (item['Allow Multiple Values']) {
-                            allowed_multi_values =
-                                item['Allow Multiple Values'];
-                        }
-                        schema = {
-                            type: item['Type'],
-                            allowed_values: item['Valid Values'],
-                            multi: allowed_multi_values,
-                            mandatory: item['Required'],
-                            format: item['Formatting'],
-                            range: { min: item['Min'], max: item['Max'] }
-                        };
-                    }
+                    schema = {
+                        type: item['Type'],
+                        allowed_values: item['Valid Values'],
+                        multi: item['Allow Multiple Values'],
+                        mandatory: item['Required'],
+                        format: item['Formatting'],
+                        range: { min: item['Min'], max: item['Max'] }
+                    };
                     result.push({
                         slug: item['Slug'],
                         name: item['Name'],
