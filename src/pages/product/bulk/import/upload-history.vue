@@ -109,9 +109,14 @@
                                 </a>
                             </div>
                         </div>
-                        <div v-if="history.stage === 'running'">
+                        <div v-if="history.stage === 'running'" class="running">
                             <inline-svg :src="'loader'"></inline-svg>
-                            <p>01/47 records is being processed</p>
+                            <p>
+                                {{
+                                    `${history.stats.succeed}/${history.stats.total}`
+                                }}
+                                records is being processed
+                            </p>
                         </div>
                         <div v-else class="card-content-line-2 line-2">
                             <!-- {{ successCountMessage(history) }} -->
@@ -359,7 +364,16 @@
 .total {
     align-self: center;
 }
-
+.running {
+    display: flex;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    color: #9b9b9b;
+    p {
+        padding-left: 4px;
+    }
+}
 .status {
     display: flex;
     align-items: center;

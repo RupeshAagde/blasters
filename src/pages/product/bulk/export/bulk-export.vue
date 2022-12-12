@@ -47,7 +47,7 @@
                         <nitrozen-dropdown
                             label="Department"
                             :placeholder="'Choose department(s)'"
-                            class="selection-dropdown"
+                            class="selection-dropdown attribute"
                             :items="departmentList"
                             :required="true"
                             :multiple="true"
@@ -293,6 +293,9 @@
             position: relative;
             bottom: 9px;
         }
+    }
+    .attribute {
+        width: 275px;
     }
     .download-button {
         width: 150px;
