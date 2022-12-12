@@ -219,7 +219,7 @@
         justify-content: center;
     }
     @media screen and (max-height: 600px) {
-        ::v-deep.not-found {
+        ::v-deep .not-found {
             width: auto;
             padding: unset;
             img {
@@ -228,7 +228,7 @@
             }
         }
     }
-    ::v-deep.not-found {
+    ::v-deep .not-found {
         width: auto;
     }
     ::v-deep img {

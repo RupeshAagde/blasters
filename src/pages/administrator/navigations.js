@@ -155,7 +155,7 @@ export const getNavigations = () => {
             icon: 'packaging_icon',
             highlightedIcon: 'home-highlighted',
             active: false,
-            permission: 'admin-access',
+            permission: 'packaging',
             // sub items for packaging dashboard
             children: [
                 {
@@ -283,7 +283,7 @@ export const getNavigations = () => {
             icon: 'webhook',
             highlightedIcon: 'webhook',
             active: false,
-            permission: 'support',
+            permission: 'webhook',
             children: []
         },
     ];

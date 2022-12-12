@@ -1,7 +1,7 @@
 import { getFullAddress, getBase64DataURL } from '../common';
 import * as JsBarcode from 'jsbarcode';
 import moment from 'moment';
-const { DOMImplementation, XMLSerializer } = require('xmldom');
+const { DOMImplementation, XMLSerializer } = require('@xmldom/xmldom');
 
 export class LabelPosTemplateService {
 

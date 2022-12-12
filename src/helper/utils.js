@@ -2,6 +2,7 @@ import { isBrowser, isNode } from 'browser-or-node';
 import CompanyService from '@/services/company-admin.service';
 import { Array, console } from 'window-or-global';
 import InputTypes from './NitrozenCustomFormInputTypes';
+import { getNavigations } from '../pages/administrator/navigations';
 
 export const debounce = (func, wait, immediate) => {
     var timeout;
@@ -460,7 +461,27 @@ export const allowNumbersOnly = function (event) {
     return false;
 }
 
-export const DecimalNumbersOnly = function (event, el) {
+export const allowAlphaNumbericOnly = function(event) {
+    if ((event.ctrlKey || event.metaKey) && event.keyCode == 65) {
+        return true; // allow control + A
+    }
+    if (!event.shiftKey && event.keyCode == 8 || event.keyCode == 46 ||
+        event.keyCode == 37 || event.keyCode == 39) {
+        return true;
+    }
+    if (
+        (
+            (!event.shiftKey && event.keyCode >= 48 && event.keyCode <= 57) ||
+            (event.keyCode >= 65 && event.keyCode <= 90) ||
+            (event.keyCode >= 97 && event.keyCode <= 122)
+        )
+    ) {
+        return true;
+    }
+    event.preventDefault();
+    return false;
+}
+export const DecimalNumbersOnly = function (event,el){
     if (event.keyCode == 190) {
         if (el.indexOf('.') === -1) {
             return true;
@@ -477,27 +498,6 @@ export const DecimalNumbersOnly = function (event, el) {
         return true;
     }
     event.preventDefault()
-    return false;
-}
-
-export const allowAlphaNumbericOnly = function (event) {
-    if ((event.ctrlKey || event.metaKey) && event.keyCode == 65) {
-        return true; // allow control + A
-    }
-    if (!event.shiftKey && event.keyCode == 8 || event.keyCode == 46
-        || event.keyCode == 37 || event.keyCode == 39) {
-        return true;
-    }
-    if (
-        (
-            (!event.shiftKey && event.keyCode >= 48 && event.keyCode <= 57) ||
-            (event.keyCode >= 65 && event.keyCode <= 90) ||
-            (event.keyCode >= 97 && event.keyCode <= 122)
-        )
-    ) {
-        return true;
-    }
-    event.preventDefault();
     return false;
 }
 
@@ -592,6 +592,22 @@ export const convertKebabCaseToString = str => {
     }
 };
 
+export const getFirstAllowedRoute = userPermissions => {
+    let matchingRoute = "/";
+    if(userPermissions && userPermissions.length){
+        const firstRoute = getNavigations().find(nav=>(!nav.permission || userPermissions.includes(nav.permission) ));
+        if (firstRoute) {
+            matchingRoute = firstRoute.link || matchingRoute;
+            if (firstRoute.children && firstRoute.children.length) {
+                const matchingFirstChild = firstRoute.children.find(nav=>(!nav.permission || userPermissions.includes(nav.permission)));
+                if (matchingFirstChild) {
+                    matchingRoute = matchingFirstChild.link || matchingRoute;
+                }
+            }
+        }
+    }
+    return matchingRoute;
+}
 /**
  * method name: getAspectRatioFromString
  * usage: provides aspect ratio from a valid string value
@@ -639,3 +655,10 @@ export const getAspectRatioFromString = function (aspectRatio = '1:1', getObject
         return gcd(b, a%b)
     }
 }
+
+export const detectFPApp = () => {
+    if (isBrowser) {
+        return window._fpAppDetails;
+    };
+    return false;
+};

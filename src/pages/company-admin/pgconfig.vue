@@ -585,11 +585,11 @@ this.checkRequired()
             position: relative;
             align-items: center;
 
-            ::v-deep.continue-arrow svg {
+            ::v-deep .continue-arrow svg {
                 width: 40px;
                 height: 40px;
             }
-            ::v-deep.status-container {
+            ::v-deep .status-container {
                 display: flex;
 
                 padding: 0px 12px;

@@ -112,6 +112,7 @@ import {
 } from '../../store/getters.type';
 import { PERMISSION_ROUTES } from './../../helper/permission_routes'
 import NoSSR from 'vue-no-ssr';
+import { getFirstAllowedRoute } from '../../helper/utils';
 export default {
     name: 'static-header',
     components: {
@@ -139,10 +140,8 @@ export default {
         },
         openLogin() {
             if (this.isLoggedIn) {
-                const firstPermission = this.currentUserPermissions.permissions.length ? this.currentUserPermissions.permissions[0] : ''
-                if(firstPermission){
-                    return this.$router.push({ path: `/administrator/${PERMISSION_ROUTES[firstPermission]}` });
-                }
+                let matchingRoute = getFirstAllowedRoute(this.currentUserPermissions.permissions);
+                return this.$router.push({ path: matchingRoute });
             }
             this.$store.dispatch(OPEN_LOGIN_MODAL);
         }
