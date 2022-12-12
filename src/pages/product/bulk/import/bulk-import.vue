@@ -25,6 +25,9 @@
                             label="Select Category "
                             :placeholder="'Select Category'"
                             class="selection-dropdown"
+                            :class="{
+                                disabled: isDisabled
+                            }"
                             :items="categoriesList"
                             v-model="selectedCategory"
                             @change="fetchTemplate(selectedCategory)"
@@ -35,19 +38,27 @@
                             label="Choose Template"
                             :placeholder="'Choose a template'"
                             class="selection-dropdown"
+                            :class="{
+                                disabled: isDisabled
+                            }"
                             :items="templatesList"
                             v-model="selectedTemplate"
                             @change="fetchTemplate(selectedTemplate)"
                         ></nitrozen-dropdown>
                     </div>
-                    <nitrozen-dropdown
-                        label="Download Sample"
-                        :placeholder="'Download Sample'"
-                        class="file-download-dropdown"
-                        :items="fileTypes"
-                        v-model="selectedFileType"
-                        @change="downloadSample"
-                    ></nitrozen-dropdown>
+                    <div class="download-button">
+                        <nitrozen-dropdown
+                            label="Download Sample"
+                            :placeholder="'Download Sample'"
+                            class="file-download-dropdown"
+                            :class="{
+                                disabled: isDisabled
+                            }"
+                            :items="fileTypes"
+                            v-model="selectedFileType"
+                            @change="downloadSample"
+                        ></nitrozen-dropdown>
+                    </div>
                     <adm-inline-svg
                         class="arrow-icon"
                         :src="isOpen ? 'arrow-up' : 'arrow-down'"
@@ -218,7 +229,14 @@
                                     >Reupload</nitrozen-button
                                 >
                             </div>
-                            <div class="pl-16">
+                            <div
+                                class="pl-16"
+                                v-if="
+                                    productsArray.length &&
+                                        errorsTable().data.length !==
+                                            productsArray.length
+                                "
+                            >
                                 <nitrozen-button
                                     class=""
                                     theme="secondary"
@@ -240,10 +258,15 @@
                     v-else-if="productsTable.data.length && !isTableLoaded"
                     :image="'loading_content'"
                 ></no-records>
+
                 <div
                     class="form-container csv-table"
                     v-show="productsTable.data.length && isTableLoaded"
                 >
+                    <info-bar
+                        :type="!isSuccessVisible ? 'error' : 'info'"
+                        :desc="getInfoDesc"
+                    ></info-bar>
                     <div class="csv-container">
                         <csv-view
                             ref="csv-preview"
@@ -280,15 +303,12 @@
             ref="reupload"
             cancelBtnTitle="No"
             saveBtnTitle="Yes"
-            message="If you reupload, your current upload progress will be lost"
             @save="clearInputFile"
         />
         <confirmation-dialog-box
             ref="confirm"
             cancelBtnTitle="No"
             saveBtnTitle="Yes"
-            message="Your file contains “20 error” records and “40 Validated” records.
-            If you confirm, only the validated records will get uploaded"
             @save="uploadBulkProducts"
         />
         <csv-view
@@ -345,19 +365,31 @@
 
     .filters {
         display: flex;
+
         ::v-deep .nitrozen-dropdown-label {
             display: none;
         }
-
-        ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger span {
-            font-weight: 700;
-            font-size: 14px;
-            line-height: 140%;
-            color: #2e31be;
+        ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger {
+            color: #9b9b9b;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 160%;
         }
+        .download-button {
+            width: 170px;
+            ::v-deep
+                .nitrozen-dropdown-container
+                .nitrozen-select__trigger
+                span {
+                font-weight: 700;
+                font-size: 14px;
+                line-height: 140%;
+                color: #2e31be;
+            }
 
-        ::v-deep .nitrozen-dropdown-container .nitrozen-select {
-            border: 1px solid #2e31be;
+            ::v-deep .nitrozen-dropdown-container .nitrozen-select {
+                border: 1px solid #2e31be;
+            }
         }
 
         .arrow-icon {
@@ -505,6 +537,12 @@
     }
 }
 
+.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 .errors-preview {
     visibility: hidden;
 }
@@ -562,6 +600,7 @@ import LearnMore from '../components/learn-more.vue';
 import sidebar from '../components/side-bar.vue';
 import validationSummary from './validation-summary.vue';
 import NoRecords from '../components/no-records.vue';
+import InfoBar from '../components/info-bar.vue';
 import CsvView from '@/components/common/adm-csv-viewer.vue';
 import {
     parseCsvV1,
@@ -622,6 +661,7 @@ export default {
         loader,
         PageError,
         'no-records': NoRecords,
+        'info-bar': InfoBar,
         'csv-view': CsvView,
         ConfirmationDialogBox
     },
@@ -631,7 +671,7 @@ export default {
     },
     computed: {
         getTitle() {
-            return `Export ${this.capitalize(
+            return `Import ${this.capitalize(
                 this.$route.params.type === 'product-template'
                     ? 'template'
                     : this.$route.params.type
@@ -643,7 +683,14 @@ export default {
             );
         },
         isErrorVisible() {
-            return this.errorsTable().data.length;
+            return this.errorsTable().data.length ? true : false;
+        },
+        getInfoDesc() {
+            if (!this.isSuccessVisible) {
+                return `All the ${this.productsArray.length} records contain error. Check your file contents and reupload the file again`;
+            } else {
+                return 'Validate and confirm to save your import progress';
+            }
         }
     },
     data() {
@@ -696,7 +743,8 @@ export default {
             selectedBrands: [],
             isUploading: false,
             isCompleted: false,
-            isTableLoaded: false
+            isTableLoaded: false,
+            isDisabled: false
         };
     },
     mounted() {
@@ -707,6 +755,7 @@ export default {
         ) {
             this.fetchTemplate(null);
         }
+        console.log(this.$refs.inputFile);
         // console.log(this.$route.params);
     },
     methods: {
@@ -737,14 +786,34 @@ export default {
         },
         /**Confirmation dialog box function*/
         reUploadConfirmationDialogBox() {
-            this.$refs['reupload'].openConfirmation();
-        },
-        confirmDialogBox() {
-            this.$refs['confirm'].openConfirmation();
-        },
-        closeConfirmationDialogBox(e) {
+            // this.$refs['reupload'].openConfirmation({
+            //     title: 'Are you sure?',
+            //     message:
+            //         'If you reupload, your current upload progress will be lost'
+            // });
+            console.log(this.$refs.inputFile);
             this.clearInputFile();
         },
+        confirmDialogBox() {
+            if (
+                this.errorsTable().data.length &&
+                this.errorsTable().data.length !== this.productsArray.length
+            ) {
+                this.$refs['confirm'].openConfirmation({
+                    title: 'Are you sure?',
+                    message: `Your file contains '${
+                        this.errorsTable().data.length
+                    } error' records and '${this.productsArray.length -
+                        this.errorsTable().data.length} Validated' records.
+                              If you confirm, only the validated records will get uploaded`
+                });
+            } else {
+                this.uploadBulkProducts();
+            }
+        },
+        // closeConfirmationDialogBox(e) {
+        //     this.clearInputFile();
+        // },
         navigateToHistory() {
             this.$router.push({
                 path: `/administrator/product/${this.productType}/import/upload-history`
@@ -895,13 +964,12 @@ export default {
                 meta: { fields: [] },
                 data: []
             };
+            this.isDisabled = false;
+            this.isOpen = true;
         },
         onUploadCsv(productsTable = {}) {
             // this.isTableLoaded = true;
             this.productsTable = productsTable;
-            // setTimeout(() => {
-            //     this.renderTable();
-            // }, 10000);
             this.renderTable();
             this.processBulkProducts();
         },
@@ -916,6 +984,8 @@ export default {
                 })),
                 rows: this.productsTable.data
             });
+            this.isDisabled = true;
+            this.isOpen = false;
             this.isTableLoaded = true;
         },
         schema() {
@@ -970,6 +1040,7 @@ export default {
                     this.schemaProp()
                 );
             } catch (err) {
+                this.clearInputFile();
                 console.log(err);
                 this.$snackbar.global.showError(
                     'Validation schema error, please report an issue to support team'
@@ -1022,8 +1093,8 @@ export default {
                         name: item['Name'],
                         logo: item['Logo'],
                         slug: item['Slug'],
-                        priority_order: item['Priority Order'],
-                        is_active: item['Is Active'],
+                        priority_order: item['Priority'],
+                        is_active: item['Active'],
                         ...(synonyms &&
                             synonyms.length && { synonyms: synonyms })
                     });
@@ -1054,7 +1125,7 @@ export default {
                         ...(synonyms &&
                             synonyms.length && { synonyms: synonyms }),
                         priority: item['Priority'],
-                        is_active: item['Is Active'],
+                        is_active: item['Active'],
                         ...(tryouts && tryouts.length && { tryouts: tryouts })
                     });
                 } else if (this.productType === 'template') {
@@ -1069,7 +1140,7 @@ export default {
                             categories.length && { categories: categories }),
                         ...(attributes &&
                             attributes.length && { attributes: attributes }),
-                        is_active: item['Is Active'],
+                        is_active: item['Active'],
                         is_archived: item['Is Archived'],
                         logo: item['Logo'],
                         is_physical: item['Is Physical'],
@@ -1265,7 +1336,8 @@ export default {
         },
         bulkRequest(count, file_path, file_type) {
             let payload = {};
-            payload.stats = { total: count };
+            // payload.stats = { total: count };
+            payload.total_count = count;
             payload.tracking_url = file_path;
             payload.file_type = file_type;
             payload.notification_emails = ['sth@gmail.com'];
@@ -1279,7 +1351,9 @@ export default {
                     //     this.$refs.uploadHistory.loadHistory(true);
                     //     return data.batch_id;
                     // } else return false;
+
                     this.navigateToHistory();
+                    this.$snackbar.global.showSuccess('File import started');
                     this.pageLoading = false;
                 })
                 .catch((ex) => {

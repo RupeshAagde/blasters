@@ -8,11 +8,11 @@
                             <adm-inline-svg :src="src" />
                         </div>
                         <div class="title">
-                            <span>{{ title }}</span>
+                            <span>{{ dialogData.title }}</span>
                         </div>
                     </div>
                     <div class="message">
-                        <span>{{ message }}</span>
+                        <span>{{ dialogData.message }}</span>
                     </div>
                 </div>
             </slot>
@@ -60,20 +60,10 @@ export default {
         strokeBtn
     },
     props: {
-        title: {
-            type: String,
-            default: 'Are you sure?'
-        },
         src: {
             type: String,
             default: 'warning'
         },
-        message: {
-            type: String,
-            default:
-                'This process is irreversible, please think twice before accepting it'
-        },
-
         cancelBtnTheme: {
             type: String,
             default: 'secondary'
@@ -98,8 +88,8 @@ export default {
     },
     methods: {
         openConfirmation(config = {}) {
-            if (config.dialogData) {
-                this.dialogData = config.dialogData;
+            if (config) {
+                this.dialogData = config;
             }
             this.$refs['n-dialog'].open({
                 width: config.width ? config.width : '350px',

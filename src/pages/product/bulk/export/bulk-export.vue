@@ -40,11 +40,14 @@
                             }}</span>
                         </p>
                     </div>
-                    <div class="ml-16" v-if="productType === 'attribute'">
+                    <div
+                        class="ml-16 filters"
+                        v-if="productType === 'attribute'"
+                    >
                         <nitrozen-dropdown
+                            label="Department"
                             :placeholder="'Choose department(s)'"
                             class="selection-dropdown"
-                            :class="[{ disabled: true }]"
                             :items="departmentList"
                             :required="true"
                             :multiple="true"
@@ -58,6 +61,16 @@
                             label="Download Sample"
                             :placeholder="'Export'"
                             class="file-download-dropdown"
+                            :class="[
+                                {
+                                    disabled:
+                                        productType === 'attribute'
+                                            ? !selectedDepartments.length
+                                                ? true
+                                                : false
+                                            : false
+                                }
+                            ]"
                             :items="fileTypes"
                             v-model="selectedFileType"
                             @change="bulkExport"
@@ -137,7 +150,7 @@
             </div>
         </div>
         <div>
-            <export-history></export-history>
+            <export-history ref="history"></export-history>
         </div>
         <side-bar
             v-if="sidebarToggle"
@@ -191,7 +204,11 @@
             padding-top: 4px;
         }
     }
-
+    .filters {
+        ::v-deep .nitrozen-dropdown-label {
+            display: none;
+        }
+    }
     .download-button {
         display: flex;
         ::v-deep .nitrozen-dropdown-label {
@@ -483,7 +500,7 @@ export default {
             selectedCategory: null,
             brandsList: [],
             selectedBrands: [],
-            notifyByEmail: false,
+            notifyByEmail: true,
             categories: [],
             templateCategories: [],
             selectedCategories: [],
@@ -491,7 +508,7 @@ export default {
             departments: [],
             selectedDepartments: [],
             exportConfig: {
-                attribute: ['attribute'],
+                attribute: ['department'],
                 category: ['department', 'category'],
                 'product-template': ['department', 'category'],
                 hsn: [],
@@ -610,11 +627,12 @@ export default {
         bulkExport(type) {
             this.pageLoading = true;
             let payload = {};
+            payload.filters = {};
             if (this.selectedDepartments.length) {
-                payload.department = this.selectedDepartments;
+                payload.filters.departments = this.selectedDepartments;
             }
             if (this.selectedCategories.length) {
-                payload.category = this.selectedCategories;
+                payload.filters.categories = this.selectedCategories;
             }
             payload.file_type = type;
             payload.notification_emails = ['sth@gmail.com'];
@@ -624,6 +642,7 @@ export default {
                 'export'
             )
                 .then(({ data }) => {
+                    this.$refs.history.loadHistory();
                     this.pageLoading = false;
                 })
                 .catch((ex) => {

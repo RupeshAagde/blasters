@@ -109,7 +109,7 @@
                                 </a>
                             </div>
                         </div>
-                        <div v-if="history.stage === 'in-progress'">
+                        <div v-if="history.stage === 'running'">
                             <inline-svg :src="'loader'"></inline-svg>
                             <p>01/47 records is being processed</p>
                         </div>
@@ -156,12 +156,11 @@
                                 {{ history.stage }}
                             </nitrozen-badge>
                         </div>
-                        <div
+                        <!-- <div
                             class="notify ml-16"
                             @click.stop="notifyByEmail(history)"
                             v-if="
-                                history.stage === 'running' ||
-                                    history.stage === 'in-progress'
+                                history.stage === 'running'
                             "
                         >
                             <img
@@ -172,12 +171,11 @@
                             class="cancel ml-16"
                             @click.stop="cancelImport(history)"
                             v-if="
-                                history.stage === 'running' ||
-                                    history.stage === 'in-progress'
+                                history.stage === 'running'
                             "
                         >
                             CANCEL
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <nitrozen-pagination
@@ -201,7 +199,16 @@
             >
                 <template class="sidebar-header" slot="header">
                     <div class="download-container">
-                        <inline-svg :src="'cloud_download'"></inline-svg>
+                        <a
+                            v-if="history.tracking_url"
+                            class="download-source-file"
+                            :href="history.tracking_url"
+                            download
+                            @click.stop=""
+                        >
+                            <inline-svg :src="'cloud_download'"></inline-svg>
+                        </a>
+                        <!-- <inline-svg :src="'cloud_download'"></inline-svg> -->
                         <p class="darker-xxxs cl-RoyalBlue ">Source File</p>
                     </div>
                 </template>
@@ -730,7 +737,6 @@ export default {
                 { text: 'All', value: 'all' },
                 { text: 'Completed', value: 'completed' },
                 { text: 'Running', value: 'running' },
-                { text: 'In-Progress', value: 'in-progress' },
                 { text: 'Failed', value: 'failed' },
                 { text: 'Terminated', value: 'terminated' },
                 { text: 'Cancelled', value: 'cancelled' },
@@ -808,7 +814,7 @@ export default {
         },
         getBulkHistory(caller, initial, type, action) {
             this.inProgress = true;
-            console.log(this.pagination)
+            console.log(this.pagination);
             return caller(
                 this.productType,
                 {
@@ -884,7 +890,6 @@ export default {
 
         getBadgeState(stage) {
             const states = {
-                'in-progress': 'disable',
                 running: 'info', // if not need now, remove it
                 completed: 'success',
                 cancelled: 'info',
@@ -1069,7 +1074,6 @@ export default {
             //     return;
             // }
             // this.showErrorsTable = true;
-            debugger;
             this.$refs['errors-preview'].createGrid(
                 {
                     column: this.errorsTable().meta.fields.map((e) => ({

@@ -38,7 +38,11 @@ export default {
         }
     },
     data: function() {
-        return { id: `csvAgGrid-${shortid.generate()}`, grid: null, csvExportFileName: '' };
+        return {
+            id: `csvAgGrid-${shortid.generate()}`,
+            grid: null,
+            csvExportFileName: ''
+        };
     },
     mounted() {
         this.id = `csvAgGrid-${shortid.generate()}`;
@@ -133,15 +137,15 @@ export default {
         color: white;
         background-color: #00c853;
     }
-    ::v-deep.error-row {
-        color: #5C5C5C;
-        background-color: #FDEDED;
+    ::v-deep .error-row {
+        color: #5c5c5c;
+        background-color: #fdeded;
     }
-    ::v-deep.warning-row {
+    ::v-deep .warning-row {
         color: white;
         background-color: #ffbb33;
     }
-    ::v-deep.info-row {
+    ::v-deep .info-row {
         color: white;
         background-color: @RoyalBlue;
     }

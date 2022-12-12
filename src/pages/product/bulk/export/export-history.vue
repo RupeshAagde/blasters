@@ -138,12 +138,21 @@
             >
                 <template class="sidebar-header" slot="header">
                     <div class="download-container">
-                        <inline-svg :src="'cloud_download'"></inline-svg>
+                        <a
+                            v-if="history.tracking_url"
+                            class="download-source-file"
+                            :href="history.tracking_url"
+                            download
+                            @click.stop=""
+                        >
+                            <inline-svg :src="'cloud_download'"></inline-svg>
+                        </a>
+                        <!-- <inline-svg :src="'cloud_download'"></inline-svg> -->
                         <p class="darker-xxxs cl-RoyalBlue ">Source File</p>
                     </div>
                 </template>
                 <template slot="body">
-                    <div class="upload-summary">
+                    <!-- <div class="upload-summary">
                         <div class="title">
                             <p class="cl-Mako darker-sm">Upload Summary</p>
                             <nitrozen-badge
@@ -175,7 +184,7 @@
                         </div>
                     </div>
 
-                    <div class="divider"></div>
+                    <div class="divider"></div> -->
 
                     <div class="batch-details">
                         <p class="cl-Mako darker-sm">Batch Details</p>
@@ -221,31 +230,31 @@
         color: @DustyGray2;
     }
 }
-.batch-details {
-    margin: 15px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+// .batch-details {
+//     margin: 15px;
+//     display: flex;
+//     justify-content: space-between;
+//     flex-wrap: wrap;
 
-    .header {
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 12px;
-        line-height: 160%;
-        color: #9b9b9b;
-    }
-    .value {
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 140%;
-        color: #41434c;
-    }
-    > div {
-        margin: 5px;
-        flex-basis: 48%;
-    }
-}
+//     .header {
+//         font-family: 'Inter';
+//         font-style: normal;
+//         font-weight: 400;
+//         font-size: 12px;
+//         line-height: 160%;
+//         color: #9b9b9b;
+//     }
+//     .value {
+//         font-weight: 400;
+//         font-size: 14px;
+//         line-height: 140%;
+//         color: #41434c;
+//     }
+//     > div {
+//         margin: 5px;
+//         flex-basis: 48%;
+//     }
+// }
 .svg-icons {
     display: inline-flex;
     span {
@@ -400,6 +409,14 @@
 .divider {
     border: 1px solid #e0e0e0;
     margin: 24px;
+}
+.download-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    p {
+        padding-left: 4px;
+    }
 }
 .batch-details {
     margin: 24px;
@@ -610,7 +627,6 @@ export default {
                 { text: 'All', value: 'all' },
                 { text: 'Completed', value: 'completed' },
                 { text: 'Running', value: 'running' },
-                { text: 'In-Progress', value: 'in-progress' },
                 { text: 'Failed', value: 'failed' },
                 { text: 'Terminated', value: 'terminated' },
                 { text: 'Cancelled', value: 'cancelled' },
@@ -748,7 +764,6 @@ export default {
 
         getBadgeState(stage) {
             const states = {
-                'in-progress': 'disable',
                 running: 'info',
                 completed: 'success',
                 cancelled: 'info',
