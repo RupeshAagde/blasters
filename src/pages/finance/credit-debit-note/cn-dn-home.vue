@@ -63,24 +63,6 @@
                 > Create New
                 </nitrozen-button>
             </div>
-            <!-- <div class="cn-buttons" v-if="isApprover">   //////// UPCOMING CHANGES ////////////
-                    <nitrozen-button
-                        v-strokeBtn
-                        theme="secondary"
-                        @click="quickApproverViewSection('Reject')"
-                        :disabled="isDisabled.Reject"
-                    >
-                        Reject
-                    </nitrozen-button>
-                    <nitrozen-button
-                        v-flatBtn
-                        theme="secondary"
-                        @click="quickApproverViewSection('Approve')"
-                        :disabled="isDisabled.Approve"
-                    >
-                        Approve
-                    </nitrozen-button>
-            </div> -->
         </div>
         <div v-if="inProgress">
             <loader class="loading"></loader>
@@ -90,13 +72,6 @@
                 class="mirage-table"
             >
                 <tr>
-                    <!-- <td v-if="isApprover"> //////// UPCOMING CHANGES ////////////
-                        <nitrozen-checkbox
-                            :disabled="true"
-                        >
-                            
-                        </nitrozen-checkbox>
-                    </td> -->
                     <td
                         v-for="(col, index) in tableColumns"
                         :key="'col-' + index"
@@ -105,25 +80,11 @@
                     </td>
                 </tr>
                 <template>
-                    <!-- tableDataItems 
-                        v-for="(tab, index) in tableDataItems"
-                        :key="'tab-' + index"
-                    -->
                     <tr
                         v-for="(tab, index) in tableDataItems"
                         :key="'tab-' + index"
                     >
                         <template>
-                            <!-- <td v-if="isApprover" class="icon-eye"> //////// UPCOMING CHANGES ////////////
-                                <nitrozen-checkbox
-                                    :v-model="tab"
-                                    @change="select(tab), disableButton()"
-                                    :multiple="false"
-                                    :disabled="tab.approved_at !== null"
-                                >
-                                    
-                                </nitrozen-checkbox>
-                            </td> -->
                             <td> {{ tab.document_number }} </td>
                             <td> {{ tab.seller_name }} </td>
                             <td> {{ tab.total_amount }} </td>
@@ -199,26 +160,6 @@
             </nitrozen-pagination>
             
         </div>
-        
-        <!-- <transition name="slide">   //////// UPCOMING CHANGES ////////////
-            <template v-if="quickApproveView">
-                <div class="slide-fade" ref="slide-fade" @click="close($event)">
-                    <div class="container">
-                        <approver-drawer
-                            @drawerClose = "closeApproverDrawerView($event)"
-                            :status = "drawerData.status"
-                            :notesSet = "drawerData.notesSet"
-                        ></approver-drawer>
-                        
-                        <a class="cancel-btn" @click="close($event)">
-                            <ukt-inline-svg
-                                :src="'cross-black'"
-                            ></ukt-inline-svg>
-                        </a>
-                    </div>
-                </div>
-            </template>
-        </transition> -->
     </div>
     <!-- <div v-else>  //////// UPCOMING CHANGES ////////////
     <BulkUploadVue  @is-bulk-upload-open="closeBulkUpload($event)" :noteType="this.noteType"></BulkUploadVue>
@@ -332,10 +273,7 @@ export default {
         tableColumns: ['Request No.','Seller Name','Amount','Note Type','Created At','Approved/Rejected At','Note Narration','Status','Action'],
         tableDataItems:[],
         pageObject: { ...PAGINATION_OBJECT },
-        reconDate: [
-          /* moment().subtract(1, 'weeks').toISOString(),
-          moment().toISOString(), */
-        ],
+        reconDate: [],
         dateRangeShortcuts: [...dateRangeShortcuts],
         notBefore: moment().subtract(3, 'months').toISOString(),
         fromDate: '',
@@ -348,7 +286,6 @@ export default {
     computed: {
         ...mapGetters({
             userData: GET_USER_INFO,
-            //isLoggedIn: IS_LOGGED_IN,
             currentUserPermissions: GET_USER_PERMISSIONS
         }),
     },
@@ -403,56 +340,6 @@ export default {
                 );
             }
         },
-        /* updateDrawerData(tab, add) {
-            if(add){
-                if(tab['category'] in this.drawerData.notesSet){
-                    this.drawerData.notesSet[tab['category']].push({
-                        'sellerName' : tab['seller_name'],
-                        'noteId' : tab['id'],
-                        'requestNo' : tab['document_number'],
-                        'grossAmount' : tab['total_amount']
-                    })
-                } else{
-                    this.drawerData.notesSet[tab['category']]=[{
-                        'sellerName' : tab['seller_name'],
-                        'noteId' : tab['id'],
-                        'requestNo' : tab['document_number'],
-                        'grossAmount' : tab['total_amount']
-                    }]
-                }
-            } else{
-                let i = 0;
-                for(i; i<this.drawerData.notesSet[tab['category']].length; i++){
-                    if(this.drawerData.notesSet[tab['category']][i].requestNo == tab['document_number']){
-                        break;
-                    }
-                }
-                this.drawerData.notesSet[tab['category']].splice(i,1);
-                if((this.drawerData.notesSet[tab['category']]).length == 0){
-                    delete this.drawerData.notesSet[tab['category']];
-                }
-            }
-        }, */
-        /* select(tab) {
-            if((this.tab).indexOf(tab.document_number) != -1){
-                (this.tab).splice((this.tab).indexOf(tab.document_number),1);
-                this.updateDrawerData(tab, false);
-            } else {
-                (this.tab).push(tab.document_number);
-                this.updateDrawerData(tab, true);
-            }
-        }, */
-        /* closeApproverDrawerView(event){
-            this.quickApproveView = false;
-            if(event != false){
-                this.drawerData = {
-                    notesSet: {},
-                    status: ''
-                };
-                this.tab = [];
-                this.getListData();
-            }
-        }, */
         searchByInput: debounce(function (e) {
             this.initialPayload.data.page = 1;
             this.initialPayload.data.pageSize = this.pageObject.limit;
@@ -560,12 +447,6 @@ export default {
                 this.initialPayload.data.pageSize = this.pageObject.limit;
                 this.getListData();
             }
-
-            /* if(query.search && query.page){
-                this.initialPayload.data.page = query.page;
-                this.initialPayload.data['search'] = {...this.initialPayload.data['search'], ...{seller_name: this.search}};
-                this.getListData();
-            } */
         },
         changeFilterType(){
             this.filterType = '';
@@ -760,19 +641,6 @@ export default {
         margin-bottom: 24px;
         font-family: Inter, sans-serif;
         font-size: 14px;
-        // ::v-deep .eye-icon > svg {
-        //     width: 16px;
-        //     height: 16px;
-        //     #prefix__Eye_Open {
-        //         stroke: @Mako;
-        //     }
-        //     &:hover {
-        //         box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.1);
-        //         #prefix__Eye_Open {
-        //             stroke: @RoyalBlue;
-        //         }
-        //     }
-        // }
         tr:first-child {
             background: @Alabaster2;
             color: @Black;
@@ -821,14 +689,6 @@ export default {
             stroke-width: 2;
         }
     }
-    /* &:hover {
-        ::v-deep svg {
-            //box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.1);
-            #prefix__Eye_Open {
-                stroke: @RoyalBlue;
-            }
-        }
-    } */
 }
 
 .icon-edit {
@@ -878,23 +738,4 @@ export default {
         }
     }
 }
-
-/* .page-container {
-  width: 95%;
-  margin: 0 auto;
-  display: block;
-  //background: transparent;
-
-  padding: 24px 16px;
-
-  .group-name-container {
-    margin-bottom: 24px;
-    .group-tab {
-      border-bottom: 1px solid #e4e5e6;
-      /deep/.nitrozen-tab {
-          padding: 0px;
-      }
-    }
-  }
-} */
 </style>

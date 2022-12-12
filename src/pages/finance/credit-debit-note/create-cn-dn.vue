@@ -27,25 +27,6 @@
                 >
                     Edit
                 </nitrozen-button>
-                
-                <!-- <div class="approver-buttons" v-if="isApprover === true">
-                    <nitrozen-button
-                        v-strokeBtn
-                        theme="secondary"
-                        :disabled="tab.approved_at !== null"
-                        @click="quickApproverViewSection('Reject')"
-                    >
-                        Reject
-                    </nitrozen-button>
-                    <nitrozen-button
-                        v-flatBtn
-                        theme="secondary"
-                        :disabled="tab.approved_at !== null"
-                        @click="quickApproverViewSection('Approve')"
-                    >
-                        Approve
-                    </nitrozen-button>
-                </div> -->
                 <nitrozen-button
                     v-flatBtn
                     v-if="!readOnlyMode"
@@ -176,15 +157,17 @@
 
                     <div class="row-1">
                         <div class="fee-type">
-
-                            <nitrozen-input
+                            <nitrozen-dropdown
                                 label="Fee Component Type"
-                                placeholder="Enter Fee Component Type"
-                                :required="isRequired"
-                                :disabled="readOnlyMode"
                                 v-model="feeType.value"
-                                @input="validateForm('feeType')"
-                            ></nitrozen-input>
+                                :items="FeeComponentTypeList"
+                                :disabled="readOnlyMode"
+                                :required="isRequired"
+                                :searchable="true"
+                                @change="validateForm('feeType')"
+                                
+                            ></nitrozen-dropdown>
+                            <!-- @searchInputChange="changePurposeType($event)" -->
                             <nitrozen-error v-if="feeType.errorMessage">{{ feeType.errorMessage }}</nitrozen-error>
                         </div>
 
@@ -258,10 +241,11 @@
                             :required="isRequired"
                             :disabled="readOnlyMode || editingMode"
                             v-model="invoiceNumber.value"
-                            @keyup.enter.tab="getFeeInvoiceDetails"
-                            @blur="getFeeInvoiceDetails"
+                            @keyup="getFeeInvoiceDetails"
                             @input="validateForm('invoiceNumber')"
                         ></nitrozen-input>
+                        <!-- @keyup.enter.tab="getFeeInvoiceDetails"
+                            @blur="getFeeInvoiceDetails" -->
                         <nitrozen-error v-if="invoiceNumber.errorMessage">{{ invoiceNumber.errorMessage }}</nitrozen-error>
                     </div>
 
@@ -443,14 +427,6 @@
                                 @disable-save="ChildToParent($event)"
                             ></expandable-table>
                         </accordion>
-                        <!-- <expandable-table 
-                            v-if="componentList && purposeList" 
-                            :componentList="componentList" 
-                            :purpose="purposeList"
-                            :bagData="bag"
-                            :readOnly="readOnlyMode"
-                            @selected-component="ChildToParent($event)"
-                        ></expandable-table> -->
                     </div>
                 </div>
             </div>
@@ -470,26 +446,6 @@
             </div>
 
         </div>
-
-        <!-- <transition name="slide">
-            <template v-if="quickApproveView">
-                <div class="slide-fade" ref="slide-fade" @click="close($event)">
-                    <div class="container">
-                        <approver-drawer
-                            @drawerClose = "closeApproverDrawerView($event)"
-                            :status = "drawerData.status"
-                            :notesSet = "drawerData.notesSet"
-                        ></approver-drawer>
-                        <a class="cancel-btn" @click="close($event)">
-                            <ukt-inline-svg
-                                :src="'cross-black'"
-                            ></ukt-inline-svg>
-                        </a>
-                    </div>
-                </div>
-            </template>
-        </transition> -->
-
     </div>
 
 
@@ -507,9 +463,9 @@
     import GoBackDialog from './go-back-dialog.vue';
     import accordion from '@/components/common/accordion.vue';
     import { mapGetters } from 'vuex'
-    //import ApproverDrawer from './approver-drawer.vue';
     import { GET_USER_INFO } from '@/store/getters.type';
     import { ADMIN_PERMISSIONS } from '../../../store/getters.type';
+    import loader from '@/components/common/loader';
     import moment from 'moment';
     import {
         NitrozenInput,
@@ -548,12 +504,12 @@
             ExpandableTable,
             SaveNoteDialog,
             GoBackDialog,
-            //ApproverDrawer,
             NitrozenToggleBtn,
             NitrozenChips,
             MirageAlert,
             NitrozenInline,
-            'adm-inline-svg': admInlineSVG
+            'adm-inline-svg': admInlineSVG,
+            loader
         },
         directives: {
             flatBtn,
@@ -567,7 +523,6 @@
         data() {
             return {
                 disableShipmentInput : false,
-                //isApprover: '',
                 drawerData: {
                     status: '',
                     notesSet:{}
@@ -591,8 +546,8 @@
                 isPreview: false,
                 purposeList: [],    
                 filteredPurposeList : [],
+                FeeComponentTypeList: [],
                 noteDetailsMap: {},
-                //purposeTypeReadOnly: [],
                 purposeType: {
                     value: '',
                     errorMessage: '',
@@ -677,14 +632,12 @@
             ...mapGetters({
                 userData: GET_USER_INFO,
                 aclPermissions: ADMIN_PERMISSIONS
-                //isLoggedIn: IS_LOGGED_IN,
-                //currentUserPermissions: GET_USER_PERMISSIONS
             }),
         },
 
         mounted() {
-            //this.isApprover = this.$route.params.isApprover;
             this.getNoteType();
+            this.getCommercialFeeType();
             this.getSellerDetails();
             if(this.noteType === 'credit'){
                 this.title = 'Create Credit Note';
@@ -712,14 +665,6 @@
 
         methods: {
             isEmpty,
-            /* closeApproverDrawerView(event){
-            this.quickApproveView = false;
-                if (event != false) {
-                    this.$router.back();
-                    return;
-                }
-            }, */
-
             omit_special_char(e) {
                 let keyCode = e.keyCode ? e.keyCode : e.which;
                 if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
@@ -1681,9 +1626,6 @@
                         this.shipmentId.errorMessage = 'Incorrect Shipment ID';
                     }
                 })
-                // if(!flag) {
-                //     this.shipmentId.errorMessage = ''
-                // }
                 let data = res.data.items.map( i =>  {
                     return {
                         "shipment_id": i.shipment_id,
@@ -1859,37 +1801,19 @@
                 }
                 else this.calledFromChild = false; 
             },
-
             close: function (e) {
                 e.stopPropagation();
                 this.quickApproveView = false;
             },
-
-            /* quickApproverViewSection: function (action) {
-                this.quickApproveView = !this.quickApproveView;
-                this.drawerData.status = action;
-                this.drawerData.notesSet[this.selectedType]=[{
-                        'sellerName' : this.tab.seller_name,
-                        'noteId' : this.tab.id,
-                        'requestNo' : this.tab.document_number,
-                        'grossAmount' : this.tab.total_amount
-                }]
-            }, */
-
             getSearchText(event) {
-            if (
-                event.keyCode === 32 ||
-                event.keyCode === 13 ||
-                event.keyCode === 188 ||
-                event.keyCode === 9
-            ) {
-                this.addSearchText();
-            }
-            // if (event.keyCode == 8 && this.shipmentId.value) {
-            //     if (this.shipmentId.value.length) {
-            //         this.shipmentId.value.pop();
-            //     }
-            // }
+                if (
+                    event.keyCode === 32 ||
+                    event.keyCode === 13 ||
+                    event.keyCode === 188 ||
+                    event.keyCode === 9
+                ) {
+                    this.addSearchText();
+                }
             },
 
             addSearchText() {
@@ -1908,6 +1832,38 @@
             selectShipment() {
                 this.shipmentSelected = 'You have added '+ this.shipmentId.value.length + '/' + '10 permitted Shipment IDs (Use comma to add multiple Shipment IDs)'
                 this.bagSelected = 'You\'ll see Bag IDs corresponding to ' + this.shipmentId.value.length + ' selected Shipment IDs'
+            },
+
+            getCommercialFeeType() {
+                let params = {
+                    data: {
+                        table_name: "reporting_variables",
+                        filters: {
+                            type:"tenant"
+                        },
+                        project: [
+                            "variable"
+                        ]
+                    }
+                }
+                const getFeeType = CreditDebitNoteServices.getListData(params);
+                return getFeeType
+                    .then(( res ) => {
+                        //console.log(res.data.items[0].variable['cn-dn|commercial'].fynd);
+                        this.FeeComponentTypeList = res.data.items[0].variable['cn-dn|commercial'].fynd.map((item) => {
+                            return {
+                                text: item.display_name,
+                                value: item.type
+                            };
+                        })
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                        this.$snackbar.global.showError(err);
+                    })
+                    /* .finally(() => {
+                        //this.inProgress = false;
+                    }); */
             }
         }
     };
