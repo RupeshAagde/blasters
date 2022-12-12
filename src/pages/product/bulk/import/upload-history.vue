@@ -794,7 +794,10 @@ export default {
             this.isSidebarTogle = !this.isSidebarTogle;
         },
         goBack() {
-            this.$router.go(-1);
+            // this.$router.go(-1);
+            this.$router.push(
+                `/administrator/product/${this.productType}/import`
+            );
         },
         capitalize(str) {
             return (
