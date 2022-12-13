@@ -688,7 +688,9 @@ export default {
         },
         getInfoDesc() {
             if (!this.isSuccessVisible) {
-                return `All the ${this.productsArray.length} records contain error. Check your file contents and reupload the file again`;
+                return `All the ${
+                    this.productsArray.length ? this.productsArray.length : ''
+                } records contain error. Check your file contents and reupload the file again`;
             } else {
                 return 'Validate and confirm to save your import progress';
             }
@@ -1061,175 +1063,189 @@ export default {
             }
             //map values
             let result = [];
-            mapValues(this.productsTable.data, (item) => {
-                let synonyms;
-                let tryouts;
-                let departments;
-                let attributes;
-                let categories;
-                if (item['Synonyms']) {
-                    synonyms = item['Synonyms'];
-                }
-                // if (item['Tryouts']) {
-                //     tryouts =
-                //         typeof item['Tryouts'] == 'string'
-                //             ? item['Tryouts'].split('|')
-                //             : [item['Tryouts']];
-                // }
-                if (item['Departments']) {
-                    departments = item['Departments'];
-                }
-
-                if (item['Attributes']) {
-                    attributes = item['Attributes'];
-                }
-                if (item['L3 Categories']) {
-                    categories = item['L3 Categories'];
-                }
-
-                if (this.productType === 'department') {
-                    result.push({
-                        name: item['Name'],
-                        logo: item['Logo'],
-                        slug: item['Slug'],
-                        priority_order: item['Priority'],
-                        is_active: item['Active'],
-                        synonyms: synonyms
-                    });
-                } else if (this.productType === 'category') {
-                    // let hierarchy;
-                    // if (item['Department'] && item['L1'] && item['L2']) {
-                    //     let department = item['Department'];
-                    //     let l1 = item['L1'];
-                    //     let l2 = item['L2'];
-                    //     hierarchy = [{ department, l1, l2 }];
+            try {
+                mapValues(this.productsTable.data, (item) => {
+                    let synonyms;
+                    let tryouts;
+                    let departments;
+                    let attributes;
+                    let categories;
+                    if (item['Synonyms']) {
+                        synonyms = item['Synonyms'];
+                    }
+                    // if (item['Tryouts']) {
+                    //     tryouts =
+                    //         typeof item['Tryouts'] == 'string'
+                    //             ? item['Tryouts'].split('|')
+                    //             : [item['Tryouts']];
                     // }
-                    let media;
-                    if (item['Logo'] && item['Landscape'] && item['Portrait']) {
-                        let logo = item['Logo'];
-                        let landscape = item['Landscape'];
-                        let portrait = item['Portrait'];
-                        media = { logo, landscape, portrait };
+                    if (item['Departments']) {
+                        departments = item['Departments'];
                     }
 
-                    result.push({
-                        level: item['Level'],
-                        name: item['Category Name'],
-                        departments: departments,
-                        media: media,
-                        synonyms: synonyms,
-                        priority: item['Priority'],
-                        is_active: item['Active'],
-                        hierarchy: item['Hierarchy']
-                    });
-                } else if (this.productType === 'product-template') {
-                    result.push({
-                        slug: item['Slug'],
-                        name: item['Template Name'],
-                        departments: departments,
-                        description: item['Description'],
-                        tag: item['Tag'],
-                        categories: categories,
-                        attributes: attributes,
-                        is_active: item['Active'],
-                        is_archived: item['Is Archived'],
-                        logo: item['Logo'],
-                        is_physical: item['Physical'],
-                        is_expirable: item['Expirable']
-                    });
-                } else if (this.productType === 'hsn') {
-                    let taxes;
-
-                    let rate = item['GST Rate #1'];
-                    let rate_1 = item['GST Rate #2'];
-                    let threshold = item['Threshold'];
-                    let effective_date = new Date(
-                        item['Effective Date']
-                    ).toISOString();
-                    let cess = item['CESS #1'];
-                    let cess_1 = item['CESS #2'];
-                    taxes = {
-                        rate,
-                        rate_1,
-                        threshold,
-                        effective_date,
-                        cess,
-                        cess_1
-                    };
-                    result.push({
-                        reporting_hsn: item['Reporting HSN Code'],
-                        type: item['Type'],
-                        description: item['Description'],
-                        hsn_code: item['HSN Code'],
-                        command: item['Command'],
-                        country: item['Country'],
-                        taxes: taxes
-                    });
-                } else if (this.productType === 'attribute') {
-                    let details;
-                    let filters;
-                    let schema;
-                    if (item['Display Type']) {
-                        details = { display_type: item['Display Type'] };
+                    if (item['Attributes']) {
+                        attributes = item['Attributes'];
                     }
-                    // if (item['Indexing']) {
-                    //     filters = {
-                    //         indexing: item['Indexing'],
-                    //         priority: item['Priority'],
-                    //         depends_on:
-                    //             item['Depends On'] &&
-                    //             item['Depends On'].split(',')
-                    //     };
-                    // }
-                    schema = {
-                        type: item['Type'],
-                        allowed_values: item['Valid Values'],
-                        multi: item['Allow Multiple Values'],
-                        mandatory: item['Required'],
-                        format: item['Formatting'],
-                        range: { min: item['Min'], max: item['Max'] }
-                    };
-                    result.push({
-                        slug: item['Slug'],
-                        name: item['Name'],
-                        description: item['Description'],
-                        departments: departments,
-                        enabled_for_end_consumer: item['Public'],
-                        variant: item['Variant Permissable'],
-                        logo: item['Logo'],
-                        unit: item['Unit'],
-                        filter: item['Filter'],
-                        attribute_schema: schema
-                    });
-                }
-            });
+                    if (item['L3 Categories']) {
+                        categories = item['L3 Categories'];
+                    }
+
+                    if (this.productType === 'department') {
+                        result.push({
+                            name: item['Name'],
+                            logo: item['Logo'],
+                            slug: item['Slug'],
+                            priority_order: item['Priority'],
+                            is_active: item['Active'],
+                            synonyms: synonyms
+                        });
+                    } else if (this.productType === 'category') {
+                        // let hierarchy;
+                        // if (item['Department'] && item['L1'] && item['L2']) {
+                        //     let department = item['Department'];
+                        //     let l1 = item['L1'];
+                        //     let l2 = item['L2'];
+                        //     hierarchy = [{ department, l1, l2 }];
+                        // }
+                        let media;
+                        if (
+                            item['Logo'] &&
+                            item['Landscape'] &&
+                            item['Portrait']
+                        ) {
+                            let logo = item['Logo'];
+                            let landscape = item['Landscape'];
+                            let portrait = item['Portrait'];
+                            media = { logo, landscape, portrait };
+                        }
+
+                        result.push({
+                            level: item['Level'],
+                            name: item['Category Name'],
+                            departments: departments,
+                            media: media,
+                            synonyms: synonyms,
+                            priority: item['Priority'],
+                            is_active: item['Active'],
+                            hierarchy: item['Hierarchy']
+                        });
+                    } else if (this.productType === 'product-template') {
+                        result.push({
+                            slug: item['Slug'],
+                            name: item['Template Name'],
+                            departments: departments,
+                            description: item['Description'],
+                            tag: item['Tag'],
+                            categories: categories,
+                            attributes: attributes,
+                            is_active: item['Active'],
+                            is_archived: item['Is Archived'],
+                            logo: item['Logo'],
+                            is_physical: item['Physical'],
+                            is_expirable: item['Expirable']
+                        });
+                    } else if (this.productType === 'hsn') {
+                        let taxes;
+
+                        let rate = item['GST Rate #1'];
+                        let rate_1 = item['GST Rate #2'];
+                        let threshold = item['Threshold'];
+                        let effective_date = item['Effective Date'];
+                        let cess = item['CESS #1'];
+                        let cess_1 = item['CESS #2'];
+                        taxes = {
+                            rate,
+                            rate_1,
+                            threshold,
+                            effective_date,
+                            cess,
+                            cess_1
+                        };
+                        result.push({
+                            reporting_hsn: item['Reporting HSN Code'],
+                            type: item['Type'],
+                            description: item['Description'],
+                            hsn_code: item['HSN Code'],
+                            command: item['Command'],
+                            country: item['Country'],
+                            taxes: taxes
+                        });
+                    } else if (this.productType === 'attribute') {
+                        let details;
+                        let filters;
+                        let schema;
+                        if (item['Display Type']) {
+                            details = { display_type: item['Display Type'] };
+                        }
+                        // if (item['Indexing']) {
+                        //     filters = {
+                        //         indexing: item['Indexing'],
+                        //         priority: item['Priority'],
+                        //         depends_on:
+                        //             item['Depends On'] &&
+                        //             item['Depends On'].split(',')
+                        //     };
+                        // }
+                        schema = {
+                            type: item['Type'],
+                            allowed_values: item['Valid Values'],
+                            multi: item['Allow Multiple Values'],
+                            mandatory: item['Required'],
+                            format: item['Formatting'],
+                            range: { min: item['Min'], max: item['Max'] }
+                        };
+                        result.push({
+                            slug: item['Slug'],
+                            name: item['Name'],
+                            description: item['Description'],
+                            departments: departments,
+                            enabled_for_end_consumer: item['Public'],
+                            variant: item['Variant Permissable'],
+                            logo: item['Logo'],
+                            unit: item['Unit'],
+                            filter: item['Filter'],
+                            attribute_schema: schema
+                        });
+                    }
+                });
+            } catch (err) {
+                console.log(err);
+                this.$snackbar.global.showError(err);
+            }
             this.productsArray = result;
-            this.validSchema = cssObj.validate({ data: this.productsArray });
-            this.errorsArray = cssObj.getSchemaErrors();
-            this.validSchema = this.validSchema && this.errorsArray.length == 0;
-            if (this.validSchema) {
-                this.$snackbar.global.showSuccess(
-                    'File is in valid format, you can start upload'
-                );
-            } else {
-                this.$snackbar.global.showError('File data is invalid');
-                // this.$refs['csv-preview'].csvExportFileName = this.file
-                //     ? `validation-errors-${this.file.name}_.csv`
-                //     : null;
-                const errorsData = this.errorsTable().data;
-                this.$refs[
-                    'csv-preview'
-                ].grid.gridOptions.getRowClass = function(params) {
-                    const exists = errorsData.find(
-                        (item) => item.index == params.rowIndex
+            if (this.productsArray.length) {
+                this.validSchema = cssObj.validate({
+                    data: this.productsArray
+                });
+                this.errorsArray = cssObj.getSchemaErrors();
+                this.validSchema =
+                    this.validSchema && this.errorsArray.length == 0;
+                if (this.validSchema) {
+                    this.$snackbar.global.showSuccess(
+                        'File is in valid format, you can start upload'
                     );
-                    if (exists) {
-                        return 'error-row';
-                    }
-                };
-                setTimeout(() => {
-                    this.$refs['csv-preview'].grid.gridOptions.api.redrawRows();
-                }, 0);
+                } else {
+                    this.$snackbar.global.showError('File data is invalid');
+                    // this.$refs['csv-preview'].csvExportFileName = this.file
+                    //     ? `validation-errors-${this.file.name}_.csv`
+                    //     : null;
+                    const errorsData = this.errorsTable().data;
+                    this.$refs[
+                        'csv-preview'
+                    ].grid.gridOptions.getRowClass = function(params) {
+                        const exists = errorsData.find(
+                            (item) => item.index == params.rowIndex
+                        );
+                        if (exists) {
+                            return 'error-row';
+                        }
+                    };
+                    setTimeout(() => {
+                        this.$refs[
+                            'csv-preview'
+                        ].grid.gridOptions.api.redrawRows();
+                    }, 0);
+                }
             }
         },
         errorsTable() {
