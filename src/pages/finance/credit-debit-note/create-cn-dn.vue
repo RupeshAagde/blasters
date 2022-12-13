@@ -92,12 +92,12 @@
                                 placeholder="Enter Seller ID"
                                 v-model="sellerId.value"
                                 :required="isRequired"
-                                @blur="getSellerDetails"
-                                @input="validateForm('sellerId')"
-                                @keyup.enter.tab="getSellerDetails"
-                                @keyup.delete.backspace="resetSellerName"
+                                @keyup.enter="getSellerDetails"
                                 :disabled="readOnlyMode || editingMode"
                             ></nitrozen-input>
+                            <!-- @keyup.delete.backspace="resetSellerName"
+                            @blur="getSellerDetails"
+                            @input="validateForm('sellerId')" -->
                             <nitrozen-error v-if="sellerId.errorMessage">{{ sellerId.errorMessage }}</nitrozen-error>
                         </div>
 
@@ -132,8 +132,7 @@
                                 placeholder="Enter Shipment ID"
                                 :disabled="readOnlyMode"
                                 v-model="shipmentIdCommercial.value"
-                                :required="isRequired"
-                                @input="validateForm('shipmentIdCommercial')"
+                                @input="validateForm('shipmentIdCommercial', false)"
                             ></nitrozen-input>
                             <nitrozen-error v-if="shipmentIdCommercial.errorMessage">{{ shipmentIdCommercial.errorMessage }}</nitrozen-error>
                         </div>
@@ -145,6 +144,8 @@
                                 :disabled="readOnlyMode"
                                 v-model="invoiceNumber.value"
                                 :required="isRequired"
+                                @keyup.enter.tab="validateServiceInvoice"
+                                @blur="validateServiceInvoice"
                                 @input="validateForm('invoiceNumber')"
                             ></nitrozen-input>
                             <nitrozen-error v-if="invoiceNumber.errorMessage">{{ invoiceNumber.errorMessage }}</nitrozen-error>
@@ -241,7 +242,8 @@
                             :required="isRequired"
                             :disabled="readOnlyMode || editingMode"
                             v-model="invoiceNumber.value"
-                            @keyup="getFeeInvoiceDetails"
+                            @keyup.enter.tab="validateServiceInvoice"
+                            @blur="validateServiceInvoice"
                             @input="validateForm('invoiceNumber')"
                         ></nitrozen-input>
                         <!-- @keyup.enter.tab="getFeeInvoiceDetails"
@@ -714,12 +716,13 @@
             },
 
             resetForm() {
-                this.sellerId.value = '';
+                this.sellerId.value = '1';
                 this.sellerName = '';
                 this.purposeType.value = '';
                 this.shipmentId.value = [];
                 this.invoiceNumber.value = '';
                 this.feeType.value = '';
+                this.invoiceNumber.errorMessage = '';
                 this.creditDebitNoteAmount.value = '';
                 this.kaptureId.value = '';
                 this.remarks.value = '';
@@ -735,6 +738,7 @@
                 this.purposeList = [];
                 this.setPurposeList();
                 this.showTicks = [];
+                this.getSellerDetails();
             },
             resetSellerName() {
                 if(this.sellerId.value.trim() === ''){
@@ -1556,6 +1560,7 @@
 
             // method to get user name from user id
             async getSellerDetails() {
+                this.sellerId.errorMessage = (this.sellerId.value.length == 0) ? 'Seller ID is required' : '';
                 const params = {
                     "data": {
                         "seller_id": this.sellerId.value
@@ -1563,9 +1568,14 @@
                 }
                 try {
                     const res = await CreditDebitNoteServices.getSellerDetails(params);
-                    this.sellerName = res.data.data.seller_name;
-                    this.isValidForm["sellerName"] =  true;
-                    this.isValidForm["sellerId"] = true;
+
+                    if(this.sellerId.value.length == 0){
+                        this.sellerName = '';
+                    }else{
+                        this.sellerName = res.data.data.seller_name;
+                        this.isValidForm["sellerName"] =  true;
+                        this.isValidForm["sellerId"] = true;
+                    }
                 } catch (error) {
                     this.$snackbar.global.showError('Invalid user name');
                     this.sellerName = ''
@@ -1659,22 +1669,33 @@
             // method to validate  service invoice number 
             async validateServiceInvoice(){
                 let res;
-                const params = {
-                    "data":{
-                        "invoice_number": this.invoiceNumber.value
-                    }
-                }
-                try {
-                    if (!this.readOnlyMode) {
-                        res = await CreditDebitNoteServices.validateServiceInvoiceNumber(params);
-                        this.invoiceNumber.isValid = res.data.valid;
-                        if (!this.invoiceNumber.isValid) {
-                            this.invoiceNumber.errorMessage = "Invalid Service Invoice Number";
+                if(this.invoiceNumber.value.length != 0){
+                    const params = {
+                        "data":{
+                            "invoice_number": this.invoiceNumber.value
                         }
                     }
-                } catch(error) {
-                    this.$snackbar.global.showError('Something went wrong');
-                    return;
+                    try {
+                        if (!this.readOnlyMode) {
+                            res = await CreditDebitNoteServices.validateServiceInvoiceNumber(params);
+                            console.log(res);
+                            this.invoiceNumber.isValid = res.data.success;
+                            if(this.selectedType === 'gst_fee'){
+                                this.getFeeInvoiceDetails();
+                            }
+                            /* if (!this.invoiceNumber.isValid) {
+                                this.invoiceNumber.errorMessage = "Invalid Service Invoice Number";
+                            } */
+                        }
+                    } catch(error) {
+                        console.log(error);
+                        this.invoiceNumber.isValid = error.response.data.success;
+                        if (!this.invoiceNumber.isValid) {
+                            this.invoiceNumber.errorMessage = error.response.data.reason;
+                        }
+                        this.$snackbar.global.showError(error.response.data.reason);
+                        return;
+                    }
                 }
             },
 

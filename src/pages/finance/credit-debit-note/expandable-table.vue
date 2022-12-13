@@ -431,7 +431,7 @@
         if(this.amount.value.length < 1 ){
           this.$set(this.amount.errorMsg,index,true);
         }
-        else if(Number(this.amount.value[index]) < this.chargeComponents[key]['amount']){
+        else if(Number(this.amount.value[index]) <= this.chargeComponents[key]['amount']){
           if (this.amount.value[index]*1 <= 0) {
             this.validateErrIndex = index;
             this.amount.validationError = 'Amount should be greater than 0';
@@ -445,7 +445,7 @@
           }
         } else {
           this.validateErrIndex = index;
-          this.amount.validationError = 'Amount should be less than the gross amount';
+          this.amount.validationError = `Amount should be less than or equal the gross amount: ${this.chargeComponents[key]['amount']}`;
         }
       },
   
