@@ -118,10 +118,10 @@
                                 records is being processed
                             </p>
                         </div>
-                        <div v-else class="card-content-line-2 line-2">
-                            <!-- {{ successCountMessage(history) }} -->
-                        </div>
-                        <div class="job-status">
+                        <!-- <div  class="card-content-line-2 line-2">
+                            {{ successCountMessage(history) }} 
+                        </div> -->
+                        <div v-else class="job-status">
                             <p class="cl-DustyGray2 regular-xxs total">
                                 Total:
                                 <span class="cl-Mako darker-xxs">{{
@@ -370,6 +370,9 @@
     font-size: 14px;
     line-height: 150%;
     color: #9b9b9b;
+    img {
+        width: 16px;
+    }
     p {
         padding-left: 4px;
     }
@@ -610,6 +613,9 @@
         }
     }
 }
+.loader {
+    width: 16px;
+} 
 .divider {
     border: 1px solid #e0e0e0;
     margin: 24px;
