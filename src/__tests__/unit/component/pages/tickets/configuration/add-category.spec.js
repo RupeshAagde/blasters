@@ -104,4 +104,41 @@ describe('Ticket Category Page', () => {
 
         expect(wrapper.text()).toContain("updated one");
     })
+
+    it('isFormDirty', () => {
+        const wrapper = shallowMount(ticketCategory)
+        wrapper.vm.isFormDirty();
+        wrapper.vm.$nextTick();
+        expect(wrapper.find(".isUpdated").exists()).toBe(false);
+    })
+
+    it('saveData', () => {
+        const wrapper = shallowMount(ticketCategory)
+        wrapper.vm.saveData();
+        wrapper.vm.$nextTick();
+    })
+
+    it('updateDataForCategory', () => {
+        const wrapper = shallowMount(ticketCategory)
+        wrapper.vm.updateDataForCategory();
+        wrapper.vm.$nextTick();
+    })
+
+    it('onCategoryChange', () => {
+        const wrapper = shallowMount(ticketCategory)
+        wrapper.vm.onCategoryChange();
+        wrapper.vm.$nextTick();
+    })
+
+    it('editCategory', () => {
+        const wrapper = shallowMount(ticketCategory)
+        wrapper.vm.editCategory();
+        wrapper.vm.$nextTick();
+    })
+
+    it('validNumber', () => {
+        const wrapper = shallowMount(ticketCategory)
+        wrapper.vm.validNumber();
+        wrapper.vm.$nextTick();
+    })
 })

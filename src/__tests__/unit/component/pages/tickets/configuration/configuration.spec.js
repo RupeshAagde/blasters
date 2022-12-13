@@ -60,4 +60,23 @@ describe('Ticket Category Page', () => {
         expect(wrapper.find(".support-communication").exists()).toBe(true);
         expect(wrapper.findAll(".coming-soon-icon").length).toBe(3);
     })
+        it('check closeAddSupport', () => {
+        const wrapper = shallowMount(configuration)
+        wrapper.vm.closeAddSupport();
+        wrapper.vm.$nextTick();
+        expect(wrapper.find(".closeAddSupport").exists()).toBe(false);
+    })
+    it('check addContact', () => {
+        const wrapper = shallowMount(configuration)
+        wrapper.vm.addContact();
+        wrapper.vm.$nextTick();
+        expect(wrapper.find(".enabledToAddContact").exists()).toBe(false);
+    })
+    // it('check editCommincationDetail', () => {
+    //     const wrapper = shallowMount(configuration)
+    //     wrapper.vm.editCommincationDetail();
+    //     wrapper.vm.$nextTick();
+    //     expect(wrapper.find(".enabledToAddContact").exists()).toBe(false);
+    //     expect(wrapper.find(".editContact").exists()).toBe(true);
+    // })
 })
