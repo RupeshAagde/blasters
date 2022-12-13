@@ -172,9 +172,6 @@ export const parseCsvV1 = (files, validateCsv) => {
             complete: (data) => {
                 validateCsv(data, null);
             },
-            step: (data) => {
-                console.log(data);
-            },
             error: (err) => {
                 validateCsv(null, err);
             }
