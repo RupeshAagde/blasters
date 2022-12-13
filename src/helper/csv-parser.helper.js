@@ -19,7 +19,13 @@ const TYPE_CASTS = {
     }
 };
 
-function typeCast(type, value) {
+export const getBoolean = (value) => {
+    const val = value.toLowerCase();
+    return val === 'true' ? true : val === 'false' ? false : 'Invalid data';
+}
+
+export const typeCast = function typeCast(type, value) {
+    debugger
     const fnName = 'get' + type.name;
     const fn = TYPE_CASTS[fnName];
     if (fn === undefined) {

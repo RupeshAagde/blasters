@@ -6,17 +6,18 @@
                 :desc="
                     'Manage or create departments to categorize products according to their type'
                 "
-                btnLabel="Create Department"
+                btnLabel="Create"
                 @btnClick="createDepartment"
             >
-                <nitrozen-dropdown
-                    label="Bulk Action"
-                    :placeholder="'Bulk Action'"
-                    class="bulk-action-dropdown"
-                    :items="bulkAction"
-                    v-model="selectedAction"
-                    @change="navigateToBulkAction"
-                ></nitrozen-dropdown>
+                <div class="bulk-action-dropdown">
+                    <nitrozen-dropdown
+                        label="Bulk Action"
+                        :placeholder="'Bulk Action'"
+                        :items="bulkAction"
+                        v-model="selectedAction"
+                        @change="navigateToBulkAction"
+                    ></nitrozen-dropdown>
+                </div>
             </jumbotron>
         </div>
         <div
@@ -160,7 +161,7 @@
                 justify-content: flex-start;
                 button {
                     margin-left: 10px;
-                    width: 100%;
+                    // width: 100%;
                 }
             }
         }
@@ -174,6 +175,21 @@
             font-size: 14px;
             line-height: 140%;
             color: #2e31be;
+        }
+    }
+
+    .bulk-action-dropdown {
+        width: 130px;
+        margin-left: 10px;
+        ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger span {
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 140%;
+            color: #2e31be;
+        }
+
+        ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger {
+            border: 1px solid #2e31be;
         }
     }
 

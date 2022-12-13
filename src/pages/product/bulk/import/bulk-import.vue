@@ -604,7 +604,8 @@ import InfoBar from '../components/info-bar.vue';
 import CsvView from '@/components/common/adm-csv-viewer.vue';
 import {
     parseCsvV1,
-    getCSVValidationErrors
+    getCSVValidationErrors,
+    getBoolean
 } from '@/helper/csv-parser.helper.js';
 import XLSX from 'xlsx';
 import { CatalogueSchemaService } from '@/services/bulk-upload.service';
@@ -1073,12 +1074,7 @@ export default {
                     if (item['Synonyms']) {
                         synonyms = item['Synonyms'];
                     }
-                    // if (item['Tryouts']) {
-                    //     tryouts =
-                    //         typeof item['Tryouts'] == 'string'
-                    //             ? item['Tryouts'].split('|')
-                    //             : [item['Tryouts']];
-                    // }
+
                     if (item['Departments']) {
                         departments = item['Departments'];
                     }
@@ -1086,8 +1082,8 @@ export default {
                     if (item['Attributes']) {
                         attributes = item['Attributes'];
                     }
-                    if (item['L3 Categories']) {
-                        categories = item['L3 Categories'];
+                    if (item['Categories']) {
+                        categories = item['Categories'];
                     }
 
                     if (this.productType === 'department') {
@@ -1096,17 +1092,10 @@ export default {
                             logo: item['Logo'],
                             slug: item['Slug'],
                             priority_order: item['Priority'],
-                            is_active: item['Active'],
+                            is_active: getBoolean(item['Active']),
                             synonyms: synonyms
                         });
                     } else if (this.productType === 'category') {
-                        // let hierarchy;
-                        // if (item['Department'] && item['L1'] && item['L2']) {
-                        //     let department = item['Department'];
-                        //     let l1 = item['L1'];
-                        //     let l2 = item['L2'];
-                        //     hierarchy = [{ department, l1, l2 }];
-                        // }
                         let media;
                         if (
                             item['Logo'] &&
@@ -1121,28 +1110,28 @@ export default {
 
                         result.push({
                             level: item['Level'],
-                            name: item['Category Name'],
+                            name: item['Name'],
+                            slug: item['Slug'],
                             departments: departments,
                             media: media,
                             synonyms: synonyms,
                             priority: item['Priority'],
-                            is_active: item['Active'],
-                            hierarchy: item['Hierarchy']
+                            is_active: getBoolean(item['Active']),
+                            hierarchy: item['Hierarchy'],
+                            tryouts: item['Tryouts']
                         });
                     } else if (this.productType === 'product-template') {
                         result.push({
                             slug: item['Slug'],
-                            name: item['Template Name'],
+                            name: item['Name'],
                             departments: departments,
                             description: item['Description'],
-                            tag: item['Tag'],
                             categories: categories,
                             attributes: attributes,
-                            is_active: item['Active'],
-                            is_archived: item['Is Archived'],
+                            is_active: getBoolean(item['Active']),
                             logo: item['Logo'],
-                            is_physical: item['Physical'],
-                            is_expirable: item['Expirable']
+                            is_physical: getBoolean(item['Physical']),
+                            is_expirable: getBoolean(item['Expirable'])
                         });
                     } else if (this.productType === 'hsn') {
                         let taxes;
@@ -1177,20 +1166,12 @@ export default {
                         if (item['Display Type']) {
                             details = { display_type: item['Display Type'] };
                         }
-                        // if (item['Indexing']) {
-                        //     filters = {
-                        //         indexing: item['Indexing'],
-                        //         priority: item['Priority'],
-                        //         depends_on:
-                        //             item['Depends On'] &&
-                        //             item['Depends On'].split(',')
-                        //     };
-                        // }
+
                         schema = {
                             type: item['Type'],
-                            allowed_values: item['Valid Values'],
-                            multi: item['Allow Multiple Values'],
-                            mandatory: item['Required'],
+                            allowed_values: item['Allowed Values'],
+                            multi: getBoolean(item['Allow Multiple Values']),
+                            mandatory: getBoolean(item['Required']),
                             format: item['Formatting'],
                             range: { min: item['Min'], max: item['Max'] }
                         };
@@ -1199,11 +1180,13 @@ export default {
                             name: item['Name'],
                             description: item['Description'],
                             departments: departments,
-                            enabled_for_end_consumer: item['Public'],
-                            variant: item['Variant Permissable'],
+                            enabled_for_end_consumer: getBoolean(
+                                item['Public']
+                            ),
+                            variant: getBoolean(item['Variant Permissable']),
                             logo: item['Logo'],
                             unit: item['Unit'],
-                            filter: item['Filter'],
+                            filter: getBoolean(item['Filter']),
                             attribute_schema: schema
                         });
                     }
@@ -1212,6 +1195,7 @@ export default {
                 console.log(err);
                 this.$snackbar.global.showError(err);
             }
+            debugger;
             this.productsArray = result;
             if (this.productsArray.length) {
                 this.validSchema = cssObj.validate({
@@ -1334,7 +1318,9 @@ export default {
             payload.total_count = count;
             payload.tracking_url = file_path;
             payload.file_type = file_type;
-            payload.notification_emails = ['sth@gmail.com'];
+            if (this.getUserEmail()) {
+                payload.notification_emails = [this.getUserEmail()];
+            }
             return CatalogService.bulkRequest(
                 this.productType,
                 payload,
@@ -1396,6 +1382,9 @@ export default {
                         // this.loading = false;
                     });
             }
+        },
+        getUserEmail() {
+            return this.userData.user.emails[0].email;
         }
     }
 };

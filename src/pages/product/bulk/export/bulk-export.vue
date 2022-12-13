@@ -638,7 +638,9 @@ export default {
                 payload.filters.categories = this.selectedCategories;
             }
             payload.file_type = type;
-            payload.notification_emails = ['sth@gmail.com'];
+            if (this.getUserEmail()) {
+                payload.notification_emails = [this.getUserEmail()];
+            }
             return CatalogService.bulkRequest(
                 this.productType,
                 payload,

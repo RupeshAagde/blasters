@@ -9,14 +9,15 @@
                 btnLabel="Create"
                 @btnClick="redirectEdit"
             >
-                <nitrozen-dropdown
-                    class="bulk-action-dropdown"
-                    label=" "
-                    :placeholder="'Bulk Action'"
-                    :items="bulkAction"
-                    v-model="selectedAction"
-                    @change="navigateToBulkAction"
-                ></nitrozen-dropdown>
+                <div class="bulk-action-dropdown">
+                    <nitrozen-dropdown
+                        label=" "
+                        :placeholder="'Bulk Action'"
+                        :items="bulkAction"
+                        v-model="selectedAction"
+                        @change="navigateToBulkAction"
+                    ></nitrozen-dropdown>
+                </div>
             </jumbotron>
         </div>
         <div class="second-container">
@@ -200,7 +201,7 @@
             justify-content: flex-start;
             button {
                 margin-left: 10px;
-                width: 100%;
+                // width: 100%;
             }
         }
     }
@@ -214,22 +215,19 @@
     margin: 24px;
     padding: 24px;
     padding-bottom: 0;
-    /deep/.bulk-action-dropdown {
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 140%;
-        display: flex;
 
-        .nitrozen-select__trigger {
+    .bulk-action-dropdown {
+        width: 130px;
+        margin-left: 10px;
+        ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger span {
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 140%;
             color: #2e31be;
         }
 
-        .nitrozen-option {
-            font-weight: 400;
-            font-size: 12px;
-            line-height: 160%;
+        ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger {
+            border: 1px solid #2e31be;
         }
     }
 }

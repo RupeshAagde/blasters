@@ -154,12 +154,20 @@
                     </div>
                     <div class="status-buttons">
                         <div class="card-badge-section">
+                            <!-- <inline-svg src="notification_blue"></inline-svg>
+                            <span class="cl-RoyalBlue darker-xxxs notification"
+                                >Notify on mail</span
+                            > -->
                             <nitrozen-badge
                                 v-if="history.stage"
                                 :state="getBadgeState(history.stage)"
                             >
                                 {{ history.stage }}
                             </nitrozen-badge>
+                            <!-- <inline-svg
+                                src="close_gray"
+                                class="ml-5"
+                            ></inline-svg> -->
                         </div>
                         <!-- <div
                             class="notify ml-16"
@@ -252,14 +260,34 @@
 
                     <div class="divider"></div>
 
-                    <!-- <div class="errors-table">
-                        <csv-view
-                            ref="errors-preview"
-                            class="errors-preview"
-                        ></csv-view>
-                    </div> -->
+                    <div
+                        class="errors-table"
+                        v-show="history.failed_records.length"
+                    >
+                        <div class="failed-records">
+                            <div class="cl-Mako darker-sm">Failed Records</div>
+                            <div>
+                                <div
+                                    class="download-container"
+                                    @click="getFailedRecords"
+                                >
+                                    <inline-svg
+                                        :src="'cloud_download'"
+                                    ></inline-svg>
+                                    <!-- <inline-svg :src="'cloud_download'"></inline-svg> -->
+                                    <p class="darker-xxxs cl-RoyalBlue ">
+                                        Failed Records
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <csv-view ref="errors-preview"></csv-view>
+                    </div>
 
-                    <!-- <div class="divider"></div> -->
+                    <div
+                        class="divider"
+                        v-show="history.failed_records.length"
+                    ></div>
 
                     <div class="batch-details">
                         <p class="cl-Mako darker-sm">Batch Details</p>
@@ -290,7 +318,7 @@
                 </template>
             </adm-sidebar>
         </div>
-        <!-- <csv-view ref="errors-preview" class="errors-preview"></csv-view> -->
+        <!-- <csv-view ref="errors-preview"></csv-view> -->
     </div>
 </template>
 <style lang="less" scoped>
@@ -615,13 +643,22 @@
 }
 .loader {
     width: 16px;
-} 
+}
 .divider {
     border: 1px solid #e0e0e0;
     margin: 24px;
 }
 .status-buttons {
     display: flex;
+}
+.errors-table {
+    margin: 24px;
+    .failed-records {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+    }
 }
 .notify {
     // color: #2e31be;
@@ -651,8 +688,15 @@
     padding: 2px 5px 2px 5px;
     border-radius: 2px;
 }
+
 .ml-16 {
     margin-left: 16px;
+}
+.notification {
+    margin: 0 16px 0 5px;
+}
+.ml-5 {
+    margin-left: 5px;
 }
 </style>
 <script>
@@ -673,6 +717,8 @@ import admpageheader from '@/components/common/layout/page-header';
 import CsvView from '@/components/common/adm-csv-viewer.vue';
 import { mapGetters } from 'vuex';
 import { GET_USER_INFO } from '@/store/getters.type';
+import values from 'lodash/values';
+import { debounce } from '@/helper/utils';
 
 import {
     NitrozenInput,
@@ -823,8 +869,12 @@ export default {
             if (history) {
                 this.history = history;
             }
-            this.isSidebarTogle = !this.isSidebarTogle;
-            // this.getErrorsTable();
+            this.isSidebarTogle = true;
+            if (history.failed_records.length) {
+                this.$nextTick(() => {
+                    this.getErrorsTable();
+                });
+            }
         },
         loadHistory(initial) {
             this.getBulkHistory(
@@ -972,131 +1022,8 @@ export default {
             }
             return file_type;
         },
-        getErrorsArray() {
-            let arr = [
-                {
-                    keyword: 'required',
-                    dataPath: '/data/2',
-                    schemaPath: '#/definitions/_Department/required',
-                    params: {
-                        missingProperty: 'slug'
-                    },
-                    message: "should have required property 'slug'",
-                    schema: {
-                        name: {
-                            title: 'Name',
-                            description: 'Name of the deplartment.',
-                            type: 'string'
-                        },
-                        slug: {
-                            title: 'Slug',
-                            description: 'Slug of the department.',
-                            type: 'string'
-                        },
-                        uid: {
-                            title: 'UID',
-                            description: 'Uique identifier for department.',
-                            type: 'integer'
-                        },
-                        logo: {
-                            title: 'Logo',
-                            description: 'URL of logo for department.',
-                            minLength: 1,
-                            maxLength: 2083,
-                            format: 'uri',
-                            type: 'string'
-                        },
-                        is_active: {
-                            title: 'Is Active',
-                            description:
-                                'Boolean value to track weather the department is active or not',
-                            type: 'boolean'
-                        },
-                        priority_order: {
-                            title: 'Priority',
-                            description:
-                                'Priority of the department in listing.',
-                            type: 'string'
-                        },
-                        synonyms: {
-                            title: 'Synonyms',
-                            description: 'Synonyms of the departments.',
-                            type: 'string'
-                        }
-                    },
-                    parentSchema: {
-                        title: '_Department',
-                        type: 'object',
-                        properties: {
-                            name: {
-                                title: 'Name',
-                                description: 'Name of the deplartment.',
-                                type: 'string'
-                            },
-                            slug: {
-                                title: 'Slug',
-                                description: 'Slug of the department.',
-                                type: 'string'
-                            },
-                            uid: {
-                                title: 'UID',
-                                description: 'Uique identifier for department.',
-                                type: 'integer'
-                            },
-                            logo: {
-                                title: 'Logo',
-                                description: 'URL of logo for department.',
-                                minLength: 1,
-                                maxLength: 2083,
-                                format: 'uri',
-                                type: 'string'
-                            },
-                            is_active: {
-                                title: 'Is Active',
-                                description:
-                                    'Boolean value to track weather the department is active or not',
-                                type: 'boolean'
-                            },
-                            priority_order: {
-                                title: 'Priority',
-                                description:
-                                    'Priority of the department in listing.',
-                                type: 'string'
-                            },
-                            synonyms: {
-                                title: 'Synonyms',
-                                description: 'Synonyms of the departments.',
-                                type: 'string'
-                            }
-                        },
-                        required: [
-                            'name',
-                            'slug',
-                            'logo',
-                            'is_active',
-                            'priority_order'
-                        ]
-                    },
-                    data: {
-                        name: 'sdhvb',
-                        logo:
-                            'https://hdn-1.addsale.com/x0/brands/pictures/square-logo/original/VIiKH16Qj-Logo.jpeg',
-                        priority_order: '3',
-                        is_active: true
-                    },
-                    index: '2',
-                    property: '2'
-                }
-            ];
-            return arr;
-        },
-        getErrorsTable() {
-            // if (this.showErrorsTable) {
-            //     this.showErrorsTable = false;
-            //     return;
-            // }
-            // this.showErrorsTable = true;
-            this.$refs['errors-preview'].createGrid(
+        getErrorsTable: function() {
+            this.$refs['errors-preview'].createErrorsGrid(
                 {
                     column: this.errorsTable().meta.fields.map((e) => ({
                         headerName: e,
@@ -1108,37 +1035,24 @@ export default {
                 },
                 { rowClass: 'error-row' }
             );
+            setTimeout(() => {
+                this.$refs['errors-preview'].grid.gridOptions.api.redrawRows();
+            }, 0);
         },
         errorsTable() {
-            const mappedErrors = this.getErrorsArray().map((err) => {
+            const mappedErrors = this.history.failed_records.map((err) => {
                 const msgs = [];
-                err.map((e) => {
-                    if (e.keyword == 'enum') {
-                        msgs.push(`${e.property}: '${e.data}' ${e.message}`);
-                    } else if (
-                        [
-                            'type',
-                            'maxLength',
-                            'minLength',
-                            'pattern',
-                            'minItems',
-                            'size-meta'
-                        ].includes(e.keyword)
-                    ) {
-                        msgs.push(`${e.property}: ${e.message}`);
-                    } else {
-                        msgs.push(`${e.property}: ${e.message}`);
-                    }
-                });
-                const index = err[0].index;
+                msgs.push(`${err.name}: ${err.message}`);
+                // const index = err[0].index;
                 return {
-                    index,
+                    name: err.name,
                     Errors: msgs.join(', \n')
                 };
             });
+            console.log(mappedErrors);
 
             return {
-                meta: { fields: ['Errors'] },
+                meta: { fields: ['Name', 'Message'] },
                 data: values(mappedErrors)
             };
         },
@@ -1186,6 +1100,13 @@ export default {
                 .catch((err) => {
                     console.log(err);
                 });
+        },
+        getFailedRecords() {
+            // this.getErrorsTable();
+            this.$refs[
+                'errors-preview'
+            ].csvExportFileName = `failed-records.csv`;
+            this.$refs['errors-preview'].exportErrorsInCsv();
         }
     }
 };

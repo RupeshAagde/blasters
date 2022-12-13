@@ -61,6 +61,26 @@ export default {
                 ...options
             });
         },
+        createErrorsGrid(data, options) {
+            this.removeGrid();
+            debugger;
+            let gridDiv = this.$refs.grid;
+            this.grid = new Grid(gridDiv, {
+                columnDefs: data.column,
+                rowData: data.rows,
+                // onGridReady: () => {
+                //     this.grid.gridOptions.api.setRowData(rowsdata);
+                //     this.grid.gridOptions.api.setColumnDefs(data.column);
+                // },
+                ...options
+            });
+        },
+        onReady(data) {
+            debugger;
+            if (this.grid) {
+                setTimeout(function() {}, 100);
+            }
+        },
         removeGrid() {
             let grid = this.$refs.grid;
             // grid && grid.remove();
