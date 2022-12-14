@@ -646,6 +646,7 @@ export default {
             )
                 .then(({ data }) => {
                     this.$snackbar.global.showSuccess(`Export Started`);
+                    this.clearAllInputs();
                     this.$refs.history.loadHistory();
                     this.pageLoading = false;
                 })
@@ -661,6 +662,11 @@ export default {
                 .finally(() => {
                     this.inProgress = false;
                 });
+        },
+        clearAllInputs() {
+            this.selectedCategories = [];
+            this.selectedDepartments = [];
+            this.selectedFileType = null;
         }
     }
 };

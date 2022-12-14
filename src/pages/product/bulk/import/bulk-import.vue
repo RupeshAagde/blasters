@@ -78,7 +78,11 @@
                 <div
                     class="alignments"
                     :class="{
-                        highlight
+                        highlight,
+                        disabled:
+                            isDisabled ||
+                            (productType === 'hsn' && !selectedTemplate) ||
+                            (productType === 'category' && !selectedCategory)
                     }"
                     @drop.prevent.stop="onDrop"
                     @dragenter.prevent.stop="highlight = true"
