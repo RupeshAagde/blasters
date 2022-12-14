@@ -176,6 +176,7 @@ export const parseCsvV1 = (files, validateCsv) => {
             trimHeaders: true,
             complete: (data) => {
                 validateCsv(data, null);
+                console.log(data)
             },
             error: (err) => {
                 validateCsv(null, err);

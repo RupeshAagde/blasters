@@ -575,8 +575,6 @@ export default {
             const params = {
                 page_size: 999999,
                 page_no: 1,
-                department: this.selectedDeptIds,
-                level: 3
             };
             return new Promise((resolve, reject) => {
                 CompanyService.fetchCategory_v2(params)

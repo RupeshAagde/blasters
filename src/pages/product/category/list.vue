@@ -79,15 +79,15 @@
                             class="card-content-line-2"
                             v-if="item.created_by && item.created_on"
                         >
-                            <span>Created By :</span>
-                            <span class="left-space-co">
+                            <span>Created On : &nbsp;</span>
+                            <!-- <span class="left-space-co">
                                 <user-info-tooltip
                                     :userId="userObj[item.created_by.user_id]"
                                 ></user-info-tooltip>
                             </span>
                             <span v-if="item.created_on" class="meta-space"
                                 >On</span
-                            >
+                            > -->
                             <span v-if="item.created_on">{{
                                 new Date(item.created_on).toLocaleString()
                             }}</span>
@@ -96,15 +96,15 @@
                             class="card-content-line-2"
                             v-if="item.modified_by && item.modified_on"
                         >
-                            <span>Modified By :</span>
-                            <span class="left-space-mo">
+                            <span>Modified On : &nbsp;</span>
+                            <!-- <span class="left-space-mo">
                                 <user-info-tooltip
                                     :userId="userObj[item.modified_by.user_id]"
                                 ></user-info-tooltip>
                             </span>
                             <span class="meta-space" v-if="item.modified_on"
                                 >On</span
-                            >
+                            > -->
                             <span v-if="item.modified_on">
                                 {{
                                     new Date(item.modified_on).toLocaleString()

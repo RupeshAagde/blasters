@@ -108,8 +108,8 @@
                                                 template.modified_by.username
                                         "
                                     >
-                                        <span>Modified By :</span>
-                                        <span class="cb-lm">
+                                        <span>Modified On :</span>
+                                        <!-- <span class="cb-lm">
                                             <user-info-tooltip
                                                 :userId="
                                                     userObj[
@@ -123,7 +123,7 @@
                                             class="cb-lm"
                                             v-if="template.modified_on"
                                             >On</span
-                                        >
+                                        > -->
                                         <span
                                             class="cb-lm"
                                             v-if="template.modified_on"
