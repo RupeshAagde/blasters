@@ -627,6 +627,8 @@ import Base64 from 'crypto-js/enc-base64';
 import Utf8 from 'crypto-js/enc-utf8';
 import cloneDeep from 'lodash/cloneDeep';
 import { debounce } from '@/helper/utils';
+import { mapGetters } from 'vuex';
+import { GET_USER_INFO } from '@/store/getters.type';
 
 const PRODUCT_NAME_MAPPING = {
     attribute: 'attributes',
@@ -695,7 +697,10 @@ export default {
             } else {
                 return 'Validate and confirm to save your import progress';
             }
-        }
+        },
+        ...mapGetters({
+            userData: GET_USER_INFO
+        })
     },
     data() {
         return {
@@ -1062,6 +1067,7 @@ export default {
                 );
                 return;
             }
+            // this.getFileType();
             //map values
             let result = [];
             try {
@@ -1092,7 +1098,7 @@ export default {
                             logo: item['Logo'],
                             slug: item['Slug'],
                             priority_order: item['Priority'],
-                            is_active: getBoolean(item['Active']),
+                            is_active: this.parseBoolean(item['Active']),
                             synonyms: synonyms
                         });
                     } else if (this.productType === 'category') {
@@ -1116,7 +1122,7 @@ export default {
                             media: media,
                             synonyms: synonyms,
                             priority: item['Priority'],
-                            is_active: getBoolean(item['Active']),
+                            is_active: this.parseBoolean(item['Active']),
                             hierarchy: item['Hierarchy'],
                             tryouts: item['Tryouts']
                         });
@@ -1128,10 +1134,10 @@ export default {
                             description: item['Description'],
                             categories: categories,
                             attributes: attributes,
-                            is_active: getBoolean(item['Active']),
+                            is_active: this.parseBoolean(item['Active']),
                             logo: item['Logo'],
-                            is_physical: getBoolean(item['Physical']),
-                            is_expirable: getBoolean(item['Expirable'])
+                            is_physical: this.parseBoolean(item['Physical']),
+                            is_expirable: this.parseBoolean(item['Expirable'])
                         });
                     } else if (this.productType === 'hsn') {
                         let taxes;
@@ -1170,8 +1176,10 @@ export default {
                         schema = {
                             type: item['Type'],
                             allowed_values: item['Allowed Values'],
-                            multi: getBoolean(item['Allow Multiple Values']),
-                            mandatory: getBoolean(item['Required']),
+                            multi: this.parseBoolean(
+                                item['Allow Multiple Values']
+                            ),
+                            mandatory: this.parseBoolean(item['Required']),
                             format: item['Formatting'],
                             range: { min: item['Min'], max: item['Max'] }
                         };
@@ -1180,13 +1188,15 @@ export default {
                             name: item['Name'],
                             description: item['Description'],
                             departments: departments,
-                            enabled_for_end_consumer: getBoolean(
+                            enabled_for_end_consumer: this.parseBoolean(
                                 item['Public']
                             ),
-                            variant: getBoolean(item['Variant Permissable']),
+                            variant: this.parseBoolean(
+                                item['Variant Permissable']
+                            ),
                             logo: item['Logo'],
                             unit: item['Unit'],
-                            filter: getBoolean(item['Filter']),
+                            filter: this.parseBoolean(item['Filter']),
                             attribute_schema: schema
                         });
                     }
@@ -1195,7 +1205,6 @@ export default {
                 console.log(err);
                 this.$snackbar.global.showError(err);
             }
-            debugger;
             this.productsArray = result;
             if (this.productsArray.length) {
                 this.validSchema = cssObj.validate({
@@ -1385,6 +1394,16 @@ export default {
         },
         getUserEmail() {
             return this.userData.user.emails[0].email;
+        },
+        getFileType() {
+            return this.file.name.split('.').pop();
+        },
+        parseBoolean(data) {
+            if (this.getFileType() === 'csv') {
+                return getBoolean(data);
+            } else {
+                return data;
+            }
         }
     }
 };

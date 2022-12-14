@@ -718,6 +718,7 @@ import CsvView from '@/components/common/adm-csv-viewer.vue';
 import { mapGetters } from 'vuex';
 import { GET_USER_INFO } from '@/store/getters.type';
 import values from 'lodash/values';
+import keys from 'lodash/keys';
 import { debounce } from '@/helper/utils';
 
 import {
@@ -834,12 +835,12 @@ export default {
                 }
             ],
             historyData: [],
-            history: {}
+            history: {},
+            failed_records: []
         };
     },
     mounted() {
         this.loadHistory(true);
-        console.log(this.userData);
     },
     methods: {
         closeOverlay: function(index) {
@@ -869,6 +870,7 @@ export default {
             if (history) {
                 this.history = history;
             }
+            this.errorsTable();
             this.isSidebarTogle = true;
             if (history.failed_records.length) {
                 this.$nextTick(() => {
@@ -1023,15 +1025,24 @@ export default {
             return file_type;
         },
         getErrorsTable: function() {
-            this.$refs['errors-preview'].createErrorsGrid(
+            this.$refs['errors-preview'].createGrid(
                 {
-                    column: this.errorsTable().meta.fields.map((e) => ({
+                    // {
+                    //     column: this.errorsTable().meta.fields.map((e) => ({
+                    //         headerName: e,
+                    //         field: e,
+                    //         resizable: true,
+                    //         width: e == 'Errors' ? 600 : 120
+                    //     })),
+                    //     rows: this.errorsTable().data
+                    // },
+                    column: keys(this.failed_records[0]).map((e) => ({
                         headerName: e,
                         field: e,
                         resizable: true,
-                        width: e == 'Errors' ? 600 : 120
+                        width: e == 'Message' ? 300 : 120
                     })),
-                    rows: this.errorsTable().data
+                    rows: this.failed_records
                 },
                 { rowClass: 'error-row' }
             );
@@ -1041,20 +1052,26 @@ export default {
         },
         errorsTable() {
             const mappedErrors = this.history.failed_records.map((err) => {
-                const msgs = [];
-                msgs.push(`${err.name}: ${err.message}`);
+                // const msgs = [];
+                // msgs.push(`${err.name}: ${err.message}`);
                 // const index = err[0].index;
+                if (this.productType === 'hsn') {
+                    return {
+                        'HSN Code': err.hsn_code,
+                        Message: `${err.hsn_code}: ${err.message}`
+                    };
+                }
                 return {
-                    name: err.name,
-                    Errors: msgs.join(', \n')
+                    Name: err.name,
+                    Message: `${err.name}: ${err.message}`
                 };
             });
-            console.log(mappedErrors);
-
-            return {
-                meta: { fields: ['Name', 'Message'] },
-                data: values(mappedErrors)
-            };
+            this.failed_records = mappedErrors;
+            // console.log(mappedErrors);
+            // this.failed_records = [{
+            //     meta: { fields: ['Name', 'Message'] },
+            //     data: values(mappedErrors)
+            // };
         },
         notifyByEmail(history) {
             let payload = {};

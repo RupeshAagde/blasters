@@ -22,17 +22,16 @@ const TYPE_CASTS = {
 export const getBoolean = (value) => {
     const val = value.toLowerCase();
     return val === 'true' ? true : val === 'false' ? false : 'Invalid data';
-}
+};
 
 export const typeCast = function typeCast(type, value) {
-    debugger
     const fnName = 'get' + type.name;
     const fn = TYPE_CASTS[fnName];
     if (fn === undefined) {
         throwError('Invalid data type');
     }
     return fn(value);
-}
+};
 
 function updateUniqueValueMap(map, column, value) {
     if (!map[column]) {
