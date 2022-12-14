@@ -150,8 +150,7 @@
                                                         dateRangeChange($event, true)
                                                     " @searchInputChange="
     clearDateFilter()
-" v-model="dateSelected" placeholder="Select Date Range"
-                                                    :searchable="true" :multiple="false">
+" v-model="dateSelected" placeholder="Select Date Range" :searchable="true" :multiple="false">
                                                     <label>Date Range</label>
                                                 </nitrozen-dropdown>
                                             </div>
@@ -277,7 +276,7 @@
 
                                             <td>
                                                 <div class="no-wrap">
-                                                    {{ epochToDate(method.last_attempted_on) }}
+                                                    {{ epochToDate(method.last_attempted_on / 1000) }}
                                                 </div>
                                             </td>
                                             <td class="clickable-payload" @click="
