@@ -148,7 +148,7 @@
                             <inline-svg :src="'cloud_download'"></inline-svg>
                         </a>
                         <!-- <inline-svg :src="'cloud_download'"></inline-svg> -->
-                        <p class="darker-xxxs cl-RoyalBlue ">Source File</p>
+                        <p class="darker-xxxs cl-RoyalBlue " v-if="history.tracking_url">Source File</p>
                     </div>
                 </template>
                 <template slot="body">
@@ -209,7 +209,9 @@
                         </div>
                         <div class="batch">
                             <div class="header column-1">Processing Time:</div>
-                            <div class="value column-2">NA</div>
+                            <div class="value column-2">
+                                {{ getProcessingTime(history) }}
+                            </div>
                         </div>
                     </div>
                 </template>
@@ -827,6 +829,16 @@ export default {
                         .pop()
                         .slice(1)
             );
+        },
+        getProcessingTime(history) {
+            if (history.completed_on) {
+                let start = new Date(history.created_on);
+                let end = new Date(history.completed_on);
+                let seconds = (end.getTime() - start.getTime()) / 1000;
+                return seconds + 's';
+            } else {
+                return 'NA';
+            }
         }
     }
 };

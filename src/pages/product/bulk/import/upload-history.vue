@@ -171,7 +171,7 @@
                             <nitrozen-badge
                                 v-if="history.stage"
                                 :state="getBadgeState(history.stage)"
-                                :class="{gray: history.stage === 'running'}"
+                                :class="{ gray: history.stage === 'running' }"
                             >
                                 {{ history.stage }}
                             </nitrozen-badge>
@@ -326,7 +326,9 @@
                         </div>
                         <div class="batch">
                             <div class="header column-1">Processing Time:</div>
-                            <div class="value column-2">NA</div>
+                            <div class="value column-2">
+                                {{ getProcessingTime(history) }}
+                            </div>
                         </div>
                     </div>
                 </template>
@@ -1122,6 +1124,16 @@ export default {
                 'errors-preview'
             ].csvExportFileName = `failed-records.csv`;
             this.$refs['errors-preview'].exportErrorsInCsv();
+        },
+        getProcessingTime(history) {
+            if (history.completed_on) {
+                let start = new Date(history.created_on);
+                let end = new Date(history.completed_on);
+                let seconds = (end.getTime() - start.getTime()) / 1000;
+                return seconds + 's';
+            } else {
+                return 'NA';
+            }
         }
     }
 };
