@@ -171,6 +171,7 @@
                             <nitrozen-badge
                                 v-if="history.stage"
                                 :state="getBadgeState(history.stage)"
+                                :class="{gray: history.stage === 'running'}"
                             >
                                 {{ history.stage }}
                             </nitrozen-badge>
@@ -399,7 +400,7 @@
 .close-box {
     border: 1px solid #9b9b9b;
     border-radius: 3px;
-    margin-left: 5px;
+    margin-left: 10px;
     span {
         padding: 8px;
     }
@@ -706,6 +707,10 @@
 }
 .ml-5 {
     margin-left: 5px;
+}
+.gray {
+    color: #9b9b9b;
+    border: 1px solid #9b9b9b;
 }
 </style>
 <script>
