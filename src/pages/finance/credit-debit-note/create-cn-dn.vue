@@ -93,11 +93,9 @@
                                 v-model="sellerId.value"
                                 :required="isRequired"
                                 @keyup.enter="getSellerDetails"
+                                @blur="getSellerDetails"
                                 :disabled="readOnlyMode || editingMode"
                             ></nitrozen-input>
-                            <!-- @keyup.delete.backspace="resetSellerName"
-                            @blur="getSellerDetails"
-                            @input="validateForm('sellerId')" -->
                             <nitrozen-error v-if="sellerId.errorMessage">{{ sellerId.errorMessage }}</nitrozen-error>
                         </div>
 
@@ -246,8 +244,6 @@
                             @blur="validateServiceInvoice"
                             @input="validateForm('invoiceNumber')"
                         ></nitrozen-input>
-                        <!-- @keyup.enter.tab="getFeeInvoiceDetails"
-                            @blur="getFeeInvoiceDetails" -->
                         <nitrozen-error v-if="invoiceNumber.errorMessage">{{ invoiceNumber.errorMessage }}</nitrozen-error>
                     </div>
 
@@ -1175,10 +1171,9 @@
                         }
                     })
                     .catch((err) => {
-                        //console.error(err);
-                        /* this.$snackbar.global.showError(
-                            `Failed due to ${err?.message}`
-                        ); */
+                        this.$snackbar.global.showError(
+                            `Failed due to ${err.message}`
+                        );
                     })
                     .finally(() => {
                         //this.inProgress = false;
