@@ -10,12 +10,17 @@ const env = root.env || {};
 const config = root.config || {};
 
 const GrindorService = {
-    hdns: [env.CDN_ITEM_DOMAINS],
+    hdns: env.CDN_ITEM_BASE_PATH ? [env.CDN_ITEM_BASE_PATH, ...env.OLD_CDN_BASE_URLS] : [env.CDN_ITEM_DOMAINS],
     isHDNPath(path) {
         try {
             const url = new URL(path);
-            return this.hdns.includes(url.hostname);
-
+            let isValid = false;
+            this.hdns.forEach(ele => {
+                if(url.href.includes(ele)){
+                    isValid = true;
+                }
+            });
+            return isValid;
         } catch (err) {
             return false
         }

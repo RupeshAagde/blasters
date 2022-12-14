@@ -16,6 +16,9 @@ import CreateTicket from './../../pages/tickets/create-ticket.vue';
 import VideoRoom from './../../pages/tickets/video-call/video-room.vue';
 import AddCategory from '../../pages/tickets/configuration/add-category.vue';
 import Configuration from './../../pages/tickets/configuration/configuration.vue';
+import kaptureIndex from './../../pages/tickets/configuration/kapture-integration/index.vue';
+import freshdeskIndex from './../../pages/tickets/configuration/freshdesk-integration/index.vue';
+import fyndPlatformIndex from './../../pages/tickets/configuration/fynd-platform-integration/index.vue';
 import SettingsVue from './../../pages/settings';
 import SettingsPartnerVue from './../../pages/settings/partner.vue';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details.vue';
@@ -270,6 +273,30 @@ export default [
                 name: 'support-configuration',
                 path: 'support/configuration',
                 component: Configuration,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'support-configuration-kapture',
+                path: 'support/configuration/integration/kapture',
+                component: kaptureIndex,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'support-configuration-freshdesk',
+                path: 'support/configuration/integration/freshdesk',
+                component: freshdeskIndex,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'support-configuration-default',
+                path: 'support/configuration/integration/default',
+                component: fyndPlatformIndex,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['support']);
                 }
