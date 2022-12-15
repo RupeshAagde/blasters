@@ -240,10 +240,11 @@
                             :required="isRequired"
                             :disabled="readOnlyMode || editingMode"
                             v-model="invoiceNumber.value"
-                            @keyup.enter.tab="validateServiceInvoice"
+                            
                             @blur="validateServiceInvoice"
                             @input="validateForm('invoiceNumber')"
                         ></nitrozen-input>
+                        <!-- @keyup.enter.tab="validateServiceInvoice" -->
                         <nitrozen-error v-if="invoiceNumber.errorMessage">{{ invoiceNumber.errorMessage }}</nitrozen-error>
                     </div>
 
@@ -959,13 +960,12 @@
                 if(Object.values(this.isValidForm).includes(false)){
                     return true;
                 }
-
                 switch (this.selectedType) {
                     case 'commercial':
                         if(Object.keys(this.isValidForm).length === 8) return false;
                         break;
                     case 'gst_fee':
-                        if(Object.keys(this.isValidForm).length === 2) {
+                        if(Object.keys(this.isValidForm).length > 3) {
                             if (!this.calledFromChild) {
                                 return true;
                             }
@@ -973,7 +973,7 @@
                         }
                         break;
                     case 'gst_service':
-                        if(Object.keys(this.isValidForm).length === 3 && this.calledFromChild) return false;
+                        if(Object.keys(this.isValidForm).length > 3 && this.calledFromChild) return false;
                         break;
                 }
                 return true;
@@ -1673,7 +1673,6 @@
                     try {
                         if (!this.readOnlyMode) {
                             res = await CreditDebitNoteServices.validateServiceInvoiceNumber(params);
-                            console.log(res);
                             this.invoiceNumber.isValid = res.data.success;
                             if(this.selectedType === 'gst_fee'){
                                 this.getFeeInvoiceDetails();
