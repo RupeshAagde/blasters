@@ -1,0 +1,21 @@
+{
+    "success": true,
+    "data": [
+        {
+            "id": "4688ab53-c439-45c3-8145-154c29927845",
+            "name": "warehouse",
+            "display_name": "Warehouse"
+        },
+        {
+            "id": "17a2ef14-93d5-47ca-bda7-3e37c4b2b1f9",
+            "name": "mall",
+            "display_name": "Mall"
+        },
+        {
+            "id": "7b39f3bb-f68c-443f-9b49-3b78292b817b",
+            "name": "high_street",
+            "display_name": "High Street"
+        }
+    ],
+    "total_count": 3
+}

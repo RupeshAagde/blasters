@@ -38,6 +38,7 @@ export default {
     showFileName(value){
       return value.replace("_"," ");
     }
+
   },
   methods: {
     open() {

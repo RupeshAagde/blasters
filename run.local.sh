@@ -1,7 +1,7 @@
 # server
 export NODE_ENV=development
 export ENV=development
-export PORT=8086
+export PORT=8087
 
 
 #API's
@@ -70,5 +70,7 @@ export NEW_RELIC_LICENSE_KEY=''
 export CDN_ITEM_BASE_PATH=https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/
 export OLD_CDN_BASE_URLS=hdn-1.addsale.com
 
+export BEEFREE_CLIENT_ID=dcce640f-abc1-4c0c-8398-84488e8c4cd7
+export BEEFREE_CLIENT_SECRET=0A8vfzg4DI2jB6aRiydrWprtio6lAeCCesjC4iaflrk75vGWkV5
 npm run start
 #node --inspect-brk server/index.js --env production

@@ -86,12 +86,15 @@
                                 >View Requested Scopes</nitrozen-button
                             >
                             <div class="scope-listing" v-else>
-                                <ul
-                                    class="ext-scopes"
-                                >
-                                <li v-for="(scope,
-                                    index) in extension_info.scope"
-                                    :key="scope + index">{{scope}}</li>
+                                <ul class="ext-scopes">
+                                    <li
+                                        v-for="(
+                                            scope, index
+                                        ) in extension_info.scope"
+                                        :key="scope + index"
+                                    >
+                                        {{ scope }}
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -100,9 +103,9 @@
                         class="right-container"
                         v-if="
                             extension_info.current_status !== 'pending' &&
-                                reviewer_name &&
-                                reviewer_email &&
-                                reviewer_phone
+                            reviewer_name &&
+                            reviewer_email &&
+                            reviewer_phone
                         "
                     >
                         <div class="cl-Mako bold-md">Reviewed By:</div>
@@ -338,7 +341,7 @@ export default {
         'page-empty': pageEmpty,
         'page-error': pageError,
         'page-header': pageHeader,
-        loader: loader,
+        loader: loader
     },
     directives: {
         flatBtn,
@@ -582,6 +585,53 @@ export default {
             this.$router
                 .push(`/administrator/extensions/review`)
                 .catch(() => {});
+        },
+        toDateTimeString(date) {
+            return moment(date).format('MMMM Do YYYY, h:mm a');
+        },
+        backClick() {
+            this.$emit('backClick');
+        },
+        getUserInfo(userId) {
+            CompanyService.searchUser({ query: userId })
+                .then((res) => {
+                    if (res.data.users.length) {
+                        this.reviewer_name =
+                            res.data.users[0].first_name +
+                            ' ' +
+                            res.data.users[0].last_name;
+                        for (
+                            let i = 0;
+                            i < res.data.users[0].emails.length;
+                            i++
+                        ) {
+                            if (res.data.users[0].emails[i].primary === true) {
+                                this.reviewer_email =
+                                    res.data.users[0].emails[i].email;
+                            }
+                        }
+                        for (
+                            let i = 0;
+                            i < res.data.users[0].phone_numbers.length;
+                            i++
+                        ) {
+                            if (
+                                res.data.users[0].phone_numbers[i].primary ===
+                                true
+                            ) {
+                                this.reviewer_phone =
+                                    '+' +
+                                    res.data.users[0].phone_numbers[i]
+                                        .country_code +
+                                    ' ' +
+                                    res.data.users[0].phone_numbers[i].phone;
+                            }
+                        }
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
         removeSelectedCategory(index, isL2 = false, idL1) {
             if (isL2) {

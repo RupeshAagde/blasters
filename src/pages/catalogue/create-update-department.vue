@@ -94,7 +94,6 @@
                 }}</nitrozen-error>
             </div>
             <div>
-                <div class="n-input-label">Logo *</div>
                 <image-uploader-tile
                     label="Logo *"
                     aspectRatio="1:1"

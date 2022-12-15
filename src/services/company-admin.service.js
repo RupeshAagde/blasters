@@ -111,9 +111,9 @@ const CompanyService = {
     getDeploymentMappings(params) {
         const axiosOptions = Object.assign(
             { params },
-            getCommonHeaderOptions()
+            getCommonHeaderOptions(),
         );
-        return ApiService.get(`${URLS.GET_DEPLOYMENT_MAPPING()}`, axiosOptions);
+        return ApiService.get(URLS.GET_DEPLOYMENT_MAPPING(), axiosOptions);
     },
 
     getDeploymentList() {
@@ -238,10 +238,6 @@ const CompanyService = {
     fetchUnits() {
         return ApiService.get(URLS.UNITS(), {});
     },
-    fetchCategories(params) {
-        let axiosOption = Object.assign({ params });
-        return ApiService.get(URLS.CATEGORY(), axiosOption);
-    },
     fetchGroups(params) {
         let axiosOption = Object.assign({ params });
         return ApiService.get(URLS.ATTRIBUTE_GROUPS(), axiosOption);
@@ -299,16 +295,6 @@ const CompanyService = {
             return ApiService.put(URLS.CATEGORY_v2(id), axiosOption);
         }
         return ApiService.post(URLS.CATEGORY_v2(), axiosOption);
-    },
-    // Fetch Company List
-    fetchCompanyList() {
-        let headers = {
-            'Content-Type': 'application/json'
-        };
-        let axiosOption = Object.assign({}, {
-            headers
-        });
-        return ApiService.get(URLS.FETCH_COMPANY_LIST(), axiosOption);
     },
     fetchTemplateSchema({ companyId, slug, ...params }) {
         let axiosOption = Object.assign({

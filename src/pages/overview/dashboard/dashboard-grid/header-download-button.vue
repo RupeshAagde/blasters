@@ -39,7 +39,7 @@ export default {
         chartId: this.chartId
       }).then(finished => {
         this.downloadInProgress = false;
-      }).catch(err => {
+      }).catch((err) => {
         this.downloadInProgress = false;
 
       })

@@ -47,6 +47,13 @@ const BillingService = {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {});
         return ApiService.get(URLS.FETCH_DAYTRADER_COMPONENT(), axiosOptions);
     },
+
+    getDaytraderConfig(payload) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
+            data: payload
+        });
+        return ApiService.post(URLS.FETCH_DAYTRADER_CONFIG(), axiosOptions);
+    },
     getSubscriptionDaytraderRules(params, subcriptionId) {
         const axiosOptions = Object.assign(
             {},
@@ -68,6 +75,12 @@ const BillingService = {
             URLS.SUBSCRIPTION_DAYTRADER_RULES(subcriptionId),
             axiosOptions
         );
+    },
+    getDaytraderFilters(payload) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
+            data: payload
+        });
+        return ApiService.post(URLS.FETCH_DAYTRADER_FILTERS(), axiosOptions);
     },
     getCurrentPlanDetails(params) {
         const axiosOptions = Object.assign(
@@ -259,12 +272,7 @@ const BillingService = {
         return ApiService.put(URLS.SUBSCRIPTION_COUPON(id), axiosOptions);
     },
 
-    getPlans(params) {
-        const axiosOptions = Object.assign({}, 
-            { params: params },
-            getCommonHeaderOptions());
-        return ApiService.get(URLS.FETCH_PLANS_LIST(), axiosOptions);
-    },
+   
     getSubscribers(params) {
         const axiosOptions = Object.assign({},
             { params: params },

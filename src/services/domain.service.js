@@ -40,6 +40,9 @@ const UNICRON_BASE = isNode ?
 const UNICRON_PUBLIC_URL = isNode ?
     envVars.BROWSER_CONFIG.UNICRON_PUBLIC_SVC :
     envVars.UNICRON_PUBLIC_URL;
+    const DAYTRADER_BASE = isNode
+    ? envVars.BROWSER_CONFIG.DAYTRADER_MAIN_SVC
+    : envVars.DAYTRADER_MAIN_URL;
 
 const PLATFORM_LEADS_BASE = isNode ?
     envVars.BROWSER_CONFIG.HIGHBROW_ADMIN_SVC :
@@ -200,7 +203,7 @@ const URLS = {
     GET_DEPLOYMENT_MAPPING: () => {
         return urlJoin(
             SLINGSHOT_ADMIN_URL,
-            '/v1.0/deployment_mapping'
+            '/v1.0/deployment_mapping/'
         );
     },
     GET_DEPLOYMENT_LIST: () => {
@@ -214,6 +217,9 @@ const URLS = {
             SLINGSHOT_ADMIN_URL,
             '/v1.0/deployment_mapping/'
         );
+    },
+        FETCH_DAYTRADER_FILTERS: () => {
+        return urlJoin(DAYTRADER_BASE, 'api/v1/get-data');
     },
     DELETE_DEPLOYMENT_MAPPING_BY_ID: (id) => {
         return urlJoin(
@@ -285,9 +291,6 @@ const URLS = {
     DEPARTMENT: () => {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/departments');
     },
-    CATEGORY: () => {
-        return urlJoin(SILVERBOLT_MAIN_URL, '/v1/category');
-    },
     CATEGORY_v2: (id = '') => {
         return urlJoin(SILVERBOLT_ACAT_URL, '/v1.0/category', id);
     },
@@ -327,7 +330,7 @@ const URLS = {
         return urlJoin(UNICRON_BASE, `v1.0/plan-editor/${planId}`);
     },
     FETCH_SUBSCRIPTION_COMPONENTS: () => {
-        return urlJoin(UNICRON_BASE, 'v1.0//component');
+        return urlJoin(UNICRON_BASE, 'v1.0/component');
     },
     FETCH_COMPONENT_PRICES: (componentId) => {
         return urlJoin(UNICRON_BASE, `v1.0//component/${componentId}/prices`);
@@ -424,6 +427,9 @@ const URLS = {
         return urlJoin(UNICRON_BASE, `/v1.0/customer`)},
     SUBSCRIPTION_ACTIVATE: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/activate`)
+    },
+    FETCH_DAYTRADER_CONFIG: () => {
+        return urlJoin(DAYTRADER_BASE, 'api/v1/get-output-fields_v2');
     },
 
     //#########Tickets########
@@ -552,6 +558,10 @@ const URLS = {
     PLATFORM_PRICING_BANNER: () => {
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/pricing-banner');
     },
+    PLATFORM_CUSTOM_TAGS: (id = '') => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/', id);
+    },
+
 
     //Grindor
     GRINDOR_EXPLORER: (namespace) => {
@@ -606,9 +616,6 @@ const URLS = {
     ADD_INTEGRATION: () => {
         return urlJoin(SLINGSHOT_ADMIN_URL, '/v1.0/integration');
     },
-    FETCH_COMPANY_LIST: () => {
-        return urlJoin(SILVERBOLT_MAIN_URL, 'v1/onboarding/company/info-view');
-    },
     // Product Verification
     FETCH_VERIFICATION_COMPANY_LIST: (companyId) => {
         return urlJoin(SILVERBOLT_ACAT_URL, `/v1.0/company/0/verification/`);
@@ -645,6 +652,66 @@ const URLS = {
     COMMUNICATION_CAMPAIGNS: () => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/campaign`)
     },
+    COMMUNICATION_EVENT: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/event/events-order`)
+    },
+    COMMUNICATION_EVENT_SUBSCRIPTION: (id='') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/event/event-subscriptions/`,id)
+    },
+    COMMUNICATION_SMS_TEMPLATES: (id='') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/templates/`,id)
+    },
+    SUBSCRIBED_SMS_TEMPLATES: (id='') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/subscribedTemplates`,id)
+    },
+    SUBSCRIBED_EMAIL_TEMPLATES: (id='') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/email/subscribedTemplates`,id)
+    },
+    COMMUNICATION_SMS_S_TEMPLATES: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/system-templates`)
+    },
+    COMMUNICATION_EMAIL_TEMPLATES: (id='') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/email/templates/`,id)
+    },
+    COMMUNICATION_EMAIL_S_TEMPLATES: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/email/system-templates`)
+    },
+    SMS_PROVIDER: (id = '') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/providers/`,id)
+    },
+    EMAIL_PROVIDER: (id = '') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/email/providers/`,id)
+    },
+    COMMS_DEFAULT_EMAIL_PROVIDERS: () => {
+        return urlJoin(COMMUNICATION_BASE_URL,`/v1.0/platform/email/default-providers`);
+    },
+    COMMUNICATION_GLOBAL_PROVIDER: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/app-provider/global-providers`)
+    },
+    COMMUNICATION_APP_PROVIDER: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/app-provider/get-provider`)
+    },
+    COMMUNICATION_SYSTEM_EVENTS: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/event/events`)
+    },
+    COMMUNICATION_SEND_SYNC: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `v1.0/platform/engine/send-sync`)
+    },
+    EVENT_BULK_UPDATE: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/event/event-subscriptions/bulkUpdate`)
+    },
+    SMS_DEFAULT: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/default-providers`)
+    },
+    GLOBAL_VARIABLES: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/global-variables`)
+    },
+    
+    
+    
+    
+    
+
 
 
     // ============= Order Service Endpoints ============

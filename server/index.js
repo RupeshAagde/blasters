@@ -94,6 +94,28 @@ app.get('/swagger.json', (req, res) => {
     message: 'not found'
   })
 })
+app.get('/admin/getBeeFreeToken', (req, res) => {
+  return axios({
+      method: 'POST',
+      url: 'https://auth.getbee.io/apiauth',
+      data: {
+          client_id: config.get('BEEFREE_CLIENT_ID'), // Enter your client id
+          client_secret: config.get('BEEFREE_CLIENT_SECRET'), // Enter your secret key
+          grant_type: 'password', // Do not change
+      },
+  })
+      .then((response) => response.data)
+      .then((data) => {
+          return res.json(data);
+      })
+      .catch((err) => {
+          if (err && err.response && err.response.data) {
+              return res.status(400).json(err.response.data);
+          } else {
+              return res.status(400).json(err);
+          }
+      });
+});
 
 app.get('/swagger-public.json', async (req, res) => {
   try {
