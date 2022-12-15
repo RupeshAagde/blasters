@@ -16,11 +16,7 @@ import questionsMock from './fixtures/questions-mock.json';
 import editRuleDataMock from './fixtures/mockEditRuleData.json';
 
 const mock = new MockAdapter(axios);
-let localVue,
-    router,
-    wrapperGlobalSetup,
-    wrapperGlobalEdit,
-    wrapperCustomEdit;
+let localVue, router, wrapperGlobalSetup, wrapperGlobalEdit, wrapperCustomEdit;
 
 let destroyComponent = jest.fn();
 let init = jest.fn();
@@ -249,6 +245,19 @@ describe('RMA Global Edit Component', () => {
         await new Promise((resolve) => setTimeout(resolve, 600));
         await wrapperGlobalEdit.vm.$nextTick();
         await flushPromises();
+        let subReasonDropdown = wrapperGlobalEdit.findAllComponents(
+            NitrozenDropdown
+        );
+        subReasonDropdown = subReasonDropdown.at(1);
+        subReasonDropdown.vm.$emit('searchInputChange', { text: 'ecomm' });
+        let apiFn = jest.spyOn(wrapperGlobalEdit.vm, 'fetchReasonsList');
+        await new Promise((resolve) => setTimeout(resolve, 600));
+        await wrapperGlobalEdit.vm.$nextTick();
+        await flushPromises();
+        expect(apiFn).toHaveBeenCalled();
+        await new Promise((resolve) => setTimeout(resolve, 600));
+        await wrapperGlobalEdit.vm.$nextTick();
+        await flushPromises();
         let addFn = jest.spyOn(wrapperGlobalEdit.vm, 'addSubReason');
         let addButton = wrapperGlobalEdit.find('.add-rule-option');
         await addButton.trigger('click');
@@ -275,7 +284,7 @@ describe('RMA Global Edit Component', () => {
         await wrapperGlobalEdit.vm.$nextTick();
         await flushPromises();
         expect(deleteFn).toHaveBeenCalled();
-        console.log(wrapperGlobalEdit.vm.selectedArrayOfReasons)
+        console.log(wrapperGlobalEdit.vm.selectedArrayOfReasons);
     });
 
     it('test onDestroy', async () => {
@@ -291,7 +300,8 @@ describe('RMA Custom Edit Component', () => {
         router = new VueRouter({
             routes: [
                 {
-                    path: '/administrator/orders/rma/rules/custom/FyndStore/edit',
+                    path:
+                        '/administrator/orders/rma/rules/custom/FyndStore/edit',
                     name: 'rma-custom-rule-edit',
                     component: RmaSetup
                 }
@@ -302,7 +312,7 @@ describe('RMA Custom Edit Component', () => {
             200,
             salesChannelMock
         );
-        mock.onGet(URLS.GET_REASONS()).reply(200, reasonsMock);
+        mock.onGet(URLS.GET_REASONS()).reply(400);
         mock.onGet(URLS.GET_QUESTIONS()).reply(200, questionsMock);
     });
 

@@ -25,18 +25,12 @@
             <div class="page-container">
                 <div class="setup-header">
                     <p class="setup-title">
-                        {{
-                            $route.name.includes('custom')
-                                ? channel.name
-                                : ''
-                        }}
+                        {{ isCustomRoute ? channel.name : '' }}
                         Rule
-                        {{
-                            $route.name.includes('edit') ? 'Edit' : 'Setup'
-                        }}
+                        {{ isEditRoute ? 'Edit' : 'Setup' }}
                     </p>
                 </div>
-            <!-- Not requires in P0 release, will take this in p1 -->
+                <!-- Not requires in P0 release, will take this in p1 -->
                 <!-- <div class="setup-container">
                     <div class="sales-channel-category-container">
                         <p class="setup-title">Department</p>
@@ -372,8 +366,7 @@
                                                                         childReason.qc_type
                                                                     "
                                                                     >No Quality
-                                                                    Check
-                                                                    Required</nitrozen-radio
+                                                                    Check</nitrozen-radio
                                                                 >
                                                             </div>
                                                         </div>
@@ -387,7 +380,7 @@
                                                                         )
                                                                 "
                                                                 :multiple="true"
-                                                                label="Question"
+                                                                label="Questions"
                                                                 class="question-dropdown"
                                                                 :items="
                                                                     questionsList
@@ -532,11 +525,16 @@ export default {
         };
     },
     computed: {
-        isL3DropdownDisabled() {
-            return this.selectedDepartment === null;
+        isEditRoute() {
+            return this.$route.name.includes('edit');
         },
+        isCustomRoute() {
+            return this.$route.name.includes('custom');
+        },
+        // isL3DropdownDisabled() {
+        //     return this.selectedDepartment === null;
+        // },
         isSaveDisabled() {
-
             // We removed department dropdown from p0 release
             // if (this.selectedDepartment === null) {
             //     return true;
@@ -582,10 +580,7 @@ export default {
             this.editRuleData = JSON.parse(
                 localStorage.getItem('rma_rule_data')
             );
-            if (
-                this.$route.name.includes('edit') &&
-                this.editRuleData !== undefined
-            ) {
+            if (this.isEditRoute && this.editRuleData !== undefined) {
                 // this.selectedDepartmentId = this.editRuleData.meta.department.id;
                 // this.selectedDepartment = `${this.editRuleData.meta.department.display_name}`;
                 //this.fetchL3Categories(this.editRuleData.meta.department.id);
@@ -604,22 +599,32 @@ export default {
                             question_set: res.question_set,
                             collapse: false,
                             meta: res.meta ? res.meta : {},
-                            storedVal: `${res.id}-|-${res.display_name}-|-${res.is_active}-|-${JSON.stringify(res.meta)}`,
+                            storedVal: `${res.id}-|-${res.display_name}-|-${
+                                res.is_active
+                            }-|-${JSON.stringify(res.meta)}`,
                             reasons: []
                         };
                         this.selectedArrayOfReasons[
-                            `${res.id}-|-${res.display_name}-|-${res.is_active}-|-${JSON.stringify(res.meta)}`
+                            `${res.id}-|-${res.display_name}-|-${
+                                res.is_active
+                            }-|-${JSON.stringify(res.meta)}`
                         ] = [
                             {
-                                storedVal: `${res.id}-|-${res.display_name}-|-${res.is_active}-|-${JSON.stringify(res.meta)}`
+                                storedVal: `${res.id}-|-${res.display_name}-|-${
+                                    res.is_active
+                                }-|-${JSON.stringify(res.meta)}`
                             }
                         ];
                         let subReasons = res.reasons ? [...res.reasons] : [];
                         subReasons = subReasons.map((sub) => {
                             this.selectedArrayOfReasons[
-                                `${res.id}-|-${res.display_name}-|-${res.is_active}-|-${JSON.stringify(res.meta)}`
+                                `${res.id}-|-${res.display_name}-|-${
+                                    res.is_active
+                                }-|-${JSON.stringify(res.meta)}`
                             ].push({
-                                storedVal: `${sub.id}-|-${sub.display_name}-|-${sub.is_active}-|-${JSON.stringify(sub.meta)}`
+                                storedVal: `${sub.id}-|-${sub.display_name}-|-${
+                                    sub.is_active
+                                }-|-${JSON.stringify(sub.meta)}`
                             });
                             return {
                                 id: sub.display_name,
@@ -633,7 +638,9 @@ export default {
                                     (ques) =>
                                         `${ques.id}-|-${ques.display_name}`
                                 ),
-                                storedVal: `${sub.id}-|-${sub.display_name}-|-${sub.is_active}-|-${JSON.stringify(sub.meta)}`
+                                storedVal: `${sub.id}-|-${sub.display_name}-|-${
+                                    sub.is_active
+                                }-|-${JSON.stringify(sub.meta)}`
                             };
                         });
                         obj.reasons = [...subReasons];
@@ -644,13 +651,13 @@ export default {
                     JSON.stringify(reasonList)
                 );
             }
-            if (this.$route.name.includes('custom')) {
+            if (this.isCustomRoute) {
                 const channelData = JSON.parse(
                     localStorage.getItem('rma_sales_channel_data')
                 );
                 if (channelData) {
                     this.channel = { ...channelData };
-                    this.breadcrumbRoutes[1].name = channelData.name
+                    this.breadcrumbRoutes[1].name = channelData.name;
                 }
             }
         },
@@ -744,7 +751,9 @@ export default {
             setTimeout(() => {
                 this.selectedParentReason = null;
             }, 0);
-            const [id, display_name, is_active, meta] = selectedRes.split('-|-');
+            const [id, display_name, is_active, meta] = selectedRes.split(
+                '-|-'
+            );
             let dummySubReason = [
                 {
                     id: 'default' + Math.random(),
@@ -886,63 +895,63 @@ export default {
                 this.chosenParentReasonsList[parentReasonIndex].storedVal
             ] = [...selectedArrayMap];
         },
-        fetchDepartmentsList(searchText = '') {
-            this.deptLoading = true;
-            const params = { page_no: 1, page_size: 50 };
-            if (searchText.length) {
-                params['search'] = searchText;
-            }
-            RMAService.getDepartments(params)
-                .then((res) => {
-                    this.departmentsDropdownList = res.data.items.map(
-                        (department) => {
-                            return {
-                                value: `${department.uid}-|-${department.name}`,
-                                text: department.name
-                            };
-                        }
-                    );
-                    this.deptLoading = false;
-                })
-                .catch(() => {
-                    this.deptLoading = false;
-                    this.showSnackBar(
-                        'error',
-                        'Failed to get Departments List',
-                        2000
-                    );
-                });
-        },
-        fetchL3Categories(departments, searchText = '') {
-            this.L3Loading = true;
-            const query_params = {
-                departments,
-                level: 3,
-                page_size: 50,
-                page_number: 1
-            };
-            if (searchText.length) {
-                query_params['q'] = searchText;
-            }
-            RMAService.getCategories(query_params)
-                .then((res) => {
-                    this.l3DropdownList = res.data.items.map((category) => {
-                        return {
-                            value: `${category.uid}-|-${category.name}`,
-                            text: category.name
-                        };
-                    });
-                    this.L3Loading = false;
-                })
-                .catch(() => {
-                    this.L3Loading = false;
-                    this.showSnackBar(
-                        'error',
-                        'Failed to get L3 Categories List',
-                        2000
-                    );
-                });
-        },
+        // fetchDepartmentsList(searchText = '') {
+        //     this.deptLoading = true;
+        //     const params = { page_no: 1, page_size: 50 };
+        //     if (searchText.length) {
+        //         params['search'] = searchText;
+        //     }
+        //     RMAService.getDepartments(params)
+        //         .then((res) => {
+        //             this.departmentsDropdownList = res.data.items.map(
+        //                 (department) => {
+        //                     return {
+        //                         value: `${department.uid}-|-${department.name}`,
+        //                         text: department.name
+        //                     };
+        //                 }
+        //             );
+        //             this.deptLoading = false;
+        //         })
+        //         .catch(() => {
+        //             this.deptLoading = false;
+        //             this.showSnackBar(
+        //                 'error',
+        //                 'Failed to get Departments List',
+        //                 2000
+        //             );
+        //         });
+        // },
+        // fetchL3Categories(departments, searchText = '') {
+        //     this.L3Loading = true;
+        //     const query_params = {
+        //         departments,
+        //         level: 3,
+        //         page_size: 50,
+        //         page_number: 1
+        //     };
+        //     if (searchText.length) {
+        //         query_params['q'] = searchText;
+        //     }
+        //     RMAService.getCategories(query_params)
+        //         .then((res) => {
+        //             this.l3DropdownList = res.data.items.map((category) => {
+        //                 return {
+        //                     value: `${category.uid}-|-${category.name}`,
+        //                     text: category.name
+        //                 };
+        //             });
+        //             this.L3Loading = false;
+        //         })
+        //         .catch(() => {
+        //             this.L3Loading = false;
+        //             this.showSnackBar(
+        //                 'error',
+        //                 'Failed to get L3 Categories List',
+        //                 2000
+        //             );
+        //         });
+        // },
         fetchReasonsList(type = ['parent'], searchText = '') {
             this.pageLoading = true;
             const query_params = {
@@ -956,7 +965,9 @@ export default {
                 .then((res) => {
                     let list = res.data.items.map((reason) => {
                         return {
-                            value: `${reason.id}-|-${reason.display_name}-|-${reason.is_active}-|-${JSON.stringify(reason.meta)}`,
+                            value: `${reason.id}-|-${reason.display_name}-|-${
+                                reason.is_active
+                            }-|-${JSON.stringify(reason.meta)}`,
                             text: reason.display_name
                         };
                     });
@@ -1017,18 +1028,16 @@ export default {
                     ? 'global'
                     : 'custom',
                 is_deleted: false,
-                conditions: {
-                },
+                conditions: {},
                 is_deleted: false,
-                meta: {
-                },
+                meta: {},
                 qc_enabled: true,
                 is_active: true,
                 actions: {
                     reasons: []
                 }
             };
-            if (this.$route.name.includes('custom')) {
+            if (this.isCustomRoute) {
                 postData.meta['channel'] = {
                     id: this.channel.id,
                     display_name: this.channel.name
@@ -1063,7 +1072,10 @@ export default {
                         display_name: childData.split('-|-')[1],
                         qc_type: [...qcType],
                         question_set: [...questionSet],
-                        meta: childData.split('-|-').length > 3 ? JSON.parse(childData.split('-|-')[3]) : {}
+                        meta:
+                            childData.split('-|-').length > 3
+                                ? JSON.parse(childData.split('-|-')[3])
+                                : {}
                     };
                     reasonsObj.reasons.push({ ...subReasonsObj });
                 }
@@ -1072,7 +1084,7 @@ export default {
             postData.actions.reasons = [...postReasonsData];
 
             let apiCall = () =>
-                this.$route.name.includes('edit')
+                this.isEditRoute
                     ? RMAService.editRule(this.editRuleData.id, postData)
                     : RMAService.postRule(postData);
 
@@ -1081,7 +1093,7 @@ export default {
                     if (res.data.success) {
                         this.showSnackBar(
                             'success',
-                            this.$route.name.includes('edit')
+                            this.isEditRoute
                                 ? `Rule ${res.data.id} Edited Successfully`
                                 : `Rule ${res.data.id} Created Successfully`,
                             2000
@@ -1102,9 +1114,7 @@ export default {
                     this.showSnackBar(
                         'error',
                         `Failed to ${
-                            this.$route.name.includes('edit')
-                                ? 'edit'
-                                : 'create'
+                            this.isEditRoute ? 'edit' : 'create'
                         } Rule`,
                         2000
                     );
