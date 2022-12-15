@@ -294,13 +294,13 @@ export default {
         this.tableHeadings = this.isGlobal ? [
             'ID',
             'Department',
-            'Subcategory',
+            'Category',
             'Quality Check',
             'Actions'
         ] : [
             'ID',
             'Department',
-            'Subcategory',
+            'Category',
             'Quality Check',
         ]
         this.setChannelData()

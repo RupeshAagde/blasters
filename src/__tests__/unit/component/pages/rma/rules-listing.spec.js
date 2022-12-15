@@ -115,7 +115,7 @@ describe('RulesListing', () => {
         expect(wrapper.vm.tableHeadings).toStrictEqual([
             'ID',
             'Department',
-            'Subcategory',
+            'Category',
             'Quality Check',
             'Actions'
         ]);
