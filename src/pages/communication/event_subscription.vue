@@ -282,7 +282,6 @@
 import Jumbotron from '@/components/common/jumbotron';
 import loader from '@/components/common/loader.vue';
 import PageError from '@/components/common/page-error';
-import { titleCase, toggleString } from '@/helper/utils';
 import FormInput from '@/components/common/form-input';
 import CommunicationServices from '../../services/pointblank.service';
 
@@ -442,7 +441,6 @@ export default {
                     this.pageError = true;
                 });
         },
-        toggleString,
         fetchEventsOrder() {
             return CommunicationServices.getEventsOrder().then(({ data }) => {
                 this.ORDER = data;

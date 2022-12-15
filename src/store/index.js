@@ -15,10 +15,10 @@ export function createStore() {
     const server = createServerStore();
     const company = createCompanyStore();
     const billing = createBillingStore();
-    const packaging = createPackagingStore()
-    const variants = createVariantStore()
-    const analytics = createAdminAnalyticsStore()
+    const packaging = createPackagingStore();
+    const variants = createVariantStore();
     const webhook = createAdminWebhookStore();
+    const analytics = createAdminAnalyticsStore()
     return new Vuex.Store({
         modules: {
             auth,
@@ -26,9 +26,9 @@ export function createStore() {
             company,
             billing,
             packaging,
-            analytics,
+            webhook,
             variants,
-            webhook
+            analytics
         }
     });
 }

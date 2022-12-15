@@ -939,7 +939,6 @@ const mutations = {
             [key]: toggleValue
         };
         state[ANALYTICS_STATE.REFRESH_ALL_PAGE][page] = {...state[ANALYTICS_STATE.REFRESH_ALL_PAGE][page], ...newObject};
-        console.log('state: ', state);
     }, [RESET_REFRESH_TOKENS](state, {toggle, page}) {
         state[ANALYTICS_STATE.REFRESH_ALL_PAGE][page] = Object.keys(state[ANALYTICS_STATE.REFRESH_ALL_PAGE][page]).reduce((a, i) => {
             a[i] = toggle;

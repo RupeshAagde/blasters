@@ -677,23 +677,14 @@ export const getAspectRatioFromString = function (aspectRatio = '1:1', getObject
         return gcd(b, a%b)
     }
 }
-export const detectFPApp = () => {
-    if (isBrowser) {
-        return window.__fpAppDetails;
-    };
-    return false;
-};
-export const toggleString = (status, style) => {
-    let str = status ? 'enabled' : 'disabled';
-    if (style === 'titleCase') {
-        str = titleCase(str);
-    } else if (style === 'upperCase') {
-        str = str.toUpperCase(str);
-    }
-    return str;
-}
-
 
 export const  pickValues = function (obj, keys) {
     return get(obj, keys.join('.'));
+};
+
+export const detectFPApp = () => {
+    if (isBrowser) {
+        return window._fpAppDetails;
+    };
+    return false;
 };

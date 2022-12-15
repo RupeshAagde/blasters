@@ -264,7 +264,7 @@ export const getNavigations = () => {
         },
         {
             display: 'Extension',
-            link: '/administrator/extensions/review',
+            link: '/administrator/extensions',
             title: 'extensions',
             icon: 'settings',
             highlightedIcon: 'settings-highlighted',
@@ -276,6 +276,7 @@ export const getNavigations = () => {
                     link: '/administrator/extensions/review',
                     title: 'review',
                     icon: 'settings',
+                    permission: 'extension/review',
                     highlightedIcon: 'home-highlighted',
                     active: false
                 },

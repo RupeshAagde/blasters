@@ -152,7 +152,7 @@ export default {
   background: #FFFFFF;
   margin: 0 auto;
   padding: 0 1.5rem;
-  margin-bottom:1.5rem; 
+  margin-bottom:1.5rem;
 
 }
 

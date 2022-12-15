@@ -189,8 +189,21 @@ export default {
             let permissions = this.userPermissions
                 ? this.userPermissions.permissions
                 : [];
-            return getNavigations(this.$route).filter((navItem) =>
-                permissions.includes(navItem.permission)
+            return getNavigations(this.$route).filter((navItem) => {
+                let allowNavigation = permissions.includes(navItem.permission);
+                // filter child navigation item permission if any and allow only child items of which user has permission of
+                if (allowNavigation && navItem.children && navItem.children.length) {
+                    navItem.children = navItem.children.filter(chItem=>(!chItem.permission || permissions.includes(chItem.permission)));
+                    if (navItem.children.length) {
+                        navItem.link = navItem.children[0].link || navItem.link;
+                        return navItem;
+                    }
+                    else {
+                        allowNavigation = false;
+                    }
+                }
+                return allowNavigation;
+            }
             );
         },
         currentPath() {

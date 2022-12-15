@@ -400,7 +400,7 @@ import listingCard from './listing-card.vue';
 import Shimmer from '@/components/common/shimmer';
 import uktNotFound from '@/components/common/ukt-not-found.vue';
 import uktModal from '@/components/common/utk-modal.vue';
-import { titleCase, toggleString, debounce } from '@/helper/utils';
+import { titleCase, debounce } from '@/helper/utils';
 import cloneDeep from 'lodash/cloneDeep';
 
 import path from 'path';

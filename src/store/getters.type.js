@@ -23,12 +23,13 @@ export const GET_EDIT_PRODUCT = 'GET_EDIT_PRODUCT';
 export const GET_L3_CATEGORIES = 'GET_L3_CATEGORIES';
 export const GET_L3_DICT = 'GET_L3_DICT';
 
-//variants
-export const GET_VARIANTS = 'GET_VARIANTS'
 //
 export const GET_REPORT_HISTORIES = "GET_REPORT_HISTORIES";
 export const GET_REPORT_HISTORY_PAGINATION = "GET_REPORT_HISTORY_PAGINATION";
 export const GET_SUBSCRIBER_ID_MAP = "GET_SUBSCRIBER_ID_MAP";
+
+//variants
+export const GET_VARIANTS = 'GET_VARIANTS'
 
 
 //analytics

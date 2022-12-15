@@ -111,6 +111,9 @@ const filtersSharedValueMixins = {
                 );
             },
             set(val) {
+                if (!this.forFirstTime && this.isDisabled){
+                    return;
+                }
                 this.val = val;
                 this.saveValueToStore(val);
                 if (this.applyFilter) {
@@ -120,7 +123,7 @@ const filtersSharedValueMixins = {
                             panelIndex: 1,
                             cardIndex: 0,
                             filterIndex: 2,
-                            dependency: this.seedData.dependency.dependentOn,
+                            dependency: this.seedData.dependency.clearFilters,
                             chartId: this.chartId
                         });
                     }
@@ -138,5 +141,8 @@ const filtersSharedValueMixins = {
         },
     }
 };
+const isGlobalLoadingProps = {
+    props: {isGlobalLoading: {type: Boolean}}
+};
 
-export {filterMixin, sharedDataMixins, filterComponentSharedProps, filtersSharedValueMixins};
+export {filterMixin, sharedDataMixins, filterComponentSharedProps, filtersSharedValueMixins, isGlobalLoadingProps};
