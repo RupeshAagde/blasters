@@ -16,7 +16,7 @@ const GrindorService = {
             const url = new URL(path);
             let isValid = false;
             this.hdns.forEach(ele => {
-                if(url.href.includes(ele)){
+                if(ele && url.href.includes(ele)){
                     isValid = true;
                 }
             });
