@@ -1,0 +1,196 @@
+[
+    {
+      "id": "total_list_channel_name",
+      "type": "arrow",
+      "field": "channel name",
+      "isExpandable": true,
+      "cellStyle": {
+        "color": "#41434C",
+        "font-size": "11px",
+        "font-style": "normal",
+        "font-family": "Inter",
+        "font-weight": "normal",
+        "line-height": "17px"
+      },
+      "headerName": "Channel Name",
+      "valueFormatter": {
+        "prefixSymbol": "",
+        "suffixSymbol": "",
+        "enableDynamicSuffix": false
+      },
+      "rows": [
+        {
+          "channel name": "Fynd",
+          "shipment id": [
+            "16645101948401757414",
+            "Sep 30, 2022, 02:05 AM"
+          ],
+          "store details": "2380",
+          "customer details": "Bipin shinde",
+          "rider details": [
+            "Dil Bahadur",
+            "+91 6361699614"
+          ],
+          "in state since": "00:28 hrs",
+          "status": {
+            "name": "Delivery done",
+            "time": "Sep 30, 2022, 04:54 PM"
+          },
+          "track": {
+            "url": "www.google.com",
+            "icon": "track",
+            "collapseModel": {
+              "fields": [
+                {
+                  "name": "Reference ID",
+                  "value": "564d0592-405d-41c9-ba41 9294eb89a3d7"
+                },
+                {
+                  "name": "OTP",
+                  "value": "{'drop': '1261', 'pick': '3193'}"
+                },
+                {
+                  "name": "Other Rider Details",
+                  "value": "Siva +91 6361699614"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "total_list_shipment_id",
+      "type": "array",
+      "field": "shipment id",
+      "cellStyle": {
+        "color": "#41434C",
+        "font-size": "11px",
+        "font-style": "normal",
+        "font-family": "Inter",
+        "font-weight": "normal",
+        "line-height": "17px"
+      },
+      "headerName": "Shipment Id",
+      "valueFormatter": {
+        "prefixSymbol": "",
+        "suffixSymbol": "",
+        "enableDynamicSuffix": false
+      }
+    },
+    {
+      "id": "total_list_store_details",
+      "type": "string",
+      "field": "store details",
+      "cellStyle": {
+        "color": "#41434C",
+        "font-size": "11px",
+        "font-style": "normal",
+        "font-family": "Inter",
+        "font-weight": "500",
+        "line-height": "17px"
+      },
+      "headerName": "Store Details",
+      "valueFormatter": {
+        "prefixSymbol": "",
+        "suffixSymbol": "",
+        "enableDynamicSuffix": true
+      }
+    },
+    {
+      "id": "total_table_customer_details",
+      "type": "string",
+      "field": "customer details",
+      "cellStyle": {
+        "color": "#41434C",
+        "font-size": "11px",
+        "font-style": "normal",
+        "font-family": "Inter",
+        "font-weight": "500",
+        "line-height": "17px"
+      },
+      "headerName": "Customer Details",
+      "valueFormatter": {
+        "prefixSymbol": "",
+        "suffixSymbol": "",
+        "enableDynamicSuffix": true
+      }
+    },
+    {
+      "id": "total_table_rider_details",
+      "type": "COLLAPSE",
+      "class": "class",
+      "field": "rider details",
+      "cellStyle": {
+        "color": "#41434C",
+        "font-size": "11px",
+        "font-style": "normal",
+        "font-family": "Inter",
+        "font-weight": "500",
+        "line-height": "17px"
+      },
+      "headerName": "Rider Details",
+      "valueFormatter": {
+        "prefixSymbol": "",
+        "suffixSymbol": "",
+        "enableDynamicSuffix": true
+      }
+    },
+    {
+      "id": "total_table_state",
+      "type": "string",
+      "field": "in state since",
+      "cellStyle": {
+        "color": "#41434C",
+        "font-size": "11px",
+        "font-style": "normal",
+        "font-family": "Inter",
+        "font-weight": "500",
+        "line-height": "17px"
+      },
+      "headerName": "In State Since",
+      "valueFormatter": {
+        "prefixSymbol": "",
+        "suffixSymbol": "",
+        "enableDynamicSuffix": true
+      }
+    },
+    {
+      "id": "total_table_status",
+      "type": "status",
+      "field": "status",
+      "cellStyle": {
+        "color": "#41434C",
+        "font-size": "11px",
+        "font-style": "normal",
+        "font-family": "Inter",
+        "font-weight": "500",
+        "line-height": "17px"
+      },
+      "headerName": "Status",
+      "valueFormatter": {
+        "prefixSymbol": "",
+        "suffixSymbol": "",
+        "enableDynamicSuffix": true
+      }
+    },
+    {
+      "id": "total_table_track",
+      "type": "icon",
+      "field": "track",
+      "cellStyle": {
+        "color": "#41434C",
+        "font-size": "11px",
+        "font-style": "normal",
+        "font-family": "Inter",
+        "font-weight": "500",
+        "line-height": "17px"
+      },
+      "headerName": "Track",
+      "valueFormatter": {
+        "prefixSymbol": "",
+        "suffixSymbol": "",
+        "enableDynamicSuffix": true
+      }
+    }
+  ]
