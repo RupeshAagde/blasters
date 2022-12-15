@@ -150,8 +150,7 @@
                                                         dateRangeChange($event, true)
                                                     " @searchInputChange="
     clearDateFilter()
-" v-model="dateSelected" placeholder="Select Date Range"
-                                                    :searchable="true" :multiple="false">
+" v-model="dateSelected" placeholder="Select Date Range" :searchable="true" :multiple="false">
                                                     <label>Date Range</label>
                                                 </nitrozen-dropdown>
                                             </div>
@@ -203,7 +202,7 @@
                                             Event
                                         </td>
                                         <td class="clickable line-height" @click="
-                                            sortTable('response.status')
+                                            sortTable('response.response_code')
                                         ">
                                             <div>Response</div>
                                             <div>Code</div>
@@ -257,7 +256,7 @@
                                             </td>
                                             <td>
                                                 <div>
-                                                    {{ method.status }}
+                                                    {{ method.response_code }}
                                                 </div>
                                             </td>
                                             <td>
@@ -277,7 +276,7 @@
 
                                             <td>
                                                 <div class="no-wrap">
-                                                    {{ epochToDate(method.last_attempted_on) }}
+                                                    {{ epochToDate(method.last_attempted_on / 1000) }}
                                                 </div>
                                             </td>
                                             <td class="clickable-payload" @click="
