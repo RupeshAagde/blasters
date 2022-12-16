@@ -391,7 +391,11 @@
               break;
             case 'amount':
               this.$set(this.amount.errorMsg,index,false);
-              this.validateAmount(index);
+              if(this.$route.params.noteType == 'credit'){
+                this.validateAmount(index);
+              }else{
+                this.totalAmount[index] = this.setTotalAmount(index);
+              }
               break;
             case 'remark':
               this.$set(this.remark.errorMsg,index,false);
