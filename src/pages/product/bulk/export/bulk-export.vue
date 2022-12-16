@@ -46,14 +46,21 @@
                     >
                         <nitrozen-dropdown
                             label="Department"
-                            :placeholder="'Choose department(s)'"
+                            :placeholder="
+                                selectedDepartments &&
+                                selectedDepartments.length
+                                    ? `${selectedDepartments.length} selected`
+                                    : 'Choose department(s)'
+                            "
                             class="selection-dropdown attribute"
                             :items="departmentList"
                             :required="true"
                             :multiple="true"
+                            :searchable="true"
                             :enable_select_all="true"
                             v-model="selectedDepartments"
                             @change=""
+                            @searchInputChange="setDepartmentsList"
                         ></nitrozen-dropdown>
                     </div>
                     <div class="download-button ml-16">
@@ -88,25 +95,37 @@
                 <div class="department">
                     <nitrozen-dropdown
                         label="Department"
-                        :placeholder="'Select department(s)'"
+                        :placeholder="
+                            selectedDepartments && selectedDepartments.length
+                                ? `${selectedDepartments.length} selected`
+                                : 'Choose department(s)'
+                        "
                         class="selection-dropdown"
                         :items="departmentList"
                         v-model="selectedDepartments"
                         :required="true"
                         :multiple="true"
                         :enable_select_all="true"
-                        @change=""
+                        :searchable="true"
+                        @change="fetchCategories"
+                        @searchInputChange="setDepartmentsList"
                     ></nitrozen-dropdown>
                 </div>
                 <div class="category">
                     <nitrozen-dropdown
                         label="Category"
-                        :placeholder="'Select categories'"
+                        :placeholder="
+                            selectedCategories && selectedCategories.length
+                                ? `${selectedCategories.length} selected`
+                                : 'Select categories'
+                        "
                         class="selection-dropdown"
                         :items="templateCategories"
                         :required="true"
                         :multiple="true"
                         :enable_select_all="true"
+                        :searchable="true"
+                        @searchInputChange="setCategoriesList"
                         v-model="selectedCategories"
                         @change=""
                     ></nitrozen-dropdown>
@@ -571,15 +590,18 @@ export default {
                     });
             });
         },
-        fetchCategories() {
+        fetchCategories(e) {
             const params = {
                 page_size: 999999,
-                page_no: 1,
+                page_no: 1
             };
+            if (e && e.length !== this.departments.length)
+                params.department = this.selectedDeptIds;
             return new Promise((resolve, reject) => {
                 CompanyService.fetchCategory_v2(params)
                     .then(({ data }) => {
                         this.categories = data.items;
+                        this.selectedCategories = [];
                         this.setCategoriesList();
                         return resolve();
                     })
