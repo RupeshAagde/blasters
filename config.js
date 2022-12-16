@@ -1,7 +1,7 @@
 'use strict';
 const convict = require('convict');
 
-const platformDomain = process.env['FYND_PLATFORM_DOMAIN'] || '';
+const platformDomain = process.env['FYND_PLATFORM_DOMAIN'] || "";
 
 const conf = convict({
     env: {
@@ -26,25 +26,25 @@ const conf = convict({
             arg: 'fynd_platform_domain'
         },
         MIRAGE_MAIN_DOMAIN: {
-            doc: 'Mirage Main Domain',
+            doc: "Mirage Main Domain",
             format: String,
             default: `https://platform.${platformDomain}`,
-            env: 'MIRAGE_MAIN_DOMAIN',
-            arg: 'mirage_main_domain'
+            env: "MIRAGE_MAIN_DOMAIN",
+            arg: "mirage_main_domain"
         },
         BOMBSHELL_MAIN_DOMAIN: {
-            doc: 'Bombshell Main Domain',
+            doc: "Bombshell Main Domain",
             format: String,
             default: `https://partners.${platformDomain}`,
-            env: 'BOMBSHELL_MAIN_DOMAIN',
-            arg: 'bombshell_main_domain'
+            env: "BOMBSHELL_MAIN_DOMAIN",
+            arg: "bombshell_main_domain"
         },
         BLASTER_MAIN_DOMAIN: {
-            doc: 'Blaster Main Domain',
+            doc: "Blaster Main Domain",
             format: String,
             default: ``,
-            env: 'BLASTER_MAIN_DOMAIN',
-            arg: 'blaster_main_domain'
+            env: "BLASTER_MAIN_DOMAIN",
+            arg: "blaster_main_domain"
         },
         SLINGSHOT_ADMIN_URL: {
             doc: 'Slingshot Admin URL',
@@ -336,24 +336,21 @@ const conf = convict({
         MARKETPLACES_ADMIN_URL: {
             doc: 'Marketpalces Admin URL',
             format: String,
-            default:
-                'https://api.fyndx0.de/service/___/administrator/marketplaces/',
+            default: 'https://api.fyndx0.de/service/___/administrator/marketplaces/',
             env: 'MARKETPLACES_ADMIN_URL',
             arg: 'marketplaces_admin_url'
         },
         MARKETPLACES_ADMIN_SVC: {
             doc: 'Marketpalces Kube Service',
             format: String,
-            default:
-                'https://api.fyndx0.de/service/___/administrator/marketplaces/',
+            default: 'https://api.fyndx0.de/service/___/administrator/marketplaces/',
             env: 'MARKETPLACES_ADMIN_SVC',
             arg: 'marketplaces_admin_svc'
         },
         MIXMASTER_ADMIN_URL: {
             doc: 'Mixmaster Admin URL',
             format: String,
-            default:
-                'https://api.fyndx0.de/service/___/administrator/partners/',
+            default: 'https://api.fyndx0.de/service/___/administrator/partners/',
             env: 'MIXMASTER_ADMIN_URL',
             arg: 'mixmaster_admin_url'
         },
@@ -374,8 +371,7 @@ const conf = convict({
         MIXMASTER_ADMIN_SVC: {
             doc: 'Mixmaster Kube Service',
             format: String,
-            default:
-                'https://api.fyndx0.de/service/___/administrator/partners/',
+            default: 'https://api.fyndx0.de/service/___/administrator/partners/',
             env: 'MIXMASTER_ADMIN_SVC',
             arg: 'mixmaster_admin_svc'
         },
@@ -396,24 +392,23 @@ const conf = convict({
         WEIRDWOLF_ADMIN_URL: {
             doc: 'Packaging admin service',
             format: String,
-            default:
-                'https://api.fyndx1.de/service/___/administrator/packaging',
+            default: 'https://api.fyndx0.de/service/___/administrator/packaging',
             env: 'WEIRDWOLF_ADMIN_URL',
             arg: 'weirdwolf_admin_url'
         },
         PACKAGING_COMPANY_ID: {
             doc: 'packaging company id',
             format: String,
-            default: '884',
+            default:'84',
             env: 'PACKAGING_COMPANY_ID',
-            arg: 'company_id'
+            arg: 'packaging_company_id'
         },
         PACKAGING_APPLICATION_ID: {
             doc: 'packaging application id',
             format: String,
-            default: '60792ded7826bd09330ed90d',
+            default:'629616a1d7c74d3915f8f4e8',
             env: 'PACKAGING_APPLICATION_ID',
-            arg: 'application_id'
+            arg: 'packaging_application_id'
         },
         EXTENSION_PAGE_URL: {
             doc: 'Extension Page URLS',
@@ -482,20 +477,6 @@ const conf = convict({
         default: '',
         env: 'NEW_RELIC_LICENSE_KEY',
         arg: 'newrelic_license_key'
-    },
-    BEEFREE_CLIENT_ID: {
-        doc: 'BEEFREE_CLIENT_ID',
-        format: String,
-        default: 'dcce640f-abc1-4c0c-8398-84488e8c4cd7',
-        env: 'BEEFREE_CLIENT_ID',
-        arg: 'beefree_client_id'
-    },
-    BEEFREE_CLIENT_SECRET: {
-        doc: 'BEEFREE_CLIENT_SECRET',
-        format: String,
-        default: '0A8vfzg4DI2jB6aRiydrWprtio6lAeCCesjC4iaflrk75vGWkV5',
-        env: 'BEEFREE_CLIENT_SECRET',
-        arg: 'beefree_client_secret'
     }
 });
 

@@ -1,122 +1,68 @@
 <template>
-    <div :class="{ 'component-container': !daytrader }">
+    <div class="component-container">
         <div class="comp-details">
-            <div
-                v-if="!daytrader"
-                style="display: flex; width:100%;line-height: 21px; align-items: center;"
-            >
-                <div class="cl-Mako bold-xs">{{ component.name }}</div>
-                <toggle-switch
-                    v-if="
-                        currentPriceModel &&
-                            currentPriceModel.processing_type !== 'display'
-                    "
-                    v-model="currentPriceModel.is_active"
-                    @input="updateFeature"
-                ></toggle-switch>
+            <div style="display: flex; width:100%;">
+                <nitrozen-checkbox v-model="enabled" @change="enableForPlan">
+                    <div class="cl-Mako bold-xs">{{ component.name }}</div>
+                    <div class="cl-Mako regular-xxs">
+                        {{ component.description }}
+                    </div>
+                </nitrozen-checkbox>
+                <div
+                    class="cl-RoyalBlue bold-xs"
+                    style="cursor: pointer;display: flex;justify-content: flex-end; flex: 1;"
+                    @click="isCreatePrice = true"
+                >
+                    Create Price
+                </div>
+                <div
+                    class="cl-RoyalBlue bold-xs"
+                    style="cursor: pointer;display: flex;justify-content: flex-end; flex: 1;"
+                    @click="isClonePrice = true"
+                >
+                    Clone Price
+                </div>
             </div>
             <div class="prices-box">
-                <price-model-page
-                    :ref="'price-model'"
-                    v-if="currentPriceModel"
-                    :baseComponent="component"
-                    :priceModel="currentPriceModel"
-                    :disabled="disabled"
-                >
-                </price-model-page>
-                <div v-else-if="daytrader">
-                    <div
-                        v-for="(rule, index) in price_component.shallow_rules"
-                        :key="index"
-                        class="component-container daytrader-rule"
+                <div class="form-row">
+                    <nitrozen-dropdown
+                        :label="'Price Model'"
+                        :items="priceOptions"
+                        v-model="currentPriceId"
                     >
-                        <div class="rule-name bold-xs cl-Mako">
-                            {{ rule.data.name || 'Default Rule' }}
-                        </div>
-                        <div class="rule-actions">
-                            <div
-                                class="clickable-label pad-right"
-                                @click="
-                                    () => {
-                                        edit_rule_idx = index;
-                                        editDayTraderRule();
-                                    }
-                                "
-                            >
-                                <inline-svg :src="'edit'"></inline-svg>
+                    </nitrozen-dropdown>
+                </div>
+                <div class="form-row">
+                    <div class="price-model-table">
+                        <div
+                            class="price-item"
+                            v-for="detailField in Object.keys(options)"
+                            :key="detailField"
+                            v-show="getPriceModelValue(detailField)"
+                        >
+                            <div class="cl-DustyGray2 dark-xs">
+                                {{ options[detailField].text }}:
                             </div>
-                            <div
-                                class="clickable-label"
-                                @click="
-                                    () => {
-                                        edit_rule_idx = index;
-                                        editDayTraderRule(true);
-                                    }
-                                "
-                            >
-                                <inline-svg :src="'copy'"></inline-svg>
+                            <div class="cl-Mako dark-xs">
+                                {{ getPriceModelValue(detailField) }}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <nitrozen-dialog
-            v-if="component && daytrader"
-            ref="daytrader_rule_edit"
-            :title="
-                `${edit_rule_idx > -1 ? 'Edit' : 'Create'} ${
-                    component.name
-                } Rule`
-            "
-            @close="
-                $refs['daytrader'].resetData(component.data);
-                edit_rule_idx = -1;
-            "
+        <price-modal
+            v-if="isCreatePrice || isClonePrice"
+            :isOpen="isCreatePrice || isClonePrice"
+            :baseComponent="component"
+            :priceModel="isClonePrice ? currentPriceModel : null"
+            @closedialog="isClonePrice = isCreatePrice = false"
         >
-            <template slot="body">
-                <daytrader-component
-                    v-if="dtOptions"
-                    :disabled="disabled"
-                    :options="dtOptions"
-                    :ref="'daytrader'"
-                    class="plan-component"
-                    :config="price_component.shallow_rules[0].data"
-                    :cbs_opts="cbs_opts"
-                    :component_id="price_component.component_id"
-                >
-                </daytrader-component>
-            </template>
-            <template slot="footer">
-                <nitrozen-button
-                    :disabled="disabled"
-                    class="pad-right"
-                    v-flatBtn
-                    :theme="'secondary'"
-                    @click="updateDaytraderData"
-                    >{{
-                        edit_rule_idx > -1 ? 'Update' : 'Add'
-                    }}</nitrozen-button
-                >
-            </template>
-        </nitrozen-dialog>
+        </price-modal>
     </div>
 </template>
 
 <style lang="less" scoped>
-.daytrader-rule {
-    display: flex;
-    align-items: center;
-    + .daytrader-rule {
-        margin-top: 12px;
-    }
-    .rule-name {
-        flex: 1;
-    }
-    .rule-actions {
-        display: flex;
-    }
-}
 .component-container {
     padding: 12px;
     box-sizing: border-box;
@@ -125,6 +71,8 @@
     border: 1px solid @Iron;
 
     .prices-box {
+        padding-left: 30px;
+
         .price-model-table {
             display: flex;
             overflow: hidden;
@@ -144,100 +92,61 @@
 </style>
 
 <script>
-import {
-    NitrozenCheckBox,
-    NitrozenDropdown,
-    NitrozenToggleBtn,
-    NitrozenDialog,
-    NitrozenButton,
-    flatBtn,
-    strokeBtn
-} from '@gofynd/nitrozen-vue';
+import { NitrozenCheckBox, NitrozenDropdown } from '@gofynd/nitrozen-vue';
 import { PLAN_ENUMS, getProp } from '../../helper/plan-creator-helper';
-import PriceModelPage from '../../pages/plan-creator/component-price.vue';
-import toggleSwitch from '../../components/plan-creator/toggle-switch.vue';
-import daytraderComponent from '../../components/plan-creator/daytrader-component.vue';
-import { InlineSvg } from '../common/';
+import priceModal from '../../components/plan-creator/component-price-modal.vue';
 
 export default {
     name: 'plan-component-card',
     components: {
         'nitrozen-checkbox': NitrozenCheckBox,
         'nitrozen-dropdown': NitrozenDropdown,
-        'nitrozen-toggle': NitrozenToggleBtn,
-        'nitrozen-button': NitrozenButton,
-        'price-model-page': PriceModelPage,
-        'nitrozen-dialog': NitrozenDialog,
-        'toggle-switch': toggleSwitch,
-        'daytrader-component': daytraderComponent,
-        'inline-svg': InlineSvg
+        'price-modal': priceModal
     },
     props: {
         component: {
             type: Object
         },
-        price_component: {
+        plan_component: {
             type: Object
-        },
-        daytrader: {
-            type: Boolean,
-            default: false
-        },
-        dtOptions: {
-            type: Object
-        },
-        cbs_opts: {
-            type: Object
-        },
-        disabled: {
-            type: Boolean,
-            default: false
         }
-    },
-    directives: {
-        flatBtn,
-        strokeBtn
     },
     data() {
         return {
             enabled: false,
-            options: PLAN_ENUMS,
-            edit_rule_idx: -1
+            isClonePrice: false,
+            isCreatePrice: false,
+            currentPriceId: this.getDefaultPriceModel()._id,
+            options: PLAN_ENUMS
         };
     },
     computed: {
-        currentPriceModel() {
-            return this.price_component
-                ? this.price_component.component_price
-                : null;
+        priceOptions() {
+            return this.component.component_prices.map((item) => {
+                return {
+                    text: item.display_text,
+                    value: item._id
+                };
+            });
         },
-        dtRules() {
-            return this.price_component.shallow_rules
-                ? this.price_component.shallow_rules
-                : [];
+        priceModelMap() {
+            return this.component.component_prices.reduce((map, priceModel) => {
+                map[priceModel._id] = priceModel;
+                return map;
+            }, {});
+        },
+        currentPriceModel() {
+            return this.priceModelMap[this.currentPriceId];
         }
     },
     methods: {
         enableForPlan() {
             this.$emit('enable', this.enabled);
         },
-        updateFeature(value) {
-            if (
-                this.currentPriceModel.processing_type === 'feature_config' &&
-                this.currentPriceModel.feature_config.hasOwnProperty('enabled')
-            ) {
-                this.currentPriceModel.feature_config.enabled = value;
-            }
-            if (!value) {
-                this.currentPriceModel.display_text = 'No';
-            } else {
-                this.currentPriceModel.display_text = '';
-            }
+        getDefaultPriceModel() {
+            return this.component.component_prices.find((it) => it.is_default);
         },
         getPriceModelValue(detailField) {
-            if (this.currentPriceModel.processing_type !== 'revenue') {
-                return null;
-            }
             let fieldPath = this.options[detailField].path || detailField;
             let val = getProp(this.currentPriceModel, fieldPath);
             if (!val) {
@@ -247,89 +156,6 @@ export default {
                 this.options[detailField].enum.find((it) => it.value === val) ||
                 {};
             return displayVal.text || '';
-        },
-        editDayTraderRule(clone) {
-            this.$refs['daytrader_rule_edit'].open({
-                width: '850px',
-                height: 'calc(100% - 100px)',
-                dismissible: true,
-                showCloseButton: true,
-                positiveButtonLabel: false,
-                negativeButtonLabel: false,
-                neutralButtonLabel: false
-            });
-            if (this.edit_rule_idx > -1 && this.dtRules[this.edit_rule_idx]) {
-                _.merge(
-                    this.$refs['daytrader'].formData,
-                    this.dtRules[this.edit_rule_idx].data,
-                    {
-                        name:
-                            this.dtRules[this.edit_rule_idx].data.name ||
-                            'Default Rule'
-                    }
-                );
-            } else {
-                _.merge(this.$refs['daytrader'].formData, this.component.data);
-            }
-            if (clone) {
-                let ruleName =
-                    this.dtRules[this.edit_rule_idx].data.name ||
-                    'Default Rule';
-                _.merge(this.$refs['daytrader'].formData, {
-                    name: `Clone of ${ruleName}`
-                });
-                this.edit_rule_idx = -1;
-            }
-        },
-        updateDaytraderData() {
-            if (!this.$refs['daytrader'].validateData()) {
-                this.$snackbar.global.showError(
-                    'Invalid data entered. Please enter valid data.'
-                );
-                return;
-            }
-            if (this.edit_rule_idx > -1 && this.dtRules[this.edit_rule_idx]) {
-                _.merge(
-                    this.dtRules[this.edit_rule_idx].data,
-                    this.$refs['daytrader'].formData
-                );
-                this.dtRules[this.edit_rule_idx].rule_type = 'plan_rule';
-                this.dtRules[this.edit_rule_idx].data.slug_fields.push(
-                    'company'
-                );
-                this.dtRules[this.edit_rule_idx].data.slug_values[
-                    'company'
-                ] = this.cbs_opts['companies'];
-            } else {
-                let newIdx = this.dtRules.length;
-                this.dtRules.push(
-                    _.cloneDeep(
-                        _.pick(this.dtRules[0], [
-                            'data',
-                            'auto_verify',
-                            'plan_id',
-                            'is_active',
-                            'component_id'
-                        ])
-                    )
-                );
-                _.merge(
-                    this.dtRules[newIdx].data,
-                    this.$refs['daytrader'].formData
-                );
-                this.dtRules[newIdx].rule_type = 'plan_rule';
-                this.dtRules[newIdx].data.slug_fields.push('company');
-                this.dtRules[newIdx].data.slug_values[
-                    'company'
-                ] = this.cbs_opts['companies'];
-            }
-            this.$refs['daytrader_rule_edit'].close();
-        },
-        validateData() {
-            if (this.$refs['price-model']) {
-                return this.$refs['price-model'].validateData();
-            }
-            return true;
         }
     }
 };

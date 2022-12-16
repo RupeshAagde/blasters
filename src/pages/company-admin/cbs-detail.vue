@@ -238,9 +238,6 @@
 }
 .main-container {
     // margin-right: 0;
-    .subscribe-container {
-        margin: 0;
-    }
     .full-width {
         width: 100%;
         display: flex;
@@ -404,7 +401,6 @@ import admstores from './stores.vue';
 import admInlineSVG from '@/components/common/adm-inline-svg';
 import uktInlineSVG from '@/components/common/ukt-inline-svg';
 import admapplication from './application-list.vue';
-import planDetails from './plan-details.vue';
 import listdri from './list-dri.vue';
 import PageHeader from '@/components/common/layout/page-header';
 import admcompanydetails from './profile-details.vue';
@@ -439,7 +435,6 @@ export default {
         'adm-application-list': admapplication,
         'adm-stores': admstores,
         'adm-company-details': admcompanydetails,
-        'plan-details': planDetails,
         'list-dri': listdri,
         'adm-company-subscription': admcompanysubscription,
         Shimmer,

@@ -19,7 +19,7 @@
                 <div
                     v-for="(item, key) in filedataToShow"
                     :key="key"
-                    class="grid" 
+                    class="grid"
                 >
                     <div class="filter-key">
                         <p>{{ key }}</p>

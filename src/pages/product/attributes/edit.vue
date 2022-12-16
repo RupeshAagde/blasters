@@ -58,7 +58,7 @@
                     ></nitrozen-input>
                 </div>
                 <!-- logo Image -->
-                <form-input class="mt-sm" :custom="true">
+                <form-input class="mt-sm" label="Logo" :custom="true">
                     <image-uploader-tile
                         label="Logo"
                         aspectRatio="1:1"

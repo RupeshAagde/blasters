@@ -77,7 +77,6 @@
                     v-if="plansList.length"
                     name="plans"
                     v-model="filter_data.pagination"
-                    
                     :pageSizeOptions="perPageValues"
                     @change="pageOptionChange"
                 ></nitrozen-pagination>
@@ -110,7 +109,6 @@
     .plans-filters {
         display: flex;
         .dropdown-filters {
-            margin-top: 12px;
             display: flex;
             flex: 1;
             justify-content: flex-end;
@@ -154,7 +152,7 @@ import {
     Shimmer,
     Jumbotron
 } from '../../components/common/';
-// import LocationService from '../../services/location.service';
+import LocationService from '../../services/location.service';
 
 export default {
     name: 'plans-list',
@@ -198,7 +196,7 @@ export default {
                     total: 0
                 }
             },
-            perPageValues: [5,10, 25, 50, 100, 200],
+            perPageValues: [10, 25, 50, 100, 200],
             searchText: '',
             pageError: false
         };
@@ -208,33 +206,33 @@ export default {
         if (queryObj.query) {
             _.merge(this.filter_data.query, JSON.parse(queryObj.query));
         }
-        if (this.filter_data.query && this.filter_data.query.name) {
-            this.filter_data.query.name = this.filter_data.query.name;
+        if (this.filter_data.query && this.filter_data.query.name && this.filter_data.query.name.$regex) {
+            this.filter_data.query.name = this.filter_data.query.name.$regex;
             this.searchText = this.filter_data.query.name.trim();
         }
-        if (queryObj.page_size) {
-            this.filter_data.pagination.limit = parseInt(queryObj.page_size);
+        if (queryObj.limit) {
+            this.filter_data.pagination.limit = parseInt(queryObj.limit);
         }
         if (parseInt(queryObj.page) > 0) {
             this.filter_data.pagination.current = parseInt(queryObj.page);
         }
         this.fetchPlans();
-        // LocationService.getCountries()
-        //     .then(({ data }) => {
-        //         this.countryList.push({ text: 'All', value: ' ' });
-        //         this.countryList.push(
-        //             ...data.items.map((ctry) => {
-        //                 return {
-        //                     text: `${ctry.name} (${ctry.iso2})`,
-        //                     value: ctry.iso2
-        //                 };
-        //             })
-        //         );
-        //     })
-        //     .catch((err) => {
-        //         this.$snackbar.global.showError('Failed to fetch country data');
-        //         console.log(err);
-        //     });
+        LocationService.getCountries()
+            .then(({ data }) => {
+                this.countryList.push({ text: 'All', value: ' ' });
+                this.countryList.push(
+                    ...data.items.map((ctry) => {
+                        return {
+                            text: `${ctry.name} (${ctry.iso2})`,
+                            value: ctry.iso2
+                        };
+                    })
+                );
+            })
+            .catch((err) => {
+                this.$snackbar.global.showError('Failed to fetch country data');
+                console.log(err);
+            });
     },
     computed: {
         // countries() {
@@ -258,15 +256,14 @@ export default {
                     .catch((err) => {});
             }
             this.loading = true;
-            query.sort = JSON.stringify({ created_at: -1 })
             return BillingPlansService.getPlans(query, '')
                 .then(({ data }) => {
                     this.loading = false;
-                    this.filter_data.pagination.total = data.page.item_total;
-                    this.plansList = data.items;
+                    this.filter_data.pagination.total = data.total;
+                    this.plansList = data.docs;
                 })
                 .catch((err) => {
-                    // console.log('err');
+                    // console.log(err);
                     this.pageError = true;
                 });
         },
